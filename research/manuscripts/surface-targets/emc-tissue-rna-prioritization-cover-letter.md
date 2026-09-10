@@ -1,11 +1,11 @@
 ---
 id: DOC-SURFACE-CANCER-GENETICS-COVER-LETTER
 title: Cancer Genetics cover letter
-kind: letter
+kind: memo
 status: live
 purpose: Prepare an accurate cover letter for the selected journal.
 scope: Journal preparation; no journal submission or acceptance asserted.
-audience: [author, journal editors]
+audience: [maintainers, external reviewers]
 date: 2026-09-09
 last_verified: 2026-09-09
 ---

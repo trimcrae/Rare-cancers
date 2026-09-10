@@ -1,0 +1,24 @@
+{
+  "documents": [
+    {
+      "artifact": "emc-tissue-rna-prioritization-manuscript.docx",
+      "retained_sha256": "365e7e46121098163f5efaf78fa69fb02eb24da4e64c23c99b0cb7c5fb3e1d63",
+      "zip_members": 20,
+      "all_member_bytes_identical": true
+    },
+    {
+      "artifact": "emc-tissue-rna-prioritization-supplementary-information.docx",
+      "retained_sha256": "5062dfd47acb813d9bcf652e2bcd41a0e456ac0c32640a094eed537521e5e40c",
+      "zip_members": 18,
+      "all_member_bytes_identical": true
+    },
+    {
+      "artifact": "emc-tissue-rna-prioritization-cover-letter.docx",
+      "retained_sha256": "d62ffa8c18cec77b27364c312a2c0818b3ab81a9465589d1265fffc66a77a25f",
+      "zip_members": 18,
+      "all_member_bytes_identical": true
+    }
+  ],
+  "method": "Run revised metadata-only generator in isolated output directory; compare every uncompressed DOCX ZIP member with actual frozen outgoing DOCX. Retain original outgoing binary bytes. Only staging ROOT and report path differ in the isolated invocation.",
+  "retained_outgoing_files": true
+}

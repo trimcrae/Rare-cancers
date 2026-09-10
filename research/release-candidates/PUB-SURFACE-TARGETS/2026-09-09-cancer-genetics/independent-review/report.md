@@ -1,11 +1,11 @@
 ---
 id: DOC-SURFACE-CANCER-GENETICS-INDEPENDENT-REVIEW
 title: Independent Cancer Genetics preparation review
-kind: review
+kind: memo
 status: historical
 purpose: Preserve the completed independent review and its actual findings.
 scope: Frozen draft 3add3651b117183a8b9dcfaf36e0269d2f68e5ba.
-audience: [maintainers, author]
+audience: [maintainers, external reviewers]
 date: 2026-09-10
 last_verified: 2026-09-10
 ---

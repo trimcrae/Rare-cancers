@@ -1,0 +1,1228 @@
+{
+  "schema": "emc-independent-focused-verification/1",
+  "verdict": "supported",
+  "new_findings": [],
+  "repairs_verified": [
+    "E1",
+    "E2",
+    "O1"
+  ],
+  "agent_path": "/root/surface_cancer_genetics_review",
+  "dispatch_model": "gpt-6-astra",
+  "dispatch_reasoning_effort": "ultra",
+  "serving_telemetry_exposed": false,
+  "previous_reviewed_commit": "3add3651b117183a8b9dcfaf36e0269d2f68e5ba",
+  "reviewed_commit": "5d027533a4596973acb95e94c711f8316a10a165",
+  "manifest": {
+    "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\FROZEN-FOCUSED-HANDOFF.json",
+    "bytes": 6496,
+    "sha256": "28c1ccb8d7759439a52ec9f2e44695db6cc0082afdb8b96c923541ab0a07ad19"
+  },
+  "aggregate_sha256": "04e0eab67def4fad6d1f3d438cdb5a95da159c1d5f14b717811358f45609195f",
+  "focused_audit_started_utc": "2026-09-10T01:11:15.525519+00:00",
+  "completed_utc": "2026-09-10T01:11:16.256223+00:00",
+  "before": [
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-cover-letter.docx",
+      "bytes": 38449,
+      "sha256": "d62ffa8c18cec77b27364c312a2c0818b3ab81a9465589d1265fffc66a77a25f",
+      "expected_sha256": "d62ffa8c18cec77b27364c312a2c0818b3ab81a9465589d1265fffc66a77a25f",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-cover-letter.docx.build-stamp.json",
+      "bytes": 703,
+      "sha256": "39f2f01c0d6db39d7fdf2e618bb248c7f864adc29ff93527a237675091a8ff9b",
+      "expected_sha256": "39f2f01c0d6db39d7fdf2e618bb248c7f864adc29ff93527a237675091a8ff9b",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-cover-letter.md",
+      "bytes": 2546,
+      "sha256": "971f3d6a0fe2a02dea66907abb3b5109aa2b6c16082c67960d1172a1c8ff8aa1",
+      "expected_sha256": "971f3d6a0fe2a02dea66907abb3b5109aa2b6c16082c67960d1172a1c8ff8aa1",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-figure-legends.txt",
+      "bytes": 1196,
+      "sha256": "7c4e2c75d4ce4895a5df89c2ffd84a30854c9fbb92e492271bc0ad3e1788c572",
+      "expected_sha256": "7c4e2c75d4ce4895a5df89c2ffd84a30854c9fbb92e492271bc0ad3e1788c572",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-highlights.txt",
+      "bytes": 366,
+      "sha256": "f6d38691bd0f8c9115b3fa745d337da29616d79b90cfc3ded2d721ef7d7d3b81",
+      "expected_sha256": "f6d38691bd0f8c9115b3fa745d337da29616d79b90cfc3ded2d721ef7d7d3b81",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-manuscript.build-stamp.json",
+      "bytes": 1138,
+      "sha256": "e07115722a6ebe69d42e635fae83fdb9a7be6dc353840e3838dbcd04b372935c",
+      "expected_sha256": "e07115722a6ebe69d42e635fae83fdb9a7be6dc353840e3838dbcd04b372935c",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-manuscript.docx",
+      "bytes": 522942,
+      "sha256": "365e7e46121098163f5efaf78fa69fb02eb24da4e64c23c99b0cb7c5fb3e1d63",
+      "expected_sha256": "365e7e46121098163f5efaf78fa69fb02eb24da4e64c23c99b0cb7c5fb3e1d63",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-manuscript.docx.build-stamp.json",
+      "bytes": 916,
+      "sha256": "6dd7dc3ed5afc4b75471adf72b77a4b5c34f1d5fc9ae754d56816aaf83d56b4a",
+      "expected_sha256": "6dd7dc3ed5afc4b75471adf72b77a4b5c34f1d5fc9ae754d56816aaf83d56b4a",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-manuscript.pdf",
+      "bytes": 410939,
+      "sha256": "d1dd1f6e86f4413479e25a47bf837f6e40d4d5da62a1fadbd6f0b09d0c13c615",
+      "expected_sha256": "d1dd1f6e86f4413479e25a47bf837f6e40d4d5da62a1fadbd6f0b09d0c13c615",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-si.md",
+      "bytes": 12448,
+      "sha256": "e404b5e3fadf662a879a0d34935abc43ff74ad847021a37a842a4637ce0332a4",
+      "expected_sha256": "e404b5e3fadf662a879a0d34935abc43ff74ad847021a37a842a4637ce0332a4",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-supplementary-information.build-stamp.json",
+      "bytes": 943,
+      "sha256": "ccaee410b0b6f03ef05b5073d75c136bd38c004cbf022111a514a8323311426b",
+      "expected_sha256": "ccaee410b0b6f03ef05b5073d75c136bd38c004cbf022111a514a8323311426b",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-supplementary-information.docx",
+      "bytes": 44410,
+      "sha256": "5062dfd47acb813d9bcf652e2bcd41a0e456ac0c32640a094eed537521e5e40c",
+      "expected_sha256": "5062dfd47acb813d9bcf652e2bcd41a0e456ac0c32640a094eed537521e5e40c",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-supplementary-information.docx.build-stamp.json",
+      "bytes": 706,
+      "sha256": "f2ac0fd79b10d5448d5be51773a5d9721779d23aaa51e3c9554c4b214089073a",
+      "expected_sha256": "f2ac0fd79b10d5448d5be51773a5d9721779d23aaa51e3c9554c4b214089073a",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-supplementary-information.pdf",
+      "bytes": 165664,
+      "sha256": "35b5316b766cabefc49f6b40fd32f1d8817d01a472ef0c8c7d96bcdcc877f5cd",
+      "expected_sha256": "35b5316b766cabefc49f6b40fd32f1d8817d01a472ef0c8c7d96bcdcc877f5cd",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization.md",
+      "bytes": 24070,
+      "sha256": "90de2b63dfb3281e75dd3e4f9c757c39855d8ce04e70cec44016395de5512458",
+      "expected_sha256": "90de2b63dfb3281e75dd3e4f9c757c39855d8ce04e70cec44016395de5512458",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\build_cancer_genetics_package.py",
+      "bytes": 10547,
+      "sha256": "8a57f8cd90304d6f5b35298bcd9e6cf9f185cfdd9019e84aa88c5a642a101e2a",
+      "expected_sha256": "8a57f8cd90304d6f5b35298bcd9e6cf9f185cfdd9019e84aa88c5a642a101e2a",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\plot_emc_tissue_rna.py",
+      "bytes": 7217,
+      "sha256": "d40179cf0ca4b3fc4b8ede3885a0532ddfdca5cf72cb93e0630c99a279d27274",
+      "expected_sha256": "d40179cf0ca4b3fc4b8ede3885a0532ddfdca5cf72cb93e0630c99a279d27274",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure1.png",
+      "bytes": 341601,
+      "sha256": "92076d9a8560a3a1b92cd2523ff1a3d1f260a9e01797b5cbdaca78163027e37c",
+      "expected_sha256": "92076d9a8560a3a1b92cd2523ff1a3d1f260a9e01797b5cbdaca78163027e37c",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure1.pdf",
+      "bytes": 37799,
+      "sha256": "8703a7a7c67e050818f177f3e6d834ddb19f9c81ee5d8317d12685d4ce7346b7",
+      "expected_sha256": "8703a7a7c67e050818f177f3e6d834ddb19f9c81ee5d8317d12685d4ce7346b7",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure1.svg",
+      "bytes": 76890,
+      "sha256": "aae1f9d825da431d9c896d0aae4a0d8d65d182d21fee940199787e6b4f1b6306",
+      "expected_sha256": "aae1f9d825da431d9c896d0aae4a0d8d65d182d21fee940199787e6b4f1b6306",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure2.png",
+      "bytes": 183499,
+      "sha256": "edc81e62c7121665e3d2b7407f7978e38fe4e7ed53b0e1fd0b7615565117b52f",
+      "expected_sha256": "edc81e62c7121665e3d2b7407f7978e38fe4e7ed53b0e1fd0b7615565117b52f",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure2.pdf",
+      "bytes": 27513,
+      "sha256": "814cd3019feaca8989e299fd97fd8005941c1ca73615015f2fb4302ebfe62aac",
+      "expected_sha256": "814cd3019feaca8989e299fd97fd8005941c1ca73615015f2fb4302ebfe62aac",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure2.svg",
+      "bytes": 42295,
+      "sha256": "3c4d0a0167296868455fd9b5f24a741fc815a49e07005f04e65aec811b08ee03",
+      "expected_sha256": "3c4d0a0167296868455fd9b5f24a741fc815a49e07005f04e65aec811b08ee03",
+      "matches": true
+    }
+  ],
+  "after": [
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-cover-letter.docx",
+      "bytes": 38449,
+      "sha256": "d62ffa8c18cec77b27364c312a2c0818b3ab81a9465589d1265fffc66a77a25f",
+      "expected_sha256": "d62ffa8c18cec77b27364c312a2c0818b3ab81a9465589d1265fffc66a77a25f",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-cover-letter.docx.build-stamp.json",
+      "bytes": 703,
+      "sha256": "39f2f01c0d6db39d7fdf2e618bb248c7f864adc29ff93527a237675091a8ff9b",
+      "expected_sha256": "39f2f01c0d6db39d7fdf2e618bb248c7f864adc29ff93527a237675091a8ff9b",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-cover-letter.md",
+      "bytes": 2546,
+      "sha256": "971f3d6a0fe2a02dea66907abb3b5109aa2b6c16082c67960d1172a1c8ff8aa1",
+      "expected_sha256": "971f3d6a0fe2a02dea66907abb3b5109aa2b6c16082c67960d1172a1c8ff8aa1",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-figure-legends.txt",
+      "bytes": 1196,
+      "sha256": "7c4e2c75d4ce4895a5df89c2ffd84a30854c9fbb92e492271bc0ad3e1788c572",
+      "expected_sha256": "7c4e2c75d4ce4895a5df89c2ffd84a30854c9fbb92e492271bc0ad3e1788c572",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-highlights.txt",
+      "bytes": 366,
+      "sha256": "f6d38691bd0f8c9115b3fa745d337da29616d79b90cfc3ded2d721ef7d7d3b81",
+      "expected_sha256": "f6d38691bd0f8c9115b3fa745d337da29616d79b90cfc3ded2d721ef7d7d3b81",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-manuscript.build-stamp.json",
+      "bytes": 1138,
+      "sha256": "e07115722a6ebe69d42e635fae83fdb9a7be6dc353840e3838dbcd04b372935c",
+      "expected_sha256": "e07115722a6ebe69d42e635fae83fdb9a7be6dc353840e3838dbcd04b372935c",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-manuscript.docx",
+      "bytes": 522942,
+      "sha256": "365e7e46121098163f5efaf78fa69fb02eb24da4e64c23c99b0cb7c5fb3e1d63",
+      "expected_sha256": "365e7e46121098163f5efaf78fa69fb02eb24da4e64c23c99b0cb7c5fb3e1d63",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-manuscript.docx.build-stamp.json",
+      "bytes": 916,
+      "sha256": "6dd7dc3ed5afc4b75471adf72b77a4b5c34f1d5fc9ae754d56816aaf83d56b4a",
+      "expected_sha256": "6dd7dc3ed5afc4b75471adf72b77a4b5c34f1d5fc9ae754d56816aaf83d56b4a",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-manuscript.pdf",
+      "bytes": 410939,
+      "sha256": "d1dd1f6e86f4413479e25a47bf837f6e40d4d5da62a1fadbd6f0b09d0c13c615",
+      "expected_sha256": "d1dd1f6e86f4413479e25a47bf837f6e40d4d5da62a1fadbd6f0b09d0c13c615",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-si.md",
+      "bytes": 12448,
+      "sha256": "e404b5e3fadf662a879a0d34935abc43ff74ad847021a37a842a4637ce0332a4",
+      "expected_sha256": "e404b5e3fadf662a879a0d34935abc43ff74ad847021a37a842a4637ce0332a4",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-supplementary-information.build-stamp.json",
+      "bytes": 943,
+      "sha256": "ccaee410b0b6f03ef05b5073d75c136bd38c004cbf022111a514a8323311426b",
+      "expected_sha256": "ccaee410b0b6f03ef05b5073d75c136bd38c004cbf022111a514a8323311426b",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-supplementary-information.docx",
+      "bytes": 44410,
+      "sha256": "5062dfd47acb813d9bcf652e2bcd41a0e456ac0c32640a094eed537521e5e40c",
+      "expected_sha256": "5062dfd47acb813d9bcf652e2bcd41a0e456ac0c32640a094eed537521e5e40c",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-supplementary-information.docx.build-stamp.json",
+      "bytes": 706,
+      "sha256": "f2ac0fd79b10d5448d5be51773a5d9721779d23aaa51e3c9554c4b214089073a",
+      "expected_sha256": "f2ac0fd79b10d5448d5be51773a5d9721779d23aaa51e3c9554c4b214089073a",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-supplementary-information.pdf",
+      "bytes": 165664,
+      "sha256": "35b5316b766cabefc49f6b40fd32f1d8817d01a472ef0c8c7d96bcdcc877f5cd",
+      "expected_sha256": "35b5316b766cabefc49f6b40fd32f1d8817d01a472ef0c8c7d96bcdcc877f5cd",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization.md",
+      "bytes": 24070,
+      "sha256": "90de2b63dfb3281e75dd3e4f9c757c39855d8ce04e70cec44016395de5512458",
+      "expected_sha256": "90de2b63dfb3281e75dd3e4f9c757c39855d8ce04e70cec44016395de5512458",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\build_cancer_genetics_package.py",
+      "bytes": 10547,
+      "sha256": "8a57f8cd90304d6f5b35298bcd9e6cf9f185cfdd9019e84aa88c5a642a101e2a",
+      "expected_sha256": "8a57f8cd90304d6f5b35298bcd9e6cf9f185cfdd9019e84aa88c5a642a101e2a",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\plot_emc_tissue_rna.py",
+      "bytes": 7217,
+      "sha256": "d40179cf0ca4b3fc4b8ede3885a0532ddfdca5cf72cb93e0630c99a279d27274",
+      "expected_sha256": "d40179cf0ca4b3fc4b8ede3885a0532ddfdca5cf72cb93e0630c99a279d27274",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure1.png",
+      "bytes": 341601,
+      "sha256": "92076d9a8560a3a1b92cd2523ff1a3d1f260a9e01797b5cbdaca78163027e37c",
+      "expected_sha256": "92076d9a8560a3a1b92cd2523ff1a3d1f260a9e01797b5cbdaca78163027e37c",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure1.pdf",
+      "bytes": 37799,
+      "sha256": "8703a7a7c67e050818f177f3e6d834ddb19f9c81ee5d8317d12685d4ce7346b7",
+      "expected_sha256": "8703a7a7c67e050818f177f3e6d834ddb19f9c81ee5d8317d12685d4ce7346b7",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure1.svg",
+      "bytes": 76890,
+      "sha256": "aae1f9d825da431d9c896d0aae4a0d8d65d182d21fee940199787e6b4f1b6306",
+      "expected_sha256": "aae1f9d825da431d9c896d0aae4a0d8d65d182d21fee940199787e6b4f1b6306",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure2.png",
+      "bytes": 183499,
+      "sha256": "edc81e62c7121665e3d2b7407f7978e38fe4e7ed53b0e1fd0b7615565117b52f",
+      "expected_sha256": "edc81e62c7121665e3d2b7407f7978e38fe4e7ed53b0e1fd0b7615565117b52f",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure2.pdf",
+      "bytes": 27513,
+      "sha256": "814cd3019feaca8989e299fd97fd8005941c1ca73615015f2fb4302ebfe62aac",
+      "expected_sha256": "814cd3019feaca8989e299fd97fd8005941c1ca73615015f2fb4302ebfe62aac",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\figures\\surface-tissue-rna-figure2.svg",
+      "bytes": 42295,
+      "sha256": "3c4d0a0167296868455fd9b5f24a741fc815a49e07005f04e65aec811b08ee03",
+      "expected_sha256": "3c4d0a0167296868455fd9b5f24a741fc815a49e07005f04e65aec811b08ee03",
+      "matches": true
+    }
+  ],
+  "exact_main_prose_changes_only_E1_E2": true,
+  "exact_si_change_only_O1": true,
+  "exact_cover_body_change_only_E1": true,
+  "cover_frontmatter_only_additional_change": true,
+  "package_builder_delta_inspected": "DFSP expansion and Markdown-only cover frontmatter; no scientific logic change",
+  "results_methods_values_claim_ceiling_unchanged": true,
+  "abstract_words_including_labels": 223,
+  "scientific_dependencies": [
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\administrative-preservation.json",
+      "bytes": 683,
+      "sha256": "4641c967e24d7a9637c0f4c5bf70ef0e96f418a220fa4cad53c5963732f01927",
+      "previously_reviewed_sha256": "4641c967e24d7a9637c0f4c5bf70ef0e96f418a220fa4cad53c5963732f01927",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\all-hofvander-contrasts.csv",
+      "bytes": 9104,
+      "sha256": "ebb48e197311df56a8fc83f98dfafc80dfdf88492cfbd7903d0a5000f8ac88da",
+      "previously_reviewed_sha256": "ebb48e197311df56a8fc83f98dfafc80dfdf88492cfbd7903d0a5000f8ac88da",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\all-primary-deletions.csv",
+      "bytes": 60816,
+      "sha256": "e3e437d29089688361eb1f22d3a8d97287d022a24fcefd0447b5bfc049e81e17",
+      "previously_reviewed_sha256": "e3e437d29089688361eb1f22d3a8d97287d022a24fcefd0447b5bfc049e81e17",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\all-shared-histology-replication.csv",
+      "bytes": 15715,
+      "sha256": "23c4ffe4a3da0be6ed9ca22cca896cf8a59db511b4877bb3f67a741bfd0b3f91",
+      "previously_reviewed_sha256": "23c4ffe4a3da0be6ed9ca22cca896cf8a59db511b4877bb3f67a741bfd0b3f91",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\all-year-cells.csv",
+      "bytes": 22709,
+      "sha256": "c372dfe94d4c6cb9924776219090b50d5d6d3a7e06a82359b9c65901d0c34b43",
+      "previously_reviewed_sha256": "c372dfe94d4c6cb9924776219090b50d5d6d3a7e06a82359b9c65901d0c34b43",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\all12-gene-effects.csv",
+      "bytes": 2472,
+      "sha256": "e4481028970f92d0d22ea66aeebdccaea8a3a2e9c45c9af169ecc24e4663754d",
+      "previously_reviewed_sha256": "e4481028970f92d0d22ea66aeebdccaea8a3a2e9c45c9af169ecc24e4663754d",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\amendment-replication-2026-09-06.md",
+      "bytes": 7095,
+      "sha256": "76dd685c4dd1c5c3d77b14187703af26826f91811b808dc82e23811c3b1749ac",
+      "previously_reviewed_sha256": "76dd685c4dd1c5c3d77b14187703af26826f91811b808dc82e23811c3b1749ac",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\analyze-command.json",
+      "bytes": 283,
+      "sha256": "de81296038b716bd6bd7d1eac4cb6e396a8f772fc144244f1ea50ff9bc7a95e0",
+      "previously_reviewed_sha256": "de81296038b716bd6bd7d1eac4cb6e396a8f772fc144244f1ea50ff9bc7a95e0",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\analyze-run.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "previously_reviewed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\analyze.py",
+      "bytes": 10313,
+      "sha256": "e6203785e63de50bdab73434030a0aae4f6b765099efc6c6cce4c69e0034f118",
+      "previously_reviewed_sha256": "e6203785e63de50bdab73434030a0aae4f6b765099efc6c6cce4c69e0034f118",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\coordinator-authorization.json",
+      "bytes": 1682,
+      "sha256": "60f00fd8dd985b303ca642ab044f07c2c0b3738c6ec13731c9b45130321c1264",
+      "previously_reviewed_sha256": "60f00fd8dd985b303ca642ab044f07c2c0b3738c6ec13731c9b45130321c1264",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\coordinator-verification.json",
+      "bytes": 1892,
+      "sha256": "eb9049da3a93d224d1cabb6c51a07f7457257f8c96bb60eaecf184a69ee2a769",
+      "previously_reviewed_sha256": "eb9049da3a93d224d1cabb6c51a07f7457257f8c96bb60eaecf184a69ee2a769",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\draft\\draft-manifest.json",
+      "bytes": 1225,
+      "sha256": "8f16a17cf5ee2ba60460e38d6b2be9d036fb6c987ccb9b50377a7b8a968e7b8b",
+      "previously_reviewed_sha256": "8f16a17cf5ee2ba60460e38d6b2be9d036fb6c987ccb9b50377a7b8a968e7b8b",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\draft\\draft-source-references.json",
+      "bytes": 281,
+      "sha256": "790967e22f9eb2e71b9751997813727859932b2bc51f06b6094708f652b0dc87",
+      "previously_reviewed_sha256": "790967e22f9eb2e71b9751997813727859932b2bc51f06b6094708f652b0dc87",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\draft\\figure-inputs.json",
+      "bytes": 862,
+      "sha256": "e3616e21cbfe27a9e817964500923e58481ec193684ff873f1b1bc167bc8ce83",
+      "previously_reviewed_sha256": "e3616e21cbfe27a9e817964500923e58481ec193684ff873f1b1bc167bc8ce83",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\draft\\manuscript.md",
+      "bytes": 20771,
+      "sha256": "bcf846e2c28c831e8d94ced50706374e82bb8549ce550bdd2df144d2c1e5f9a2",
+      "previously_reviewed_sha256": "bcf846e2c28c831e8d94ced50706374e82bb8549ce550bdd2df144d2c1e5f9a2",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\draft\\methods-and-data.md",
+      "bytes": 9484,
+      "sha256": "23a110ecd8cde510edadf72c7d3932dbf48ceb80a03ae2f2e67a147cbd07ca6b",
+      "previously_reviewed_sha256": "23a110ecd8cde510edadf72c7d3932dbf48ceb80a03ae2f2e67a147cbd07ca6b",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\draft\\normal-context-source.json",
+      "bytes": 27720,
+      "sha256": "a7e39b13817f2a86e922d692623f5836a2b2a35a4690f501775117ed9cb17e96",
+      "previously_reviewed_sha256": "a7e39b13817f2a86e922d692623f5836a2b2a35a4690f501775117ed9cb17e96",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\draft\\normal-context.csv",
+      "bytes": 3912,
+      "sha256": "7ccee3a1a7a8db1c7145f4e9b239e12144798b01012930e91304d9724c1add3f",
+      "previously_reviewed_sha256": "7ccee3a1a7a8db1c7145f4e9b239e12144798b01012930e91304d9724c1add3f",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\draft\\plot-readiness.json",
+      "bytes": 1304,
+      "sha256": "c50e8c1a83529c909d1feb4fe4973681fb18e9acf02737d174ee3719b7b69d15",
+      "previously_reviewed_sha256": "c50e8c1a83529c909d1feb4fe4973681fb18e9acf02737d174ee3719b7b69d15",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\draft\\plot_figures.py",
+      "bytes": 6814,
+      "sha256": "eab0311835098e8d7854343a9a970d5f40a692e8c8170aed3e9e86c6e8b47094",
+      "previously_reviewed_sha256": "eab0311835098e8d7854343a9a970d5f40a692e8c8170aed3e9e86c6e8b47094",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\draft\\runtime.json",
+      "bytes": 435,
+      "sha256": "134b499355a1272bee7721871b05ad3a659caef87ad8ecf22ad738bd18e26579",
+      "previously_reviewed_sha256": "134b499355a1272bee7721871b05ad3a659caef87ad8ecf22ad738bd18e26579",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\fixtures.json",
+      "bytes": 458,
+      "sha256": "f549effe314e525b23dca66e00c57633fb4556dfec1653581777def419a43b83",
+      "previously_reviewed_sha256": "f549effe314e525b23dca66e00c57633fb4556dfec1653581777def419a43b83",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\independent-design-review.zip",
+      "bytes": 3882,
+      "sha256": "c5394c94f5b5148403c071b323f08851fec7151daafde64ea40e22f68dfb4e25",
+      "previously_reviewed_sha256": "c5394c94f5b5148403c071b323f08851fec7151daafde64ea40e22f68dfb4e25",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\interpretation-context-references.json",
+      "bytes": 1297,
+      "sha256": "0fe20559732d31a2e6c6f27373bed74167df99f524c8ef33248b519a51876634",
+      "previously_reviewed_sha256": "0fe20559732d31a2e6c6f27373bed74167df99f524c8ef33248b519a51876634",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\metadata-manifest.json",
+      "bytes": 423739,
+      "sha256": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+      "previously_reviewed_sha256": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\metadata.py",
+      "bytes": 4025,
+      "sha256": "fc26eb2fe167dba67afd3b8ca70173fb8ec3d460466a711d0d4db94aa0b88055",
+      "previously_reviewed_sha256": "fc26eb2fe167dba67afd3b8ca70173fb8ec3d460466a711d0d4db94aa0b88055",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\packet-manifest.json",
+      "bytes": 8197,
+      "sha256": "38ba4df09e794cece5e81d8977ff68a1e530e9d27194088a07f580b64cdcbabd",
+      "previously_reviewed_sha256": "38ba4df09e794cece5e81d8977ff68a1e530e9d27194088a07f580b64cdcbabd",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\presentation\\canonical-integration.json",
+      "bytes": 700,
+      "sha256": "16d494d6df0255b18162f43bcb1498f95f9000885e1b307747593fe347ed5b69",
+      "previously_reviewed_sha256": "16d494d6df0255b18162f43bcb1498f95f9000885e1b307747593fe347ed5b69",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\presentation\\draft-checkpoint.json",
+      "bytes": 595,
+      "sha256": "796d581e3bdab836f96be35c74d6f541729574159bfd1b97591366498e3b11c0",
+      "previously_reviewed_sha256": "796d581e3bdab836f96be35c74d6f541729574159bfd1b97591366498e3b11c0",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\presentation\\graph-update-recommendation.json",
+      "bytes": 9606,
+      "sha256": "8aa5f388475c5eed6118f9fe022df9f65823cc067acddb670bc1213392328cf1",
+      "previously_reviewed_sha256": "8aa5f388475c5eed6118f9fe022df9f65823cc067acddb670bc1213392328cf1",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\presentation\\orcid-source-verification.zip",
+      "bytes": 4482,
+      "sha256": "ac17c9b2bacf2a593ee0603e17563e43d0a70b645d65be20567e8fa90d6674e1",
+      "previously_reviewed_sha256": "ac17c9b2bacf2a593ee0603e17563e43d0a70b645d65be20567e8fa90d6674e1",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\presentation\\windows-render-invocation.md",
+      "bytes": 3792,
+      "sha256": "f7876c7390ab3f4f4365f10bb20372dba7b5143d4014673db062d2c4feff6129",
+      "previously_reviewed_sha256": "f7876c7390ab3f4f4365f10bb20372dba7b5143d4014673db062d2c4feff6129",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\protocol.md",
+      "bytes": 10105,
+      "sha256": "6baa7aea44c1f170553ec6d8650d2015c794b50180fedd43cbdd10693e779eee",
+      "previously_reviewed_sha256": "6baa7aea44c1f170553ec6d8650d2015c794b50180fedd43cbdd10693e779eee",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\protocol.md.original.txt",
+      "bytes": 9897,
+      "sha256": "7555af8af8b3bfd98873190a672f1447c50291f15d2ec9c794e2f58750bdd524",
+      "previously_reviewed_sha256": "7555af8af8b3bfd98873190a672f1447c50291f15d2ec9c794e2f58750bdd524",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\README.md",
+      "bytes": 3013,
+      "sha256": "d250152eb59d6a4d4f04da1dc8a9d139a89b36078eea837f83377432424d0ae4",
+      "previously_reviewed_sha256": "d250152eb59d6a4d4f04da1dc8a9d139a89b36078eea837f83377432424d0ae4",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\README.md.original.txt",
+      "bytes": 2821,
+      "sha256": "abedb7bb26aa92022c494f9624bb3ba42d70621a96135929a7d049bb334bf53e",
+      "previously_reviewed_sha256": "abedb7bb26aa92022c494f9624bb3ba42d70621a96135929a7d049bb334bf53e",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\adapter-fixtures.json",
+      "bytes": 224,
+      "sha256": "753ca1e30b5432770ad98bb200069c00adff8f806c4b8e97c06f3c071b4bb23e",
+      "previously_reviewed_sha256": "753ca1e30b5432770ad98bb200069c00adff8f806c4b8e97c06f3c071b4bb23e",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\code-freeze.json",
+      "bytes": 540,
+      "sha256": "cdfc8330fc0cdfd7a0ca18468cc00492311c96c3ef456cc5ba0311c2e3316bd7",
+      "previously_reviewed_sha256": "cdfc8330fc0cdfd7a0ca18468cc00492311c96c3ef456cc5ba0311c2e3316bd7",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\input-lock.json",
+      "bytes": 8426,
+      "sha256": "c238d08c4c54d05f171b67820f55c4176472b72ba81c526ff7e20134e3c7f172",
+      "previously_reviewed_sha256": "c238d08c4c54d05f171b67820f55c4176472b72ba81c526ff7e20134e3c7f172",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\README.md",
+      "bytes": 4364,
+      "sha256": "f5b2bb6ef82938001c0ec6cf3d8f816e888fb85f63e4a83f84a1e7c035966e0f",
+      "previously_reviewed_sha256": "f5b2bb6ef82938001c0ec6cf3d8f816e888fb85f63e4a83f84a1e7c035966e0f",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\replay-manifest.json",
+      "bytes": 3440,
+      "sha256": "b892af360e5655c8eac824867bc997c41f4cbfb1a6b2bf7e7c7899ddd62f5d8e",
+      "previously_reviewed_sha256": "b892af360e5655c8eac824867bc997c41f4cbfb1a6b2bf7e7c7899ddd62f5d8e",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\replay.py",
+      "bytes": 13166,
+      "sha256": "487ee327b224c4a48286fe492b0e6da13d179ea560ee7b04f9d8d36ec3516ebb",
+      "previously_reviewed_sha256": "487ee327b224c4a48286fe492b0e6da13d179ea560ee7b04f9d8d36ec3516ebb",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\report.py",
+      "bytes": 5056,
+      "sha256": "fa2fcaff201774ae3bfd326510e6457f5974bec0ba2299dcce598a697c80799f",
+      "previously_reviewed_sha256": "fa2fcaff201774ae3bfd326510e6457f5974bec0ba2299dcce598a697c80799f",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\requirements.txt",
+      "bytes": 47,
+      "sha256": "fd79e4cd0cea13ea3dcbfc35b4886effa20a6beb230acba3fcdce5ec324b129d",
+      "previously_reviewed_sha256": "fd79e4cd0cea13ea3dcbfc35b4886effa20a6beb230acba3fcdce5ec324b129d",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\result.md",
+      "bytes": 4195,
+      "sha256": "be61747614cfd80341a83d555775332af5cdd5db695f7df014240296e8b4f48f",
+      "previously_reviewed_sha256": "be61747614cfd80341a83d555775332af5cdd5db695f7df014240296e8b4f48f",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\standing-authorization.json",
+      "bytes": 814,
+      "sha256": "0c518c4d4e8933a269ae368f88ca53a77df4386ba51318ae154314381c318004",
+      "previously_reviewed_sha256": "0c518c4d4e8933a269ae368f88ca53a77df4386ba51318ae154314381c318004",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\comparison.json",
+      "bytes": 9742,
+      "sha256": "1855cb2c73d71f5fd00339557fc5292119f26687732c45f98e21e8e7c7c0dad9",
+      "previously_reviewed_sha256": "1855cb2c73d71f5fd00339557fc5292119f26687732c45f98e21e8e7c7c0dad9",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\fixtures-hofvander.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "previously_reviewed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\fixtures-hofvander.stdout.log",
+      "bytes": 458,
+      "sha256": "f549effe314e525b23dca66e00c57633fb4556dfec1653581777def419a43b83",
+      "previously_reviewed_sha256": "f549effe314e525b23dca66e00c57633fb4556dfec1653581777def419a43b83",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\fixtures-replication.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "previously_reviewed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\fixtures-replication.stdout.log",
+      "bytes": 331,
+      "sha256": "2dabf2e3fa73f67726413fad58b60a37de1fcd7e64f0936366497b33695c9b51",
+      "previously_reviewed_sha256": "2dabf2e3fa73f67726413fad58b60a37de1fcd7e64f0936366497b33695c9b51",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\hofvander.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "previously_reviewed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\hofvander.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "previously_reviewed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\manifest.json",
+      "bytes": 1935,
+      "sha256": "ab8227847d0c8a70b0562ccea26f3aff1860b919c7f0c0b6b0323a42b29e6a3e",
+      "previously_reviewed_sha256": "ab8227847d0c8a70b0562ccea26f3aff1860b919c7f0c0b6b0323a42b29e6a3e",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\receipt.json",
+      "bytes": 14119,
+      "sha256": "e3514f789704ca1d87e5fa5e5a43cdef301eeb1b3718e24e5281b9031f97b32f",
+      "previously_reviewed_sha256": "e3514f789704ca1d87e5fa5e5a43cdef301eeb1b3718e24e5281b9031f97b32f",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\replay-compatibility.json",
+      "bytes": 3977,
+      "sha256": "9ccdff100793174be1198fd1528278bedcdd64a5f86b8130c92f22a65edcd6a4",
+      "previously_reviewed_sha256": "9ccdff100793174be1198fd1528278bedcdd64a5f86b8130c92f22a65edcd6a4",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\replication.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "previously_reviewed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\replication.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "previously_reviewed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\report-provenance.json",
+      "bytes": 370,
+      "sha256": "5d8da29c779b94b77aaf2dde2ce63fdc96cb4a79465257638e25f03d49211cd1",
+      "previously_reviewed_sha256": "5d8da29c779b94b77aaf2dde2ce63fdc96cb4a79465257638e25f03d49211cd1",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\reporting.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "previously_reviewed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\verification\\reporting.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "previously_reviewed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-command.json",
+      "bytes": 287,
+      "sha256": "f2bddaa351d981f0ade691bb21e43574414f9a179e6db357e362a9faffa7c455",
+      "previously_reviewed_sha256": "f2bddaa351d981f0ade691bb21e43574414f9a179e6db357e362a9faffa7c455",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-fixtures.json",
+      "bytes": 331,
+      "sha256": "2dabf2e3fa73f67726413fad58b60a37de1fcd7e64f0936366497b33695c9b51",
+      "previously_reviewed_sha256": "2dabf2e3fa73f67726413fad58b60a37de1fcd7e64f0936366497b33695c9b51",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-manifest.json",
+      "bytes": 100475,
+      "sha256": "41def87dde52663a73ea09a3b52924843d5d20103c7f0523bc03ae842426e0ae",
+      "previously_reviewed_sha256": "41def87dde52663a73ea09a3b52924843d5d20103c7f0523bc03ae842426e0ae",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\ALPP.json",
+      "bytes": 716781,
+      "sha256": "91fa5efd58f3ebcc3ad9a997238519491890b8bb15a3aea431a21067e72acb64",
+      "previously_reviewed_sha256": "91fa5efd58f3ebcc3ad9a997238519491890b8bb15a3aea431a21067e72acb64",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\array-values.json",
+      "bytes": 14291,
+      "sha256": "33ce40f615cb7db706565c559cfafebcd57b5b9d84f30c4af7a6502f03faed9c",
+      "previously_reviewed_sha256": "33ce40f615cb7db706565c559cfafebcd57b5b9d84f30c4af7a6502f03faed9c",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\CD248.json",
+      "bytes": 710418,
+      "sha256": "a398c9bd6153163c2772e776e3bcfcef1734411d3bf0ede6ec58f4601ff3b6a0",
+      "previously_reviewed_sha256": "a398c9bd6153163c2772e776e3bcfcef1734411d3bf0ede6ec58f4601ff3b6a0",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\CD276.json",
+      "bytes": 722213,
+      "sha256": "395082ac5d928d275081d03a7b1694f18881412e28e776f1ec7df60d5faeb59f",
+      "previously_reviewed_sha256": "395082ac5d928d275081d03a7b1694f18881412e28e776f1ec7df60d5faeb59f",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\CDH17.json",
+      "bytes": 723184,
+      "sha256": "7ec58894f7b330ec7d377e5dc64e7a5e655f34e19d00c0e40ccd495b3fc4c089",
+      "previously_reviewed_sha256": "7ec58894f7b330ec7d377e5dc64e7a5e655f34e19d00c0e40ccd495b3fc4c089",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\CHRNA6.json",
+      "bytes": 701101,
+      "sha256": "94978db90263e5e54cce093c8d85112e3125592de914c560ee2b076076dafc8c",
+      "previously_reviewed_sha256": "94978db90263e5e54cce093c8d85112e3125592de914c560ee2b076076dafc8c",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\CSPG4.json",
+      "bytes": 712955,
+      "sha256": "27b58be3b06cbb03c243f6c5d2b5e00b9217ad950acb39d9130646718ff06209",
+      "previously_reviewed_sha256": "27b58be3b06cbb03c243f6c5d2b5e00b9217ad950acb39d9130646718ff06209",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\execution.json",
+      "bytes": 188,
+      "sha256": "8f0c5353a43a5ba99a008dc8e79b7ef25c6d34f2bd712b9f67aad802a333bea6",
+      "previously_reviewed_sha256": "8f0c5353a43a5ba99a008dc8e79b7ef25c6d34f2bd712b9f67aad802a333bea6",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\FAP.json",
+      "bytes": 715297,
+      "sha256": "3f6b92cf1c4f23b8e7d6c2564e7f896f813bf99883e60ffb7971c3a0082b580e",
+      "previously_reviewed_sha256": "3f6b92cf1c4f23b8e7d6c2564e7f896f813bf99883e60ffb7971c3a0082b580e",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\GPC3.json",
+      "bytes": 722053,
+      "sha256": "bfc6e13fa2d6d9335815a7c8b42943c7a331f0672d77076655ac28d63f3c60c5",
+      "previously_reviewed_sha256": "bfc6e13fa2d6d9335815a7c8b42943c7a331f0672d77076655ac28d63f3c60c5",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\L1CAM.json",
+      "bytes": 721603,
+      "sha256": "0d0ce0822eed9ad3d7854eb19370b1d6e0b20f3b0446980378b8103c4a4eb4fe",
+      "previously_reviewed_sha256": "0d0ce0822eed9ad3d7854eb19370b1d6e0b20f3b0446980378b8103c4a4eb4fe",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\MSLN.json",
+      "bytes": 722244,
+      "sha256": "d0ca5023eec1990ddfa8284e96cbd93babaded8bbab81c07421da0fba22d2fa0",
+      "previously_reviewed_sha256": "d0ca5023eec1990ddfa8284e96cbd93babaded8bbab81c07421da0fba22d2fa0",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\PRAME.json",
+      "bytes": 725252,
+      "sha256": "13a916b140d2b02fd9ecfcf0f709a51e73f8c3c7ac6f34c6c2656fbee1319cab",
+      "previously_reviewed_sha256": "13a916b140d2b02fd9ecfcf0f709a51e73f8c3c7ac6f34c6c2656fbee1319cab",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\result.json",
+      "bytes": 9618828,
+      "sha256": "436614fa50e20250b4a7a6f5700aaf7d36c45337f26d015f584511b32d6875f1",
+      "previously_reviewed_sha256": "436614fa50e20250b4a7a6f5700aaf7d36c45337f26d015f584511b32d6875f1",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-results\\SSTR2.json",
+      "bytes": 719216,
+      "sha256": "f450fe26695c7e45ffe02eb7d669fb95d2175ec6662ec1a254b26fd96c8abcc3",
+      "previously_reviewed_sha256": "f450fe26695c7e45ffe02eb7d669fb95d2175ec6662ec1a254b26fd96c8abcc3",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-run.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "previously_reviewed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication.py",
+      "bytes": 8515,
+      "sha256": "d626cb59146f9635902408b1bb15e3f9d12518b75bb8a5214a666fc6a5bc02c1",
+      "previously_reviewed_sha256": "d626cb59146f9635902408b1bb15e3f9d12518b75bb8a5214a666fc6a5bc02c1",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication_metadata.py",
+      "bytes": 2652,
+      "sha256": "f028de27596d84f553f4c4110d75fb942714d20088d6176190c843a84917fc12",
+      "previously_reviewed_sha256": "f028de27596d84f553f4c4110d75fb942714d20088d6176190c843a84917fc12",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\result.md",
+      "bytes": 11032,
+      "sha256": "a269d66a04bd6ea3d98dd544e368b8d7c32621d6106202a62fe6e936df433b2e",
+      "previously_reviewed_sha256": "a269d66a04bd6ea3d98dd544e368b8d7c32621d6106202a62fe6e936df433b2e",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\ALPP.json",
+      "bytes": 827212,
+      "sha256": "c1a4a72664066d2762930817e7b7ebcfbcaf5a3578b313d149b1a5a2feb0c35e",
+      "previously_reviewed_sha256": "c1a4a72664066d2762930817e7b7ebcfbcaf5a3578b313d149b1a5a2feb0c35e",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\CD248.json",
+      "bytes": 821190,
+      "sha256": "314f5bd3ded8b11449f599fe1e94231c64224291b4b724eb7deeee73c6cbe65e",
+      "previously_reviewed_sha256": "314f5bd3ded8b11449f599fe1e94231c64224291b4b724eb7deeee73c6cbe65e",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\CD276.json",
+      "bytes": 830497,
+      "sha256": "603c35d1714c979243b98af126b0b7d68ae1acbe3152dd89b3f1bf99800fcd25",
+      "previously_reviewed_sha256": "603c35d1714c979243b98af126b0b7d68ae1acbe3152dd89b3f1bf99800fcd25",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\CDH17.json",
+      "bytes": 842667,
+      "sha256": "d8294e33a7eca9d3160800dfa5d6ba1c1a2b8ce64d7b98003127e20c6340d50a",
+      "previously_reviewed_sha256": "d8294e33a7eca9d3160800dfa5d6ba1c1a2b8ce64d7b98003127e20c6340d50a",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\CHRNA6.json",
+      "bytes": 804908,
+      "sha256": "b6b7e7d638fbb5085a0e4728e5edfacef096a879cf9af9e335b821b9b748f91f",
+      "previously_reviewed_sha256": "b6b7e7d638fbb5085a0e4728e5edfacef096a879cf9af9e335b821b9b748f91f",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\CSPG4.json",
+      "bytes": 817533,
+      "sha256": "004a0f6da8b0f0197011cb2d1624c62aff19f8b2d00dd17e00d36d15287b121a",
+      "previously_reviewed_sha256": "004a0f6da8b0f0197011cb2d1624c62aff19f8b2d00dd17e00d36d15287b121a",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\execution.json",
+      "bytes": 166,
+      "sha256": "af882b684925af479e541bf9297c5c729b20657b444ed011601399a30e54ffab",
+      "previously_reviewed_sha256": "af882b684925af479e541bf9297c5c729b20657b444ed011601399a30e54ffab",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\FAP.json",
+      "bytes": 826065,
+      "sha256": "6bc1b9c44639fcdf8a48b46b7439b2775f6c57ae4838498197d653a261a24e6e",
+      "previously_reviewed_sha256": "6bc1b9c44639fcdf8a48b46b7439b2775f6c57ae4838498197d653a261a24e6e",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\GPC3.json",
+      "bytes": 822122,
+      "sha256": "1771919ec8bb36d9a6fb31740690a534e846b9fae162f049acc6f3d728cae5a2",
+      "previously_reviewed_sha256": "1771919ec8bb36d9a6fb31740690a534e846b9fae162f049acc6f3d728cae5a2",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\L1CAM.json",
+      "bytes": 829725,
+      "sha256": "09b4d42498737c768f02be54b2ec327f592607da7c1b1ce258706bb27b801981",
+      "previously_reviewed_sha256": "09b4d42498737c768f02be54b2ec327f592607da7c1b1ce258706bb27b801981",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\MSLN.json",
+      "bytes": 829456,
+      "sha256": "4b4cc5e88a9b56023188d2532cb772ea5344af65bf71ff8ce880fb1efc931e08",
+      "previously_reviewed_sha256": "4b4cc5e88a9b56023188d2532cb772ea5344af65bf71ff8ce880fb1efc931e08",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\PRAME.json",
+      "bytes": 817376,
+      "sha256": "a97115f656a39b91a86f9c33264210f611619e0f971e09ed672a6286dbe29632",
+      "previously_reviewed_sha256": "a97115f656a39b91a86f9c33264210f611619e0f971e09ed672a6286dbe29632",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\result.json",
+      "bytes": 11183505,
+      "sha256": "e809f29a411ab246fd9eba29fcc7f8d0f0b6e2b89944ecf1e3aeeea18d22e97d",
+      "previously_reviewed_sha256": "e809f29a411ab246fd9eba29fcc7f8d0f0b6e2b89944ecf1e3aeeea18d22e97d",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\revised-membership-changes.json",
+      "bytes": 11112,
+      "sha256": "0ae8e0c014ea9b5da5f2d4298263452e50c7499475334af143952fedb94942f2",
+      "previously_reviewed_sha256": "0ae8e0c014ea9b5da5f2d4298263452e50c7499475334af143952fedb94942f2",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\selected-values.json",
+      "bytes": 186463,
+      "sha256": "21d0628368ca324da7cbe42d899a67590361b3b69476a6f6653e66410e03853d",
+      "previously_reviewed_sha256": "21d0628368ca324da7cbe42d899a67590361b3b69476a6f6653e66410e03853d",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\results\\SSTR2.json",
+      "bytes": 829615,
+      "sha256": "77c896035ed6011274e417b42a61ddeb9e1efa94ff546ffce74fa7db7cf7a1ec",
+      "previously_reviewed_sha256": "77c896035ed6011274e417b42a61ddeb9e1efa94ff546ffce74fa7db7cf7a1ec",
+      "matches": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\summarize.py",
+      "bytes": 15434,
+      "sha256": "7cb587280f7425a5fadab3661c3b3a47294c53d9503e02d080a393e53578ddb0",
+      "previously_reviewed_sha256": "7cb587280f7425a5fadab3661c3b3a47294c53d9503e02d080a393e53578ddb0",
+      "matches": true
+    }
+  ],
+  "render_receipt": {
+    "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\release-candidates\\PUB-SURFACE-TARGETS\\2026-09-09-cancer-genetics\\WINDOWS-DOCX-RENDER-REPAIRED-RECEIPT.json",
+    "bytes": 6236,
+    "sha256": "c7d61e7c0b1bd1cd297e6474002c326c9ab4fb601705ade26b21b70b17bab0dc"
+  },
+  "pages": [
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-manuscript\\page-1.png",
+      "bytes": 211380,
+      "sha256": "645367b0ce2c12b391ffc8bc47a3e44625b894343deda25dcf010b688cccda1e",
+      "previous_page_sha256": "fb6f977c769111fd7d9d57833b374cec000225e2ec953e204787d3f79da48343",
+      "identical_to_previous_inspection": false,
+      "new_visual_inspection": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-manuscript\\page-2.png",
+      "bytes": 256862,
+      "sha256": "6de8a165175902a16576288be6e0c01259c704f23e9843b48ab2a71a2b901c3c",
+      "previous_page_sha256": "6de8a165175902a16576288be6e0c01259c704f23e9843b48ab2a71a2b901c3c",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-manuscript\\page-3.png",
+      "bytes": 262619,
+      "sha256": "77095186da6da007412f01b03abbe6e98d821307349716381d89dd9c43cb3b10",
+      "previous_page_sha256": "77095186da6da007412f01b03abbe6e98d821307349716381d89dd9c43cb3b10",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-manuscript\\page-4.png",
+      "bytes": 265340,
+      "sha256": "9bd67f41904cf825e3fb63160417fa8a368ef4377441ee62b72071a32116b03b",
+      "previous_page_sha256": "9bd67f41904cf825e3fb63160417fa8a368ef4377441ee62b72071a32116b03b",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-manuscript\\page-5.png",
+      "bytes": 260577,
+      "sha256": "8cca07fceebff250566b47844d6db1e0a434d4a68be5185df880b00b29afcc22",
+      "previous_page_sha256": "8cca07fceebff250566b47844d6db1e0a434d4a68be5185df880b00b29afcc22",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-manuscript\\page-6.png",
+      "bytes": 269684,
+      "sha256": "61ec4b12d213e91368ef2300a590782f4cecabb25d708fd0b025fa129c3766e0",
+      "previous_page_sha256": "61ec4b12d213e91368ef2300a590782f4cecabb25d708fd0b025fa129c3766e0",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-manuscript\\page-7.png",
+      "bytes": 264362,
+      "sha256": "65562932ae4cf7b139b5a0b265a45072879cc3c3b28ca59e33b4359822be6df8",
+      "previous_page_sha256": "f089e70f87d06102c4bd729ef91fd44852ba7c66ca0d69ffbec46cd0d8f79bac",
+      "identical_to_previous_inspection": false,
+      "new_visual_inspection": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-manuscript\\page-8.png",
+      "bytes": 284692,
+      "sha256": "2b2b9a02fcb322007998f649f0b4d573d3750d322161f249cb694c1b5caecaf4",
+      "previous_page_sha256": "2b2b9a02fcb322007998f649f0b4d573d3750d322161f249cb694c1b5caecaf4",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-manuscript\\page-9.png",
+      "bytes": 174407,
+      "sha256": "f02699a3a62da07435557d405b3d7df29956dcf7f630ccf2ffb28d5551e2173e",
+      "previous_page_sha256": "f02699a3a62da07435557d405b3d7df29956dcf7f630ccf2ffb28d5551e2173e",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-manuscript\\page-10.png",
+      "bytes": 81794,
+      "sha256": "8c82d4d01b646250ba8ff6ee703b63d2f1b6d3a22cba932e1a70effd2603bf45",
+      "previous_page_sha256": "8c82d4d01b646250ba8ff6ee703b63d2f1b6d3a22cba932e1a70effd2603bf45",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-manuscript\\page-11.png",
+      "bytes": 51187,
+      "sha256": "d5aa231ef565168e8be132993663a0ebf897df373cbe97559aed888f8dbb16f5",
+      "previous_page_sha256": "d5aa231ef565168e8be132993663a0ebf897df373cbe97559aed888f8dbb16f5",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-supplementary-information\\page-1.png",
+      "bytes": 314722,
+      "sha256": "11ad23e9e4477005cc0ab59334d81fa3f432b5b52a2d774ecff631dac611fb56",
+      "previous_page_sha256": "11ad23e9e4477005cc0ab59334d81fa3f432b5b52a2d774ecff631dac611fb56",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-supplementary-information\\page-2.png",
+      "bytes": 272390,
+      "sha256": "c62c9629694ad5a66fe2df6dece1f4d7604ad384e841757317047b7c05ab66e3",
+      "previous_page_sha256": "c62c9629694ad5a66fe2df6dece1f4d7604ad384e841757317047b7c05ab66e3",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-supplementary-information\\page-3.png",
+      "bytes": 337568,
+      "sha256": "4b68322ced140c3b6f60525e553add6ff454a52f3fbef274d1b661061b7cbf14",
+      "previous_page_sha256": "4b68322ced140c3b6f60525e553add6ff454a52f3fbef274d1b661061b7cbf14",
+      "identical_to_previous_inspection": true,
+      "new_visual_inspection": false
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-supplementary-information\\page-4.png",
+      "bytes": 105922,
+      "sha256": "5777719de04d787ac2ca81595dcdfde3bbefcdd19792ce51660140f96cdd9afa",
+      "previous_page_sha256": "e141f5f0f32acadf26e1571282a6d7e4c6d335ffc3c8ce40a4d5f3892b588019",
+      "identical_to_previous_inspection": false,
+      "new_visual_inspection": true
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\opus-capacity-sprint-20260907\\capacity-campaign-20260908\\observations\\surface-cancer-genetics-20260909\\visual-qa-repaired\\emc-tissue-rna-prioritization-cover-letter\\page-1.png",
+      "bytes": 182595,
+      "sha256": "95d91b69adf1f69fcf7bafa042b8d75d890b657952e668ef0db12e88b7348a29",
+      "previous_page_sha256": "779e1b52413406be29dded66ee57ddeca8855a63a99de2990e65f8377039061e",
+      "identical_to_previous_inspection": false,
+      "new_visual_inspection": true
+    }
+  ],
+  "newly_visually_inspected_pages": 4,
+  "unchanged_previously_inspected_pages": 12,
+  "disposition": {
+    "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\release-candidates\\PUB-SURFACE-TARGETS\\2026-09-09-cancer-genetics\\REVIEW-REPAIR-DISPOSITION.json",
+    "bytes": 1311,
+    "sha256": "ebcafc2df71849333dd8988d103b70429d954b99e6f791f2ad6d87bf3e6aac9b"
+  },
+  "original_review": {
+    "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\surface-cancer-genetics-20260909\\independent-review\\report.md",
+    "bytes": 15182,
+    "sha256": "f8b146917afdc7514fa42523cf37da7ef6b8f0951edf46b5d61481d1d71621ed"
+  },
+  "original_findings": {
+    "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\surface-cancer-genetics-20260909\\independent-review\\findings.json",
+    "bytes": 5686,
+    "sha256": "93fd5bf328826f2e27bd23743e9efeceab95f32aee63c2cb1faf829184c9e080"
+  },
+  "unchanged_limits": [
+    "journal editorial-fit uncertainty",
+    "personal author declarations pending for journal submission",
+    "technical release checks independently owned"
+  ],
+  "full_journal_readiness_certified": false,
+  "frozen_edits": false,
+  "science_rerun": false,
+  "external_posting": false,
+  "further_full_review_required": false
+}
