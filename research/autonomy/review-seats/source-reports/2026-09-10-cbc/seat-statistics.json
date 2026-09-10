@@ -1,0 +1,70 @@
+{
+  "identity": "aso_blind_statistics",
+  "model": "gpt-6-astra",
+  "effort": "medium",
+  "blind": true,
+  "context_exclusions": [
+    "No standalone prior reviews, hardening verdicts, coordinator findings or other seat findings were sought or opened.",
+    "Permitted code/data unexpectedly exposed historical annotations enumerated below. They were not evidence for the verdict; independent numerical checks supply the evidence. Parent was informed and clarified that no same-pin cross-talk is the applicable blind boundary."
+  ],
+  "strict_blind_integrity": "No same-pin cross-talk; not history-free: incidental historical annotations inside permitted scientific source files.",
+  "reviewed_commit": "1f717f120724ad0d0442f0cf24d565871b52afb6",
+  "document": "research/manuscripts/aso/cbc-20260910/manuscript.md",
+  "document_sha256": "9154a93be06ad7e34990f26e202b0c70e69c1d9b9b14b539a8da850c752e9d04",
+  "formal_digest": "5b474a4a3ba97f7e9e4fed02114009f992a1629f82f22aa6a492353d2af21f9d",
+  "formal_digest_check": "Provided binding recorded; individual main MD/DOCX/PDF hashes verified, combined digest not independently recomputed.",
+  "central_claim": "Computational screening identifies threshold-sensitive full-gap parent pairing in NR4A3 junction gapmers and supports reproducible prioritization without establishing disease-specific excess or experimental selectivity.",
+  "verdict": "supported",
+  "blockers": [],
+  "p1s": [],
+  "optional_edits": [
+    {
+      "claim_file": "manuscript.md section 3.2, panel 95% interval comparison",
+      "evidence": "The source calls this a Wilson95 interval over 190 registers; these comprise five overlapping registers per junction, only 176 distinct sequences, and are an enumerated design panel rather than an independent random disease sample.",
+      "consequence": "The interval is a binomial reference calculation, not established disease-population uncertainty. The current conclusion of unresolved disease-specific excess remains appropriately cautious.",
+      "smallest_repair": "Identify the interval explicitly as an independence-assuming Wilson reference interval and avoid treating overlap with it as a formal test of disease-specific excess."
+    }
+  ],
+  "actually_checked_files": [
+    "research/manuscripts/aso/cbc-20260910/manuscript.md (complete)",
+    "research/manuscripts/aso/cbc-20260910/manuscript.docx (hash only)",
+    "research/manuscripts/aso/cbc-20260910/manuscript.pdf (hash only)",
+    "research/manuscripts/aso/cbc-20260910/endpoint-binding.json",
+    "research/release-candidates/PUB-ASO/2026-09-10-cbc/source-evidence-map.json",
+    "research/release-candidates/PUB-ASO/2026-09-10-cbc/supplementary-file-2.docx (complete text extraction)",
+    "research/release-candidates/PUB-ASO/2026-09-10-cbc/fusion-junction-aso-sequences.csv",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso-parent-gap-pairing-18mer-5-8-5.json",
+    "research/modalities/aso-parent-gap-pairing-20mer-5-10-5.json",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-premrna-sequences.json",
+    "research/modalities/nr4a3-fusion-junction-atlas.json",
+    "research/modalities/aso-control-oligos.json",
+    "research/manuscripts/aso_falsification_power.py",
+    "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+    "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json (partial)"
+  ],
+  "checks": [
+    "Verified pinned HEAD and supplied declared-document SHA256; adjacent DOCX/PDF hashes agree with endpoint binding.",
+    "Independently assembled six mature transcripts from precursor exon spans (20011 nt) and rescanned every possible full-gap contiguous substring for all 190 sequences: zero length discrepancies with per-design data.",
+    "Recomputed 87/190 liability and clear-junction counts at cuts 6-10: 6,9,23,31,35; data published-junction counts 0,0,2,3,5 agree with manuscript.",
+    "Named reagent longest duplexes independently reproduce 8 bp TFG and 9 bp TFG; adjacent TAF15 register gives 11 bp NR4A3.",
+    "Longer geometry data reproduce 88/266 and 87/342.",
+    "Atlas independently yields 38 junctions,176 unique sequences,9 shared sequences.",
+    "Null counts 15416/38000=40.568%; dinucleotide null 3795/38000=9.987%, NR4A3 attribution 3.911%; cutoff excess sign changes four times.",
+    "Exon-terminus rates fall within recorded panel Wilson limits at 7-13 except 11. No new null simulation or independence-valid inference claimed.",
+    "Independent scipy noncentral-t calculations give 30.4236% and81.2839% power at n3,n6; void SD thresholds0.647886,1.533622,2.249839 at n3,n6,n10. These require normal independent log-ratio replicates and the adopted assumptions, not measured variance.",
+    "Independent coverage arithmetic reproduces68.3908% and78.9655%; range is correctly not labelled a confidence interval.",
+    "CSV numerical fields yield model DeltaTm26.6 and36.0; table controls agree with source records. Read Figure1 legend in complete manuscript, not image pixels."
+  ],
+  "limitations": [
+    "No de novo genome/transcript search, laboratory validation, literature campaign, source publication re-retrieval, or rendered layout review.",
+    "No independent recalculation of all secondary genome, precursor, censoring or energy counts; bounded statistical seat emphasizes parent pairing, nulls, selection, power and coverage."
+  ],
+  "status": "complete",
+  "incidental_annotations": [
+    "aso_falsification_power.py module docstring referenced round 11 seats 2/3 and round 8, said printed figures were numerically correct but lacked a producing artifact. power_pct docstring referenced round 24 statistics seat and a corrected normal-approximation direction statement.",
+    "fusion-junction-aso-reagent-coverage.json metadata referenced an external review in the 95%-to-68.4% correction and round 26 arithmetic seat concerning a retired cell-model rationale.",
+    "fusion-junction-aso-coverage-ladder.json partial read included historical correction/retired-state metadata; no separate review was opened."
+  ]
+}

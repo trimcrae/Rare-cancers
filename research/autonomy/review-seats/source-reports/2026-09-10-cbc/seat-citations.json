@@ -1,0 +1,119 @@
+{
+  "identity": "/root/aso_blind_citations",
+  "seat": "blind citations and biological scope",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "medium",
+  "status": "complete",
+  "reviewed_commit": "1f717f120724ad0d0442f0cf24d565871b52afb6",
+  "document": "research/manuscripts/aso/cbc-20260910/manuscript.md",
+  "document_sha256": "9154a93be06ad7e34990f26e202b0c70e69c1d9b9b14b539a8da850c752e9d04",
+  "formal_digest": "5b474a4a3ba97f7e9e4fed02114009f992a1629f82f22aa6a492353d2af21f9d",
+  "formal_digest_verification": "Coordinator-supplied three-file digest recorded as supplied; individual MD/DOCX/PDF SHA-256 hashes independently checked. Aggregate digest algorithm not independently recomputed.",
+  "blind_context": {
+    "exclusions": [
+      "Prior/current review reports",
+      "QA findings",
+      "Hardening verdicts",
+      "Other seats and same-pin scientific cross-talk"
+    ],
+    "exposures": [
+      "Complete declared manuscript, including its explicit prior withdrawal and correction disclosures",
+      "source-evidence-map.json and endpoint-binding.json provenance, including incidental workflow/pending fields",
+      "emc-model-junction-evidence.json scientific evidence with incidental earlier indexing/retraction history and embedded interpretive labels",
+      "Prior-art evidence export metadata and portions of identifier arrays; output was truncated, not claimed fully read",
+      "Supplementary File 2 and cover letter, including historical archive/Qeios version references",
+      "Filename-only search listed some review/audit filenames; their contents were not opened"
+    ],
+    "assessment": "Independent of review reports, but not history-free exposure. No outcomes received from another seat."
+  },
+  "central_claim": "Sequence-based screening of modelled NR4A3 fusion-junction gapmers identifies criterion-dependent mature-parent pairing liabilities and supports computational prioritization without establishing cleavage, selectivity, potency, safety, or patient-model nucleotide correspondence.",
+  "verdict": "supported",
+  "blockers": [],
+  "p1s": [],
+  "optional_edits": [],
+  "actual_files_checks": [
+    {
+      "file": "research/manuscripts/aso/cbc-20260910/manuscript.md",
+      "check": "Read complete paper, references, tables and Figure 1 legend; hash matches declared SHA."
+    },
+    {
+      "file": "research/manuscripts/aso/cbc-20260910/manuscript.docx",
+      "sha256": "c19f0a1bffdc3fe4d3936ed3b4494176663c662dc89c6a76b1c965a276bba037",
+      "check": "Hash verified; XML text extracted and selected biological/chemistry/model/novelty passages checked. No visual-layout review claimed."
+    },
+    {
+      "file": "research/manuscripts/aso/cbc-20260910/manuscript.pdf",
+      "sha256": "b57d1b2f5ec4818745a3fb4d0e0ec4a579225c0977ea3c459bfe091894cf401e",
+      "check": "Hash verified; not rendered or independently text-read."
+    },
+    {
+      "file": "research/release-candidates/PUB-ASO/2026-09-10-cbc/frozen-candidate.json",
+      "check": "All 29 listed file SHA-256 values independently match fixed local files."
+    },
+    {
+      "file": "research/release-candidates/PUB-ASO/2026-09-10-cbc/source-evidence-map.json",
+      "check": "Read provenance and scientific-source mapping; no public endpoint identity assertion made."
+    },
+    {
+      "file": "research/manuscripts/aso/cbc-20260910/endpoint-binding.json",
+      "check": "Read original/bound copy provenance; independently verified main actual-file hashes."
+    },
+    {
+      "file": "research/release-candidates/PUB-ASO/2026-09-10-cbc/supplementary-file-2.docx",
+      "check": "Read full extracted text; historical archive and modified-chemistry/model-correspondence corrections remain explicit."
+    },
+    {
+      "file": "research/release-candidates/PUB-ASO/2026-09-10-cbc/cover-letter.docx",
+      "check": "Read full extracted text; Qeios version is disclosed as preceding work, not independent validation."
+    },
+    {
+      "file": "research/modalities/emc-model-junction-evidence.json",
+      "check": "Read scientific source excerpts, model identities, exon numbering evidence and reference-derived junction construction; incidental history disclosed."
+    },
+    {
+      "file": "research/manuscripts/aso/fusion-junction-aso-priorart-evidence.json",
+      "check": "Read retrieval scope/limitations and counts; no independent exhaustive novelty survey."
+    }
+  ],
+  "source_checks": [
+    {
+      "claim": "Reported USZ model acceptors are exon 2 and nucleotide correspondence remains unresolved.",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9813045/",
+      "evidence": "Primary-paper indexed Figure 4/methods text and existing source evidence support reported EWSR1 exon 13/NR4A3 exon 2 and TAF15 exon 6/NR4A3 exon 2 labels. These are not a sequenced boundary supplied to this study. Direct PMC open returned a CAPTCHA; indexed primary text and the existing source evidence were used.",
+      "assessment": "Current manuscript correctly preserves the unresolved distinction and requires nucleotide sequencing before ordering."
+    },
+    {
+      "claim": "Engineered E-N and T-N* constructs correspond to reported exon spans for the named reference-derived designs.",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6766969/",
+      "evidence": "Primary methods identify EWSR1 exons 1-12 to NR4A3 exons 3-8 and TAF15 exons 1-6 to NR4A3 exons 3-8; cryptic intron-2 T-N is separately described.",
+      "assessment": "Supports reference exon-span mapping. The manuscript also requires breakpoint confirmation for test articles and does not claim patient-derived nucleotide validation."
+    },
+    {
+      "claim": "Six-base DNA gap is a cited minimum and seven-to-ten is the working range, while ten-base duplex screening is adopted.",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7105916/",
+      "evidence": "Cited review distinguishes six-DNA-gap RNase-H activity, seven-base complete activity and seven-to-ten optimal gap size.",
+      "assessment": "Consistent with the stated design rationale; does not establish a ten-base-pair cleavage threshold, which the manuscript expressly disclaims."
+    },
+    {
+      "claim": "Only the computational portion of framework step one is performed and the proposed selectivity measurement relates to step three.",
+      "source": "https://journals.sagepub.com/doi/pdf/10.1089/nat.2024.0072",
+      "evidence": "Framework lists computational and experimental off-target identification in step one and experimental verification/margin assessment in step three.",
+      "assessment": "Scope is accurately bounded; ratio threshold five is explicitly an adopted convention."
+    },
+    {
+      "claim": "FUS::NR4A3 was reported in two of five variant cases.",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/41755350/",
+      "evidence": "Primary abstract reports two FUS::NR4A3 fusions among five variant cases. Bibliographic record is a 2026 Histopathology article, not a preprint.",
+      "assessment": "Supports the precise claim without implying exon-resolved evidence for all eight modelled FUS junctions."
+    }
+  ],
+  "reasoning": "The paper distinguishes reported junction labels, reference-model sequence construction, engineered constructs and unresolved patient-derived cell-model nucleotides. It describes a computational application, bounds novelty to retrieved literature, and does not convert its prior public version or archive into external validation. Ten-base full-gap pairing is explicitly a convention; unmodified DNA:RNA model differences are expressly not validated bounds for LNA/phosphorothioate chemistry. No demonstrated citation/scope defect in this bounded review rises to blocker or P1.",
+  "limitations": [
+    "Not a comprehensive independent verification of every cited article or literature absence.",
+    "No numerical screens were rerun.",
+    "No visual PDF/DOCX layout QA or public archive identity verification.",
+    "CBC acceptance is not guaranteed.",
+    "A missing new test for already-correct content is not treated as a scientific finding."
+  ],
+  "mutations": "Only these seat report files written; manuscript/package files fixed. No subagents, checkout creation, Git network, runtime installation, or large artifacts."
+}

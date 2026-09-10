@@ -1,0 +1,133 @@
+{
+  "seat": "methods",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "medium",
+  "agent_identity": "/root/aso_blind_methods",
+  "blind_context": {
+    "independent_bounded_seat": true,
+    "exclusions": [
+      "No prior review reports or QA findings read",
+      "No other current-seat reports or cross-talk",
+      "No network, new runtime, checkout, broad literature campaign, large screening run or subagents"
+    ],
+    "exposures": [
+      "Parent assignment includes document identity and methodological scope, without outcome expectations.",
+      "Frozen-candidate and source-evidence-map contain review-status/provenance metadata.",
+      "Source-internal comments and data annotations in parent-gap, thermo, design and control files explicitly recount historical review rounds and corrections, including superseded claims. These were encountered while reading computational evidence; this is not history-free exposure.",
+      "Filename discovery listed review/audit-like filenames; their contents were not opened."
+    ]
+  },
+  "reviewed_commit": "1f717f120724ad0d0442f0cf24d565871b52afb6",
+  "document": "research/manuscripts/aso/cbc-20260910/manuscript.md",
+  "document_sha256": "9154a93be06ad7e34990f26e202b0c70e69c1d9b9b14b539a8da850c752e9d04",
+  "formal_digest": "5b474a4a3ba97f7e9e4fed02114009f992a1629f82f22aa6a492353d2af21f9d",
+  "actual_checked_files": [
+    {
+      "path": "research/manuscripts/aso/cbc-20260910/manuscript.md",
+      "sha256": "9154a93be06ad7e34990f26e202b0c70e69c1d9b9b14b539a8da850c752e9d04",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/manuscripts/aso/cbc-20260910/manuscript.docx",
+      "sha256": "c19f0a1bffdc3fe4d3936ed3b4494176663c662dc89c6a76b1c965a276bba037",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/manuscripts/aso/cbc-20260910/manuscript.pdf",
+      "sha256": "b57d1b2f5ec4818745a3fb4d0e0ec4a579225c0977ea3c459bfe091894cf401e",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/release-candidates/PUB-ASO/2026-09-10-cbc/frozen-candidate.json",
+      "sha256": "4678a0e1bab9af777209b453fc52b35ea03651e02ecba025cfbaff0e205d1ec3",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/release-candidates/PUB-ASO/2026-09-10-cbc/source-evidence-map.json",
+      "sha256": "50843662ec6774b6fd8a86164934a0d9b3dfb844493bb148187f14617d1615b3",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/release-candidates/PUB-ASO/2026-09-10-cbc/supplementary-file-2.docx",
+      "sha256": "517625312a85de44b00c8717b6b1a3fd9d14df10a6c4838a06f275dbd7fe4790",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/release-candidates/PUB-ASO/2026-09-10-cbc/fusion-junction-aso-sequences.csv",
+      "sha256": "9b82929a3433dddb9fbd3369ed4cf4b45f65c4ab23446616a26eb327ea856fa3",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/modalities/junction_aso.py",
+      "sha256": "9bf6e918cef826a4e3b9960dbb824c5eddd56a41b19d048a0488e13abec83659",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/modalities/aso_parent_gap_pairing.py",
+      "sha256": "45911f7e632cdbe78006f2a3f30e72dbe4d028636674c51c32f9457fcee4e713",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/modalities/junction_aso_thermo.py",
+      "sha256": "552ecbe485e1a48db8d2f5730e8d4ae9c010c11730e903705c925f9cafdcb1be",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/modalities/nr4a3-fusion-junction-atlas.json",
+      "sha256": "8def9068e128095bc44959bc210430d30c22088baf06eddc0e36fea7b05f2ab4",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/modalities/aso-parent-gap-pairing.json",
+      "sha256": "a3cf1d505df650cbc44195f5f92090da3cefc21ace39a89e6642c240bbed7055",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/modalities/aso-premrna-sequences.json",
+      "sha256": "a09945a47d505473f72be195e5101fcfec78fd94d3fb77e448385ec02e9a32c8",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/modalities/junction-aso-thermo.json",
+      "sha256": "e566e84e05226c3bcfda2ee552d8887ef3df6c44524c39b0a610d33bedceef95",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/modalities/emc-model-junction-evidence.json",
+      "sha256": "3c7d88207c8c8bbd64037ff90d66153099aceb2445213f7132b3f88766ebfb10",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/modalities/aso-control-oligos.json",
+      "sha256": "657e64fc0bbffbec2c51f274513dad4b1fd14b59bac2e8bedf09d41021827a7a",
+      "matches_reviewed_commit": true
+    },
+    {
+      "path": "research/manuscripts/aso/fusion-junction-aso-data-sources.json",
+      "sha256": "739cd6d959783a5d0b2949ef0a71e7d7b409d20ac7cf91c55e5ff9fb39a729ad",
+      "matches_reviewed_commit": true
+    }
+  ],
+  "checks": [
+    "Read the full declared Markdown paper, including methods, discussion, tables, reference list and figure legend; hashed adjacent DOCX/PDF (no visual-layout review claimed).",
+    "Read Supplementary File 2 document XML and the source evidence map; verified historical thermodynamic/cell-model corrections are expressly disclaimed.",
+    "Independently spliced six committed precursor records and reconstructed all 38 exon seams, all five registers per seam, and all 190 antisense reverse complements: zero disagreements.",
+    "Independently searched contiguous full-gap matches using exact six-base gap locations and outward extension in all six mature parents for all 190 designs: zero disagreements with released longest-run lengths. Recovered liability counts 181,175,143,98,87 at cuts 6,7,8,9,10; recovered within-junction clear counts 6,9,23,31,35.",
+    "Checked named CSV rows, 8/9-bp TFG duplex labels, margin three, alternative register warning, and model differences 51.3-24.7=26.6 and 60.7-24.7=36.0. CSV contains 782 non-comment data rows covering multiple geometries.",
+    "Recomputed all 190 fusion-minus-half-parent model Tm differences with installed Biopython R_DNA_NN1, RNA strand orientation, equal strands totaling 250 nM and no salt correction: zero numerical disagreements. This validates model arithmetic only, not modified chemistry.",
+    "Checked both controls preserve length, terminal bases, mononucleotide and dinucleotide counts.",
+    "Read committed primary-source excerpts for Zurich cell-model exon labels; paper appropriately leaves nucleotide-seam correspondence unresolved.",
+    "Verified every listed checked file byte-for-byte against reviewed commit. Recomputed formal three-file sorted path-NUL-SHA256-newline digest successfully."
+  ],
+  "central_claim": "Within the declared canonical-transcript panel, junction-spanning NR4A3 gapmers exhibit reproducible partial mature-parent pairing under an adopted full-gap duplex convention; computational prioritization does not establish experimental selectivity or therapeutic performance.",
+  "verdict": "supported",
+  "blockers": [],
+  "p1s": [],
+  "optional_edits": [],
+  "scope_limits": [
+    "No independent replay of remote alignment, exhaustive transcriptome or genome-wide screens; no new patient sequencing or experimental validation.",
+    "Existing source annotations still contain historical overclaims, but the reviewed paper and accompanying SI explicitly supersede temperature bounds and cell-model correspondence. They do not invalidate the bounded numerical claim checked here.",
+    "Reference-junction review is against committed transcript sequences and primary-source excerpts, not fresh retrieval of every citation."
+  ],
+  "status": "complete"
+}

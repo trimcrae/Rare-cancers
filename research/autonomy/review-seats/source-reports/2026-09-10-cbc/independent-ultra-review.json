@@ -1,0 +1,205 @@
+{
+  "schema": "aso-independent-ultra-package-review/1",
+  "paper": "PUB-ASO",
+  "journal": "Computational Biology and Chemistry",
+  "review_date_utc": "2026-09-10",
+  "status": "no_submission_blockers_within_scientific_and_journal_package_scope",
+  "reviewer": {
+    "agent": "/root/aso_cbc_ultra_review",
+    "model": "gpt-6-astra",
+    "reasoning_effort": "ultra",
+    "independent_of_manuscript_and_package_authoring": true,
+    "blind": false,
+    "context_disclosure": "Independent reviewer received the coordinator's frozen-package contract, prior review context, known limitations and journal-requirement verification. The reviewer read existing baseline reviews and did not author, edit or regenerate any manuscript or package file. This is the actual new ultra pass; historical reviews of unknown effort are reused only as baseline evidence and are not relabeled ultra.",
+    "execution_record_basis": "This independently assigned agent turn and its tool history; retain the parent dispatch/configuration record alongside this receipt.",
+    "usage_tokens": null,
+    "elapsed_seconds": null,
+    "telemetry_note": "Provider token usage and an exact turn-start timestamp were not exposed to this reviewer."
+  },
+  "review_contract": {
+    "protocol": "C:/Projects/EMC-Research/research/autonomy/OPERATING_PROTOCOL.md",
+    "skill": "C:/Projects/EMC-Research/.claude/skills/paper-hardening/SKILL.md",
+    "batch": "One bounded independent ultra pass covering the frozen paper and outgoing package, with matching baseline evidence reused for unchanged science and owner verification reused for layout.",
+    "no_manuscript_mutation": true,
+    "no_new_literature_campaign": true,
+    "no_new_scientific_screen": true,
+    "no_full_rerender": true
+  },
+  "frozen_input": {
+    "worktree": "C:/Users/mcrae/.codex/worktrees/emc-fo-figure4-20260909/EMC-Research",
+    "coordinator_declared_commit": "ada4fbbfb4cc9296566d3da587682e15ef80171c",
+    "commit_identity_verification": "Supplied by coordinator; no Git operation was performed. Raw package bytes were independently verified.",
+    "package": "research/release-candidates/PUB-ASO/2026-09-10-cbc",
+    "manifest": "frozen-candidate.json",
+    "files_checked": 29,
+    "all_individual_sha256_and_byte_sizes_match": true,
+    "fileset_sha256": "73e8ae47e0b253ae4fdd0cae5529e62ab6c7d4f8da638d94d328c92e1c9c357e",
+    "fileset_digest_recomputed": true,
+    "digest_definition_used": "Concatenate manifest rows in their listed order: repository-relative path + NUL + lowercase hexadecimal SHA256 + LF; SHA256 of the UTF-8 result. Listed order follows the producer's case-insensitive Windows path ordering. Do not substitute a case-sensitive path sort.",
+    "main_docx_sha256": "c19f0a1bffdc3fe4d3936ed3b4494176663c662dc89c6a76b1c965a276bba037",
+    "main_pdf_sha256": "b57d1b2f5ec4818745a3fb4d0e0ec4a579225c0977ea3c459bfe091894cf401e",
+    "sequence_csv_sha256": "9b82929a3433dddb9fbd3369ed4cf4b45f65c4ab23446616a26eb327ea856fa3",
+    "graphical_abstract_pdf_sha256": "edb1467962cec8751ff7e40fd949c2a5716954e45237a261dd0db88e6f990a14",
+    "paths_individually_hash_and_size_checked": [
+      "build_package.py",
+      "cover-letter.docx",
+      "cover-letter.pdf",
+      "figure-1.eps",
+      "figure-1.png",
+      "figure-1.svg",
+      "figure-legends.docx",
+      "figure-legends.pdf",
+      "FINAL-MAIN-RENDER-RECEIPT.json",
+      "fusion-junction-aso-sequences.csv",
+      "generation-manifest.json",
+      "graphical-abstract-caption.txt",
+      "graphical-abstract.pdf",
+      "highlights.docx",
+      "highlights.pdf",
+      "highlights.txt",
+      "journal-compliance.json",
+      "manuscript-readback.txt",
+      "manuscript.docx",
+      "manuscript.pdf",
+      "original-v3-revision-note.pdf",
+      "source-evidence-map.json",
+      "supplementary-file-2.docx",
+      "supplementary-file-2.pdf",
+      "text-change-map.json",
+      "version-change-summary.txt",
+      "visual-verification.json",
+      "word-export-main-final.log",
+      "word-export-settled.log"
+    ]
+  },
+  "baseline": {
+    "posted_version": "https://www.qeios.com/read/VL3LJR.3",
+    "public_version_identity_basis": "Coordinator's verified posted-version contract and source-evidence-map.json; this reviewer made no new public fetch.",
+    "submitted_docx": "research/release-candidates/PUB-ASO/2026-09-04/submission/manuscript.docx",
+    "submitted_docx_sha256": "7fe0033347e3825678394082157b8b60e5cc4edcdd122061d02d8d5a28d060c7",
+    "submitted_docx_hash_independently_verified": true,
+    "shortened_source": "research/release-candidates/PUB-ASO/2026-09-04/manuscript.md",
+    "baseline_not_substituted": "The reviewed scientific baseline is the shortened posted/submitted version, not the older long canonical manuscript.",
+    "reused_reviews": [
+      {
+        "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/focused-science-review.json",
+        "role": "Read the complete focused review, its resolved temperature-bound and model-correspondence findings, source checks, numerical verification and exclusions. Reused for unchanged claims and dependencies; effort remains unknown."
+      },
+      {
+        "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/artifact-qa-review.json",
+        "role": "Read baseline DOCX equivalence and rendered-artifact evidence, including its distinct scope and exclusions; not represented as current-package independent page QA or ultra evidence."
+      },
+      {
+        "path": "research/release-candidates/PUB-ASO/2026-09-04/submission/disclosure-delta-review.json",
+        "role": "Read the verified nonfinancial-interest-only delta and preservation of all other scientific content; no historical record altered."
+      }
+    ]
+  },
+  "completed_inspection": {
+    "main_content": "Read the complete outgoing manuscript-readback.txt, including methods, results, discussion, declarations, 24 references, both tables and figure legend. Independently extracted actual baseline and outgoing DOCX body paragraphs using ZIP/XML and compared additions/removals with text-change-map.json: 16 actual additions, 16 recorded additions, no unrecorded addition or removal.",
+    "support_content": "Independently extracted and read complete body text from actual cover-letter.docx, supplementary-file-2.docx, figure-legends.docx and highlights.docx. Read highlights.txt, graphical-abstract-caption.txt, version-change-summary.txt, source-evidence-map.json, text-change-map.json, journal-compliance.json, visual-verification.json, FINAL-MAIN-RENDER-RECEIPT.json and relevant generation-manifest.json contents. Read sequence CSV explanatory records and verified its whole-file hash.",
+    "direct_visuals": [
+      "Original figure-1.png in the frozen package",
+      "Existing graphical-abstract.png preview under C:/Users/mcrae/.codex/review-workspaces/opus-capacity-sprint-20260907/capacity-campaign-20260908/observations/aso-cbc-20260910",
+      "Existing final main render page-2.png under that observation directory's visual-qa-repaired/manuscript",
+      "Existing final main render page-19.png under that observation directory's visual-qa-repaired/manuscript"
+    ],
+    "visual_result": "Directly inspected graphics and sampled main pages are legible. The new graphical abstract faithfully states 38 modelled junctions, 190 designs, 87/190 (45.8%), the 40.6% exon-terminus null, the adopted 10-bp convention and absent efficacy/safety validation. The final table page preserves clear sequence letters, parent identities and model-difference values.",
+    "reused_current_layout_evidence": "Owner's frozen visual-verification.json records all 20 main pages and five support pages inspected, 19 final main pages unchanged, and final table-page inspection; FINAL-MAIN-RENDER-RECEIPT.json binds the final main DOCX/PDF hashes. Reused as requested, without claiming this reviewer independently viewed every page.",
+    "journal_length_checks": {
+      "method": "JavaScript counts on the exact abstract/highlight strings already read from the outgoing artifact, independently of the package's recorded counts.",
+      "abstract_words": 183,
+      "keywords": 7,
+      "highlights": 5,
+      "highlight_characters_including_spaces": [59, 74, 76, 65, 71]
+    }
+  },
+  "changed_claim_assessment": [
+    {
+      "claim": "190 junction-spanning 16-mers across 38 in-frame NR4A3 junctions; 87/190 (45.8%) pair a mature parent at the adopted ten-base-pair full-gap criterion.",
+      "outgoing_locations": ["manuscript.docx Abstract", "manuscript.docx section 3.2", "highlights.docx", "graphical-abstract.pdf", "cover-letter.docx"],
+      "source": "Unchanged posted-baseline Results paragraphs, independently retained in the DOCX delta; original sequence CSV retains its verified whole-file hash. The inspected aso-parent-gap-pairing.json top-level structure also contains 190 per-design records; no new screen was run.",
+      "assessment": "Supported as a computational pairing count under an explicit convention, not a cleavage or safety result."
+    },
+    {
+      "claim": "The exon-terminus null is 40.6% and leaves a disease-specific excess unresolved.",
+      "outgoing_locations": ["manuscript.docx Abstract and section 3.2", "highlights.docx", "graphical-abstract.pdf", "cover-letter.docx"],
+      "source": "Unchanged baseline section on the exon-terminus chimeras, panel comparison, cutoff sensitivity and patient-reporting limitation.",
+      "assessment": "The new framing preserves the negative result. It neither treats 45.8% versus 40.6% as significant enrichment nor interprets overlapping intervals as proof of equivalence."
+    },
+    {
+      "claim": "Within-junction selection finds a parent-clear design for 35 of 38 junctions at this criterion, with strong cutoff sensitivity.",
+      "outgoing_locations": ["manuscript.docx Abstract and section 3.2", "highlights.docx"],
+      "source": "Unchanged section 3.2 gives 35/38 at ten bases and all-junction/published-junction counts 31/3, 23/2, 9/0 and 6/0 at nine through six bases.",
+      "assessment": "Supported with the criterion limitation attached. Parent-clear is not generalized to biological selectivity, all RNA liabilities or every screen."
+    },
+    {
+      "claim": "Two designs at reported junctions have longest full-gap mature-parent duplexes of eight and nine bases; patient-derived model correspondence remains unresolved.",
+      "outgoing_locations": ["manuscript.docx Abstract, sections 3.1 and 4.1, Table 1", "supplementary-file-2.docx"],
+      "source": "Retained design results and corrected Table 1; baseline focused-science-review.json finding ASO-SCI-02 and the retained references to Brenca and Bangerter.",
+      "assessment": "Accurate conditional model correspondence. No patient-model nucleotide junction, endogenous knockdown or clinical readiness is newly asserted."
+    },
+    {
+      "claim": "The released computational records support prioritization while establishing no cleavage, potency, delivery, safety or therapeutic window.",
+      "outgoing_locations": ["manuscript.docx Abstract and Discussion", "graphical-abstract.pdf", "highlights.docx", "cover-letter.docx", "supplementary-file-2.docx"],
+      "source": "Retained methods and scope statements, computational screen outputs and baseline correction record.",
+      "assessment": "The title and abstract emphasize completed work without adding a laboratory result, validated threshold or novel general therapeutic mechanism."
+    }
+  ],
+  "scientific_judgment": {
+    "validity_and_methods": "The manuscript makes a bounded computational contribution. Direct mature-parent gap pairing addresses a class often outside the near-match budget, while the manuscript explicitly states parent exclusion from the conventional screen, censoring and failed searches, different precursor criteria, energy-model limits, cutoff sensitivity and the limited transcript set. These constraints prevent the counts from being read as a complete liability or efficacy ranking.",
+    "results_and_negative_evidence": "The numerical findings emphasized by the new framing already appear in the unchanged posted-baseline body. The strongest null does not support a disease-specific excess, and predicted pairing is distinguished from duplex formation and cleavage. The altered presentation preserves these limits.",
+    "novelty_and_merit": "The useful contribution is an indication-specific design and screening resource with explicit parent-transcript liabilities, register/cutoff sensitivity, and a negative null comparison. Junction-directed oligonucleotides and pre-synthesis screening are not claimed as new methods. This is modest but coherent original computational work and a reasonable Full-length research article candidate for Computational Biology and Chemistry. Wet-lab validation would address biological questions outside the claims actually made; this review does not predict editorial acceptance.",
+    "citations": "The independent DOCX delta shows no added or removed reference paragraphs or substantive body citation claims. The changed abstract and supporting presentation draw on retained results and limits, so no fresh external factual claim requires a new citation campaign. The prior focused review's identifier and source checks are reused within their stated scope; the reviewer did not revalidate every cited article or refresh all literature searches.",
+    "retained_limitations": [
+      "The ten-base criterion is adopted, not a measured cleavage threshold.",
+      "No disease-specific excess is resolved by 45.8% versus the 40.6% exon-terminus null.",
+      "Most modelled junctions are unreported in patients, and the in-frame panel does not establish full clinically relevant RNA-junction coverage.",
+      "Cell-model exon labels do not establish nucleotide-level design correspondence.",
+      "Unmodified DNA:RNA model differences of 26.6 and 36.0 degrees Celsius are not validated predictions or bounds for LNA/phosphorothioate reagents.",
+      "Proposed selectivity experiments and their variance assumptions remain unperformed.",
+      "No reagent has been synthesized or tested here, and delivery, efficacy and safety remain unestablished."
+    ],
+    "disclosures": "The package preserves the author-directed AI-use statement, financial and disclosed nonfinancial interests, funding statement, computational-only ethics scope and corrected archive relationship. CRediT Conceptualization and Project administration correspond to the retained conceived/directed statement; no additional human analysis contribution or personal address was invented."
+  },
+  "journal_judgment": {
+    "requirements_source": "C:/Users/mcrae/Documents/Codex/2026-09-07/emc-research-orchestrator/work/zero-cost-journal-packages-20260910/CBC-REQUIREMENTS-VERIFICATION.json",
+    "verification_reused": "Coordinator's 2026-09-10 fresh official ScienceDirect journal homepage and complete author-guide inspection.",
+    "assessment": "The computational subject and completed results form a plausible scope fit. The package provides an editable manuscript, 183-word abstract, seven keywords, five editable highlights below 85 characters, a separate vector graphical abstract with caption disclosure, original figure assets, editable tables/legends, supplementary provenance and a venue-specific cover letter. The verified guide identifies no fixed main-word cap and accepts consistent complete references at initial submission.",
+    "cost_route": "Standard subscription route with no mandatory publication fee under the coordinator's verified requirements; optional open access, print color and paid companion publication are declined in the cover letter.",
+    "author_tasks": "Postal address and eventual individual submission-form declarations remain author tasks. This review does not invent them or authorize journal submission."
+  },
+  "findings": [],
+  "submission_blockers": [],
+  "maintenance_findings": [],
+  "optional_editorial_findings": [],
+  "finding_disposition": "No substantiated scientific, claim-strength, citation-delta or journal-package blocker was found. No manuscript repair or new full ultra cycle is requested.",
+  "provenance_note": "The manifest's phrase 'Sorted repository-relative path' omits its sort convention. The exact listed-order convention is stated in this review and reproduces the declared digest, with all 29 individual hashes matching. This is not a payload mismatch or scientific finding and does not justify changing frozen manuscript bytes.",
+  "uncompleted_checks": [
+    "A final read-only pypdf extraction of the outgoing PDFs and automated DOCX table equality check were launched but did not return verified results during a coordinator-confirmed broader local shell stall. They are not marked passed. Final PDF layout and table equality therefore retain the owner's frozen verification as their evidence; this reviewer independently inspected the final table-page render and document body delta.",
+    "An optional read of three underlying summary JSON files stopped after inspecting the 190-row parent-gap structure and then encountering a Windows console UnicodeEncodeError. No fresh recomputation of 87, 35 or 40.6% is claimed; those unchanged results are reviewed through the posted body and preserved baseline evidence.",
+    "No independent fresh PDF-to-preview equivalence or complete all-page visual review was performed. The graphical abstract preview and selected final main-page renders were inspected; their association with outgoing files relies on the owner evidence and package manifest."
+  ],
+  "publication_bar_and_authority": {
+    "actual_code_read": "research/autonomy/publish_bar.py: endpoint/deliverable coverage, endpoint-declared clause, independent-adversarial-seat clause, buildable-deliverable clause, eight-clause registry and final authority conjunction.",
+    "technical_clearance_claimed": false,
+    "blind_seat_claimed": false,
+    "technical_gap": "The existing bar separately requires a blind adversarial seat with supported central claim and matching document digest, plus its other full-preflight, claim/citation, endpoint, readability, renderer and authority requirements. This contextual nonblind ultra pass supplies the user's independent ultra requirement; it is not a fabricated blind-seat record and does not clear that separate clause. The coordinator must bind this exact new package and preserve or obtain legitimately covering technical evidence.",
+    "publication_authorized_by_review": false,
+    "journal_submission_authorized": false,
+    "qeios_status": "Existing Qeios VL3LJR.3 remains a preprint; no revision or journal submission was performed by this reviewer."
+  },
+  "submission_recommendation": {
+    "verdict": "scientific_and_journal_package_ready_conditional_on_exact_final_technical_binding_and_checks",
+    "concrete_judgment": "Proceed with the frozen CBC package to coordinator-owned exact technical binding and required final checks. It merits journal consideration as a limited computational design/screening study and can serve as the corresponding preprint presentation, subject to the applicable publication requirements and author authority. No further manuscript science repair is required by this review.",
+    "not_a_guarantee": "Ultra review is neither experimental validation nor a guarantee of correctness or journal acceptance.",
+    "scope_exclusions": [
+      "New laboratory, genome/transcriptome or literature screening",
+      "Fresh verification of current cell-model availability or every cited source",
+      "Full independent all-page layout QA or a portal-generated proof",
+      "Final exact endpoint integration, full publication preflight or publish-bar clearance",
+      "Author postal details, personal declarations, payments or journal submission",
+      "Any later material scientific change or changed outgoing artifact bytes without appropriate focused verification"
+    ]
+  }
+}
