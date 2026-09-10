@@ -51,6 +51,10 @@ Routine EMC research correspondence has a standing user grant in research_corres
 follow [the correspondence procedure](research/autonomy/correspondence/README.md) without per-message approval.
 Journal submission and external acts outside the named grants require applicable user authorization.
 Prepare the concrete package before seeking an approval that is actually needed.
+Choose future preprint venues per manuscript using
+[the preprint workflow](research/autonomy/PREPRINT_WORKFLOW.md); Qeios is no longer the default.
+The held Qeios submission must be identified and its cancellation/public status confirmed before
+posting that work elsewhere. Preserve PUB-ASO's existing Qeios record and aiXiv exclusion.
 The active budget posture in `research/autonomy/autonomy-state.json` takes precedence over old
 generic spending thresholds. No paid API fallback and no GPU spending without applicable authority.
 

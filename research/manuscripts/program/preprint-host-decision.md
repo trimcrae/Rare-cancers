@@ -3,8 +3,8 @@ id: DOC-PREPRINT-HOST-DECISION
 title: Where an unaffiliated author's preprints go, after bioRxiv declined one
 level: L3
 kind: manuscript
-status: live
-canonical_for: [preprint_host_choice]
+status: historical
+canonical_for: []
 purpose: decision memo, written to one question
 scope: >-
   Preprint-host choice for every publication this programme aims at a preprint. It reports no
@@ -14,6 +14,11 @@ date: 2026-08-21
 last_verified: unverified
 ---
 # Where an unaffiliated author's preprints go, after bioRxiv declined one
+
+> **Historical decision, superseded 2026-09-10.** Use the active
+> [preprint workflow](../../autonomy/PREPRINT_WORKFLOW.md) for future releases. The venue call and
+> unconditional Zenodo fallback below are no longer current instructions. Original reasoning
+> and policy readings are retained as dated evidence, not current eligibility or permission.
 
 > **Role: decision memo, written to one question.** *"Just heard back from bioRxiv with a rejection
 > because I'm unaffiliated. We need a preprint host that allows unaffiliated researchers"*

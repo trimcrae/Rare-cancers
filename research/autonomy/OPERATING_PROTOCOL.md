@@ -4,7 +4,7 @@ title: Research operating protocol
 kind: runbook
 status: live
 date: 2026-09-04
-last_verified: 2026-09-04
+last_verified: 2026-09-10
 purpose: Deliver useful computational EMC research with bounded review and explicit ownership.
 audience: [maintainers, autonomous research agents]
 scope: Work selection, review, coordination, and the Claude-to-Codex transition.
@@ -172,7 +172,16 @@ papers in this program. Do not re-request these facts unless they change; this d
 not establish ethics approval, exemption, waiver, affiliation or consent.
 
 Prepare reviewer-readable preprints, reusable data/code, accurate limitations, and venue metadata
-together. aiXiv remains an authorized distribution option within the existing grant, not evidence
+together. Follow [the preprint workflow](PREPRINT_WORKFLOW.md): the user's 2026-09-10 decision
+retires Qeios as the default for future new papers and selects a venue for each manuscript.
+Preserve PUB-ASO's published Qeios DOI, version history and necessary corrections. The separately
+held submission is not cleared for posting elsewhere until its identity, public status and
+cancellation are confirmed; an approved or sent cancellation request is not that confirmation.
+Scientific readiness follows evidence, novelty, reproducibility, accurate limitations and AI-use
+disclosure, with the independent ultra review above. Consolidate overlapping analyses when they
+form one contribution. Schedule outreach for reader attention separately; there is no general
+three-week scientific release gate. aiXiv remains an authorized distribution option within the
+existing grant, not evidence
 of scientific credibility. PUB-ASO remains excluded from automatic aiXiv posting. Recheck venue
 rules at release time; do not wait indefinitely for a hypothetical higher-visibility AI venue.
 Journal submission follows its existing authority. The user's 2026-09-06 standing research_correspondence

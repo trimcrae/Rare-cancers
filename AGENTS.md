@@ -23,6 +23,8 @@ The objective is useful evidence that could improve patient outcomes.
 Read [the operating protocol](research/autonomy/OPERATING_PROTOCOL.md) first. It is the active
 work-selection, coordination, and review procedure for Codex and Claude. The current priority is
 the EMC ASO package for Nucleic Acid Therapeutics; its Qeios version history remains with the user.
+For future preprints, follow [the preprint workflow](research/autonomy/PREPRINT_WORKFLOW.md).
+Qeios is no longer the default for new papers; preserve existing published records and corrections.
 
 ## Scientific integrity
 

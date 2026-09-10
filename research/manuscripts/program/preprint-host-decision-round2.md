@@ -3,8 +3,8 @@ id: DOC-PREPRINT-HOST-DECISION-ROUND2
 title: Where the extended ASO report goes after Research Square, and the test the first memo did not have
 level: L3
 kind: manuscript
-status: live
-canonical_for: [preprint_host_choice_after_research_square]
+status: historical
+canonical_for: []
 purpose: >
   Reopen the preprint-host choice for the EXTENDED fusion-junction ASO report, whose destination was
   decided by DOC-PREPRINT-HOST-DECISION on 2026-08-21 and refuted on 2026-08-24 when Research Square
@@ -20,6 +20,11 @@ last_verified: 2026-08-24
 ---
 
 # Where the extended ASO report goes after Research Square
+
+> **Historical decision, superseded 2026-09-10.** Use the active
+> [preprint workflow](../../autonomy/PREPRINT_WORKFLOW.md). Qeios is no longer the default for
+> future new papers; preserve PUB-ASO's existing DOI and versions. The recommendation and policy
+> readings below remain dated evidence and do not establish current eligibility or AI-use permission.
 
 > **Role: decision memo, second round.** It supersedes the CALL of
 > [`preprint-host-decision.md`](./preprint-host-decision.md) and nothing else in it. That memo's
