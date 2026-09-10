@@ -1,0 +1,18 @@
+..........................F............................................. [ 67%]
+...................................                                      [100%]
+================================== FAILURES ===================================
+_______ test_every_papers_reference_list_survives_assembly[aso-journal] _______
+research\manuscripts\tests\test_build_submission_pdf.py:465: in test_every_papers_reference_list_survives_assembly
+    _assert_reference_entries_survive(source, body, key)
+research\manuscripts\tests\test_build_submission_pdf.py:435: in _assert_reference_entries_survive
+    assert assembled.get(marker) == entry, (
+E   AssertionError: aso-journal: reference 1. did not survive assembly intact
+E   assert 'Labelle Y, J...hmg/4.12.2219' == 'Labelle Y, J...hmg/4.12.2219'
+E     
+E     Skipping 231 identical leading characters in diff, use -v to show
+E     - 219–2226. PMID: 8634690. doi:10.1093/hmg/4.12.2219
+E     ?          ---------------
+E     + 219–2226. doi:10.1093/hmg/4.12.2219
+=========================== short test summary info ===========================
+FAILED research/manuscripts/tests/test_build_submission_pdf.py::test_every_papers_reference_list_survives_assembly[aso-journal]
+1 failed, 106 passed in 56.34s

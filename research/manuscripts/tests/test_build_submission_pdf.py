@@ -416,6 +416,26 @@ def test_no_repo_frontmatter_reaches_any_built_paper(key, style):
             "an include is reaching the page unstripped")
 
 
+def _reference_entries(text):
+    heading = re.search(r"^##\s+(?:[\d.·\s]*)References\s*$", text, re.M)
+    section = text[heading.end():] if heading else text
+    section = re.split(r"^##\s+", section, maxsplit=1, flags=re.M)[0]
+    return {m.group(1): " ".join(m.group(2).split()) for m in re.finditer(
+        r"^((?:\d+\.)|(?:\[\d+\]))[ \t]+(.+?)(?=^(?:\d+\.|\[\d+\])[ \t]+|\Z)",
+        section, re.M | re.S)}
+
+
+def _assert_reference_entries_survive(source, body, key):
+    entries = _reference_entries(source)
+    assert entries, f"{key}: no numbered entries found in its reference list"
+    heading = re.search(r"^##\s+(?:[\d.·\s]*)References\s*$", body, re.M)
+    assert heading, f"{key}: assembled References section is missing"
+    assembled = _reference_entries(body[heading.start():])
+    for marker, entry in entries.items():
+        assert assembled.get(marker) == entry, (
+            f"{key}: reference {marker} did not survive assembly intact")
+
+
 @pytest.mark.parametrize("key", sorted(bsp.PAPERS))
 def test_every_papers_reference_list_survives_assembly(key):
     """A spliced reference list that silently vanishes looks like a complete PDF until page 20."""
@@ -442,12 +462,9 @@ def test_every_papers_reference_list_survives_assembly(key):
         head = re.search(r"^##\s+(?:[\d.·\s]*)References\s*$", whole, re.M)
         assert head, f"{key}: no '## References' heading to read inline entries from"
         source = whole[head.start():]
-    entries = re.findall(r"^(\d+)\.\s", source, re.M)
-    assert entries, f"{key}: no numbered entries found in its reference list"
-    # The LAST NUMBER, not the count: a list that starts at 1 and runs contiguously makes these
-    # equal, and a list that does not is exactly where the count would lie.
-    last = max(int(n) for n in entries)
-    assert f"{last}." in body, f"{key}: the last reference entry did not survive assembly"
+    if paper.get("drop_pmids_from_printed_references"):
+        source = re.sub(r"\s*PMID:\s*\d+\.", "", source)
+    _assert_reference_entries_survive(source, body, key)
 def test_the_two_styles_write_to_different_files():
     """The submission format is what a portal wants; they must not overwrite each other."""
     assert PAPER["out"] != PAPER["out"].replace(".pdf", "-manuscript.pdf")
@@ -591,11 +608,13 @@ def test_no_paper_is_stamped_with_another_papers_orderable_file(key):
     Read from the RENDERED text, not the source: the defect lives entirely in the page furniture,
     which no `.md` gate can see. Every paper in PAPERS has its `out` PDF committed, so a missing one
     is a broken tree — which is exactly when a guard must speak rather than step aside.
+    A separately generated journal deposit can declare its actual path with deposited_out.
     """
+    deposited = bsp.PAPERS[key].get("deposited_out", bsp.PAPERS[key]["out"])
     pdf = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                       *bsp.PAPERS[key]["out"].split("/"))
+                       *deposited.split("/"))
     assert os.path.exists(pdf), (
-        f"{bsp.PAPERS[key]['out']} is missing. It is a committed deposit artifact, so rebuild it "
+        f"{deposited} is missing. It is a committed deposit artifact, so rebuild it "
         "with build_submission_pdf.py rather than passing over the footer check.")
     text = _pdf_text(pdf)
     mine = _orderable_names(key)
@@ -687,8 +706,9 @@ def test_a_bulleted_list_after_an_italic_opening_line_is_unaffected():
 
 
 @pytest.mark.committed_artifact
-@pytest.mark.parametrize("pdf", sorted(_glob.glob(
-    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "*", "*.pdf"))))
+@pytest.mark.parametrize("pdf", sorted(pdf for pdf in _glob.glob(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "*", "*.pdf"))
+    if os.path.basename(os.path.dirname(pdf)) != "figures"))
 def test_no_blockquote_marker_survives_into_a_deposited_pdf(pdf):
     """The rendered half of the guard above, over every built document in the tree."""
     text = " ".join(_pdf_text(pdf).split())
@@ -881,3 +901,40 @@ def test_escaped_pipes_stay_in_their_table_cells():
     assert [re.sub(r'<[^>]+>', '', cell) for cell in cells] == [
         'seam', 'LEFT|RIGHT', 'A|B', 'unchanged', 'C|D',
     ]
+
+
+@pytest.mark.parametrize("marker", ["1.", "[1]"])
+def test_reference_survival_rejects_loss_even_when_body_mentions_the_reference(marker):
+    source = f"## References\n\n{marker} Author. An actual reference.\n"
+    _assert_reference_entries_survive(source, source, "fixture")
+    for broken in (f"{marker} Author. An actual reference.\n\n## References\n",
+                   f"## References\n\n{marker} Author.\n"):
+        with pytest.raises(AssertionError):
+            _assert_reference_entries_survive(source, broken, "fixture")
+
+
+@pytest.mark.parametrize("declared", [False, True])
+def test_deposited_artifact_binding_is_explicit_and_missing_files_fail(tmp_path, monkeypatch, declared):
+    from pypdf import PdfWriter
+    target = tmp_path / "declared.pdf"
+    writer = PdfWriter()
+    writer.add_blank_page(width=100, height=100)
+    writer.write(str(target))
+    monkeypatch.setattr(sys.modules[__name__], "__file__",
+                        str(tmp_path / "tests" / "test_build_submission_pdf.py"))
+    paper = {"out": "absent-stem.pdf" if declared else "declared.pdf",
+             "manuscript": "fixture.md"}
+    if declared:
+        paper["deposited_out"] = "declared.pdf"
+    monkeypatch.setitem(bsp.PAPERS, "binding-fixture", paper)
+    monkeypatch.setattr(bsp, "order_from", lambda paper: None)
+    test_no_paper_is_stamped_with_another_papers_orderable_file("binding-fixture")
+    target.unlink()
+    with pytest.raises(AssertionError, match="missing"):
+        test_no_paper_is_stamped_with_another_papers_orderable_file("binding-fixture")
+
+
+def test_rendered_manuscript_blockquote_residue_still_fails(monkeypatch):
+    monkeypatch.setattr(sys.modules[__name__], "_pdf_text", lambda pdf: "> Quoted sentence")
+    with pytest.raises(AssertionError, match="literal blockquote"):
+        test_no_blockquote_marker_survives_into_a_deposited_pdf("manuscript.pdf")

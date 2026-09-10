@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-09-10T02:07:14.006Z",
+  "candidate": "3ad7cc47685f1b033f5bc3cf9f7af2c8bc6b0fc2",
+  "run_id": 34425711891,
+  "log_sha256": "70904fa60f20584e96f8738a7cfd8cc852fb03cdc862e1cc3e5ec1f09fa70eb3",
+  "failures": [
+    {
+      "test": "test_every_papers_reference_list_survives_assembly[surface-tissue-rna]",
+      "cause": "Test recognizes dot-numbered references only; all nine bracket-numbered entries survive assembly."
+    },
+    {
+      "test": "test_no_paper_is_stamped_with_another_papers_orderable_file[surface-tissue-rna]",
+      "cause": "Test assumes extended-report stem PDF is deposited; actual reviewed deposit is style-derived manuscript PDF. Direct out renaming would affect builder filename derivation."
+    },
+    {
+      "test": "test_no_blockquote_marker_survives_into_a_deposited_pdf[figure1]",
+      "cause": "Broad PDF corpus includes standalone scientific figure; valid A = P(EMC > comparator) + 0.5 P(tie) is misidentified as Markdown residue."
+    }
+  ],
+  "suites": {
+    "modalities": {
+      "passed": 8392,
+      "skipped": 53
+    },
+    "manuscripts": {
+      "passed": 1991,
+      "failed": 3,
+      "skipped": 3
+    },
+    "pure_logic": {
+      "passed": 1801,
+      "skipped": 1
+    }
+  },
+  "outgoing_artifacts_changed": false,
+  "edits_started": false
+}
