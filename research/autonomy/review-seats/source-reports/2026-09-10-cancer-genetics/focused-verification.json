@@ -1,0 +1,307 @@
+{
+  "status": "complete",
+  "review_type": "finite_focused_regression",
+  "paper": "PUB-ATR-PANEL-ASK",
+  "target_journal": "Cancer Genetics",
+  "article_type": "Original Research",
+  "actual_model": "gpt-6-astra",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "ultra",
+  "agent_identity": "/root/atr_cg_blind_ultra",
+  "created_utc": "2026-09-10 13:24:42 UTC",
+  "blind": false,
+  "originating_review_blind": true,
+  "context_exclusions": {
+    "description": "This is focused regression by the original independent reviewer after that review's findings and the requested repairs. It is not a fresh history-free blind review.",
+    "included": "Own original report, parent repair task and technical render paths, source/builder changes, scope-helper code, manifests, original scientific evidence and actual corrected files.",
+    "excluded": "Other reviewers' findings and outcomes, owner QA/hardening verdicts, coordinator scientific judgments, and review/QA reports were not consulted as evidence.",
+    "incidental_history": "The original review disclosed source-internal historical annotations and an incidental unrelated ASO reviewer-status exposure. These remain disclosed; no other ATR review was read. Repair-change-map.json was used only to identify changes and was checked against actual old/new differences.",
+    "owner_receipts": "REPAIR-SOURCE-DOCX-VERIFICATION.json, REPRODUCTION-RECEIPT.json, and repair-verification.json were hashed for manifest membership only, not read for their outcomes. The Word render receipt was used only for technical artifact/page binding."
+  },
+  "pinned_worktree": "C:/Users/mcrae/.codex/worktrees/emc-atr-cancer-genetics-20260910/EMC-Research",
+  "pinned_commit": "2744f775cb023f800341e129879f686458998b85",
+  "declared_document": "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md",
+  "declared_document_sha256": "f18e1931645bf6a5ac80779cf4d192fc68caca06d7fe6ff4d74b518ca84347cd",
+  "main_docx_sha256": "fb05399cf4746ac34429f7ae448d891d6412be0297c7809b39e1823157e5151a",
+  "main_pdf_sha256": "aa9ccac2c5c1faf4f65108dc3e96030f603c42e61f438df58979f235b08a7fbc",
+  "formal_deliverable_digest": "674ed86147b908aca6843b66cde98645ddf3ccc3aa78cfa88537943b87472baf",
+  "full_payload_manifest": "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/science-freeze.json",
+  "full_payload_fileset_sha256": "8ff92d0e4ef3093c4796a393e50b0ccc7c069efe6b522d78e14dcb8a2311cfec",
+  "full_payload_file_count": 31,
+  "original_review": {
+    "pinned_commit": "eb5472181b7d9b85e75e83e7f165433e401a74b8",
+    "declared_document_sha256": "a80a663e6fe92148ea129984198cfc0b265b2f928bd4a20790e5b5c860c90d1b",
+    "formal_deliverable_digest": "6b416689d28fe3f4fb3710a8827c7915fce0a20f12226d39cbad7b163caa9ec5",
+    "full_payload_manifest": "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/science-freeze.json",
+    "full_payload_fileset_sha256": "b5271acdd71529e5b00c4cf71c52be8d08932714ad29b64959622a5b8a11e9df",
+    "report_json": "C:/Users/mcrae/Documents/Codex/2026-09-07/emc-research-orchestrator/work/zero-cost-journal-packages-20260910/atr-blind-ultra/review.json",
+    "report_json_sha256": "2d85bca5e4a91e186db1156982e493c987cf65dc915c0928f82ee6e9a30ec0e0",
+    "report_md": "C:/Users/mcrae/Documents/Codex/2026-09-07/emc-research-orchestrator/work/zero-cost-journal-packages-20260910/atr-blind-ultra/review.md",
+    "report_md_sha256": "fe90bcb88b05e3b16997802a90fac15ac1f9ed40d755055abc6f990c96759d7d",
+    "preserved_verbatim": true
+  },
+  "central_claim": "For selected reference transcripts and reported exon labels, four NR4A3 fusion models retain the complete NR4A3 moiety, the type-2 model adds 59 residues, and retained RG content plus TCF12 composition delimit untested recruitment hypotheses rather than establish ATR sensitivity.",
+  "central_claim_verdict": "supported",
+  "original_supported_assessment_carries": true,
+  "verdict": "The corrected exports and scoped verification route resolve all six original findings. The original supported assessment carries to this corrected package: no unreviewed substantive scientific change was found in the compared evidence. No remaining submission blocker or P1 is identified within this finite regression.",
+  "blockers": [],
+  "p1s": [],
+  "remaining_findings": [],
+  "dispositions": [
+    {
+      "id": "ATR-CG-01",
+      "original_category": "submission_blocker",
+      "original_priority": "P2",
+      "disposition": "resolved",
+      "files": [
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.docx",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.pdf",
+        "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/supplementary-information.docx",
+        "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/supplementary-information.pdf"
+      ],
+      "exact_location": "Main references, PDF pages 17-18; main limitations, pages 14-15; supplementary references, pages 4-5.",
+      "evidence": "Actual DOCX XML contains typed reference labels 1-10 in both documents and limitations 1-8 in the main. Corresponding pages were visually inspected; all labels are displayed. Numbered citation mappings retain the original source text.",
+      "consequence": "The ordered-list export defect is repaired.",
+      "minimal_repair": "None remaining."
+    },
+    {
+      "id": "ATR-CG-02",
+      "original_category": "submission_blocker",
+      "original_priority": "P2",
+      "disposition": "resolved",
+      "files": [
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.docx",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.pdf"
+      ],
+      "exact_location": "Main Scope of the claims and Declarations paragraphs, PDF page 15.",
+      "evidence": "Both full paragraphs are in actual DOCX XML and extracted PDF text and are visibly present on page 15. Each DOCX paragraph equals its source paragraph after whitespace and Markdown emphasis normalization. The declarations include public reference/published breakpoint scope, absence of new human participants/identifiable data/patient-level records/animals/laboratory work, no ethics approval/exemption/waiver claim, funding, competing interests, and the complete CRediT contribution list.",
+      "consequence": "The outgoing copy now preserves the intended scope and disclosures.",
+      "minimal_repair": "None remaining."
+    },
+    {
+      "id": "ATR-CG-03",
+      "original_category": "submission_blocker",
+      "original_priority": "P2",
+      "disposition": "resolved",
+      "files": [
+        "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/figure-legend.docx",
+        "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/figure-legend.pdf",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.docx",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.pdf"
+      ],
+      "exact_location": "Separate figure legend, pages 1-2; full main caption, pages 8-9.",
+      "evidence": "All five non-title paragraphs in the separate legend equal paragraphs in the actual main DOCX after whitespace normalization. They include the opening caption, Panels A-C, and the final interpretation/limits paragraph. Both separate-legend pages were visually inspected and show the complete text without clipping.",
+      "consequence": "The separate legend retains symbol interpretation and measured-versus-computed distinctions.",
+      "minimal_repair": "None remaining."
+    },
+    {
+      "id": "ATR-CG-M01",
+      "original_category": "maintenance",
+      "original_priority": "P2",
+      "disposition": "resolved",
+      "files": [
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.docx",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.pdf",
+        "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/verify_study_scope.py",
+        "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/study-input-scope.json"
+      ],
+      "exact_location": "Section 2.5, main PDF page 4; section 7; new standalone verification helper.",
+      "evidence": "The revised text explicitly explains PGR-only metadata drift in the unscoped producer and gives the scoped route. Read and executed the new helper: exit 0 with ORIGINAL STUDY SCOPE REPRODUCES, REPRODUCES, and PROVENANCE MATCHES. Whole study-gene records and whole UniProt records are hash-checked; all ten dependencies match original reviewed blobs; the full derived artifact is compared. In-memory mutations of study inputs and derived scientific/metadata fields were rejected.",
+      "consequence": "The described route works on the reviewed package while preserving study-input and whole-artifact drift detection. PGR exclusion is explicit and limited.",
+      "minimal_repair": "None remaining."
+    },
+    {
+      "id": "ATR-CG-O01",
+      "original_category": "optional_edit",
+      "original_priority": "P3",
+      "disposition": "resolved",
+      "files": [
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.docx",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.pdf",
+        "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/build_package.py"
+      ],
+      "exact_location": "Main caption pages 8-9 and Figure 1 page 19.",
+      "evidence": "The builder omits the image-alt placeholder from the DOCX, and the actual page 8 no longer contains the raw !Figure line. The dangling integration-QA sentence was removed from source and export. The scientific caption remains complete, and the actual figure is unchanged by hash.",
+      "consequence": "The export and internal editorial remnants are removed without altering the scientific figure.",
+      "minimal_repair": "None remaining."
+    },
+    {
+      "id": "ATR-CG-O02",
+      "original_category": "optional_edit",
+      "original_priority": "P3",
+      "disposition": "resolved",
+      "files": [
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.docx",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.pdf"
+      ],
+      "exact_location": "Section 4, pages 12-13.",
+      "evidence": "The new paragraph describes Table 5 as the manuscript prediction set alongside pinned records, states these are distinct records, and says neither original record is rewritten. The actual DOCX text and page 12 show that correction. Page 13 retains the explicit explanation that the records are not word-for-word identical; scientific table cells and stored predictions are unchanged.",
+      "consequence": "The table's textual status is described consistently.",
+      "minimal_repair": "None remaining."
+    }
+  ],
+  "scientific_identity": {
+    "source_comparison": "Independently generated old/new differences agree exactly with repair-change-map.json for manuscript-source.txt, supplement-source.txt and build_package.py. Direct old/new manuscript.md comparison has four bounded changes: verification instructions/explanation, deletion of the dangling QA sentence, prediction-record status wording, and the corresponding section 7 verification reference. No substantive scientific claim, reported numerical result, prediction or limitation was changed.",
+    "tables": "All six main DOCX tables retain identical scientific row/cell text. Tables 1-5 differ only in title rows: prior blank sibling cells were merged into the title cell. Main table 6 is identical. All four supplement DOCX tables have exactly identical cell arrays. Table counts and row counts are unchanged.",
+    "figure": "Original and r1 Figure 1 PNG, PDF and provenance stamp are byte-identical. Bound manuscript figure matches the same PNG. The actual main figure page 19 PNG is byte-identical to the previously inspected page.",
+    "dependencies": "All six whole study-gene canonical hashes, the whole uniprot_sequences hash, and all ten dependency byte hashes in study-input-scope.json were independently checked against original reviewed commit blobs and matched. The helper's entire freshly derived original-scope construct artifact equals the original stored artifact.",
+    "conclusion": "No unreviewed substantive science change was found; the earlier detailed scientific derivations were reused rather than repeated."
+  },
+  "executed_checks": [
+    {
+      "name": "Pinned and frozen artifact binding",
+      "result": "pass",
+      "details": "HEAD verified as 2744f775cb023f800341e129879f686458998b85. All 20 original and 31 r1 manifest entries pass byte-size and SHA256 verification. Both fileset digests were recomputed using case-sensitive filename order, path NUL SHA256 LF. New formal MD/DOCX/PDF digest and all four endpoint identities match."
+    },
+    {
+      "name": "Source and actual DOCX comparison",
+      "result": "pass",
+      "details": "Read actual source/builder deltas and actual DOCX XML. Compared table cell arrays, complete caption paragraphs and restored source paragraphs; inspected ordered labels and editorial wording. Formatting normalization only was used where noted."
+    },
+    {
+      "name": "Actual PDF/render inspection",
+      "result": "pass",
+      "details": "Inspected all 22 changed main/supplement/legend pages in the existing 110-dpi renders, bound to the actual outgoing DOCX/PDF by the technical receipt. Actual PDF extraction confirms restored paragraphs. Unchanged-page reuse is listed explicitly below."
+    },
+    {
+      "name": "Standalone scope route",
+      "result": "pass",
+      "command": "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/verify_study_scope.py",
+      "working_directory": "C:/Users/mcrae/.codex/worktrees/emc-atr-cancer-genetics-20260910/EMC-Research",
+      "exit_code": 0,
+      "stdout": [
+        "ORIGINAL STUDY SCOPE REPRODUCES; all artifact fields compared; excluded models: ['PGR']",
+        "REPRODUCES",
+        "PROVENANCE MATCHES"
+      ]
+    },
+    {
+      "name": "Bounded in-memory negative controls",
+      "result": "pass",
+      "details": "Mutation of utr5_len separately in each of the six original genes was rejected. NR4A3 protein mutation, UniProt NR4A3 sequence mutation, missing TFG and unexpected OTHER model were rejected. Two separate monkeypatched derive outputs, changing constructs[0].protein_length_aa and gene_models.EWSR1.strand, caused the helper's full-artifact comparison to fail. No repository files were mutated."
+    },
+    {
+      "name": "Explicit unrelated model scope",
+      "result": "pass",
+      "details": "PGR-only mutation passed scoped_inputs and left selected original-study input identical; the excluded key was reported. This is a scoped_inputs test, not a claim that arbitrary future PGR mutation would pass the entire helper: figure provenance also checks its pinned inputs. All non-gene top-level fields are preserved."
+    },
+    {
+      "name": "Scope baseline independent check",
+      "result": "pass",
+      "details": "Compared scope metadata directly with git-show bytes at the original pin, instead of accepting the helper author's claimed baseline."
+    }
+  ],
+  "visual_coverage": {
+    "render_root": "C:/Users/mcrae/.codex/review-workspaces/opus-capacity-sprint-20260907/capacity-campaign-20260908/observations/atr-cancer-genetics-20260910/repair-r1/visual-qa-repaired",
+    "technical_receipt": "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/WINDOWS-DOCX-RENDER-REPAIRED-RECEIPT.json",
+    "new_pages_directly_inspected": {
+      "manuscript": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "supplementary-information": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "figure-legend": [
+        1,
+        2
+      ]
+    },
+    "unchanged_page_reuse": {
+      "manuscript": [
+        1,
+        2,
+        3,
+        19
+      ],
+      "reason": "Each current PNG is byte-identical to the corresponding originally inspected PNG."
+    },
+    "unchanged_artifact_reuse": [
+      "cover-letter.pdf",
+      "highlights.pdf",
+      "emc-fusion-frame-fig1.png",
+      "emc-fusion-frame-fig1.pdf"
+    ],
+    "reuse_basis": "These outgoing files are byte-identical to the original reviewed package; their prior visual inspection is reused. All newly changed main/supplement/legend pages were inspected.",
+    "layout_result": "No missing text or unusable table/figure layout was found on the affected pages. The separate legend's second page is sparse but complete."
+  },
+  "files_actually_checked": {
+    "hash_only_or_hash_plus_content": "Every file listed in the original 20-file and r1 31-file manifests was read as bytes for size/SHA256. This does not imply semantic reading of owner verdict records.",
+    "r1_semantic_files": [
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/manuscript-source.txt",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/manuscript.md",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/manuscript.docx",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/manuscript.pdf",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/supplement-source.txt",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/supplementary-information.docx",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/supplementary-information.pdf",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/figure-legend.docx",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/figure-legend.pdf",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/build_package.py",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/repair-change-map.json",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/verify_study_scope.py",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/study-input-scope.json",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/science-freeze.json",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/emc-atr-figure-provenance.json"
+    ],
+    "other_semantic_or_identity_files": [
+      "research/manuscripts/dependency/cancer-genetics-20260910/endpoint-binding.json",
+      "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md",
+      "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.docx",
+      "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.pdf",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/science-freeze.json",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/manuscript-source.txt",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/manuscript.md",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/manuscript.docx",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/supplement-source.txt",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/supplementary-information.docx",
+      "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/build_package.py",
+      "research/modalities/emc-construct-inputs.json",
+      "research/modalities/emc_fet_construct_designs.py",
+      "research/modalities/emc-fet-construct-designs.json"
+    ],
+    "dependency_byte_checks": [
+      "research/modalities/emc_fet_construct_designs.py",
+      "research/modalities/emc_fet_idr_census.py",
+      "research/modalities/nr4a3_exon_audit.py",
+      "research/modalities/emc_fet_frame_and_composition.py",
+      "research/modalities/emc-fet-construct-designs.json",
+      "research/modalities/emc-fet-frame-and-composition.json",
+      "research/modalities/nr4a3-exon-audit.json",
+      "research/modalities/junction-mrna-frame-audit.json",
+      "research/manuscripts/aso/lit-targets-aso-verify.json",
+      "research/manuscripts/figures/emc_fusion_frame_figure.py"
+    ],
+    "render_files": "Exact new page paths are render_root/<document>/page-<listed number>.png in visual_coverage. Original counterparts were compared as bytes for reuse."
+  },
+  "limits_of_review": [
+    "Finite regression of this reviewer's findings and the bounded repair changes; no new whole-paper science review, full CI or publication-readiness certification.",
+    "The original independent scientific assessment is reused only where source, table cells, dependency records and figure identity justify it.",
+    "No experiments were performed or inferred. The supported claim remains conditional on the selected reference transcripts and published exon statements and does not establish recruitment or ATR efficacy in EMC.",
+    "Owner success statements and QA verdicts were not accepted as independent evidence. Technical render metadata was used for provenance only.",
+    "Exploratory scripts that ended in syntax, path or text-encoding errors were not counted as successful checks; corrected checks supplied the reported evidence.",
+    "No manuscript, repository payload or original review was edited; only the two focused report files were written. No downloads, installations, new checkout or large artifacts were created.",
+    "No journal acceptance guarantee or conclusion about unrelated submission gates."
+  ]
+}

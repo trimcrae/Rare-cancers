@@ -32,6 +32,18 @@ def _rules(findings):
     return {f["rule"] for f in findings}
 
 
+@pytest.mark.parametrize("text,flagged", [
+    ("None establishes clinical readiness.", False),
+    ("None demonstrates clinical readiness.", False),
+    ("This establishes clinical readiness.", True),
+    ("None establishes potency; this establishes clinical readiness.", True),
+    ("None establishes potency, but this demonstrates clinical readiness.", True),
+    ("None establishes clinical readiness; our candidate is clinically ready.", True),
+])
+def test_readiness_denial_only_clears_its_own_match(tmp_path, text, flagged):
+    assert ("R2-clinical-readiness" in _rules(_lint(tmp_path, text))) == flagged
+
+
 # --------------------------------------------------------------------------
 # The regulated set must FIRE on assertion
 # --------------------------------------------------------------------------

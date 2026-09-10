@@ -1,0 +1,75 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "Coordinator-generated schema adapter of one actual completed independent blind review. This canonical bare record is the round's one seat, not an additional roll-up or an additional review.",
+  "paper": "PUB-ATR-PANEL-ASK",
+  "document": "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md",
+  "reviewed_commit": "eb5472181b7d9b85e75e83e7f165433e401a74b8",
+  "document_sha256": "a80a663e6fe92148ea129984198cfc0b265b2f928bd4a20790e5b5c860c90d1b",
+  "deliverable_digest": "6b416689d28fe3f4fb3710a8827c7915fce0a20f12226d39cbad7b163caa9ec5",
+  "blind": true,
+  "status": "complete",
+  "utc": "2026-09-10T13:47:41.198189+00:00",
+  "seat": "independent whole-paper assessment",
+  "reviewer": "/root/atr_cg_blind_ultra",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "ultra",
+  "execution_basis": "Actual root collaboration.spawn_agent with fork_turns none and this accepted model/effort configuration. Not independent runtime introspection. Exact context and verification limits are retained in the unmodified source report.",
+  "blind_basis": "Fresh independent execution without other review/QA outcomes. Source-history exposure is explicitly disclosed; no claim of entirely history-free scientific text.",
+  "scope": "Initial whole-paper blind assessment, with its three outgoing-file blockers preserved.",
+  "source_report": "research/autonomy/review-seats/source-reports/2026-09-10-cancer-genetics/initial-blind-review.json",
+  "source_report_sha256": "2d85bca5e4a91e186db1156982e493c987cf65dc915c0928f82ee6e9a30ec0e0",
+  "central_claim": "For selected reference transcripts and reported exon labels, four NR4A3 fusion models retain the complete NR4A3 moiety, the type-2 model adds 59 residues, and retained RG content plus TCF12 composition delimit untested recruitment hypotheses rather than establish ATR sensitivity.",
+  "verdict": "supported",
+  "source_overall_verdict": "The bounded reference-model claim is supported by independent arithmetic and relevant source evidence. The outgoing package needs three focused export/presentation repairs before submission. No P1 scientific finding was identified.",
+  "blockers": [
+    {
+      "id": "ATR-CG-01",
+      "priority": "P2",
+      "category": "submission_blocker",
+      "title": "Restore numbered references in both outgoing documents",
+      "outgoing_files": [
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.docx",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.pdf",
+        "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/supplementary-information.docx",
+        "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/supplementary-information.pdf"
+      ],
+      "exact_claim_or_location": "Main section 8, PDF pages 16-18; supplementary References, PDF pages 4-5. In-text citations remain [1]-[10], but bibliography entries have no displayed numbers.",
+      "evidence": "All bibliography pages were visually inspected. Both DOCX document.xml files have zero w:numPr elements, and the reference paragraphs contain neither typed numbers nor native numbering. The declared source has references 1-10. Numbered limitations were also flattened, leaving the reference to section 6, item 2 without a numbered target.",
+      "consequence": "The actual outgoing files fail the specified numbered-reference format and require readers to count unnumbered paragraphs to match citations. This is an export defect, not a defect in the sequence results.",
+      "minimal_repair": "Preserve ordered-list labels or native Word numbering for references 1-10 and limitations 1-8. Re-export main and supplement and confirm the existing citation mappings visually."
+    },
+    {
+      "id": "ATR-CG-02",
+      "priority": "P2",
+      "category": "submission_blocker",
+      "title": "Preserve source scope and disclosure paragraphs in the actual main copy",
+      "outgoing_files": [
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.docx",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.pdf"
+      ],
+      "exact_claim_or_location": "Declared manuscript.md lines 553-568: blockquotes headed Scope of the claims and Declarations, including the statement concerning no new human participants, identifiable data, patient-level records, animals or laboratory work, and the detailed CRediT contributions.",
+      "evidence": "Both paragraphs are present in the source but absent from actual DOCX XML and PDF. Pages 14-16 proceed from limitations to data availability and abbreviated Author declarations. The main copy contains no human-participant/ethics-applicability statement or detailed CRediT list. Funding, competing interests and AI assistance remain elsewhere.",
+      "consequence": "The frozen source and outgoing document silently differ in author-declared scope and disclosure content. Biological limits recur elsewhere, so the omission does not turn the study into an efficacy claim; the submission copy nonetheless needs the intended declarations.",
+      "minimal_repair": "Render these blockquotes as ordinary paragraphs or deliberately relocate their complete content into Author declarations. Preserve the existing wording and verify repaired DOCX/PDF against source."
+    },
+    {
+      "id": "ATR-CG-03",
+      "priority": "P2",
+      "category": "submission_blocker",
+      "title": "Complete the separate figure legend",
+      "outgoing_files": [
+        "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/figure-legend.docx",
+        "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics/figure-legend.pdf",
+        "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.pdf"
+      ],
+      "exact_claim_or_location": "Separate Figure legend, page 1, contains only the opening Figure 1 sentence and generator/file names. Main caption page 8 explicitly directs readers to the caption to distinguish four marker types.",
+      "evidence": "Structural and visual inspection confirms two paragraphs including the separate file's title. All Panel A-C explanations are absent, including operational boxes and the distinction between the reported EWSR1::ATF1 breakpoint interval and measured recruitment.",
+      "consequence": "A production workflow using the separate legend would lose essential interpretation that remains in the main caption. The separate outgoing caption is incomplete.",
+      "minimal_repair": "Populate the separate file with the complete interpretive Panel A-C caption, or remove the redundant short legend from the submission set if the full main caption is the authoritative upload. Retain explanations of every symbol and measured-versus-computed status."
+    }
+  ],
+  "p1s": [],
+  "digest_scope": "Formal digest records the supplied pinned binding. Do not infer that the individual seat independently reconstructed the aggregate unless its original report says so. Actual enforcer recomputes coverage from committed files.",
+  "packaging_scope": "Review identities and fileset paths refer to the original reviewed commit. Later byte-identical evidence filename aliases must be reported separately with a bijective migration manifest; they do not rewrite this historical review."
+}

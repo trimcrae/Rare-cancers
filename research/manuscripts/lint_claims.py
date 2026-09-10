@@ -873,6 +873,13 @@ def lint_file(path):
                     # a NAME. See `PROPER_NOUNS` -- whole-name, case-sensitive, fixed list.
                     if _inside_proper_noun(sent, cand.start(), cand.end()):
                         continue
+                    # A subject-level denial immediately governing this readiness
+                    # phrase clears this match only, never a later affirmative clause.
+                    if rule.rid == "R2-clinical-readiness" and re.search(
+                        r"\bnone (?:establishes|demonstrates|shows)\s+$",
+                        sent[:cand.start()], re.IGNORECASE,
+                    ):
+                        continue
                     if rule.clears_on == "local_negation" and _locally_negated(sent, cand.start()):
                         continue
                     m = cand

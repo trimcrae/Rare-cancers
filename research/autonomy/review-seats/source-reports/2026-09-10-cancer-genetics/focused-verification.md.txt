@@ -1,0 +1,79 @@
+Focused regression verification — ATR / Cancer Genetics
+
+The corrected package resolves all six findings from my original review. No submission blocker or P1 remains within this finite regression. The original central scientific assessment carries forward: **supported**.
+
+This is regression by the original reviewer, not a new history-free blind review. I used my original findings, the repair request, actual old/new files and technical provenance. I did not consult other reviewers’ outcomes or owner QA verdicts. Source-internal historical annotations disclosed in the original review remain disclosed. The original reports are preserved verbatim.
+
+Reviewed identity
+
+- Model: gpt-6-astra; reasoning effort: ultra; agent: /root/atr_cg_blind_ultra.
+- Commit: `2744f775cb023f800341e129879f686458998b85`.
+- Declared document: `research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md`.
+- MD SHA256: `f18e1931645bf6a5ac80779cf4d192fc68caca06d7fe6ff4d74b518ca84347cd`.
+- DOCX SHA256: `fb05399cf4746ac34429f7ae448d891d6412be0297c7809b39e1823157e5151a`.
+- PDF SHA256: `aa9ccac2c5c1faf4f65108dc3e96030f603c42e61f438df58979f235b08a7fbc`.
+- Formal three-file digest: `674ed86147b908aca6843b66cde98645ddf3ccc3aa78cfa88537943b87472baf`.
+- R1 manifest: `research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/science-freeze.json`.
+- R1 31-file digest: `8ff92d0e4ef3093c4796a393e50b0ccc7c069efe6b522d78e14dcb8a2311cfec`.
+- Original pin: `eb5472181b7d9b85e75e83e7f165433e401a74b8`; original 20-file freeze retained.
+
+Central claim and verdict
+
+For selected reference transcripts and reported exon labels, four NR4A3 fusion models retain the complete NR4A3 moiety, the type-2 model adds 59 residues, and retained RG content plus TCF12 composition delimit untested recruitment hypotheses rather than establish ATR sensitivity.
+
+**Verdict: supported.** The compared changes repair export and verification defects and clarify the status of existing prediction records. No unreviewed substantive science change was found. The report continues to distinguish sequence computation and conditional recruitment hypotheses from experiments or demonstrated ATR sensitivity.
+
+Disposition of original findings
+
+| Finding | Disposition | Evidence from corrected files |
+|---|---|---|
+| ATR-CG-01 — numbered references | Resolved | Actual main and supplement DOCX contain labels 1–10. Main PDF pages 17–18 and supplement pages 4–5 display them. Main limitations 1–8 are visible on pages 14–15. |
+| ATR-CG-02 — omitted scope/declarations | Resolved | Both full paragraphs occur in actual DOCX and PDF and are visible on main page 15. DOCX paragraphs match source after whitespace/Markdown normalization, including ethics applicability and complete CRediT contributions. |
+| ATR-CG-03 — incomplete separate legend | Resolved | All five non-title legend paragraphs match actual main-caption paragraphs. The separate PDF’s two pages contain complete Panel A–C interpretation and limitations. |
+| ATR-CG-M01 — metadata scope drift | Resolved | The new documented helper runs successfully, preserves the entire original artifact comparison, explicitly excludes PGR, and rejects the bounded study-input and derived-artifact mutations described below. This was maintenance, not a scientific blocker. |
+| ATR-CG-O01 — export/editorial remnants | Resolved | The raw image-alt line is absent from actual page 8, the dangling QA sentence is removed, and the complete scientific caption and unchanged figure remain. |
+| ATR-CG-O02 — prediction text status | Resolved | Actual page 12 identifies the manuscript presentation and immutable records as distinct. Page 13 retains the corresponding explanation; prediction data were not rewritten. |
+
+No additional repair is requested for these findings. Remaining blockers: **none**. Remaining P1s: **none**.
+
+Scientific and artifact identity
+
+All original 20 and new 31 manifest members passed byte-size and SHA256 checks. I recomputed both fileset digests, the formal three-file digest, and all endpoint copy identities. The four old/new source-text hunks only alter verification instructions, the dangling QA sentence, prediction-record status wording, and the section 7 verification reference. The source/builder difference map agrees with independently generated differences; supplementary source is unchanged.
+
+All six actual main DOCX tables retain their scientific cell text and row counts. Tables 1–5 differ only in merged title cells replacing blank sibling cells; the sixth table is identical. All four supplement tables have identical cell arrays. Figure 1 PNG, PDF and provenance are byte-identical to the original package.
+
+All six whole study-gene hashes, the whole UniProt record hash, and ten dependency hashes were independently matched against the original reviewed commit. The new helper freshly derives and compares the complete stored construct artifact. These exact identities justify reuse of the original scientific assessment without repeating the earlier detailed scientific calculations.
+
+Standalone helper evidence
+
+I read `verify_study_scope.py` and `study-input-scope.json`, then executed the helper directly with the installed Python runtime from the pinned repository. Exit code was 0:
+
+```
+ORIGINAL STUDY SCOPE REPRODUCES; all artifact fields compared; excluded models: ['PGR']
+REPRODUCES
+PROVENANCE MATCHES
+```
+
+The helper selects EWSR1, TAF15, FUS, TCF12, TFG and NR4A3 while preserving each entire gene record and all non-gene fields. It checks whole gene and UniProt hashes plus pinned dependencies, compares the full derived artifact, and runs the unchanged frame/composition checker and packaged figure-provenance check.
+
+Bounded negative controls were in memory only. Changing `utr5_len` in each of the six study genes failed; changing NR4A3 protein sequence or its UniProt sequence failed; deleting TFG or adding an unexpected OTHER model failed. Separately mutating the derived construct protein length or EWSR1 gene-model strand caused the full-artifact comparison to fail. PGR-only mutation passed the input-scoping function and left the selected study inputs identical. This last test concerns the scoping function, not arbitrary future whole-helper success: the figure stamp also verifies its pinned inputs.
+
+Actual page coverage
+
+I inspected all 22 changed pages in the existing 110-dpi renders: main pages 4–18, supplement pages 1–5, and separate-legend pages 1–2. The technical Word receipt binds the DOCX/PDF and page paths; its QA outcomes were not used.
+
+Main pages 1–3 and 19 are byte-identical PNGs to the previously inspected pages, so their inspection was explicitly reused. The cover letter, highlights PDF and scientific figure are also byte-identical to the originally inspected artifacts. No missing text or unusable table/figure layout was found on affected pages. The legend’s second page is sparse but complete.
+
+Render root: `C:/Users/mcrae/.codex/review-workspaces/opus-capacity-sprint-20260907/capacity-campaign-20260908/observations/atr-cancer-genetics-20260910/repair-r1/visual-qa-repaired`.
+
+Limits and preservation
+
+This is a finite correction verification, not full CI, another whole-paper scientific review, or publication-readiness certification. No new experiments or efficacy evidence are implied. Owner reproduction/QA reports were hashed only as manifest members, never used for their judgments. Failed exploratory scripts were excluded from successful-check claims and corrected checks supplied the reported evidence.
+
+I created no checkout, download, installation or large artifact and made no manuscript/repository edits. Original report hashes are:
+
+- `review.json`: `2d85bca5e4a91e186db1156982e493c987cf65dc915c0928f82ee6e9a30ec0e0`.
+- `review.md`: `fe90bcb88b05e3b16997802a90fac15ac1f9ed40d755055abc6f990c96759d7d`.
+
+The accompanying JSON records exact files and evidence. No journal acceptance guarantee is made.
+

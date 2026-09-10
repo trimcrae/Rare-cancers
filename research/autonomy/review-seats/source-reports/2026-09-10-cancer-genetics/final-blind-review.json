@@ -1,0 +1,55 @@
+{
+  "reviewed_commit": "2744f775cb023f800341e129879f686458998b85",
+  "document": "research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md",
+  "document_sha256": "f18e1931645bf6a5ac80779cf4d192fc68caca06d7fe6ff4d74b518ca84347cd",
+  "central_claim": "On the cached canonical reference transcripts, four reported NR4A3 fusion junctions yield intact NR4A3 reading frames, including a 59-residue type-2 insertion; retained RG content and the evaluated symmetric TCF12 prefix grid support explicitly untested recruitment predictions.",
+  "central_claim_verdict": "supported",
+  "blockers": [],
+  "p1s": [],
+  "overall_assessment": "No demonstrated current blocker or P1 within this finite assessment. Support applies to the reference-model sequence computations, not patient fusion validation, DNA-damage recruitment, causal RG-dose effects, or ATR inhibitor response.",
+  "blind_context": {
+    "configuration": "gpt-6-astra/medium accepted task configuration; deployment not independently introspected",
+    "expected_verdict_supplied": false,
+    "review_outcomes_read": false,
+    "exposure": "Read current manuscript and scientific artifact/source annotations describing earlier exon-numbering, frequency, asymmetric-grid and RG-headroom errors. Read science-freeze metadata, including filenames and role/history fields, and the permitted technical Word-render receipt. Hashing freeze members read opaque bytes of all 31 files but no excluded report contents were printed or interpreted. Read study-input-scope provenance sentence referring to an earlier reviewed commit. No review, hardening, owner-QA, repair-change or repair-verification verdict/content was consulted or used as evidence."
+  },
+  "verification": {
+    "identity": "HEAD and main SHA256 match the supplied values. Every one of 31 freeze member hashes matches. Independently recomputed fileset SHA256 matches 8ff92d0e4ef3093c4796a393e50b0ccc7c069efe6b522d78e14dcb8a2311cfec.",
+    "formal_digest": "Supplied aggregate 674ed86147b908aca6843b66cde98645ddf3ccc3aa78cfa88537943b87472baf was not independently reconstructed; constituent DOCX/PDF hashes were checked against the freeze.",
+    "reproduction": "Ran the declared verify_study_scope.py with installed bundled Python, -X utf8 and -B. Exit 0; ORIGINAL STUDY SCOPE REPRODUCES; REPRODUCES; PROVENANCE MATCHES. Inspected wrapper: hashes study inputs/dependencies, removes only extra PGR in memory, compares full original construct artifact, invokes frame and figure checks.",
+    "independent_arithmetic": [
+      "Independent stdlib genetic-code translation of cached cDNA slices gives EWSR1 type1 1058 aa (431 retained + 1 seam + 626 NR4A3), type2 949 (264+59+626), type5 1099 (472+1+626), TAF15 788 (161+1+626). Each ends with the complete cached NR4A3 protein.",
+      "Independent retained RG counts are 8, 0, 11 and 0; full EWSR1/TAF15/FUS counts 30/31/24. Donor phase-1 set is 1,4,7,9,10,12,13,15.",
+      "Independent symmetric prefix counts/minima recover EWSR1 minimum 0.439285714 at 560 and TCF12 maximum 0.4 at 160. Ensembl TCF12 has 706 residues/66 evaluated prefixes; UniProt has 682/64 and the same maximum, consistent with the disclosed isoform distinction.",
+      "TAF15 prefixes 161,174,175,176 contain 0,0,0,1 complete RG dipeptides, confirming manuscript headroom 14 and disclosed stale conservative artifact boundary."
+    ],
+    "text_and_copy": "Read complete main and supplement source text, figure legend, references, cover letter and highlights. Extracted actual OOXML text and actual PDF text for manuscript (19 pages), supplement (5), legend (2), cover letter (1), highlights (1). All paragraphs longer than 30 characters in main/SI/legend are found in PDF text after whitespace and standalone page-number normalization; initial apparent mismatches were pagination. Cover/highlights matched without residual substantive paragraph differences. This was direct file extraction, not reliance on readback/owner reports.",
+    "visual": "Inspected full standalone Figure 1 PNG; retained manuscript render pages 1,7,11,19; SI pages 2,3; and both legend pages. No clipping or lost sequence/table content observed on these pages. Main page 11 has an orphaned Table 5 label; legend page 2 contains only the final two lines.",
+    "sources": "Inspected breakpoint quotations and calibration definitions in committed emc_fet_construct_designs.py, counted-series quotations in emc-fet-frame-and-composition.json, and targeted retrieval-record search. These agree with current qualified presentation. Inspected only introductory scientific metadata of emc-atr-vulnerability.json through git show. Attempted direct reference-1 PMC/Europe PMC retrieval; access failed, so its full-text claims were not independently reverified against the external article.",
+    "venue": "Checked Elsevier official Cancer Genetics description at https://shop.elsevier.com/journals/cancer-genetics/2210-7762 . Molecular characterization of cancer rearrangements is within stated scope, and original full-length articles are accepted. This is a plausible, narrow computational Original Research submission; editorial novelty/priority and acceptance cannot be established by these checks."
+  },
+  "claim_boundaries": "Abstract, sections 3.3-3.5, Table 3, discussion and limitations consistently distinguish computed reference models from measured recruitment. The ATF1 breakpoint span is explicitly not a measured recruitment interval. P1 equivalence and P2/P4 dependence/confounding are disclosed; P5 is untested without a fusion construct, and full-length TCF12 is not substituted. No completed experiment or ATR efficacy result is claimed. Single-source annotation and lack of sequenced patient junctions limit external validity but do not contradict the narrowly stated computational result.",
+  "optional_changes": [
+    {
+      "location": "Manuscript sections 2.3, 3.3-3.5, 4 and Figure 1 legend",
+      "finding": "Lengthy descriptions of prior versions and immutable-record corrections obscure the current research narrative.",
+      "action": "Condense history into a concise provenance note while preserving every material limitation and immutable artifact discrepancy."
+    },
+    {
+      "location": "Main PDF page 11; separate figure-legend PDF pages 1-2",
+      "finding": "Table 5 label is orphaned at the foot of page 11; the legend spills only its final two lines onto page 2. Content is present and readable.",
+      "action": "Keep the table label with its header and modestly adjust legend layout."
+    },
+    {
+      "location": "Manuscript section 2.5 and section 7",
+      "finding": "The reproduction command is correct for the reviewed checkout, but the prose refers to this journal-package repository revision without printing the current revision identifier alongside the older scientific-input links.",
+      "action": "Add a durable link or exact revision identifier for the package wrapper so readers can locate that command directly."
+    }
+  ],
+  "limitations": [
+    "No independent second-annotation or patient-junction validation, new broad analysis, full CI, new export, manuscript edit, checkout or runtime installation.",
+    "Visual inspection was targeted, not an every-page layout certification. Technical render receipt was used only to associate the retained render with the submitted DOCX/PDF.",
+    "No exhaustive external literature validation, novelty campaign, author-identity/ORCID verification or submission-portal audit. Reference 1 full text was inaccessible via attempted web retrieval.",
+    "An initial optional arithmetic attempt importing Bio failed because it was absent; no installation followed. The check was completed with a separately written standard-library codon table."
+  ]
+}

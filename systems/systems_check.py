@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import hashlib
 import json
 import os
 import re
@@ -597,7 +598,7 @@ def check_publications(g, f):
             full = os.path.join(REPO, doc["file"])
             if os.path.exists(full):
                 with open(full, encoding="utf-8", errors="ignore") as fh:
-                    fmv = _yaml_frontmatter(fh.read())[0] or {}
+                    fmv = _effective_frontmatter(fh.read(), doc["file"])[0] or {}
                 if fmv.get("level") != "L3":
                     f.err("[B4]", f"{p['id']}.document points at {doc['file']}, which declares "
                                   f"level {fmv.get('level')!r} rather than L3 — an endpoint must be a "
@@ -620,7 +621,7 @@ def check_publications(g, f):
 
     pointed = {(p.get("document") or {}).get("file") for p in g["publications"]}
     l3 = [rel for rel, text in _walk_md(DOC_SKIP)
-          if (_yaml_frontmatter(text)[0] or {}).get("level") == "L3"]
+          if (_effective_frontmatter(text, rel)[0] or {}).get("level") == "L3"]
     unclaimed = sorted(set(l3) - pointed)
     if unclaimed:
         f.info("[B7]", f"{len(unclaimed)} document(s) declare level L3 and are the endpoint of no "
@@ -1490,6 +1491,48 @@ def _yaml_frontmatter(text):
     return v, None
 
 
+def _effective_frontmatter(text, rel):
+    """Read source YAML plus optional byte-bound administrative metadata.
+
+    Sidecars never replace identity, title, scope or scientific text. Invalid source
+    YAML and invalid sidecars remain errors; absent sidecars retain the ordinary
+    document contract (including the publication's required L3 level).
+    """
+    source, err = _yaml_frontmatter(text)
+    if err:
+        return source, err
+    full = os.path.join(REPO, rel)
+    sidecar = full + ".metadata.json"
+    if not os.path.exists(sidecar):
+        return source, None
+    try:
+        with open(sidecar, encoding="utf-8") as fh:
+            binding = json.load(fh)
+        if set(binding) != {"schema", "document", "sha256", "administrative"}:
+            raise ValueError("unexpected or missing binding fields")
+        if binding["schema"] != "emc-document-metadata/1" or binding["document"] != rel:
+            raise ValueError("wrong binding schema or document")
+        with open(full, "rb") as fh:
+            digest = hashlib.sha256(fh.read()).hexdigest()
+        if binding["sha256"] != digest:
+            raise ValueError("document SHA256 mismatch")
+        fields = binding["administrative"]
+        if not isinstance(fields, dict) or set(fields) != {"level", "status", "audience", "last_verified"}:
+            raise ValueError("only the four administrative fields are permitted")
+        if any(not isinstance(fields[key], str) for key in ("level", "status", "last_verified")):
+            raise ValueError("level, status and last_verified must be strings")
+        audience = fields["audience"]
+        if not isinstance(audience, list) or not audience or any(
+            not isinstance(item, str) or not item.strip() for item in audience
+        ):
+            raise ValueError("audience must be a nonempty list of nonempty strings")
+        if not source or source.get("kind") != "manuscript":
+            raise ValueError("administrative binding requires manuscript source YAML")
+        return dict(source, **fields), None
+    except (OSError, ValueError, TypeError) as exc:
+        return None, f"invalid administrative metadata binding: {exc}"
+
+
 def check_document_frontmatter(g, f):
     """⭐ THE DOCUMENT CONTRACT, ENFORCED FROM ITS ONE HOME (added 2026-08-06).
 
@@ -1506,7 +1549,7 @@ def check_document_frontmatter(g, f):
     schema = mv.docs["document.schema.json"]
     levels, kinds, unparsed = defaultdict(int), defaultdict(int), 0
     for rel, text in _walk_md(DOC_SKIP):
-        fmv, err = _yaml_frontmatter(text)
+        fmv, err = _effective_frontmatter(text, rel)
         if fmv is None and err is None:
             continue                       # no frontmatter at all — [D4]'s finding, not this one
         if err:
@@ -1873,7 +1916,10 @@ def check_documents(g, f):
                 continue
             with open(os.path.join(REPO, rel), encoding="utf-8", errors="ignore") as fh:
                 text = fh.read()
-            fmv = _frontmatter(text)
+            fmv, metadata_error = _effective_frontmatter(text, rel)
+            if metadata_error:
+                f.err("[D1]", f"{rel}: {metadata_error}")
+                continue
             if fmv is None:
                 # A generated file's header is owned by its generator; adding frontmatter would make
                 # it differ from a fresh render and turn ITS drift check red.
@@ -3171,7 +3217,7 @@ def _pub_title(p):
     full = os.path.join(REPO, doc["file"])
     if os.path.exists(full):
         with open(full, encoding="utf-8", errors="ignore") as fh:
-            fmv = _yaml_frontmatter(fh.read())[0] or {}
+            fmv = _effective_frontmatter(fh.read(), doc["file"])[0] or {}
         if fmv.get("title"):
             return fmv["title"], doc["file"]
     return f"({os.path.basename(doc['file'])} — no title in its frontmatter)", doc["file"]

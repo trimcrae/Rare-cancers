@@ -1,0 +1,109 @@
+# Independent blind ultra review of the ATR Cancer Genetics package
+
+The bounded reference-model claim is supported by independent arithmetic and relevant source evidence. The outgoing package needs three focused export/presentation repairs before submission. No P1 scientific finding was identified.
+
+**Central claim:** For selected reference transcripts and reported exon labels, four NR4A3 fusion models retain the complete NR4A3 moiety, the type-2 model adds 59 residues, and retained RG content plus TCF12 composition delimit untested recruitment hypotheses rather than establish ATR sensitivity.
+
+**Verdict: supported.** A narrow computational sequence-analysis contribution relevant to cancer fusion genetics. Its value is transparent reconstruction and bounded model comparison, not an experimental mechanism, patient-junction validation or ATR-response result. It can merit Original Research consideration after outgoing-file repairs; acceptance and editorial novelty thresholds are not guaranteed.
+
+**Reviewer:** gpt-6-astra, ultra; agent /root/atr_cg_blind_ultra; independent blind assessment.
+
+**Frozen commit:** `eb5472181b7d9b85e75e83e7f165433e401a74b8`.
+**Declared source:** `research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md`; SHA256 `a80a663e6fe92148ea129984198cfc0b265b2f928bd4a20790e5b5c860c90d1b`.
+**Formal three-file digest:** `6b416689d28fe3f4fb3710a8827c7915fce0a20f12226d39cbad7b163caa9ec5`.
+**Full 20-file digest:** `b5271acdd71529e5b00c4cf71c52be8d08932714ad29b64959622a5b8a11e9df`.
+
+## Submission blockers
+
+### ATR-CG-01 (P2) Restore numbered references in both outgoing documents
+
+**Outgoing location:** Main section 8, PDF pages 16-18; supplementary References, PDF pages 4-5. In-text citations remain [1]-[10], but bibliography entries have no displayed numbers.
+
+**Evidence:** All bibliography pages were visually inspected. Both DOCX document.xml files have zero w:numPr elements, and the reference paragraphs contain neither typed numbers nor native numbering. The declared source has references 1-10. Numbered limitations were also flattened, leaving the reference to section 6, item 2 without a numbered target.
+
+**Consequence:** The actual outgoing files fail the specified numbered-reference format and require readers to count unnumbered paragraphs to match citations. This is an export defect, not a defect in the sequence results.
+
+**Minimal repair:** Preserve ordered-list labels or native Word numbering for references 1-10 and limitations 1-8. Re-export main and supplement and confirm the existing citation mappings visually.
+
+### ATR-CG-02 (P2) Preserve source scope and disclosure paragraphs in the actual main copy
+
+**Outgoing location:** Declared manuscript.md lines 553-568: blockquotes headed Scope of the claims and Declarations, including the statement concerning no new human participants, identifiable data, patient-level records, animals or laboratory work, and the detailed CRediT contributions.
+
+**Evidence:** Both paragraphs are present in the source but absent from actual DOCX XML and PDF. Pages 14-16 proceed from limitations to data availability and abbreviated Author declarations. The main copy contains no human-participant/ethics-applicability statement or detailed CRediT list. Funding, competing interests and AI assistance remain elsewhere.
+
+**Consequence:** The frozen source and outgoing document silently differ in author-declared scope and disclosure content. Biological limits recur elsewhere, so the omission does not turn the study into an efficacy claim; the submission copy nonetheless needs the intended declarations.
+
+**Minimal repair:** Render these blockquotes as ordinary paragraphs or deliberately relocate their complete content into Author declarations. Preserve the existing wording and verify repaired DOCX/PDF against source.
+
+### ATR-CG-03 (P2) Complete the separate figure legend
+
+**Outgoing location:** Separate Figure legend, page 1, contains only the opening Figure 1 sentence and generator/file names. Main caption page 8 explicitly directs readers to the caption to distinguish four marker types.
+
+**Evidence:** Structural and visual inspection confirms two paragraphs including the separate file's title. All Panel A-C explanations are absent, including operational boxes and the distinction between the reported EWSR1::ATF1 breakpoint interval and measured recruitment.
+
+**Consequence:** A production workflow using the separate legend would lose essential interpretation that remains in the main caption. The separate outgoing caption is incomplete.
+
+**Minimal repair:** Populate the separate file with the complete interpretive Panel A-C caption, or remove the redundant short legend from the submission set if the full main caption is the authoritative upload. Retain explanations of every symbol and measured-versus-computed status.
+
+## Maintenance and optional edits
+
+These do not invalidate the reference-model result. There are no P1 findings.
+
+### ATR-CG-M01 (maintenance) Scope the construct checker to the artifact model set
+
+**Outgoing location:** Section 2.5, manuscript.md lines 140-148 / PDF page 4: the first --check command is said to print REPRODUCES.
+
+**Evidence:** Executed it on the existing checkout after confirming relevant bytes match the frozen blobs. It exited 1: DRIFT in ['gene_models', 'ensembl_vs_uniprot_sequences']. In-memory comparison isolated both differences to the unrelated PGR key added to the shared cache. Removing PGR from the in-memory input, without changing files, made the entire derived artifact equal the stored artifact. All reported constructs, axes and classifications already match.
+
+**Consequence:** The advertised all-artifact command has metadata-only drift, and its literal success statement is inaccurate. This is model-scope maintenance, not a failure of the reported scientific values, and is not classified as a scientific submission blocker.
+
+**Minimal repair:** Provide explicit historical model scope or a documented scoped verification path, and accurately describe the metadata drift until repaired. Preserve detection of changes to study inputs and preserve original evidence.
+
+### ATR-CG-O01 (optional_edit) Remove export and internal editorial remnants
+
+**Outgoing location:** PDF page 8 starts with literal '!Figure 1. Three panels...'; page 9 refers to an integration QA note cited in an editorial comment above.
+
+**Evidence:** Both remnants are visible. The actual image is correctly present on page 19. No corresponding editorial comment or QA-note citation appears above the caption in the outgoing document. The QA note was not consulted.
+
+**Consequence:** Readers encounter a raw image-alt line and a dangling internal-process reference; neither alters the data.
+
+**Minimal repair:** Remove the raw alt-text paragraph and the sentence pointing to an absent internal comment. Keep the actual image, scientific caption and source attribution.
+
+### ATR-CG-O02 (optional_edit) Describe the prediction table's textual status consistently
+
+**Outgoing location:** Section 4 page 12 says wording, bases and falsifiers are reproduced exactly as registered; page 13 says manuscript and machine-readable entries are not word-for-word identical.
+
+**Evidence:** Both statements coexist. The manuscript correctly identifies separate P1-P4 and P5 locations and discusses equivalence and causal-identification limits.
+
+**Consequence:** The table's textual status is unclear, although its hypotheses and limitations are understandable and no outcome is claimed.
+
+**Minimal repair:** Describe Table 5 as the manuscript presentation or summary of pinned prediction records, naming the immutable record as authoritative. Do not rewrite the historical predictions to force verbal identity.
+
+## Checks actually performed
+
+- **Frozen provenance:** Commit eb5472181b7d9b85e75e83e7f165433e401a74b8 verified at start and completion. All 20 payload sizes/hashes matched; all still matched at completion. Full fileset and formal three-file digests were independently recomputed using case-sensitive path NUL hash LF. Four endpoint copies, including the figure, are byte-identical.
+- **Earlier submission:** Original frozen-candidate-v3 MD hash ab3a235c31797bcdaf2301b6f4c6bca864474a3b750a609e9c3e0ee421bf9df4 and PDF hash cd87f56acda32619619444e672974a0faec4cf016b05cfe3cbe0c272dfd722fb verified. Decoded original MD equals baseline-source.md.original.txt after newline normalization.
+- **Independent arithmetic:** Directly recomputed four cDNA joins/translations without the producers: ORF lengths 1058/949/1099/788, retained prefixes 431/264/472/161, full NR4A3 suffix in all four. Extra sequences D / KPTAEEGSPASPGPEPGPLAVPGSTAGASPRRTSAPPTLSASAGETPSPTIQRARYPPD / D / D. All full emitted proteins match. Four gene assertions checked for each of the five study genes. Phase-1 donor set [1,4,7,9,10,12,13,15] confirmed; all 16 corresponding acceptor-2/3 joins retain the NR4A3 ORF.
+- **Independent composition:** Retained RG 8/30,0/30,11/30,0/31; grid counts EWSR1/TAF15/FUS/TCF12 = 61/55/48/66. Lowest FET fraction 246/560=0.4392857143, best TCF12 64/160=0.4, rounded gap 0.039. Fixed 250-aa fractions reproduce. TAF15 prefixes 174/175/176 contain 0/0/1 complete RG dipeptides, confirming the manuscript's corrected headroom.
+- **Executable reproduction:** construct-designs --check exited 1 with metadata-only PGR drift; excluding PGR in memory restores exact full-artifact identity. frame-and-composition --check exited 0, REPRODUCES. Figure checker loaded from the byte-identical producer, with PROVENANCE explicitly pointed to the frozen package stamp, exited 0, PROVENANCE MATCHES. This was not an unmodified invocation against the existing checkout's different stamp. Python bytecode writes were disabled.
+- **Cited pin:** Core input cache, both scientific artifacts and both producers are byte-identical at HEAD and manuscript-cited commit 6393cad35d45a2f3965ca911edc902770c9a9bda. Existing-checkout dependencies and inputs were byte-compared before execution.
+- **Actual outgoing artifacts:** Visually inspected all 19 main pages, all 5 supplement pages, cover/legend/highlights single pages (27 pages total), and the original full Figure 1 PNG. Existing rendering receipt binds pages to frozen DOCX/PDF hashes. Structural checks: main 6 editable tables including availability table plus 1 figure; supplement 4 table objects for S1/S2/S3 and continuation; no tracked edits or comments. DOCX/PDF actual hyperlinks are retained. Standalone figure PDF was hash-checked, not separately rendered.
+- **Format:** Abstract independently counted at 193 whitespace-delimited words; 6 keywords; 7 main figure/table objects even counting the availability table. Actual references lose numbering and source blockquotes are omitted. Funding, competing interests and substantive AI disclosure remain.
+- **Source evidence:** Read source 1 relevant methods and recruitment/RGG paragraphs through Europe PMC full-text XML, supporting assay settings, delayed recruitment and RGG add-back effects. Read source 4 exact exon-definition paragraph. Primary source 3 search-indexed methods support the 25-aa cryptic-exon precedent and complete NR4A3 constructs. Cached original abstracts for PMIDs 11679947,12378528,12598313 match the stated counted series.
+
+Source 1 methods and recruitment evidence was read in [Gracilla et al. full-text XML](https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13223543/fullTextXML). Exon definitions were checked in [Nishio et al. full-text XML](https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3335514/fullTextXML). The cryptic-exon precedent appears in [Brenca et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC6766969/).
+
+## Blind context and limits
+
+Independent blind assessment of this ATR pin, not a claim of entirely history-free source text. No scientific findings were exchanged with another ATR reviewer.
+
+- The outgoing manuscript contains historical corrections. A cited producer docstring incidentally summarized historical requested additions; this was disclosed to the coordinator and excluded as review evidence. Later code reads avoided narrative headers.
+- A live-agent inventory automatically displayed an unrelated ASO reviewer status; no ASO report was opened and it did not inform this assessment.
+- No patient junction, synthesized construct, recruitment kinetics, drug response or independent annotation retrieval was generated or validated. Their absence is not a defect in the limited computational claim.
+- No journal acceptance decision or remote GitHub availability check was made. Local git-blob identity does not establish public accessibility.
+- Direct PMC web opens returned bot-check pages. Europe PMC XML succeeded for sources 1 and 4; PMC1868116 and PMC4015728 XML requests returned 404 and were not treated as full-text validation.
+- Baseline MD/PDF were hash-verified; baseline PDF was not visually re-reviewed. Prior QA findings and review reports were not read.
+- No full repository/publication checks or unexecuted unit-test suite are represented as passed. Frozen payload files were not modified. Only review.json and review.md were written.
+
+The JSON report identifies all payload hashes and additional pinned scientific files actually checked. Further work should verify these concrete repairs rather than start another whole-paper round.
+
