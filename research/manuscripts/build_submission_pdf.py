@@ -81,6 +81,8 @@ _FULL_WIDTH_TABLE_CAPTIONS = ()
 
 
 PAPERS = {
+    # Readable preview only. The deposited DOCX/PDF are byte-identical Word exports.
+    'atr-cancer-genetics': {'manuscript': 'dependency/cancer-genetics-20260910/manuscript.md', 'tables': None, 'references': None, 'stamp_sources': ['dependency/cancer-genetics-20260910/manuscript.md'], 'inline_images': True, 'figures': {}, 'journal': {'article_type': 'Original Research Article', 'section': '', 'preprint_note': 'Journal presentation preview; not peer reviewed.'}, 'out': 'dependency/cancer-genetics-20260910/manuscript-preview.pdf', 'deposited_out': 'dependency/cancer-genetics-20260910/manuscript.pdf'},
     #: ⭐ THE JOURNAL SUBMISSION, AND SINCE 2026-08-25 THE ONLY ASO PAPER THIS BUILDER KNOWS.
     #: It carries its own references and tables companions and no supplementary file.
     "aso-journal": {
