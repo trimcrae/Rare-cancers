@@ -173,7 +173,9 @@ _CALLOUT_OPENERS = "⛔⚠★⭐⭑✅✓✔✗✕✖❌◐○◆⏸⏳⚑⚙⚖
 #: `§` joins the opener class for the same reason: `… outside this task's file scope). §3a-quater's
 #: reading …` is two sentences and was reported as one.
 _SENTENCE_SPLIT = re.compile(
-    r"(?:(?<=[.!?])|(?<=[.!?][”’\"')\]]))\s+(?=[A-Z(“\"§" + _CALLOUT_OPENERS + r"])"
+    # ΔTm opens a real sentence in the frozen ASO caption. Match the complete
+    # term, not arbitrary Greek letters or mathematical operators.
+    r"(?:(?<=[.!?])|(?<=[.!?][”’\"')\]]))\s+(?=[A-Z(“\"§" + _CALLOUT_OPENERS + r"]|ΔTm\b)"
 )
 
 

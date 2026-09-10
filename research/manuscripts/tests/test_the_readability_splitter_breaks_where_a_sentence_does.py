@@ -81,6 +81,47 @@ def test_a_section_reference_opens_a_new_sentence():
     assert len(lens) == 2, f"a §-opened sentence was glued to its predecessor ({lens})"
 
 
+@pytest.mark.parametrize("stop", [".", "!", "?"])
+def test_delta_tm_term_opens_a_sentence_after_terminal_punctuation(stop):
+    text = "The model remains unvalidated" + stop + " ΔTm describes a computed difference only."
+    assert len(_split(text)) == 2
+    assert " ".join(_split(text)) == text
+
+
+@pytest.mark.parametrize("text", [
+    "The result is conditional, e.g. ΔTm describes a computed difference only.",
+    "The result is conditional, i.e. ΔTm describes a computed difference only.",
+    "The model reports 1.25 ΔTm units as a numerical example only.",
+    "The model reports ΔTm + 2 as an illustrative formula only.",
+    "The model remains conditional; ΔTm describes a computed difference only.",
+    "The model remains conditional. ΔTmodel describes a different token only.",
+    "The model remains conditional. ΔTm2 describes a different token only.",
+    "The model remains conditional. ΔTm_extra describes a different token only.",
+    "The model remains conditional. Δ describes a different token only.",
+])
+def test_delta_tm_does_not_manufacture_nonterminal_or_partial_token_boundaries(text):
+    # Exercise token boundaries directly, without Markdown emphasis stripping.
+    actual = [sentence for _, sentence in LR.sentences([(1, text)])]
+    assert actual == [text]
+
+
+def test_frozen_aso_caption_retains_both_actual_sentences_and_caution():
+    path = os.path.join(os.path.dirname(HERE), "aso", "cbc-20260910", "manuscript.md")
+    with open(path, encoding="utf-8") as source:
+        text = source.read()
+    caption = next(p for _, p in LR.paragraphs(LR.body(text))
+                   if "correspondence to these reagents requires nucleotide-junction confirmation. ΔTm " in p)
+    # Table labels are already excluded by the screen's short-fragment filter.
+    caption = re.sub(r"^Table\s+\d+\.\s*", "", caption)
+    first = caption[caption.index("The test articles"):caption.index(". ΔTm ") + 1]
+    second = caption[caption.index("ΔTm "):caption.index(". These are differences") + 1]
+    actual = _split(caption)
+    assert first in actual and second in actual
+    assert len(first.split()) == 49 and len(second.split()) == 28
+    assert " ".join(actual) == caption
+    assert sum(len(LR._CAUTION.findall(s)) for s in actual) == len(LR._CAUTION.findall(caption))
+
+
 @pytest.mark.parametrize("closer,shown", [(")", "own home.)"), ("”", "in EMCs.”"),
                                           ('"', 'in EMCs."'), ("]", "in EMCs.]"),
                                           ("’", "in EMCs.’"), ("'", "in EMCs.'")])
