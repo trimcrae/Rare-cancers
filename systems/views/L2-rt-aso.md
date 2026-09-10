@@ -107,7 +107,7 @@ The computational arc is complete and the delivery gate is stated honestly as a 
 
 ## Where this route ends — the paper
 
-**[PUB-ASO](L3-publications.md)** — [NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondrosarcoma: reagents, test articles and a pre-registrable knockdown experiment](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md)
+**[PUB-ASO](L3-publications.md)** — [Computational design and parent transcript liabilities of NR4A3 fusion junction gapmers in extraskeletal myxoid chondrosarcoma](../../research/manuscripts/aso/cbc-20260910/manuscript.md)
 
 `primary` · ◉ `posted_preprint` · aimed at `journal_submission`
 

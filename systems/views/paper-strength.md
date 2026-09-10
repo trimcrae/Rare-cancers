@@ -68,7 +68,7 @@ last_verified: 2026-08-09
 | 15 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/program/emc-treatment-roadmap.md) | ⭐ could still help a patient | — | **1** | 0 | 0 | 0 | — | ◐ `drafted` · ⚠ 2 cited-only |
 | 16 | [**PUB-DEGRADER**](../../research/manuscripts/degrader/nr4a3-degrader-paper.md) | ⛔ known negative / methods | — | **10.5** | 2 | 3 | 0 | 38% of 8 | ◐ `drafted` |
 | 17 | [**PUB-METHODS**](../../research/manuscripts/methods-record/degrader-methods-failure-record.md) | ⛔ known negative / methods | — | **9.0** | 1 | 0 | 0 | 100% of 1 | ◐ `drafted` |
-| 18 | [**PUB-ASO**](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md) | ⛔ known negative / methods | 🧪 bench, to build | **8.5** | 1 | 0 | 0 | 64% of 11 | ◉ `posted_preprint` |
+| 18 | [**PUB-ASO**](../../research/manuscripts/aso/cbc-20260910/manuscript.md) | ⛔ known negative / methods | 🧪 bench, to build | **8.5** | 1 | 0 | 0 | 64% of 11 | ◉ `posted_preprint` |
 | 19 | [**PUB-ENDPOINT**](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md) | ⛔ known negative / methods | — | **7.0** | 1 | 0 | 0 | 67% of 3 | ◐ `drafted` |
 | 20 | [**PUB-ATR-PANEL-ASK**](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ⛔ known negative / methods | — | **6.0** | 0 | 0 | 0 | 0% of 1 | ◐ `drafted` |
 | 21 | [**PUB-EMC-CLASSIFICATION**](../../research/manuscripts/care-delivery/emc-icdo-9231-classification.md) | ⛔ known negative / methods | 🏥 clinical adoption | **6.0** | 1 | 1 | 0 | 25% of 4 | ◐ `drafted` |

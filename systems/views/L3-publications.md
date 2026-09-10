@@ -36,7 +36,7 @@ last_verified: 2026-08-06
 
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
-| **PUB-ASO**<br/>[NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondr…](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md) | ◉ `posted_preprint` | `journal_submission` | 2 | — |
+| **PUB-ASO**<br/>[Computational design and parent transcript liabilities of NR4A3 fusion …](../../research/manuscripts/aso/cbc-20260910/manuscript.md) | ◉ `posted_preprint` | `journal_submission` | 2 | — |
 | **PUB-SURFACE-TARGETS**<br/>[CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depe…](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md) | ◉ `posted_preprint` | `journal_submission` | 6 | — |
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
@@ -74,9 +74,9 @@ last_verified: 2026-08-06
 
 *One statement per endpoint, written so a reader can disagree with it. If this sentence cannot be written, there is no endpoint — there is an activity.*
 
-### PUB-ASO — NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondrosarcoma: reagents, test articles and a pre-registrable knockdown experiment
+### PUB-ASO — Computational design and parent transcript liabilities of NR4A3 fusion junction gapmers in extraskeletal myxoid chondrosarcoma
 
-**◉ `posted_preprint` · aimed at `journal_submission` · [`research/manuscripts/aso/fusion-junction-aso-journal-article.md`](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md)**
+**◉ `posted_preprint` · aimed at `journal_submission` · [`research/manuscripts/aso/cbc-20260910/manuscript.md`](../../research/manuscripts/aso/cbc-20260910/manuscript.md)**
 
 The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level, and two junction-spanning gapmers are named for synthesis against it: 5'-GGGCATATCATCAAAC-3' at EWSR1 exon 12 and 5'-GGGCATATCTTGTGTG-3' at TAF15 exon 6, the best available designs at the two most frequently reported breakpoints. They are what survives a screen that condemns most of the panel: 87 of 190 junction-spanning designs let a mature wild-type parent transcript pair their whole catalytic gap over at least ten contiguous base pairs, and for 61 the longest such duplex is against wild-type NR4A3 itself, and lengthening the catalytic gap raises the margin available only by conceding parent-paired gap DNA, for an arithmetic rather than an empirical reason. Five test articles are named — three engineered constructs and two fusion-positive patient-derived EMC models, the controls and pre-registrable decision threshold for the falsifying experiment are stated, and the design pipeline is released for breakpoints outside the panel. Delivery is named as an outstanding gate rather than assumed away, the named reagents carry stated parent-duplex and off-target loads, and nothing here has been synthesised or tested.
 
