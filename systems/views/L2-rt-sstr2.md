@@ -113,7 +113,7 @@ It is a well-formed cheap ask with an unknown answer. There is no computation th
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depends on comparator and sequencing year](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`contributing` · ◉ `posted_preprint` · aimed at `Cancer Genetics`
+`contributing` · ◉ `posted_preprint` · aimed at `journal_submission`
 
 **This route contributes:** The theranostic receptor arm, framed as a cheap decisive negative rather than as a lead — there is no computation that strengthens it, only a measurement.
 

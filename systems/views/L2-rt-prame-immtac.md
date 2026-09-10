@@ -111,7 +111,7 @@ The transcript-level confirm this route owed has been taken and is flat at the f
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depends on comparator and sequencing year](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`contributing` · ◉ `posted_preprint` · aimed at `Cancer Genetics`
+`contributing` · ◉ `posted_preprint` · aimed at `journal_submission`
 
 **This route contributes:** The one antigen on the list whose therapeutic already exists clinically, which turns its row from a discovery into a check.
 

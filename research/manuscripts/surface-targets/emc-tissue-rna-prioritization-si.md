@@ -90,7 +90,7 @@ The historical analysis, draft and replay packets are preserved unchanged. Canon
 
 A=0.5 is neutral ordering; the control is separate from the address pass count. Matched columns use the supported-year specimens, not all nine EMC. Intervals and complete sensitivities are retained in the machine-readable tables described above.
 
-| Gene | Hofvander marginal A | Hofvander matched A | LGFMS array A | LGFMS Hofvander A | Rule |
+| Gene | Hofvander marginal A | Hofvander matched A | LGFMS array A | LGFMS Hofvander marginal A | Rule |
 |---|---:|---:|---:|---:|---|
 | CD276 | 0.26575 | 0.27143 | 0.32353 | 0.02564 | Fail |
 | SSTR2 | 0.56926 | 0.73373 | 0.47059 | 0.76068 | Fail |

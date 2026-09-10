@@ -1,0 +1,38 @@
+{
+  "draft_commit": "3add3651b117183a8b9dcfaf36e0269d2f68e5ba",
+  "normal_preflight_exit": 1,
+  "normal_log_sha256": "b9e9148f5d36640c376eca465ea30e53ce090b53b340f7f72951ab6be6da093d",
+  "repairs": [
+    {
+      "issue": "Journal name supplied to closed target_venue enum",
+      "repair": "Use journal_submission and retain Cancer Genetics in venue-specific evidence."
+    },
+    {
+      "issue": "Exact archived posted source duplicates canonical document ID",
+      "repair": "Preserve source bytes under .md.original.txt with original-path and SHA mapping."
+    },
+    {
+      "issue": "Valid quoted YAML status/id misread by line parser",
+      "repair": "Coordinator-owned generic scalar quote decoding; focused quote-equivalence and duplicate-ID behavior tests. No immutable protocol edit."
+    },
+    {
+      "issue": "Generated cover-letter Markdown lacks repository metadata",
+      "repair": "Add metadata only to the saved cover source in generator; batch with review fixes, then verify changed output and stamps."
+    },
+    {
+      "issue": "Historical result has missing context paths",
+      "repair": "Import 12 exact preexisting files, 818685 bytes, per ADDITIONAL-EXISTING-CONTEXT-PLAN.json."
+    },
+    {
+      "issue": "Four citations have no tracked source anchor",
+      "repair": "Copy coordinator actual Crossref metadata and exact original primary-methods locators (matches frozen manifest); do not relabel ledger rows."
+    },
+    {
+      "issue": "Claim coverage and archive inventories changed",
+      "repair": "Regenerate existing inventories after settled source/metadata commit; preserve original failed normal log and rerun once."
+    }
+  ],
+  "frozen_files_unchanged": true,
+  "science_runs": 0,
+  "status": "Prepared outside reviewed worktree; awaiting independent review batch and coordinator process-repair direction."
+}

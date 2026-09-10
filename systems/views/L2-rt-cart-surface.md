@@ -103,7 +103,7 @@ Blocked by the antigen search and the cold stroma rather than by the cell produc
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depends on comparator and sequencing year](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`contributing` · ◉ `posted_preprint` · aimed at `Cancer Genetics`
+`contributing` · ◉ `posted_preprint` · aimed at `journal_submission`
 
 **This route contributes:** The cell-product reading of the same ranking, and the finding that the constraint is the antigen and the stroma rather than the CAR.
 

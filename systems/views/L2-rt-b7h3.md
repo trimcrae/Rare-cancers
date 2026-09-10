@@ -103,7 +103,7 @@ The negative was measured on surrogates, so it is as provisional as a positive w
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depends on comparator and sequencing year](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`primary` · ◉ `posted_preprint` · aimed at `Cancer Genetics`
+`primary` · ◉ `posted_preprint` · aimed at `journal_submission`
 
 **This route contributes:** The prioritised surface-antigen ranking and the surrogate basis that bounds its negatives.
 

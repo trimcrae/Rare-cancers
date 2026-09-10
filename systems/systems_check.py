@@ -1298,7 +1298,19 @@ def _frontmatter(text):
         if ln.startswith((" ", "\t", "-")) or ":" not in ln:
             continue
         k, _, v = ln.partition(":")
-        out[k.strip()] = v.strip()
+        value = v.strip()
+        # YAML quotes delimit a scalar; they are not part of a document ID or status.
+        # Keep the line reader's other values unchanged; D11 reports malformed YAML.
+        if len(value) >= 2 and value[0] in ("'", '"') and value[-1] == value[0]:
+            import yaml
+            try:
+                decoded = yaml.safe_load(value)
+            except yaml.YAMLError:
+                pass
+            else:
+                if isinstance(decoded, str):
+                    value = decoded
+        out[k.strip()] = value
     return out
 
 

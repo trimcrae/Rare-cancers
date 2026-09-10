@@ -99,7 +99,7 @@ Downgraded on a measurement rather than on reasoning, which is the useful kind o
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depends on comparator and sequencing year](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`contributing` · ◉ `posted_preprint` · aimed at `Cancer Genetics`
+`contributing` · ◉ `posted_preprint` · aimed at `journal_submission`
 
 **This route contributes:** The cancer-testis antigen arm ported from synovial sarcoma, downgraded on a measurement rather than on an argument.
 

@@ -1,0 +1,99 @@
+{
+  "schema": "emc-independent-journal-review-findings/1",
+  "paper": "PUB-SURFACE-TARGETS",
+  "reviewer_agent": "/root/surface_cancer_genetics_review",
+  "dispatch_model": "gpt-6-astra",
+  "dispatch_reasoning_effort": "ultra",
+  "serving_configuration_independently_observed": false,
+  "reviewed_commit": "3add3651b117183a8b9dcfaf36e0269d2f68e5ba",
+  "frozen_aggregate_sha256": "02b7947f86a36afa0811ad79050943c12e668b3769ab9e1c051ed68d1738040e",
+  "central_claim_verdict": "supported",
+  "journal_preparation_verdict": "supported_with_minor_manuscript_corrections",
+  "acceptance_or_minor_revision_assurance": false,
+  "scientific_submission_blockers": [],
+  "major_scientific_repairs_required": [],
+  "journal_submission_prerequisites": [
+    {
+      "id": "J1",
+      "classification": "personal_declaration_at_journal_submission",
+      "requirement": "Author must personally meet and confirm substantive scientific contribution, drafting or critical intellectual revision, and final approval; complete each-author ICMJE disclosure and Elsevier declarations-tool DOC/DOCX.",
+      "evidence": "../JOURNAL-DECLARATION-REQUIREMENTS.json; main CRediT assigns Project administration and Supervision, with disclosed AI assistance.",
+      "minimal_action": "Author reviews and approves the final journal version, confirms actual qualifying contributions, and supplies required forms. Do not invent CRediT roles or personal facts.",
+      "blocks_authorized_preprint_revision_by_itself": false,
+      "implies_author_ineligibility": false
+    },
+    {
+      "id": "J2",
+      "classification": "technical_release_checks_outside_reviewer_scope",
+      "requirement": "Coordinator/executor must complete required normal/full publication checks and release mechanics.",
+      "reviewer_claims_technical_pass": false
+    }
+  ],
+  "minor_editorial_corrections": [
+    {
+      "id": "E1",
+      "artifact": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md",
+      "location": "Abstract Results; main DOCX/PDF page 1",
+      "finding": "DFSP is unexpanded in the standalone abstract.",
+      "exact_minimal_fix": "Replace 'The marginal DFSP context comparison' with 'The marginal dermatofibrosarcoma protuberans (DFSP) context comparison'. Also expand its first cover-letter occurrence.",
+      "science_change": false,
+      "word_limit_after_fix_remains_below_250": true
+    },
+    {
+      "id": "E2",
+      "artifact": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md",
+      "location": "Discussion limitations paragraph; main DOCX/PDF page 7",
+      "finding": "Sex/gender-specific effects and generalizability are not addressed, although the current guide requests this reporting consideration.",
+      "evidence": "Frozen protocol has no such analysis; source availability is not asserted absent.",
+      "exact_minimal_fix": "Sex- and gender-specific effects were not assessed; these small cohorts do not establish generalizability across sex or gender groups.",
+      "science_change": false,
+      "requires_new_subgroup_analysis": false
+    }
+  ],
+  "major_journal_fit_concerns": [
+    {
+      "id": "F1",
+      "classification": "material_editorial_significance_risk_not_scientific_submission_blocker",
+      "finding": "Incremental curated-panel reanalysis with only four matched EMC patients, year-deletion reversal, incomplete historical independence and no protein localization/mechanistic/clinical validation may not meet the editor's advance threshold.",
+      "minimal_action": "Retain exploratory framing and truthful limited contribution; do not promise acceptance or at most minor revisions.",
+      "new_science_campaign_required_by_this_review": false
+    }
+  ],
+  "optional_suggestions": [
+    {
+      "id": "O1",
+      "artifact": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-si.md",
+      "location": "Table S1 header, SI PDF page 4",
+      "suggestion": "Label 'LGFMS Hofvander A' as 'LGFMS Hofvander marginal A' for standalone clarity.",
+      "reported_values_correct": true
+    }
+  ],
+  "checked_and_dismissed": [
+    {
+      "concern": "Broader single-patient deletion phrase might be unsupported.",
+      "disposition": "Dismissed: all 45 comparator-patient deletions are positive, minima marginal 0.8890471668249447 and matched 0.8031746031746033; all nine EMC deletions positive too."
+    },
+    {
+      "concern": "AI disclosure might be Methods-only.",
+      "disposition": "Dismissed: separate labeled declaration is present immediately before References on main page 8, in addition to full Methods disclosure."
+    },
+    {
+      "concern": "Panel source or prior nomination rationale remains unexplained.",
+      "disposition": "Resolved: cited pinned public source contains exact eleven genes, curated approach rationale, stromal/CSPG4 corrections and nonexhaustive scope; internal freeze is not presented as public preregistration."
+    },
+    {
+      "concern": "Scientific source continuity broken by current sparse worktree differences.",
+      "disposition": "Dismissed after inspection: original 151 inputs still hash-match; core current kernels/results unchanged; other relevant differences are path, annotation or presentation changes."
+    }
+  ],
+  "review_scope": {
+    "all_main_si_cover_pages_visually_inspected": 16,
+    "frozen_outgoing_files_checked": 23,
+    "preserved_original_review_inputs_checked": 151,
+    "original_analysis_repeated": false,
+    "frozen_input_edits": false,
+    "external_posting": false,
+    "further_full_review_recommended": false,
+    "next_review_scope": "Focused verification of E1/E2, regenerated artifacts and final integrity only."
+  }
+}

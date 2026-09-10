@@ -37,7 +37,7 @@ last_verified: 2026-08-06
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
 | **PUB-ASO**<br/>[NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondr…](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md) | ◉ `posted_preprint` | `journal_submission` | 2 | — |
-| **PUB-SURFACE-TARGETS**<br/>[CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depe…](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md) | ◉ `posted_preprint` | `Cancer Genetics` | 6 | — |
+| **PUB-SURFACE-TARGETS**<br/>[CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depe…](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md) | ◉ `posted_preprint` | `journal_submission` | 6 | — |
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[Reading-frame constraints and retained RG content in NR4A3 fusion model…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `preprint` | 1 | — |
@@ -91,7 +91,7 @@ The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at
 
 ### PUB-SURFACE-TARGETS — CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depends on comparator and sequencing year
 
-**◉ `posted_preprint` · aimed at `Cancer Genetics` · [`research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md`](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)**
+**◉ `posted_preprint` · aimed at `journal_submission` · [`research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md`](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)**
 
 A fixed panel of 11 therapeutic-address genes, with CHRNA6 as a separate established RNA-marker control, can be assessed using within-cohort tissue RNA ranks and prespecified sarcoma comparators. In the overlap-reduced Hofvander cohort of nine primary EMC specimens, CSPG4 alone meets the frozen tissue-validation allocation rule; its LGFMS contrast agrees with the original GSE24369 array contrast, but year-deletion sensitivity and DFSP context limit generalization. This supports a qualified rationale for EMC tissue protein and compartment validation, not validated surface expression, normal sparing, treatment selection or efficacy. All other fixed-panel results and discordant protein/normal-context evidence are retained.
 
@@ -626,12 +626,12 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-SCHEDULING](L2-rt-scheduling.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◐ | `preprint` | `contributing` |
 | [RT-SEQUENCING](L2-rt-sequencing.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◐ | `preprint` | `contributing` |
 | [RT-TRIAL-REACH](L2-rt-trial-reach.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◐ | `preprint` | `contributing` |
-| [RT-B7H3](L2-rt-b7h3.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `Cancer Genetics` | `primary` |
-| [RT-CART-SURFACE](L2-rt-cart-surface.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `Cancer Genetics` | `contributing` |
-| [RT-FAP-RLT](L2-rt-fap-rlt.md) | [ST-RADIOLIGAND](L1-st-radioligand.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `Cancer Genetics` | `contributing` |
-| [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) | [ST-IMMUNO](L1-st-immuno.md) | `experimental_proposal` | **PUB-SURFACE-TARGETS** ◉ | `Cancer Genetics` | `contributing` |
-| [RT-SSTR2](L2-rt-sstr2.md) | [ST-RADIOLIGAND](L1-st-radioligand.md) | `experimental_proposal` | **PUB-SURFACE-TARGETS** ◉ | `Cancer Genetics` | `contributing` |
-| [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `Cancer Genetics` | `contributing` |
+| [RT-B7H3](L2-rt-b7h3.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `journal_submission` | `primary` |
+| [RT-CART-SURFACE](L2-rt-cart-surface.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `journal_submission` | `contributing` |
+| [RT-FAP-RLT](L2-rt-fap-rlt.md) | [ST-RADIOLIGAND](L1-st-radioligand.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `journal_submission` | `contributing` |
+| [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) | [ST-IMMUNO](L1-st-immuno.md) | `experimental_proposal` | **PUB-SURFACE-TARGETS** ◉ | `journal_submission` | `contributing` |
+| [RT-SSTR2](L2-rt-sstr2.md) | [ST-RADIOLIGAND](L1-st-radioligand.md) | `experimental_proposal` | **PUB-SURFACE-TARGETS** ◉ | `journal_submission` | `contributing` |
+| [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◉ | `journal_submission` | `contributing` |
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-SYNLETH** ◐ | `internal_note` | `primary` |
 | [RT-TCIP](L2-rt-tcip.md) | [ST-PROXIMITY](L1-st-proximity.md) | `preprint` | **PUB-TCIP** ◐ | `preprint` | `primary` |
 | [RT-CHAPERONE](L2-rt-chaperone.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ◐ | `preprint` | `primary` |

@@ -1,0 +1,46 @@
+{
+  "utc": "2026-09-10T00:50:30.221056+00:00",
+  "paper": "PUB-SURFACE-TARGETS",
+  "candidate_sha": "3add3651b117183a8b9dcfaf36e0269d2f68e5ba",
+  "publish_bar_sha256": "66eba69ddcd5436bf0a76dcdbfbb7eaff83f43ace6cf8a870a83accc24805c23",
+  "mode": "source",
+  "clauses": [
+    {
+      "clause": "claim_ceiling_honoured",
+      "label": "claim strength within the endpoint's ceiling",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "lint_claims clean over research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md at 3add3651b117"
+    },
+    {
+      "clause": "identifiers_resolvable",
+      "label": "every identifier traces to a fetch or the ledger",
+      "verdict": "FAIL",
+      "ok": false,
+      "evidence": "lint_citations exit 1: lint_citation_types: retraction sweep (2026-09-01) \u2014 1154 prose identifier(s): 844 checked against PubMed, 6 retracted, 238 outside PubMed's reach (arXiv/NCT/GEO/preprint, meeting-abstract, dataset and PDB DOIs \u2014 UNKNOWN, not clean), 72 NOT SWEPT. (corpus-wide at the pinned sha; the defect need not be in this paper)"
+    },
+    {
+      "clause": "endpoint_declared",
+      "label": "the endpoint is a declared falsifiable claim",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "PUB-SURFACE-TARGETS claims: A fixed panel of 11 therapeutic-address genes, with CHRNA6 as a separate established RNA-m..."
+    },
+    {
+      "clause": "readable_enough_to_review",
+      "label": "the outgoing text is readable and keeps its caution",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md: no sentence over 60w (longest 46w, mean 14.6w, FKGL 14.4), caution 11.4/1000w (no baseline pinned). \u26a0 This says nothing about whether the prose is CLEAR."
+    },
+    {
+      "clause": "deliverable_is_buildable",
+      "label": "the deliverable has a registered renderer",
+      "verdict": "PASS",
+      "ok": true,
+      "evidence": "build_submission_pdf.PAPERS builds 'surface-targets/emc-tissue-rna-prioritization.md' at 3add3651b117"
+    }
+  ],
+  "all_requested_clauses_pass": false,
+  "scope_note": "Original publish_bar functions called unchanged. This partial technical result is not publication authority or full-gate evidence."
+}

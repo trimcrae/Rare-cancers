@@ -108,7 +108,7 @@ Entirely unmeasured in EMC. The rationale is a plausible inference from the tumo
 
 **[PUB-SURFACE-TARGETS](L3-publications.md)** — [CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depends on comparator and sequencing year](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md)
 
-`contributing` · ◉ `posted_preprint` · aimed at `Cancer Genetics`
+`contributing` · ◉ `posted_preprint` · aimed at `journal_submission`
 
 **This route contributes:** The stromal arm, which is the only row on the list that does not require the fusion biology to be solved and is also the least measured.
 
