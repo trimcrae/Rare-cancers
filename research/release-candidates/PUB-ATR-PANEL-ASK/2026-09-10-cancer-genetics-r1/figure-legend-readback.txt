@@ -1,0 +1,36 @@
+1 
+Figure legend  
+Figure 1. Reported EMC junctions on the retained-RG axis, and the type-2 seam. Three panels, drawn by 
+emc_fusion_frame_figure.py and committed as emc-fusion-frame-fig1.png and emc-fusion-frame-fig1.pdf. 
+Panel A. Bars are drawn to residue scale on the shared axis. Each thin vertical tick marks one RG dipeptide, at 
+the 1-based position of its arginine (emc-fet-frame-and-composition.json, 
+composition.rg_content.<protein>.rg_positions); the count printed at the right of each wild-type bar is that 
+protein's total. Dashed rectangles mark operationally defined RGG boxes — maximal merged runs of 60-
+residue windows each containing at least six RG dipeptides, trimmed to start at the first RG the box contains 
+and to end two residues past its last RG-start (emc_fet_idr_census.py, RGG_WINDOW = 60, 
+RGG_MIN_RG_IN_WINDOW = 6); the spans drawn are rgg_boxes_operational in emc-fet-construct-designs.json. 
+This finder returns two boxes on EWSR1 and one on TAF15; the source paper names three RGG-rich domains 
+in EWSR1, and the box definition was not tuned to reproduce that count. NR4A3 has no box because the 
+finder returns none for it. C166 is a printed text label placed above the NR4A3 bar with a single vertical marker 
+drawn on that bar at residue 166; it identifies that residue position and nothing more, and no functional 
+property is asserted for it here. Below the dotted rule, each fusion row shows the retained 5' segment ending at 
+a heavy end-cap at its breakpoint, carrying only the RG ticks at or before that breakpoint; the right-hand text 
+gives the retained residue range and the retained-of-total RG count. Panel A carries four weights of vertical 
+black line — RG tick, dashed box outline, breakpoint end-cap and the C166 marker — and the figure prints no 
+key of its own, so the reader is directed to this caption for all four. 
+Panel B. The retained-RG fraction axis, carrying the fusion positions of Table 3, the hatched band labelled 
+"position on this axis not determinable" for the construct whose reintroduced RGG-rich domain the source 
+does not identify, and the 0.000 to 0.267 interval spanned by the three reported EWSR1::ATF1 breakpoints. 
+That interval describes reported breakpoints; it is not a measured recruitment range. 
+Panel C. The type-2 seam, drawn as one nucleotide donated by EWSR1 followed by 176 nt of NR4A3 
+untranslated sequence: 174 nt of NR4A3 exon 2, the block labelled untranslated in NR4A3, and the first 2 nt 
+of NR4A3 exon 3, annotated separately in the panel. Those 177 nt are the extension of 59 codons carrying no 
+internal stop codon. The earlier caption counted only the exon 2 block and the donated nucleotide, which does 
+not reach 177. The panel does not print the words "type 2": it draws the EWSR1 exon 7 to NR4A3 exon 2 
+junction, which is the only reported EMC junction using the exon 2 acceptor, and it should be read as that 
+junction and not as a general statement about the acceptor. 
+What the figure shows, and what it does not. The three panels carry the reported junctions, the RG content 
+each retains, the retained-RG fraction axis and the type-2 seam. The frame rule as a rule over all donor and 
+2 
+acceptor pairs, the complete phase-1 donor set, the symmetric prefix sweep and its 0.039 margin, and the 
+TAF15 zero-RG margin are results of sections 3.2, 3.4 and 3.5 and appear in no panel. 
