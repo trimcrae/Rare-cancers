@@ -830,7 +830,15 @@ PROMISES = [
         # list that goes stale is not a longer list.
         "patterns": ["research/manuscripts/aso/fusion-junction-aso-*article*.pdf",
                      "research/manuscripts/aso/fusion-junction-aso-*article*"
-                     ".build-stamp.json"],
+                     ".build-stamp.json",
+                     # Journal packages retain frozen main files in scoped subdirectories.
+                     # Include the scientific main, not correspondence or administrative files.
+                     "research/manuscripts/aso/*/manuscript.md",
+                     "research/manuscripts/aso/*/manuscript.docx",
+                     "research/manuscripts/aso/*/manuscript.pdf",
+                     "research/manuscripts/aso/*/manuscript-preview*.pdf",
+                     "research/manuscripts/aso/*/manuscript*.build-stamp.json",
+                     "research/manuscripts/aso/*/figure-*.png"],
     },
     {
         "id": "manuscript_and_figures",

@@ -82,7 +82,7 @@ _FULL_WIDTH_TABLE_CAPTIONS = ()
 
 PAPERS = {
     # Readable preview only. The deposited DOCX/PDF are byte-identical Word exports.
-    'aso-cbc': {'manuscript': 'aso/cbc-20260910/manuscript.md', 'tables': None, 'references': None, 'stamp_sources': ['aso/cbc-20260910/manuscript.md'], 'inline_images': True, 'figures': {}, 'journal': {'article_type': 'Original Research Article', 'section': '', 'preprint_note': 'Journal presentation preview; not peer reviewed.'}, 'out': 'aso/cbc-20260910/manuscript-preview.pdf', 'deposited_out': 'aso/cbc-20260910/manuscript.pdf'},
+    'aso-cbc': {'manuscript': 'aso/cbc-20260910/manuscript.md', 'tables': None, 'references': None, 'stamp_sources': ['aso/cbc-20260910/manuscript.md', 'aso/fusion-junction-aso-sequences.csv'], 'inline_images': True, 'figures': {}, 'journal': {'article_type': 'Original Research Article', 'section': '', 'preprint_note': 'Journal presentation preview; not peer reviewed.'}, 'out': 'aso/cbc-20260910/manuscript-preview.pdf', 'deposited_out': 'aso/cbc-20260910/manuscript.pdf'},
     'atr-cancer-genetics': {'manuscript': 'dependency/cancer-genetics-20260910/manuscript.md', 'tables': None, 'references': None, 'stamp_sources': ['dependency/cancer-genetics-20260910/manuscript.md'], 'inline_images': True, 'figures': {}, 'journal': {'article_type': 'Original Research Article', 'section': '', 'preprint_note': 'Journal presentation preview; not peer reviewed.'}, 'out': 'dependency/cancer-genetics-20260910/manuscript-preview.pdf', 'deposited_out': 'dependency/cancer-genetics-20260910/manuscript.pdf'},
     #: ⭐ THE JOURNAL SUBMISSION, AND SINCE 2026-08-25 THE ONLY ASO PAPER THIS BUILDER KNOWS.
     #: It carries its own references and tables companions and no supplementary file.
@@ -705,7 +705,8 @@ def inline_raster_images(body, paper):
         return body
     base = os.path.dirname(os.path.join(HERE, paper["manuscript"]))
     out, seen = [], 0
-    for line in body.split("\n"):
+    lines = body.split("\n")
+    for index, line in enumerate(lines):
         match = _IMAGE_LINE_RE.match(line.strip())
         if not match:
             if _IMAGE_ANYWHERE_RE.search(line):
@@ -719,6 +720,24 @@ def inline_raster_images(body, paper):
             out.append(line)
             continue
         alt, src = match.group(1), match.group(2)
+        label = re.fullmatch(r"(?:Original\s+)?(?:Figure|Fig\.)\s*(\d+)\.?", alt.strip())
+        if label:
+            # A frozen readback may label the image briefly and put its complete
+            # caption in the next paragraph. Use that actual matching caption for
+            # accessibility; never invent one or borrow a different figure's text.
+            following = index + 1
+            while following < len(lines) and not lines[following].strip():
+                following += 1
+            paragraph = []
+            while following < len(lines) and lines[following].strip():
+                paragraph.append(lines[following].strip())
+                following += 1
+            caption = " ".join(paragraph).replace("**", "")
+            number = re.match(r"(?:Figure|Fig\.)\s*(\d+)\.", caption)
+            if not number or number.group(1) != label.group(1):
+                raise SystemExit("inline_images: label-only alt requires an immediately following "
+                                 "caption with the same figure number")
+            alt = caption
         path = os.path.normpath(os.path.join(base, src))
         ext = os.path.splitext(path)[1].lower()
         if ext not in _RASTER_MIME:
@@ -1779,7 +1798,8 @@ def parse_front_matter(body):
     # paper uses a numbered affiliation, `¹ Independent Researcher.`, which is what its target
     # journal wants. Accept either rather than making a submission-ready manuscript change its
     # title page to suit this script.
-    front["affiliation"] = paragraph(r"^(?:\*|[¹1]\s*)Independent [Rr]esearcher",
+    # Plain text is also valid: formatting does not establish affiliation.
+    front["affiliation"] = paragraph(r"^(?:\*|[¹1]\s*)?Independent [Rr]esearcher",
                                      "the affiliation line")
 
     _, end, after = section_span(body, "Abstract")

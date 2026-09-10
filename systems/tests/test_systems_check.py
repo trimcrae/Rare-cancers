@@ -853,17 +853,19 @@ def test_a_load_bearing_document_cannot_declare_itself_retired(graph, monkeypatc
     sc.check_documents(graph, f)
     assert [e for e in f.errors if "[D8]" in e] == [], "\n".join(f.errors)
     # Perturb the parsed metadata, never the active document: retirement must be rejected.
-    frontmatter = sc._frontmatter
+    frontmatter = sc._effective_frontmatter
     with open(os.path.join(REPO, active), encoding="utf-8") as source:
-        active_id = frontmatter(source.read())["id"]
+        metadata, error = frontmatter(source.read(), active)
+        assert error is None
+        active_id = metadata["id"]
 
-    def retired_protocol(text):
-        metadata = frontmatter(text)
+    def retired_protocol(text, rel):
+        metadata, error = frontmatter(text, rel)
         if metadata and metadata.get("id") == active_id:
-            return dict(metadata, status="historical")
-        return metadata
+            return dict(metadata, status="historical"), error
+        return metadata, error
 
-    monkeypatch.setattr(sc, "_frontmatter", retired_protocol)
+    monkeypatch.setattr(sc, "_effective_frontmatter", retired_protocol)
     f = sc.Findings()
     sc.check_documents(graph, f)
     assert any("[D8]" in e and active in e for e in f.errors), f.errors
@@ -1909,7 +1911,9 @@ def test_an_endpoint_document_is_a_publication_not_a_memo_about_one(graph):
         path = os.path.join(REPO, doc["file"])
         assert os.path.exists(path), doc["file"]
         with open(path, encoding="utf-8") as fh:
-            fmv = sc._yaml_frontmatter(fh.read())[0] or {}
+            fmv, error = sc._effective_frontmatter(fh.read(), doc["file"])
+        assert error is None, f"{doc['file']}: {error}"
+        fmv = fmv or {}
         assert fmv.get("level") == "L3", f"{p['id']} -> {doc['file']} is level {fmv.get('level')!r}"
 
 

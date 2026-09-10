@@ -216,6 +216,19 @@ def test_a_missing_front_matter_label_fails_the_build():
     assert "front matter" in str(excinfo.value)
 
 
+@pytest.mark.parametrize("prefix", ["", "*", "¹ ", "1 "])
+def test_affiliation_formatting_is_optional_but_its_line_is_required(prefix):
+    body = ("# Title\n\n**Author.** A. Author\n\n"
+            + prefix + "Independent researcher, unaffiliated.\nORCID: retained\n\n"
+            "**Running title.** Short\n\n**Keywords.** sequence\n\n"
+            "## Abstract\n\nAbstract text.\n\n## 1 Introduction\n\nBody.")
+    front = bsp.parse_front_matter(body)
+    assert "ORCID: retained" in front["affiliation"]
+    broken = body.replace(prefix + "Independent researcher", "A paragraph mentions Independent researcher")
+    with pytest.raises(SystemExit, match="affiliation"):
+        bsp.parse_front_matter(broken)
+
+
 # ---------------------------------------------------------------- rendering correctness
 
 #: The disclaimers that must reach a reader BEFORE the first oligonucleotide the abstract names.
@@ -825,9 +838,24 @@ def _assert_one_papers_images_carry_their_captions(key):
             f"{key} ({style}) alt text is a label, not a caption: {alt.group(1)!r}")
         #: The PRINTED legend is the `**Figure N.**` paragraph the manuscript sets under the image,
         #: and it has to survive next to it rather than be replaced by the alt text.
-        assert re.search(r"<figure[^>]*>.{0,4000000}?</figure>\s*<p[^>]*>\s*<strong>Figure\s*1\.",
+        assert re.search(r"<figure[^>]*>.{0,4000000}?</figure>\s*<p[^>]*>\s*(?:<strong>)?Figure\s*1\.",
                          page, re.S), (
             f"{key} ({style}): the figure's legend paragraph no longer follows the figure")
+
+
+@pytest.mark.parametrize("caption", [
+    "Figure 1. The complete caption describes the measured sequence window.",
+    "**Figure 1.** The complete caption describes the measured sequence window.",
+])
+def test_label_only_image_uses_its_actual_adjacent_caption(caption):
+    paper = dict(bsp.PAPERS["atr-panel-ask"], inline_images=True)
+    body = "![Original Figure 1](../figures/emc-fusion-frame-fig1.png)\n\n" + caption
+    rendered = bsp.inline_raster_images(body, paper)
+    assert caption in rendered
+    assert 'alt="' + caption.replace("**", "") + '"' in rendered
+    for broken in ("", caption.replace("Figure 1", "Figure 2"), "Intervening prose.\n\n" + caption):
+        with pytest.raises(SystemExit, match="same figure number"):
+            bsp.inline_raster_images(body[:body.index("\n\n")] + "\n\n" + broken, paper)
 
 
 def test_an_image_embedded_in_prose_fails_the_build_instead_of_printing_a_stray_bang():
