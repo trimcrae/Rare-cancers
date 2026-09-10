@@ -1,0 +1,45 @@
+{
+  "authorized_by": "coordinator",
+  "coordinator_task_id": "01a071e4-d344-7053-b429-7bdfc963c8c2",
+  "authorized_utc": "2026-09-06T15:30:59.179833+00:00",
+  "sha256": {
+    "protocol.md": "6baa7aea44c1f170553ec6d8650d2015c794b50180fedd43cbdd10693e779eee",
+    "metadata-manifest.json": "6b456064ddb37b11e6ac0965585ea2e199c4538060146bf79124ef7e91360388",
+    "metadata.py": "fc26eb2fe167dba67afd3b8ca70173fb8ec3d460466a711d0d4db94aa0b88055",
+    "analyze.py": "e6203785e63de50bdab73434030a0aae4f6b765099efc6c6cce4c69e0034f118",
+    "amendment-replication-2026-09-06.md": "76dd685c4dd1c5c3d77b14187703af26826f91811b808dc82e23811c3b1749ac",
+    "replication-manifest.json": "466740c70efde62b699888e36c9e99942a249076b79d9aa11ddf68230f2bceb9",
+    "replication_metadata.py": "f028de27596d84f553f4c4110d75fb942714d20088d6176190c843a84917fc12",
+    "replication.py": "d626cb59146f9635902408b1bb15e3f9d12518b75bb8a5214a666fc6a5bc02c1"
+  },
+  "decision": "Execute original Hofvander analysis followed by the fixed shared-histology array extension. Do not change thresholds, panel, source membership or comparator policy after values.",
+  "independent_design_review_manifest_sha256": "9617abb743e70bda4c159f9f6a57881a5ca9f47993e6b956ecb47b067af429ec",
+  "coordinator_extension_review": "Read exact amendment, metadata construction and replication script. Frozen LGFMS anchor and named secondary contexts compare like histologies; retain original cohort-specific units, full source precision, partial-independence and lesion-scope limitations.",
+  "scope": "Authorized retrospective computational research and source-preserved interpretation. No publication or clinical validation claim.",
+  "record_kind": "local_replay_compatibility",
+  "original_authorization_sha256": "60f00fd8dd985b303ca642ab044f07c2c0b3738c6ec13731c9b45130321c1264",
+  "original_authorization_path": "C:\\Users\\mcrae\\.codex\\worktrees\\atlas-hofvander-validation-20260906\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\.cache\\clean-run-20260906\\frozen\\coordinator-authorization.json",
+  "relocations": [
+    {
+      "file": "metadata-manifest.json",
+      "json_pointer": "/source_location",
+      "before": "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\.cache\\emc-atlas-new-source-20260906",
+      "after": "C:\\Users\\mcrae\\.codex\\worktrees\\atlas-hofvander-validation-20260906\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\.cache\\clean-run-20260906\\sources\\hofvander",
+      "original_sha256": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+      "derived_sha256": "6b456064ddb37b11e6ac0965585ea2e199c4538060146bf79124ef7e91360388",
+      "all_other_decoded_content_identical": true
+    },
+    {
+      "file": "replication-manifest.json",
+      "json_pointer": "/source_location",
+      "before": "C:\\Users\\mcrae\\.codex\\worktrees\\8010\\EMC-Research\\.cache\\atlas-original-array-recovery-20260906",
+      "after": "C:\\Users\\mcrae\\.codex\\worktrees\\atlas-hofvander-validation-20260906\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replay\\.cache\\clean-run-20260906\\sources\\array",
+      "original_sha256": "41def87dde52663a73ea09a3b52924843d5d20103c7f0523bc03ae842426e0ae",
+      "derived_sha256": "466740c70efde62b699888e36c9e99942a249076b79d9aa11ddf68230f2bceb9",
+      "all_other_decoded_content_identical": true
+    }
+  ],
+  "local_replay_initiator": "worker /root/resume_existing_evidence on coordinator standing replay authorization",
+  "local_replay_started_utc": "2026-09-06T15:54:10.655070+00:00",
+  "notice": "Historical coordinator fields satisfy the unchanged entry-point schema. They are not newly issued coordinator approval, a new preregistration, a new hypothesis, clinical authority or publication permission. Mechanical local replay is separately authorized by standing-authorization.json."
+}

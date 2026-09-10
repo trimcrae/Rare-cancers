@@ -216,6 +216,26 @@ PAPERS = {
         },
         "out": "neoantigen/emc-vaccine-development-path.pdf",
     },
+    "surface-tissue-rna": {
+        "footer_text": "Not peer reviewed.",
+        "supplementary_presentation": {
+            "main_suffix": "-preprint.pdf", "relation": "accompanies",
+            "running_title": "EMC tissue RNA: supplementary information",
+            "preserve_source_filenames": True},
+        "manuscript": "surface-targets/emc-tissue-rna-prioritization.md",
+        "supplementary": "surface-targets/emc-tissue-rna-prioritization-si.md",
+        "tables": None, "references": None,
+        "stamp_sources": (
+            "surface-targets/emc-tissue-rna-prioritization.md",
+            "surface-targets/emc-tissue-rna-prioritization-si.md",
+            "surface-targets/plot_emc_tissue_rna.py"),
+        "figures": {"Figure 1.": "surface-tissue-rna-figure1.svg",
+                    "Figure 2.": "surface-tissue-rna-figure2.svg"},
+        "journal": {"article_type": "Original Research Article", "section": "",
+                    "preprint_note": "Research manuscript; not peer reviewed."},
+        "layout": {"tables_in_column": True},
+        "out": "surface-targets/emc-tissue-rna-prioritization.pdf",
+    },
     "atr-panel-ask": {
         "manuscript": "dependency/emc-atr-collaborator-package.md",
         "references": None,

@@ -1,0 +1,720 @@
+{
+  "schema": "independent-scientific-review/1",
+  "verdict": "supported",
+  "central_claim": "CSPG4 alone in a frozen 11-gene panel has observed RNA rank ordering that supports a qualified EMC tissue-localization follow-up, restricted by comparator dependence, sparse sequencing-year support and the 2019 deletion reversal; no therapeutic or general-specificity claim is established.",
+  "reviewed_utc": "2026-09-06T16:59:30.124001+00:00",
+  "execution_identity": {
+    "agent_path": "/root/atlas_blind_ultra",
+    "dispatch_model": "gpt-6-astra",
+    "dispatch_reasoning_effort": "ultra",
+    "actual_serving_model_identifier": null,
+    "actual_effort_telemetry": null,
+    "qualification": "Model/effort recorded from explicit dispatch; independent serving-model/effort telemetry was not exposed.",
+    "verification_runtime": {
+      "python": "3.12.14",
+      "executable": "C:\\Users\\mcrae\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+      "numpy": "2.3.5",
+      "openpyxl": "3.1.5",
+      "et-xmlfile": "2.0.0"
+    }
+  },
+  "candidate_revision_supplied": "0a7c2892b5735c671de0a4e6557c6422fd472036",
+  "render_source_revision": "c8c7c21baff581a8822453182b2c0b0255654bd8",
+  "input_manifest_sha256": "0af4470a94a08d593737ecb90928c841f8b86a9f5e27fdd0dd921107f17e30b6",
+  "input_integrity": {
+    "files": 151,
+    "before_mismatches": 0,
+    "after_mismatches": 0,
+    "inputs_modified": false
+  },
+  "reviewed_files": [
+    {
+      "path": "research/autonomy/atlas-hofvander-source-2026-09-06/source-provenance.zip",
+      "sha256": "30829e7962887125ede409ace0fefd7babaa8ad345aa8a51caaf769529697e12",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay source integrity/staging"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
+      "sha256": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "targeted provenance/content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz",
+      "sha256": "0255cd254762c6184a782d5b9a90aba6e545b6b2206e28f283455df2de4d62fc",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay source integrity/staging"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/selected-values.json",
+      "sha256": "21d0628368ca324da7cbe42d899a67590361b3b69476a6f6653e66410e03853d",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD276.json",
+      "sha256": "603c35d1714c979243b98af126b0b7d68ae1acbe3152dd89b3f1bf99800fcd25",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/SSTR2.json",
+      "sha256": "77c896035ed6011274e417b42a61ddeb9e1efa94ff546ffce74fa7db7cf7a1ec",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/PRAME.json",
+      "sha256": "a97115f656a39b91a86f9c33264210f611619e0f971e09ed672a6286dbe29632",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/FAP.json",
+      "sha256": "6bc1b9c44639fcdf8a48b46b7439b2775f6c57ae4838498197d653a261a24e6e",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD248.json",
+      "sha256": "314f5bd3ded8b11449f599fe1e94231c64224291b4b724eb7deeee73c6cbe65e",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CSPG4.json",
+      "sha256": "004a0f6da8b0f0197011cb2d1624c62aff19f8b2d00dd17e00d36d15287b121a",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/MSLN.json",
+      "sha256": "4b4cc5e88a9b56023188d2532cb772ea5344af65bf71ff8ce880fb1efc931e08",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/L1CAM.json",
+      "sha256": "09b4d42498737c768f02be54b2ec327f592607da7c1b1ce258706bb27b801981",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/GPC3.json",
+      "sha256": "1771919ec8bb36d9a6fb31740690a534e846b9fae162f049acc6f3d728cae5a2",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/ALPP.json",
+      "sha256": "c1a4a72664066d2762930817e7b7ebcfbcaf5a3578b313d149b1a5a2feb0c35e",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CDH17.json",
+      "sha256": "d8294e33a7eca9d3160800dfa5d6ba1c1a2b8ce64d7b98003127e20c6340d50a",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CHRNA6.json",
+      "sha256": "b6b7e7d638fbb5085a0e4728e5edfacef096a879cf9af9e335b821b9b748f91f",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-manifest.json",
+      "sha256": "41def87dde52663a73ea09a3b52924843d5d20103c7f0523bc03ae842426e0ae",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "targeted provenance/content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-primary-provenance-2026-09-06/GSE24369.soft.gz",
+      "sha256": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay source integrity/staging"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/array-values.json",
+      "sha256": "33ce40f615cb7db706565c559cfafebcd57b5b9d84f30c4af7a6502f03faed9c",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD276.json",
+      "sha256": "395082ac5d928d275081d03a7b1694f18881412e28e776f1ec7df60d5faeb59f",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/SSTR2.json",
+      "sha256": "f450fe26695c7e45ffe02eb7d669fb95d2175ec6662ec1a254b26fd96c8abcc3",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/PRAME.json",
+      "sha256": "13a916b140d2b02fd9ecfcf0f709a51e73f8c3c7ac6f34c6c2656fbee1319cab",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/FAP.json",
+      "sha256": "3f6b92cf1c4f23b8e7d6c2564e7f896f813bf99883e60ffb7971c3a0082b580e",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD248.json",
+      "sha256": "a398c9bd6153163c2772e776e3bcfcef1734411d3bf0ede6ec58f4601ff3b6a0",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CSPG4.json",
+      "sha256": "27b58be3b06cbb03c243f6c5d2b5e00b9217ad950acb39d9130646718ff06209",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/MSLN.json",
+      "sha256": "d0ca5023eec1990ddfa8284e96cbd93babaded8bbab81c07421da0fba22d2fa0",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/L1CAM.json",
+      "sha256": "0d0ce0822eed9ad3d7854eb19370b1d6e0b20f3b0446980378b8103c4a4eb4fe",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/GPC3.json",
+      "sha256": "bfc6e13fa2d6d9335815a7c8b42943c7a331f0672d77076655ac28d63f3c60c5",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/ALPP.json",
+      "sha256": "91fa5efd58f3ebcc3ad9a997238519491890b8bb15a3aea431a21067e72acb64",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CDH17.json",
+      "sha256": "7ec58894f7b330ec7d377e5dc64e7a5e655f34e19d00c0e40ccd495b3fc4c089",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CHRNA6.json",
+      "sha256": "94978db90263e5e54cce093c8d85112e3125592de914c560ee2b076076dafc8c",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-original-array-source-2026-09-06/original-source-recovery.zip",
+      "sha256": "855cf60fd09b7206699f7b11053fafb39ceb93209b75ebeae59326cd2e0f66f4",
+      "review_modes": [
+        "independent source parsing or numerical comparison",
+        "supplied offline replay source integrity/staging"
+      ]
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md",
+      "sha256": "3366113fcdaa088045340f53532f087f15bf603a2331d110bd1754a1955eaa14",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-si.md",
+      "sha256": "81b5ace2d11e3c5ddf1e4a49becdce7d86ea9b5819f41a1415d5a923dd5d1844",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md.original.txt",
+      "sha256": "7555af8af8b3bfd98873190a672f1447c50291f15d2ec9c794e2f58750bdd524",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md",
+      "sha256": "76dd685c4dd1c5c3d77b14187703af26826f91811b808dc82e23811c3b1749ac",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/coordinator-authorization.json",
+      "sha256": "60f00fd8dd985b303ca642ab044f07c2c0b3738c6ec13731c9b45130321c1264",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/analyze.py",
+      "sha256": "e6203785e63de50bdab73434030a0aae4f6b765099efc6c6cce4c69e0034f118",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata.py",
+      "sha256": "fc26eb2fe167dba67afd3b8ca70173fb8ec3d460466a711d0d4db94aa0b88055",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication.py",
+      "sha256": "d626cb59146f9635902408b1bb15e3f9d12518b75bb8a5214a666fc6a5bc02c1",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/README.md",
+      "sha256": "f5b2bb6ef82938001c0ec6cf3d8f816e888fb85f63e4a83f84a1e7c035966e0f",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/requirements.txt",
+      "sha256": "fd79e4cd0cea13ea3dcbfc35b4886effa20a6beb230acba3fcdce5ec324b129d",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/replay.py",
+      "sha256": "487ee327b224c4a48286fe492b0e6da13d179ea560ee7b04f9d8d36ec3516ebb",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/plot_figures.py",
+      "sha256": "eab0311835098e8d7854343a9a970d5f40a692e8c8170aed3e9e86c6e8b47094",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/normal-context.csv",
+      "sha256": "7ccee3a1a7a8db1c7145f4e9b239e12144798b01012930e91304d9724c1add3f",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/all12-gene-effects.csv",
+      "sha256": "e4481028970f92d0d22ea66aeebdccaea8a3a2e9c45c9af169ecc24e4663754d",
+      "review_modes": [
+        "content inspection",
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/manuscripts/surface-targets/plot_emc_tissue_rna.py",
+      "sha256": "5838486e65719cb57086fec095bc267e663c721b4ddb93ffdfcc5a00f6f0ad1c",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-sample-organ-2026-09-06/report.md",
+      "sha256": "e017ae9beae2257d343d8cc5a86994e760acce5305028aa46e7ffa1ab6782449",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-sample-organ-2026-09-06/protocol-frozen.md.txt",
+      "sha256": "7429a89c8b9804fa956c43818d4e7cb4841ae69926ed3beca3b9e4c32a405f8d",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-source-2026-09-06/hofvander2026.xml",
+      "sha256": "b959d8dbd242981d7e1bbb77e608f7d57100f26c9e2e8d4f1d03e18da71d7211",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "source-license-inventory.json",
+      "sha256": "ea4c8fd4d06c663dc7331084c79a6f02466bc9f341622d1769c9520836804f2e",
+      "review_modes": [
+        "content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/runtime.json",
+      "sha256": "134b499355a1272bee7721871b05ad3a659caef87ad8ecf22ad738bd18e26579",
+      "review_modes": [
+        "targeted provenance/content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/execution.json",
+      "sha256": "af882b684925af479e541bf9297c5c729b20657b444ed011601399a30e54ffab",
+      "review_modes": [
+        "targeted provenance/content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/input-lock.json",
+      "sha256": "c238d08c4c54d05f171b67820f55c4176472b72ba81c526ff7e20134e3c7f172",
+      "review_modes": [
+        "targeted provenance/content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/comparison.json",
+      "sha256": "1855cb2c73d71f5fd00339557fc5292119f26687732c45f98e21e8e7c7c0dad9",
+      "review_modes": [
+        "targeted provenance/content inspection"
+      ]
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure-provenance.json",
+      "sha256": "247a180221936ca40f54b4cf401ca7abe84b72d1b6c4c3e8ee2648af8938361b",
+      "review_modes": [
+        "targeted provenance/content inspection"
+      ]
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-preprint.build-stamp.json",
+      "sha256": "206f818f2109d72ce39b9bec9a596dff70bf8f3f2506c2e70d1053f34eaa25a8",
+      "review_modes": [
+        "targeted provenance/content inspection"
+      ]
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-preprint.pdf",
+      "sha256": "fa618adb800aa8501ed9c0a24f90106fb40f193b0905cca47d5a3a6af7442185",
+      "review_modes": [
+        "all pages text extraction and visual inspection"
+      ]
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-supplementary-information.pdf",
+      "sha256": "2ddd3deae37c7632635c68e7315d1286c07a4fa997b320a4aba539911a9dfa46",
+      "review_modes": [
+        "all pages text extraction and visual inspection"
+      ]
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure1.svg",
+      "sha256": "aae1f9d825da431d9c896d0aae4a0d8d65d182d21fee940199787e6b4f1b6306",
+      "review_modes": [
+        "visual inspection as embedded in article PDF; hash verification"
+      ]
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure2.svg",
+      "sha256": "3c4d0a0167296868455fd9b5f24a741fc815a49e07005f04e65aec811b08ee03",
+      "review_modes": [
+        "visual inspection as embedded in article PDF; hash verification"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-prior-art-2026-09-06/428_2023_3606_MOESM1_ESM.xlsx",
+      "sha256": "20b4bd1243be22e4eee2da7470da986091f91cc4959fa416708748ba99187ca7",
+      "review_modes": [
+        "targeted original-source content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-normal-context-2026-09-06/original-source-packet.zip",
+      "sha256": "c41c54b503d9f4ba716daf15079276f53bcaad64fbc3d53ce9960f45a4d27e1b",
+      "review_modes": [
+        "targeted original-source content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-prior-art-2026-09-06/original-source-audit.zip",
+      "sha256": "71d9bf57db0092fead7a6bb93216fa5376770f80121743802206951b363a0348",
+      "review_modes": [
+        "targeted original-source content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-sample-organ-2026-09-06/GSE28866_36048_normalized_peaks_cancer_and_normal.txt.gz",
+      "sha256": "11dae64b2d6b6e77846c3f14971fc9a313da86eb52a4b8b83df96c23eedc0ffd",
+      "review_modes": [
+        "targeted original-source content inspection"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/result.json",
+      "sha256": "e809f29a411ab246fd9eba29fcc7f8d0f0b6e2b89944ecf1e3aeeea18d22e97d",
+      "review_modes": [
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/revised-membership-changes.json",
+      "sha256": "0ae8e0c014ea9b5da5f2d4298263452e50c7499475334af143952fedb94942f2",
+      "review_modes": [
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/result.json",
+      "sha256": "436614fa50e20250b4a7a6f5700aaf7d36c45337f26d015f584511b32d6875f1",
+      "review_modes": [
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/all-hofvander-contrasts.csv",
+      "sha256": "ebb48e197311df56a8fc83f98dfafc80dfdf88492cfbd7903d0a5000f8ac88da",
+      "review_modes": [
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/all-primary-deletions.csv",
+      "sha256": "e3e437d29089688361eb1f22d3a8d97287d022a24fcefd0447b5bfc049e81e17",
+      "review_modes": [
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/all-year-cells.csv",
+      "sha256": "c372dfe94d4c6cb9924776219090b50d5d6d3a7e06a82359b9c65901d0c34b43",
+      "review_modes": [
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/all-shared-histology-replication.csv",
+      "sha256": "23c4ffe4a3da0be6ed9ca22cca896cf8a59db511b4877bb3f67a741bfd0b3f91",
+      "review_modes": [
+        "supplied offline replay: strict decoded scientific output comparison"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-source-2026-09-06/preservation-manifest.json",
+      "sha256": "1c508d58aca068d02a950a5305b91b68b5e81ee1dfa533ee86aae17cb2fa2df1",
+      "review_modes": [
+        "supplied offline replay source integrity/staging"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-original-array-source-2026-09-06/preservation-manifest.json",
+      "sha256": "a5f3941058dda2f71b86228326a2290d136132b3c10553b645c7bbd0258c6872",
+      "review_modes": [
+        "supplied offline replay source integrity/staging"
+      ]
+    },
+    {
+      "path": "research/autonomy/atlas-normal-context-2026-09-06/fixed-panel-normal-context-roster.json",
+      "sha256": "a7e39b13817f2a86e922d692623f5836a2b2a35a4690f501775117ed9cb17e96",
+      "review_modes": [
+        "supplied offline replay source integrity/staging"
+      ]
+    }
+  ],
+  "reviewed_archive_members": [
+    {
+      "path": "research/autonomy/atlas-hofvander-source-2026-09-06/source-provenance.zip!source_data/meta_data.txt",
+      "sha256": "e0bbc6f2e8c062cb6733e68e1c148248775f2e53c6bce7c61b70bb79c89777bf"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-source-2026-09-06/source-provenance.zip!ccr-25-3740_supplementary_table_s1_suppts1.xlsx",
+      "sha256": "976f13c1a69915cdb05af27b9a56d3f40a27df2e2da3dbc085ca66d25b8bc08c"
+    },
+    {
+      "path": "research/autonomy/atlas-original-array-source-2026-09-06/original-source-recovery.zip!GPL6244-original-annotation.tsv",
+      "sha256": "bf8d5628703920806179c9ed871d56ae1275c9f67fc537ae2bbc2034aa36dccc"
+    },
+    {
+      "path": "research/autonomy/atlas-normal-context-2026-09-06/original-source-packet.zip!CSPG4.xml",
+      "sha256": "c31a8d228650cb462197bf1859f470126b3c4b361e97b19ee6f637ff220f3d77"
+    },
+    {
+      "path": "research/autonomy/atlas-normal-context-2026-09-06/original-source-packet.zip!CSPG4.json",
+      "sha256": "a4077f188e0a6ddb3ebabceff775e7d289cfc9cd1d01deec4d0da1c54408e968"
+    },
+    {
+      "path": "research/autonomy/atlas-prior-art-2026-09-06/original-source-audit.zip!prame-publisher.html",
+      "sha256": "cb490fdfeecc6357a632c92ea022add86a8011fa86f8a52e89dec126306c6a41"
+    }
+  ],
+  "primary_web_records": [
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38447752/",
+      "role": "Dulken primary abstract: RNA CISH context/novelty attribution"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37477762/",
+      "role": "Cammareri primary abstract: assay and comparator context"
+    }
+  ],
+  "blockers": [],
+  "maintenance": [
+    {
+      "id": "M1",
+      "severity": "maintenance_nonblocking",
+      "artifact": "research/manuscripts/figures/surface-tissue-rna-figure-provenance.json",
+      "location": "/figures/surface-tissue-rna-figure-provenance.json",
+      "claim": "Embedded self-file SHA256 identifies current provenance record",
+      "source_evidence": {
+        "recorded_sha256": "62a6d5dab392555258c9ba4378f15060fef3ea8f363c1499c5d9677b2765a2f9",
+        "actual_sha256": "247a180221936ca40f54b4cf401ca7abe84b72d1b6c4c3e8ee2648af8938361b",
+        "all_six_figure_digests_match": true,
+        "code": "research/manuscripts/surface-targets/plot_emc_tissue_rna.py: record construction hashes output.glob(surface-tissue-rna-figure*) before writing provenance JSON"
+      },
+      "consequence": "The manifest has a stale hash of its preceding copy; actual figure bytes/statistics remain verified. This is not a scientific submission blocker.",
+      "smallest_sufficient_correction": "Exclude the provenance JSON from the figure-file glob and regenerate the provenance record, preserving historical records as required."
+    }
+  ],
+  "editorial": [
+    {
+      "id": "E1",
+      "severity": "editorial_optional",
+      "artifact": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md",
+      "location": "Introduction paragraph beginning We asked whether a fixed panel; Methods/Cohorts and fixed panel",
+      "claim": "11 previously nominated address transcripts",
+      "source_evidence": "The paper and frozen protocol enumerate the exact panel, but the standalone narrative does not identify the earlier nomination source or give a short selection rationale.",
+      "consequence": "Readers can reproduce the supplied panel but cannot readily understand its earlier nomination context. All results remain valid conditional on these 11 genes.",
+      "smallest_sufficient_correction": "Add one factual sentence identifying the original nomination source/rationale and a citation or stable provenance pointer, without changing the panel or rule."
+    }
+  ],
+  "verification": {
+    "independent": {
+      "comparisons": 23600,
+      "mismatches": 0,
+      "numeric_tolerance": 1e-12,
+      "TPM_values": 8448,
+      "array_values": 504,
+      "passing_address_genes": [
+        "CSPG4"
+      ],
+      "bootstrap": {
+        "draws": 10000,
+        "seed": 2026090601,
+        "method": "independent multinomial stratum-count resampling shared across histologies",
+        "marginal_percentile_95": [
+          0.8680866458644236,
+          0.9178763623208067
+        ],
+        "matched_percentile_95": [
+          0.7527777777777778,
+          0.861111111111111
+        ]
+      },
+      "output": "independent-verification.json"
+    },
+    "offline_replay": {
+      "status": "complete",
+      "scalar_comparisons": 829482,
+      "mismatches": 0,
+      "scientific_json_files": 29,
+      "csv_tables": 5,
+      "receipt": "offline-replay/receipt.json",
+      "comparison": "offline-replay/comparison.json",
+      "initiator_note": "This review dispatched the command. The unchanged wrapper embeds a historical worker identifier in its receipt; that literal is not the identity of the present reviewer."
+    },
+    "pdf_visual_review": {
+      "article_pages": 7,
+      "SI_pages": 4,
+      "blocking_defects": 0
+    }
+  },
+  "uncertainty": [
+    "Complete historical patient crosswalk and universal cohort independence not established.",
+    "Local authorization timing supports prospective-to-investigator design but cannot prove absence of every prior private expression exposure or public preregistration.",
+    "Conditional bootstrap and supported-year matching cannot establish population precision, full technical-batch adjustment or general EMC specificity.",
+    "Bulk RNA cannot establish malignant-cell protein localization, accessibility, normal sparing, clinical efficacy or safety.",
+    "Review used released processed measurements and did not rerun raw FASTQ or CEL preprocessing.",
+    "Novelty judged relative to cited primary work and targeted searches, without asserting exhaustive global priority.",
+    "Author funding and competing-interest attestations remain unknown; no venue-specific forms were evaluated."
+  ],
+  "submission_judgement": {
+    "scientific_preprint_supported": true,
+    "reason": "Reproducible, appropriately limited fixed-panel reanalysis with useful positive prioritization and consequential negative evidence; no scientific repair required before preprint submission.",
+    "release_scope": "Include the actual data/code supplement referred to by the article and SI. This judges the supplied full package, not PDFs alone.",
+    "venue_requirements": "No preprint service specified in dispatch; no unsupported venue-specific gate imposed.",
+    "metadata": "Complete author declarations when required by the chosen service; their present unknown status does not invalidate the scientific calculations."
+  },
+  "process_state": {
+    "review_batch_complete": true,
+    "anything_running": false,
+    "publication_actions_taken": false,
+    "inputs_edited": false,
+    "new_goal_or_recurring_reviews_created": false
+  }
+}

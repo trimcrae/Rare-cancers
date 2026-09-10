@@ -1,0 +1,54 @@
+---
+id: "DOC-ATLAS-HOFVANDER-VALIDATION-20260906"
+title: "Outcome-blind Hofvander tissue RNA validation protocol"
+level: "cross-cutting"
+kind: "prereg"
+status: "immutable"
+canonical_for: []
+purpose: "Freeze and explain the tissue RNA evidence checkpoint before new target outcomes."
+scope: "One public cohort, fixed address panel, overlap-reduced primary EMC."
+audience: ["autonomous research agents", "external reviewers"]
+date: "2026-09-06"
+last_verified: "2026-09-06"
+related: []
+---
+
+This is a prospective-to-us analysis of already published data. The question is whether a fixed therapeutic-address RNA panel shows consistent EMC enrichment versus relevant sarcoma histologies in an overlap-reduced tissue cohort. A positive result prioritizes tissue protein/localization validation; a negative or heterogeneous result removes or narrows that RNA rationale. It establishes neither normal-organ sparing, tumor-cell localization, accessibility, protein abundance, clinical efficacy nor safety. PRAME is retained as a therapeutic-address transcript, not represented as an ordinary surface protein.
+
+## Inputs and provenance frozen before expression access
+
+Hofvander et al. Clinical Cancer Research 2026, DOI 10.1158/1078-0432.CCR-25-3740, primary XML https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13133608/fullTextXML, Table S1 from https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13133608/supplementaryFiles. Public author data v1.0.1 linked by https://doi.org/10.5281/zenodo.17866629: https://github.com/JakobHofvander/Transcriptomic_subgroups_in_soft_tissue_tumors_correlate_with_morphologic_subtype_genomic_features/tree/v1.0.1. Matrix 19,116 unique symbols by704 patients, TPM SHA256 b0d665d1bd1d96ace1faf66cc5a4d7ab7e41cb487c8f0f61734f102a1f9a7af3. Exact input digests, all704 metadata decisions and source footnotes are in metadata-manifest.json; feature identifiers only were inspected. No numeric target-expression values have been selected, viewed or analyzed at freeze. Incidental source clinical/tSNE columns were previously printed during schema inspection; none informs selection.
+
+Frozen tissues, STAR2.7.10b GRCh38, RSEM1.3.3 Ensembl104; public gene TPM is compositional. Sequencing year is an incomplete batch proxy, not collection date. This convenience cohort comprises704 tumors from704 patients, mostly Lund/Stockholm1988–2020 with earlier collaborations; recruitment and absence of a citation support probable, not universally proven, independence. No complete patient crosswalk to every legacy cohort exists.
+
+The11 fixed address genes in original order are CD276,SSTR2,PRAME,FAP,CD248,CSPG4,MSLN,L1CAM,GPC3,ALPP,CDH17. CHRNA6 is separately labeled a prior-supported context control, never added to the address success count or substituted for a failed panel gene. Exact unique symbol matches required; missing/duplicate rows cause a recorded technical stop, never alias selection after values. No expression filter, normalization, z scoring, imputation or thresholding is applied to this within-gene rank estimand. Zero TPM is a measured tie. Negative/nonfinite values are errors.
+
+## Sample and comparator contract
+
+Use Table S1 original diagnosis column B, not deposited expression-derived subdivisions. Blank Samplef means primary according to Methods/S1; exclude every nonblank specimen exception (LR,Met,Met?) symmetrically across all histologies. Primary EMC excludes explicit reused MDB cases104-92 (9736:3),168-97 (9736:4),536-00 (9736:7), and local recurrence5081-14. Nine retained IDs:11881-19,3371-22,3372-22,4716-22,4840-13,5149-18,5241-06,7931-19,8102-22. Known reused EMC never reenters any main sensitivity. Other historical publication comments alone do not prove overlap with atlas discovery and are not exclusion criteria. Each source patient is one unit; no sample duplication or inferred suffix-date grouping.
+
+Primary comparators, fixed for morphological/diagnostic relevance before outcomes: myxoid liposarcoma14, low-grade fibromyxoid sarcoma13, synovial sarcoma18 primary lesions. All three receive weight1/3. Context comparisons separately: original-diagnosis myxofibrosarcoma60 and dermatofibrosarcoma protuberans10. Context histologies never rescue failure of the close-comparator result. No broad704-sample tumor pool will substitute for these contrasts.
+
+Primary sequencing-year matched contrasts retain every exact year having at least one EMC and one corresponding comparator. Singleton strata are retained and prominently marked; no minimum chosen after values and no year merging. MLPS and LGFMS support2019 and2021 with3 EMC each (EMC weights2/3,1/3); synovial supports2019 and2020 with3 EMC (weights2/3,1/3). Union across primary contrasts is4 distinct EMC, not9 independent matched cases. Context MFS supports2019,2020,2021,2023 (7 EMC); DFSP only2021 (1 EMC versus3 patients). All absent cells are explicit null, never zero or imputed.
+
+All9 marginal contrasts against the same primary-lesion comparators are a separate broader estimand, subject to year/batch confounding. Report both; never describe the marginal result as adjusted. Every gene and every contrast is retained, including reversed or weak results.
+
+## Estimation, uncertainty and fixed sensitivity
+
+For gene g and comparator h, A(g,h)=mean over EMC-comparator patient pairs of I(TPM_EMC>TPM_h)+0.5I(equal). Thus0.5 is no rank separation;0.7 means70% superiority after allocating half ties. Within-year A is weighted by the number of retained EMC in each supported year, normalized across that comparator's supported years. The overall matched summary averages the three histology-specific A values equally, not by sample count. Report each year-cell A, pair denominator, patient denominators, zero fractions, per-EMC placements and individual target TPM values after authorization.
+
+Use2000 patient bootstraps, seed20260906, stratified by original histology and sequencing year; the same resampled EMC patients are shared across comparator calculations. Report empirical percentile2.5/97.5 intervals for histology and equal-histology summaries separately for matched and marginal effects. These are pointwise exploratory sampling intervals, not simultaneous confidence claims, biological variance bounds or efficacy estimates. Singleton cells remain fixed under this bootstrap and understate uncertainty; explicitly label intervals conditional on the observed sparse strata. No P values, gene-level significance claim or interval-selected discoveries. Raw counts and deletion ranges take precedence over apparent interval precision.
+
+Sensitivity is prespecified: leave each of9 primary EMC out; leave each primary comparator patient out one at a time; leave each sequencing year out; and leave each of3 primary histologies out. Recalculate year weights from remaining EMC in supported cells. A lost cell is recorded, weights renormalize, and the deletion changes the empirical target population; a completely absent contrast is null and cannot count as directional survival. Report individual deletions and min/max, never only favorable deletions. Also apply revised diagnosis where nonblank to ALL704 rows (Unclear becomes outside the specified histologies), keeping identical lesion and overlap policy. This diagnostic sensitivity is partly expression-informed, so cannot supersede original-label primary evidence. Report newly included/excluded IDs. No purity/grade covariate adjustment: EMC purity/grade unavailable; bulk stroma, immune cells, site, fraction and RNA quality remain alternatives.
+
+## Falsifiable allocation decision
+
+A gene earns the narrow label `consistent RNA rationale for tissue validation` only if (a) marginal equal-histology A>=0.70, (b) EACH primary histology has A>0.50 under BOTH marginal and year-matched definitions, and (c) BOTH equal-histology summaries remain>0.50 under every evaluable leave-one-EMC-out and leave-one-histology-out deletion, with no missing primary contrast in those required deletions. The0.70 allocation benchmark demands a tangible20-percentage-point increase over neutral superiority rather than infinitesimal positive direction; it is not a validated biological cutoff or tuned to new values. This is a screening priority rule, not a statistical discovery threshold. Requiring directional consistency prevents an easy histology or a single EMC from carrying the panel. Patient/year/revised-diagnosis sensitivities are displayed as fragility qualifiers even when this narrow rule passes; they never get silently incorporated into or dropped from the rule.
+
+If no address gene passes, the prespecified outcome is no consistent broad RNA-priority signal by this rule; preserve any comparator-specific positive direction without promoting it to success. CHRNA6 is descriptive only. Passing does not establish manuscript novelty or automatically authorize publication; all results, uncertainty and contrary data go to coordinator for scientific interpretation. No target replacement, added comparator, tuned cutoff or expanded cohort after outcomes. Any correction is a dated amendment preserving this document's bytes.
+
+Legacy array evidence is retrospective supporting context only at this checkpoint. No new re-estimation from samplewise across-gene z caches, no array/TPM pooling, and no claim this single source establishes cross-cohort quantitative replication. A later original-array patient/probe reconstruction would require its own explicit contract.
+
+## Execution contract
+
+metadata.py builds metadata only; analyze.py defaults to synthetic fixtures. Empirical mode requires a coordinator authorization JSON with approved hashes for protocol.md, metadata-manifest.json, metadata.py and analyze.py plus an authorization timestamp. Source hashes are verified before target values are parsed. Output records attempted stage and durable error status on failure. No empirical run before coordinator approval. Source bytes stay at the manifest's cache location and may be relocated only with identical digests. Initial validation is arithmetic fixtures only; no full paper preflight or new source search.

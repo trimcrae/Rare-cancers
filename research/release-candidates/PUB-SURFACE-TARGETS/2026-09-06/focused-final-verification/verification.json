@@ -1,0 +1,1464 @@
+{
+  "status": "passed",
+  "source_checkpoint": "8bb8c9d2945f2ae68a60455ebd0eef4ee2fb0e0b",
+  "artifact_candidate_commit": "7b673f6c73f11e754b463374501d80bfe6cb95c6",
+  "package_results": {
+    "inventory_entries_verified": 147,
+    "members": 148,
+    "unchanged_from_original_review": [
+      "research/autonomy/atlas-hofvander-source-2026-09-06/hofvander2026.xml",
+      "research/autonomy/atlas-hofvander-source-2026-09-06/preservation-manifest.json",
+      "research/autonomy/atlas-hofvander-source-2026-09-06/source-provenance.zip",
+      "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz",
+      "research/autonomy/atlas-hofvander-source-2026-09-06/zenodo17866629.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/README.md",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/README.md.original.txt",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/administrative-preservation.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/all-hofvander-contrasts.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/all-primary-deletions.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/all-shared-histology-replication.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/all-year-cells.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/all12-gene-effects.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/analyze-command.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/analyze-run.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/analyze.py",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/coordinator-authorization.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/draft-manifest.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/draft-source-references.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/figure-inputs.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/methods-and-data.md",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/normal-context-source.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/normal-context.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/plot-readiness.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/plot_figures.py",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/runtime.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/fixtures.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/interpretation-context-references.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata.py",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/packet-manifest.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md.original.txt",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/README.md",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/adapter-fixtures.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/code-freeze.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/input-lock.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/replay-manifest.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/replay.py",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/report.py",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/requirements.txt",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/result.md",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/standing-authorization.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/comparison.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/fixtures-hofvander.stderr.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/fixtures-hofvander.stdout.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/fixtures-replication.stderr.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/fixtures-replication.stdout.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/hofvander.stderr.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/hofvander.stdout.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/manifest.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/receipt.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/replay-compatibility.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/replication.stderr.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/replication.stdout.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/report-provenance.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/reporting.stderr.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/reporting.stdout.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-command.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-fixtures.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-manifest.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/ALPP.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD248.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD276.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CDH17.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CHRNA6.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CSPG4.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/FAP.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/GPC3.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/L1CAM.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/MSLN.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/PRAME.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/SSTR2.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/array-values.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/execution.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/result.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-run.log",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication.py",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication_metadata.py",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/result.md",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/ALPP.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD248.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD276.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CDH17.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CHRNA6.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CSPG4.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/FAP.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/GPC3.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/L1CAM.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/MSLN.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/PRAME.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/SSTR2.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/execution.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/result.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/revised-membership-changes.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/selected-values.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/summarize.py",
+      "research/autonomy/atlas-normal-context-2026-09-06/build_roster.py",
+      "research/autonomy/atlas-normal-context-2026-09-06/file-manifest.json",
+      "research/autonomy/atlas-normal-context-2026-09-06/fixed-panel-normal-context-roster.json",
+      "research/autonomy/atlas-normal-context-2026-09-06/gene-identities.json",
+      "research/autonomy/atlas-normal-context-2026-09-06/normal-IHC-cell-records.json",
+      "research/autonomy/atlas-normal-context-2026-09-06/normal-RNA-source-records.json",
+      "research/autonomy/atlas-normal-context-2026-09-06/original-source-packet.zip",
+      "research/autonomy/atlas-normal-context-2026-09-06/preservation-manifest.json",
+      "research/autonomy/atlas-normal-context-2026-09-06/retrievals.json",
+      "research/autonomy/atlas-original-array-source-2026-09-06/original-source-recovery.zip",
+      "research/autonomy/atlas-original-array-source-2026-09-06/preservation-manifest.json",
+      "research/autonomy/atlas-primary-provenance-2026-09-06/GSE24369.soft.gz",
+      "research/autonomy/atlas-sample-organ-2026-09-06/GSE28866_36048_normalized_peaks_cancer_and_normal.txt.gz",
+      "research/autonomy/atlas-sample-organ-2026-09-06/analyze.py",
+      "research/autonomy/atlas-sample-organ-2026-09-06/checks.json",
+      "research/autonomy/atlas-sample-organ-2026-09-06/column-mapping.json",
+      "research/autonomy/atlas-sample-organ-2026-09-06/contrasts.tsv",
+      "research/autonomy/atlas-sample-organ-2026-09-06/execution.json",
+      "research/autonomy/atlas-sample-organ-2026-09-06/protocol-frozen.md.txt",
+      "research/autonomy/atlas-sample-organ-2026-09-06/protocol-original.md.txt",
+      "research/autonomy/atlas-sample-organ-2026-09-06/protocol.md",
+      "research/autonomy/atlas-sample-organ-2026-09-06/provenance.json",
+      "research/autonomy/atlas-sample-organ-2026-09-06/render_report.py",
+      "research/autonomy/atlas-sample-organ-2026-09-06/report.md",
+      "research/autonomy/atlas-sample-organ-2026-09-06/results.json",
+      "research/autonomy/atlas-sample-organ-2026-09-06/selected-source-rows.tsv",
+      "research/autonomy/atlas-sample-organ-2026-09-06/verify.py",
+      "research/autonomy/cycle-outcomes/20260905T133448Z-6bd43b913c/atlas-primary-matrix-availability.json",
+      "research/manuscripts/figures/surface-tissue-rna-figure1.pdf",
+      "research/manuscripts/figures/surface-tissue-rna-figure1.png",
+      "research/manuscripts/figures/surface-tissue-rna-figure1.svg",
+      "research/manuscripts/figures/surface-tissue-rna-figure2.pdf",
+      "research/manuscripts/figures/surface-tissue-rna-figure2.png",
+      "research/manuscripts/figures/surface-tissue-rna-figure2.svg",
+      "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-si.md",
+      "research/modalities/atlas-independent-normal-feasibility.md",
+      "research/modalities/geo-gse28866-brunner-series.json",
+      "research/modalities/gse28866-tumour-vs-normal.json",
+      "research/modalities/gse28866_tumour_vs_normal.py",
+      "research/modalities/surface-address-sensitivity.md"
+    ],
+    "changed_from_original_review": [
+      "research/manuscripts/figures/surface-tissue-rna-figure-provenance.json",
+      "research/manuscripts/surface-targets/plot_emc_tissue_rna.py",
+      "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md"
+    ],
+    "required_tables_and_replay_dependencies_unchanged": [
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/all12-gene-effects.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/all-hofvander-contrasts.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/all-year-cells.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/all-shared-histology-replication.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/all-primary-deletions.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/normal-context.csv",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/results/selected-values.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/array-values.json",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/replay.py",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/report.py",
+      "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/requirements.txt"
+    ],
+    "PRAME_factual_cells_checked_against_original_workbook": 29,
+    "PRAME_original_workbook_omitted_but_exact_retrieval_URL_digest_and_factual_rows_supplied": true,
+    "historical_draft_unchanged": true
+  },
+  "replay_locks_checked": [
+    {
+      "path": "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz",
+      "sha256": "0255cd254762c6184a782d5b9a90aba6e545b6b2206e28f283455df2de4d62fc",
+      "kind": "bundle_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-source-2026-09-06/source-provenance.zip",
+      "sha256": "30829e7962887125ede409ace0fefd7babaa8ad345aa8a51caaf769529697e12",
+      "kind": "bundle_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-source-2026-09-06/preservation-manifest.json",
+      "sha256": "1c508d58aca068d02a950a5305b91b68b5e81ee1dfa533ee86aae17cb2fa2df1",
+      "kind": "bundle_input"
+    },
+    {
+      "path": "research/autonomy/atlas-original-array-source-2026-09-06/original-source-recovery.zip",
+      "sha256": "855cf60fd09b7206699f7b11053fafb39ceb93209b75ebeae59326cd2e0f66f4",
+      "kind": "bundle_input"
+    },
+    {
+      "path": "research/autonomy/atlas-original-array-source-2026-09-06/preservation-manifest.json",
+      "sha256": "a5f3941058dda2f71b86228326a2290d136132b3c10553b645c7bbd0258c6872",
+      "kind": "bundle_input"
+    },
+    {
+      "path": "research/autonomy/atlas-primary-provenance-2026-09-06/GSE24369.soft.gz",
+      "sha256": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+      "kind": "bundle_input"
+    },
+    {
+      "path": "research/autonomy/atlas-normal-context-2026-09-06/fixed-panel-normal-context-roster.json",
+      "sha256": "a7e39b13817f2a86e922d692623f5836a2b2a35a4690f501775117ed9cb17e96",
+      "kind": "bundle_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/administrative-preservation.json",
+      "sha256": "4641c967e24d7a9637c0f4c5bf70ef0e96f418a220fa4cad53c5963732f01927",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/all-hofvander-contrasts.csv",
+      "sha256": "ebb48e197311df56a8fc83f98dfafc80dfdf88492cfbd7903d0a5000f8ac88da",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/all-primary-deletions.csv",
+      "sha256": "e3e437d29089688361eb1f22d3a8d97287d022a24fcefd0447b5bfc049e81e17",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/all-shared-histology-replication.csv",
+      "sha256": "23c4ffe4a3da0be6ed9ca22cca896cf8a59db511b4877bb3f67a741bfd0b3f91",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/all-year-cells.csv",
+      "sha256": "c372dfe94d4c6cb9924776219090b50d5d6d3a7e06a82359b9c65901d0c34b43",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/all12-gene-effects.csv",
+      "sha256": "e4481028970f92d0d22ea66aeebdccaea8a3a2e9c45c9af169ecc24e4663754d",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md",
+      "sha256": "76dd685c4dd1c5c3d77b14187703af26826f91811b808dc82e23811c3b1749ac",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/analyze-command.json",
+      "sha256": "de81296038b716bd6bd7d1eac4cb6e396a8f772fc144244f1ea50ff9bc7a95e0",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/analyze-run.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/analyze.py",
+      "sha256": "e6203785e63de50bdab73434030a0aae4f6b765099efc6c6cce4c69e0034f118",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/coordinator-authorization.json",
+      "sha256": "60f00fd8dd985b303ca642ab044f07c2c0b3738c6ec13731c9b45130321c1264",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/fixtures.json",
+      "sha256": "f549effe314e525b23dca66e00c57633fb4556dfec1653581777def419a43b83",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/interpretation-context-references.json",
+      "sha256": "0fe20559732d31a2e6c6f27373bed74167df99f524c8ef33248b519a51876634",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
+      "sha256": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata.py",
+      "sha256": "fc26eb2fe167dba67afd3b8ca70173fb8ec3d460466a711d0d4db94aa0b88055",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md",
+      "sha256": "6baa7aea44c1f170553ec6d8650d2015c794b50180fedd43cbdd10693e779eee",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md.original.txt",
+      "sha256": "7555af8af8b3bfd98873190a672f1447c50291f15d2ec9c794e2f58750bdd524",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/README.md",
+      "sha256": "d250152eb59d6a4d4f04da1dc8a9d139a89b36078eea837f83377432424d0ae4",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/README.md.original.txt",
+      "sha256": "abedb7bb26aa92022c494f9624bb3ba42d70621a96135929a7d049bb334bf53e",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-command.json",
+      "sha256": "f2bddaa351d981f0ade691bb21e43574414f9a179e6db357e362a9faffa7c455",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-fixtures.json",
+      "sha256": "2dabf2e3fa73f67726413fad58b60a37de1fcd7e64f0936366497b33695c9b51",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-manifest.json",
+      "sha256": "41def87dde52663a73ea09a3b52924843d5d20103c7f0523bc03ae842426e0ae",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-run.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication.py",
+      "sha256": "d626cb59146f9635902408b1bb15e3f9d12518b75bb8a5214a666fc6a5bc02c1",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication_metadata.py",
+      "sha256": "f028de27596d84f553f4c4110d75fb942714d20088d6176190c843a84917fc12",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/result.md",
+      "sha256": "27b448b9616d1647e1993ea98546f6f0e73882024b6900752b005b65e6102d4d",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/summarize.py",
+      "sha256": "7cb587280f7425a5fadab3661c3b3a47294c53d9503e02d080a393e53578ddb0",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/ALPP.json",
+      "sha256": "91fa5efd58f3ebcc3ad9a997238519491890b8bb15a3aea431a21067e72acb64",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/array-values.json",
+      "sha256": "33ce40f615cb7db706565c559cfafebcd57b5b9d84f30c4af7a6502f03faed9c",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD248.json",
+      "sha256": "a398c9bd6153163c2772e776e3bcfcef1734411d3bf0ede6ec58f4601ff3b6a0",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD276.json",
+      "sha256": "395082ac5d928d275081d03a7b1694f18881412e28e776f1ec7df60d5faeb59f",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CDH17.json",
+      "sha256": "7ec58894f7b330ec7d377e5dc64e7a5e655f34e19d00c0e40ccd495b3fc4c089",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CHRNA6.json",
+      "sha256": "94978db90263e5e54cce093c8d85112e3125592de914c560ee2b076076dafc8c",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CSPG4.json",
+      "sha256": "27b58be3b06cbb03c243f6c5d2b5e00b9217ad950acb39d9130646718ff06209",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/execution.json",
+      "sha256": "8f0c5353a43a5ba99a008dc8e79b7ef25c6d34f2bd712b9f67aad802a333bea6",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/FAP.json",
+      "sha256": "3f6b92cf1c4f23b8e7d6c2564e7f896f813bf99883e60ffb7971c3a0082b580e",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/GPC3.json",
+      "sha256": "bfc6e13fa2d6d9335815a7c8b42943c7a331f0672d77076655ac28d63f3c60c5",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/L1CAM.json",
+      "sha256": "0d0ce0822eed9ad3d7854eb19370b1d6e0b20f3b0446980378b8103c4a4eb4fe",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/MSLN.json",
+      "sha256": "d0ca5023eec1990ddfa8284e96cbd93babaded8bbab81c07421da0fba22d2fa0",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/PRAME.json",
+      "sha256": "13a916b140d2b02fd9ecfcf0f709a51e73f8c3c7ac6f34c6c2656fbee1319cab",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/result.json",
+      "sha256": "436614fa50e20250b4a7a6f5700aaf7d36c45337f26d015f584511b32d6875f1",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/SSTR2.json",
+      "sha256": "f450fe26695c7e45ffe02eb7d669fb95d2175ec6662ec1a254b26fd96c8abcc3",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/ALPP.json",
+      "sha256": "c1a4a72664066d2762930817e7b7ebcfbcaf5a3578b313d149b1a5a2feb0c35e",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD248.json",
+      "sha256": "314f5bd3ded8b11449f599fe1e94231c64224291b4b724eb7deeee73c6cbe65e",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD276.json",
+      "sha256": "603c35d1714c979243b98af126b0b7d68ae1acbe3152dd89b3f1bf99800fcd25",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CDH17.json",
+      "sha256": "d8294e33a7eca9d3160800dfa5d6ba1c1a2b8ce64d7b98003127e20c6340d50a",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CHRNA6.json",
+      "sha256": "b6b7e7d638fbb5085a0e4728e5edfacef096a879cf9af9e335b821b9b748f91f",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CSPG4.json",
+      "sha256": "004a0f6da8b0f0197011cb2d1624c62aff19f8b2d00dd17e00d36d15287b121a",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/execution.json",
+      "sha256": "af882b684925af479e541bf9297c5c729b20657b444ed011601399a30e54ffab",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/FAP.json",
+      "sha256": "6bc1b9c44639fcdf8a48b46b7439b2775f6c57ae4838498197d653a261a24e6e",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/GPC3.json",
+      "sha256": "1771919ec8bb36d9a6fb31740690a534e846b9fae162f049acc6f3d728cae5a2",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/L1CAM.json",
+      "sha256": "09b4d42498737c768f02be54b2ec327f592607da7c1b1ce258706bb27b801981",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/MSLN.json",
+      "sha256": "4b4cc5e88a9b56023188d2532cb772ea5344af65bf71ff8ce880fb1efc931e08",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/PRAME.json",
+      "sha256": "a97115f656a39b91a86f9c33264210f611619e0f971e09ed672a6286dbe29632",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/result.json",
+      "sha256": "e809f29a411ab246fd9eba29fcc7f8d0f0b6e2b89944ecf1e3aeeea18d22e97d",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/revised-membership-changes.json",
+      "sha256": "0ae8e0c014ea9b5da5f2d4298263452e50c7499475334af143952fedb94942f2",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/selected-values.json",
+      "sha256": "21d0628368ca324da7cbe42d899a67590361b3b69476a6f6653e66410e03853d",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/results/SSTR2.json",
+      "sha256": "77c896035ed6011274e417b42a61ddeb9e1efa94ff546ffce74fa7db7cf7a1ec",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/packet-manifest.json",
+      "sha256": "38ba4df09e794cece5e81d8977ff68a1e530e9d27194088a07f580b64cdcbabd",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/draft-source-references.json",
+      "sha256": "790967e22f9eb2e71b9751997813727859932b2bc51f06b6094708f652b0dc87",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/figure-inputs.json",
+      "sha256": "e3616e21cbfe27a9e817964500923e58481ec193684ff873f1b1bc167bc8ce83",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md",
+      "sha256": "bcf846e2c28c831e8d94ced50706374e82bb8549ce550bdd2df144d2c1e5f9a2",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/methods-and-data.md",
+      "sha256": "23a110ecd8cde510edadf72c7d3932dbf48ceb80a03ae2f2e67a147cbd07ca6b",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/normal-context-source.json",
+      "sha256": "a7e39b13817f2a86e922d692623f5836a2b2a35a4690f501775117ed9cb17e96",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/normal-context.csv",
+      "sha256": "7ccee3a1a7a8db1c7145f4e9b239e12144798b01012930e91304d9724c1add3f",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/plot-readiness.json",
+      "sha256": "c50e8c1a83529c909d1feb4fe4973681fb18e9acf02737d174ee3719b7b69d15",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/plot_figures.py",
+      "sha256": "eab0311835098e8d7854343a9a970d5f40a692e8c8170aed3e9e86c6e8b47094",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/runtime.json",
+      "sha256": "134b499355a1272bee7721871b05ad3a659caef87ad8ecf22ad738bd18e26579",
+      "kind": "frozen_input"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/draft-manifest.json",
+      "sha256": "8f16a17cf5ee2ba60460e38d6b2be9d036fb6c987ccb9b50377a7b8a968e7b8b",
+      "kind": "frozen_input"
+    }
+  ],
+  "code_freeze_checked": [
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/replay.py",
+      "sha256": "487ee327b224c4a48286fe492b0e6da13d179ea560ee7b04f9d8d36ec3516ebb"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/report.py",
+      "sha256": "fa2fcaff201774ae3bfd326510e6457f5974bec0ba2299dcce598a697c80799f"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/requirements.txt",
+      "sha256": "fd79e4cd0cea13ea3dcbfc35b4886effa20a6beb230acba3fcdce5ec324b129d"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/standing-authorization.json",
+      "sha256": "0c518c4d4e8933a269ae368f88ca53a77df4386ba51318ae154314381c318004"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/input-lock.json",
+      "sha256": "c238d08c4c54d05f171b67820f55c4176472b72ba81c526ff7e20134e3c7f172"
+    },
+    {
+      "path": "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/README.md",
+      "sha256": "f5b2bb6ef82938001c0ec6cf3d8f816e888fb85f63e4a83f84a1e7c035966e0f"
+    }
+  ],
+  "eight_scientific_authorization_hashes_match": true,
+  "source_member_checks": [
+    {
+      "cohort": "Hofvander",
+      "source_member": "source_data/tpm_matrix.tsv",
+      "sha256": "b0d665d1bd1d96ace1faf66cc5a4d7ab7e41cb487c8f0f61734f102a1f9a7af3"
+    },
+    {
+      "cohort": "Hofvander",
+      "source_member": "source_data/meta_data.txt",
+      "sha256": "e0bbc6f2e8c062cb6733e68e1c148248775f2e53c6bce7c61b70bb79c89777bf"
+    },
+    {
+      "cohort": "Hofvander",
+      "source_member": "ccr-25-3740_supplementary_table_s1_suppts1.xlsx",
+      "sha256": "976f13c1a69915cdb05af27b9a56d3f40a27df2e2da3dbc085ca66d25b8bc08c"
+    },
+    {
+      "cohort": "Hofvander",
+      "source_member": "matrix-feature-identifiers.txt",
+      "sha256": "8312529077958c73c1fe3f9a725160bda952c0b75d1b070842bb37c310e8673d"
+    },
+    {
+      "cohort": "Hofvander",
+      "source_member": "hofvander2026.xml",
+      "sha256": "b959d8dbd242981d7e1bbb77e608f7d57100f26c9e2e8d4f1d03e18da71d7211"
+    },
+    {
+      "cohort": "Hofvander",
+      "source_member": "primary-methods-locators.json",
+      "sha256": "46ea4e1ee75e04e787873b83f667eeae77db10c19b6ef8827447c0d040e43161"
+    },
+    {
+      "cohort": "array",
+      "source_member": "GSE24369.soft.gz",
+      "sha256": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37"
+    },
+    {
+      "cohort": "array",
+      "source_member": "GPL6244-original-annotation.tsv",
+      "sha256": "bf8d5628703920806179c9ed871d56ae1275c9f67fc537ae2bbc2034aa36dccc"
+    },
+    {
+      "cohort": "array",
+      "source_member": "GPL6244-fixed12-probe-map.json",
+      "sha256": "7fcdb25d7637c8d928a3edeb0001fa8c3263a204265bf012bff3bf0dd332ca1e"
+    },
+    {
+      "cohort": "array",
+      "source_member": "sample-rosters.json",
+      "sha256": "3d5b426d055952683a8c9ad7a217744cbba877d2be8a2fa7c76eb8ce2ae30851"
+    },
+    {
+      "cohort": "array",
+      "source_member": "GSE24369.soft-sample-metadata.json",
+      "sha256": "6f52f8e2af36179659b9a0e2d4971f791e77844a734908b0479db889e4931f29"
+    }
+  ],
+  "M1": {
+    "fixed": true,
+    "historical_record_preserved": true,
+    "six_figure_bytes_identical": true,
+    "original_generation_provenance_unchanged": true
+  },
+  "metadata_title_abstract_exact": true,
+  "rendered_pixel_checks": [
+    {
+      "page": 1,
+      "pixel_identical": false,
+      "difference_bbox": [
+        290,
+        187,
+        343,
+        197
+      ],
+      "image_size": [
+        849,
+        1200
+      ]
+    },
+    {
+      "page": 2,
+      "pixel_identical": true,
+      "difference_bbox": null,
+      "image_size": [
+        849,
+        1200
+      ]
+    },
+    {
+      "page": 3,
+      "pixel_identical": true,
+      "difference_bbox": null,
+      "image_size": [
+        849,
+        1200
+      ]
+    },
+    {
+      "page": 4,
+      "pixel_identical": true,
+      "difference_bbox": null,
+      "image_size": [
+        849,
+        1200
+      ]
+    },
+    {
+      "page": 5,
+      "pixel_identical": true,
+      "difference_bbox": null,
+      "image_size": [
+        849,
+        1200
+      ]
+    },
+    {
+      "page": 6,
+      "pixel_identical": true,
+      "difference_bbox": null,
+      "image_size": [
+        849,
+        1200
+      ]
+    },
+    {
+      "page": 7,
+      "pixel_identical": true,
+      "difference_bbox": null,
+      "image_size": [
+        849,
+        1200
+      ]
+    },
+    {
+      "page": 8,
+      "pixel_identical": false,
+      "difference_bbox": [
+        587,
+        210,
+        640,
+        220
+      ],
+      "image_size": [
+        849,
+        1200
+      ]
+    },
+    {
+      "page": 9,
+      "pixel_identical": true,
+      "difference_bbox": null,
+      "image_size": [
+        849,
+        1200
+      ]
+    },
+    {
+      "page": 10,
+      "pixel_identical": true,
+      "difference_bbox": null,
+      "image_size": [
+        849,
+        1200
+      ]
+    },
+    {
+      "page": 11,
+      "pixel_identical": true,
+      "difference_bbox": null,
+      "image_size": [
+        849,
+        1200
+      ]
+    }
+  ],
+  "artifact_bindings": [
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md",
+      "sha256": "455260bd45a60817571253d954fc42d6275e3ee53631b20f23d7f6fcbd1816d1",
+      "bytes": 22438
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-si.md",
+      "sha256": "81b5ace2d11e3c5ddf1e4a49becdce7d86ea9b5819f41a1415d5a923dd5d1844",
+      "bytes": 12035
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-preprint.pdf",
+      "sha256": "69a3786e7652e274239d90fc18d30306bfccf954610f75a79891c117b0c4bc99",
+      "bytes": 304794
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-supplementary-information.pdf",
+      "sha256": "e46566f4eb87b894cbbb40ddce1812c01151dcc9ce30c0aca3a643b18cf4e9da",
+      "bytes": 262787
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-preprint.build-stamp.json",
+      "sha256": "f2211a38981eef20a269997faf01a882878e0f82a5d5fb5a4a326acf67d7a0aa",
+      "bytes": 924
+    },
+    {
+      "path": "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-supplementary-information.build-stamp.json",
+      "sha256": "da4bd6687913433cc95aa4899d3c1f0da1914d41b84535830aa69cfaf9d8947b",
+      "bytes": 479
+    },
+    {
+      "path": "research/manuscripts/surface-targets/plot_emc_tissue_rna.py",
+      "sha256": "d40179cf0ca4b3fc4b8ede3885a0532ddfdca5cf72cb93e0630c99a279d27274",
+      "bytes": 7217
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure-provenance.json",
+      "sha256": "91953fcfc34aa0ae47b123a45fe6b29501ea2b056fbd6cc8d7c6447bb372e8c3",
+      "bytes": 2576
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/emc-tissue-rna-prioritization-submission.pdf",
+      "sha256": "2b39580313d504bca3790b9c8da16e06e16e8e2a2708fb554903c3a6fad059fc",
+      "bytes": 424860
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/emc-tissue-rna-code-data-supplement.zip",
+      "sha256": "56e089a6b39b9d5d5140a4185987778803359ab1154d26beb882d6e6197f3ea6",
+      "bytes": 95349965
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/figure-provenance-before-M1-repair.json",
+      "sha256": "247a180221936ca40f54b4cf401ca7abe84b72d1b6c4c3e8ee2648af8938361b",
+      "bytes": 2296
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/review-repair-disposition.json",
+      "sha256": "0682176935a3fc87c4024a5aebd56e858e07964e985aa8a643628672de85de8e",
+      "bytes": 956
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/final-pdf-build-receipt.json",
+      "sha256": "eaf7471207270fa714cf0df828f14c4ee19337f1634247e43aad47aa374562e9",
+      "bytes": 508
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/outgoing-pdf-verification.json",
+      "sha256": "ed6dd4954382340ab9af147b6219c0dd8e6412d969adcda9858da85f4d2affb8",
+      "bytes": 2527
+    },
+    {
+      "path": "research/manuscripts/build_submission_pdf.py",
+      "sha256": "321780223324cab4f8a799917a669e353394d5ce2103a9500062cd20445acdc4",
+      "bytes": 178734
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure1.pdf",
+      "sha256": "8703a7a7c67e050818f177f3e6d834ddb19f9c81ee5d8317d12685d4ce7346b7",
+      "bytes": 37799
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure1.png",
+      "sha256": "92076d9a8560a3a1b92cd2523ff1a3d1f260a9e01797b5cbdaca78163027e37c",
+      "bytes": 341601
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure1.svg",
+      "sha256": "aae1f9d825da431d9c896d0aae4a0d8d65d182d21fee940199787e6b4f1b6306",
+      "bytes": 76890
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure2.pdf",
+      "sha256": "814cd3019feaca8989e299fd97fd8005941c1ca73615015f2fb4302ebfe62aac",
+      "bytes": 27513
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure2.png",
+      "sha256": "edc81e62c7121665e3d2b7407f7978e38fe4e7ed53b0e1fd0b7615565117b52f",
+      "bytes": 183499
+    },
+    {
+      "path": "research/manuscripts/figures/surface-tissue-rna-figure2.svg",
+      "sha256": "3c4d0a0167296868455fd9b5f24a741fc815a49e07005f04e65aec811b08ee03",
+      "bytes": 42295
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-tissue-rna-package-20260906\\emc-tissue-rna-code-data-supplement-8bb8c9d.zip",
+      "sha256": "56e089a6b39b9d5d5140a4185987778803359ab1154d26beb882d6e6197f3ea6",
+      "bytes": 95349965
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\review-workspaces\\emc-tissue-rna-package-20260906\\aixiv-metadata.proposed.json",
+      "sha256": "87721750b0c7eeab04b0c7934c59719921ad90195fc70bb81fa30f88c5a2d79d",
+      "bytes": 2915
+    }
+  ],
+  "package_inventory": {
+    "README.md": {
+      "sha256": "8d373c572c9e8726f79f1ba4c3c6ad7c68b2ff5cbcee0c03f0df70c5aa990527",
+      "bytes": 3600
+    },
+    "research/autonomy/atlas-hofvander-source-2026-09-06/hofvander2026.xml": {
+      "sha256": "b959d8dbd242981d7e1bbb77e608f7d57100f26c9e2e8d4f1d03e18da71d7211",
+      "bytes": 110334
+    },
+    "research/autonomy/atlas-hofvander-source-2026-09-06/preservation-manifest.json": {
+      "sha256": "1c508d58aca068d02a950a5305b91b68b5e81ee1dfa533ee86aae17cb2fa2df1",
+      "bytes": 5607
+    },
+    "research/autonomy/atlas-hofvander-source-2026-09-06/source-provenance.zip": {
+      "sha256": "30829e7962887125ede409ace0fefd7babaa8ad345aa8a51caaf769529697e12",
+      "bytes": 20330558
+    },
+    "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz": {
+      "sha256": "0255cd254762c6184a782d5b9a90aba6e545b6b2206e28f283455df2de4d62fc",
+      "bytes": 23652488
+    },
+    "research/autonomy/atlas-hofvander-source-2026-09-06/zenodo17866629.json": {
+      "sha256": "06a5c0e6f8c6b2e0585b1c66423029fb7fdcddaaa9f103a341df6715065d6123",
+      "bytes": 5123
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/administrative-preservation.json": {
+      "sha256": "4641c967e24d7a9637c0f4c5bf70ef0e96f418a220fa4cad53c5963732f01927",
+      "bytes": 683
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/all-hofvander-contrasts.csv": {
+      "sha256": "ebb48e197311df56a8fc83f98dfafc80dfdf88492cfbd7903d0a5000f8ac88da",
+      "bytes": 9104
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/all-primary-deletions.csv": {
+      "sha256": "e3e437d29089688361eb1f22d3a8d97287d022a24fcefd0447b5bfc049e81e17",
+      "bytes": 60816
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/all-shared-histology-replication.csv": {
+      "sha256": "23c4ffe4a3da0be6ed9ca22cca896cf8a59db511b4877bb3f67a741bfd0b3f91",
+      "bytes": 15715
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/all-year-cells.csv": {
+      "sha256": "c372dfe94d4c6cb9924776219090b50d5d6d3a7e06a82359b9c65901d0c34b43",
+      "bytes": 22709
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/all12-gene-effects.csv": {
+      "sha256": "e4481028970f92d0d22ea66aeebdccaea8a3a2e9c45c9af169ecc24e4663754d",
+      "bytes": 2472
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md": {
+      "sha256": "76dd685c4dd1c5c3d77b14187703af26826f91811b808dc82e23811c3b1749ac",
+      "bytes": 7095
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/analyze-command.json": {
+      "sha256": "de81296038b716bd6bd7d1eac4cb6e396a8f772fc144244f1ea50ff9bc7a95e0",
+      "bytes": 283
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/analyze-run.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/analyze.py": {
+      "sha256": "e6203785e63de50bdab73434030a0aae4f6b765099efc6c6cce4c69e0034f118",
+      "bytes": 10313
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/coordinator-authorization.json": {
+      "sha256": "60f00fd8dd985b303ca642ab044f07c2c0b3738c6ec13731c9b45130321c1264",
+      "bytes": 1682
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/draft-manifest.json": {
+      "sha256": "8f16a17cf5ee2ba60460e38d6b2be9d036fb6c987ccb9b50377a7b8a968e7b8b",
+      "bytes": 1225
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/draft-source-references.json": {
+      "sha256": "790967e22f9eb2e71b9751997813727859932b2bc51f06b6094708f652b0dc87",
+      "bytes": 281
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/figure-inputs.json": {
+      "sha256": "e3616e21cbfe27a9e817964500923e58481ec193684ff873f1b1bc167bc8ce83",
+      "bytes": 862
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md": {
+      "sha256": "bcf846e2c28c831e8d94ced50706374e82bb8549ce550bdd2df144d2c1e5f9a2",
+      "bytes": 20771
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/methods-and-data.md": {
+      "sha256": "23a110ecd8cde510edadf72c7d3932dbf48ceb80a03ae2f2e67a147cbd07ca6b",
+      "bytes": 9484
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/normal-context-source.json": {
+      "sha256": "a7e39b13817f2a86e922d692623f5836a2b2a35a4690f501775117ed9cb17e96",
+      "bytes": 27720
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/normal-context.csv": {
+      "sha256": "7ccee3a1a7a8db1c7145f4e9b239e12144798b01012930e91304d9724c1add3f",
+      "bytes": 3912
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/plot-readiness.json": {
+      "sha256": "c50e8c1a83529c909d1feb4fe4973681fb18e9acf02737d174ee3719b7b69d15",
+      "bytes": 1304
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/plot_figures.py": {
+      "sha256": "eab0311835098e8d7854343a9a970d5f40a692e8c8170aed3e9e86c6e8b47094",
+      "bytes": 6814
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/draft/runtime.json": {
+      "sha256": "134b499355a1272bee7721871b05ad3a659caef87ad8ecf22ad738bd18e26579",
+      "bytes": 435
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/fixtures.json": {
+      "sha256": "f549effe314e525b23dca66e00c57633fb4556dfec1653581777def419a43b83",
+      "bytes": 458
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/interpretation-context-references.json": {
+      "sha256": "0fe20559732d31a2e6c6f27373bed74167df99f524c8ef33248b519a51876634",
+      "bytes": 1297
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json": {
+      "sha256": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+      "bytes": 423739
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata.py": {
+      "sha256": "fc26eb2fe167dba67afd3b8ca70173fb8ec3d460466a711d0d4db94aa0b88055",
+      "bytes": 4025
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/packet-manifest.json": {
+      "sha256": "38ba4df09e794cece5e81d8977ff68a1e530e9d27194088a07f580b64cdcbabd",
+      "bytes": 8197
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md": {
+      "sha256": "6baa7aea44c1f170553ec6d8650d2015c794b50180fedd43cbdd10693e779eee",
+      "bytes": 10105
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md.original.txt": {
+      "sha256": "7555af8af8b3bfd98873190a672f1447c50291f15d2ec9c794e2f58750bdd524",
+      "bytes": 9897
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/README.md": {
+      "sha256": "d250152eb59d6a4d4f04da1dc8a9d139a89b36078eea837f83377432424d0ae4",
+      "bytes": 3013
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/README.md.original.txt": {
+      "sha256": "abedb7bb26aa92022c494f9624bb3ba42d70621a96135929a7d049bb334bf53e",
+      "bytes": 2821
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/adapter-fixtures.json": {
+      "sha256": "753ca1e30b5432770ad98bb200069c00adff8f806c4b8e97c06f3c071b4bb23e",
+      "bytes": 224
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/code-freeze.json": {
+      "sha256": "cdfc8330fc0cdfd7a0ca18468cc00492311c96c3ef456cc5ba0311c2e3316bd7",
+      "bytes": 540
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/input-lock.json": {
+      "sha256": "c238d08c4c54d05f171b67820f55c4176472b72ba81c526ff7e20134e3c7f172",
+      "bytes": 8426
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/README.md": {
+      "sha256": "f5b2bb6ef82938001c0ec6cf3d8f816e888fb85f63e4a83f84a1e7c035966e0f",
+      "bytes": 4364
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/replay-manifest.json": {
+      "sha256": "b892af360e5655c8eac824867bc997c41f4cbfb1a6b2bf7e7c7899ddd62f5d8e",
+      "bytes": 3440
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/replay.py": {
+      "sha256": "487ee327b224c4a48286fe492b0e6da13d179ea560ee7b04f9d8d36ec3516ebb",
+      "bytes": 13166
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/report.py": {
+      "sha256": "fa2fcaff201774ae3bfd326510e6457f5974bec0ba2299dcce598a697c80799f",
+      "bytes": 5056
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/requirements.txt": {
+      "sha256": "fd79e4cd0cea13ea3dcbfc35b4886effa20a6beb230acba3fcdce5ec324b129d",
+      "bytes": 47
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/result.md": {
+      "sha256": "be61747614cfd80341a83d555775332af5cdd5db695f7df014240296e8b4f48f",
+      "bytes": 4195
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/standing-authorization.json": {
+      "sha256": "0c518c4d4e8933a269ae368f88ca53a77df4386ba51318ae154314381c318004",
+      "bytes": 814
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/comparison.json": {
+      "sha256": "1855cb2c73d71f5fd00339557fc5292119f26687732c45f98e21e8e7c7c0dad9",
+      "bytes": 9742
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/fixtures-hofvander.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/fixtures-hofvander.stdout.log": {
+      "sha256": "f549effe314e525b23dca66e00c57633fb4556dfec1653581777def419a43b83",
+      "bytes": 458
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/fixtures-replication.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/fixtures-replication.stdout.log": {
+      "sha256": "2dabf2e3fa73f67726413fad58b60a37de1fcd7e64f0936366497b33695c9b51",
+      "bytes": 331
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/hofvander.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/hofvander.stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/manifest.json": {
+      "sha256": "ab8227847d0c8a70b0562ccea26f3aff1860b919c7f0c0b6b0323a42b29e6a3e",
+      "bytes": 1935
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/receipt.json": {
+      "sha256": "e3514f789704ca1d87e5fa5e5a43cdef301eeb1b3718e24e5281b9031f97b32f",
+      "bytes": 14119
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/replay-compatibility.json": {
+      "sha256": "9ccdff100793174be1198fd1528278bedcdd64a5f86b8130c92f22a65edcd6a4",
+      "bytes": 3977
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/replication.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/replication.stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/report-provenance.json": {
+      "sha256": "5d8da29c779b94b77aaf2dde2ce63fdc96cb4a79465257638e25f03d49211cd1",
+      "bytes": 370
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/reporting.stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replay/verification/reporting.stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-command.json": {
+      "sha256": "f2bddaa351d981f0ade691bb21e43574414f9a179e6db357e362a9faffa7c455",
+      "bytes": 287
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-fixtures.json": {
+      "sha256": "2dabf2e3fa73f67726413fad58b60a37de1fcd7e64f0936366497b33695c9b51",
+      "bytes": 331
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-manifest.json": {
+      "sha256": "41def87dde52663a73ea09a3b52924843d5d20103c7f0523bc03ae842426e0ae",
+      "bytes": 100475
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/ALPP.json": {
+      "sha256": "91fa5efd58f3ebcc3ad9a997238519491890b8bb15a3aea431a21067e72acb64",
+      "bytes": 716781
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/array-values.json": {
+      "sha256": "33ce40f615cb7db706565c559cfafebcd57b5b9d84f30c4af7a6502f03faed9c",
+      "bytes": 14291
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD248.json": {
+      "sha256": "a398c9bd6153163c2772e776e3bcfcef1734411d3bf0ede6ec58f4601ff3b6a0",
+      "bytes": 710418
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD276.json": {
+      "sha256": "395082ac5d928d275081d03a7b1694f18881412e28e776f1ec7df60d5faeb59f",
+      "bytes": 722213
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CDH17.json": {
+      "sha256": "7ec58894f7b330ec7d377e5dc64e7a5e655f34e19d00c0e40ccd495b3fc4c089",
+      "bytes": 723184
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CHRNA6.json": {
+      "sha256": "94978db90263e5e54cce093c8d85112e3125592de914c560ee2b076076dafc8c",
+      "bytes": 701101
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CSPG4.json": {
+      "sha256": "27b58be3b06cbb03c243f6c5d2b5e00b9217ad950acb39d9130646718ff06209",
+      "bytes": 712955
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/execution.json": {
+      "sha256": "8f0c5353a43a5ba99a008dc8e79b7ef25c6d34f2bd712b9f67aad802a333bea6",
+      "bytes": 188
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/FAP.json": {
+      "sha256": "3f6b92cf1c4f23b8e7d6c2564e7f896f813bf99883e60ffb7971c3a0082b580e",
+      "bytes": 715297
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/GPC3.json": {
+      "sha256": "bfc6e13fa2d6d9335815a7c8b42943c7a331f0672d77076655ac28d63f3c60c5",
+      "bytes": 722053
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/L1CAM.json": {
+      "sha256": "0d0ce0822eed9ad3d7854eb19370b1d6e0b20f3b0446980378b8103c4a4eb4fe",
+      "bytes": 721603
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/MSLN.json": {
+      "sha256": "d0ca5023eec1990ddfa8284e96cbd93babaded8bbab81c07421da0fba22d2fa0",
+      "bytes": 722244
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/PRAME.json": {
+      "sha256": "13a916b140d2b02fd9ecfcf0f709a51e73f8c3c7ac6f34c6c2656fbee1319cab",
+      "bytes": 725252
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/result.json": {
+      "sha256": "436614fa50e20250b4a7a6f5700aaf7d36c45337f26d015f584511b32d6875f1",
+      "bytes": 9618828
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/SSTR2.json": {
+      "sha256": "f450fe26695c7e45ffe02eb7d669fb95d2175ec6662ec1a254b26fd96c8abcc3",
+      "bytes": 719216
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-run.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication.py": {
+      "sha256": "d626cb59146f9635902408b1bb15e3f9d12518b75bb8a5214a666fc6a5bc02c1",
+      "bytes": 8515
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication_metadata.py": {
+      "sha256": "f028de27596d84f553f4c4110d75fb942714d20088d6176190c843a84917fc12",
+      "bytes": 2652
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/result.md": {
+      "sha256": "27b448b9616d1647e1993ea98546f6f0e73882024b6900752b005b65e6102d4d",
+      "bytes": 11094
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/ALPP.json": {
+      "sha256": "c1a4a72664066d2762930817e7b7ebcfbcaf5a3578b313d149b1a5a2feb0c35e",
+      "bytes": 827212
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD248.json": {
+      "sha256": "314f5bd3ded8b11449f599fe1e94231c64224291b4b724eb7deeee73c6cbe65e",
+      "bytes": 821190
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD276.json": {
+      "sha256": "603c35d1714c979243b98af126b0b7d68ae1acbe3152dd89b3f1bf99800fcd25",
+      "bytes": 830497
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CDH17.json": {
+      "sha256": "d8294e33a7eca9d3160800dfa5d6ba1c1a2b8ce64d7b98003127e20c6340d50a",
+      "bytes": 842667
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CHRNA6.json": {
+      "sha256": "b6b7e7d638fbb5085a0e4728e5edfacef096a879cf9af9e335b821b9b748f91f",
+      "bytes": 804908
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CSPG4.json": {
+      "sha256": "004a0f6da8b0f0197011cb2d1624c62aff19f8b2d00dd17e00d36d15287b121a",
+      "bytes": 817533
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/execution.json": {
+      "sha256": "af882b684925af479e541bf9297c5c729b20657b444ed011601399a30e54ffab",
+      "bytes": 166
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/FAP.json": {
+      "sha256": "6bc1b9c44639fcdf8a48b46b7439b2775f6c57ae4838498197d653a261a24e6e",
+      "bytes": 826065
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/GPC3.json": {
+      "sha256": "1771919ec8bb36d9a6fb31740690a534e846b9fae162f049acc6f3d728cae5a2",
+      "bytes": 822122
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/L1CAM.json": {
+      "sha256": "09b4d42498737c768f02be54b2ec327f592607da7c1b1ce258706bb27b801981",
+      "bytes": 829725
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/MSLN.json": {
+      "sha256": "4b4cc5e88a9b56023188d2532cb772ea5344af65bf71ff8ce880fb1efc931e08",
+      "bytes": 829456
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/PRAME.json": {
+      "sha256": "a97115f656a39b91a86f9c33264210f611619e0f971e09ed672a6286dbe29632",
+      "bytes": 817376
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/result.json": {
+      "sha256": "e809f29a411ab246fd9eba29fcc7f8d0f0b6e2b89944ecf1e3aeeea18d22e97d",
+      "bytes": 11183505
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/revised-membership-changes.json": {
+      "sha256": "0ae8e0c014ea9b5da5f2d4298263452e50c7499475334af143952fedb94942f2",
+      "bytes": 11112
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/selected-values.json": {
+      "sha256": "21d0628368ca324da7cbe42d899a67590361b3b69476a6f6653e66410e03853d",
+      "bytes": 186463
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/SSTR2.json": {
+      "sha256": "77c896035ed6011274e417b42a61ddeb9e1efa94ff546ffce74fa7db7cf7a1ec",
+      "bytes": 829615
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/summarize.py": {
+      "sha256": "7cb587280f7425a5fadab3661c3b3a47294c53d9503e02d080a393e53578ddb0",
+      "bytes": 15434
+    },
+    "research/autonomy/atlas-normal-context-2026-09-06/build_roster.py": {
+      "sha256": "d8b485ad23621d69e729332fcbe8982ce3f42dfe1f6c7ae8a7add8afd07f8cd4",
+      "bytes": 4005
+    },
+    "research/autonomy/atlas-normal-context-2026-09-06/file-manifest.json": {
+      "sha256": "a6db84d468fb8c53a71303060b6ce70e4a23240a1a462a3b148dd4d54b5d7e89",
+      "bytes": 5024
+    },
+    "research/autonomy/atlas-normal-context-2026-09-06/fixed-panel-normal-context-roster.json": {
+      "sha256": "a7e39b13817f2a86e922d692623f5836a2b2a35a4690f501775117ed9cb17e96",
+      "bytes": 27720
+    },
+    "research/autonomy/atlas-normal-context-2026-09-06/gene-identities.json": {
+      "sha256": "10de7e12cc3f286999dd2689840d197850905e3e259c3cfe45458b8fdab0e6f9",
+      "bytes": 371
+    },
+    "research/autonomy/atlas-normal-context-2026-09-06/normal-IHC-cell-records.json": {
+      "sha256": "d2be7a4a8c1bc616e92fbea7363223ead9f73b269475f3bb7b6f653068a3f4ef",
+      "bytes": 346041
+    },
+    "research/autonomy/atlas-normal-context-2026-09-06/normal-RNA-source-records.json": {
+      "sha256": "2f9e48af45d86ca8792227a8c00c39949d2201ea8408a339cbc07974264a438f",
+      "bytes": 684453
+    },
+    "research/autonomy/atlas-normal-context-2026-09-06/original-source-packet.zip": {
+      "sha256": "c41c54b503d9f4ba716daf15079276f53bcaad64fbc3d53ce9960f45a4d27e1b",
+      "bytes": 729596
+    },
+    "research/autonomy/atlas-normal-context-2026-09-06/preservation-manifest.json": {
+      "sha256": "f221c5bf7db08d5029c1fb27009a10007701dffb5376b4017f4f597f5852565e",
+      "bytes": 4816
+    },
+    "research/autonomy/atlas-normal-context-2026-09-06/retrievals.json": {
+      "sha256": "ed22e103e1a4f6256b30ba3df9ce563e257b9d35acc99501e5d88fdc40a2fa93",
+      "bytes": 20837
+    },
+    "research/autonomy/atlas-original-array-source-2026-09-06/original-source-recovery.zip": {
+      "sha256": "855cf60fd09b7206699f7b11053fafb39ceb93209b75ebeae59326cd2e0f66f4",
+      "bytes": 15797038
+    },
+    "research/autonomy/atlas-original-array-source-2026-09-06/preservation-manifest.json": {
+      "sha256": "a5f3941058dda2f71b86228326a2290d136132b3c10553b645c7bbd0258c6872",
+      "bytes": 2222
+    },
+    "research/autonomy/atlas-primary-provenance-2026-09-06/GSE24369.soft.gz": {
+      "sha256": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+      "bytes": 20240336
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/analyze.py": {
+      "sha256": "b5d979abf19fccbb5bf7b866c84fa6f677f94478cdf2fbfbda854fecd419d6bf",
+      "bytes": 10810
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/checks.json": {
+      "sha256": "a91edb3b61075e73dae62485254b93989631a8ce8215b094ec2e3f121ece8208",
+      "bytes": 757
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/column-mapping.json": {
+      "sha256": "6fa6ca977b1d94d697b6c6cf0f2c124301b250ac702dee9b4ffd834691c23ac9",
+      "bytes": 65394
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/contrasts.tsv": {
+      "sha256": "f305e6d6a17072ebb4c7a1e49f55a5ea10d68ae4c7fc8e9427f98005c50e88c9",
+      "bytes": 46744
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/coordinator-verification.json": {
+      "sha256": "cf46f93c1860e8f2643431078b4ed5ddd7dc6b2186e262270afa6b757ab73113",
+      "bytes": 2200
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/execution.json": {
+      "sha256": "c79aa90c630fd34242b0471a63ff27d7e791b5deb72ca8a970bb11cbc0302d61",
+      "bytes": 729
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/GSE28866_36048_normalized_peaks_cancer_and_normal.txt.gz": {
+      "sha256": "11dae64b2d6b6e77846c3f14971fc9a313da86eb52a4b8b83df96c23eedc0ffd",
+      "bytes": 13018555
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/protocol-frozen.md.txt": {
+      "sha256": "7429a89c8b9804fa956c43818d4e7cb4841ae69926ed3beca3b9e4c32a405f8d",
+      "bytes": 6387
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/protocol-original.md.txt": {
+      "sha256": "213eda255e9cf8d14d5b9306add030f378a27a114bf6ad885996111561acfb4e",
+      "bytes": 4888
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/protocol.md": {
+      "sha256": "64613009c7729b54533a2e8dab2e2790669c639e7d0ef54f085cbaa23f47284d",
+      "bytes": 6693
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/provenance.json": {
+      "sha256": "746e3f202309bb2c0cce36c656c0652747537c720afe2fc20e0d21c93453b101",
+      "bytes": 2726
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/render_report.py": {
+      "sha256": "fb54b7fffeea58fb57c39ac98d7e9b64a1d1b19b2e0f35d7f8fcc248482d1329",
+      "bytes": 10993
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/report.md": {
+      "sha256": "e017ae9beae2257d343d8cc5a86994e760acce5305028aa46e7ffa1ab6782449",
+      "bytes": 10076
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/results.json": {
+      "sha256": "35a360ca037c13ad1832268c3a8fa89b897a1100163f4aa46349787133c76f6f",
+      "bytes": 631225
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/selected-source-rows.tsv": {
+      "sha256": "612bc13a9bc4ee46e79557f255bc431815f5992ca44b2ae12b90feaed5a6e374",
+      "bytes": 18690
+    },
+    "research/autonomy/atlas-sample-organ-2026-09-06/verify.py": {
+      "sha256": "132355caad1468d2745967937a4e9dde3f877e6a7d77008c70880ea9277cbb57",
+      "bytes": 3349
+    },
+    "research/autonomy/cycle-outcomes/20260905T133448Z-6bd43b913c/atlas-primary-matrix-availability.json": {
+      "sha256": "5b8fa18d1b113417906909dc4c62311a43a84f24a6eea7ab02ac0abad8768763",
+      "bytes": 1705
+    },
+    "research/manuscripts/figures/surface-tissue-rna-figure-provenance.json": {
+      "sha256": "91953fcfc34aa0ae47b123a45fe6b29501ea2b056fbd6cc8d7c6447bb372e8c3",
+      "bytes": 2576
+    },
+    "research/manuscripts/figures/surface-tissue-rna-figure1.pdf": {
+      "sha256": "8703a7a7c67e050818f177f3e6d834ddb19f9c81ee5d8317d12685d4ce7346b7",
+      "bytes": 37799
+    },
+    "research/manuscripts/figures/surface-tissue-rna-figure1.png": {
+      "sha256": "92076d9a8560a3a1b92cd2523ff1a3d1f260a9e01797b5cbdaca78163027e37c",
+      "bytes": 341601
+    },
+    "research/manuscripts/figures/surface-tissue-rna-figure1.svg": {
+      "sha256": "aae1f9d825da431d9c896d0aae4a0d8d65d182d21fee940199787e6b4f1b6306",
+      "bytes": 76890
+    },
+    "research/manuscripts/figures/surface-tissue-rna-figure2.pdf": {
+      "sha256": "814cd3019feaca8989e299fd97fd8005941c1ca73615015f2fb4302ebfe62aac",
+      "bytes": 27513
+    },
+    "research/manuscripts/figures/surface-tissue-rna-figure2.png": {
+      "sha256": "edc81e62c7121665e3d2b7407f7978e38fe4e7ed53b0e1fd0b7615565117b52f",
+      "bytes": 183499
+    },
+    "research/manuscripts/figures/surface-tissue-rna-figure2.svg": {
+      "sha256": "3c4d0a0167296868455fd9b5f24a741fc815a49e07005f04e65aec811b08ee03",
+      "bytes": 42295
+    },
+    "research/manuscripts/surface-targets/emc-tissue-rna-prioritization-si.md": {
+      "sha256": "81b5ace2d11e3c5ddf1e4a49becdce7d86ea9b5819f41a1415d5a923dd5d1844",
+      "bytes": 12035
+    },
+    "research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md": {
+      "sha256": "455260bd45a60817571253d954fc42d6275e3ee53631b20f23d7f6fcbd1816d1",
+      "bytes": 22438
+    },
+    "research/manuscripts/surface-targets/plot_emc_tissue_rna.py": {
+      "sha256": "d40179cf0ca4b3fc4b8ede3885a0532ddfdca5cf72cb93e0630c99a279d27274",
+      "bytes": 7217
+    },
+    "research/modalities/atlas-independent-normal-feasibility.md": {
+      "sha256": "665334663e77d3e8b360741cef2a97562901be303bd21dc2d0ad5d3f51ff24ad",
+      "bytes": 10319
+    },
+    "research/modalities/geo-gse28866-brunner-series.json": {
+      "sha256": "c9440ea5c9cdefeaa25e6df102ec1ca49d7ceda473f95178775208432cd2e958",
+      "bytes": 285899
+    },
+    "research/modalities/gse28866-tumour-vs-normal.json": {
+      "sha256": "ac0a17bd81dd8bc2ecc3b5bb380de5ae00921ae2d32b5a9595bd1449720be407",
+      "bytes": 27256
+    },
+    "research/modalities/gse28866_tumour_vs_normal.py": {
+      "sha256": "6dcea81de63a4dd9ab66f39144b2ba531351efd9f1a8d51b233388456bfbdb78",
+      "bytes": 30914
+    },
+    "research/modalities/surface-address-sensitivity.md": {
+      "sha256": "685b9a6c30d0b5b950d673722a7f4451d12761171fed95d231d1509a78307934",
+      "bytes": 9105
+    },
+    "source-notes/prame-five-emc-factual-rows.json": {
+      "sha256": "587ee4c80de2c0d18a2717461ffffd473d7875ad74a3e276e895fea71ad24258",
+      "bytes": 1129
+    },
+    "source-notes/source-rights-and-retrieval.json": {
+      "sha256": "5b9edae6d73ea91f67368461bfddb27a4b59794987d44ad2cde7718e51bdb982",
+      "bytes": 7378
+    },
+    "SOURCE-RIGHTS.md": {
+      "sha256": "47c6a73e48255191da494e95b29ecd9bd6dc3fa7dbd6686230d03e6d24a4be5f",
+      "bytes": 2424
+    }
+  }
+}

@@ -57,7 +57,7 @@ last_verified: 2026-08-09
 | 4 | **PUB-CARE-DELIVERY** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 4 | 0 | 0 | 29% of 7 | ○ `unwritten` |
 | 5 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/care-delivery/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |
 | 6 | **PUB-IPD-SURVIVAL** | ⭐ could still help a patient | ⭐ **no bench needed** | **11.0** | 1 | 0 | 0 | 100% of 2 | ○ `unwritten` |
-| 7 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md) | ⭐ could still help a patient | 🧪 bench, to build | **11.0** | 2 | 3 | 0 | 20% of 10 | ◐ `drafted` |
+| 7 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md) | ⭐ could still help a patient | 🧪 bench, to build | **10.0** | 2 | 3 | 0 | 20% of 10 | ◉ `posted_preprint` |
 | 8 | [**PUB-ATR**](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | 🧪 bench, to build | **8.0** | 1 | 0 | 0 | 0% of 1 | ◐ `drafted` |
 | 9 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md) | ⭐ could still help a patient | 🏥 clinical adoption | **8.0** | 1 | 0 | 0 | 25% of 4 | ◐ `drafted` |
 | 10 | **PUB-LOCOREGIONAL** | ⭐ could still help a patient | 🏥 clinical adoption | **5.5** | 0 | 0 | ⚠ 4 | 50% of 8 | ◔ `outlined` |
@@ -108,7 +108,7 @@ last_verified: 2026-08-09
 **PUB-IPD-SURVIVAL** — score 11.0
 - [RT-IPD-SURVIVAL](L2-rt-ipd-survival.md) — *Can the time-to-event data this disease's clinical questions all require be recovered from the curves already published?* — `ready` / `computed` / confidence `low` · last verified `2026-08-25`
 
-**PUB-SURFACE-TARGETS** — score 11.0
+**PUB-SURFACE-TARGETS** — score 10.0
 - [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) — *Is a PRAME-directed T-cell engager or receptor therapy applicable to EMC?* — `parked` / `computed` / confidence `low` · last verified `2026-08-28`
 - [RT-FAP-RLT](L2-rt-fap-rlt.md) — *Could a fibroblast-activation-protein radioligand reach EMC through its stroma?* — `blocked` / `concept` / confidence `unknown` · last verified `2026-08-05`
 
