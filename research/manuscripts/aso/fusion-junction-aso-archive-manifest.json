@@ -10,11 +10,11 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22229096",
-  "git_revision": "f37bcde9fbf92fe5fdab5b9c3f19e7e14a03ea6c",
+  "git_revision": "61d718671d096a528ffa5532e037c7d8735d8e58",
   "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "437dc348c66307f566b766e91aeabe1c737c4a3559f79f5598eef018f474599b",
-  "n_files": 516,
+  "archive_content_digest": "df2d69842bbb5c5d12988c747f2506ecc6f5dbb6e8c195148c5a28a137d062eb",
+  "n_files": 520,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
     "travels_with_the_deposit": true,
@@ -24,8 +24,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 53224858,
-  "total_mib": 50.759,
+  "total_bytes": 54066019,
+  "total_mib": 51.561,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -35,19 +35,19 @@
       },
       ".py": {
         "n_files": 77,
-        "bytes": 3383207
+        "bytes": 3385038
       },
       ".md": {
-        "n_files": 12,
-        "bytes": 731150
+        "n_files": 13,
+        "bytes": 761727
       },
       ".pdf": {
-        "n_files": 8,
-        "bytes": 1987685
+        "n_files": 9,
+        "bytes": 2363712
       },
       ".png": {
-        "n_files": 4,
-        "bytes": 1021036
+        "n_files": 5,
+        "bytes": 1233337
       },
       ".svg": {
         "n_files": 4,
@@ -56,6 +56,10 @@
       ".csv": {
         "n_files": 1,
         "bytes": 143636
+      },
+      ".docx": {
+        "n_files": 1,
+        "bytes": 220425
       },
       ".fasta": {
         "n_files": 1,
@@ -953,8 +957,12 @@
     {
       "id": "deposited_documents",
       "promise_text": "The PDFs in the archive are renderings of the condensed journal article, which is a different paper with its own title, abstract and reference list",
-      "n_files": 11,
+      "n_files": 15,
       "files": [
+        "research/manuscripts/aso/cbc-20260910/figure-1.png",
+        "research/manuscripts/aso/cbc-20260910/manuscript.docx",
+        "research/manuscripts/aso/cbc-20260910/manuscript.md",
+        "research/manuscripts/aso/cbc-20260910/manuscript.pdf",
         "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json",
         "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
         "research/manuscripts/aso/fusion-junction-aso-journal-article-figure-legends.docx.build-stamp.json",
@@ -1071,6 +1079,38 @@
       "serves": "delivery_antigen_negative",
       "also_serves": [],
       "contributes": "The two-axis surface-antigen screen behind the Discussion's delivery negative: the twelve antigens scoreable on both axes, the measured EMC tumour-versus-normal-organ exposure contrast from GSE28866, the three that clear the measured axes and the reason each is still refused, and the ceiling field recording that 86 further surface-board genes are unmeasured rather than excluded. Released so the bound on what was examined is checkable rather than taken on trust."
+    },
+    {
+      "path": "research/manuscripts/aso/cbc-20260910/figure-1.png",
+      "bytes": 212301,
+      "sha256": "3ef0be4474c3a00b0a823e70c386cb09883e6956ee383874c430038dbb8a911a",
+      "serves": "deposited_documents",
+      "also_serves": [],
+      "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset previews of the same text, and the build stamps that record the SHA-256 of every source each PDF was rendered from. ⚠ The Supporting Information travels as markdown only — no PDF of it is built, which is what the research article now states."
+    },
+    {
+      "path": "research/manuscripts/aso/cbc-20260910/manuscript.docx",
+      "bytes": 220425,
+      "sha256": "c19f0a1bffdc3fe4d3936ed3b4494176663c662dc89c6a76b1c965a276bba037",
+      "serves": "deposited_documents",
+      "also_serves": [],
+      "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset previews of the same text, and the build stamps that record the SHA-256 of every source each PDF was rendered from. ⚠ The Supporting Information travels as markdown only — no PDF of it is built, which is what the research article now states."
+    },
+    {
+      "path": "research/manuscripts/aso/cbc-20260910/manuscript.md",
+      "bytes": 30577,
+      "sha256": "9154a93be06ad7e34990f26e202b0c70e69c1d9b9b14b539a8da850c752e9d04",
+      "serves": "deposited_documents",
+      "also_serves": [],
+      "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset previews of the same text, and the build stamps that record the SHA-256 of every source each PDF was rendered from. ⚠ The Supporting Information travels as markdown only — no PDF of it is built, which is what the research article now states."
+    },
+    {
+      "path": "research/manuscripts/aso/cbc-20260910/manuscript.pdf",
+      "bytes": 376027,
+      "sha256": "b57d1b2f5ec4818745a3fb4d0e0ec4a579225c0977ea3c459bfe091894cf401e",
+      "serves": "deposited_documents",
+      "also_serves": [],
+      "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset previews of the same text, and the build stamps that record the SHA-256 of every source each PDF was rendered from. ⚠ The Supporting Information travels as markdown only — no PDF of it is built, which is what the research article now states."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-2026-citation-resolution.json",
@@ -1422,8 +1462,8 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 144607,
-      "sha256": "11767d142f812c536d6b887c61e94100b16912618e0f3555e157d9559e7cfa81",
+      "bytes": 145211,
+      "sha256": "7ec0a10009cd83edf7f3894ef79a9958f8bd5a46ce74e273cd05b4b7c998e5fa",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -1494,8 +1534,8 @@
     },
     {
       "path": "research/manuscripts/build_submission_pdf.py",
-      "bytes": 191140,
-      "sha256": "a50e3baa95fed72971f6ec27afc310fe864fce3d09dbd0f08ca099b521477330",
+      "bytes": 192367,
+      "sha256": "46a2c36a01ce4dfd5db0d657188b40b0cee4222fd2dd0ef0fe0ecf8173da4fae",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
