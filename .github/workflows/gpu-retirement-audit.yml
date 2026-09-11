@@ -6,64 +6,31 @@ permissions:
   contents: read
   id-token: write
 jobs:
-  audit:
+  retire:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 5
     steps:
-      - name: Install audit clients
-        run: pip -q install boto3 modal
-      - name: Read provider state without exposing secrets
+      - name: Revoke Vast keys
         env:
           VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-2
-          MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
-          MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
         run: |
           python - <<'PY'
-          import os,json,urllib.request,urllib.error,subprocess,boto3
-          def report(label,value): print('AUDIT '+label+' '+json.dumps(value,default=str),flush=True)
-          def call(label,fn):
-              try: return fn()
-              except Exception as e:
-                  report(label,{'error':type(e).__name__,'code':getattr(e,'code',None) or getattr(e,'response',{}).get('Error',{}).get('Code')})
-          def vast(path):
-              r=urllib.request.Request('https://console.vast.ai'+path,headers={'Authorization':'Bearer '+os.environ['VAST_API_KEY'],'Accept':'application/json'})
+          import os,json,urllib.request,urllib.error
+          key=os.environ['VAST_API_KEY']
+          def request(method,path):
+              r=urllib.request.Request('https://console.vast.ai'+path,method=method,headers={'Authorization':'Bearer '+key,'Accept':'application/json'})
               return json.load(urllib.request.urlopen(r,timeout=25))
-          for label,path in [('vast_instances','/api/v1/instances/'),('vast_volumes','/api/v0/volumes?owner=me&type=all_volume'),('vast_keys','/api/v0/auth/apikeys/'),('vast_user','/api/v0/users/current')]:
-              d=call(label,lambda:vast(path))
-              if d is None: continue
-              if label=='vast_user': report(label,{k:v for k,v in d.items() if k in ['id','balance','credit','balance_threshold','balance_multiplier','autobilling_enabled','auto_charge','payment_method','has_payment_method']})
-              else:
-                  if isinstance(d,dict):
-                      report(label+'_fields',list(d))
-                      rows=next((d[k] for k in ['instances','results','volumes','api_keys','apikeys','keys'] if isinstance(d.get(k),list)),[])
-                      if label=='vast_keys': report('vast_key_field_names',[list(r) for r in rows])
-                      if label=='vast_instances': report('vast_instances_pagination',{k:d.get(k) for k in ['total_instances','instances_found','next_token']})
-                  else: rows=d
-                  report(label,[{k:v for k,v in r.items() if k in ['id','name','label','actual_status','dph_total','balance','enabled','is_primary']} for r in rows if isinstance(r,dict)])
-          sts=boto3.client('sts'); iam=boto3.client('iam')
-          identity=call('aws_identity',lambda:sts.get_caller_identity())
-          if identity:
-              report('aws_identity',{k:identity[k] for k in ['Account','Arn']})
-              keys=call('aws_keys',lambda:iam.list_access_keys())
-              if keys: report('aws_keys',[{'user':k['UserName'],'suffix':k['AccessKeyId'][-4:],'status':k['Status']} for k in keys['AccessKeyMetadata']])
-              for region in ['us-east-2','us-east-1']:
-                  ec=boto3.client('ec2',region_name=region)
-                  data=call('aws_ec2_'+region,lambda:ec.describe_instances(Filters=[{'Name':'instance-state-name','Values':['pending','running','stopping','stopped']}]))
-                  if data is not None: report('aws_ec2_'+region,[{'id':i['InstanceId'],'type':i['InstanceType'],'state':i['State']['Name']} for r in data['Reservations'] for i in r['Instances']])
-                  sm=boto3.client('sagemaker',region_name=region)
-                  for method,key in [('list_training_jobs','TrainingJobSummaries'),('list_processing_jobs','ProcessingJobSummaries'),('list_endpoints','Endpoints'),('list_notebook_instances','NotebookInstances')]:
-                      pages=call('aws_'+method+'_'+region,lambda:list(sm.get_paginator(method).paginate(**({'StatusEquals':'InProgress'} if 'jobs' in method else {}))))
-                      if pages is not None: report('aws_'+method+'_'+region,{'count':sum(len(d[key]) for d in pages),'pages':len(pages)})
-              result=call('aws_revoke_stored_key',lambda:iam.delete_access_key(AccessKeyId=os.environ['AWS_ACCESS_KEY_ID']))
-              if result is not None: report('aws_revoke_stored_key',{'deleted':True})
-          p=subprocess.run(['modal','app','list','--json'],capture_output=True,text=True,timeout=45)
-          if p.returncode: report('modal_apps',{'exit_code':p.returncode})
-          else:
-              try: report('modal_apps',json.loads(p.stdout))
-              except Exception: report('modal_apps',{'parse_error':True})
+          rows=request('GET','/api/v0/auth/apikeys/')['apikeys']
+          rows.sort(key=lambda r:r.get('key')==key)
+          for r in rows:
+              try:
+                  result=request('DELETE','/api/v0/auth/apikeys/'+str(r['id'])+'/')
+                  print('RETIRE',json.dumps({'key_id':r['id'],'success':result.get('success'),'response_fields':list(result)}),flush=True)
+              except urllib.error.HTTPError as e: print('RETIRE',json.dumps({'key_id':r['id'],'http_status':e.code}),flush=True)
+          try:
+              left=request('GET','/api/v0/auth/apikeys/')['apikeys']
+              print('VERIFY remaining_key_ids',json.dumps([r['id'] for r in left]))
+          except urllib.error.HTTPError as e: print('VERIFY previous_credential_http_status',e.code)
           PY
       - name: Auth existing Google Cloud workload identity
         id: gcp
@@ -74,8 +41,9 @@ jobs:
           service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
       - if: steps.gcp.outcome == 'success'
         uses: google-github-actions/setup-gcloud@v2
-      - name: Read Google Cloud compute and billing linkage
+      - name: Check storage and disable retired GPU service account
         if: steps.gcp.outcome == 'success'
         run: |
-          gcloud compute instances list --project=project-a7ebde30-e2ed-4b8d-9a9 --format='json(name,status,zone)' || true
-          gcloud billing projects describe project-a7ebde30-e2ed-4b8d-9a9 --format='json(billingEnabled,billingAccountName)' || true
+          gcloud storage buckets list --project=project-a7ebde30-e2ed-4b8d-9a9 --format='json(name)' --quiet || true
+          gcloud storage du --summarize gs://project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt --quiet || true
+          gcloud iam service-accounts disable gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com --project=project-a7ebde30-e2ed-4b8d-9a9 --quiet || true
