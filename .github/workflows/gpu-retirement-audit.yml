@@ -11,6 +11,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Revoke Vast keys
+        continue-on-error: true
         env:
           VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
         run: |
@@ -20,12 +21,15 @@ jobs:
           def request(method,path):
               r=urllib.request.Request('https://console.vast.ai'+path,method=method,headers={'Authorization':'Bearer '+key,'Accept':'application/json'})
               return json.load(urllib.request.urlopen(r,timeout=25))
-          rows=request('GET','/api/v0/auth/apikeys/')['apikeys']
+          try: rows=request('GET','/api/v0/auth/apikeys/')['apikeys']
+          except urllib.error.HTTPError as e:
+              print('VERIFY previous_credential_http_status',e.code)
+              raise SystemExit(0)
           rows.sort(key=lambda r:r.get('key')==key)
           for r in rows:
               try:
                   result=request('DELETE','/api/v0/auth/apikeys/'+str(r['id'])+'/')
-                  print('RETIRE',json.dumps({'key_id':r['id'],'success':result.get('success'),'response_fields':list(result)}),flush=True)
+                  print('RETIRE',json.dumps({'key_id':r['id'],'http_success':True,'response_type':type(result).__name__}),flush=True)
               except urllib.error.HTTPError as e: print('RETIRE',json.dumps({'key_id':r['id'],'http_status':e.code}),flush=True)
           try:
               left=request('GET','/api/v0/auth/apikeys/')['apikeys']
