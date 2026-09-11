@@ -8,12 +8,12 @@ canonical_for: []
 purpose: "Unrefereed preprints matching a named reopening trigger, grouped by the blocker they would reopen — a leading indicator for the forecast bands in the blocker register."
 scope: "Preprints only (Europe PMC SRC:PPR, arXiv, ChemRxiv). The published corpus is on the trigger-scan board."
 audience: [maintainers, autonomous research agents]
-date: 2026-09-04
+date: 2026-09-11
 last_verified: unverified
 ---
 # Preprint pipeline — what is coming, by blocker
 
-**Last run: 2026-09-04** (UTC date stamp from the runner).
+**Last run: 2026-09-11** (UTC date stamp from the runner).
 
 ⛔ **EVERYTHING HERE IS UNREFEREED, TITLE-MATCHED AND UNREAD.** A preprint is the weakest lead this repository records. It cannot move a forecast band, it is not evidence, and nothing here may be cited. Its value is WARNING — it is the earliest point at which a capability becomes visible, often months before the journal version.
 
@@ -27,7 +27,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-10 | [Auto-RecSys: Harnessing Autonomous Research Agents for Industry-Scale Recommender System](http://arxiv.org/abs/2609.10922v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-09-09 | [TAPAS: Learned integration of AlphaFold3 confidence and geometric features for TCR-pMHC binding prediction](https://europepmc.org/article/PPR/PPR1316910) | PPR | `TRG-JUNCTION-PHLA` ⚠ |
+| 2026-09-09 | [Rational Design and Experimental Validation of a CCR7-Targeted Multi-Epitope Cytokine Fusion Protein for Cance](https://europepmc.org/article/PPR/PPR1315711) | PPR | `TRG-FUSION-JUNCTION-CLINICAL` ⚠ |
+| 2026-09-08 | [TCRdenoise - an unsupervised similarity-based approach for denoising of TCR-pMHC specificity data](https://europepmc.org/article/PPR/PPR1314932) | PPR | `TRG-JUNCTION-PHLA` ⚠ |
+| 2026-09-06 | [AutoKD: Autonomous Knowledge Discovery](http://arxiv.org/abs/2609.06366v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-09-03 | [Recovering molecules from coarse-grained beads: free-energy-conditioned generative backmapping across chemical](http://arxiv.org/abs/2609.04432v1) | arXiv | `TRG-ATOM-MAPPER-FLOOR` ⚠ |
 | 2026-09-03 | [A Case Study on Emergent Cheating and Whistleblowing in Autonomous Research Swarms](http://arxiv.org/abs/2609.04170v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-09-03 | [La Agente Óptima: Towards Agentic Self-Driving Laboratories](http://arxiv.org/abs/2609.04564v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-08-31 | [Dr. Claw: An AI Scientist Workspace for Vibe Research](http://arxiv.org/abs/2609.00365v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-08-31 | [Beneath the Diff: Diagnosing and Mitigating Algorithmic Mode Collapse in Code-Level Autonomous Research Loops](http://arxiv.org/abs/2609.00077v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-08-29 | [Heterotypic interactions and sequence features modulate cellular reflectin condensate dynamics](https://europepmc.org/article/PPR/PPR1308223) | PPR | `TRG-CONDENSATE-PARTNER-RESOLUTION` ⚠ |
@@ -125,9 +132,37 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
 
+**Auto-RecSys: Harnessing Autonomous Research Agents for Industry-Scale Recommender System** — arXiv, 2026-09-10
+
+> Auto-research agents have shown the potential to automate hypothesis generation, experiment execution, and iterative refinement. However, scaling this paradigm to industry-scale recommendation models introduces two challenges: (1) long feedback loops, where model training can take days, making serial iteration prohibitively slow and requiring parallel exploration across multiple research directions; and (2) system complexity, where large configurations, fragile infrastructure dependencies, and multi-day GPU jobs require robust and recoverable execution. We present Auto-RecSys, an autonomous research system for long-horizon experimentation on industry-scale recommendation models. Auto-RecSys addresses these challenges through three harness designs: (1) distributed asynchronous execution for running multiple experiments in parallel across servers, (2) centralized cross-server memory for persistent and recoverable execution across sessions and failures, and (3) cognitive-procedural separation, where natural-language skill files guide LLM reasoning while deterministic scripts enforce operational correctness. Auto-RecSys further employs a dual-loop self-evolving architecture: an Execution Evolution Loop in which model-specific playbooks accumulate operational knowledge by recording failed attempts and crystallizing successful pipelines, and an Idea Evolution Loop in which experiment
+
+**TAPAS: Learned integration of AlphaFold3 confidence and geometric features for TCR-pMHC binding prediction** — PPR, 2026-09-09
+
+> Motivation Recent advances in biomolecular structure prediction, exemplified by AlphaFold3, have opened new opportunities for the prediction of TCR-pMHC binding specificity. Although individual AlphaFold3 confidence metrics provide informative binding signals, their predictive performance varies across datasets, highlighting the need to combine complementary signals rather than rely on any single metric. Results We present TAPAS, a tabular learning framework that integrates AlphaFold3-derived interface confidence and structural geometry with sequence embeddings. Although no single zero-shot metric was the strongest across all benchmarks, TAPAS was consistently the top-ranked method on VDJdb and two external benchmarks, matching or exceeding the strongest zero-shot AlphaFold3 metric. Feature group ablation showed that the contributions of sequence, confidence, and geometric features varied across evaluation settings, and that combining them resulted in the best overall performance. These results highlight the value of integrating complementary structural and sequence features within a unified framework for robust TCR-pMHC binding prediction.
+
+**Rational Design and Experimental Validation of a CCR7-Targeted Multi-Epitope Cytokine Fusion Protein for Cancer Immunotherapy** — PPR, 2026-09-09
+
+> Abstract      Despite significant advances in cancer therapy, treatment efficacy remains limited by systemic toxicity and insufficient anti-tumor immune responses. Developing immunotherapeutic agents capable of activating multiple immune pathways represents a promising strategy for improving cancer treatment. In this study, we designed, produced, and characterized a novel recombinant multi-epitope cytokine fusion protein comprising immunologically active epitopes derived from CCL21, CCL19, IL-1β, and GM-CSF. The engineered construct was designed to target the CCR7 receptor and promote coordinated activation of both innate and adaptive immune responses.The multi-epitope sequence was rationally optimized using in silico approaches. Three-dimensional structural prediction, molecular dynamics simulations, and molecular docking analyses demonstrated structural stability and favorable interaction with the CCR7 receptor. The recombinant protein was successfully expressed in   Escherichia coli   and purified by affinity chromatography. Protein expression and integrity were confirmed by SDS-PAGE, Western blotting, ELISA, and mass spectrometry. Functional analyses demonstrated that the recombinant protein enhanced immune cell migration, reduced the viability of breast cancer cells, and upregulated immune-related gene expression in peripheral blood mononuclear cells isolated from cancer p
+
+**TCRdenoise - an unsupervised similarity-based approach for denoising of TCR-pMHC specificity data** — PPR, 2026-09-08
+
+> Public repositories of T cell receptor (TCR)-peptide-MHC (pMHC) interactions constitute a critical resource for studying adaptive immunity and developing predictive models of TCR specificity. However, recent evidence suggests that a substantial fraction of reported TCR-pMHC interactions may be incorrectly annotated, limiting the quality of downstream analyses and machine learning applications. Here, we present an unsupervised sequence similarity-based framework for denoising peptide-specific TCR repertoires. The method combines pairwise TCR similarity metrics derived from TCRbase and TCRdist3 with hierarchical clustering and a novel adaptation of the silhouette score designed to address the prevalence of singleton clusters and highly imbalanced cluster structures. By incorporating a pseudo-cluster containing singleton and background TCRs, and by optimising both clustering distance thresholds and minimum cluster-size criteria, the proposed approach identifies TCRs likely to represent true antigen-specific binders while filtering putative noise.  Using experimentally validated repertoires from TCRvdb, we demonstrate that the modified silhouette score closely tracks clustering solutions that maximise separation between binding and non-binding TCRs, achieving strong agreement with independent validation based on the Matthews correlation coefficient. Extension to a large collection 
+
+**AutoKD: Autonomous Knowledge Discovery** — arXiv, 2026-09-06
+
+> Scientific discovery in data-rich domains is currently constrained by human bandwidth: the growth in the volume and complexity of real-world data far outpaces the rate at which researchers can read, reason, and synthesize. Recent LLM-based multi-agent systems have begun to automate portions of the research cycle, but they target hypothesis generation in settings where validation cannot itself be automated, and each run is one-shot, with no mechanism for findings to accumulate or steer subsequent inquiry. This paper introduces AutoKD, a multi-agent framework for autonomous knowledge discovery that is both computational and cumulative, allowing validated findings to persist and inform subsequent inquiry. Six coordinated LLM agents collaborate in an open-ended discovery loop, where accepted findings are stored in a persistent insight graph that serves as both long-term memory and an exploration-steering mechanism. We evaluate AutoKD on three diverse datasets from two perspectives: Open-ended Quality against published findings, and Conditioned Quality via literature-derived queries. Across both evaluation perspectives, AutoKD covers known findings and surfaces substantive discoveries that complement human-driven research. Our code is available at https://github.com/GeQinwen/AutoKD.
+
+**Recovering molecules from coarse-grained beads: free-energy-conditioned generative backmapping across chemical space** — arXiv, 2026-09-03
+
+> Transferable coarse-grained (CG) force fields compress chemical space: by aggregating atoms into a reduced set of interaction beads, models such as MARTINI reduce the number of distinguishable compounds by roughly three orders of magnitude, making high-throughput screening of thermodynamic properties tractable across soft matter, with drug--membrane permeability as a well-developed example. The compression is lossy and, so far, one-way: a screen returns a combination of beads, with no established route back to the compounds it stands for. Recovering those compounds--compositional backmapping--is a one-to-many inverse map, distinct from the better-studied conformational problem of rebuilding atomic coordinates from a known mapping. Here we formulate compositional backmapping as conditional graph generation by introducing juniper, a discrete denoising diffusion model over molecular graphs conditioned on the octanol--water partition free energy $ΔG_{\mathrm{W} \mapsto \mathrm{O}}$, the principal driver of MARTINI bead type assignment and hence a proxy for bead identity. Trained on molecules of up to 9 heavy atoms mapped onto one or two beads, juniper generates molecules that are 93\% valid and 92\% unique for two-bead targets, and whose $ΔG_{\mathrm{W} \mapsto \mathrm{O}}$ distributions track the target $ΔG^{\mathrm{CG}}_{\mathrm{W} \mapsto \mathrm{O}}$ linearly ($r^{2} \geq 0.96$
+
 **A Case Study on Emergent Cheating and Whistleblowing in Autonomous Research Swarms** — arXiv, 2026-09-03
 
 > Multi-agent AI science ecosystems rely on agents possessing tools that allow them to communicate, coordinate, and build on each other's work. Yet this shared infrastructure can also introduce vulnerabilities by creating a substrate for the contagious spread of unintended and undesirable behaviors. We report a case study on a research collective of 100 autonomous LLM agents tasked with proving formal mathematical conjectures. Within the swarm, cheating spontaneously emerged and was later challenged by whistleblowers - both without any external intervention. When a single agent discovered an exploit in the evaluation system, it propagated across the collective via a shared knowledge library and later through peer-to-peer messages. Despite early reluctance, a cohort of agents adopted the exploit in response to competitive pressure. A separate group of agents produced an emergent counter-response: auditing fraudulent proofs, alerting peers across broadcast and private channels, staging boycotts, lodging formal complaints, and proposing validation patches. In recent incidents, agent swarms coordinated covertly through improvised side-channels (Dalton and Wallace, 2026; Greenblatt et al., 2026). Our setting differs: the same transparent channels that carried the exploit also gave non-cheating agents the visibility they needed to detect fraud, organize resistance, and enforce norms. W
+
+**La Agente Óptima: Towards Agentic Self-Driving Laboratories** — arXiv, 2026-09-03
+
+> Self-driving laboratories (SDLs) combine automated experimentation with adaptive decision-making to accelerate scientific discovery. Their operation nevertheless often depends on human specialists who translate scientific objectives into executable closed-loop campaigns. Specialists adjust them as data and operating conditions change. Here, we present La Agente Óptima, an agentic framework that constructs and supervises Bayesian optimization campaigns across computational and experimental systems while maintaining a persistent optimization state. By separating large language model (LLM) reasoning from executed campaigns, Óptima runs repetitive optimization loops consistently, returns control to the agent only when progress requires interpretation or campaign revision, and keeps every decision auditable. We evaluate Óptima across ablation studies, five digital discovery tasks, and two physical platforms. Throughout, Óptima maintained executable campaigns as both the scientific problem and execution environment evolved. In a closed-loop contact angle optimization campaign, Óptima identified and corrected a mid-run measurement failure, bringing the contact angle from 71.4 to 67.8 degrees, just above the 64-66 degree range. From this result, Óptima correctly inferred that the target was likely unattainable with the available reagents and recommended changing the formulation. In a f
 
 **Dr. Claw: An AI Scientist Workspace for Vibe Research** — arXiv, 2026-08-31
 
@@ -511,6 +546,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-09 | [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts wi](https://europepmc.org/article/PPR/PPR1315617) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
 | 2026-09-01 | [PopPert: Population-level Joint-Distribution Modeling for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2609.01357v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-31 | [Ki-67 labeling index and HIF-1α expression delineate prognostic heterogeneity within FNCLCC grade 2 soft-tissu](https://europepmc.org/article/PPR/PPR1308533) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
 | 2026-08-24 | [DeMixPert: Decomposed Response Modeling with Gaussian Mixtures for OOD Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.23114v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -556,6 +592,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts with comparator and sequencing-year limits** — PPR, 2026-09-09
+
+> Abstract    Background: Tissue RNA enrichment can prioritize experimental assessment of candidate therapeutic addresses in extraskeletal myxoid chondrosarcoma (EMC), but the answer depends on comparator histology, specimen provenance and assay. We evaluated a fixed 11-gene panel and a separate CHRNA6 context control without treating bulk RNA as evidence of accessible protein or normal-tissue sparing.  Methods:  We analyzed publicly released gene TPM from a 704-patient soft-tissue-tumor study. Nine primary EMC remained after excluding three explicitly previously reported EMC cases and one recurrence. Primary comparators were myxoid liposarcoma (n=14), low-grade fibromyxoid sarcoma (LGFMS; n=13) and synovial sarcoma (n=18). We calculated per-gene probability of superiority, A=P(EMC>comparator)+0.5P(tie), with equal histology weights, separately for marginal and sequencing-year-matched contrasts. Each matched comparison contained three EMC; their union comprised four patients. A prioritization rule and sensitivity analyses were frozen before target values were inspected. Original GSE24369 arrays provided a separate LGFMS replication anchor (6 EMC biopsies; 17 LGFMS) and three secondary shared histologies.  Results:  CSPG4 alone met the 11-gene prioritization rule: marginal A=0.895 and matched A=0.811. CSPG4's LGFMS-specific A was 1.000 in GSE24369 and 0.966 marginal/0.933 matched 
 
 **PopPert: Population-level Joint-Distribution Modeling for Single-Cell Perturbation Prediction** — arXiv, 2026-09-01
 
@@ -996,6 +1036,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-08 | [Direct-to-Biology Strategy Accelerates CRBN-Targeting Molecular Glue Degrader Discovery](https://europepmc.org/article/PPR/PPR1314942) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-08-13 | [MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction](https://europepmc.org/article/PPR/PPR1298863) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v1) | arXiv | `TRG-TERNARY-GEN-NO-SITES` |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v2) | arXiv | `TRG-TERNARY-GEN-NO-SITES` |
@@ -1007,6 +1048,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Leveraging High-Throughput Proteomics and AI-Based Protein Folding to Accelerate VAV1 Molecular Glue Discovery](https://europepmc.org/article/PPR/PPR1164287) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Direct-to-Biology Strategy Accelerates CRBN-Targeting Molecular Glue Degrader Discovery** — PPR, 2026-09-08
+
+> Molecular glue degraders (MGD), a new drug modality that utilizes the natural proteasomal degradation machinery in cells for target protein degradation, is drawing great attraction from the pharmaceutical industry in recent years. However, the pace of MGD molecule discovery can be largely limited by the low throughput of conventional chemical synthesis and tedious purification processes. It is long-awaited to develop a new screening strategy to release the potentials of high-throughput chemical synthesis while organically integrating compound library construction with assay testing. Here, by leveraging the mild reaction conditions of amide coupling, we demonstrate the implementation of "Direct-to-Biology" (D2B) strategy for Cereblon (CRBN)-targeting MGD discovery with in-plate microscale high-throughput library construction directly followed by cellular HiBiT-based target protein degradation assay screening without purification. Our results indicate that the crude D2B compound mixtures can show comparable efficacy and potency as their purified counterparts. And by systematically integrating chemistry with biology, we can significantly accelerate the pace of MGD discovery.
 
 **MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction** — PPR, 2026-08-13
 
@@ -1050,6 +1095,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-09 | [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts wi](https://europepmc.org/article/PPR/PPR1315617) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
 | 2026-09-01 | [PopPert: Population-level Joint-Distribution Modeling for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2609.01357v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-31 | [Ki-67 labeling index and HIF-1α expression delineate prognostic heterogeneity within FNCLCC grade 2 soft-tissu](https://europepmc.org/article/PPR/PPR1308533) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
 | 2026-08-24 | [DeMixPert: Decomposed Response Modeling with Gaussian Mixtures for OOD Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.23114v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -1096,6 +1142,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts with comparator and sequencing-year limits** — PPR, 2026-09-09
+
+> Abstract    Background: Tissue RNA enrichment can prioritize experimental assessment of candidate therapeutic addresses in extraskeletal myxoid chondrosarcoma (EMC), but the answer depends on comparator histology, specimen provenance and assay. We evaluated a fixed 11-gene panel and a separate CHRNA6 context control without treating bulk RNA as evidence of accessible protein or normal-tissue sparing.  Methods:  We analyzed publicly released gene TPM from a 704-patient soft-tissue-tumor study. Nine primary EMC remained after excluding three explicitly previously reported EMC cases and one recurrence. Primary comparators were myxoid liposarcoma (n=14), low-grade fibromyxoid sarcoma (LGFMS; n=13) and synovial sarcoma (n=18). We calculated per-gene probability of superiority, A=P(EMC>comparator)+0.5P(tie), with equal histology weights, separately for marginal and sequencing-year-matched contrasts. Each matched comparison contained three EMC; their union comprised four patients. A prioritization rule and sensitivity analyses were frozen before target values were inspected. Original GSE24369 arrays provided a separate LGFMS replication anchor (6 EMC biopsies; 17 LGFMS) and three secondary shared histologies.  Results:  CSPG4 alone met the 11-gene prioritization rule: marginal A=0.895 and matched A=0.811. CSPG4's LGFMS-specific A was 1.000 in GSE24369 and 0.966 marginal/0.933 matched 
 
 **PopPert: Population-level Joint-Distribution Modeling for Single-Cell Perturbation Prediction** — arXiv, 2026-09-01
 
@@ -1309,6 +1359,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-08 | [Direct-to-Biology Strategy Accelerates CRBN-Targeting Molecular Glue Degrader Discovery](https://europepmc.org/article/PPR/PPR1314942) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-08-13 | [MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction](https://europepmc.org/article/PPR/PPR1298863) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v1) | arXiv | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v2) | arXiv | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
@@ -1318,6 +1369,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Leveraging High-Throughput Proteomics and AI-Based Protein Folding to Accelerate VAV1 Molecular Glue Discovery](https://europepmc.org/article/PPR/PPR1164287) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Direct-to-Biology Strategy Accelerates CRBN-Targeting Molecular Glue Degrader Discovery** — PPR, 2026-09-08
+
+> Molecular glue degraders (MGD), a new drug modality that utilizes the natural proteasomal degradation machinery in cells for target protein degradation, is drawing great attraction from the pharmaceutical industry in recent years. However, the pace of MGD molecule discovery can be largely limited by the low throughput of conventional chemical synthesis and tedious purification processes. It is long-awaited to develop a new screening strategy to release the potentials of high-throughput chemical synthesis while organically integrating compound library construction with assay testing. Here, by leveraging the mild reaction conditions of amide coupling, we demonstrate the implementation of "Direct-to-Biology" (D2B) strategy for Cereblon (CRBN)-targeting MGD discovery with in-plate microscale high-throughput library construction directly followed by cellular HiBiT-based target protein degradation assay screening without purification. Our results indicate that the crude D2B compound mixtures can show comparable efficacy and potency as their purified counterparts. And by systematically integrating chemistry with biology, we can significantly accelerate the pace of MGD discovery.
 
 **MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction** — PPR, 2026-08-13
 
@@ -1355,6 +1410,8 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-09 | [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts wi](https://europepmc.org/article/PPR/PPR1315617) | PPR | `TRG-NR4A3-DIRECT-MATTER` ⚠ |
+| 2026-09-08 | [NR4A3 Fusion-Junction Antisense Gapmers for Extraskeletal Myxoid Chondrosarcoma: Reagents, Test Articles and a](https://europepmc.org/article/PPR/PPR1314917) | PPR | `TRG-NR4A3-DIRECT-MATTER` ⚠ |
 | 2026-08-27 | [NR4A3 Fusion-Junction Antisense Gapmers for Extraskeletal Myxoid Chondrosarcoma: Reagents, Test Articles and a](https://europepmc.org/article/PPR/PPR1306870) | PPR | `TRG-NR4A3-DIRECT-MATTER` ⚠ |
 | 2026-08-24 | [PHASE: encoding global protein ensembles with local Hamiltonians and all-atom backmapping](http://arxiv.org/abs/2608.23490v1) | arXiv | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
 | 2026-08-18 | [NR4A3 mediates Coal Dust Nanoparticle-induced Immunopathogenesis in Rheumatoid Arthritis](https://europepmc.org/article/PPR/PPR1300191) | PPR | `TRG-NR4A3-DIRECT-MATTER` ⚠ |
@@ -1369,6 +1426,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-05-05 | [From Enhanced Sampling to Human-Readable Representations of Protein Dynamics](http://arxiv.org/abs/2605.03394v2) | arXiv | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts with comparator and sequencing-year limits** — PPR, 2026-09-09
+
+> Abstract    Background: Tissue RNA enrichment can prioritize experimental assessment of candidate therapeutic addresses in extraskeletal myxoid chondrosarcoma (EMC), but the answer depends on comparator histology, specimen provenance and assay. We evaluated a fixed 11-gene panel and a separate CHRNA6 context control without treating bulk RNA as evidence of accessible protein or normal-tissue sparing.  Methods:  We analyzed publicly released gene TPM from a 704-patient soft-tissue-tumor study. Nine primary EMC remained after excluding three explicitly previously reported EMC cases and one recurrence. Primary comparators were myxoid liposarcoma (n=14), low-grade fibromyxoid sarcoma (LGFMS; n=13) and synovial sarcoma (n=18). We calculated per-gene probability of superiority, A=P(EMC>comparator)+0.5P(tie), with equal histology weights, separately for marginal and sequencing-year-matched contrasts. Each matched comparison contained three EMC; their union comprised four patients. A prioritization rule and sensitivity analyses were frozen before target values were inspected. Original GSE24369 arrays provided a separate LGFMS replication anchor (6 EMC biopsies; 17 LGFMS) and three secondary shared histologies.  Results:  CSPG4 alone met the 11-gene prioritization rule: marginal A=0.895 and matched A=0.811. CSPG4's LGFMS-specific A was 1.000 in GSE24369 and 0.966 marginal/0.933 matched 
+
+**NR4A3 Fusion-Junction Antisense Gapmers for Extraskeletal Myxoid Chondrosarcoma: Reagents, Test Articles and a Pre-Registrable Knockdown Experiment** — PPR, 2026-09-08
+
+> Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma usually defined by an in-frame _NR4A3_ fusion. That junction is in no normal transcript, so an antisense gapmer could in principle cleave it, sparing its parents; none is reported for any _NR4A3_ fusion in the literature retrieved. This computational work performs the in-silico half of step one of an off-target framework; every sequence named is a research reagent not for administration. It names what a laboratory needs: two reagents at the most-reported breakpoints, 5′-GGGCATATCATCAAAC-3′ at _EWSR1_ exon 12 and 5′-GGGCATATCTTGTGTG-3′ at _TAF15_ exon 6, both to _NR4A3_ exon 3, longest wild-type parent gap duplexes eight and nine base pairs; two screened controls; a pre-registrable selectivity threshold. Both come from a panel of 190 junction-spanning 16-mers tiled 5-6-5 across 38 in-frame junctions: 87 let a mature wild-type parent pair their whole catalytic gap over ten or more contiguous base pairs, and for 61 the longest is wild-type _NR4A3_. Ten is a convention, not a measurement: exon-terminus chimeras meet the same screen at 40.6% against the panel's 45.8%. Five test articles are named; the two fusion-positive EMC cell models are reported at an _NR4A3_ exon-2 acceptor, not this panel's. The design procedure is released.
 
 **NR4A3 Fusion-Junction Antisense Gapmers for Extraskeletal Myxoid Chondrosarcoma: Reagents, Test Articles and a Pre-Registrable Knockdown Experiment** — PPR, 2026-08-27
 

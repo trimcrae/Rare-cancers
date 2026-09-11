@@ -173,6 +173,21 @@
    ],
    "signals_recorded": 111,
    "abstracts_fetched": 34
+  },
+  {
+   "date": "2026-09-11",
+   "mode": "scan",
+   "triggers": 32,
+   "queries": 135,
+   "new_hits": 37,
+   "appended": 28,
+   "errors": [
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=protac&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "chemrxiv: DROPPED FOR THIS RUN after 3 consecutive failures (last: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden). Every ChemRxiv query below was SKIPPED -- this run's preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result is not a reading of absence."
+   ],
+   "signals_recorded": 37,
+   "abstracts_fetched": 10
   }
  ],
  "hits": {
@@ -239,6 +254,16 @@
     "url": "https://europepmc.org/article/MED/42691622",
     "first_seen": "2026-09-04",
     "age_days_at_first_seen": 8
+   },
+   "MED/42723309": {
+    "id": "MED/42723309",
+    "title": "Anthracene-Based Tetraimidazolium Nanotube as Molecular Glue for DNA Hierarchically Chiral Assembly in Water",
+    "date": "2026-09-10",
+    "venue": "Angew Chem Int Ed Engl",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42723309",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 1
    }
   },
   "TRG-TERNARY-GEN-NO-SITES": {
@@ -315,6 +340,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13397437",
     "first_seen": "2026-09-04",
     "duplicate_of_title": true
+   },
+   "PMC13476259": {
+    "id": "PMC13476259",
+    "title": "Induced proximity-based therapeutics for advanced prostate cancer",
+    "date": "2026-08-14",
+    "venue": "NPJ Drug Discov",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13476259",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 28
    }
   },
   "TRG-FEP-CRYPTIC-POCKET": {
@@ -367,6 +402,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13375461",
     "first_seen": "2026-09-04",
     "duplicate_of_title": true
+   },
+   "MED/42706725": {
+    "id": "MED/42706725",
+    "title": "Revisiting Asciminib Resistance: From Binding Affinity to Allosteric Disruption in &lt;i&gt;BCR::ABL1&lt;/i&gt; Leukemias",
+    "date": "2026-09-08",
+    "venue": "Turk J Haematol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42706725",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 3
    }
   },
   "TRG-TERNARY-ALCHEMICAL-VALIDATED": {
@@ -382,7 +427,20 @@
     "abstract": "The free-energy surfaces that underlie the conformational distributions of intrinsically disordered proteins (IDPs) are shallow and lack the deep minima characteristic of stable, folded structures. However, even in the absence of secondary or tertiary structure, sequence patterning can lead to conformational preferences and changes in chain dimensions as a function of solution conditions. While patterning effects have received extensive attention from simulation and theory, there is little corresponding data from experiment. Here we investigate the impact of charge patterning on chain dimensions and dynamics in a set of specifically designed polyampholytic IDP variants across the natural range of charge segregation with single-molecule FRET, nanosecond fluorescence correlation, circular dichroism, and NMR spectroscopy. We find that the conformational ensembles and their cooperative response to salt concentration show prominent and systematic dependencies on charge patterning, and to some extent on residue type. In contrast, the chain dynamics remain in the tens-of-nanosecond range, consistent with the absence of pronounced free-energy barriers. In close combination with molecular simulations, we show how the concept of susceptibility can be used to quantify cooperativity in the absence of barriers and relate it to the shallow free-energy surfaces of IDPs."
    }
   },
-  "TRG-ATOM-MAPPER-FLOOR": {},
+  "TRG-ATOM-MAPPER-FLOOR": {
+   "arXiv/2609.04432v1": {
+    "id": "arXiv/2609.04432v1",
+    "title": "Recovering molecules from coarse-grained beads: free-energy-conditioned generative backmapping across chemical space",
+    "date": "2026-09-03",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2609.04432v1",
+    "is_preprint": true,
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 8,
+    "abstract": "Transferable coarse-grained (CG) force fields compress chemical space: by aggregating atoms into a reduced set of interaction beads, models such as MARTINI reduce the number of distinguishable compounds by roughly three orders of magnitude, making high-throughput screening of thermodynamic properties tractable across soft matter, with drug--membrane permeability as a well-developed example. The compression is lossy and, so far, one-way: a screen returns a combination of beads, with no established route back to the compounds it stands for. Recovering those compounds--compositional backmapping--is a one-to-many inverse map, distinct from the better-studied conformational problem of rebuilding atomic coordinates from a known mapping. Here we formulate compositional backmapping as conditional graph generation by introducing juniper, a discrete denoising diffusion model over molecular graphs conditioned on the octanol--water partition free energy $\u0394G_{\\mathrm{W} \\mapsto \\mathrm{O}}$, the principal driver of MARTINI bead type assignment and hence a proxy for bead identity. Trained on molecules of up to 9 heavy atoms mapped onto one or two beads, juniper generates molecules that are 93\\% valid and 92\\% unique for two-bead targets, and whose $\u0394G_{\\mathrm{W} \\mapsto \\mathrm{O}}$ distributions track the target $\u0394G^{\\mathrm{CG}}_{\\mathrm{W} \\mapsto \\mathrm{O}}$ linearly ($r^{2} \\geq 0.96$), departing only in the hydrophobic and hydrophilic tails. Although the model receives no chemical information beyond a single scalar, the functional groups shift systematically with the imposed free energy, from branched hydrocarbons at the apolar end to amides, imides, and isocyanates at the polar end. A bead combination flagged by a CG screen can therefore be turned into candidate molecules for atomistic study or synthesis."
+   }
+  },
   "TRG-CHARGE-CHANGE-FEP": {
    "MED/42674410": {
     "id": "MED/42674410",
@@ -393,6 +451,16 @@
     "url": "https://europepmc.org/article/MED/42674410",
     "first_seen": "2026-09-04",
     "age_days_at_first_seen": 34
+   },
+   "PMC13523640": {
+    "id": "PMC13523640",
+    "title": "Toward Relative Redox Potential Predictions in Flavoproteins: Treatment of a Charge-Changing Mutation in Alchemical Free Energy Simulations",
+    "date": "2026-08-01",
+    "venue": "J Chem Theory Comput",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13523640",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
    }
   },
   "TRG-GENERATIVE-ENSEMBLE": {
@@ -581,6 +649,16 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PMC/PMC13371367",
     "first_seen": "2026-09-04",
+    "duplicate_of_title": true
+   },
+   "PMC13477581": {
+    "id": "PMC13477581",
+    "title": "UniPocket: Unified Ligand and Cryptic Pocket Prediction from Protein Language Model Embeddings",
+    "date": "2026-07-28",
+    "venue": "ACM BCB",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13477581",
+    "first_seen": "2026-09-11",
     "duplicate_of_title": true
    }
   },
@@ -932,6 +1010,18 @@
     "url": "https://europepmc.org/article/PMC/PMC13355314",
     "first_seen": "2026-09-04",
     "duplicate_of_title": true
+   },
+   "PPR/PPR1314942": {
+    "id": "PPR/PPR1314942",
+    "title": "Direct-to-Biology Strategy Accelerates CRBN-Targeting Molecular Glue Degrader Discovery",
+    "date": "2026-09-08",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1314942",
+    "is_preprint": true,
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 3,
+    "abstract": "Molecular glue degraders (MGD), a new drug modality that utilizes the natural proteasomal degradation machinery in cells for target protein degradation, is drawing great attraction from the pharmaceutical industry in recent years. However, the pace of MGD molecule discovery can be largely limited by the low throughput of conventional chemical synthesis and tedious purification processes. It is long-awaited to develop a new screening strategy to release the potentials of high-throughput chemical synthesis while organically integrating compound library construction with assay testing. Here, by leveraging the mild reaction conditions of amide coupling, we demonstrate the implementation of \"Direct-to-Biology\" (D2B) strategy for Cereblon (CRBN)-targeting MGD discovery with in-plate microscale high-throughput library construction directly followed by cellular HiBiT-based target protein degradation assay screening without purification. Our results indicate that the crude D2B compound mixtures can show comparable efficacy and potency as their purified counterparts. And by systematically integrating chemistry with biology, we can significantly accelerate the pace of MGD discovery."
    }
   },
   "TRG-VIRTUAL-CELL-NO-LINE": {
@@ -1457,6 +1547,16 @@
     "first_seen": "2026-09-04",
     "age_days_at_first_seen": 35,
     "abstract": "AI evaluation can support the wrong inference when an in-domain benchmark success does not survive distribution shift, or when the benchmark endpoint is entangled with a design factor. We study this problem in CRISPRi perturbation-effect prediction, evaluating a frozen Geneformer representation under a locked, pre-registered protocol: heads and model selection were frozen before test evaluation; the protocol required external outcome labels to remain withheld until final unblinding; and analysis-governing decisions were fixed before the evaluations they govern. In-distribution on the Virtual Cell Challenge (VCC), the frozen representation carries measurable predictive information beyond a dimension-matched random-feature control (Delta R^2 = +0.1645, 95% CI [+0.1375, +0.1920]), satisfying the pre-registered informativeness gate required before interpreting transfer. It then fails zero-shot transfer on both external screens (Spearman rho = -0.139 and -0.267), lying below that control on each. Adding a predefined magnitude block improves the representation externally (Delta rho = +0.032 and +0.143) but, under the frozen primary head, does not rescue transfer: both remain negative. A pre-registered, count-adjusted max-response secondary is positively associated with the outcome on both screens; we report it as correlational and secondary, not as a recovered magnitude signal. Finally, the VCC endpoint is strongly sample-size associated: a count-only linear model reaches R^2 = +0.4325, versus +0.2589 for the four magnitude scalars; adding those scalars to cell count improves R^2 by only +0.0017, so much of the aggregate-magnitude signal overlaps with cell count. This case study shows how locking the evaluation, harmonizing the measured endpoint, and separating primary from secondary evidence can change the inference supported by an AI benchmark."
+   },
+   "MED/42717098": {
+    "id": "MED/42717098",
+    "title": "An operational perturbation proteomics-based virtual cell model",
+    "date": "2026-09-09",
+    "venue": "Nature",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42717098",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 2
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -1849,6 +1949,86 @@
     "first_seen": "2026-09-04",
     "age_days_at_first_seen": 7,
     "abstract": "mRNA-based therapeutics have emerged as a transformative class of medicines, yet their translation beyond infectious disease vaccines remains challenged by the absence of an integrated pharmacological framework accounting for the tri-component nature of these therapies - the lipid nanoparticle, the mRNA, and the expressed protein. Here, we present a modular, multiscale computational platform integrating two complementary mechanistic models covering the full pharmacological cascade of mRNA-based immunotherapies. The first is a Quantitative Systems Pharmacology (QSP) model describing the immunological response to mRNA vaccines, from antigen expression in antigen-presenting cells through B cell activation and circulating antibody production. The second is a Physiologically Based Pharmacokinetic (PBPK) model tracking whole-body disposition of mRNA-encoded therapeutic antibodies, incorporating a molecular layer resolving LNP uptake, endosomal mRNA escape, and intracellular translation. Both models are informed by a machine learning pipeline that maps IVT-mRNA nucleotide sequences directly onto kinetic parameters, enabling product-specific model simulations. We propose this platform as a step toward the quantitative pharmacological framework that mRNA therapeutics currently lack, and as a practical tool for model-informed design and development of this therapeutic class."
+   },
+   "MED/42717264": {
+    "id": "MED/42717264",
+    "title": "The integrated Lei-CNS PBPK-PD model effectively predicts clozapine brain disposition and D&lt;sub&gt;2&lt;/sub&gt; receptor occupancy in humans",
+    "date": "2026-09-09",
+    "venue": "Br J Clin Pharmacol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42717264",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 2
+   },
+   "MED/42714305": {
+    "id": "MED/42714305",
+    "title": "Bioavailability Characterization of Actinides Recovered From Filter Swipes to Predict Lung Biodistribution Following Accidental Intake",
+    "date": "2026-09-09",
+    "venue": "Health Phys",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42714305",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 2
+   },
+   "PMC13532637": {
+    "id": "PMC13532637",
+    "title": "PBPK-Based Prediction of Oliceridine Exposure in Breast Milk and Relative Infant Dose During the First 24 h After Cesarean Delivery",
+    "date": "2026-09-01",
+    "venue": "J Clin Pharmacol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13532637",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13516782": {
+    "id": "PMC13516782",
+    "title": "Moxifloxacin-Mediated Downregulation of Intestinal P-Glycoprotein Alters the Pharmacokinetics of Dabigatran Etexilate: Mechanistic Insights in Rats and PBPK Model-Informed Dose Optimization",
+    "date": "2026-08-20",
+    "venue": "Pharmaceutics",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13516782",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13516193": {
+    "id": "PMC13516193",
+    "title": "Lipid Nanoparticles for Gene Therapy: Unresolved Challenges in Manufacturing, Transdermal Delivery, Machine Learning, Endosomal Escape, and the Protein Corona",
+    "date": "2026-08-11",
+    "venue": "Pharmaceutics",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13516193",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13513963": {
+    "id": "PMC13513963",
+    "title": "Advances in Machine Learning-Enhanced PBPK Models for Brain-Targeted Drug Delivery via Nanocarriers: A Comprehensive Review",
+    "date": "2026-08-03",
+    "venue": "J Funct Biomater",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13513963",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13496270": {
+    "id": "PMC13496270",
+    "title": "Biodistribution and transport of intratympanically administered drugs in the inner ear using a porcine ex-vivo chamber model",
+    "date": "2026-07-02",
+    "venue": "Mater Des",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13496270",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13461897": {
+    "id": "PMC13461897",
+    "title": "Informing Sampling Design for Lung Distribution Studies Using a Pulmonary Population Minimal PBPK Model",
+    "date": "2026-06-29",
+    "venue": "Clin Pharmacokinet",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13461897",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
    }
   },
   "TRG-VECTOR-DELIVERY-SOLID-TUMOUR": {},
@@ -2436,6 +2616,126 @@
     "url": "https://europepmc.org/article/PMC/PMC13343628",
     "first_seen": "2026-09-04",
     "duplicate_of_title": true
+   },
+   "PMC13499094": {
+    "id": "PMC13499094",
+    "title": "Design of liquid crystalline nanoparticles: Linking composition to membrane interactions and siRNA delivery",
+    "date": "2026-08-11",
+    "venue": "Int J Pharm X",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13499094",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "MED/42718940": {
+    "id": "MED/42718940",
+    "title": "GOLDEN: Efficacy and Safety of Complement Factor B Antisense, Sefaxersen, in Geographic Atrophy due to Age-Related Macular Degeneration",
+    "date": "2026-07-28",
+    "venue": "Ophthalmol Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42718940",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 45
+   },
+   "MED/42722164": {
+    "id": "MED/42722164",
+    "title": "Synergistic RNA therapy for scar reduction: co-delivery mRNA and siRNA attenuates MDA5/RIG-I activation to enhance anti-fibrotic efficacy",
+    "date": "2026-09-10",
+    "venue": "J Control Release",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42722164",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 1
+   },
+   "MED/42709982": {
+    "id": "MED/42709982",
+    "title": "Charge-Mixed Nanogels for siRNA Delivery: Concurrent Optimization of Efficacy and Safety via Structure-Activity Relationships",
+    "date": "2026-09-08",
+    "venue": "ACS Appl Mater Interfaces",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42709982",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 3
+   },
+   "MED/42706910": {
+    "id": "MED/42706910",
+    "title": "A double-blinded randomized controlled pilot study evaluating the efficacy of siRNA inhibiting SPARC microneedle patch versus siRNA inhibiting SPARC and IL4-RA microneedle patch in reducing scar volume",
+    "date": "2026-09-08",
+    "venue": "Br J Dermatol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42706910",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 3
+   },
+   "MED/42705552": {
+    "id": "MED/42705552",
+    "title": "Design and applications of chimeric antisense oligonucleotides that bind TPP mRNAs as antibacterial agents",
+    "date": "2026-09-07",
+    "venue": "J Microbiol Methods",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42705552",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 4
+   },
+   "PMC13527166": {
+    "id": "PMC13527166",
+    "title": "From rules to foundation models: a comprehensive review of machine learning approaches for siRNA design",
+    "date": "2026-08-31",
+    "venue": "NAR Genom Bioinform",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13527166",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13521170": {
+    "id": "PMC13521170",
+    "title": "Givinostat enhances antisense oligonucleotide efficacy in the &lt;i&gt;mdx52&lt;/i&gt; model of Duchenne muscular dystrophy",
+    "date": "2026-08-03",
+    "venue": "Mol Ther Nucleic Acids",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13521170",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13486805": {
+    "id": "PMC13486805",
+    "title": "Antisense oligonucleotide treatment following viral delivery of artificial SOD1-targeting miRNA shows improved efficacy in SOD1-G93A mice",
+    "date": "2026-07-24",
+    "venue": "Mol Ther Adv",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13486805",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13453214": {
+    "id": "PMC13453214",
+    "title": "Nanoparticle-enhanced multi-target RNAi in Myzus persicae: Molecular mechanisms, cross-kingdom sRNA transfer, and efficacy for sustainable pest management",
+    "date": "2026-05-05",
+    "venue": "Pest Manag Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13453214",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13450591": {
+    "id": "PMC13450591",
+    "title": "High-throughput microfluidics and machine learning-assisted screening of lipid nanoparticle formulations for siRNA delivery",
+    "date": "2026-07-22",
+    "venue": "Mater Today Bio",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13450591",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13516847": {
+    "id": "PMC13516847",
+    "title": "Efficacy of Bioengineered PD-L1 siRNA for Immunotherapy Against Non-Small Cell Lung Cancer Cells",
+    "date": "2026-07-27",
+    "venue": "Noncoding RNA",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13516847",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
    }
   },
   "TRG-EMC-FUNCTIONAL-MODEL": {
@@ -2944,6 +3244,140 @@
     "first_seen": "2026-09-04",
     "age_days_at_first_seen": 8,
     "abstract": "ABSTRACT    Background   The rising burden of metabolic dysfunction-associated steatotic liver disease (MASLD)-associated hepatocellular carcinoma (HCC) underscores the need for innovative therapeutic strategies.  Methods   We integrated RNA-seq fusion detection, immunopeptidomics, and proteogenomics to systematically prioritize tumor-specific neoantigen candidates arising from gene fusions in MASLD-HCC.  Results   We elucidated a landscape of private, clonally expressed fusions, and identified a previously unrecognized class of predicted phosphorylated fusion-neoepitopes. Cross-tumor proteomic analysis revealed that these phospho-motifs are present across malignancies, providing a broader context for their biological relevance. Importantly, fusion-positive tumors display immunosuppressive microenvironments, highlighting the need for future therapeutic strategies that combine fusion-targeted immunotherapy with approaches that overcome T-cell dysfunction.  Conclusions   This study establishes a discovery pipeline and publicly available resource for fusion-derived phospho-neoepitopes in MASLD-HCC. The identified candidates provide a prioritized framework to guide and accelerate rigorous functional immunogenicity testing for future clinical validation.  Highlights   The landscape of MASLD-HCC fusions is dominated by predominantly private, with rare recurrent candidate genetic events Proteogenomic data supports high-confidence fusion-derived candidate neoepitopes Novel phosphorylated fusion-derived candidate neoepitopes are identified in MASLD-HCC Immunotherapy-treated HCC patients inform personalized fusion-derived candidate neoepitope discovery  Graphical abstract"
+   },
+   "PMC13540217": {
+    "id": "PMC13540217",
+    "title": "Generation of a highly versatile TCR bispecific scaffold optimized for targeting tumor-specific peptide-HLA antigens",
+    "date": "2026-09-01",
+    "venue": "MAbs",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13540217",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13502005": {
+    "id": "PMC13502005",
+    "title": "AlphaFold 3 prediction of TCR mimic Fv - pMHC complex structures and their validation and optimization",
+    "date": "2026-08-20",
+    "venue": "MAbs",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13502005",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "MED/42709546": {
+    "id": "MED/42709546",
+    "title": "Atomistic TCR-pMHC interactions bias CD8 memory fate within a single antigen-specific repertoire",
+    "date": "2026-09-08",
+    "venue": "Cell Rep",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42709546",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 3
+   },
+   "MED/42704690": {
+    "id": "MED/42704690",
+    "title": "Comprehensive Evaluation and Explainable Interpretation of Peptide-HLA Binding Prediction Tools",
+    "date": "2026-09-07",
+    "venue": "Genomics Proteomics Bioinformatics",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42704690",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 4
+   },
+   "PMC13448332": {
+    "id": "PMC13448332",
+    "title": "PACM-09 NEOANTIGEN PREDICTION AND REACTIVITY OF CEREBROSPINAL FLUID-HUMAN DERIVED TUMOR REACTIVE T CELLS (CSF-TRT CELLS) IN LEPTOMENINGEAL DISEASE (LMD) FROM SOLID TUMORS",
+    "date": "2026-08-01",
+    "venue": "Neurooncol Adv",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13448332",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 41
+   },
+   "PMC13476271": {
+    "id": "PMC13476271",
+    "title": "Structure-based TCR-pMHC binding prediction and generalization to unseen peptides",
+    "date": "2026-08-14",
+    "venue": "NPJ Drug Discov",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13476271",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13502210": {
+    "id": "PMC13502210",
+    "title": "Predicting specificity of TCR-pMHC interactions using machine-learning and biophysical models",
+    "date": "2026-08-13",
+    "venue": "Cell Syst",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13502210",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13452055": {
+    "id": "PMC13452055",
+    "title": "Pepitope facilitates TCR-neoantigen screen analysis in the R language",
+    "date": "2026-08-01",
+    "venue": "Bioinformatics",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13452055",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13470389": {
+    "id": "PMC13470389",
+    "title": "Author Correction: A therapeutic regimen using neoantigen-specific TCR-T cells for HLA-A*2402-positive solid tumors",
+    "date": "2026-07-16",
+    "venue": "EMBO Mol Med",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13470389",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13471424": {
+    "id": "PMC13471424",
+    "title": "LB-PaCS-MD Guided Simulations Reveal Transient Stabilization during TCR-pMHC Dissociation",
+    "date": "2026-08-01",
+    "venue": "J Chem Inf Model",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13471424",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13536626": {
+    "id": "PMC13536626",
+    "title": "A modular \u03b3\u03b4 TCR-T platform combining KRAS pMHC targeting with re-dosable mRNA engager redirection",
+    "date": "2026-07-30",
+    "venue": "J Hematol Oncol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13536626",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PPR/PPR1316910": {
+    "id": "PPR/PPR1316910",
+    "title": "TAPAS: Learned integration of AlphaFold3 confidence and geometric features for TCR-pMHC binding prediction",
+    "date": "2026-09-09",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1316910",
+    "is_preprint": true,
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 2,
+    "abstract": "Motivation Recent advances in biomolecular structure prediction, exemplified by AlphaFold3, have opened new opportunities for the prediction of TCR-pMHC binding specificity. Although individual AlphaFold3 confidence metrics provide informative binding signals, their predictive performance varies across datasets, highlighting the need to combine complementary signals rather than rely on any single metric. Results We present TAPAS, a tabular learning framework that integrates AlphaFold3-derived interface confidence and structural geometry with sequence embeddings. Although no single zero-shot metric was the strongest across all benchmarks, TAPAS was consistently the top-ranked method on VDJdb and two external benchmarks, matching or exceeding the strongest zero-shot AlphaFold3 metric. Feature group ablation showed that the contributions of sequence, confidence, and geometric features varied across evaluation settings, and that combining them resulted in the best overall performance. These results highlight the value of integrating complementary structural and sequence features within a unified framework for robust TCR-pMHC binding prediction."
+   },
+   "PPR/PPR1314932": {
+    "id": "PPR/PPR1314932",
+    "title": "TCRdenoise - an unsupervised similarity-based approach for denoising of TCR-pMHC specificity data",
+    "date": "2026-09-08",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1314932",
+    "is_preprint": true,
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 3,
+    "abstract": "Public repositories of T cell receptor (TCR)-peptide-MHC (pMHC) interactions constitute a critical resource for studying adaptive immunity and developing predictive models of TCR specificity. However, recent evidence suggests that a substantial fraction of reported TCR-pMHC interactions may be incorrectly annotated, limiting the quality of downstream analyses and machine learning applications. Here, we present an unsupervised sequence similarity-based framework for denoising peptide-specific TCR repertoires. The method combines pairwise TCR similarity metrics derived from TCRbase and TCRdist3 with hierarchical clustering and a novel adaptation of the silhouette score designed to address the prevalence of singleton clusters and highly imbalanced cluster structures. By incorporating a pseudo-cluster containing singleton and background TCRs, and by optimising both clustering distance thresholds and minimum cluster-size criteria, the proposed approach identifies TCRs likely to represent true antigen-specific binders while filtering putative noise.  Using experimentally validated repertoires from TCRvdb, we demonstrate that the modified silhouette score closely tracks clustering solutions that maximise separation between binding and non-binding TCRs, achieving strong agreement with independent validation based on the Matthews correlation coefficient. Extension to a large collection of peptide-specific TCR data revealed a strong negative correlation between the percentage of TCRs classified as noise and the predictive performance of peptide-specific binding models. Further, the denoising classification labels on this data set were corroborated using structural modeling confidence scores of the peptide-TCR interface extracted from a refined AlphaFold 3 modeling pipeline. Additionally, retraining NetTCR on denoised data improved internal cross-validated performance compared with models trained on the full data set, whereas models trained exclusively on TCRs classified as noise performed close to random. Together, these results demonstrate that sequence similarity-based denoising can effectively enrich for biologically meaningful TCR-pMHC interactions and improve the quality of training data for predictive immunological models. The proposed framework provides a scalable strategy for improving the reliability of public TCR databases and facilitating the development of more accurate TCR specificity prediction methods."
    }
   },
   "TRG-NR4A3-DIRECT-MATTER": {
@@ -3032,6 +3466,60 @@
     "first_seen": "2026-09-04",
     "age_days_at_first_seen": 8,
     "abstract": "Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma usually defined by an in-frame _NR4A3_ fusion, its junction in no normal transcript. An antisense gapmer could in principle cleave it, sparing the parents; none is reported. The work is computational \u2014 an industry off-target framework's in-silico step; every sequence is a research reagent not for administration. It names what a laboratory needs: two reagents at the most-reported breakpoints \u2014 5\u2032-GGGCATATCATCAAAC-3\u2032 at _EWSR1_ exon 12 and 5\u2032-GGGCATATCTTGTGTG-3\u2032 at _TAF15_ exon 6, both to _NR4A3_ exon 3, longest wild-type parent gap duplexes eight and nine base pairs \u2014 two screened controls, a pre-registrable selectivity threshold. Both come from 190 junction-spanning 16-mers across 38 in-frame junctions; 87 let a mature wild-type parent pair their whole catalytic gap over ten or more contiguous base pairs, 61 against wild-type _NR4A3_. Ten is a convention, not a measurement: exon-terminus chimeras meet the same screen at 40.6% against the panel's 45.8%. Five test articles are named; the two fusion-positive EMC cell models are reported at an _NR4A3_ exon-2 acceptor, not this panel's. Designability is not the constraint; discrimination from the parents is. That liability is invisible to a conventional off-target search and must be screened directly before synthesis."
+   },
+   "MED/42704705": {
+    "id": "MED/42704705",
+    "title": "Role of nuclear receptor NR4A2 in prolactin secretion by female rat lactotrophs",
+    "date": "2026-09-07",
+    "venue": "J Endocrinol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42704705",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 4
+   },
+   "PMC13528230": {
+    "id": "PMC13528230",
+    "title": "Nr4a3 deficiency disrupts MEK1-ERK1/2-Drp1 signaling, driving adiposity and glucose intolerance in male mice",
+    "date": "2026-08-09",
+    "venue": "Am J Physiol Endocrinol Metab",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13528230",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13489216": {
+    "id": "PMC13489216",
+    "title": "Delayed Diagnosis and Multimodality Management of a Primary Myxoid Chondrosarcoma of the Skull Base: A Case Report",
+    "date": "2026-07-20",
+    "venue": "Cureus",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13489216",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PPR/PPR1315617": {
+    "id": "PPR/PPR1315617",
+    "title": "Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts with comparator and sequencing-year limits",
+    "date": "2026-09-09",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1315617",
+    "is_preprint": true,
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 2,
+    "abstract": "Abstract    Background: Tissue RNA enrichment can prioritize experimental assessment of candidate therapeutic addresses in extraskeletal myxoid chondrosarcoma (EMC), but the answer depends on comparator histology, specimen provenance and assay. We evaluated a fixed 11-gene panel and a separate CHRNA6 context control without treating bulk RNA as evidence of accessible protein or normal-tissue sparing.  Methods:  We analyzed publicly released gene TPM from a 704-patient soft-tissue-tumor study. Nine primary EMC remained after excluding three explicitly previously reported EMC cases and one recurrence. Primary comparators were myxoid liposarcoma (n=14), low-grade fibromyxoid sarcoma (LGFMS; n=13) and synovial sarcoma (n=18). We calculated per-gene probability of superiority, A=P(EMC>comparator)+0.5P(tie), with equal histology weights, separately for marginal and sequencing-year-matched contrasts. Each matched comparison contained three EMC; their union comprised four patients. A prioritization rule and sensitivity analyses were frozen before target values were inspected. Original GSE24369 arrays provided a separate LGFMS replication anchor (6 EMC biopsies; 17 LGFMS) and three secondary shared histologies.  Results:  CSPG4 alone met the 11-gene prioritization rule: marginal A=0.895 and matched A=0.811. CSPG4's LGFMS-specific A was 1.000 in GSE24369 and 0.966 marginal/0.933 matched in the RNA-sequencing cohort. Single-EMC and single-histology deletions preserved the positive composite direction. However, removing sequencing-year 2019 reversed the matched composite to 0.433; the marginal DFSP context comparison was also nonpositive (A=0.467). CHRNA6, the separate control, had A=1 in all primary comparisons. Other candidates displayed weak, reversed or comparator-dependent effects. Normal-expression sources and earlier 3SEQ observations did not support normal-tissue restriction.  Conclusions:  The fixed-panel analysis supports a qualified CSPG4 tissue-validation rationale and identifies consequential negative directions for other candidates. The year-sensitive matched result, normal-expression overlap and unresolved malignant-cell localization preclude a broadly robust EMC-selectivity or therapeutic-validation claim."
+   },
+   "PPR/PPR1314917": {
+    "id": "PPR/PPR1314917",
+    "title": "NR4A3 Fusion-Junction Antisense Gapmers for Extraskeletal Myxoid Chondrosarcoma: Reagents, Test Articles and a Pre-Registrable Knockdown Experiment",
+    "date": "2026-09-08",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1314917",
+    "is_preprint": true,
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true,
+    "abstract": "Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma usually defined by an in-frame _NR4A3_ fusion. That junction is in no normal transcript, so an antisense gapmer could in principle cleave it, sparing its parents; none is reported for any _NR4A3_ fusion in the literature retrieved. This computational work performs the in-silico half of step one of an off-target framework; every sequence named is a research reagent not for administration. It names what a laboratory needs: two reagents at the most-reported breakpoints, 5\u2032-GGGCATATCATCAAAC-3\u2032 at _EWSR1_ exon 12 and 5\u2032-GGGCATATCTTGTGTG-3\u2032 at _TAF15_ exon 6, both to _NR4A3_ exon 3, longest wild-type parent gap duplexes eight and nine base pairs; two screened controls; a pre-registrable selectivity threshold. Both come from a panel of 190 junction-spanning 16-mers tiled 5-6-5 across 38 in-frame junctions: 87 let a mature wild-type parent pair their whole catalytic gap over ten or more contiguous base pairs, and for 61 the longest is wild-type _NR4A3_. Ten is a convention, not a measurement: exon-terminus chimeras meet the same screen at 40.6% against the panel's 45.8%. Five test articles are named; the two fusion-positive EMC cell models are reported at an _NR4A3_ exon-2 acceptor, not this panel's. The design procedure is released."
    }
   },
   "TRG-EMC-EXPRESSION-DATASET": {
@@ -3258,6 +3746,27 @@
     "first_seen": "2026-09-04",
     "age_days_at_first_seen": 4,
     "abstract": "Abstract       Background:   FNCLCC grade 2 (G2) soft-tissue sarcoma encompasses heterogeneous clinical outcomes. We evaluated whether the Ki-67 labeling index (LI) and hypoxia-inducible factor 1\u03b1 (HIF-1\u03b1) expression could provide reproducible prognostic refinement within morphologically defined G2 disease.   Methods:   This retrospective five-center cohort included 320 adults who underwent definitive resection of primary soft-tissue sarcoma from 2014 to 2020. Centers A\u2013C formed the derivation cohort (n = 220), and centers D\u2013E formed an independent external validation cohort (n = 100). Central pathologic review, computer-assisted nuclear quantification, and dual-reader consensus were used to assess FNCLCC grade, Ki-67 LI, and HIF-1\u03b1 expression. Within G2 tumors, prespecified thresholds of 30% for Ki-67 LI and 50% for HIF-1\u03b1 defined double-low, single-high, and double-high groups. Overall survival was analyzed using multivariable Cox models, Kaplan\u2013Meier estimates, and prespecified external validation.   Results:   The cohorts included 191 G2 tumors (derivation, 128; validation, 63). In derivation, the adjusted hazard ratio (HR) per 10-percentage-point increase was 1.29 for Ki-67 LI (95% confidence interval [CI], 1.07\u20131.55; P = 0.007) and 1.23 for HIF-1\u03b1 (95% CI, 1.07\u20131.40; P = 0.003). Double-high tumors had worse survival than double-low tumors in derivation (adjusted HR, 7.15; 95% CI, 3.21\u201315.96; P  Conclusions:   Joint Ki-67 LI and HIF-1\u03b1 assessment identified a reproducible double-high phenotype with adverse survival within FNCLCC G2. The findings support biomarker-informed refinement of established grading while requiring cautious interpretation of the intermediate single-high group and predictive performance."
+   },
+   "MED/42720686": {
+    "id": "MED/42720686",
+    "title": "Validation of the PERSARC scoring system for overall survival in Malaysian patients with soft tissue sarcoma: A retrospective cohort study",
+    "date": "2026-09-10",
+    "venue": "J Orthop Surg (Hong Kong)",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42720686",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 1
+   },
+   "PPR/PPR1315617": {
+    "id": "PPR/PPR1315617",
+    "title": "Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts with comparator and sequencing-year limits",
+    "date": "2026-09-09",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1315617",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 2,
+    "abstract": "Abstract    Background: Tissue RNA enrichment can prioritize experimental assessment of candidate therapeutic addresses in extraskeletal myxoid chondrosarcoma (EMC), but the answer depends on comparator histology, specimen provenance and assay. We evaluated a fixed 11-gene panel and a separate CHRNA6 context control without treating bulk RNA as evidence of accessible protein or normal-tissue sparing.  Methods:  We analyzed publicly released gene TPM from a 704-patient soft-tissue-tumor study. Nine primary EMC remained after excluding three explicitly previously reported EMC cases and one recurrence. Primary comparators were myxoid liposarcoma (n=14), low-grade fibromyxoid sarcoma (LGFMS; n=13) and synovial sarcoma (n=18). We calculated per-gene probability of superiority, A=P(EMC>comparator)+0.5P(tie), with equal histology weights, separately for marginal and sequencing-year-matched contrasts. Each matched comparison contained three EMC; their union comprised four patients. A prioritization rule and sensitivity analyses were frozen before target values were inspected. Original GSE24369 arrays provided a separate LGFMS replication anchor (6 EMC biopsies; 17 LGFMS) and three secondary shared histologies.  Results:  CSPG4 alone met the 11-gene prioritization rule: marginal A=0.895 and matched A=0.811. CSPG4's LGFMS-specific A was 1.000 in GSE24369 and 0.966 marginal/0.933 matched in the RNA-sequencing cohort. Single-EMC and single-histology deletions preserved the positive composite direction. However, removing sequencing-year 2019 reversed the matched composite to 0.433; the marginal DFSP context comparison was also nonpositive (A=0.467). CHRNA6, the separate control, had A=1 in all primary comparisons. Other candidates displayed weak, reversed or comparator-dependent effects. Normal-expression sources and earlier 3SEQ observations did not support normal-tissue restriction.  Conclusions:  The fixed-panel analysis supports a qualified CSPG4 tissue-validation rationale and identifies consequential negative directions for other candidates. The year-sensitive matched result, normal-expression overlap and unresolved malignant-cell localization preclude a broadly robust EMC-selectivity or therapeutic-validation claim."
    }
   },
   "TRG-FEM1B-LINKER-BEARING-STRUCTURE": {
@@ -3909,6 +4418,52 @@
     "first_seen": "2026-09-04",
     "age_days_at_first_seen": 4,
     "abstract": "Code-level autonomous research loops (ARLs) have recently emerged as a concrete object of study in automated machine learning research. In such loops, an LLM agent proposes modifications to an experimental training pipeline, executes the modified pipeline, and retains edits that improve a verifiable in-loop metric. Although executable metrics may appear to provide a reliable signal of progress, it remains unclear whether repeated metric-driven code editing leads to genuine improvements that generalize beyond the loop. We provide a systematic diagnosis of this question. Across various experiment settings, we identify a robust failure mode that we call \\textbf{algorithmic mode collapse}. In this regime, surface-level edit diversity remains stable, but semantic and mechanism-level diversity collapse: the agent continues to edit different lines of code while repeatedly proposing the same kinds of algorithmic changes. This collapse is accompanied by a widening gap between in-loop metric gains and gains measured on independent held-out evaluations. We then propose Diversity-Aware Proposal Sampling (\\textsc{DAPS}), a lightweight mitigation that combines category-coverage reweighting, persistent edit memory, and a validation gate. Under a three-tier protocol separating the in-loop metric, the audit metric read by the gate, and a blind metric no loop component ever accesses, \\textsc{DAPS} reduces semantic-cluster decay of edits by $69.1\\%$ and improves relative faithfulness by $83.7\\%$ blind and $81.6\\%$ audited, while preserving in-loop optimization speed. We provide the code in Github \\href{https://github.com/BokwaiHo/arl-mode-collapse}{repository}."
+   },
+   "PMC13474564": {
+    "id": "PMC13474564",
+    "title": "AI for Accelerated Materials Discovery: From Generative Design to Autonomous Realization",
+    "date": "2026-08-01",
+    "venue": "Chem Rev",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13474564",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "arXiv/2609.10922v1": {
+    "id": "arXiv/2609.10922v1",
+    "title": "Auto-RecSys: Harnessing Autonomous Research Agents for Industry-Scale Recommender System",
+    "date": "2026-09-10",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2609.10922v1",
+    "is_preprint": true,
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 1,
+    "abstract": "Auto-research agents have shown the potential to automate hypothesis generation, experiment execution, and iterative refinement. However, scaling this paradigm to industry-scale recommendation models introduces two challenges: (1) long feedback loops, where model training can take days, making serial iteration prohibitively slow and requiring parallel exploration across multiple research directions; and (2) system complexity, where large configurations, fragile infrastructure dependencies, and multi-day GPU jobs require robust and recoverable execution. We present Auto-RecSys, an autonomous research system for long-horizon experimentation on industry-scale recommendation models. Auto-RecSys addresses these challenges through three harness designs: (1) distributed asynchronous execution for running multiple experiments in parallel across servers, (2) centralized cross-server memory for persistent and recoverable execution across sessions and failures, and (3) cognitive-procedural separation, where natural-language skill files guide LLM reasoning while deterministic scripts enforce operational correctness. Auto-RecSys further employs a dual-loop self-evolving architecture: an Execution Evolution Loop in which model-specific playbooks accumulate operational knowledge by recording failed attempts and crystallizing successful pipelines, and an Idea Evolution Loop in which experimental outcomes inform subsequent ideation. Evaluated on recommendation models, Auto-RecSys significantly reduces the human time required per experiment cycle and improves execution reliability as its playbooks mature."
+   },
+   "arXiv/2609.06366v1": {
+    "id": "arXiv/2609.06366v1",
+    "title": "AutoKD: Autonomous Knowledge Discovery",
+    "date": "2026-09-06",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2609.06366v1",
+    "is_preprint": true,
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 5,
+    "abstract": "Scientific discovery in data-rich domains is currently constrained by human bandwidth: the growth in the volume and complexity of real-world data far outpaces the rate at which researchers can read, reason, and synthesize. Recent LLM-based multi-agent systems have begun to automate portions of the research cycle, but they target hypothesis generation in settings where validation cannot itself be automated, and each run is one-shot, with no mechanism for findings to accumulate or steer subsequent inquiry. This paper introduces AutoKD, a multi-agent framework for autonomous knowledge discovery that is both computational and cumulative, allowing validated findings to persist and inform subsequent inquiry. Six coordinated LLM agents collaborate in an open-ended discovery loop, where accepted findings are stored in a persistent insight graph that serves as both long-term memory and an exploration-steering mechanism. We evaluate AutoKD on three diverse datasets from two perspectives: Open-ended Quality against published findings, and Conditioned Quality via literature-derived queries. Across both evaluation perspectives, AutoKD covers known findings and surfaces substantive discoveries that complement human-driven research. Our code is available at https://github.com/GeQinwen/AutoKD."
+   },
+   "arXiv/2609.04564v1": {
+    "id": "arXiv/2609.04564v1",
+    "title": "La Agente \u00d3ptima: Towards Agentic Self-Driving Laboratories",
+    "date": "2026-09-03",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2609.04564v1",
+    "is_preprint": true,
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 8,
+    "abstract": "Self-driving laboratories (SDLs) combine automated experimentation with adaptive decision-making to accelerate scientific discovery. Their operation nevertheless often depends on human specialists who translate scientific objectives into executable closed-loop campaigns. Specialists adjust them as data and operating conditions change. Here, we present La Agente \u00d3ptima, an agentic framework that constructs and supervises Bayesian optimization campaigns across computational and experimental systems while maintaining a persistent optimization state. By separating large language model (LLM) reasoning from executed campaigns, \u00d3ptima runs repetitive optimization loops consistently, returns control to the agent only when progress requires interpretation or campaign revision, and keeps every decision auditable. We evaluate \u00d3ptima across ablation studies, five digital discovery tasks, and two physical platforms. Throughout, \u00d3ptima maintained executable campaigns as both the scientific problem and execution environment evolved. In a closed-loop contact angle optimization campaign, \u00d3ptima identified and corrected a mid-run measurement failure, bringing the contact angle from 71.4 to 67.8 degrees, just above the 64-66 degree range. From this result, \u00d3ptima correctly inferred that the target was likely unattainable with the available reagents and recommended changing the formulation. In a five-day multi-objective flow-chemistry campaign, \u00d3ptima increased the yield from 30% to 59% over 23 experiments. Despite substantial inference costs, it cost less and used substantially less starting material than a human-directed campaign, while selecting a more mass-efficient operating point. These results show that LLM-based agents can make rigorous, long-running optimization campaigns accessible to domain scientists without specialist setup, expanding the scope of SDLs."
    }
   },
   "TRG-POSE-ORIENTATION-CONVERGENCE": {
@@ -4397,6 +4952,106 @@
     "url": "https://europepmc.org/article/PMC/PMC13395130",
     "first_seen": "2026-09-04",
     "duplicate_of_title": true
+   },
+   "PMC13499058": {
+    "id": "PMC13499058",
+    "title": "Network pharmacology, molecular docking and &lt;i&gt;In vivo&lt;/i&gt; validation reveal the neuroprotective effects of TT-TeMac\u2122 against cholinergic dysfunction and hippocampal lesions",
+    "date": "2026-08-10",
+    "venue": "IBRO Neurosci Rep",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13499058",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "MED/42714624": {
+    "id": "MED/42714624",
+    "title": "Network pharmacology, molecular docking, and experimental validation of the mechanisms of Withaferin a in treating periodontitis",
+    "date": "2026-09-09",
+    "venue": "Clin Oral Investig",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42714624",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 2
+   },
+   "MED/42713809": {
+    "id": "MED/42713809",
+    "title": "Bimetallic Pd-Ni anchored cellulose supported-MOF catalyzed synthesis of cinnamyloxy-linked azepinone derivatives targeting the PARP enzyme: molecular docking validation",
+    "date": "2026-09-09",
+    "venue": "J Mater Chem B",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42713809",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 2
+   },
+   "MED/42713223": {
+    "id": "MED/42713223",
+    "title": "Cross-docking and redocking reveal distinct determinants of success in physics-based and AI-driven binding pose prediction in protein-ligand complexes",
+    "date": "2026-09-08",
+    "venue": "RSC Adv",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42713223",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 3
+   },
+   "MED/42700917": {
+    "id": "MED/42700917",
+    "title": "Effect of metformin on hepatic ischemia-reperfusion injury-induced endoplasmic reticulum stress: A mechanistic exploration based on molecular docking and experimental validation",
+    "date": "2026-09-05",
+    "venue": "Gene",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42700917",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 6
+   },
+   "MED/42697675": {
+    "id": "MED/42697675",
+    "title": "Molecular docking in pesticide resistance research: Applications, advances, limitations, and experimental validation",
+    "date": "2026-08-12",
+    "venue": "Pestic Biochem Physiol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42697675",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 30
+   },
+   "MED/42695297": {
+    "id": "MED/42695297",
+    "title": "A Study on the Mechanism of Action of Isorhamnetin in the Treatment of Depression using Network Pharmacology, Molecular Docking Technology and Experimental Validation",
+    "date": "2026-08-25",
+    "venue": "Curr Pharm Biotechnol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42695297",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 17
+   },
+   "PMC13510106": {
+    "id": "PMC13510106",
+    "title": "Triphala Targets the SLC7A11-GSH-GPX4 Axis to Trigger Ferroptosis in Oral Cancer: An Integrated Network Pharmacology, Molecular Docking, and Experimental Validation Study",
+    "date": "2026-08-01",
+    "venue": "Chem Biol Drug Des",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13510106",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13480861": {
+    "id": "PMC13480861",
+    "title": "Unraveling the therapeutic mechanisms of Huanglian Jiedu Tang in bacterial meningitis: A comprehensive approach integrating network pharmacology, molecular docking, and experimental validation",
+    "date": "2026-08-01",
+    "venue": "Medicine (Baltimore)",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13480861",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13466260": {
+    "id": "PMC13466260",
+    "title": "Elucidating the Mechanisms of Trichloroethylene-Induced Kidney Cancer: Network Toxicology, Molecular Docking, and In Vitro Validation",
+    "date": "2026-08-01",
+    "venue": "J Biochem Mol Toxicol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13466260",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
    }
   },
   "TRG-COVALENT-EXPOSURE-CRITERION": {
@@ -4673,6 +5328,36 @@
     "url": "https://europepmc.org/article/PMC/PMC13434135",
     "first_seen": "2026-09-04",
     "duplicate_of_title": true
+   },
+   "PMC13521186": {
+    "id": "PMC13521186",
+    "title": "The Effect of Ligand Reactivity and Carrier Mechanics on Thiol-Mediated Cellular Uptake for miRNA Nano-Drugs",
+    "date": "2026-08-27",
+    "venue": "Adv Sci (Weinh)",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13521186",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13502255": {
+    "id": "PMC13502255",
+    "title": "Exploiting the intrinsic Michael-acceptor reactivity of osimertinib &lt;i&gt;via&lt;/i&gt; thiol-functionalized carbon dots: a mechanistic fluorometric approach",
+    "date": "2026-08-24",
+    "venue": "RSC Adv",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13502255",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13507846": {
+    "id": "PMC13507846",
+    "title": "Protocol for covalent ligand discovery via library-versus-proteome screening",
+    "date": "2026-08-17",
+    "venue": "STAR Protoc",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13507846",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
    }
   },
   "TRG-ANTITARGET-PANEL-PROTOCOL": {
@@ -4863,6 +5548,56 @@
     "url": "https://europepmc.org/article/PMC/PMC13361875",
     "first_seen": "2026-09-04",
     "duplicate_of_title": true
+   },
+   "MED/42716490": {
+    "id": "MED/42716490",
+    "title": "SpacerScope: binary-vectorized, genome-wide off-target profiling for RNA-guided nucleases without prior candidate-site bias",
+    "date": "2026-09-01",
+    "venue": "Brief Bioinform",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42716490",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 10
+   },
+   "MED/42708717": {
+    "id": "MED/42708717",
+    "title": "A 3D Multiarm PEG/Aptamer-Engineered Interface with Superior Antifouling and Selectivity for Trace Aflatoxin Profiling",
+    "date": "2026-09-01",
+    "venue": "Anal Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42708717",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 10
+   },
+   "MED/42716927": {
+    "id": "MED/42716927",
+    "title": "Ultra-sensitive profiling of CRISPR-Cas off-target effects with Tracking-seq2",
+    "date": "2026-08-11",
+    "venue": "Nat Commun",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42716927",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 31
+   },
+   "PMC13518926": {
+    "id": "PMC13518926",
+    "title": "Single-cell and in vivo profiling reveal heterogeneous and organ-specific CRISPR-Cas9 off-target and translocation outcomes",
+    "date": "2026-08-26",
+    "venue": "Nat Commun",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13518926",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "MED/42707358": {
+    "id": "MED/42707358",
+    "title": "Can docking-score differences support 5-HT2A/5-HT2B subtype-selectivity decisions? An audited paired benchmark",
+    "date": "2026-09-06",
+    "venue": "In Silico Pharmacol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42707358",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 5
    }
   },
   "TRG-CONDENSATE-PARTNER-RESOLUTION": {
@@ -5249,6 +5984,26 @@
     "url": "https://europepmc.org/article/PMC/PMC13261776",
     "first_seen": "2026-09-04",
     "age_days_at_first_seen": 65
+   },
+   "PMC13472013": {
+    "id": "PMC13472013",
+    "title": "Programmable Multiphasic Condensates Formed via Evaporation-Induced Phase Separation of Minimal Peptide Model",
+    "date": "2026-07-14",
+    "venue": "Adv Mater",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13472013",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13447859": {
+    "id": "PMC13447859",
+    "title": "PlanarFold: a coarse-grained molecular dynamics model of RNA in two-dimensional space",
+    "date": "2026-06-26",
+    "venue": "Nat Commun",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13447859",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
    }
   },
   "TRG-FUSION-JUNCTION-CLINICAL": {
@@ -5743,6 +6498,78 @@
     "first_seen": "2026-09-04",
     "age_days_at_first_seen": 71,
     "abstract": "EWSR1::FLI1, the oncogenic chimeric transcription factor driving Ewing sarcoma (EwS)induces expression of exquisitely EwS-specific neogenes (Ew_NGs) through neomorphic binding and transcription activation at GGAA microsatellites in genomic regions that are silent in normal tissues. We show that peptides encoded by Ew_NGs are presented on HLA-I complexes on EwS cells. The cytokine secretion of CD8+ T cells specific for Ew_NG-encoded HLA-I-bound peptides is activated by all HLA-I-matched EwS cells but not by non-EwS cells. These T cells kill EwS cells in an HLA-I restricted manner. This cytotoxicity is dependent on the expression of EWSR1::FLI1 and of the corresponding Ew_NG. It can be reproduced by transduction of the TCR into donor T cells (TCR-T) which kill EwS cells in vivo. Moreover, we show that neither off target nor allogeneic activation are observed with TCR-T thus paving the way for cell therapy in relapsed/resistant EwS patients for which therapeutic options are very limited.  Statement of significance   The chimeric transcription factor EWSR1::FLI1 generates tumor-specific neogenes encoding neoantigen presented by the HLA-I molecules of Ewing cells. Neoantigen-specific CD8  + T-cell clones and engineered TCR-T cells can selectively recognize and kill EwS tumor cells  in vitro and  in vivo ."
+   },
+   "PMC13524509": {
+    "id": "PMC13524509",
+    "title": "Superior in-vivo efficacy of integrated tumor neoantigen vaccination with adoptive neoantigen-reactive T-cell therapy in solid tumor",
+    "date": "2026-08-20",
+    "venue": "Transl Oncol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13524509",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "MED/42710899": {
+    "id": "MED/42710899",
+    "title": "Delayed-Type Hypersensitivity With Prominent Langerhans Cell Microabscesses in Response to a Dendritic Cell/AML Fusion Vaccine",
+    "date": "2026-09-08",
+    "venue": "J Cutan Pathol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42710899",
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 3
+   },
+   "PMC13506126": {
+    "id": "PMC13506126",
+    "title": "A Cell-Penetrating Peptide and Signal Sequence Fusion DNA Vaccine Enhances CD8+ T Cell-Mediated Anti-Tumor Immunity Targeting HPV-16 Cervical Cancer Antigens",
+    "date": "2026-07-17",
+    "venue": "Obstet Gynecol Res",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13506126",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13528037": {
+    "id": "PMC13528037",
+    "title": "Artificial intelligence for translational personalized neoantigen cancer vaccine development",
+    "date": "2026-08-31",
+    "venue": "J Biomed Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13528037",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13452805": {
+    "id": "PMC13452805",
+    "title": "Durable clinical and immunologic response to an off-the-shelf EWSR1-FLI1 peptide vaccine in metastatic Ewing sarcoma",
+    "date": "2026-08-08",
+    "venue": "NPJ Precis Oncol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13452805",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PMC13531131": {
+    "id": "PMC13531131",
+    "title": "Integrated Immunotherapy Target Atlas for Ewing Sarcoma",
+    "date": "2026-09-01",
+    "venue": "Cancer Genomics Proteomics",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13531131",
+    "first_seen": "2026-09-11",
+    "duplicate_of_title": true
+   },
+   "PPR/PPR1315711": {
+    "id": "PPR/PPR1315711",
+    "title": "Rational Design and Experimental Validation of a CCR7-Targeted Multi-Epitope Cytokine Fusion Protein for Cancer Immunotherapy",
+    "date": "2026-09-09",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1315711",
+    "is_preprint": true,
+    "first_seen": "2026-09-11",
+    "age_days_at_first_seen": 2,
+    "abstract": "Abstract      Despite significant advances in cancer therapy, treatment efficacy remains limited by systemic toxicity and insufficient anti-tumor immune responses. Developing immunotherapeutic agents capable of activating multiple immune pathways represents a promising strategy for improving cancer treatment. In this study, we designed, produced, and characterized a novel recombinant multi-epitope cytokine fusion protein comprising immunologically active epitopes derived from CCL21, CCL19, IL-1\u03b2, and GM-CSF. The engineered construct was designed to target the CCR7 receptor and promote coordinated activation of both innate and adaptive immune responses.The multi-epitope sequence was rationally optimized using in silico approaches. Three-dimensional structural prediction, molecular dynamics simulations, and molecular docking analyses demonstrated structural stability and favorable interaction with the CCR7 receptor. The recombinant protein was successfully expressed in   Escherichia coli   and purified by affinity chromatography. Protein expression and integrity were confirmed by SDS-PAGE, Western blotting, ELISA, and mass spectrometry. Functional analyses demonstrated that the recombinant protein enhanced immune cell migration, reduced the viability of breast cancer cells, and upregulated immune-related gene expression in peripheral blood mononuclear cells isolated from cancer patients compared with healthy donors. Furthermore, administration of the recombinant protein in a murine tumor model resulted in increased white blood cell counts, indicating systemic immune activation. Collectively, these findings demonstrate the successful design and biological validation of a CCR7-targeted multi-epitope cytokine fusion protein with immunomodulatory activity. This recombinant construct represents a promising candidate for further preclinical development as a potential immunotherapeutic strategy for cancer."
    }
   }
  }
