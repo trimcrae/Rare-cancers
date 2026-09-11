@@ -429,3 +429,15 @@ Appended by the weekly field-scan Routine. Provider choice is trimcrae's decisio
 - **2026-08-24 — no new provider or free/academic credit program found this period.** NSF ACCESS Explore
   allocations and the NVIDIA Academic Hardware Grant Program remain open (not new) — flagged only because they
   remain unused free-compute options per the existing waterfall.
+- **2026-09-11 — ⚠ for human review, a first PME throughput number for RTX 5090 (partially answers the
+  standing "UNPRICEABLE" flag, with real caveats).** A community benchmark (GitHub `openmm/openmm` issue #4854,
+  OpenMM 8.2.0-dev, CUDA 12.8, single precision, posted **2026-03-16** — old, not found in any prior scan, not
+  new hardware/software this week) reports **`pme` (dhfr-class, HBonds) = 2258.28 ns/day** and **`apoa1pme`
+  (larger protein) = 1060.13 ns/day** on one RTX 5090. Against this week's Vast.ai RTX 5090 listings (~$0.15/hr
+  spot, ~$0.31/hr on-demand per getdeploying.com/vast.ai pricing pages, checked 2026-09-11): **dhfr-class ≈
+  $0.0016–0.0033/ns; apoa1-class ≈ $0.0034–0.0070/ns** — arithmetic only, not a measurement on our own
+  ~35k-atom system, on a >1-year-old driver/OpenMM-dev build, from an unverified third-party GitHub comment.
+  If it held, it would sit at or below the existing RTX 4090 *estimate* (~$0.003–0.006/ns) in the $/ns table
+  above. **Not enough to update the table** — still needs our own smoke-test $/ns run before any fleet decision
+  moves off it. https://github.com/openmm/openmm/issues/4854 ·
+  https://vast.ai/pricing/gpu/RTX-5090 · https://getdeploying.com/gpus/nvidia-rtx-5090

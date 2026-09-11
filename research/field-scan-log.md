@@ -378,3 +378,91 @@ program found.
 *Sources are real search hits from parallel WebSearch passes (method-watch/tooling/compute-cost; NR4A/EMC +
 degrader methodology; non-degrader routes; frontier-model/mobile-agent watch). No fabricated papers, trials,
 releases, or prices; items not independently verified beyond the search snippet are flagged as such above.*
+
+## 2026-09-11 (Fri) — AUTOMATED weekly field-scan (delta vs 2026-09-04, ~1 week)
+
+**This week's takeaway: another quiet week for NR4A3/EMC and degrader methodology directly, with two small
+tooling deltas — one real stack bump (openff-nagl, no default change) and one previously-unsurfaced but
+old community benchmark that partially answers the standing RTX-5090-pricing gap.** No new NR4A3/EMC-specific
+paper, ligand, structure or trial found. No new co-folding/ternary/selectivity method. No newer frontier
+model than last week's Fable 5.1 was found for our own sessions; OpenAI shipped GPT-6-Astra into Codex this
+week, noted below as a competitive-landscape signal, not a lane available to this program.
+
+### 1) METHOD-WATCH (plan-relevant)
+- **No new co-folding/ternary/affinity/selectivity method found.** DeepTernary (last GitHub activity: two
+  issues opened Jan/Feb 2026, no new release), FKSFold, Boltz-2 (still v2.2.1 open-weight, 2025-09-08) and
+  Protenix (still v2, April 2026) unchanged. General 2026 molecular-glue design/computational-approach reviews
+  turned up (rational-design frameworks, biophysical-modeling papers) but none is a new predictive tool or
+  a prospective selectivity predictor — `TRG-GLUE-PROSPECTIVE-DESIGN` does not fire.
+
+### 2) NR4A / EMC
+- **No new NR4A3-specific primary paper, ligand, structure, or trial found this period.** One paper surfaced
+  that reads as EMC-specific at first glance — "Prognostic biomarkers for enhanced risk stratification in
+  extraskeletal myxoid chondrosarcoma" (PeerJ, PMID 42465974) — **checked against the repo and it is already
+  tracked**: it's the same PMID captured under the 2026-08-24 fourth-cohort SRA work
+  (`research/literature/emc-fourth-cohort-publication-2026-08-24.json`). Not a new finding; flagged here only
+  so a future scan doesn't re-surface it as new. General NR4A1/NR4A2 dual-ligand literature (DIM-3,5 inverse
+  agonists, ferroptosis induction via CD71) continues to appear but is not NR4A3- or EMC-specific.
+
+### 3) Degrader methodology
+- **Quiet.** No new PROTAC/molecular-glue cooperativity or ternary-prediction paper crosses the window beyond
+  what is already tracked. A new E3-recruitment paper (RNF213 via a transplantable dibromoacetamide warhead,
+  CYB-5067) and further TRIM21-NUP98 glue-interface work surfaced — general degrader-chemistry literature, not
+  plan-relevant to the NR4A3 program specifically (no NR4A3/paralogue-selectivity connection).
+
+### 4) NON-DEGRADER ROUTES
+- **No new fusion-junction vaccine, TCR-T, or immunotherapy trial/readout specific to EMC or a new FET-fusion
+  sarcoma found this period.** The EWSR1::FLI1 peptide-vaccine case report (npj Precision Oncology, n=1,
+  already tracked as `TRG-FUSION-JUNCTION-CLINICAL`/PMID 42570981) and PerVision/SarVac remain the live
+  precedents; no new patient, no new fusion type, no new readout beyond what's already captured.
+- **No new AOC/oligonucleotide-delivery technology candidate or EMC-enriched surface antigen found this
+  period.** AOC review/pipeline literature (TAC-001 Phase I/II dosing, high-payload AODC preclinical work)
+  continues to describe the already-tracked non-hepatic-delivery landscape; nothing new names a concrete
+  candidate for our route.
+
+### 5) Tooling & operating-environment watch
+**(a) Library releases.** **openff-nagl bumped to v0.6.1 (2026-09-10)** — the only stack release in this
+window. Changes are test-infrastructure only ("treat RDKit as required in testing", backport a class-property
+behavior) — **no default-affecting change to charge assignment or any number we've produced.**
+https://github.com/openforcefield/openff-nagl/releases · OpenFE (v1.12.0), OpenMM (8.6.0), gufe (v1.12.0),
+openmmtools (v0.26.0), openff-toolkit (v0.19.0), Kartograf (v2.0.0), LOMAP2 (v3.3.0), RDKit (2026.03.6) and
+Boltz (v2.2.1) all unchanged since 2026-08-28/09-04.
+
+**(b) Frontier-model access.** **No change — Fable 5.1 remains the top tier found, confirmed unchanged.** No
+newer/more-capable Anthropic model or third-party model found this week that out-measures Fable 5.1 on
+science/biology reasoning for our own sessions. **Still unresolved from last week: whether these research
+sessions actually run on Fable 5.1 or fall back to Opus 5** — this scan cannot check `/status` from inside
+itself; carrying the action item forward again.
+
+**(c) Phone-drivable coding agents.** **OpenAI shipped GPT-6-Astra into Codex this week (2026-09-03/04,
+GA for Pro/Enterprise/Business Premium + API).** Reported Coding Agent Index score (62) ties Claude Fable 5.1
+in Claude Code and is ahead of Claude Opus 5 on the same public benchmark; large gains on Terminal-Bench v4.0
+and computer-use (OSWorld 2.0, ScreenSpot-Pro) are reported by third-party benchmark sites, not yet
+independently cross-checked here. **Relevance to us is limited, not zero:** it doesn't change which model
+*we* can run (this is an OpenAI/Codex-only model), but it's the first concrete case this watch has found of a
+competing coding agent matching Fable 5.1 on a public agentic-coding benchmark — worth a re-check next scan
+to see whether an Anthropic response follows. https://openai.com/index/gpt-6-astra/
+
+**(d) Compute-cost / GPU-market.** **No material spot-price move this period on Vast.ai/RunPod/Modal/GCP/AWS**
+— Vast.ai remains the cheapest marketplace floor. **RTX 5090 gets its first throughput number, but it's old
+and unverified for our workload** — see the auto-capture in `compute/cheap-gpu-plan.md` for the full caveat;
+headline is a community OpenMM benchmark (posted 2026-03-16, not new hardware/software) putting RTX 5090
+PME throughput at 1060–2258 ns/day depending on system size, which against this week's Vast RTX 5090 listings
+(~$0.15–0.31/hr) works out to roughly $0.0016–0.0070/ns — arithmetic only, not a measurement on our system, not
+enough to update the $/ns table without our own smoke test. No new GPU provider or free/academic credit
+program found (Nebius Research Grants' 2026–27 cycle is open but is an existing, not new, program).
+
+### Action items for the program
+1. **Check whether research sessions run Fable 5.1 or fall back to Opus 5** — carried forward a second week;
+   this scan has no way to check `/status` on itself.
+2. **A cheap RTX 5090 smoke-test $/ns run** would settle whether this week's community-benchmark arithmetic
+   (roughly on par with or cheaper than the RTX 4090 estimate) holds on our own ~35k-atom system — low cost,
+   would resolve a flag that's been open since 2026-08-24.
+3. `trig_01X5xHy1cmkLjkATEijZSNJf`'s missing repo `sources` grant remains outstanding and needs trimcrae
+   (unchanged, carried from prior entries — this run itself again landed on `main` via the session-based
+   mechanism, so likely moot if that mechanism is what's firing this Routine).
+
+*Sources are real search hits from parallel WebSearch/WebFetch passes (method-watch/tooling/compute-cost;
+NR4A/EMC + degrader methodology; non-degrader routes; frontier-model/mobile-agent watch; direct GitHub
+releases pages for the MD/FEP stack). No fabricated papers, trials, releases, or prices; items not
+independently verified beyond the search/fetch snippet are flagged as such above.*
