@@ -1,5 +1,5 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 12:25 PM ET Sep 11, 2026
+[s1f-terminus] read at 3:39 PM ET Sep 11, 2026
 
 [s1f-terminus] 10 object(s) under the results prefix
 
@@ -32,20 +32,13 @@
   ⛔ NOT MET — no ddg.json anywhere under the results prefix. The 18 other computable edges stay held; the shakeout unit is the only thing that may be rented.
 
 === MARKET SNAPSHOT — what the 19-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board depth      : 116 offers visible (baseline ~23), 116 qualifying, 63 priceable, 19 needed
-  floors           : min $0.08/hr, median $0.32/hr
-  best fleet $/ns  : $0.007972/ns  ·  2.34× basis (basis $0.003412/ns)
-  projected        : $69.44 against a $74.91 ceiling
-  ⚠ DRIFT — $0.007972/ns is at or above the $0.006539/ns buy line (≈1.92× basis). A release into this board would be HELD on price.
-    RTX 3090   m137375   $0.0933/hr  $0.00604/ns · 1.77× basis
-    RTX 3090   m147832   $0.0933/hr  $0.00628/ns · 1.84× basis
-    RTX 3090   m147521   $0.0960/hr  $0.00643/ns · 1.88× basis
-    RTX 5090   m148087   $0.2667/hr  $0.00701/ns · 2.05× basis
-    RTX 5090   m58013    $0.2533/hr  $0.00739/ns · 2.17× basis
-    RTX 5090   m55862    $0.2940/hr  $0.00767/ns · 2.25× basis
-    RTX 5090   m53164    $0.2667/hr  $0.00786/ns · 2.30× basis
-    RTX 4090   m8328     $0.2250/hr  $0.00794/ns · 2.33× basis
-    RTX 5090   m37054    $0.2987/hr  $0.00796/ns · 2.33× basis
-    RTX 3090   m45773    $0.1333/hr  $0.00806/ns · 2.36× basis
-    RTX 3090   m42715    $0.1333/hr  $0.00806/ns · 2.36× basis
-    RTX 5090   m117851   $0.2762/hr  $0.00813/ns · 2.38× basis
+  board depth      : 45 offers visible (baseline ~23), 45 qualifying, 5 priceable, 19 needed
+  floors           : min $0.0933/hr, median $0.2533/hr
+  best fleet $/ns  : $0.011726/ns  ·  3.44× basis (basis $0.003412/ns)
+  projected        : $102.14 against a $74.91 ceiling
+  ⚠ DRIFT — $0.011726/ns is at or above the $0.006539/ns buy line (≈1.92× basis). A release into this board would be HELD on price.
+    RTX 3090   m138174   $0.0933/hr  $0.01028/ns · 3.01× basis
+    RTX 5090   m51714    $0.3930/hr  $0.01079/ns · 3.16× basis
+    RTX 5090   m148152   $0.4400/hr  $0.01103/ns · 3.23× basis
+    RTX 4080S  m141481   $0.2400/hr  $0.01108/ns · 3.25× basis
+    RTX PRO 4000 m150278   $0.2533/hr  $0.01544/ns · 4.53× basis
