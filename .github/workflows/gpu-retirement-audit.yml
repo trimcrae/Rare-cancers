@@ -38,7 +38,9 @@ jobs:
               else:
                   if isinstance(d,dict):
                       report(label+'_fields',list(d))
-                      rows=next((d[k] for k in ['instances','results','volumes','api_keys','keys'] if isinstance(d.get(k),list)),[])
+                      rows=next((d[k] for k in ['instances','results','volumes','api_keys','apikeys','keys'] if isinstance(d.get(k),list)),[])
+                      if label=='vast_keys': report('vast_key_field_names',[list(r) for r in rows])
+                      if label=='vast_instances': report('vast_instances_pagination',{k:d.get(k) for k in ['total_instances','instances_found','next_token']})
                   else: rows=d
                   report(label,[{k:v for k,v in r.items() if k in ['id','name','label','actual_status','dph_total','balance','enabled','is_primary']} for r in rows if isinstance(r,dict)])
           sts=boto3.client('sts'); iam=boto3.client('iam')
@@ -53,8 +55,10 @@ jobs:
                   if data is not None: report('aws_ec2_'+region,[{'id':i['InstanceId'],'type':i['InstanceType'],'state':i['State']['Name']} for r in data['Reservations'] for i in r['Instances']])
                   sm=boto3.client('sagemaker',region_name=region)
                   for method,key in [('list_training_jobs','TrainingJobSummaries'),('list_processing_jobs','ProcessingJobSummaries'),('list_endpoints','Endpoints'),('list_notebook_instances','NotebookInstances')]:
-                      data=call('aws_'+method+'_'+region,lambda:getattr(sm,method)(**({'StatusEquals':'InProgress'} if 'jobs' in method else {})))
-                      if data is not None: report('aws_'+method+'_'+region,{'count':len(data[key]),'has_more':bool(data.get('NextToken'))})
+                      pages=call('aws_'+method+'_'+region,lambda:list(sm.get_paginator(method).paginate(**({'StatusEquals':'InProgress'} if 'jobs' in method else {}))))
+                      if pages is not None: report('aws_'+method+'_'+region,{'count':sum(len(d[key]) for d in pages),'pages':len(pages)})
+              result=call('aws_revoke_stored_key',lambda:iam.delete_access_key(AccessKeyId=os.environ['AWS_ACCESS_KEY_ID']))
+              if result is not None: report('aws_revoke_stored_key',{'deleted':True})
           p=subprocess.run(['modal','app','list','--json'],capture_output=True,text=True,timeout=45)
           if p.returncode: report('modal_apps',{'exit_code':p.returncode})
           else:
