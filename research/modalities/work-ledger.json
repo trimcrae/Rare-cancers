@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-09-11T21:46:59Z",
-  "_generated_et": "5:46 PM ET Sep 11, 2026",
+  "_generated_utc": "2026-09-11T22:33:31Z",
+  "_generated_et": "6:33 PM ET Sep 11, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-09-11T22:34:59Z",
-  "_stale_after_et": "6:34 PM ET Sep 11, 2026",
+  "_stale_after_utc": "2026-09-11T23:21:31Z",
+  "_stale_after_et": "7:21 PM ET Sep 11, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -466,19 +466,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5nh2 \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ev_5nh2 \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T02:02:46Z",
@@ -535,14 +533,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -551,19 +549,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5oh \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ev_5oh \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T03:37:13Z",
@@ -737,14 +733,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -753,19 +749,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5cooh \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ev_5cooh \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-08-27T09:37:43Z",
@@ -795,14 +789,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -811,19 +805,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5alkyne \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ev_5alkyne \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-08-27T09:37:43Z",
@@ -853,14 +845,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -869,19 +861,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5ch2nh2 \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ev_5ch2nh2 \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-08-27T09:37:43Z",
@@ -911,14 +901,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -927,19 +917,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5opropargyl \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ev_5opropargyl \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-08-27T09:37:43Z",
@@ -969,14 +957,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -985,19 +973,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5piperazine \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ev_5piperazine \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-08-27T09:37:43Z",
@@ -1027,14 +1013,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -1043,19 +1029,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5pegamine \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ev_5pegamine \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T03:37:13Z",
@@ -1112,14 +1096,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -1128,19 +1112,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_bio_primary_amide \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_bio_primary_amide \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T02:02:46Z",
@@ -1170,14 +1152,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -1186,19 +1168,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_bio_nmethyl_amide \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_bio_nmethyl_amide \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T02:02:46Z",
@@ -1282,14 +1262,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -1298,19 +1278,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_bio_tetrazole \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_bio_tetrazole \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-08-27T09:37:43Z",
@@ -1340,14 +1318,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -1356,19 +1334,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_bio_acylsulfonamide \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_bio_acylsulfonamide \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T02:02:46Z",
@@ -1425,14 +1401,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -1441,19 +1417,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_bio_hydroxamic \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_bio_hydroxamic \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T02:02:46Z",
@@ -1600,14 +1574,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -1616,19 +1590,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ms_free_acid \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ms_free_acid \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T02:02:46Z",
@@ -1712,14 +1684,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -1728,19 +1700,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ms_carbinol \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ms_carbinol \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T02:02:46Z",
@@ -1797,14 +1767,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -1813,19 +1783,17 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ms_5acetamido_ester \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ms_5acetamido_ester \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T02:02:46Z",
@@ -1954,14 +1922,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -1970,19 +1938,17 @@
     {
       "id": "fanout-unit:e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ms_5acetamido_ester \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ms_5acetamido_ester \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T02:02:46Z",
@@ -2084,14 +2050,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -2100,19 +2066,17 @@
     {
       "id": "fanout-unit:e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5opropargyl \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_ev_5opropargyl \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T02:02:46Z",
@@ -2223,14 +2187,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -2239,19 +2203,17 @@
     {
       "id": "fanout-unit:e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_bio_primary_amide \u2014 no commit yet (boot / stage / setu",
+      "what": "Step-1 fan-out unit cw_bio_primary_amide \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "blocked",
-      "evidence_fingerprint": "0",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-08-26T20:48:02Z",
-      "next_evidence_due_et": "4:48 PM ET Aug 26, 2026",
-      "blocked_by": [
-        "3 automatic attempt(s) produced no new evidence (budget 3); the evidence fingerprint has been '0' since 3:18 PM ET Aug 26, 2026"
-      ],
+      "next_evidence_due_utc": "2026-09-12T00:01:49Z",
+      "next_evidence_due_et": "8:01 PM ET Sep 11, 2026",
+      "blocked_by": [],
       "attempts": [
         {
           "utc": "2026-07-28T02:02:46Z",
@@ -2389,14 +2351,14 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 3,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "RETRY BUDGET SPENT. Each of the last 3 attempts is recorded in `attempts` with the fingerprint it was made against, so what was tried and what it produced is on the record. This item is NOT retried again and is NOT dropped: it stays on the board as `blocked` until its fingerprint moves, at which point the attempts stop counting as fruitless and it returns to `open` by itself. the bounded-retry budget is spent or an external blocker is open; retrying is exactly the indefinite loop the auto-assign ruling was engineered against",
+      "auto_action_why_none": "evidence is not due until 8:01 PM ET Sep 11, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
-      "blocked_cause": "retry-budget-spent",
+      "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -2760,12 +2722,12 @@
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
       "state": "unreadable",
-      "evidence_fingerprint": "UNKNOWN|df7f098adf4c64f1|step1-fanout-progress.json `_generated_utc`",
-      "last_evidence_utc": "2026-08-26T19:18:02Z",
-      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
+      "evidence_fingerprint": "UNKNOWN|0a6f4dfd6d350671|step1-fanout-progress.json `_generated_utc`",
+      "last_evidence_utc": "2026-09-11T22:31:49Z",
+      "last_evidence_et": "6:31 PM ET Sep 11, 2026",
       "last_evidence_what": "step1-fanout-progress.json `_generated_utc`",
-      "next_evidence_due_utc": "2026-08-26T20:03:02Z",
-      "next_evidence_due_et": "4:03 PM ET Aug 26, 2026",
+      "next_evidence_due_utc": "2026-09-11T23:16:49Z",
+      "next_evidence_due_et": "7:16 PM ET Sep 11, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -2861,10 +2823,10 @@
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": {
-        "lane_state": "the lane claims a price hold but carries NO market snapshot to prove the market was consulted. \u00a76 requires that declining to buy is never silent, because a fleet that never launched looks identical to one that finished \u2014 an unevidenced hold is exactly that ambiguity, so it is graded UNKNOWN rather t"
+        "lane_state": "this lane has unfinished work and its host count could not be read (`live_instances` absent or non-integer (0 and null are NOT the same)), so 'billing but not advancing' and 'idle' cannot be separated. Not graded OK."
       },
       "notes": [
-        "the lane claims a price hold but carries NO market snapshot to prove the market was consulted. \u00a76 requires that declining to buy is never silent, because a fleet that never launched looks identical to one that finished \u2014 an unevidenced hold is exactly that ambiguity, so it is graded UNKNOWN rather than accepted."
+        "this lane has unfinished work and its host count could not be read (`live_instances` absent or non-integer (0 and null are NOT the same)), so 'billing but not advancing' and 'idle' cannot be separated. Not graded OK."
       ]
     },
     {
@@ -3247,7 +3209,7 @@
       "first_seen_utc": "2026-07-31T14:06:08Z",
       "unreadable": null,
       "notes": [
-        "NO HOSTS, 16 unit(s) unfinished, NO price hold and NO parked reason \u2014 and nothing has happened for 12480 min (threshold 45 min; last: the lane's own tick wrote its in-flight-board fragment at 1:46 AM ET Sep 3, 2026). This is the closure-triangle shape: a lane with no live instance at all, which every liveness check reads as 'nothing to watch' and which is indistinguishable from finished. It is NOT"
+        "NO HOSTS, 16 unit(s) unfinished, NO price hold and NO parked reason \u2014 and nothing has happened for 12527 min (threshold 45 min; last: the lane's own tick wrote its in-flight-board fragment at 1:46 AM ET Sep 3, 2026). This is the closure-triangle shape: a lane with no live instance at all, which every liveness check reads as 'nothing to watch' and which is indistinguishable from finished. It is NOT"
       ]
     },
     {
@@ -3344,8 +3306,9 @@
   "_dispatch_plan": [],
   "_dispatch_plan_is_a_request": "this module NEVER shells out. The workflow executes these with `gh workflow run`; each names a workflow and no price.",
   "n_by_state": {
-    "blocked": 32,
+    "blocked": 13,
     "open": 12,
+    "advancing": 19,
     "unreadable": 1,
     "done": 6
   },
@@ -3359,25 +3322,6 @@
     "plan:g-open-per-paralogue-120-300-only-to-make-affinity-selectivity-uncondi",
     "plan:conditional-abfe-pose-plausibility-80-200-raw-values-t4l-discrepancy-s",
     "plan:post-submit-outward-facing-needs-trimcrae-sign-off",
-    "fanout-unit:e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral",
-    "fanout-unit:e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
-    "fanout-unit:e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid",
-    "fanout-unit:e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral",
-    "fanout-unit:e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine",
-    "fanout-unit:e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
-    "fanout-unit:e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral",
-    "fanout-unit:e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine",
-    "fanout-unit:e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
-    "fanout-unit:e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral",
-    "fanout-unit:e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral",
-    "fanout-unit:e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral",
-    "fanout-unit:e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
-    "fanout-unit:e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid",
-    "fanout-unit:e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
-    "fanout-unit:e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
-    "fanout-unit:e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral",
-    "fanout-unit:e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
-    "fanout-unit:e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
     "rung:local_ternary_fep",
     "rung:fold_results",
     "rung:final_redteam",
@@ -3410,17 +3354,17 @@
     "rung:genmatched_null_generative_arm"
   ],
   "_self": {
-    "now_et": "5:46 PM ET Sep 11, 2026",
-    "generated_et": "5:46 PM ET Sep 11, 2026",
-    "stale_after_et": "6:34 PM ET Sep 11, 2026",
+    "now_et": "6:33 PM ET Sep 11, 2026",
+    "generated_et": "6:33 PM ET Sep 11, 2026",
+    "stale_after_et": "7:21 PM ET Sep 11, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 6:34 PM ET Sep 11, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 7:21 PM ET Sep 11, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (3:39 PM ET Sep 11, 2026) refreshed the artifact to 5:46 PM ET Sep 11, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (5:45 PM ET Sep 11, 2026) refreshed the artifact to 6:33 PM ET Sep 11, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
