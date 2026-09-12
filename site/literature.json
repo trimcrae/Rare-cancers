@@ -3,18 +3,18 @@
   "description": "EMC research discovery catalogue — screening in progress",
   "counts": {
     "retrieved_records": 1471,
-    "deduplicated_records": 1637,
+    "deduplicated_records": 1638,
     "scope_counts": {
       "title": 447,
-      "abstract": 215,
+      "abstract": 216,
       "full_text_or_index": 975
     },
     "access_counts": {
       "free_link_indexed": 1154,
-      "unresolved": 483
+      "unresolved": 484
     },
     "crossref_added": 132,
-    "manually_sourced_reports": 8
+    "manually_sourced_reports": 9
   },
   "queries": {
     "exact_phrase": {
@@ -20291,8 +20291,9 @@
       "access": "free_link_indexed",
       "discovery_scope": "title",
       "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": false
+      "reading_status": "complete_correction_text_read",
+      "abstract_available": false,
+      "relation_note": "Correction to Brenca 2019: the old data repository is unavailable; raw sequence reads moved to NCBI BioProject PRJNA692081. This notice does not add patients or efficacy results."
     },
     {
       "id": "MED:34315971",
@@ -27824,6 +27825,29 @@
       "metadata_source": "Crossref title relevance search, first 1000 results"
     },
     {
+      "id": "MED:31579002",
+      "title": "Correction to Lancet Oncol 2019; 20: 1252-62.",
+      "authors": "",
+      "year": "2019",
+      "date": "2019-09-30",
+      "journal": "The Lancet. Oncology",
+      "doi": "10.1016/s1470-2045(19)30589-3",
+      "pmid": "31579002",
+      "pmcid": "",
+      "publication_types": [
+        "Published Erratum"
+      ],
+      "record_url": "https://europepmc.org/article/MED/31579002",
+      "publisher_url": "https://doi.org/10.1016/s1470-2045(19)30589-3",
+      "free_links": [],
+      "access": "unresolved",
+      "discovery_scope": "abstract",
+      "screening_status": "linked_EMC_correction",
+      "reading_status": "metadata_only_correction_text_pending",
+      "abstract_available": false,
+      "relation_note": "Correction to the 2019 EMC pazopanib trial (PMID 31331701). Separate publication, not an additional trial or patient cohort. Correction text remains unresolved."
+    },
+    {
       "id": "MED:31440833",
       "title": "Abstracts : 31 st European Congress of Pathology.",
       "authors": "",
@@ -28066,8 +28090,9 @@
       "access": "unresolved",
       "discovery_scope": "title",
       "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "reading_status": "abstract_read_full_text_pending",
+      "abstract_available": true,
+      "relation_note": "Primary EMC pazopanib trial; separately published correction: DOI 10.1016/S1470-2045(19)30589-3 (PMID 31579002). Abstract read; full trial and correction text unresolved."
     },
     {
       "id": "DOI:10.32553/ijmbs.v3i7.382",
@@ -28718,8 +28743,9 @@
       "access": "free_link_indexed",
       "discovery_scope": "title",
       "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "reading_status": "partial_body_read",
+      "abstract_available": true,
+      "relation_note": "Data-location correction DOI 10.1002/path.5737 replaces the defunct repository with NCBI BioProject PRJNA692081. Main article review remains incomplete."
     },
     {
       "id": "MED:30986130",
@@ -50975,8 +51001,9 @@
       "access": "free_link_indexed",
       "discovery_scope": "title",
       "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "reading_status": "body_all_tables_text_read_figures_pending",
+      "abstract_available": true,
+      "relation_note": "32 evaluable treatment courses in 21 patients, with no objective responses. Table 4 includes imatinib stable disease >=6 months and interferon/sorafenib progression. Do not treat courses as independent patients or infer variant-specific response. Figure/layout review pending."
     },
     {
       "id": "MED:18830667",

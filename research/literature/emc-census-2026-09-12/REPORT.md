@@ -210,3 +210,15 @@ The [Wilbur PGR-NR4A3/tamoxifen report](https://doi.org/10.1200/PO.22.00039) has
 The [Jennings KIT case](https://doi.org/10.1136/bcr-2021-242039) is also completely read, including its histology figure. It supplies molecular confirmation and a blood-negative somatic variant but no detailed longitudinal response plot or EMC-specific functional assay. This must not be pooled with an uncharacterized KIT variant from another model merely because the gene name matches.
 
 The [2012 sunitinib report](https://doi.org/10.1186/2045-3329-2-22) is read through all four figures and references. Its interruption/rechallenge observation is informative, while the infection images illustrate an alternative to radiographic progression. Conflicting ages, interruption intervals and a dosing-unit typo limit exact exposure reconstruction. These issues are recorded without converting them into invented corrections.
+
+### Corrections that disease-title searches miss
+
+Cached Europe PMC metadata identifies five correction links among focused records. Four have indexed identifiers, including the separately titled [pazopanib erratum](https://pubmed.ncbi.nlm.nih.gov/31579002/) newly added to the catalogue. The fifth is a 2001 author-name correction cited without an identifier; it remains a linked notice rather than an invented distinct record. The catalogue now contains **1,638 discovery records and 663 focused matches**. Correction notices do not add independent experiments or patients.
+
+The complete indexed text of the [Brenca 2021 correction](https://pmc.ncbi.nlm.nih.gov/articles/PMC8451045/) was read: it replaces a defunct data repository with NCBI BioProject PRJNA692081. Raw sequencing was not downloaded. The pazopanib correction text remains unresolved; neither a repository metadata page nor a secondary review establishes what it changed. The parent trial abstract was read, but complete trial text remains pending.
+
+### Historical treatment courses and negative findings
+
+The body and all five tables in [Drilon 2008](https://doi.org/10.1002/cncr.23978) were read through BioC, together with figure captions and reference titles; original figures/layout and full reference metadata remain pending. Its 32 evaluable treatment courses came from 21 patients, not 32 independent people. Table 4 reports imatinib stable disease lasting at least six months, but interferon and sorafenib progression. These observations add negative and exposure context; unspecified variants, heterogeneous regimens and repeat treatment prevent direct pooling with molecularly selected exceptional cases. Table 5 summarizes other papers and must not be counted as new patients.
+
+The source has 87 patients in the abstract versus 86 in the body, and sometimes labels treatment-course counts as patients. Survival summaries also differ across passages. Those discrepancies are retained. No causal survival comparison against newer single-arm trials is justified by their juxtaposition. Source Table 4 rows are preserved in `drilon-treatment-table.json`, including blank cells.
