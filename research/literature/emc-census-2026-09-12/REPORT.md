@@ -15,7 +15,7 @@ last_verified: 2026-09-12
 **Retraction correction:** the previously proposed SGK1/proteasome-resistance connection has been withdrawn after identifying a retracted supporting myeloma paper. See the dated correction below.
 
 
-There is not yet a defensible worldwide total of distinct published EMC research outputs. The current catalogue contains **1,639 DOI/identifier-deduplicated records: 664 focused matches and 975 broader candidates**. Of the focused records, 187 have indexed free-access links and 477 have unresolved access. These are bibliographic records, including reviews, corrections and repeated reports, not independent studies or patients.
+There is not yet a defensible worldwide total of distinct published EMC research outputs. The current catalogue contains **1,642 DOI/identifier-deduplicated records: 666 focused matches and 976 broader candidates**. Of the focused records, 188 have indexed free-access links and 478 have unresolved access. These are bibliographic records, including reviews, corrections and repeated reports, not independent studies or patients.
 
 The exhaustive reading and synthesis is **not complete**. Across the initial 131 focused PMC records, 94 XML bodies and 14 additional BioC bodies have been recovered; 23 remain unresolved by those routes. Recovery is not reading. Component-specific reading status is recorded in `reading-ledger.json`; missing figures, supplements and full texts remain explicit. No new treatment has been validated, and no verified claim of an overlooked discovery is made.
 
@@ -32,10 +32,10 @@ Searches were performed on 12 September 2026. Original Europe PMC and Crossref A
 | Europe PMC expanded disease/fusion query | 1,471 | All returned records retrieved across 15 pages |
 | Crossref first 1,000 title-search results | 389 title matches | Fuzzy search is truncated; its 9,415 total hits are not EMC works |
 | Crossref records added after DOI matching | 132 | Includes conference supplements and other non-MED outputs |
-| Current combined discovery catalogue | 1,639 | Includes historical-alias additions and ten manually sourced records; not study-deduplicated |
-| Current focused matches | 664 | 447 title matches plus 217 abstract/manual matches, including a linked correction |
-| Focused records with an indexed free-text link | 187 | Includes free conference abstracts; not all links downloaded |
-| Focused access unresolved | 477 | No claim that a public copy does not exist |
+| Current combined discovery catalogue | 1,642 | Includes historical-alias additions and thirteen manually sourced records; not study-deduplicated |
+| Current focused matches | 666 | 447 title matches plus 219 abstract/manual matches, including linked conference reports and a correction |
+| Focused records with an indexed free-text link | 188 | Includes free conference abstracts; not all links downloaded |
+| Focused access unresolved | 478 | No claim that a public copy does not exist |
 | Focused records with a PMC identifier | 131 | XML retrieval attempted |
 | Initial PMC bodies recovered / unresolved after fallback | 108 / 23 | 94 XML plus 14 additional BioC bodies; not completed-reading counts |
 
@@ -247,3 +247,13 @@ The [2017 antiangiogenic series](https://doi.org/10.1007/s12032-017-1030-2) cont
 The [2020 two-institution EMC cohort](https://doi.org/10.3389/fonc.2020.00828) was read through all four tables and figures. Only 23 of 59 patients underwent molecular testing. Among ten evaluable first-line anthracycline recipients, one had a partial response; all three second-line anthracycline recipients had progression. Treatment selection may explain the association between chemotherapy and worse survival. Eight selected patients' drug holidays do not establish general safety. Its three trabectedin cases cannot be assumed independent of other Italian reports without a patient crosswalk.
 
 The [2025 Japanese registry study](https://doi.org/10.1186/s13018-025-06245-6) was read through its body, references, four tables, three figures and supplementary table text. It includes 171 patients but only six receiving perioperative chemotherapy. Exclusion of short follow-up, treatment-selection bias, sparse events and wide intervals limit causal interpretation of nonsignificant treatment associations. Drug-specific response outcomes are not supplied. Its discussion mistakenly calls the cited Japanese phase-II trabectedin trial phase III; the original trial family retains its correct classification here.
+
+### Apatinib subgroup: unresolved response discrepancy
+
+The [2020 two-center apatinib report](https://doi.org/10.2147/CMAR.S253201) includes three cases described as EMC among 33 analyzed chondrosarcomas; seven additional patients were lost to follow-up. Its main text and waterfall plot support one partial response and two stable-disease results, but the public patient appendix labels patients 6 and 14 as partial responses and patient 33 as stable disease. The full appendix has eight partial responses versus six in the main text. Molecular confirmation is not supplied. These discrepancies prevent selecting a single reconciled EMC response rate from this source.
+
+The EMC subtype hazard ratio is 0.31 (95% CI 0.07–1.44; p=0.14), which does not establish greater treatment benefit than other subtypes. The pooled toxicity burden, including two possibly treatment-related infection deaths, is not an EMC-specific estimate. The illustrated CT course belongs to conventional chondrosarcoma. The authors already discuss angiogenesis and drug-efflux hypotheses; those are not newly discovered EMC mechanisms. Earlier-cohort overlap remains to be checked. All article text, tables and eight figures were read, as were all appendix cells; original Word layout remains unrendered. Exact source rows and discrepancies are preserved in `apatinib-2020-extraction.json`.
+
+### Nanosomal docetaxel: the EMC result was progression
+
+The [2019 multicenter series](https://doi.org/10.1155/2019/3158590) included one EMC patient, a 52-year-old woman. Table 2 records progressive disease after nanosomal docetaxel plus cyclophosphamide. The frequently highlighted pooled response rate and survival results are not EMC-specific, and this patient's regimen did not include gemcitabine. Molecular confirmation and individual response duration were not provided. The manufacturer-funded retrospective study does not establish formulation superiority or comparative safety. All article text, three tables and both figures were read; no supplementary-material element was supplied in the indexed XML.
