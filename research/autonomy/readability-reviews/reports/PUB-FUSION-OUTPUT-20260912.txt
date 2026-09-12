@@ -1,0 +1,188 @@
+# FUSION-OUTPUT: independent editorial review
+
+**Current disposition: pass after focused verification.** The initial findings below remain as review history.
+
+**Initial disposition: needs repair.** Reviewed 2026-09-12T11:58:41.900594+00:00. The full proposed manuscript and SI were read by a separate LLM agent from the draft writer. This is an editorial and claim-preservation check, not human peer review or independent scientific validation. The exact served-model identifier is unavailable; the system declares GPT-6.
+
+The body is easier to follow, but the abstract still requires specialist reconstruction. The findings below include source inconsistencies encountered by reading related sections together, plus one new dangling-reference regression in fusion output. An improved readability score does not resolve them. The initial disposition remains in this record after any focused repair.
+
+## Five reader explanations
+
+**Question.** Do genes claimed to be targets of NR4A3 fusion proteins show more expression in EMC than a similarly sized arbitrary gene set would, and can that expression establish what the fusion drives?
+
+**Approach.** The study typed published mechanistic evidence, analysed the small available expression cohorts separately, and calibrated gene-set scores against random sets of the same size. It examined comparator choice and other expression confounds, motif counts, and available surrogate binding/accessibility data.
+
+**Main finding.** The pooled set of three fusion-assay genes plus16 native NR4A3 targets reached39% and88% of the two random-set thresholds and exceeded neither; the three genes alone did not meet the four-gene scoring floor. A known EMC expression signature exceeded both thresholds. SEMA3C depended on the comparator, PPARG reused its discovery cohort, and ENO3 survived the expression sensitivity checks but was a pre-designated control rather than an independent discovery.
+
+**Main limitations.** The cohorts contain4,6 and10 EMC cases and have heterogeneous comparators. Expression association does not establish fusion causation. Native or paralogue binding in another disease does not measure fusion occupancy in EMC. The available fusion chromatin study measured accessibility in HEK293T cells; the targeted overlap failed the geometry-preserving null. Two nominal occupancy hits did not survive correction; the across-build selection makes the nominal combined calculation indicative. The bounded search also found an unresolved targeted SRA dataset, not a ready fourth whole-transcriptome cohort.
+
+**Next step.** Obtain fusion occupancy and a controlled fusion perturbation with RNA readout in a verified EMC model. Distinguish these experiments from deeper native NR4A3 data in another disease, the completed targeted accessibility comparison, and any broader future per-arm reanalysis.
+
+## Required finite repairs
+
+### FUSION-OUTPUT-R1
+
+**Location:** Abstract, lines 66–72; accessible-abstract copy. **Origin:** Editorial repair incomplete; occupancy overstatement also present in source.
+
+The opening defines random-set calibration well, but subsequent t statistic, null threshold, array platform, native-NR4A3, class A, HEK293T and occupancy terms require specialist reconstruction. The blanket “No class-A gene showed unusual occupancy” also hides the two nominal hits and their failure after correction, explicitly distinguished in §3.11.
+
+**Repair:** Tell the question, comparison, principal negative and reason it cannot establish fusion causation using plain terms. Keep the three-gene versus pooled 19-gene distinction intelligible. Explain or move repeated technical anchors to the body with a retention map. Qualify the occupancy statement by the across-experiment/corrected interpretation; preserve the nominal hits in the full paper.
+
+### FUSION-OUTPUT-R2
+
+**Location:** §4.1 lines 1218–1238, plus §3.4 line 518, §3.5 line 630 and Appendix B line 1550. **Origin:** New editorial regression: source lead explicitly labelled the five alternatives.
+
+The new lead removes the (a)–(e) labels, but following paragraphs and other sections still refer to them. The reader cannot resolve (c), (d), (b), (e) or (a).
+
+**Repair:** Restore the five exact labels consistently or replace all live cross-references with the corresponding named explanation. Preserve the source mapping: (a) cell of origin; (b) myxoid/hypocellular architecture; (c) platform-wide offset; (d) generic proliferation/matrix programme; (e) anatomical site. Immutable history may retain original labels.
+
+### FUSION-OUTPUT-R3
+
+**Location:** §3.2 line 452. **Origin:** Pre-existing source heading error.
+
+“A native target the fusion does not share” reverses the immediately following PPARG result: native NR4A3 and NR4A3ΔC do not activate this promoter, while the fusion does.
+
+**Repair:** Reverse the heading to describe a fusion target not shared by native NR4A3. Preserve the assay quotation and its experimental context.
+
+### FUSION-OUTPUT-R4
+
+**Location:** §4.3 lines 1285–1299 and current Appendix B rows at lines 1546–1550. **Origin:** Pre-existing source overclaims, retained in proposal.
+
+Expression plus a fusion-bound peak is called “driven,” while no peak is called merely “correlated.” Appendix B repeats that a peak restores direct-target status and a missing peak establishes no fusion binding. Binding and expression together do not by themselves establish the direction of causation; non-detection is conditional on assay depth, window and conditions. The source elsewhere explicitly separates association, occupancy and perturbation. The current Appendix B also says a soft-tissue normal arm would remove the cell-of-origin explanation, when such a comparison would address rather than identify the unknown cell of origin.
+
+**Repair:** Describe positive occupancy as evidence consistent with direct regulation and non-detection as limited evidence against binding in the measured conditions. Keep the separate fusion-perturbation/RNA experiment and its role in directional inference. Align current Appendix B with these distinctions and narrow its causal/categorical promises. Preserve the original table in the review snapshot. Appendix B is a mutable current proposed-falsifier table; Appendix A and preregistrations remain immutable.
+
+### FUSION-OUTPUT-R5
+
+**Location:** Current Appendix B lines 1551–1552, compared with §3.11, Table 9 and Appendix A. **Origin:** Pre-existing stale current account.
+
+“Any deep NR4A3 ChIP-seq” is still described as a future test although four deep Haller NR4A3 peak sets are already analysed. The ATAC future row says it would give the first calibrated fusion chromatin read, although the targeted ENO3 overlap has already been calibrated with a geometry-preserving null. The broader per-arm accessibility analysis can still be future work.
+
+**Repair:** State what has already been completed versus what remains: deep native NR4A3 data in another disease exist; fusion occupancy in EMC remains absent within the bounded search. Targeted ENO3 accessibility calibration is completed, while the full proposed per-arm analysis is distinct and remains unperformed. Keep exact existing findings and their HEK293T/accessibility limits.
+
+### FUSION-OUTPUT-R6
+
+**Location:** SI S6 lines 373–379, compared with main §3.10 and Appendix A line 1533. **Origin:** Pre-existing source inconsistency explicitly corrected in main, missed in SI.
+
+SI still calls 39 the most of any scanned gene and reads non-significant composition comparisons as proof of the composition explanation. Main already corrects both: 39 is most among the three class-A genes, seven background windows have at least 39, maximum43; p=.203 and GC-matched p=.118 do not reject the composition explanation but do not prove it.
+
+**Repair:** Bring the SI scope and null interpretation into agreement with the main. Retain all site counts, null mean33.7, p values, GC.371 and raw rank.040. No reanalysis.
+
+### FUSION-OUTPUT-R7
+
+**Location:** Data and code availability lines 1452–1455, compared with Table 9 and SI S8. **Origin:** Pre-existing source inconsistency.
+
+The declaration says Haller was referenced but not used as data, while its processed peak sets supply four Table 9 rows and SI S8.
+
+**Repair:** Say the public processed Zenodo peaks were used, and distinguish the controlled raw EGA data not used. Retain the different disease/native-protein limitation and the accession/DOI.
+
+### FUSION-OUTPUT-R8
+
+**Location:** SI S8 lines 524–525 and 548; main Table 9; held emc-ret-cistrome-inputs.json build_inference.ZENODO1483691. **Origin:** Pre-existing source denominator/scope error; verified directly from held artifact without recomputation.
+
+S8 identifies build inference with a supposed common 198-gene occupancy panel. The held build-inference artifact records 213 panel genes for hg19 and 211 for hg38; its fractions match Table S8. Main occupancy calibration uses 200/hg19 and198/hg38, and the motif background is a separate198-window panel. These are distinct analyzed denominators from an existing gene-list provenance.
+
+**Repair:** Name the build-inference counts/builds from the held artifact and distinguish them from occupancy and motif panels. Retain every Table S8 peak count, recovery percentage, threshold, ratio and build-inference limitation. Revise the shared-panel dependency explanation so it does not imply identical membership or denominator.
+
+### FUSION-OUTPUT-R9
+
+**Location:** §3.12 lines 1024–1025, read with §3.11 and the subsequent §3.12 caveat. **Origin:** Pre-existing source scope error.
+
+The topic sentence says ENO3 is supported by every instrument that returned a reading. Occupancy returned informative readings without an across-experiment excess, and the geometry-preserving accessibility comparison did not clear its null. The body later gives these limits, but the topic sentence overstates the story.
+
+**Repair:** Limit the opening claim to the expression sensitivity analyses and separately state the motif evidence and lack of calibrated chromatin support. Preserve ENO3’s pre-designated-control status and all following numerical sensitivity findings.
+
+## Exact inputs and preservation
+
+- proposed_main: `C:\Users\mcrae\Documents\Codex\2026-09-07\emc-research-orchestrator\work\preprint-readability-20260912\vaccine-fusion-output\drafts\fusion-output.md` — SHA256 `0f20a3046f90ce5fb7fa57cba85eb57deb91d7602488d3b138205f69dff95325`.
+- comparison_source: `C:\Users\mcrae\Documents\Codex\2026-09-07\emc-research-orchestrator\work\preprint-readability-20260912\vaccine-fusion-output\sources\fusion-output.md` — SHA256 `a826d827cd82d40fd52a4a320e2af998cc5ac81a8346de5cf44c3f0487b5061d`.
+- proposed_si: `C:\Users\mcrae\Documents\Codex\2026-09-07\emc-research-orchestrator\work\preprint-readability-20260912\vaccine-fusion-output\drafts\fusion-output-SI.md` — SHA256 `0335dffef650ef80d6bc9908083fd54da717096de98c84caab364e7a995a5be3`.
+- comparison_source: `C:\Users\mcrae\Documents\Codex\2026-09-07\emc-research-orchestrator\work\preprint-readability-20260912\vaccine-fusion-output\sources\fusion-output-SI.md` — SHA256 `5493c11334dee838540d4667ed29d737d89f874fcb7c49e475ecb7414cdad2c9`.
+- existing_build_inference_record_read_only: `C:\Users\mcrae\.codex\worktrees\emc-fo-figure4-20260909\EMC-Research\research\modalities\emc-ret-cistrome-inputs.json` — SHA256 `f56bcd390c0018d70d721d0f9123fb3d7398c1fe198b649d2efe32300ce858b5`.
+
+Independent mechanical comparisons confirm identical table rows in all initial proposals; vaccine References/Appendices A–C, FO Appendices A–B/References, and SI S1.3 match their source text after newline normalization. This establishes retention, not correctness: the current FO Appendix B still needs the stated consistency repairs. No result table, historical correction table or preregistration should be rewritten to conceal an earlier statement. Root authorized a narrow current Appendix B correction with original text preserved in the review snapshot.
+
+The original caution counts and disposition explanations in the writer audit were read as screens, not acceptance criteria. The FO scientific-meaning/limitation checks remain false because current causal/scope statements conflict with retained limiting evidence; those pre-existing source issues cannot become accepted claims merely because they survived verbatim. Vaccine retains its limitations, but its contradictory call counts and bound statement prevent a clean scientific-meaning disposition.
+
+## Actual reading coverage
+
+All reader-facing paragraphs, numerical tables, figure legends, declarations, references and appendices in the proposed files were read. Truncated intermediate output was recovered for the vaccine Section6 passage and FO Appendix A. FO SI S1–S8 was read in full, including the immutable historical/preregistered S1.3. The paragraph-topic sequence was assessed in context; this exposed the ENO3 topic-sentence overstatement and dangling confound references. Source comparison concentrated on changes and disputed contexts; the hashed source retention comparisons cover the unchanged archival blocks.
+
+- fusion-output.md: # Almost every gene set reads higher in the index arm: a size-matched empirical null for small rare-tumour expression series, and what it leaves of the EWSR1::NR4A3 direct-target catalogue
+- fusion-output.md: ## Abstract
+- fusion-output.md: ## 1 · Introduction
+- fusion-output.md: ### 1.1 · Almost every gene set reads higher in the index arm
+- fusion-output.md: ### 1.2 · The disease and the driver
+- fusion-output.md: ### 1.3 · The gap in the worked example
+- fusion-output.md: ## 2 · Materials and Methods
+- fusion-output.md: ### 2.1 · The evidence-typed target catalogue
+- fusion-output.md: ### 2.2 · Datasets
+- fusion-output.md: ### 2.3 · Scoring and the size-matched empirical null
+- fusion-output.md: ### 2.4 · Instrument controls, graded before the biology
+- fusion-output.md: ### 2.5 · The 3SEQ arm, and its calibration
+- fusion-output.md: ### 2.6 · Confound audit and sensitivity analyses
+- fusion-output.md: ### 2.7 · The cohort search
+- fusion-output.md: ### 2.8 · Reproduction
+- fusion-output.md: ## 3 · Results
+- fusion-output.md: ### 3.1 · Three genes are the whole of class A
+- fusion-output.md: ### 3.2 · The native→fusion transfer assumption is measured to fail in both directions
+- fusion-output.md: ### 3.3 · The instrument controls
+- fusion-output.md: ### 3.4 · The global offset is not the problem — null-band width is
+- fusion-output.md: ### 3.5 · Per gene, and what survives
+- fusion-output.md: ### 3.6 · The contrast against every comparator stratum separately
+- fusion-output.md: ### 3.7 · A third cohort, calibrated against its own deposit
+- fusion-output.md: ### 3.8 · The circularity flag fired twice
+- fusion-output.md: ### 3.9 · The aggregate does not clear its null; the published EMC phenotype clears it 12-fold
+- fusion-output.md: ### 3.10 · A sequence axis, and its limits
+- fusion-output.md: ### 3.11 · Nothing has been measured in EMC chromatin — a bounded negative about a search
+- fusion-output.md: ### 3.12 · What the instruments say together
+- fusion-output.md: ### 3.13 · Three GEO cohorts and a separate, unresolved targeted dataset
+- fusion-output.md: ## 4 · Discussion
+- fusion-output.md: ### 4.1 · What these data are consistent with, and what they are equally consistent with
+- fusion-output.md: ### 4.2 · What is new here
+- fusion-output.md: ### 4.3 · What would discriminate, named rather than hand-waved
+- fusion-output.md: ## 5 · Limitations
+- fusion-output.md: ## 6 · Conclusion
+- fusion-output.md: ## Data and code availability
+- fusion-output.md: ## Funding
+- fusion-output.md: ## Conflicts of interest
+- fusion-output.md: ## Ethics approval and consent
+- fusion-output.md: ## Author contributions
+- fusion-output.md: ## Use of generative AI
+- fusion-output.md: ## Acknowledgements
+- fusion-output.md: ## Appendix A · Superseded values and corrected claims
+- fusion-output.md: ## Appendix B · What would change this paper's conclusions
+- fusion-output.md: ## References
+- fusion-output-SI.md: # Supplementary Information
+- fusion-output-SI.md: ## S1 · Method detail
+- fusion-output-SI.md: ### S1.1 · Probe mapping and floors
+- fusion-output-SI.md: ### S1.2 · The circularity grade
+- fusion-output-SI.md: ### S1.3 · The pre-registered decision rule, and how it landed
+- fusion-output-SI.md: ## S2 · The complete evidence-typed catalogue
+- fusion-output-SI.md: ### TABLE S1 — the complete evidence-typed catalogue
+- fusion-output-SI.md: ## S3 · Every scored gene set, with its detectability threshold
+- fusion-output-SI.md: ### TABLE S2 — every scored gene set, with its detectability threshold
+- fusion-output-SI.md: ## S4 · The PPARγ receptor-activity reading, and its adipogenic ceiling
+- fusion-output-SI.md: ## S5 · Robustness, stratification and sensitivity
+- fusion-output-SI.md: ### TABLE S3 — robustness panel (exact permutation, BH, jackknife, rank re-read)
+- fusion-output-SI.md: ### TABLE S4 — every stratified comparator contrast, with its own exact permutation p
+- fusion-output-SI.md: ### TABLE S5 — covariate-adjusted sensitivity
+- fusion-output-SI.md: ### TABLE S6 — the skeletal-muscle admixture control (GPL6244)
+- fusion-output-SI.md: ## S6 · The NBRE motif scan — full parameters
+- fusion-output-SI.md: ## S7 · The cohort search — every query, and every record it returned
+- fusion-output-SI.md: ## S8 · The Haller NR4A3 cistrome — how its genome build was determined
+
+No network/public-body verification, scientific rerun, display operation, export or full CI was used. The review is bound to these bytes and the local source identity limit, not to unseen public PDFs.
+
+## Focused verification — pass
+
+2026-09-12T12:05:46.820980+00:00. Every changed passage was read in its local context. The revised abstract was read as a standalone explanation rather than judged by word count. The finite findings are resolved. The five reader explanations above remain accurate.
+
+- `fusion-output.md` final SHA256 `198abb3732644d1352897c27f2a1e0f5334200af030157a0affda8e29b0c02d1`; initial SHA256 `0f20a3046f90ce5fb7fa57cba85eb57deb91d7602488d3b138205f69dff95325`.
+- `fusion-output-SI.md` final SHA256 `79071524e23567bc16eedae95cafdd29667ffe94cea519aa503ec73ab7b9651a`; initial SHA256 `0335dffef650ef80d6bc9908083fd54da717096de98c84caab364e7a995a5be3`.
+
+The abstract now defines the fusion and random-group comparison, preserves the bounded search scope, explains the three-plus-sixteen aggregate and states the absence of causal evidence. The confound labels resolve throughout the live text, the PPARG heading matches its assay, ENO3 is limited to the measurements that support it, and the current experimental table distinguishes occupancy, accessibility, intervention and already-completed analyses. SI S6 and S8 now match the existing count scopes and build-specific denominators; no scientific result was recomputed. All numerical result tables, historical Appendix A, references and SI S1.3 remain identical. Current Appendix B was repaired under explicit root authorization, with its original bytes preserved in the initial snapshot.
+
+The before/after retention map preserves technical detail moved out of the abstracts in the full manuscript. The source-to-proposal measurements remain advisory; pass is based on the actual reader explanation and claim/scope comparison. Acceptance binds only the hashes above.
+
+The intermediate repaired main file at SHA256 `ac50624f7ae42eec6ab01bb11c06c53ca89020a50cc1a9c181b54002cfbf94a3` still needed the FUSION-OUTPUT-R1 continuation: define the central fusion term and preserve the source-bounded literature count. `FO-FOCUSED-ABSTRACT-REPAIR.json` records the three final abstract-only deltas and preserved intermediate snapshot. The final body outside the abstract is identical to that intermediate file.

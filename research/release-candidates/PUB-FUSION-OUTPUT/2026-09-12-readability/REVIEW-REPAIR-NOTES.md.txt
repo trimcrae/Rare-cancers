@@ -1,0 +1,70 @@
+# Repair after independent reading
+
+The complete independent reports identified three vaccine findings and nine linked fusion-output findings. One 17-replacement batch addressed those findings. Focused verification then requested an abstract-only continuation for fusion output: define the fusion, bound the three-gene literature count to this search, and explain the preselected positive control. Those three wording changes were applied without changing any body text. The initial reports remain the record of the failures they detected; they are not rewritten as initial passes.
+
+**Final independent disposition: PASS for both papers.** The final reports retain the initial findings and record focused verification of the repaired bytes. Their paths are `../reviews/VACCINE-review.{md,json}` and `../reviews/FUSION-OUTPUT-review.{md,json}`. This is an independent LLM editorial review, not human scientific peer review. The disclosure and public-source identity boundaries remain separate.
+
+Final drafts for integration:
+
+| File | SHA256 |
+|---|---|
+| `drafts/vaccine.md` | `ff25387c41b644a8639e2b7c59c1faf82f9a01b960b21953ea9a975a0f3ee65e` |
+| `drafts/fusion-output.md` | `198abb3732644d1352897c27f2a1e0f5334200af030157a0affda8e29b0c02d1` |
+| `drafts/fusion-output-SI.md` | `79071524e23567bc16eedae95cafdd29667ffe94cea519aa503ec73ab7b9651a` |
+
+`REVIEW-REPAIR-CHANGES.json` records the exact batch replacements. `FO-FOCUSED-ABSTRACT-REPAIR.json` records the focused continuation. Initial reviewed bytes and their verified hashes are in `initial-independent-review/MANIFEST.json`; the intermediate fusion-output draft is preserved under `focused-abstract-input`. Original source snapshots remain under `sources`. The `*.source-to-repaired.patch` files compare the source snapshots with the final drafts; the older plain `*.patch` files document the initial proposal and must not be used as the final patch.
+
+## Abstract detail retained in the full papers
+
+The abstracts now state the question, approach, central finding and important uncertainty before asking readers to interpret technical detail. The following details were removed from the abstract or compressed there, but are retained at the locations listed. A lexical comparison found no unique numerical token lost from any complete manuscript/SI during this repair.
+
+| Vaccine detail | Retained location and limit |
+|---|---|
+| Human fusion-vaccine prior art, references 17–20; sponsor-announced melanoma phase 3 result, reference 9 | Introduction and §7 retain the small-study/single-patient, non-EMC, sponsor-report and no-benefit-transfer limitations. References unchanged. |
+| Whole acceptor exon and untranslated sequence; transcript reconstruction | §2.2, Figure 1 and §8. The 27 modeled pairs remain assumptions of the declared window, not a count of observed patient breakpoints. |
+| MHCflurry 2.1.4/models 2.2.0; MHCnuggets; AFND frequencies; separate class I/class II methods | §2.2, §2.3, B4 and §8. The predictor scales remain distinct and no EMC biological validation is claimed. |
+| Five in-frame pairs out of 27; 174 peptides; 11 predicted binders, four strong | §2.2 and Table 4. The abstract retains the four strong candidates and the normal-protein correction; it does not alter the counting unit. |
+| Four normal-isoform matches, one withdrawn predicted binder; lead one amino acid from self | §2.2 and B3/B5, as well as the revised abstract. The annotated sequence match is not a measurement of presentation, tolerance or cross-reactivity. |
+| 27.4%/ten alleles, 30.4%/34 alleles; thresholds 0.2/0.5/2.0 and 0%/30.4%/72.6%; alternate predictor 45.2% | §2.3 and B1. The abstract keeps the 0%–72.6% span and explicitly makes it dependent on screening choices. All intermediate values, panel sizes, population variation and predictor differences remain. |
+| No validated confidence interval for predicted coverage | §2.3 and §7. Dependence bounds and population spread remain distinct from uncertainty about the predictor's calls. |
+| One strong class II binder on 23 alleles; combined predicted carriage 1.8%; candidate long peptide 15 residues | B4 and the full limitation table; the historical corrections remain in Appendix A. These estimates do not establish tumor presentation or immune response. |
+| Stronger out-of-frame predictions but inability to encode the intended driver | §2.2 and Figure 1, unchanged. Those fragments remain excluded as proposed EMC targets. |
+| Ten barriers, cold-versus-excluded uncertainty, combination scope and no use outside clinical trials | B1–B10, §4, §6 and §7. The abstract keeps the absence of laboratory, immune, safety and benefit measurements and does not promote a clinical recommendation. |
+
+| Fusion-output detail | Retained location and limit |
+|---|---|
+| Ten EMC versus six comparators; t=3.16 despite remaining within the random-set reference | §1.1 and §3.4; the abstract explains the background problem without requiring a t statistic. |
+| Search of 2,276 retrieved documents; three assay-supported genes; sixteen native-NR4A3 genes; four-gene floor | §2.1–2.3, §3.1 and §3.11. The abstract explicitly distinguishes three search-identified fusion-assay genes from the combined nineteen-gene group. |
+| Aggregate 39% and 88% of threshold; EMC signature 11.9-fold and 4.2-fold | §3.9 and its table, §4.2, Conclusion and figure text. The revised abstract retains both the principal negative and the contrasting positive signature result. |
+| SEMA3C exact tests/comparator reversal; PPARG discovery-cohort reuse; ENO3 sensitivity and pre-designated-control status | §3.5–3.9 and §3.12. The abstract explains all three distinctions without hiding circularity or describing the control as a new finding. |
+| Fusion accessibility in HEK293T; 110 surrogate binding sets | §3.10–3.11, Table 9 and §4.3. They are not fusion occupancy in EMC. The corrected abstract does not substitute them for that missing experiment. |
+| Two nominal occupancy hits, across-build selection, failure after correction and indicative binomial calibration | §3.11, Table 9 and §3.12, unchanged. The abstract now says that two apparently positive comparisons failed correction rather than claiming that no individual unusual comparison existed. |
+| Limited evidence for causation or clinical usefulness | Full Methods, Discussion and Limitations. The abstract distinguishes an expression pattern from genes caused to change by the fusion. No clinical-utility claim is added. |
+
+## Scope corrections grounded in existing results
+
+Vaccine B1 now distinguishes peptide sequences, peptide–allele calls and covered alleles: four strong calls over three presenting alleles on the ten-allele panel, and five over four on the 34-allele panel. Its proposition is explicitly about the conventional 0.5 threshold and pooled frequencies. The coverage percentages are unchanged. Section 7 now distinguishes bounding possible dependence from measuring the actual dependence. Both existing ranges, [17.5%, 29.9%] and [9.2%, 31.1%], remain with their assumptions and without being relabelled as confidence intervals.
+
+Fusion-output §3.2 now labels the PPARG assay in its actual direction. The quotation itself is untouched. Section 4.1 restores the exact (a)–(e) confound mapping. Section 4.3 and the current Appendix B distinguish positive binding evidence, conditional non-detection and causal dependence tested by perturbation. The current table now records the completed Haller and targeted ENO3 accessibility analyses separately from missing broader analyses. Its original contents are preserved in the initial snapshot. Historical Appendix A and references remain unchanged.
+
+SI S6 now agrees with the main text: 39 is the largest count among the three class-A genes; seven background windows have at least 39 and the maximum is 43. The null mean 33.7, p=0.203, GC-matched p=0.118, raw rank p=0.040 and GC=0.371 are retained. Non-significance leaves composition unrefuted rather than proving it. Availability now accurately records use of Haller's processed Zenodo peaks and non-use of the controlled raw EGA data.
+
+SI S8 distinguishes 213/hg19 and 211/hg38 build-inference genes from 200/hg19 and 198/hg38 occupancy genes and the 198-window motif background. The read-only held source was `C:/Users/mcrae/.codex/worktrees/emc-fo-figure4-20260909/EMC-Research/research/modalities/emc-ret-cistrome-inputs.json`, SHA256 `f56bcd390c0018d70d721d0f9123fb3d7398c1fe198b649d2efe32300ce858b5`. Table S8's peak counts, recovery percentages, decision thresholds and ratio did not change. No analysis was rerun. Section 3.12 now restricts ENO3's leading claim to expression sensitivity results and separately states motif evidence and absent calibrated chromatin support.
+
+## Caution accounting and actual paragraph reading
+
+The advisory screen compared the initially reviewed proposals with the repaired drafts:
+
+| File | Caution markers before → after | Per 1,000 words before → after | Mean sentence length before → after |
+|---|---:|---:|---:|
+| Vaccine | 218 → 210 | 13.0 → 12.7 | 21.1 → 21.3 |
+| Fusion output | 227 → 230 | 16.5 → 16.5 | 21.9 → 21.9 |
+| Fusion-output SI | 53 → 60 | 17.4 → 19.0 | 19.6 → 19.3 |
+
+Vaccine's lower lexical count comes principally from removing repeated abstract qualifications that remain in the full paper, as mapped above. The loss of one “may” is a change to “might”; the old “neither ... nor” feasibility framing is replaced by an explicit question and the need for experiments before judging feasibility. The removed “cannot” about out-of-frame driver production remains in §2.2. Repeated “does not,” “do not,” “is not” and “are not” clauses about clinical transfer, presentation, bounds and biological ceilings remain as concrete body qualifications and/or the revised abstract's explicit unmeasured outcomes. No measured uncertainty or contrary finding was discarded to lower a sentence count.
+
+Fusion output's removed “could” accompanied the example t statistic, which remains in the body. Abstract “cannot”/“does not” causal and surrogate restrictions are now explicit “do not establish” and tissue/context distinctions. Its added qualifiers in §4.3 and Appendix B correct overclaims rather than soften unfavorable observations. The SI loses no caution marker and adds explicit limits on non-significant comparisons, shared annotation errors and panel identity. Exact token differences are in `REVIEW-REPAIR-VERIFICATION.json`; token counts are advisory, not the signoff.
+
+I reread each changed paragraph in its section context. The abstract stories now proceed from question to approach to result to the missing evidence. B1's counts can be reconciled with §2.3, and §7's dependence statement points to the already reported bounds. The FO results-to-discussion transition no longer says every instrument supports ENO3. Confound references again resolve to their named alternatives. The proposed experiments explain what positive and negative results would support without jumping from a detected peak to causation. The SI distinguishes the count being compared, its denominator and what the comparison does not prove.
+
+Numerical result tables, vaccine References/Appendices A–C, fusion-output historical Appendix A/references and SI preregistered §S1.3 were checked unchanged. Only the explicitly authorized current Appendix B table changed. Source/public identity remains as recorded in the original audit; this text repair does not certify the current public preprint bytes or authorize posting. The previously flagged disclosure issue is still separate.

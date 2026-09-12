@@ -1,0 +1,180 @@
+{
+  "schema": "emc-independent-editorial-review/1",
+  "paper": "ATR",
+  "disposition": "pass",
+  "reviewed_at": "2026-09-12T11:57:23.075583+00:00",
+  "reviewer": {
+    "agent_id": "/root/atr_revision_upload_inventory",
+    "role": "independent LLM editorial and claim-preservation reviewer",
+    "model_family_as_declared": "GPT-6",
+    "exact_served_model": "unavailable; no backend served-model metadata observed",
+    "independent_of_draft_writer": true,
+    "not_human_peer_review": true
+  },
+  "reviewed_inputs": [
+    {
+      "role": "proposed_main",
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\aso-atr\\ATR-manuscript.proposed.md",
+      "sha256": "b9e77e7a4ee5a72e1a791baa1733a63409172abce4f2ce3b3ba9f78506b0ef6e",
+      "current_hash_at_report_write": "b9e77e7a4ee5a72e1a791baa1733a63409172abce4f2ce3b3ba9f78506b0ef6e"
+    },
+    {
+      "role": "comparison_source",
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\release-candidates\\PUB-ATR-PANEL-ASK\\2026-09-10-cancer-genetics-r1\\manuscript.md.txt",
+      "sha256": "f18e1931645bf6a5ac80779cf4d192fc68caca06d7fe6ff4d74b518ca84347cd"
+    },
+    {
+      "role": "proposed_si_entire_text",
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\aso-atr\\ATR-supplement.proposed.md",
+      "sha256": "100a7a78eee0299b867e9a4b28ab0ac2dd74dd3de4416ba169e70c815ad6e2ca"
+    }
+  ],
+  "all_sections_read": [
+    "Title, identity, keywords and scope statement",
+    "Abstract",
+    "1 Introduction",
+    "2.1–2.6 Methods",
+    "3.1–3.5 Results",
+    "Tables 1–4",
+    "Figure 1 full caption",
+    "4 Discussion and predictions, including Table 5 and all interpretive passages",
+    "5 Constructs and controls",
+    "6 All limitations and scope/declarations",
+    "7 Data and code availability",
+    "Author declarations",
+    "AI declaration",
+    "8 References 1–10",
+    "Entire SI, Tables S1–S3 and continuation, notes and references"
+  ],
+  "reader_explanation": {
+    "question": "What proteins are predicted by reported NR4A3 gene joins in EMC, and what limited predictions can their sequences support about collecting at damaged DNA?",
+    "approach": "The study assembled joined RNA from public reference transcripts, translated it into protein models, counted retained arginine-glycine pairs, compared these features with constructs studied in other fusion cancers, and compared TCF12 with FET proteins across a common grid of sequence lengths.",
+    "main_finding": "Four reported junctions yielded models preserving the complete NR4A3 portion. Transcript-first assembly predicts 59 additional amino acids in one model. Type-1 and type-2 models retain different RG amounts, and TCF12 remains compositionally separate from FET proteins across evaluated lengths.",
+    "main_limitations": "These are reference predictions, not observations of patient proteins or recruitment. Numbering uses one annotation source and patient junctions remain unverified. Position between measured comparison constructs supplies no recruitment measurement; the measured EWSR1-ATF1 construct has an unstated breakpoint. The composition comparison covers only the sampled lengths. Proposed experiments do not uniquely identify RG causation, and no ATR response or clinical benefit is established.",
+    "next_step": "Verify actual nucleotide junctions and test the stated recruitment predictions with comparison and partner-alone controls. The TCF12-fusion prediction needs a sourced fusion junction and construct; full-length TCF12 cannot substitute. No laboratory work is reported."
+  },
+  "checks": {
+    "reader_facing_text_reviewed": true,
+    "abstract_understandable": true,
+    "terms_explained": true,
+    "narrative_followable": true,
+    "scientific_meaning_preserved": true,
+    "limitations_preserved": true
+  },
+  "blocking_findings": [],
+  "report_path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\reviews\\ATR-review.md",
+  "disclosure_status": "Pre-existing generic no-competing-interest statement conflicts with later survivor disclosure; separate root alignment task, not counted as a new readability finding",
+  "technical_scope": "Text/semantic review and exact table/reference/hash comparisons only; no independent scientific recomputation, UI, exports or full CI",
+  "next": "Root may stage these exact reviewed source bytes and unchanged SI. Separately align the already-known ATR nonfinancial disclosure before external use; verify exported text/layout and publication readiness without representing older posted or pending bytes as reviewed.",
+  "initial_disposition": "needs_repair",
+  "history": [
+    {
+      "stage": "initial_complete_independent_review",
+      "record": {
+        "schema": "emc-independent-editorial-review/1",
+        "paper": "ATR",
+        "disposition": "needs_repair",
+        "reviewed_at": "2026-09-12T11:45:50.954880+00:00",
+        "reviewer": {
+          "agent_id": "/root/atr_revision_upload_inventory",
+          "role": "independent LLM editorial and claim-preservation reviewer",
+          "model_family_as_declared": "GPT-6",
+          "exact_served_model": "unavailable; no backend served-model metadata observed",
+          "independent_of_draft_writer": true,
+          "not_human_peer_review": true
+        },
+        "reviewed_inputs": [
+          {
+            "role": "proposed_main",
+            "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\aso-atr\\ATR-manuscript.proposed.md",
+            "sha256": "f959f84d456fae3b92b52ac9813143f1ff2b0bd77e3c8ef1662686751fa490b6",
+            "current_hash_at_report_write": "f959f84d456fae3b92b52ac9813143f1ff2b0bd77e3c8ef1662686751fa490b6"
+          },
+          {
+            "role": "comparison_source",
+            "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\release-candidates\\PUB-ATR-PANEL-ASK\\2026-09-10-cancer-genetics-r1\\manuscript.md.txt",
+            "sha256": "f18e1931645bf6a5ac80779cf4d192fc68caca06d7fe6ff4d74b518ca84347cd"
+          },
+          {
+            "role": "proposed_si_entire_text",
+            "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\aso-atr\\ATR-supplement.proposed.md",
+            "sha256": "100a7a78eee0299b867e9a4b28ab0ac2dd74dd3de4416ba169e70c815ad6e2ca"
+          }
+        ],
+        "all_sections_read": [
+          "Title, identity, keywords and scope statement",
+          "Abstract",
+          "1 Introduction",
+          "2.1–2.6 Methods",
+          "3.1–3.5 Results",
+          "Tables 1–4",
+          "Figure 1 full caption",
+          "4 Discussion and predictions, including Table 5 and all interpretive passages",
+          "5 Constructs and controls",
+          "6 All limitations and scope/declarations",
+          "7 Data and code availability",
+          "Author declarations",
+          "AI declaration",
+          "8 References 1–10",
+          "Entire SI, Tables S1–S3 and continuation, notes and references"
+        ],
+        "reader_explanation": {
+          "question": "What proteins are predicted by reported NR4A3 gene joins in EMC, and what limited predictions can their sequences support about collecting at damaged DNA?",
+          "approach": "The study assembled joined RNA from public reference transcripts, translated it into protein models, counted retained arginine-glycine pairs, compared these features with constructs studied in other fusion cancers, and compared TCF12 with FET proteins across a common grid of sequence lengths.",
+          "main_finding": "Four reported junctions yielded models preserving the complete NR4A3 portion. Transcript-first assembly predicts 59 additional amino acids in one model. Type-1 and type-2 models retain different RG amounts, and TCF12 remains compositionally separate from FET proteins across evaluated lengths.",
+          "main_limitations": "These are reference predictions, not observations of patient proteins or recruitment. Numbering uses one annotation source and patient junctions remain unverified. Position between measured comparison constructs supplies no recruitment measurement. Proposed experiments do not uniquely identify RG causation, and no ATR response or clinical benefit is established.",
+          "next_step": "Verify actual nucleotide junctions and test the stated recruitment predictions with comparison and partner-alone controls. The TCF12-fusion prediction needs a sourced fusion junction and construct; full-length TCF12 cannot substitute. No laboratory work is reported."
+        },
+        "checks": {
+          "reader_facing_text_reviewed": true,
+          "abstract_understandable": false,
+          "terms_explained": false,
+          "narrative_followable": true,
+          "scientific_meaning_preserved": false,
+          "limitations_preserved": false
+        },
+        "blocking_findings": [
+          "ATR-R1",
+          "ATR-R2",
+          "ATR-R3"
+        ],
+        "report_path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\reviews\\ATR-review.md",
+        "disclosure_status": "Pre-existing generic no-competing-interest statement conflicts with later survivor disclosure; separate root alignment task, not counted as a new readability finding",
+        "technical_scope": "Text/semantic review and exact table/reference/hash comparisons only; no independent scientific recomputation, UI, exports or full CI",
+        "next": "Keep initial findings; focused verification only after repaired hashes are frozen."
+      }
+    },
+    {
+      "stage": "first_repair_focused_verification",
+      "disposition": "needs_repair",
+      "proposed_main_sha256": "dd652e75d37c49e08bbd461c5e6047bd8c63aaf4f9d3ce674202a609deb7c6f1",
+      "preserved_snapshot_path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\aso-atr\\review-initial\\ATR-after-first-repairs.md",
+      "resolved_findings": [
+        "ATR-R1",
+        "ATR-R2"
+      ],
+      "remaining_findings": [
+        "ATR-R3"
+      ],
+      "finding": "The abstract still required nonspecialist readers to reconcile three modeled breakpoints with two experimental anchor positions, obscuring the main result and risking attribution of earlier measurements to this study. Root independently raised the same concern. A focused plain-language replacement for that block was requested and applied; all exact details remain in Results 3.4."
+    }
+  ],
+  "focused_verification": {
+    "reviewed_at": "2026-09-12T11:57:23.075583+00:00",
+    "scope": [
+      "Entire repaired Abstract, first and final repair states",
+      "Repaired Results 3.4 type-1/type-2 sentence in context",
+      "Complete initial-to-first-repair and first-repair-to-final diffs",
+      "Retained comparator detail in Results 3.4 and Table 3",
+      "Retained 50-residue/10-residue-step grid in Methods 2.3",
+      "Unchanged comparison source and full SI hashes"
+    ],
+    "resolved_findings": [
+      "ATR-R1",
+      "ATR-R2",
+      "ATR-R3"
+    ],
+    "remaining_readability_or_new_semantic_blockers": [],
+    "judgment": "The final abstract now communicates the protein-building question, reference-sequence approach, principal results and absence of experimental validation without making the reader solve the comparator bookkeeping. The body retains the precise modeled-versus-measured distinctions and restricts the in-range claim to type 1 and type 2. All other reviewed prose and the full supplement are unchanged."
+  }
+}

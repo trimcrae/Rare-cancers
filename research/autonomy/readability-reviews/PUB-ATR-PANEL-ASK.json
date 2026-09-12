@@ -1,0 +1,67 @@
+{
+  "schema": "emc-llm-readability-review/1",
+  "paper_id": "PUB-ATR-PANEL-ASK",
+  "review_kind": "independent_llm_editorial",
+  "reviewed_at": "2026-09-12T11:57:23.075583+00:00",
+  "reviewer": {
+    "agent_id": "/root/atr_revision_upload_inventory",
+    "model": "GPT-6; unavailable; no backend served-model metadata observed",
+    "execution_evidence": "Actual collaboration-agent review and focused repair verification retained in research/autonomy/readability-reviews/reports/PUB-ATR-PANEL-ASK-20260912.txt; structured original response at research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-12-readability/independent-review.json. Root read the report; no metric-generated signoff."
+  },
+  "writer_ids": [
+    "/root/readability_aso_atr",
+    "/root"
+  ],
+  "decision": "pass",
+  "unresolved_blockers": [],
+  "checks": {
+    "reader_facing_text_reviewed": true,
+    "abstract_understandable": true,
+    "terms_explained": true,
+    "narrative_followable": true,
+    "scientific_meaning_preserved": true,
+    "limitations_preserved": true
+  },
+  "reader_explanation": {
+    "question": "What proteins are predicted by reported NR4A3 gene joins in EMC, and what limited predictions can their sequences support about collecting at damaged DNA?",
+    "approach": "The study assembled joined RNA from public reference transcripts, translated it into protein models, counted retained arginine-glycine pairs, compared these features with constructs studied in other fusion cancers, and compared TCF12 with FET proteins across a common grid of sequence lengths.",
+    "main_finding": "Four reported junctions yielded models preserving the complete NR4A3 portion. Transcript-first assembly predicts 59 additional amino acids in one model. Type-1 and type-2 models retain different RG amounts, and TCF12 remains compositionally separate from FET proteins across evaluated lengths.",
+    "main_limitations": "These are reference predictions, not observations of patient proteins or recruitment. Numbering uses one annotation source and patient junctions remain unverified. Position between measured comparison constructs supplies no recruitment measurement; the measured EWSR1-ATF1 construct has an unstated breakpoint. The composition comparison covers only the sampled lengths. Proposed experiments do not uniquely identify RG causation, and no ATR response or clinical benefit is established.",
+    "next_step": "Verify actual nucleotide junctions and test the stated recruitment predictions with comparison and partner-alone controls. The TCF12-fusion prediction needs a sourced fusion junction and construct; full-length TCF12 cannot substitute. No laboratory work is reported."
+  },
+  "report": {
+    "path": "research/autonomy/readability-reviews/reports/PUB-ATR-PANEL-ASK-20260912.txt",
+    "sha256": "6edc6691b90c50a534d56f9bca365dc9892f1429e833fd2bf8473b61e48988d5"
+  },
+  "artifacts": [
+    {
+      "path": "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-12-readability/manuscript.md.txt",
+      "sha256": "b9e77e7a4ee5a72e1a791baa1733a63409172abce4f2ce3b3ba9f78506b0ef6e",
+      "sections_reviewed": [
+        "Title, identity, keywords and scope statement",
+        "Abstract",
+        "1 Introduction",
+        "2.1–2.6 Methods",
+        "3.1–3.5 Results",
+        "Tables 1–4",
+        "Figure 1 full caption",
+        "4 Discussion and predictions, including Table 5 and all interpretive passages",
+        "5 Constructs and controls",
+        "6 All limitations and scope/declarations",
+        "7 Data and code availability",
+        "Author declarations",
+        "AI declaration",
+        "8 References 1–10",
+        "Entire SI, Tables S1–S3 and continuation, notes and references"
+      ]
+    },
+    {
+      "path": "research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-12-readability/supplement.md.txt",
+      "sha256": "100a7a78eee0299b867e9a4b28ab0ac2dd74dd3de4416ba169e70c815ad6e2ca",
+      "sections_reviewed": [
+        "Applicable supplementary reader-facing prose; detailed coverage and immutable-data boundary in retained independent report"
+      ]
+    }
+  ],
+  "release_boundary": "Editorial-source clarity/meaning approval only. Frozen public/pending packages remain unchanged; outgoing export comparison, rendered inspection, disclosure alignment, registered endpoint promotion and publication gates remain required."
+}

@@ -1,0 +1,395 @@
+--- sources/fusion-output-SI.md
++++ drafts/fusion-output-SI.md
+@@ -27,9 +27,7 @@
+ 
+ **For:** *Almost every gene set reads higher in the index arm: a size-matched empirical null for small rare-tumour expression series, and what it leaves of the EWSR1::NR4A3 direct-target catalogue.*
+ 
+-Every table here is generated from a committed artifact and is not re-typed from prose; the
+-producers are listed in the main text's Data and code availability section. Section numbers below
+-are referenced from the main text as §S1–§S8.
++This supplement contains the detailed methods and complete supporting tables for the main text. Section S1 defines probe mapping, score eligibility and circularity; S2–S3 contain the evidence catalogue and set scores; S4–S5 report activity and robustness analyses; S6 gives sequence-scan parameters; and S7–S8 preserve the search and genome-build evidence. Every table is generated from a committed artifact rather than re-typed from prose. The producers are listed in the main text's Data and code availability section. The pre-registered rule in S1.3 is retained verbatim as a historical protocol, including its reported limitations.
+ 
+ ---
+ 
+@@ -38,23 +36,19 @@
+ ### S1.1 · Probe mapping and floors
+ 
+ Probes were mapped to gene symbols per platform. GPL6244: 20,230 of 28,459 probes carry a symbol,
+-giving 18,694 distinct symbols. GPL3290: 27,203 of 43,008 spots resolve through an EST-accession
+-bridge to 14,932 distinct symbols — so a gene unreadable on GPL3290 may be absent from the bridge
+-rather than from the array, and is recorded as unread rather than as absent.
+-
+-Each sample's values are z-scored against that array's own probe distribution, so a per-sample score
+-is a within-array quantity. A gene score for a sample is its mean z over the probes mapping to it; a
+-set score is the mean over the set's readable members. Floors: **three samples per group** for any
+-contrast, and **four genes and 0.4 coverage** for any set score. A set below the floor emits no
+-number and says so — which is why class A, at three genes, is never scored as a set.
++giving 18,694 distinct symbols. GPL3290 maps 27,203 of 43,008 spots through an EST-accession bridge to 14,932 distinct symbols. A gene that cannot be read may be missing from the bridge rather than the array. We record it as unread, not absent.
++
++Scores are standardized within each array. We z-score each sample's values against its own probe distribution. A gene's score is the mean z-score of probes mapped to that gene; a gene-set score is the mean over its readable members. We require **three samples per group** for a contrast, and **four genes and 0.4 coverage** for a gene-set score. Coverage here is the fraction of the set that the platform can read. A set below either floor produces no score and is marked accordingly. Class A contains three genes, so it is never scored alone as a set.
+ 
+ ### S1.2 · The circularity grade
+ 
+ Whether GSE4303 is the Subramanian (2005) cohort was graded from the fetched GEO series record,
+ never from sample counts: the record's title, summary, contributors and linked PubMed identifier
+-were read verbatim. If the record names PMID 15920699 or Subramanian, the verdict is **circular**; if
+-it does not, the verdict is *not-clean* rather than clean — the absence of a name is not evidence of
+-independence; if the record could not be read at all, the verdict is *unanswered*. The record does
++were read verbatim.
++
++A record naming PMID 15920699 or Subramanian is graded **circular**. A record naming neither is graded *not-clean*, because omission is not evidence of independence. An unreadable record is graded *unanswered*.
++
++The record does
+ name both, so the verdict is circular, which is what makes both the set-E score and the *PPARG* gene
+ row on that platform non-independent (main text §3.8).
+ 
+@@ -126,18 +120,11 @@
+ 
+ ## S3 · Every scored gene set, with its detectability threshold
+ 
+-The **threshold** column is the value the observed delta had to exceed to fall outside the 95% band of
+-its own size-matched null; **reached** expresses the observed delta as a fraction of it (below 1) or a
+-multiple of it (at or above 1). Reporting this converts a flat set from an uninterpretable shrug into
+-a bounded negative: the A+B direct-target set reached 39% and 88% of what it needed, while the
+-published EMC phenotype overshot by 11.9× and 4.2×.
+-
+-Two rows deserve a reader's caution because they clear their threshold only barely, and the main text
+-does not lean on either: the PPARγ KO_UP falsifier on GPL6244 (1.02×) and the TRRUST human-curated
+-arm on GPL6244 (1.02×). A set that clears by 2% is a different object from one that clears by 12-fold,
+-and the multiple is printed so the two are never read alike.
+-
+-⛔ **Set E is circular on GPL3290** and is reported for completeness only (§S1.2).
++The **threshold** is the delta needed to exceed the 95% band of the size-matched null. The **reached** column divides the observed delta by that threshold: values below 1 are fractions of the threshold, and values at or above 1 are multiples. The A+B target set reached 39% and 88% of its thresholds. The published EMC signature exceeded its thresholds 11.9× and 4.2×. The column shows how far each set lies from the stated criterion, rather than reporting only whether it passed.
++
++Two results exceed their competitive thresholds only narrowly: the PPARγ KO_UP falsifier and the TRRUST human-curated set on GPL6244 each reach 1.02×. Neither is a main-text conclusion. An excess of 2% should not be read as equivalent to an excess of 12-fold; the table reports the multiples to keep that distinction visible.
++
++**Set E is circular on GPL3290** and is reported for completeness only (§S1.2).
+ 
+ ---
+ 
+@@ -180,8 +167,12 @@
+ 
+ *PPARG* abundance in EMC is settled elsewhere and is not this work's subject. What no study retrieved
+ in the corpora searched here reports is receptor *activity* — transcriptional output, as distinct from
+-receptor abundance. This is a bounded statement about a search, not a claim that no such measurement
+-exists anywhere. Six gene sets were scored, each pinned to a verbatim Enrichr term with its species
++receptor abundance.
++
++This is a bounded statement about a search, not a claim that no such measurement
++exists anywhere.
++
++Six gene sets were scored, each pinned to a verbatim Enrichr term with its species
+ read off the term rather than assumed, each null-calibrated on its own platform.
+ 
+ | arm | library / term | species | GPL6244 | GPL3290 |
+@@ -195,27 +186,42 @@
+ 
+ **Why KO_DOWN and OE_UP cannot be expected to agree, measured rather than argued.** The two arms were
+ once read as disagreeing about biology, but they share 16 genes out of 206 and 269 (Jaccard 0.035) and
+-come from different experiments in different tissues. They are, for practical purposes, different gene
++come from different experiments in different tissues.
++
++They are, for practical purposes, different gene
+ sets, and asking them to agree was asking two nearly disjoint lists of mouse genes to score alike in
+-human tumour tissue. Arithmetic control: KO_DOWN ∩ KO_UP = 0, exactly as the two arms of one knockout
++human tumour tissue.
++
++Arithmetic control: KO_DOWN ∩ KO_UP = 0, exactly as the two arms of one knockout
+ experiment must be.
+ 
+ **What replicates, and how strongly.** The occupancy-derived target set is set-specific up on both
+ platforms and remains strongly significant under exact label permutation (p = 0.00033 and 0.00075).
++
+ The KO_UP falsifier is set-specific down on both platforms under the competitive null — but **it does
+ not reach significance under the permutation test on either** (p = 0.362 and 0.296), and it clears its
+-competitive threshold by only 1.02× on GPL6244. The falsifier half of the "two arms separating in
++competitive threshold by only 1.02× on GPL6244.
++
++The falsifier half of the "two arms separating in
+ opposite directions" pattern therefore rests on the competitive null alone, and is reported at that
+-weight. Three of the six arms (KO_DOWN, OE_UP, TRRUST) were never permutation-tested at all, so their
++weight.
++
++Three of the six arms (KO_DOWN, OE_UP, TRRUST) were never permutation-tested at all, so their
+ verdicts rest on the competitive null only.
+ 
+ **The ceiling is not small.** The adipogenesis process proxy is also set-specific up on both platforms
+ and shares 44 genes with the ChEA arm (23% of the smaller set), the largest overlap in the table, and
+-it is itself significant under permutation on both platforms. PPARγ target output therefore cannot be
++it is itself significant under permutation on both platforms.
++
++PPARγ target output therefore cannot be
+ separated from an adipogenic differentiation component in these data, and five of the six arms are
+-mouse-derived. Stated at full honesty: PPARγ target genes are coordinately higher in EMC tumour tissue
++mouse-derived.
++
++Stated at full honesty: PPARγ target genes are coordinately higher in EMC tumour tissue
+ than in comparator sarcomas, beyond a size-matched random set, on two platforms — and the same data
+-cannot distinguish that from an adipogenic differentiation programme. **This says nothing about the
++cannot distinguish that from an adipogenic differentiation programme.
++
++**This says nothing about the
+ direction of any pharmacological intervention on this axis.**
+ 
+ ---
+@@ -223,21 +229,20 @@
+ ## S5 · Robustness, stratification and sensitivity
+ 
+ The stratified table below is the one that separates the three class-A genes. Read down each gene's
+-row: *ENO3* is within 0.011 SD of itself across five comparator sub-arms that share almost nothing,
+-and significant against every one; *SEMA3C* runs from +1.657 against low-grade fibromyxoid sarcoma to
+-−0.645 against desmoid fibromatosis, both significant, in opposite directions.
++row: *ENO3* varies by no more than 0.011 SD across five dissimilar comparator sub-arms and is significant against each. *SEMA3C* changes from +1.657 against low-grade fibromyxoid sarcoma to −0.645 against desmoid fibromatosis. Both contrasts are significant, in opposite directions.
+ 
+ Note that the GPL3290 sub-arms have three comparators each, so **no p below 1/286 = 0.0035 is
+-reportable there however large the effect**; a value printed as 0.003497 is at that floor and is not a
+-smaller quantity than it appears.
++reportable there however large the effect**; a printed value of 0.003497 represents that floor. It is not a finer measurement of significance.
+ 
+ The covariate-adjustment table carries its own internal control. The matrix panel separates the arms
+ on GPL6244 (Δ −0.518) and not on GPL3290 (Δ +0.006); a covariate that does not differ between arms
+-cannot move a contrast, and on GPL3290 none of the three genes moves by more than 3.5%. That is the
++cannot move a contrast, and on GPL3290 none of the three genes moves by more than 3.5%.
++
++That is the
+ method behaving as it must, and it is the reason the GPL6244 movements can be read as adjustment
+ rather than as noise.
+ 
+-⛔ **The adjustment is a sensitivity analysis, not a correction.** If a panel gene is itself driven by
++**The adjustment is a sensitivity analysis, not a correction.** If a panel gene is itself driven by
+ the fusion, the adjustment removes real signal. The provenance filter (main text §2.6) makes that
+ unlikely but does not exclude it, and no adjusted number in this document is "the real effect".
+ 
+@@ -271,7 +276,6 @@
+ 
+ ### TABLE S4 — every stratified comparator contrast, with its own exact permutation p
+ 
+-
+ **GPL6244** — comparator sub-arms: class_LGFMS_only (n=17), class_desmoid_fibromatosis_only (n=6), class_fibrosarcoma_only (n=6, whose GEO sample titles read *Myxofibrosarcoma*; the label is the
+ scoring module's bucket name and the samples are myxoid), myxoid_comparators_only (n=23), non_myxoid_comparators_only (n=6)
+ 
+@@ -338,11 +342,19 @@
+ 
+ **Two independent nulls, because an 8-mer occurs in 25 kb by chance.** (i) A
+ **dinucleotide-preserving shuffle** of the same window — 2,000 shuffles, seeded — which holds base
+-and dinucleotide composition, and therefore GC and CpG content, exactly. (ii) A **background panel**
+-of 198 other genes' windows, read raw and additionally restricted to a GC-matched subset (±0.05). The
++and dinucleotide composition, and therefore GC and CpG content, exactly.
++
++(ii) A **background panel**
++of 198 other genes' windows, read raw and additionally restricted to a GC-matched subset (±0.05).
++
++The
+ panel is a gene list this project had already assembled for an unrelated question, so it cannot have
+-been chosen to flatter or damage any gene here. It averages **1.15 exact NBREs per 25 kb window**, so
+-a single hit is what an arbitrary window contains anyway. Sequences are cached, so the scan
++been chosen to flatter or damage any gene here.
++
++It averages **1.15 exact NBREs per 25 kb window**, so
++a single hit is what an arbitrary window contains anyway.
++
++Sequences are cached, so the scan
+ re-derives offline.
+ 
+ | gene | exact NBRE | shuffle-null p | background-panel p | GC-matched p |
+@@ -355,25 +367,33 @@
+ 
+ **The one-mismatch (NBRE-like) class.** Brenca *et al.* report a predicted NBRE-*like* site at
+ *SEMA3C*, which by construction is not an exact NBRE, so the exact scan is not a test of their claim.
++
+ Octamers matching the NBRE with **at most one substitution** were therefore scanned with their own
+-null, taken from the *same* shuffled sequences so every exact figure is unchanged. *SEMA3C*'s window
+-carries **39** one-mismatch sites, the most of any gene scanned — and that is **what its own
+-composition predicts**: null mean 33.7, p = 0.203 against the dinucleotide-preserving shuffle, and
+-p = 0.118 GC-matched. Only the composition-naive raw panel rank suggests enrichment (p = 0.040), and
+-*SEMA3C*'s window is the most AT-rich of the set (GC 0.371) while the NBRE itself is AT-leaning —
+-which is exactly the artefact GC-matching exists to remove. The converse holds for *ENO3*: its
++null, taken from the *same* shuffled sequences so every exact figure is unchanged. *SEMA3C*'s window carries **39** one-mismatch sites, the most among the three class-A genes (*PPARG* 32, *ENO3* 28). It is not the highest count among all windows: 7 of the 198 background windows have at least 39, with a maximum of 43.
++
++The count does not reject the composition-based explanation: the null mean is 33.7, with p = 0.203 against the dinucleotide-preserving shuffle and p = 0.118 in the GC-matched comparison. These non-significant results do not prove that composition explains the count. Only the raw panel rank, which does not account for composition, suggests enrichment (p = 0.040). *SEMA3C*'s window is the most AT-rich of the focus set (GC 0.371), while the NBRE is itself AT-leaning; GC-matching addresses that possible source of a high raw rank.
++
++The converse holds for *ENO3*: its
+ one-mismatch count is *not* enriched (28 against a null mean of 25.6, p = 0.336), so its signal sits
+ in exact NBREs rather than in degenerate ones.
+ 
+-⛔ **A one-mismatch match is a weaker claim than an exact NBRE, not a stronger one**: it admits many
++**A one-mismatch match is a weaker claim than an exact NBRE, not a stronger one**: it admits many
+ sequences per position, most of which no NR4A protein has been shown to bind. The calibration bounds
+ a count; it does not license calling any hit a site.
+ 
+-⛔ **The hit positions do not reproduce the published coordinates.** Kim *et al.* report two NBREs
+-upstream of the *ENO3* TSS; this scan finds one upstream (−8.7 kb) and three downstream. Filion
+-*et al.* report a perfect NBRE at −675 bp of *PPARG*; the nearest hit here is −186. Both papers
++**The hit positions do not reproduce the published coordinates.**
++
++Kim *et al.* report two NBREs
++upstream of the *ENO3* TSS; this scan finds one upstream (−8.7 kb) and three downstream.
++
++Filion
++*et al.* report a perfect NBRE at −675 bp of *PPARG*; the nearest hit here is −186.
++
++Both papers
+ numbered from their own promoter constructs, and *PPARG* has multiple promoters, so the offsets are
+-not directly comparable. **This scan neither confirms nor refutes the published site positions**, and
++not directly comparable.
++
++**This scan neither confirms nor refutes the published site positions**, and
+ a motif scan cannot refute a measured binding event at a named locus in any case.
+ 
+ ---
+@@ -398,47 +418,71 @@
+ 60; the 56 records in §3.13 are what remains after de-duplication across the six, so a deposit
+ returned by two queries is counted once there and twice here.
+ 
+-⚠ **Four queries first returned exactly zero, and that was a reading about the queries before it was
+-a reading about GEO.** All four carry an `"expression profiling"[Filter]` clause; the two that
+-returned records do not. Query 5 asks GEO for human chondrosarcoma expression series — a question it
+-cannot honestly answer with nothing. **A zero and a malformed query are the same length**, and
++**Four queries first returned exactly zero, and that was a reading about the queries before it was
++a reading about GEO.**
++
++All four carry an `"expression profiling"[Filter]` clause; the two that
++returned records do not.
++
++Query 5 asks GEO for human chondrosarcoma expression series — a question it
++cannot honestly answer with nothing.
++
++**A zero and a malformed query are the same length**, and
+ reported as "six queries, no fourth cohort" this would have made the negative sound materially
+ stronger than the evidence supported.
+ 
+ **The repair, and what it changed.** A zero-returning query carrying a field restriction is re-asked
+ with the restriction lifted and the search terms unchanged; records from the repaired form are used
+-and the query is recorded as `read_after_syntax_repair`. Three of the four then returned records —
+-**2, 4 and 32** — taking the search from 7 series to **22** and from 22 records to **56**. Query 6,
++and the query is recorded as `read_after_syntax_repair`.
++
++Three of the four then returned records —
++**2, 4 and 32** — taking the search from 7 series to **22** and from 22 records to **56**.
++
++Query 6,
+ the translocation-sarcoma panel query written precisely because it is the kind of deposit EMC hides
+-inside, accounted for 32 of them on its own. **Query 4 returned zero again under the unrestricted
+-re-ask and is the only zero in this table read as an absence.** Both forms and both counts are in
++inside, accounted for 32 of them on its own.
++
++**Query 4 returned zero again under the unrestricted
++re-ask and is the only zero in this table read as an absence.**
++
++Both forms and both counts are in
+ `emc-cohort-search-inputs.json`.
+ 
+-⛔ **The negative reported in Table 10 is the repaired search.** The unrepaired one would have rested
++**The negative reported in Table 10 is the repaired search.** The unrepaired one would have rested
+ on two queries while presenting itself as six, and the seventeen sample-level zeros that give the
+ negative its weight would not have existed — fifteen of those deposits arrived through the repaired
+ queries.
+ 
+ **What the search declines to conclude, and one way it reaches further than expected.** GEO's
+ `esearch` matches the text of a record, so a deposit that names the disease nowhere in its GEO
+-metadata is invisible to every query above however many EMC samples it holds. That bound is real and
++metadata is invisible to every query above however many EMC samples it holds.
++
++That bound is real and
+ is the reason this is a statement about reach rather than existence.
+ 
+-⭐ **But the index reaches past the series title and summary, which the returned records demonstrate
+-directly.** Neither GSE43632 (*Large scale screening for fusion genes in sarcoma patient samples*) nor
+-GSE80126 carries an EMC token in its title or its summary — and query 1, the full disease name under
+-`[All Fields]`, returned both. `[All Fields]` therefore indexes text this module never captured, which
+-is exactly the "EMC hiding inside a generically titled pan-sarcoma deposit" case that queries 4–6 were
+-written to cover and, being malformed, did not. Both were then read at sample level and carry no EMC
+-sample. The coverage the broken queries were meant to provide was, in this instance, supplied by query
++**But the index reaches past the series title and summary, which the returned records demonstrate
++directly.**
++
++Neither GSE43632 (*Large scale screening for fusion genes in sarcoma patient samples*) nor GSE80126 names EMC in its title or summary. Query 1 nevertheless returned both when it searched the full disease name under `[All Fields]`. The `[All Fields]` index therefore reaches text the module did not capture. Queries 4–6 were intended to find EMC samples within generically titled pan-sarcoma deposits. Their malformed form did not provide that coverage.
++
++Both were then read at sample level and carry no EMC
++sample.
++
++The coverage the broken queries were meant to provide was, in this instance, supplied by query
+ 1 — which is a fortunate accident and not a design, and is recorded as such.
+ 
+ **Records excluded for not being deposits.** `db=gds` returns sample and platform records alongside
+-series, and most of what came back was neither. Of the 56 records: **21 series**, 1 curated dataset
+-(GDS3481), **30 individual sample records** and **4 platform records**. Ten of the 30 samples are
++series, and most of what came back was neither.
++
++Of the 56 records: **21 series**, 1 curated dataset
++(GDS3481), **30 individual sample records** and **4 platform records**.
++
++Ten of the 30 samples are
+ samples of the three cohorts already analysed here — six EMC samples of GSE24369 and the four of the
+ Brunner deposit, returned in their own right by the disease-name query — and two are the
+-doxycycline-treated and untreated HEK293 samples of GSE11185. A single sample is not a cohort and a
++doxycycline-treated and untreated HEK293 samples of GSE11185.
++
++A single sample is not a cohort and a
+ platform is not a deposit; grading them as though they might be would bury the records that need a
+ decision under records that never could.
+ 
+@@ -454,17 +498,25 @@
+ 10.5281/zenodo.1483691). This section records how they became usable, because the step is not
+ routine and a reader should be able to reject it.
+ 
+-**The problem.** A BED file carries no genome build. The deposit names none in its title, its
++**The problem.** A BED file carries no genome build.
++
++The deposit names none in its title, its
+ description or its filenames, and the two candidate human builds differ by a large, position-dependent
+-offset — on chr10, roughly 300 kb near *RET*. An intersection performed on the wrong build does not
+-fail: it returns a plausible number for a different locus. This analysis therefore refuses to intersect
++offset — on chr10, roughly 300 kb near *RET*.
++
++An intersection performed on the wrong build does not
++fail: it returns a plausible number for a different locus.
++
++This analysis therefore refuses to intersect
+ any peak set whose build is unknown, and these four arrived in exactly that state.
+ 
+-**The test.** H3K4me3 marks active promoters. The deposit includes an H3K4me3 peak set for each of the
++**The test.** H3K4me3 marks active promoters.
++
++The deposit includes an H3K4me3 peak set for each of the
+ four samples, so on the correct build those peaks must recover most of a promoter panel — and on the
+-wrong build they must not. The panel used is the same 198-gene background panel every count in Table 9
+-is calibrated against, assembled for an unrelated question and never chosen with reference to these
+-data.
++wrong build they must not.
++
++The recorded build-inference panel has 213 genes on hg19 and 211 on hg38, as listed in `emc-ret-cistrome-inputs.json` under `build_inference.ZENODO1483691.per_build`. These are the denominators for Table S8's recovery percentages. They differ from the occupancy-calibration panels in Table 9 (200 genes on hg19 and 198 on hg38) and from the separate 198-window motif background in §S6. The analyses use existing gene-list provenance, but their resolved panels and denominators must not be treated as identical.
+ 
+ **Table S8. Promoter recovery of each H3K4me3 peak set, by candidate build.**
+ 
+@@ -478,20 +530,21 @@
+ The deposit is read as **hg19**, on a worst-case recovery of 0.906 against 0.322, a ratio of 2.81.
+ 
+ **Why two thresholds and not one.** A build is assigned only if the worst sample clears an absolute
+-floor (0.80) *and* beats the runner-up by a ratio (2.0). The ratio alone would accept two equally wrong
++floor (0.80) *and* beats the runner-up by a ratio (2.0).
++
++The ratio alone would accept two equally wrong
+ builds; the absolute alone would accept a build on which peaks happen to be broadly distributed.
+-⚠ **The 33% on hg38 is not noise** — the two builds are identical over much of the genome, so a
++**The 33% on hg38 is not noise** — the two builds are identical over much of the genome, so a
+ substantial wrong-build recovery is expected, and a test that treated "it found some" as agreement
+ would pass on either.
+ 
+-**What the reader can check, and what would overturn it.** Four biological samples agree independently,
+-which a coordinate error affecting one file would not produce; the mark used is the one with the
+-strongest prior expectation of promoter localisation, and no transcription factor was used, because a
+-factor that genuinely avoided promoters would mimic the wrong build; and the panel is the same one the
+-occupancy calibration uses, so an error in it degrades the build call and the occupancy nulls together
+-rather than silently favouring one build. **If the deposit is in fact hg38, every Table 9 row from it is
++**What the reader can check, and what would overturn it.** The four biological samples agree on the build; an error confined to one peak file would not account for all four readings. Agreement across samples cannot exclude a shared annotation error. We used the mark with the strongest prior expectation of promoter localisation. We did not use a transcription factor, because a factor that genuinely avoided promoters could mimic the wrong build. Build inference and occupancy calibration both rely on gene annotations and the assigned coordinates, despite using different resolved panels. A shared error could therefore affect both steps; identical panel membership or denominators are not assumed.
++
++**If the deposit is in fact hg38, every Table 9 row from it is
+ void** — the class-A counts would refer to other loci — while the ChIP-Atlas and ReMap rows, whose
+-builds come from their catalogues, are unaffected. Nothing else in the manuscript depends on it.
++builds come from their catalogues, are unaffected.
++
++Nothing else in the manuscript depends on it.
+ 
+ **Reproduction.** `python3 research/modalities/emc_ret_cistrome.py --infer-builds`, offline, from the
+ committed peak cache; the full per-build table is written to `emc-ret-cistrome-inputs.json` under

@@ -1,0 +1,104 @@
+# VACCINE: independent editorial review
+
+**Current disposition: pass after focused verification.** The initial findings below remain as review history.
+
+**Initial disposition: needs repair.** Reviewed 2026-09-12T11:58:41.900594+00:00. The full proposed manuscript was read by a separate LLM agent from the draft writer. This is an editorial and claim-preservation check, not human peer review or independent scientific validation. The exact served-model identifier is unavailable; the system declares GPT-6.
+
+The body is easier to follow, but the abstract still requires specialist reconstruction. The findings below include source inconsistencies encountered by reading related sections together, plus one new dangling-reference regression in fusion output. An improved readability score does not resolve them. The initial disposition remains in this record after any focused repair.
+
+## Five reader explanations
+
+**Question.** Could an EMC gene-fusion join supply a shared vaccine target, and which missing evidence prevents judging whether that approach is feasible?
+
+**Approach.** The study reconstructed joined RNA, predicted whether its protein fragments could bind immune-display proteins, checked matches to normal proteins, and calculated coverage under different prediction and population assumptions. It then organized ten biological, measurement, material-access and clinical-development limits.
+
+**Main finding.** Five of27 declared exon joins preserved the reading frame and yielded174 fragments. The initial classI screen returned11 distinct binders, four strong. A normal-protein isoform check removed one binder while retaining all four strong binders. Estimated coverage changed sharply with screen settings:27.4% on ten alleles and30.4% on34, with wider threshold changes yielding0% to72.6%. These are predictions, not patient presentation rates.
+
+**Main limitations.** Tumour display, useful abundance, immune recognition, cross-reactivity, safety and benefit were not measured. The lead differs from a normal peptide by one residue, with an unresolved anchor convention. The screen is below its decoy expectation; that does not prove individual calls false. Population dependence bounds do not quantify predictor uncertainty. Bulk and very limited spatial data cannot establish a general cold-versus-excluded tumour phenotype.
+
+**Next step.** Confirm the patient/model RNA sequence and test actual tumour processing and presentation, abundance and immune recognition under the stated controls before inferring vaccine feasibility. Resolving material access and tumour immune context remains separate from obtaining better predictions.
+
+## Required finite repairs
+
+### VACCINE-R1
+
+**Location:** Abstract, lines 40–54; accessible-abstract copy. **Origin:** Editorial repair incomplete.
+
+The abstract is clearer than the source but still does not meet the interested-nonspecialist criterion. Acceptor exon, untranslated sequence, in frame, allele, presentation percentile, independence, residue and isoform boundary arrive before their practical meaning is clear. The central story is lost among version IDs, multiple screens and six coverage percentages.
+
+**Repair:** Lead with the fusion-join vaccine question, explain protein fragments and HLA display variants in ordinary language, give the key screening result and its dependence on choices, and state that tumour display and immune response were not measured. Move repeated method/version and threshold detail to its existing body location with an explicit retention map; preserve every full-paper value, negative and uncertainty. Read the resulting abstract as a standalone account, without relying on the later glossary.
+
+### VACCINE-R2
+
+**Location:** B1, lines 487–490, compared with §2.3 lines 255–271 and Table 1. **Origin:** Pre-existing source error, retained in proposal.
+
+“Both rest on five strong peptide-allele calls, one per presenting allele” contradicts the screen scopes. The ten-allele screen has four strong calls over three presenting alleles; the 34-allele screen has five over four. The fifth broad-panel call is a second peptide for B*15:01, so a call is not an additional covered allele.
+
+**Repair:** State each panel scope and distinguish distinct peptides, peptide–allele calls and presenting alleles. Use the existing §2.3 numbers and retain the coverage percentages; no new analysis.
+
+### VACCINE-R3
+
+**Location:** §7, lines 1332–1334, compared with §2.3 lines 391–414. **Origin:** Pre-existing source error, retained in proposal.
+
+The conclusion says bounding cross-locus dependence would need haplotype-frequency data. §2.3 already gives bounds from marginal frequencies: [17.5%,29.9%] with within-locus assumptions, and [9.2%,31.1%] after relaxing those as well. A reader cannot reconcile these statements.
+
+**Repair:** Distinguish estimating the actual dependence or narrowing its bounds from bounding possible coverage. Retain the absent haplotype measurements, the existing bounds and the fact that these are not prediction-confidence intervals.
+
+## Exact inputs and preservation
+
+- proposed_main: `C:\Users\mcrae\Documents\Codex\2026-09-07\emc-research-orchestrator\work\preprint-readability-20260912\vaccine-fusion-output\drafts\vaccine.md` — SHA256 `a5a4a53f51331213614293d21e6e654856b9101faadf401c4da83d609f647bf1`.
+- comparison_source: `C:\Users\mcrae\Documents\Codex\2026-09-07\emc-research-orchestrator\work\preprint-readability-20260912\vaccine-fusion-output\sources\vaccine.md` — SHA256 `59a72c41cd4f5ed1c1657a2208213df6a08d0d9a4e957739020a013f4d0e396e`.
+
+Independent mechanical comparisons confirm identical table rows in all initial proposals; vaccine References/Appendices A–C, FO Appendices A–B/References, and SI S1.3 match their source text after newline normalization. This establishes retention, not correctness: the current FO Appendix B still needs the stated consistency repairs. No result table, historical correction table or preregistration should be rewritten to conceal an earlier statement. Root authorized a narrow current Appendix B correction with original text preserved in the review snapshot.
+
+The original caution counts and disposition explanations in the writer audit were read as screens, not acceptance criteria. The FO scientific-meaning/limitation checks remain false because current causal/scope statements conflict with retained limiting evidence; those pre-existing source issues cannot become accepted claims merely because they survived verbatim. Vaccine retains its limitations, but its contradictory call counts and bound statement prevent a clean scientific-meaning disposition.
+
+## Actual reading coverage
+
+All reader-facing paragraphs, numerical tables, figure legends, declarations, references and appendices in the proposed files were read. Truncated intermediate output was recovered for the vaccine Section6 passage and FO Appendix A. FO SI S1–S8 was read in full, including the immutable historical/preregistered S1.3. The paragraph-topic sequence was assessed in context; this exposed the ENO3 topic-sentence overstatement and dangling confound references. Source comparison concentrated on changes and disputed contexts; the hashed source retention comparisons cover the unchanged archival blocks.
+
+- vaccine.md: # A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what can be established today, and the capabilities that would change it
+- vaccine.md: ## Abstract
+- vaccine.md: ## 1. A standing-state report rather than a verdict
+- vaccine.md: ## 2. Results: the target and its current evidence base
+- vaccine.md: ### 2.1 Disease and fusion
+- vaccine.md: ### 2.2 Junction structure and predicted binding
+- vaccine.md: ### 2.3 Population coverage
+- vaccine.md: ### 2.4 Limits of the current evidence
+- vaccine.md: ## 3. The standing state, limit by limit
+- vaccine.md: ### 3.1 The limit worth watching
+- vaccine.md: ### B1. Low predicted class I coverage, dependent on the screen
+- vaccine.md: ### B2. Predicted rather than measured presentation
+- vaccine.md: ### B3. Self-adjacency and central tolerance
+- vaccine.md: ### B4. One strong CD4 epitope, on one allele of twenty-three
+- vaccine.md: ### B5. Four peptides occur in an *NR4A3* isoform
+- vaccine.md: ### B6. Immunologically cold microenvironment
+- vaccine.md: ### B7. Physical exclusion by the myxoid matrix
+- vaccine.md: ### B8. Thin EMC immune-profiling data
+- vaccine.md: ### B9. Manufacturing economics at this incidence
+- vaccine.md: ### B10. Trial design below the randomisation threshold
+- vaccine.md: ## 4. An ungraded combination
+- vaccine.md: ## 5. Present work and pending arrivals
+- vaccine.md: ## 6. Distinguishing a real advance from an apparent one
+- vaccine.md: ### 6.1 Order of the remaining questions
+- vaccine.md: ### 6.2 Conditions for revision
+- vaccine.md: ## 7. Limitations
+- vaccine.md: ## Figure legends
+- vaccine.md: ## 8. Methods and reproducibility
+- vaccine.md: ## 9. Declarations
+- vaccine.md: ## 10. References
+- vaccine.md: ## Appendix A. Superseded figures
+- vaccine.md: ## Appendix B. Statements withdrawn by the first adversarial review of this manuscript
+- vaccine.md: ## Appendix C. Statements withdrawn after the first adversarial review
+
+No network/public-body verification, scientific rerun, display operation, export or full CI was used. The review is bound to these bytes and the local source identity limit, not to unseen public PDFs.
+
+## Focused verification — pass
+
+2026-09-12T12:05:22.496639+00:00. Every changed passage was read in its local context. The revised abstract was read as a standalone explanation rather than judged by word count. The finite findings are resolved. The five reader explanations above remain accurate.
+
+- `vaccine.md` final SHA256 `ff25387c41b644a8639e2b7c59c1faf82f9a01b960b21953ea9a975a0f3ee65e`; initial SHA256 `a5a4a53f51331213614293d21e6e654856b9101faadf401c4da83d609f647bf1`.
+
+The abstract explains the vaccine question, normal-protein match failure, HLA-carriage meaning and unmeasured tumour display/recognition. B1 now distinguishes four/five calls, three/four presenting alleles and four distinct strong peptide sequences. Section7 distinguishes actual dependence from already-computed bounds and retains predictor uncertainty. All result tables and historical appendices/references remain identical.
+
+The before/after retention map preserves technical detail moved out of the abstracts in the full manuscript. The source-to-proposal measurements remain advisory; pass is based on the actual reader explanation and claim/scope comparison. Acceptance binds only the hashes above.

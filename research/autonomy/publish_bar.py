@@ -801,8 +801,8 @@ def clause_5_endpoint_declared(pub_id: str, sha: str) -> dict:
 
 
 def clause_7_readable_enough_to_review(pub_id: str, sha: str) -> dict:
-    """No sentence in the outgoing document runs past the splitting ceiling, and the paper has not
-    bought readability by dropping caution.
+    """Require independent LLM clarity review of the outgoing bytes and retain the
+    existing sentence/caution safeguards. Metrics do not establish readability.
 
     ⚠ ADDED 2026-08-27 AT trimcrae'S REQUEST, after the ASO preprint's v1 went out: "A big issue with
     the preprint v1 is readability... We should make sure readability is a check for our automated
@@ -814,11 +814,13 @@ def clause_7_readable_enough_to_review(pub_id: str, sha: str) -> dict:
     the same breath: "Good prose is going to come from better writing style rather than metrics.
     Though the metrics could be a decent screening layer." A Flesch threshold as a bar clause is an
     instruction to this loop to write shorter sentences by any means available — and the cheapest
-    means is deleting the difficult truth. So the clause fails on exactly two things, neither of
+    means is deleting the difficult truth. The original screen supplied two safeguards, neither of
     which can be satisfied by making the paper say less:
       * a sentence past the ceiling, which is always worth SPLITTING, and splitting drops nothing;
       * a FALL in caution markers against the pinned baseline, which is the failure itself.
     Everything else the screen prints is advisory and reaches the author, not the gate.
+    September 12: those safeguards did not establish that the mandatory prose pass
+    happened. An artifact-bound independent LLM editorial review is now also required.
 
     ⚠ It runs against the document AT THE PINNED SHA, like every other clause here — a bar that reads
     the working tree measures a paper nobody is publishing.
@@ -874,12 +876,27 @@ def clause_7_readable_enough_to_review(pub_id: str, sha: str) -> dict:
                        f"caution fell {was} -> {m['caution_per_1000w']} markers per 1000 words in "
                        f"{doc}. A readability pass that costs a hedge, a null or a limitation has "
                        f"made the paper worse. Name what left, or re-pin deliberately.")
+    def read_at(path):
+        result = subprocess.run(["git", "show", f"{sha}:{path}"], capture_output=True,
+                                timeout=120, cwd=str(REPO))
+        if result.returncode:
+            raise OSError(f"{path} is absent at the candidate revision")
+        return result.stdout
+
+    try:
+        import editorial_readability as ER
+        editorial_ok, editorial_evidence = ER.verify_review(pub_id, doc, proc.stdout, read_at)
+    except Exception as exc:
+        return _clause(name, title, UNVERIFIABLE,
+                       f"Independent LLM readability evidence could not be checked ({type(exc).__name__}).")
+    if not editorial_ok:
+        return _clause(name, title, FAIL, editorial_evidence)
     return _clause(name, title, PASS,
                    f"{doc}: no sentence over {LR.SENTENCE_CEILING}w (longest {m['max_len']}w, mean "
                    f"{m['mean_len']}w, FKGL {m['flesch_kincaid_grade']}), caution "
                    f"{m['caution_per_1000w']}/1000w"
                    + (f" against a {was} baseline" if was is not None else " (no baseline pinned)")
-                   + ". ⚠ This says nothing about whether the prose is CLEAR.")
+                   + ". These metrics do not establish clarity. " + editorial_evidence)
 
 
 def _document_digest(sha: str, doc: str) -> tuple[str | None, str | None]:

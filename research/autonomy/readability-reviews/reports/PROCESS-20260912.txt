@@ -1,0 +1,66 @@
+# Independent review of the LLM readability requirement
+
+Initial disposition: **needs_repair**, one material coverage defect. Root acknowledged it and described a separate governed, candidate-bound prose inventory repair. That repair has not yet been inspected in this initial entry.
+
+Reviewer: `/root/atr_revision_upload_inventory`, independent Codex LLM agent. Environment instructions identify the model family as GPT-6; exact served-model revision is unavailable. The reviewer did not implement this code. Scope was a bounded static code review plus one in-memory reproduction, with no repository edits, full CI, browser/native/headless operation or paper recomputation.
+
+## Files read and initial binding
+
+All paths below are rooted at `C:/Users/mcrae/.codex/worktrees/emc-fo-figure4-20260909/EMC-Research`.
+
+| File/scope | Initial SHA256 |
+|---|---|
+| `research/autonomy/editorial_readability.py`, complete helper | `eb750ffabebeb405eb23940e684c8d978fabf975673ab04cc7256028df7cb7ae` |
+| `research/autonomy/publish_bar.py`, clause 7 and its added helper integration | `50bd6e8b6d6fe840c650831c097a65340c925e5dcee0a03eca8dc83a601eb9fe` |
+| `research/autonomy/readability-reviews/README.md`, complete contract | `a89e167d66c37b45faceddeb52f911481a736dd8aabe9543126911807d727202` |
+| `research/autonomy/OPERATING_PROTOCOL.md`, new review requirement in context | `50ab691a00d497512ea9a784262d25454c8817e32a30df8bc86c4181218adc49` |
+| `research/autonomy/amendment_guard.py`, added governed helper path in existing set | `d3d25c7c2d8cf3b9ba842f022527a00b484a6cc57477824b67b55a75a50217ab` |
+| `systems/tests/test_editorial_readability_review.py`, complete test file | `0e78a35fd4e298cbaf9fbda919c5d99a801e15d9a7765c93ee3617adf4068dbd` |
+
+## PROCESS-R1: omission of an applicable supplement bypasses coverage
+
+The helper checks every artifact that the review receipt happens to list and requires the registered main document to appear. It has no independent source for which supplementary prose must also appear. A receipt listing only the main manuscript passes even when an applicable supplement has changed or has never been reviewed. This conflicts with the README's explicit requirement for every outgoing prose source, including applicable supplements.
+
+The existing missing-SI test deletes an SI file that remains named in `receipt.artifacts`. That tests availability of a declared artifact, not completeness of the declared scope. Removing the SI entry from the receipt bypasses that check.
+
+An in-memory probe used a valid synthetic receipt with main-only coverage, a separate modified/unreviewed supplement, all six checks true and a bound nonempty report. `verify_review` returned `True` with “covers 1 unchanged prose artifact(s).” The read callback visited only the receipt and report; it never read the omitted supplement. This was a synthetic probe and is not approval evidence for any actual paper.
+
+Required repair: derive mandatory outgoing prose paths from a separately maintained, candidate-bound inventory rather than from the receipt itself. Require the registered main to belong to that inventory and require every inventory member to have a reviewed hash and section coverage. Missing inventory, unknown paper, omitted SI and malformed inventory must fail closed. Govern the inventory like the helper so changing the required scope requires a declared process amendment. Add a regression that removes SI from the receipt while retaining it in the authoritative inventory.
+
+Root's announced approach is `research/autonomy/editorial-prose-inventory.json`, schema `emc-editorial-prose-inventory/1`, with a papers map naming each required outgoing prose source. The initial canonical/frozen path inventory should continue to reject review receipts bound only to new replacement directories. Scope must be explicitly reconciled when the release/endpoint is promoted. This design is suitable; acceptance awaits reading its implementation.
+
+## What is correctly enforced in the initial implementation
+
+The new clause no longer treats a sentence-length score as sufficient evidence of clarity. It requires a distinct reviewer identity, nonempty model/provenance description, five reader explanations, all six actual check outcomes, a passing decision and an empty blocker list. It rejects the writer's own identity and binds the retained report and each named artifact by SHA256. The report, receipt and listed artifacts are read at the requested candidate revision, so a convenient working-tree receipt cannot approve older unreviewed bytes. Unrelated commits can reuse identical reviewed artifacts.
+
+The old sentence/caution safeguards remain in addition to the LLM record. The new documentation appropriately states that these metrics do not prove clarity and the checker cannot prove reviewer honesty or scientific truth. It requires root to read the real report and preserve execution provenance; a fabricated Boolean receipt would violate that contract even if its shape is syntactically valid. The reviewer identity and execution-evidence fields are coordinator-attested records, not cryptographic identity attestations. That stated limit is not a second code defect.
+
+The new helper is included in the amendment guard's governed file set. No enforcement threshold was relaxed. The test file covers stale listed artifacts/reports, wrong paper, self-review, missing explanations, failed checks, unresolved blockers and pinned-revision receipt retrieval. The coverage-omission gap above is the one material new defect found.
+
+## Boundaries and next verification
+
+The existing graph lookup and readability baseline are read from the working tree. Those behaviors predate the added editorial helper and were not treated as newly introduced defects in this bounded task. No historical/frozen source was retrospectively marked reviewed. New reviewed text in `2026-09-12-readability` directories must not approve a different registered canonical source merely because it belongs to the same paper.
+
+After the inventory repair is frozen, append a focused verification of candidate-bound inventory reading, complete path coverage, registered-main membership and the negative regressions. Do not replace this initial finding or launch another broad audit.
+
+## Focused inventory-repair verification — 2026-09-12T11:55:04.840151+00:00
+
+Final bounded implementation-review disposition: **pass**. PROCESS-R1 is resolved; the initial reproduction and finding above are retained. No further material new defect was found in this assigned scope.
+
+The helper now reads `editorial-prose-inventory.json` independently through the same candidate-revision callback before loading the receipt. It validates the inventory schema, a nonempty safe unique path list for the paper, and membership of the registered main document. After checking each receipt artifact's bytes, it rejects every missing inventory path. Unknown paper, absent or malformed inventory and main mismatch fail closed. Both the helper and inventory appear in the amendment guard's governed set. The updated README requires inventory/release/endpoint reconciliation before promotion and comparison of exported text with reviewed source.
+
+I ran nine in-memory cases using the final helper: a complete main-plus-SI receipt passed; omitted SI, absent inventory, unknown paper, wrong main, duplicate inventory path, malformed papers map, unsafe path and changed SI each failed. Every case read the independent inventory first. This directly closes the reproduced omission bypass. An initial attempt to reuse the pytest fixture stopped at import because this Python runtime lacks pytest; no test ran in that attempt and nothing was installed. The successful probes used a standalone in-memory fixture instead. Root separately reports 28 targeted tests passed; I inspected those tests but did not repeat or independently attest that suite run.
+
+The clause's callback still reads all added evidence using `git show` at the requested SHA. I inspected its existing pinned-revision test. The final inventory deliberately points to five new `2026-09-12-readability` staging manuscripts, with applicable SI paths; it does not include the older canonical main paths. Therefore a registered old main fails the explicit membership check. This is intended fail-closed behavior until promotion, not evidence that the older packages passed. The completeness of the governed release scope must still be reconciled at promotion; mutability through a declared process amendment is the existing governance model, not a newly introduced bypass.
+
+| Final reviewed file | SHA256 |
+|---|---|
+| `research/autonomy/editorial_readability.py` | `0d95b9daecbaa15f0898a252996c2e619623f0c16579a450ebe96c4b4559f5ef` |
+| `research/autonomy/editorial-prose-inventory.json` | `87c44aa5f19f46051836f95658bedf7900596d2a0405ff610efb6f34a77bb0eb` |
+| `research/autonomy/publish_bar.py` | `50bd6e8b6d6fe840c650831c097a65340c925e5dcee0a03eca8dc83a601eb9fe` |
+| `research/autonomy/readability-reviews/README.md` | `75d3d6a25a0d33412b9b61c75c1e82e27284dc16bcd4b0fe858b2e26db887cd0` |
+| `research/autonomy/OPERATING_PROTOCOL.md` | `50ab691a00d497512ea9a784262d25454c8817e32a30df8bc86c4181218adc49` |
+| `research/autonomy/amendment_guard.py` | `13d9117f9a4185f826d36a99bc32364d29d5f1525ad9cff293bfa163a44e2cde` |
+| `systems/tests/test_editorial_readability_review.py` | `b6316ea1d23869a7acc4da479629307be83d497706df9240a80ea92d9a97ee3e` |
+
+The reviewer identity/model observability and review boundaries are unchanged from the initial entry. This is an actual independent LLM code review supported by bounded deterministic probes, not a statement that a numeric metric proves readability or that these files prove scientific validity.

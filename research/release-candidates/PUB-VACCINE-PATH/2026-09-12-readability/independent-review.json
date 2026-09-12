@@ -1,0 +1,266 @@
+{
+  "schema": "emc-independent-editorial-review/1",
+  "paper": "VACCINE",
+  "disposition": "pass",
+  "reviewed_at": "2026-09-12T12:05:22.496639+00:00",
+  "reviewer": {
+    "agent_id": "/root/readability_aso_atr",
+    "role": "independent LLM editorial and claim-preservation reviewer",
+    "model_family_as_declared": "GPT-6",
+    "exact_served_model": "unavailable; no backend served-model metadata observed",
+    "independent_of_draft_writer": true,
+    "not_human_peer_review": true
+  },
+  "reviewed_inputs": [
+    {
+      "role": "proposed_main",
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\vaccine-fusion-output\\drafts\\vaccine.md",
+      "sha256": "ff25387c41b644a8639e2b7c59c1faf82f9a01b960b21953ea9a975a0f3ee65e",
+      "current_hash_at_report_write": "ff25387c41b644a8639e2b7c59c1faf82f9a01b960b21953ea9a975a0f3ee65e"
+    },
+    {
+      "role": "comparison_source",
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\vaccine-fusion-output\\sources\\vaccine.md",
+      "sha256": "59a72c41cd4f5ed1c1657a2208213df6a08d0d9a4e957739020a013f4d0e396e"
+    }
+  ],
+  "all_sections_read": [
+    "vaccine.md: # A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what can be established today, and the capabilities that would change it",
+    "vaccine.md: ## Abstract",
+    "vaccine.md: ## 1. A standing-state report rather than a verdict",
+    "vaccine.md: ## 2. Results: the target and its current evidence base",
+    "vaccine.md: ### 2.1 Disease and fusion",
+    "vaccine.md: ### 2.2 Junction structure and predicted binding",
+    "vaccine.md: ### 2.3 Population coverage",
+    "vaccine.md: ### 2.4 Limits of the current evidence",
+    "vaccine.md: ## 3. The standing state, limit by limit",
+    "vaccine.md: ### 3.1 The limit worth watching",
+    "vaccine.md: ### B1. Low predicted class I coverage, dependent on the screen",
+    "vaccine.md: ### B2. Predicted rather than measured presentation",
+    "vaccine.md: ### B3. Self-adjacency and central tolerance",
+    "vaccine.md: ### B4. One strong CD4 epitope, on one allele of twenty-three",
+    "vaccine.md: ### B5. Four peptides occur in an *NR4A3* isoform",
+    "vaccine.md: ### B6. Immunologically cold microenvironment",
+    "vaccine.md: ### B7. Physical exclusion by the myxoid matrix",
+    "vaccine.md: ### B8. Thin EMC immune-profiling data",
+    "vaccine.md: ### B9. Manufacturing economics at this incidence",
+    "vaccine.md: ### B10. Trial design below the randomisation threshold",
+    "vaccine.md: ## 4. An ungraded combination",
+    "vaccine.md: ## 5. Present work and pending arrivals",
+    "vaccine.md: ## 6. Distinguishing a real advance from an apparent one",
+    "vaccine.md: ### 6.1 Order of the remaining questions",
+    "vaccine.md: ### 6.2 Conditions for revision",
+    "vaccine.md: ## 7. Limitations",
+    "vaccine.md: ## Figure legends",
+    "vaccine.md: ## 8. Methods and reproducibility",
+    "vaccine.md: ## 9. Declarations",
+    "vaccine.md: ## 10. References",
+    "vaccine.md: ## Appendix A. Superseded figures",
+    "vaccine.md: ## Appendix B. Statements withdrawn by the first adversarial review of this manuscript",
+    "vaccine.md: ## Appendix C. Statements withdrawn after the first adversarial review"
+  ],
+  "reader_explanation": {
+    "question": "Could an EMC gene-fusion join supply a shared vaccine target, and which missing evidence prevents judging whether that approach is feasible?",
+    "approach": "The study reconstructed joined RNA, predicted whether its protein fragments could bind immune-display proteins, checked matches to normal proteins, and calculated coverage under different prediction and population assumptions. It then organized ten biological, measurement, material-access and clinical-development limits.",
+    "main_finding": "Five of27 declared exon joins preserved the reading frame and yielded174 fragments. The initial classI screen returned11 distinct binders, four strong. A normal-protein isoform check removed one binder while retaining all four strong binders. Estimated coverage changed sharply with screen settings:27.4% on ten alleles and30.4% on34, with wider threshold changes yielding0% to72.6%. These are predictions, not patient presentation rates.",
+    "main_limitations": "Tumour display, useful abundance, immune recognition, cross-reactivity, safety and benefit were not measured. The lead differs from a normal peptide by one residue, with an unresolved anchor convention. The screen is below its decoy expectation; that does not prove individual calls false. Population dependence bounds do not quantify predictor uncertainty. Bulk and very limited spatial data cannot establish a general cold-versus-excluded tumour phenotype.",
+    "next_step": "Confirm the patient/model RNA sequence and test actual tumour processing and presentation, abundance and immune recognition under the stated controls before inferring vaccine feasibility. Resolving material access and tumour immune context remains separate from obtaining better predictions."
+  },
+  "checks": {
+    "reader_facing_text_reviewed": true,
+    "abstract_understandable": true,
+    "terms_explained": true,
+    "narrative_followable": true,
+    "scientific_meaning_preserved": true,
+    "limitations_preserved": true
+  },
+  "blocking_findings": [],
+  "findings": [
+    {
+      "id": "VACCINE-R1",
+      "location": "Abstract, lines 40–54; accessible-abstract copy",
+      "finding": "The abstract is clearer than the source but still does not meet the interested-nonspecialist criterion. Acceptor exon, untranslated sequence, in frame, allele, presentation percentile, independence, residue and isoform boundary arrive before their practical meaning is clear. The central story is lost among version IDs, multiple screens and six coverage percentages.",
+      "origin": "Editorial repair incomplete",
+      "required_repair": "Lead with the fusion-join vaccine question, explain protein fragments and HLA display variants in ordinary language, give the key screening result and its dependence on choices, and state that tumour display and immune response were not measured. Move repeated method/version and threshold detail to its existing body location with an explicit retention map; preserve every full-paper value, negative and uncertainty. Read the resulting abstract as a standalone account, without relying on the later glossary.",
+      "resolution": "addressed in the frozen repair and independently verified"
+    },
+    {
+      "id": "VACCINE-R2",
+      "location": "B1, lines 487–490, compared with §2.3 lines 255–271 and Table 1",
+      "finding": "“Both rest on five strong peptide-allele calls, one per presenting allele” contradicts the screen scopes. The ten-allele screen has four strong calls over three presenting alleles; the 34-allele screen has five over four. The fifth broad-panel call is a second peptide for B*15:01, so a call is not an additional covered allele.",
+      "origin": "Pre-existing source error, retained in proposal",
+      "required_repair": "State each panel scope and distinguish distinct peptides, peptide–allele calls and presenting alleles. Use the existing §2.3 numbers and retain the coverage percentages; no new analysis.",
+      "resolution": "addressed in the frozen repair and independently verified"
+    },
+    {
+      "id": "VACCINE-R3",
+      "location": "§7, lines 1332–1334, compared with §2.3 lines 391–414",
+      "finding": "The conclusion says bounding cross-locus dependence would need haplotype-frequency data. §2.3 already gives bounds from marginal frequencies: [17.5%,29.9%] with within-locus assumptions, and [9.2%,31.1%] after relaxing those as well. A reader cannot reconcile these statements.",
+      "origin": "Pre-existing source error, retained in proposal",
+      "required_repair": "Distinguish estimating the actual dependence or narrowing its bounds from bounding possible coverage. Retain the absent haplotype measurements, the existing bounds and the fact that these are not prediction-confidence intervals.",
+      "resolution": "addressed in the frozen repair and independently verified"
+    }
+  ],
+  "mechanical_comparisons": {
+    "vaccine.md": {
+      "all_table_rows_identical": true,
+      "table_rows": 112,
+      "references_and_historical_appendices_identical": true
+    }
+  },
+  "report_path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\reviews\\VACCINE-review.md",
+  "technical_scope": "Actual full reader-facing draft and SI reading, paragraph-topic story assessment, local source comparison and bounded existing-record checks. No new science, recomputation, network, exports, UI, downloads or full CI. Metrics are advisory and are not used as signoff.",
+  "preservation_boundary": "Retain original immutable preregistrations and historical correction records. Fusion-output Appendix B is a live current proposed-falsifier table, not an immutable preregistration; root explicitly authorizes narrow consistency repairs with original bytes preserved.",
+  "source_identity_limit": "These are newer retained local working sources. Their exact identity with public vaccine v2.0 or fusion-output v1.0 bodies is not established; do not present this review as reading downloaded public bytes.",
+  "next": "Exact-byte integration may proceed under root ownership. This is editorial acceptance of the manuscript sources, not export, venue verification, publication, human peer review, or author certification.",
+  "initial_review": {
+    "schema": "emc-independent-editorial-review/1",
+    "paper": "VACCINE",
+    "disposition": "needs_repair",
+    "reviewed_at": "2026-09-12T11:58:41.900594+00:00",
+    "reviewer": {
+      "agent_id": "/root/readability_aso_atr",
+      "role": "independent LLM editorial and claim-preservation reviewer",
+      "model_family_as_declared": "GPT-6",
+      "exact_served_model": "unavailable; no backend served-model metadata observed",
+      "independent_of_draft_writer": true,
+      "not_human_peer_review": true
+    },
+    "reviewed_inputs": [
+      {
+        "role": "proposed_main",
+        "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\vaccine-fusion-output\\drafts\\vaccine.md",
+        "sha256": "a5a4a53f51331213614293d21e6e654856b9101faadf401c4da83d609f647bf1",
+        "current_hash_at_report_write": "a5a4a53f51331213614293d21e6e654856b9101faadf401c4da83d609f647bf1"
+      },
+      {
+        "role": "comparison_source",
+        "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\vaccine-fusion-output\\sources\\vaccine.md",
+        "sha256": "59a72c41cd4f5ed1c1657a2208213df6a08d0d9a4e957739020a013f4d0e396e"
+      }
+    ],
+    "all_sections_read": [
+      "vaccine.md: # A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what can be established today, and the capabilities that would change it",
+      "vaccine.md: ## Abstract",
+      "vaccine.md: ## 1. A standing-state report rather than a verdict",
+      "vaccine.md: ## 2. Results: the target and its current evidence base",
+      "vaccine.md: ### 2.1 Disease and fusion",
+      "vaccine.md: ### 2.2 Junction structure and predicted binding",
+      "vaccine.md: ### 2.3 Population coverage",
+      "vaccine.md: ### 2.4 Limits of the current evidence",
+      "vaccine.md: ## 3. The standing state, limit by limit",
+      "vaccine.md: ### 3.1 The limit worth watching",
+      "vaccine.md: ### B1. Low predicted class I coverage, dependent on the screen",
+      "vaccine.md: ### B2. Predicted rather than measured presentation",
+      "vaccine.md: ### B3. Self-adjacency and central tolerance",
+      "vaccine.md: ### B4. One strong CD4 epitope, on one allele of twenty-three",
+      "vaccine.md: ### B5. Four peptides occur in an *NR4A3* isoform",
+      "vaccine.md: ### B6. Immunologically cold microenvironment",
+      "vaccine.md: ### B7. Physical exclusion by the myxoid matrix",
+      "vaccine.md: ### B8. Thin EMC immune-profiling data",
+      "vaccine.md: ### B9. Manufacturing economics at this incidence",
+      "vaccine.md: ### B10. Trial design below the randomisation threshold",
+      "vaccine.md: ## 4. An ungraded combination",
+      "vaccine.md: ## 5. Present work and pending arrivals",
+      "vaccine.md: ## 6. Distinguishing a real advance from an apparent one",
+      "vaccine.md: ### 6.1 Order of the remaining questions",
+      "vaccine.md: ### 6.2 Conditions for revision",
+      "vaccine.md: ## 7. Limitations",
+      "vaccine.md: ## Figure legends",
+      "vaccine.md: ## 8. Methods and reproducibility",
+      "vaccine.md: ## 9. Declarations",
+      "vaccine.md: ## 10. References",
+      "vaccine.md: ## Appendix A. Superseded figures",
+      "vaccine.md: ## Appendix B. Statements withdrawn by the first adversarial review of this manuscript",
+      "vaccine.md: ## Appendix C. Statements withdrawn after the first adversarial review"
+    ],
+    "reader_explanation": {
+      "question": "Could an EMC gene-fusion join supply a shared vaccine target, and which missing evidence prevents judging whether that approach is feasible?",
+      "approach": "The study reconstructed joined RNA, predicted whether its protein fragments could bind immune-display proteins, checked matches to normal proteins, and calculated coverage under different prediction and population assumptions. It then organized ten biological, measurement, material-access and clinical-development limits.",
+      "main_finding": "Five of27 declared exon joins preserved the reading frame and yielded174 fragments. The initial classI screen returned11 distinct binders, four strong. A normal-protein isoform check removed one binder while retaining all four strong binders. Estimated coverage changed sharply with screen settings:27.4% on ten alleles and30.4% on34, with wider threshold changes yielding0% to72.6%. These are predictions, not patient presentation rates.",
+      "main_limitations": "Tumour display, useful abundance, immune recognition, cross-reactivity, safety and benefit were not measured. The lead differs from a normal peptide by one residue, with an unresolved anchor convention. The screen is below its decoy expectation; that does not prove individual calls false. Population dependence bounds do not quantify predictor uncertainty. Bulk and very limited spatial data cannot establish a general cold-versus-excluded tumour phenotype.",
+      "next_step": "Confirm the patient/model RNA sequence and test actual tumour processing and presentation, abundance and immune recognition under the stated controls before inferring vaccine feasibility. Resolving material access and tumour immune context remains separate from obtaining better predictions."
+    },
+    "checks": {
+      "reader_facing_text_reviewed": true,
+      "abstract_understandable": false,
+      "terms_explained": false,
+      "narrative_followable": true,
+      "scientific_meaning_preserved": false,
+      "limitations_preserved": true
+    },
+    "blocking_findings": [
+      "VACCINE-R1",
+      "VACCINE-R2",
+      "VACCINE-R3"
+    ],
+    "findings": [
+      {
+        "id": "VACCINE-R1",
+        "location": "Abstract, lines 40–54; accessible-abstract copy",
+        "finding": "The abstract is clearer than the source but still does not meet the interested-nonspecialist criterion. Acceptor exon, untranslated sequence, in frame, allele, presentation percentile, independence, residue and isoform boundary arrive before their practical meaning is clear. The central story is lost among version IDs, multiple screens and six coverage percentages.",
+        "origin": "Editorial repair incomplete",
+        "required_repair": "Lead with the fusion-join vaccine question, explain protein fragments and HLA display variants in ordinary language, give the key screening result and its dependence on choices, and state that tumour display and immune response were not measured. Move repeated method/version and threshold detail to its existing body location with an explicit retention map; preserve every full-paper value, negative and uncertainty. Read the resulting abstract as a standalone account, without relying on the later glossary."
+      },
+      {
+        "id": "VACCINE-R2",
+        "location": "B1, lines 487–490, compared with §2.3 lines 255–271 and Table 1",
+        "finding": "“Both rest on five strong peptide-allele calls, one per presenting allele” contradicts the screen scopes. The ten-allele screen has four strong calls over three presenting alleles; the 34-allele screen has five over four. The fifth broad-panel call is a second peptide for B*15:01, so a call is not an additional covered allele.",
+        "origin": "Pre-existing source error, retained in proposal",
+        "required_repair": "State each panel scope and distinguish distinct peptides, peptide–allele calls and presenting alleles. Use the existing §2.3 numbers and retain the coverage percentages; no new analysis."
+      },
+      {
+        "id": "VACCINE-R3",
+        "location": "§7, lines 1332–1334, compared with §2.3 lines 391–414",
+        "finding": "The conclusion says bounding cross-locus dependence would need haplotype-frequency data. §2.3 already gives bounds from marginal frequencies: [17.5%,29.9%] with within-locus assumptions, and [9.2%,31.1%] after relaxing those as well. A reader cannot reconcile these statements.",
+        "origin": "Pre-existing source error, retained in proposal",
+        "required_repair": "Distinguish estimating the actual dependence or narrowing its bounds from bounding possible coverage. Retain the absent haplotype measurements, the existing bounds and the fact that these are not prediction-confidence intervals."
+      }
+    ],
+    "mechanical_comparisons": {
+      "vaccine.md": {
+        "all_table_rows_identical": true,
+        "table_rows": 112,
+        "references_and_historical_appendices_identical": true
+      }
+    },
+    "report_path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\reviews\\VACCINE-review.md",
+    "technical_scope": "Actual full reader-facing draft and SI reading, paragraph-topic story assessment, local source comparison and bounded existing-record checks. No new science, recomputation, network, exports, UI, downloads or full CI. Metrics are advisory and are not used as signoff.",
+    "preservation_boundary": "Retain original immutable preregistrations and historical correction records. Fusion-output Appendix B is a live current proposed-falsifier table, not an immutable preregistration; root explicitly authorizes narrow consistency repairs with original bytes preserved.",
+    "source_identity_limit": "These are newer retained local working sources. Their exact identity with public vaccine v2.0 or fusion-output v1.0 bodies is not established; do not present this review as reading downloaded public bytes.",
+    "next": "Writer applies one finite batch, preserves initial proposal snapshots and findings, then independent focused verification records repaired hashes and final disposition."
+  },
+  "initial_disposition": "needs_repair",
+  "focused_verification": {
+    "at": "2026-09-12T12:05:22.496639+00:00",
+    "disposition": "pass",
+    "reviewer": {
+      "agent_id": "/root/readability_aso_atr",
+      "role": "independent LLM editorial and claim-preservation reviewer",
+      "model_family_as_declared": "GPT-6",
+      "exact_served_model": "unavailable; no backend served-model metadata observed",
+      "independent_of_draft_writer": true,
+      "not_human_peer_review": true
+    },
+    "scope": "All changed passages read as actual prose, including both abstracts standalone, with initial full-text context retained. No new full scientific review or recomputation.",
+    "mechanical_comparisons": {
+      "vaccine.md": {
+        "initial_sha256": "a5a4a53f51331213614293d21e6e654856b9101faadf401c4da83d609f647bf1",
+        "final_sha256": "ff25387c41b644a8639e2b7c59c1faf82f9a01b960b21953ea9a975a0f3ee65e",
+        "all_changes_accounted_for_by_reviewed_replacements": true,
+        "documented_replacements": [
+          "VACCINE-R1",
+          "VACCINE-R2-scope",
+          "VACCINE-R2",
+          "VACCINE-R3"
+        ],
+        "additional_abstract_only_changes": [],
+        "result_table_rows_unchanged": true,
+        "result_table_rows": 112,
+        "references_historical_records_and_preregistration_preserved": true
+      }
+    },
+    "initial_findings_retained": true,
+    "acceptance_basis": "Question, method, principal finding and limitations are intelligible; central terms are explained; the finite scientific-scope and current/historical-account conflicts are resolved. No metric threshold used."
+  }
+}

@@ -84,6 +84,9 @@ GOVERNED = (
     "scripts/affected_tests.py",
     "scripts/selector-validation.json",
     "research/autonomy/publish_bar.py",
+    # The implementation of the mandatory independent LLM prose-review clause.
+    "research/autonomy/editorial_readability.py",
+    "research/autonomy/editorial-prose-inventory.json",
     "research/autonomy/publication-authority.json",
     "research/autonomy/amendment_guard.py",
     "research/autonomy/health.py",

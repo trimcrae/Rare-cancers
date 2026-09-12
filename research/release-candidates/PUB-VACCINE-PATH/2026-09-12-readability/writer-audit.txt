@@ -1,0 +1,94 @@
+# Vaccine and fusion-output readability proposals
+
+**Final checkpoint, 12 September 2026:** both independent editorial reviews now PASS at the hashes in `REVIEW-REPAIR-NOTES.md`. That note is the authoritative final repair/retention/caution addendum; `HANDOFF.json` lists the final artifacts. The initial failures, original bytes and intermediate fusion-output abstract are retained. All numerical result tables and immutable records are unchanged; the explicitly authorized current fusion-output Appendix B table was corrected with its original preserved. No integration, export or public posting occurred in this worker.
+
+## Historical initial authoring checkpoint
+
+The remainder of this audit records the initial proposal before independent reading. Its pending-review status, original draft hashes, blanket Appendix B retention and initial caution figures are historical, not the final disposition. The unmodified initial audit is preserved in `initial-independent-review/AUDIT.md`.
+
+Prepared 12 September 2026 for the parent readability contract. These are **full-file editorial proposals based on retained local sources**. They have not been integrated, exported, posted or independently accepted. A separate reader must review the exact hashes in `VERIFICATION.json`.
+
+## Source and posting provenance
+
+| Paper | Posted record supported by prior evidence | Source used here | Identity limit |
+|---|---|---|---|
+| Vaccine | aiXiv `aixiv.260822.000005`, last-confirmed v2.0, 24 August 2026 | `research/manuscripts/neoantigen/emc-vaccine-development-path.md` in the retained integration worktree | The 9 September public check found the article unavailable and a conflicting older Explore listing. No fresh venue check was made. Current source contains later work, including the documented 1 September anchor/contact correction. It is not represented as exact posted v2.0 bytes. |
+| Fusion output | aiXiv `aixiv.260823.000001`, v1.0, 23 August 2026 | `research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md` and `nr4a3-fusion-transcriptional-output-SI.md` in the same worktree | Main text explicitly calls itself an unposted working revision. Git history records the later 9 September correction at `a9373358e`. These retained files are not represented as exact public v1.0 bytes. |
+
+The read-only source worktree is `C:/Users/mcrae/.codex/worktrees/emc-fo-figure4-20260909/EMC-Research`. The source files were copied without changing their bytes into `sources/` before editing. Source hashes:
+
+- Vaccine: `59a72c41cd4f5ed1c1657a2208213df6a08d0d9a4e957739020a013f4d0e396e`.
+- Fusion-output main: `a826d827cd82d40fd52a4a320e2af998cc5ac81a8346de5cf44c3f0487b5061d`.
+- Fusion-output SI: `5493c11334dee838540d4667ed29d737d89f874fcb7c49e475ecb7414cdad2c9`.
+
+Both main-source hashes match the retained PDF build stamps' `built_from` entries. This establishes local source/build correspondence, not downloaded public-PDF identity. No PDF was downloaded, extracted or rendered in this task. No separately named vaccine SI is listed by its retained submission checklist; its methods and historical appendices are embedded in the main file.
+
+Provenance consulted: parent `CONTRACT.json`; repository scientific-writing skill; current `site/publications.json`; `work/preprint-site-20260909/PUBLICATION-EVIDENCE.md`; the local aiXiv posting ledger; both aiXiv metadata files; both local build stamps; vaccine checklist; and `research/autonomy/sprint-2026-09-01/S20-VACCINE-RECONCILE.md`. The older aiXiv ledger explicitly describes its rows as backfilled from review files and leaves posting timestamps null. Dates above come from the prior public-page evidence, not inferred timestamps. No network operation was performed.
+
+## What changed and what remains
+
+The proposals are `drafts/vaccine.md`, `drafts/fusion-output.md` and `drafts/fusion-output-SI.md`. Separate accessible abstracts and exactly 100-word summaries are supplied for both papers. Original titles, author metadata, declarations, citations, tables, code references and figure destinations remain. Relative figure/code links retain their repository destinations and will resolve at the original integration locations; this directory is not an exported publication package.
+
+The edit rewrote 44 core paragraphs, then repaired 25 individual dense sentences and added two short definition paragraphs. Ninety-eight further paragraphs received only boundaries between already-present ideas. `EDITORIAL-CHANGES.json` and `SENTENCE-REPAIRS.json` retain exact before/after text. Final unified patches compare each complete proposal against its source snapshot.
+
+Vaccine now opens with the question, the prediction/measurement distinction and the principal results. The original abstract was unusually long and repeated many detailed results from the body. Its repeated numeric detail is retained at its existing body locations rather than repeated in the shorter abstract. The full source abstract remains in the source snapshot and exact change log. Definitions cover peptides, epitopes, donor/acceptor, seam, reading frame, HLA coverage and the class I/class II distinction. Long limitation paragraphs now separate the assumption, result and interpretation.
+
+Fusion-output now explains the index group, comparator group and random-set reference before introducing results. It explicitly states that the scored aggregate combines three fusion-associated genes with sixteen native-NR4A3 targets because class A alone fails the four-gene floor. Methods define competitive versus self-contained nulls, delta, native protein, occupancy, accessibility and cistrome. The cohort-search section announces the separate targeted SRA dataset at its opening, so a reader is not first given an apparently unrestricted absence claim. The SI explains its organization and scoring terminology while retaining all numeric tables.
+
+All original table rows are identical, checked across each complete file. Vaccine References and Appendices A–C are identical after newline normalization. Fusion-output Appendices A–B and References are identical. FO SI S1.3, including the pre-registered rule and reported limitations, is identical. No preregistration, raw query, source artifact, figure or numerical analysis was changed. The long untouched records are technical evidence and historical corrections, not newly drafted narrative.
+
+## Paragraph story and jargon pass
+
+The active main-text narrative was read section by section, including all ten vaccine limits, both papers' Methods and limitations, and FO SI S1–S8. Tables and archival records were preserved and compared, rather than rewritten. `SECTION-COVERAGE.md` lists the full section inventory and edit coverage. `PARAGRAPH-STORY.txt` captures the first-sentence sequence from the actual proposals. Its extractor sometimes treats a bold label such as “Evidence.” as a whole sentence; those paragraphs were also read in their complete labelled context.
+
+Vaccine's story is: identify a junction target; reconstruct its sequence; show how screen choices change coverage; assess exact and near-self matches; separate immune, material and clinical-development limitations; specify the evidence required next. The near-self section retains the position-1 convention qualification adjacent to the result. The limitations keep the below-decoy-null result and the absence of presentation, immunogenicity, safety and benefit evidence.
+
+Fusion-output's story is: explain why a gene-set contrast needs calibration; classify mechanistic evidence; analyse each cohort separately; compare the aggregate and individual genes; assess comparator and model dependence; distinguish surrogate chromatin evidence from the missing EMC experiment. The SI follows the same sequence at technical depth. The body remains long, but its length now largely reflects explicit methods, results, caveats and evidence records rather than an abstract carrying the whole paper.
+
+The nominalisation scan found retained “evaluation of” in a cited evaluation and a clinical research description, “assessment of” in the prior vaccine assessment, and “implementation of” in a code table. These were read in context and retained; no action is concealed in those nouns. Identifier-heavy allele panels, numerical formulas, assay names and immutable records were not simplified by deleting detail. The repeated term “instrument” remains in some retained source passages; the new opening and definitions explain the relevant analysis rather than assuming the term is self-explanatory.
+
+## Representative before/after changes
+
+| Problem | Before | Proposed approach |
+|---|---|---|
+| Vaccine purpose buried in rhetoric | “A verdict of ‘unpromising’ delivered against a target whose presentation has never been measured…” | “This paper asks which obstacles to an EMC fusion-junction vaccine could change with better evidence.” The disease/method/access distinctions follow. |
+| Vaccine 87-word recognition sentence | One sentence combined contact positions, receptor recognition, repertoire survival and why the filter exists. | Six sentences state the anchor convention, surface difference and conditional interpretation separately. The following allele-specific limitation remains. |
+| FO terminology assumes the reader already knows the analysis | “We supply the calibration that refuses such a read…” | Define the size-matched empirical null as repeatedly scoring randomly selected genes of the same set size. |
+| FO pooled target identity unclear | The earlier metadata called the three-gene set an aggregate without exposing the scoring floor. | The new abstract explicitly says the three genes were pooled with sixteen native targets because three falls below the four-gene floor. This follows the retained current main text. |
+| FO cohort absence easy to overread | Heading: “No fourth EMC expression cohort…” followed much later by a separate SRA dataset. | Heading and opening distinguish three GEO cohorts from the separate unresolved targeted dataset. All counts and search qualifications remain. |
+| SI result categories obscure | Long explanations of “threshold” and “reached.” | Define each quantity directly, then retain 39%, 88%, 11.9× and 4.2× and explain their interpretation. |
+
+## Advisory measurements and caution accounting
+
+The repository readability screen ran on absolute paths. An initial relative-path invocation failed because the tool resolves paths under its own repository; it produced no scientific result and was rerun correctly. No baseline was reset.
+
+| File | Mean sentence words, before → after | Longest, before → after | Caution markers, before → after | Caution markers/1,000 words |
+|---|---|---|---|---|
+| Vaccine | 23.8 → 21.1 | 87 → 58 | 205 → 218 | 11.6 → 13.0 |
+| FO main | 24.3 → 21.9 | 72 → 60 | 216 → 227 | 15.8 → 16.5 |
+| FO SI | 23.2 → 19.6 | 78 → 48 | 54 → 53 | 17.8 → 17.4 |
+
+These are screens, not signoff. The ten longest sentences were read for each file. The 45-word preregistration-outcome sentence in SI was deliberately left unchanged. Other remaining long sentences contain precise numerical conditions, allele lists or source quotations. They were not shortened by dropping qualifications.
+
+The SI marker count falls by one. Each disappearing lexical form has an explicit disposition: “the main text does not lean on either” becomes “Neither is a main-text conclusion”; the circularity rule's “if it does not” becomes “A record naming neither”; “is not” phrasing is reorganized; and “appears” in “not a smaller quantity than it appears” is removed because it describes printed precision, not epistemic uncertainty. The latter now says the value represents the design floor and is not a finer measurement of significance. The actual negative, circularity and precision qualifications remain. No baseline is re-pinned merely to accept that count.
+
+Some vaccine `cannot/neither/nor` occurrences disappear when redundant abstract clauses and rhetorical framing are replaced. The corresponding body retains: no pan-EMC epitope; out-of-frame models cannot encode the driver; no presentation or recognition measurement; and no claim that the route works or is closed. FO removes some `is not/consistent with` wording when alternatives are stated directly. The alternative explanations, lack of independent ENO3 discovery and lack of causal evidence remain explicit. Exact token counts and all removals are in `VERIFICATION.json`; the before/after logs expose their complete contexts.
+
+No unique quantitative token was lost from either complete FO file. The vaccine token scanner reports only `17,18,19`, a citation group replaced by `[17,18,19,20]`, not a result. Repeated numeric occurrences do fall with the shorter abstract; all distinct result values, intervals, tables and technical body are retained. This token comparison cannot prove semantic equality, which is why independent review remains required.
+
+## Pre-existing source ambiguities for the independent reader
+
+These were not silently settled through an editorial rewrite and are not newly established scientific findings:
+
+1. Vaccine Section 7 says that bounding cross-locus dependence would require haplotype-frequency data, while Section 2.3 already presents distribution-free bounds from marginals. The sentence-level relationship needs reconciliation against those existing definitions.
+2. FO SI S6 calls 39 one-mismatch sites “the most of any gene scanned,” while main Section 3.10 says seven background windows equal or exceed that count (maximum 43). The intended scope appears to be the three focus genes; the source wording needs an explicit scope check.
+3. FO Data availability labels the Haller dataset “referenced but not used as data,” while Section 3.11 reports its processed peaks in Table 9. This is an existing reporting inconsistency, not a reason to recompute the analysis.
+4. FO Section 4.3's proposed occupancy experiment uses “is driven” for a gene with expression and a binding peak. Review that wording against the manuscript's own distinction between association, occupancy and causation; no new causal inference was introduced here.
+
+The FO “no competing interests” declaration is retained verbatim as instructed. Root should reconcile it separately with the standing non-financial survivorship disclosure before an outgoing release. This editorial worker neither answered new author questions nor certified disclosures.
+
+## Review and release boundary
+
+Status: full proposals prepared; **independent editorial/semantic review pending**, with the concrete source inconsistencies above still open. The editor is the agent `/root/atr_landing_update`; no separate model ID or reasoning setting was exposed in this task, and none is invented. The editor's own story pass is not independent review. The next reader should answer: what question is asked, how it was studied, what the principal result is, what cannot be concluded, and what evidence is needed next.
+
+Only lightweight local text work was used during the device quiet window. No browser, UI, screenshot, headless test, rendering, export, download, network request, large build, full CI, submission or shared-repository edit occurred. Root owns integration, appropriate post-integration content gates and any later release decision.

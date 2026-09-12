@@ -1,0 +1,119 @@
+# ASO and ATR readability audit and proposed repair
+
+These are complete proposed manuscript texts based on the newest local revision sources. They are not exported files, submitted revisions, public corrections, or evidence of public-body identity. No scientific computation, network fetch, browser/native/headless operation, rendering, download or public action was performed. All writes are confined to this directory. The parent coordinator owns integration and the one independent editorial/semantic check.
+
+## Version and source mapping
+
+**ASO:** Qeios v3 is identified by the retained source-evidence map as `https://www.qeios.com/read/VL3LJR.3`, with public PDF SHA256 `52c238fd3d5a5e7c8e7cb363573ea58f73f3c50898540c64269377395cab31c7`. That map explicitly takes public verification from the coordinator contract and claims no new public fetch. The September 5 submission receipt records receipt of version 3, not posting. It binds the submitted DOCX to `research/release-candidates/PUB-ASO/2026-09-04/submission/manuscript.docx`, hash `7fe0033347e3825678394082157b8b60e5cc4edcdd122061d02d8d5a28d060c7`, and scientific commit `3dc59c67654a4dfc5a6d0b842f12a732e6aeda89`. Its associated manuscript Markdown, tables and references are retained sources for that submission. The earlier publication registry still describes v2, so it is not used as current v3 evidence.
+
+The proposal repairs the later CBC revision at `research/release-candidates/PUB-ASO/2026-09-10-cbc/manuscript.md.txt`. This file explicitly says it is **Word readback, not generation input**. `build_package.py` reads the older submitted DOCX, changes its title and abstract, renames headings and relocates model discussion. Consequently, editing that readback alone cannot change any generated manuscript. The full proposed Markdown maps to the body represented by that readback. Integration must create a new editable source/package and bind the generator to it, or apply each mapped paragraph to a new copy of the actual DOCX input. Frozen files must remain untouched. `ASO-change-map.json` gives every replaced paragraph in full, before and after, so the mapping is precise.
+
+**ATR:** the September 11 receipt verifies public Research Square v1 at `https://www.researchsquare.com/article/rs-10988531/v1`, DOI `10.21203/rs.3.rs-10988531/v1`, posted September 11. The same receipt records that a revision was submitted and explicitly says `new_version_public: false`. Its submitted revision PDF hash is `aa9ccac2c5c1faf4f65108dc3e96030f603c42e61f438df58979f235b08a7fbc`. This is not a hash of the public v1 download. An older generation manifest records baseline PDF hash `cd87f56acda32619619444e672974a0faec4cf016b05cfe3cbe0c272dfd722fb`; that is a baseline-submission artifact, not established public-body identity.
+
+The ATR proposal repairs `research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/manuscript.md.txt`. Its wrapper identifies it as the exact text supplied to the DOCX generator. Integrate the proposal's body into a **new** package's `manuscript-source.txt` and expose the same body in its Markdown wrapper. Preserve the existing SI, figures, computed results and preregistrations. The original source baseline copy is explicitly a new September 8 working revision, not a recovered historical original; it also has newline-conversion provenance. It is not silently labelled public v1 here.
+
+**Coverage limit:** this audit directly covers the full available ASO submission manuscript and newest ASO/ATR manuscript text, plus the complete ATR SI and relevant version receipts. It does not claim a full-text inspection of a byte-verified downloaded ATR public v1 body. That remains a provenance boundary for the coordinator, not a reason to conflate the submitted corrected draft with a posted correction. All exact source/output hashes and paths are in `source-provenance.json` and `verification.json`.
+
+## The readability failure
+
+ASO's original source already passes the sentence ceiling, yet starts by assuming the reader knows fusion-junction gapmers, parents, catalytic gaps, transcript compartments and null ensembles. Its short sentences do not provide the conceptual bridge between binding predictions and actual RNA cleavage. The repair defines the objects and then keeps separate the molecule's DNA-gap length, the duplex-length cutoff, the search cutoff and the unmeasured biological effect.
+
+ATR's original abstract and opening paragraphs assume the reader knows FET, RG/RGG, recruitment, the retained-RG axis and reading-frame assembly. The paper's careful caveats are present but often arrive after dense sequences of model and artifact descriptions. The repair introduces those concepts through the study's question, states the purpose of each method, and leads result paragraphs with their finding. It also separates the four possible recruitment outcomes into distinct paragraphs while keeping every causal limitation.
+
+This confirms why a numeric readability pass is insufficient: both source manuscripts already have **zero sentences above the configured 60-word ceiling**. The scientific-writing skill was applied as an actual editorial workflow, not a score target.
+
+## What was rewritten, retained and relocated
+
+ASO: the abstract, every Introduction and Methods paragraph, most Results and Discussion paragraphs, and both table captions were revised. All sections are present. The alternative exon-2 sequence paragraph, allele-screen result, declarations, references, tables and figure legend remain. The sequence-record file and original revision note are referenced unchanged, not recreated. New terms are defined where they first matter: fusion, reading frame, gapmer, DNA gap/wings, junction, wild-type, precursor/mature RNA, register, gap-level margin, near-match, liability, dinucleotide-preserving scramble, IC50 and selectivity ratio. No result was moved to an appendix. Paragraphs were split within their original sections; the full change map records the split destinations.
+
+ATR: the structured abstract, opening narrative, assembly/RG/composition methods, annotation provenance, most Results narrative, figure captions and prediction interpretation were revised. The reference/model tables, exact P1–P5 prediction rows, complete limitations list, declaration blocks, bibliography and technical reproduction command remain. The SI is copied byte-for-byte. Its Tables S1–S3, original artifact leaf values and UNRESOLVED fields remain. No immutable record was edited, and no hypothesis was re-registered. New explanations define FET membership, low-complexity regions, RGG-rich regions, RG dipeptides, GFP, recruitment, double-strand breaks, open reading frame, cDNA, N-terminal prefixes, the [S,Y,G,Q] composition measure and the measured-anchor/model-placement distinction. Nothing was moved out of the manuscript. Paragraph splits are local to their original sections.
+
+The source wrappers retain their field structure but now identify these files as September 12 proposals with draft status and no exported/posted artifact claim. This provenance change is separate from the scientific prose.
+
+## Before/after examples
+
+| Source | Problem in the original | Proposed revision |
+|---|---|---|
+| ASO Introduction | “Each parent supplies roughly half the junction sequence.” follows an undefined gapmer mechanism. | “Pairing with a normal parent is the central concern in this study.” The gapmer, DNA gap and parent are introduced first; the same half-sequence and screening-limit argument follows. |
+| ASO Results | “Aggregate genome-wide loads are similar: 156 and 135 hybridisable gap-paired sites.” | “The genome screen found similar total numbers of potentially hybridisable, gap-paired sites: 156 for the EWSR1 reagent and 135 for the TAF15 reagent.” Both exact-match and unmeasured-transcription qualifications remain. |
+| ASO Discussion | A single paragraph mixes the selectivity definition, threshold, power assumptions and unmeasured variance. | The ratio and IC50 are defined first. A separate paragraph starts “The proposed test's power depends on an unmeasured variance” and retains 0.35, six/about 80%, true selectivity 3 and three/about 30%. |
+| ATR Methods | “The axis is retained RG dipeptides of the 5' FET partner as a fraction of that partner's wild-type total.” | “We compare constructs by the fraction of the normal 5' FET partner's RG dipeptides that they retain.” The next sentence defines arginine followed by glycine; the domain/box distinction remains. |
+| ATR Results | The type-2 insertion paragraph begins with exon arithmetic before naming the result. | “Transcript-level assembly predicts a 59-residue insertion in the type-2 model.” The full 793/264, 177 = 1 + 176, 174 + 2, AAG/lysine-265, remaining-58 and 949-aa derivation follows. |
+| ATR Discussion | One paragraph packs four possible recruitment outcomes and multiple attribution caveats together. | Each outcome has its own paragraph. Both-recruited still contradicts P5 but does not imply a shared mechanism or locate the driver in NR4A3. |
+
+## Actual paragraph-story pass
+
+I read each proposed manuscript's first sentences in order, then checked them against the complete paragraphs. The extracted sequences are saved in `ASO-paragraph-story.txt` and `ATR-paragraph-story.txt`. These files contain the repository linter's text extraction, including its stripped inline-code labels; they are reading aids, not authoritative manuscript text.
+
+ASO now follows this story: disease and proposed selective RNA targeting → parent-pairing problem → two distinct lengths and incomplete framework scope → five defined screens → two junction-specific designs → cutoff/register/search/chemistry limits → unresolved disease-specific excess → model correspondence requiring sequencing → proposed falsification test and its variance limit → no measured cleavage, potency, delivery, safety or clinical readiness. The alternative-acceptor paragraph intentionally retains its exact sequence detail, which is necessary to prevent exchanging reagents.
+
+ATR now follows this story: untested EMC extension of a mechanism measured in other cancers → assay and missing construct information → transcript-first assembly → RG comparison and symmetric TCF12 comparison → single-source annotation limit → four in-frame models and the predicted insertion → measured anchors versus computed positions → non-FET composition over sampled lengths → preserved predictions with overlap/equivalence limits → four distinguishable but non-causal outcomes → unmade constructs and explicit limits. The longest remaining source quotations and the historical failure paragraph remain for attribution and accountability, not as an unreadability target.
+
+## Five-question reader paraphrase check (authoring pass, not independent signoff)
+
+| Question | ASO answer recoverable from the proposed text | ATR answer recoverable from the proposed text |
+|---|---|---|
+| What is the question? | Can a design spanning an NR4A3 fusion join avoid sequence pairing with normal parent RNA? | What proteins do reported NR4A3 junctions predict, and what recruitment hypotheses can those sequences support? |
+| What was done? | Computational design and five sequence screens of 190 designs across 38 modelled junctions. | Transcript-level reference assembly, RG counting and TCF12 sequence-composition comparisons. |
+| What was found? | Parent pairing is common under an adopted cutoff; null joins and cutoff sensitivity prevent a disease-specific or biological-selectivity conclusion. | Four in-frame reference models, one predicted 59-residue insertion, bounded RG positions and TCF12 separation on the sampled grid. |
+| What was not established? | Cleavage, potency, delivery, safety, therapeutic window, or cell-model correspondence. | Recruitment, ATR response, a causal effect of RG dose, equivalence from nonsignificance, or validation of a patient junction. |
+| What would the next discriminating step be? | Sequence the actual junction, then conduct the proposed controlled/selectivity experiment with adequate precision. | Verify junction sequences and test recruitment with the stated controls; P5 requires a real TCF12 fusion construct. |
+
+## Caution accounting
+
+Exact raw-marker counts and every paragraph-level marker decrease are retained in `verification.json`; before/after passages are in the change maps. A change in a regex token is not itself a changed qualification. No qualification was intentionally removed. The initial ATR source-to-proposal screen decreased from 70 to 66 markers; after the first independent-review repairs it was 70 to 67, and after the focused abstract continuation it is 70 to 68. Both decreases are disclosed rather than repinned or hidden.
+
+ASO has one lexical substitution: “transcriptomics is not performed” becomes “We did not perform transcriptomics.” The null is unchanged. The all-prose screen rises from 32 to 39 markers.
+
+ATR decreases occur in these specific expressions:
+
+1. “does not require the driver to be drugged” becomes “could be tested without directly targeting the driver”; the conditional rationale is retained, with no treatment claim.
+2. “rests neither on one assumed junction nor on one fixed window” becomes “removes dependence on one unpinned breakpoint or fixed window.” The same scope claim follows the same symmetric grid.
+3. “Three reported variants are not modelled” becomes “could not be modelled from the sources held here.” All three reasons remain; this is a sourcing limit.
+4. The first proposal incorrectly changed “Neither EMC type falls outside” to a statement about all EMC models. That was not equivalent: type 5 lies at 0.367, outside the reported comparator span. Independent finding ATR-R2 caught the scope broadening, which this author's initial audit missed. The repaired sentence now explicitly names the EWSR1::NR4A3 type-1 and type-2 models only. The initial files remain in `review-initial/`, and `INDEPENDENT-REVIEW-REPAIRS.json` records the repair. “does not establish that recruitment was measured” is expressed as sequence placements, not recruitment measurements, with the unchanged measured anchors.
+5. The stored-field paragraph combines two “is not” clauses with “Likewise” while retaining that 174 is not the largest complete-RG-free prefix and 13 is not its headroom.
+6. “cases do not carry the lesion” becomes the explicitly transferred prediction that cases “lack the proposed lesion”; this remains untested.
+7. The P2/P4 paragraph replaces “is not” with “do not”/“does not” and an explicit “limitation”; the one-experiment overlap, directional/two-sided distinction and P1 equivalence caveat remain.
+8. “the tested constructs do not show recruitment” becomes “the tested constructs show no recruitment under these assay conditions.” The tested-condition null is unchanged.
+9. “TCF12 length mismatch is not reconciled here” becomes “A TCF12 length mismatch remains unresolved.” No reconciliation is claimed.
+10. Panel B's “is not a measured recruitment range” becomes “not a measured recruitment range.” The identical limitation remains.
+11. Panel C's “does not reach 177” becomes “do not sum to 177.” The error accounting remains.
+12. P3's “13 is not a second convention” is expressed by stating that the two-conventions description was wrong and identifying exactly where 13 comes from. The immutable record remains unchanged.
+13. “a delayed curve cannot be told from a poorly expressed construct” becomes “controls are needed to distinguish delayed recruitment from poor expression.” The same interpretability requirement remains.
+
+Numeric token decreases in ATR involve repeated 3' labels and the 50-residue grid start removed from the abstract. The grid start and ten-residue steps remain in Methods 2.3, Results 3.5 and Table 4; the abstract now explicitly limits the comparison to sampled lengths. Full table rows, nucleotide strings and all reference entries are identical, and every result's numeric value is retained in its result paragraph or original table. The checker deliberately separates those preservation checks from a naive count of digits in identifiers and repeated explanatory labels.
+
+## Independent review repairs
+
+The independent reader `/root/atr_revision_upload_inventory` returned five concrete findings. ASO-R1 required a self-contained abstract; its five-screen inventory now remains in full in Methods instead of being repeated in the abstract. The abstract defines the central DNA gap, describes 16-base molecules, spells out the criterion and replaces parent-clear with no parent match meeting that criterion. ASO-R2 caught a new definition error: dinucleotides are adjacent two-base sequences along one strand, not adjacent base pairs across strands. That error is corrected.
+
+ATR-R1 caught the initial abstract assigning drug response to fusion proteins. The repaired sentence separates protein recruitment from the response of EMC cells. ATR-R2 restores the type-1/type-2 scope described above. ATR-R3 makes the abstract explain protein building, reading frame, RG pairs and FET membership; the first repair explicitly defined the 0.000 and 1.000 values as none/all of the normal partner's RG pairs rather than recruitment scores. The focused continuation then removed that repeated technical comparison from the abstract while retaining its detailed distinctions in Results 3.4. The detailed sequence-length grid remains at its original Methods/Results/Table locations.
+
+The initial manuscripts are retained byte-for-byte under `review-initial/`. This audit acknowledges the two new semantic mistakes, rather than treating marker counts as proof of preservation. The full before/after batch is in `INDEPENDENT-REVIEW-REPAIRS.json`; the source-to-final change maps also identify the relevant review findings. Final acceptance remains the independent reader's focused verification of these corrected hashes.
+
+## Remaining integration requirements
+
+One independent editorial/semantic check must review these exact draft hashes. This authoring pass does not constitute that check. No repository-wide claims/citations/figure gate or full CI was run, and no such success is claimed. The new package must retain its existing scientific inputs and bind any later artifact checks to its final generated bytes.
+
+The ATR source has a pre-existing declaration conflict: it says no competing interests, while the September 11 portal receipt records the author's non-financial interest as an EMC survivor. The receipt explicitly directs alignment before a later journal submission. These drafts preserve all source declarations as assigned; the coordinator should apply the already-authorized disclosure-only alignment explicitly, with its own change record, before external use. It must not be silently treated as a readability deletion or a new scientific result.
+
+Image links are intentionally still the source-package relative links. Review these as text proposals; only a new package with the existing figure files and final artifact verification can be considered ready to export. No current public version is marked corrected here.
+
+## Advisory screen and binding
+
+| Paper | Mean words/sentence, source → proposal | >40-word sentences | FK grade | Caution count |
+|---|---|---|---|---|
+| ASO | 14.8 → 13.0 | 0.4% → 0.0% | 12.0 → 11.1 | 32 → 39 |
+| ATR | 20.0 → 14.6 | 11.0% → 1.3% | 11.6 → 9.9 | 70 → 68 |
+
+These figures screen prose only; they do not establish clarity, scientific validity, or readiness. Table rows and bibliography preservation are checked separately.
+
+- ASO source SHA256: `2586da447a75534d201bdd39292d305cb94b3e75406d4ab63e4f1cd35d195cd2`
+- ASO proposed manuscript SHA256: `13599b1c16ed8389c39a45cf256b413c1cf0bec73fe8b3fb304013309fbca11c`
+- ATR source SHA256: `f18e1931645bf6a5ac80779cf4d192fc68caca06d7fe6ff4d74b518ca84347cd`
+- ATR proposed manuscript SHA256: `b9e77e7a4ee5a72e1a791baa1733a63409172abce4f2ce3b3ba9f78506b0ef6e`
+- ATR SI source and proposal SHA256: `100a7a78eee0299b867e9a4b28ab0ac2dd74dd3de4416ba169e70c815ad6e2ca` (byte-identical).
+
+### ATR focused abstract continuation
+
+The independent reader's focused continuation found that defining the numeric recruitment anchors still overwhelmed the abstract and could imply new recruitment measurements. The exact three-sentence block was replaced by the distinction between earlier experiments and what the EMC sequence models cannot establish. The 0.000–0.267 comparator span, unknown measured-construct breakpoint, and 0.000/1.000 measurement anchors remain in Results 3.4. Four models, the 59-amino-acid difference, both 8/30 and 0/30 counts, the TCF12 result, and the explicit no-experiment conclusion remain in the abstract. This is relocation of repeated technical detail, not loss of a result or caution. INDEPENDENT-REVIEW-REPAIRS.json records both before and after; review-initial/ATR-after-first-repairs.md preserves the preceding bytes. All table, bibliography and prediction comparisons were rerun and passed. The final hash above is the repaired file; focused independent acceptance is recorded only in the separate review.

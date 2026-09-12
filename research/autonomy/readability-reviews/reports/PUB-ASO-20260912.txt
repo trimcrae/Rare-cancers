@@ -1,0 +1,64 @@
+# ASO independent editorial review
+
+Initial disposition: **needs_repair**. The working-scientist body is substantially clearer and follows a coherent argument. The abstract still relies on central undefined terms, and one new definition in Results changes the meaning of dinucleotide. These are bounded editorial repairs; no new scientific analysis is required.
+
+Reviewer: `/root/atr_revision_upload_inventory`, an independent Codex LLM agent that did not author the ASO or ATR proposals. The environment identifies the assistant as based on GPT-6; exact served-model revision and backend metadata are not observable. This is an LLM editorial/semantic review, not human peer review or experimental validation. The reviewer previously authored the separate tissue-RNA proposal and did not review that paper here.
+
+## Bound inputs
+
+- Proposed main: `work/preprint-readability-20260912/aso-atr/ASO-manuscript.proposed.md`; SHA256 `77c9a98d48b1c160f312776dae15ed74e9d32c94001c2b8bd0502647426e0b3d`.
+- Source: `research/release-candidates/PUB-ASO/2026-09-10-cbc/manuscript.md.txt`; SHA256 `2586da447a75534d201bdd39292d305cb94b3e75406d4ab63e4f1cd35d195cd2`.
+- Existing Supplementary File 1: `research/release-candidates/PUB-ASO/2026-09-10-cbc/fusion-junction-aso-sequences.csv`; SHA256 `9b82929a3433dddb9fbd3369ed4cf4b45f65c4ab23446616a26eb327ea856fa3`.
+- Existing Supplementary File 2: `research/release-candidates/PUB-ASO/2026-09-10-cbc/supplementary-file-2.docx`; SHA256 `517625312a85de44b00c8717b6b1a3fd9d14df10a6c4838a06f275dbd7fe4790`.
+
+Absolute paths, time and check fields are in `ASO-review.json`. Main source is the frozen Word readback, not a generator input. The review covers the proposed text, not a new DOCX/PDF or the live public version. Existing SI explanatory prose was read, including all CSV comment instructions and all Word paragraphs; sequence rows were treated as unchanged technical records, not reanalyzed.
+
+## Required repairs
+
+**ASO-R1 — Abstract: the central criterion is not yet self-contained for a nonspecialist.** The opening now explains a gapmer and a fusion join, but the next sentences require “16-mers,” “mature transcripts,” “exhaustive transcript substitutions,” “DNA gap,” “duplex” and “parent-clear.” In particular, a reader cannot tell what the DNA gap is or whether “parent-clear” means experimentally selective. The final no-cleavage/safety caveat is valuable but does not define the result. Define the central DNA segment briefly, use 16-base designs, and say that “parent-clear” means no parent match meeting the adopted cutoff. Explain mature versus unspliced RNA if both remain in the abstract. The detailed five-screen inventory may remain in Methods rather than carrying the abstract. Preserve 190/38, 87/190 and 45.8%, 61, 40.6%, 35/38, eight/nine, adopted ten-base convention, model mismatch, no experiment and all effect/safety limits.
+
+**ASO-R2 — Results 3.3: dinucleotide is defined as a base pair.** The new explanatory clause reads “the bases are rearranged while retaining the counts of adjacent base pairs.” A dinucleotide is two adjacent nucleotides along a strand; a base pair normally joins bases across paired strands. This distinction matters in a paper whose main measurement is duplex base pairing. Replace the definition with “counts of adjacent two-base sequences,” or equivalent. The original source did not make this definitional error.
+
+No other new numerical or claim-strength blocker was found in the body. These findings were sent to root while the review was in progress.
+
+## Five reader explanations, independently written
+
+**Question:** Can short molecules designed to bind the RNA join in an NR4A3 fusion avoid matching RNA from the normal parent genes?
+
+**Approach:** The study designed 190 molecules across 38 modeled fusion junctions and screened their sequences against several kinds of RNA and the genome. It separately checked partial pairing through the molecule's central DNA segment and compared the results with artificial junctions.
+
+**Main finding:** At the adopted ten-base cutoff, 87 designs, or 45.8%, matched a mature normal parent. Choosing among designs gave one without such a match for 35 of 38 junctions. But the answer changed with the cutoff, and artificial exon joins had a similar rate, leaving an EMC-specific excess unresolved.
+
+**Main limitations:** Sequence pairing is not measured RNA cleavage or therapeutic selectivity. The ten-base cutoff is a convention; some searches were incomplete, modified chemistry is not captured by the temperature model, and the reported cell-model junctions have not been matched at nucleotide resolution. Delivery, potency, safety and a therapeutic window were not measured.
+
+**Next step:** Establish the actual model's RNA junction before choosing a design. Any subsequent evaluation would need the stated controls and measurements that separate fusion knockdown from normal-parent effects, with enough precision to interpret the result. The paper itself reports no laboratory work.
+
+These explanations are recoverable from the full proposal. Their recoverability does not erase ASO-R1: the abstract alone still asks the nonspecialist to decode the decisive measurement.
+
+## Complete coverage and semantic checks
+
+Read all main sections: title/identity/keywords; Abstract; Introduction; Materials and methods; Results 3.1–3.3; Discussion 4.1–4.3; Acknowledgments; CRediT; Statements and Declarations; AI declaration; all 24 references; Tables 1–2 and surrounding captions; Figure 1 legend. Read Supplementary File 2 in full and the reader-facing comments of Supplementary File 1. The applicable SI is technically detailed but purpose-specific and retains clear cautions separating archived outputs, interpretation corrections, unmeasured chemistry and unresolved model correspondence. No readability repair to its immutable data rows is needed.
+
+The main story works for a scientist: define the RNA-targeting proposal → explain partial normal-parent pairing → separate gap length from duplex cutoff → apply five screens → report common pairing and cutoff/null limits → establish the unresolved cell-model match → state the proposed precision-limited test → stop short of biological or clinical claims. The longer Methods/Results enumerations carry necessary distinctions and are not defects merely because they are technical.
+
+Source comparison preserved all named sequences and table rows, both different match definitions, whole-gap/partial-gap limits, search censoring, overlapping 87/19/93 classes, energy upper bounds, longer-gap floors, 35/38 versus three all-screen-clear designs, null comparison, model coverage versus patient screening, non-confidence range and 21-year transfer, model-junction inference and alternative-acceptor noninterchangeability. It also preserved the adopted 5.0 selectivity ratio, unmeasured 0.35 variance and precision/void-test restriction. The existing SI temperature corrections agree with the proposed Table 1.
+
+Reviewer independently checked that all eight Markdown table lines match the source exactly, the full reference block is exact, and the URL sets agree. No new sequence computation or full scientific re-review occurred. The draft's plain “liability means predicted sequence pairing, not demonstrated damage” is a useful clarification; ASO-R2 is the exception requiring correction.
+
+All decisive limitations remain: no new priority claim for oligonucleotide screening, no measured cleavage/duplex formation, no efficacy/safety/delivery result, adopted chemistry-toxicity premise remains untested, absence of a near-match is bounded by search coverage, parent and energy screens are not ranked against each other, and the cell-model match remains inference. Caution-marker scores were not used as signoff.
+
+## Disclosure and release boundary
+
+The ASO source's nonfinancial EMC-survivor disclosure remains in the proposal; no disclosure omission was introduced. This is separate from the pre-existing ATR disclosure mismatch already raised by the writer. No claims are made about live posting, account completion, exports, journal readiness or author certification.
+
+After the writer freezes corrected bytes, verify only ASO-R1 and ASO-R2 and append a disposition tied to those hashes. Preserve this initial record of the defects.
+
+## Focused repair verification — 2026-09-12T11:55:04.840151+00:00
+
+Final editorial disposition: **pass** for SHA256 `13599b1c16ed8389c39a45cf256b413c1cf0bec73fe8b3fb304013309fbca11c`. Initial `needs_repair` findings and their original hashes above remain part of the record. The JSON preserves the complete initial review under `history` and carries the actual final checks at top level.
+
+I read the entire corrected Abstract and Results 3.3 paragraph and checked the complete initial-to-final diff. Only these two passages changed. The final abstract explains a gapmer's central DNA gap, describes the design length as 16 bases, and replaces “parent-clear” with the precise absence of a normal-parent match meeting the adopted criterion. Its question, comparison, main finding and central uncertainty are understandable to an interested nonspecialist. The five detailed screening procedures remain in Methods. The 190/38 design scope, 87/190 (45.8%), 61, 40.6%, 35/38, eight/nine-base findings and ten-base convention remain. No laboratory validation or therapeutic benefit is implied. **ASO-R1 is resolved.**
+
+The control paragraph now defines a dinucleotide scramble by adjacent two-base sequences along a strand. It preserves the 10.0% and 3.9% findings and the warning that passing the computational screen does not establish inertness. **ASO-R2 is resolved.**
+
+All six final reader checks pass. The initial full prose and applicable SI review remains applicable to all unchanged sections. I remeasured the comparison source and both retained supplements; their hashes match the initial record exactly. This focused check did not rerun science or add another complete review cycle. The five plain-language reader explanations in the JSON remain my answers to this final manuscript. This pass applies to the proposed source and exact retained supplements; exports, older submitted packages and publication approval are separate.

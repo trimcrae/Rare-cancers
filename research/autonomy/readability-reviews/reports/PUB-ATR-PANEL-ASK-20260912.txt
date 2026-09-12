@@ -1,0 +1,74 @@
+# ATR independent editorial review
+
+Initial disposition: **needs_repair**. The body is much easier to follow, especially transcript-first assembly and the distinct outcomes of the proposed assay. Two new scope/subject errors need correction, and the abstract remains too dependent on specialist shorthand for the requested nonspecialist audience.
+
+Reviewer: `/root/atr_revision_upload_inventory`, an independent Codex LLM agent that did not author either the ASO or ATR proposals. Environment instructions identify the assistant as based on GPT-6; exact served-model revision and backend metadata are not observable. This is an LLM editorial/semantic review, not human peer review or experimental validation. The reviewer authored the separate tissue-RNA proposal, which is not being reviewed here.
+
+## Bound inputs
+
+- Proposed main: `work/preprint-readability-20260912/aso-atr/ATR-manuscript.proposed.md`; SHA256 `f959f84d456fae3b92b52ac9813143f1ff2b0bd77e3c8ef1662686751fa490b6`.
+- Source main: `research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/manuscript.md.txt`; SHA256 `f18e1931645bf6a5ac80779cf4d192fc68caca06d7fe6ff4d74b518ca84347cd`.
+- Proposed SI: `work/preprint-readability-20260912/aso-atr/ATR-supplement.proposed.md`; SHA256 `100a7a78eee0299b867e9a4b28ab0ac2dd74dd3de4416ba169e70c815ad6e2ca`.
+- SI source: `research/release-candidates/PUB-ATR-PANEL-ASK/2026-09-10-cancer-genetics-r1/supplement-source.txt`; same SHA256 and byte-identical to proposed SI.
+
+Absolute paths, review time and check fields are in `ATR-review.json`. This proposal derives from the later journal/revision text. It is not a newly verified public v1 download, an exported manuscript, or a posted correction.
+
+## Required repairs
+
+**ATR-R1 — Abstract Background, line 35: wrong subject for drug response.** “It remains untested whether NR4A3 fusion proteins collect at DNA double-strand breaks or respond to drugs that inhibit the DNA-damage-response protein ATR.” Recruitment is a protein property measured in an assay; response to ATR-inhibitor treatment is a cellular or tumor outcome. The rewritten sentence explicitly assigns both to the protein and invites a wrong reading. Separate the questions, for example protein recruitment versus responses of cells carrying these fusions. Continue to state that neither was tested; do not imply the sequence results predict drug response.
+
+**ATR-R2 — Results 3.4, line 243: type-specific result generalized to all models.** “The EMC models fall within the retained-RG range covered by reported breakpoints in diseases already studied” replaces the source's “Neither EMC type falls outside,” whose surrounding sentences explicitly refer to type 1 and type 2. Table 3 also contains type 5 at 0.367, outside the stated EWSR1::ATF1 reported-breakpoint span of 0.000–0.267. Restore explicit scope to the EWSR1::NR4A3 type-1 and type-2 models. The table and source already resolve this; no new computation or scientific inquiry is needed. The author's audit currently calls the broad sentence equivalent, so that disposition also needs correction.
+
+**ATR-R3 — Abstract: central concepts remain unexplained for a nonspecialist.** “Reference-model reading frames,” “FET-family partners,” “protein-recruitment anchors,” “N-terminal,” “in-frame,” “residues” and “prefixes” still carry the main result. RG is expanded, which helps, but the reader is not told what the 0.000/1.000 anchors measure. They can be mistaken for measured recruitment scores rather than retained-RG positions of constructs whose recruitment was measured. Explain the gene-join/protein-building question, define the required protein vocabulary in plain language, and make clear what the fractions represent. Detailed exon labels, grid specification and intermediate comparison numbers can remain in Methods/Results if condensation is needed. Preserve the 59-residue insertion as a model prediction, type-1/type-2 RG findings, unknown comparator breakpoint, sampled-grid limit, single-annotation and patient-junction limitations, and explicit absence of recruitment/drug-response experiments.
+
+All three findings were sent to root during the review. These are editorial/semantic blockers to this draft's clarity disposition, distinct from the already flagged disclosure issue.
+
+## Five reader explanations, independently written
+
+**Question:** What proteins are predicted by reported NR4A3 gene joins in EMC, and what limited predictions can their sequences support about collecting at damaged DNA?
+
+**Approach:** The study assembled joined RNA sequences from public reference transcripts, translated them into protein models, and counted retained arginine-glycine pairs. It compared these sequence features with constructs studied in other fusion cancers and compared TCF12 with the FET protein family across a common set of sequence lengths.
+
+**Main finding:** Four reported junctions yielded models preserving the complete NR4A3 portion. Building the RNA join first predicts an extra 59 amino acids in one model that the earlier protein-level model omitted. The type-1 and type-2 models retain different amounts of RG sequence. TCF12 remains compositionally separate from FET proteins across the evaluated lengths.
+
+**Main limitations:** These are reference-sequence predictions, not observations of patient proteins or protein recruitment. Exon numbering rests on one annotation source and patient junctions remain unverified. Sequence position between measured comparison constructs does not provide a recruitment measurement. The proposed experiments cannot uniquely attribute an outcome to RG content, and nothing here establishes ATR-inhibitor response or clinical benefit.
+
+**Next step:** Verify the actual nucleotide junctions and then test the specified recruitment predictions with the stated comparison and partner-alone controls. The TCF12-fusion prediction cannot be tested with full-length TCF12 alone; it needs a sourced fusion junction and a corresponding construct. No laboratory work is reported by this paper.
+
+The complete body supports these explanations. The abstract alone is not yet sufficient to recover the meaning of the reference fractions without reading the Methods.
+
+## Complete coverage and retained boundaries
+
+Read the entire proposal: title/identity/running title/keywords/scope statement; Abstract; Introduction; Methods 2.1–2.6; Results 3.1–3.5 with Tables 1–4 and the complete Figure 1 caption; Discussion/predictions including Table 5 and every correction/causal limitation; Constructs and controls; all eight Limitations; scope/declarations block; Data/code table and prose; Author declarations; AI declaration; all ten references. Read the full SI, including S1, S2, S3 and its continuation, legacy-rank warning, UNRESOLVED interpretation and bibliography. Recovered the full portions omitted by an initially truncated tool display in later bounded reads; no section is counted as read solely from the author's checklist.
+
+The story now works for a scientist: the proposed extension from other FET cancers is untested in EMC → building a transcript before translating it matters → define RG counting and the composition comparison → retain single-source annotation uncertainty → present four constructs and the insertion → separate model placement from measured recruitment → preserve the registered predictions while explaining their overlap, equivalence and causal limits. Introduction defines recruitment, GFP, double-strand breaks, low complexity and RGG regions. Methods explains cDNA, protein-reading-frame checks and the amino-acid composition measure. Technical exon tables and archive records appropriately remain detailed.
+
+Source comparison checked the transcript-versus-coding-exon distinction, single-cache limitation and original indexing failure; 793/264/177/1+176/174+2/58/949 insertion arithmetic; nonnovelity of an N-terminal addition; computed rather than observed protein; operational box versus RG counts; 174/13 versus 175/14 correction without rewriting stored fields; TCF12 grid/0.039 margin and unsampled-length restriction; P2/P4 dependence and P1 absence-of-equivalence criterion; all four P5 outcomes and nonunique causation; no TCF12 fusion construct; and the restriction to recruitment rather than ATM/ATR/clinical endpoints. ATR-R2 is the concrete exception where prose broadens the source's scope.
+
+Reviewer independently verified exact equality of all 53 Markdown table lines and the reference block, agreement of URL sets, and byte identity of the full SI. Exact P1–P5 rows, historical records, model tables and sequence strings were preserved. No immutable prediction was edited or re-registered. The SI's legacy “second reported” rank remains clearly labeled as a source description governed by the counted evidence in main Table 1. UNRESOLVED fields are not replaced by inferences.
+
+The 70→66 caution-marker decrease reported by the author was not accepted on totals alone. Most substitutions preserve the negative meaning, such as “not reconciled” to “remains unresolved,” and the restrictions remain visible in the full paragraphs. However, the explanation that “Neither EMC type” became an equivalent positive statement fails because the new subject is broader; that is ATR-R2. This illustrates why a marker count or polished paragraph is not a semantic pass.
+
+## Disclosure and release boundary
+
+The existing source contains the previously reported mismatch between generic no-competing-interest statements and the author's later recorded nonfinancial EMC-survivor disclosure. The writer preserved those source declarations. This is a separate disclosure-alignment requirement already assigned to root; it is not a new readability finding, and this review neither certifies the declarations nor removes that obligation.
+
+No web/UI use, experiment, fresh science analysis, export, full CI or provider action occurred. The body improvements do not make this version ready to publish while ATR-R1–R3 and the separately tracked disclosure alignment remain unresolved.
+
+After corrected draft hashes are frozen, verify these three repairs and their local surrounding claims, then append a final disposition. Preserve this original needs_repair record rather than replacing it with a clean-pass narrative.
+
+## Focused repair verification — 2026-09-12T11:57:23.075583+00:00
+
+Final editorial disposition: **pass** for SHA256 `b9e77e7a4ee5a72e1a791baa1733a63409172abce4f2ce3b3ba9f78506b0ef6e`. This is a readability and preservation pass for the proposed source plus unchanged SI, not a submission approval. Initial `needs_repair` findings and hashes above remain in the record. The JSON preserves the complete initial review and the intermediate repair judgment under `history`, with actual final six checks at top level.
+
+The first frozen repair, SHA256 `dd652e75d37c49e08bbd461c5e6047bd8c63aaf4f9d3ce674202a609deb7c6f1`, fixed the two scientific-wording mistakes. The abstract now assigns drug response to EMC cells and recruitment to fusion proteins (**ATR-R1 resolved**). Results 3.4 explicitly restricts the comparator-range statement to EWSR1::NR4A3 type-1 and type-2 models; it no longer encompasses the type-5 model at 0.367 (**ATR-R2 resolved**). The writer's audit now acknowledges the erroneous broadening instead of claiming equivalence.
+
+The first repair explained reading frame, RG pairs and FET membership, but its abstract Results still made readers reconcile three modeled breakpoints, a 0.000–0.267 span and 0.000/1.000 experimental positions. Root independently raised the same comprehension concern. I agreed that this obscured the main result and that “Recruitment was measured” risked attributing prior measurements to this study. **ATR-R3 therefore remained open at that intermediate hash.** I recommended one plain-language replacement; the writer applied it and preserved the intermediate file at `aso-atr/review-initial/ATR-after-first-repairs.md`.
+
+I read the final entire abstract and its exact diff. Only that three-sentence comparison block changed after the first repair. It now says: “Comparison with proteins tested in earlier studies provides context for these counts but does not establish whether the EMC proteins collect at DNA breaks.” The abstract communicates what protein sequences were modeled, why their composition was compared, what changed in the models and what remains unmeasured. The four-model result, 59 extra amino acids, 8/30 versus 0/30 retained RG pairs, and TCF12 sampled-length result remain. **ATR-R3 is resolved.** This is a judgment about the actual story, not a pass awarded for adding definitions or improving a score.
+
+I read Results 3.4 and Table 3 again to verify the relocated detail: three reported EWSR1::ATF1 breakpoint models, their 0.000–0.267 span, the unstated breakpoint of the experimentally measured construct, and the 0.000/1.000 measured comparison positions are all retained, explicitly distinguished from EMC recruitment measurements. The sampled grid starting at 50 residues in 10-residue steps remains in Methods 2.3 and later results. The final abstract explicitly keeps the one-annotation, unverified-patient-junction and sampled-length limits, and states no experiment, recruitment measurement or ATR-inhibitor response test was performed.
+
+All six final checks pass. The initial full body/SI review remains applicable to unchanged sections. Current source and proposed SI hashes match the initial review exactly; the SI remains `100a7a78eee0299b867e9a4b28ab0ac2dd74dd3de4416ba169e70c815ad6e2ca`. No unrelated manuscript passage changed during repair verification. The five plain-language answers in the JSON describe this final version; the limitations answer now also states the unstated comparator breakpoint and sampled-length scope explicitly. No scientific recomputation, export, UI operation or additional complete review round occurred.
+
+The pre-existing generic competing-interest statement remains a separate integration issue: align it with the author's already-recorded nonfinancial EMC-survivor disclosure before external use. Its preservation here is not approval of that declaration. This readability pass does not transfer to older posted/pending bytes or certify future exports without the required comparison.

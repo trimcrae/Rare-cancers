@@ -1,0 +1,95 @@
+# Independent readability and semantic-preservation review: surface/tissue RNA
+
+Review date: 12 September 2026. Reviewer: independently assigned child agent `/root/atr_landing_update`. This agent did not draft or edit the surface proposals. The exact underlying model identifier and reasoning setting were not exposed in this review context; no specific model or setting is asserted.
+
+**Verdict: PASS for full-manuscript readability and preservation of the source's scientific meaning.** No new readability or semantic-preservation blocker was found in the two reviewed files. The existing competing-interest declaration needs the coordinator's separate reconciliation; this pass does not resolve that issue or authorize publication.
+
+## What I read and independently checked
+
+I read the full proposed main manuscript and supplementary information, including all Methods, Results, Discussion, declarations, references, legends and tables. I then read both complete original source files and compared their scientific content with the proposals. I read the worker's AUDIT and advisory/preservation records as supporting records, rather than treating their reported success as the independent verdict. Local text comparisons independently confirmed the hashes, retained numerical Results, tables, links, code spans, code fences, references and declarations described below.
+
+This was quiet, lightweight local text work. I did not use a browser, screenshots, network access, rendering, external downloads, scientific recomputation or full CI. I made no manuscript or source edits. This review establishes editorial fidelity to the identified retained sources; it does not independently validate their underlying biology, external citations or current public posting status.
+
+The source root is `C:/Users/mcrae/.codex/worktrees/emc-fo-figure4-20260909/EMC-Research`. Proposal paths are under `C:/Users/mcrae/Documents/Codex/2026-09-07/emc-research-orchestrator/work/preprint-readability-20260912/surface`.
+
+| File | Bytes | Independently calculated SHA256 |
+|---|---:|---|
+| Source `research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md` | 24070 | `90de2b63dfb3281e75dd3e4f9c757c39855d8ce04e70cec44016395de5512458` |
+| Proposal `manuscript-proposed.md` | 28356 | `562c09f24f7d4fc5efa10c9248a71ca79ed8b15d8b92b1793fecb86493139474` |
+| Source `research/manuscripts/surface-targets/emc-tissue-rna-prioritization-si.md` | 12448 | `e404b5e3fadf662a879a0d34935abc43ff74ad847021a37a842a4637ce0332a4` |
+| Proposal `supplementary-information-proposed.md` | 14387 | `e95fb004dca813be49f681fe02d6ddb3a586ef7053804ab88819ad020279c5eb` |
+
+The retained `research/release-candidates/PUB-SURFACE-TARGETS/research-square-v1/emc-tissue-rna-prioritization-research-square.md.original.txt` has SHA256 `a652ba96f172617c3bdc0ccee1c5653f995523f1546300f57246fa13075b96ca`. Its hash was checked as a provenance boundary, not as the editorial comparison baseline. These proposals revise the retained corrected manuscript and SI identified above. They are not asserted to be byte-for-byte revisions of a freshly retrieved public v1, nor evidence that a later public version has posted. The worker's audit makes this distinction explicit.
+
+## Five questions, answered from the proposals
+
+1. **What is the question?** Can RNA measurements in this rare cancer identify a gene worth examining directly in tumor tissue, and does the answer change when different sarcomas or sequencing years are used for comparison?
+
+2. **What did the authors do?** They tested a previously fixed list of 11 genes using nine EMC tumors and 45 tumors from three other sarcoma types. They compared how often EMC had the higher RNA measurement, repeated comparisons within the same sequencing year, and tested sensitivity to removing patients, cancer types or years. A second dataset provided six EMC and 17 low-grade fibromyxoid sarcoma biopsies for a separate comparison. A previously studied RNA marker, CHRNA6, was a control outside the 11-gene selection rule. Normal-tissue and protein observations supplied separate context.
+
+3. **What was the main finding?** CSPG4 alone met the fixed selection rule. It had higher RNA ordering against low-grade fibromyxoid sarcoma in both datasets. But the positive combined result depended on the comparison: removing 2019 reversed the within-year summary, and the overall comparison with dermatofibrosarcoma protuberans was not positive. The finding supports a specific tissue follow-up question rather than a general claim that CSPG4 distinguishes EMC from all sarcomas.
+
+4. **What are the main limitations?** Only four distinct EMC patients contributed to the combined within-year comparisons. Sequencing year incompletely represents processing differences. The cohorts are small convenience samples with remaining uncertainty about historical overlap and array lesion stage. Bulk RNA mixes cancer-cell and other-cell signals, and normal-tissue observations do not establish safety. RNA measurements cannot establish accessible protein on cancer cells, diagnostic accuracy or treatment benefit. The fixed threshold organizes follow-up; it is not a clinically validated cutoff.
+
+5. **What should happen next?** Examine CSPG4 protein directly in EMC tissue to determine whether it is located in malignant cells and whether it is accessible, across relevant specimen and technical variation. Diagnostic performance and treatment safety or benefit would require further distinct evidence. No claim that those requirements are already satisfied is made.
+
+The abstract itself supports these five answers without requiring a reader to understand the formula, software versions or archive records. Gene names serve as identifiers rather than unexplained mechanistic arguments. Long sarcoma names remain necessary identifiers and are written out. Technical detail follows in Methods and the SI.
+
+## Actual section coverage
+
+Line numbers below refer to the hashed proposals. Every named section was read, rather than sampled.
+
+| Main section | Lines begin | Review outcome |
+|---|---:|---|
+| Frontmatter, title, author, running title | 1, 16 | Identity and title retained; the title foregrounds comparator and year dependence. |
+| Abstract; Keywords | 25, 35 | Question, approach, result, crucial negative observations and boundary are understandable on their own. |
+| Introduction | 39 | RNA versus protein is established first. CHRNA6 history remains RNA CISH, not protein validation or a novel discovery. |
+| Methods: cohorts and fixed panel | 49 | Specimen exclusions, comparator counts, exact panel, PRAME exception, array scope and prospective-to-analysis boundary retained and explained. |
+| Methods: comparison score and rule | 63 | Pairwise superiority and ties are defined before the rule; marginal and within-year summaries remain distinct. |
+| Methods: uncertainty and reproducibility | 75 | Conditional bootstrap, sparse strata, deletion support, normal context and computational-versus-biological validation remain explicit. |
+| Results: full panel | 89 | Sole passing gene, all unfavorable groups, L1CAM threshold and independent synovial failure retained. |
+| Results: CSPG4 and year dependence | 97 | Cross-cohort LGFMS result, deletion ranges, 2019 reversal and contrary DFSP comparison retained. |
+| Results: protein and normal tissue | 107 | Normal overlap and separate negative PRAME protein cohort remain substantive constraints. |
+| Discussion | 113 | Six paragraphs separate interpretation, negative findings, specimen limits, measurement limits, unassessed sex/gender effects, and next evidence needed. |
+| Data, code and declarations | 127 | Entire section text is unchanged; disclosure issue is separated below. |
+| References | 143 | All nine reference entries unchanged. |
+| Figure legends | 163 | Both legends read; denominators, display-only transformation and descriptive deletion-point limits preserved. |
+
+| SI section | Lines begin | Review outcome |
+|---|---:|---|
+| Frontmatter, title and archive boundary | 1, 16 | Historical scientific archive is identified and remains distinct from revised explanatory prose. |
+| Source inventory and specimen scope | 20 | Every source row and individual sample exclusion retained. Abbreviations are expanded; four unique matched EMC is clear. |
+| Exact measurement contract | 40 | All probe IDs and digests retained. Formula variables, indicator function, weighting and pointwise uncertainty are explained. |
+| Tables and evidence files | 69 | Every table/file reference and normal-evidence caveat retained; PRAME negative case counts and ancillary-assay limits retained. |
+| Reproduction and figure status | 83 | Historical commands/results, runtime versions, comparison counts, same-host restriction and rendering provenance retained. No new execution is implied. |
+| Table S1, all fixed-panel effects | 95 | Every row, numerical entry and pass/fail/control label is identical. |
+
+## Scientific meaning and qualification checks
+
+The revised Results retain the same numerical-token multiset as the source Results. All main/SI table lines are identical, as are the nine main reference entries, URLs, inline code and fenced code. The main declaration section is exactly unchanged. A first naive inline-code scan accidentally spanned a fenced block; a fence-aware comparison confirmed both inline code and fenced blocks are unchanged.
+
+The abstract removes repeated rounded LGFMS values 0.966 and 0.933 and the DFSP value 0.467. Their corresponding full-precision results remain in the body (0.96581, 0.93333 and 0.46667), and the qualitative results remain in the abstract. The array A=1.000 result likewise remains in Results. The abstract's 45 comparison tumors is the retained total 14+13+18, not an added cohort. The detailed pair-score formula and individual matched-contrast denominator remain in Methods/SI. This is relocation of detail, not removal of an unfavorable result.
+
+I specifically checked preservation of the following distinctions:
+
+- Nine primary EMC overall versus three per matched histology and four unique matched patients; matched comparisons do not imply nine matched patients.
+- The rule was fixed before the investigator inspected new values, not publicly preregistered and not prospective specimen collection.
+- All three rule conditions, the 0.70 threshold and >0.50 direction tests remain unchanged. Year deletion is an interpretation qualifier; the text does not invent a different pass rule to remove CSPG4's original pass.
+- CSPG4's positive pointwise intervals do not negate the 2019-deletion reversal. Conditional bootstrap limitations and the degenerate MLPS interval remain explicit.
+- Negative or discordant panel findings remain visible, including PRAME, L1CAM, ALPP and cross-platform reversals. CHRNA6 remains outside the candidate pass count.
+- The DFSP result is consequential contrary context, although outside the primary rule. Revised diagnoses remain partly expression-informed and not independent confirmation.
+- Bulk RNA does not locate protein in malignant cells. HPA normal localization, missing or uncertain stains, antibody ambiguity and the colon-versus-EMC overlap are retained; record counts are not promoted to independent donors.
+- Five negative PRAME protein specimens are neither a paired RNA/protein experiment nor proof of universal protein absence or absent peptide-HLA presentation.
+- Historical reproducibility numbers and protocols are preserved, with the same-host replay and computational-versus-biological distinction intact. No archival scientific decision is rewritten.
+
+## Readability judgment and remaining boundary
+
+Paragraphs now tell a sequence: why RNA is useful but limited, how comparisons were defined, which result survived the fixed rule, what weakened that result, and which tissue observation would answer the next question. Methods preserve rigor while defining the score and named procedures at first use. The SI is necessarily technical, but its introductory definitions and section organization explain how its records relate to the main claim.
+
+For example, the former opening phrase “comparative molecular characterization” becomes the concrete statement that CSPG4 is worth examining directly in EMC tissue and immediately gives the qualifiers. “Bulk tissue admixture” becomes an explanation that tissue mixes signals from malignant and nonmalignant cells. “Pointwise” intervals are explained as describing one estimate rather than simultaneous coverage of all estimates. These changes improve comprehension without increasing the strength of the conclusions.
+
+The worker's advisory screen reports main caution-marker counts of 35 to 59 and SI counts of 9 to 16, with lower sentence-length summaries. I inspected these records but did not use numerical improvement as signoff. My pass rests on the full reading, the five-question answers and the source comparisons above. Technical software names and archived file paths remain where they support reproducibility; their presence does not make the narrative depend on unexplained shorthand.
+
+**Separate known disclosure issue:** the unchanged main declaration says the author has no competing interests, and the SI records the earlier 7 September confirmation. The coordinator has identified disclosure reconciliation as an existing task. Its resolution belongs to the author/coordination process, not an editorial inference from this review. This readability pass must not be cited as clearance of that declaration or as confirmation of current publication metadata.
+
+No further prose repair is required by this independent review at the identified hashes. If the drafts change, this verdict applies only to the reviewed bytes and the changed passages should receive an appropriate follow-up check.

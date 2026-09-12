@@ -1,0 +1,71 @@
+{
+  "schema": "emc-llm-readability-review/1",
+  "paper_id": "PUB-SURFACE-TARGETS",
+  "review_kind": "independent_llm_editorial",
+  "reviewed_at": "2026-09-12T11:49:17.748687+00:00",
+  "reviewer": {
+    "agent_id": "/root/atr_landing_update",
+    "model": "GPT-6; unavailable; no backend served-model metadata observed",
+    "execution_evidence": "Actual collaboration-agent review and focused repair verification retained in research/autonomy/readability-reviews/reports/PUB-SURFACE-TARGETS-20260912.txt; structured original response at research/release-candidates/PUB-SURFACE-TARGETS/2026-09-12-readability/independent-review.json. Root read the report; no metric-generated signoff."
+  },
+  "writer_ids": [
+    "/root/atr_revision_upload_inventory",
+    "/root"
+  ],
+  "decision": "pass",
+  "unresolved_blockers": [],
+  "checks": {
+    "reader_facing_text_reviewed": true,
+    "abstract_understandable": true,
+    "terms_explained": true,
+    "narrative_followable": true,
+    "scientific_meaning_preserved": true,
+    "limitations_preserved": true
+  },
+  "reader_explanation": {
+    "question": "Can RNA measurements in this rare cancer identify a gene worth examining directly in tumor tissue, and does the answer change when different sarcomas or sequencing years are used for comparison?",
+    "approach": "They tested a previously fixed list of 11 genes using nine EMC tumors and 45 tumors from three other sarcoma types. They compared how often EMC had the higher RNA measurement, repeated comparisons within the same sequencing year, and tested sensitivity to removing patients, cancer types or years. A second dataset provided six EMC and 17 low-grade fibromyxoid sarcoma biopsies for a separate comparison. A previously studied RNA marker, CHRNA6, was a control outside the 11-gene selection rule. Normal-tissue and protein observations supplied separate context.",
+    "main_finding": "CSPG4 alone met the fixed selection rule. It had higher RNA ordering against low-grade fibromyxoid sarcoma in both datasets. But the positive combined result depended on the comparison: removing 2019 reversed the within-year summary, and the overall comparison with dermatofibrosarcoma protuberans was not positive. The finding supports a specific tissue follow-up question rather than a general claim that CSPG4 distinguishes EMC from all sarcomas.",
+    "main_limitations": "Only four distinct EMC patients contributed to the combined within-year comparisons. Sequencing year incompletely represents processing differences. The cohorts are small convenience samples with remaining uncertainty about historical overlap and array lesion stage. Bulk RNA mixes cancer-cell and other-cell signals, and normal-tissue observations do not establish safety. RNA measurements cannot establish accessible protein on cancer cells, diagnostic accuracy or treatment benefit. The fixed threshold organizes follow-up; it is not a clinically validated cutoff.",
+    "next_step": "Examine CSPG4 protein directly in EMC tissue to determine whether it is located in malignant cells and whether it is accessible, across relevant specimen and technical variation. Diagnostic performance and treatment safety or benefit would require further distinct evidence. No claim that those requirements are already satisfied is made."
+  },
+  "report": {
+    "path": "research/autonomy/readability-reviews/reports/PUB-SURFACE-TARGETS-20260912.txt",
+    "sha256": "6132a0d75d9a0e586144df7bfbe22d0cd15b1d367fcf6a8f197de56423beac7a"
+  },
+  "artifacts": [
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-12-readability/manuscript.md.txt",
+      "sha256": "562c09f24f7d4fc5efa10c9248a71ca79ed8b15d8b92b1793fecb86493139474",
+      "sections_reviewed": [
+        "Main: frontmatter, title, author and running title",
+        "Main: Abstract and Keywords",
+        "Main: Introduction",
+        "Main Methods: Cohorts and fixed panel",
+        "Main Methods: Comparison score and prioritization rule",
+        "Main Methods: Uncertainty and reproducibility",
+        "Main Results: Only CSPG4 met the panel rule; other genes depended on the comparison type",
+        "Main Results: CSPG4 was consistently higher than LGFMS, but its combined result depended on sequencing year",
+        "Main Results: Protein and normal-tissue observations limit what RNA can establish",
+        "Main: Discussion, every paragraph",
+        "Main: Data code and declarations, entire section",
+        "Main: References 1–9",
+        "Main: Figure legends 1–2",
+        "SI: Frontmatter, title and archive boundary",
+        "SI: Source inventory and specimen scope, including all source rows and patient IDs",
+        "SI: Exact measurement contract, probe table, formula and uncertainty",
+        "SI: Tables and evidence files, including HPA/PRAME qualifications",
+        "SI: Reproduction and figure status, including historical execution records",
+        "SI: Table S1, all 12 rows and explanations"
+      ]
+    },
+    {
+      "path": "research/release-candidates/PUB-SURFACE-TARGETS/2026-09-12-readability/supplement.md.txt",
+      "sha256": "e95fb004dca813be49f681fe02d6ddb3a586ef7053804ab88819ad020279c5eb",
+      "sections_reviewed": [
+        "Applicable supplementary reader-facing prose; detailed coverage and immutable-data boundary in retained independent report"
+      ]
+    }
+  ],
+  "release_boundary": "Editorial-source clarity/meaning approval only. Frozen public/pending packages remain unchanged; outgoing export comparison, rendered inspection, disclosure alignment, registered endpoint promotion and publication gates remain required."
+}

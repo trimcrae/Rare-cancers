@@ -1,0 +1,87 @@
+{
+  "schema": "emc-independent-editorial-review/1",
+  "paper": "SURFACE",
+  "disposition": "pass",
+  "reviewed_at": "2026-09-12T11:49:17.748687+00:00",
+  "reviewer": {
+    "agent_id": "/root/atr_landing_update",
+    "role": "independent LLM editorial and claim-preservation reviewer",
+    "model_family_as_declared": "GPT-6",
+    "exact_served_model": "unavailable; no backend served-model metadata observed",
+    "exact_reasoning_setting": "unavailable; no served reasoning metadata observed",
+    "independent_of_draft_writer": true,
+    "not_human_peer_review": true
+  },
+  "reviewed_inputs": [
+    {
+      "role": "proposed_main",
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\surface\\manuscript-proposed.md",
+      "sha256": "562c09f24f7d4fc5efa10c9248a71ca79ed8b15d8b92b1793fecb86493139474",
+      "current_hash_at_report_write": "562c09f24f7d4fc5efa10c9248a71ca79ed8b15d8b92b1793fecb86493139474"
+    },
+    {
+      "role": "proposed_si",
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\surface\\supplementary-information-proposed.md",
+      "sha256": "e95fb004dca813be49f681fe02d6ddb3a586ef7053804ab88819ad020279c5eb",
+      "current_hash_at_report_write": "e95fb004dca813be49f681fe02d6ddb3a586ef7053804ab88819ad020279c5eb"
+    },
+    {
+      "role": "comparison_source_main",
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization.md",
+      "sha256": "90de2b63dfb3281e75dd3e4f9c757c39855d8ce04e70cec44016395de5512458"
+    },
+    {
+      "role": "comparison_source_si",
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\manuscripts\\surface-targets\\emc-tissue-rna-prioritization-si.md",
+      "sha256": "e404b5e3fadf662a879a0d34935abc43ff74ad847021a37a842a4637ce0332a4"
+    },
+    {
+      "role": "historical_retained_v1_provenance_only",
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\release-candidates\\PUB-SURFACE-TARGETS\\research-square-v1\\emc-tissue-rna-prioritization-research-square.md.original.txt",
+      "sha256": "a652ba96f172617c3bdc0ccee1c5653f995523f1546300f57246fa13075b96ca"
+    }
+  ],
+  "all_sections_read": [
+    "Main: frontmatter, title, author and running title",
+    "Main: Abstract and Keywords",
+    "Main: Introduction",
+    "Main Methods: Cohorts and fixed panel",
+    "Main Methods: Comparison score and prioritization rule",
+    "Main Methods: Uncertainty and reproducibility",
+    "Main Results: Only CSPG4 met the panel rule; other genes depended on the comparison type",
+    "Main Results: CSPG4 was consistently higher than LGFMS, but its combined result depended on sequencing year",
+    "Main Results: Protein and normal-tissue observations limit what RNA can establish",
+    "Main: Discussion, every paragraph",
+    "Main: Data code and declarations, entire section",
+    "Main: References 1–9",
+    "Main: Figure legends 1–2",
+    "SI: Frontmatter, title and archive boundary",
+    "SI: Source inventory and specimen scope, including all source rows and patient IDs",
+    "SI: Exact measurement contract, probe table, formula and uncertainty",
+    "SI: Tables and evidence files, including HPA/PRAME qualifications",
+    "SI: Reproduction and figure status, including historical execution records",
+    "SI: Table S1, all 12 rows and explanations"
+  ],
+  "reader_explanation": {
+    "question": "Can RNA measurements in this rare cancer identify a gene worth examining directly in tumor tissue, and does the answer change when different sarcomas or sequencing years are used for comparison?",
+    "approach": "They tested a previously fixed list of 11 genes using nine EMC tumors and 45 tumors from three other sarcoma types. They compared how often EMC had the higher RNA measurement, repeated comparisons within the same sequencing year, and tested sensitivity to removing patients, cancer types or years. A second dataset provided six EMC and 17 low-grade fibromyxoid sarcoma biopsies for a separate comparison. A previously studied RNA marker, CHRNA6, was a control outside the 11-gene selection rule. Normal-tissue and protein observations supplied separate context.",
+    "main_finding": "CSPG4 alone met the fixed selection rule. It had higher RNA ordering against low-grade fibromyxoid sarcoma in both datasets. But the positive combined result depended on the comparison: removing 2019 reversed the within-year summary, and the overall comparison with dermatofibrosarcoma protuberans was not positive. The finding supports a specific tissue follow-up question rather than a general claim that CSPG4 distinguishes EMC from all sarcomas.",
+    "main_limitations": "Only four distinct EMC patients contributed to the combined within-year comparisons. Sequencing year incompletely represents processing differences. The cohorts are small convenience samples with remaining uncertainty about historical overlap and array lesion stage. Bulk RNA mixes cancer-cell and other-cell signals, and normal-tissue observations do not establish safety. RNA measurements cannot establish accessible protein on cancer cells, diagnostic accuracy or treatment benefit. The fixed threshold organizes follow-up; it is not a clinically validated cutoff.",
+    "next_step": "Examine CSPG4 protein directly in EMC tissue to determine whether it is located in malignant cells and whether it is accessible, across relevant specimen and technical variation. Diagnostic performance and treatment safety or benefit would require further distinct evidence. No claim that those requirements are already satisfied is made."
+  },
+  "checks": {
+    "reader_facing_text_reviewed": true,
+    "abstract_understandable": true,
+    "terms_explained": true,
+    "narrative_followable": true,
+    "scientific_meaning_preserved": true,
+    "limitations_preserved": true
+  },
+  "blocking_findings": [],
+  "report_path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\reviews\\SURFACE-review.md",
+  "report_sha256": "6132a0d75d9a0e586144df7bfbe22d0cd15b1d367fcf6a8f197de56423beac7a",
+  "disclosure_status": "Separate existing issue: unchanged no-competing-interests main declaration and earlier SI confirmation require coordinator reconciliation; not cleared by this editorial pass.",
+  "technical_scope": "Full local text and semantic review, exact Results numerical-token multiset, tables, reference entries, code, links and declaration comparisons; no scientific recomputation, UI, exports, network or full CI.",
+  "provenance_boundary": "Retained corrected main and SI are editorial baselines. Historical v1 original hash was checked as provenance only. No current public posting identity or later public version verified.",
+  "next": "No repair required by this independent review at these hashes; follow-up review of any changed passages remains appropriate."
+}

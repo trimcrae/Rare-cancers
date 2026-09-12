@@ -43,6 +43,18 @@ association, and experimental validation. No wet-lab claim can be established by
 
 ## Review with an endpoint
 
+**User rule, 2026-09-12: readability requires an independent LLM prose pass.**
+The writer applies the scientific-writing skill. A separate LLM reader reads the
+outgoing text, explains its question, approach, finding, limitations and next step,
+and checks that clarity did not cost scientific meaning. The abstract should be
+understandable to an interested nonspecialist. Record reader-facing prose coverage
+and the actual review against exact artifact hashes using
+[the readability review contract](readability-reviews/README.md).
+Sentence metrics and visual legibility are diagnostics, not clarity approval.
+The publication readability clause fails without a bound independent LLM receipt.
+One editorial repair batch and focused verification are sufficient for unchanged
+science; do not manufacture another scientific review cycle or retrospective pass.
+
 Freeze the outgoing files and identify their evidence before commissioning a review. Reuse
 existing completed reviews when their deliverable digest still matches. Read
 `publish_bar.py` for actual acceptance, not the convenience `converged` field alone.

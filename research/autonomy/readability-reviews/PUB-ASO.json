@@ -1,0 +1,78 @@
+{
+  "schema": "emc-llm-readability-review/1",
+  "paper_id": "PUB-ASO",
+  "review_kind": "independent_llm_editorial",
+  "reviewed_at": "2026-09-12T11:55:04.840151+00:00",
+  "reviewer": {
+    "agent_id": "/root/atr_revision_upload_inventory",
+    "model": "GPT-6; unavailable; no backend served-model metadata observed",
+    "execution_evidence": "Actual collaboration-agent review and focused repair verification retained in research/autonomy/readability-reviews/reports/PUB-ASO-20260912.txt; structured original response at research/release-candidates/PUB-ASO/2026-09-12-readability/independent-review.json. Root read the report; no metric-generated signoff."
+  },
+  "writer_ids": [
+    "/root/readability_aso_atr",
+    "/root"
+  ],
+  "decision": "pass",
+  "unresolved_blockers": [],
+  "checks": {
+    "reader_facing_text_reviewed": true,
+    "abstract_understandable": true,
+    "terms_explained": true,
+    "narrative_followable": true,
+    "scientific_meaning_preserved": true,
+    "limitations_preserved": true
+  },
+  "reader_explanation": {
+    "question": "Can short molecules designed to bind the RNA join in an NR4A3 fusion avoid matching RNA from the normal parent genes?",
+    "approach": "The study designed 190 molecules across 38 modeled fusion junctions and screened their sequences against several kinds of RNA and the genome. It separately checked partial pairing through the central DNA segment and compared the results with artificial junctions.",
+    "main_finding": "At the adopted ten-base cutoff, 87 designs (45.8%) matched a mature normal parent. Choosing among designs gave one without such a match for 35 of 38 junctions. Results changed with the cutoff, and artificial exon joins had a similar rate, leaving an EMC-specific excess unresolved.",
+    "main_limitations": "Sequence pairing is not measured cleavage or therapeutic selectivity. The cutoff is conventional, some searches were incomplete, modified chemistry is not captured by the temperature model, and cell-model junctions remain unresolved at nucleotide resolution. Delivery, potency, safety and a therapeutic window were not measured.",
+    "next_step": "Verify the actual model RNA junction before choosing a design, then use the stated controls and sufficiently precise measurements to distinguish fusion knockdown from normal-parent effects. No laboratory work is reported."
+  },
+  "report": {
+    "path": "research/autonomy/readability-reviews/reports/PUB-ASO-20260912.txt",
+    "sha256": "db6b2afccfe5bdd7c2afeb670172455ccec2555d72938bb6a04e64eb6c17a82e"
+  },
+  "artifacts": [
+    {
+      "path": "research/release-candidates/PUB-ASO/2026-09-12-readability/manuscript.md.txt",
+      "sha256": "13599b1c16ed8389c39a45cf256b413c1cf0bec73fe8b3fb304013309fbca11c",
+      "sections_reviewed": [
+        "Title and identity",
+        "Abstract and keywords",
+        "1 Introduction",
+        "2 Materials and methods",
+        "3.1 Designs at reported junctions",
+        "3.2 Selection and parent liabilities",
+        "3.3 Controls",
+        "4.1 Model correspondence",
+        "4.2 Proposed experimental evaluation",
+        "4.3 Interpretation and limits",
+        "Acknowledgments",
+        "CRediT",
+        "Statements and Declarations",
+        "AI declaration",
+        "References 1–24",
+        "Tables 1–2 and captions",
+        "Figure 1 legend",
+        "Supplementary File 1 reader-facing comments",
+        "Supplementary File 2 entire prose"
+      ]
+    },
+    {
+      "path": "research/release-candidates/PUB-ASO/2026-09-10-cbc/fusion-junction-aso-sequences.csv",
+      "sha256": "9b82929a3433dddb9fbd3369ed4cf4b45f65c4ab23446616a26eb327ea856fa3",
+      "sections_reviewed": [
+        "Applicable supplementary reader-facing prose; detailed coverage and immutable-data boundary in retained independent report"
+      ]
+    },
+    {
+      "path": "research/release-candidates/PUB-ASO/2026-09-10-cbc/supplementary-file-2.docx",
+      "sha256": "517625312a85de44b00c8717b6b1a3fd9d14df10a6c4838a06f275dbd7fe4790",
+      "sections_reviewed": [
+        "Applicable supplementary reader-facing prose; detailed coverage and immutable-data boundary in retained independent report"
+      ]
+    }
+  ],
+  "release_boundary": "Editorial-source clarity/meaning approval only. Frozen public/pending packages remain unchanged; outgoing export comparison, rendered inspection, disclosure alignment, registered endpoint promotion and publication gates remain required."
+}

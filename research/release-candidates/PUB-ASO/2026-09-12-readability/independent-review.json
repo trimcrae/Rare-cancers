@@ -1,0 +1,181 @@
+{
+  "schema": "emc-independent-editorial-review/1",
+  "paper": "ASO",
+  "disposition": "pass",
+  "reviewed_at": "2026-09-12T11:55:04.840151+00:00",
+  "reviewer": {
+    "agent_id": "/root/atr_revision_upload_inventory",
+    "role": "independent LLM editorial and claim-preservation reviewer",
+    "model_family_as_declared": "GPT-6",
+    "exact_served_model": "unavailable; no backend served-model metadata observed",
+    "independent_of_draft_writer": true,
+    "not_human_peer_review": true
+  },
+  "reviewed_inputs": [
+    {
+      "role": "proposed_main",
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\aso-atr\\ASO-manuscript.proposed.md",
+      "sha256": "13599b1c16ed8389c39a45cf256b413c1cf0bec73fe8b3fb304013309fbca11c",
+      "current_hash_at_report_write": "13599b1c16ed8389c39a45cf256b413c1cf0bec73fe8b3fb304013309fbca11c"
+    },
+    {
+      "role": "comparison_source",
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\release-candidates\\PUB-ASO\\2026-09-10-cbc\\manuscript.md.txt",
+      "sha256": "2586da447a75534d201bdd39292d305cb94b3e75406d4ab63e4f1cd35d195cd2"
+    },
+    {
+      "role": "retained_si1_reader_facing_comments",
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\release-candidates\\PUB-ASO\\2026-09-10-cbc\\fusion-junction-aso-sequences.csv",
+      "sha256": "9b82929a3433dddb9fbd3369ed4cf4b45f65c4ab23446616a26eb327ea856fa3"
+    },
+    {
+      "role": "retained_si2_entire_prose",
+      "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\release-candidates\\PUB-ASO\\2026-09-10-cbc\\supplementary-file-2.docx",
+      "sha256": "517625312a85de44b00c8717b6b1a3fd9d14df10a6c4838a06f275dbd7fe4790"
+    }
+  ],
+  "all_sections_read": [
+    "Title and identity",
+    "Abstract and keywords",
+    "1 Introduction",
+    "2 Materials and methods",
+    "3.1 Designs at reported junctions",
+    "3.2 Selection and parent liabilities",
+    "3.3 Controls",
+    "4.1 Model correspondence",
+    "4.2 Proposed experimental evaluation",
+    "4.3 Interpretation and limits",
+    "Acknowledgments",
+    "CRediT",
+    "Statements and Declarations",
+    "AI declaration",
+    "References 1–24",
+    "Tables 1–2 and captions",
+    "Figure 1 legend",
+    "Supplementary File 1 reader-facing comments",
+    "Supplementary File 2 entire prose"
+  ],
+  "reader_explanation": {
+    "question": "Can short molecules designed to bind the RNA join in an NR4A3 fusion avoid matching RNA from the normal parent genes?",
+    "approach": "The study designed 190 molecules across 38 modeled fusion junctions and screened their sequences against several kinds of RNA and the genome. It separately checked partial pairing through the central DNA segment and compared the results with artificial junctions.",
+    "main_finding": "At the adopted ten-base cutoff, 87 designs (45.8%) matched a mature normal parent. Choosing among designs gave one without such a match for 35 of 38 junctions. Results changed with the cutoff, and artificial exon joins had a similar rate, leaving an EMC-specific excess unresolved.",
+    "main_limitations": "Sequence pairing is not measured cleavage or therapeutic selectivity. The cutoff is conventional, some searches were incomplete, modified chemistry is not captured by the temperature model, and cell-model junctions remain unresolved at nucleotide resolution. Delivery, potency, safety and a therapeutic window were not measured.",
+    "next_step": "Verify the actual model RNA junction before choosing a design, then use the stated controls and sufficiently precise measurements to distinguish fusion knockdown from normal-parent effects. No laboratory work is reported."
+  },
+  "checks": {
+    "reader_facing_text_reviewed": true,
+    "abstract_understandable": true,
+    "terms_explained": true,
+    "narrative_followable": true,
+    "scientific_meaning_preserved": true,
+    "limitations_preserved": true
+  },
+  "blocking_findings": [],
+  "report_path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\reviews\\ASO-review.md",
+  "disclosure_status": "ASO nonfinancial disclosure retained; no new omission",
+  "technical_scope": "Text/semantic review and exact table/reference/hash comparisons only; no independent scientific recomputation, UI, exports or full CI",
+  "next": "Root may stage these exact reviewed source bytes and unchanged supplements. Export text/layout verification and publication readiness remain separate; this is no approval of older posted or pending bytes.",
+  "initial_disposition": "needs_repair",
+  "history": [
+    {
+      "stage": "initial_complete_independent_review",
+      "record": {
+        "schema": "emc-independent-editorial-review/1",
+        "paper": "ASO",
+        "disposition": "needs_repair",
+        "reviewed_at": "2026-09-12T11:45:50.950861+00:00",
+        "reviewer": {
+          "agent_id": "/root/atr_revision_upload_inventory",
+          "role": "independent LLM editorial and claim-preservation reviewer",
+          "model_family_as_declared": "GPT-6",
+          "exact_served_model": "unavailable; no backend served-model metadata observed",
+          "independent_of_draft_writer": true,
+          "not_human_peer_review": true
+        },
+        "reviewed_inputs": [
+          {
+            "role": "proposed_main",
+            "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\aso-atr\\ASO-manuscript.proposed.md",
+            "sha256": "77c9a98d48b1c160f312776dae15ed74e9d32c94001c2b8bd0502647426e0b3d",
+            "current_hash_at_report_write": "77c9a98d48b1c160f312776dae15ed74e9d32c94001c2b8bd0502647426e0b3d"
+          },
+          {
+            "role": "comparison_source",
+            "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\release-candidates\\PUB-ASO\\2026-09-10-cbc\\manuscript.md.txt",
+            "sha256": "2586da447a75534d201bdd39292d305cb94b3e75406d4ab63e4f1cd35d195cd2"
+          },
+          {
+            "role": "retained_si1_reader_facing_comments",
+            "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\release-candidates\\PUB-ASO\\2026-09-10-cbc\\fusion-junction-aso-sequences.csv",
+            "sha256": "9b82929a3433dddb9fbd3369ed4cf4b45f65c4ab23446616a26eb327ea856fa3"
+          },
+          {
+            "role": "retained_si2_entire_prose",
+            "path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fo-figure4-20260909\\EMC-Research\\research\\release-candidates\\PUB-ASO\\2026-09-10-cbc\\supplementary-file-2.docx",
+            "sha256": "517625312a85de44b00c8717b6b1a3fd9d14df10a6c4838a06f275dbd7fe4790"
+          }
+        ],
+        "all_sections_read": [
+          "Title and identity",
+          "Abstract and keywords",
+          "1 Introduction",
+          "2 Materials and methods",
+          "3.1 Designs at reported junctions",
+          "3.2 Selection and parent liabilities",
+          "3.3 Controls",
+          "4.1 Model correspondence",
+          "4.2 Proposed experimental evaluation",
+          "4.3 Interpretation and limits",
+          "Acknowledgments",
+          "CRediT",
+          "Statements and Declarations",
+          "AI declaration",
+          "References 1–24",
+          "Tables 1–2 and captions",
+          "Figure 1 legend",
+          "Supplementary File 1 reader-facing comments",
+          "Supplementary File 2 entire prose"
+        ],
+        "reader_explanation": {
+          "question": "Can short molecules designed to bind the RNA join in an NR4A3 fusion avoid matching RNA from the normal parent genes?",
+          "approach": "The study designed 190 molecules across 38 modeled fusion junctions and screened their sequences against several kinds of RNA and the genome. It separately checked partial pairing through the central DNA segment and compared the results with artificial junctions.",
+          "main_finding": "At the adopted ten-base cutoff, 87 designs (45.8%) matched a mature normal parent. Choosing among designs gave one without such a match for 35 of 38 junctions. Results changed with the cutoff, and artificial exon joins had a similar rate, leaving an EMC-specific excess unresolved.",
+          "main_limitations": "Sequence pairing is not measured cleavage or therapeutic selectivity. The cutoff is conventional, some searches were incomplete, modified chemistry is not captured by the temperature model, and cell-model junctions remain unresolved at nucleotide resolution. Delivery, potency, safety and a therapeutic window were not measured.",
+          "next_step": "Verify the actual model RNA junction before choosing a design, then use the stated controls and sufficiently precise measurements to distinguish fusion knockdown from normal-parent effects. No laboratory work is reported."
+        },
+        "checks": {
+          "reader_facing_text_reviewed": true,
+          "abstract_understandable": false,
+          "terms_explained": false,
+          "narrative_followable": true,
+          "scientific_meaning_preserved": false,
+          "limitations_preserved": true
+        },
+        "blocking_findings": [
+          "ASO-R1",
+          "ASO-R2"
+        ],
+        "report_path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\preprint-readability-20260912\\reviews\\ASO-review.md",
+        "disclosure_status": "ASO nonfinancial disclosure retained; no new omission",
+        "technical_scope": "Text/semantic review and exact table/reference/hash comparisons only; no independent scientific recomputation, UI, exports or full CI",
+        "next": "Keep initial findings; focused verification only after repaired hashes are frozen."
+      }
+    }
+  ],
+  "focused_verification": {
+    "reviewed_at": "2026-09-12T11:55:04.840151+00:00",
+    "scope": [
+      "Entire repaired Abstract",
+      "Entire repaired Results 3.3 paragraph",
+      "Exact initial-to-final diff",
+      "Unchanged source and supplementary hashes",
+      "Retained five-screen detail in Methods"
+    ],
+    "resolved_findings": [
+      "ASO-R1",
+      "ASO-R2"
+    ],
+    "remaining_readability_or_new_semantic_blockers": [],
+    "judgment": "The abstract now explains the experimental idea, central DNA gap and normal-parent matching criterion. The central result can be understood without decoding parent-clear, and the conventional cutoff and absence of laboratory validation remain explicit. The dinucleotide explanation now refers correctly to adjacent two-base sequences along one strand. No unrelated text changed."
+  }
+}

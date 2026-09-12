@@ -1,0 +1,115 @@
+{
+  "schema": "emc-llm-readability-review/1",
+  "paper_id": "PUB-FUSION-OUTPUT",
+  "review_kind": "independent_llm_editorial",
+  "reviewed_at": "2026-09-12T12:05:46.820980+00:00",
+  "reviewer": {
+    "agent_id": "/root/readability_aso_atr",
+    "model": "GPT-6; unavailable; no backend served-model metadata observed",
+    "execution_evidence": "Actual collaboration-agent review and focused repair verification retained in research/autonomy/readability-reviews/reports/PUB-FUSION-OUTPUT-20260912.txt; structured original response at research/release-candidates/PUB-FUSION-OUTPUT/2026-09-12-readability/independent-review.json. Root read the report; no metric-generated signoff."
+  },
+  "writer_ids": [
+    "/root/atr_landing_update",
+    "/root"
+  ],
+  "decision": "pass",
+  "unresolved_blockers": [],
+  "checks": {
+    "reader_facing_text_reviewed": true,
+    "abstract_understandable": true,
+    "terms_explained": true,
+    "narrative_followable": true,
+    "scientific_meaning_preserved": true,
+    "limitations_preserved": true
+  },
+  "reader_explanation": {
+    "question": "Do genes claimed to be targets of NR4A3 fusion proteins show more expression in EMC than a similarly sized arbitrary gene set would, and can that expression establish what the fusion drives?",
+    "approach": "The study typed published mechanistic evidence, analysed the small available expression cohorts separately, and calibrated gene-set scores against random sets of the same size. It examined comparator choice and other expression confounds, motif counts, and available surrogate binding/accessibility data.",
+    "main_finding": "The pooled set of three fusion-assay genes plus16 native NR4A3 targets reached39% and88% of the two random-set thresholds and exceeded neither; the three genes alone did not meet the four-gene scoring floor. A known EMC expression signature exceeded both thresholds. SEMA3C depended on the comparator, PPARG reused its discovery cohort, and ENO3 survived the expression sensitivity checks but was a pre-designated control rather than an independent discovery.",
+    "main_limitations": "The cohorts contain4,6 and10 EMC cases and have heterogeneous comparators. Expression association does not establish fusion causation. Native or paralogue binding in another disease does not measure fusion occupancy in EMC. The available fusion chromatin study measured accessibility in HEK293T cells; the targeted overlap failed the geometry-preserving null. Two nominal occupancy hits did not survive correction; the across-build selection makes the nominal combined calculation indicative. The bounded search also found an unresolved targeted SRA dataset, not a ready fourth whole-transcriptome cohort.",
+    "next_step": "Obtain fusion occupancy and a controlled fusion perturbation with RNA readout in a verified EMC model. Distinguish these experiments from deeper native NR4A3 data in another disease, the completed targeted accessibility comparison, and any broader future per-arm reanalysis."
+  },
+  "report": {
+    "path": "research/autonomy/readability-reviews/reports/PUB-FUSION-OUTPUT-20260912.txt",
+    "sha256": "3f6e35878f8595258373958141c8306359e70f5d51d2686e77c13f1c615142cc"
+  },
+  "artifacts": [
+    {
+      "path": "research/release-candidates/PUB-FUSION-OUTPUT/2026-09-12-readability/manuscript.md.txt",
+      "sha256": "198abb3732644d1352897c27f2a1e0f5334200af030157a0affda8e29b0c02d1",
+      "sections_reviewed": [
+        "fusion-output.md: # Almost every gene set reads higher in the index arm: a size-matched empirical null for small rare-tumour expression series, and what it leaves of the EWSR1::NR4A3 direct-target catalogue",
+        "fusion-output.md: ## Abstract",
+        "fusion-output.md: ## 1 · Introduction",
+        "fusion-output.md: ### 1.1 · Almost every gene set reads higher in the index arm",
+        "fusion-output.md: ### 1.2 · The disease and the driver",
+        "fusion-output.md: ### 1.3 · The gap in the worked example",
+        "fusion-output.md: ## 2 · Materials and Methods",
+        "fusion-output.md: ### 2.1 · The evidence-typed target catalogue",
+        "fusion-output.md: ### 2.2 · Datasets",
+        "fusion-output.md: ### 2.3 · Scoring and the size-matched empirical null",
+        "fusion-output.md: ### 2.4 · Instrument controls, graded before the biology",
+        "fusion-output.md: ### 2.5 · The 3SEQ arm, and its calibration",
+        "fusion-output.md: ### 2.6 · Confound audit and sensitivity analyses",
+        "fusion-output.md: ### 2.7 · The cohort search",
+        "fusion-output.md: ### 2.8 · Reproduction",
+        "fusion-output.md: ## 3 · Results",
+        "fusion-output.md: ### 3.1 · Three genes are the whole of class A",
+        "fusion-output.md: ### 3.2 · The native→fusion transfer assumption is measured to fail in both directions",
+        "fusion-output.md: ### 3.3 · The instrument controls",
+        "fusion-output.md: ### 3.4 · The global offset is not the problem — null-band width is",
+        "fusion-output.md: ### 3.5 · Per gene, and what survives",
+        "fusion-output.md: ### 3.6 · The contrast against every comparator stratum separately",
+        "fusion-output.md: ### 3.7 · A third cohort, calibrated against its own deposit",
+        "fusion-output.md: ### 3.8 · The circularity flag fired twice",
+        "fusion-output.md: ### 3.9 · The aggregate does not clear its null; the published EMC phenotype clears it 12-fold",
+        "fusion-output.md: ### 3.10 · A sequence axis, and its limits",
+        "fusion-output.md: ### 3.11 · Nothing has been measured in EMC chromatin — a bounded negative about a search",
+        "fusion-output.md: ### 3.12 · What the instruments say together",
+        "fusion-output.md: ### 3.13 · Three GEO cohorts and a separate, unresolved targeted dataset",
+        "fusion-output.md: ## 4 · Discussion",
+        "fusion-output.md: ### 4.1 · What these data are consistent with, and what they are equally consistent with",
+        "fusion-output.md: ### 4.2 · What is new here",
+        "fusion-output.md: ### 4.3 · What would discriminate, named rather than hand-waved",
+        "fusion-output.md: ## 5 · Limitations",
+        "fusion-output.md: ## 6 · Conclusion",
+        "fusion-output.md: ## Data and code availability",
+        "fusion-output.md: ## Funding",
+        "fusion-output.md: ## Conflicts of interest",
+        "fusion-output.md: ## Ethics approval and consent",
+        "fusion-output.md: ## Author contributions",
+        "fusion-output.md: ## Use of generative AI",
+        "fusion-output.md: ## Acknowledgements",
+        "fusion-output.md: ## Appendix A · Superseded values and corrected claims",
+        "fusion-output.md: ## Appendix B · What would change this paper's conclusions",
+        "fusion-output.md: ## References",
+        "fusion-output-SI.md: # Supplementary Information",
+        "fusion-output-SI.md: ## S1 · Method detail",
+        "fusion-output-SI.md: ### S1.1 · Probe mapping and floors",
+        "fusion-output-SI.md: ### S1.2 · The circularity grade",
+        "fusion-output-SI.md: ### S1.3 · The pre-registered decision rule, and how it landed",
+        "fusion-output-SI.md: ## S2 · The complete evidence-typed catalogue",
+        "fusion-output-SI.md: ### TABLE S1 — the complete evidence-typed catalogue",
+        "fusion-output-SI.md: ## S3 · Every scored gene set, with its detectability threshold",
+        "fusion-output-SI.md: ### TABLE S2 — every scored gene set, with its detectability threshold",
+        "fusion-output-SI.md: ## S4 · The PPARγ receptor-activity reading, and its adipogenic ceiling",
+        "fusion-output-SI.md: ## S5 · Robustness, stratification and sensitivity",
+        "fusion-output-SI.md: ### TABLE S3 — robustness panel (exact permutation, BH, jackknife, rank re-read)",
+        "fusion-output-SI.md: ### TABLE S4 — every stratified comparator contrast, with its own exact permutation p",
+        "fusion-output-SI.md: ### TABLE S5 — covariate-adjusted sensitivity",
+        "fusion-output-SI.md: ### TABLE S6 — the skeletal-muscle admixture control (GPL6244)",
+        "fusion-output-SI.md: ## S6 · The NBRE motif scan — full parameters",
+        "fusion-output-SI.md: ## S7 · The cohort search — every query, and every record it returned",
+        "fusion-output-SI.md: ## S8 · The Haller NR4A3 cistrome — how its genome build was determined"
+      ]
+    },
+    {
+      "path": "research/release-candidates/PUB-FUSION-OUTPUT/2026-09-12-readability/supplement.md.txt",
+      "sha256": "79071524e23567bc16eedae95cafdd29667ffe94cea519aa503ec73ab7b9651a",
+      "sections_reviewed": [
+        "Applicable supplementary reader-facing prose; detailed coverage and immutable-data boundary in retained independent report"
+      ]
+    }
+  ],
+  "release_boundary": "Editorial-source clarity/meaning approval only. Frozen public/pending packages remain unchanged; outgoing export comparison, rendered inspection, disclosure alignment, registered endpoint promotion and publication gates remain required."
+}

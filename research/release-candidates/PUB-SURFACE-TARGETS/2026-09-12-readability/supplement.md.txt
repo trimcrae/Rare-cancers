@@ -1,0 +1,112 @@
+---
+id: DOC-EMC-TISSUE-RNA-PRIORITIZATION-SI
+title: Tissue RNA prioritization methods and data supplement
+level: cross-cutting
+kind: memo
+status: live
+canonical_for: []
+purpose: Make source membership, estimands, uncertainty and figure provenance reviewable.
+scope: Frozen empirical packet, manuscript tables and plotting inputs.
+audience: [external reviewers, collaborators]
+date: "2026-09-06"
+last_verified: "2026-09-06"
+related: [DOC-EMC-TISSUE-RNA-PRIORITIZATION]
+---
+
+# Supplementary information for CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma
+
+The scientific measurements, frozen protocols and original reproducibility archive are unchanged from Research Square version 1 (https://doi.org/10.21203/rs.3.rs-10959636/v1). The complete public code/data archive is https://assets-eu.researchsquare.com/files/rs-10959636/v1/b95606f3a3799c60c8ac4434.zip. Its SHA256 is `56e089a6b39b9d5d5140a4185987778803359ab1154d26beb882d6e6197f3ea6`. File names below identify its preserved components; no new analysis or public preregistration is claimed.
+
+## Source inventory and specimen scope
+
+This supplement records which specimens were included, what each assay measured, and how the comparisons can be reproduced. EMC means extraskeletal myxoid chondrosarcoma. The comparator abbreviations are MLPS (myxoid liposarcoma), LGFMS (low-grade fibromyxoid sarcoma), MFS (myxofibrosarcoma), DFSP (dermatofibrosarcoma protuberans) and SFT (solitary fibrous tumor). HPA is the Human Protein Atlas. TPM means transcripts per million; RMA is the robust multi-array average method used for the released array signals. IHC means immunohistochemistry, and ICC/IF means immunocytochemistry/immunofluorescence. These antibody-based assays provide context on protein staining and location; they are distinct from the RNA measurements.
+
+| Source | Units and usable specimens | Assay / release | Role |
+|---|---|---|---|
+| Hofvander 2026 |704 source patients; 9 primary EMC after fixed exclusions |19,116 gene symbols, gene TPM; author release v1.0.1 | New-to-this-analysis tissue cohort |
+| GSE24369 |42 original arrays: 6 EMC, 17 LGFMS, 6 MFS, 6 desmoid, 5 SFT, 2 muscle pools | GPL6244 transcript-cluster RMA log2 signal | Retrospective same-histology anchor; also CHRNA6 discovery data |
+| GSE28866 | Four EMC library/STT records; individual patient count unverified | Selected 3SEQ peaks, supplied compressed normalized scale | Historical, different-estimand sample/organ context only |
+| HPA |12 gene XML/JSON pairs; tissue/cell records are not independent subjects | XML version 25; current methods/download 25.1, Ensembl 109 | Descriptive normal RNA, IHC and ICC/IF context |
+| Cammareri 2023 | Five EMC rows in original supplementary workbook | Whole-section PRAME QR005 IHC; both reader columns negative | External negative protein evidence, not paired with present RNA |
+
+Nine Hofvander EMC specimens met the fixed inclusion policy: 11881-19, 3371-22, 3372-22, 4716-22, 4840-13, 5149-18, 5241-06, 7931-19 and 8102-22. The excluded previously reported cases 104-92,168-97 and 536-00 map to source MDB9736 cases 3, 4 and 7. The fourth excluded specimen, 5081-14, is a local recurrence. For all 704 source samples, the records preserve the original Table S1 diagnosis and any nonblank specimen exception.
+
+Specimen identifiers do not resolve all questions about provenance. No patient date is inferred from an accession suffix, and blank publication references do not prove independence. A gene-fusion-positive result in this source may come from current RNA sequencing or an earlier assay. It does not necessarily identify the fusion partner in every case.
+
+Original-diagnosis primary comparators contain 14 MLPS, 13 LGFMS, 18 synovial sarcomas; separate contexts contain 60 MFS and 10 DFSP. Shared-histology secondary contexts add 11 primary SFT and 11 desmoids. Source metadata sometimes uses revised or transcriptomic labels; original labels are primary and the separately reported revision sensitivity changes all relevant rows symmetrically. Purity and grade are unavailable for EMC adjustment.
+
+Only four of the nine EMC patients contribute to the primary comparisons within sequencing years. The nine EMC specimens were sequenced in 2019(n=2), 2020(n=1), 2021(n=1), 2022(n=2) and 2023(n=3). MLPS has 2 comparators in 2019 and 5 in 2021; LGFMS has 7 and 5. Synovial sarcoma has 10 in 2019 and 8 in 2020. Each primary matched comparison therefore contains 3 EMC, with 4 unique EMC patients across the comparisons. The separate DFSP comparison has only 1 matched EMC and 3 comparators in 2021. Year groups without both relevant specimen types remain null. All counts refer to the fixed specimen policy, not the full published histology totals.
+
+## Exact measurement contract
+
+TPM source SHA256: `b0d665d1bd1d96ace1faf66cc5a4d7ab7e41cb487c8f0f61734f102a1f9a7af3`. Original GSE24369 family gzip SHA256: `98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37`. Full source digests and byte sizes are in the two frozen metadata manifests. Analysis uses released numeric precision, not the earlier rounded cache.
+
+| Gene | GPL6244 probe | Role |
+|---|---|---|
+| CD276 |7984743|Address|
+| SSTR2 |8009526|Address|
+| PRAME |8074856|Address|
+| FAP |8056257|Address|
+| CD248 |7949588|Address|
+| CSPG4 |7990545|Address|
+| MSLN |7992071|Address|
+| L1CAM |8175871|Address|
+| GPC3 |8175234|Address|
+| ALPP |8049123|Address|
+| CDH17 |8151795|Address|
+| CHRNA6 |8150550|Separate context control|
+
+Each selected array probe maps consistently to one gene across all of its transcript-cluster assignments. We do not average probes, choose a best probe, substitute a gene alias or filter features according to expression. Finite signed log values are valid array signals; TPM must be finite and nonnegative. Zero observations remain ties. Missing or duplicate observations trigger a recorded technical failure instead of deletion or imputation. The actual runs completed without these failures.
+
+The score A averages pairwise comparisons of RNA values. For EMC values x_i and comparator values y_j, A=(1/nm) Σ_iΣ_j[I(x_i>y_j)+0.5I(x_i=y_j)]. Here, n and m are the numbers of EMC and comparator specimens, and I equals 1 when its stated condition is true and 0 otherwise. Tied pairs contribute one half. Pair counts are not independent-patient counts.
+
+The marginal summary is the mean of the 3 histology scores. For the matched summary, we first calculate the score within each exact year. Within each histology, we then weight these year scores by the number of supported EMC specimens, before averaging equally across histologies. A common EMC specimen can contribute to several histology comparisons. Bootstrap sampling preserves that dependence by sharing the specimen's resample across comparisons. No cross-platform scale or patient pooling is performed.
+
+Bootstrap resampling used seed 20260906 and 2000 replicates within histology/year groups. The conditional 95% percentile intervals are pointwise: each describes one estimate rather than simultaneous coverage of the full family of estimates. They were not used to select genes. For CSPG4, the MLPS matched interval has identical endpoints, [0.66667, 0.66667]. This reflects sparse observed groups and the resampling design, not absence of biological uncertainty. The files identify all single-specimen groups and every patient's placement. Independent 5000-draw resampling reproduced the main matched interval endpoints. That numerical check does not remove small-sample limitations.
+
+The rule allocates follow-up effort only to a gene meeting all three conditions: marginal composite≥0.70; each primary marginal/matched histology>0.5; and both summaries>0.5 after each single EMC and histology deletion. Removing sequencing years or comparator specimens and using revised diagnoses qualify interpretation; they are not extra pass criteria. After a deletion, the remaining supported-year weights are normalized again. A lost comparison remains undefined. Complete-case selection or imputation is not performed. No new replication success cutoff was added. The separate cross-cohort output compares score direction and size against LGFMS primarily, and MFS/SFT/desmoid secondarily.
+
+## Tables and evidence files
+
+Table S1, `../../autonomy/atlas-hofvander-validation-2026-09-06/all12-gene-effects.csv`, includes every gene, both primary composites, conditional intervals and same-LGFMS effects. Table S2, `../../autonomy/atlas-hofvander-validation-2026-09-06/all-hofvander-contrasts.csv`, contains 60 gene×histology rows; `../../autonomy/atlas-hofvander-validation-2026-09-06/all-year-cells.csv` provides all supported/unsupported cells. Table S3, `../../autonomy/atlas-hofvander-validation-2026-09-06/all-shared-histology-replication.csv`, contains 48 gene×shared-histology comparisons and individual-deletion ranges. `../../autonomy/atlas-hofvander-validation-2026-09-06/all-primary-deletions.csv` retains every summary deletion. Full JSON adds every specimen value, placement, individual contrast and revised-label mapping.
+
+Table S4, `../../autonomy/atlas-hofvander-validation-2026-09-06/draft/normal-context.csv`, contains 12 source-linked HPA records with normal IHC reliability/missingness and assay-location context. It is a descriptive extract, not a normal-sparing assessment. Source data include 1092 RNA tissue/block records and 1054 categorical normal-IHC cell records; neither total is a count of newly measured independent donors. HPA consensus RNA summarizes maxima across HPA/GTEx sources/subtissues. GPC3/CHRNA6 lack tissue-IHC rows in this recovery; absence of a row is not a negative stain. SSTR2/FAP uncertain IHC and ALPP multi-gene antibody warning remain explicit. PRAME's localization tags are not evidence of endogenous EMC peptide-HLA presentation.
+
+PRAME supplementary workbook SHA256:
+
+```text
+20b4bd1243be22e4eee2da7470da986091f91cc4959fa416708748ba99187ca7
+```
+
+Sheet 1 rows 128–132 record five EMC specimens, all negative in both reader columns. Blank percentage fields were not converted to measurements. Case 2 has EWSR1::NR4A3 RNA-sequencing support. Cases 3–5 are NR4A3-positive by fluorescence in situ hybridization (FISH), while case 1 has no recorded ancillary method. These observations support a negative result in those 5 specimens, not universal PRAME absence or absent peptide-HLA presentation.
+
+## Reproduction and figure status
+
+Empirical programs are `../../autonomy/atlas-hofvander-validation-2026-09-06/analyze.py` and `../../autonomy/atlas-hofvander-validation-2026-09-06/replication.py`; all 8 pre-outcome approved files are listed in `../../autonomy/atlas-hofvander-validation-2026-09-06/coordinator-authorization.json`. Original scientific protocol bytes are preserved alongside frontmatter-corrected versions. Each analysis ran once: command elapsed 46.38 and 12.72 seconds, exit 0. Runtime was Python 3.12.14, NumPy 2.3.5, openpyxl 3.1.5; exact executable/version receipt is in `../../autonomy/atlas-hofvander-validation-2026-09-06/draft/runtime.json`. Independent original-source arithmetic reproduced 8,448 TPM values, 504 array values, 2,436 estimate/deletion blocks and 266,772 scalar comparisons without discrepancy. These checks verify computation, not causal or clinical validity.
+
+Source locations in the original manifests remain historical workstation paths. The portable offline wrapper accepts an explicit bundle root, stages exact archive/gzip members and changes only source_location in derived manifests. One replay in a fresh directory on the same Windows host completed with 829,482 exact scalar comparisons and zero discrepancies across 29 scientific JSON files and five CSV exports. Two execution records separately matched status and final stage. This is not a second-machine or second-OS claim. Python 3.12.14, NumPy 2.3.5, openpyxl 3.1.5 and et-xmlfile 2.0.0 are pinned. Historical approval is preserved, while the compatibility record explicitly identifies the mechanical replay. Installation instructions suffice; no bundled runtime or wheels are claimed.
+
+The canonical `plot_emc_tissue_rna.py` adapter preserves the frozen draft plotting statistics and geometry. It adds SVG output for the manuscript renderer alongside vector PDF and 300-dpi PNG. Rendering is rejected until the exact source and plotting-script bytes are committed. Figures remain descriptive; no uncertainty bars or new statistical tests are introduced. Normal-expression context remains Table S4. Figure rendering and visual inspection are recorded separately from numerical replay.
+
+Author identity, affiliation, correspondence and ORCID match the posted Research Square article. The author confirmed no funding and no competing interests on 7 September 2026. This public-data reanalysis asserts no new ethics approval, exemption or waiver. OpenAI Codex assisted with implementation, source organization, verification and drafting; this assistance is disclosed in the main article.
+
+The historical analysis, draft and replay packets are preserved unchanged. Canonical manuscript routing and the SVG plotting adapter are separate presentation files; no scientific decision or source membership changed.
+
+## Table S1 All fixed panel effects
+
+A=0.5 means neither group tends to have higher RNA levels. The CHRNA6 control is separate from the candidate-gene pass count. Matched columns use only the supported-year specimens, not all nine EMC. The machine-readable tables described above retain the intervals and every sensitivity calculation.
+
+| Gene | Hofvander marginal A | Hofvander matched A | LGFMS array A | LGFMS Hofvander marginal A | Rule |
+|---|---:|---:|---:|---:|---|
+| CD276 | 0.26575 | 0.27143 | 0.32353 | 0.02564 | Fail |
+| SSTR2 | 0.56926 | 0.73373 | 0.47059 | 0.76068 | Fail |
+| PRAME | 0.21573 | 0.25397 | 0.68627 | 0.64103 | Fail |
+| FAP | 0.34367 | 0.27897 | 0.54902 | 0.05128 | Fail |
+| CD248 | 0.12178 | 0.01587 | 0.30392 | 0.21368 | Fail |
+| CSPG4 | 0.89454 | 0.81111 | 1.00000 | 0.96581 | Pass |
+| MSLN | 0.68008 | 0.58968 | 0.29412 | 0.92735 | Fail |
+| L1CAM | 0.69931 | 0.61627 | 0.76471 | 0.90171 | Fail |
+| GPC3 | 0.29060 | 0.31270 | 0.48039 | 0.76068 | Fail |
+| ALPP | 0.53336 | 0.49722 | 0.63725 | 0.61111 | Fail |
+| CDH17 | 0.44520 | 0.43115 | 0.09804 | 0.30342 | Fail |
+| CHRNA6 | 1.00000 | 1.00000 | 1.00000 | 1.00000 | Control only |
