@@ -80,6 +80,18 @@ def main():
             'url': 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?' + urlencode({'query': query, 'format': 'json', 'resultType': 'core', 'pageSize': 1000}),
             'note': 'Historical model and fusion names; model identity and incidental mentions require adjudication.',
         }
+    manual = OUT / 'manual-records.json'
+    if manual.exists():
+        entries = json.loads(manual.read_text(encoding='utf-8'))['records']
+        # Preserve report manifestations with stable society identifiers; suspected
+        # journal/cohort relationships are annotated rather than silently merged.
+        ids = {p['id'] for p in data['records']}
+        data['records'].extend(p for p in entries if p['id'] not in ids)
+        by_id = {p['id']: p for p in entries}
+        for p in data['records']:
+            if p['id'] in by_id:
+                p.update(by_id[p['id']])
+        data['counts']['manually_sourced_reports'] = len(entries)
     # These two conference records have been read from their public ASCO source.
     # This does not resolve other reports from the same cohort.
     verified = {

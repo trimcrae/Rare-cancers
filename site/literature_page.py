@@ -37,11 +37,12 @@ def render():
         types = ', '.join(p['publication_types']) or 'Type not supplied'
         scope = {'title': 'Title match', 'abstract': 'Abstract match', 'full_text_or_index': 'Full text / index match'}[p['discovery_scope']]
         access = 'Free link indexed' if p['free_links'] else 'Access unresolved'
+        note = f'<p class="record-note">{escape(p["relation_note"])}</p>' if p.get('relation_note') else ''
         rows.append(f'''<article class="literature-record" data-year="{escape(str(p['year']), quote=True)}" data-scope="{p['discovery_scope']}" data-access="{p['access']}" data-types="{escape(types.lower(), quote=True)}">
 <p class="record-meta">{escape(str(p['year']))} · {escape(p['journal'] or 'Venue not supplied')} · {escape(types)}</p>
 <h3>{escape(p['title'])}</h3><p class="record-authors">{escape(p['authors'])}</p>
 <p class="record-status">{scope} · {access} · {escape(p['screening_status'].replace('_', ' '))}</p>
-<div class="record-links">{' '.join(links)}</div></article>''')
+<div class="record-links">{' '.join(links)}</div>{note}</article>''')
     counts = data['counts']
     focused = sum(p['discovery_scope'] != 'full_text_or_index' for p in records)
     queries = ''.join(f'<li><a href="{safe_url(q["url"])}">{escape(name.replace("_", " "))}</a>: {q["hit_count"]:,} search records. {escape(q.get("note", ""))}</li>' for name, q in data['queries'].items())
