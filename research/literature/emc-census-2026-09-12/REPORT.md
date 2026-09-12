@@ -90,6 +90,12 @@ The 2019 ESMO abstract comparing 12 EMC with seven myoepithelial tumours assigns
 
 Every cross-tab extraction should preserve row labels, diagnosis, comparator, numerator, denominator, assay and specimen provenance. A negative or comparator-specific finding can be as useful as a new positive hypothesis because it stops an unsupported route from consuming experimental effort.
 
+### 6. Separate a metabolic enzyme's transcriptional role from glycolysis
+
+A 2007 study found that GAPDH could enhance hTAFII68–TEC fusion-dependent reporter activity through an interaction-associated mechanism. The assays used engineered non-EMC cellular systems, and the authors left the precise mechanism unresolved. The old fusion terminology makes this paper easy to miss in searches confined to modern NR4A3 names. [Kim et al.](https://pubmed.ncbi.nlm.nih.gov/17302560/)
+
+The availability of newer patient-derived EMC models creates a way to revisit that biochemical observation in a disease-relevant setting. A discriminating experiment would compare a perturbation of the proposed cofactor interaction with inhibition of glycolytic activity, using controls that separate transcriptional effects from general cell toxicity. This is an experimental-design hypothesis, not evidence that a GAPDH inhibitor treats EMC. The original interaction is established prior art; whether this particular follow-up has already been performed remains unverified. The primary abstract and substantial publisher-indexed text were read; complete figure-level verification remains outstanding.
+
 ## Reading and evidence status
 
 | Source | Reading completed at this checkpoint | Still needed |
@@ -103,6 +109,7 @@ Every cross-tab extraction should preserve row labels, diagnosis, comparator, nu
 | Hindi 2025 IMMUNOSARC II | Publisher meeting abstract | Full report/poster, endpoint clarification, cohort linkage |
 | Racanelli 2019 comparative study | Publisher meeting abstract | Underlying data and potential journal counterpart |
 | Caris 2026 | Laboratory's public summary | Actual poster, denominators and overlap |
+| Kim 2007 GAPDH/fusion study | Primary abstract and substantial indexed article text | Complete article/figures and verification in EMC models |
 
 The cached texts reused above come from literature-cache commit `216bd1b5fb25a56b90ef3cc2373e1fe68322708f`; newly retrieved body hashes are in `retrieval-ledger.json`. A keyword screen, an API download and an abstract reading never count as a complete literature reading. There is no evidence here that nobody previously read or integrated these works.
 

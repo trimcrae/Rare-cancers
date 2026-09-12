@@ -29,12 +29,16 @@
         "http": 200,
         "records": 1603,
         "landing_page_links_catalogue": true
-      }
+      },
+      "follow_up_run_id": 34694812679,
+      "follow_up_conclusion": "success"
     },
     "repository_ci": {
       "run_id": 34694586943,
       "gates": "Failed D4: report frontmatter missing. Added frontmatter in the follow-up commit; rerun pending.",
-      "pytest": "In progress at checkpoint"
+      "pytest": "In progress at checkpoint",
+      "follow_up_run_id": 34694812660,
+      "follow_up_status": "in progress; no overall pass claimed"
     }
   },
   "retrieval": {
@@ -49,5 +53,9 @@
     "Resolve lawful full-text access",
     "Read all accessible text, figures, supplements and corrections",
     "Independent scientific synthesis and novelty audit"
-  ]
+  ],
+  "additional_retrieval_attempt": {
+    "pmcid": "PMC1868794",
+    "result": "HTTP 404 after initial HTTP 503; web-indexed primary text available and partly read; body XML count unchanged"
+  }
 }
