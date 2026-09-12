@@ -1,11 +1,11 @@
 ---
 id: DOC-EMC-LITERATURE-CENSUS-20260912
 title: EMC literature census and initial research connections
-kind: evidence-memo
+kind: memo
 status: live
 purpose: Record reproducible literature discovery counts and preliminary cross-study questions without claiming exhaustive coverage or reading.
 scope: September 2026 bibliographic snapshot, initial source readings, limitations and remaining review work.
-audience: [researchers, maintainers]
+audience: [maintainers, collaborators]
 date: 2026-09-12
 last_verified: 2026-09-12
 ---

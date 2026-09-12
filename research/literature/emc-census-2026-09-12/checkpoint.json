@@ -38,8 +38,9 @@
       "gates": "Failed D4: report frontmatter missing. Added frontmatter in the follow-up commit; rerun pending.",
       "pytest": "In progress at checkpoint",
       "follow_up_run_id": 34694812660,
-      "follow_up_status": "in progress; no overall pass claimed"
-    }
+      "follow_up_status": "Failed D11: unsupported frontmatter kind and audience. Corrected to schema enum values memo and maintainers/collaborators; actual YAML plus JSON Schema validation passed locally using existing cached dependencies. Full CI rerun still required."
+    },
+    "frontmatter_schema": "YAML BaseLoader plus jsonschema.validate against origin/main:systems/schema/document.schema.json: passed"
   },
   "retrieval": {
     "attempted": 131,
