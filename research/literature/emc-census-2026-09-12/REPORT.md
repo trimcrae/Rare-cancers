@@ -15,7 +15,7 @@ last_verified: 2026-09-12
 **Retraction correction:** the previously proposed SGK1/proteasome-resistance connection has been withdrawn after identifying a retracted supporting myeloma paper. See the dated correction below.
 
 
-There is not yet a defensible worldwide total of distinct published EMC research outputs. The current catalogue contains **1,642 DOI/identifier-deduplicated records: 666 focused matches and 976 broader candidates**. Of the focused records, 189 have indexed free-access links and 477 have unresolved access. These are bibliographic records, including reviews, corrections and repeated reports, not independent studies or patients.
+There is not yet a defensible worldwide total of distinct published EMC research outputs. The current catalogue contains **1,646 DOI/identifier-deduplicated records: 669 focused matches and 977 broader candidates**. Of the focused records, 190 have indexed free-access links and 479 have unresolved access. These are bibliographic records, including reviews, corrections and repeated reports, not independent studies or patients.
 
 The exhaustive reading and synthesis is **not complete**. Across the initial 131 focused PMC records, 94 XML bodies and 14 additional BioC bodies have been recovered; 23 remain unresolved by those routes. Recovery is not reading. Component-specific reading status is recorded in `reading-ledger.json`; missing figures, supplements and full texts remain explicit. No new treatment has been validated, and no verified claim of an overlooked discovery is made.
 
@@ -32,10 +32,10 @@ Searches were performed on 12 September 2026. Original Europe PMC and Crossref A
 | Europe PMC expanded disease/fusion query | 1,471 | All returned records retrieved across 15 pages |
 | Crossref first 1,000 title-search results | 389 title matches | Fuzzy search is truncated; its 9,415 total hits are not EMC works |
 | Crossref records added after DOI matching | 132 | Includes conference supplements and other non-MED outputs |
-| Current combined discovery catalogue | 1,642 | Includes historical-alias additions and thirteen manually sourced records; not study-deduplicated |
-| Current focused matches | 666 | 447 title matches plus 219 abstract/manual matches, including linked conference reports and a correction |
-| Focused records with an indexed free-text link | 189 | Includes free conference abstracts; not all links downloaded |
-| Focused access unresolved | 477 | No claim that a public copy does not exist |
+| Current combined discovery catalogue | 1,646 | Includes historical-alias additions and seventeen manually sourced records; not study-deduplicated |
+| Current focused matches | 669 | 447 title matches plus 222 abstract/manual matches, including linked conference reports and a correction |
+| Focused records with an indexed free-text link | 190 | Includes free conference abstracts; not all links downloaded |
+| Focused access unresolved | 479 | No claim that a public copy does not exist |
 | Focused records with a PMC identifier | 131 | XML retrieval attempted |
 | Initial PMC bodies recovered / unresolved after fallback | 108 / 23 | 94 XML plus 14 additional BioC bodies; not completed-reading counts |
 
@@ -266,3 +266,21 @@ The [2020 shoulder case](https://doi.org/10.1186/s13569-020-00150-8) reports no 
 A [free publisher PDF of the 2018 trabectedin/radiation case](https://www.openaccessjournals.com/articles/impressive-response-and-longterm-survival-in-a-patient-with-metastatic-extraskeletal-myxoid-chondrosarcoma-treated-with-.pdf) was recovered and linked. All nine pages and six embedded figures were read, although tiny planning annotations are not legible at the supplied image resolution. Irradiated lesions shrank, but new lesions and mediastinal progression occurred during treatment. Its long survival is not continuous whole-body progression-free survival. A single uncontrolled course cannot separate radiation effects from drug–radiation synergy. This combination was already proposed by the authors; it is not a newly discovered lead. Prior pazopanib was given in an unnamed trial, so possible overlap with later trial reports remains unresolved.
 
 The later [TRASTS phase 1/2 trial](https://doi.org/10.1001/jamaoncol.2019.6584) is being screened for buried EMC data. Its pooled sarcoma responses must not be attributed to EMC. Main article text through the discussion and disclosures has been read, along with the first part of the supplementary methods; original table footnotes, figures, remaining references and supplements remain pending. No EMC subgroup has yet been established. The publisher identifies an affiliation correction dated August 2020.
+
+
+### Natural history and additional local-treatment reports
+
+The [2020 observation series](https://doi.org/10.1155/2020/2684746) describes three patients followed without systemic therapy for 50, 70 and 126 months. One had palliative amputation, later breathlessness and a pathological hip fracture with EMC in the specimen, before death from colon cancer complications. Consequently, its abstract's broad asymptomatic description and discussion's event-free wording do not describe every patient's entire course. EWSR1 rearrangement is reported, without NR4A3-specific testing. The patient-perspective claim about immune control is not an immune experiment. This selected series provides natural-history context for interpreting drug-associated stable disease; it does not establish general safety of observation or equivalence to treatment.
+
+The [2022 brachytherapy case](https://doi.org/10.5114/jcb.2022.115161) supplies NR4A3 confirmation and long local control at three treated sites, with follow-up of 41, 36 and 36 months. Lung metastases were not a quantified response endpoint. One patient's reported toxicity experience cannot establish comparative safety, and no external-radiation control group establishes superiority. All text, the table, six main figures and four supplementary figures were read. The narrative labels D90 as a percentage while the table correctly labels the reported values as Gy.
+
+The [2020 intraoperative-treatment case](https://doi.org/10.1093/jscr/rjaa503) used argon-laser electrofulguration and lavage after resection, not intraoperative radiotherapy. It reports an uneventful postoperative course but no long-term recurrence or survival outcome, and no molecular confirmation. The proposed phase-II study is not a reported result. Both 2020 papers were read through their complete text and figures; neither supplies a supplementary-material element in the indexed XML.
+
+
+### Reference follow-up finds a buried EMC subgroup
+
+The [2022 multimodal-treatment cohort](https://doi.org/10.1186/s13014-022-02166-4) lists three EMC patients only in its lower-extremity table, using the spelling “Extrasceletal.” All cohort patients underwent surgery and radiotherapy, but the individual EMC chemotherapy/hyperthermia exposures and outcomes are not reported. Pooled survival and complication rates cannot be assigned to those three patients. The complete article, three tables and four figures were read. Its overall complication numerator/percentage and site totals conflict; exact rows are preserved in `potkrajcic-extraction.json`.
+
+Its [probable earlier preprint](https://doi.org/10.21203/rs.3.rs-1898999/v1) is included separately as an output with unresolved full-text access, without adding patients. Backward-reference checking also recovered the [1996 mixed skeletal/extraskeletal molecular report](https://doi.org/10.1054/modi00100099), whose abstract distinguishes one extraskeletal case from two skeletal cases. The [1953 historical precursor](https://pubmed.ncbi.nlm.nih.gov/13042781/) remains a broad candidate pending modern diagnostic classification. These additions bring the discovery catalogue to 1,646 records, including 669 focused matches.
+
+All main text, references, table text and figures of the [2025 comprehensive review](https://doi.org/10.1007/s00432-025-06316-5) were read. Its radiation section repeats an external-radiation history under two citations; the actual Takagawa paper describes the different brachytherapy case above. Some anatomical examples cite mesenchymal chondrosarcoma rather than myxoid chondrosarcoma. Its 142 references therefore serve as discovery pointers requiring primary-source checks. The reference audit records printed/linked DOI differences and candidates missing from the initial catalogue; a citation alone does not establish an additional EMC study.

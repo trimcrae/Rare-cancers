@@ -3,18 +3,18 @@
   "description": "EMC research discovery catalogue — screening in progress",
   "counts": {
     "retrieved_records": 1471,
-    "deduplicated_records": 1642,
+    "deduplicated_records": 1646,
     "scope_counts": {
       "title": 447,
-      "abstract": 219,
-      "full_text_or_index": 976
+      "abstract": 222,
+      "full_text_or_index": 977
     },
     "access_counts": {
-      "free_link_indexed": 1158,
-      "unresolved": 484
+      "free_link_indexed": 1159,
+      "unresolved": 487
     },
     "crossref_added": 132,
-    "manually_sourced_reports": 13
+    "manually_sourced_reports": 17
   },
   "queries": {
     "exact_phrase": {
@@ -3574,9 +3574,10 @@
       ],
       "access": "free_link_indexed",
       "discovery_scope": "title",
-      "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "screening_status": "EMC_review",
+      "reading_status": "body_abstract_references_table_texts_figures_read",
+      "abstract_available": true,
+      "relation_note": "Narrative review, not a new treatment cohort. Complete body, references, four table texts, four main figures and graphical abstract read; no supplement element. Radiation section duplicates the same long external-radiation narrative under Qiu2014 and Takagawa2022; the primary Takagawa report is instead the87-year-old ankle/three-site brachytherapy case. Do not count the repeated narrative as another patient. Prognosis section and Table1 give different post-metastasis survival figures, and the conclusion alternates pazopanib as initial versus post-anthracycline therapy. These statements require primary-source reconciliation. Some anatomical examples cite mesenchymal chondrosarcoma rather than myxoid; inclusion cannot rely on this review alone. Its references are discovery pointers, not completed primary reading or validated treatment recommendations."
     },
     {
       "id": "MED:41006009",
@@ -14897,6 +14898,36 @@
       "abstract_available": true
     },
     {
+      "id": "MED:36544149",
+      "title": "Postoperative complications and oncologic outcomes after multimodal therapy of localized high risk soft tissue sarcoma.",
+      "authors": "Potkrajcic V, Kolbenschlag J, Sachsenmaier S, Daigeler A, Ladurner R, Golf A, Gani C, Zips D, Paulsen F, Eckert F.",
+      "year": "2022",
+      "date": "2022-12-21",
+      "doi": "10.1186/s13014-022-02166-4",
+      "pmid": "36544149",
+      "pmcid": "PMC9768905",
+      "journal": "Radiation oncology (London, England)",
+      "publication_types": [
+        "Journal article"
+      ],
+      "record_url": "https://pubmed.ncbi.nlm.nih.gov/36544149/",
+      "publisher_url": "https://doi.org/10.1186/s13014-022-02166-4",
+      "access": "free_link_indexed",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9768905/",
+          "label": "Free full text (PMC)",
+          "evidence": "Main XML and all figures retrieved/read2026-09-12."
+        }
+      ],
+      "discovery_scope": "abstract",
+      "screening_status": "EMC_subgroup_identified",
+      "reading_status": "body_abstract_references_tables_figures_read",
+      "abstract_available": true,
+      "metadata_source": "Manual backward-reference follow-up; live Europe PMC",
+      "relation_note": "Table1 identifies three EMC cases among39 lower-extremity sarcomas in a74-patient cohort, using spelling Extrasceletal. All patients received surgery and radiation. Individual EMC chemotherapy/hyperthermia exposures and outcomes are not reported; pooled survival and complication rates are not EMC estimates. Probable earlier preprint10.21203/rs.3.rs-1898999/v1, not independent patients."
+    },
+    {
       "id": "MED:36628074",
       "title": "Intra-muscular extraskeletal myxoid chondrosarcoma of the thigh: a case report.",
       "authors": "Xia H, Liu G, Wu A, Zhao R, Li S, Li S, Zhou Q, Zeng Z, Chen L, Li M.",
@@ -16447,9 +16478,10 @@
       ],
       "access": "free_link_indexed",
       "discovery_scope": "title",
-      "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "screening_status": "EMC_report_identified_diagnostic_limit",
+      "reading_status": "body_abstract_references_three_tables_and_four_figures_read",
+      "abstract_available": true,
+      "relation_note": "Thirteen-patient retrospective surgical series; all five chemotherapy recipients had metastatic disease. Worse survival in that group does not establish chemotherapy harm or ineffectiveness. Drug names and response endpoints are not supplied. Tumor-size cut-off was selected in the same small dataset, without external validation. Table1 follow-up range14–86 months differs from24–96 in body/Table2; age maximum75 differs from73 in abstract/body. Figure1 caption describes hyaline cartilage with small undifferentiated cells; NR4A3 confirmation is absent. Diagnostic classification requires expert reconciliation, not an automated re-diagnosis. All body, abstract, references, three tables and four figures read; no supplement element."
     },
     {
       "id": "MED:35954475",
@@ -16495,6 +16527,30 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "DOI:10.21203/rs.3.rs-1898999/v1",
+      "title": "Postoperative complications and oncologic outcomes after multimodal therapy of localized high risk soft tissue sarcoma",
+      "authors": "Vlatko Potkrajcic, Jonas Kolbenschlag, Saskia Sachsenmaier, Adrien Daigeler, Ruth Ladurner, Alexander Golf, Daniel Zips, Frank Paulsen, Franziska Eckert",
+      "year": "2022",
+      "date": "2022-08-01",
+      "doi": "10.21203/rs.3.rs-1898999/v1",
+      "pmid": "",
+      "pmcid": "",
+      "journal": "Research Square",
+      "publication_types": [
+        "Preprint"
+      ],
+      "record_url": "https://doi.org/10.21203/rs.3.rs-1898999/v1",
+      "publisher_url": "https://doi.org/10.21203/rs.3.rs-1898999/v1",
+      "access": "unresolved",
+      "free_links": [],
+      "discovery_scope": "abstract",
+      "screening_status": "EMC_cohort_link_requires_adjudication",
+      "reading_status": "metadata_only",
+      "abstract_available": true,
+      "metadata_source": "Live Crossref preprint metadata",
+      "relation_note": "Matching title/authors and review reference link identify probable earlier version of10.1186/s13014-022-02166-4. Main journal Table1 contains3EMC; preprint full text has not been recovered and exact content identity is pending. Do not add patients. Public preprint route returned403; access unresolved, not proof of paywall."
     },
     {
       "id": "MED:36103645",
@@ -17930,9 +17986,10 @@
       ],
       "access": "free_link_indexed",
       "discovery_scope": "title",
-      "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "screening_status": "EMC_report_identified",
+      "reading_status": "body_abstract_references_table_six_figures_and_four_supplement_figures_read",
+      "abstract_available": true,
+      "relation_note": "One NR4A3-rearranged case treated at three metastatic sites with brachytherapy. Reported local control was 41 months for inguinal disease and 36 months for breast/popliteal lesions; lung metastases were not treated or quantified as a response endpoint. One grade 2 dermatitis event and no reported late toxicity do not establish comparative safety or superiority over external radiation. The narrative incorrectly gives D90 as a percentage; Table 1 gives Gy. Supplement two-page PDF text and all five embedded images accounting for four figures read."
     },
     {
       "id": "MED:35399302",
@@ -23082,9 +23139,10 @@
       ],
       "access": "free_link_indexed",
       "discovery_scope": "title",
-      "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "screening_status": "EMC_report_identified",
+      "reading_status": "body_abstract_references_and_three_figures_read",
+      "abstract_available": true,
+      "relation_note": "Single pelvic/gluteal case treated by resection, argon-laser electrofulguration and peritoneal lavage. Uneventful postoperative course reported, but no long-term recurrence or survival outcome or NR4A3 confirmation. Does not establish benefit from the adjuncts. A phase-II study is proposed without a reported trial identifier or results. Intraoperative treatment here is not intraoperative radiotherapy. No tables or supplements in indexed XML."
     },
     {
       "id": "MED:33520519",
@@ -24183,9 +24241,10 @@
       ],
       "access": "free_link_indexed",
       "discovery_scope": "title",
-      "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "screening_status": "EMC_report_identified",
+      "reading_status": "body_abstract_references_and_two_figures_read",
+      "abstract_available": true,
+      "relation_note": "Three selected patients without systemic treatment followed for 50, 70 and 126 months. Case 3 underwent palliative amputation, later had breathlessness and an EMC-positive pathological hip fracture, and died from colon cancer complications. Thus not all follow-up was event-free or asymptomatic despite abstract/discussion wording. EWSR1 rearrangement is reported; NR4A3-specific testing and lung biopsy are not. Patient-perspective immune-control statement has no accompanying immune assay. This is natural-history context, not evidence that observation is generally safe or equivalent to treatment. No tables or supplements in indexed XML."
     },
     {
       "id": "MED:32871809",
@@ -57765,6 +57824,30 @@
       "abstract_available": true
     },
     {
+      "id": "MED:10330205",
+      "title": "Extraskeletal and Skeletal Myxoid Chondrosarcoma: A Multiparameter Analysis of Three Cases Including Cytogenetic Analysis and Fluorescence In Situ Hybridization.",
+      "authors": "Rao UN, Surti U, Hoffner L, Howard T, Leger W, Contis L, Yaw K.",
+      "year": "1996",
+      "date": "1996-06-01",
+      "doi": "10.1054/modi00100099",
+      "pmid": "10330205",
+      "pmcid": "",
+      "journal": "Molecular diagnosis : a journal devoted to the understanding of human disease through the clinical application of molecular biology",
+      "publication_types": [
+        "Journal article"
+      ],
+      "record_url": "https://pubmed.ncbi.nlm.nih.gov/10330205/",
+      "publisher_url": "https://doi.org/10.1054/modi00100099",
+      "access": "unresolved",
+      "free_links": [],
+      "discovery_scope": "abstract",
+      "screening_status": "EMC_report_identified",
+      "reading_status": "abstract_read",
+      "abstract_available": true,
+      "metadata_source": "Manual backward-reference follow-up; live Europe PMC",
+      "relation_note": "Abstract distinguishes one extraskeletal case from two skeletal cases. Linked DOI10.1054/modi00100099 and printed alternate10.1016/s1084-8592(96)70025-5 belong to the same cited report; do not count separately. Full text unresolved."
+    },
+    {
       "id": "MED:8686112",
       "title": "Synovial chondromatosis of the cubometatarsal joint.",
       "authors": "Kennedy PT, McCoy GF.",
@@ -60270,6 +60353,30 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": false
+    },
+    {
+      "id": "MED:13042781",
+      "title": "Chondrosarcoma of the extraskeletal soft tissues.",
+      "authors": "STOUT AP, VERNER EW.",
+      "year": "1953",
+      "date": "1953-05-01",
+      "doi": "10.1002/1097-0142(195305)6:3<581::aid-cncr2820060315>3.0.co;2-t",
+      "pmid": "13042781",
+      "pmcid": "",
+      "journal": "Cancer",
+      "publication_types": [
+        "Journal article"
+      ],
+      "record_url": "https://pubmed.ncbi.nlm.nih.gov/13042781/",
+      "publisher_url": "https://doi.org/10.1002/1097-0142(195305)6:3<581::aid-cncr2820060315>3.0.co;2-t",
+      "access": "unresolved",
+      "free_links": [],
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "historical_classification_requires_review",
+      "reading_status": "metadata_only",
+      "abstract_available": false,
+      "metadata_source": "Manual backward-reference follow-up; live Europe PMC",
+      "relation_note": "Historical precursor cited by EMC literature, predating modern entity definition. Current EMC case count not established; full text unresolved. Not added as molecularly confirmed EMC."
     },
     {
       "id": "DOI:10.7717/peerj.21497/supp-1",
