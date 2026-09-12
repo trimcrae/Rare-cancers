@@ -100,7 +100,7 @@ The availability of newer patient-derived EMC models creates a way to revisit th
 
 | Source | Reading completed at this checkpoint | Still needed |
 |---|---|---|
-| Bangerter 2023 models | Cached article body text | Figures, supplements, original response matrices, independent check |
+| Bangerter 2023 models | Body, references, all six figures and both supplementary tables | Original response matrices; independent check of discrepancies |
 | Brenca 2019 axon-guidance study | Substantial article text, including methods and discussion | Complete untruncated reading, figures, supplements, cohort matching |
 | Wilbur 2022 PGR case | Partial cached body text | Complete text/tables/figures |
 | Jennings 2021 KIT case | Cached body text | Figure inspection and source-level verification |
@@ -115,8 +115,8 @@ The cached texts reused above come from literature-cache commit `216bd1b5fb25a56
 
 ## Completion criteria for the remaining synthesis
 
-1. Adjudicate the 648 focused records, maintaining exclusions with reasons and separate review/case/clinical/preclinical/conference classes.
-2. Screen the 955 broader records for genuine EMC subgroup results. Search older names and society archives; record coverage by source and year, including unsuccessful searches.
+1. Adjudicate the 654 focused records, maintaining exclusions with reasons and separate review/case/clinical/preclinical/conference classes.
+2. Screen the 975 broader records for genuine EMC subgroup results. Search older names and society archives; record coverage by source and year, including unsuccessful searches.
 3. Recover lawful public versions for unresolved records, checking repository copies and author manuscripts. Label unresolved access honestly; do not purchase articles or contact authors without applicable authorization.
 4. Link reports to studies and cohorts. Treat suspected overlap conservatively until source evidence resolves it.
 5. Read accessible bodies, tables, figure legends, figures, supplements and corrections with an item-level ledger. Extract contradictory results and failed validation, not only supporting statements.
@@ -141,3 +141,16 @@ These are review questions, not newly established therapies or verified novel hy
 
 
 The follow-up historical-model/fusion query retrieved all 56 results and added 26 identifiers, bringing the discovery pool to **1,629 records**, including **654 title/abstract matches**. These remain candidate records, not 1,629 EMC studies. All 447 PubMed exact-phrase identifiers were checked against the catalogue and were already present. The query newly surfaced mixed-sarcoma drug screens and H-EMC-SS experiments, along with incidental references that require exclusion.
+
+
+### Mixed-screen subgroup: useful negative context
+
+The [Beird 2026 sarcoma screen](https://doi.org/10.1158/2767-9764.CRC-26-0142) provides a public [author dataset](https://zenodo.org/records/19098295). Its HEMCSS column contains 1,387 compound measurements, now extracted reproducibly by `scripts/emc_beird_subgroup.py`. This is computational extraction, not a claim that every row or the complete paper has been manually reviewed. The model catalogue maps this column to CVCL_1238; its disputed identity prevents interpreting these as confirmed EMC-specific findings.
+
+For carfilzomib, the published fraction-affected AUC is 0.4653 versus a mean of 0.7218 in 16 other cancer models with measurements; 13 have higher AUC. Panobinostat is 0.4693 versus 0.7301 in 19 comparison models, 18 of which have higher AUC. These within-assay comparisons weaken a claim of unusual sensitivity in this historical model. They do not contradict a matched experiment in the newer, molecularly confirmed EMC models, and the cancer comparators establish no normal-tissue safety margin. The source matrix, exact drug aliases and source-row numbers are retained in `beird-2026-hemcss-extraction.json`. Full plate QC and figure review remain pending.
+
+### Regression cases: hypothesis and alternative explanation
+
+[Carroll 2025](https://pmc.ncbi.nlm.nih.gov/articles/PMC12660641/) has now been read through its body, all references and four figures. It reports regression of pulmonary nodules following debulking after earlier progression on sunitinib, atezolizumab and trabectedin. The primary tumour was NR4A3-rearranged; biopsy confirmation of the lung nodules is not reported in the text. The selected before/after CT panels illustrate the authors' observation, but cannot independently establish the identity of every nodule or a causal mechanism.
+
+The authors already propose surgery-associated immune effects and earlier immunotherapy priming. That is their hypothesis, not a new discovery from this review. The abstract of [Kinoshita 2015](https://pubmed.ncbi.nlm.nih.gov/26434451/) describes regression after biopsy without preceding treatment, providing a reason not to assume checkpoint exposure is necessary. Its full text remains unresolved. Neither case establishes a treatment strategy. A useful discriminating research question is whether paired tissue and immune measurements can separate tumour-specific immunity from other causes of radiographic change; those measurements are not supplied by these reports.

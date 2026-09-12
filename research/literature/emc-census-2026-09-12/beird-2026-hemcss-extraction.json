@@ -1,0 +1,7007 @@
+{
+  "doi": "10.1158/2767-9764.CRC-26-0142",
+  "dataset_doi": "10.5281/zenodo.19098295",
+  "publisher_url": "https://aacrjournals.org/cancerrescommun/article/6/6/1425/785836/Drug-Screening-of-Sarcoma-Cells-Finding-Shared",
+  "source": {
+    "file": "GCC_SARC_ALl_AUC_FA-2016_inputforfilter-250815.txt",
+    "url": "https://zenodo.org/records/19098295/files/GCC_SARC_ALl_AUC_FA-2016_inputforfilter-250815.txt?download=1",
+    "bytes": 355599,
+    "sha256": "7a1dbb5e6f2d7f6605023c4d196a1645240fe7aeabc974fb25cdf7534b0d6f0e"
+  },
+  "source_encoding_used": "cp1252",
+  "extracted_date": "2026-09-12",
+  "model": "H-EMC-SS",
+  "model_identity": "Authors dataset maps HEMCSS to CVCL_1238 and CS. Gartrell Figure 2 reports no detected EWSR1 translocation; not treated as a confirmed NR4A3-fusion model.",
+  "metric": "Published normalized AUC of fraction affected; higher indicates stronger growth inhibition within this assay. Preserve negative values.",
+  "limitations": [
+    "These are one model subgroup values, not patient outcomes.",
+    "Comparator means describe other cancer models, not a therapeutic window.",
+    "Matched drug names are explicit aliases, not substring matches.",
+    "Main paper partly read; figures, QC and complete supplemental analysis remain pending.",
+    "All 1387 values extracted computationally; this is not a claim of manual review of every row."
+  ],
+  "cross_study_candidates": [
+    {
+      "source_row": 7,
+      "compound": "BORTEZOMIB",
+      "HEMCSS_auc": 0.501958714,
+      "normalized_name": "bortezomib",
+      "other_cancer_models_measured": 16,
+      "other_cancer_models_mean_auc": 0.7185214753125,
+      "other_cancer_models_with_higher_auc": 13
+    },
+    {
+      "source_row": 129,
+      "compound": "DOXORUBICIN HYDROCHLORIDE",
+      "HEMCSS_auc": 0.484820046,
+      "normalized_name": "doxorubicin hydrochloride",
+      "other_cancer_models_measured": 16,
+      "other_cancer_models_mean_auc": 0.6304076736249999,
+      "other_cancer_models_with_higher_auc": 12
+    },
+    {
+      "source_row": 159,
+      "compound": "CARFILZOMIB",
+      "HEMCSS_auc": 0.465274733,
+      "normalized_name": "carfilzomib",
+      "other_cancer_models_measured": 16,
+      "other_cancer_models_mean_auc": 0.721755217375,
+      "other_cancer_models_with_higher_auc": 13
+    },
+    {
+      "source_row": 244,
+      "compound": "PANOBINOSTAT (LBH589)",
+      "HEMCSS_auc": 0.469269491,
+      "normalized_name": "panobinostat",
+      "other_cancer_models_measured": 19,
+      "other_cancer_models_mean_auc": 0.7300590027368422,
+      "other_cancer_models_with_higher_auc": 18
+    },
+    {
+      "source_row": 591,
+      "compound": "ABT-199 (GDC-0199)",
+      "HEMCSS_auc": 0.020720673,
+      "normalized_name": "venetoclax",
+      "other_cancer_models_measured": 19,
+      "other_cancer_models_mean_auc": 0.007889597578947367,
+      "other_cancer_models_with_higher_auc": 4
+    }
+  ],
+  "records": [
+    {
+      "source_row": 2,
+      "compound": "ABT-263",
+      "HEMCSS_auc": 0.048745631
+    },
+    {
+      "source_row": 3,
+      "compound": "AXITINIB",
+      "HEMCSS_auc": 0.159314239
+    },
+    {
+      "source_row": 4,
+      "compound": "ABT-869",
+      "HEMCSS_auc": 0.076184621
+    },
+    {
+      "source_row": 5,
+      "compound": "17-AAG",
+      "HEMCSS_auc": 0.14712686
+    },
+    {
+      "source_row": 6,
+      "compound": "AZD 0530",
+      "HEMCSS_auc": -0.038190672
+    },
+    {
+      "source_row": 7,
+      "compound": "BORTEZOMIB",
+      "HEMCSS_auc": 0.501958714
+    },
+    {
+      "source_row": 8,
+      "compound": "BIBF-1120",
+      "HEMCSS_auc": 0.169874968
+    },
+    {
+      "source_row": 9,
+      "compound": "BOSUTINIB",
+      "HEMCSS_auc": 0.096585688
+    },
+    {
+      "source_row": 10,
+      "compound": "BMS-536924",
+      "HEMCSS_auc": 0.219545217
+    },
+    {
+      "source_row": 11,
+      "compound": "BEXAROTENE",
+      "HEMCSS_auc": 0.114168135
+    },
+    {
+      "source_row": 12,
+      "compound": "CEDIRANIB",
+      "HEMCSS_auc": 0.225839736
+    },
+    {
+      "source_row": 13,
+      "compound": "CANERTINIB",
+      "HEMCSS_auc": 0.18324655
+    },
+    {
+      "source_row": 14,
+      "compound": "CI 1040",
+      "HEMCSS_auc": 0.176709807
+    },
+    {
+      "source_row": 15,
+      "compound": "CYCLOPAMINE",
+      "HEMCSS_auc": 0.049523824
+    },
+    {
+      "source_row": 16,
+      "compound": "LENALIDOMIDE",
+      "HEMCSS_auc": 0.073826973
+    },
+    {
+      "source_row": 17,
+      "compound": "DASATINIB",
+      "HEMCSS_auc": 0.141736175
+    },
+    {
+      "source_row": 18,
+      "compound": "PD 0325901",
+      "HEMCSS_auc": 0.470270188
+    },
+    {
+      "source_row": 19,
+      "compound": "17-DMAG",
+      "HEMCSS_auc": 0.184882884
+    },
+    {
+      "source_row": 20,
+      "compound": "PERIFOSINE",
+      "HEMCSS_auc": 0.153259738
+    },
+    {
+      "source_row": 21,
+      "compound": "CHIR 258",
+      "HEMCSS_auc": 0.114851811
+    },
+    {
+      "source_row": 22,
+      "compound": "ETOPOSIDE",
+      "HEMCSS_auc": 0.224984376
+    },
+    {
+      "source_row": 23,
+      "compound": "ALLOPURINOL",
+      "HEMCSS_auc": 0.018988454
+    },
+    {
+      "source_row": 24,
+      "compound": "EPIRUBICIN HYDROCHLORIDE",
+      "HEMCSS_auc": 0.567529326
+    },
+    {
+      "source_row": 25,
+      "compound": "THALIDOMIDE",
+      "HEMCSS_auc": 0.031844804
+    },
+    {
+      "source_row": 26,
+      "compound": "TRETINOIN",
+      "HEMCSS_auc": 0.06716096
+    },
+    {
+      "source_row": 27,
+      "compound": "BENDAMUSTINE HYDROCHLORIDE",
+      "HEMCSS_auc": 0.029635277
+    },
+    {
+      "source_row": 28,
+      "compound": "VEMURAFENIB",
+      "HEMCSS_auc": 0.033476579
+    },
+    {
+      "source_row": 29,
+      "compound": "PENTOSTATIN",
+      "HEMCSS_auc": 0.00195533
+    },
+    {
+      "source_row": 30,
+      "compound": "VANDETANIB",
+      "HEMCSS_auc": 0.07181274
+    },
+    {
+      "source_row": 31,
+      "compound": "SORAFENIB",
+      "HEMCSS_auc": 0.101494625
+    },
+    {
+      "source_row": 32,
+      "compound": "ABIRATERONE",
+      "HEMCSS_auc": 0.010203014
+    },
+    {
+      "source_row": 33,
+      "compound": "NILOTINIB",
+      "HEMCSS_auc": 0.052141871
+    },
+    {
+      "source_row": 34,
+      "compound": "TEMOZOLOMIDE",
+      "HEMCSS_auc": 0.003009373
+    },
+    {
+      "source_row": 35,
+      "compound": "CLADRIBINE",
+      "HEMCSS_auc": 0.294316497
+    },
+    {
+      "source_row": 36,
+      "compound": "AFATINIB",
+      "HEMCSS_auc": 0.099149499
+    },
+    {
+      "source_row": 37,
+      "compound": "FULVESTRANT",
+      "HEMCSS_auc": 0.031614408
+    },
+    {
+      "source_row": 38,
+      "compound": "PONATINIB",
+      "HEMCSS_auc": 0.417891561
+    },
+    {
+      "source_row": 39,
+      "compound": "DAUNORUBICIN HYDROCHLORIDE",
+      "HEMCSS_auc": 0.609789369
+    },
+    {
+      "source_row": 40,
+      "compound": "CABAZITAXEL",
+      "HEMCSS_auc": 0.454983063
+    },
+    {
+      "source_row": 41,
+      "compound": "CISPLATIN",
+      "HEMCSS_auc": 0.133842387
+    },
+    {
+      "source_row": 42,
+      "compound": "STF-62247",
+      "HEMCSS_auc": 0.002067681
+    },
+    {
+      "source_row": 43,
+      "compound": "GELDENAMYCIN",
+      "HEMCSS_auc": -0.002751898
+    },
+    {
+      "source_row": 44,
+      "compound": "TRICHOSTATIN A",
+      "HEMCSS_auc": 0.124997898
+    },
+    {
+      "source_row": 45,
+      "compound": "H-89",
+      "HEMCSS_auc": 0.012149354
+    },
+    {
+      "source_row": 46,
+      "compound": "Y-27632",
+      "HEMCSS_auc": 0.055207742
+    },
+    {
+      "source_row": 47,
+      "compound": "LAPATINIB",
+      "HEMCSS_auc": 0.009016292
+    },
+    {
+      "source_row": 48,
+      "compound": "ELESCLOMOL",
+      "HEMCSS_auc": 0.326932043
+    },
+    {
+      "source_row": 49,
+      "compound": "LESTAURTINIB",
+      "HEMCSS_auc": 0.286390179
+    },
+    {
+      "source_row": 50,
+      "compound": "ENZASTAURIN",
+      "HEMCSS_auc": -0.006431753
+    },
+    {
+      "source_row": 51,
+      "compound": "MASITINIB",
+      "HEMCSS_auc": -0.003104592
+    },
+    {
+      "source_row": 52,
+      "compound": "OBATOCLAX",
+      "HEMCSS_auc": 0.034175464
+    },
+    {
+      "source_row": 53,
+      "compound": "BEZ 235",
+      "HEMCSS_auc": 0.183500913
+    },
+    {
+      "source_row": 54,
+      "compound": "AZD 2281",
+      "HEMCSS_auc": 0.053937588
+    },
+    {
+      "source_row": 55,
+      "compound": "SB 431542",
+      "HEMCSS_auc": -0.086315334
+    },
+    {
+      "source_row": 56,
+      "compound": "PD 98059",
+      "HEMCSS_auc": -0.029370971
+    },
+    {
+      "source_row": 57,
+      "compound": "PF-2341066",
+      "HEMCSS_auc": -0.030314089
+    },
+    {
+      "source_row": 58,
+      "compound": "PAZOPANIB",
+      "HEMCSS_auc": 0.12248693
+    },
+    {
+      "source_row": 59,
+      "compound": "NVP AUY922",
+      "HEMCSS_auc": 0.319919383
+    },
+    {
+      "source_row": 60,
+      "compound": "PKC412",
+      "HEMCSS_auc": 0.263767515
+    },
+    {
+      "source_row": 61,
+      "compound": "FLUDARABINE PHOSPHATE",
+      "HEMCSS_auc": 0.061484377
+    },
+    {
+      "source_row": 62,
+      "compound": "CELECOXIB",
+      "HEMCSS_auc": -0.000137842
+    },
+    {
+      "source_row": 63,
+      "compound": "ANASTROZOLE",
+      "HEMCSS_auc": 0.048466682
+    },
+    {
+      "source_row": 64,
+      "compound": "IMATINIB",
+      "HEMCSS_auc": 0.04049298
+    },
+    {
+      "source_row": 65,
+      "compound": "LETROZOLE",
+      "HEMCSS_auc": 0.227589943
+    },
+    {
+      "source_row": 66,
+      "compound": "PAZOPANIB HYDROCHLORIDE",
+      "HEMCSS_auc": 0.284604107
+    },
+    {
+      "source_row": 67,
+      "compound": "EVEROLIMUS",
+      "HEMCSS_auc": 0.228900573
+    },
+    {
+      "source_row": 68,
+      "compound": "ERLOTINIB HYDROCHLORIDE",
+      "HEMCSS_auc": 0.021782545
+    },
+    {
+      "source_row": 69,
+      "compound": "SUNITINIB",
+      "HEMCSS_auc": 0.150292713
+    },
+    {
+      "source_row": 70,
+      "compound": "CLOFARABINE",
+      "HEMCSS_auc": 0.396345308
+    },
+    {
+      "source_row": 71,
+      "compound": "REGORAFENIB",
+      "HEMCSS_auc": 0.130384777
+    },
+    {
+      "source_row": 72,
+      "compound": "8-DODECYLSULFANYL-1,3-DIMETHYL-7H-PURINE-2,6-DIONE",
+      "HEMCSS_auc": 0.056994926
+    },
+    {
+      "source_row": 73,
+      "compound": "OXALIPLATIN",
+      "HEMCSS_auc": -0.037886695
+    },
+    {
+      "source_row": 74,
+      "compound": "RALOXIFENE",
+      "HEMCSS_auc": -0.021578939
+    },
+    {
+      "source_row": 75,
+      "compound": "VINORELBINE TARTRATE",
+      "HEMCSS_auc": 0.152063071
+    },
+    {
+      "source_row": 76,
+      "compound": "ZOLEDRONIC ACID",
+      "HEMCSS_auc": -0.032849503
+    },
+    {
+      "source_row": 77,
+      "compound": "ARSENIC TRIOXIDE",
+      "HEMCSS_auc": 0.007872305
+    },
+    {
+      "source_row": 78,
+      "compound": "GEFITINIB",
+      "HEMCSS_auc": 0.012102309
+    },
+    {
+      "source_row": 79,
+      "compound": "FLOXURIDINE",
+      "HEMCSS_auc": -0.008167148
+    },
+    {
+      "source_row": 80,
+      "compound": "HA14-1",
+      "HEMCSS_auc": -0.016935595
+    },
+    {
+      "source_row": 81,
+      "compound": "ROSCOVITINE",
+      "HEMCSS_auc": 0.012243837
+    },
+    {
+      "source_row": 82,
+      "compound": "SB 216763",
+      "HEMCSS_auc": 0.006598136
+    },
+    {
+      "source_row": 83,
+      "compound": "SB 202190",
+      "HEMCSS_auc": 0.038197832
+    },
+    {
+      "source_row": 84,
+      "compound": "MK-2206",
+      "HEMCSS_auc": 0.243013008
+    },
+    {
+      "source_row": 85,
+      "compound": "SB 203580",
+      "HEMCSS_auc": 0.084002418
+    },
+    {
+      "source_row": 86,
+      "compound": "PD 153035",
+      "HEMCSS_auc": -0.006657966
+    },
+    {
+      "source_row": 87,
+      "compound": "SU 11274",
+      "HEMCSS_auc": 0.050701859
+    },
+    {
+      "source_row": 88,
+      "compound": "BRIVANIB",
+      "HEMCSS_auc": 0.013867616
+    },
+    {
+      "source_row": 89,
+      "compound": "STAUROSPORINE",
+      "HEMCSS_auc": 0.516209179
+    },
+    {
+      "source_row": 90,
+      "compound": "PXD101",
+      "HEMCSS_auc": 0.104096573
+    },
+    {
+      "source_row": 91,
+      "compound": "TANDUTINIB",
+      "HEMCSS_auc": -0.019332292
+    },
+    {
+      "source_row": 92,
+      "compound": "BSI-201",
+      "HEMCSS_auc": -0.030423069
+    },
+    {
+      "source_row": 93,
+      "compound": "TEMSIROLIMUS",
+      "HEMCSS_auc": 0.084130911
+    },
+    {
+      "source_row": 94,
+      "compound": "PCI-24781",
+      "HEMCSS_auc": 0.167714458
+    },
+    {
+      "source_row": 95,
+      "compound": "AG 490",
+      "HEMCSS_auc": -0.014512796
+    },
+    {
+      "source_row": 96,
+      "compound": "KU-55933",
+      "HEMCSS_auc": -0.002985925
+    },
+    {
+      "source_row": 97,
+      "compound": "VATALANIB",
+      "HEMCSS_auc": 0.024750343
+    },
+    {
+      "source_row": 98,
+      "compound": "CABOZANTINIB",
+      "HEMCSS_auc": 0.185409353
+    },
+    {
+      "source_row": 99,
+      "compound": "VINCRISTINE SULFATE",
+      "HEMCSS_auc": 0.226190273
+    },
+    {
+      "source_row": 100,
+      "compound": "PRALATREXATE",
+      "HEMCSS_auc": 0.189555832
+    },
+    {
+      "source_row": 101,
+      "compound": "CYCLOPHOSPHAMIDE",
+      "HEMCSS_auc": 0.013418639
+    },
+    {
+      "source_row": 102,
+      "compound": "OMACETAXINE MEPESUCCINATE",
+      "HEMCSS_auc": 0.360999755
+    },
+    {
+      "source_row": 103,
+      "compound": "PIPOBROMAN",
+      "HEMCSS_auc": -0.027538885
+    },
+    {
+      "source_row": 104,
+      "compound": "PEMETREXED",
+      "HEMCSS_auc": 0.017023383
+    },
+    {
+      "source_row": 105,
+      "compound": "STREPTOZOCIN",
+      "HEMCSS_auc": -0.027403588
+    },
+    {
+      "source_row": 106,
+      "compound": "TOPOTECAN HYDROCHLORIDE",
+      "HEMCSS_auc": 0.135599194
+    },
+    {
+      "source_row": 107,
+      "compound": "THIOGUANINE",
+      "HEMCSS_auc": -0.053651007
+    },
+    {
+      "source_row": 108,
+      "compound": "DABRAFENIB MESYLATE",
+      "HEMCSS_auc": -0.023242525
+    },
+    {
+      "source_row": 109,
+      "compound": "AMIFOSTINE",
+      "HEMCSS_auc": -0.025141483
+    },
+    {
+      "source_row": 110,
+      "compound": "MECHLORETHAMINE HYDROCHLORIDE",
+      "HEMCSS_auc": -0.012330785
+    },
+    {
+      "source_row": 111,
+      "compound": "EXEMESTANE",
+      "HEMCSS_auc": -0.039981377
+    },
+    {
+      "source_row": 112,
+      "compound": "DACTINOMYCIN",
+      "HEMCSS_auc": 0.611436676
+    },
+    {
+      "source_row": 113,
+      "compound": "ENZALUTAMIDE",
+      "HEMCSS_auc": -0.025359822
+    },
+    {
+      "source_row": 114,
+      "compound": "URACIL MUSTARD",
+      "HEMCSS_auc": -0.026922788
+    },
+    {
+      "source_row": 115,
+      "compound": "NELARABINE",
+      "HEMCSS_auc": -0.00732178
+    },
+    {
+      "source_row": 116,
+      "compound": "GSK1904529A",
+      "HEMCSS_auc": 0.081975109
+    },
+    {
+      "source_row": 117,
+      "compound": "PF-04217903",
+      "HEMCSS_auc": 0.006073793
+    },
+    {
+      "source_row": 118,
+      "compound": "ZSTK474",
+      "HEMCSS_auc": 0.255960663
+    },
+    {
+      "source_row": 119,
+      "compound": "NVP LAQ824",
+      "HEMCSS_auc": 0.294669082
+    },
+    {
+      "source_row": 120,
+      "compound": "JNJ-26481585",
+      "HEMCSS_auc": 0.321042838
+    },
+    {
+      "source_row": 121,
+      "compound": "AG014699",
+      "HEMCSS_auc": 0.032982509
+    },
+    {
+      "source_row": 122,
+      "compound": "AZD1152-HQPA",
+      "HEMCSS_auc": 0.29971692
+    },
+    {
+      "source_row": 123,
+      "compound": "PLX4720",
+      "HEMCSS_auc": -0.053758946
+    },
+    {
+      "source_row": 124,
+      "compound": "PLX4032",
+      "HEMCSS_auc": 0.039365674
+    },
+    {
+      "source_row": 125,
+      "compound": "METFORMIN",
+      "HEMCSS_auc": -0.047849189
+    },
+    {
+      "source_row": 126,
+      "compound": "2DG",
+      "HEMCSS_auc": -0.037567513
+    },
+    {
+      "source_row": 127,
+      "compound": "VORINOSTAT",
+      "HEMCSS_auc": 0.049955276
+    },
+    {
+      "source_row": 128,
+      "compound": "IRINOTECAN HYDROCHLORIDE",
+      "HEMCSS_auc": 0.16746752
+    },
+    {
+      "source_row": 129,
+      "compound": "DOXORUBICIN HYDROCHLORIDE",
+      "HEMCSS_auc": 0.484820046
+    },
+    {
+      "source_row": 130,
+      "compound": "MITOXANTRONE",
+      "HEMCSS_auc": 0.49599907
+    },
+    {
+      "source_row": 131,
+      "compound": "ESTRAMUSTINE PHOSPHATE SODIUM",
+      "HEMCSS_auc": -0.018530884
+    },
+    {
+      "source_row": 132,
+      "compound": "VISMODEGIB",
+      "HEMCSS_auc": -0.038429057
+    },
+    {
+      "source_row": 133,
+      "compound": "TRAMETINIB",
+      "HEMCSS_auc": 0.586274944
+    },
+    {
+      "source_row": 134,
+      "compound": "PLERIXAFOR",
+      "HEMCSS_auc": -0.037446525
+    },
+    {
+      "source_row": 135,
+      "compound": "BLEOMYCIN SULFATE",
+      "HEMCSS_auc": 0.076469207
+    },
+    {
+      "source_row": 136,
+      "compound": "BMS 204352",
+      "HEMCSS_auc": -0.00921036
+    },
+    {
+      "source_row": 137,
+      "compound": "FK-506",
+      "HEMCSS_auc": 0.069806927
+    },
+    {
+      "source_row": 138,
+      "compound": "CHIR 98014",
+      "HEMCSS_auc": 0.069863936
+    },
+    {
+      "source_row": 139,
+      "compound": "RAPAMYCIN",
+      "HEMCSS_auc": 0.216289719
+    },
+    {
+      "source_row": 140,
+      "compound": "BX 912",
+      "HEMCSS_auc": 0.160818237
+    },
+    {
+      "source_row": 141,
+      "compound": "SARACATINIB",
+      "HEMCSS_auc": -0.100664774
+    },
+    {
+      "source_row": 142,
+      "compound": "GW 843682X",
+      "HEMCSS_auc": 0.075802311
+    },
+    {
+      "source_row": 143,
+      "compound": "AZD 6244",
+      "HEMCSS_auc": 0.104058056
+    },
+    {
+      "source_row": 144,
+      "compound": "SU 6656",
+      "HEMCSS_auc": 0.078480479
+    },
+    {
+      "source_row": 145,
+      "compound": "ABT-737",
+      "HEMCSS_auc": 0.051056821
+    },
+    {
+      "source_row": 146,
+      "compound": "PD 180970",
+      "HEMCSS_auc": 0.110738782
+    },
+    {
+      "source_row": 147,
+      "compound": "ABT-888",
+      "HEMCSS_auc": -0.007012702
+    },
+    {
+      "source_row": 148,
+      "compound": "GSK 269962A",
+      "HEMCSS_auc": 0.062299963
+    },
+    {
+      "source_row": 149,
+      "compound": "BI 2536",
+      "HEMCSS_auc": 0.459478982
+    },
+    {
+      "source_row": 150,
+      "compound": "U 73122",
+      "HEMCSS_auc": -0.026334073
+    },
+    {
+      "source_row": 151,
+      "compound": "BMS-599626",
+      "HEMCSS_auc": -0.088659291
+    },
+    {
+      "source_row": 152,
+      "compound": "DEGUELIN",
+      "HEMCSS_auc": 0.100106859
+    },
+    {
+      "source_row": 153,
+      "compound": "BIBW2992",
+      "HEMCSS_auc": -0.010321157
+    },
+    {
+      "source_row": 154,
+      "compound": "LE 135",
+      "HEMCSS_auc": -0.081173995
+    },
+    {
+      "source_row": 155,
+      "compound": "ERLOTINIB",
+      "HEMCSS_auc": -0.018804102
+    },
+    {
+      "source_row": 156,
+      "compound": "TAMOXIFEN CITRATE",
+      "HEMCSS_auc": 0.037843408
+    },
+    {
+      "source_row": 157,
+      "compound": "CARBOPLATIN",
+      "HEMCSS_auc": 0.052620693
+    },
+    {
+      "source_row": 158,
+      "compound": "CRIZOTINIB",
+      "HEMCSS_auc": -0.017510155
+    },
+    {
+      "source_row": 159,
+      "compound": "CARFILZOMIB",
+      "HEMCSS_auc": 0.465274733
+    },
+    {
+      "source_row": 160,
+      "compound": "DOCETAXEL",
+      "HEMCSS_auc": 0.447516337
+    },
+    {
+      "source_row": 161,
+      "compound": "TENIPOSIDE",
+      "HEMCSS_auc": 0.349472789
+    },
+    {
+      "source_row": 162,
+      "compound": "DECITABINE",
+      "HEMCSS_auc": 0.09795211
+    },
+    {
+      "source_row": 163,
+      "compound": "SIROLIMUS",
+      "HEMCSS_auc": 0.202080695
+    },
+    {
+      "source_row": 164,
+      "compound": "VALRUBICIN",
+      "HEMCSS_auc": 0.147782254
+    },
+    {
+      "source_row": 165,
+      "compound": "LOMUSTINE",
+      "HEMCSS_auc": -0.052793542
+    },
+    {
+      "source_row": 166,
+      "compound": "NSC 625987",
+      "HEMCSS_auc": 0.036951825
+    },
+    {
+      "source_row": 167,
+      "compound": "FINGOLIMOD",
+      "HEMCSS_auc": 0.056776739
+    },
+    {
+      "source_row": 168,
+      "compound": "GW 441756",
+      "HEMCSS_auc": -0.013813444
+    },
+    {
+      "source_row": 169,
+      "compound": "DR 2313",
+      "HEMCSS_auc": 0.120454086
+    },
+    {
+      "source_row": 170,
+      "compound": "GDC-0449",
+      "HEMCSS_auc": 0.01372073
+    },
+    {
+      "source_row": 171,
+      "compound": "PD 166793",
+      "HEMCSS_auc": -0.029195576
+    },
+    {
+      "source_row": 172,
+      "compound": "HYPOTHEMYCIN",
+      "HEMCSS_auc": 0.36443776
+    },
+    {
+      "source_row": 173,
+      "compound": "AEG 3482",
+      "HEMCSS_auc": 0.049096881
+    },
+    {
+      "source_row": 174,
+      "compound": "PIK 75",
+      "HEMCSS_auc": 0.378069395
+    },
+    {
+      "source_row": 175,
+      "compound": "LBH-589",
+      "HEMCSS_auc": 0.345733721
+    },
+    {
+      "source_row": 176,
+      "compound": "SD 169",
+      "HEMCSS_auc": -0.017044209
+    },
+    {
+      "source_row": 177,
+      "compound": "MGCD0103",
+      "HEMCSS_auc": 0.179507049
+    },
+    {
+      "source_row": 178,
+      "compound": "PIK 90",
+      "HEMCSS_auc": 0.173150909
+    },
+    {
+      "source_row": 179,
+      "compound": "MS-275",
+      "HEMCSS_auc": 0.060079275
+    },
+    {
+      "source_row": 180,
+      "compound": "PD 169316",
+      "HEMCSS_auc": -0.050277787
+    },
+    {
+      "source_row": 181,
+      "compound": "MOTESANIB",
+      "HEMCSS_auc": -0.017082674
+    },
+    {
+      "source_row": 182,
+      "compound": "LY 294002",
+      "HEMCSS_auc": -0.041731021
+    },
+    {
+      "source_row": 183,
+      "compound": "CYTARABINE HYDROCHLORIDE",
+      "HEMCSS_auc": 0.21985928
+    },
+    {
+      "source_row": 184,
+      "compound": "THIOTEPA",
+      "HEMCSS_auc": 0.060888342
+    },
+    {
+      "source_row": 185,
+      "compound": "MELPHALAN HYDROCHLORIDE",
+      "HEMCSS_auc": 0.087856547
+    },
+    {
+      "source_row": 186,
+      "compound": "DACARBAZINE",
+      "HEMCSS_auc": -0.013444756
+    },
+    {
+      "source_row": 187,
+      "compound": "CHLORAMBUCIL",
+      "HEMCSS_auc": 0.086244007
+    },
+    {
+      "source_row": 188,
+      "compound": "MEGESTROL ACETATE",
+      "HEMCSS_auc": -0.015934528
+    },
+    {
+      "source_row": 189,
+      "compound": "TRIETHYLENEMELAMINE",
+      "HEMCSS_auc": -0.002785193
+    },
+    {
+      "source_row": 190,
+      "compound": "AZACITIDINE",
+      "HEMCSS_auc": 0.036340771
+    },
+    {
+      "source_row": 191,
+      "compound": "ALTRETAMINE",
+      "HEMCSS_auc": -0.060921985
+    },
+    {
+      "source_row": 192,
+      "compound": "AMINOLEVULINIC ACID HYDROCHLORIDE",
+      "HEMCSS_auc": -0.054612948
+    },
+    {
+      "source_row": 193,
+      "compound": "NU 1025",
+      "HEMCSS_auc": 0.001830101
+    },
+    {
+      "source_row": 194,
+      "compound": "RDEA119",
+      "HEMCSS_auc": 0.162189689
+    },
+    {
+      "source_row": 195,
+      "compound": "IVACHTIN",
+      "HEMCSS_auc": -0.028452206
+    },
+    {
+      "source_row": 196,
+      "compound": "ROFECOXIB",
+      "HEMCSS_auc": -0.021836546
+    },
+    {
+      "source_row": 197,
+      "compound": "CHIR 99021",
+      "HEMCSS_auc": -0.079487147
+    },
+    {
+      "source_row": 198,
+      "compound": "SD 208",
+      "HEMCSS_auc": -0.134977322
+    },
+    {
+      "source_row": 199,
+      "compound": "TOZASERTIB",
+      "HEMCSS_auc": 0.260860607
+    },
+    {
+      "source_row": 200,
+      "compound": "BX 795",
+      "HEMCSS_auc": 0.084709172
+    },
+    {
+      "source_row": 201,
+      "compound": "VX-702",
+      "HEMCSS_auc": -0.073964159
+    },
+    {
+      "source_row": 202,
+      "compound": "AZD 7762",
+      "HEMCSS_auc": 0.107025576
+    },
+    {
+      "source_row": 203,
+      "compound": "ZM447439",
+      "HEMCSS_auc": 0.051500847
+    },
+    {
+      "source_row": 204,
+      "compound": "LY 333531",
+      "HEMCSS_auc": -0.000735163
+    },
+    {
+      "source_row": 205,
+      "compound": "NVP TAE684",
+      "HEMCSS_auc": 0.088935547
+    },
+    {
+      "source_row": 206,
+      "compound": "AS 252424",
+      "HEMCSS_auc": -0.085698625
+    },
+    {
+      "source_row": 207,
+      "compound": "METHOXSALEN",
+      "HEMCSS_auc": -0.030844883
+    },
+    {
+      "source_row": 208,
+      "compound": "PROCARBAZINE HYDROCHLORIDE",
+      "HEMCSS_auc": -0.080040374
+    },
+    {
+      "source_row": 209,
+      "compound": "VINBLASTINE SULFATE",
+      "HEMCSS_auc": 0.217355727
+    },
+    {
+      "source_row": 210,
+      "compound": "IMIQUIMOD",
+      "HEMCSS_auc": -0.063213296
+    },
+    {
+      "source_row": 211,
+      "compound": "BUSULFAN",
+      "HEMCSS_auc": -0.038183524
+    },
+    {
+      "source_row": 212,
+      "compound": "IFOSFAMIDE",
+      "HEMCSS_auc": -0.062982909
+    },
+    {
+      "source_row": 213,
+      "compound": "CAPECITABINE",
+      "HEMCSS_auc": -0.037046145
+    },
+    {
+      "source_row": 214,
+      "compound": "MERCAPTOPURINE",
+      "HEMCSS_auc": -0.059945311
+    },
+    {
+      "source_row": 215,
+      "compound": "FLUOROURACIL",
+      "HEMCSS_auc": -0.067113685
+    },
+    {
+      "source_row": 216,
+      "compound": "METHOTREXATE",
+      "HEMCSS_auc": -0.084188024
+    },
+    {
+      "source_row": 217,
+      "compound": "TRICIRIBINE",
+      "HEMCSS_auc": 0.179731448
+    },
+    {
+      "source_row": 218,
+      "compound": "PI-103",
+      "HEMCSS_auc": 0.113545704
+    },
+    {
+      "source_row": 219,
+      "compound": "CHK2 INHIBITOR II",
+      "HEMCSS_auc": -0.013481481
+    },
+    {
+      "source_row": 220,
+      "compound": "AS-604850",
+      "HEMCSS_auc": -0.035571459
+    },
+    {
+      "source_row": 221,
+      "compound": "COMPOUND 401",
+      "HEMCSS_auc": -0.010311312
+    },
+    {
+      "source_row": 222,
+      "compound": "TGX 221",
+      "HEMCSS_auc": -0.057037439
+    },
+    {
+      "source_row": 223,
+      "compound": "DNA-PK INHIBITOR V",
+      "HEMCSS_auc": -0.05058678
+    },
+    {
+      "source_row": 224,
+      "compound": "COMPOUND C",
+      "HEMCSS_auc": -0.070189584
+    },
+    {
+      "source_row": 225,
+      "compound": "R59022",
+      "HEMCSS_auc": 0.175911354
+    },
+    {
+      "source_row": 226,
+      "compound": "AS-041164",
+      "HEMCSS_auc": -0.071863384
+    },
+    {
+      "source_row": 227,
+      "compound": "JNK INHIBITOR X",
+      "HEMCSS_auc": -0.026624321
+    },
+    {
+      "source_row": 228,
+      "compound": "GDC 0941",
+      "HEMCSS_auc": 0.131901296
+    },
+    {
+      "source_row": 229,
+      "compound": "NSC23766",
+      "HEMCSS_auc": -0.042162126
+    },
+    {
+      "source_row": 230,
+      "compound": "PP121",
+      "HEMCSS_auc": 0.32542662
+    },
+    {
+      "source_row": 231,
+      "compound": "SB 218078",
+      "HEMCSS_auc": 0.057996782
+    },
+    {
+      "source_row": 232,
+      "compound": "SP600125",
+      "HEMCSS_auc": -0.068862046
+    },
+    {
+      "source_row": 233,
+      "compound": "A-769662",
+      "HEMCSS_auc": -0.056859023
+    },
+    {
+      "source_row": 234,
+      "compound": "AICAR",
+      "HEMCSS_auc": -0.079862143
+    },
+    {
+      "source_row": 235,
+      "compound": "MITOMYCIN",
+      "HEMCSS_auc": -0.059015912
+    },
+    {
+      "source_row": 236,
+      "compound": "GEMCITABINE HYDROCHLORIDE",
+      "HEMCSS_auc": 0.448836212
+    },
+    {
+      "source_row": 237,
+      "compound": "CARMUSTINE",
+      "HEMCSS_auc": -0.011967588
+    },
+    {
+      "source_row": 238,
+      "compound": "PLICAMYCIN",
+      "HEMCSS_auc": -0.034222858
+    },
+    {
+      "source_row": 239,
+      "compound": "MITOTANE",
+      "HEMCSS_auc": -0.037673705
+    },
+    {
+      "source_row": 240,
+      "compound": "HYDROXYUREA",
+      "HEMCSS_auc": -0.065900277
+    },
+    {
+      "source_row": 241,
+      "compound": "DEXRAZOXANE",
+      "HEMCSS_auc": -0.021040338
+    },
+    {
+      "source_row": 242,
+      "compound": "IDARUBICIN HYDROCHLORIDE",
+      "HEMCSS_auc": -0.037330028
+    },
+    {
+      "source_row": 243,
+      "compound": "PACLITAXEL",
+      "HEMCSS_auc": 0.206489775
+    },
+    {
+      "source_row": 244,
+      "compound": "PANOBINOSTAT (LBH589)",
+      "HEMCSS_auc": 0.469269491
+    },
+    {
+      "source_row": 245,
+      "compound": "PFI-1 (PF-6405761)",
+      "HEMCSS_auc": 0.008860154
+    },
+    {
+      "source_row": 246,
+      "compound": "OBATOCLAX MESYLATE (GX15-070)",
+      "HEMCSS_auc": 0.250079022
+    },
+    {
+      "source_row": 247,
+      "compound": "AMUVATINIB (MP-470)",
+      "HEMCSS_auc": 0.052252813
+    },
+    {
+      "source_row": 248,
+      "compound": "LAQ824 (DACINOSTAT)",
+      "HEMCSS_auc": 0.457481834
+    },
+    {
+      "source_row": 249,
+      "compound": "RUFINAMIDE",
+      "HEMCSS_auc": 0.017182044
+    },
+    {
+      "source_row": 250,
+      "compound": "VARESPLADIB (LY315920)",
+      "HEMCSS_auc": 0.007732904
+    },
+    {
+      "source_row": 251,
+      "compound": "ASENAPINE",
+      "HEMCSS_auc": 0.007603065
+    },
+    {
+      "source_row": 252,
+      "compound": "CABOZANTINIB (XL184, BMS-907351)",
+      "HEMCSS_auc": 0.19682095
+    },
+    {
+      "source_row": 253,
+      "compound": "FLUPIRTINE MALEATE",
+      "HEMCSS_auc": 0.030719347
+    },
+    {
+      "source_row": 254,
+      "compound": "MALOTILATE",
+      "HEMCSS_auc": -0.016626776
+    },
+    {
+      "source_row": 255,
+      "compound": "KI8751",
+      "HEMCSS_auc": 0.109669268
+    },
+    {
+      "source_row": 256,
+      "compound": "BARASERTIB (AZD1152-HQPA)",
+      "HEMCSS_auc": 0.394739266
+    },
+    {
+      "source_row": 257,
+      "compound": "DROSPIRENONE",
+      "HEMCSS_auc": -0.002031316
+    },
+    {
+      "source_row": 258,
+      "compound": "PA-824",
+      "HEMCSS_auc": 0.010569925
+    },
+    {
+      "source_row": 259,
+      "compound": "PIRARUBICIN",
+      "HEMCSS_auc": 0.371959507
+    },
+    {
+      "source_row": 260,
+      "compound": "JNJ-26854165 (SERDEMETAN)",
+      "HEMCSS_auc": 0.37742494
+    },
+    {
+      "source_row": 261,
+      "compound": "ENMD-2076",
+      "HEMCSS_auc": 0.329790835
+    },
+    {
+      "source_row": 262,
+      "compound": "NANCHANGMYCIN",
+      "HEMCSS_auc": 0.205397454
+    },
+    {
+      "source_row": 263,
+      "compound": "GW501516",
+      "HEMCSS_auc": -0.014367547
+    },
+    {
+      "source_row": 264,
+      "compound": "ADEFOVIR DIPIVOXIL",
+      "HEMCSS_auc": 0.321715531
+    },
+    {
+      "source_row": 265,
+      "compound": "ILOPERIDONE",
+      "HEMCSS_auc": -0.01674533
+    },
+    {
+      "source_row": 266,
+      "compound": "QUETIAPINE FUMARATE",
+      "HEMCSS_auc": 0.014931824
+    },
+    {
+      "source_row": 267,
+      "compound": "LY2228820",
+      "HEMCSS_auc": 0.003422586
+    },
+    {
+      "source_row": 268,
+      "compound": "FENOPROFEN CALCIUM",
+      "HEMCSS_auc": -0.023026297
+    },
+    {
+      "source_row": 269,
+      "compound": "SAR245409 (XL765)",
+      "HEMCSS_auc": 0.005900267
+    },
+    {
+      "source_row": 270,
+      "compound": "POTASSIUM IODIDE",
+      "HEMCSS_auc": 0.001260082
+    },
+    {
+      "source_row": 271,
+      "compound": "BIX 02189",
+      "HEMCSS_auc": 0.072385521
+    },
+    {
+      "source_row": 272,
+      "compound": "NEFIRACETAM",
+      "HEMCSS_auc": 0.004035777
+    },
+    {
+      "source_row": 273,
+      "compound": "MK-3207 HCL",
+      "HEMCSS_auc": 0.014362988
+    },
+    {
+      "source_row": 274,
+      "compound": "PCI-34051",
+      "HEMCSS_auc": 0.008720712
+    },
+    {
+      "source_row": 275,
+      "compound": "PHT-427",
+      "HEMCSS_auc": -0.033499841
+    },
+    {
+      "source_row": 276,
+      "compound": "EPALRESTAT",
+      "HEMCSS_auc": 0.016470174
+    },
+    {
+      "source_row": 277,
+      "compound": "BS-181 HCL",
+      "HEMCSS_auc": 0.029978818
+    },
+    {
+      "source_row": 278,
+      "compound": "TIOPRONIN",
+      "HEMCSS_auc": 0.034766121
+    },
+    {
+      "source_row": 279,
+      "compound": "ERTEBEREL (LY500307)",
+      "HEMCSS_auc": 0.009818703
+    },
+    {
+      "source_row": 280,
+      "compound": "CILAZAPRIL MONOHYDRATE",
+      "HEMCSS_auc": 0.00500017
+    },
+    {
+      "source_row": 281,
+      "compound": "ERYTHROMYCIN",
+      "HEMCSS_auc": 0.009540445
+    },
+    {
+      "source_row": 282,
+      "compound": "MOTESANIB DIPHOSPHATE (AMG-706)",
+      "HEMCSS_auc": -0.025200032
+    },
+    {
+      "source_row": 283,
+      "compound": "NUTLIN-3",
+      "HEMCSS_auc": 0.079074575
+    },
+    {
+      "source_row": 284,
+      "compound": "LATREPIRDINE",
+      "HEMCSS_auc": -0.0653762
+    },
+    {
+      "source_row": 285,
+      "compound": "BTZ043 RACEMATE",
+      "HEMCSS_auc": -0.056035041
+    },
+    {
+      "source_row": 286,
+      "compound": "POSACONAZOLE",
+      "HEMCSS_auc": -0.017487859
+    },
+    {
+      "source_row": 287,
+      "compound": "FORETINIB (GSK1363089)",
+      "HEMCSS_auc": 0.544786592
+    },
+    {
+      "source_row": 288,
+      "compound": "BIPERIDEN HCL",
+      "HEMCSS_auc": 0.029050866
+    },
+    {
+      "source_row": 289,
+      "compound": "EVEROLIMUS (RAD001)",
+      "HEMCSS_auc": 0.246035236
+    },
+    {
+      "source_row": 290,
+      "compound": "GINKGOLIDE B",
+      "HEMCSS_auc": -0.031148716
+    },
+    {
+      "source_row": 291,
+      "compound": "BRIVANIB ALANINATE (BMS-582664)",
+      "HEMCSS_auc": 0.05001134
+    },
+    {
+      "source_row": 292,
+      "compound": "EPOTHILONE B (EPO906, PATUPILONE)",
+      "HEMCSS_auc": 0.457169629
+    },
+    {
+      "source_row": 293,
+      "compound": "RUXOLITINIB (INCB018424)",
+      "HEMCSS_auc": -0.043451021
+    },
+    {
+      "source_row": 294,
+      "compound": "AT13387",
+      "HEMCSS_auc": 0.466696636
+    },
+    {
+      "source_row": 295,
+      "compound": "ROCURONIUM BROMIDE",
+      "HEMCSS_auc": -0.043562255
+    },
+    {
+      "source_row": 296,
+      "compound": "WZ4002",
+      "HEMCSS_auc": -0.012005487
+    },
+    {
+      "source_row": 297,
+      "compound": "DROXINOSTAT",
+      "HEMCSS_auc": -0.060724006
+    },
+    {
+      "source_row": 298,
+      "compound": "DANOPREVIR (ITMN-191)",
+      "HEMCSS_auc": -0.024687758
+    },
+    {
+      "source_row": 299,
+      "compound": "AURORA A INHIBITOR I",
+      "HEMCSS_auc": 0.175426842
+    },
+    {
+      "source_row": 300,
+      "compound": "GSK429286A",
+      "HEMCSS_auc": 0.008472511
+    },
+    {
+      "source_row": 301,
+      "compound": "AZATHIOPRINE",
+      "HEMCSS_auc": -0.05625824
+    },
+    {
+      "source_row": 302,
+      "compound": "MC1568",
+      "HEMCSS_auc": -0.051244848
+    },
+    {
+      "source_row": 303,
+      "compound": "CEFDITOREN PIVOXIL",
+      "HEMCSS_auc": -0.032644158
+    },
+    {
+      "source_row": 304,
+      "compound": "MYCOPHENOLATE MOFETIL",
+      "HEMCSS_auc": 0.058021631
+    },
+    {
+      "source_row": 305,
+      "compound": "ERDOSTEINE",
+      "HEMCSS_auc": -0.033762563
+    },
+    {
+      "source_row": 306,
+      "compound": "AT7519",
+      "HEMCSS_auc": -0.031941893
+    },
+    {
+      "source_row": 307,
+      "compound": "TALC",
+      "HEMCSS_auc": -0.024939486
+    },
+    {
+      "source_row": 308,
+      "compound": "R406 (FREE BASE)",
+      "HEMCSS_auc": 0.190474764
+    },
+    {
+      "source_row": 309,
+      "compound": "CYCLOCYTIDINE HCL",
+      "HEMCSS_auc": 0.436058571
+    },
+    {
+      "source_row": 310,
+      "compound": "AM1241",
+      "HEMCSS_auc": -0.03966655
+    },
+    {
+      "source_row": 311,
+      "compound": "PF-573228",
+      "HEMCSS_auc": 0.19534904
+    },
+    {
+      "source_row": 312,
+      "compound": "AT7867",
+      "HEMCSS_auc": 0.016709538
+    },
+    {
+      "source_row": 313,
+      "compound": "PHENTOLAMINE MESYLATE",
+      "HEMCSS_auc": -0.053628452
+    },
+    {
+      "source_row": 314,
+      "compound": "FASUDIL (HA-1077) HCL",
+      "HEMCSS_auc": -0.022156798
+    },
+    {
+      "source_row": 315,
+      "compound": "CEFOPERAZONE",
+      "HEMCSS_auc": -0.01698024
+    },
+    {
+      "source_row": 316,
+      "compound": "TRIMEBUTINE",
+      "HEMCSS_auc": -0.0364175
+    },
+    {
+      "source_row": 317,
+      "compound": "AMPHOTERICIN B",
+      "HEMCSS_auc": -0.025144042
+    },
+    {
+      "source_row": 318,
+      "compound": "ALMOTRIPTAN MALATE",
+      "HEMCSS_auc": -0.036894051
+    },
+    {
+      "source_row": 319,
+      "compound": "NVP-AEW541",
+      "HEMCSS_auc": 0.308176428
+    },
+    {
+      "source_row": 320,
+      "compound": "OSI-930",
+      "HEMCSS_auc": -0.016938847
+    },
+    {
+      "source_row": 321,
+      "compound": "AUY922 (NVP-AUY922)",
+      "HEMCSS_auc": 0.493898565
+    },
+    {
+      "source_row": 322,
+      "compound": "VINBLASTINE",
+      "HEMCSS_auc": 0.341204122
+    },
+    {
+      "source_row": 323,
+      "compound": "MLN8054",
+      "HEMCSS_auc": 0.385908895
+    },
+    {
+      "source_row": 324,
+      "compound": "PRASUGREL",
+      "HEMCSS_auc": -0.034851821
+    },
+    {
+      "source_row": 325,
+      "compound": "SGX-523",
+      "HEMCSS_auc": -0.064125829
+    },
+    {
+      "source_row": 326,
+      "compound": "BUDESONIDE",
+      "HEMCSS_auc": -0.047210208
+    },
+    {
+      "source_row": 327,
+      "compound": "TW-37",
+      "HEMCSS_auc": 0.10723345
+    },
+    {
+      "source_row": 328,
+      "compound": "GRANISETRON HCL",
+      "HEMCSS_auc": -0.035734015
+    },
+    {
+      "source_row": 329,
+      "compound": "ADL5859 HCL",
+      "HEMCSS_auc": -0.020991664
+    },
+    {
+      "source_row": 330,
+      "compound": "BMS-707035",
+      "HEMCSS_auc": -0.033826446
+    },
+    {
+      "source_row": 331,
+      "compound": "SNS-314 MESYLATE",
+      "HEMCSS_auc": 0.366827176
+    },
+    {
+      "source_row": 332,
+      "compound": "ISOTRETINOIN",
+      "HEMCSS_auc": 0.000148732
+    },
+    {
+      "source_row": 333,
+      "compound": "LENVATINIB (E7080)",
+      "HEMCSS_auc": 0.394860409
+    },
+    {
+      "source_row": 334,
+      "compound": "STAVUDINE (D4T)",
+      "HEMCSS_auc": -0.027526379
+    },
+    {
+      "source_row": 335,
+      "compound": "MK-2866 (GTX-024)",
+      "HEMCSS_auc": -0.036671486
+    },
+    {
+      "source_row": 336,
+      "compound": "RANOLAZINE 2HCL",
+      "HEMCSS_auc": -0.041870763
+    },
+    {
+      "source_row": 337,
+      "compound": "BIBR 1532",
+      "HEMCSS_auc": -0.043049966
+    },
+    {
+      "source_row": 338,
+      "compound": "ISPINESIB (SB-715992)",
+      "HEMCSS_auc": 0.435502694
+    },
+    {
+      "source_row": 339,
+      "compound": "PIMASERTIB (AS-703026)",
+      "HEMCSS_auc": 0.397990076
+    },
+    {
+      "source_row": 340,
+      "compound": "TERBINAFINE",
+      "HEMCSS_auc": -0.043980214
+    },
+    {
+      "source_row": 341,
+      "compound": "HMN-214",
+      "HEMCSS_auc": -0.000315931
+    },
+    {
+      "source_row": 342,
+      "compound": "CHLORPROTHIXENE",
+      "HEMCSS_auc": -0.045908578
+    },
+    {
+      "source_row": 343,
+      "compound": "PRANLUKAST",
+      "HEMCSS_auc": -0.053660575
+    },
+    {
+      "source_row": 344,
+      "compound": "MK-1775",
+      "HEMCSS_auc": 0.14020845
+    },
+    {
+      "source_row": 345,
+      "compound": "VITAMIN B12",
+      "HEMCSS_auc": -0.034666926
+    },
+    {
+      "source_row": 346,
+      "compound": "ORG 27569",
+      "HEMCSS_auc": -0.049584292
+    },
+    {
+      "source_row": 347,
+      "compound": "METHSCOPOLAMINE",
+      "HEMCSS_auc": -0.066992159
+    },
+    {
+      "source_row": 348,
+      "compound": "SB408124",
+      "HEMCSS_auc": -0.030600904
+    },
+    {
+      "source_row": 349,
+      "compound": "BMS-265246",
+      "HEMCSS_auc": 0.297624875
+    },
+    {
+      "source_row": 350,
+      "compound": "BMS-777607",
+      "HEMCSS_auc": 0.026286246
+    },
+    {
+      "source_row": 351,
+      "compound": "CYPROTERONE ACETATE",
+      "HEMCSS_auc": 0.018110159
+    },
+    {
+      "source_row": 352,
+      "compound": "BIRB 796 (DORAMAPIMOD)",
+      "HEMCSS_auc": -0.016898781
+    },
+    {
+      "source_row": 353,
+      "compound": "BALOFLOXACIN",
+      "HEMCSS_auc": -0.037792103
+    },
+    {
+      "source_row": 354,
+      "compound": "SILODOSIN",
+      "HEMCSS_auc": -0.028604831
+    },
+    {
+      "source_row": 355,
+      "compound": "IVABRADINE HCL",
+      "HEMCSS_auc": -0.023307346
+    },
+    {
+      "source_row": 356,
+      "compound": "AMPRENAVIR",
+      "HEMCSS_auc": -0.03168242
+    },
+    {
+      "source_row": 357,
+      "compound": "AMBRISENTAN",
+      "HEMCSS_auc": -0.0270286
+    },
+    {
+      "source_row": 358,
+      "compound": "SORAFENIB TOSYLATE",
+      "HEMCSS_auc": 0.124252647
+    },
+    {
+      "source_row": 359,
+      "compound": "DEXRAZOXANE HCL (ICRF-187, ADR-529)",
+      "HEMCSS_auc": -0.027942414
+    },
+    {
+      "source_row": 360,
+      "compound": "PHA-665752",
+      "HEMCSS_auc": 0.018630881
+    },
+    {
+      "source_row": 361,
+      "compound": "JNJ-7706621",
+      "HEMCSS_auc": 0.214457167
+    },
+    {
+      "source_row": 362,
+      "compound": "VATALANIB (PTK787) 2HCL",
+      "HEMCSS_auc": -0.011041994
+    },
+    {
+      "source_row": 363,
+      "compound": "CINACALCET HCL",
+      "HEMCSS_auc": -0.054483915
+    },
+    {
+      "source_row": 364,
+      "compound": "GSK690693",
+      "HEMCSS_auc": 0.056760431
+    },
+    {
+      "source_row": 365,
+      "compound": "EPOTHILONE A",
+      "HEMCSS_auc": 0.484075666
+    },
+    {
+      "source_row": 366,
+      "compound": "BMS-754807",
+      "HEMCSS_auc": 0.517059276
+    },
+    {
+      "source_row": 367,
+      "compound": "TG100-115",
+      "HEMCSS_auc": 0.037062605
+    },
+    {
+      "source_row": 368,
+      "compound": "ANDARINE",
+      "HEMCSS_auc": -0.017170585
+    },
+    {
+      "source_row": 369,
+      "compound": "BAFETINIB (INNO-406)",
+      "HEMCSS_auc": 0.128629058
+    },
+    {
+      "source_row": 370,
+      "compound": "S3I-201",
+      "HEMCSS_auc": -0.020804149
+    },
+    {
+      "source_row": 371,
+      "compound": "LOPINAVIR",
+      "HEMCSS_auc": -0.02861957
+    },
+    {
+      "source_row": 372,
+      "compound": "ABT-751 (E7010)",
+      "HEMCSS_auc": 0.133500948
+    },
+    {
+      "source_row": 373,
+      "compound": "TENOFOVIR DISOPROXIL FUMARATE",
+      "HEMCSS_auc": 0.046920367
+    },
+    {
+      "source_row": 374,
+      "compound": "BIIB021",
+      "HEMCSS_auc": 0.423401701
+    },
+    {
+      "source_row": 375,
+      "compound": "APREPITANT",
+      "HEMCSS_auc": -0.04200723
+    },
+    {
+      "source_row": 376,
+      "compound": "TIPIFARNIB",
+      "HEMCSS_auc": 0.243602554
+    },
+    {
+      "source_row": 377,
+      "compound": "SB525334",
+      "HEMCSS_auc": -0.099821843
+    },
+    {
+      "source_row": 378,
+      "compound": "RIFABUTIN",
+      "HEMCSS_auc": -0.040874782
+    },
+    {
+      "source_row": 379,
+      "compound": "AEE788 (NVP-AEE788)",
+      "HEMCSS_auc": 0.031253567
+    },
+    {
+      "source_row": 380,
+      "compound": "OXYTETRACYCLINE (TERRAMYCIN)",
+      "HEMCSS_auc": -0.050013265
+    },
+    {
+      "source_row": 381,
+      "compound": "CYCLOSPORINE",
+      "HEMCSS_auc": 0.027265785
+    },
+    {
+      "source_row": 382,
+      "compound": "ATRACURIUM BESYLATE",
+      "HEMCSS_auc": -0.020901638
+    },
+    {
+      "source_row": 383,
+      "compound": "QUIZARTINIB (AC220)",
+      "HEMCSS_auc": 0.023486502
+    },
+    {
+      "source_row": 384,
+      "compound": "FLUVASTATIN SODIUM",
+      "HEMCSS_auc": 0.002980787
+    },
+    {
+      "source_row": 385,
+      "compound": "CP-673451",
+      "HEMCSS_auc": 0.087178056
+    },
+    {
+      "source_row": 386,
+      "compound": "ADENINE HCL",
+      "HEMCSS_auc": -0.012144491
+    },
+    {
+      "source_row": 387,
+      "compound": "FEBUXOSTAT",
+      "HEMCSS_auc": -0.009289634
+    },
+    {
+      "source_row": 388,
+      "compound": "SUPLATAST TOSYLATE",
+      "HEMCSS_auc": -0.053337464
+    },
+    {
+      "source_row": 389,
+      "compound": "VX-809 (LUMACAFTOR)",
+      "HEMCSS_auc": -0.027714245
+    },
+    {
+      "source_row": 390,
+      "compound": "DOXIFLURIDINE",
+      "HEMCSS_auc": -0.016785461
+    },
+    {
+      "source_row": 391,
+      "compound": "RO4929097",
+      "HEMCSS_auc": -0.00943064
+    },
+    {
+      "source_row": 392,
+      "compound": "LAFUTIDINE",
+      "HEMCSS_auc": -0.020418891
+    },
+    {
+      "source_row": 393,
+      "compound": "PRILOCAINE",
+      "HEMCSS_auc": 0.00808384
+    },
+    {
+      "source_row": 394,
+      "compound": "RIVASTIGMINE TARTRATE",
+      "HEMCSS_auc": 0.015865831
+    },
+    {
+      "source_row": 395,
+      "compound": "TELBIVUDINE",
+      "HEMCSS_auc": -0.008012365
+    },
+    {
+      "source_row": 396,
+      "compound": "TEMOCAPRIL HCL",
+      "HEMCSS_auc": -0.004561705
+    },
+    {
+      "source_row": 397,
+      "compound": "SUNITINIB MALATE",
+      "HEMCSS_auc": 0.240154879
+    },
+    {
+      "source_row": 398,
+      "compound": "ENZALUTAMIDE (MDV3100)",
+      "HEMCSS_auc": -0.03763621
+    },
+    {
+      "source_row": 399,
+      "compound": "U0126-ETOH",
+      "HEMCSS_auc": 0.030241053
+    },
+    {
+      "source_row": 400,
+      "compound": "AVAGACESTAT (BMS-708163)",
+      "HEMCSS_auc": -0.037861635
+    },
+    {
+      "source_row": 401,
+      "compound": "JNJ-38877605",
+      "HEMCSS_auc": -0.041842803
+    },
+    {
+      "source_row": 402,
+      "compound": "KI16425",
+      "HEMCSS_auc": -0.037714661
+    },
+    {
+      "source_row": 403,
+      "compound": "SRT1720",
+      "HEMCSS_auc": 0.015666614
+    },
+    {
+      "source_row": 404,
+      "compound": "LOSARTAN POTASSIUM (DUP 753)",
+      "HEMCSS_auc": -0.036833086
+    },
+    {
+      "source_row": 405,
+      "compound": "17-AAG (TANESPIMYCIN)",
+      "HEMCSS_auc": 0.389592054
+    },
+    {
+      "source_row": 406,
+      "compound": "CEFOSELIS SULFATE",
+      "HEMCSS_auc": -0.058784264
+    },
+    {
+      "source_row": 407,
+      "compound": "MEROPENEM",
+      "HEMCSS_auc": -0.027625925
+    },
+    {
+      "source_row": 408,
+      "compound": "TENOFOVIR",
+      "HEMCSS_auc": -0.037275325
+    },
+    {
+      "source_row": 409,
+      "compound": "PLINABULIN (NPI-2358)",
+      "HEMCSS_auc": 0.438436942
+    },
+    {
+      "source_row": 410,
+      "compound": "SILDENAFIL CITRATE",
+      "HEMCSS_auc": -0.0328126
+    },
+    {
+      "source_row": 411,
+      "compound": "RALTITREXED",
+      "HEMCSS_auc": 0.034908181
+    },
+    {
+      "source_row": 412,
+      "compound": "PHA-680632",
+      "HEMCSS_auc": 0.43329296
+    },
+    {
+      "source_row": 413,
+      "compound": "OLIGOMYCIN A",
+      "HEMCSS_auc": 0.435832906
+    },
+    {
+      "source_row": 414,
+      "compound": "ESOMEPRAZOLE MAGNESIUM",
+      "HEMCSS_auc": 0.170720575
+    },
+    {
+      "source_row": 415,
+      "compound": "PHA-793887",
+      "HEMCSS_auc": 0.278268096
+    },
+    {
+      "source_row": 416,
+      "compound": "VERTEPORFIN",
+      "HEMCSS_auc": -0.051563208
+    },
+    {
+      "source_row": 417,
+      "compound": "PRACINOSTAT (SB939)",
+      "HEMCSS_auc": 0.120074077
+    },
+    {
+      "source_row": 418,
+      "compound": "AZITHROMYCIN",
+      "HEMCSS_auc": -0.046645732
+    },
+    {
+      "source_row": 419,
+      "compound": "VINORELBINE",
+      "HEMCSS_auc": 0.426050507
+    },
+    {
+      "source_row": 420,
+      "compound": "ALIBENDOL",
+      "HEMCSS_auc": -0.04384428
+    },
+    {
+      "source_row": 421,
+      "compound": "DMXAA (VADIMEZAN)",
+      "HEMCSS_auc": -0.040970477
+    },
+    {
+      "source_row": 422,
+      "compound": "ELVITEGRAVIR (GS-9137, JTK-303)",
+      "HEMCSS_auc": -0.04401918
+    },
+    {
+      "source_row": 423,
+      "compound": "DAPAGLIFLOZIN",
+      "HEMCSS_auc": -0.049165541
+    },
+    {
+      "source_row": 424,
+      "compound": "BENIDIPINE HCL",
+      "HEMCSS_auc": -0.011054232
+    },
+    {
+      "source_row": 425,
+      "compound": "POMALIDOMIDE",
+      "HEMCSS_auc": 0.030015603
+    },
+    {
+      "source_row": 426,
+      "compound": "LORNOXICAM",
+      "HEMCSS_auc": -0.026270403
+    },
+    {
+      "source_row": 427,
+      "compound": "TIE2 KINASE INHIBITOR",
+      "HEMCSS_auc": -0.049984987
+    },
+    {
+      "source_row": 428,
+      "compound": "MECARBINATE",
+      "HEMCSS_auc": -0.050134906
+    },
+    {
+      "source_row": 429,
+      "compound": "DARUNAVIR ETHANOLATE",
+      "HEMCSS_auc": -0.02848016
+    },
+    {
+      "source_row": 430,
+      "compound": "ENALAPRILAT DIHYDRATE",
+      "HEMCSS_auc": -0.043640724
+    },
+    {
+      "source_row": 431,
+      "compound": "TEMSIROLIMUS (CCI-779, NSC 683864)",
+      "HEMCSS_auc": 0.264434893
+    },
+    {
+      "source_row": 432,
+      "compound": "KU-0063794",
+      "HEMCSS_auc": 0.178236967
+    },
+    {
+      "source_row": 433,
+      "compound": "BELINOSTAT (PXD101)",
+      "HEMCSS_auc": 0.321877525
+    },
+    {
+      "source_row": 434,
+      "compound": "DIENOGEST",
+      "HEMCSS_auc": 0.016048878
+    },
+    {
+      "source_row": 435,
+      "compound": "GDC-0879",
+      "HEMCSS_auc": 0.223023621
+    },
+    {
+      "source_row": 436,
+      "compound": "PD173074",
+      "HEMCSS_auc": 0.450429775
+    },
+    {
+      "source_row": 437,
+      "compound": "ODANACATIB (MK-0822)",
+      "HEMCSS_auc": -0.00830614
+    },
+    {
+      "source_row": 438,
+      "compound": "COSTUNOLIDE",
+      "HEMCSS_auc": 0.068558063
+    },
+    {
+      "source_row": 439,
+      "compound": "YM155 (SEPANTRONIUM BROMIDE)",
+      "HEMCSS_auc": 0.636328778
+    },
+    {
+      "source_row": 440,
+      "compound": "GSK1059615",
+      "HEMCSS_auc": 0.316005124
+    },
+    {
+      "source_row": 441,
+      "compound": "17-DMAG (ALVESPIMYCIN) HCL",
+      "HEMCSS_auc": 0.520482099
+    },
+    {
+      "source_row": 442,
+      "compound": "DAPTOMYCIN",
+      "HEMCSS_auc": 0.005474872
+    },
+    {
+      "source_row": 443,
+      "compound": "CEP-18770 (DELANZOMIB)",
+      "HEMCSS_auc": 0.629965166
+    },
+    {
+      "source_row": 444,
+      "compound": "MIZORIBINE",
+      "HEMCSS_auc": 0.021798436
+    },
+    {
+      "source_row": 445,
+      "compound": "CP-724714",
+      "HEMCSS_auc": 0.035036549
+    },
+    {
+      "source_row": 446,
+      "compound": "TIGECYCLINE",
+      "HEMCSS_auc": -0.000193619
+    },
+    {
+      "source_row": 447,
+      "compound": "REGORAFENIB (BAY 73-4506)",
+      "HEMCSS_auc": 0.220708054
+    },
+    {
+      "source_row": 448,
+      "compound": "TIANEPTINE SODIUM",
+      "HEMCSS_auc": 0.004364672
+    },
+    {
+      "source_row": 449,
+      "compound": "CUDC-101",
+      "HEMCSS_auc": 0.257808895
+    },
+    {
+      "source_row": 450,
+      "compound": "CILOMILAST",
+      "HEMCSS_auc": 0.01509955
+    },
+    {
+      "source_row": 451,
+      "compound": "VX-222 (VCH-222, LOMIBUVIR)",
+      "HEMCSS_auc": 0.034410792
+    },
+    {
+      "source_row": 452,
+      "compound": "GADODIAMIDE",
+      "HEMCSS_auc": 0.000262712
+    },
+    {
+      "source_row": 453,
+      "compound": "NARATRIPTAN",
+      "HEMCSS_auc": -0.037284942
+    },
+    {
+      "source_row": 454,
+      "compound": "NATAMYCIN",
+      "HEMCSS_auc": -0.016110027
+    },
+    {
+      "source_row": 455,
+      "compound": "ALBENDAZOLE OXIDE",
+      "HEMCSS_auc": 0.022538176
+    },
+    {
+      "source_row": 456,
+      "compound": "LY2811376",
+      "HEMCSS_auc": -0.016194934
+    },
+    {
+      "source_row": 457,
+      "compound": "IRSOGLADINE",
+      "HEMCSS_auc": 0.01326598
+    },
+    {
+      "source_row": 458,
+      "compound": "TELAPREVIR (VX-950)",
+      "HEMCSS_auc": 0.000815528
+    },
+    {
+      "source_row": 459,
+      "compound": "MARAVIROC",
+      "HEMCSS_auc": 0.003858349
+    },
+    {
+      "source_row": 460,
+      "compound": "NEBIVOLOL",
+      "HEMCSS_auc": 0.016975503
+    },
+    {
+      "source_row": 461,
+      "compound": "GINKGOLIDE A",
+      "HEMCSS_auc": -0.014341294
+    },
+    {
+      "source_row": 462,
+      "compound": "PD318088",
+      "HEMCSS_auc": 0.28132422
+    },
+    {
+      "source_row": 463,
+      "compound": "CYTIDINE",
+      "HEMCSS_auc": -0.002295071
+    },
+    {
+      "source_row": 464,
+      "compound": "CANDESARTAN",
+      "HEMCSS_auc": 0.010738194
+    },
+    {
+      "source_row": 465,
+      "compound": "ATORVASTATIN CALCIUM",
+      "HEMCSS_auc": 0.264358009
+    },
+    {
+      "source_row": 466,
+      "compound": "TRIAMCINOLONE ACETONIDE",
+      "HEMCSS_auc": 0.011457418
+    },
+    {
+      "source_row": 467,
+      "compound": "DEXMEDETOMIDINE HCL",
+      "HEMCSS_auc": -0.012375293
+    },
+    {
+      "source_row": 468,
+      "compound": "LUBIPROSTONE",
+      "HEMCSS_auc": -0.01259948
+    },
+    {
+      "source_row": 469,
+      "compound": "RASAGILINE MESYLATE",
+      "HEMCSS_auc": 0.019058639
+    },
+    {
+      "source_row": 470,
+      "compound": "TRICHOSTATIN A (TSA)",
+      "HEMCSS_auc": 0.400365753
+    },
+    {
+      "source_row": 471,
+      "compound": "2-METHOXYESTRADIOL (2-MEOE2)",
+      "HEMCSS_auc": 0.022746165
+    },
+    {
+      "source_row": 472,
+      "compound": "NVP-ADW742",
+      "HEMCSS_auc": 0.28126396
+    },
+    {
+      "source_row": 473,
+      "compound": "ENTECAVIR HYDRATE",
+      "HEMCSS_auc": 0.024108201
+    },
+    {
+      "source_row": 474,
+      "compound": "OSU-03012 (AR-12)",
+      "HEMCSS_auc": -0.010801283
+    },
+    {
+      "source_row": 475,
+      "compound": "WYE-354",
+      "HEMCSS_auc": 0.113861051
+    },
+    {
+      "source_row": 476,
+      "compound": "PALBOCICLIB (PD-0332991) HCL",
+      "HEMCSS_auc": 0.32796931
+    },
+    {
+      "source_row": 477,
+      "compound": "DEXAMETHASONE (DHAP)",
+      "HEMCSS_auc": 0.013748738
+    },
+    {
+      "source_row": 478,
+      "compound": "ALISERTIB (MLN8237)",
+      "HEMCSS_auc": 0.417590014
+    },
+    {
+      "source_row": 479,
+      "compound": "MGCD-265",
+      "HEMCSS_auc": 0.095026141
+    },
+    {
+      "source_row": 480,
+      "compound": "IVACAFTOR (VX-770)",
+      "HEMCSS_auc": -0.037718983
+    },
+    {
+      "source_row": 481,
+      "compound": "DORIPENEM HYDRATE",
+      "HEMCSS_auc": 0.004451684
+    },
+    {
+      "source_row": 482,
+      "compound": "MK-8245",
+      "HEMCSS_auc": -0.015523941
+    },
+    {
+      "source_row": 483,
+      "compound": "NAFAMOSTAT MESYLATE",
+      "HEMCSS_auc": -0.039143202
+    },
+    {
+      "source_row": 484,
+      "compound": "WZ3146",
+      "HEMCSS_auc": 0.377967446
+    },
+    {
+      "source_row": 485,
+      "compound": "TRILOSTANE",
+      "HEMCSS_auc": 0.003658985
+    },
+    {
+      "source_row": 486,
+      "compound": "WZ8040",
+      "HEMCSS_auc": 0.031255302
+    },
+    {
+      "source_row": 487,
+      "compound": "VARENICLINE TARTRATE",
+      "HEMCSS_auc": -0.019430006
+    },
+    {
+      "source_row": 488,
+      "compound": "TAK-700 (ORTERONEL)",
+      "HEMCSS_auc": -0.015532676
+    },
+    {
+      "source_row": 489,
+      "compound": "ZIBOTENTAN (ZD4054)",
+      "HEMCSS_auc": -0.01574473
+    },
+    {
+      "source_row": 490,
+      "compound": "ZOSUQUIDAR (LY335979) 3HCL",
+      "HEMCSS_auc": -0.006822595
+    },
+    {
+      "source_row": 491,
+      "compound": "OXYBUTYNIN",
+      "HEMCSS_auc": -0.028165448
+    },
+    {
+      "source_row": 492,
+      "compound": "PIK-93",
+      "HEMCSS_auc": 0.165076889
+    },
+    {
+      "source_row": 493,
+      "compound": "RANITIDINE",
+      "HEMCSS_auc": -0.010723303
+    },
+    {
+      "source_row": 494,
+      "compound": "CCT129202",
+      "HEMCSS_auc": 0.127176141
+    },
+    {
+      "source_row": 495,
+      "compound": "FLUBENDAZOLE",
+      "HEMCSS_auc": 0.054578106
+    },
+    {
+      "source_row": 496,
+      "compound": "HESPERADIN",
+      "HEMCSS_auc": 0.558984911
+    },
+    {
+      "source_row": 497,
+      "compound": "NYSTATIN (FUNGICIDIN)",
+      "HEMCSS_auc": -0.025861686
+    },
+    {
+      "source_row": 498,
+      "compound": "SAXAGLIPTIN",
+      "HEMCSS_auc": -0.011798177
+    },
+    {
+      "source_row": 499,
+      "compound": "RALTEGRAVIR (MK-0518)",
+      "HEMCSS_auc": -0.028511876
+    },
+    {
+      "source_row": 500,
+      "compound": "PIMOBENDAN",
+      "HEMCSS_auc": -0.00805896
+    },
+    {
+      "source_row": 501,
+      "compound": "URIDINE",
+      "HEMCSS_auc": -0.012509158
+    },
+    {
+      "source_row": 502,
+      "compound": "TAZAROTENE",
+      "HEMCSS_auc": 0.042952148
+    },
+    {
+      "source_row": 503,
+      "compound": "GIMERACIL",
+      "HEMCSS_auc": -0.01217023
+    },
+    {
+      "source_row": 504,
+      "compound": "APIXABAN",
+      "HEMCSS_auc": -0.001353912
+    },
+    {
+      "source_row": 505,
+      "compound": "MOEXIPRIL HCL",
+      "HEMCSS_auc": -0.031946671
+    },
+    {
+      "source_row": 506,
+      "compound": "BETAXOLOL",
+      "HEMCSS_auc": -0.019410189
+    },
+    {
+      "source_row": 507,
+      "compound": "AMOROLFINE HCL",
+      "HEMCSS_auc": 0.006226368
+    },
+    {
+      "source_row": 508,
+      "compound": "NALTREXONE HCL",
+      "HEMCSS_auc": -0.020772423
+    },
+    {
+      "source_row": 509,
+      "compound": "Y-27632 2HCL",
+      "HEMCSS_auc": -0.037747339
+    },
+    {
+      "source_row": 510,
+      "compound": "AGOMELATINE",
+      "HEMCSS_auc": -0.050969968
+    },
+    {
+      "source_row": 511,
+      "compound": "OSI-906 (LINSITINIB)",
+      "HEMCSS_auc": 0.136512859
+    },
+    {
+      "source_row": 512,
+      "compound": "NEPAFENAC",
+      "HEMCSS_auc": -0.001081522
+    },
+    {
+      "source_row": 513,
+      "compound": "DANUSERTIB (PHA-739358)",
+      "HEMCSS_auc": 0.559482288
+    },
+    {
+      "source_row": 514,
+      "compound": "ADAPALENE",
+      "HEMCSS_auc": 0.012546572
+    },
+    {
+      "source_row": 515,
+      "compound": "XL147",
+      "HEMCSS_auc": 0.022026029
+    },
+    {
+      "source_row": 516,
+      "compound": "ETODOLAC",
+      "HEMCSS_auc": -0.010401457
+    },
+    {
+      "source_row": 517,
+      "compound": "AT9283",
+      "HEMCSS_auc": 0.566469424
+    },
+    {
+      "source_row": 518,
+      "compound": "RIGOSERTIB (ON-01910)",
+      "HEMCSS_auc": 0.444090654
+    },
+    {
+      "source_row": 519,
+      "compound": "SNS-032 (BMS-387032)",
+      "HEMCSS_auc": 0.44308003
+    },
+    {
+      "source_row": 520,
+      "compound": "GESTODENE",
+      "HEMCSS_auc": 0.009415357
+    },
+    {
+      "source_row": 521,
+      "compound": "GANETESPIB (STA-9090)",
+      "HEMCSS_auc": 0.516890019
+    },
+    {
+      "source_row": 522,
+      "compound": "PELITINIB (EKB-569)",
+      "HEMCSS_auc": 0.238049768
+    },
+    {
+      "source_row": 523,
+      "compound": "CYC116",
+      "HEMCSS_auc": 0.357117191
+    },
+    {
+      "source_row": 524,
+      "compound": "BIMATOPROST",
+      "HEMCSS_auc": -0.019155772
+    },
+    {
+      "source_row": 525,
+      "compound": "XAV-939",
+      "HEMCSS_auc": -0.010963622
+    },
+    {
+      "source_row": 526,
+      "compound": "ELAIOPHYLIN",
+      "HEMCSS_auc": 0.098885989
+    },
+    {
+      "source_row": 527,
+      "compound": "IRINOTECAN",
+      "HEMCSS_auc": 0.467693852
+    },
+    {
+      "source_row": 528,
+      "compound": "ATAZANAVIR SULFATE",
+      "HEMCSS_auc": -0.040597291
+    },
+    {
+      "source_row": 529,
+      "compound": "DACLATASVIR (BMS-790052)",
+      "HEMCSS_auc": 0.005517114
+    },
+    {
+      "source_row": 530,
+      "compound": "PITAVASTATIN CALCIUM",
+      "HEMCSS_auc": 0.156478638
+    },
+    {
+      "source_row": 531,
+      "compound": "PONATINIB (AP24534)",
+      "HEMCSS_auc": 0.448523321
+    },
+    {
+      "source_row": 532,
+      "compound": "ACADESINE",
+      "HEMCSS_auc": -0.000995752
+    },
+    {
+      "source_row": 533,
+      "compound": "TOSEDOSTAT (CHR2797)",
+      "HEMCSS_auc": 0.142327528
+    },
+    {
+      "source_row": 534,
+      "compound": "DAPOXETINE HCL",
+      "HEMCSS_auc": 0.035650932
+    },
+    {
+      "source_row": 535,
+      "compound": "BIX 02188",
+      "HEMCSS_auc": 0.032896568
+    },
+    {
+      "source_row": 536,
+      "compound": "RIMANTADINE",
+      "HEMCSS_auc": 0.000234678
+    },
+    {
+      "source_row": 537,
+      "compound": "EX 527 (SELISISTAT)",
+      "HEMCSS_auc": 0.001327581
+    },
+    {
+      "source_row": 538,
+      "compound": "PRAMIPEXOLE 2HCL MONOHYDRATE",
+      "HEMCSS_auc": -0.016762952
+    },
+    {
+      "source_row": 539,
+      "compound": "AZD8055",
+      "HEMCSS_auc": 0.417722838
+    },
+    {
+      "source_row": 540,
+      "compound": "FENTICONAZOLE NITRATE",
+      "HEMCSS_auc": 0.008692466
+    },
+    {
+      "source_row": 541,
+      "compound": "KU-60019",
+      "HEMCSS_auc": 0.002467797
+    },
+    {
+      "source_row": 542,
+      "compound": "TERAZOSIN HCL",
+      "HEMCSS_auc": 0.009124859
+    },
+    {
+      "source_row": 543,
+      "compound": "SEMAGACESTAT (LY450139)",
+      "HEMCSS_auc": 0.015557969
+    },
+    {
+      "source_row": 544,
+      "compound": "CLEVIDIPINE BUTYRATE",
+      "HEMCSS_auc": 0.006453698
+    },
+    {
+      "source_row": 545,
+      "compound": "ALLOPURINOL SODIUM",
+      "HEMCSS_auc": 0.009680194
+    },
+    {
+      "source_row": 546,
+      "compound": "DETOMIDINE HCL",
+      "HEMCSS_auc": 0.005779757
+    },
+    {
+      "source_row": 547,
+      "compound": "FLURBIPROFEN",
+      "HEMCSS_auc": -0.000442821
+    },
+    {
+      "source_row": 548,
+      "compound": "IMIDAPRIL HCL",
+      "HEMCSS_auc": 0.019588023
+    },
+    {
+      "source_row": 549,
+      "compound": "BROMOSPORINE",
+      "HEMCSS_auc": 0.148340234
+    },
+    {
+      "source_row": 550,
+      "compound": "BI 78D3",
+      "HEMCSS_auc": 0.093425918
+    },
+    {
+      "source_row": 551,
+      "compound": "SGI-1027",
+      "HEMCSS_auc": 0.092685422
+    },
+    {
+      "source_row": 552,
+      "compound": "CGS 9343B",
+      "HEMCSS_auc": -0.00499573
+    },
+    {
+      "source_row": 553,
+      "compound": "RILPIVIRINE",
+      "HEMCSS_auc": 0.017170527
+    },
+    {
+      "source_row": 554,
+      "compound": "FR 180204",
+      "HEMCSS_auc": 0.032071588
+    },
+    {
+      "source_row": 555,
+      "compound": "ROCILINOSTAT (ACY-1215)",
+      "HEMCSS_auc": 0.07318659
+    },
+    {
+      "source_row": 556,
+      "compound": "HLI 373",
+      "HEMCSS_auc": -0.017819727
+    },
+    {
+      "source_row": 557,
+      "compound": "CEP-32496",
+      "HEMCSS_auc": 0.301960823
+    },
+    {
+      "source_row": 558,
+      "compound": "MG 149",
+      "HEMCSS_auc": -0.006595349
+    },
+    {
+      "source_row": 559,
+      "compound": "PRT062607 (P505-15, BIIB057) HCL",
+      "HEMCSS_auc": 0.030627774
+    },
+    {
+      "source_row": 560,
+      "compound": "PD 166285",
+      "HEMCSS_auc": 0.405541456
+    },
+    {
+      "source_row": 561,
+      "compound": "DYNASORE",
+      "HEMCSS_auc": -0.013943785
+    },
+    {
+      "source_row": 562,
+      "compound": "SB 265610",
+      "HEMCSS_auc": 0.016010536
+    },
+    {
+      "source_row": 563,
+      "compound": "NSC 405020",
+      "HEMCSS_auc": 0.011630347
+    },
+    {
+      "source_row": 564,
+      "compound": "SMER 3",
+      "HEMCSS_auc": 0.370834805
+    },
+    {
+      "source_row": 565,
+      "compound": "UNC1215",
+      "HEMCSS_auc": 0.013285813
+    },
+    {
+      "source_row": 566,
+      "compound": "NEXTURASTAT A",
+      "HEMCSS_auc": 0.058684022
+    },
+    {
+      "source_row": 567,
+      "compound": "FG-4592",
+      "HEMCSS_auc": -0.041592822
+    },
+    {
+      "source_row": 568,
+      "compound": "1-HEXADECANOL",
+      "HEMCSS_auc": -0.014221604
+    },
+    {
+      "source_row": 569,
+      "compound": "MEK162 (ARRY-162, ARRY-438162)",
+      "HEMCSS_auc": 0.208986564
+    },
+    {
+      "source_row": 570,
+      "compound": "VX-745",
+      "HEMCSS_auc": 0.021852486
+    },
+    {
+      "source_row": 571,
+      "compound": "BIO",
+      "HEMCSS_auc": 0.08006219
+    },
+    {
+      "source_row": 572,
+      "compound": "IPRATROPIUM BROMIDE",
+      "HEMCSS_auc": -0.015432173
+    },
+    {
+      "source_row": 573,
+      "compound": "1,4?PB?ITU DUHYDROBROMIDE",
+      "HEMCSS_auc": -0.015722165
+    },
+    {
+      "source_row": 574,
+      "compound": "CISATRACURIUM BESYLATE",
+      "HEMCSS_auc": 0.031590284
+    },
+    {
+      "source_row": 575,
+      "compound": "DIHYDROARTEMISININ (DHA)",
+      "HEMCSS_auc": -0.006140917
+    },
+    {
+      "source_row": 576,
+      "compound": "XYLAZINE HCL",
+      "HEMCSS_auc": -0.004810773
+    },
+    {
+      "source_row": 577,
+      "compound": "GELDANAMYCIN",
+      "HEMCSS_auc": 0.037833443
+    },
+    {
+      "source_row": 578,
+      "compound": "BRL-54443",
+      "HEMCSS_auc": -0.026137477
+    },
+    {
+      "source_row": 579,
+      "compound": "DEXMEDETOMIDINE",
+      "HEMCSS_auc": -0.005803708
+    },
+    {
+      "source_row": 580,
+      "compound": "ERASTIN",
+      "HEMCSS_auc": -0.057245132
+    },
+    {
+      "source_row": 581,
+      "compound": "BM- 266",
+      "HEMCSS_auc": 0.013764294
+    },
+    {
+      "source_row": 582,
+      "compound": "SUVOREXANT (MK-4305)",
+      "HEMCSS_auc": -0.051153931
+    },
+    {
+      "source_row": 583,
+      "compound": "COMBRETASTATIN A4",
+      "HEMCSS_auc": 0.430185466
+    },
+    {
+      "source_row": 584,
+      "compound": "EHOP-016",
+      "HEMCSS_auc": -0.023149601
+    },
+    {
+      "source_row": 585,
+      "compound": "GANT 61",
+      "HEMCSS_auc": -0.047676233
+    },
+    {
+      "source_row": 586,
+      "compound": "GSK2636771",
+      "HEMCSS_auc": -0.021266191
+    },
+    {
+      "source_row": 587,
+      "compound": "ICI 182,780",
+      "HEMCSS_auc": -0.019994436
+    },
+    {
+      "source_row": 588,
+      "compound": "TAK-438",
+      "HEMCSS_auc": -0.022835724
+    },
+    {
+      "source_row": 589,
+      "compound": "ML 141",
+      "HEMCSS_auc": -0.006172474
+    },
+    {
+      "source_row": 590,
+      "compound": "APREMILAST (CC-10004)",
+      "HEMCSS_auc": -0.026384814
+    },
+    {
+      "source_row": 591,
+      "compound": "ABT-199 (GDC-0199)",
+      "HEMCSS_auc": 0.020720673
+    },
+    {
+      "source_row": 592,
+      "compound": "SCH 79797",
+      "HEMCSS_auc": 0.102002435
+    },
+    {
+      "source_row": 593,
+      "compound": "PLURISIN #1 (NSC 14613)",
+      "HEMCSS_auc": -0.024136225
+    },
+    {
+      "source_row": 594,
+      "compound": "SRC I1",
+      "HEMCSS_auc": -2.10725e-05
+    },
+    {
+      "source_row": 595,
+      "compound": "C646",
+      "HEMCSS_auc": -0.03344584
+    },
+    {
+      "source_row": 596,
+      "compound": "ZM 39923 HCL",
+      "HEMCSS_auc": -0.014347986
+    },
+    {
+      "source_row": 597,
+      "compound": "NINTEDANIB (BIBF 1120)",
+      "HEMCSS_auc": -0.033745041
+    },
+    {
+      "source_row": 598,
+      "compound": "TROMETAMOL",
+      "HEMCSS_auc": -0.060164174
+    },
+    {
+      "source_row": 599,
+      "compound": "DIMESNA",
+      "HEMCSS_auc": -0.04868031
+    },
+    {
+      "source_row": 600,
+      "compound": "PP2",
+      "HEMCSS_auc": -0.034943992
+    },
+    {
+      "source_row": 601,
+      "compound": "THIAZOVIVIN",
+      "HEMCSS_auc": 0.020077388
+    },
+    {
+      "source_row": 602,
+      "compound": "DBEQ",
+      "HEMCSS_auc": -0.003737548
+    },
+    {
+      "source_row": 603,
+      "compound": "BETAMETHASONE DIPROPIONATE",
+      "HEMCSS_auc": 0.006834299
+    },
+    {
+      "source_row": 604,
+      "compound": "4-PHENYLBUTYRATE",
+      "HEMCSS_auc": -0.030932216
+    },
+    {
+      "source_row": 605,
+      "compound": "DRONEDARONE HCL",
+      "HEMCSS_auc": 0.00800367
+    },
+    {
+      "source_row": 606,
+      "compound": "ENOXOLONE",
+      "HEMCSS_auc": -0.021389136
+    },
+    {
+      "source_row": 607,
+      "compound": "EPINEPHRINE BITARTRATE",
+      "HEMCSS_auc": -0.039448987
+    },
+    {
+      "source_row": 608,
+      "compound": "LY411575",
+      "HEMCSS_auc": -0.036405146
+    },
+    {
+      "source_row": 609,
+      "compound": "BML-190",
+      "HEMCSS_auc": -2.48085e-05
+    },
+    {
+      "source_row": 610,
+      "compound": "ETRAVIRINE (TMC125)",
+      "HEMCSS_auc": -0.005393786
+    },
+    {
+      "source_row": 611,
+      "compound": "FERROSTATIN-1 (FER-1)",
+      "HEMCSS_auc": -0.027539291
+    },
+    {
+      "source_row": 612,
+      "compound": "BML-277",
+      "HEMCSS_auc": -0.023057688
+    },
+    {
+      "source_row": 613,
+      "compound": "EDOXABAN",
+      "HEMCSS_auc": -0.046944164
+    },
+    {
+      "source_row": 614,
+      "compound": "CPEPCK INHIBITOR",
+      "HEMCSS_auc": -0.07604673
+    },
+    {
+      "source_row": 615,
+      "compound": "TASISULAM",
+      "HEMCSS_auc": -0.025046983
+    },
+    {
+      "source_row": 616,
+      "compound": "GSK 264220A",
+      "HEMCSS_auc": -0.011822406
+    },
+    {
+      "source_row": 617,
+      "compound": "BIX 01294",
+      "HEMCSS_auc": -0.053993687
+    },
+    {
+      "source_row": 618,
+      "compound": "ITX 3",
+      "HEMCSS_auc": -0.063008486
+    },
+    {
+      "source_row": 619,
+      "compound": "AZD5363",
+      "HEMCSS_auc": 0.146137747
+    },
+    {
+      "source_row": 620,
+      "compound": "MRT-10",
+      "HEMCSS_auc": -0.007941186
+    },
+    {
+      "source_row": 621,
+      "compound": "VU 0364439",
+      "HEMCSS_auc": -0.030213628
+    },
+    {
+      "source_row": 622,
+      "compound": "PF 477736",
+      "HEMCSS_auc": 0.217266237
+    },
+    {
+      "source_row": 623,
+      "compound": "TUBASTATIN A",
+      "HEMCSS_auc": -0.010860859
+    },
+    {
+      "source_row": 624,
+      "compound": "SECINH3",
+      "HEMCSS_auc": -0.042397761
+    },
+    {
+      "source_row": 625,
+      "compound": "BARDOXOLONE METHYL",
+      "HEMCSS_auc": 0.190989191
+    },
+    {
+      "source_row": 626,
+      "compound": "STAT5 INHIBITOR",
+      "HEMCSS_auc": -0.042103617
+    },
+    {
+      "source_row": 627,
+      "compound": "OG-L002",
+      "HEMCSS_auc": -0.018798398
+    },
+    {
+      "source_row": 628,
+      "compound": "SMI-4A",
+      "HEMCSS_auc": -0.036010335
+    },
+    {
+      "source_row": 629,
+      "compound": "AFATINIB (BIBW2992)",
+      "HEMCSS_auc": 0.057371382
+    },
+    {
+      "source_row": 630,
+      "compound": "CLIMBAZOLE",
+      "HEMCSS_auc": -0.038533081
+    },
+    {
+      "source_row": 631,
+      "compound": "DUTASTERIDE",
+      "HEMCSS_auc": -0.04765074
+    },
+    {
+      "source_row": 632,
+      "compound": "GDC-0152",
+      "HEMCSS_auc": 0.010288581
+    },
+    {
+      "source_row": 633,
+      "compound": "AZD6482",
+      "HEMCSS_auc": 0.004081729
+    },
+    {
+      "source_row": 634,
+      "compound": "APOGOSSYPOLONE (APOG2)",
+      "HEMCSS_auc": 0.090727948
+    },
+    {
+      "source_row": 635,
+      "compound": "MEPREDNISONE",
+      "HEMCSS_auc": -0.04661013
+    },
+    {
+      "source_row": 636,
+      "compound": "ANAGRELIDE",
+      "HEMCSS_auc": -0.0312038
+    },
+    {
+      "source_row": 637,
+      "compound": "CONIVAPTAN HCL",
+      "HEMCSS_auc": -0.020962304
+    },
+    {
+      "source_row": 638,
+      "compound": "ERGOSTEROL",
+      "HEMCSS_auc": -0.037032364
+    },
+    {
+      "source_row": 639,
+      "compound": "L-ADRENALINE",
+      "HEMCSS_auc": -0.033124603
+    },
+    {
+      "source_row": 640,
+      "compound": "CP-91149",
+      "HEMCSS_auc": -0.03555937
+    },
+    {
+      "source_row": 641,
+      "compound": "MRS 2578",
+      "HEMCSS_auc": -0.027201306
+    },
+    {
+      "source_row": 642,
+      "compound": "ULIPRISTAL",
+      "HEMCSS_auc": -0.033945265
+    },
+    {
+      "source_row": 643,
+      "compound": "KPT-276",
+      "HEMCSS_auc": 0.424189537
+    },
+    {
+      "source_row": 644,
+      "compound": "C 646",
+      "HEMCSS_auc": -0.038745963
+    },
+    {
+      "source_row": 645,
+      "compound": "JIB-04",
+      "HEMCSS_auc": 0.228932269
+    },
+    {
+      "source_row": 646,
+      "compound": "DFMO",
+      "HEMCSS_auc": -0.024454632
+    },
+    {
+      "source_row": 647,
+      "compound": "IOWH032",
+      "HEMCSS_auc": -0.035684827
+    },
+    {
+      "source_row": 648,
+      "compound": "GSK 269962",
+      "HEMCSS_auc": 0.040926736
+    },
+    {
+      "source_row": 649,
+      "compound": "VE-821",
+      "HEMCSS_auc": -0.031791696
+    },
+    {
+      "source_row": 650,
+      "compound": "JK 184",
+      "HEMCSS_auc": 0.337369463
+    },
+    {
+      "source_row": 651,
+      "compound": "GW0742",
+      "HEMCSS_auc": -0.012975595
+    },
+    {
+      "source_row": 652,
+      "compound": "NECROSTATIN-1",
+      "HEMCSS_auc": -0.016198773
+    },
+    {
+      "source_row": 653,
+      "compound": "BUTEIN",
+      "HEMCSS_auc": 0.044278408
+    },
+    {
+      "source_row": 654,
+      "compound": "PIM-1 INHIBITOR2",
+      "HEMCSS_auc": -0.010003392
+    },
+    {
+      "source_row": 655,
+      "compound": "ETP-46464",
+      "HEMCSS_auc": 0.170844047
+    },
+    {
+      "source_row": 656,
+      "compound": "SID 7969543",
+      "HEMCSS_auc": -0.041512699
+    },
+    {
+      "source_row": 657,
+      "compound": "TCS PIM-1 4A",
+      "HEMCSS_auc": -0.014689005
+    },
+    {
+      "source_row": 658,
+      "compound": "SGC-CBP30",
+      "HEMCSS_auc": -0.007486453
+    },
+    {
+      "source_row": 659,
+      "compound": "EMPTY",
+      "HEMCSS_auc": -0.016459654
+    },
+    {
+      "source_row": 660,
+      "compound": "MEZLOCILLIN SODIUM",
+      "HEMCSS_auc": -0.029914484
+    },
+    {
+      "source_row": 661,
+      "compound": "PIK-75",
+      "HEMCSS_auc": 0.514271726
+    },
+    {
+      "source_row": 662,
+      "compound": "MARBOFLOXACIN",
+      "HEMCSS_auc": -0.012099527
+    },
+    {
+      "source_row": 663,
+      "compound": "CNX-2006",
+      "HEMCSS_auc": -0.034917851
+    },
+    {
+      "source_row": 664,
+      "compound": "BETAMETHASONE VALERATE",
+      "HEMCSS_auc": -0.019602557
+    },
+    {
+      "source_row": 665,
+      "compound": "AR-A 014418",
+      "HEMCSS_auc": -0.001709349
+    },
+    {
+      "source_row": 666,
+      "compound": "ARBIDOL HCL",
+      "HEMCSS_auc": -0.016855191
+    },
+    {
+      "source_row": 667,
+      "compound": "GLYCYRRHIZIC ACID",
+      "HEMCSS_auc": -0.03470769
+    },
+    {
+      "source_row": 668,
+      "compound": "PHENYTOIN SODIUM",
+      "HEMCSS_auc": -0.003003043
+    },
+    {
+      "source_row": 669,
+      "compound": "TAK-901",
+      "HEMCSS_auc": 0.493703447
+    },
+    {
+      "source_row": 670,
+      "compound": "SB271046",
+      "HEMCSS_auc": -0.00606686
+    },
+    {
+      "source_row": 671,
+      "compound": "INDACATEROL MALEATE",
+      "HEMCSS_auc": 0.01844823
+    },
+    {
+      "source_row": 672,
+      "compound": "AZD2858",
+      "HEMCSS_auc": -0.018002305
+    },
+    {
+      "source_row": 673,
+      "compound": "CCT 018159",
+      "HEMCSS_auc": -0.042228613
+    },
+    {
+      "source_row": 674,
+      "compound": "CO-1686 (AVL-301)",
+      "HEMCSS_auc": 0.120063435
+    },
+    {
+      "source_row": 675,
+      "compound": "EBPC",
+      "HEMCSS_auc": -0.012327986
+    },
+    {
+      "source_row": 676,
+      "compound": "AZ191",
+      "HEMCSS_auc": 0.039137133
+    },
+    {
+      "source_row": 677,
+      "compound": "GSK 3787",
+      "HEMCSS_auc": -0.028379907
+    },
+    {
+      "source_row": 678,
+      "compound": "RGD (ARG-GLY-ASP) PEPTIDES",
+      "HEMCSS_auc": -0.048933932
+    },
+    {
+      "source_row": 679,
+      "compound": "JZL 184",
+      "HEMCSS_auc": -0.012344193
+    },
+    {
+      "source_row": 680,
+      "compound": "VORTIOXETINE (LU AA21004) HBR",
+      "HEMCSS_auc": -0.007199972
+    },
+    {
+      "source_row": 681,
+      "compound": "NFKB ACTIVATION INHIBITOR III",
+      "HEMCSS_auc": 0.001006712
+    },
+    {
+      "source_row": 682,
+      "compound": "UPF 1069",
+      "HEMCSS_auc": -0.02257032
+    },
+    {
+      "source_row": 683,
+      "compound": "PYROXAMIDE",
+      "HEMCSS_auc": 0.003766326
+    },
+    {
+      "source_row": 684,
+      "compound": "MACITENTAN",
+      "HEMCSS_auc": -0.060760756
+    },
+    {
+      "source_row": 685,
+      "compound": "SJ 172550",
+      "HEMCSS_auc": -0.051668449
+    },
+    {
+      "source_row": 686,
+      "compound": "GEFITINIB (ZD1839)",
+      "HEMCSS_auc": 0.01205403
+    },
+    {
+      "source_row": 687,
+      "compound": "TTP 22",
+      "HEMCSS_auc": -0.036832678
+    },
+    {
+      "source_row": 688,
+      "compound": "RG2833 (RGFP109)",
+      "HEMCSS_auc": 0.009904496
+    },
+    {
+      "source_row": 689,
+      "compound": "DOVITINIB (TKI-258, CHIR-258)",
+      "HEMCSS_auc": 0.217307143
+    },
+    {
+      "source_row": 690,
+      "compound": "PENCICLOVIR",
+      "HEMCSS_auc": -0.050684139
+    },
+    {
+      "source_row": 691,
+      "compound": "TIVOZANIB (AV-951)",
+      "HEMCSS_auc": 0.118829603
+    },
+    {
+      "source_row": 692,
+      "compound": "BIRINAPANT",
+      "HEMCSS_auc": 0.115700167
+    },
+    {
+      "source_row": 693,
+      "compound": "DOXERCALCIFEROL",
+      "HEMCSS_auc": -0.0236509
+    },
+    {
+      "source_row": 694,
+      "compound": "THIAMET G",
+      "HEMCSS_auc": -0.026103931
+    },
+    {
+      "source_row": 695,
+      "compound": "DESONIDE",
+      "HEMCSS_auc": -0.023636747
+    },
+    {
+      "source_row": 696,
+      "compound": "AZ 23",
+      "HEMCSS_auc": 0.374507147
+    },
+    {
+      "source_row": 697,
+      "compound": "LICOFELONE",
+      "HEMCSS_auc": -0.027908889
+    },
+    {
+      "source_row": 698,
+      "compound": "GRAMINE",
+      "HEMCSS_auc": -0.030937217
+    },
+    {
+      "source_row": 699,
+      "compound": "CICLOPIROX",
+      "HEMCSS_auc": -0.002323992
+    },
+    {
+      "source_row": 700,
+      "compound": "AMG-900",
+      "HEMCSS_auc": 0.361816885
+    },
+    {
+      "source_row": 701,
+      "compound": "MK-801 (DIZOCILPINE)",
+      "HEMCSS_auc": -0.014624326
+    },
+    {
+      "source_row": 702,
+      "compound": "2-THIOURACIL",
+      "HEMCSS_auc": -0.01773054
+    },
+    {
+      "source_row": 703,
+      "compound": "AZD1981",
+      "HEMCSS_auc": 0.045000309
+    },
+    {
+      "source_row": 704,
+      "compound": "CD 437",
+      "HEMCSS_auc": 0.275533128
+    },
+    {
+      "source_row": 705,
+      "compound": "TAK-632",
+      "HEMCSS_auc": 0.315442455
+    },
+    {
+      "source_row": 706,
+      "compound": "ELACRIDAR",
+      "HEMCSS_auc": 0.007871976
+    },
+    {
+      "source_row": 707,
+      "compound": "JSH-23",
+      "HEMCSS_auc": 0.003372874
+    },
+    {
+      "source_row": 708,
+      "compound": "GSK 650394",
+      "HEMCSS_auc": 0.050168851
+    },
+    {
+      "source_row": 709,
+      "compound": "AG-18",
+      "HEMCSS_auc": 0.004367396
+    },
+    {
+      "source_row": 710,
+      "compound": "L-NNA",
+      "HEMCSS_auc": 0.018234992
+    },
+    {
+      "source_row": 711,
+      "compound": "EMPAGLIFLOZIN (BI 10773)",
+      "HEMCSS_auc": 0.012909567
+    },
+    {
+      "source_row": 712,
+      "compound": "NSC 663284",
+      "HEMCSS_auc": 0.083417734
+    },
+    {
+      "source_row": 713,
+      "compound": "GDC-0349",
+      "HEMCSS_auc": 0.120654094
+    },
+    {
+      "source_row": 714,
+      "compound": "QNZ",
+      "HEMCSS_auc": 0.263923915
+    },
+    {
+      "source_row": 715,
+      "compound": "LOMEGUATRIB",
+      "HEMCSS_auc": -0.006156501
+    },
+    {
+      "source_row": 716,
+      "compound": "SK1-I",
+      "HEMCSS_auc": 0.034406121
+    },
+    {
+      "source_row": 717,
+      "compound": "VORINOSTAT (SAHA, MK0683)",
+      "HEMCSS_auc": 0.064523994
+    },
+    {
+      "source_row": 718,
+      "compound": "OTX015",
+      "HEMCSS_auc": 0.1147489
+    },
+    {
+      "source_row": 719,
+      "compound": "RIDAFOROLIMUS (DEFOROLIMUS, MK-8669)",
+      "HEMCSS_auc": 0.217484959
+    },
+    {
+      "source_row": 720,
+      "compound": "DOMIPHEN BROMIDE",
+      "HEMCSS_auc": 0.037221574
+    },
+    {
+      "source_row": 721,
+      "compound": "CZC24832",
+      "HEMCSS_auc": 0.003630671
+    },
+    {
+      "source_row": 722,
+      "compound": "CALCIFEDIOL",
+      "HEMCSS_auc": 0.008054725
+    },
+    {
+      "source_row": 723,
+      "compound": "SKEPINONE-L",
+      "HEMCSS_auc": 0.208942413
+    },
+    {
+      "source_row": 724,
+      "compound": "DIVALPROEX SODIUM",
+      "HEMCSS_auc": -0.010008538
+    },
+    {
+      "source_row": 725,
+      "compound": "BANOXANTRONE DIHYDROCHLORIDE",
+      "HEMCSS_auc": 0.110367272
+    },
+    {
+      "source_row": 726,
+      "compound": "DEXTROSE",
+      "HEMCSS_auc": 0.00365486
+    },
+    {
+      "source_row": 727,
+      "compound": "GYNOSTEMMA EXTRACT",
+      "HEMCSS_auc": 0.010741441
+    },
+    {
+      "source_row": 728,
+      "compound": "L-ASCORBYL 6-PALMITATE",
+      "HEMCSS_auc": 0.005988022
+    },
+    {
+      "source_row": 729,
+      "compound": "ZM 336372",
+      "HEMCSS_auc": 0.019637882
+    },
+    {
+      "source_row": 730,
+      "compound": "STEMREGENIN 1 (SR1)",
+      "HEMCSS_auc": 0.027612004
+    },
+    {
+      "source_row": 731,
+      "compound": "MOGUISTEINE",
+      "HEMCSS_auc": 0.02592401
+    },
+    {
+      "source_row": 732,
+      "compound": "MM-102",
+      "HEMCSS_auc": -0.005861516
+    },
+    {
+      "source_row": 733,
+      "compound": "CDIBA",
+      "HEMCSS_auc": -0.036784022
+    },
+    {
+      "source_row": 734,
+      "compound": "ZCL278",
+      "HEMCSS_auc": -0.007459572
+    },
+    {
+      "source_row": 735,
+      "compound": "FARNESYL THIOSALICYLIC ACID",
+      "HEMCSS_auc": -0.028765898
+    },
+    {
+      "source_row": 736,
+      "compound": "EPZ004777",
+      "HEMCSS_auc": -0.026254847
+    },
+    {
+      "source_row": 737,
+      "compound": "GSK837149A",
+      "HEMCSS_auc": 0.007549307
+    },
+    {
+      "source_row": 738,
+      "compound": "PRX-08066 MALEIC ACID",
+      "HEMCSS_auc": -0.015201623
+    },
+    {
+      "source_row": 739,
+      "compound": "LY 320135",
+      "HEMCSS_auc": -0.007674091
+    },
+    {
+      "source_row": 740,
+      "compound": "TARIQUIDAR",
+      "HEMCSS_auc": 0.001187781
+    },
+    {
+      "source_row": 741,
+      "compound": "SCRIPTAID",
+      "HEMCSS_auc": 0.111143026
+    },
+    {
+      "source_row": 742,
+      "compound": "SA4503",
+      "HEMCSS_auc": 0.011320632
+    },
+    {
+      "source_row": 743,
+      "compound": "PACRITINIB (SB1518)",
+      "HEMCSS_auc": 0.213648103
+    },
+    {
+      "source_row": 744,
+      "compound": "SKF 91488",
+      "HEMCSS_auc": -0.019755328
+    },
+    {
+      "source_row": 745,
+      "compound": "AG-490 (TYRPHOSTIN B42)",
+      "HEMCSS_auc": -0.011823146
+    },
+    {
+      "source_row": 746,
+      "compound": "UNC 0224",
+      "HEMCSS_auc": 0.00939093
+    },
+    {
+      "source_row": 747,
+      "compound": "UNC669",
+      "HEMCSS_auc": -0.010438814
+    },
+    {
+      "source_row": 748,
+      "compound": "ERLOTINIB HCL (OSI-744)",
+      "HEMCSS_auc": 0.200520206
+    },
+    {
+      "source_row": 749,
+      "compound": "CYCLANDELATE",
+      "HEMCSS_auc": -0.00965183
+    },
+    {
+      "source_row": 750,
+      "compound": "TSU-68 (SU6668, ORANTINIB)",
+      "HEMCSS_auc": 0.009793802
+    },
+    {
+      "source_row": 751,
+      "compound": "OAC1",
+      "HEMCSS_auc": -0.142307249
+    },
+    {
+      "source_row": 752,
+      "compound": "EMTRICITABINE",
+      "HEMCSS_auc": -0.003599443
+    },
+    {
+      "source_row": 753,
+      "compound": "BAY 11-7085",
+      "HEMCSS_auc": 0.172609355
+    },
+    {
+      "source_row": 754,
+      "compound": "S- (+)-ROLIPRAM",
+      "HEMCSS_auc": 0.058615995
+    },
+    {
+      "source_row": 755,
+      "compound": "HYODEOXYCHOLIC ACID (HDCA)",
+      "HEMCSS_auc": 0.000291733
+    },
+    {
+      "source_row": 756,
+      "compound": "RITODRINE HCL",
+      "HEMCSS_auc": 0.015064892
+    },
+    {
+      "source_row": 757,
+      "compound": "JTC-801",
+      "HEMCSS_auc": 0.041215659
+    },
+    {
+      "source_row": 758,
+      "compound": "GOLVATINIB (E7050)",
+      "HEMCSS_auc": 0.12730659
+    },
+    {
+      "source_row": 759,
+      "compound": "SODIUM SALICYLATE",
+      "HEMCSS_auc": -0.000453002
+    },
+    {
+      "source_row": 760,
+      "compound": "GOLGICIDE A",
+      "HEMCSS_auc": -0.008345217
+    },
+    {
+      "source_row": 761,
+      "compound": "CGP 3466B",
+      "HEMCSS_auc": -0.000366285
+    },
+    {
+      "source_row": 762,
+      "compound": "RVX-208",
+      "HEMCSS_auc": 0.020211418
+    },
+    {
+      "source_row": 763,
+      "compound": "FENRETINIDE",
+      "HEMCSS_auc": 0.056684295
+    },
+    {
+      "source_row": 764,
+      "compound": "TENOVIN-1",
+      "HEMCSS_auc": -0.007755207
+    },
+    {
+      "source_row": 765,
+      "compound": "GW 9508",
+      "HEMCSS_auc": -0.003817089
+    },
+    {
+      "source_row": 766,
+      "compound": "GW9508",
+      "HEMCSS_auc": 0.009808589
+    },
+    {
+      "source_row": 767,
+      "compound": "NSC 23766",
+      "HEMCSS_auc": 0.001308238
+    },
+    {
+      "source_row": 768,
+      "compound": "PB 28 DIHYDROCHLORIDE",
+      "HEMCSS_auc": 0.008144812
+    },
+    {
+      "source_row": 769,
+      "compound": "BMS-345541",
+      "HEMCSS_auc": 0.013411895
+    },
+    {
+      "source_row": 770,
+      "compound": "SANT-2",
+      "HEMCSS_auc": 0.017920227
+    },
+    {
+      "source_row": 771,
+      "compound": "P276-00",
+      "HEMCSS_auc": 0.305124371
+    },
+    {
+      "source_row": 772,
+      "compound": "SKI II",
+      "HEMCSS_auc": 0.057738305
+    },
+    {
+      "source_row": 773,
+      "compound": "WHI-P154",
+      "HEMCSS_auc": 0.026406048
+    },
+    {
+      "source_row": 774,
+      "compound": "ME0328",
+      "HEMCSS_auc": -0.012176851
+    },
+    {
+      "source_row": 775,
+      "compound": "LAPATINIB (GW-572016) DITOSYLATE",
+      "HEMCSS_auc": 0.042114155
+    },
+    {
+      "source_row": 776,
+      "compound": "CINCHOPHEN",
+      "HEMCSS_auc": 0.057222736
+    },
+    {
+      "source_row": 777,
+      "compound": "Z-VAD-FMK",
+      "HEMCSS_auc": 6.35306e-05
+    },
+    {
+      "source_row": 778,
+      "compound": "SAFINAMIDE MESYLATE",
+      "HEMCSS_auc": 0.017733035
+    },
+    {
+      "source_row": 779,
+      "compound": "SCH527123",
+      "HEMCSS_auc": 0.052194391
+    },
+    {
+      "source_row": 780,
+      "compound": "DEFERASIROX",
+      "HEMCSS_auc": 0.021419149
+    },
+    {
+      "source_row": 781,
+      "compound": "BD 1047",
+      "HEMCSS_auc": -0.002212569
+    },
+    {
+      "source_row": 782,
+      "compound": "BAZEDOXIFENE HCL",
+      "HEMCSS_auc": 0.016186724
+    },
+    {
+      "source_row": 783,
+      "compound": "ICARIIN",
+      "HEMCSS_auc": 0.007755723
+    },
+    {
+      "source_row": 784,
+      "compound": "ISOCONAZOLE NITRATE",
+      "HEMCSS_auc": -0.005300407
+    },
+    {
+      "source_row": 785,
+      "compound": "PH-797804",
+      "HEMCSS_auc": 0.055402852
+    },
+    {
+      "source_row": 786,
+      "compound": "IEM 1754 DIHYDROBROMIDE",
+      "HEMCSS_auc": 0.020799599
+    },
+    {
+      "source_row": 787,
+      "compound": "SERTACONAZOLE NITRATE",
+      "HEMCSS_auc": 0.009505389
+    },
+    {
+      "source_row": 788,
+      "compound": "ATROPINE",
+      "HEMCSS_auc": 0.127298697
+    },
+    {
+      "source_row": 789,
+      "compound": "KAEMPFEROL",
+      "HEMCSS_auc": -0.000873188
+    },
+    {
+      "source_row": 790,
+      "compound": "DABIGATRAN ETEXILATE",
+      "HEMCSS_auc": 0.017050327
+    },
+    {
+      "source_row": 791,
+      "compound": "NARINGIN",
+      "HEMCSS_auc": -0.005405045
+    },
+    {
+      "source_row": 792,
+      "compound": "PUERARIN",
+      "HEMCSS_auc": -0.013613021
+    },
+    {
+      "source_row": 793,
+      "compound": "SB743921",
+      "HEMCSS_auc": 0.462616149
+    },
+    {
+      "source_row": 794,
+      "compound": "STIGMASTEROL",
+      "HEMCSS_auc": 0.045871696
+    },
+    {
+      "source_row": 795,
+      "compound": "CYT997 (LEXIBULIN)",
+      "HEMCSS_auc": 0.401277693
+    },
+    {
+      "source_row": 796,
+      "compound": "AMMONIUM GLYCYRRHIZINATE",
+      "HEMCSS_auc": -0.061501253
+    },
+    {
+      "source_row": 797,
+      "compound": "PIK-293",
+      "HEMCSS_auc": -0.014639678
+    },
+    {
+      "source_row": 798,
+      "compound": "INDIRUBIN",
+      "HEMCSS_auc": -0.014867821
+    },
+    {
+      "source_row": 799,
+      "compound": "APATINIB",
+      "HEMCSS_auc": 0.000742159
+    },
+    {
+      "source_row": 800,
+      "compound": "SOPHOCARPINE",
+      "HEMCSS_auc": 0.00388786
+    },
+    {
+      "source_row": 801,
+      "compound": "LY2157299",
+      "HEMCSS_auc": -0.086515228
+    },
+    {
+      "source_row": 802,
+      "compound": "ASTRAGALOSIDE A",
+      "HEMCSS_auc": -0.008613787
+    },
+    {
+      "source_row": 803,
+      "compound": "AR-42",
+      "HEMCSS_auc": 0.17269553
+    },
+    {
+      "source_row": 804,
+      "compound": "LEVOSIMENDAN",
+      "HEMCSS_auc": 0.000461606
+    },
+    {
+      "source_row": 805,
+      "compound": "ANDROGRAPHOLIDE",
+      "HEMCSS_auc": 0.096136287
+    },
+    {
+      "source_row": 806,
+      "compound": "MANIDIPINE 2HCL",
+      "HEMCSS_auc": 0.031728146
+    },
+    {
+      "source_row": 807,
+      "compound": "CEFTIOFUR HCL",
+      "HEMCSS_auc": -0.039521608
+    },
+    {
+      "source_row": 808,
+      "compound": "DACOMITINIB (PF299804, PF299)",
+      "HEMCSS_auc": 0.027351155
+    },
+    {
+      "source_row": 809,
+      "compound": "HYDRALAZINE HCL",
+      "HEMCSS_auc": -0.017169155
+    },
+    {
+      "source_row": 810,
+      "compound": "PRAMIRACETAM",
+      "HEMCSS_auc": -0.027136354
+    },
+    {
+      "source_row": 811,
+      "compound": "MILCICLIB (PHA-848125)",
+      "HEMCSS_auc": 0.369053823
+    },
+    {
+      "source_row": 812,
+      "compound": "MG-132",
+      "HEMCSS_auc": 0.22736803
+    },
+    {
+      "source_row": 813,
+      "compound": "ALECTINIB (CH5424802)",
+      "HEMCSS_auc": -0.00206346
+    },
+    {
+      "source_row": 814,
+      "compound": "PF-05212384 (PKI-587)",
+      "HEMCSS_auc": 0.326873501
+    },
+    {
+      "source_row": 815,
+      "compound": "MK-2461",
+      "HEMCSS_auc": 0.204220765
+    },
+    {
+      "source_row": 816,
+      "compound": "A66",
+      "HEMCSS_auc": 0.119964949
+    },
+    {
+      "source_row": 817,
+      "compound": "AZD2014",
+      "HEMCSS_auc": 0.283763294
+    },
+    {
+      "source_row": 818,
+      "compound": "WYE-125132 (WYE-132)",
+      "HEMCSS_auc": 0.389628192
+    },
+    {
+      "source_row": 819,
+      "compound": "TORCETRAPIB",
+      "HEMCSS_auc": 0.00123562
+    },
+    {
+      "source_row": 820,
+      "compound": "TRAMETINIB (GSK1120212)",
+      "HEMCSS_auc": 0.456341808
+    },
+    {
+      "source_row": 821,
+      "compound": "CEP-33779",
+      "HEMCSS_auc": 0.08780801
+    },
+    {
+      "source_row": 822,
+      "compound": "PF-2545920",
+      "HEMCSS_auc": -0.008153593
+    },
+    {
+      "source_row": 823,
+      "compound": "TORIN 2",
+      "HEMCSS_auc": 0.505165951
+    },
+    {
+      "source_row": 824,
+      "compound": "NEPICASTAT (SYN-117) HCL",
+      "HEMCSS_auc": -0.007852492
+    },
+    {
+      "source_row": 825,
+      "compound": "TORIN 1",
+      "HEMCSS_auc": 0.358201502
+    },
+    {
+      "source_row": 826,
+      "compound": "ROFLUMILAST",
+      "HEMCSS_auc": 0.022623541
+    },
+    {
+      "source_row": 827,
+      "compound": "L-(+)-RHAMNOSE MONOHYDRATE",
+      "HEMCSS_auc": -0.066665649
+    },
+    {
+      "source_row": 828,
+      "compound": "LY2608204",
+      "HEMCSS_auc": -0.065215297
+    },
+    {
+      "source_row": 829,
+      "compound": "NEOHESPERIDIN DIHYDROCHALCONE (NHDC)",
+      "HEMCSS_auc": -0.089299542
+    },
+    {
+      "source_row": 830,
+      "compound": "PD128907 HCL",
+      "HEMCSS_auc": -0.06658342
+    },
+    {
+      "source_row": 831,
+      "compound": "QUERCETIN DIHYDRATE",
+      "HEMCSS_auc": -0.052223075
+    },
+    {
+      "source_row": 832,
+      "compound": "BGJ398 (NVP-BGJ398)",
+      "HEMCSS_auc": 0.411536545
+    },
+    {
+      "source_row": 833,
+      "compound": "TANSHINONE I",
+      "HEMCSS_auc": -0.051986372
+    },
+    {
+      "source_row": 834,
+      "compound": "A-966492",
+      "HEMCSS_auc": 0.081990416
+    },
+    {
+      "source_row": 835,
+      "compound": "BIOCHANIN A",
+      "HEMCSS_auc": -0.034798051
+    },
+    {
+      "source_row": 836,
+      "compound": "VINFLUNINE TARTRATE",
+      "HEMCSS_auc": 0.335191427
+    },
+    {
+      "source_row": 837,
+      "compound": "LAPPACONITE HBR",
+      "HEMCSS_auc": -0.02529041
+    },
+    {
+      "source_row": 838,
+      "compound": "PF-3716556",
+      "HEMCSS_auc": -0.002397415
+    },
+    {
+      "source_row": 839,
+      "compound": "CURCUMOL",
+      "HEMCSS_auc": -0.054493694
+    },
+    {
+      "source_row": 840,
+      "compound": "TELATINIB",
+      "HEMCSS_auc": -0.049326434
+    },
+    {
+      "source_row": 841,
+      "compound": "20-HYDROXYECDYSONE",
+      "HEMCSS_auc": -0.05280726
+    },
+    {
+      "source_row": 842,
+      "compound": "ABIRATERONE ACETATE",
+      "HEMCSS_auc": -0.064917474
+    },
+    {
+      "source_row": 843,
+      "compound": "FORSKOLIN",
+      "HEMCSS_auc": -0.040578275
+    },
+    {
+      "source_row": 844,
+      "compound": "ASIATIC ACID",
+      "HEMCSS_auc": -0.051284639
+    },
+    {
+      "source_row": 845,
+      "compound": "OZAGREL",
+      "HEMCSS_auc": -0.033556838
+    },
+    {
+      "source_row": 846,
+      "compound": "SCOPINE",
+      "HEMCSS_auc": -0.063948227
+    },
+    {
+      "source_row": 847,
+      "compound": "SB415286",
+      "HEMCSS_auc": -0.064668832
+    },
+    {
+      "source_row": 848,
+      "compound": "CLOXACILLIN SODIUM",
+      "HEMCSS_auc": -0.065549367
+    },
+    {
+      "source_row": 849,
+      "compound": "PF-04691502",
+      "HEMCSS_auc": 0.452115454
+    },
+    {
+      "source_row": 850,
+      "compound": "CLINDAMYCIN PALMITATE HCL",
+      "HEMCSS_auc": -0.065611162
+    },
+    {
+      "source_row": 851,
+      "compound": "HER2-INHIBITOR-1",
+      "HEMCSS_auc": -0.045226677
+    },
+    {
+      "source_row": 852,
+      "compound": "GSK256066",
+      "HEMCSS_auc": 0.173211189
+    },
+    {
+      "source_row": 853,
+      "compound": "MK-2048",
+      "HEMCSS_auc": -0.084157619
+    },
+    {
+      "source_row": 854,
+      "compound": "PNU-120596",
+      "HEMCSS_auc": -0.061994896
+    },
+    {
+      "source_row": 855,
+      "compound": "NOCODAZOLE",
+      "HEMCSS_auc": 0.33649547
+    },
+    {
+      "source_row": 856,
+      "compound": "TAK-875",
+      "HEMCSS_auc": -0.059936354
+    },
+    {
+      "source_row": 857,
+      "compound": "TAK-285",
+      "HEMCSS_auc": -0.027825962
+    },
+    {
+      "source_row": 858,
+      "compound": "ICG-001",
+      "HEMCSS_auc": -0.025951552
+    },
+    {
+      "source_row": 859,
+      "compound": "VU 0357121",
+      "HEMCSS_auc": -0.023755385
+    },
+    {
+      "source_row": 860,
+      "compound": "A922500",
+      "HEMCSS_auc": -0.039303677
+    },
+    {
+      "source_row": 861,
+      "compound": "DABRAFENIB (GSK2118436)",
+      "HEMCSS_auc": -0.0359129
+    },
+    {
+      "source_row": 862,
+      "compound": "R547",
+      "HEMCSS_auc": 0.319181264
+    },
+    {
+      "source_row": 863,
+      "compound": "CI994 (TACEDINALINE)",
+      "HEMCSS_auc": -0.008413455
+    },
+    {
+      "source_row": 864,
+      "compound": "GDC-0980 (RG7422)",
+      "HEMCSS_auc": 0.34777493
+    },
+    {
+      "source_row": 865,
+      "compound": "CLINDAMYCIN",
+      "HEMCSS_auc": -0.024654808
+    },
+    {
+      "source_row": 866,
+      "compound": "AZD8330",
+      "HEMCSS_auc": 0.423800809
+    },
+    {
+      "source_row": 867,
+      "compound": "MAGNOLOL",
+      "HEMCSS_auc": -0.063798823
+    },
+    {
+      "source_row": 868,
+      "compound": "LY2886721",
+      "HEMCSS_auc": -0.059532601
+    },
+    {
+      "source_row": 869,
+      "compound": "NEOHESPERIDIN",
+      "HEMCSS_auc": -0.078413629
+    },
+    {
+      "source_row": 870,
+      "compound": "ROSUVASTATIN CALCIUM",
+      "HEMCSS_auc": -0.017749939
+    },
+    {
+      "source_row": 871,
+      "compound": "RUTAECARPINE",
+      "HEMCSS_auc": -0.038309512
+    },
+    {
+      "source_row": 872,
+      "compound": "AST-1306",
+      "HEMCSS_auc": 0.089310442
+    },
+    {
+      "source_row": 873,
+      "compound": "TETRAHYDROPAPAVERINE HCL",
+      "HEMCSS_auc": -0.038668762
+    },
+    {
+      "source_row": 874,
+      "compound": "SGI-1776 FREE BASE",
+      "HEMCSS_auc": -0.052412088
+    },
+    {
+      "source_row": 875,
+      "compound": "DIOSCIN",
+      "HEMCSS_auc": -0.048312848
+    },
+    {
+      "source_row": 876,
+      "compound": "AZ 960",
+      "HEMCSS_auc": 0.118782698
+    },
+    {
+      "source_row": 877,
+      "compound": "NARINGIN DIHYDROCHALCONE",
+      "HEMCSS_auc": -0.079926265
+    },
+    {
+      "source_row": 878,
+      "compound": "UK 383367",
+      "HEMCSS_auc": -0.033148374
+    },
+    {
+      "source_row": 879,
+      "compound": "CEPHALOMANNINE",
+      "HEMCSS_auc": 0.385061003
+    },
+    {
+      "source_row": 880,
+      "compound": "ESOMEPRAZOLE SODIUM",
+      "HEMCSS_auc": -0.035848991
+    },
+    {
+      "source_row": 881,
+      "compound": "ALOPERINE",
+      "HEMCSS_auc": -0.028272278
+    },
+    {
+      "source_row": 882,
+      "compound": "BKM120 (NVP-BKM120, BUPARLISIB)",
+      "HEMCSS_auc": 0.178737084
+    },
+    {
+      "source_row": 883,
+      "compound": "EQUOL",
+      "HEMCSS_auc": -0.048024991
+    },
+    {
+      "source_row": 884,
+      "compound": "AZOMYCIN",
+      "HEMCSS_auc": -0.010116669
+    },
+    {
+      "source_row": 885,
+      "compound": "D-PANTOTHENIC ACID",
+      "HEMCSS_auc": -0.014278243
+    },
+    {
+      "source_row": 886,
+      "compound": "TIOTROPIUM BROMIDE HYDRATE",
+      "HEMCSS_auc": -0.043935718
+    },
+    {
+      "source_row": 887,
+      "compound": "CRENOLANIB (CP-868596)",
+      "HEMCSS_auc": 0.014505032
+    },
+    {
+      "source_row": 888,
+      "compound": "AMOXICILLIN SODIUM",
+      "HEMCSS_auc": -0.082611298
+    },
+    {
+      "source_row": 889,
+      "compound": "CCT137690",
+      "HEMCSS_auc": 0.059051833
+    },
+    {
+      "source_row": 890,
+      "compound": "OSELTAMIVIR PHOSPHATE",
+      "HEMCSS_auc": -0.045506689
+    },
+    {
+      "source_row": 891,
+      "compound": "TIVANTINIB (ARQ 197)",
+      "HEMCSS_auc": 0.058100839
+    },
+    {
+      "source_row": 892,
+      "compound": "AZD5438",
+      "HEMCSS_auc": 0.190440339
+    },
+    {
+      "source_row": 893,
+      "compound": "3-METHYLADENINE",
+      "HEMCSS_auc": -0.034572947
+    },
+    {
+      "source_row": 894,
+      "compound": "GW3965 HCL",
+      "HEMCSS_auc": 0.000516489
+    },
+    {
+      "source_row": 895,
+      "compound": "CPI-613",
+      "HEMCSS_auc": -0.049505452
+    },
+    {
+      "source_row": 896,
+      "compound": "NU7441 (KU-57788)",
+      "HEMCSS_auc": 0.029159942
+    },
+    {
+      "source_row": 897,
+      "compound": "A-803467",
+      "HEMCSS_auc": -0.049458177
+    },
+    {
+      "source_row": 898,
+      "compound": "WAY-100635 MALEATE",
+      "HEMCSS_auc": -0.024150249
+    },
+    {
+      "source_row": 899,
+      "compound": "WP1066",
+      "HEMCSS_auc": 0.039961634
+    },
+    {
+      "source_row": 900,
+      "compound": "BRL-15572",
+      "HEMCSS_auc": -0.019255614
+    },
+    {
+      "source_row": 901,
+      "compound": "GDC-0068",
+      "HEMCSS_auc": 0.0930437
+    },
+    {
+      "source_row": 902,
+      "compound": "WAY-600",
+      "HEMCSS_auc": 0.100058765
+    },
+    {
+      "source_row": 903,
+      "compound": "TAE226 (NVP-TAE226)",
+      "HEMCSS_auc": 0.316969559
+    },
+    {
+      "source_row": 904,
+      "compound": "RS-127445",
+      "HEMCSS_auc": -0.02566325
+    },
+    {
+      "source_row": 905,
+      "compound": "ARN-509",
+      "HEMCSS_auc": -0.021831477
+    },
+    {
+      "source_row": 906,
+      "compound": "GSK1292263",
+      "HEMCSS_auc": -0.012393158
+    },
+    {
+      "source_row": 907,
+      "compound": "(+)-MATRINE",
+      "HEMCSS_auc": -0.064159145
+    },
+    {
+      "source_row": 908,
+      "compound": "KW-2449",
+      "HEMCSS_auc": 0.079999991
+    },
+    {
+      "source_row": 909,
+      "compound": "OLEANOLIC ACID",
+      "HEMCSS_auc": -0.058778891
+    },
+    {
+      "source_row": 910,
+      "compound": "GIVINOSTAT (ITF2357)",
+      "HEMCSS_auc": 0.165962761
+    },
+    {
+      "source_row": 911,
+      "compound": "SALINOMYCIN",
+      "HEMCSS_auc": 0.040151995
+    },
+    {
+      "source_row": 912,
+      "compound": "SB505124",
+      "HEMCSS_auc": -0.126269431
+    },
+    {
+      "source_row": 913,
+      "compound": "TROXERUTIN",
+      "HEMCSS_auc": 0.003232213
+    },
+    {
+      "source_row": 914,
+      "compound": "ALISKIREN HEMIFUMARATE",
+      "HEMCSS_auc": -0.031171945
+    },
+    {
+      "source_row": 915,
+      "compound": "D-MANNITOL",
+      "HEMCSS_auc": -0.083681967
+    },
+    {
+      "source_row": 916,
+      "compound": "DAPT (GSI-IX)",
+      "HEMCSS_auc": -0.05030531
+    },
+    {
+      "source_row": 917,
+      "compound": "SESAMIN",
+      "HEMCSS_auc": -0.051091555
+    },
+    {
+      "source_row": 918,
+      "compound": "TAME",
+      "HEMCSS_auc": -0.063823301
+    },
+    {
+      "source_row": 919,
+      "compound": "10-DEACETYLBACCATIN-III",
+      "HEMCSS_auc": -0.050458406
+    },
+    {
+      "source_row": 920,
+      "compound": "VOLASERTIB (BI 6727)",
+      "HEMCSS_auc": 0.415794449
+    },
+    {
+      "source_row": 921,
+      "compound": "APOCYNIN",
+      "HEMCSS_auc": -0.06045823
+    },
+    {
+      "source_row": 922,
+      "compound": "CX-4945 (SILMITASERTIB)",
+      "HEMCSS_auc": 0.070491253
+    },
+    {
+      "source_row": 923,
+      "compound": "CLINDAMYCIN HCL",
+      "HEMCSS_auc": -0.031209328
+    },
+    {
+      "source_row": 924,
+      "compound": "BAICALIN",
+      "HEMCSS_auc": -0.035398334
+    },
+    {
+      "source_row": 925,
+      "compound": "PROPAFENONE HCL",
+      "HEMCSS_auc": -0.0311272
+    },
+    {
+      "source_row": 926,
+      "compound": "SCOPINE HCL",
+      "HEMCSS_auc": -0.058768213
+    },
+    {
+      "source_row": 927,
+      "compound": "AZ 3146",
+      "HEMCSS_auc": -0.049790362
+    },
+    {
+      "source_row": 928,
+      "compound": "MEDROXYPROGESTERONE ACETATE",
+      "HEMCSS_auc": -0.038738984
+    },
+    {
+      "source_row": 929,
+      "compound": "AZ 628",
+      "HEMCSS_auc": 0.331368877
+    },
+    {
+      "source_row": 930,
+      "compound": "TIOXOLONE",
+      "HEMCSS_auc": -0.050935094
+    },
+    {
+      "source_row": 931,
+      "compound": "VARLITINIB",
+      "HEMCSS_auc": 0.011663798
+    },
+    {
+      "source_row": 932,
+      "compound": "OMECAMTIV MECARBIL (CK-1827452)",
+      "HEMCSS_auc": -0.027217099
+    },
+    {
+      "source_row": 933,
+      "compound": "DINACICLIB (SCH727965)",
+      "HEMCSS_auc": 0.507104151
+    },
+    {
+      "source_row": 934,
+      "compound": "URB597",
+      "HEMCSS_auc": -0.056838561
+    },
+    {
+      "source_row": 935,
+      "compound": "PF-5274857",
+      "HEMCSS_auc": -0.037971802
+    },
+    {
+      "source_row": 936,
+      "compound": "SNX-2112 (PF-04928473)",
+      "HEMCSS_auc": 0.457947627
+    },
+    {
+      "source_row": 937,
+      "compound": "LAQUINIMOD",
+      "HEMCSS_auc": -0.025758058
+    },
+    {
+      "source_row": 938,
+      "compound": "CLINOFIBRATE",
+      "HEMCSS_auc": -0.034259823
+    },
+    {
+      "source_row": 939,
+      "compound": "LONAFARNIB",
+      "HEMCSS_auc": 0.097692971
+    },
+    {
+      "source_row": 940,
+      "compound": "FLAVOPIRIDOL HCL",
+      "HEMCSS_auc": 0.451352801
+    },
+    {
+      "source_row": 941,
+      "compound": "MPEP",
+      "HEMCSS_auc": -0.022846248
+    },
+    {
+      "source_row": 942,
+      "compound": "ADX-47273",
+      "HEMCSS_auc": -0.029391971
+    },
+    {
+      "source_row": 943,
+      "compound": "RG108",
+      "HEMCSS_auc": -0.021476566
+    },
+    {
+      "source_row": 944,
+      "compound": "CH5132799",
+      "HEMCSS_auc": 0.208947881
+    },
+    {
+      "source_row": 945,
+      "compound": "R428 (BGB324)",
+      "HEMCSS_auc": 0.071609327
+    },
+    {
+      "source_row": 946,
+      "compound": "NERATINIB (HKI-272)",
+      "HEMCSS_auc": 0.025889554
+    },
+    {
+      "source_row": 947,
+      "compound": "METHYL-HESPERIDIN",
+      "HEMCSS_auc": -0.053192557
+    },
+    {
+      "source_row": 948,
+      "compound": "TEBIPENEM PIVOXIL",
+      "HEMCSS_auc": -0.064888342
+    },
+    {
+      "source_row": 949,
+      "compound": "ORIDONIN",
+      "HEMCSS_auc": -0.031911995
+    },
+    {
+      "source_row": 950,
+      "compound": "AG-14361",
+      "HEMCSS_auc": -0.013570713
+    },
+    {
+      "source_row": 951,
+      "compound": "SCLAREOL",
+      "HEMCSS_auc": -0.080477643
+    },
+    {
+      "source_row": 952,
+      "compound": "AVASIMIBE",
+      "HEMCSS_auc": -0.017317732
+    },
+    {
+      "source_row": 953,
+      "compound": "URSOLIC ACID",
+      "HEMCSS_auc": -0.053487968
+    },
+    {
+      "source_row": 954,
+      "compound": "RAF265 DERIVATIVE",
+      "HEMCSS_auc": -0.027220867
+    },
+    {
+      "source_row": 955,
+      "compound": "EVODIAMINE",
+      "HEMCSS_auc": 0.037253598
+    },
+    {
+      "source_row": 956,
+      "compound": "MUBRITINIB (TAK 165)",
+      "HEMCSS_auc": 0.211306757
+    },
+    {
+      "source_row": 957,
+      "compound": "RHEOCHRYSIDIN",
+      "HEMCSS_auc": -0.034219565
+    },
+    {
+      "source_row": 958,
+      "compound": "CAL-101 (IDELALISIB, GS-1101)",
+      "HEMCSS_auc": -0.034825437
+    },
+    {
+      "source_row": 959,
+      "compound": "PAEONIFLORIN",
+      "HEMCSS_auc": -0.041827454
+    },
+    {
+      "source_row": 960,
+      "compound": "PALOMID 529 (P529)",
+      "HEMCSS_auc": -0.025554689
+    },
+    {
+      "source_row": 961,
+      "compound": "ROTUNDINE",
+      "HEMCSS_auc": -0.050585138
+    },
+    {
+      "source_row": 962,
+      "compound": "(+)-USNIACIN",
+      "HEMCSS_auc": -0.020575203
+    },
+    {
+      "source_row": 963,
+      "compound": "HEXESTROL",
+      "HEMCSS_auc": -0.02716376
+    },
+    {
+      "source_row": 964,
+      "compound": "BERGENIN",
+      "HEMCSS_auc": -0.031151802
+    },
+    {
+      "source_row": 965,
+      "compound": "QUININE HCL DIHYDRATE",
+      "HEMCSS_auc": -0.032467873
+    },
+    {
+      "source_row": 966,
+      "compound": "TROSPIUM CHLORIDE",
+      "HEMCSS_auc": 0.3192354
+    },
+    {
+      "source_row": 967,
+      "compound": "MK-8776 (SCH 900776)",
+      "HEMCSS_auc": 0.008898521
+    },
+    {
+      "source_row": 968,
+      "compound": "PREDNISOLONE ACETATE",
+      "HEMCSS_auc": -0.049366907
+    },
+    {
+      "source_row": 969,
+      "compound": "AMG-458",
+      "HEMCSS_auc": 0.003678221
+    },
+    {
+      "source_row": 970,
+      "compound": "LONIDAMINE",
+      "HEMCSS_auc": -0.070019895
+    },
+    {
+      "source_row": 971,
+      "compound": "OSI-027",
+      "HEMCSS_auc": 0.191497278
+    },
+    {
+      "source_row": 972,
+      "compound": "DOVITINIB (TKI-258) DILACTIC ACID",
+      "HEMCSS_auc": 0.329607222
+    },
+    {
+      "source_row": 973,
+      "compound": "BMS-378806",
+      "HEMCSS_auc": -0.053893368
+    },
+    {
+      "source_row": 974,
+      "compound": "GW842166X",
+      "HEMCSS_auc": -0.046825903
+    },
+    {
+      "source_row": 975,
+      "compound": "PF-04929113 (SNX-5422)",
+      "HEMCSS_auc": 0.408563814
+    },
+    {
+      "source_row": 976,
+      "compound": "INCB28060",
+      "HEMCSS_auc": -0.039377096
+    },
+    {
+      "source_row": 977,
+      "compound": "PF-3845",
+      "HEMCSS_auc": -0.048632594
+    },
+    {
+      "source_row": 978,
+      "compound": "IBRUTINIB (PCI-32765)",
+      "HEMCSS_auc": 0.101006991
+    },
+    {
+      "source_row": 979,
+      "compound": "INK 128 (MLN0128)",
+      "HEMCSS_auc": 0.414786148
+    },
+    {
+      "source_row": 980,
+      "compound": "BMY 7378",
+      "HEMCSS_auc": -0.053496384
+    },
+    {
+      "source_row": 981,
+      "compound": "OC000459",
+      "HEMCSS_auc": -0.048178101
+    },
+    {
+      "source_row": 982,
+      "compound": "KX2-391",
+      "HEMCSS_auc": 0.354257776
+    },
+    {
+      "source_row": 983,
+      "compound": "SAR131675",
+      "HEMCSS_auc": -0.021041462
+    },
+    {
+      "source_row": 984,
+      "compound": "LDE225 (NVP-LDE225,ERISMODEGIB)",
+      "HEMCSS_auc": 0.121553085
+    },
+    {
+      "source_row": 985,
+      "compound": "MORIN HYDRATE",
+      "HEMCSS_auc": 0.000259834
+    },
+    {
+      "source_row": 986,
+      "compound": "RAF265 (CHIR-265)",
+      "HEMCSS_auc": 0.290325536
+    },
+    {
+      "source_row": 987,
+      "compound": "OROTIC ACID (6-CARBOXYURACIL)",
+      "HEMCSS_auc": -0.010679066
+    },
+    {
+      "source_row": 988,
+      "compound": "LY2784544",
+      "HEMCSS_auc": 0.246422709
+    },
+    {
+      "source_row": 989,
+      "compound": "SCLAREOLIDE",
+      "HEMCSS_auc": 0.023624994
+    },
+    {
+      "source_row": 990,
+      "compound": "AZD8931 (SAPITINIB)",
+      "HEMCSS_auc": 0.097181678
+    },
+    {
+      "source_row": 991,
+      "compound": "VANILLYLACETONE",
+      "HEMCSS_auc": 0.200222668
+    },
+    {
+      "source_row": 992,
+      "compound": "BMS-794833",
+      "HEMCSS_auc": 0.105991785
+    },
+    {
+      "source_row": 993,
+      "compound": "GASTRODIN",
+      "HEMCSS_auc": -0.003006223
+    },
+    {
+      "source_row": 994,
+      "compound": "PP242",
+      "HEMCSS_auc": 0.235028223
+    },
+    {
+      "source_row": 995,
+      "compound": "SALIDROSIDE",
+      "HEMCSS_auc": -0.047891631
+    },
+    {
+      "source_row": 996,
+      "compound": "PIK-294",
+      "HEMCSS_auc": 0.009572088
+    },
+    {
+      "source_row": 997,
+      "compound": "GENIPOSIDE",
+      "HEMCSS_auc": -0.019558381
+    },
+    {
+      "source_row": 998,
+      "compound": "FESOTERODINE FUMARATE",
+      "HEMCSS_auc": -0.006438609
+    },
+    {
+      "source_row": 999,
+      "compound": "SYNEPHRINE HCL",
+      "HEMCSS_auc": -0.002516366
+    },
+    {
+      "source_row": 1000,
+      "compound": "3-INDOLEBUTYRIC ACID (IBA)",
+      "HEMCSS_auc": -0.021941777
+    },
+    {
+      "source_row": 1001,
+      "compound": "ITRACONAZOLE",
+      "HEMCSS_auc": 0.013956227
+    },
+    {
+      "source_row": 1002,
+      "compound": "BILOBALIDE",
+      "HEMCSS_auc": -0.015663376
+    },
+    {
+      "source_row": 1003,
+      "compound": "ROXITHROMYCIN",
+      "HEMCSS_auc": 0.000310642
+    },
+    {
+      "source_row": 1004,
+      "compound": "TOLTERODINE TARTRATE",
+      "HEMCSS_auc": -0.006770344
+    },
+    {
+      "source_row": 1005,
+      "compound": "TG101348 (SAR302503)",
+      "HEMCSS_auc": 0.112165683
+    },
+    {
+      "source_row": 1006,
+      "compound": "STREPTOMYCIN SULFATE",
+      "HEMCSS_auc": -0.03635662
+    },
+    {
+      "source_row": 1007,
+      "compound": "ANACETRAPIB (MK-0859)",
+      "HEMCSS_auc": -0.022468104
+    },
+    {
+      "source_row": 1008,
+      "compound": "RIBITOL",
+      "HEMCSS_auc": 0.115477481
+    },
+    {
+      "source_row": 1009,
+      "compound": "CUDC-907",
+      "HEMCSS_auc": 0.459598917
+    },
+    {
+      "source_row": 1010,
+      "compound": "FOSTAMATINIB (R788)",
+      "HEMCSS_auc": 0.259738956
+    },
+    {
+      "source_row": 1011,
+      "compound": "MK-5108 (VX-689)",
+      "HEMCSS_auc": 0.102348697
+    },
+    {
+      "source_row": 1012,
+      "compound": "NPS-2143",
+      "HEMCSS_auc": -0.006096558
+    },
+    {
+      "source_row": 1013,
+      "compound": "M344",
+      "HEMCSS_auc": 0.093023619
+    },
+    {
+      "source_row": 1014,
+      "compound": "GSK2126458 (GSK458)",
+      "HEMCSS_auc": 0.572633562
+    },
+    {
+      "source_row": 1015,
+      "compound": "TOFACITINIB (CP-690550,TASOCITINIB)",
+      "HEMCSS_auc": -0.02086187
+    },
+    {
+      "source_row": 1016,
+      "compound": "DOLUTEGRAVIR (GSK1349572)",
+      "HEMCSS_auc": -0.006059735
+    },
+    {
+      "source_row": 1017,
+      "compound": "AZD4547",
+      "HEMCSS_auc": 0.416417365
+    },
+    {
+      "source_row": 1018,
+      "compound": "CHIR-124",
+      "HEMCSS_auc": 0.239944378
+    },
+    {
+      "source_row": 1019,
+      "compound": "CIPROXIFAN",
+      "HEMCSS_auc": -0.04112578
+    },
+    {
+      "source_row": 1020,
+      "compound": "TG101209",
+      "HEMCSS_auc": 0.189104671
+    },
+    {
+      "source_row": 1021,
+      "compound": "TIDEGLUSIB",
+      "HEMCSS_auc": 0.003542048
+    },
+    {
+      "source_row": 1022,
+      "compound": "GSK1838705A",
+      "HEMCSS_auc": 0.259546016
+    },
+    {
+      "source_row": 1023,
+      "compound": "BI-D1870",
+      "HEMCSS_auc": 0.047718732
+    },
+    {
+      "source_row": 1024,
+      "compound": "SITAFLOXACIN HYDRATE",
+      "HEMCSS_auc": -0.000786749
+    },
+    {
+      "source_row": 1025,
+      "compound": "MYRICETIN",
+      "HEMCSS_auc": -0.035047618
+    },
+    {
+      "source_row": 1026,
+      "compound": "AZD1480",
+      "HEMCSS_auc": 0.186713067
+    },
+    {
+      "source_row": 1027,
+      "compound": "OXYMATRINE",
+      "HEMCSS_auc": -0.007376241
+    },
+    {
+      "source_row": 1028,
+      "compound": "MLN2238",
+      "HEMCSS_auc": 0.462364254
+    },
+    {
+      "source_row": 1029,
+      "compound": "SHIKIMIC ACID",
+      "HEMCSS_auc": -0.026108878
+    },
+    {
+      "source_row": 1030,
+      "compound": "GSK461364",
+      "HEMCSS_auc": 0.462584886
+    },
+    {
+      "source_row": 1031,
+      "compound": "5-HYDROXYTRYPTOPHAN (5-HTP)",
+      "HEMCSS_auc": 0.000351091
+    },
+    {
+      "source_row": 1032,
+      "compound": "NVP-BHG712",
+      "HEMCSS_auc": -0.003307079
+    },
+    {
+      "source_row": 1033,
+      "compound": "HEMATOXYLIN",
+      "HEMCSS_auc": -0.038849978
+    },
+    {
+      "source_row": 1034,
+      "compound": "CYT387",
+      "HEMCSS_auc": 0.129415959
+    },
+    {
+      "source_row": 1035,
+      "compound": "DIHYDROMYRICETIN",
+      "HEMCSS_auc": -0.061587635
+    },
+    {
+      "source_row": 1036,
+      "compound": "VX-765",
+      "HEMCSS_auc": -0.016333147
+    },
+    {
+      "source_row": 1037,
+      "compound": "GENIPIN",
+      "HEMCSS_auc": -0.042044974
+    },
+    {
+      "source_row": 1038,
+      "compound": "GUANOSINE",
+      "HEMCSS_auc": -0.047971537
+    },
+    {
+      "source_row": 1039,
+      "compound": "ALOE-EMODIN",
+      "HEMCSS_auc": -0.021502781
+    },
+    {
+      "source_row": 1040,
+      "compound": "LINCOMYCIN HCL",
+      "HEMCSS_auc": -0.027863559
+    },
+    {
+      "source_row": 1041,
+      "compound": "CINCHONIDINE",
+      "HEMCSS_auc": -0.014470825
+    },
+    {
+      "source_row": 1042,
+      "compound": "SCOPOLAMINE HBR",
+      "HEMCSS_auc": -0.006964761
+    },
+    {
+      "source_row": 1043,
+      "compound": "SULBACTAM SODIUM",
+      "HEMCSS_auc": -0.021895792
+    },
+    {
+      "source_row": 1044,
+      "compound": "PAC-1",
+      "HEMCSS_auc": 0.001819853
+    },
+    {
+      "source_row": 1045,
+      "compound": "DIMETHYL FUMARATE",
+      "HEMCSS_auc": -0.016080021
+    },
+    {
+      "source_row": 1046,
+      "compound": "BGT226 (NVP-BGT226)",
+      "HEMCSS_auc": 0.561678922
+    },
+    {
+      "source_row": 1047,
+      "compound": "NORADRENALINE BITARTRATE MONOHYDRATE",
+      "HEMCSS_auc": -0.024939618
+    },
+    {
+      "source_row": 1048,
+      "compound": "CANAGLIFLOZIN",
+      "HEMCSS_auc": -0.039540669
+    },
+    {
+      "source_row": 1049,
+      "compound": "LY2603618",
+      "HEMCSS_auc": 0.017889467
+    },
+    {
+      "source_row": 1050,
+      "compound": "DALCETRAPIB (JTT-705, RO4607381)",
+      "HEMCSS_auc": -0.035086607
+    },
+    {
+      "source_row": 1051,
+      "compound": "DCC-2036 (REBASTINIB)",
+      "HEMCSS_auc": 0.432887154
+    },
+    {
+      "source_row": 1052,
+      "compound": "I-BET151 (GSK1210151A)",
+      "HEMCSS_auc": 0.049691076
+    },
+    {
+      "source_row": 1053,
+      "compound": "5-HYDROXYMETHYL TOLTERODINE (PNU 200577, 5-HMT, 5-HM)",
+      "HEMCSS_auc": -0.026954454
+    },
+    {
+      "source_row": 1054,
+      "compound": "ISTRADEFYLLINE",
+      "HEMCSS_auc": 0.008080053
+    },
+    {
+      "source_row": 1055,
+      "compound": "A-674563",
+      "HEMCSS_auc": 0.249501592
+    },
+    {
+      "source_row": 1056,
+      "compound": "GALETERONE",
+      "HEMCSS_auc": -0.026495551
+    },
+    {
+      "source_row": 1057,
+      "compound": "KW-2478",
+      "HEMCSS_auc": 0.188007357
+    },
+    {
+      "source_row": 1058,
+      "compound": "BYL719",
+      "HEMCSS_auc": 0.180208631
+    },
+    {
+      "source_row": 1059,
+      "compound": "RESMINOSTAT",
+      "HEMCSS_auc": 0.026402048
+    },
+    {
+      "source_row": 1060,
+      "compound": "ML133 HCL",
+      "HEMCSS_auc": -0.025008473
+    },
+    {
+      "source_row": 1061,
+      "compound": "LY2109761",
+      "HEMCSS_auc": -0.159515717
+    },
+    {
+      "source_row": 1062,
+      "compound": "CATHEPSIN INHIBITOR 1",
+      "HEMCSS_auc": -0.007942619
+    },
+    {
+      "source_row": 1063,
+      "compound": "CGS 21680 HCL",
+      "HEMCSS_auc": -0.013690014
+    },
+    {
+      "source_row": 1064,
+      "compound": "MYRICITRIN",
+      "HEMCSS_auc": -0.044384221
+    },
+    {
+      "source_row": 1065,
+      "compound": "PF-4708671",
+      "HEMCSS_auc": 0.014441149
+    },
+    {
+      "source_row": 1066,
+      "compound": "(-)-PARTHENOLIDE",
+      "HEMCSS_auc": 0.049832478
+    },
+    {
+      "source_row": 1067,
+      "compound": "MLN9708",
+      "HEMCSS_auc": 0.479344428
+    },
+    {
+      "source_row": 1068,
+      "compound": "SILYMARIN",
+      "HEMCSS_auc": -0.045319705
+    },
+    {
+      "source_row": 1069,
+      "compound": "R406",
+      "HEMCSS_auc": 0.205747419
+    },
+    {
+      "source_row": 1070,
+      "compound": "ALOIN",
+      "HEMCSS_auc": -0.019628948
+    },
+    {
+      "source_row": 1071,
+      "compound": "OSI-420",
+      "HEMCSS_auc": 0.033844069
+    },
+    {
+      "source_row": 1072,
+      "compound": "HORDENINE",
+      "HEMCSS_auc": -0.029800429
+    },
+    {
+      "source_row": 1073,
+      "compound": "SB590885",
+      "HEMCSS_auc": 0.317885828
+    },
+    {
+      "source_row": 1074,
+      "compound": "SODIUM DANSHENSU",
+      "HEMCSS_auc": -0.026716543
+    },
+    {
+      "source_row": 1075,
+      "compound": "ELTROMBOPAG",
+      "HEMCSS_auc": 0.008219556
+    },
+    {
+      "source_row": 1076,
+      "compound": "GENIPOSIDIC ACID",
+      "HEMCSS_auc": -0.038491269
+    },
+    {
+      "source_row": 1077,
+      "compound": "DEGRASYN (WP1130)",
+      "HEMCSS_auc": 0.081479628
+    },
+    {
+      "source_row": 1078,
+      "compound": "INOSINE",
+      "HEMCSS_auc": -0.046122307
+    },
+    {
+      "source_row": 1079,
+      "compound": "LAETRILE",
+      "HEMCSS_auc": -0.018997119
+    },
+    {
+      "source_row": 1080,
+      "compound": "MANIDIPINE",
+      "HEMCSS_auc": -0.019898943
+    },
+    {
+      "source_row": 1081,
+      "compound": "CYCLOSPORIN A",
+      "HEMCSS_auc": 0.021119102
+    },
+    {
+      "source_row": 1082,
+      "compound": "VARDENAFIL HCL TRIHYDRATE",
+      "HEMCSS_auc": -0.020820908
+    },
+    {
+      "source_row": 1083,
+      "compound": "CORTISONE ACETATE",
+      "HEMCSS_auc": 0.004376811
+    },
+    {
+      "source_row": 1084,
+      "compound": "GSK1070916",
+      "HEMCSS_auc": 0.403220155
+    },
+    {
+      "source_row": 1085,
+      "compound": "TOLVAPTAN",
+      "HEMCSS_auc": 0.035813281
+    },
+    {
+      "source_row": 1086,
+      "compound": "GW788388",
+      "HEMCSS_auc": -0.081644182
+    },
+    {
+      "source_row": 1087,
+      "compound": "TAK-733",
+      "HEMCSS_auc": 0.446550312
+    },
+    {
+      "source_row": 1088,
+      "compound": "NVP-BVU972",
+      "HEMCSS_auc": -0.014493173
+    },
+    {
+      "source_row": 1089,
+      "compound": "TUBASTATIN A HCL",
+      "HEMCSS_auc": -0.006826382
+    },
+    {
+      "source_row": 1090,
+      "compound": "SB705498",
+      "HEMCSS_auc": 0.003571466
+    },
+    {
+      "source_row": 1091,
+      "compound": "CCT128930",
+      "HEMCSS_auc": 0.061027829
+    },
+    {
+      "source_row": 1092,
+      "compound": "GW4064",
+      "HEMCSS_auc": -0.009200783
+    },
+    {
+      "source_row": 1093,
+      "compound": "MK-0752",
+      "HEMCSS_auc": 0.02292751
+    },
+    {
+      "source_row": 1094,
+      "compound": "SOTRASTAURIN",
+      "HEMCSS_auc": 0.007764025
+    },
+    {
+      "source_row": 1095,
+      "compound": "PF-00562271",
+      "HEMCSS_auc": 0.151240951
+    },
+    {
+      "source_row": 1096,
+      "compound": "SIRTINOL",
+      "HEMCSS_auc": 0.017913801
+    },
+    {
+      "source_row": 1097,
+      "compound": "NVP-BSK805 2HCL",
+      "HEMCSS_auc": 0.037534001
+    },
+    {
+      "source_row": 1098,
+      "compound": "TYRPHOSTIN AG 879",
+      "HEMCSS_auc": 0.135656548
+    },
+    {
+      "source_row": 1099,
+      "compound": "XL335",
+      "HEMCSS_auc": -0.003777114
+    },
+    {
+      "source_row": 1100,
+      "compound": "DESMETHYL ERLOTINIB (CP-473420, OSI-774)",
+      "HEMCSS_auc": 0.055948543
+    },
+    {
+      "source_row": 1101,
+      "compound": "YO-01027",
+      "HEMCSS_auc": 0.007201672
+    },
+    {
+      "source_row": 1102,
+      "compound": "SB269970 HCL",
+      "HEMCSS_auc": 0.032997301
+    },
+    {
+      "source_row": 1103,
+      "compound": "CTEP (RO4956371)",
+      "HEMCSS_auc": 0.057207628
+    },
+    {
+      "source_row": 1104,
+      "compound": "TYLOSIN TARTRATE",
+      "HEMCSS_auc": -0.002317733
+    },
+    {
+      "source_row": 1105,
+      "compound": "GW5074",
+      "HEMCSS_auc": 0.024494338
+    },
+    {
+      "source_row": 1106,
+      "compound": "REBOXETINE MESYLATE",
+      "HEMCSS_auc": 0.009685349
+    },
+    {
+      "source_row": 1107,
+      "compound": "VU 0361737",
+      "HEMCSS_auc": 0.010904748
+    },
+    {
+      "source_row": 1108,
+      "compound": "CYCLAMIC  ACID",
+      "HEMCSS_auc": 0.02049548
+    },
+    {
+      "source_row": 1109,
+      "compound": "LUMIRACOXIB",
+      "HEMCSS_auc": 0.052786126
+    },
+    {
+      "source_row": 1110,
+      "compound": "ACLIDINIUM BROMIDE",
+      "HEMCSS_auc": -0.006560733
+    },
+    {
+      "source_row": 1111,
+      "compound": "GW9662",
+      "HEMCSS_auc": -0.014076682
+    },
+    {
+      "source_row": 1112,
+      "compound": "VALGANCICLOVIR HCL",
+      "HEMCSS_auc": 0.007748812
+    },
+    {
+      "source_row": 1113,
+      "compound": "CHIR-99021 (CT99021) HCL",
+      "HEMCSS_auc": 0.032328971
+    },
+    {
+      "source_row": 1114,
+      "compound": "ZINC PYRITHIONE",
+      "HEMCSS_auc": 0.450582427
+    },
+    {
+      "source_row": 1115,
+      "compound": "RIVAROXABAN",
+      "HEMCSS_auc": 0.008621696
+    },
+    {
+      "source_row": 1116,
+      "compound": "HALOBETASOL PROPIONATE",
+      "HEMCSS_auc": 0.028667369
+    },
+    {
+      "source_row": 1117,
+      "compound": "PICEATANNOL",
+      "HEMCSS_auc": -0.029969435
+    },
+    {
+      "source_row": 1118,
+      "compound": "LORCASERIN HCL",
+      "HEMCSS_auc": -0.010844185
+    },
+    {
+      "source_row": 1119,
+      "compound": "PURMORPHAMINE",
+      "HEMCSS_auc": 0.007456939
+    },
+    {
+      "source_row": 1120,
+      "compound": "SUCCINYLCHOLINE CHLORIDE DIHYDRATE",
+      "HEMCSS_auc": -0.010382894
+    },
+    {
+      "source_row": 1121,
+      "compound": "AZILSARTAN MEDOXOMIL",
+      "HEMCSS_auc": 0.017529962
+    },
+    {
+      "source_row": 1122,
+      "compound": "CYCLIZINE 2HCL",
+      "HEMCSS_auc": 0.009927243
+    },
+    {
+      "source_row": 1123,
+      "compound": "ETHACRIDINE LACTATE MONOHYDRATE",
+      "HEMCSS_auc": 0.026646475
+    },
+    {
+      "source_row": 1124,
+      "compound": "STATTIC",
+      "HEMCSS_auc": 0.084121262
+    },
+    {
+      "source_row": 1125,
+      "compound": "ERYTHRITOL",
+      "HEMCSS_auc": -0.029467336
+    },
+    {
+      "source_row": 1126,
+      "compound": "PD168393",
+      "HEMCSS_auc": 0.043437281
+    },
+    {
+      "source_row": 1127,
+      "compound": "LULICONAZOLE",
+      "HEMCSS_auc": -0.00726391
+    },
+    {
+      "source_row": 1128,
+      "compound": "BRIMONIDINE TARTRATE",
+      "HEMCSS_auc": -0.009780373
+    },
+    {
+      "source_row": 1129,
+      "compound": "IWP-2",
+      "HEMCSS_auc": -0.018460401
+    },
+    {
+      "source_row": 1130,
+      "compound": "COLISTIMETHATE SODIUM",
+      "HEMCSS_auc": -0.009892252
+    },
+    {
+      "source_row": 1131,
+      "compound": "SCH772984",
+      "HEMCSS_auc": 0.456355106
+    },
+    {
+      "source_row": 1132,
+      "compound": "NOSCAPINE HCL",
+      "HEMCSS_auc": -0.020842053
+    },
+    {
+      "source_row": 1133,
+      "compound": "AMG-517",
+      "HEMCSS_auc": -0.004497225
+    },
+    {
+      "source_row": 1134,
+      "compound": "FOSFOMYCIN TROMETHAMINE",
+      "HEMCSS_auc": -0.004702149
+    },
+    {
+      "source_row": 1135,
+      "compound": "PYR-41",
+      "HEMCSS_auc": -0.001046885
+    },
+    {
+      "source_row": 1136,
+      "compound": "PICROTOXININ",
+      "HEMCSS_auc": 0.006292844
+    },
+    {
+      "source_row": 1137,
+      "compound": "AZD1080",
+      "HEMCSS_auc": 0.025929252
+    },
+    {
+      "source_row": 1138,
+      "compound": "SC-514",
+      "HEMCSS_auc": -0.020184009
+    },
+    {
+      "source_row": 1139,
+      "compound": "UNC1999",
+      "HEMCSS_auc": 0.056183426
+    },
+    {
+      "source_row": 1140,
+      "compound": "TOFACITINIB (CP-690550) CITRATE",
+      "HEMCSS_auc": 0.02118635
+    },
+    {
+      "source_row": 1141,
+      "compound": "AGI-5198",
+      "HEMCSS_auc": 0.007603458
+    },
+    {
+      "source_row": 1142,
+      "compound": "VU 0364770",
+      "HEMCSS_auc": -0.047663091
+    },
+    {
+      "source_row": 1143,
+      "compound": "ALTRENOGEST",
+      "HEMCSS_auc": -0.030121367
+    },
+    {
+      "source_row": 1144,
+      "compound": "CAMOSTAT MESILATE",
+      "HEMCSS_auc": -0.080320816
+    },
+    {
+      "source_row": 1145,
+      "compound": "SCHISANDRIN B (SCH B)",
+      "HEMCSS_auc": -0.063863893
+    },
+    {
+      "source_row": 1146,
+      "compound": "SB742457",
+      "HEMCSS_auc": -0.008982512
+    },
+    {
+      "source_row": 1147,
+      "compound": "OUABAIN",
+      "HEMCSS_auc": 0.425655245
+    },
+    {
+      "source_row": 1148,
+      "compound": "PF-477736",
+      "HEMCSS_auc": 0.16295204
+    },
+    {
+      "source_row": 1149,
+      "compound": "ML161",
+      "HEMCSS_auc": -0.032836845
+    },
+    {
+      "source_row": 1150,
+      "compound": "RETAPAMULIN",
+      "HEMCSS_auc": -0.038914904
+    },
+    {
+      "source_row": 1151,
+      "compound": "EVACETRAPIB (LY2484595)",
+      "HEMCSS_auc": -0.056874502
+    },
+    {
+      "source_row": 1152,
+      "compound": "TICAGRELOR",
+      "HEMCSS_auc": -0.028037642
+    },
+    {
+      "source_row": 1153,
+      "compound": "IFENPRODIL TARTRATE",
+      "HEMCSS_auc": -0.043723086
+    },
+    {
+      "source_row": 1154,
+      "compound": "FENOPROFEN CALCIUM HYDRATE",
+      "HEMCSS_auc": -0.043445947
+    },
+    {
+      "source_row": 1155,
+      "compound": "ESTRADIOL BENZOATE",
+      "HEMCSS_auc": -0.029031935
+    },
+    {
+      "source_row": 1156,
+      "compound": "CINEPAZIDE MALEATE",
+      "HEMCSS_auc": -0.030897551
+    },
+    {
+      "source_row": 1157,
+      "compound": "TILMICOSIN",
+      "HEMCSS_auc": -0.033593327
+    },
+    {
+      "source_row": 1158,
+      "compound": "MEDETOMIDINE HCL",
+      "HEMCSS_auc": -0.017123947
+    },
+    {
+      "source_row": 1159,
+      "compound": "BACITRACIN",
+      "HEMCSS_auc": -0.04310538
+    },
+    {
+      "source_row": 1160,
+      "compound": "AMINOTHIAZOLE",
+      "HEMCSS_auc": -0.055444353
+    },
+    {
+      "source_row": 1161,
+      "compound": "IPI-145 (INK1197)",
+      "HEMCSS_auc": 0.000519218
+    },
+    {
+      "source_row": 1162,
+      "compound": "FIDAXOMICIN",
+      "HEMCSS_auc": -0.04036293
+    },
+    {
+      "source_row": 1163,
+      "compound": "AZD3514",
+      "HEMCSS_auc": -0.032166495
+    },
+    {
+      "source_row": 1164,
+      "compound": "VILAZODONE HCL",
+      "HEMCSS_auc": -0.043216651
+    },
+    {
+      "source_row": 1165,
+      "compound": "BENFOTIAMINE",
+      "HEMCSS_auc": 0.005554105
+    },
+    {
+      "source_row": 1166,
+      "compound": "IWR-1-ENDO",
+      "HEMCSS_auc": -0.040202257
+    },
+    {
+      "source_row": 1167,
+      "compound": "EMETINE",
+      "HEMCSS_auc": 0.347666892
+    },
+    {
+      "source_row": 1168,
+      "compound": "PINACIDIL",
+      "HEMCSS_auc": -0.042210385
+    },
+    {
+      "source_row": 1169,
+      "compound": "BENTIROMIDE",
+      "HEMCSS_auc": -0.054096928
+    },
+    {
+      "source_row": 1170,
+      "compound": "P22077",
+      "HEMCSS_auc": 0.000308236
+    },
+    {
+      "source_row": 1171,
+      "compound": "PROCODAZOLE",
+      "HEMCSS_auc": -0.021139824
+    },
+    {
+      "source_row": 1172,
+      "compound": "SN-38",
+      "HEMCSS_auc": 0.530958082
+    },
+    {
+      "source_row": 1173,
+      "compound": "SSR128129E",
+      "HEMCSS_auc": -0.049884577
+    },
+    {
+      "source_row": 1174,
+      "compound": "PIMECROLIMUS",
+      "HEMCSS_auc": 0.030778376
+    },
+    {
+      "source_row": 1175,
+      "compound": "I-BET-762",
+      "HEMCSS_auc": -0.002802121
+    },
+    {
+      "source_row": 1176,
+      "compound": "ML130 (NODINITIB-1)",
+      "HEMCSS_auc": -0.047901308
+    },
+    {
+      "source_row": 1177,
+      "compound": "ANAGRELIDE HCL",
+      "HEMCSS_auc": -0.035411819
+    },
+    {
+      "source_row": 1178,
+      "compound": "PRUCALOPRIDE",
+      "HEMCSS_auc": -0.043016701
+    },
+    {
+      "source_row": 1179,
+      "compound": "BETULINIC ACID",
+      "HEMCSS_auc": -0.035317227
+    },
+    {
+      "source_row": 1180,
+      "compound": "ZM 323881 HCL",
+      "HEMCSS_auc": -0.027108212
+    },
+    {
+      "source_row": 1181,
+      "compound": "ALLYLTHIOUREA",
+      "HEMCSS_auc": -0.025912999
+    },
+    {
+      "source_row": 1182,
+      "compound": "JNJ-7777120",
+      "HEMCSS_auc": -0.016049364
+    },
+    {
+      "source_row": 1183,
+      "compound": "VITAMIN D2",
+      "HEMCSS_auc": -0.026062457
+    },
+    {
+      "source_row": 1184,
+      "compound": "HC-030031",
+      "HEMCSS_auc": -0.025805408
+    },
+    {
+      "source_row": 1185,
+      "compound": "METHYCLOTHIAZIDE",
+      "HEMCSS_auc": -0.055276311
+    },
+    {
+      "source_row": 1186,
+      "compound": "APOPTOSIS ACTIVATOR 2",
+      "HEMCSS_auc": -0.046339876
+    },
+    {
+      "source_row": 1187,
+      "compound": "SULFACETAMIDE SODIUM",
+      "HEMCSS_auc": -0.028079
+    },
+    {
+      "source_row": 1188,
+      "compound": "ZANAMIVIR",
+      "HEMCSS_auc": -0.059833305
+    },
+    {
+      "source_row": 1189,
+      "compound": "DIFLUPREDNATE",
+      "HEMCSS_auc": 0.000297512
+    },
+    {
+      "source_row": 1190,
+      "compound": "LINAGLIPTIN",
+      "HEMCSS_auc": -0.03194312
+    },
+    {
+      "source_row": 1191,
+      "compound": "DICLOXACILLIN SODIUM",
+      "HEMCSS_auc": -0.033763264
+    },
+    {
+      "source_row": 1192,
+      "compound": "AZILSARTAN",
+      "HEMCSS_auc": -0.06548103
+    },
+    {
+      "source_row": 1193,
+      "compound": "SODIUM PHENYLBUTYRATE",
+      "HEMCSS_auc": -0.048336701
+    },
+    {
+      "source_row": 1194,
+      "compound": "EPINEPHRINE HCL",
+      "HEMCSS_auc": -0.023708
+    },
+    {
+      "source_row": 1195,
+      "compound": "AZITHROMYCIN DIHYDRATE",
+      "HEMCSS_auc": -0.021816353
+    },
+    {
+      "source_row": 1196,
+      "compound": "ISOSORBIDE",
+      "HEMCSS_auc": -0.053287898
+    },
+    {
+      "source_row": 1197,
+      "compound": "AZD2461",
+      "HEMCSS_auc": -0.049950522
+    },
+    {
+      "source_row": 1198,
+      "compound": "TAMIBAROTENE",
+      "HEMCSS_auc": 0.002208353
+    },
+    {
+      "source_row": 1199,
+      "compound": "EMD 1214063",
+      "HEMCSS_auc": -0.049464294
+    },
+    {
+      "source_row": 1200,
+      "compound": "ANISOTROPINE METHYLBROMIDE",
+      "HEMCSS_auc": -0.001535473
+    },
+    {
+      "source_row": 1201,
+      "compound": "GSK2334470",
+      "HEMCSS_auc": 0.125873254
+    },
+    {
+      "source_row": 1202,
+      "compound": "MEPIROXOL",
+      "HEMCSS_auc": -0.026556112
+    },
+    {
+      "source_row": 1203,
+      "compound": "BAM7",
+      "HEMCSS_auc": -0.056729064
+    },
+    {
+      "source_row": 1204,
+      "compound": "CARBENOXOLONE SODIUM",
+      "HEMCSS_auc": -0.06697487
+    },
+    {
+      "source_row": 1205,
+      "compound": "3-DEAZANEPLANOCIN A (DZNEP)",
+      "HEMCSS_auc": -0.02320375
+    },
+    {
+      "source_row": 1206,
+      "compound": "BRUCINE",
+      "HEMCSS_auc": -0.057618376
+    },
+    {
+      "source_row": 1207,
+      "compound": "IU1",
+      "HEMCSS_auc": -0.056839994
+    },
+    {
+      "source_row": 1208,
+      "compound": "NITARSONE",
+      "HEMCSS_auc": -0.032852404
+    },
+    {
+      "source_row": 1209,
+      "compound": "BATIMASTAT (BB-94)",
+      "HEMCSS_auc": 0.046957533
+    },
+    {
+      "source_row": 1210,
+      "compound": "LY404039",
+      "HEMCSS_auc": -0.016541074
+    },
+    {
+      "source_row": 1211,
+      "compound": "VUF 10166",
+      "HEMCSS_auc": -0.014114277
+    },
+    {
+      "source_row": 1212,
+      "compound": "ELETRIPTAN HBR",
+      "HEMCSS_auc": -0.031787529
+    },
+    {
+      "source_row": 1213,
+      "compound": "ACESULFAME POTASSIUM",
+      "HEMCSS_auc": -0.06585487
+    },
+    {
+      "source_row": 1214,
+      "compound": "CABOZANTINIB MALATE (XL184)",
+      "HEMCSS_auc": 0.112587922
+    },
+    {
+      "source_row": 1215,
+      "compound": "ZM 306416",
+      "HEMCSS_auc": 0.004154385
+    },
+    {
+      "source_row": 1216,
+      "compound": "KI16198",
+      "HEMCSS_auc": -0.026161683
+    },
+    {
+      "source_row": 1217,
+      "compound": "DOXAPRAM HCL",
+      "HEMCSS_auc": -0.052341146
+    },
+    {
+      "source_row": 1218,
+      "compound": "IOX2",
+      "HEMCSS_auc": -0.035693762
+    },
+    {
+      "source_row": 1219,
+      "compound": "SODIUM NITROPRUSSIDE",
+      "HEMCSS_auc": -0.025977268
+    },
+    {
+      "source_row": 1220,
+      "compound": "TAK-715",
+      "HEMCSS_auc": -0.029582313
+    },
+    {
+      "source_row": 1221,
+      "compound": "SPIRAMYCIN",
+      "HEMCSS_auc": -0.013509856
+    },
+    {
+      "source_row": 1222,
+      "compound": "ZALTOPROFEN",
+      "HEMCSS_auc": -0.042037662
+    },
+    {
+      "source_row": 1223,
+      "compound": "DEXLANSOPRAZOLE",
+      "HEMCSS_auc": -0.041417461
+    },
+    {
+      "source_row": 1224,
+      "compound": "BINDARIT",
+      "HEMCSS_auc": -0.038468223
+    },
+    {
+      "source_row": 1225,
+      "compound": "DESVENLAFAXINE SUCCINATE",
+      "HEMCSS_auc": -0.030575694
+    },
+    {
+      "source_row": 1226,
+      "compound": "OTILONIUM BROMIDE",
+      "HEMCSS_auc": -0.027886139
+    },
+    {
+      "source_row": 1227,
+      "compound": "DICLOFENAC POTASSIUM",
+      "HEMCSS_auc": -0.022014566
+    },
+    {
+      "source_row": 1228,
+      "compound": "AMFENAC SODIUM MONOHYDRATE",
+      "HEMCSS_auc": -0.020094976
+    },
+    {
+      "source_row": 1229,
+      "compound": "TENATOPRAZOLE",
+      "HEMCSS_auc": -0.033195611
+    },
+    {
+      "source_row": 1230,
+      "compound": "EPZ004777 HCL",
+      "HEMCSS_auc": -0.060771818
+    },
+    {
+      "source_row": 1231,
+      "compound": "DEOXYCORTICOSTERONE ACETATE",
+      "HEMCSS_auc": -0.033918481
+    },
+    {
+      "source_row": 1232,
+      "compound": "BMN 673",
+      "HEMCSS_auc": 0.164033277
+    },
+    {
+      "source_row": 1233,
+      "compound": "EUK 134",
+      "HEMCSS_auc": -0.057072784
+    },
+    {
+      "source_row": 1234,
+      "compound": "GSK J4 HCL",
+      "HEMCSS_auc": 0.05864368
+    },
+    {
+      "source_row": 1235,
+      "compound": "GSK923295",
+      "HEMCSS_auc": 0.258581841
+    },
+    {
+      "source_row": 1236,
+      "compound": "MOXALACTAM DISODIUM",
+      "HEMCSS_auc": -0.018187347
+    },
+    {
+      "source_row": 1237,
+      "compound": "AZD3463",
+      "HEMCSS_auc": 0.429456065
+    },
+    {
+      "source_row": 1238,
+      "compound": "NICOTINE DITARTRATE",
+      "HEMCSS_auc": -0.037904407
+    },
+    {
+      "source_row": 1239,
+      "compound": "DICHLORISONE ACETATE",
+      "HEMCSS_auc": -0.029923575
+    },
+    {
+      "source_row": 1240,
+      "compound": "LDN-57444",
+      "HEMCSS_auc": -0.054445148
+    },
+    {
+      "source_row": 1241,
+      "compound": "SODIUM 4-AMINOHIPPURATE HYDRATE",
+      "HEMCSS_auc": 0.005744689
+    },
+    {
+      "source_row": 1242,
+      "compound": "NXY-059",
+      "HEMCSS_auc": 0.00255951
+    },
+    {
+      "source_row": 1243,
+      "compound": "PF-04620110",
+      "HEMCSS_auc": -0.02173712
+    },
+    {
+      "source_row": 1244,
+      "compound": "U-104",
+      "HEMCSS_auc": -0.035667131
+    },
+    {
+      "source_row": 1245,
+      "compound": "ADRENALONE HCL",
+      "HEMCSS_auc": -0.071557474
+    },
+    {
+      "source_row": 1246,
+      "compound": "A-205804",
+      "HEMCSS_auc": -0.01747063
+    },
+    {
+      "source_row": 1247,
+      "compound": "SITAGLIPTIN PHOSPHATE MONOHYDRATE",
+      "HEMCSS_auc": -0.061816195
+    },
+    {
+      "source_row": 1248,
+      "compound": "MLN0905",
+      "HEMCSS_auc": 0.446431495
+    },
+    {
+      "source_row": 1249,
+      "compound": "AVANAFIL",
+      "HEMCSS_auc": -0.055331716
+    },
+    {
+      "source_row": 1250,
+      "compound": "PIRFENIDONE",
+      "HEMCSS_auc": -0.01012849
+    },
+    {
+      "source_row": 1251,
+      "compound": "METHAZOLAMIDE",
+      "HEMCSS_auc": -0.039390768
+    },
+    {
+      "source_row": 1252,
+      "compound": "MOZAVAPTAN",
+      "HEMCSS_auc": 0.002134178
+    },
+    {
+      "source_row": 1253,
+      "compound": "VITAMIN D3",
+      "HEMCSS_auc": -0.011137263
+    },
+    {
+      "source_row": 1254,
+      "compound": "PIFITHRIN-± (PFT±)",
+      "HEMCSS_auc": -0.036273961
+    },
+    {
+      "source_row": 1255,
+      "compound": "VOGLIBOSE",
+      "HEMCSS_auc": -0.071445106
+    },
+    {
+      "source_row": 1256,
+      "compound": "VILDAGLIPTIN (LAF-237)",
+      "HEMCSS_auc": -0.022348527
+    },
+    {
+      "source_row": 1257,
+      "compound": "DESVENLAFAXINE",
+      "HEMCSS_auc": -0.036231263
+    },
+    {
+      "source_row": 1258,
+      "compound": "SOLIFENACIN SUCCINATE",
+      "HEMCSS_auc": -0.048834072
+    },
+    {
+      "source_row": 1259,
+      "compound": "LEVODROPROPIZINE",
+      "HEMCSS_auc": -0.039749082
+    },
+    {
+      "source_row": 1260,
+      "compound": "DICLOFENAC DIETHYLAMINE",
+      "HEMCSS_auc": -0.041837908
+    },
+    {
+      "source_row": 1261,
+      "compound": "PENFLURIDOL",
+      "HEMCSS_auc": -0.068596645
+    },
+    {
+      "source_row": 1262,
+      "compound": "DIRITHROMYCIN",
+      "HEMCSS_auc": 0.126740911
+    },
+    {
+      "source_row": 1263,
+      "compound": "XL388",
+      "HEMCSS_auc": 0.071280116
+    },
+    {
+      "source_row": 1264,
+      "compound": "SODIUM ASCORBATE",
+      "HEMCSS_auc": -0.094294737
+    },
+    {
+      "source_row": 1265,
+      "compound": "OPROZOMIB (ONX 0912)",
+      "HEMCSS_auc": 0.500046097
+    },
+    {
+      "source_row": 1266,
+      "compound": "EBASTINE",
+      "HEMCSS_auc": -0.024797309
+    },
+    {
+      "source_row": 1267,
+      "compound": "T0901317",
+      "HEMCSS_auc": -0.028496382
+    },
+    {
+      "source_row": 1268,
+      "compound": "BROMOCRIPTINE MESYLATE",
+      "HEMCSS_auc": -0.030736713
+    },
+    {
+      "source_row": 1269,
+      "compound": "SANT-1",
+      "HEMCSS_auc": -0.023337387
+    },
+    {
+      "source_row": 1270,
+      "compound": "R-(-)-APOMORPHINE HCL HEMIHYDRATE",
+      "HEMCSS_auc": -0.036511719
+    },
+    {
+      "source_row": 1271,
+      "compound": "(+)-JQ1",
+      "HEMCSS_auc": 0.066990385
+    },
+    {
+      "source_row": 1272,
+      "compound": "MEPENZOLATE BROMIDE",
+      "HEMCSS_auc": -0.046825351
+    },
+    {
+      "source_row": 1273,
+      "compound": "XL888",
+      "HEMCSS_auc": 0.427135838
+    },
+    {
+      "source_row": 1274,
+      "compound": "LITHIUM CITRATE",
+      "HEMCSS_auc": -0.03683508
+    },
+    {
+      "source_row": 1275,
+      "compound": "BMS-833923",
+      "HEMCSS_auc": -0.032670479
+    },
+    {
+      "source_row": 1276,
+      "compound": "ILOMASTAT (GM6001, GALARDIN)",
+      "HEMCSS_auc": -0.009743141
+    },
+    {
+      "source_row": 1277,
+      "compound": "ONX-0914 (PR-957)",
+      "HEMCSS_auc": 0.417307201
+    },
+    {
+      "source_row": 1278,
+      "compound": "ATALUREN (PTC124)",
+      "HEMCSS_auc": -0.017906542
+    },
+    {
+      "source_row": 1279,
+      "compound": "GZD824",
+      "HEMCSS_auc": 0.488353324
+    },
+    {
+      "source_row": 1280,
+      "compound": "ALOGLIPTIN",
+      "HEMCSS_auc": 0.040121264
+    },
+    {
+      "source_row": 1281,
+      "compound": "AZATADINE DIMALEATE",
+      "HEMCSS_auc": -0.018495152
+    },
+    {
+      "source_row": 1282,
+      "compound": "PJ34",
+      "HEMCSS_auc": -0.014017366
+    },
+    {
+      "source_row": 1283,
+      "compound": "PENTAMIDINE",
+      "HEMCSS_auc": 0.083266332
+    },
+    {
+      "source_row": 1284,
+      "compound": "COBICISTAT (GS-9350)",
+      "HEMCSS_auc": -0.022815559
+    },
+    {
+      "source_row": 1285,
+      "compound": "SODIUM PICOSULFATE",
+      "HEMCSS_auc": -0.020124896
+    },
+    {
+      "source_row": 1286,
+      "compound": "TEMPOL",
+      "HEMCSS_auc": -0.003799072
+    },
+    {
+      "source_row": 1287,
+      "compound": "OLSALAZINE SODIUM",
+      "HEMCSS_auc": 0.022753387
+    },
+    {
+      "source_row": 1288,
+      "compound": "PF-4981517",
+      "HEMCSS_auc": 0.031770465
+    },
+    {
+      "source_row": 1289,
+      "compound": "ESCITALOPRAM OXALATE",
+      "HEMCSS_auc": 0.012593433
+    },
+    {
+      "source_row": 1290,
+      "compound": "PIFITHRIN-_",
+      "HEMCSS_auc": 0.090812728
+    },
+    {
+      "source_row": 1291,
+      "compound": "LOMERIZINE HCL",
+      "HEMCSS_auc": 0.007381075
+    },
+    {
+      "source_row": 1292,
+      "compound": "EPROSARTAN MESYLATE",
+      "HEMCSS_auc": -0.059499204
+    },
+    {
+      "source_row": 1293,
+      "compound": "SITAXENTAN SODIUM",
+      "HEMCSS_auc": -0.026693732
+    },
+    {
+      "source_row": 1294,
+      "compound": "TRICLABENDAZOLE",
+      "HEMCSS_auc": -0.00740785
+    },
+    {
+      "source_row": 1295,
+      "compound": "BOSENTAN HYDRATE",
+      "HEMCSS_auc": -0.019543274
+    },
+    {
+      "source_row": 1296,
+      "compound": "DEOXYARBUTIN",
+      "HEMCSS_auc": -0.013683515
+    },
+    {
+      "source_row": 1297,
+      "compound": "DOXYCYCLINE HYCLATE",
+      "HEMCSS_auc": 0.01923501
+    },
+    {
+      "source_row": 1298,
+      "compound": "RIBOSTAMYCIN SULFATE",
+      "HEMCSS_auc": -0.03367562
+    },
+    {
+      "source_row": 1299,
+      "compound": "XL019",
+      "HEMCSS_auc": 0.011966149
+    },
+    {
+      "source_row": 1300,
+      "compound": "PRUCALOPRIDE SUCCINAT",
+      "HEMCSS_auc": -0.008274166
+    },
+    {
+      "source_row": 1301,
+      "compound": "VX-661",
+      "HEMCSS_auc": -0.008828199
+    },
+    {
+      "source_row": 1302,
+      "compound": "EFAPROXIRAL SODIUM",
+      "HEMCSS_auc": -0.025664295
+    },
+    {
+      "source_row": 1303,
+      "compound": "CILENGITIDE",
+      "HEMCSS_auc": 0.267518367
+    },
+    {
+      "source_row": 1304,
+      "compound": "CALCIUM GLUCEPTATE",
+      "HEMCSS_auc": -0.023755263
+    },
+    {
+      "source_row": 1305,
+      "compound": "KY02111",
+      "HEMCSS_auc": -0.016532078
+    },
+    {
+      "source_row": 1306,
+      "compound": "RACTOPAMINE HCL",
+      "HEMCSS_auc": -0.015666341
+    },
+    {
+      "source_row": 1307,
+      "compound": "NLG919",
+      "HEMCSS_auc": -0.01387674
+    },
+    {
+      "source_row": 1308,
+      "compound": "NOMIFENSINE MALEATE",
+      "HEMCSS_auc": 0.055596673
+    },
+    {
+      "source_row": 1309,
+      "compound": "SC144",
+      "HEMCSS_auc": 0.266843547
+    },
+    {
+      "source_row": 1310,
+      "compound": "OXELADIN CITRATE",
+      "HEMCSS_auc": 0.015635993
+    },
+    {
+      "source_row": 1311,
+      "compound": "CFTRINH-172",
+      "HEMCSS_auc": 0.002728806
+    },
+    {
+      "source_row": 1312,
+      "compound": "TTNPB (AROTINOID ACID)",
+      "HEMCSS_auc": 0.003586085
+    },
+    {
+      "source_row": 1313,
+      "compound": "LY2835219",
+      "HEMCSS_auc": 0.359032977
+    },
+    {
+      "source_row": 1314,
+      "compound": "AVL-292",
+      "HEMCSS_auc": 0.212452665
+    },
+    {
+      "source_row": 1315,
+      "compound": "AP26113",
+      "HEMCSS_auc": 0.16397903
+    },
+    {
+      "source_row": 1316,
+      "compound": "RKI-1447",
+      "HEMCSS_auc": 0.185985862
+    },
+    {
+      "source_row": 1317,
+      "compound": "TG100713",
+      "HEMCSS_auc": 0.112939942
+    },
+    {
+      "source_row": 1318,
+      "compound": "TICARCILLIN SODIUM",
+      "HEMCSS_auc": -0.042952909
+    },
+    {
+      "source_row": 1319,
+      "compound": "PF-562271",
+      "HEMCSS_auc": 0.138584974
+    },
+    {
+      "source_row": 1320,
+      "compound": "MIRABEGRON",
+      "HEMCSS_auc": -0.02806894
+    },
+    {
+      "source_row": 1321,
+      "compound": "CCG 50014",
+      "HEMCSS_auc": -0.039202563
+    },
+    {
+      "source_row": 1322,
+      "compound": "TOLCAPONE",
+      "HEMCSS_auc": 0.00971687
+    },
+    {
+      "source_row": 1323,
+      "compound": "WZ811",
+      "HEMCSS_auc": 0.030825275
+    },
+    {
+      "source_row": 1324,
+      "compound": "NAFCILLIN SODIUM",
+      "HEMCSS_auc": -0.000987735
+    },
+    {
+      "source_row": 1325,
+      "compound": "ICOTINIB",
+      "HEMCSS_auc": 0.045858918
+    },
+    {
+      "source_row": 1326,
+      "compound": "GUANIDINE HCL",
+      "HEMCSS_auc": -0.02954711
+    },
+    {
+      "source_row": 1327,
+      "compound": "CARBAZOCHROME SODIUM SULFONATE (AC-17)",
+      "HEMCSS_auc": -0.056624372
+    },
+    {
+      "source_row": 1328,
+      "compound": "LEVOBETAXOLOL HCL",
+      "HEMCSS_auc": -0.059094185
+    },
+    {
+      "source_row": 1329,
+      "compound": "RIMONABANT",
+      "HEMCSS_auc": -0.031508465
+    },
+    {
+      "source_row": 1330,
+      "compound": "DIMINAZENE ACETURATE",
+      "HEMCSS_auc": -0.024501653
+    },
+    {
+      "source_row": 1331,
+      "compound": "BEPOTASTINE BESILATE",
+      "HEMCSS_auc": -0.01853492
+    },
+    {
+      "source_row": 1332,
+      "compound": "ISOVALERAMIDE",
+      "HEMCSS_auc": -0.03042051
+    },
+    {
+      "source_row": 1333,
+      "compound": "RUPATADINE FUMARATE",
+      "HEMCSS_auc": 0.000874456
+    },
+    {
+      "source_row": 1334,
+      "compound": "CLORPRENALINE HCL",
+      "HEMCSS_auc": -0.0259492
+    },
+    {
+      "source_row": 1335,
+      "compound": "VANILLIN",
+      "HEMCSS_auc": -0.026172674
+    },
+    {
+      "source_row": 1336,
+      "compound": "CYROMAZINE",
+      "HEMCSS_auc": -0.031444407
+    },
+    {
+      "source_row": 1337,
+      "compound": "VALNEMULIN HCL",
+      "HEMCSS_auc": 0.003452861
+    },
+    {
+      "source_row": 1338,
+      "compound": "WNT-C59 (C59)",
+      "HEMCSS_auc": -0.007114782
+    },
+    {
+      "source_row": 1339,
+      "compound": "BROMFENAC SODIUM",
+      "HEMCSS_auc": -0.040147054
+    },
+    {
+      "source_row": 1340,
+      "compound": "PP1",
+      "HEMCSS_auc": 0.127371146
+    },
+    {
+      "source_row": 1341,
+      "compound": "ETOFIBRATE",
+      "HEMCSS_auc": -0.011017261
+    },
+    {
+      "source_row": 1342,
+      "compound": "SGC 0946",
+      "HEMCSS_auc": -0.013890483
+    },
+    {
+      "source_row": 1343,
+      "compound": "CEFTAZIDIME PENTAHYDRATE",
+      "HEMCSS_auc": -0.031219437
+    },
+    {
+      "source_row": 1344,
+      "compound": "PD123319",
+      "HEMCSS_auc": -0.031011593
+    },
+    {
+      "source_row": 1345,
+      "compound": "THIOSTREPTON",
+      "HEMCSS_auc": 0.053555979
+    },
+    {
+      "source_row": 1346,
+      "compound": "ZEBULARINE",
+      "HEMCSS_auc": -0.025861466
+    },
+    {
+      "source_row": 1347,
+      "compound": "PYRILAMINE MALEATE",
+      "HEMCSS_auc": -0.012310777
+    },
+    {
+      "source_row": 1348,
+      "compound": "KPT-185",
+      "HEMCSS_auc": 0.482893546
+    },
+    {
+      "source_row": 1349,
+      "compound": "TCID",
+      "HEMCSS_auc": -0.020735882
+    },
+    {
+      "source_row": 1350,
+      "compound": "JNK-IN-8",
+      "HEMCSS_auc": 0.033360387
+    },
+    {
+      "source_row": 1351,
+      "compound": "OTSSP167",
+      "HEMCSS_auc": 0.363976812
+    },
+    {
+      "source_row": 1352,
+      "compound": "PF-543",
+      "HEMCSS_auc": -0.006541166
+    },
+    {
+      "source_row": 1353,
+      "compound": "T0070907",
+      "HEMCSS_auc": -0.043585674
+    },
+    {
+      "source_row": 1354,
+      "compound": "AZLOCILLIN SODIUM SALT",
+      "HEMCSS_auc": -0.028965616
+    },
+    {
+      "source_row": 1355,
+      "compound": "GW441756",
+      "HEMCSS_auc": 0.022288235
+    },
+    {
+      "source_row": 1356,
+      "compound": "HYOSCYAMINE",
+      "HEMCSS_auc": -0.002497335
+    },
+    {
+      "source_row": 1357,
+      "compound": "S-RUXOLITINIB (INCB018424)",
+      "HEMCSS_auc": 0.013706739
+    },
+    {
+      "source_row": 1358,
+      "compound": "HOMATROPINE METHYLBROMIDE",
+      "HEMCSS_auc": -0.022521032
+    },
+    {
+      "source_row": 1359,
+      "compound": "DAPIVIRINE (TMC120)",
+      "HEMCSS_auc": 0.010739175
+    },
+    {
+      "source_row": 1360,
+      "compound": "ESTRADIOL CYPIONATE",
+      "HEMCSS_auc": -0.011319298
+    },
+    {
+      "source_row": 1361,
+      "compound": "SALUBRINAL",
+      "HEMCSS_auc": 0.01626958
+    },
+    {
+      "source_row": 1362,
+      "compound": "SODIUM NITRITE",
+      "HEMCSS_auc": -0.02056354
+    },
+    {
+      "source_row": 1363,
+      "compound": "CLEVUDINE",
+      "HEMCSS_auc": 0.004096537
+    },
+    {
+      "source_row": 1364,
+      "compound": "OXYMETHOLONE",
+      "HEMCSS_auc": -0.042835105
+    },
+    {
+      "source_row": 1365,
+      "compound": "PMSF",
+      "HEMCSS_auc": -0.006053372
+    },
+    {
+      "source_row": 1366,
+      "compound": "CLOSANTEL SODIUM",
+      "HEMCSS_auc": -0.003173569
+    },
+    {
+      "source_row": 1367,
+      "compound": "FOSAPREPITANT DIMEGLUMINE SALT",
+      "HEMCSS_auc": -0.029589129
+    },
+    {
+      "source_row": 1368,
+      "compound": "PEFLOXACIN MESYLATE DIHYDRATE",
+      "HEMCSS_auc": -0.025151021
+    },
+    {
+      "source_row": 1369,
+      "compound": "AZELNIDIPINE",
+      "HEMCSS_auc": -0.009305701
+    },
+    {
+      "source_row": 1370,
+      "compound": "EPRAZINONE 2HCL",
+      "HEMCSS_auc": -0.001831071
+    },
+    {
+      "source_row": 1371,
+      "compound": "CASPOFUNGIN ACETATE",
+      "HEMCSS_auc": -0.032361724
+    },
+    {
+      "source_row": 1372,
+      "compound": "TERIFLUNOMIDE",
+      "HEMCSS_auc": -0.00418276
+    },
+    {
+      "source_row": 1373,
+      "compound": "LIOTHYRONINE SODIUM",
+      "HEMCSS_auc": -0.013757957
+    },
+    {
+      "source_row": 1374,
+      "compound": "EPINASTINE HCL",
+      "HEMCSS_auc": 0.034047647
+    },
+    {
+      "source_row": 1375,
+      "compound": "EPZ5676",
+      "HEMCSS_auc": -0.019130322
+    },
+    {
+      "source_row": 1376,
+      "compound": "NICARAVEN",
+      "HEMCSS_auc": 0.023538717
+    },
+    {
+      "source_row": 1377,
+      "compound": "LDK378",
+      "HEMCSS_auc": 0.079740609
+    },
+    {
+      "source_row": 1378,
+      "compound": "CLINAFOXACIN HCL",
+      "HEMCSS_auc": -0.029264995
+    },
+    {
+      "source_row": 1379,
+      "compound": "(-)-BLEBBISTATIN",
+      "HEMCSS_auc": 0.007213187
+    },
+    {
+      "source_row": 1380,
+      "compound": "TOLMETIN SODIUM",
+      "HEMCSS_auc": -0.013385299
+    },
+    {
+      "source_row": 1381,
+      "compound": "NU6027",
+      "HEMCSS_auc": 0.023486462
+    },
+    {
+      "source_row": 1382,
+      "compound": "BEKANAMYCIN",
+      "HEMCSS_auc": -0.021072947
+    },
+    {
+      "source_row": 1383,
+      "compound": "EPZ-6438",
+      "HEMCSS_auc": 0.011673307
+    },
+    {
+      "source_row": 1384,
+      "compound": "PASINIAZID",
+      "HEMCSS_auc": 0.015478169
+    },
+    {
+      "source_row": 1385,
+      "compound": "JZL184",
+      "HEMCSS_auc": 0.001513013
+    },
+    {
+      "source_row": 1386,
+      "compound": "MDIVI-1",
+      "HEMCSS_auc": 0.01984267
+    },
+    {
+      "source_row": 1387,
+      "compound": "EPZ005687",
+      "HEMCSS_auc": 0.020794364
+    },
+    {
+      "source_row": 1388,
+      "compound": "GSK2879552",
+      "HEMCSS_auc": 0.025341523
+    }
+  ]
+}
