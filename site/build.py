@@ -7,11 +7,12 @@ import json
 from pathlib import Path
 import re
 import shutil
+from literature_page import render as render_literature
 from urllib.parse import urlsplit
 
 HERE = Path(__file__).resolve().parent
 PUBLIC_HOSTS = {"www.qeios.com", "qeios.com", "aixiv.science", "doi.org", "www.researchsquare.com"}
-OUTPUT_FILES = {"index.html", "styles.css", "favicon.svg", "publications.json", ".nojekyll"}
+OUTPUT_FILES = {"index.html", "styles.css", "favicon.svg", "publications.json", ".nojekyll", "literature.html", "literature.json", "literature.js"}
 
 
 def public_url(value):
@@ -99,6 +100,7 @@ def card(p, index):
 
 def build(out):
     data, papers = load_catalogue()
+    literature_html, literature_count, focused_count = render_literature()
     site_url = "https://trimcrae.github.io/Rare-cancers/"
     structured = {"@context": "https://schema.org", "@type": "CollectionPage", "name": "EMC Research — Preprints",
                   "url": site_url, "hasPart": [{"@type": "ScholarlyArticle", "headline": p["title"],
@@ -110,7 +112,8 @@ def build(out):
                     "{{UPDATED}}": nice_date(data["updated_date"]), "{{UPDATED_ISO}}": data["updated_date"],
                     "{{LATEST_DATE}}": nice_date(papers[0]["posted_date"]),
                     "{{STRUCTURED_DATA}}": json.dumps(structured, ensure_ascii=False).replace("<", "\\u003c"),
-                    "{{SITE_URL}}": site_url}
+                    "{{SITE_URL}}": site_url,
+                    "{{LITERATURE_COUNT}}": f"{literature_count:,}", "{{FOCUSED_COUNT}}": f"{focused_count:,}"}
     for token, value in replacements.items():
         html = html.replace(token, value)
     if re.search(r"\{\{[A-Z_]+\}\}", html):
@@ -123,7 +126,8 @@ def build(out):
         raise ValueError("Output directory contains unexpected files; inspect it before publishing")
     out.mkdir(parents=True, exist_ok=True)
     (out / "index.html").write_text(html, encoding="utf-8", newline="\n")
-    for name in ("styles.css", "favicon.svg"):
+    (out / "literature.html").write_text(literature_html, encoding="utf-8", newline="\n")
+    for name in ("styles.css", "favicon.svg", "literature.json", "literature.js"):
         shutil.copyfile(HERE / name, out / name)
     (out / "publications.json").write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (out / ".nojekyll").write_text("", encoding="utf-8")

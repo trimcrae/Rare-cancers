@@ -1,0 +1,37 @@
+{
+  "date": "2026-09-12",
+  "status": "discovery_checkpoint_not_exhaustive_review",
+  "base_revision": "95f1bd4d82c75e54d47364aa81b9ce5b7bcf9064",
+  "work_branch": "codex/emc-literature-census-20260912",
+  "storage_budget": "200 MiB; measured free space stayed above 10 GiB",
+  "validation": {
+    "census_unit_tests": {
+      "passed": 4
+    },
+    "site_unit_tests": {
+      "passed": 4
+    },
+    "javascript_syntax": "node --check site/literature.js: exit 0",
+    "diff_whitespace": "git diff --check: exit 0",
+    "normal_preflight": {
+      "command": "sh scripts/preflight.sh",
+      "exit_code": 1,
+      "result": "Aborted before gates: dirname and mktemp were not on the shell PATH. No normal preflight pass claimed.",
+      "follow_up": "Use the existing Linux CI gates; full local checks and browser QA are deferred during the morning restriction."
+    },
+    "browser_qa": "Not run: America/New_York 06:00\u201310:00 computer-use restriction."
+  },
+  "retrieval": {
+    "attempted": 131,
+    "body_xml_retrieved": 94,
+    "figures_and_supplements_verified": false
+  },
+  "ongoing_background_research": false,
+  "remaining": [
+    "Adjudicate inclusion and study-level duplicates",
+    "Complete society archives and subgroup/table searches",
+    "Resolve lawful full-text access",
+    "Read all accessible text, figures, supplements and corrections",
+    "Independent scientific synthesis and novelty audit"
+  ]
+}

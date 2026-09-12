@@ -31,7 +31,10 @@ jobs:
         with:
           sparse-checkout: site
       - name: Validate and build the public catalogue
-        run: python3 site/build.py
+        run: |
+          python3 -m unittest discover -s site -p 'test_*.py'
+          node --check site/literature.js
+          python3 site/build.py
       - name: Configure Pages
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v5
