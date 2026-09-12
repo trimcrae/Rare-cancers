@@ -165,3 +165,24 @@ The Japanese trabectedin family is linked in `study-families.json`. [Morioka 201
 ### Clinical context for the model-screen lead
 
 The complete main [Boklan 2025 carfilzomib combination report](https://doi.org/10.3390/cancers17172924), including seven tables, references and two figures, was read. Its Table 2 has one unqualified “sarcoma” entry, also labelled only “Sarcoma” in Figure 2 (C041); EMC inclusion cannot be determined. The manuscript does not demonstrate EMC benefit or isolate carfilzomib's contribution from cyclophosphamide/etoposide. Banked proteasome-inhibition samples had not yet been analyzed. Full supplementary protocol review remains pending. The study is retained as clinical context rather than added to the count of confirmed EMC reports.
+
+
+### Correction to an existing novelty claim
+
+[Davis 2017](https://pmc.ncbi.nlm.nih.gov/articles/PMC5400622/) reports pioglitazone exposure in one EMC patient with diabetes: 13 months of stable disease before progression, with drug contribution explicitly unknown. The repository's candidate generator and generated catalogue previously called this drug untried. That claim is corrected, and its novelty score reduced; efficacy evidence is not upgraded. The source already proposed both the PPARγ and folate-receptor avenues, so these are not discoveries from this review.
+
+The complete body, references, main table and extracted supplementary text have been read. Some figure panels and embedded supplementary visuals remain pending. The supplement includes treatment histories and molecular quality checks omitted from the short article. Its pazopanib dates conflict with the main table's two-month duration, and preliminary mutation counts differ from the main figure; these must be reconciled before pooling exposure durations or variants. Germline variants of uncertain significance and candidate fusion calls must not be promoted to validated actionable alterations.
+
+### Variant-level and transcript-level limits
+
+The [Urbini 2018 KIT study](https://pmc.ncbi.nlm.nih.gov/articles/PMC6073125/) is now read completely, including both figures and both supplementary tables. It found one somatic KIT p.D579del among 20 NR4A3-rearranged cases; five underwent whole-transcriptome profiling and the remaining 15 had hotspot sequencing. The index case showed mild KIT phosphorylation and a reported prolonged sunitinib response, but never received imatinib. This supports a variant-specific research question, not a general explanation of sunitinib activity. The later Jennings p.W557G case and the uncharacterized model variant remain separate evidence.
+
+Figure 1 places the KIT-mutant case's EWSR1 junction upstream of the NR4A3 start codon, whereas four other cases have coding fusions. Together with the PGR report, this motivates preserving untranslated-region versus coding-fusion architecture when comparing dependencies or designing transcript-directed assays. These architectures were explicitly described by the original authors; their juxtaposition is not a verified novel treatment lead. RNA junction detection alone does not establish the resulting protein product or drug dependence.
+
+### What the figures add to the exceptional-response cases
+
+The [Wilbur PGR-NR4A3/tamoxifen report](https://doi.org/10.1200/PO.22.00039) has now been read through both figures and its molecular-results table. Figure 1A lists pelvic radiation in November 2016, at tamoxifen initiation, and resection of multifocal lung nodules in January 2017. The narrative does not fully describe these interventions. Their timing must be reconciled before attributing the prolonged outcome to tamoxifen alone. The rare fusion and estrogen-pathway expression remain a mechanistic rationale; they are not general EMC evidence or experimentally demonstrated tamoxifen dependence.
+
+The [Jennings KIT case](https://doi.org/10.1136/bcr-2021-242039) is also completely read, including its histology figure. It supplies molecular confirmation and a blood-negative somatic variant but no detailed longitudinal response plot or EMC-specific functional assay. This must not be pooled with an uncharacterized KIT variant from another model merely because the gene name matches.
+
+The [2012 sunitinib report](https://doi.org/10.1186/2045-3329-2-22) is read through all four figures and references. Its interruption/rechallenge observation is informative, while the infection images illustrate an alternative to radiographic progression. Conflicting ages, interruption intervals and a dosing-unit typo limit exact exposure reconstruction. These issues are recorded without converting them into invented corrections.

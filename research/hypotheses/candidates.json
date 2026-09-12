@@ -350,44 +350,6 @@
       "rank": 3
     },
     {
-      "id": "pioglitazone-pparg",
-      "drug": "Pioglitazone (and other PPARγ agonists)",
-      "drugClass": "PPARγ agonist (thiazolidinedione)",
-      "regulatoryStatus": "FDA/EMA-approved (type 2 diabetes)",
-      "notTriedInEmc": true,
-      "mechanism": "Direct PPARγ agonism — the same nuclear-receptor axis zaltoprofen engages indirectly.",
-      "emcVulnerability": {
-        "claim": "PPARγ is an antitumour target in chondrosarcoma; its activation drives differentiation/cell-cycle arrest.",
-        "sourceId": "zaltoprofen2023"
-      },
-      "supportingEvidence": [
-        {
-          "claim": "Zaltoprofen's anti-EMC effect was mediated by PPARγ induction, implicating PPARγ agonism as the actionable node.",
-          "context": "EMC (mechanistic)",
-          "sourceId": "zaltoprofen2023"
-        }
-      ],
-      "rationale": "If PPARγ induction drives the anti-EMC effect, a direct, approved PPARγ agonist (pioglitazone) is an obvious low-toxicity test — untried in EMC.",
-      "evidenceTier": "T1-preclinical-or-analog",
-      "speculationLevel": "moderate",
-      "keyRisks": "PPARγ agonism is preclinically rational but unproven in EMC; pioglitazone class warnings (fluid retention, bladder-cancer signal).",
-      "openQuestions": [
-        "Does direct PPARγ agonism replicate zaltoprofen's anti-EMC activity?"
-      ],
-      "scores": {
-        "emcEvidence": 1,
-        "mechanisticFit": 2,
-        "availability": 3,
-        "safety": 3,
-        "biomarker": 1,
-        "novelty": 3
-      },
-      "priorityScore": 13,
-      "evidenceType": "mechanistic",
-      "evidenceStrength": 1,
-      "rank": 4
-    },
-    {
       "id": "cdk4-6-inhibitors",
       "drug": "Palbociclib / ribociclib / abemaciclib",
       "drugClass": "CDK4/6 inhibitor",
@@ -428,6 +390,46 @@
       "priorityScore": 13,
       "evidenceType": "genomic",
       "evidenceStrength": 1.5,
+      "rank": 4
+    },
+    {
+      "id": "pioglitazone-pparg",
+      "drug": "Pioglitazone (and other PPARγ agonists)",
+      "drugClass": "PPARγ agonist (thiazolidinedione)",
+      "regulatoryStatus": "FDA/EMA-approved (type 2 diabetes)",
+      "notTriedInEmc": false,
+      "mechanism": "Direct PPARγ agonism; whether this is beneficial in fusion-driven EMC remains unresolved.",
+      "emcVulnerability": {
+        "claim": "Davis et al. discuss the NR4A3/PPARγ axis as a research rationale; this does not establish an antitumour dependency.",
+        "sourceId": "emcNGS2017"
+      },
+      "supportingEvidence": [
+        {
+          "claim": "One patient with diabetes received pioglitazone and had stable metastatic EMC for 13 months before unequivocal progression. The authors explicitly state that pioglitazone's contribution to disease control is unknown.",
+          "context": "EMC (reported clinical exposure, n=1; uncontrolled)",
+          "sourceId": "emcNGS2017"
+        }
+      ],
+      "rationale": "Pioglitazone has already been administered to an EMC patient. The uncontrolled observation supports checking the mechanism and treatment timeline, but establishes neither efficacy nor a novel untried therapy.",
+      "evidenceTier": "T1-preclinical-or-analog",
+      "speculationLevel": "moderate",
+      "keyRisks": "PPARγ agonism is preclinically rational but unproven in EMC; pioglitazone class warnings (fluid retention, bladder-cancer signal).",
+      "openQuestions": [
+        "Does PPARγ agonism alter growth in molecularly confirmed EMC models under matched controls?",
+        "Can the reported clinical observation be separated from EMC's sometimes indolent natural history?"
+      ],
+      "correctionNote": "2026-09-12: corrected prior untried-in-EMC claim after reading Davis 2017 Discussion. Clinical exposure does not upgrade efficacy evidence; novelty score reduced from 3 to 1.",
+      "scores": {
+        "emcEvidence": 1,
+        "mechanisticFit": 2,
+        "availability": 3,
+        "safety": 3,
+        "biomarker": 1,
+        "novelty": 1
+      },
+      "priorityScore": 11,
+      "evidenceType": "mechanistic",
+      "evidenceStrength": 1,
       "rank": 5
     },
     {
