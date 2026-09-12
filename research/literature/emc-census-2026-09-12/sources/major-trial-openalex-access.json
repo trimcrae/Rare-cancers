@@ -1,0 +1,338 @@
+{
+  "url": "https://api.openalex.org/works?filter=doi%3Ahttps%3A%2F%2Fdoi.org%2F10.1016%2Fj.ejca.2014.03.013%7Chttps%3A%2F%2Fdoi.org%2F10.1016%2FS1470-2045%2819%2930319-5&select=id%2Cdoi%2Ctitle%2Copen_access%2Cbest_oa_location%2Clocations",
+  "retrieved_on": "2026-09-12",
+  "response": {
+    "meta": {
+      "count": 2,
+      "db_response_time_ms": 22,
+      "page": 1,
+      "per_page": 25,
+      "groups_count": null,
+      "x_query": {
+        "oql": "works where DOI is (\n    \"https://doi.org/10.1016/S1470-2045(19)30319-5\"\n    or https://doi.org/10.1016/j.ejca.2014.03.013\n  )",
+        "oqo": {
+          "get_rows": "works",
+          "filter_rows": [
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "doi",
+                  "value": "https://doi.org/10.1016/S1470-2045(19)30319-5"
+                },
+                {
+                  "column_id": "doi",
+                  "value": "https://doi.org/10.1016/j.ejca.2014.03.013"
+                }
+              ]
+            }
+          ]
+        },
+        "url": "/works?filter=doi:https:%2F%2Fdoi.org%2F10.1016%2FS1470-2045%2819%2930319-5|https:%2F%2Fdoi.org%2F10.1016%2Fj.ejca.2014.03.013"
+      },
+      "cost_usd": 0.0001
+    },
+    "results": [
+      {
+        "id": "https://openalex.org/W2017271762",
+        "doi": "https://doi.org/10.1016/j.ejca.2014.03.013",
+        "title": "Activity of sunitinib in extraskeletal myxoid chondrosarcoma",
+        "open_access": {
+          "is_oa": false,
+          "oa_status": "closed",
+          "oa_url": null,
+          "any_repository_has_fulltext": false
+        },
+        "best_oa_location": null,
+        "locations": [
+          {
+            "id": "doi:10.1016/j.ejca.2014.03.013",
+            "is_oa": false,
+            "landing_page_url": "https://doi.org/10.1016/j.ejca.2014.03.013",
+            "pdf_url": null,
+            "source": {
+              "id": "https://openalex.org/S16731738",
+              "display_name": "European Journal of Cancer",
+              "issn_l": "0959-8049",
+              "issn": [
+                "0959-8049",
+                "1879-0852"
+              ],
+              "is_oa": false,
+              "is_in_doaj": false,
+              "is_core": true,
+              "host_organization": "https://openalex.org/P4310320990",
+              "host_organization_name": "Elsevier BV",
+              "host_organization_lineage": [
+                "https://openalex.org/P4310320990"
+              ],
+              "host_organization_lineage_names": [
+                "Elsevier BV"
+              ],
+              "type": "journal"
+            },
+            "license": null,
+            "license_id": null,
+            "version": "publishedVersion",
+            "is_accepted": true,
+            "is_published": true,
+            "raw_source_name": "European Journal of Cancer",
+            "raw_type": "journal-article"
+          },
+          {
+            "id": "pmid:24703573",
+            "is_oa": false,
+            "landing_page_url": "https://pubmed.ncbi.nlm.nih.gov/24703573",
+            "pdf_url": null,
+            "source": {
+              "id": "https://openalex.org/S4306525036",
+              "display_name": "PubMed",
+              "issn_l": null,
+              "issn": null,
+              "is_oa": false,
+              "is_in_doaj": false,
+              "is_core": false,
+              "host_organization": "https://openalex.org/I1299303238",
+              "host_organization_name": "National Institutes of Health",
+              "host_organization_lineage": [
+                "https://openalex.org/I1299303238"
+              ],
+              "host_organization_lineage_names": [],
+              "type": "repository"
+            },
+            "license": null,
+            "license_id": null,
+            "version": "publishedVersion",
+            "is_accepted": true,
+            "is_published": true,
+            "raw_source_name": "European journal of cancer (Oxford, England : 1990)",
+            "raw_type": "Journal Article"
+          },
+          {
+            "id": "pmh:oai:cris.unibo.it:11585/393895",
+            "is_oa": false,
+            "landing_page_url": "http://hdl.handle.net/11585/393895",
+            "pdf_url": null,
+            "source": {
+              "id": "https://openalex.org/S4306402579",
+              "display_name": "Archivio istituzionale della ricerca (Alma Mater Studiorum Università di Bologna)",
+              "issn_l": null,
+              "issn": null,
+              "is_oa": false,
+              "is_in_doaj": false,
+              "is_core": false,
+              "host_organization": "https://openalex.org/I4210117483",
+              "host_organization_name": "Istituto di Ematologia di Bologna",
+              "host_organization_lineage": [
+                "https://openalex.org/I4210117483"
+              ],
+              "host_organization_lineage_names": [],
+              "type": "repository"
+            },
+            "license": null,
+            "license_id": null,
+            "version": "submittedVersion",
+            "is_accepted": false,
+            "is_published": false,
+            "raw_source_name": null,
+            "raw_type": "info:eu-repo/semantics/article"
+          },
+          {
+            "id": "pmh:oai:sfera.unife.it:11392/2495557",
+            "is_oa": false,
+            "landing_page_url": "http://hdl.handle.net/11392/2495557",
+            "pdf_url": null,
+            "source": {
+              "id": "https://openalex.org/S4306400369",
+              "display_name": "Institutional Research Information System University of Ferrara (University of Ferrara)",
+              "issn_l": null,
+              "issn": null,
+              "is_oa": false,
+              "is_in_doaj": false,
+              "is_core": false,
+              "host_organization": "https://openalex.org/I201324441",
+              "host_organization_name": "University of Ferrara",
+              "host_organization_lineage": [
+                "https://openalex.org/I201324441"
+              ],
+              "host_organization_lineage_names": [],
+              "type": "repository"
+            },
+            "license": null,
+            "license_id": null,
+            "version": "submittedVersion",
+            "is_accepted": false,
+            "is_published": false,
+            "raw_source_name": null,
+            "raw_type": "info:eu-repo/semantics/article"
+          },
+          {
+            "id": "pmh:oai:www.research.unipd.it:11577/3243739",
+            "is_oa": false,
+            "landing_page_url": "http://hdl.handle.net/11577/3243739",
+            "pdf_url": null,
+            "source": {
+              "id": "https://openalex.org/S4306402547",
+              "display_name": "Padua Research Archive (University of Padova)",
+              "issn_l": null,
+              "issn": null,
+              "is_oa": false,
+              "is_in_doaj": false,
+              "is_core": false,
+              "host_organization": "https://openalex.org/I138689650",
+              "host_organization_name": "University of Padua",
+              "host_organization_lineage": [
+                "https://openalex.org/I138689650"
+              ],
+              "host_organization_lineage_names": [],
+              "type": "repository"
+            },
+            "license": null,
+            "license_id": null,
+            "version": "submittedVersion",
+            "is_accepted": false,
+            "is_published": false,
+            "raw_source_name": null,
+            "raw_type": "info:eu-repo/semantics/article"
+          }
+        ]
+      },
+      {
+        "id": "https://openalex.org/W2963162257",
+        "doi": "https://doi.org/10.1016/s1470-2045(19)30319-5",
+        "title": "Pazopanib for treatment of advanced extraskeletal myxoid chondrosarcoma: a multicentre, single-arm, phase 2 trial",
+        "open_access": {
+          "is_oa": false,
+          "oa_status": "closed",
+          "oa_url": null,
+          "any_repository_has_fulltext": false
+        },
+        "best_oa_location": null,
+        "locations": [
+          {
+            "id": "doi:10.1016/s1470-2045(19)30319-5",
+            "is_oa": false,
+            "landing_page_url": "https://doi.org/10.1016/s1470-2045(19)30319-5",
+            "pdf_url": null,
+            "source": {
+              "id": "https://openalex.org/S116900674",
+              "display_name": "The Lancet Oncology",
+              "issn_l": "1470-2045",
+              "issn": [
+                "1470-2045",
+                "1474-5488"
+              ],
+              "is_oa": false,
+              "is_in_doaj": false,
+              "is_core": true,
+              "host_organization": "https://openalex.org/P4310320990",
+              "host_organization_name": "Elsevier BV",
+              "host_organization_lineage": [
+                "https://openalex.org/P4310320990"
+              ],
+              "host_organization_lineage_names": [
+                "Elsevier BV"
+              ],
+              "type": "journal"
+            },
+            "license": null,
+            "license_id": null,
+            "version": "publishedVersion",
+            "is_accepted": true,
+            "is_published": true,
+            "raw_source_name": "The Lancet Oncology",
+            "raw_type": "journal-article"
+          },
+          {
+            "id": "pmid:31331701",
+            "is_oa": false,
+            "landing_page_url": "https://pubmed.ncbi.nlm.nih.gov/31331701",
+            "pdf_url": null,
+            "source": {
+              "id": "https://openalex.org/S4306525036",
+              "display_name": "PubMed",
+              "issn_l": null,
+              "issn": null,
+              "is_oa": false,
+              "is_in_doaj": false,
+              "is_core": false,
+              "host_organization": "https://openalex.org/I1299303238",
+              "host_organization_name": "National Institutes of Health",
+              "host_organization_lineage": [
+                "https://openalex.org/I1299303238"
+              ],
+              "host_organization_lineage_names": [],
+              "type": "repository"
+            },
+            "license": null,
+            "license_id": null,
+            "version": "publishedVersion",
+            "is_accepted": true,
+            "is_published": true,
+            "raw_source_name": "The Lancet. Oncology",
+            "raw_type": "Clinical Trial, Phase II"
+          },
+          {
+            "id": "pmh:oai:cris.unibo.it:11585/779084",
+            "is_oa": false,
+            "landing_page_url": "http://hdl.handle.net/11585/779084",
+            "pdf_url": null,
+            "source": {
+              "id": "https://openalex.org/S4306402579",
+              "display_name": "Archivio istituzionale della ricerca (Alma Mater Studiorum Università di Bologna)",
+              "issn_l": null,
+              "issn": null,
+              "is_oa": false,
+              "is_in_doaj": false,
+              "is_core": false,
+              "host_organization": "https://openalex.org/I4210117483",
+              "host_organization_name": "Istituto di Ematologia di Bologna",
+              "host_organization_lineage": [
+                "https://openalex.org/I4210117483"
+              ],
+              "host_organization_lineage_names": [],
+              "type": "repository"
+            },
+            "license": null,
+            "license_id": null,
+            "version": "submittedVersion",
+            "is_accepted": false,
+            "is_published": false,
+            "raw_source_name": "",
+            "raw_type": "info:eu-repo/semantics/article"
+          },
+          {
+            "id": "pmh:oai:digital.csic.es:10261/214284",
+            "is_oa": false,
+            "landing_page_url": "http://hdl.handle.net/10261/214284",
+            "pdf_url": null,
+            "source": {
+              "id": "https://openalex.org/S4306400616",
+              "display_name": "DIGITAL.CSIC (Spanish National Research Council (CSIC))",
+              "issn_l": null,
+              "issn": null,
+              "is_oa": false,
+              "is_in_doaj": false,
+              "is_core": false,
+              "host_organization": "https://openalex.org/I134820265",
+              "host_organization_name": "Consejo Superior de Investigaciones Científicas",
+              "host_organization_lineage": [
+                "https://openalex.org/I134820265"
+              ],
+              "host_organization_lineage_names": [],
+              "type": "repository"
+            },
+            "license": null,
+            "license_id": null,
+            "version": "submittedVersion",
+            "is_accepted": false,
+            "is_published": false,
+            "raw_source_name": "",
+            "raw_type": "http://purl.org/coar/resource_type/c_6501"
+          }
+        ]
+      }
+    ],
+    "group_by": []
+  }
+}

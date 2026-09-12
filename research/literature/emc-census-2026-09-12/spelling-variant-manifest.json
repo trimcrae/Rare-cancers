@@ -1,0 +1,26 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22extrasceletal+myxoid+chondrosarcoma%22+OR+%22extraskeletal+myxoid+chondrosarcomas%22+OR+%22extra+skeletal+myxoid+chondrosarcoma%22+OR+%22extraskeletal+mixoid+chondrosarcoma%22+OR+%22extraskelletal+myxoid+chondrosarcoma%22&format=json&resultType=core&pageSize=1000",
+  "query": "\"extrasceletal myxoid chondrosarcoma\" OR \"extraskeletal myxoid chondrosarcomas\" OR \"extra skeletal myxoid chondrosarcoma\" OR \"extraskeletal mixoid chondrosarcoma\" OR \"extraskelletal myxoid chondrosarcoma\"",
+  "date": "2026-09-12",
+  "hit_count": 318,
+  "retrieved_count": 318,
+  "new_candidate_ids": [
+    "MED:25289585",
+    "MED:19461887"
+  ],
+  "policy": "New candidates require screening; not automatically focused EMC outputs.",
+  "screening": [
+    {
+      "id": "MED:25289585",
+      "extent": "abstract_read",
+      "disposition": "context_review_candidate_not_added",
+      "note": "Fruit-fly ALS review; no EMC results in abstract. MainXML404; full screening pending."
+    },
+    {
+      "id": "MED:19461887",
+      "extent": "abstract_and_EMC_mention_paragraph_read_table_mentions_checked",
+      "disposition": "context_only_not_added",
+      "note": "Murine/human leukemia study. EMC appears as background TCF12-NR4A3 fusion citation, not EMC patients or experiments. No table mentions. Does not count as an EMC research output."
+    }
+  ]
+}
