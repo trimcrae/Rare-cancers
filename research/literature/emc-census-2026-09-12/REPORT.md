@@ -12,9 +12,12 @@ last_verified: 2026-09-12
 
 # EMC literature census and initial research connections
 
-There is not yet a defensible worldwide total of distinct published EMC research outputs. The current searches establish a manageable discovery corpus, not an exhaustive or adjudicated evidence base. The first catalogue contains 1,603 records after DOI/identifier deduplication, including 648 disease/fusion matches in titles or abstracts and 955 broader matches. Many broader matches will be incidental; some focused matches concern diagnostic mimics. Reviews, preprints, meeting abstracts and repeat reports of a cohort cannot be counted as independent studies.
+**Retraction correction:** the previously proposed SGK1/proteasome-resistance connection has been withdrawn after identifying a retracted supporting myeloma paper. See the dated correction below.
 
-The exhaustive reading and synthesis requested for this project is **not complete**. Ninety-four article bodies were recovered from 131 focused PMC-identified records. Recovery is not reading. Thirty-seven XML requests remain unresolved; a failed XML endpoint does not mean that the paper is inaccessible. Figures, supplementary files, older non-OA literature, conference archives and mixed-cohort result tables need further work. No new treatment has been validated, and no claim of a previously overlooked discovery is warranted at this checkpoint.
+
+There is not yet a defensible worldwide total of distinct published EMC research outputs. The current catalogue contains **1,639 DOI/identifier-deduplicated records: 664 focused matches and 975 broader candidates**. Of the focused records, 187 have indexed free-access links and 477 have unresolved access. These are bibliographic records, including reviews, corrections and repeated reports, not independent studies or patients.
+
+The exhaustive reading and synthesis is **not complete**. Across the initial 131 focused PMC records, 94 XML bodies and 14 additional BioC bodies have been recovered; 23 remain unresolved by those routes. Recovery is not reading. Component-specific reading status is recorded in `reading-ledger.json`; missing figures, supplements and full texts remain explicit. No new treatment has been validated, and no verified claim of an overlooked discovery is made.
 
 ## What the numbers measure
 
@@ -29,12 +32,12 @@ Searches were performed on 12 September 2026. Original Europe PMC and Crossref A
 | Europe PMC expanded disease/fusion query | 1,471 | All returned records retrieved across 15 pages |
 | Crossref first 1,000 title-search results | 389 title matches | Fuzzy search is truncated; its 9,415 total hits are not EMC works |
 | Crossref records added after DOI matching | 132 | Includes conference supplements and other non-MED outputs |
-| Combined discovery catalogue | 1,603 | DOI/identifier-deduplicated records, not study-deduplicated |
-| Combined title or abstract matches | 648 | Automated priority screen; 441 title and 207 abstract matches |
-| Focused records with an indexed free-text link | 178 | Includes free conference abstracts; not all links downloaded |
-| Focused access unresolved | 470 | No claim that a public copy does not exist |
+| Current combined discovery catalogue | 1,639 | Includes historical-alias additions and ten manually sourced records; not study-deduplicated |
+| Current focused matches | 664 | 447 title matches plus 217 abstract/manual matches, including a linked correction |
+| Focused records with an indexed free-text link | 187 | Includes free conference abstracts; not all links downloaded |
+| Focused access unresolved | 477 | No claim that a public copy does not exist |
 | Focused records with a PMC identifier | 131 | XML retrieval attempted |
-| Article bodies recovered / XML unresolved | 94 / 37 | Figures and supplements not verified |
+| Initial PMC bodies recovered / unresolved after fallback | 108 / 23 | 94 XML plus 14 additional BioC bodies; not completed-reading counts |
 
 The total is tractable for a systematic bibliography and staged reading. It is not tractable as a single undifferentiated claim to have read everything: access, entity identification, report linkage and supplementary material are substantive parts of the work. A sensible planning scale is hundreds of focused records plus roughly a thousand candidates to screen for incidental mentions or buried EMC data. That is a workload estimate, not a confidence interval for the world's literature.
 
@@ -96,7 +99,9 @@ A 2007 study found that GAPDH could enhance hTAFII68–TEC fusion-dependent repo
 
 The availability of newer patient-derived EMC models creates a way to revisit that biochemical observation in a disease-relevant setting. A discriminating experiment would compare a perturbation of the proposed cofactor interaction with inhibition of glycolytic activity, using controls that separate transcriptional effects from general cell toxicity. This is an experimental-design hypothesis, not evidence that a GAPDH inhibitor treats EMC. The original interaction is established prior art; whether this particular follow-up has already been performed remains unverified. The primary abstract and substantial publisher-indexed text were read; complete figure-level verification remains outstanding.
 
-## Reading and evidence status
+## Initial reading checkpoint (historical)
+
+The table below preserves the initial checkpoint. It is superseded by the component-specific `reading-ledger.json` and the later source updates in this report; it does not describe current reading completion.
 
 | Source | Reading completed at this checkpoint | Still needed |
 |---|---|---|
@@ -115,7 +120,7 @@ The cached texts reused above come from literature-cache commit `216bd1b5fb25a56
 
 ## Completion criteria for the remaining synthesis
 
-1. Adjudicate the 654 focused records, maintaining exclusions with reasons and separate review/case/clinical/preclinical/conference classes.
+1. Adjudicate the current 664 focused records, maintaining exclusions with reasons and separate review/case/clinical/preclinical/conference classes.
 2. Screen the 975 broader records for genuine EMC subgroup results. Search older names and society archives; record coverage by source and year, including unsuccessful searches.
 3. Recover lawful public versions for unresolved records, checking repository copies and author manuscripts. Label unresolved access honestly; do not purchase articles or contact authors without applicable authorization.
 4. Link reports to studies and cohorts. Treat suspected overlap conservatively until source evidence resolves it.
@@ -189,13 +194,13 @@ The [Urbini 2018 KIT study](https://pmc.ncbi.nlm.nih.gov/articles/PMC6073125/) i
 
 Figure 1 places the KIT-mutant case's EWSR1 junction upstream of the NR4A3 start codon, whereas four other cases have coding fusions. Together with the PGR report, this motivates preserving untranslated-region versus coding-fusion architecture when comparing dependencies or designing transcript-directed assays. These architectures were explicitly described by the original authors; their juxtaposition is not a verified novel treatment lead. RNA junction detection alone does not establish the resulting protein product or drug dependence.
 
-### SGK1 and proteasome response: a cross-disease question
+### SGK1/proteasome connection withdrawn after retraction check
 
-The body, table text and figure captions of [Filion 2009](https://doi.org/10.1002/path.2445) were read through NCBI BioC. Original figure images, references and supplements remain pending. EMC samples show relatively low SGK1 RNA but detectable activated protein; alternative transcripts lacking an N-terminal degradation region are a proposed explanation. RNA abundance alone may therefore be an inadequate proxy for the proposed dependency. The authors already proposed SGK1 and PPARG biology; these targets are not discoveries of this review.
+**Correction, 2026-09-12:** an earlier version of this report used the Hoang myeloma paper to motivate an SGK1/proteasome-resistance connection. That article was retracted on 4 May 2026. The cached body was read without checking its current publication status; this was a review error. The proposed connection is withdrawn as an evidence-supported treatment lead.
 
-The complete body of the primary [Hoang myeloma study](https://doi.org/10.1158/1541-7786.MCR-15-0422) was also read; images, references and supplements remain pending. SGK overexpression reduced bortezomib sensitivity, and pharmacological or genetic perturbation supported a role in resistance. SEK phosphorylation provided a partly supported mechanism. This is myeloma evidence, not EMC validation. The resistant-cell inhibitor experiment required 40 micromolar compound, and knockdown alone reduced survival, limiting simple combination interpretation. Inconsistent inhibitor identifiers and a concentration-unit entry need checking against figures and original methods. The progression-time association has p=0.057 and must not be called statistically significant.
+The [publisher retraction notice](https://doi.org/10.1158/1541-7786.MCR-26-0310) identifies reused images, including panels bearing directly on the proposed SEK mechanism. [PubMed marks the original article as retracted](https://pubmed.ncbi.nlm.nih.gov/26869290/). The retracted paper's results must not support efficacy, resistance or mechanism claims. Its retrieval and reading receipts are retained for audit, with this exclusion recorded explicitly.
 
-Together with the modern EMC proteasome-inhibitor screens, these observations motivate a question: does SGK1 activity or isoform composition explain differences in proteasome-inhibitor sensitivity in molecularly confirmed EMC models? An informative follow-up would compare existing RNA isoform data with protein/activity measurements and orthogonal perturbation, including rescue and normal-cell controls. No such EMC result is established here. Searches combining EMC, SGK/SGK1 and bortezomib/carfilzomib found no direct EMC combination report on 2026-09-12; that limited search is not proof of novelty. Myeloma lineage biology and drug-specific effects may prevent transfer to EMC.
+The body, table text and figure captions of [Filion 2009](https://doi.org/10.1002/path.2445) were read through NCBI BioC; original figure images, references and supplements remain pending. That EMC report describes low SGK1 RNA but detectable activated protein and proposes alternative transcript biology. It does not test the SGK1/proteasome-inhibitor combination. The modern EMC proteasome screens likewise do not establish that mechanism. These independent observations remain separate; neither rescues the withdrawn bridge or establishes a new treatment lead.
 
 ### Retrieval recovery and validation checkpoint
 
@@ -222,3 +227,23 @@ The complete indexed text of the [Brenca 2021 correction](https://pmc.ncbi.nlm.n
 The body and all five tables in [Drilon 2008](https://doi.org/10.1002/cncr.23978) were read through BioC, together with figure captions and reference titles; original figures/layout and full reference metadata remain pending. Its 32 evaluable treatment courses came from 21 patients, not 32 independent people. Table 4 reports imatinib stable disease lasting at least six months, but interferon and sorafenib progression. These observations add negative and exposure context; unspecified variants, heterogeneous regimens and repeat treatment prevent direct pooling with molecularly selected exceptional cases. Table 5 summarizes other papers and must not be counted as new patients.
 
 The source has 87 patients in the abstract versus 86 in the body, and sometimes labels treatment-course counts as patients. Survival summaries also differ across passages. Those discrepancies are retained. No causal survival comparison against newer single-arm trials is justified by their juxtaposition. Source Table 4 rows are preserved in `drilon-treatment-table.json`, including blank cells.
+
+### Molecular confirmation and the anthracycline discrepancy
+
+The [2013 Italian anthracycline series](https://doi.org/10.1186/2045-3329-3-16) was read through its abstract, body, references, three tables and both figures. Eleven NR4A3-confirmed patients were treated; ten were response-evaluable and four had RECIST partial responses. Three patients were censored at subsequent surgery. Five initially diagnosed cases were excluded without molecular confirmation. These findings qualify a blanket chemotherapy-resistance narrative, but retrospective selection, regimens and diagnostic ascertainment prevent attributing the difference from Drilon's series to molecular testing alone.
+
+The response paragraph describes four combination responses plus a single-agent response despite four total partial responses; minor response may explain this but cannot be assumed. Figure 1's caption names combination treatment while the adjacent text names monotherapy. Per-patient EWSR1 status is not supplied by the table cited for it. These discrepancies are retained in `anthracycline-2013-tables.json`; the report does not invent regimen-specific response rates. PPARγ staining was common and does not demonstrate treatment dependence. Potential cohort overlap with later Italian studies remains pending.
+
+### A classification discrepancy in the TrObs reports
+
+The [2021 TrObs parent paper](https://doi.org/10.3390/cancers13051053), absent from the initial disease searches, adds an EMC subgroup in supplementary Table S1. The complete main paper, figures and supplement were read. Table S1 labels one EMC patient with stable disease, one myxoid chondrosarcoma patient with progression, and one extraskeletal mesenchymal chondrosarcoma patient with stable disease. The [2022 post-hoc paper](https://doi.org/10.3389/fonc.2022.1042479) reports three EMC patients with two stabilizations and one progression from the same TrObs enrollment.
+
+The matching totals are consistent with a possible regrouping, but do not prove individual identity, diagnostic reclassification or an error. No patient crosswalk or explanation is supplied in the post-hoc methods. The EMC denominator remains unresolved across reports. Both reports belong to one study family and must not be summed as independent patients. An independent reader confirmed the original supplement rows and this limitation. See `trobs-classification-crosswalk.json`.
+
+### Further treatment-selection and subtype limits
+
+The [2017 antiangiogenic series](https://doi.org/10.1007/s12032-017-1030-2) contains one EMC patient, treated with pazopanib alone, with stable disease and reported time to progression of eight months. The pazopanib/sirolimus combination and ramucirumab cases concern conventional chondrosarcoma. Its pooled survival figures cannot be assigned to EMC. The entire paper, two tables and both figures were read.
+
+The [2020 two-institution EMC cohort](https://doi.org/10.3389/fonc.2020.00828) was read through all four tables and figures. Only 23 of 59 patients underwent molecular testing. Among ten evaluable first-line anthracycline recipients, one had a partial response; all three second-line anthracycline recipients had progression. Treatment selection may explain the association between chemotherapy and worse survival. Eight selected patients' drug holidays do not establish general safety. Its three trabectedin cases cannot be assumed independent of other Italian reports without a patient crosswalk.
+
+The [2025 Japanese registry study](https://doi.org/10.1186/s13018-025-06245-6) was read through its body, references, four tables, three figures and supplementary table text. It includes 171 patients but only six receiving perioperative chemotherapy. Exclusion of short follow-up, treatment-selection bias, sparse events and wide intervals limit causal interpretation of nonsignificant treatment associations. Drug-specific response outcomes are not supplied. Its discussion mistakenly calls the cited Japanese phase-II trabectedin trial phase III; the original trial family retains its correct classification here.
