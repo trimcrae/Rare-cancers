@@ -2016,7 +2016,7 @@ CODE_CITE = re.compile(r"`([a-z0-9][a-z0-9._-]*\.(?:py|yml|yaml|mjs|sh))`", re.I
 #: flagged, and `test_a_claude_hook_is_not_a_dead_pointer.py` pins BOTH halves so this cannot decay
 #: into a blanket exemption.
 CODE_DIRS = ("research", "systems", "scripts", ".github/workflows", "sagemaker_src", "deploy",
-             "tests", ".claude")
+             "tests", ".claude", "site")
 ARTIFACT_DIRS = ("research/modalities", "research/manuscripts", "research/data", "research/compute",
                  "research/hypotheses", "research/meta", "systems/graph", "results")
 

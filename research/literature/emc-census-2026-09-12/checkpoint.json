@@ -22,21 +22,25 @@
     "browser_qa": "Live catalogue verified 2026-09-12: 1635 records, 660 default focused matches, page 1 of 22 and relation notes visible. Earlier author search and empty-result behavior also verified.",
     "javascript_behavior": "node site/test_literature_ui.cjs: passed filter, empty-result, reset, pagination, year, type, case-insensitive search and sort checks using a DOM stub; no browser.",
     "pages_deployment": {
-      "run_id": 34697703694,
-      "revision": "fc6fb1196539f6e73b0de521906c9ce26fb05035",
+      "run_id": 34698558769,
+      "revision": "384c732ea",
       "conclusion": "success",
-      "public_readback": {
-        "records": 1635,
-        "focused_matches": 660,
-        "browser_verified": true
-      }
+      "records": 1635,
+      "next_catalogue_records": 1637
     },
     "repository_ci": {
       "run_id": 34697703672,
       "gates": "success",
-      "pytest": "in_progress at 2026-09-12 14:03 UTC"
+      "pytest": "2 failed, 12257 passed, 58 skipped, 20 subtests passed",
+      "failure": "K3 code-citation checker omitted site directory; both failures are the same live build.py citation. Added site to CODE_DIRS and a focused live/dead citation regression test; full rerun pending."
     },
-    "frontmatter_schema": "YAML BaseLoader plus jsonschema.validate against origin/main:systems/schema/document.schema.json: passed"
+    "frontmatter_schema": "YAML BaseLoader plus jsonschema.validate against origin/main:systems/schema/document.schema.json: passed",
+    "trial_subgroup_unit_tests": {
+      "passed": 2
+    },
+    "site_code_citation_regression": {
+      "passed": 1
+    }
   },
   "retrieval": {
     "attempted": 131,
@@ -60,6 +64,10 @@
     "Historical model/fusion query: 56 records, 26 additional identifiers",
     "Bangerter full text, references, six figures and both supplements read",
     "Iwata public supplementary screen and IC50 tables read and extracted with source rows",
-    "Carroll 2025 body and references read; images pending"
+    "Carroll 2025 body and references read; images pending",
+    "Pioglitazone prior-exposure correction in candidate source and regenerated catalogue",
+    "SITC ADC subgroup located in indexed tables",
+    "R1507 registry EMC subgroup extracted with endpoint-specific denominators",
+    "Full main Davis and R1507 text read; remaining supplement/figure scope logged"
   ]
 }

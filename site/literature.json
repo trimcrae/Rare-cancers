@@ -3,18 +3,18 @@
   "description": "EMC research discovery catalogue — screening in progress",
   "counts": {
     "retrieved_records": 1471,
-    "deduplicated_records": 1635,
+    "deduplicated_records": 1637,
     "scope_counts": {
       "title": 447,
-      "abstract": 213,
+      "abstract": 215,
       "full_text_or_index": 975
     },
     "access_counts": {
-      "free_link_indexed": 1152,
+      "free_link_indexed": 1154,
       "unresolved": 483
     },
     "crossref_added": 132,
-    "manually_sourced_reports": 6
+    "manually_sourced_reports": 8
   },
   "queries": {
     "exact_phrase": {
@@ -7301,6 +7301,36 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "SITC:2024:170",
+      "title": "Identifying novel targets for antibody-drug conjugates in sarcomas using RNA sequencing",
+      "authors": "Vladimir Kushnarev, Aleksei E Shevkoplias, Kirill Kryukov, Alexander Bagaev, Jochen K Lennerz, Nikita Kotlov, Gregory M Cote, Sudha Yalamanchili, Neeta Somaiah, Dejka M Araujo, Juliana Thomas, Anthony P Conley, Evan Rosenbaum, Vinod Ravi, Konstantin Chernyshov, Sant P Chawla",
+      "year": "2024",
+      "date": "2024-11-05",
+      "journal": "Journal for ImmunoTherapy of Cancer 12(Suppl 2):A193-A194, SITC abstract 170",
+      "doi": "10.1136/jitc-2024-sitc2024.0170",
+      "pmid": "",
+      "pmcid": "",
+      "publication_types": [
+        "Conference abstract"
+      ],
+      "record_url": "https://jitc.bmj.com/content/12/Suppl_2/A193",
+      "publisher_url": "https://doi.org/10.1136/jitc-2024-SITC2024.0170",
+      "free_links": [
+        {
+          "url": "https://jitc.bmj.com/content/jitc/12/Suppl_2/A193.full.pdf",
+          "label": "Public conference abstract with tables",
+          "evidence": "Publisher-indexed abstract and both tables read 2026-09-12; direct retrieval rate-limited; heatmap still pending."
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "abstract",
+      "screening_status": "mixed_subgroup_requires_adjudication",
+      "reading_status": "abstract_references_and_both_indexed_tables_read_heatmap_pending",
+      "abstract_available": true,
+      "metadata_source": "Manual society/institution archive review",
+      "relation_note": "826 sarcoma samples overall; Table 1 lists CRIM1 overexpression in an Extraskeletal myxoid sarcoma subgroup. Subgroup size and molecular confirmation are not given. Table 2 does not isolate EMC; its FOLR1 row is endometrial stromal sarcoma. RNA findings are not validated surface-protein or ADC-response evidence."
     },
     {
       "id": "MED:39533576",
@@ -22024,6 +22054,36 @@
       "abstract_available": true
     },
     {
+      "id": "CTG:NCT00642941:results",
+      "title": "A Study of R1507 in Participants With Recurrent or Refractory Sarcoma",
+      "authors": "Hoffmann-La Roche; Sarcoma Alliance for Research through Collaboration",
+      "year": "2021",
+      "date": "2021-02-03",
+      "journal": "ClinicalTrials.gov posted results, NCT00642941",
+      "doi": "",
+      "pmid": "",
+      "pmcid": "",
+      "publication_types": [
+        "Trial registry results"
+      ],
+      "record_url": "https://clinicaltrials.gov/study/NCT00642941?tab=results",
+      "publisher_url": "",
+      "free_links": [
+        {
+          "url": "https://clinicaltrials.gov/study/NCT00642941?tab=results",
+          "label": "Free posted trial results",
+          "evidence": "Primary ClinicalTrials.gov API results retrieved 2026-09-12; explicitly named EMC cohort."
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "abstract",
+      "screening_status": "EMC_subgroup_results_identified",
+      "reading_status": "emc_outcome_and_flow_tables_and_nonzero_adverse_event_rows_read",
+      "abstract_available": false,
+      "metadata_source": "Manual society/institution archive review",
+      "relation_note": "EMC cohort 7c: 11 participants; no complete/partial responses. Reported PFS figures and population descriptions are internally inconsistent and remain unreconciled. This results posting and the 2014 R1507 paper are related reports of the same trial, not independent studies. No randomized EMC comparator."
+    },
+    {
       "id": "MED:33564355",
       "title": "Primary pulmonary myxoid sarcoma: report of one case and literature review.",
       "authors": "Wu Y, Luo Y, Gong Y, Yang R, Ding L, Guo B.",
@@ -34658,7 +34718,7 @@
       "access": "free_link_indexed",
       "discovery_scope": "title",
       "screening_status": "EMC_report_identified",
-      "reading_status": "body_references_main_table_figures_1_2_3abc_and_supplement_text_read_remaining_visuals_pending",
+      "reading_status": "body_references_main_table_all_main_figures_and_supplement_text_read_remaining_visuals_pending",
       "abstract_available": true,
       "relation_note": "Six EWSR1-NR4A3 cases; one initial RNA-quality failure. RET expression and two FOLR1 outliers are not validated drug-response biomarkers. Discussion reports pioglitazone exposure with 13 months stable disease but explicitly unknown drug contribution. Supplement and main-table treatment durations differ and require reconciliation."
     },
@@ -41550,9 +41610,10 @@
       ],
       "access": "free_link_indexed",
       "discovery_scope": "full_text_or_index",
-      "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "screening_status": "EMC_subgroup_results_identified",
+      "reading_status": "body_and_table_text_read_figures_pending",
+      "abstract_available": true,
+      "relation_note": "Related to NCT00642941 posted results, which separately report 11 EMC participants and zero complete/partial responses. Do not interpret pooled sarcoma responses as EMC responses; the main text stable-disease percentage has an ambiguous denominator."
     },
     {
       "id": "MED:25221366",

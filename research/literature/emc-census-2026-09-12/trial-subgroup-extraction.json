@@ -1,0 +1,436 @@
+{
+  "retrieved_date": "2026-09-12",
+  "source_receipts": [
+    {
+      "file": "research/literature/emc-census-2026-09-12/sources/clinicaltrials-discovery.json",
+      "sha256": "f45b8eb11625e2f2049c43086032951dfaf955bc63683b78dfdba8d87999bb9d",
+      "query": "query.cond=extraskeletal myxoid chondrosarcoma",
+      "retrieved": 23
+    },
+    {
+      "file": "research/literature/emc-census-2026-09-12/sources/clinicaltrials-fulltext-discovery.json",
+      "sha256": "b1beb99dcc3a9a5ad006ed810ebb2fec68a56d222bc12987b5acf954a46f11bc",
+      "query": "query.term=\"extraskeletal myxoid\"",
+      "retrieved": 24
+    }
+  ],
+  "unique_trial_records": 24,
+  "records_with_posted_results": 9,
+  "records_with_explicitly_named_emc_outcome_groups": 1,
+  "limitations": "Exact group-title selection is not exhaustive: abbreviation-only labels, baseline subgroups and unstratified reports still require review. Outcome values are source-reported, not reconciled or estimates of causal treatment benefit.",
+  "records": [
+    {
+      "nct_id": "NCT00642941",
+      "url": "https://clinicaltrials.gov/study/NCT00642941?tab=results",
+      "outcomes": [
+        {
+          "source_path": "resultsSection.outcomeMeasuresModule.outcomeMeasures[0]",
+          "outcome": {
+            "type": "PRIMARY",
+            "title": "Percentage of Participants With Complete or Partial Response, According to World Health Organization (WHO) Criteria in Cohorts 2 to 8",
+            "description": "Complete response is the disappearance of all known disease, determined by two consecutive observations not less than 4 weeks apart. Partial response is \\>=50% decrease in the total tumor load of the lesions that have been measured to determine the effect of therapy not less than four weeks apart. The observations must be consecutive.",
+            "populationDescription": "ITT population included all randomized participants who received at least 1 dose of study drug and had at least 1 post baseline efficacy assessment. There were 0 participants analyzed for Cohort 3 due to no efficacy data being collected for that cohort.",
+            "reportingStatus": "POSTED",
+            "paramType": "NUMBER",
+            "unitOfMeasure": "Percentage of Participants",
+            "timeFrame": "Baseline up to 6 years (assessed at baseline, every 6 weeks for 24 weeks, then every 12 weeks until disease progression)",
+            "groups": [
+              {
+                "id": "OG007",
+                "title": "Cohort 7c: Extraskeletal Myxoid Chondrosarcoma",
+                "description": "Participants 2 years of age and older with recurrent or refractory sarcoma receive R1507 as 9 mg/kg via IV infusion once weekly until disease progression, intercurrent illness, unacceptable toxicity, prolonged (2-week) time off treatment, withdrawal, loss to follow-up, investigator decision, or death. Cohort 7c includes individuals with extraskeletal myxoid chondrosarcoma."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG007",
+                    "value": "11"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG007",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "source_path": "resultsSection.outcomeMeasuresModule.outcomeMeasures[4]",
+          "outcome": {
+            "type": "SECONDARY",
+            "title": "PFS Rate According to WHO Response Criteria at 18 Weeks From Start of R1507 Treatment in Cohorts 2 to 8",
+            "description": "The PFS survival rate is a landmark analysis of progression-free survival at 18 weeks from start of treatment. Progression-free survival rate at 18 weeks is a dichotomous endpoint, with a patient categorized as alive (with either stable disease or objective response at 18 weeks) from start of treatment.",
+            "populationDescription": "ITT population included all randomized participants who received at least 1 dose of study drug and had at least 1 post baseline efficacy assessment. There were 0 participants analyzed for Cohort 3 due to no efficacy data being collected for that cohort.",
+            "reportingStatus": "POSTED",
+            "paramType": "NUMBER",
+            "unitOfMeasure": "Percentage of Participants",
+            "timeFrame": "Baseline, every 6 weeks until disease progression (up to 18 weeks)",
+            "groups": [
+              {
+                "id": "OG007",
+                "title": "Cohort 7c: Extraskeletal Myxoid Chondrosarcoma",
+                "description": "Participants 2 years of age and older with recurrent or refractory sarcoma receive R1507 as 9 mg/kg via IV infusion once weekly until disease progression, intercurrent illness, unacceptable toxicity, prolonged (2-week) time off treatment, withdrawal, loss to follow-up, investigator decision, or death. Cohort 7c includes individuals with extraskeletal myxoid chondrosarcoma."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG007",
+                    "value": "11"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG007",
+                        "value": "62.34"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "source_path": "resultsSection.outcomeMeasuresModule.outcomeMeasures[5]",
+          "outcome": {
+            "type": "SECONDARY",
+            "title": "Percentage of Participants With AEs in Cohorts 3-8",
+            "populationDescription": "Safety Population: All participants who received at least one dose of study drug at had at least one safety follow-up assessment.",
+            "reportingStatus": "POSTED",
+            "paramType": "NUMBER",
+            "unitOfMeasure": "percentage of participants",
+            "timeFrame": "Baseline up to 6 years",
+            "groups": [
+              {
+                "id": "OG006",
+                "title": "Cohort 7c: Extraskeletal Myxoid Chondrosarcoma",
+                "description": "Participants 2 years of age and older with recurrent or refractory sarcoma receive R1507 as 9 mg/kg via IV infusion once weekly until disease progression, intercurrent illness, unacceptable toxicity, prolonged (2-week) time off treatment, withdrawal, loss to follow-up, investigator decision, or death. Cohort 7c includes individuals with extraskeletal myxoid chondrosarcoma."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG006",
+                    "value": "11"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG006",
+                        "value": "100"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "source_path": "resultsSection.outcomeMeasuresModule.outcomeMeasures[6]",
+          "outcome": {
+            "type": "SECONDARY",
+            "title": "Duration of Response (DOR) According to WHO Response Criteria in Cohorts 1 to 8",
+            "description": "The duration of overall response is measured from the time measurement criteria are met for CR or PR (whichever is first recorded) until the first date that recurrent or progressive disease is objectively documented. Complete response is the disappearance of all known disease, determined by two consecutive observations not less than 4 weeks apart. Partial response is \\>=50% decrease in the total tumor load of the lesions that have been measured to determine the effect of therapy not less than four weeks apart. The observations must be consecutive.",
+            "populationDescription": "ITT population included all randomized participants who received at least 1 dose of study drug and had at least 1 post baseline efficacy assessment. There were 0 participants analyzed for Cohort 3, 7 and 8 due to no DOR data being collected for these cohorts.",
+            "reportingStatus": "POSTED",
+            "paramType": "MEDIAN",
+            "dispersionType": "95% Confidence Interval",
+            "unitOfMeasure": "weeks",
+            "timeFrame": "Baseline, every 6 weeks for 24 weeks, then every 12 weeks until disease progression (up to 6 years)",
+            "groups": [
+              {
+                "id": "OG008",
+                "title": "Cohort 7c: Extraskeletal Myxoid Chondrosarcoma",
+                "description": "Participants 2 years of age and older with recurrent or refractory sarcoma receive R1507 as 9 mg/kg via IV infusion once weekly until disease progression, intercurrent illness, unacceptable toxicity, prolonged (2-week) time off treatment, withdrawal, loss to follow-up, investigator decision, or death. Cohort 7c includes individuals with extraskeletal myxoid chondrosarcoma."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG008",
+                    "value": "0"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "source_path": "resultsSection.outcomeMeasuresModule.outcomeMeasures[7]",
+          "outcome": {
+            "type": "SECONDARY",
+            "title": "Time to Progression (TTP) According to WHO Response Criteria in Cohorts 1 to 8",
+            "description": "TTP is defined as the time from date of randomization until objective tumor progression. According to the WHO Response Criteria, objective tumor progression is \\> 25% increase in the area of one or more measurable lesions or the appearance of new lesions.",
+            "populationDescription": "ITT population included all randomized participants who received at least 1 dose of study drug and had at least 1 post baseline efficacy assessment. There were 0 participants analyzed for Cohort 3 due to no efficacy data being collected for that cohort.",
+            "reportingStatus": "POSTED",
+            "paramType": "MEDIAN",
+            "dispersionType": "95% Confidence Interval",
+            "unitOfMeasure": "weeks",
+            "timeFrame": "Baseline, every 6 weeks for 24 weeks, then every 12 weeks until disease progression (up to 6 years)",
+            "groups": [
+              {
+                "id": "OG008",
+                "title": "Cohort 7c: Extraskeletal Myxoid Chondrosarcoma",
+                "description": "Participants 2 years of age and older with recurrent or refractory sarcoma receive R1507 as 9 mg/kg via IV infusion once weekly until disease progression, intercurrent illness, unacceptable toxicity, prolonged (2-week) time off treatment, withdrawal, loss to follow-up, investigator decision, or death. Cohort 7c includes individuals with extraskeletal myxoid chondrosarcoma."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG008",
+                    "value": "11"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG008",
+                        "value": "18.00",
+                        "lowerLimit": "5.71",
+                        "upperLimit": "NA",
+                        "comment": "Upper limit was not reached due to low number of events."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "source_path": "resultsSection.outcomeMeasuresModule.outcomeMeasures[8]",
+          "outcome": {
+            "type": "SECONDARY",
+            "title": "Failure-Free Survival (FFS) According to WHO Response Criteria in Cohorts 1 to 8",
+            "description": "FFS was measured from the date of treatment start to the date of documented disease progression, relapse, or death from any cause.",
+            "populationDescription": "Data was not collected for this endpoint.",
+            "reportingStatus": "POSTED",
+            "timeFrame": "Baseline, every 6 weeks for 24 weeks, then every 12 weeks until disease progression (up to 6 years)",
+            "groups": [
+              {
+                "id": "OG008",
+                "title": "Cohort 7c: Extraskeletal Myxoid Chondrosarcoma",
+                "description": "Participants 2 years of age and older with recurrent or refractory sarcoma receive R1507 as 9 mg/kg via IV infusion once weekly until disease progression, intercurrent illness, unacceptable toxicity, prolonged (2-week) time off treatment, withdrawal, loss to follow-up, investigator decision, or death. Cohort 7c includes individuals with extraskeletal myxoid chondrosarcoma."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG008",
+                    "value": "0"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "source_path": "resultsSection.outcomeMeasuresModule.outcomeMeasures[9]",
+          "outcome": {
+            "type": "SECONDARY",
+            "title": "Overall Survival (OS) in Cohorts 1 to 8",
+            "description": "OS was measured from the time of study registration to the date of death or was censored at the date of last contact.",
+            "populationDescription": "ITT population included all randomized participants who received at least 1 dose of study drug and had at least 1 post baseline efficacy assessment. There were 0 participants analyzed for Cohort 3 and 7c due to no overall survival data being collected for those cohorts.",
+            "reportingStatus": "POSTED",
+            "paramType": "MEDIAN",
+            "dispersionType": "95% Confidence Interval",
+            "unitOfMeasure": "weeks",
+            "timeFrame": "Baseline until death (up to 6 years)",
+            "groups": [
+              {
+                "id": "OG008",
+                "title": "Cohort 7c: Extraskeletal Myxoid Chondrosarcoma",
+                "description": "Participants 2 years of age and older with recurrent or refractory sarcoma receive R1507 as 9 mg/kg via IV infusion once weekly until disease progression, intercurrent illness, unacceptable toxicity, prolonged (2-week) time off treatment, withdrawal, loss to follow-up, investigator decision, or death. Cohort 7c includes individuals with extraskeletal myxoid chondrosarcoma."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG008",
+                    "value": "11"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG008",
+                        "value": "NA",
+                        "lowerLimit": "NA",
+                        "upperLimit": "NA",
+                        "comment": "All participants were censored as no deaths occurred."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "source_path": "resultsSection.outcomeMeasuresModule.outcomeMeasures[10]",
+          "outcome": {
+            "type": "SECONDARY",
+            "title": "PFS According to WHO Response Criteria in Cohorts 1 to 8",
+            "description": "PFS is defined as the duration of time from start of treatment to time of objective progression or death.",
+            "populationDescription": "ITT population included all randomized participants who received at least 1 dose of study drug and had at least 1 post baseline efficacy assessment. There were 0 participants analyzed for Cohort 3 due to no efficacy data being collected for that cohort.",
+            "reportingStatus": "POSTED",
+            "paramType": "MEDIAN",
+            "dispersionType": "95% Confidence Interval",
+            "unitOfMeasure": "weeks",
+            "timeFrame": "Baseline, every 6 weeks for 24 weeks, then every 12 weeks until disease progression (up to 6 years)",
+            "groups": [
+              {
+                "id": "OG008",
+                "title": "Cohort 7c: Extraskeletal Myxoid Chondrosarcoma",
+                "description": "Participants 2 years of age and older with recurrent or refractory sarcoma receive R1507 as 9 mg/kg via IV infusion once weekly until disease progression, intercurrent illness, unacceptable toxicity, prolonged (2-week) time off treatment, withdrawal, loss to follow-up, investigator decision, or death. Cohort 7c includes individuals with extraskeletal myxoid chondrosarcoma."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG008",
+                    "value": "11"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG008",
+                        "value": "18.00",
+                        "lowerLimit": "5.71",
+                        "upperLimit": "NA",
+                        "comment": "Upper limit was not reached due to low number of events."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "source_path": "resultsSection.outcomeMeasuresModule.outcomeMeasures[11]",
+          "outcome": {
+            "type": "SECONDARY",
+            "title": "Pharmacokinetics: Area Under the Concentration-Time Curve (AUC) of R1507",
+            "populationDescription": "Data was not collected for this pharmacokinetic endpoint.",
+            "reportingStatus": "POSTED",
+            "timeFrame": "Predose (0 hours [h]), end of 60-90 minutes infusion (EOI), postdose (2, 24, 72-96 h) in Week 1; predose (0 h) and EOI in Weeks 2, 4, 6, 9; predose (0 h), EOI, postdose (48 h) in Week 12; predose (0 h) in Week 13, at final visit (up to 6 years)",
+            "groups": [
+              {
+                "id": "OG008",
+                "title": "Cohort 7c: Extraskeletal Myxoid Chondrosarcoma",
+                "description": "Participants 2 years of age and older with recurrent or refractory sarcoma receive R1507 as 9 mg/kg via IV infusion once weekly until disease progression, intercurrent illness, unacceptable toxicity, prolonged (2-week) time off treatment, withdrawal, loss to follow-up, investigator decision, or death. Cohort 7c includes individuals with extraskeletal myxoid chondrosarcoma."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG008",
+                    "value": "0"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "source_path": "resultsSection.outcomeMeasuresModule.outcomeMeasures[12]",
+          "outcome": {
+            "type": "SECONDARY",
+            "title": "Pharmacokinetics: Clearance (CL) of R1507",
+            "populationDescription": "Data was not collected for this pharmacokinetic endpoint.",
+            "reportingStatus": "POSTED",
+            "timeFrame": "Predose (0 h), EOI (infusion over 60-90 minutes), postdose (2, 24, 72-96 h) in Week 1; predose (0 h) and EOI in Weeks 2, 4, 6, 9; predose (0 h), EOI, postdose (48 h) in Week 12; predose (0 h) in Week 13, at final visit (up to 6 years)",
+            "groups": [
+              {
+                "id": "OG008",
+                "title": "Cohort 7c: Extraskeletal Myxoid Chondrosarcoma",
+                "description": "Participants 2 years of age and older with recurrent or refractory sarcoma receive R1507 as 9 mg/kg via IV infusion once weekly until disease progression, intercurrent illness, unacceptable toxicity, prolonged (2-week) time off treatment, withdrawal, loss to follow-up, investigator decision, or death. Cohort 7c includes individuals with extraskeletal myxoid chondrosarcoma."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG008",
+                    "value": "0"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
