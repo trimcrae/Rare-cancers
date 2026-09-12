@@ -1,6 +1,6 @@
 {
   "date": "2026-09-12",
-  "status": "discovery_checkpoint_not_exhaustive_review",
+  "status": "active_literature_review_incomplete",
   "base_revision": "95f1bd4d82c75e54d47364aa81b9ce5b7bcf9064",
   "work_branch": "codex/emc-literature-census-20260912",
   "storage_budget": "200 MiB; measured free space stayed above 10 GiB",
@@ -17,9 +17,9 @@
       "command": "sh scripts/preflight.sh",
       "exit_code": 1,
       "result": "Aborted before gates: dirname and mktemp were not on the shell PATH. No normal preflight pass claimed.",
-      "follow_up": "Use the existing Linux CI gates; full local checks and browser QA are deferred during the morning restriction."
+      "follow_up": "Full repository checks run in GitHub CI; scoped local checkout does not contain all scientific gate inputs."
     },
-    "browser_qa": "Not run: America/New_York 06:00\u201310:00 computer-use restriction.",
+    "browser_qa": "2026-09-12 after explicit early release: live catalogue loaded in hidden in-app browser; default 648 matches, no-results query and Bangerter author search (one result) verified through accessibility state; initial desktop layout inspected. Updated 1629-record deployment still pending.",
     "javascript_behavior": "node site/test_literature_ui.cjs: passed filter, empty-result, reset, pagination, year, type, case-insensitive search and sort checks using a DOM stub; no browser.",
     "pages_deployment": {
       "run_id": 34694586932,
@@ -38,7 +38,9 @@
       "gates": "Failed D4: report frontmatter missing. Added frontmatter in the follow-up commit; rerun pending.",
       "pytest": "In progress at checkpoint",
       "follow_up_run_id": 34694812660,
-      "follow_up_status": "Failed D11: unsupported frontmatter kind and audience. Corrected to schema enum values memo and maintainers/collaborators; actual YAML plus JSON Schema validation passed locally using existing cached dependencies. Full CI rerun still required."
+      "follow_up_status": "Failed D11: unsupported frontmatter kind and audience. Corrected to schema enum values memo and maintainers/collaborators; actual YAML plus JSON Schema validation passed locally using existing cached dependencies. Full CI rerun still required.",
+      "latest_run_id": 34695082910,
+      "latest_status": "Gates advanced beyond metadata checks, then failed on unanchored GAPDH PMID. Exact Europe PMC record recovered and DOI/title checked; source response saved for the next run. Pytest still running at last check."
     },
     "frontmatter_schema": "YAML BaseLoader plus jsonschema.validate against origin/main:systems/schema/document.schema.json: passed"
   },
@@ -58,5 +60,12 @@
   "additional_retrieval_attempt": {
     "pmcid": "PMC1868794",
     "result": "HTTP 404 after initial HTTP 503; web-indexed primary text available and partly read; body XML count unchanged"
-  }
+  },
+  "completed_since_previous_checkpoint": [
+    "PubMed exact-phrase identifier union: all 447 present",
+    "Historical model/fusion query: 56 records, 26 additional identifiers",
+    "Bangerter full text, references, six figures and both supplements read",
+    "Iwata public supplementary screen and IC50 tables read and extracted with source rows",
+    "Carroll 2025 body and references read; images pending"
+  ]
 }

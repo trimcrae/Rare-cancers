@@ -3,9 +3,10 @@
 from collections import Counter
 import gzip
 import json
+import re
 from pathlib import Path
 from urllib.parse import urlencode
-from emc_literature_census import fetch, plain, DISEASE
+from emc_literature_census import fetch, plain, DISEASE, normalize
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'research/literature/emc-census-2026-09-12'
@@ -49,6 +50,36 @@ def main():
             'metadata_source': 'Crossref title relevance search, first 1000 results'}
         added.append(record)
     data['records'].extend(added)
+    historical = OUT / 'sources/historical-model-aliases.json.gz'
+    if historical.exists():
+        query = '("H-EMC-SS" OR "HEMCSS" OR "hTAFII68-TEC" OR "hTAF(II)68-TEC" OR "TAF2N-TEC" OR "EWS-NOR1" OR "CHN-EWS")'
+        results = json.loads(gzip.decompress(historical.read_bytes()))
+        batch = results['resultList']['result']
+        if len(batch) != results['hitCount']:
+            raise ValueError('Historical query needs pagination')
+        aliases = re.compile(r'H[ -]?EMC[ -]?SS|HEMCSS|hTAF.*?68[ -]TEC|TAF2N[ -]TEC|EWS[ -]NOR1|CHN[ -]EWS', re.I)
+        ids = {p['id'] for p in data['records']}
+        dois = {p['doi'].lower() for p in data['records'] if p['doi']}
+        for raw in batch:
+            p = normalize(raw)
+            if p['id'] in ids or (p['doi'] and p['doi'].lower() in dois):
+                continue
+            p['metadata_source'] = 'Europe PMC historical fusion and model aliases'
+            if aliases.search(p['title']):
+                p['discovery_scope'] = 'title'
+            elif aliases.search(plain(raw.get('abstractText'))):
+                p['discovery_scope'] = 'abstract'
+            if raw['source'] == 'PAT':
+                p['publication_types'] = ['Patent']
+            data['records'].append(p)
+            ids.add(p['id'])
+            if p['doi']:
+                dois.add(p['doi'].lower())
+        data['queries']['historical_models'] = {
+            'query': query, 'hit_count': results['hitCount'],
+            'url': 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?' + urlencode({'query': query, 'format': 'json', 'resultType': 'core', 'pageSize': 1000}),
+            'note': 'Historical model and fusion names; model identity and incidental mentions require adjudication.',
+        }
     # These two conference records have been read from their public ASCO source.
     # This does not resolve other reports from the same cohort.
     verified = {
@@ -66,6 +97,7 @@ def main():
                 p['access'] = 'free_link_indexed'
     overrides = json.loads((ROOT / 'site/literature-overrides.json').read_text(encoding='utf-8'))
     for p in data['records']:
+        p['title'] = plain(p['title'])
         p.update(overrides['records'].get(p['doi'].lower(), {}))
         p['access'] = 'free_link_indexed' if p['free_links'] else 'unresolved'
     data['records'].sort(key=lambda p: (p['year'], p['date'], p['title']), reverse=True)
@@ -79,10 +111,18 @@ def main():
             'hit_count': int(result['esearchresult']['count']),
             'url': 'https://pubmed.ncbi.nlm.nih.gov/?term=%22extraskeletal+myxoid+chondrosarcoma%22',
             'note': 'Independent count check; record-level PubMed union not yet performed.'}
+        union = OUT / 'sources/pubmed-union.json.gz'
+        if union.exists():
+            result = json.loads(gzip.decompress(union.read_bytes()))['esearchresult']
+            missing = sorted(set(result['idlist']) - {p['pmid'] for p in data['records']})
+            if len(result['idlist']) != int(result['count']) or missing:
+                raise ValueError('PubMed union requires missing record recovery: ' + repr(missing))
+            data['queries']['pubmed_exact_phrase'].update(hit_count=int(result['count']),
+                note=f"All {result['count']} PubMed identifiers were retrieved and matched to catalogue records; no additional records from this exact-phrase query.")
     data['counts'].update({'deduplicated_records': len(data['records']), 'scope_counts': dict(Counter(p['discovery_scope'] for p in data['records'])),
         'access_counts': dict(Counter(p['access'] for p in data['records'])), 'crossref_added': data['queries']['crossref_title']['new_records']})
-    (ROOT / 'site/literature.json').write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    (OUT / 'crossref-summary.json').write_text(json.dumps(data['queries']['crossref_title'], indent=2) + '\n', encoding='utf-8')
+    (ROOT / 'site/literature.json').write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
+    (OUT / 'crossref-summary.json').write_text(json.dumps(data['queries']['crossref_title'], indent=2) + '\n', encoding='utf-8', newline='\n')
     print(json.dumps(data['counts']))
 
 if __name__ == '__main__':

@@ -3,15 +3,15 @@
   "description": "EMC research discovery catalogue — screening in progress",
   "counts": {
     "retrieved_records": 1471,
-    "deduplicated_records": 1603,
+    "deduplicated_records": 1629,
     "scope_counts": {
-      "title": 441,
-      "abstract": 207,
-      "full_text_or_index": 955
+      "title": 443,
+      "abstract": 211,
+      "full_text_or_index": 975
     },
     "access_counts": {
-      "free_link_indexed": 1126,
-      "unresolved": 477
+      "free_link_indexed": 1149,
+      "unresolved": 480
     },
     "crossref_added": 132
   },
@@ -49,7 +49,13 @@
       "query": "\"extraskeletal myxoid chondrosarcoma\"",
       "hit_count": 447,
       "url": "https://pubmed.ncbi.nlm.nih.gov/?term=%22extraskeletal+myxoid+chondrosarcoma%22",
-      "note": "Independent count check; record-level PubMed union not yet performed."
+      "note": "All 447 PubMed identifiers were retrieved and matched to catalogue records; no additional records from this exact-phrase query."
+    },
+    "historical_models": {
+      "query": "(\"H-EMC-SS\" OR \"HEMCSS\" OR \"hTAFII68-TEC\" OR \"hTAF(II)68-TEC\" OR \"TAF2N-TEC\" OR \"EWS-NOR1\" OR \"CHN-EWS\")",
+      "hit_count": 56,
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22H-EMC-SS%22+OR+%22HEMCSS%22+OR+%22hTAFII68-TEC%22+OR+%22hTAF%28II%2968-TEC%22+OR+%22TAF2N-TEC%22+OR+%22EWS-NOR1%22+OR+%22CHN-EWS%22%29&format=json&resultType=core&pageSize=1000",
+      "note": "Historical model and fusion names; model identity and incidental mentions require adjudication."
     }
   },
   "limitations": [
@@ -198,7 +204,7 @@
     },
     {
       "id": "MED:42660639",
-      "title": "ALK overexpression without rearrangement widely exists in <i>EWSR1</i>/<i>FUS</i>-rearranged soft tissue tumours.",
+      "title": "ALK overexpression without rearrangement widely exists in EWSR1 / FUS -rearranged soft tissue tumours.",
       "authors": "Li L, Gong L.",
       "year": "2026",
       "date": "2026-08-27",
@@ -525,7 +531,7 @@
     },
     {
       "id": "MED:42412037",
-      "title": "Psychosocial Impact of Sarcoma: Challenges and Adaptation, a Meta-Synthesis.",
+      "title": "Psychosocial Impact of Sarcoma: Challenges and Adaptation, a Meta-Synthesis.",
       "authors": "Beghean R, O'Driscoll L, Ryan E, Carty P, Larkin F, O'Keeffe F.",
       "year": "2026",
       "date": "2026-07-01",
@@ -667,7 +673,7 @@
     },
     {
       "id": "MED:42321847",
-      "title": "Prospective exploratory pilot study of 18 F-FMISO PET/CT for assessing tumor hypoxia in soft tissue sarcomas.",
+      "title": "Prospective exploratory pilot study of 18 F-FMISO PET/CT for assessing tumor hypoxia in soft tissue sarcomas.",
       "authors": "Sebro R, Fuller AM, Karin Eisenger-Matheson TS, Dulal C, Pantel AR, Shabason J, Levin W, Cooper K, Zhang P, Pryma DA, Farwell MD, Dubroff JG, Mankoff DA.",
       "year": "2026",
       "date": "2026-06-20",
@@ -707,7 +713,7 @@
     },
     {
       "id": "MED:42311268",
-      "title": "Case Report: Acral <i>MYH10::ALK</i> fusion superficial mesenchymal neoplasm: first proof of metastatic potential.",
+      "title": "Case Report: Acral MYH10::ALK fusion superficial mesenchymal neoplasm: first proof of metastatic potential.",
       "authors": "Kameh Khosh M, Wellenbrock S, Kameh Khosh D, Hirsch T, Agaimy A, O'Dey DM.",
       "year": "2026",
       "date": "2026-06-02",
@@ -812,6 +818,46 @@
       "reading_status": "not_read",
       "abstract_available": false,
       "metadata_source": "Crossref title relevance search, first 1000 results"
+    },
+    {
+      "id": "MED:42165630",
+      "title": "Drug Screening of Sarcoma Cells: Finding Shared Sensitivities.",
+      "authors": "Beird HC, Ho C, Cardenas-Zuniga R, Ahmed A, Agyemang C, Truong DD, Murgas K, Stephan CC, Park YS, Powell RT, Tym J, Landers SM, Schmidt S, Osman NM, Araujo DM, Conley AP, Somaiah N, Al-Lazikani B, Ludwig JA, Futreal A.",
+      "year": "2026",
+      "date": "2026-06-01",
+      "journal": "Cancer research communications",
+      "doi": "10.1158/2767-9764.crc-26-0142",
+      "pmid": "42165630",
+      "pmcid": "PMC13273627",
+      "publication_types": [
+        "research-article",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/42165630",
+      "publisher_url": "https://doi.org/10.1158/2767-9764.crc-26-0142",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13273627/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC13273627",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC13273627?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:42324568",
@@ -1490,7 +1536,7 @@
     },
     {
       "id": "MED:42052495",
-      "title": "Myoepithelioma-like tumor of the vulvar region with estrogen receptor negativity and <i>GSTT1::IGLC7</i> fusion: a case report.",
+      "title": "Myoepithelioma-like tumor of the vulvar region with estrogen receptor negativity and GSTT1::IGLC7 fusion: a case report.",
       "authors": "Wang B, Song T, Yilijiang A, Wang J, Bai S, Wang S, Liu S, Sun W.",
       "year": "2026",
       "date": "2026-04-13",
@@ -2166,7 +2212,7 @@
     },
     {
       "id": "MED:41693851",
-      "title": "Establishment of a m<sup>6</sup>A-Related Molecular Pattern in the Prognosis and Immune Infiltration of Osteosarcoma Using Machine Learning and Experiments.",
+      "title": "Establishment of a m 6 A-Related Molecular Pattern in the Prognosis and Immune Infiltration of Osteosarcoma Using Machine Learning and Experiments.",
       "authors": "He N, Chen X, Zhang C.",
       "year": "2026",
       "date": "2026-02-14",
@@ -2477,7 +2523,7 @@
     },
     {
       "id": "MED:41676176",
-      "title": "Primary pulmonary myxoid sarcoma with detected <i>EWSR1</i> gene translocation: a case report.",
+      "title": "Primary pulmonary myxoid sarcoma with detected EWSR1 gene translocation: a case report.",
       "authors": "Lin M, Chen X, Lin F, Yang Y.",
       "year": "2026",
       "date": "2026-01-16",
@@ -2739,7 +2785,7 @@
     },
     {
       "id": "MED:41493844",
-      "title": "Abstracts of the 84<sup>th</sup> Annual Meeting of the Japanese Cancer Association.",
+      "title": "Abstracts of the 84 th Annual Meeting of the Japanese Cancer Association.",
       "authors": "",
       "year": "2026",
       "date": "2026-01-01",
@@ -3302,6 +3348,47 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "MED:41268214",
+      "title": "Alternative Splicing: A Critical Regulator in Human Bone Biology and Tumor Progression.",
+      "authors": "Cao L, Hu Y, Jia K, Ruiz-Cardozo MA, Chen E, Yang J, Shao Z, Van Tine BA, Wu W.",
+      "year": "2025",
+      "date": "2025-11-19",
+      "journal": "Research (Washington, D.C.)",
+      "doi": "10.34133/research.0977",
+      "pmid": "41268214",
+      "pmcid": "PMC12627340",
+      "publication_types": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/41268214",
+      "publisher_url": "https://doi.org/10.34133/research.0977",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12627340/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC12627340",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC12627340?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:41300979",
@@ -4508,9 +4595,20 @@
       "free_links": [],
       "access": "unresolved",
       "discovery_scope": "title",
-      "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "screening_status": "EMC_report_identified",
+      "reading_status": "abstract_and_supplement_tables_1_3_4_read_main_text_pending",
+      "abstract_available": true,
+      "related_links": [
+        {
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1007%2Fs13577-025-01250-7/MediaObjects/13577_2025_1250_MOESM5_ESM.xlsx",
+          "label": "Free supplement: 221-drug screen"
+        },
+        {
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1007%2Fs13577-025-01250-7/MediaObjects/13577_2025_1250_MOESM6_ESM.xlsx",
+          "label": "Free supplement: IC50 table"
+        }
+      ],
+      "relation_note": "NCC-EMC1-C1 is distinct from USZ20-EMC1 and USZ22-EMC2. Public supplementary Tables 3 and 4 contain 221 screen rows and 24 IC50 rows; main text access remains unresolved."
     },
     {
       "id": "MED:40641928",
@@ -8355,7 +8453,7 @@
     },
     {
       "id": "MED:38899283",
-      "title": "Clinicopathological analysis of  EWSR1/FUS::NFATC2  rearranged sarcoma in the left forearm: A case report.",
+      "title": "Clinicopathological analysis of EWSR1/FUS::NFATC2 rearranged sarcoma in the left forearm: A case report.",
       "authors": "Hu QL, Zeng C.",
       "year": "2024",
       "date": "2024-06-01",
@@ -9308,7 +9406,7 @@
     },
     {
       "id": "MED:38339014",
-      "title": "Identification of Novel/Rare  EWSR1  Fusion Partners in Undifferentiated Mesenchymal Neoplasms.",
+      "title": "Identification of Novel/Rare EWSR1 Fusion Partners in Undifferentiated Mesenchymal Neoplasms.",
       "authors": "Salguero-Aranda C, Di Blasi E, Galán L, Zaldumbide L, Civantos G, Marcilla D, de Álava E, Díaz-Martín J.",
       "year": "2024",
       "date": "2024-02-01",
@@ -10597,7 +10695,7 @@
     },
     {
       "id": "MED:38213860",
-      "title": "T<sub>2</sub>* Imaging Assessment of Neoadjuvant Radiation Therapy Combined With Pharmacological Ascorbate in Extremity Soft-Tissue Sarcomas: A Pilot Study.",
+      "title": "T 2 * Imaging Assessment of Neoadjuvant Radiation Therapy Combined With Pharmacological Ascorbate in Extremity Soft-Tissue Sarcomas: A Pilot Study.",
       "authors": "Lee CY, Petronek MS, Monga V, Miller BJ, Milhem MM, Magnotta VA, Allen BG.",
       "year": "2023",
       "date": "2023-12-01",
@@ -11251,7 +11349,7 @@
     },
     {
       "id": "MED:37829338",
-      "title": "Case report: The activity of multi-kinase VEGF inhibitor, Pazopanib, in metastatic undifferentiated round cell sarcomas harboring  EWSR1::CREM  fusion: clinicopathological series of two cases and literature review.",
+      "title": "Case report: The activity of multi-kinase VEGF inhibitor, Pazopanib, in metastatic undifferentiated round cell sarcomas harboring EWSR1::CREM fusion: clinicopathological series of two cases and literature review.",
       "authors": "Campoverde L, Camacho F, Alessandrino F, Evans MG, Elliot A, Rosenberg A, Trent J.",
       "year": "2023",
       "date": "2023-09-27",
@@ -11382,7 +11480,7 @@
     },
     {
       "id": "MED:37767191",
-      "title": "Anlotinib as a maintenance treatment for advanced soft tissue sarcoma after first-line chemotherapy (ALTER-S006): a multicentre, open-label, single-arm, phase 2 trial.",
+      "title": "Anlotinib as a maintenance treatment for advanced soft tissue sarcoma after first-line chemotherapy (ALTER-S006): a multicentre, open-label, single-arm, phase 2 trial.",
       "authors": "Xu B, Pan Q, Pan H, Li H, Li X, Chen J, Pang D, Zhang B, Weng D, Peng R, Fang M, Zhang X.",
       "year": "2023",
       "date": "2023-09-21",
@@ -11421,7 +11519,7 @@
     },
     {
       "id": "MED:37736255",
-      "title": "Activity of pazopanib in  EWSR1-NFATC2  translocation-associated bone sarcoma.",
+      "title": "Activity of pazopanib in EWSR1-NFATC2 translocation-associated bone sarcoma.",
       "authors": "Gouda MA, Zarzour MA, Vaporciyan AA, Kairemo K, Chuang HH, Subbiah V.",
       "year": "2023",
       "date": "2023-09-20",
@@ -13453,6 +13551,52 @@
       "abstract_available": true
     },
     {
+      "id": "MED:36901967",
+      "title": "Epigenetic Abnormalities in Chondrosarcoma.",
+      "authors": "Bereza M, Dembiński M, Zając AE, Piątkowski J, Dudzisz-Śledź M, Rutkowski P, Czarnecka AM.",
+      "year": "2023",
+      "date": "2023-02-25",
+      "journal": "International journal of molecular sciences",
+      "doi": "10.3390/ijms24054539",
+      "pmid": "36901967",
+      "pmcid": "PMC10003547",
+      "publication_types": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/36901967",
+      "publisher_url": "https://doi.org/10.3390/ijms24054539",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10003547/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://www.mdpi.com/1422-0067/24/5/4539/pdf?version=1677313502",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC10003547",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC10003547?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "MED:36825763",
       "title": "Extraskeletal Myxoid Chondrosarcoma: Retrospective Case Series Examining Prognostic Factors, Treatment Approaches, and Oncologic Outcomes.",
       "authors": "Brodsky CN, Bucala MD, Abdulfatah EM, Siegel GW.",
@@ -14147,30 +14291,25 @@
       "publisher_url": "https://doi.org/10.1007/s13577-022-00818-x",
       "free_links": [
         {
-          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9813045/",
-          "label": "PMC full text",
-          "evidence": "PMC identifier in Europe PMC record"
+          "url": "https://link.springer.com/article/10.1007/s13577-022-00818-x",
+          "label": "Publisher free full text",
+          "evidence": "Open-access full text retrieved and read 2026-09-12; main PDF and two supplements recovered."
         },
         {
-          "url": "https://europepmc.org/articles/PMC9813045",
-          "label": "Europe_PMC",
-          "evidence": "Europe PMC free/open-access link metadata"
-        },
-        {
-          "url": "https://europepmc.org/articles/PMC9813045?pdf=render",
-          "label": "Europe_PMC",
-          "evidence": "Europe PMC free/open-access link metadata"
+          "url": "https://link.springer.com/content/pdf/10.1007/s13577-022-00818-x.pdf",
+          "label": "Free article PDF",
+          "evidence": "Publisher PDF successfully downloaded 2026-09-12."
         }
       ],
       "access": "free_link_indexed",
       "discovery_scope": "title",
       "screening_status": "EMC_report_identified",
-      "reading_status": "body_text_read_figures_supplements_pending",
+      "reading_status": "body_references_all_figures_and_two_supplements_read",
       "abstract_available": true
     },
     {
       "id": "MED:36287264",
-      "title": "Low rate of function-limiting side effects with high-dose adjuvant radiotherapy in high-grade soft tissue extremity sarcomas: a retrospective single-center analysis over 10 years.",
+      "title": "Low rate of function-limiting side effects with high-dose adjuvant radiotherapy in high-grade soft tissue extremity sarcomas: a retrospective single-center analysis over 10 years.",
       "authors": "Koeksal M, van der Hoek M, Scafa D, Koch D, Leitzen C, Schmeel LC, Feldmann G, Strauss A, Koob S, Giordano FA.",
       "year": "2023",
       "date": "2022-10-26",
@@ -14753,7 +14892,7 @@
     },
     {
       "id": "MED:36568164",
-      "title": "Transcription regulators and ultra-rare and other rare translocation-related sarcomas treated with trabectedin: A proof of principle from a  post-hoc  analysis.",
+      "title": "Transcription regulators and ultra-rare and other rare translocation-related sarcomas treated with trabectedin: A proof of principle from a post-hoc analysis.",
       "authors": "Palmerini E, Sanfilippo R, Grignani G, Buonadonna A, Romanini A, Badalamenti G, Ferraresi V, Vincenzi B, Comandone A, Pizzolorusso A, Brunello A, Gelsomino F, De Pas T, Ibrahim T, Gurrieri L, Grosso F, Zanelli F, Pantaleo MA, Milesi L, Ciuffreda L, Ferrari V, Marchesi E, Quattrini I, Righi A, Setola E, Carretta E, Casali PG, Picci P, Ferrari S.",
       "year": "2022",
       "date": "2022-12-08",
@@ -15994,7 +16133,7 @@
     },
     {
       "id": "MED:35972647",
-      "title": "34 th  European Congress of Pathology - Abstracts.",
+      "title": "34 th European Congress of Pathology - Abstracts.",
       "authors": "",
       "year": "2022",
       "date": "2022-08-16",
@@ -17185,7 +17324,7 @@
     },
     {
       "id": "MED:35777803",
-      "title": "Abstracts of Presentations at the Association of Clinical Scientists 143 rd  Meeting Louisville, KY May 11-14,2022.",
+      "title": "Abstracts of Presentations at the Association of Clinical Scientists 143 rd Meeting Louisville, KY May 11-14,2022.",
       "authors": "",
       "year": "2022",
       "date": "2022-05-01",
@@ -18669,6 +18808,51 @@
       "abstract_available": true
     },
     {
+      "id": "MED:35002404",
+      "title": "Identification of medicinal compounds as potential inhibitors for mutated isocitrate dehydrogenases against chondrosarcoma.",
+      "authors": "Shah FH, Kim SJ.",
+      "year": "2022",
+      "date": "2021-08-27",
+      "journal": "Saudi journal of biological sciences",
+      "doi": "10.1016/j.sjbs.2021.08.077",
+      "pmid": "35002404",
+      "pmcid": "PMC8716869",
+      "publication_types": [
+        "research-article",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/35002404",
+      "publisher_url": "https://doi.org/10.1016/j.sjbs.2021.08.077",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8716869/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://doi.org/10.1016/j.sjbs.2021.08.077",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC8716869",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC8716869?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "MED:34410594",
       "title": "Sclerosing Polycystic Adenoma: Conclusive Clinical and Molecular Evidence of Its Neoplastic Nature.",
       "authors": "Hernandez-Prera JC, Saeed-Vafa D, Heidarian A, Gewandter K, Otto K, Wenig BM.",
@@ -19221,6 +19405,51 @@
       "abstract_available": true
     },
     {
+      "id": "MED:34711645",
+      "title": "Multimeric Anti-DR5 IgM Agonist Antibody IGM-8444 Is a Potent Inducer of Cancer Cell Apoptosis and Synergizes with Chemotherapy and BCL-2 Inhibitor ABT-199.",
+      "authors": "Wang BT, Kothambawala T, Wang L, Matthew TJ, Calhoun SE, Saini AK, Kotturi MF, Hernandez G, Humke EW, Peterson MS, Sinclair AM, Keyt BA.",
+      "year": "2021",
+      "date": "2021-10-28",
+      "journal": "Molecular cancer therapeutics",
+      "doi": "10.1158/1535-7163.mct-20-1132",
+      "pmid": "34711645",
+      "pmcid": "PMC9398157",
+      "publication_types": [
+        "research-article",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/34711645",
+      "publisher_url": "https://doi.org/10.1158/1535-7163.mct-20-1132",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9398157/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://aacrjournals.org/mct/article-pdf/20/12/2483/3016856/2483.pdf",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC9398157",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC9398157?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "MED:34768955",
       "title": "Liquid Biopsy: A New Translational Diagnostic and Monitoring Tool for Musculoskeletal Tumors.",
       "authors": "Hadjimichael AC, Pergaris A, Kaspiris A, Foukas AF, Theocharis SE.",
@@ -19290,7 +19519,7 @@
     },
     {
       "id": "MED:35068816",
-      "title": "Primary extradural tumors of the spinal column: A comprehensive treatment guide for the spine surgeon based on the 5 th  Edition of the World Health Organization bone and soft-tissue tumor classification.",
+      "title": "Primary extradural tumors of the spinal column: A comprehensive treatment guide for the spine surgeon based on the 5 th Edition of the World Health Organization bone and soft-tissue tumor classification.",
       "authors": "Arvind V, Nevzati E, Ghaly M, Nasim M, Farshad M, Guggenberger R, Sciubba D, Spiessberger A.",
       "year": "2021",
       "date": "2021-10-01",
@@ -19584,7 +19813,7 @@
     },
     {
       "id": "MED:34446510",
-      "title": "Sustained response to imatinib in patient with extraskeletal myxoid chondrosarcoma and novel  KIT  mutation.",
+      "title": "Sustained response to imatinib in patient with extraskeletal myxoid chondrosarcoma and novel KIT mutation.",
       "authors": "Jennings B, Rieth J, Snyders T, Milhem M.",
       "year": "2021",
       "date": "2021-08-26",
@@ -20021,7 +20250,7 @@
     },
     {
       "id": "MED:34367342",
-      "title": "Molecular profiling of soft-tissue sarcomas with FoundationOne ®  Heme identifies potential targets for sarcoma therapy: a single-centre experience.",
+      "title": "Molecular profiling of soft-tissue sarcomas with FoundationOne ® Heme identifies potential targets for sarcoma therapy: a single-centre experience.",
       "authors": "Scheipl S, Brcic I, Moser T, Fischerauer S, Riedl J, Bergovec M, Smolle M, Posch F, Gerger A, Pichler M, Stoeger H, Leithner A, Heitzer E, Liegl-Atzwanger B, Szkandera J.",
       "year": "2021",
       "date": "2021-07-25",
@@ -21133,7 +21362,7 @@
     },
     {
       "id": "MED:33734915",
-      "title": "Myoepithelial Carcinoma of Soft Tissue With an  EWSR1-KLF15  Gene Fusion in an Infant.",
+      "title": "Myoepithelial Carcinoma of Soft Tissue With an EWSR1-KLF15 Gene Fusion in an Infant.",
       "authors": "Bodis S, Kroiss S, Tchinda J, Fritz C, Wagner U, Bode PK.",
       "year": "2021",
       "date": "2021-03-18",
@@ -21403,7 +21632,7 @@
     },
     {
       "id": "MED:33763261",
-      "title": "Clear Cell Odontogenic Carcinoma of the Mandible Harboring  EWSR1  Rearrangement: Report of a Massive Jaw Tumor and Review of Diagnostic Considerations.",
+      "title": "Clear Cell Odontogenic Carcinoma of the Mandible Harboring EWSR1 Rearrangement: Report of a Massive Jaw Tumor and Review of Diagnostic Considerations.",
       "authors": "Owosho AA, Okwuosa C, Obi DI, Okiti RO, Summersgill KF.",
       "year": "2021",
       "date": "2021-03-09",
@@ -21572,7 +21801,7 @@
     },
     {
       "id": "MED:33669307",
-      "title": "Rationale for Early Detection of <i>EWSR1</i> Translocation-Associated Sarcoma Biomarkers in Liquid Biopsy.",
+      "title": "Rationale for Early Detection of EWSR1 Translocation-Associated Sarcoma Biomarkers in Liquid Biopsy.",
       "authors": "Clanchy FIL.",
       "year": "2021",
       "date": "2021-02-16",
@@ -21913,6 +22142,53 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": false
+    },
+    {
+      "id": "MED:32888266",
+      "title": "The Therapeutic Effect of Stem Cells on Chemotherapy-Induced Premature Ovarian Failure.",
+      "authors": "Chen H, Liu C, Zhu S, Li S, Zhang Q, Song L, Liang X.",
+      "year": "2021",
+      "date": "2021-01-01",
+      "journal": "Current molecular medicine",
+      "doi": "10.2174/1566524020666200905113907",
+      "pmid": "32888266",
+      "pmcid": "PMC8778633",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/32888266",
+      "publisher_url": "https://doi.org/10.2174/1566524020666200905113907",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8778633/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/8778633",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC8778633",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC8778633?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:33959239",
@@ -22876,7 +23152,7 @@
     },
     {
       "id": "MED:33236167",
-      "title": "Abstracts : 32  nd  Congress of the ESP and XXXIII International Congress of the IAP.",
+      "title": "Abstracts : 32 nd Congress of the ESP and XXXIII International Congress of the IAP.",
       "authors": "",
       "year": "2020",
       "date": "2020-12-01",
@@ -23088,6 +23364,42 @@
       "abstract_available": true
     },
     {
+      "id": "MED:32994166",
+      "title": "Control of skeletal morphogenesis by the Hippo-YAP/TAZ pathway.",
+      "authors": "Vanyai HK, Prin F, Guillermin O, Marzook B, Boeing S, Howson A, Saunders RE, Snoeks T, Howell M, Mohun TJ, Thompson B.",
+      "year": "2020",
+      "date": "2020-11-12",
+      "journal": "Development (Cambridge, England)",
+      "doi": "10.1242/dev.187187",
+      "pmid": "32994166",
+      "pmcid": "PMC7673359",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/32994166",
+      "publisher_url": "https://doi.org/10.1242/dev.187187",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7673359/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC7673359",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "PPR:PPR235416",
       "title": "Exploring Immune Infiltration and Biomarkers of Ollier Chondrosarcoma",
       "authors": "Wang Y, Li B, Jia Y, Liu X, Cao P, Liu J.",
@@ -23242,6 +23554,52 @@
       "abstract_available": false
     },
     {
+      "id": "MED:33195190",
+      "title": "The Enigmatic Role of Serum & Glucocorticoid Inducible Kinase 1 in the Endometrium.",
+      "authors": "Lang F, Rajaxavier J, Singh Y, Brucker SY, Salker MS.",
+      "year": "2020",
+      "date": "2020-10-21",
+      "journal": "Frontiers in cell and developmental biology",
+      "doi": "10.3389/fcell.2020.556543",
+      "pmid": "33195190",
+      "pmcid": "PMC7609842",
+      "publication_types": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/33195190",
+      "publisher_url": "https://doi.org/10.3389/fcell.2020.556543",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7609842/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://www.frontiersin.org/articles/10.3389/fcell.2020.556543/pdf",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC7609842",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC7609842?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "MED:33092171",
       "title": "Specific Effects of Trabectedin and Lurbinectedin on Human Macrophage Function and Fate-Novel Insights.",
       "authors": "Povo-Retana A, Mojena M, Stremtan AB, Fernández-García VB, Gómez-Sáez A, Nuevo-Tapioles C, Molina-Guijarro JM, Avendaño-Ortiz J, Cuezva JM, López-Collazo E, Martínez-Leal JF, Boscá L.",
@@ -23322,7 +23680,7 @@
     },
     {
       "id": "MED:33028642",
-      "title": "DICER1 -associated metastatic abdominopelvic primitive neuroectodermal tumor with an  EWSR1  rearrangement in a 16-yr-old female.",
+      "title": "DICER1 -associated metastatic abdominopelvic primitive neuroectodermal tumor with an EWSR1 rearrangement in a 16-yr-old female.",
       "authors": "Pancaldi A, Peng L, Rhee DS, Dunn E, Forcucci JA, Belchis D, Pratilas CA.",
       "year": "2020",
       "date": "2020-10-07",
@@ -25508,7 +25866,7 @@
     },
     {
       "id": "MED:32256671",
-      "title": "Transcriptome analysis of the response provided by  Lasiopodomys mandarinus  to severe hypoxia includes enhancing DNA repair and damage prevention.",
+      "title": "Transcriptome analysis of the response provided by Lasiopodomys mandarinus to severe hypoxia includes enhancing DNA repair and damage prevention.",
       "authors": "Dong Q, Wang Z, Jiang M, Sun H, Wang X, Li Y, Zhang Y, Cheng H, Chai Y, Shao T, Shi L, Wang Z.",
       "year": "2020",
       "date": "2020-03-31",
@@ -26708,7 +27066,7 @@
     },
     {
       "id": "DOI:10.1136/vetreccr-2019-000951",
-      "title": "Metastatic extraskeletal myxoid chondrosarcoma in a greater kudu (\n                     Tragelaphus strepsiceros \n                    )",
+      "title": "Metastatic extraskeletal myxoid chondrosarcoma in a greater kudu ( Tragelaphus strepsiceros )",
       "authors": "Alischa Henning, Nicolize O'Dell",
       "year": "2019",
       "date": "2019-11-21",
@@ -27281,7 +27639,7 @@
     },
     {
       "id": "MED:31440833",
-      "title": "Abstracts : 31  st  European Congress of Pathology.",
+      "title": "Abstracts : 31 st European Congress of Pathology.",
       "authors": "",
       "year": "2019",
       "date": "2019-09-01",
@@ -27463,7 +27821,7 @@
     },
     {
       "id": "MED:31338576",
-      "title": "Differing characteristics of cartilaginous lesions of the larynx.",
+      "title": "Differing characteristics of cartilaginous lesions of the larynx.",
       "authors": "Ferlito A, Devaney KO, Mäkitie AA.",
       "year": "2019",
       "date": "2019-07-23",
@@ -28002,7 +28360,7 @@
     },
     {
       "id": "MED:31142482",
-      "title": "Novel  HMGA2-YAP1  fusion gene in aggressive angiomyxoma.",
+      "title": "Novel HMGA2-YAP1 fusion gene in aggressive angiomyxoma.",
       "authors": "Lee MY, da Silva B, Ramirez DC, Maki RG.",
       "year": "2019",
       "date": "2019-05-28",
@@ -28440,7 +28798,7 @@
     },
     {
       "id": "MED:31016866",
-      "title": "A phase II clinical study of 13-deoxy, 5-iminodoxorubicin (GPX-150) with metastatic and unresectable soft tissue sarcoma.",
+      "title": "A phase II clinical study of 13-deoxy, 5-iminodoxorubicin (GPX-150) with metastatic and unresectable soft tissue sarcoma.",
       "authors": "Van Tine BA, Agulnik M, Olson RD, Walsh GM, Klausner A, Frank NE, Talley TT, Milhem MM.",
       "year": "2019",
       "date": "2019-04-23",
@@ -28609,7 +28967,7 @@
     },
     {
       "id": "MED:31049020",
-      "title": "EWSR1-NFATC2  and  FUS-NFATC2  Gene Fusion-Associated Mesenchymal Tumors: Clinicopathologic Correlation and Literature Review.",
+      "title": "EWSR1-NFATC2 and FUS-NFATC2 Gene Fusion-Associated Mesenchymal Tumors: Clinicopathologic Correlation and Literature Review.",
       "authors": "Bode-Lesniewska B, Fritz C, Exner GU, Wagner U, Fuchs B.",
       "year": "2019",
       "date": "2019-03-26",
@@ -29596,6 +29954,52 @@
       "abstract_available": true
     },
     {
+      "id": "MED:31225494",
+      "title": "Serum- and glucocorticoid-inducible kinase 1 and the response to cell stress.",
+      "authors": "Lang F, Stournaras C, Zacharopoulou N, Voelkl J, Alesutan I.",
+      "year": "2018",
+      "date": "2018-12-02",
+      "journal": "Cell stress",
+      "doi": "10.15698/cst2019.01.170",
+      "pmid": "31225494",
+      "pmcid": "PMC6551677",
+      "publication_types": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/31225494",
+      "publisher_url": "https://doi.org/10.15698/cst2019.01.170",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6551677/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "http://www.cell-stress.com/wp-content/uploads/2018/11/2019A-Lang-Cell-Stress.pdf",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC6551677",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC6551677?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "MED:30487384",
       "title": "Translocation-Related Sarcomas.",
       "authors": "Nakano K, Takahashi S.",
@@ -29683,6 +30087,47 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "MED:30519452",
+      "title": "Chondrosarcoma: biology, genetics, and epigenetics.",
+      "authors": "Chow WA.",
+      "year": "2018",
+      "date": "2018-11-20",
+      "journal": "F1000Research",
+      "doi": "10.12688/f1000research.15953.1",
+      "pmid": "30519452",
+      "pmcid": "PMC6248264",
+      "publication_types": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/30519452",
+      "publisher_url": "https://doi.org/10.12688/f1000research.15953.1",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6248264/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC6248264",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC6248264?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:30603724",
@@ -30471,7 +30916,7 @@
     },
     {
       "id": "DOI:10.1200/jco.2018.36.15_suppl.e23547",
-      "title": "Identification of an actionable mutation of  KIT  in extraskeletal myxoid chondrosarcoma (EMC).",
+      "title": "Identification of an actionable mutation of KIT in extraskeletal myxoid chondrosarcoma (EMC).",
       "authors": "Milena Urbini, Valentina Indio, Annalisa Astolfi, Giuseppe Tarantino, Salvatore Lorenzo Renne, Silvana Pilotti, Angelo Paolo Dei Tos, Roberta Maestro, Alessandro Gronchi, Gianpaolo Dagrada, Paola Collini, Monica Brenca, Chiara Colombo, Anna Maria Frezza, Andrea Pession, Paolo Giovanni Casali, Silvia Stacchiotti, Maria A. Pantaleo",
       "year": "2018",
       "date": "2018-05-20",
@@ -31096,7 +31541,7 @@
     },
     {
       "id": "MED:29992069",
-      "title": "Case Reports in Oncological Medicine Myoepithelioma: A New Rearrangement Involving the  LPP  Locus in a Case of Multiple Bone and Soft Tissue Lesions.",
+      "title": "Case Reports in Oncological Medicine Myoepithelioma: A New Rearrangement Involving the LPP Locus in a Case of Multiple Bone and Soft Tissue Lesions.",
       "authors": "Pairet G, Tilman G, Sciot R, Schubert T, Perlepe V, Poirel HA, Galant C.",
       "year": "2018",
       "date": "2018-02-27",
@@ -31219,6 +31664,30 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "MED:29398371",
+      "title": "GH directly stimulates UCP3 expression.",
+      "authors": "Hayashi M, Futawaka K, Matsushita M, Koyama R, Fun Y, Fukuda Y, Nushida A, Nezu S, Tagami T, Moriyama K.",
+      "year": "2018",
+      "date": "2018-01-31",
+      "journal": "Growth hormone & IGF research : official journal of the Growth Hormone Research Society and the International IGF Research Society",
+      "doi": "10.1016/j.ghir.2018.01.002",
+      "pmid": "29398371",
+      "pmcid": "",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/29398371",
+      "publisher_url": "https://doi.org/10.1016/j.ghir.2018.01.002",
+      "free_links": [],
+      "access": "unresolved",
+      "discovery_scope": "abstract",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:29370992",
@@ -31618,7 +32087,7 @@
     },
     {
       "id": "MED:29146882",
-      "title": "Physiological  Srsf2  P95H expression causes impaired hematopoietic stem cell functions and aberrant RNA splicing in mice.",
+      "title": "Physiological Srsf2 P95H expression causes impaired hematopoietic stem cell functions and aberrant RNA splicing in mice.",
       "authors": "Kon A, Yamazaki S, Nannya Y, Kataoka K, Ota Y, Nakagawa MM, Yoshida K, Shiozawa Y, Morita M, Yoshizato T, Sanada M, Nakayama M, Koseki H, Nakauchi H, Ogawa S.",
       "year": "2018",
       "date": "2017-11-16",
@@ -32079,7 +32548,7 @@
     },
     {
       "id": "MED:29252024",
-      "title": "Extraskeletal Chondroma with Concomitant Arthrosis of the Foot at the First Metatarsophalangeal Joint  A Case Report .",
+      "title": "Extraskeletal Chondroma with Concomitant Arthrosis of the Foot at the First Metatarsophalangeal Joint A Case Report .",
       "authors": "Prins D, Fuchs L.",
       "year": "2017",
       "date": "2017-11-01",
@@ -32371,7 +32840,7 @@
     },
     {
       "id": "MED:29181103",
-      "title": "Myxoid liposarcoma with cartilaginous differentiation showing  DDIT3  rearrangement.",
+      "title": "Myxoid liposarcoma with cartilaginous differentiation showing DDIT3 rearrangement.",
       "authors": "Suzuki K, Yasuda T, Watanabe K, Hori T, Kanamori M, Kimura T.",
       "year": "2017",
       "date": "2017-09-25",
@@ -32420,7 +32889,7 @@
     },
     {
       "id": "MED:28955656",
-      "title": "Three-Dimensional Patient-Derived  In Vitro  Sarcoma Models: Promising Tools for Improving Clinical Tumor Management.",
+      "title": "Three-Dimensional Patient-Derived In Vitro Sarcoma Models: Promising Tools for Improving Clinical Tumor Management.",
       "authors": "Gaebler M, Silvestri A, Haybaeck J, Reichardt P, Lowery CD, Stancato LF, Zybarth G, Regenbrecht CRA.",
       "year": "2017",
       "date": "2017-09-11",
@@ -33010,6 +33479,47 @@
       "metadata_source": "Crossref title relevance search, first 1000 results"
     },
     {
+      "id": "MED:28672878",
+      "title": "Epigenetic Regulation of the Biosynthesis & Enzymatic Modification of Heparan Sulfate Proteoglycans: Implications for Tumorigenesis and Cancer Biomarkers.",
+      "authors": "Hull EE, Montgomery MR, Leyva KJ.",
+      "year": "2017",
+      "date": "2017-06-26",
+      "journal": "International journal of molecular sciences",
+      "doi": "10.3390/ijms18071361",
+      "pmid": "28672878",
+      "pmcid": "PMC5535854",
+      "publication_types": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/28672878",
+      "publisher_url": "https://doi.org/10.3390/ijms18071361",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5535854/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC5535854",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC5535854?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "MED:28694835",
       "title": "Myoepithelioma of soft tissue in the gluteal region: Diagnostic pitfall in cytology.",
       "authors": "Bhanvadia VM, Agarwal NM, Chavda AD, Bhetariya BV.",
@@ -33584,7 +34094,7 @@
     },
     {
       "id": "MED:28404587",
-      "title": "CIC-DUX4  Induces Small Round Cell Sarcomas Distinct from Ewing Sarcoma.",
+      "title": "CIC-DUX4 Induces Small Round Cell Sarcomas Distinct from Ewing Sarcoma.",
       "authors": "Yoshimoto T, Tanaka M, Homme M, Yamazaki Y, Takazawa Y, Antonescu CR, Nakamura T.",
       "year": "2017",
       "date": "2017-04-12",
@@ -34922,6 +35432,51 @@
       "abstract_available": false
     },
     {
+      "id": "MED:27724930",
+      "title": "Antibacterial, cytotoxic and genotoxic activity of nitrogenated and haloid derivatives of C 50 -C 60 and C 70 -C 120 polyprenol homologs.",
+      "authors": "Tao R, Wang CZ, Ye JZ, Zhou H, Chen HX, Zhang CW.",
+      "year": "2016",
+      "date": "2016-10-10",
+      "journal": "Lipids in health and disease",
+      "doi": "10.1186/s12944-016-0345-x",
+      "pmid": "27724930",
+      "pmcid": "PMC5057508",
+      "publication_types": [
+        "research-article",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/27724930",
+      "publisher_url": "https://doi.org/10.1186/s12944-016-0345-x",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5057508/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://doi.org/10.1186/s12944-016-0345-x",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC5057508",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC5057508?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "MED:27783942",
       "title": "Dual Targeting of PDGFRα and FGFR1 Displays Synergistic Efficacy in Malignant Rhabdoid Tumors.",
       "authors": "Wong JP, Todd JR, Finetti MA, McCarthy F, Broncel M, Vyse S, Luczynski MT, Crosier S, Ryall KA, Holmes K, Payne LS, Daley F, Wai P, Jenks A, Tanos B, Tan AC, Natrajan RC, Williamson D, Huang PH.",
@@ -35376,6 +35931,51 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "MED:27473111",
+      "title": "Vitamin D3/VDR resists diet-induced obesity by modulating UCP3 expression in muscles.",
+      "authors": "Fan Y, Futawaka K, Koyama R, Fukuda Y, Hayashi M, Imamoto M, Miyawaki T, Kasahara M, Tagami T, Moriyama K.",
+      "year": "2016",
+      "date": "2016-07-29",
+      "journal": "Journal of biomedical science",
+      "doi": "10.1186/s12929-016-0271-2",
+      "pmid": "27473111",
+      "pmcid": "PMC4966724",
+      "publication_types": [
+        "research-article",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/27473111",
+      "publisher_url": "https://doi.org/10.1186/s12929-016-0271-2",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4966724/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://jbiomedsci.biomedcentral.com/track/pdf/10.1186/s12929-016-0271-2",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC4966724",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC4966724?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "abstract",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:30459964",
@@ -35932,6 +36532,30 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": false
+    },
+    {
+      "id": "MED:27150070",
+      "title": "Growth hormone regulates the expression of UCP2 in myocytes.",
+      "authors": "Futawaka K, Tagami T, Fukuda Y, Koyama R, Nushida A, Nezu S, Imamoto M, Kasahara M, Moriyama K.",
+      "year": "2016",
+      "date": "2016-04-15",
+      "journal": "Growth hormone & IGF research : official journal of the Growth Hormone Research Society and the International IGF Research Society",
+      "doi": "10.1016/j.ghir.2016.04.005",
+      "pmid": "27150070",
+      "pmcid": "",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/27150070",
+      "publisher_url": "https://doi.org/10.1016/j.ghir.2016.04.005",
+      "free_links": [],
+      "access": "unresolved",
+      "discovery_scope": "abstract",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:27402218",
@@ -36950,7 +37574,7 @@
     },
     {
       "id": "MED:26870359",
-      "title": "TERT  promoter mutations are rare in bone and soft tissue sarcomas of Japanese patients.",
+      "title": "TERT promoter mutations are rare in bone and soft tissue sarcomas of Japanese patients.",
       "authors": "Saito T, Akaike K, Kurisaki-Arakawa A, Toda-Ishii M, Mukaihara K, Suehara Y, Takagi T, Kaneko K, Yao T.",
       "year": "2016",
       "date": "2015-11-09",
@@ -40482,6 +41106,30 @@
       "abstract_available": true
     },
     {
+      "id": "MED:24972007",
+      "title": "Small rigid platforms functionalization with quaternary ammonium: targeting extracellular matrix of chondrosarcoma.",
+      "authors": "Miot-Noirault E, Vidal A, Morlieras J, Bonazza P, Auzeloux P, Besse S, Dauplat MM, Peyrode C, Degoul F, Billotey C, Lux F, Rédini F, Tillement O, Chezal JM, Kryza D, Janier M.",
+      "year": "2014",
+      "date": "2014-06-25",
+      "journal": "Nanomedicine : nanotechnology, biology, and medicine",
+      "doi": "10.1016/j.nano.2014.06.011",
+      "pmid": "24972007",
+      "pmcid": "",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/24972007",
+      "publisher_url": "https://doi.org/10.1016/j.nano.2014.06.011",
+      "free_links": [],
+      "access": "unresolved",
+      "discovery_scope": "abstract",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "MED:25120991",
       "title": "Chondrolipoma of the lower lip: a case report.",
       "authors": "G K, Pj Y.",
@@ -41751,6 +42399,42 @@
       "metadata_source": "Crossref title relevance search, first 1000 results"
     },
     {
+      "id": "MED:24703491",
+      "title": "Transcriptional profiling of the human fibrillin/LTBP gene family, key regulators of mesenchymal cell functions.",
+      "authors": "Davis MR, Andersson R, Severin J, de Hoon M, Bertin N, Baillie JK, Kawaji H, Sandelin A, Forrest AR, Summers KM, FANTOM Consortium.",
+      "year": "2014",
+      "date": "2013-12-16",
+      "journal": "Molecular genetics and metabolism",
+      "doi": "10.1016/j.ymgme.2013.12.006",
+      "pmid": "24703491",
+      "pmcid": "PMC4019825",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/24703491",
+      "publisher_url": "https://doi.org/10.1016/j.ymgme.2013.12.006",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4019825/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC4019825",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "MED:24293381",
       "title": "Clinicopathological and molecular spectrum of ewing sarcomas/PNETs, including validation of EWSR1 rearrangement by conventional and array FISH technique in certain cases.",
       "authors": "Rekhi B, Vogel U, Basak R, Desai SB, Jambhekar NA.",
@@ -41991,6 +42675,52 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "MED:24070451",
+      "title": "Combining solvent thermodynamic profiles with functionality maps of the Hsp90 binding site to predict the displacement of water molecules.",
+      "authors": "Haider K, Huggins DJ.",
+      "year": "2013",
+      "date": "2013-10-15",
+      "journal": "Journal of chemical information and modeling",
+      "doi": "10.1021/ci4003409",
+      "pmid": "24070451",
+      "pmcid": "PMC3840717",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/24070451",
+      "publisher_url": "https://doi.org/10.1021/ci4003409",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3840717/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://doi.org/10.1021/ci4003409",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC3840717",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC3840717?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:24083043",
@@ -43728,6 +44458,57 @@
       "abstract_available": false
     },
     {
+      "id": "MED:23035125",
+      "title": "Epigenetic silencing of the chaperone Cosmc in human leukocytes expressing tn antigen.",
+      "authors": "Mi R, Song L, Wang Y, Ding X, Zeng J, Lehoux S, Aryal RP, Wang J, Crew VK, van Die I, Chapman AB, Cummings RD, Ju T.",
+      "year": "2012",
+      "date": "2012-10-03",
+      "journal": "The Journal of biological chemistry",
+      "doi": "10.1074/jbc.m112.371989",
+      "pmid": "23035125",
+      "pmcid": "PMC3510848",
+      "publication_types": [
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "record_url": "https://europepmc.org/article/MED/23035125",
+      "publisher_url": "https://doi.org/10.1074/jbc.m112.371989",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3510848/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "http://www.jbc.org/article/S0021925820439493/pdf",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC3510848",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC3510848?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://doi.org/10.1074/jbc.m112.371989",
+          "label": "DOI",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "MED:22495377",
       "title": "Sox10 and S100 in the diagnosis of soft-tissue neoplasms.",
       "authors": "Karamchandani JR, Nielsen TO, van de Rijn M, West RB.",
@@ -44358,6 +45139,57 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "MED:22805760",
+      "title": "The TCF4/β-catenin pathway and chromatin structure cooperate to regulate D-glucuronyl C5-epimerase expression in breast cancer.",
+      "authors": "Mostovich LA, Prudnikova TY, Kondratov AG, Gubanova NV, Kharchenko OA, Kutsenko OS, Vavilov PV, Haraldson K, Kashuba VI, Kashuba VI, Ernberg I, Zabarovsky ER, Grigorieva EV.",
+      "year": "2012",
+      "date": "2012-07-18",
+      "journal": "Epigenetics",
+      "doi": "10.4161/epi.21199",
+      "pmid": "22805760",
+      "pmcid": "PMC3427288",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/22805760",
+      "publisher_url": "https://doi.org/10.4161/epi.21199",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3427288/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://www.tandfonline.com/doi/pdf/10.4161/epi.21199?needAccess=true",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC3427288",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC3427288?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://doi.org/10.4161/epi.21199",
+          "label": "DOI",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:22804337",
@@ -46150,6 +46982,58 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "MED:21946086",
+      "title": "High density micromass cultures of a human chondrocyte cell line: a reliable assay system to reveal the modulatory functions of pharmacological agents.",
+      "authors": "Greco KV, Iqbal AJ, Rattazzi L, Nalesso G, Moradi-Bidhendi N, Moore AR, Goldring MB, Dell'Accio F, Perretti M.",
+      "year": "2011",
+      "date": "2011-09-16",
+      "journal": "Biochemical pharmacology",
+      "doi": "10.1016/j.bcp.2011.09.009",
+      "pmid": "21946086",
+      "pmcid": "PMC3947852",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "record_url": "https://europepmc.org/article/MED/21946086",
+      "publisher_url": "https://doi.org/10.1016/j.bcp.2011.09.009",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3947852/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://europepmc.org/articles/pmc3947852?pdf=render",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC3947852",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC3947852?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://doi.org/10.1016/j.bcp.2011.09.009",
+          "label": "DOI",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:22937384",
@@ -48423,6 +49307,36 @@
       "abstract_available": true
     },
     {
+      "id": "MED:19812376",
+      "title": "Epigenetics: methylation-associated repression of heparan sulfate 3-O-sulfotransferase gene expression contributes to the invasive phenotype of H-EMC-SS chondrosarcoma cells.",
+      "authors": "Bui C, Ouzzine M, Talhaoui I, Sharp S, Prydz K, Coughtrie MW, Fournel-Gigleux S.",
+      "year": "2010",
+      "date": "2009-10-07",
+      "journal": "FASEB journal : official publication of the Federation of American Societies for Experimental Biology",
+      "doi": "10.1096/fj.09-136291",
+      "pmid": "19812376",
+      "pmcid": "",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/19812376",
+      "publisher_url": "https://doi.org/10.1096/fj.09-136291",
+      "free_links": [
+        {
+          "url": "https://hal.science/hal-03405886",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "title",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
+    },
+    {
       "id": "MED:19775727",
       "title": "Fluorescence in situ hybridization analysis of extraskeletal myxoid chondrosarcomas using EWSR1 and NR4A3 probes.",
       "authors": "Noguchi H, Mitsuhashi T, Seki K, Tochigi N, Tsuji M, Shimoda T, Hasegawa T.",
@@ -48596,6 +49510,54 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "MED:19764891",
+      "title": "Targeting SGK1 in diabetes.",
+      "authors": "Lang F, Görlach A, Vallon V.",
+      "year": "2009",
+      "date": "2009-11-01",
+      "journal": "Expert opinion on therapeutic targets",
+      "doi": "10.1517/14728220903260807",
+      "pmid": "19764891",
+      "pmcid": "PMC2798808",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Review",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "record_url": "https://europepmc.org/article/MED/19764891",
+      "publisher_url": "https://doi.org/10.1517/14728220903260807",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2798808/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC2798808",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC2798808?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://doi.org/10.1517/14728220903260807",
+          "label": "DOI",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:20014564",
@@ -48819,6 +49781,59 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "MED:19584721",
+      "title": "The physiological impact of the serum and glucocorticoid-inducible kinase SGK1.",
+      "authors": "Lang F, Artunc F, Vallon V.",
+      "year": "2009",
+      "date": "2009-09-01",
+      "journal": "Current opinion in nephrology and hypertension",
+      "doi": "10.1097/mnh.0b013e32832f125e",
+      "pmid": "19584721",
+      "pmcid": "PMC2883450",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Review",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "record_url": "https://europepmc.org/article/MED/19584721",
+      "publisher_url": "https://doi.org/10.1097/mnh.0b013e32832f125e",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2883450/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/2883450",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC2883450",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC2883450?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://doi.org/10.1097/mnh.0b013e32832f125e",
+          "label": "DOI",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:19680505",
@@ -49591,6 +50606,40 @@
       "reading_status": "not_read",
       "abstract_available": false,
       "metadata_source": "Crossref title relevance search, first 1000 results"
+    },
+    {
+      "id": "PAT:KR20090121624",
+      "title": "METHOD FOR SCREENING ANTI-TUMOR AGENT HAVING THE ABILITY OF INHIBITING TRANSCRIPTION PROMOTING ACTIVITY OF HTAF II 68-TEC FUSION PROTEIN",
+      "authors": "KIM JUNG HO, KIM SOL.",
+      "year": "2009",
+      "date": "2008-05-22",
+      "journal": "",
+      "doi": "",
+      "pmid": "",
+      "pmcid": "",
+      "publication_types": [
+        "Patent"
+      ],
+      "record_url": "https://europepmc.org/article/PAT/KR20090121624",
+      "publisher_url": "",
+      "free_links": [
+        {
+          "url": "http://v3.espacenet.com/textdoc?DB=EPODOC&IDX=KR20090121624",
+          "label": "EPO",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://www.surechembl.org/document/KR-20090121624-A",
+          "label": "SureChembl",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "title",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": false,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:19174999",
@@ -53406,6 +54455,58 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "MED:12486009",
+      "title": "The splicing regulator TIA-1 interacts with U1-C to promote U1 snRNP recruitment to 5' splice sites.",
+      "authors": "Förch P, Puig O, Martínez C, Séraphin B, Valcárcel J.",
+      "year": "2002",
+      "date": "2002-12-01",
+      "journal": "The EMBO journal",
+      "doi": "10.1093/emboj/cdf668",
+      "pmid": "12486009",
+      "pmcid": "PMC139089",
+      "publication_types": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Research Support, U.S. Gov't, Non-P.H.S.",
+        "Journal Article"
+      ],
+      "record_url": "https://europepmc.org/article/MED/12486009",
+      "publisher_url": "https://doi.org/10.1093/emboj/cdf668",
+      "free_links": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC139089/",
+          "label": "PMC full text",
+          "evidence": "PMC identifier in Europe PMC record"
+        },
+        {
+          "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1093/emboj/cdf668",
+          "label": "Unpaywall",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC139089",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://europepmc.org/articles/PMC139089?pdf=render",
+          "label": "Europe_PMC",
+          "evidence": "Europe PMC free/open-access link metadata"
+        },
+        {
+          "url": "https://doi.org/10.1093/emboj/cdf668",
+          "label": "DOI",
+          "evidence": "Europe PMC free/open-access link metadata"
+        }
+      ],
+      "access": "free_link_indexed",
+      "discovery_scope": "full_text_or_index",
+      "screening_status": "not_adjudicated",
+      "reading_status": "not_read",
+      "abstract_available": true,
+      "metadata_source": "Europe PMC historical fusion and model aliases"
     },
     {
       "id": "MED:12378528",
@@ -58761,7 +59862,7 @@
     },
     {
       "id": "DOI:10.7717/peerj.21497/supp-1",
-      "title": "Table S1: Univariate Cox proportional hazards regression analysis of clinical variables in patients with extraskeletal myxoid chondrosarcoma (\n                       n \n                       = 12; events = 5)",
+      "title": "Table S1: Univariate Cox proportional hazards regression analysis of clinical variables in patients with extraskeletal myxoid chondrosarcoma ( n = 12; events = 5)",
       "authors": "",
       "year": "",
       "date": "",
@@ -58876,7 +59977,7 @@
     },
     {
       "id": "DOI:10.7717/peerj.21497/fig-3",
-      "title": "Figure 3: Three-gene prognostic candidate (\n                       H1FX, PXN \n                      , and\n                       TYMS \n                      ) and immune cell infiltration in extraskeletal myxoid chondrosarcoma.",
+      "title": "Figure 3: Three-gene prognostic candidate ( H1FX, PXN , and TYMS ) and immune cell infiltration in extraskeletal myxoid chondrosarcoma.",
       "authors": "",
       "year": "",
       "date": "",
@@ -58922,7 +60023,7 @@
     },
     {
       "id": "DOI:10.7717/peerj.21497/fig-1",
-      "title": "Figure 1: Histopathological features and\n                       EWSR1 \n                      translocation status in extraskeletal myxoid chondrosarcoma.",
+      "title": "Figure 1: Histopathological features and EWSR1 translocation status in extraskeletal myxoid chondrosarcoma.",
       "authors": "",
       "year": "",
       "date": "",

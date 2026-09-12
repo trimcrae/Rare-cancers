@@ -41,7 +41,7 @@ def fetch(url):
 
 def plain(s):
     import html
-    return html.unescape(re.sub('<[^>]+>', ' ', s or '')).strip()
+    return re.sub(r'\s+', ' ', re.sub('<[^>]+>', ' ', html.unescape(s or ''))).strip()
 
 def normalize(r):
     title, abstract = plain(r.get('title')), plain(r.get('abstractText'))

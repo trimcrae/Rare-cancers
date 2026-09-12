@@ -123,3 +123,21 @@ The cached texts reused above come from literature-cache commit `216bd1b5fb25a56
 6. Produce a cross-study evidence matrix with exact source locations, model/patient denominators, effect definitions, uncertainty, confounders and competing explanations. Rank only hypotheses with a specific discriminating experiment or reproducible public-data test.
 
 The current output is a reproducible census checkpoint, a usable discovery catalogue and an initial research-priority memo. It is not the completed exhaustive review or a submission-ready scientific synthesis.
+
+
+## Continued source review, 12 September
+
+The Bangerter model paper has now been read through its body, references, all six figures and both supplementary tables. Figure 6 supports carfilzomib paired with venetoclax or doxorubicin; the discussion's different pairing should not be propagated. Figure 3 prints 5.01 days for USZ20-EMC1 while its caption/text says 5.09. The displayed USZ22 growth curve and stated doubling time also need reconciliation against raw data. These discrepancies do not establish that the drug findings are wrong, but prevent treating every printed number as independently verified.
+
+The Iwata 2025 paper, DOI [10.1007/s13577-025-01250-7](https://link.springer.com/article/10.1007/s13577-025-01250-7), has a subscription preview but publicly downloadable supplements. All 221 rows of supplementary Table 3 and all 24 rows of Table 4 were read and extracted with source-row provenance in `iwata-2025-screen-extraction.json`. The headline candidates brigatinib, panobinostat and romidepsin have reported IC50 values of 1.73, 3.37 and 8.04 nM. Bortezomib is 135 nM. Carfilzomib appears in the screen but not the IC50 table. Main methods remain unavailable in this review; concentration, duration, normalization and replicate count must be recovered before quantitative comparison. Salt forms, negative normalized values and large standard deviations are preserved. The supplementary figure caption mentions 21 agents while the IC50 table lists 24.
+
+### Questions supported by the comparison
+
+1. **Proteasome sensitivity across independently derived models.** The newer screening result gives a reason to test whether the earlier carfilzomib finding generalizes under matched conditions. It does not establish cross-study replication of potency or clinical benefit. Venetoclax monotherapy's weak activity in both reports is useful negative context; combination benefit still needs its own evidence.
+2. **Drug response versus target identity.** Brigatinib sensitivity alone cannot identify ALK as the dependency. A useful next analysis is a panel of structurally distinct inhibitors combined with verified tumour/model kinase alterations and target-engagement evidence. Drug labels in a library are not mechanistic validation.
+3. **Model identity before merging old experiments.** [Cellosaurus H-EMC-SS](https://www.cellosaurus.org/CVCL_1238) cautions that this line lacks an EWSR1 fusion, citing the Gartrell study. Absence of EWSR1 alone does not exclude every alternative NR4A3 fusion. The primary molecular characterization must be checked before older H-EMC-SS findings are pooled with the molecularly confirmed modern models.
+
+These are review questions, not newly established therapies or verified novel hypotheses. Existing repository work and primary-paper discussion must be checked before any novelty claim. Raw model-screen files remain local; the public catalogue links readers directly to the publisher's supplementary results.
+
+
+The follow-up historical-model/fusion query retrieved all 56 results and added 26 identifiers, bringing the discovery pool to **1,629 records**, including **654 title/abstract matches**. These remain candidate records, not 1,629 EMC studies. All 447 PubMed exact-phrase identifiers were checked against the catalogue and were already present. The query newly surfaced mixed-sarcoma drug screens and H-EMC-SS experiments, along with incidental references that require exclusion.
