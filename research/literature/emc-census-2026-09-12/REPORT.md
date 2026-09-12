@@ -15,7 +15,7 @@ last_verified: 2026-09-12
 **Retraction correction:** the previously proposed SGK1/proteasome-resistance connection has been withdrawn after identifying a retracted supporting myeloma paper. See the dated correction below.
 
 
-There is not yet a defensible worldwide total of distinct published EMC research outputs. The current catalogue contains **1,642 DOI/identifier-deduplicated records: 666 focused matches and 976 broader candidates**. Of the focused records, 188 have indexed free-access links and 478 have unresolved access. These are bibliographic records, including reviews, corrections and repeated reports, not independent studies or patients.
+There is not yet a defensible worldwide total of distinct published EMC research outputs. The current catalogue contains **1,642 DOI/identifier-deduplicated records: 666 focused matches and 976 broader candidates**. Of the focused records, 189 have indexed free-access links and 477 have unresolved access. These are bibliographic records, including reviews, corrections and repeated reports, not independent studies or patients.
 
 The exhaustive reading and synthesis is **not complete**. Across the initial 131 focused PMC records, 94 XML bodies and 14 additional BioC bodies have been recovered; 23 remain unresolved by those routes. Recovery is not reading. Component-specific reading status is recorded in `reading-ledger.json`; missing figures, supplements and full texts remain explicit. No new treatment has been validated, and no verified claim of an overlooked discovery is made.
 
@@ -34,8 +34,8 @@ Searches were performed on 12 September 2026. Original Europe PMC and Crossref A
 | Crossref records added after DOI matching | 132 | Includes conference supplements and other non-MED outputs |
 | Current combined discovery catalogue | 1,642 | Includes historical-alias additions and thirteen manually sourced records; not study-deduplicated |
 | Current focused matches | 666 | 447 title matches plus 219 abstract/manual matches, including linked conference reports and a correction |
-| Focused records with an indexed free-text link | 188 | Includes free conference abstracts; not all links downloaded |
-| Focused access unresolved | 478 | No claim that a public copy does not exist |
+| Focused records with an indexed free-text link | 189 | Includes free conference abstracts; not all links downloaded |
+| Focused access unresolved | 477 | No claim that a public copy does not exist |
 | Focused records with a PMC identifier | 131 | XML retrieval attempted |
 | Initial PMC bodies recovered / unresolved after fallback | 108 / 23 | 94 XML plus 14 additional BioC bodies; not completed-reading counts |
 
@@ -257,3 +257,12 @@ The EMC subtype hazard ratio is 0.31 (95% CI 0.07–1.44; p=0.14), which does no
 ### Nanosomal docetaxel: the EMC result was progression
 
 The [2019 multicenter series](https://doi.org/10.1155/2019/3158590) included one EMC patient, a 52-year-old woman. Table 2 records progressive disease after nanosomal docetaxel plus cyclophosphamide. The frequently highlighted pooled response rate and survival results are not EMC-specific, and this patient's regimen did not include gemcitabine. Molecular confirmation and individual response duration were not provided. The manufacturer-funded retrospective study does not establish formulation superiority or comparative safety. All article text, three tables and both figures were read; no supplementary-material element was supplied in the indexed XML.
+
+
+### Radiation responses require lesion-level interpretation
+
+The [2020 shoulder case](https://doi.org/10.1186/s13569-020-00150-8) reports no viable tumor at re-excision after preoperative radiation and no relapse at 24 months. The [2015 neck case](https://doi.org/10.7759/cureus.432) reports a marked early response after concurrent doxorubicin and radiation, with only one month of post-treatment follow-up. Its biomarker-selected carboplatin/paclitaxel was planned, not shown to have been administered or effective. Neither report supplies NR4A3 confirmation. All article text and figures were read; neither indexed article supplies a supplement.
+
+A [free publisher PDF of the 2018 trabectedin/radiation case](https://www.openaccessjournals.com/articles/impressive-response-and-longterm-survival-in-a-patient-with-metastatic-extraskeletal-myxoid-chondrosarcoma-treated-with-.pdf) was recovered and linked. All nine pages and six embedded figures were read, although tiny planning annotations are not legible at the supplied image resolution. Irradiated lesions shrank, but new lesions and mediastinal progression occurred during treatment. Its long survival is not continuous whole-body progression-free survival. A single uncontrolled course cannot separate radiation effects from drug–radiation synergy. This combination was already proposed by the authors; it is not a newly discovered lead. Prior pazopanib was given in an unnamed trial, so possible overlap with later trial reports remains unresolved.
+
+The later [TRASTS phase 1/2 trial](https://doi.org/10.1001/jamaoncol.2019.6584) is being screened for buried EMC data. Its pooled sarcoma responses must not be attributed to EMC. Main article text through the discussion and disclosures has been read, along with the first part of the supplementary methods; original table footnotes, figures, remaining references and supplements remain pending. No EMC subgroup has yet been established. The publisher identifies an affiliation correction dated August 2020.

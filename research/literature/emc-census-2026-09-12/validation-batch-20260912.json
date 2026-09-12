@@ -16,5 +16,21 @@
     "census_tests": "4 passed",
     "diff_check": "passed",
     "full_ci": "Previous correction revision3da607f4c fullCI still running at latest check; Pages deployment succeeded. Full localpreflight unavailable as recorded above."
+  },
+  "radiation_batch": {
+    "site_tests": "4 passed",
+    "census_tests": "4 passed",
+    "diff_check": "passed",
+    "previous_full_ci": {
+      "revision": "15af3a9649bef498ff2fe90767cadd9b5555fe05",
+      "run": 34705573449,
+      "conclusion": "failure",
+      "cause": "Unanchored PMID26869290: fetched metadata stored numeric pmid key not recognized by provenance checker. PubMed URL now derived explicitly from returned ID; checker unchanged."
+    },
+    "previous_pages": {
+      "run": 34705573408,
+      "conclusion": "success"
+    },
+    "full_ci": "Pending next integration; focused checks do not replace full suite."
   }
 }
