@@ -34,6 +34,7 @@ jobs:
         run: |
           python3 -m unittest discover -s site -p 'test_*.py'
           node --check site/literature.js
+          node site/test_literature_ui.cjs
           python3 site/build.py
       - name: Configure Pages
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

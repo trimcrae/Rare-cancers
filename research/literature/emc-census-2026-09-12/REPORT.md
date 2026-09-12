@@ -1,3 +1,15 @@
+---
+id: DOC-EMC-LITERATURE-CENSUS-20260912
+title: EMC literature census and initial research connections
+kind: evidence-memo
+status: live
+purpose: Record reproducible literature discovery counts and preliminary cross-study questions without claiming exhaustive coverage or reading.
+scope: September 2026 bibliographic snapshot, initial source readings, limitations and remaining review work.
+audience: [researchers, maintainers]
+date: 2026-09-12
+last_verified: 2026-09-12
+---
+
 # EMC literature census and initial research connections
 
 There is not yet a defensible worldwide total of distinct published EMC research outputs. The current searches establish a manageable discovery corpus, not an exhaustive or adjudicated evidence base. The first catalogue contains 1,603 records after DOI/identifier deduplication, including 648 disease/fusion matches in titles or abstracts and 955 broader matches. Many broader matches will be incidental; some focused matches concern diagnostic mimics. Reviews, preprints, meeting abstracts and repeat reports of a cohort cannot be counted as independent studies.

@@ -19,7 +19,23 @@
       "result": "Aborted before gates: dirname and mktemp were not on the shell PATH. No normal preflight pass claimed.",
       "follow_up": "Use the existing Linux CI gates; full local checks and browser QA are deferred during the morning restriction."
     },
-    "browser_qa": "Not run: America/New_York 06:00\u201310:00 computer-use restriction."
+    "browser_qa": "Not run: America/New_York 06:00\u201310:00 computer-use restriction.",
+    "javascript_behavior": "node site/test_literature_ui.cjs: passed filter, empty-result, reset, pagination, year, type, case-insensitive search and sort checks using a DOM stub; no browser.",
+    "pages_deployment": {
+      "run_id": 34694586932,
+      "revision": "406e0d08b2048bffa7612aee24538f27ba94b9f7",
+      "conclusion": "success",
+      "public_readback": {
+        "http": 200,
+        "records": 1603,
+        "landing_page_links_catalogue": true
+      }
+    },
+    "repository_ci": {
+      "run_id": 34694586943,
+      "gates": "Failed D4: report frontmatter missing. Added frontmatter in the follow-up commit; rerun pending.",
+      "pytest": "In progress at checkpoint"
+    }
   },
   "retrieval": {
     "attempted": 131,
