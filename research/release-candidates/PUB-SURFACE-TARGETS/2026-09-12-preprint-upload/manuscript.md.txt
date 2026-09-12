@@ -1,0 +1,168 @@
+---
+id: DOC-EMC-TISSUE-RNA-PRIORITIZATION
+title: CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depends on comparator and sequencing year
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: Present a testable tissue-validation rationale with comparator and year sensitivity.
+scope: Public array and RNA-sequencing analyses, with separate normal-expression context.
+audience: [external reviewers, collaborators]
+date: "2026-09-06"
+last_verified: "2026-09-09"
+related: [DOC-ATLAS-HOFVANDER-VALIDATION-20260906]
+---
+
+# CSPG4 tissue RNA enrichment in extraskeletal myxoid chondrosarcoma depends on comparator and sequencing year
+
+**Author.** Tristan D. McRae
+
+*Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
+ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
+
+**Running title.** Tissue RNA priorities in EMC
+
+## Abstract
+
+**Background:** We asked whether RNA measurements could identify genes worth studying further in extraskeletal myxoid chondrosarcoma (EMC), a rare cancer. RNA can suggest which genes are active, but does not establish whether their proteins are suitable treatment targets.
+
+**Methods:** We compared RNA from 11 genes in nine EMC tumors with 45 tumors from three other sarcoma types. We specified the selection rule before examining the results. CHRNA6, a previously studied EMC RNA marker, was assessed separately. We also compared samples measured in the same year and checked a second dataset containing six EMC biopsies and 17 low-grade fibromyxoid sarcomas.
+
+**Results:** CSPG4 was the only gene among the 11 that met the selection rule. Its comparison score was 0.895 overall and 0.811 within measurement years; 0.5 means neither group tends to have higher RNA levels. CSPG4 RNA levels were higher in EMC than in low-grade fibromyxoid sarcoma in both datasets. However, the within-year comparisons involved only four distinct EMC patients. Excluding measurements from 2019 reversed the overall within-year result: the score fell to 0.433. CSPG4 RNA levels were not higher in EMC than in dermatofibrosarcoma protuberans in the overall comparison. Other genes showed weak or inconsistent differences. CSPG4 expression in normal tissues also limits interpretation.
+
+**Conclusions:** CSPG4 merits direct study in EMC tissue, but the RNA evidence depends on which tumors and measurement years are compared. It does not establish protein location on cancer cells, diagnostic accuracy, or treatment benefit or safety.
+
+## Keywords
+
+**Keywords.** extraskeletal myxoid chondrosarcoma; CSPG4; CHRNA6; tissue RNA; comparator sensitivity; reproducibility
+
+## Introduction
+
+RNA measurements can identify genes worth examining further in rare tumor tissue. They cannot establish where the corresponding proteins are located, whether a treatment could reach them, or whether treatment would spare normal tissues. A tissue sample contains several cell types, so its combined, or bulk, RNA signal does not identify the cells that produced it. Results also depend on which cancer types are compared. A gene may show higher RNA levels in extraskeletal myxoid chondrosarcoma (EMC) than in one type of sarcoma, but not another.
+
+CHRNA6 provides a useful example of what RNA evidence can establish. Dulken and colleagues identified this gene through expression-array analysis of GSE24369. They subsequently demonstrated strong, diffuse CHRNA6 RNA staining in 25 EMC cases using chromogenic in situ hybridization (CISH), an assay that shows RNA within tissue. None of the tumors resembling EMC in their comparison series met the threshold for overexpression. Limited below-threshold signal nevertheless occurred in 69 of 685 such tumors. This was an RNA tissue assay, not protein immunohistochemistry or an experiment testing whether treatment could reach a target.[1] We therefore use CHRNA6 as a previously supported RNA-marker control, not a newly discovered target. Reanalyzing the array in which it was discovered is not an independent validation of that discovery.
+
+We asked whether 11 previously nominated genes show consistently higher RNA levels in EMC than in specified sarcoma types. We first used a public tissue RNA-sequencing cohort and retained the result for each comparison type, also called a histology. We then compared the same histology across this cohort and the original public expression arrays. The analysis asks whether the RNA evidence justifies examining CSPG4 protein location in EMC tissue. We consider normal-tissue expression separately because it limits how that follow-up question can be interpreted.
+
+## Methods
+
+### Cohorts and fixed panel
+
+We used the public RNA-sequencing data released by Hofvander et al.[2] The release contains measurements for 19,116 genes in 704 patients, together with sample metadata and supplementary clinical and pathological information. RNA abundance is reported as transcripts per million (TPM). The study primarily recruited patients diagnosed and treated in Lund or Stockholm during 1988–2020; some specimens came from earlier collaborations. Gene quantification used STAR 2.7.10b/GRCh38 and RSEM 1.3.3/Ensembl 104. We retained the diagnoses in the original Table S1 and separately examined the effect of diagnoses revised using transcriptomic information.
+
+We retained nine primary EMC specimens after applying fixed exclusions to the 13 available specimens. The excluded cases were three explicitly reported in earlier publications (104-92, 168-97 and 536-00) and one local recurrence (5081-14). We applied the same specimen policy to the comparison sarcomas: any nonblank recurrence or metastasis flag led to exclusion. These exclusions remove documented overlap with earlier studies. A blank publication reference, however, does not prove that a sample has never appeared elsewhere. Independence from all historical datasets is therefore probable rather than completely verified.
+
+The 11-gene panel came from the research program's curated list of genes named in proposed cell-directed, stromal and peptide-HLA approaches. Here, stromal approaches concern the supporting tissue around tumor cells. Peptide-HLA approaches concern protein fragments displayed by human leukocyte antigen (HLA) molecules. The documented panel source includes corrections to its coverage of stromal targets and CSPG4; it does not claim to include all cell-surface proteins, or the entire surfaceome [3]. We froze the exact list and selection rule before inspecting target values in the new cohort [4]. This timing was prospective to our analysis of those values. It was not public preregistration or prospective specimen collection.
+
+The fixed panel contained CD276, SSTR2, PRAME, FAP, CD248, CSPG4, MSLN, L1CAM, GPC3, ALPP and CDH17. We analyzed CHRNA6 separately. PRAME represents a proposed intracellular peptide-HLA target rather than an ordinary intact surface protein; no endogenous peptide presentation was measured. Each gene symbol had one exact row in the TPM matrix. We did not select samples or genes on the basis of their expression values.
+
+The primary comparisons used three sarcoma types from the same cohort: myxoid liposarcoma (MLPS; n=14), low-grade fibromyxoid sarcoma (LGFMS; n=13) and synovial sarcoma (n=18). Each type received equal weight in the combined result. Myxofibrosarcoma (MFS) and dermatofibrosarcoma protuberans (DFSP) were separate context comparisons.
+
+The second dataset, GSE24369 on platform GPL6244, provided the original expression-array measurements for 42 samples.[5] These comprised 6 EMC biopsies, 17 LGFMS, 6 MFS, 6 desmoids, 5 solitary fibrous tumors (SFT) and 2 pooled skeletal-muscle RNAs. We retained all original biopsies because their lesion stage was not established; they were not assumed to be primary lesions. The two muscle pools supplied descriptive context, not two individual healthy controls. Before inspecting target values, we selected one uniquely assigned transcript cluster per gene from the original platform annotation. We used the released robust multi-array average (RMA) log2 signals without standardizing values across genes or rounding them.
+
+### Comparison score and prioritization rule
+
+We summarized each gene's RNA levels with a pairwise comparison score, A, also called probability of superiority. For every available pair consisting of one EMC specimen and one comparator specimen, the score counts 1 when the EMC value is higher and 0.5 when the values tie. Averaging these contributions gives A=P(EMC>comparator)+0.5P(tie). A=0.5 means neither group tends to have higher values; A=0.7 corresponds to 70% superiority after assigning half of tied pairs. Scores above 0.5 favor EMC; scores below 0.5 favor the comparator. This score is neither a fold change nor diagnostic classification accuracy established in an external test set.
+
+We calculated two summaries because comparing samples from different sequencing years may give a different answer from comparing samples measured in the same year. The marginal summary uses all nine EMC specimens. The year-matched summary compares EMC with each sarcoma type only within exact sequencing years that contain both groups. A year remained eligible even if one group contained only one specimen, a singleton stratum. Within each histology, we weighted each supported year's score by its number of EMC specimens.
+
+The available years differed across the comparison types. MLPS and LGFMS supported comparisons in 2019 and 2021; synovial sarcoma supported 2019 and 2020. Each matched comparison therefore used three EMC specimens. Four unique patients contributed across the three comparisons, rather than nine independent matched patients. Both the marginal and matched composite scores give equal weight to the three histologies. These summaries answer different questions and were not substituted for one another.
+
+The tissue-prioritization rule required a gene to meet all three conditions. Its marginal equal-histology score had to be ≥0.70. Each primary histology had to have A>0.50 in both the marginal and matched comparisons. Finally, both composite scores had to remain >0.50 after removing each EMC specimen in turn and each histology in turn. We froze the 0.70 benchmark as a tangible 20-percentage-point departure from neutral ordering. It was not chosen from the new values and is not a clinical cutoff. We also specified checks for sequencing-year removal, comparator-patient removal and revised diagnoses. Those checks qualify interpretation; they are not additional pass criteria. No rule was applied to CHRNA6.
+
+To compare cohorts, we used the LGFMS-specific score calculated separately in each dataset. This keeps the comparison histology the same across the two measurement platforms. MFS, SFT and desmoid were separate secondary comparisons shared by both cohorts. We compared score size, direction and sensitivity to removing each biopsy in turn. We did not pool values across platforms, set another success cutoff or replace the LGFMS comparison with a different composite. We excluded GSE4303 from abundance replication because the composition of its two-color reference was unresolved.
+
+### Uncertainty and reproducibility
+
+We used bootstrap resampling to describe uncertainty in the primary Hofvander estimates. This method repeatedly samples the observed specimens with replacement. We generated 2000 resamples (seed 20260906), separately within histology and sequencing-year groups, and shared each EMC resample across comparisons. The reported 2.5th–97.5th percentiles are pointwise intervals: they describe each estimate separately and are conditional on the groups observed in this dataset. A group with only one specimen remains fixed during resampling. The resulting interval can therefore be too narrow or have identical endpoints.
+
+We report the underlying counts, each specimen's placement in the comparisons, and every single-patient, histology and year removal alongside the intervals. Removing a year or its last specimen can leave a comparison without support. We recalculated the weights after removal and left unsupported comparisons undefined. We did not report P values or select a discovery set through multiple-testing procedures.
+
+The Human Protein Atlas (HPA) supplied separate context on normal-tissue expression and protein location through its gene XML/JSON records.[6, 7] We distinguished version 25 XML entries from the current 25.1 documentation. We retained warnings about normal-tissue immunohistochemistry (IHC), an antibody-based protein stain, including uncertain reliability and absent records. We also retained disagreements about location across assay compartments and ambiguity about antibody specificity. We did not calculate a safety ratio between HPA normalized TPM (nTPM) and tumor TPM. Historical GSE28866 findings used a different quantity: 3SEQ RNA peaks on a depth-scaled, square-root-compressed scale.[8] We considered that context separately, without pooling its values or counting four EMC library records as four established independent patients.
+
+We froze the sample and probe selection rules and the prioritization rule before inspecting new target-expression values. Source files, metadata and code are identified by fixed cryptographic hashes. An independent implementation read the original arrays, platform annotation and RNA-sequencing matrix again. It reproduced the estimates and the specimen, histology and year removal calculations. The supplement identifies the exact files and remaining limits on their provenance.
+
+**Use of artificial intelligence.** OpenAI Codex assisted with source recovery and organization, analysis-code implementation, execution, verification, and manuscript drafting. Independent implementations checked original source values and the reported arithmetic. AI assistance does not establish biological validity; responsibility for the final interpretation and released article remains with the author.
+
+## Results
+
+### Only CSPG4 met the panel rule; other genes depended on the comparison type
+
+CSPG4 was the only gene in the fixed panel to meet the prioritization rule. Its marginal composite score was A=0.89454, with a pointwise conditional interval of 0.86614–0.91806. Its matched score was A=0.81111 (0.75278–0.86111). The marginal scores were 0.78571 versus MLPS, 0.96581 versus LGFMS and 0.93210 versus synovial sarcoma. The corresponding matched scores were 0.66667, 0.93333 and 0.83333. CHRNA6 had A=1 across these comparisons but remained outside the 11-gene pass count. Figure 1 and Table S1 include every gene, including those with reversed or neutral differences.
+
+PRAME and L1CAM RNA values tended to be higher in EMC than in LGFMS in both datasets, but neither met the broader rule. Other Hofvander histologies gave lower or reversed comparisons. For PRAME, marginal A was 0 versus MLPS and 0.00617 versus synovial sarcoma. L1CAM's marginal composite was 0.69931, near but below the 0.70 threshold. Its synovial comparison was also independently nonpositive: 0.43827 marginal and 0.32500 matched. L1CAM therefore failed for more than a small difference from the numerical threshold.
+
+Several other genes gave discordant or nonpositive results. MSLN, SSTR2, GPC3 and FAP had opposite LGFMS comparison directions in GSE24369 and Hofvander. CD276, CD248 and CDH17 were below 0.5 against LGFMS in both cohorts. ALPP had positive marginal ordering against LGFMS, but its matched A was 0.5. These results prevent any interpretation based only on each gene's most favorable comparison.
+
+### CSPG4 was consistently higher than LGFMS, but its combined result depended on sequencing year
+
+The CSPG4 comparison with LGFMS agreed across cohorts. A was 1.000 in the arrays, 0.96581 in the marginal Hofvander comparison and 0.93333 in the matched Hofvander comparison. Removing each EMC or LGFMS array biopsy in turn retained A=1. Three secondary histologies shared by both datasets also had positive CSPG4 differences. Array A was 1 versus each of MFS, SFT and desmoid. The respective Hofvander marginal/matched scores were 0.85370/0.85714, 0.87879/0.62500 and 1/1. These results support consistent ordering against those particular histologies, not universal specificity.
+
+Removing individual EMC specimens or entire histologies did not reverse the CSPG4 composite, but removing one sequencing year did. Within Hofvander, single-EMC deletion composite ranges were 0.88136–0.94035 marginal and 0.71667–0.94444 matched. Single-histology deletion ranges were 0.85891–0.94896 and 0.75000–0.88333. Removing 2019, however, lowered the matched composite to 0.43333 while the marginal value remained 0.83333 (Figure 2). Thus the positive matched summary depends on a small set of year groups containing both EMC and comparator specimens. It cannot be called batch-robust: the evidence does not show that the result persists across differences in sample processing. The conditional bootstrap does not resolve that limitation.
+
+Using revised diagnoses gave similar composites: 0.89475 marginal and 0.81111 matched. These revised labels were partly informed by expression data, so this check is not independent confirmation.
+
+DFSP provided a contrary comparison. CSPG4 RNA was not higher in EMC than in DFSP marginally (A=0.46667). The matched DFSP comparison was especially sparse, with one EMC and three DFSP specimens in 2021. DFSP was outside the primary success rule, but its contrary result remains consequential context.
+
+### Protein and normal-tissue observations limit what RNA can establish
+
+Normal-tissue observations do not establish that CSPG4 would spare normal tissues or be accessible on EMC cells. The retrieved HPA CSPG4 record describes broad cytoplasmic protein staining in normal tissues by IHC. In contrast, its immunocytochemistry/immunofluorescence (ICC/IF) records include membrane localization. These assays examine different compartments; their findings cannot establish EMC cell-surface density or normal sparing. Historical GSE28866 CSPG4 peak medians were broadly positive, yet a normal-colon record exceeded the lowest EMC library value. Although that dataset measures a different quantity, this overlap directly argues against treating positive group medians as separation of every individual tumor from normal tissue. Historical CHRNA6 peak signal was nonuniform. That finding neither invalidates the published RNA CISH assay nor implies that the whole transcript is absent.
+
+Separate protein evidence also cautions against inferring a PRAME target from the RNA comparisons. Cammareri et al. assessed PRAME with antibody clone QR005 on whole sections from 350 soft-tissue tumors and mimics.[9] Their original supplementary rows 128–132 contain five EMC cases. All five were negative in both reader columns; negative meant 0% positive cells. Four had recorded fusion or rearrangement support, and one had no recorded ancillary test. PRAME expression was common in MLPS and synovial sarcoma in that study. Higher PRAME RNA ranks in EMC than in LGFMS therefore do not establish PRAME protein positivity or a therapeutic target in EMC. These protein observations come from a separate cohort and assay, not a paired RNA–protein experiment.
+
+## Discussion
+
+CSPG4 is worth examining directly in EMC tissue, but the reason for doing so is qualified. Its RNA levels had positive ordering against LGFMS in both cohorts and against the specified primary RNA-sequencing comparators. The year-matched summary, however, rests on four unique EMC patients and reverses when 2019 is removed. CSPG4 was also not higher in the marginal DFSP comparison. Comparator choice and sequencing year are therefore central to the result. The next biological question is whether CSPG4 protein is present in malignant cells and accessible in EMC tissue across relevant technical and biological variation.
+
+The fixed panel's negative results are also useful. Some genes distinguish EMC from LGFMS while failing against MLPS or synovial sarcoma; others change direction across platforms. Reporting these results prevents a favorable comparison from standing in for sarcoma generally. CHRNA6 reproduces a previously supported RNA-marker result and is deliberately not counted as a new target. Neither its established CISH performance nor the RNA rank separation here demonstrates protein immunoreactivity or therapeutic accessibility.
+
+The available specimens limit how widely these results can be generalized. The source cohort was a convenience sample, rather than a representative sample of every relevant patient group. Sequencing year is only an incomplete proxy for library chemistry, RNA quality and processing batch. Restricting comparisons to supported years substantially reduces the EMC sample. The lesion stage of the array biopsies is unknown. Excluding explicitly documented old cases also cannot prove that no historical overlap remains.
+
+The measurement methods impose further limits. Bulk tissue mixes signals from malignant and nonmalignant cells, so an RNA difference need not originate in the cancer cells. EMC purity and grade were unavailable for adjustment. TPM and RMA signals have different measurement properties even though the same rank-based comparison score can summarize each. Normal tissues were not matched to tumors, and HPA includes incomplete or uncertain protein evidence. The two muscle pools cannot establish organ safety.
+
+We did not assess sex- or gender-specific effects. These small cohorts do not establish that the results generalize across sex or gender groups. Finally, the prioritization threshold allocates follow-up effort; it is not a clinically validated effect size or a statistical discovery procedure.
+
+The complete panel, including its negative and discordant results, provides a reproducible basis for asking where CSPG4 protein is located in EMC tissue. Demonstrating malignant-cell localization, protein accessibility, diagnostic performance or a therapeutic window would require evidence beyond this RNA reanalysis. Here, a therapeutic window means a range in which treatment controls the tumor without unacceptable harm to normal tissues; these analyses do not establish such a range.
+
+## Data code and declarations
+
+**Data availability.** Original measurements and metadata are available from the Hofvander author release and Zenodo record (https://doi.org/10.5281/zenodo.17866629), GEO GSE24369/GPL6244 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369), GEO GSE28866 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE28866) and the archived Human Protein Atlas entries identified in the supplement. The complete code/data supplement is publicly deposited with Research Square version 1 [4]: https://assets-eu.researchsquare.com/files/rs-10959636/v1/b95606f3a3799c60c8ac4434.zip. It contains the frozen protocols, original source hashes, specimen/probe mappings, analysis code, full-panel effect tables and offline replay instructions. This revision changes presentation and documentation; it retains the same computations and archived evidence. The manuscript license does not replace source-specific attribution or reuse conditions in that archive.
+
+**Author and correspondence.** Tristan D. McRae, independent researcher, unaffiliated, is the corresponding author at trimcrae@gmail.com; ORCID 0000-0002-1823-1451. The author has no institutional affiliation.
+
+**Research scope and declarations.** This work reanalyzes public data and reports no newly collected participant specimens, intervention, protein experiment or clinical treatment. No new ethics approval, exemption or waiver is asserted.
+
+**CRediT authorship contribution statement.** Tristan D. McRae: Project administration, Supervision. The AI-assisted implementation, execution, verification and drafting are disclosed in Methods. The author is responsible for the final interpretation and manuscript.
+
+**Funding.** This research received no funding.
+
+**Competing interests.** No competing financial interests exist. One non-financial interest is declared: the author is a survivor of extraskeletal myxoid chondrosarcoma, the disease this work addresses.
+
+**Declaration of generative AI and AI-assisted technologies.** OpenAI Codex assisted with source organization, code implementation, computation, verification and drafting, as described in Methods. The author takes responsibility for the article; AI assistance is not biological validation.
+
+## References
+
+[1] Dulken BW, Kingsley L, Zdravkovic S, Cespedes O, Qian X, Suster DI, et al. CHRNA6 RNA In Situ Hybridization Is a Useful Tool for the Diagnosis of Extraskeletal Myxoid Chondrosarcoma. Mod Pathol. 2024;37(5):100464. https://doi.org/10.1016/j.modpat.2024.100464.
+
+[2] Hofvander J, Köster J, Sydow S, Piccinelli P, Vult von Steyern F, Tsagkozis P, et al. Transcriptomic Subgroups in Soft Tissue Tumors Correlate with Morphologic Subtype, Genomic Features, and Outcome. Clin Cancer Res. 2026;32(9):1825-1834. https://doi.org/10.1158/1078-0432.CCR-25-3740.
+
+[3] McRae TD. EMC research program expression-panel definitions. Curated surface_antigen groups and route_named_addresses in emc_expression_panels.py. Pinned repository revision 81d2931733aae640220c042039d0c53efed1690a. https://github.com/trimcrae/Rare-cancers/blob/81d2931733aae640220c042039d0c53efed1690a/research/modalities/emc_expression_panels.py (accessed 9 September 2026).
+
+[4] McRae TD. Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts with comparator and sequencing-year limits. Research Square. 2026. Version 1 and accompanying code/data supplement [preprint and dataset]. https://doi.org/10.21203/rs.3.rs-10959636/v1.
+
+[5] National Center for Biotechnology Information. Gene Expression Omnibus series GSE24369 and platform GPL6244. Original series data and transcript-cluster annotation. https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369; https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL6244 (accessed 9 September 2026).
+
+[6] Uhlén M, Fagerberg L, Hallström BM, Lindskog C, Oksvold P, Mardinoglu A, et al. Tissue-based map of the human proteome. Science. 2015;347(6220):1260419. https://doi.org/10.1126/science.1260419.
+
+[7] Thul PJ, Åkesson L, Wiking M, Mahdessian D, Geladaki A, Ait Blal H, et al. A subcellular map of the human proteome. Science. 2017;356(6340):eaal3321. https://doi.org/10.1126/science.aal3321.
+
+[8] Brunner AL, Beck AH, Edris B, Sweeney RT, Zhu SX, Li R, et al. Transcriptional profiling of long non-coding RNAs and novel transcribed regions across a diverse panel of archived human cancers. Genome Biol. 2012;13(8):R75. https://doi.org/10.1186/gb-2012-13-8-r75. Data: GEO GSE28866.
+
+[9] Cammareri C, Beltzung F, Michal M, Vanhersecke L, Coindre JM, Velasco V, et al. PRAME immunohistochemistry in soft tissue tumors and mimics: a study of 350 cases highlighting its imperfect specificity but potentially useful diagnostic applications. Virchows Arch. 2023;483(2):145-156. https://doi.org/10.1007/s00428-023-03606-6.
+
+## Figure legends
+
+**Figure 1. Fixed-panel probability of superiority by comparator and cohort.** The comparison score A describes whether EMC specimens tend to have higher RNA levels than comparator specimens. Rows include all 11 candidate genes and the separately marked CHRNA6 control. Panel A keeps the comparator type fixed at LGFMS. It shows original arrays (6 EMC, 17 LGFMS), the Hofvander marginal comparison (9 EMC, 13 LGFMS), and the Hofvander year-matched comparison (3 EMC, 12 LGFMS across 2019/2021). Panels B and C show all three primary Hofvander histologies separately, using marginal and supported-year comparisons respectively. Color and printed values encode A on 0–1 with a neutral midpoint of 0.5; there are no significance stars. The matched columns do not represent nine independent matched patients.
+
+**Figure 2. CSPG4 specimens and sequencing-year sensitivity.** Panel A shows each retained primary specimen's log2(1+TPM), grouped by EMC and the three primary comparator histologies; color denotes sequencing year. This display transformation does not enter the rank calculations. Panel B shows the matched equal-histology score after removing each year in turn, beside the full-data value and neutral 0.5 reference. Removing 2019 reverses the result. Points describe the observed and year-removal values; they are not confidence limits. No normal-tissue or protein measurements are plotted.
+
