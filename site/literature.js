@@ -11,7 +11,7 @@
     const matches = entries.filter(({node, text}) => {
       const d = node.dataset;
       return (!term || text.includes(term)) &&
-        (fields.scope.value === 'all' || (fields.scope.value === 'focused' ? d.scope !== 'full_text_or_index' : d.scope === fields.scope.value)) &&
+        (fields.scope.value === 'all' || (fields.scope.value === 'focused' ? (d.scope !== 'full_text_or_index' || d.confirmed === 'true') : d.scope === fields.scope.value)) &&
         (fields.access.value === 'all' || d.access === fields.access.value) &&
         (fields.type.value === 'all' || d.types.includes(fields.type.value)) &&
         (!fields.year.value || d.year === fields.year.value);

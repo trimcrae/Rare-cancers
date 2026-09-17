@@ -3,18 +3,18 @@
   "description": "EMC research discovery catalogue — screening in progress",
   "counts": {
     "retrieved_records": 1471,
-    "deduplicated_records": 1646,
+    "deduplicated_records": 1647,
     "scope_counts": {
-      "title": 447,
+      "title": 448,
       "abstract": 222,
       "full_text_or_index": 977
     },
     "access_counts": {
       "free_link_indexed": 1164,
-      "unresolved": 482
+      "unresolved": 483
     },
     "crossref_added": 132,
-    "manually_sourced_reports": 17
+    "manually_sourced_reports": 18
   },
   "queries": {
     "exact_phrase": {
@@ -486,9 +486,10 @@
       ],
       "access": "free_link_indexed",
       "discovery_scope": "title",
-      "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "screening_status": "EMC_report_identified",
+      "reading_status": "body_figures_supplements_read_source_data_audited_layout_pending",
+      "abstract_available": true,
+      "relation_note": "Exploratory 12-patient expression study, five events reported in the survival model. Authors report severe overfitting (corrected C-index 0.10); no independent survival validation or EMC drug-response experiment. Source workbook has 9,500 unique gene rows versus 9,909 in Methods, without patient outcomes. Figure 3B labels high risk as the better-surviving group; Figure S3 instead associates high scores with shorter survival. Figure 3C and S4 reverse the displayed B-cell direction. These conflicts require reconciliation, not silent relabeling. TYMS-directed treatment is already an author-proposed hypothesis, not a demonstrated sensitivity."
     },
     {
       "id": "MED:42422243",
@@ -26368,9 +26369,10 @@
       ],
       "access": "free_link_indexed",
       "discovery_scope": "full_text_or_index",
-      "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "screening_status": "EMC_report_identified",
+      "reading_status": "body_tables_response_figure_read_references_and_supplements_pending",
+      "abstract_available": true,
+      "relation_note": "One EMC participant in a 60-patient mixed-tumor trastuzumab deruxtecan trial. Figure 3C identifies the EMC tumor as HER2 IHC 1+ and ISH-negative; its best plotted size change is an increase, with further growth over follow-up. This is not an EMC objective response. The pooled response rate must not be attributed to EMC. NR4A3 confirmation and a patient-specific response table remain unresolved."
     },
     {
       "id": "MED:32164724",
@@ -55863,9 +55865,10 @@
       "free_links": [],
       "access": "unresolved",
       "discovery_scope": "title",
-      "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "screening_status": "EMC_report_identified",
+      "reading_status": "abstract_read",
+      "abstract_available": true,
+      "relation_note": "Sixteen patients; abstract reports six systemic-chemotherapy recipients with one partial response, one complete response and four progressions. Regimens and response assessment require full text, still unresolved. Oliveira2000 explicitly reports15 overlapping cases; do not add series populations."
     },
     {
       "id": "MED:18521326",
@@ -56189,9 +56192,10 @@
       ],
       "access": "free_link_indexed",
       "discovery_scope": "title",
-      "screening_status": "not_adjudicated",
-      "reading_status": "not_read",
-      "abstract_available": true
+      "screening_status": "EMC_report_identified",
+      "reading_status": "body_abstract_references_four_tables_and_six_figures_read",
+      "abstract_available": true,
+      "relation_note": "Twenty-three Mayo cases; four tables and six figures read. Univariate prognostic associations are not independent predictors or treatment-selection biomarkers. No NR4A3 testing in this cohort. Methods explicitly report 15 cases shared with the forthcoming McGrory clinical report; do not sum the publications as independent enrollment. One preoperative MAID exposure and tumor necrosis are reported without a quantified systemic response. No supplement identified."
     },
     {
       "id": "MED:10895826",
@@ -57370,6 +57374,30 @@
       "screening_status": "not_adjudicated",
       "reading_status": "not_read",
       "abstract_available": true
+    },
+    {
+      "id": "CITED:MODPATHOL:1998:11:8A:CHHIENG",
+      "title": "Neuroendocrine differentiation in adult soft tissue sarcomas with features of extraskeletal myxoid chondrosarcoma: Report of seven cases",
+      "authors": "Chhieng DC, Erlandson RA, Antonescu C, Ladany M, Rosai J (as cited)",
+      "year": "1998",
+      "date": "1998",
+      "journal": "Modern Pathology 11:8A (conference abstract, citation only)",
+      "doi": "",
+      "pmid": "",
+      "pmcid": "",
+      "publication_types": [
+        "Conference abstract (citation only)"
+      ],
+      "record_url": "https://www.nature.com/articles/3880161",
+      "publisher_url": "",
+      "free_links": [],
+      "access": "unresolved",
+      "discovery_scope": "title",
+      "screening_status": "citation_only_primary_manifestation_pending",
+      "reading_status": "not_read",
+      "abstract_available": false,
+      "metadata_source": "Oliveira2000 reference46a; original abstract not recovered",
+      "relation_note": "Citation establishes a discovery pointer only. Original abstract, diagnostic evidence and overlap with other reports are unresolved; seven in the title is not an independently verified patient count."
     },
     {
       "id": "DOI:10.5035/nishiseisai.47.113",

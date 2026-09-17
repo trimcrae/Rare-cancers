@@ -11,7 +11,7 @@ const controls = Object.fromEntries(['filters', 'pagination', 'records', 'litera
 for (const [key, value] of Object.entries({search: '', scope: 'focused', access: 'all', type: 'all', year: '', order: 'newest'})) controls['literature-' + key] = element(value);
 const nodes = Array.from({length: 65}, (_, i) => Object.assign(element(), {
   textContent: i === 40 ? 'Unique sunitinib report' : `Record ${i}`,
-  dataset: {year: String(2026 - i), scope: i === 64 ? 'full_text_or_index' : 'title',
+  dataset: {year: String(2026 - i), confirmed: i === 63 ? 'true' : 'false', scope: i >= 62 ? 'full_text_or_index' : 'title',
     access: i % 2 ? 'unresolved' : 'free_link_indexed', types: i === 40 ? 'conference abstract' : 'journal article'}
 }));
 let order = [...nodes];
@@ -23,9 +23,11 @@ const visible = () => order.filter(x => !x.hidden);
 const set = (field, value) => { const el = controls['literature-' + field]; el.value = value; el.events.input(); };
 const click = field => controls['literature-' + field].events.click();
 assert.equal(visible().length, 30);
-assert.equal(controls['literature-count'].textContent.startsWith('64 matching records'), true);
+assert.equal(controls['literature-count'].textContent.startsWith('63 matching records'), true);
 click('next'); assert.equal(visible().length, 30);
-click('next'); assert.equal(visible().length, 4); assert.equal(controls['literature-next'].disabled, true);
+click('next'); assert.equal(visible().length, 3); assert.equal(controls['literature-next'].disabled, true);
+set('search', 'Record 63'); assert.deepEqual(visible(), [nodes[63]]);
+set('search', 'Record 62'); assert.equal(visible().length, 0);
 set('search', 'SUNITINIB'); assert.deepEqual(visible().map(x => x.textContent), ['Unique sunitinib report']);
 set('access', 'unresolved'); assert.equal(visible().length, 0);
 click('reset'); assert.equal(visible().length, 30);
