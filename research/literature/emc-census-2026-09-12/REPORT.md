@@ -7,7 +7,7 @@ purpose: Record reproducible literature discovery counts and preliminary cross-s
 scope: September 2026 bibliographic snapshot, initial source readings, limitations and remaining review work.
 audience: [maintainers, collaborators]
 date: 2026-09-12
-last_verified: 2026-09-12
+last_verified: 2026-09-17
 ---
 
 # EMC literature census and initial research connections
@@ -15,7 +15,7 @@ last_verified: 2026-09-12
 **Retraction correction:** the previously proposed SGK1/proteasome-resistance connection has been withdrawn after identifying a retracted supporting myeloma paper. See the dated correction below.
 
 
-There is not yet a defensible worldwide total of distinct published EMC research outputs. The current catalogue contains **1,646 DOI/identifier-deduplicated records: 669 focused matches and 977 broader candidates**. Of the focused records, 190 have indexed free-access links and 479 have unresolved access. These are bibliographic records, including reviews, corrections and repeated reports, not independent studies or patients.
+There is not yet a defensible worldwide total of distinct published EMC research outputs. As of 17 September 2026, the catalogue contains **1,648 DOI/identifier-deduplicated discovery records: 670 title/abstract matches and 978 broader candidates**. The default website view includes those 670 plus three reviewed reports with EMC results in their full text, for **673 records, 198 with indexed free-access links**. These are bibliographic records, including reviews, corrections and repeated reports, not independent studies or patients. Unresolved access does not mean that no public copy exists.
 
 The exhaustive reading and synthesis is **not complete**. Across the initial 131 focused PMC records, 94 XML bodies and 14 additional BioC bodies have been recovered; 23 remain unresolved by those routes. Recovery is not reading. Component-specific reading status is recorded in `reading-ledger.json`; missing figures, supplements and full texts remain explicit. No new treatment has been validated, and no verified claim of an overlooked discovery is made.
 
@@ -32,10 +32,12 @@ Searches were performed on 12 September 2026. Original Europe PMC and Crossref A
 | Europe PMC expanded disease/fusion query | 1,471 | All returned records retrieved across 15 pages |
 | Crossref first 1,000 title-search results | 389 title matches | Fuzzy search is truncated; its 9,415 total hits are not EMC works |
 | Crossref records added after DOI matching | 132 | Includes conference supplements and other non-MED outputs |
-| Current combined discovery catalogue | 1,646 | Includes historical-alias additions and seventeen manually sourced records; not study-deduplicated |
-| Current focused matches | 669 | 447 title matches plus 222 abstract/manual matches, including linked conference reports and a correction |
-| Focused records with an indexed free-text link | 190 | Includes free conference abstracts; not all links downloaded |
-| Focused access unresolved | 479 | No claim that a public copy does not exist |
+| Current combined discovery catalogue | 1,648 | Includes historical-alias additions and nineteen manually sourced records; not study-deduplicated |
+| Current title/abstract matches | 670 | 448 title matches plus 222 abstract/manual matches |
+| Default view including reviewed full-text subgroups | 673 | Adds three confirmed full-text reports; original discovery scope retained |
+| Title/abstract matches with an indexed free-text link | 195 | Includes free conference abstracts; not all links downloaded |
+| Default-view records with an indexed free-text link | 198 | Includes reviewed full-text subgroups and a doctoral thesis |
+| Default-view access unresolved | 475 | No claim that a public copy does not exist |
 | Focused records with a PMC identifier | 131 | XML retrieval attempted |
 | Initial PMC bodies recovered / unresolved after fallback | 108 / 23 | 94 XML plus 14 additional BioC bodies; not completed-reading counts |
 
