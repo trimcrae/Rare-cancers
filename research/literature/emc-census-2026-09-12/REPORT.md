@@ -53,6 +53,12 @@ For historical reports, record how EMC was diagnosed and whether molecular confi
 
 The catalogue currently deduplicates exact DOI/record identifiers only. It has not completed study-level linkage, language screening, reference chasing, forward citation searching, full society-archive searching, public dataset mining, or per-record adjudication. These limitations preclude an “all published EMC research” label.
 
+## Cross-paper matrix, 17 September 2026
+
+A separate [cross-paper evidence matrix](https://trimcrae.github.io/Rare-cancers/synthesis.html) now records five ranked questions, fifteen source records, conflicting explanations, prior proposals and falsifiable tests. Its source data are in `site/synthesis.json`; these are selected-source research priorities, not an exhaustive synthesis or treatment ranking.
+
+The completed computation (`scripts/emc_synthesis_check.py`) extracts CAS-matched proteasome-inhibitor and venetoclax rows from the independent NCC-EMC1-C1 screen. It preserves SD and source rows, reproduces the descriptive comparison, and declines to pool incompatible assays. The result supports directional consistency of single-agent findings, not independent replication of combination synergy. The MET/immune hypothesis is also checked against the existing NCT05836571 protocol; its planned measurements are prior work, and no results were posted at the check. Independent review and its repairs are recorded in `synthesis-review-20260917.json`.
+
 ## Initial connections worth testing
 
 ### 1. Fusion identity and additional alterations should be evaluated jointly

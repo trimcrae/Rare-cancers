@@ -1,0 +1,55 @@
+{
+  "date": "2026-09-17",
+  "question": "Does an independent EMC model repeat proteasome-inhibitor activity relative to weak venetoclax monotherapy?",
+  "source_doi": "10.1007/s13577-025-01250-7",
+  "input_sha256": "52cfb777f196fdd2440bc74382e7aa276515acc6a9ed79d0660a16ccaef50bb2",
+  "screen_source": {
+    "file": "Iwata2025-s5.xlsx",
+    "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1007%2Fs13577-025-01250-7/MediaObjects/13577_2025_1250_MOESM5_ESM.xlsx",
+    "sha256": "c90a668b59b45b87aa9d250f6105180d5693f91505a4e1f11b0bf7af26c21ed9",
+    "bytes": 31752
+  },
+  "model": "NCC-EMC1-C1",
+  "rows_sorted_by_mean_viability": [
+    {
+      "drug": "Bortezomib (PS-341)",
+      "cas": "179324-69-7",
+      "viability_percent": 13.615285912111077,
+      "sd_percentage_points": 11.931955331393794,
+      "source_row": 31,
+      "sheet": "Sheet1"
+    },
+    {
+      "drug": "Carfilzomib (PR-171)",
+      "cas": "868540-17-4",
+      "viability_percent": 23.575521197260922,
+      "sd_percentage_points": 1.4432177658074252,
+      "source_row": 41,
+      "sheet": "Sheet1"
+    },
+    {
+      "drug": "Venetoclax (ABT-199, GDC-0199)",
+      "cas": "1257044-40-8",
+      "viability_percent": 79.54917700663486,
+      "sd_percentage_points": 9.204103039385735,
+      "source_row": 217,
+      "sheet": "Sheet1"
+    }
+  ],
+  "separate_concentration_response": {
+    "cas": "179324-69-7",
+    "drug": "Bortezomib",
+    "ic50_nM": 135,
+    "sheet": "IC50 values",
+    "source_row": 6
+  },
+  "result": "Both proteasome inhibitors have lower reported mean viability than venetoclax in this screen. This is directional consistency with the earlier models, not independent replication of combination synergy.",
+  "scope": "Descriptive comparison within one published screen. SD is retained as reported; replicate count is unresolved. No standard error, confidence interval or significance test is invented.",
+  "not_computed": [
+    "No cross-study potency ratio: exposure and assay methods are not harmonized.",
+    "No pooled response rate: these are cell assays, not patient responses.",
+    "No fusion effect: one donor per fusion class in the earlier pair confounds genotype and donor.",
+    "No combination estimate in NCC-EMC1-C1: only single-agent data are available here."
+  ],
+  "methodological_warning": "The same supplement reports doxorubicin mean viability above 70% yet a separate IC50 of 36.5 nM. Without the main methods these endpoints cannot be assumed interchangeable. No silent reconciliation or cross-assay ranking."
+}

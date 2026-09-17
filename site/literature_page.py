@@ -51,6 +51,7 @@ def render():
 <link rel="stylesheet" href="styles.css"><link rel="icon" href="favicon.svg"><script src="literature.js" defer></script></head>
 <body><a class="skip-link" href="#records">Skip to literature</a><header class="site-header wrap"><a class="brand" href="./">EMC <strong>Research</strong></a><nav aria-label="Main navigation"><a href="./">Preprints</a><a href="#coverage">Coverage</a></nav></header>
 <main class="wrap literature-page"><h1>EMC literature</h1><p class="intro">A shared index of research on extraskeletal myxoid chondrosarcoma, including routes to free full text and conference reports.</p>
+<p><a class="browse-link" href="synthesis.html">Cross-paper evidence matrix: connections, contradictions and tests →</a></p>
 <p><strong>{len(records):,} discovery records · {focused:,} title/abstract matches or reviewed EMC reports</strong><br>Search snapshot: {data['updated_date']}. Screening is in progress; the worldwide total of distinct EMC studies is not established.</p>
 <div class="literature-filters" id="filters" hidden><label>Search titles, authors or venues<input id="literature-search" type="search" placeholder="e.g. NR4A3, sunitinib, Pauli"></label>
 <label>Coverage<select id="literature-scope"><option value="focused">Title/abstract + reviewed EMC reports</option><option value="all">All discovery records</option><option value="title">Title only</option><option value="full_text_or_index">Full text / index only</option></select></label>

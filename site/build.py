@@ -8,11 +8,12 @@ from pathlib import Path
 import re
 import shutil
 from literature_page import render as render_literature
+from synthesis_page import render as render_synthesis
 from urllib.parse import urlsplit
 
 HERE = Path(__file__).resolve().parent
 PUBLIC_HOSTS = {"www.qeios.com", "qeios.com", "aixiv.science", "doi.org", "www.researchsquare.com"}
-OUTPUT_FILES = {"index.html", "styles.css", "favicon.svg", "publications.json", ".nojekyll", "literature.html", "literature.json", "literature.js"}
+OUTPUT_FILES = {"index.html", "styles.css", "favicon.svg", "publications.json", ".nojekyll", "literature.html", "literature.json", "literature.js", "synthesis.html", "synthesis.json", "synthesis-check.json"}
 
 
 def public_url(value):
@@ -101,6 +102,7 @@ def card(p, index):
 def build(out):
     data, papers = load_catalogue()
     literature_html, literature_count, focused_count = render_literature()
+    synthesis_html = render_synthesis()
     site_url = "https://trimcrae.github.io/Rare-cancers/"
     structured = {"@context": "https://schema.org", "@type": "CollectionPage", "name": "EMC Research — Preprints",
                   "url": site_url, "hasPart": [{"@type": "ScholarlyArticle", "headline": p["title"],
@@ -127,7 +129,8 @@ def build(out):
     out.mkdir(parents=True, exist_ok=True)
     (out / "index.html").write_text(html, encoding="utf-8", newline="\n")
     (out / "literature.html").write_text(literature_html, encoding="utf-8", newline="\n")
-    for name in ("styles.css", "favicon.svg", "literature.json", "literature.js"):
+    (out / "synthesis.html").write_text(synthesis_html, encoding="utf-8", newline="\n")
+    for name in ("styles.css", "favicon.svg", "literature.json", "literature.js", "synthesis.json", "synthesis-check.json"):
         shutil.copyfile(HERE / name, out / name)
     (out / "publications.json").write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (out / ".nojekyll").write_text("", encoding="utf-8")

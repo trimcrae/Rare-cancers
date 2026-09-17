@@ -1,0 +1,289 @@
+{
+  "updated_date": "2026-09-17",
+  "title": "What changes when EMC studies are read together?",
+  "scope": "A bounded synthesis of selected reviewed clinical, molecular and model studies. This is not a completed review of every EMC publication. Rankings are research judgments, not treatment recommendations or calculated probabilities of success.",
+  "conclusion": "The strongest experimental lead here is to separate proteasome sensitivity from the mechanism that makes a combination work. The strongest clinical question is what distinguishes exceptional multikinase-inhibitor responders. Neither has an established predictive biomarker. The immune findings currently support careful sample matching, not a universal EMC immune subtype.",
+  "sources": [
+    {
+      "id": "models2023",
+      "label": "Bangerter 2023 · two EMC models",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9813045/",
+      "location": "Molecular characterization; functional characterization; Figures 4–6; Supplementary Table 1",
+      "denominator": "Two patient-derived models: USZ20-EMC1 (EWSR1–NR4A3) and USZ22-EMC2 (TAF15–NR4A3). One donor per fusion class.",
+      "observation": "Carfilzomib was active in both models. Venetoclax alone was inactive in validation; carfilzomib combinations were synergistic in USZ20 and additive in USZ22.",
+      "limitation": "Six-day viability assays; culture, patient history and secondary alterations differ. No normal-cell therapeutic window established. A fusion-partner effect cannot be separated from donor background.",
+      "reading": "Body, references, all six figures and both supplementary tables reviewed; original response matrices unavailable in this review."
+    },
+    {
+      "id": "model2025",
+      "label": "Iwata 2025 · NCC-EMC1-C1",
+      "url": "https://doi.org/10.1007/s13577-025-01250-7",
+      "location": "Supplementary Table 3, rows 31/41/217; Supplementary Table 4, row 6",
+      "denominator": "One additional patient-derived EMC model; one drug-screen report.",
+      "observation": "Screen mean viability: bortezomib 13.6%, carfilzomib 23.6%, venetoclax 79.5%. The separate concentration-response table reports bortezomib IC50 135 nM.",
+      "limitation": "Screen concentration, exposure duration and replicate count unresolved because main methods remain inaccessible. These values cannot be pooled with the Zurich assays; the screen does not test the combination.",
+      "reading": "Primary abstract and supplementary Tables 1, 3 and 4 reviewed; main methods/figures incomplete."
+    },
+    {
+      "id": "cabo2022",
+      "label": "O'Sullivan Coyne 2022 · cabozantinib trial",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8776602/",
+      "location": "Antitumor activity; Figure 2; Supplementary Figure S1",
+      "denominator": "Three EMC patients enrolled; 54 of 55 sarcoma patients were evaluable overall. One EMC patient had a confirmed partial response.",
+      "observation": "The EMC responder first responded after ten cycles and remained on treatment through 99 cycles. Supplement S1 indicates no prior VEGF-targeting therapy.",
+      "limitation": "No responder-specific tumor genotype or activated-MET result reported. Treatment duration is not response duration. Overall trial efficacy thresholds were not met.",
+      "reading": "Body, references, three tables, three figures and three supplementary figures reviewed."
+    },
+    {
+      "id": "heterogeneity2022",
+      "label": "He 2022 · changes across samples",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9330136/",
+      "location": "Case description; Table 1; Discussion",
+      "denominator": "One NR4A3-rearranged EMC patient; four samples across sites and treatment time points.",
+      "observation": "EGFR/MET copy gains and FBXW7 variants differed across samples. The patient progressed on doxorubicin/ifosfamide; proposed targeted drugs were not administered.",
+      "limitation": "No functional validation, no primary-tumor sequencing and prior-chemotherapy confounding. Table 1 mislabels splice/stop notation as missense; copy gain is not demonstrated pathway dependence.",
+      "reading": "Body, references, main table and five figures reviewed; supplementary DOCX text read; workbook inventory only."
+    },
+    {
+      "id": "wgs2023",
+      "label": "Zou 2023 · longitudinal genomes",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11285543/",
+      "location": "Results 3.2–3.4; Discussion; Figure 6",
+      "denominator": "One patient; primary, lung and pelvic tumor samples plus blood.",
+      "observation": "The defining fusion persisted across tumors while additional variants differed. DMBT1 copy loss also appeared in blood.",
+      "limitation": "Coverage confounds variant-count comparisons. No expression or drug-response validation; DMBT1 loss is not established as tumor-specific.",
+      "reading": "Body, references, two tables and eight figures reviewed; targeted supplementary workbook checks only."
+    },
+    {
+      "id": "suni2012",
+      "label": "Stacchiotti 2012 · withdrawal and retreatment",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3534218/",
+      "location": "Case presentations and treatment timelines",
+      "denominator": "Two EWSR1-rearranged EMC patients; possible overlap with the subsequent ten-patient series.",
+      "observation": "Sunitinib activity included a withdrawal/progression/reintroduction pattern in one patient.",
+      "limitation": "Uncontrolled cases; infection affected the interruption. Retreatment supports drug association, not the identity of the inhibited target. Do not add these patients to the later series without linkage.",
+      "reading": "Body, references and figures reviewed."
+    },
+    {
+      "id": "pazo2019",
+      "label": "Stacchiotti 2019 · pazopanib",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/31331701/",
+      "location": "Primary abstract, findings",
+      "denominator": "26 enrolled; 23 modified intention-to-treat; 22 response-evaluable; four partial responses.",
+      "observation": "Objective activity with another multikinase/anti-angiogenic agent provides a competing explanation for cabozantinib benefit.",
+      "limitation": "Uncontrolled trial; different population and exposure. Primary full text and the linked correction require completion; no indirect drug comparison is justified.",
+      "reading": "Abstract reviewed; full article and correction contents incomplete."
+    },
+    {
+      "id": "trial2023",
+      "label": "NCT05836571 · existing biomarker study",
+      "url": "https://clinicaltrials.gov/study/NCT05836571",
+      "location": "Protocol description, secondary/exploratory objectives; registry API checked 2026-09-17",
+      "denominator": "Mixed-sarcoma randomized protocol that includes EMC; no posted results at this check.",
+      "observation": "Compares ipilimumab/nivolumab with or without cabozantinib; plans CD8, CD3/CD68, ctDNA and total/activated MET measurements.",
+      "limitation": "Active, not recruiting at this check. A planned measurement is not a result. The design does not isolate cabozantinib's MET effect from its other actions.",
+      "reading": "Registry status, design, eligibility and stated objectives checked; not a completed outcome study."
+    },
+    {
+      "id": "immune2022",
+      "label": "Ogata 2022 · pleural immune environment",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9527174/",
+      "location": "Case report; Figures 3–4; Discussion",
+      "denominator": "One pleural-metastatic EMC patient with a reported NR4A3/EWSR1 fusion.",
+      "observation": "Macrophage-rich tissue, sparse CD8 cells, absent FOXP3 staining, negative PD-L1 and TGF-beta1/VEGF staining; TMB 4 mutations/Mb.",
+      "limitation": "One site/time point. Staining does not demonstrate cytokine secretion, suppressive function or drug dependence. TGF-beta/VEGF combinations were already proposed by the authors.",
+      "reading": "Body, references, four figures and graphical abstract reviewed."
+    },
+    {
+      "id": "biomarker2026",
+      "label": "PeerJ 2026 · expression and immune staining",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13374579/",
+      "location": "Methods; Figure 4; Supplementary Figures S3–S6; expression workbook",
+      "denominator": "12 patients in expression model; five reported model events; immune imaging in two selected specimens with multiple regions.",
+      "observation": "The selected high-risk specimen showed FOXP3-positive cells; the selected low-risk specimen did not. PXN/TYMS/H1FX formed an exploratory prognostic score.",
+      "limitation": "Regions are not independent patients. Severe model overfitting, source-label conflicts and incomplete molecular confirmation limit inference. No drug response linked to the expression workbook.",
+      "reading": "Body, references, main/supplement figures reviewed; workbook audited; supplementary Word layout pending."
+    },
+    {
+      "id": "antiHu2017",
+      "label": "Papadopoulos 2018 · anti-Hu encephalitis",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5759826/",
+      "location": "Case report; supplementary antibody and clinical data",
+      "denominator": "One EMC patient treated with REGN2810/cemiplimab.",
+      "observation": "Tumor shrinkage below the partial-response threshold co-occurred with fatal encephalitis; anti-Hu antibodies were present before treatment.",
+      "limitation": "An immune response is not equivalent to net clinical benefit. This case cannot estimate toxicity frequency or establish a universal exclusion rule.",
+      "reading": "Body, figures and two supplements reviewed."
+    },
+    {
+      "id": "observation2020",
+      "label": "Long-term observation 2020",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7492874/",
+      "location": "Case descriptions and follow-up",
+      "denominator": "Three selected EMC patients followed without systemic therapy for 50, 70 and 126 months.",
+      "observation": "Prolonged courses can occur without systemic therapy.",
+      "limitation": "Selected cases, not a matched untreated control; some patients had local treatments or progression. Follow-up duration is not progression-free survival.",
+      "reading": "Body, references and figures reviewed."
+    },
+    {
+      "id": "kit2021",
+      "label": "Jennings 2021 · KIT-selected imatinib",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8395296/",
+      "location": "Investigations; treatment; outcome and follow-up",
+      "denominator": "One NR4A3-rearranged EMC with a somatic KIT W557G variant.",
+      "observation": "Approximately three years of stable disease on imatinib were reported.",
+      "limitation": "No EMC functional test or controlled counterfactual. Stable disease alone cannot establish the magnitude of drug benefit.",
+      "reading": "Body, references and figures reviewed."
+    },
+    {
+      "id": "gapdh2007",
+      "label": "Kim 2007 · old fusion nomenclature",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1868794/",
+      "location": "Abstract; interaction mapping and reporter experiments",
+      "denominator": "Engineered non-EMC cellular/biochemical systems, not patient-derived EMC drug testing.",
+      "observation": "GAPDH interacted with hTAFII68–TEC (TAF15–NR4A3) and enhanced transcriptional reporter activity.",
+      "limitation": "The interaction is prior art. It does not establish glycolytic dependence, a druggable interface or therapeutic selectivity.",
+      "reading": "Abstract and substantial indexed primary text reviewed; full figure-level verification outstanding."
+    },
+    {
+      "id": "retraction2026",
+      "label": "2026 retraction of the myeloma SGK1 paper",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42076939/",
+      "location": "Retraction notice for DOI 10.1158/1541-7786.MCR-15-0422",
+      "denominator": "A non-EMC mechanistic supporting paper, not an EMC clinical study.",
+      "observation": "The paper previously used to support the SGK1/proteasome-resistance bridge was retracted.",
+      "limitation": "That bridge is withdrawn. Independent EMC drug-screen findings remain separate evidence and do not repair the retracted mechanism.",
+      "reading": "Retraction status checked and public correction recorded in the literature report."
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "proteasome-partner",
+      "rank": 1,
+      "title": "Separate proteasome sensitivity from combination sensitization",
+      "status": "Priority for mechanistic testing; not a demonstrated treatment",
+      "inference": "Across two publications, three donor models support proteasome-inhibitor activity more consistently than venetoclax monotherapy. A plausible explanation is that proteasome stress creates a conditional vulnerability to an apoptosis-targeting partner. That mechanism has not been measured in these EMC experiments.",
+      "source_ids": [
+        "models2023",
+        "model2025"
+      ],
+      "against": "Additivity in USZ22 weakens a universal-synergy claim. Generic toxicity, schedule effects, or different cell-growth rates could explain the pattern. One donor per fusion class cannot identify a fusion-specific mechanism.",
+      "available_test": "Completed here: a reproducible extraction of the three named drugs from the independent screen, retaining SD, original rows and missing methods. This checks directional consistency only; it does not estimate a combined effect.",
+      "missing_test": "Matched dose/time response matrices in all models, with early target engagement, apoptosis/mitochondrial-priming measurements, selective perturbation/rescue and nonmalignant controls. These require laboratory work or unreleased data.",
+      "falsifier": "If combination benefit disappears after matching single-agent effect, or does not track induced apoptotic susceptibility, the sensitization interpretation weakens. Equal killing of relevant normal cells would defeat the proposed selectivity.",
+      "novelty": "The drugs and combinations were already proposed in 2023. The added synthesis is to prioritize conditional partner dependence over baseline BCL-2 expression. A targeted search found no independent EMC validation of this mechanism; that is not proof of novelty.",
+      "decision": "First experimental question to resolve, not a reason to prescribe the combination. Do not use the withdrawn SGK1 bridge as its mechanism."
+    },
+    {
+      "id": "multikinase-mechanism",
+      "rank": 2,
+      "title": "Distinguish tumor MET activity from vascular and immune effects",
+      "status": "Clinically relevant; existing prospective work; outcome linkage missing",
+      "inference": "An exceptional cabozantinib response, MET gain in a different patient's evolving tumor, and responses to other multikinase agents generate competing explanations. The key question is whether activated tumor MET predicts benefit beyond vascular effects, rather than whether a MET-related observation exists somewhere in EMC.",
+      "source_ids": [
+        "cabo2022",
+        "heterogeneity2022",
+        "wgs2023",
+        "suni2012",
+        "pazo2019",
+        "trial2023"
+      ],
+      "against": "The responder's MET status is unknown; copy gain alone is not activation. Benefit from other drugs is compatible with anti-angiogenesis. Cabozantinib targets several kinases, and the current combination trial cannot causally isolate one target.",
+      "available_test": "Completed here: check the existing trial's prespecified MET/immune measurements and posted-result status. No public patient-level EMC table currently joins activated MET, drug exposure and response in the sources reviewed.",
+      "missing_test": "Link pretreatment and on-treatment EMC specimens to lesion-level response, prior VEGF therapy, fusion and secondary alterations. Compare tumor-cell MET perturbation with endothelial effects; a marker-outcome association alone would remain insufficient for causality.",
+      "falsifier": "Consistent response without tumor MET activation would weaken MET as a selection marker. Compartment-specific perturbation/rescue experiments, controlling baseline viability and drug exposure, could distinguish tumor-MET dependence from vascular-pathway dependence.",
+      "novelty": "MET-directed therapy was proposed in the 2022 genetic case. NCT05836571 already prespecifies activated-MET and immune analyses. This is a sharper interpretation plan for existing work, not a newly discovered target.",
+      "decision": "Prioritize outcome-linked biomarker evidence. Do not infer benefit after pazopanib failure from a cabozantinib responder who had no prior VEGF-targeting treatment."
+    },
+    {
+      "id": "immune-context",
+      "rank": 3,
+      "title": "Test whether immune differences reflect sampling context",
+      "status": "Competing explanations remain unresolved",
+      "inference": "Macrophage-rich, FOXP3-negative pleural disease and a FOXP3-positive selected high-risk specimen need not represent contradictory universal tumor classes. Site, treatment history, assay and spatial sampling could account for the difference. Immune-state claims should therefore be tied to specimen context before being used to select combinations.",
+      "source_ids": [
+        "immune2022",
+        "biomarker2026",
+        "heterogeneity2022",
+        "trial2023",
+        "antiHu2017"
+      ],
+      "against": "The image evidence spans very few patients, uses different assays and includes imperfect diagnostic confirmation. Low TMB or negative PD-L1 does not by itself prove resistance. Shrinkage and immune activation do not establish a favorable benefit-risk balance.",
+      "available_test": "The public expression workbook has 12 samples but no linked treatment-response outcomes. Region-level staining comparisons cannot supply independent patient replication. The matrix records this lack of testable outcome linkage rather than fitting a predictive model.",
+      "missing_test": "Harmonized patient-level specimen metadata and common staining/analysis methods; preferably matched sites or time points. Test whether differences survive adjustment for purity, site and prior treatment before defining a subgroup.",
+      "falsifier": "If differences disappear with a shared assay and matched sampling, a stable biological immune-subtype interpretation fails. If they persist within matched conditions, specimen context alone is insufficient.",
+      "novelty": "Immune/vascular combinations and prospective immune measurements already exist. The contribution here is an explicit competing-explanation and sampling plan, not a new immune drug combination.",
+      "decision": "Do not turn these small, heterogeneous observations into an EMC-wide immune classification or a response score."
+    },
+    {
+      "id": "benefit-vs-indolence",
+      "rank": 4,
+      "title": "Use pretreatment growth and retreatment to judge apparent benefit",
+      "status": "Evidence-selection rule that changes which treatment leads deserve attention",
+      "inference": "Long untreated courses make prolonged stable disease difficult to interpret. Pairing those observations with drug withdrawal/reintroduction and confirmed shrinkage suggests prioritizing within-patient changes in growth rate over duration on treatment alone.",
+      "source_ids": [
+        "observation2020",
+        "kit2021",
+        "suni2012",
+        "cabo2022"
+      ],
+      "against": "Observation cohorts are selected and cannot serve as trial controls. Withdrawal episodes may be confounded by infection or local intervention. Neither a single partial response nor retreatment establishes general efficacy.",
+      "available_test": "A source-level outcome audit is possible now: retain pretreatment trajectory, RECIST response, interruption/restart, local procedures and censoring separately. Do not pool these reports into a synthetic response rate.",
+      "missing_test": "Original serial scans or lesion measurements and dates. Compare each patient's pretreatment and on-treatment slopes under a prespecified approach, with sensitivity checks for measurement error and treatment-triggered selection.",
+      "falsifier": "If growth remains unchanged across treatment initiation and interruptions, attribution of stable disease to the drug weakens. Reproducible slope changes strengthen association but still need replication.",
+      "novelty": "EMC's indolence and retreatment observations are known. This is a cross-report adjudication rule, not a novel biological mechanism.",
+      "decision": "Rank the cabozantinib partial response and informative retreatment histories above uncontextualized stable-disease anecdotes, without equating this research priority with a treatment ranking."
+    },
+    {
+      "id": "fusion-cofactor",
+      "rank": 5,
+      "title": "Revisit a fusion-cofactor interaction in a modern EMC model",
+      "status": "Exploratory; higher mechanistic uncertainty",
+      "inference": "The older GAPDH–TAF15/TEC interaction can now be examined in a molecularly confirmed TAF15–NR4A3 donor model. This creates a way to distinguish a fusion-associated transcriptional role from generic glycolysis, which a conventional metabolic-inhibitor screen would not resolve.",
+      "source_ids": [
+        "gapdh2007",
+        "models2023"
+      ],
+      "against": "The original experiments used engineered non-EMC systems. The relevant interaction may not be necessary in native tumors, and selectively perturbing it without disturbing essential GAPDH functions may be infeasible.",
+      "available_test": "Map old fusion names and reported interaction domains to the actual USZ22 fusion junction before proposing a perturbation. The original paper's complete figures and sequence-level compatibility still need review; no binding calculation is treated as validation.",
+      "missing_test": "Confirm endogenous interaction, then distinguish interface disruption from catalytic inhibition using matched controls and rescue. Compare with EWSR1-fusion and nonmalignant models. This cannot be established computationally from expression correlations.",
+      "falsifier": "No endogenous interaction, incompatible fusion architecture, or a phenotype explained entirely by loss of glycolysis would undermine the selective cofactor route.",
+      "novelty": "The interaction is established prior art; the later model provides a testing opportunity. No claim that this particular native-model experiment has never been attempted.",
+      "decision": "A lower-priority mechanistic route after sequence and source verification; not a rationale for nonspecific GAPDH inhibition."
+    }
+  ],
+  "rejected_shortcuts": [
+    {
+      "title": "SGK1 explains proteasome resistance in EMC",
+      "reason": "Withdrawn: a key supporting myeloma paper was retracted. Independent drug activity cannot validate that mechanism.",
+      "source_ids": [
+        "retraction2026",
+        "models2023"
+      ]
+    },
+    {
+      "title": "A prognostic RNA signature selects TYMS-directed treatment",
+      "reason": "Not established: outcome association, severe overfitting and unlinked drug-response data do not demonstrate dependency or treatment benefit.",
+      "source_ids": [
+        "biomarker2026"
+      ]
+    },
+    {
+      "title": "One fusion partner predicts combination synergy",
+      "reason": "Not identifiable from one donor per fusion class; patient background, secondary alterations and culture history are confounded.",
+      "source_ids": [
+        "models2023"
+      ]
+    }
+  ],
+  "novelty_search": {
+    "date": "2026-09-17",
+    "method": "Targeted web searches plus discussion/reference checks in the linked primary sources. Limited scope; no claim of exhaustive novelty clearance.",
+    "queries": [
+      "extraskeletal myxoid chondrosarcoma MET cabozantinib biomarker response",
+      "extraskeletal myxoid chondrosarcoma carfilzomib venetoclax priming",
+      "extraskeletal myxoid chondrosarcoma immune microenvironment FOXP3 macrophages",
+      "extraskeletal myxoid chondrosarcoma GAPDH fusion transcription glycolysis",
+      "NCT05836571 MET biopsy"
+    ]
+  }
+}
