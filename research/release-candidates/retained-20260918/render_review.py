@@ -8,7 +8,7 @@ from pypdf import PdfReader, PdfWriter
 ROOT=Path(__file__).resolve().parents[3]
 HERE=Path(__file__).resolve().parent
 MANIFEST=json.loads((HERE/'inputs.json').read_text())
-OUT=HERE/'rendered'
+OUT=HERE/MANIFEST.get('output_directory','rendered')
 LIMIT=MANIFEST['output_budget_bytes']
 MIN_FREE=10*1024**3
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
@@ -29,7 +29,7 @@ def run(command):
 guard('before export');OUT.mkdir(exist_ok=True)
 records=[]
 corrected_main=None
-if any(x['paper']=='FO' for x in MANIFEST['inputs']):
+if any(x['paper']=='FO' and x['role']=='main' for x in MANIFEST['inputs']):
     from correct_fo_labels import correct
     corrected_main,label_receipt=correct(HERE,guard)
 for job in MANIFEST['inputs']:
@@ -57,7 +57,8 @@ for paper in sorted({x['paper'] for x in records}):
     writer=PdfWriter();components=[]
     roles=MANIFEST.get('combination_roles',{}).get(paper,['main','supplement'])
     for role in roles:
-        rec=next(x for x in records if x['paper']==paper and x['role']==role)
+        rec=next(x for x in records+MANIFEST.get('retained_component_records',[]) if x['paper']==paper and x['role']==role)
+        assert sha(ROOT/rec['pdf'])==rec['pdf_sha256'], 'Retained component identity changed'
         writer.append(str(ROOT/rec['pdf']));components.append(rec)
     attachment=None
     if paper=='ASO':

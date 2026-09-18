@@ -132,5 +132,5 @@ jobs:
           PUBLISH_FAIL_HARD: '1'
         run: |
           set -euo pipefail
-          mapfile -t selected < <(find research/release-candidates/retained-20260918/rendered -type f \( -name '*.pdf' -o -name '*.json' -o -name '*.txt' -o -name '*.docx' \))
+          mapfile -t selected < <(find research/release-candidates/retained-20260918/rendered* -type f \( -name '*.pdf' -o -name '*.json' -o -name '*.txt' -o -name '*.docx' \))
           bash research/compute/publish_artifacts.sh "$REVIEW_BRANCH" "Render accepted retained preprint drafts for visual review" "${selected[@]}"
