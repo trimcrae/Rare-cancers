@@ -1,10 +1,18 @@
-# NR4A3 method-watch — week of September 11
+# NR4A3 method-watch — week of September 18
 
-One genuinely new item this week: a literature hit that's the closest fusion-vaccine precedent yet for your EMC route. Clinical vaccine news is just continued commentary on last week's stories — no new data there.
+Quiet week — no new pivotal clinical readout, no first-in-class result, and nothing new on
+NR4A3/EMC directly. Last week's big stories just kept generating follow-up press with no new data.
 
-- **Off-the-shelf EWSR1-FLI1 peptide vaccine: durable clinical + immunologic response in metastatic Ewing sarcoma** (literature) — a real hit, not a keyword false-positive. Closest fusion-breakpoint-vaccine precedent so far for the EWSR1::NR4A3 junction-vaccine route; worth a full read for the vaccine-construct memo.
-- **Vepdegestrant "opens the PROTAC era" in breast cancer** (news lead, Oncodaily, 9/10) — a degrader-clinical framing piece; bears on the NR4A3 degrader route's precedent case, but it's commentary, not new trial data.
-- Still just rehash on the two stories already in last week's brief: the BioNTech mRNA-vaccine trial halt and the Merck/Moderna melanoma readout are both getting "what it means" follow-up coverage (Yahoo Finance, UCHealth, etc.), nothing beyond what you already saw.
-- FDA approved daraxonrasib for pancreatic cancer — a notable first-in-class RAS-inhibitor readout, but it touches none of your three routes.
+- **Genexine's GX-BP1 (SOX2 bioPROTAC): 6/6 complete responses** in a mouse triple-combination
+  model with osimertinib + Dato-DXd (Yahoo Finance, 9/15) — preclinical, press-sourced, so a lead
+  not evidence, but a fresh precedent signal for the NR4A3 degrader route if it replicates.
+- **"Protein degrading breast cancer drugs navigate bumpy road to market"** (Chemistry World, 9/15)
+  — background color on degraders' regulatory/market path, not new trial data; touches the degrader
+  route's context, no action needed.
+- Rehash only: the **BioNTech colorectal-vaccine trial halt** and the **Merck/Moderna melanoma
+  mRNA-vaccine win** are still drawing "what it means" analysis pieces — same stories you already
+  saw, no new data attached.
 
-Quiet elsewhere: no ASO-route delivery breakthrough, no new tool/model release, and nothing standout in this week's funding sweep.
+Nothing this week on: ASO/oligo solid-tumour delivery, new tool or model releases (AF3/bioemu
+versions unchanged), or actionable GPU/compute funding for individuals — the funding sweep only
+turned up one new item and it's not in the individual-eligible bucket.
