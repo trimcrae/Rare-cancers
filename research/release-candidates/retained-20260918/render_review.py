@@ -37,9 +37,14 @@ for job in MANIFEST['inputs']:
     render_source=corrected_main if job['paper']=='FO' and job['role']=='main' else source
     target=OUT/job['paper']/job['role'];target.mkdir(parents=True,exist_ok=True)
     guard('Word export '+job['paper']+' '+job['role'])
-    with tempfile.TemporaryDirectory(prefix='emc-review-lo-') as profile:
-        run(['soffice','--headless','--norestore','-env:UserInstallation='+Path(profile).as_uri(),'--convert-to','pdf:writer_pdf_Export','--outdir',str(target),str(render_source)])
     pdf=target/(render_source.stem+'.pdf')
+    if job.get('existing_pdf'):
+        existing=ROOT/job['existing_pdf']
+        assert sha(existing)==job['existing_pdf_sha256']
+        shutil.copyfile(existing,pdf)
+    else:
+        with tempfile.TemporaryDirectory(prefix='emc-review-lo-') as profile:
+            run(['soffice','--headless','--norestore','-env:UserInstallation='+Path(profile).as_uri(),'--convert-to','pdf:writer_pdf_Export','--outdir',str(target),str(render_source)])
     assert pdf.is_file() and pdf.stat().st_size>1000, 'Converter did not produce expected PDF'
     reader=PdfReader(pdf);texts=[page.extract_text() or '' for page in reader.pages]
     assert all(x.strip() for x in texts), 'Empty extracted page; inspect conversion'

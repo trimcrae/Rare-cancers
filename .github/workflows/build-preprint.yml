@@ -122,7 +122,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: retained-preprint-review-${{ github.run_id }}
-          path: research/release-candidates/retained-20260918/rendered/
+          path: research/release-candidates/retained-20260918/rendered*/
           if-no-files-found: error
           retention-days: 14
       - name: Publish PDF review copies and receipt to this draft branch
