@@ -28,13 +28,18 @@ def run(command):
 
 guard('before export');OUT.mkdir(exist_ok=True)
 records=[]
+corrected_main=None
+if any(x['paper']=='FO' for x in MANIFEST['inputs']):
+    from correct_fo_labels import correct
+    corrected_main,label_receipt=correct(HERE,guard)
 for job in MANIFEST['inputs']:
     source=ROOT/job['input'];assert source.is_file() and sha(source)==job['sha256']
+    render_source=corrected_main if job['paper']=='FO' and job['role']=='main' else source
     target=OUT/job['paper']/job['role'];target.mkdir(parents=True,exist_ok=True)
     guard('Word export '+job['paper']+' '+job['role'])
     with tempfile.TemporaryDirectory(prefix='emc-review-lo-') as profile:
-        run(['soffice','--headless','--norestore','-env:UserInstallation='+Path(profile).as_uri(),'--convert-to','pdf:writer_pdf_Export','--outdir',str(target),str(source)])
-    pdf=target/(source.stem+'.pdf')
+        run(['soffice','--headless','--norestore','-env:UserInstallation='+Path(profile).as_uri(),'--convert-to','pdf:writer_pdf_Export','--outdir',str(target),str(render_source)])
+    pdf=target/(render_source.stem+'.pdf')
     assert pdf.is_file() and pdf.stat().st_size>1000, 'Converter did not produce expected PDF'
     reader=PdfReader(pdf);texts=[page.extract_text() or '' for page in reader.pages]
     assert all(x.strip() for x in texts), 'Empty extracted page; inspect conversion'
@@ -50,7 +55,8 @@ combined=[]
 for paper in sorted({x['paper'] for x in records}):
     guard('assemble combined PDF '+paper)
     writer=PdfWriter();components=[]
-    for role in ['main','supplement']:
+    roles=MANIFEST.get('combination_roles',{}).get(paper,['main','supplement'])
+    for role in roles:
         rec=next(x for x in records if x['paper']==paper and x['role']==role)
         writer.append(str(ROOT/rec['pdf']));components.append(rec)
     attachment=None
@@ -65,7 +71,7 @@ for paper in sorted({x['paper'] for x in records}):
     assert len(readback.pages)==sum(c['pages'] for c in components)
     if attachment:
         assert hashlib.sha256(readback.attachments[attachment['name']][0]).hexdigest()==attachment['sha256']
-    combined.append({'paper':paper,'path':str(dest.relative_to(ROOT)),'sha256':sha(dest),'pages':len(readback.pages),'component_order':['main','supplement'],'components':[{'path':x['pdf'],'sha256':x['pdf_sha256']} for x in components],'embedded_csv':attachment})
+    combined.append({'paper':paper,'path':str(dest.relative_to(ROOT)),'sha256':sha(dest),'pages':len(readback.pages),'component_order':roles,'components':[{'path':x['pdf'],'sha256':x['pdf_sha256']} for x in components],'embedded_csv':attachment})
 guard('after all outputs')
 receipt={'utc':datetime.now(timezone.utc).isoformat(),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'input_manifest_sha256':sha(HERE/'inputs.json'),'renderer':subprocess.check_output(['soffice','--version'],text=True).strip(),'status':'rendered_awaiting_actual_visual_review','inputs_unchanged':True,'documents':records,'combined':combined,'physical_gates':events,'output_bytes':sum(p.stat().st_size for p in OUT.rglob('*') if p.is_file()),'no_scientific_analysis_or_aixiv_submission':True}
 (OUT/'RENDER-RECEIPT.json').write_text(json.dumps(receipt,indent=2)+'\n')
