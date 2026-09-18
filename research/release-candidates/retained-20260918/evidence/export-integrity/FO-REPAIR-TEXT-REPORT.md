@@ -1,3 +1,17 @@
+---
+id: "DOC-RETAINED-20260918-FO-REPAIR-TEXT-REPORT"
+title: "Fusion-output supplement repair textual acceptance"
+level: "L5"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Preserve the dated textual export audit and its explicit source and output bindings."
+scope: "Release artifact integrity only; no new scientific analysis, prose review, or provider-publication claim."
+audience: ["maintainers", "external reviewers"]
+date: "2026-09-18"
+last_verified: "2026-09-18"
+---
+
 # Fusion-output supplement repair textual acceptance
 
 **PASS — all 362 source paragraphs are preserved in the repaired 12-page SI2, including all S14 rows.** The repaired 67-page combined PDF exactly preserves the unchanged main, unchanged SI1, and repaired SI2 text in order.

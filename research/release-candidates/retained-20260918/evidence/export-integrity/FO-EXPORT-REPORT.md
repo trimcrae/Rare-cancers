@@ -1,3 +1,17 @@
+---
+id: "DOC-RETAINED-20260918-FO-EXPORT-REPORT"
+title: "Fusion-output DOCX-to-PDF export integrity"
+level: "L5"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Preserve the dated textual export audit and its explicit source and output bindings."
+scope: "Release artifact integrity only; no new scientific analysis, prose review, or provider-publication claim."
+audience: ["maintainers", "external reviewers"]
+date: "2026-09-18"
+last_verified: "2026-09-18"
+---
+
 # Fusion-output DOCX-to-PDF export integrity
 
 **FAIL — Supplementary Table S14 loses eight complete data rows in Supplementary File 2 and the combined aiXiv PDF.** No additional textual export loss was found across all five documents after explicit glyph-order adjudication.

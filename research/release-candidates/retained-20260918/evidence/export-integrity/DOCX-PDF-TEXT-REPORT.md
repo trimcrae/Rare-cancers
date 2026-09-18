@@ -1,3 +1,17 @@
+---
+id: "DOC-RETAINED-20260918-DOCX-PDF-TEXT-REPORT"
+title: "CSPG4 and ASO first-render textual integrity"
+level: "L5"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Preserve the dated textual export audit and its explicit source and output bindings."
+scope: "Release artifact integrity only; no new scientific analysis, prose review, or provider-publication claim."
+audience: ["maintainers", "external reviewers"]
+date: "2026-09-18"
+last_verified: "2026-09-18"
+---
+
 # CSPG4 and ASO first-render textual integrity
 
 **PASS — no textual export omission or changed number, citation, declaration, author, or preprint statement found.** Checked 2026-09-18 at 17:08:36 UTC (13:08:36 America/New_York).

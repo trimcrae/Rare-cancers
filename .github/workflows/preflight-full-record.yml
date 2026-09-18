@@ -69,6 +69,9 @@ jobs:
           command -v uv >/dev/null 2>&1 || pip install -q uv
           ./scripts/dev-setup.sh --if-needed
 
+      - name: Validate document metadata before the long suite
+        run: python3 systems/systems_check.py --check
+
       - name: Run PREFLIGHT_FULL=1 against the pinned commit
         # ⛔⛔ GitHub Actions runs every `run:` step under `bash -e` BY DEFAULT, and `set -uo pipefail`
         # below only ADDS flags -- it does not clear the pre-existing `-e`. A first version of this
