@@ -8,12 +8,12 @@ canonical_for: []
 purpose: "Unrefereed preprints matching a named reopening trigger, grouped by the blocker they would reopen — a leading indicator for the forecast bands in the blocker register."
 scope: "Preprints only (Europe PMC SRC:PPR, arXiv, ChemRxiv). The published corpus is on the trigger-scan board."
 audience: [maintainers, autonomous research agents]
-date: 2026-09-11
+date: 2026-09-18
 last_verified: unverified
 ---
 # Preprint pipeline — what is coming, by blocker
 
-**Last run: 2026-09-11** (UTC date stamp from the runner).
+**Last run: 2026-09-18** (UTC date stamp from the runner).
 
 ⛔ **EVERYTHING HERE IS UNREFEREED, TITLE-MATCHED AND UNREAD.** A preprint is the weakest lead this repository records. It cannot move a forecast band, it is not evidence, and nothing here may be cited. Its value is WARNING — it is the earliest point at which a capability becomes visible, often months before the journal version.
 
@@ -27,6 +27,8 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-16 | [Martini 3 Coarse-Grained Model of DNA for Heterogeneous Molecular Systems](https://europepmc.org/article/PPR/PPR1321838) | PPR | `TRG-CONDENSATE-PARTNER-RESOLUTION` ⚠ |
+| 2026-09-14 | [PAIR-Scan: Single-step identification of highly potent TCR–neoantigen pairs through library-on-library screeni](https://europepmc.org/article/PPR/PPR1319203) | PPR | `TRG-JUNCTION-PHLA` ⚠ |
 | 2026-09-10 | [Auto-RecSys: Harnessing Autonomous Research Agents for Industry-Scale Recommender System](http://arxiv.org/abs/2609.10922v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-09-09 | [TAPAS: Learned integration of AlphaFold3 confidence and geometric features for TCR-pMHC binding prediction](https://europepmc.org/article/PPR/PPR1316910) | PPR | `TRG-JUNCTION-PHLA` ⚠ |
 | 2026-09-09 | [Rational Design and Experimental Validation of a CCR7-Targeted Multi-Epitope Cytokine Fusion Protein for Cance](https://europepmc.org/article/PPR/PPR1315711) | PPR | `TRG-FUSION-JUNCTION-CLINICAL` ⚠ |
@@ -131,6 +133,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-02-17 | [RNAiSpline: A Deep learning model for siRNA efficacy prediction](https://europepmc.org/article/PPR/PPR1223467) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Martini 3 Coarse-Grained Model of DNA for Heterogeneous Molecular Systems** — PPR, 2026-09-16
+
+> DNA often functions in heterogeneous molecular systems containing proteins, lipids, polymers, and other materials. All-atom molecular dynamics simulations can be used to study DNA in these multicomponent systems, but computational cost limits the accessible system sizes and time scales. Coarse-grained models extend these scales, but existing DNA models are generally not designed for interactions with a broad range of other molecular species. To fill this gap, we develop a coarse-grained model of DNA designed for use with the Martini 3 force field. The model was parameterized through an iterative Bayesian optimization workflow, which used a scaled Wasserstein metric to compare distributions of local geometrical features and global structure from coarse-grained simulations against all-atom reference simulations. The optimized model captures key structural and mechanical properties of single- and double-stranded DNA across varying strand lengths and ionic conditions, while retaining compatibility with the broader Martini 3 ecosystem. This compatibility enables DNA to be integrated with a broad range of molecular systems, as we illustrate through simulations of double-stranded DNA bound to a transcription factor, cholesterol-tagged DNA duplex interacting with a lipid bilayer, a crossover-containing DNA nanostructure, and single-stranded DNA adsorbing onto graphene. Together, these 
+
+**PAIR-Scan: Single-step identification of highly potent TCR–neoantigen pairs through library-on-library screening** — PPR, 2026-09-14
+
+> Tumors contain a mixture of T cells with bystander reactivities and reactivities towards different, frequently patient-specific, cancer (neo)antigens. The one-step identification of highly active TCR– antigen pairs in human tumors would be valuable, both as a monitoring tool and to boost T cell reactivities of interest. Here, we develop PAIR-Scan, an HLA-agnostic library-on-library screening technology that identifies functionally active TCR–neoantigen pairs among tens of thousands of candidate pairs in a single step. We demonstrate the value of PAIR-Scan on a range of tumor samples and for the direct identification of TCR-recognized minimal peptides. In addition, we demonstrate that PAIR-Scan correctly ranks TCRs reactive to the same antigen by their relative tumor-killing efficiency. Together, these data demonstrate the value of PAIR-Scan for both the dissection of T cell responses in clinical samples and to generate large-scale datasets for the development of predictive models of TCR reactivity.
 
 **Auto-RecSys: Harnessing Autonomous Research Agents for Industry-Scale Recommender System** — arXiv, 2026-09-10
 
@@ -775,12 +785,17 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-15 | [PBPK-based exposure–response modeling of enzalutamide and its active metabolite N-desmethyl enzalutamide for t](https://europepmc.org/article/PPR/PPR1319671) | PPR | `TRG-OLIGO-DELIVERY-PREDICTOR` |
 | 2026-08-28 | [Towards a ML-powered Multiscale Computational Platform Based on QSP and PBPK Modeling to Support the Developme](https://europepmc.org/article/PPR/PPR1308155) | PPR | `TRG-OLIGO-DELIVERY-PREDICTOR` |
 | 2026-08-12 | [Development of a Dissolution-Informed PBPK-Assisted In Vitro–In Silico Correlation Framework for Predicting Fo](https://europepmc.org/article/PPR/PPR1297025) | PPR | `TRG-OLIGO-DELIVERY-PREDICTOR` |
 | 2026-05-29 | [The biodistribution and effect of post-exposure neutralising monoclonal antibody treatment in a mouse model of](https://europepmc.org/article/PPR/PPR1242050) | PPR | `TRG-OLIGO-DELIVERY-PREDICTOR` |
 | 2026-05-25 | [A Mechanistic PBPK-PD Framework to Predict Clinical Success of Tuberculosis Treatments Across Populations: A P](https://europepmc.org/article/PPR/PPR1238335) | PPR | `TRG-OLIGO-DELIVERY-PREDICTOR` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**PBPK-based exposure–response modeling of enzalutamide and its active metabolite N-desmethyl enzalutamide for the prediction of survival outcomes in patients with prostate cancer** — PPR, 2026-09-15
+
+> Abstract    Enzalutamide is an androgen receptor inhibitor extensively metabolized to the pharmacologically active metabolite N-desmethyl enzalutamide. This study developed an integrated physiologically based pharmacokinetic (PBPK) and exposure–response (E–R) modeling framework to evaluate the standard 160-mg and reduced 120-mg once-daily regimens. The whole-body PBPK model demonstrated acceptable predictive performance, with geometric mean fold errors of 1.16–1.35 and mean relative deviations of 1.39–1.41. Virtual population simulations showed that 77.0% and 85.5% of individuals receiving 120 and 160 mg, respectively, achieved the androgen receptor occupancy-associated concentration of 5 µg/mL, whereas 14.5% and 28.5%, respectively, reached or exceeded the exploratory toxicity-associated reference concentration of 16.1 µg/mL. PBPK-predicted total active-moiety trough concentrations were integrated with reconstructed clinical survival data using parametric E–R models. Predicted median progression-free survival was 13.7 and 18.0 months for the 120- and 160-mg regimens, respectively, and predicted median overall survival was 32.0 and 34.0 months. Although the simulation intervals overlapped and the independent exposure effects remained uncertain, the findings provide a model-informed pharmacological rationale for prospective evaluation of reduced-dose enzalutamide as a dose-optim
 
 **Towards a ML-powered Multiscale Computational Platform Based on QSP and PBPK Modeling to Support the Development of mRNA-based Therapies** — PPR, 2026-08-28
 
@@ -1036,6 +1051,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-11 | [Discovery of a molecular glue inhibitor that stabilises a non-productive Kalirin-Rac1 complex](https://europepmc.org/article/PPR/PPR1317725) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-09-08 | [Direct-to-Biology Strategy Accelerates CRBN-Targeting Molecular Glue Degrader Discovery](https://europepmc.org/article/PPR/PPR1314942) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-08-13 | [MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction](https://europepmc.org/article/PPR/PPR1298863) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v1) | arXiv | `TRG-TERNARY-GEN-NO-SITES` |
@@ -1048,6 +1064,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Leveraging High-Throughput Proteomics and AI-Based Protein Folding to Accelerate VAV1 Molecular Glue Discovery](https://europepmc.org/article/PPR/PPR1164287) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Discovery of a molecular glue inhibitor that stabilises a non-productive Kalirin-Rac1 complex** — PPR, 2026-09-11
+
+> Rho guanosine triphosphatases (GTPases) are molecular-switches implicated in neurodegenerative diseases, yet targeting them through competitive inhibition remains a challenge due to their high affinity for guanine nucleotides. Guanine nucleotide exchange factors (GEFs) catalyse GDP-to-GTP nucleotide exchange to activate GTPases, providing an alternative opportunity for GTPase modulation. Herein, we describe a complex-targeted strategy to inhibit nucleotide exchange with covalent molecular glues that engage the Kalirin-Rac1 GEF-GTPase complex at the nucleotide binding site and sequester the GEF Kalirin. Fragment hits were identified through XChem and in silico screening, and a fragment merging approach resulted in the generation of covalent inhibitors RS-009 and MC-278. Multiple analyses demonstrate our compounds inhibit nucleotide exchange both through competition with the nucleotides and by stabilising a ternary inhibitor-Rac1-Kalirin complex, thereby trapping Kalirin in a non-productive state and reducing GEF turnover. Biochemical selectivity screening and cellular activity-based protein profiling (ABPP) show that selectivity can be achieved across distinct GEF-GTPase complexes, which may result in improved spatiotemporal control over targeting the GTPase alone. This work provides evidence for targeting GTPase signalling via stabilization of the GEF-GTPase complex in a unique
 
 **Direct-to-Biology Strategy Accelerates CRBN-Targeting Molecular Glue Degrader Discovery** — PPR, 2026-09-08
 
@@ -1359,6 +1379,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-11 | [Discovery of a molecular glue inhibitor that stabilises a non-productive Kalirin-Rac1 complex](https://europepmc.org/article/PPR/PPR1317725) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-09-08 | [Direct-to-Biology Strategy Accelerates CRBN-Targeting Molecular Glue Degrader Discovery](https://europepmc.org/article/PPR/PPR1314942) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-08-13 | [MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction](https://europepmc.org/article/PPR/PPR1298863) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v1) | arXiv | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
@@ -1369,6 +1390,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Leveraging High-Throughput Proteomics and AI-Based Protein Folding to Accelerate VAV1 Molecular Glue Discovery](https://europepmc.org/article/PPR/PPR1164287) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Discovery of a molecular glue inhibitor that stabilises a non-productive Kalirin-Rac1 complex** — PPR, 2026-09-11
+
+> Rho guanosine triphosphatases (GTPases) are molecular-switches implicated in neurodegenerative diseases, yet targeting them through competitive inhibition remains a challenge due to their high affinity for guanine nucleotides. Guanine nucleotide exchange factors (GEFs) catalyse GDP-to-GTP nucleotide exchange to activate GTPases, providing an alternative opportunity for GTPase modulation. Herein, we describe a complex-targeted strategy to inhibit nucleotide exchange with covalent molecular glues that engage the Kalirin-Rac1 GEF-GTPase complex at the nucleotide binding site and sequester the GEF Kalirin. Fragment hits were identified through XChem and in silico screening, and a fragment merging approach resulted in the generation of covalent inhibitors RS-009 and MC-278. Multiple analyses demonstrate our compounds inhibit nucleotide exchange both through competition with the nucleotides and by stabilising a ternary inhibitor-Rac1-Kalirin complex, thereby trapping Kalirin in a non-productive state and reducing GEF turnover. Biochemical selectivity screening and cellular activity-based protein profiling (ABPP) show that selectivity can be achieved across distinct GEF-GTPase complexes, which may result in improved spatiotemporal control over targeting the GTPase alone. This work provides evidence for targeting GTPase signalling via stabilization of the GEF-GTPase complex in a unique
 
 **Direct-to-Biology Strategy Accelerates CRBN-Targeting Molecular Glue Degrader Discovery** — PPR, 2026-09-08
 
@@ -1410,6 +1435,8 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-15 | [Computational Design and Parent Transcript Liabilities of NR4A3 Fusion Junction Gapmers in Extraskeletal Myxoi](https://europepmc.org/article/PPR/PPR1319933) | PPR | `TRG-NR4A3-DIRECT-MATTER` ⚠ |
+| 2026-09-11 | [Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcom](https://europepmc.org/article/PPR/PPR1317384) | PPR | `TRG-NR4A3-DIRECT-MATTER` ⚠ |
 | 2026-09-09 | [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts wi](https://europepmc.org/article/PPR/PPR1315617) | PPR | `TRG-NR4A3-DIRECT-MATTER` ⚠ |
 | 2026-09-08 | [NR4A3 Fusion-Junction Antisense Gapmers for Extraskeletal Myxoid Chondrosarcoma: Reagents, Test Articles and a](https://europepmc.org/article/PPR/PPR1314917) | PPR | `TRG-NR4A3-DIRECT-MATTER` ⚠ |
 | 2026-08-27 | [NR4A3 Fusion-Junction Antisense Gapmers for Extraskeletal Myxoid Chondrosarcoma: Reagents, Test Articles and a](https://europepmc.org/article/PPR/PPR1306870) | PPR | `TRG-NR4A3-DIRECT-MATTER` ⚠ |
@@ -1426,6 +1453,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-05-05 | [From Enhanced Sampling to Human-Readable Representations of Protein Dynamics](http://arxiv.org/abs/2605.03394v2) | arXiv | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Computational Design and Parent Transcript Liabilities of NR4A3 Fusion Junction Gapmers in Extraskeletal Myxoid Chondrosarcoma** — PPR, 2026-09-15
+
+> Fusion RNAs join sequences from two normal genes. Antisense gapmers are short molecules designed to bind RNA and recruit an enzyme that cuts it. Their central DNA segment is called the gap. Targeting the fusion join could spare normal parent RNA, but partial parent pairing may escape conventional near-match screens. We computationally designed and screened 190 junction-spanning, 16-base molecules across 38 NR4A3 fusion junctions that preserve the protein reading frame, in extraskeletal myxoid chondrosarcoma. Five screens compared these designs with RNA and genome sequences. Our adopted criterion required ten consecutive base pairs covering the whole DNA gap. At this cutoff, 87 of 190 designs (45.8%) paired a normal parent's mature RNA, after its intervening segments are removed. NR4A3 formed the longest paired stretch for 61 designs. Artificial joins between RNA segments at exon ends met the same criterion at 40.6%, leaving a disease-specific excess unresolved. For 35 of 38 junctions, at least one design had no parent match meeting this criterion; these counts depended substantially on the cutoff. Two designs at reported junctions had longest full-gap parent matches of eight and nine base pairs. Ten base pairs is a convention, not a measured cleavage threshold. Whether the designs match patient-derived cell-model junctions remains unresolved. Released sequence records and scree
+
+**Reading-frame constraints and retained RG content in NR4A3 fusion models of extraskeletal myxoid chondrosarcoma** — PPR, 2026-09-11
+
+> Abstract    Extraskeletal myxoid chondrosarcoma (EMC) is a translocation sarcoma driven by an NR4A3 fusion, usually with the FET-family gene EWSR1. A recent report describes FET fusion oncoproteins as disrupting physiologic DNA repair, with recruitment to laser-induced double-strand breaks tracking retained FET RGG-rich content; EMC is the untested fourth transcription-factor-partner class there. The reported EMC junctions are compiled from published sources, reviews included, translated at transcript rather than coding-sequence level, and placed on that axis. Four sourced junctions (EWSR1 exons 12, 7 and 13; TAF15 exon 6) yield in-frame reading frames retaining the complete NR4A3 moiety. The EWSR1 exon 7 to NR4A3 exon 2 junction inserts 177 nucleotides in the EWSR1 frame, encoding 59 residues absent from this programme's earlier protein-level model. Retained EWSR1 RG dipeptides place type 1 at 8 of 30 and type 2 at 0 of 30, within the 0.000 to 0.267 span of the three reported EWSR1::ATF1 breakpoints: reported breakpoints, not the measured construct, whose breakpoint is unstated. That report establishes measured anchors at 0.000 and 1.000. TCF12, a minority non-FET 5' partner in EMC, falls outside the FET compositional range at every prefix on the evaluated grid (50 aa upwards in 10-aa steps), where no TCF12 prefix reaches the lowest value any FET prefix takes. No experiment wa
 
 **Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts with comparator and sequencing-year limits** — PPR, 2026-09-09
 
