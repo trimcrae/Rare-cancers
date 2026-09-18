@@ -1,0 +1,154 @@
+# Supplementary File 2: relocated tables and retained audit history
+
+**Interpretive update—18 September 2026.** These supplements accompany the revised manuscript on expression portability of reported NR4A3-fusion targets. Numerical results and analysis procedures are unchanged. SI1 §S1.3 preserves the historical protocol, and SI2 Appendix A preserves the dated correction history; their descriptions of the paper's contribution and interpretation refer to those earlier stages. The current interpretation is given in the revised main manuscript. Competitive gene-set nonexceedance does not invalidate a measured expression contrast, establish equivalence, or refute reported binding evidence. Search results describe the stated queries and sources. Appendix B outlines possible follow-up evidence; it does not establish mechanisms from the present expression comparisons.
+
+Tables and appendices are retained from the accepted preprint. Numerical entries are unchanged. Current table references are updated for this journal derivative; historical first-column wording in Appendix A is preserved verbatim. Original Table 7 is now Supplementary Table S13, and original Table 9 is now Supplementary Table S14. The historical record is not new analysis.
+
+**Supplementary Table S9. The evidence classes, and how many genes are in each.**
+
+| class | definition | genes |
+|---|---|---:|
+| **A** — fusion DNA-binding | a DNA-binding or promoter assay performed **with an NR4A3 fusion**. The strongest class. | **3** |
+| **B** — native DNA-binding | the same assay class with **native NR4A3**. Transfer to the fusion is an assumption. | 16 |
+| **C** — fusion expression only | the gene moves when the fusion is expressed; no binding assay. | 2 |
+| **D** — EMC tumour expression only | measured in EMC tissue; no mechanism. | 1 |
+
+**Supplementary Table S10. The three cohorts.**
+
+| cohort | platform | EMC | comparators | value kind |
+|---|---|---|---|---|
+| **GSE24369** | GPL6244, Affymetrix Gene ST | 6 | 29 — 17 FET-rearranged LGFMS + 6 myxofibrosarcoma + 6 desmoid fibromatosis | single-channel intensity |
+| **GSE4303** | GPL3290, 42,000-spot two-colour cDNA | 10 | 6 (3 DFSP + 3 GIST) | two-colour log-ratio vs a reference pool |
+| **GSE28866** | 3SEQ (GPL10999) | 4 | 32 non-EMC sarcoma libraries; 27 normal-organ libraries | 3′-end read density per peak |
+
+**Supplementary Table S11. The four instrument controls, graded before any biological read.**
+
+| control | GPL6244 | GPL3290 |
+|---|---|---|
+| ***ENO3*** (positive) | AGREES — d +0.8075, outside null, p_emp 0.0195 | AGREES — d +3.8113, outside null, p_emp 0.00054 |
+| ***NR4A3*** (tumour identity) | AGREES — d +0.7415, outside null, p_emp 0.0240 | not measurable — 2 comparator values against a floor of 3 |
+| ***PLAGL1*** (directional falsifier) | **inside competitive null; not graded by the retained control rule** — d −0.4235, band [−0.606, +0.529] | AGREES — d −2.134, outside null, p_emp 0.013 |
+| ***SGK1*** (transcript/protein discordance) | AGREES (flat) — d −0.1807, band [−0.606, +0.529] | AGREES (flat) — d +0.6156, band [−1.314, +1.410] |
+
+**Supplementary Table S12. The same contrast against each comparator sub-arm separately.**
+
+| gene | vs LGFMS only (17) | vs myxoid only (23) | vs non-myxoid only (6) | GPL3290, pool-matched only (3) |
+|---|---|---|---|---|
+| **ENO3** | **+0.805** (1.7 × 10⁻⁴) | **+0.808** (8 × 10⁻⁵) | **+0.807** (0.022) | **+3.515** (0.0035, the design floor) |
+| **PPARG** | +0.197 (0.220) | +0.264 (0.100) | +0.473 (0.043) | +2.679 (0.0035) — circular |
+| **SEMA3C** | **+1.657** (1.2 × 10⁻⁴) | +1.089 (0.046) | **−0.645** (0.015) | +0.113 (0.843) |
+| *PLAGL1* | −0.169 (0.431) | −0.343 (0.183) | −0.733 (0.043) | −1.659 (0.042) |
+
+**Supplementary Table S13. The 3SEQ cohort, calibrated on each axis against the genes in the deposit that have a
+computable ratio on that axis: 13,708 genes on the EMC/normal axis and 13,247 on the EMC/sarcoma
+axis, out of 14,120 genes present in the deposit.**
+
+| gene | peaks | EMC/normal | percentile | EMC/sarcoma | percentile |
+|---|---:|---:|---:|---:|---:|
+| **ENO3** | 2 | 2.53× | **98.0th** | 2.02× | **95.9th** |
+| **SEMA3C** | 3 | 1.82× | 94.2nd | 1.66× | 92.6th |
+| **PPARG** | 5 | 1.42× | 84.0th | 2.12× | **96.4th** |
+| *NR4A3 (control)* | 3 | 1.96× | 95.6th | — (sarcoma median 0.000) | — |
+
+**Supplementary Table S14. NR4A occupancy at the class-A genes, calibrated against a background panel assembled for
+an unrelated question.** The `peaks` column is the experiment's total peak count. Each gene cell
+gives that gene's promoter-window peak count and its empirical *p* against the panel, and the panel
+is that build's own: 198 genes on hg38, which is the ReMap2022 row and every `SRX` row, and 200 on
+hg19, which is every Haller (ZENODO) row. **Every `SRX` row reports
+the hg38 processing of that experiment**: the depth, the panel rate and all three *p* values in one
+row are that single build's own measurement. The ReMap2022 and Haller (ZENODO) rows exist in one
+build only; the `12 ChIP-Atlas NR4A3 peak sets` row is six experiments on both builds, so its peak
+range spans the two.
+
+| experiment | antigen | peaks | panel genes with a peak | *ENO3* | *PPARG* | *SEMA3C* |
+|---|---|---:|---:|---|---|---|
+| ReMap2022 (merged) | NR4A1 | 83,773 | **82.8%** | 6, p 0.14 | 1, p 0.83 | 1, p 0.83 |
+| SRX1653204 (hg38) | NR4A1 | 26,660 | 45.5% | 2, p 0.12 | 0, p 1.00 | 1, p 0.46 |
+| SRX1653203 (hg38) | NR4A1 | 22,717 | 31.3% | 2, p 0.0503 | 0, p 1.00 | 1, p 0.32 |
+| **AciCC-1** (Haller) | **NR4A3** | **18,666** | 67.5% | 4, p 0.070 | **0, p 1.00** | 1, p 0.68 |
+| **AciCC-2** (Haller) | **NR4A3** | **9,810** | 56.0% | 3, p 0.094 | **0, p 1.00** | 0, p 1.00 |
+| **AciCC-3** (Haller) | **NR4A3** | **9,263** | 49.0% | 2, p 0.16 | **0, p 1.00** | 0, p 1.00 |
+| **Normal parotid gland** (Haller) | **NR4A3** | **8,501** | 50.5% | 4, **p 0.035** | **0, p 1.00** | 0, p 1.00 |
+| 5 further NR4A1 experiments | NR4A1 | 305–16,023 | 2.5–27.3% | 0–1, p ≥ 0.26 | 0, p 1.00 | 0, p 1.00 |
+| 12 ChIP-Atlas NR4A3 peak sets | NR4A3 | 53–154 | **0.0%** | uninformative | uninformative | uninformative |
+
+**Supplementary Table S15. The cohort search, grouped by why each deposit is not a fourth cohort.**
+
+| group | deposits | EMC samples | disposition |
+|---|---|---|---|
+| **The three cohorts analysed here** | GSE24369 (42 samples), GSE4303 (36), GSE28866 (99) | **6, 10, 4** | already used — and the search's positive control |
+| **The same EWS/NOR1 construct experiment** | GSE11185 (4), GDS3481 (its curated view) | 2 sample labels | HEK293 cells carrying a tet-inducible construct — not a tumour cohort |
+| **Other sarcoma and chondrosarcoma series** | 17 deposits, 4–51 samples each: GSE12475, GSE12592, GSE14469, GSE29085, GSE43045, GSE43632, GSE44934, GSE52677, GSE52679, GSE62747, GSE80126, GSE150474, GSE168560, GSE196000, GSE196002, GSE289237, GSE315379 | **0 in every one** | read at sample level; no EMC sample in any |
+
+**Supplementary Table S16. Public datasets used in the report.**
+
+| accession | platform | source | primary publication |
+|---|---|---|---|
+| GSE24369 | GPL6244 | NCBI GEO | linked series PubMed identifier 21536545 |
+| GSE4303 | GPL3290 | NCBI GEO | Subramanian *et al.*, *J Pathol* 2005;206:433–444 (PMID 15920699) |
+| GSE28866 | 3SEQ / GPL10999 | NCBI GEO series supplementary peak tables | Brunner *et al.*, *Genome Biol* 2012;13(8):R75 (PMID 22929540) |
+
+**Supplementary Table S17. Retained code and artifact inventory from the source report.**
+
+This table preserves source descriptions. It is not a new certification of complete historical dependency preservation or re-execution.
+
+| artifact | producer |
+|---|---|
+| `nr4a3-fusion-targets.json` — evidence table, global offsets, null calibrations, per-gene and per-set scores, controls, circularity grade | `nr4a3_fusion_targets.py` |
+| `emc-expression-panels.json` → `gene_reads` — the independent second implementation of the per-gene array reads | `emc_expression_panels.py` |
+| `gse28866-tumour-vs-normal.json` → `per_gene.values` and `ratio_calibration` — the 3SEQ arm and its percentile calibration, run per axis against the genes with a computable ratio on that axis (13,708 normal, 13,247 sarcoma; 14,120 genes present) | `gse28866_tumour_vs_normal.py` |
+| `nr4a3-fusion-targets-robustness.json` — exact label-permutation p-values, leave-one-out jackknife, rank-based re-read and BH q-values | `nr4a3_fusion_targets_robustness.py` |
+| `nr4a3-fusion-targets-confounds.json` — comparator composition, the muscle-admixture control, every stratified and reference-pool-matched contrast with its own exact permutation p, the covariate-adjusted sensitivity analysis, minimum detectable effects, and the within-EMC axis | `nr4a3_fusion_targets_confounds.py` |
+| `nr4a3-fusion-targets-occupancy.json` — NR4A ChIP-seq occupancy at the class-A genes across 110 peak sets, each count calibrated against that build's background panel (198 genes on hg38, 200 on hg19), with the depth rule that marks an undetectable peak set uninformative rather than negative and the antigen rule that scores only NR4A ChIPs | `nr4a3_fusion_targets_occupancy.py` (reads the committed `emc-ret-cistrome.json` and its cached peaks; no network) |
+| `figures/fig1`–`fig5` (PNG + PDF) and `figures/figure-provenance.json` | `nr4a3_fusion_targets_figures.py` |
+| `emc-ret-target-scan.json` → `part_1_nbre_scan` — NBRE/NurRE counts, the dinucleotide-preserving shuffle null and the background-panel ranks. Ensembl sequences are cached, so the scan re-derives offline | `emc_ret_target_scan.py` |
+| offline arithmetic guards | `tests/test_nr4a3_fusion_targets.py`, `tests/test_nr4a3_fusion_targets_confounds.py`, `tests/test_nr4a3_fusion_targets_figures.py` |
+
+## Appendix A · Superseded values and corrected claims
+
+Retained so that a superseded number stays quotable as history and not as a current fact.
+
+| claim, as previously written | status | what replaced it |
+|---|---|---|
+| "That pattern is the shape of a platform-wide offset." | **superseded 2026-08-07** | The global offset is −0.0084 SD (GPL6244) and +0.0258 SD (GPL3290), an order of magnitude below the effects in question. The remedy is unchanged — the null absorbs both — but the mechanism is null-band *width* at these arm sizes, not offset (§3.4). |
+| GSE24369's comparator arm described as containing "6 fibrosarcoma", and the comparators as "dense". | **corrected 2026-08-08** | The GEO titles are `Myxofibrosarcoma 1–6`; 23 of 29 comparators are myxoid (§2.2). The earlier wording carried an internal grouping label into a dataset description and inverted the premise of confound (b). |
+| "*PPARG* … significant on one platform" reported as independent support. | **corrected 2026-08-08** | *PPARG* on GPL3290 is **circular**: GSE4303 is the cohort from which high *PPARG* in EMC was published (§3.8). |
+| Every `p_emp = 0.0005` written as an equality. | **corrected 2026-08-08** | 0.0005 is the resolution floor of a 4,000-draw two-sided null (2/4001) and is written `≤ 0.0005` (§2.3). |
+| "Four of four graded controls agree", with *PLAGL1*/GPL6244 marked "not graded". | **corrected 2026-08-08; census corrected 2026-09-08** | Five of six control × platform cells are computable and all five agree; *PLAGL1*/GPL6244 is *inside its null band* and is not a reading at this power. The three-state grading rule is now stated in §2.4. **Corrected 2026-09-08:** the cell census in that 2026-08-08 replacement was itself wrong and is superseded, not deleted. **Seven** of the eight control × platform cells carry a computable contrast, **six** of those are gradeable and all six agree; the eighth (*NR4A3* on GPL3290) is not measurable. §3.3 and Supplementary Table S11 state the 7/6 census; this row had not been brought into line with them. |
+| "Deep NR4A1 sets (ReMap2022) do recover both *SEMA3C* and *ENO3*" — offered in §3.11 as a near-miss worth noting. | **corrected 2026-08-08** | True and uninformative: 82.8% of a 198-gene background panel is also recovered by that catalogue. Calibrated, no class-A gene exceeds the panel in any NR4A peak set (§3.11, Supplementary Table S14). The uncalibrated version was the same error §1.1 exists to refuse, inside the section that reports the paper's central negative. |
+| A background citation attributing the cloning of the EMC fusion to a 1995 paper. | **withdrawn, then re-anchored 2026-08-08** | The original PMID traced to no held source and was written from recollection, and the statement was re-anchored on the GEO series record and Brenca *et al.* ⚠ That left §1.3's "the hypothesis is thirty years old" resting on a date with no source in the record — a dated claim escapes an identifier checker because a bare year carries no identifier. The cloning paper is now retrieved rather than recalled (PMID 8634690, 1995, reference 9a). |
+| The title "The direct-target catalogue of EWSR1::NR4A3 is three genes wide, and one gene survives calibration", and a §1 that reached the calibration third. | **superseded 2026-08-08** | The paper led with its weakest result. *ENO3* is the pre-designated positive control (Limitation 17), the ordering rests on cohorts of 4, 6 and 10, and no gene here is separable from disease association at all — while the size-matched null is general, reusable beyond this disease, and unaffected by any of that. Retitled around the calibration; §1 now opens on the failure mode, the gene ordering is stated as the worked example in §4.2 and §6, and no number in §3 changed. |
+| "Two questions are **routinely conflated**" (§1.3) and "the field's prose **does not usually say** so" (§4.2). | **superseded 2026-08-08** | Both asserted what a literature does, and neither had been measured. Measured: the three class-A genes are named in 3, 1 and 0 of 261 EMC review records. A literature that seldom names these genes cannot routinely conflate claims about them; the true state is a near-absence of any account, not a mistaken one, and §1.3 and §4.2 now say that instead. The scientific results are untouched — nothing in §3 ever depended on what the field believed. |
+| "…never assembled and tested against a proper calibration" (cover letter). | **corrected 2026-08-08** | An unrestricted negative about all prior literature, resting on nothing. Narrowed to what was actually done — a search, reported as a search — and the novelty claim now rests on the measured near-absence rather than on an assertion that no prior assembly exists. |
+| "All twelve NR4A3-specific peak sets are too shallow to recover any gene at all", and the occupancy axis reported across **86** peak sets, **8** informative experiments and **24** tests. | **superseded 2026-08-08** | True of the twelve ChIP-Atlas sets and still stated of them, but no longer true of the axis: the Haller *et al.* acinic cell carcinoma deposit adds four NR4A3 cistromes at 8,501–18,666 peaks, 55–121× the deepest previously available. The axis is now 110 peak sets, 12 informative experiments and 36 tests (§3.11, Supplementary Table S14). The conclusion is unchanged and better supported — 2 hits against 1.8 expected, binomial p 0.54 — and *PPARG*'s zero is now a negative rather than an absent reading. |
+| The occupancy verdict decided by comparing the observed hit count with its expected value. | **corrected 2026-08-08** | Expected is fractional and observed is an integer, so 2 against 1.8 read as an excess. The count is judged by a binomial tail (p = 0.54 for this many or more); no wording in any version of this paper rested on the earlier comparison. |
+| **"No genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in 2,276 full-text documents across five corpora"** — §3.11, §4.2, §6, the abstract ("no chromatin experiment with an NR4A3 fusion was retrieved") and the cover letter, each reading the corpus count as an absence. | **retracted 2026-08-08** | **The corpus count is unchanged and was never wrong**: 2,276 documents were searched, 153 name both a genome-wide chromatin method and NR4A3/NOR-1/TEC, and none of the 153 applies one to an NR4A3 chimera. What is retracted is the **inference from that screen to an absence**. A wider search the same day — the primary sequence archives rather than the literature alone — retrieved **GEO GSE243553** (PMID 39048711, public 2024-07-24), a pooled single-cell ATAC screen in HEK293T whose library carries EWSR1-NR4A3, TAF15-NR4A3, TCF12-NR4A3 and TFG-NR4A3 with wild-type NR4A3 and the reciprocal NR4A3-EWSR1 as controls. The earlier screen could not reach it for two reasons, both recorded: the paper's title and abstract say only ">100 oncofusions" and name NR4A3 nowhere, and this project's prior chromatin census (`emc-ret-cistrome.json`) filtered on antigen ∈ {NR4A1, NR4A2, NR4A3} with a ChIP-seq-only method vocabulary, which no pooled ATAC deposit can satisfy. **The replacement claim is narrower and is what §3.11, §4.2, §6 and the abstract now carry:** *no experiment has measured where an NR4A3 fusion binds, or what chromatin does, in EMC material* — GSE243553 being accessibility rather than occupancy, and HEK293T rather than EMC — while the same archives hold chromatin maps for EWSR1::WT1, EWSR1::ATF1, EWSR1::FLI1, FUS::DDIT3 and (twice) HEY1::NCOA2. Full search record: [`nr4a3-cistrome-search-2026-08-08.md`](nr4a3-cistrome-search-2026-08-08.md); corpus: [`lit-targets-nr4a3-cistrome.json`](lit-targets-nr4a3-cistrome.json). No number in §3 moved and the occupancy axis of Supplementary Table S14 is untouched. |
+| §3.10's first caveat: "**A motif is not occupancy** — only a chromatin experiment shows binding, and §3.11 records that none exists for any NR4A3 fusion." | **superseded 2026-08-08** | The second clause inherited the retracted absence directly above and was false the moment it was retracted. The experiment exists, and it has now been *run against these exact coordinates* rather than merely cited: the four exact NBREs were intersected with GSE243553's per-fusion accessibility calls on the matching build (deposit hg38, coordinates GRCh38, no lift-over). **Three of four sites fall inside TAF15-NR4A3's intervals and none inside EWSR1-NR4A3's, and neither observation supports the motif argument** — the EWSR1-NR4A3 set recovers only 2 of 203 background promoters, so its zero is not a reading, and the TAF15-NR4A3 co-location does not clear a null that slides the whole four-site configuration at its true spacing (*p* = 0.08, 20,000 seeded draws). ⚠ **The calibration is the finding, not the overlap.** Two of the four sites are 153 bp apart and one 500 bp interval covers both, so nulls treating the sites as independent return *p* ≤ 0.002 and overstate the result ≈40-fold; the geometry-preserving null is the honest one and it does not clear. Bounded three ways in the live text: HEK293T rather than EMC chromatin, accessibility rather than binding, and *ENO3* is this paper's own pre-designated positive control (§2.4), so a hit would have been a check on the instrument rather than a discovery. Method, seeds and all four nulls: [`gse243553-eno3-overlap-2026-08-08.md`](gse243553-eno3-overlap-2026-08-08.md). No number in §3.10's motif counts changed. |
+| §3.13: "Within that reach, **no fourth EMC expression cohort exists**", and "the three cohorts analysed here are the available public EMC transcriptional record". | **narrowed 2026-08-08** | The search was **GEO-side** and its reach caveat already said so; what it did not say is that a deposit outside that reach had been found. `PRJNA1357027` / `SRP640302` is public in the Sequence Read Archive — **12 FFPE EMC tumour BioSamples**, released 2025-11-11, all 12 runs downloadable, with **per-sample `EWSR1` break-apart FISH status** (8+/4−) — with no linked publication and no GEO mirror, which is precisely why a GEO term search cannot see it. ⚠ **Limitation 1's n = 4, 6 and 10 is UNCHANGED for the analyses this paper runs**, because the deposit is TempO-Seq targeted-panel data whose panel is named nowhere in its metadata while its `library_strategy` field reads `RNA-Seq` — a whole-transcriptome contrast run against it would return a matrix mostly zeros by construction with nothing warning the analyst. Nor may `EWSR1`-negative be read as "not EMC": a break-apart call names no partner and a `TAF15::NR4A3` case is `EWSR1`-negative by construction, so those four samples are informative and unresolved. What is retracted is only the unqualified sentence. Characterisation, every query and the three transport controls: [`emc-fourth-cohort-sra-2026-08-08.md`](emc-fourth-cohort-sra-2026-08-08.md). |
+| "top 2% of **14,120** genes" and "Table 7 … calibrated against all 14,120 genes" — the deposit size used as the denominator of a percentile. | **corrected 2026-09-08** | 14,120 is the number of genes in the deposit, not the number ranked. The percentile distributions exclude any gene whose comparator median is zero, so the denominators are **13,708** on the EMC/normal axis and **13,247** on the EMC/sarcoma axis (`gse28866-tumour-vs-normal.json` → `ratio_calibration.n_genes_with_a_{normal,sarcoma}_ratio`). Each site now states the scope its own number was computed on. No percentile changed. |
+| "**42–70%** of their citations come from EMC records" (§1.3). | **corrected 2026-09-08** | Only three of the four primary sources returned a citing-record count — 42% (Filion, 22/52), 54% (Subramanian, 27/50) and 33% (Kim, 4/12). The Brenca query returned **no count** (`fusion-consensus-probe.json` → `queries.brenca_2019_sema3c__citing_all.hit_count` = `null`, `returned` = 0), so the upper bound of the printed range rested on a missing measurement rather than on a value. The three resolved fractions are now given individually and the Brenca fraction is stated as UNKNOWN. |
+| "*SEMA3C*'s 39 one-mismatch sites — **the most of any gene scanned**" and those sites being "**exactly what its own composition predicts**" (§3.10). | **corrected 2026-09-08** | 39 is the most of the three class-A genes, not of the scan: 7 of the 198 background windows carry as many or more, the highest at 43 (`emc-ret-target-scan.json` → `part_1_nbre_scan.background_panel.counts`). And the composition nulls are **not significant** (p = 0.203; GC-matched p = 0.118), so they leave composition unrefuted rather than demonstrated; "exactly what composition predicts" read a null as proof of the prediction. The counts themselves are unchanged. |
+| Table 9 rows and the "2 of 36" headline read as one measurement each, without naming a genome build (§3.11). | **corrected 2026-09-08** | Every `SRX` experiment is processed on both hg19 and hg38 (`nr4a3-fusion-targets-occupancy.json` → `per_peakset` keys). The table's `SRX` rows are the **hg38** leaves and are now labelled so; the "2 of 36" count is computed from a different quantity, the **across-build minimum** in `per_gene_summary.<gene>.empirical_p_by_experiment`, which is now named where it is used. The one consequence: *ENO3* in `SRX1653203` is 0.0498 on hg19 and 0.0503 on hg38. Because a per-experiment minimum is selected, the nominal binomial calibration is indicative rather than exact; no alternative tail was computed and none is claimed. No occupancy analysis was re-run. |
+| "a paralogue whose peak sharing with NR4A3 is **0.347**" (§3.11, Limitation 16), stated without its source. | **corrected 2026-09-08** | The derivation is retained and is now cited: `emc-ret-cistrome.json` → `part_3_paralogue_overlap.genome_wide_pairwise_sharing.NR4A1_vs_NR4A3.fraction_of_a_overlapped_by_b` = **0.3468**, the fraction of the 297 NR4A1 peaks of `SRX12698888@hg19` overlapping the 102 NR4A3 peaks of `SRX12698890@hg19` in matched CD1c⁺ dendritic cells. Both peak sets are shallow enough to be uninformative by Supplementary Table S14's own depth rule, and the sentence now says so. The value is unchanged. |
+| §2.4's grading rule stated without exception, while *SGK1* is graded from inside its null band. | **corrected 2026-09-08** | The implemented rule for *SGK1* is asymmetric — `null_semantics` = `not_outside_up` (`nr4a3-fusion-targets.json` → `controls.checks.prereg_discordance_SGK1`) — so both of its `INSIDE_NULL` cells are `graded: true`. §2.4 now discloses the exception as implemented. ⛔ It is described as scoring that was run, not as an advance declaration: the same block records the previous fixed-threshold rule as `SUPERSEDED, RETAINED`. The preregistration text is unchanged and no grade moved. |
+| The occupancy background panel printed as **"198 genes"** everywhere (§2.6, §3.11, Table 9, Figure 4 and the code table). | **corrected 2026-09-08** | The panel size is a property of the genome build a peak set was processed on, and the artifact records both: `nr4a3-fusion-targets-occupancy.json` → `per_peakset.*.panel.n_genes` is **198 on hg38 and 200 on hg19**. Four of the eight experiments named in Supplementary Table S14 — every Haller (ZENODO) row — are hg19 and were therefore calibrated against **200**, not 198, so a single figure quoted over the whole table did not match the artifact for half of it. Each site now states the per-build panel and says which rows it applies to. **No peak count, panel fraction, empirical *p*, hit count or binomial figure changed**: every value was already computed against its own build's panel. The 198-window background panel of the §3.10 motif scan is a different panel and is unaffected. |
+| §3.11 and §3.12: "**no class-A gene exceeds its background panel in any of these NR4A peak sets**", stated flat. | **corrected 2026-09-08** | Read literally that contradicted the same table: *ENO3* is nominally 0.035 in the normal parotid gland and 0.0498 in `SRX1653203` on hg19. The claim was always a statement over the twelve informative experiments together — two hits in 36 tests, binomial p 0.54, neither surviving correction, which is how Figure 4's caption already stated it — and both sites now carry that qualifier. No value moved. |
+| §3.11: "***SEMA3C* carries at most one peak in one experiment**". | **corrected 2026-09-08** | It carries one promoter-window peak in **four** experiments — ReMap2022, both Kasumi-1 NR4A1 experiments and AciCC-1 — and none in the rest; "at most one … in one experiment" read as a count of experiments rather than a ceiling per experiment. The sentence now says at most one in **any** experiment and names the four. The counts in Supplementary Table S14 are unchanged and the reading is unchanged. |
+| "Ethics approval and consent: **Not required.** … only publicly available, de-identified gene-expression deposits … **no individual is identifiable** from anything reported here." | **corrected 2026-09-08; refined 2026-09-09** | The earlier claims of an ethics determination, de-identification and non-identifiability were not established by this analysis. The section now describes a secondary analysis of public repository data, with no new recruitment, specimen collection or intervention reported, and makes no claim of ethics approval, exemption or a consent waiver. **Refined 9 September 2026:** the current explanation is narrowed without assertions about repository-wide terms, original study approvals or the author's approval-seeking history. |
+
+## Appendix B · What would change this paper's conclusions
+
+This is the current follow-up table. It separates missing experiments from analyses already completed in this working manuscript. Historical corrections remain in Appendix A.
+
+| observation | implication and current status |
+|---|---|
+| An informative EWSR1::NR4A3 binding experiment in EMC showing no peak near *ENO3* | Would weaken evidence for binding within the assayed window and conditions. It would not rule out binding elsewhere, under other conditions, or indirect regulation by the fusion. |
+| An EWSR1::NR4A3 binding experiment in EMC showing a peak near *SEMA3C* | Would supply binding evidence consistent with direct regulation despite the expression comparisons. Binding alone would not establish that the fusion causes the expression change; a controlled perturbation would address that separate question. |
+| A fusion-positive EMC model with fusion knockdown and RNA-seq | Would test whether expression depends on the fusion and could change the ordering. Controls and the distinction between direct and indirect effects remain necessary. |
+| An EMC expression series recording fusion type per sample | Would assess whether SEMA3C expression differs by fusion type within EMC and whether that heterogeneity contributes to the observed contrasts. It would not by itself explain differences among comparator histologies. |
+| A soft-tissue normal comparator arm | Would address the cell-of-origin explanation, confound (a). A tissue comparison alone would not identify EMC's cell of origin or eliminate every lineage-related explanation. |
+| Deep native NR4A3 ChIP-seq in human tissue | Already analysed: Haller's three acinic cell carcinomas and normal parotid sample provide the four deep Supplementary Table S14 rows. They test the surrogate evidence in another disease; they do not supply fusion occupancy in EMC. |
+| A broader per-arm reanalysis of GSE243553's barcode→variant files against a background panel | Remains distinct from the completed targeted *ENO3* accessibility comparison (§3.10). That four-site comparison did not exceed the geometry-preserving null (p = 0.08). A broader analysis would still concern accessibility in HEK293T, not fusion binding or causation in EMC. |
+| A chromatin experiment deposited on EMC material under an indexed archive label | Would update the bounded retrieval result in §3.11. Its relevance to the mechanism would depend on whether it measured fusion binding or another chromatin property. The current search result is not proof that no unindexed experiment exists. |
+
+---

@@ -31,6 +31,18 @@ jobs:
   record:
     runs-on: ubuntu-latest
     steps:
+      - name: Check current device window and full-run storage budget
+        run: |
+          python3 - <<'PY'
+          import shutil
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          local = datetime.now(ZoneInfo('America/New_York'))
+          free = shutil.disk_usage('.').free
+          print({'local_time': local.isoformat(), 'free_bytes': free, 'reserved_output_bytes': 20 * 1024**3})
+          assert not 6 <= local.hour < 10, 'Daily protected device window'
+          assert free >= 30 * 1024**3, 'Leave 10GiB after bounded 20GiB checkout/dependency/test allowance'
+          PY
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.sha }}
@@ -68,6 +80,14 @@ jobs:
           SHA: ${{ github.event.inputs.sha }}
         run: |
           set -uo pipefail
+          python3 - <<'PY'
+          import shutil
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          local = datetime.now(ZoneInfo('America/New_York'))
+          assert not 6 <= local.hour < 10, 'Daily protected device window'
+          assert shutil.disk_usage('.').free >= 15 * 1024**3, 'Preserve 10GiB after bounded test output'
+          PY
           echo "PINNED_SHA=$SHA" > /tmp/preflight-full.log
           set +e
           PREFLIGHT_FULL=1 ./scripts/preflight.sh >> /tmp/preflight-full.log 2>&1

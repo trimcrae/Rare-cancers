@@ -1,0 +1,65 @@
+{
+  "utc": "2026-09-18T17:02:58.283154+00:00",
+  "scope": "Actual current source claim-lint advisory adjudication, not a new scientific review",
+  "errors": 0,
+  "advisories": [
+    {
+      "finding": {
+        "file": "research\\release-candidates\\retained-20260918\\sources\\ASO\\ASO-manuscript.reframed.md.txt",
+        "line": 65,
+        "rule": "R4-confirms",
+        "severity": "WARN",
+        "match": "confirmed",
+        "message": "reserve confirm/establish/validate for results with a committed primary artifact; otherwise say concordant / consistent with",
+        "source": "roadmap language discipline",
+        "context": "The two selected junctions have a modelled coverage of 68.4% of molecularly confirmed cases."
+      },
+      "adjudication": "Molecularly confirmed describes the cited cases, not validation of this design. The same paragraph explicitly labels modelled prevalence transfer, not patient screening, and its range not a confidence interval.",
+      "disposition": "retain_with_existing_explicit_scope"
+    },
+    {
+      "finding": {
+        "file": "research\\release-candidates\\retained-20260918\\sources\\ASO\\ASO-manuscript.reframed.md.txt",
+        "line": 145,
+        "rule": "R4-confirms",
+        "severity": "WARN",
+        "match": "establishes",
+        "message": "reserve confirm/establish/validate for results with a committed primary artifact; otherwise say concordant / consistent with",
+        "source": "roadmap language discipline",
+        "context": "Order only from fusion-junction-aso-sequences.csv, which specifies sequence, locked residues and backbone, after RNA sequencing establishes the test article's breakpoint at nucleotide resolution."
+      },
+      "adjudication": "A prerequisite for future ordering: nucleotide-level experimental junction confirmation is required. No present experimental result is asserted.",
+      "disposition": "retain_with_existing_explicit_scope"
+    },
+    {
+      "finding": {
+        "file": "research\\release-candidates\\retained-20260918\\sources\\FO\\manuscript.reframed.md.txt",
+        "line": 999,
+        "rule": "R3-first-to",
+        "severity": "WARN",
+        "match": "the first report",
+        "message": "a first-in-field claim needs the prior-art citations the roadmap mandates (Chen 2023; JCTC 2025 5c00064/5c00736; JCIM 2024 4c01227)",
+        "source": "roadmap The paper must cite and benchmark against this prior art",
+        "context": "Amber marks the circular *PPARG*/GPL3290 reading, scored on the cohort behind the first report of high *PPARG* in EMC (\u00a73.8):"
+      },
+      "adjudication": "Historical first report of PPARG elevation identifies discovery-data reuse and is tied to section3.8 and its primary citation; it does not assert novelty for this reanalysis.",
+      "disposition": "retain_with_existing_explicit_scope"
+    },
+    {
+      "finding": {
+        "file": "research\\release-candidates\\retained-20260918\\sources\\FO\\supplement-1.reframed.md.txt",
+        "line": 91,
+        "rule": "R4-confirms",
+        "severity": "WARN",
+        "match": "validated",
+        "message": "reserve confirm/establish/validate for results with a committed primary artifact; otherwise say concordant / consistent with",
+        "source": "roadmap language discipline",
+        "context": "and PMCID PMC10088923 | | **VTN** | B | NR4A3 (native) | listed by an independent review as a functionally validated direct target, over-expression + blocking-antibody / silencing rescue of migration,"
+      },
+      "adjudication": "The SI row attributes functional validation to an external native-NR4A3 study and states the assay/evidence category. It is not validation of an EMC fusion target.",
+      "disposition": "retain_with_existing_explicit_scope"
+    }
+  ],
+  "citation_first_pass": "Four bibliographic identities lacked committed provenance anchors. Preserved failure; successful exact-DOI EuropePMC core records now retained in current-reference-fetches.json. No linter baseline or historical ledger changed.",
+  "retraction_scope": "Corpus-wide pre-existing retraction/unswept advisories preserved in full log. No exhaustive fresh retraction or novelty certification implied."
+}
