@@ -8,6 +8,7 @@ def correct(here,guard):
     plan=json.loads((here/'inputs/FO/figure-label-plan.json').read_text())
     destination=here/'rendered/FO/figures';destination.mkdir(parents=True,exist_ok=True)
     records=[];images={}
+    proofs=json.loads((here/'inputs/FO/original-content-stream-proof.json').read_text())
     for item in plan['replacements']:
         guard('FO title correction '+item['figure'])
         src=here/'inputs/FO/figures'/(item['figure']+'.pdf')
@@ -23,10 +24,22 @@ def correct(here,guard):
         original_image=Image.open(png);scale=original_image.width/page.rect.width
         before=page.get_pixmap(matrix=fitz.Matrix(scale,scale),alpha=False)
         before_image=Image.frombytes('RGB',[before.width,before.height],before.samples)
-        drawings_before=page.get_drawings()
-        page.add_redact_annot(rect,fill=(1,1,1))
-        # These options preserve every image and vector; only intersecting title text is removed.
-        page.apply_redactions(images=0,graphics=0,text=0)
+        # Redaction rewrites unrelated content operators. Remove only hash-pinned
+        # isolated BT..ET title blocks, preserving every other decoded byte.
+        proof=next(p for p in proofs if p['figure']==item['figure'])
+        xrefs=page.get_contents();assert len(xrefs)==1
+        raw=doc.xref_stream(xrefs[0])
+        assert hashlib.sha256(raw).hexdigest()==proof['content_stream_sha256']
+        parts=[];cursor=0
+        for block in proof['removed_title_blocks']:
+            start,end=block['start'],block['end']
+            assert hashlib.sha256(raw[start:end]).hexdigest()==block['block_sha256']
+            parts.append(raw[cursor:start]);cursor=end
+        parts.append(raw[cursor:]);patched=b''.join(parts)
+        assert hashlib.sha256(patched).hexdigest()==proof['remaining_content_bytes_sha256']
+        doc.update_stream(xrefs[0],patched,compress=True)
+        assert doc.xref_stream(xrefs[0])==patched
+        page=doc.reload_page(page)
         available=rect+(-1,-1,1,1)
         size=10.0
         while size>=6:
@@ -36,7 +49,7 @@ def correct(here,guard):
                 shape.commit();break
             size-=0.25
         assert size>=6,('Title does not fit',item['figure'])
-        dest=destination/(item['figure']+'.pdf');doc.save(dest,garbage=4,deflate=True);doc.close()
+        dest=destination/(item['figure']+'.pdf');doc.save(dest,garbage=0,clean=False,deflate=True);doc.close()
         new=fitz.open(dest);after=new[0].get_pixmap(matrix=fitz.Matrix(scale,scale),alpha=False)
         after_image=Image.frombytes('RGB',[after.width,after.height],after.samples)
         assert before_image.size==after_image.size
