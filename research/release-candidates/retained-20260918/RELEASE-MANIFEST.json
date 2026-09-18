@@ -1,6 +1,6 @@
 {
   "schema": "emc-explicit-preprint-release-package/1",
-  "release_status": "Exact outgoing files frozen for candidate-pinned FULL. FO actual visual review and final text-export acceptance remain required; no posting authorized by this manifest alone.",
+  "release_status": "All three outgoing packages textually and visually accepted. Final exact corrected candidate unscoped FULL pending before authorized aiXiv release.",
   "authorization": {
     "actual_user_goal": "given these findings, get all the papers still worth making preprints of into a publishable state and push them to aixiv. Then pick which one is the best candidate to publish first and get it ready for that. Let me know when it’s publication ready",
     "date": "2026-09-18",
@@ -339,15 +339,15 @@
       "mode": "new-version",
       "aixiv_id": "aixiv.260823.000001",
       "upload_pdf": {
-        "path": "research/release-candidates/retained-20260918/rendered/FO/aixiv-review.pdf",
-        "sha256": "6c0a9f2d8b634bdee4948ede0c0729578873bf8a67a703658bb24bdb0b7d810e",
-        "bytes": 1464603
+        "path": "research/release-candidates/retained-20260918/rendered-repair/FO/aixiv-review.pdf",
+        "sha256": "a3ed10f9036e9cd9977216a0041d9994ff02dc0751eb9663cda68a2c87256787",
+        "bytes": 1466370
       },
       "combined_components": {
         "paper": "FO",
-        "path": "research/release-candidates/retained-20260918/rendered/FO/aixiv-review.pdf",
-        "sha256": "6c0a9f2d8b634bdee4948ede0c0729578873bf8a67a703658bb24bdb0b7d810e",
-        "pages": 66,
+        "path": "research/release-candidates/retained-20260918/rendered-repair/FO/aixiv-review.pdf",
+        "sha256": "a3ed10f9036e9cd9977216a0041d9994ff02dc0751eb9663cda68a2c87256787",
+        "pages": 67,
         "component_order": [
           "main",
           "supplement-1",
@@ -363,23 +363,34 @@
             "sha256": "56ee1198750802b4be2098b6402ecea014c403e4f25a1e2641955d4a018d57fc"
           },
           {
-            "path": "research/release-candidates/retained-20260918/rendered/FO/supplement-2/supplement-2.pdf",
-            "sha256": "1f2b3c6d121cbb74138de60b8247c9359ac80a2fc0259777144a2100ed08251a"
+            "path": "research/release-candidates/retained-20260918/rendered-repair/FO/supplement-2/supplement-2-pagination-repair.pdf",
+            "sha256": "d02219acb01e22edc69af2a4038627877c415171b5a87a92cccb4bb52a8d9f3c"
           }
         ],
         "embedded_csv": null
       },
       "render_receipt": {
-        "path": "research/release-candidates/retained-20260918/rendered/RENDER-RECEIPT.json",
-        "sha256": "fbb5a13710200ed569039b8aa9740118180a956dedadbd5d38bfca5c9f6c6ec7",
-        "bytes": 21199
+        "path": "research/release-candidates/retained-20260918/rendered-repair/RENDER-RECEIPT.json",
+        "sha256": "e836d6f6323e4eb87b54c47e274df7d488d1b67fc14edbb824bb294571d957a9",
+        "bytes": 5613
       },
-      "actual_visual_review_status": "in_progress_same_exact_bytes_required",
+      "actual_visual_review_status": "accepted_repaired_SI2_plus_prior_unchanged_main_SI1_cover_highlights",
       "title_correction_receipt": {
         "path": "research/release-candidates/retained-20260918/rendered/FO/figures/LABEL-CORRECTION-RECEIPT.json",
         "sha256": "3f8a49c4f0bbb7c197b0666f1898181672476ec379fd0c8ec5fcb7153feb230f",
         "bytes": 3053
-      }
+      },
+      "prior_main_SI1_and_companion_render_receipt": {
+        "path": "research/release-candidates/retained-20260918/rendered/RENDER-RECEIPT.json",
+        "sha256": "fbb5a13710200ed569039b8aa9740118180a956dedadbd5d38bfca5c9f6c6ec7",
+        "bytes": 21199
+      },
+      "rejected_previous_export": {
+        "path": "research/release-candidates/retained-20260918/rendered/FO/aixiv-review.pdf",
+        "sha256": "6c0a9f2d8b634bdee4948ede0c0729578873bf8a67a703658bb24bdb0b7d810e",
+        "reason": "Original SI2 export lost eight Table S14 rows. Original evidence retained. Never upload this rejected PDF."
+      },
+      "repair_scope": "Page break before Table S14 only; all source text and other DOCX members exact. All362 SI2 paragraphs and67 combined pages verified."
     }
   ],
   "shared_evidence": [
@@ -437,9 +448,69 @@
       "path": "research/release-candidates/retained-20260918/evidence/AUTHORITY.json",
       "sha256": "25a0dc08fe6d2846399e52c1e1ea7413cafdf26f14dc9dc5e00bda86a4dd1ef7",
       "bytes": 768
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/export-integrity/DOCX-PDF-TEXT-AUDIT.json",
+      "sha256": "cdb6d337301373a5373941280a586a08510a9e451bba8f98a63952e70ca85437",
+      "bytes": 261294
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/export-integrity/DOCX-PDF-TEXT-INITIAL.json",
+      "sha256": "95629d679a427f898e67219835644d4ce7d4055dfcd72b834d2b38ebc4b72920",
+      "bytes": 252200
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/export-integrity/DOCX-PDF-TEXT-REPORT.md",
+      "sha256": "094e78bc8808bb86e41c228492b837e898c08575655e1e1627d3254dce139476",
+      "bytes": 5595
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/export-integrity/FO-EXPORT-ADJUDICATION.json",
+      "sha256": "4b61778bde97bc58725190f35614990a400465422fe532eb5493393ee75784d2",
+      "bytes": 16377
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/export-integrity/FO-EXPORT-REPORT.md",
+      "sha256": "29290448d259b536b8526be56d0906c469e4e176cfa08f0230a35021afaa5581",
+      "bytes": 5975
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/export-integrity/FO-GEOMETRY-ADJUDICATION.json",
+      "sha256": "59b5f190c3f5a5470e6f897377991aa8fb4a15fc58a473fc479ce8e41b89bc2b",
+      "bytes": 845138
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/export-integrity/FO-INITIAL-EXPORT-AUDIT.json",
+      "sha256": "1f6a46588a5d0b5a5d9a9ada86940f62d0c63c5c065deb27468166ce73ff83c9",
+      "bytes": 1417581
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/export-integrity/FO-REPAIR-TEXT-ACCEPTANCE.json",
+      "sha256": "6b474d03bdb72e6d8c9b262424e9b037b9cf70b481a0e59ca8ea08dd21d6ea9f",
+      "bytes": 217997
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/export-integrity/FO-REPAIR-TEXT-REPORT.md",
+      "sha256": "9a0fa353ddc35ffca9666c39c0d625a351b212fb20917ab08c9b2525b810fed9",
+      "bytes": 2307
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/FO-SI2-REPAIR-PREP.json",
+      "sha256": "0b10fbc21f2818259b94c91b31e6a30a466f97f44be42e4dba15f3fe48dcbba1",
+      "bytes": 497
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/visual/fo/VISUAL-QA.json",
+      "sha256": "bcc4c16f47b838335774da54b7b5b838713290e8c4534fc4aae115b598357eb7",
+      "bytes": 23245
+    },
+    {
+      "path": "research/release-candidates/retained-20260918/evidence/visual/fo-repair/VISUAL-QA.json",
+      "sha256": "4cf3fc93a26c0bd6f0adde27cc3f3b8cdca7432d5a7965749f82aafb1676d220",
+      "bytes": 11562
     }
   ],
-  "frozen_utc": "2026-09-18T17:07:13.217444+00:00",
+  "frozen_utc": "2026-09-18T17:40:42.651932+00:00",
   "checks": {
     "direct_outgoing_claim_lint_exit": 0,
     "full_corpus_citations_including_md_txt_exit": 0,

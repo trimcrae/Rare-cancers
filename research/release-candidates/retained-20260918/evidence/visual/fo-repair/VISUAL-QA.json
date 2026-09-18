@@ -1,0 +1,215 @@
+{
+  "paper": "FO",
+  "reviewed_role": "supplement-2",
+  "reviewer_role": "Independent read-only actual rendered-page visual QA; no new scientific review",
+  "decision": "accept_repaired_supplement_2_visual_layout",
+  "blocking_findings": [],
+  "source_commit": "fd244204c4a2bbcd7c6886980f6d96953c31a19f",
+  "github_run_id": "35373358511",
+  "artifact_id": "10559690531",
+  "artifact_zip_sha256": "81c6af9b276cc4ea8ecc73d595fb0fe9f71cfdefe61fd34267431bcbcd5318cb",
+  "receipt_path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\retained-preprints-aixiv-release-20260918\\visual-review\\fo-repair\\RENDER-RECEIPT.json",
+  "receipt_sha256": "e477f284986a46a2f9351dfff707bbabea91018906ead2f9ccefffa7bd18d71b",
+  "input_manifest_sha256": "563d1bca416042e2eead652fdcdd5668aa921e57ef2306d658fe4dd7e363e636",
+  "renderer": "LibreOffice 24.2.7.2 420(Build:2)",
+  "inspection_started_utc": "2026-09-18T17:24:00Z",
+  "inspection_completed_utc": "2026-09-18T17:25:47Z",
+  "reviewed_page_count": 12,
+  "method": "All 12 rendered-repair-qa SI2 pages were requested individually from a RAM-only artifact ZIP, SHA-256 verified, and actually viewed at original resolution. Page 8 was additionally reinspected as a dedicated single image after an initial visual concern. One small preview PNG was reused. Both RAM helper sessions were terminated with EXIT. No local rendering or installs.",
+  "time_restriction": "Actual America/New_York time checked before every image inspection. All inspection occurred 13:24-13:25 EDT, outside the 06:00-10:00 daily restriction.",
+  "pdf_binding": {
+    "source_pdf": "research/release-candidates/retained-20260918/rendered-repair/FO/supplement-2/supplement-2-pagination-repair.pdf",
+    "source_pdf_sha256": "d02219acb01e22edc69af2a4038627877c415171b5a87a92cccb4bb52a8d9f3c",
+    "rasterized_pdf": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/supplement-2-pagination-repair.pdf",
+    "rasterized_pdf_sha256": "d02219acb01e22edc69af2a4038627877c415171b5a87a92cccb4bb52a8d9f3c",
+    "bytes": 267523,
+    "verified_byte_exact_copy": true,
+    "method": "Both PDFs read directly from the in-memory ZIP and independently hashed; both 267523 bytes with identical SHA-256."
+  },
+  "combined_pdf_binding": {
+    "path": "rendered-repair-qa/FO/aixiv-review.pdf",
+    "sha256": "a3ed10f9036e9cd9977216a0041d9994ff02dc0751eb9663cda68a2c87256787",
+    "bytes": 1466370,
+    "pages": 67,
+    "method": "Combined PDF independently SHA-256 hashed directly from the RAM artifact. This focused visual review covers the repaired SI2 component. Prior main/SI1/cover/highlights visual findings stand."
+  },
+  "resolved_prior_defect": {
+    "id": "FO-SI2-S14-EXPORT-LOSS",
+    "prior_evidence_preserved": "../fo/VISUAL-QA.json",
+    "prior_state": "True prior export omission: eight S14 data rows present in accepted Markdown and DOCX were absent from the 11-page SI2 export.",
+    "current_state": "All nine S14 data rows and the header are now visibly present and legible on repaired page 3. Caption, columns and borders are intact, with no overlap or clipping.",
+    "visually_read_row_labels": [
+      "ReMap2022 (merged)",
+      "SRX1653204 (hg38)",
+      "SRX1653203 (hg38)",
+      "AciCC-1 (Haller)",
+      "AciCC-2 (Haller)",
+      "AciCC-3 (Haller)",
+      "Normal parotid gland (Haller)",
+      "5 further NR4A1 experiments",
+      "12 ChIP-Atlas NR4A3 peak sets"
+    ]
+  },
+  "heading_readback": {
+    "record_25": {
+      "page": 11,
+      "visible_label": "Historical record 25",
+      "status": "Full heading visibly present; body continues normally onto page 12."
+    },
+    "record_13": {
+      "page": 8,
+      "visible_label": "Historical record 13",
+      "status": "Full heading visibly present on dedicated reinspection of the exact same PNG. Root independently viewed the same PNG and confirmed the full heading at 17:26Z; root also reported normal-black PDF operators and valid glyph positions."
+    }
+  },
+  "false_alarm_correction": {
+    "initial_concern": "During the batched page 7-9 display, the reviewer initially perceived only 13 at the top of page 8 and notified root.",
+    "resolution": "A dedicated single-image reinspection of identical page-8 bytes clearly shows Historical record 13 in full. This is not an export defect. The concern was retracted before any source edit. No heading change was made.",
+    "evidence_path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\retained-preprints-aixiv-release-20260918\\visual-review\\fo-repair\\preview.png",
+    "evidence_sha256": "ddf675b55d96048599d9edfda8fc5e1821cae278d2f08ddb12719d364f5ed774"
+  },
+  "per_page_findings": [
+    {
+      "page": 1,
+      "finding": "Title, interpretive note, S9, S10 and start of S11 legible; no clipping."
+    },
+    {
+      "page": 2,
+      "finding": "S11 continuation repeats header; S12 and S13 complete and legible."
+    },
+    {
+      "page": 3,
+      "finding": "S14 caption, header and all nine data rows complete and legible; S15 below remains inside margins."
+    },
+    {
+      "page": 4,
+      "finding": "S16 and S17 inventory legible; long file identifiers wrap within their cells."
+    },
+    {
+      "page": 5,
+      "finding": "S17 continuation repeats header; Appendix A and records 1-4 readable."
+    },
+    {
+      "page": 6,
+      "finding": "Records 5-8 readable; glyphs and warning symbol intact."
+    },
+    {
+      "page": 7,
+      "finding": "Records 9-12 readable with full headings."
+    },
+    {
+      "page": 8,
+      "finding": "Records 13-14 readable; full record 13 heading confirmed by dedicated same-hash reinspection."
+    },
+    {
+      "page": 9,
+      "finding": "Record 14 continuation and records 15-17 readable."
+    },
+    {
+      "page": 10,
+      "finding": "Records 18-21 readable; record 21 continues normally onto page 11."
+    },
+    {
+      "page": 11,
+      "finding": "Records 22-25 readable, including full Historical record 25 heading."
+    },
+    {
+      "page": 12,
+      "finding": "Record 25 continuation and complete Appendix B table readable; bottom row and border comfortably within margins."
+    }
+  ],
+  "scope_findings": "No clipping, overlapping text, missing glyphs, unreadable table geometry or confirmed invisible headings remain on the 12 repaired SI2 pages. Source-to-export paragraph fidelity is a separate root-owned check reported as accepted; this report records actual visual inspection.",
+  "documents": [
+    {
+      "paper": "FO",
+      "role": "supplement-2",
+      "input": "research/release-candidates/retained-20260918/inputs/FO/supplement-2-pagination-repair.docx",
+      "sha256": "920d00215d0029e6c3b74837eb4ce4a80941fd5c922c5a724d13e51fa1c8b7d9",
+      "existing_pdf": "research/release-candidates/retained-20260918/rendered-repair/FO/supplement-2/supplement-2-pagination-repair.pdf",
+      "existing_pdf_sha256": "d02219acb01e22edc69af2a4038627877c415171b5a87a92cccb4bb52a8d9f3c",
+      "pdf": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/supplement-2-pagination-repair.pdf",
+      "pdf_sha256": "d02219acb01e22edc69af2a4038627877c415171b5a87a92cccb4bb52a8d9f3c",
+      "pdf_bytes": 267523,
+      "pages": 12,
+      "page_images": [
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-01.png",
+          "sha256": "8d59aeb784ee10f0c857e2dcedd3f2e6827719fae85d7a6f5a30bba8b8f4ffef"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-02.png",
+          "sha256": "540c0d288443e9b33e061d212af8b3ce8c296130ab5d045ded4235607c97e238"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-03.png",
+          "sha256": "4200e33d8c82d6c900eb58e078bd51186ec1bc4338e9f85cbf93fcae60173ab0"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-04.png",
+          "sha256": "82f8205182ede94267897429dfe87b72c3e79173eb32b36019b42c686ca48141"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-05.png",
+          "sha256": "c63967900c56916d32c6808e44d7b99bf588fe5cba039b94206b6eb4e79aef3c"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-06.png",
+          "sha256": "47328ffb03bbe14aeb22ffc5636271b20842d390901abee76dba6c4e1b61868b"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-07.png",
+          "sha256": "1d417d8b24aa4253919bbecb9673e385e5252f10461c9f7376469df5e65b9197"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-08.png",
+          "sha256": "ddf675b55d96048599d9edfda8fc5e1821cae278d2f08ddb12719d364f5ed774"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-09.png",
+          "sha256": "4c89b16574dbebceb57579c43a57eb8ec33025ff87448f145ca26a568514d8fb"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-10.png",
+          "sha256": "8f64053aa7b2106bcac0564fd698d74662a935d52141af8c56fc1511429d8361"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-11.png",
+          "sha256": "d201cccf7aa6a0de7fe56bb1346754a95fd73720cba8bc8c5afb0917b29bc065"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/page-12.png",
+          "sha256": "4cf2c531f189a29751b1377801716d361acfd43d7e6f4cfe461f14dd143e6ac3"
+        }
+      ]
+    }
+  ],
+  "combined": [
+    {
+      "paper": "FO",
+      "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/aixiv-review.pdf",
+      "sha256": "a3ed10f9036e9cd9977216a0041d9994ff02dc0751eb9663cda68a2c87256787",
+      "pages": 67,
+      "component_order": [
+        "main",
+        "supplement-1",
+        "supplement-2"
+      ],
+      "components": [
+        {
+          "path": "research/release-candidates/retained-20260918/rendered/FO/main/main-with-corrected-labels.pdf",
+          "sha256": "1d81dc6b12df2b47780ada6a2c90aeb55e06155f88647b4bfefb09ee4df82702"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered/FO/supplement-1/supplement-1.pdf",
+          "sha256": "56ee1198750802b4be2098b6402ecea014c403e4f25a1e2641955d4a018d57fc"
+        },
+        {
+          "path": "research/release-candidates/retained-20260918/rendered-repair-qa/FO/supplement-2/supplement-2-pagination-repair.pdf",
+          "sha256": "d02219acb01e22edc69af2a4038627877c415171b5a87a92cccb4bb52a8d9f3c"
+        }
+      ],
+      "embedded_csv": null
+    }
+  ],
+  "acceptance_scope": "Accept the exact repaired SI2 PDF and page hashes in this report. Prior rejection evidence is retained; the true S14 export-loss blocker is resolved. Main/SI1/cover/highlights retain their previous visual passes. Publication actions remain with parent."
+}

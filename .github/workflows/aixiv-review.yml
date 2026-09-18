@@ -74,7 +74,30 @@ jobs:
   aixiv:
     runs-on: ubuntu-latest
     steps:
+      - name: Check device window and checkout headroom
+        run: |
+          python3 - <<'PY'
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          import shutil
+          local = datetime.now(ZoneInfo('America/New_York'))
+          free = shutil.disk_usage('.').free
+          assert not 6 <= local.hour < 10, 'Daily device restriction: defer until 10:00 Eastern'
+          assert free >= 30 * 1024**3, 'Checkout budget 20 GiB plus 10 GiB free reserve required'
+          print('Device/storage guards passed', local.isoformat(), free)
+          PY
       - uses: actions/checkout@v4
+      - name: Recheck device window before provider operations
+        run: |
+          python3 - <<'PY'
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          import shutil
+          local = datetime.now(ZoneInfo('America/New_York'))
+          assert not 6 <= local.hour < 10, 'Daily device restriction: defer until 10:00 Eastern'
+          assert shutil.disk_usage('.').free >= 10 * 1024**3, 'Preserve 10 GiB free'
+          print('Provider-operation guards passed', local.isoformat())
+          PY
 
       - name: Verify the token (read-only, writes nothing)
         if: ${{ inputs.mode == 'verify' }}
