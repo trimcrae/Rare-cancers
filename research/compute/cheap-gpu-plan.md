@@ -441,3 +441,12 @@ Appended by the weekly field-scan Routine. Provider choice is trimcrae's decisio
   above. **Not enough to update the table** — still needs our own smoke-test $/ns run before any fleet decision
   moves off it. https://github.com/openmm/openmm/issues/4854 ·
   https://vast.ai/pricing/gpu/RTX-5090 · https://getdeploying.com/gpus/nvidia-rtx-5090
+- **2026-09-18 — ⚠ for human review, UNVETTED: a new decentralized/crypto GPU marketplace, Lium, advertising
+  very low H100 prices.** Built on the Bittensor network — permissionless, no KYC, crypto payments (not a
+  standard billed-account provider like Vast/RunPod/GCP). Listed prices vary widely by source: lium.io states
+  "starting at $0.16/GPU-hr" (avg. ~$1.81 across on-demand configs per one tracker); GetDeploying lists it as
+  the cheapest *verified in-stock* on-demand H100 at $1.30/hr this week (2026-09-16 snapshot). No RTX-4090/5090
+  listing checked, no OpenMM/OpenFE $/ns measurement exists, and the no-KYC/crypto-payment model is a real
+  operational difference from every provider already in the waterfall — flagging only, not recommending; this
+  is trimcrae's call on whether the payment/trust model is even worth evaluating.
+  https://lium.io/ · https://getdeploying.com/gpus/nvidia-h100

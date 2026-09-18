@@ -609,3 +609,21 @@ triggers not yet integrated into the curated sections above — review + fold in
   running on Fable 5.1 or still on the Opus-5 fallback** — check `/status` before assuming either way; if not
   yet on it, this is a free capability upgrade for every future research session, not a hypothetical.
   https://www.anthropic.com/claude/fable
+- **2026-09-11 — OpenMM 8.6.0 → 8.6.1 (patch release).** Seven fixes: removed debugging code, a PythonForce
+  segfault, DPDIntegrator correctness with non-consecutive particle types, a CustomNonbondedForce
+  tabulated-function update bug, QTBIntegrator atom-ordering, CustomNonbondedForce XmlSerializer cloning, and
+  a PythonForce worker-thread disable. None touch PME, HREX/expanded-ensemble, or anything in our production
+  RBFE/ΔG_coop path — no default-affecting change to numbers already produced.
+  https://github.com/openmm/openmm/releases/tag/8.6.1
+- **2026-09-18 — two previously-unsurfaced ternary/cooperativity reviews, not new this week but new to this
+  repo's tracking.** (1) "From Ternary Modeling to Predictive PROTAC Design: A Computational Perspective"
+  (Schulz, Reynolds & Schürer, *J. Chem. Inf. Model.* 66(16):9743–9760, 2026-08-24) — a perspective organizing
+  the PROTAC computational field into constraint-driven physics workflows vs. data-driven/deep-learning
+  workflows (restrained docking, MD refinement, coarse-grained free-energy modeling, SE(3)/E(3)-equivariant
+  structure prediction, supervised degradation-efficacy prediction, generative linker design); a useful
+  reference map for where our ΔG_coop physics-ensemble approach sits relative to the field.
+  https://doi.org/10.1021/acs.jcim.6c01824 · (2) "Reconciling Cooperativity Definition in PROTACs and
+  Molecular Glues: Thermodynamic Dissection into PPI and Ligand Entropic Contributions" (bioRxiv,
+  2026-02-07) — direct prior art for our own ΔG_coop cooperativity metric; reports buried PPI interface area
+  as the key driver of high cooperativity. Add both to the Track B benchmark/citation set alongside the
+  already-tracked JCTC 5c00736/5c00064. https://www.biorxiv.org/content/10.64898/2026.02.07.704601

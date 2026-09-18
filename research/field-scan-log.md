@@ -466,3 +466,88 @@ program found (Nebius Research Grants' 2026–27 cycle is open but is an existin
 NR4A/EMC + degrader methodology; non-degrader routes; frontier-model/mobile-agent watch; direct GitHub
 releases pages for the MD/FEP stack). No fabricated papers, trials, releases, or prices; items not
 independently verified beyond the search/fetch snippet are flagged as such above.*
+
+---
+
+## 2026-09-18 (Fri) — AUTOMATED weekly field-scan (delta vs 2026-09-11, ~1 week)
+
+**This week's takeaway: a quiet week again on NR4A3/EMC and degrader methodology directly — one small OpenMM
+patch bump, two previously-untracked (but old) ternary/cooperativity prior-art references worth adding to our
+citation set, and one unvetted new GPU marketplace (crypto-payment, no-KYC) flagged for human review only.**
+No new NR4A3/EMC-specific paper, ligand, structure, or trial found. No new co-folding/ternary/selectivity
+method. No newer frontier model than Fable 5.1 (unchanged since 2026-09-01) found this week.
+
+### 1) METHOD-WATCH (plan-relevant)
+- **OpenMM 8.6.0 → 8.6.1 (2026-09-11, patch release).** Seven small fixes (PythonForce segfault, DPDIntegrator
+  correctness, a CustomNonbondedForce tabulated-function bug, QTBIntegrator atom ordering, etc.) — none touch
+  PME, HREX/expanded-ensemble, or our production RBFE/ΔG_coop path. No default-affecting change.
+  https://github.com/openmm/openmm/releases/tag/8.6.1
+- **Two previously-unsurfaced ternary/cooperativity papers, now added to method-watch.md's prior-art set** —
+  not new this week (dated 2026-08-24 and 2026-02-07) but never previously tracked here: a JCIM computational-
+  PROTAC-methods review (Schulz/Reynolds/Schürer) and a bioRxiv thermodynamic dissection of PROTAC/glue
+  cooperativity into PPI + ligand-entropy terms — direct prior art for our own ΔG_coop metric. Full detail +
+  links: `method-watch.md` auto-capture section (2026-09-18 entries).
+- **DeepTernary, FKSFold, Boltz-2 (still v2.2.1) unchanged.** No new co-folding/ternary/affinity/selectivity
+  tool found.
+
+### 2) NR4A / EMC
+- **No new NR4A3-specific primary paper, ligand, structure, or trial found this period.** Checked a targeted
+  PubMed sweep and general searches; nothing beyond what is already tracked. General NR4A1/NR4A2 dual-ligand
+  literature continues to appear but is not NR4A3- or EMC-specific.
+
+### 3) Degrader methodology
+- **Quiet beyond the two prior-art papers captured above.** No new PROTAC/molecular-glue cooperativity,
+  ternary-prediction, or E3-ligase-ligand paper crosses the window with a direct NR4A3/paralogue-selectivity
+  connection.
+
+### 4) NON-DEGRADER ROUTES
+- **No new fusion-junction vaccine, TCR-T, or immunotherapy trial/readout specific to EMC or a new FET-fusion
+  sarcoma found this period.** One candidate checked and ruled out: `NCT07695311` ("EWSR1 Immunotherapy in
+  Ewing Sarcoma and DSRCT," not-yet-recruiting, Case Comprehensive Cancer Center) — already screened and
+  excluded in the repo's 2026-08-07 FET-fusion-trial sweep because it requires named partner fusions EMC does
+  not carry; not a new finding, flagged here only so a future scan doesn't re-surface it.
+- **No new AOC/oligonucleotide-delivery technology candidate or EMC-enriched surface antigen found.** B7-H3
+  ADC/AOC and general antibody-oligonucleotide-conjugate literature continues to describe the already-tracked
+  landscape (TfR1/CD33/CD22/EGFR/HER2/CD44/PSMA-targeted platforms); nothing new names a concrete candidate
+  for our route.
+
+### 5) Tooling & operating-environment watch
+**(a) Library releases.** **OpenMM 8.6.1 is the only bump this window** (see METHOD-WATCH above). OpenFE
+(v1.12.0), gufe (v1.12.0), openmmtools (v0.26.0), openff-toolkit (v0.19.0), openff-nagl (v0.6.1), Kartograf
+(v2.0.0), LOMAP2 (v3.3.0), RDKit (2026.03.6) and Boltz (v2.2.1) all unchanged since last week.
+
+**(b) Frontier-model access.** **No change — Fable 5.1 remains the top tier, confirmed unchanged since its
+2026-09-01 release.** No newer/more-capable Anthropic or third-party model found this week that out-measures
+it on science/biology reasoning. **Still unresolved and carried forward again: whether these research sessions
+actually run on Fable 5.1 or fall back to Opus 5** — this scan has no reliable way to self-report that from
+inside a scheduled session; check `/status` on an interactive session to settle it.
+
+**(c) Phone-drivable coding agents.** **Incremental Codex updates this week (agents dashboard, working-
+directory commands, a `codex queue`, expanded browser control/site tools), no fundamental change.** Doesn't
+alter last week's open question — whether Codex mobile control beats driving Claude Code from the Claude
+mobile app for this work — and no comparison test has been run either way.
+
+**(d) Compute-cost / GPU-market.** **No material spot-price move this period on Vast.ai/RunPod/Modal/GCP/AWS**
+for GPUs already in the waterfall — RTX 5090 on Vast still ~$0.31/hr, consistent with last week; Vast.ai
+remains the cheapest marketplace floor for cards we use. **One new item, unvetted:** a decentralized/Bittensor-
+based GPU marketplace ("Lium") surfaced advertising low H100 prices ($0.16–1.30/hr depending on source) via
+crypto payment with no KYC — a different trust/payment model from every provider already in the waterfall, no
+$/ns measurement for our workload, flagged for human review only (see `compute/cheap-gpu-plan.md` auto-capture,
+2026-09-18). No new mainstream provider or free/academic credit program found.
+
+### Action items for the program
+1. Add the two newly-tracked ternary/cooperativity prior-art papers (JCIM review, bioRxiv cooperativity
+   dissection) into the Track B benchmark/citation set alongside JCTC 5c00736/5c00064 next time that section
+   is touched.
+2. **Check whether research sessions run Fable 5.1 or fall back to Opus 5** — carried forward a third week;
+   still no way to check `/status` from inside a scheduled scan session.
+3. `trig_01X5xHy1cmkLjkATEijZSNJf`'s missing repo `sources` grant remains outstanding and needs trimcrae
+   (unchanged, carried from prior entries — this run again landed on `main` cleanly via the session-based
+   mechanism).
+4. Lium (crypto-payment GPU marketplace) is a "look, don't touch yet" item — needs trimcrae's judgment on
+   whether the no-KYC/crypto payment model is worth evaluating before any $/ns measurement is even considered.
+
+*Sources are real search hits from parallel WebSearch/WebFetch passes (method-watch/tooling/compute-cost;
+NR4A/EMC + degrader methodology; non-degrader routes; frontier-model/mobile-agent watch; direct GitHub
+releases/Atom-feed pages for the MD/FEP stack). No fabricated papers, trials, releases, or prices; items not
+independently verified beyond the search/fetch snippet are flagged as such above.*
