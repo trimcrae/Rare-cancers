@@ -1,22 +1,14 @@
 #!/usr/bin/env python3
-"""THE TWO CONTROLS IN `ndrg1_panel_attribution.py` ARE LOAD-BEARING, NOT DECORATIVE (AUT-PROP-048).
+"""Preserve NDRG1 subject-exclusion and size-matched background controls (AUT-PROP-048).
 
-⛔⛔ THIS FILE EXISTS BECAUSE BOTH CONTROLS CHANGE THE ANSWER, AND A READER WHO DOES NOT KNOW THAT
-WILL READ THE ARTIFACT AS A WEAKER RESULT THAN IT IS — OR A STRONGER ONE.
+Current result checks bind the accepted S53 full-membership/background reading. Neither series
+meets the original joint separation criterion, but the smaller series retains five of six hypoxia
+panels above their own nulls. This does not identify a mechanism or establish absence of signal.
 
-  * WITHOUT LEAVE-ONE-OUT the comparison is NDRG1 against a mean that CONTAINS NDRG1. It returns a
-    large positive number for a panel of any composition, so it cannot discriminate between the two
-    hypotheses at all — it is not a weak measurement, it is not a measurement.
-  * WITHOUT THE SIZE-MATCHED NULL the smaller series (n=16) reads as a clean replication. It is not:
-    a RANDOM panel of the same size already reaches rho ≈ +0.25 to +0.42 there, because on a
-    single-channel array every gene carries a shared array-level component and 16 samples across
-    three classes is dominated by between-class structure. The null is the entire reason the
-    committed verdict says ONE series and not two.
-
-★ EACH TEST BELOW MUTATES THE CONTROL AND ASSERTS THE ANSWER MOVES. A guard that still passes with
-its mechanism removed is guarding nothing (`paper-hardening` records seven one-of-a-pair defects
-found exactly this way). ⚠ Every mutation is applied to LOCAL COPIES of the inputs — never to the
-module and never to the committed artifact — which is research-loop §3's measured rule.
+The self-inclusion mutation retains its original curated membership on both sides of the paired
+comparison. It tests contamination by the subject without confounding that change with membership.
+Other checks use the current scoring cache, panel-specific nulls and unchanged joint criterion.
+Mutations operate on local copies or pytest-restored attributes, never the committed artifact.
 """
 
 from __future__ import annotations
@@ -33,8 +25,8 @@ sys.path.insert(0, MODALITIES)
 
 import ndrg1_panel_attribution as N  # noqa: E402
 
-BIG = "GSE24369_series_matrix.txt.gz"      # 35 samples — the series that separates
-SMALL = "GSE4303-GPL3290_series_matrix.txt.gz"  # 16 samples — the one that cannot
+BIG = "GSE24369_series_matrix.txt.gz"      # 35 samples, mixed histologies
+SMALL = "GSE4303-GPL3290_series_matrix.txt.gz"  # 16 samples, mixed histologies
 
 
 @pytest.fixture(scope="module")
@@ -50,8 +42,7 @@ def src():
 
 
 def _cache(src, matrix):
-    gr = src["gene_reads"]
-    return {g: N.sample_z(gr, g, matrix) for g in gr}
+    return N.scoring_cache(src["gene_reads"], src, matrix)
 
 
 # ------------------------------------------------------------------ the artifact is what it says
@@ -62,17 +53,24 @@ def test_the_committed_artifact_rederives_from_its_generator():
         "ndrg1-panel-attribution.json does not re-derive. Regenerate it and commit the result.")
 
 
-def test_the_verdict_reports_one_series_not_two(committed):
-    """★ THE HONEST WEIGHT, PINNED. If a future change makes this read two series, that is either a
-    real improvement (more per-sample genes, a better null) or the null being weakened — and the
-    difference must be argued in a commit message, not discovered in a manuscript."""
-    assert committed["series"][BIG]["separates_hypoxia_from_pparg"] is True
+def test_the_background_read_preserves_the_measured_discordant_patterns(committed):
+    """S53/AUT-PD-185 supplied the measurement authorizing the AUT-PD-170 migration.
+
+    Preserve both the lost separation and the smaller series' remaining pattern. A failed joint
+    criterion is not evidence that every panel association disappeared.
+    """
+    assert committed["panel_membership_source"]["pinned"] == "full_membership_background_null"
+    assert committed["series"][BIG]["separates_hypoxia_from_pparg"] is False
     assert committed["series"][SMALL]["separates_hypoxia_from_pparg"] is False
-    assert committed["verdict"]["separating_series"] == [BIG]
+    assert committed["verdict"]["separating_series"] == []
+    assert (committed["series"][BIG]["n_hypoxia_above_null_p95"],
+            committed["series"][BIG]["n_pparg_above_null_p95"]) == (2, 3)
+    assert (committed["series"][SMALL]["n_hypoxia_above_null_p95"],
+            committed["series"][SMALL]["n_pparg_above_null_p95"]) == (5, 0)
 
 
 # ------------------------------------------------------------------ control 1: leave-one-out
-def test_including_the_subject_in_its_own_panels_manufactures_the_correlation(src, committed):
+def test_including_the_subject_in_its_own_panels_manufactures_the_correlation(src):
     """⛔⛔ THE MUTATION. Put NDRG1 back into the hypoxia panels it belongs to and the correlation
     jumps, because the panel mean now contains the variable it is being correlated against.
 
@@ -80,21 +78,24 @@ def test_including_the_subject_in_its_own_panels_manufactures_the_correlation(sr
     by noise; a mutant that rises materially on every panel containing the subject is the signature
     of self-correlation.
     """
-    cache = _cache(src, BIG)
+    # Preserve the original controlled demonstration on its historical membership. Comparing a
+    # curated mutant to today's full-panel score would confound self-inclusion with membership.
+    cache = {g: N.sample_z(src["gene_reads"], g, BIG) for g in src["gene_reads"]}
     subject = cache[N.SUBJECT]
     gsms = sorted(subject)
     sig = src["signature_scores"]
 
     inflated = []
-    for panel, row in committed["series"][BIG]["panels"].items():
-        if not row.get("scored") or row["family"] != "hypoxia":
+    for panel in sig:
+        if N.family_of(panel) != "hypoxia" or BIG not in sig[panel].get("per_platform", {}):
             continue
         readable = (sig[panel]["per_platform"][BIG].get("genes_readable") or [])
         if N.SUBJECT not in readable:
             continue                      # this set does not contain the subject; nothing to mutate
         members = [g for g in readable if cache.get(g)]        # ⛔ subject NOT removed — the mutation
+        honest, _ = N.panel_rho([g for g in members if g != N.SUBJECT], subject, gsms, cache)
         mutant, _n = N.panel_rho(members, subject, gsms, cache)
-        inflated.append((panel, row["rho"], mutant))
+        inflated.append((panel, honest, mutant))
 
     assert inflated, (
         "no scored hypoxia panel on this platform contains NDRG1, so this mutation exercised "
@@ -106,9 +107,8 @@ def test_including_the_subject_in_its_own_panels_manufactures_the_correlation(sr
             "reading the members it is given.")
 
 
-def test_every_scored_panel_counts_its_members_after_the_exclusion(src, committed):
-    """The bookkeeping half. `n_panel_members` must be the count the score actually used, so a
-    reader can see how thin a panel is without re-deriving it."""
+def test_every_current_panel_score_and_count_exclude_the_subject(src, committed):
+    """Bind current stored scores, not just reported counts, to explicit subject exclusion."""
     sig = src["signature_scores"]
     for matrix, s in committed["series"].items():
         if not s.get("subject_readable"):
@@ -122,61 +122,39 @@ def test_every_scored_panel_counts_its_members_after_the_exclusion(src, committe
             assert row["n_panel_readable"] == len(readable)
             assert row["n_panel_members"] == len([g for g in readable if cache.get(g)])
             assert row["n_panel_members"] <= row["n_panel_readable"]
+            members = [g for g in readable if cache.get(g)]
+            rho, n_scored = N.panel_rho(members, cache[N.SUBJECT],
+                                       sorted(cache[N.SUBJECT]), cache)
+            assert rho is not None
+            assert row["rho"] == round(rho, 4), f"{matrix}/{panel}: stored score includes the subject or different members"
+            assert row["n_samples_scored"] == n_scored
 
 
 # ------------------------------------------------------------------ control 2: the size-matched null
-def test_the_smaller_series_null_is_high_enough_to_swallow_the_raw_correlations(committed):
-    """⛔⛔ THE FINDING THE NULL EXISTS FOR, ASSERTED RATHER THAN DESCRIBED. In the 16-sample series
-    a random size-matched panel reaches a substantial positive rho on its own. Any reading of that
-    series' raw correlations is reading the array, not the biology."""
+def test_the_smaller_series_background_null_is_materially_positive(committed):
+    """A substantial random-panel correlation does not itself identify its biological cause."""
     small = committed["series"][SMALL]
     lo, hi = small["null_median_range"]
     assert lo > 0.15, (
         f"the small series' random-panel null median has fallen to {lo:+.3f}. If that is real the "
-        "series may now be usable — but it must be argued, because this module's verdict rests on "
-        "that null being large.")
+        "background comparison has changed and needs source-bound review.")
     big_lo, big_hi = committed["series"][BIG]["null_median_range"]
     assert abs(big_hi) < 0.1 and abs(big_lo) < 0.1, (
         f"the LARGER series' null is no longer centred near zero ({big_lo:+.3f}..{big_hi:+.3f}), so "
-        "its separation may be array structure too")
+        "the background comparison has changed and needs source-bound review")
 
 
-def test_no_single_raw_rho_threshold_reproduces_the_committed_verdict(committed):
-    """⛔⛔ THE MUTATION FOR CONTROL 2, AND THE FIRST VERSION OF THIS TEST ASSERTED SOMETHING FALSE.
-
-    ⚠ It claimed a naive raw-rho rule would flip the SMALL series to 'separating'. It does not — it
-    calls that series non-separating too, for the wrong reason (three PPARγ panels are also high
-    there). Writing the assertion the tempting way and running it is what caught that, which is the
-    argument for mutations being executed rather than reasoned about.
-
-    ★ THE TRUE STATEMENT IS STRONGER AND IS WHAT IS ASSERTED NOW: **no single global rho threshold
-    reproduces the committed verdict on both series.** In the large series a threshold does exist —
-    every hypoxia panel sits above every PPARγ panel — so a naive rule happens to agree there. In
-    the small series the PPARγ maximum EXCEEDS the hypoxia minimum, so no threshold can separate
-    them at all, and a rule that reported the large series correctly would be doing so by luck of
-    where the constant landed. A per-panel, size-matched null needs no constant and answers both.
+def test_raw_rho_cannot_replace_each_panels_size_matched_null(committed):
+    """An above-null panel has a lower raw rho than a failing panel. Thus one global raw-rho
+    threshold cannot reproduce these panel-level decisions. This does not make the stronger,
+    unsupported claim that a raw threshold cannot happen to reproduce two series-level booleans.
     """
-    spans = {}
-    for matrix, s in committed["series"].items():
-        if not s.get("subject_readable"):
-            continue
-        scored = [r for r in s["panels"].values() if r.get("scored")]
-        hyp = [r["rho"] for r in scored if r["family"] == "hypoxia"]
-        ppg = [r["rho"] for r in scored if r["family"] == "pparg"]
-        assert hyp and ppg, f"{matrix} scored one family only, so this proves nothing"
-        spans[matrix] = (min(hyp), max(ppg))
-
-    separable = {m for m, (h_lo, p_hi) in spans.items() if h_lo > p_hi}
-    assert BIG in separable, (
-        f"the large series' families now overlap on raw rho {spans[BIG]}, so the claim that a "
-        "threshold agrees there is stale")
-    assert SMALL not in separable, (
-        f"a raw-rho threshold now separates the SMALL series {spans[SMALL]}. That would make this "
-        "test's premise stale — re-derive it rather than deleting it, because the committed verdict "
-        "says that series cannot discriminate and the two must not disagree silently.")
-    assert separable != set(spans), (
-        "a single threshold would now reproduce the verdict on every series, so the null is no "
-        "longer earning its place and that should be argued explicitly")
+    rows = [r for s in committed["series"].values() if s.get("subject_readable")
+            for r in s["panels"].values() if r.get("scored")]
+    above = [r["rho"] for r in rows if r["above_null_p95"]]
+    below = [r["rho"] for r in rows if not r["above_null_p95"]]
+    assert above and below
+    assert min(above) < max(below)
 
 
 def test_a_panel_that_clears_on_the_pparg_side_makes_the_verdict_false(src):

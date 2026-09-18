@@ -1,0 +1,325 @@
+{
+  "utc": "2026-09-18T19:53:23.915518+00:00",
+  "status": "all_24_panel_rows_and_joint_counts_match_S53",
+  "comparison": "Exact current output equality at the rounded precision displayed in S53; no historical full-precision JSON/byte identity claimed",
+  "source_table": "research/autonomy/sprint-2026-09-01/S53-HYPOXIA-BACKGROUND-READ.md",
+  "artifact_sha256": "a6afead1010668113314b2dd112705bd270583ec02db6f777e823f8d9b347bdd",
+  "checks": [
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "adipogenesis_process_proxy",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 189,
+        "rho": 0.6246,
+        "null_p95": 0.3983,
+        "above_null_p95": true,
+        "p_empirical": 0.0015
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "hypoxia_harris",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 80,
+        "rho": 0.5692,
+        "null_p95": 0.4445,
+        "above_null_p95": true,
+        "p_empirical": 0.009
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "pparg_curated_trrust",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 63,
+        "rho": 0.5613,
+        "null_p95": 0.4515,
+        "above_null_p95": true,
+        "p_empirical": 0.014
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "pparg_chip_chea",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 188,
+        "rho": 0.5308,
+        "null_p95": 0.4109,
+        "above_null_p95": true,
+        "p_empirical": 0.0125
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "hypoxia_hallmark",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 188,
+        "rho": 0.4423,
+        "null_p95": 0.4109,
+        "above_null_p95": true,
+        "p_empirical": 0.037
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "hypoxia_buffa",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 48,
+        "rho": 0.4246,
+        "null_p95": 0.4543,
+        "above_null_p95": false,
+        "p_empirical": 0.066
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "hypoxia_winter",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 231,
+        "rho": 0.3866,
+        "null_p95": 0.3978,
+        "above_null_p95": false,
+        "p_empirical": 0.056
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "hypoxia_elvidge",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 158,
+        "rho": 0.2625,
+        "null_p95": 0.4269,
+        "above_null_p95": false,
+        "p_empirical": 0.1989
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "hypoxia_gobp_response",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 72,
+        "rho": 0.2353,
+        "null_p95": 0.4308,
+        "above_null_p95": false,
+        "p_empirical": 0.2139
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "pparg_perturbation_KO_UP_CONTROL",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 231,
+        "rho": 0.0263,
+        "null_p95": 0.3978,
+        "above_null_p95": false,
+        "p_empirical": 0.5217
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "pparg_perturbation_OE_UP",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 250,
+        "rho": -0.0269,
+        "null_p95": 0.4039,
+        "above_null_p95": false,
+        "p_empirical": 0.6072
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE24369_series_matrix.txt.gz",
+      "panel": "pparg_perturbation_KO_DOWN",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 188,
+        "rho": -0.0398,
+        "null_p95": 0.4109,
+        "above_null_p95": false,
+        "p_empirical": 0.6377
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "hypoxia_elvidge",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 149,
+        "rho": 0.8794,
+        "null_p95": 0.7059,
+        "above_null_p95": true,
+        "p_empirical": 0.001
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "hypoxia_gobp_response",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 66,
+        "rho": 0.8147,
+        "null_p95": 0.6912,
+        "above_null_p95": true,
+        "p_empirical": 0.0055
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "hypoxia_hallmark",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 174,
+        "rho": 0.7647,
+        "null_p95": 0.7147,
+        "above_null_p95": true,
+        "p_empirical": 0.0225
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "hypoxia_winter",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 219,
+        "rho": 0.7471,
+        "null_p95": 0.7147,
+        "above_null_p95": true,
+        "p_empirical": 0.0315
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "hypoxia_harris",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 73,
+        "rho": 0.7029,
+        "null_p95": 0.6647,
+        "above_null_p95": true,
+        "p_empirical": 0.034
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "pparg_chip_chea",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 169,
+        "rho": 0.6647,
+        "null_p95": 0.7118,
+        "above_null_p95": false,
+        "p_empirical": 0.0895
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "pparg_curated_trrust",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 57,
+        "rho": 0.6471,
+        "null_p95": 0.6765,
+        "above_null_p95": false,
+        "p_empirical": 0.072
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "hypoxia_buffa",
+      "expected_at_published_precision": {
+        "family": "hypoxia",
+        "n_panel_members": 44,
+        "rho": 0.5941,
+        "null_p95": 0.6588,
+        "above_null_p95": false,
+        "p_empirical": 0.088
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "adipogenesis_process_proxy",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 176,
+        "rho": 0.5412,
+        "null_p95": 0.7147,
+        "above_null_p95": false,
+        "p_empirical": 0.2124
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "pparg_perturbation_KO_DOWN",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 157,
+        "rho": 0.4176,
+        "null_p95": 0.7118,
+        "above_null_p95": false,
+        "p_empirical": 0.3878
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "pparg_perturbation_OE_UP",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 230,
+        "rho": 0.2324,
+        "null_p95": 0.7147,
+        "above_null_p95": false,
+        "p_empirical": 0.6837
+      },
+      "matches": true
+    },
+    {
+      "matrix": "GSE4303-GPL3290_series_matrix.txt.gz",
+      "panel": "pparg_perturbation_KO_UP_CONTROL",
+      "expected_at_published_precision": {
+        "family": "pparg",
+        "n_panel_members": 195,
+        "rho": -0.4235,
+        "null_p95": 0.7206,
+        "above_null_p95": false,
+        "p_empirical": 0.994
+      },
+      "matches": true
+    }
+  ],
+  "source_prose_caveat": "S53 prose says three hypoxia failures in large series; its table and2/6count show four. Original preserved; comparison uses coherent table/count.",
+  "artifact_sha256_before_newline_normalization": "484225fb04a7f368a15f13f62694bb4704feab60de34de532defcbdc486056c5",
+  "source_sha256": "3457e9a90d39c864e42d1767014311ee9e97a7e7aef79f59d5a12f56910f894c",
+  "normalized_utc": "2026-09-18T20:03:35.684124+00:00"
+}

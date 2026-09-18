@@ -163,7 +163,7 @@ def test_the_narrow_source_says_it_is_a_decline_and_not_an_absence(monkeypatch):
 
 
 def test_the_committed_artifact_declares_its_own_source():
-    """⚠ Today this is the NARROW read. The assertion is that it SAYS so — not that it is wide."""
+    """The artifact must declare the explicitly selected read, whichever supported mode is pinned."""
     with open(os.path.join(MODALITIES, "ndrg1-panel-attribution.json"), encoding="utf-8") as fh:
         art = json.load(fh)
     assert art["panel_membership_source"]["source"] in (

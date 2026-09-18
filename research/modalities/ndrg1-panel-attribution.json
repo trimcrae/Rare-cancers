@@ -5,9 +5,9 @@
   "_language_discipline": "⛔ NOT an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim. An association between a transcript and a programme proxy in archival tissue is not a mechanism and not a dependency.",
   "_the_two_controls": {
     "leave_one_out": "NDRG1 is a member of several published hypoxia sets, so it is removed from every panel before scoring. Without this the comparison is a variable against itself.",
-    "size_matched_null": "2000 random panels of the same size from the same readable pool. Without this the array-level shared component reads as signal — and in the smaller series it fully accounts for a raw rho of +0.6."
+    "size_matched_null": "2000 random panels of the same size from the declared null pool, excluding the subject. This grades the observed correlation relative to other readable array genes; it does not identify a biological cause or eliminate composition confounding."
   },
-  "_what_this_does_not_settle": "⛔⛔ FIRST AND LOUDEST: WHETHER THE SEPARATION BELOW IS THE BIOLOGY OR THE ROSTER (AUT-PD-167, measured 2026-08-29). Every panel here is scored over the members that happen to sit in a 479-gene roster curated for six unrelated targeted EMC reads, and `within_panel_percentile` on each row reports that this subset is NOT a fair thin sample of its panel in the larger series: there the curated subset of EVERY hypoxia panel lands in the upper tail of its own panel's distribution — read the six `within_panel_percentile` values below rather than a number retyped here — while the PPARγ subsets straddle the middle. ⛔ The size-matched null cannot absorb that, because it draws random genes from a POOL and never random members from the PANEL. Read `separating_series` as CONDITIONAL ON THIS ROSTER and not as a statement about the published signatures. ⚠ The obvious repair — score the full membership, which this repository now holds — is NOT sound either: its null pool becomes the union of the signature sets, a majority of which IS panel members and most of those PPARγ members, so it is a diluted mixture of the two hypotheses rather than a background (AUT-PD-167). Both reads are confounded and they fail in opposite directions; the read that settles it is AUT-PD-170. Direction and mechanism are not settled either. A transcript tracking a hypoxia proxy is consistent with HIF-driven abundance and equally consistent with both being downstream of something else in these tumours; nothing here separates them. ⚠ HOW MUCH OF EACH SET WAS ACTUALLY SCORED IS `panel_membership_source` below and `n_panel_members / n_panel_readable` on every row.",
+  "_what_this_does_not_settle": "Full readable membership against the retained random array background supersedes the historical curated-only separation (AUT-PD-170; S53; AUT-PD-185). Neither series meets the unchanged joint criterion. The smaller series has a hypoxia-leaning pattern (5/6 panels above their nulls versus 0/6 PPARγ); failure of its one remaining panel is not evidence of no association. The larger series has 2/6 hypoxia and 3/6 PPARγ panels above their nulls. These twelve uncorrected panel comparisons per series do not establish a directional programme attribution, mechanism, malignant-cell origin, or therapeutic suitability. The series contain mixed histologies, and the background comparison does not remove composition or other observational confounding. Membership counts and the declared null population remain explicit on every result.",
   "_inputs": {
     "panels": "research/modalities/emc-expression-panels.json",
     "seed": 20260829,
@@ -16,19 +16,19 @@
     "min_samples": 6
   },
   "panel_membership_source": {
-    "pinned": "curated_only",
+    "pinned": "full_membership_background_null",
     "wide_block_present": true,
-    "source": "gene_reads only",
-    "null_pool": "the SCORED POOL ITSELF — every gene carrying a per-sample value under this read. ⛔ That is a convenience pool and not a background: under `curated_only` it is a 479-gene roster curated for six unrelated EMC reads, under `curated_plus_signature_members` it is mostly the signature sets being tested. AUT-PD-167.",
-    "means": "⛔ THE NARROW READ, PINNED ON PURPOSE AND NOT FOR WANT OF DATA (AUT-PD-167). Each published set is scored over `curated ∩ published`; how thin that is per panel is `n_panel_members / n_panel_readable` on each row. The wide block IS present in the panels artifact and is DECLINED here, which is a different fact from its being absent.",
-    "why_pinned": "Neither available read is sound and they fail in OPPOSITE directions, so switching would substitute one confound for another while reversing a published verdict. The narrow read's members are a SELECTED subset of each panel (see `within_panel_percentile` on every row); the wide read's null pool is a majority of panel members, most of them PPARγ members, which makes it a diluted mixture of the two hypotheses rather than a background — the figures are on ledger row AUT-PD-167. The measurement that settles it — full membership against a null drawn from a random sample of the array background — is ledger row AUT-PD-170 and is a $0 CI read.",
+    "source": "gene_reads + signature_member_reads",
+    "null_pool": "⭐ `background_reads` — a random, unfiltered sample of the symbols this platform's probes resolve to. The only pool here whose selection rule is 'whatever the array can read'.",
+    "means": "⭐⭐ FULL MEMBERSHIP AGAINST AN ARRAY BACKGROUND (AUT-PD-170). Each published set is scored over every member the platform can read — the right membership — and the size-matched null is drawn from a random sample of the array instead of from a convenience pool. This is the read the other two were confounded relative to.",
+    "why_pinned": "AUT-PD-170 materializes the full-membership/background reading measured in S53-HYPOXIA-BACKGROUND-READ.md and interpreted by AUT-PD-185. Both required data blocks are already retained. The former curated-only separation is superseded; the seed, draw count, subject exclusion and joint criterion are unchanged.",
     "not_comparable": "⚠ Numbers under the two sources are NOT comparable: the null's pool differs, and the shift is a POOL effect rather than a panel-size one — swept over k = 10…231 the null median is flat within each pool and differs between them at every k (AUT-PD-167)."
   },
   "series": {
     "GSE24369_series_matrix.txt.gz": {
       "subject_readable": true,
       "n_samples": 35,
-      "readable_pool": 463,
+      "readable_pool": 3000,
       "classes": {
         "EMC": 6,
         "LGFMS": 17,
@@ -39,162 +39,114 @@
         "adipogenesis_process_proxy": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 10,
+          "n_panel_members": 189,
           "n_panel_readable": 189,
           "n_samples_scored": 35,
-          "rho": 0.3563,
-          "null_median": 0.0133,
-          "null_p95": 0.4759,
+          "rho": 0.6246,
+          "null_median": 0.035,
+          "null_p95": 0.3983,
           "null_draws": 2000,
-          "p_empirical": 0.1164,
-          "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 189,
-            "rho_over_full_panel": 0.6246,
-            "percentile": 52.4,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.0015,
+          "above_null_p95": true,
+          "within_panel_percentile": null
         },
         "hypoxia_buffa": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 10,
+          "n_panel_members": 48,
           "n_panel_readable": 48,
           "n_samples_scored": 35,
-          "rho": 0.6361,
-          "null_median": 0.0133,
-          "null_p95": 0.4759,
+          "rho": 0.4246,
+          "null_median": 0.0211,
+          "null_p95": 0.4543,
           "null_draws": 2000,
-          "p_empirical": 0.0065,
-          "above_null_p95": true,
-          "within_panel_percentile": {
-            "n_panel_full": 48,
-            "rho_over_full_panel": 0.4246,
-            "percentile": 86.6,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.066,
+          "above_null_p95": false,
+          "within_panel_percentile": null
         },
         "hypoxia_elvidge": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 19,
+          "n_panel_members": 158,
           "n_panel_readable": 158,
           "n_samples_scored": 35,
-          "rho": 0.6796,
-          "null_median": -0.0008,
-          "null_p95": 0.4367,
+          "rho": 0.2625,
+          "null_median": 0.0539,
+          "null_p95": 0.4269,
           "null_draws": 2000,
-          "p_empirical": 0.0025,
-          "above_null_p95": true,
-          "within_panel_percentile": {
-            "n_panel_full": 158,
-            "rho_over_full_panel": 0.2625,
-            "percentile": 97.4,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.1989,
+          "above_null_p95": false,
+          "within_panel_percentile": null
         },
         "hypoxia_gobp_response": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 22,
+          "n_panel_members": 72,
           "n_panel_readable": 72,
           "n_samples_scored": 35,
-          "rho": 0.7445,
-          "null_median": -0.0018,
-          "null_p95": 0.4532,
+          "rho": 0.2353,
+          "null_median": 0.0151,
+          "null_p95": 0.4308,
           "null_draws": 2000,
-          "p_empirical": 0.0005,
-          "above_null_p95": true,
-          "within_panel_percentile": {
-            "n_panel_full": 72,
-            "rho_over_full_panel": 0.2353,
-            "percentile": 100.0,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.2139,
+          "above_null_p95": false,
+          "within_panel_percentile": null
         },
         "hypoxia_hallmark": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 36,
+          "n_panel_members": 188,
           "n_panel_readable": 188,
           "n_samples_scored": 35,
-          "rho": 0.4782,
-          "null_median": -0.0105,
-          "null_p95": 0.4246,
+          "rho": 0.4423,
+          "null_median": 0.0464,
+          "null_p95": 0.4109,
           "null_draws": 2000,
-          "p_empirical": 0.032,
+          "p_empirical": 0.037,
           "above_null_p95": true,
-          "within_panel_percentile": {
-            "n_panel_full": 188,
-            "rho_over_full_panel": 0.4423,
-            "percentile": 72.8,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         },
         "hypoxia_harris": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 24,
+          "n_panel_members": 80,
           "n_panel_readable": 80,
           "n_samples_scored": 35,
-          "rho": 0.6588,
-          "null_median": -0.0039,
-          "null_p95": 0.4336,
+          "rho": 0.5692,
+          "null_median": 0.0249,
+          "null_p95": 0.4445,
           "null_draws": 2000,
-          "p_empirical": 0.0005,
+          "p_empirical": 0.009,
           "above_null_p95": true,
-          "within_panel_percentile": {
-            "n_panel_full": 80,
-            "rho_over_full_panel": 0.5692,
-            "percentile": 89.6,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         },
         "hypoxia_winter": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 41,
+          "n_panel_members": 231,
           "n_panel_readable": 231,
           "n_samples_scored": 35,
-          "rho": 0.4941,
-          "null_median": -0.0088,
-          "null_p95": 0.4129,
+          "rho": 0.3866,
+          "null_median": 0.0381,
+          "null_p95": 0.3978,
           "null_draws": 2000,
-          "p_empirical": 0.0245,
-          "above_null_p95": true,
-          "within_panel_percentile": {
-            "n_panel_full": 231,
-            "rho_over_full_panel": 0.3866,
-            "percentile": 76.6,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.056,
+          "above_null_p95": false,
+          "within_panel_percentile": null
         },
         "pparg_chip_chea": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 18,
+          "n_panel_members": 188,
           "n_panel_readable": 188,
           "n_samples_scored": 35,
-          "rho": 0.349,
-          "null_median": 0.0127,
-          "null_p95": 0.4395,
+          "rho": 0.5308,
+          "null_median": 0.0464,
+          "null_p95": 0.4109,
           "null_draws": 2000,
-          "p_empirical": 0.1084,
-          "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 188,
-            "rho_over_full_panel": 0.5308,
-            "percentile": 46.0,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.0125,
+          "above_null_p95": true,
+          "within_panel_percentile": null
         },
         "pparg_consensus_encode_chea": {
           "family": "pparg",
@@ -204,99 +156,75 @@
         "pparg_curated_trrust": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 15,
+          "n_panel_members": 63,
           "n_panel_readable": 63,
           "n_samples_scored": 35,
-          "rho": 0.0081,
-          "null_median": 0.0011,
-          "null_p95": 0.4669,
+          "rho": 0.5613,
+          "null_median": 0.0139,
+          "null_p95": 0.4515,
           "null_draws": 2000,
-          "p_empirical": 0.4908,
-          "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 63,
-            "rho_over_full_panel": 0.5613,
-            "percentile": 4.6,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.014,
+          "above_null_p95": true,
+          "within_panel_percentile": null
         },
         "pparg_perturbation_KO_DOWN": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 13,
+          "n_panel_members": 188,
           "n_panel_readable": 188,
           "n_samples_scored": 35,
-          "rho": 0.2258,
-          "null_median": 0.0155,
-          "null_p95": 0.4627,
+          "rho": -0.0398,
+          "null_median": 0.0464,
+          "null_p95": 0.4109,
           "null_draws": 2000,
-          "p_empirical": 0.2249,
+          "p_empirical": 0.6377,
           "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 188,
-            "rho_over_full_panel": -0.0398,
-            "percentile": 83.2,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         },
         "pparg_perturbation_KO_UP_CONTROL": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 19,
+          "n_panel_members": 231,
           "n_panel_readable": 231,
           "n_samples_scored": 35,
-          "rho": 0.1006,
-          "null_median": -0.0008,
-          "null_p95": 0.4367,
+          "rho": 0.0263,
+          "null_median": 0.0381,
+          "null_p95": 0.3978,
           "null_draws": 2000,
-          "p_empirical": 0.3768,
+          "p_empirical": 0.5217,
           "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 231,
-            "rho_over_full_panel": 0.0263,
-            "percentile": 54.4,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         },
         "pparg_perturbation_OE_UP": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 16,
+          "n_panel_members": 250,
           "n_panel_readable": 250,
           "n_samples_scored": 35,
-          "rho": 0.2104,
-          "null_median": 0.012,
-          "null_p95": 0.4742,
+          "rho": -0.0269,
+          "null_median": 0.0388,
+          "null_p95": 0.4039,
           "null_draws": 2000,
-          "p_empirical": 0.2604,
+          "p_empirical": 0.6072,
           "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 250,
-            "rho_over_full_panel": -0.0269,
-            "percentile": 75.2,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         }
       },
       "n_hypoxia_scored": 6,
-      "n_hypoxia_above_null_p95": 6,
+      "n_hypoxia_above_null_p95": 2,
       "n_pparg_scored": 6,
-      "n_pparg_above_null_p95": 0,
+      "n_pparg_above_null_p95": 3,
       "null_median_range": [
-        -0.0105,
-        0.0155
+        0.0139,
+        0.0539
       ],
-      "separates_hypoxia_from_pparg": true,
+      "separates_hypoxia_from_pparg": false,
       "_separates_means": "TRUE only when EVERY scored hypoxia panel exceeds its own size-matched null p95 and NO PPARγ panel does. It is a joint statement about both families, so one PPARγ panel clearing makes it false however strong the hypoxia side is."
     },
     "GSE4303-GPL3290_series_matrix.txt.gz": {
       "subject_readable": true,
       "n_samples": 16,
-      "readable_pool": 417,
+      "readable_pool": 2995,
       "classes": {
         "DFSP": 3,
         "EMC": 10,
@@ -306,162 +234,114 @@
         "adipogenesis_process_proxy": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 10,
+          "n_panel_members": 176,
           "n_panel_readable": 176,
           "n_samples_scored": 16,
-          "rho": 0.6206,
-          "null_median": 0.2809,
-          "null_p95": 0.7059,
+          "rho": 0.5412,
+          "null_median": 0.3324,
+          "null_p95": 0.7147,
           "null_draws": 2000,
-          "p_empirical": 0.1184,
+          "p_empirical": 0.2124,
           "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 176,
-            "rho_over_full_panel": 0.5412,
-            "percentile": 85.4,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         },
         "hypoxia_buffa": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 9,
+          "n_panel_members": 44,
           "n_panel_readable": 44,
           "n_samples_scored": 16,
-          "rho": 0.6,
-          "null_median": 0.2529,
-          "null_p95": 0.7235,
+          "rho": 0.5941,
+          "null_median": 0.2029,
+          "null_p95": 0.6588,
           "null_draws": 2000,
-          "p_empirical": 0.1399,
+          "p_empirical": 0.088,
           "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 44,
-            "rho_over_full_panel": 0.5941,
-            "percentile": 65.4,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         },
         "hypoxia_elvidge": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 17,
+          "n_panel_members": 149,
           "n_panel_readable": 149,
           "n_samples_scored": 16,
-          "rho": 0.7706,
-          "null_median": 0.3176,
-          "null_p95": 0.7324,
+          "rho": 0.8794,
+          "null_median": 0.3353,
+          "null_p95": 0.7059,
           "null_draws": 2000,
-          "p_empirical": 0.033,
+          "p_empirical": 0.001,
           "above_null_p95": true,
-          "within_panel_percentile": {
-            "n_panel_full": 149,
-            "rho_over_full_panel": 0.8794,
-            "percentile": 66.2,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         },
         "hypoxia_gobp_response": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 21,
+          "n_panel_members": 66,
           "n_panel_readable": 66,
           "n_samples_scored": 16,
-          "rho": 0.7088,
-          "null_median": 0.35,
-          "null_p95": 0.7412,
+          "rho": 0.8147,
+          "null_median": 0.2353,
+          "null_p95": 0.6912,
           "null_draws": 2000,
-          "p_empirical": 0.0765,
-          "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 66,
-            "rho_over_full_panel": 0.8147,
-            "percentile": 77.6,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.0055,
+          "above_null_p95": true,
+          "within_panel_percentile": null
         },
         "hypoxia_hallmark": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 35,
+          "n_panel_members": 174,
           "n_panel_readable": 174,
           "n_samples_scored": 16,
-          "rho": 0.6882,
-          "null_median": 0.4191,
-          "null_p95": 0.7382,
+          "rho": 0.7647,
+          "null_median": 0.3559,
+          "null_p95": 0.7147,
           "null_draws": 2000,
-          "p_empirical": 0.092,
-          "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 174,
-            "rho_over_full_panel": 0.7647,
-            "percentile": 27.4,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.0225,
+          "above_null_p95": true,
+          "within_panel_percentile": null
         },
         "hypoxia_harris": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 23,
+          "n_panel_members": 73,
           "n_panel_readable": 73,
           "n_samples_scored": 16,
-          "rho": 0.5676,
-          "null_median": 0.3735,
-          "null_p95": 0.7353,
+          "rho": 0.7029,
+          "null_median": 0.2529,
+          "null_p95": 0.6647,
           "null_draws": 2000,
-          "p_empirical": 0.2399,
-          "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 73,
-            "rho_over_full_panel": 0.7029,
-            "percentile": 29.2,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.034,
+          "above_null_p95": true,
+          "within_panel_percentile": null
         },
         "hypoxia_winter": {
           "family": "hypoxia",
           "scored": true,
-          "n_panel_members": 39,
+          "n_panel_members": 219,
           "n_panel_readable": 219,
           "n_samples_scored": 16,
-          "rho": 0.6441,
-          "null_median": 0.4147,
-          "null_p95": 0.7412,
+          "rho": 0.7471,
+          "null_median": 0.3574,
+          "null_p95": 0.7147,
           "null_draws": 2000,
-          "p_empirical": 0.1619,
-          "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 219,
-            "rho_over_full_panel": 0.7471,
-            "percentile": 52.0,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.0315,
+          "above_null_p95": true,
+          "within_panel_percentile": null
         },
         "pparg_chip_chea": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 17,
+          "n_panel_members": 169,
           "n_panel_readable": 169,
           "n_samples_scored": 16,
-          "rho": 0.65,
-          "null_median": 0.3176,
-          "null_p95": 0.7324,
+          "rho": 0.6647,
+          "null_median": 0.3412,
+          "null_p95": 0.7118,
           "null_draws": 2000,
-          "p_empirical": 0.1074,
+          "p_empirical": 0.0895,
           "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 169,
-            "rho_over_full_panel": 0.6647,
-            "percentile": 77.2,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         },
         "pparg_consensus_encode_chea": {
           "family": "pparg",
@@ -471,102 +351,76 @@
         "pparg_curated_trrust": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 15,
+          "n_panel_members": 57,
           "n_panel_readable": 57,
           "n_samples_scored": 16,
-          "rho": 0.2176,
-          "null_median": 0.3294,
-          "null_p95": 0.7294,
+          "rho": 0.6471,
+          "null_median": 0.2353,
+          "null_p95": 0.6765,
           "null_draws": 2000,
-          "p_empirical": 0.6112,
+          "p_empirical": 0.072,
           "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 57,
-            "rho_over_full_panel": 0.6471,
-            "percentile": 33.6,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         },
         "pparg_perturbation_KO_DOWN": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 11,
+          "n_panel_members": 157,
           "n_panel_readable": 157,
           "n_samples_scored": 16,
-          "rho": 0.7706,
-          "null_median": 0.2618,
-          "null_p95": 0.7147,
+          "rho": 0.4176,
+          "null_median": 0.3324,
+          "null_p95": 0.7118,
           "null_draws": 2000,
-          "p_empirical": 0.02,
-          "above_null_p95": true,
-          "within_panel_percentile": {
-            "n_panel_full": 157,
-            "rho_over_full_panel": 0.4176,
-            "percentile": 99.2,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "p_empirical": 0.3878,
+          "above_null_p95": false,
+          "within_panel_percentile": null
         },
         "pparg_perturbation_KO_UP_CONTROL": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 19,
+          "n_panel_members": 195,
           "n_panel_readable": 196,
           "n_samples_scored": 16,
-          "rho": -0.1147,
-          "null_median": 0.3382,
-          "null_p95": 0.7382,
+          "rho": -0.4235,
+          "null_median": 0.3647,
+          "null_p95": 0.7206,
           "null_draws": 2000,
-          "p_empirical": 0.8796,
+          "p_empirical": 0.994,
           "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 195,
-            "rho_over_full_panel": -0.4235,
-            "percentile": 74.6,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         },
         "pparg_perturbation_OE_UP": {
           "family": "pparg",
           "scored": true,
-          "n_panel_members": 15,
+          "n_panel_members": 230,
           "n_panel_readable": 230,
           "n_samples_scored": 16,
-          "rho": 0.0882,
-          "null_median": 0.3294,
-          "null_p95": 0.7294,
+          "rho": 0.2324,
+          "null_median": 0.3882,
+          "null_p95": 0.7147,
           "null_draws": 2000,
-          "p_empirical": 0.7176,
+          "p_empirical": 0.6837,
           "above_null_p95": false,
-          "within_panel_percentile": {
-            "n_panel_full": 230,
-            "rho_over_full_panel": 0.2324,
-            "percentile": 53.4,
-            "draws": 500,
-            "_means": "where this row's scored subset falls among random subsets of the SAME size drawn from this panel's own full readable membership. 50 = a fair thin sample; 100 = the subset is the top of its own panel and the score is a selection effect."
-          }
+          "within_panel_percentile": null
         }
       },
       "n_hypoxia_scored": 6,
-      "n_hypoxia_above_null_p95": 1,
+      "n_hypoxia_above_null_p95": 5,
       "n_pparg_scored": 6,
-      "n_pparg_above_null_p95": 1,
+      "n_pparg_above_null_p95": 0,
       "null_median_range": [
-        0.2529,
-        0.4191
+        0.2029,
+        0.3882
       ],
       "separates_hypoxia_from_pparg": false,
       "_separates_means": "TRUE only when EVERY scored hypoxia panel exceeds its own size-matched null p95 and NO PPARγ panel does. It is a joint statement about both families, so one PPARγ panel clearing makes it false however strong the hypoxia side is."
     }
   },
   "verdict": {
-    "separating_series": [
-      "GSE24369_series_matrix.txt.gz"
-    ],
+    "separating_series": [],
     "n_series_usable": 2,
-    "headline": "1 of 2 series separate the two programmes, CONDITIONAL ON THE CURATED ROSTER — see `_what_this_does_not_settle` before quoting this.",
-    "_weight": "⛔ NOT a confirmed one-series finding. The subset each panel is scored over is selected rather than thin-but-fair (`within_panel_percentile`), and the wide alternative is confounded the other way. This artifact is the best available read and it is not yet a result."
+    "headline": "0 of 2 series meet the original joint hypoxia/PPARγ criterion using full readable membership and the retained array background; individual panel associations remain descriptive.",
+    "_weight": "The former curated-only separation is superseded. Failure of the joint criterion is not a claim of no signal: retain the individual panel results and the differing patterns in the two small, mixed-histology series. These uncorrected associations establish neither mechanism nor attribution."
   }
 }
