@@ -11,11 +11,11 @@ generator. Nobody chose that and nobody could see it until the next commit went 
 
   1. **THE READ IS A CONSTANT.** Which membership the panels are scored over is `MEMBERSHIP_SOURCE`
      in the module, not a consequence of which files a workflow happened to push. ⚠ The test that
-     matters is not "the constant exists" — it is that the wide block IS PRESENT AND READABLE and
-     the narrow read is taken anyway. A decline and an absence are different facts (CLAUDE.md §4),
-     and only the decline is a choice somebody has to defend.
+     matters is not "the constant exists" — the historical narrow mode must still decline a wide
+     block that is present and readable. The current full-membership/background pin was explicitly
+     adopted after the accepted S53 comparison; data availability alone must not select a mode.
   2. **THE SELECTION DIAGNOSTIC ACTUALLY MEASURES SELECTION.** `within_panel_percentile` is what
-     tells a reader how much the committed verdict is worth, so a version of it that returned a
+     diagnoses selection in the historical curated subsets, so a version of it that returned a
      plausible number without looking at the data would be worse than none. It is mutated below
      against subsets built to be maximally and minimally selected, and it must move to both ends.
 
@@ -78,12 +78,11 @@ def test_the_wide_block_is_present_so_the_narrow_read_is_a_decline_not_an_absenc
     assert N.signature_member_z(src, BIG), "the raw reader cannot see a block that is in the file"
 
 
-def test_the_pin_declines_the_wide_block_rather_than_failing_to_see_it(src):
+def test_the_narrow_pin_declines_the_wide_block_rather_than_failing_to_see_it(src, monkeypatch):
     """★ THE MUTATION FOR PROPERTY 1. `member_z` must return nothing under the narrow pin WHILE
     `signature_member_z` returns the same block it always did. If both came back empty the module
     would be narrow because the data is missing, which is a different and much weaker claim."""
-    if N.MEMBERSHIP_SOURCE != "curated_only":
-        pytest.skip("the pin is not narrow; property 1 is asserted by the constant itself")
+    monkeypatch.setattr(N, "MEMBERSHIP_SOURCE", "curated_only")
     assert N.member_z(src, BIG) == {}
     assert len(N.signature_member_z(src, BIG)) > 0
 
@@ -98,17 +97,15 @@ def test_the_artifact_says_which_read_it_took_and_that_the_other_was_available(c
 
 
 # --------------------------------------------------- 2. the diagnostic measures what it claims to
-def test_every_scored_row_carries_the_selection_diagnostic(committed):
+def test_full_membership_rows_do_not_invent_a_subset_percentile(committed):
+    assert committed["panel_membership_source"]["pinned"] == "full_membership_background_null"
     for matrix, s in committed["series"].items():
         if not s.get("subject_readable"):
             continue
         for panel, row in s["panels"].items():
             if not row.get("scored"):
                 continue
-            w = row.get("within_panel_percentile")
-            assert w is not None, f"{matrix}/{panel} is scored with no selection diagnostic"
-            assert 0.0 <= w["percentile"] <= 100.0
-            assert w["n_panel_full"] > row["n_panel_members"]
+            assert row["within_panel_percentile"] is None, f"{matrix}/{panel}: full panel given a subset percentile"
 
 
 def test_the_diagnostic_moves_to_both_ends_when_the_subset_is_built_to_be_selected(src):
@@ -117,7 +114,7 @@ def test_the_diagnostic_moves_to_both_ends_when_the_subset_is_built_to_be_select
 
     Build two subsets of one real panel — the k members that individually track the subject BEST and
     the k that track it WORST — and require the diagnostic to place them at opposite ends. The real
-    committed subsets sit between, which is the only reason their percentiles carry information."""
+    historical curated subsets sit between; current full membership correctly has no subset percentile."""
     cache = _wide_cache(src, BIG)
     subject_z = cache[N.SUBJECT]
     gsms = sorted(subject_z)
@@ -147,19 +144,20 @@ def test_a_subset_that_is_the_whole_panel_has_no_percentile_at_all(src):
 
 
 # ------------------------------------------------------------------------- 3. the finding, pinned
-def test_the_larger_series_hypoxia_subsets_are_selected_rather_than_thin_but_fair(committed):
+def test_the_historical_curated_hypoxia_subsets_are_selected(src, monkeypatch):
     """⛔⛔ THE FINDING THAT COSTS THIS REPOSITORY ITS OWN RESULT, PINNED SO IT CANNOT BE LOST.
 
-    The committed verdict says the larger series separates hypoxia from PPARγ. In that series every
+    The historical curated-only verdict said the larger series separates hypoxia from PPARγ. Every
     hypoxia panel's scored subset sits in the UPPER part of its own panel's within-panel
     distribution, while the PPARγ subsets straddle the middle — so the separation is at least partly
     a property of which members the curated roster happened to contain, and the size-matched null
     cannot see that because it draws from a pool rather than from the panel.
 
-    ★ IF THIS EVER GOES GREEN-BY-FAILING — the hypoxia subsets stop being selected — that is the
-    verdict becoming trustworthy, and it must be argued in a commit message rather than discovered
-    in a manuscript. It is the same instruction the null's own guard carries."""
-    rows = [r for r in committed["series"][BIG]["panels"].values() if r.get("scored")]
+    A changed selection diagnostic requires an explanation; it would not by itself establish that
+    the historical separation was mechanistically informative."""
+    monkeypatch.setattr(N, "MEMBERSHIP_SOURCE", "curated_only")
+    historical = N.build(n_draws=1)  # Selection diagnostic uses its separate original seeded draws.
+    rows = [r for r in historical["series"][BIG]["panels"].values() if r.get("scored")]
     hyp = [r["within_panel_percentile"]["percentile"] for r in rows if r["family"] == "hypoxia"]
     ppg = [r["within_panel_percentile"]["percentile"] for r in rows if r["family"] == "pparg"]
     assert hyp and ppg
@@ -170,11 +168,9 @@ def test_the_larger_series_hypoxia_subsets_are_selected_rather_than_thin_but_fai
         f"hypoxia subsets {sorted(hyp)} are no longer selected relative to PPARγ ones {sorted(ppg)}")
 
 
-def test_the_artifact_refuses_to_state_the_verdict_without_the_confound(committed):
-    """One fact, one place — and the place a reader lands is the verdict. A headline that reads as a
-    finished result while the row above says it is conditional is the overclaim this whole cycle is
-    about."""
+def test_the_artifact_verdict_agrees_with_its_declared_joint_results(committed):
+    """The source and joint results must agree; prose is reviewed separately, not by a keyword."""
     v = committed["verdict"]
-    assert "CONDITIONAL" in v["headline"], "the headline reads as a settled result"
+    assert v["separating_series"] == sorted(m for m, s in committed["series"].items()
+                                         if s.get("separates_hypoxia_from_pparg"))
     assert v.get("_weight"), "the verdict carries no statement of its own weight"
-    assert "within_panel_percentile" in committed["_what_this_does_not_settle"]

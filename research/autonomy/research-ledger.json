@@ -25,8 +25,8 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 200,
-    "in_progress": 10,
+    "done": 201,
+    "in_progress": 9,
     "parked": 30,
     "queued": 172,
     "superseded": 1
@@ -4382,7 +4382,7 @@
         "publication": "PUB-KINASE-LEADS",
         "strategy": "ST-DEPENDENCY"
       },
-      "state": "in_progress",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -4391,7 +4391,7 @@
       "blocked_evidence": null,
       "retry_budget": 0,
       "attempts": 1,
-      "last_evidence_utc": "2026-08-29",
+      "last_evidence_utc": "2026-09-18T20:14:07.546059+00:00",
       "filed_by": "CYC-0084-6b009680",
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a $0 CI read of two GEO series matrices this repository already parses; nothing outward-facing",
@@ -4428,7 +4428,14 @@
         "age_factor": 0.4286,
         "age_factor_as_of": "2026-09-04"
       },
-      "_lease_released_2026_08_31": "Lease released as litter, not as a takeover. `holder_liveness.py --check` reported it NOT OBSERVED, and the control plane then settled it: CI-panels-run-33253509586 — an Actions run from 2026-08-29; runs do not last two days. `continuity.py` was reporting 4 concurrent holders against a governed subagent_width of 1, so these three were blocking every startable row in the queue. ⛔ AUT-046 was left held — it was claimed 2026-08-31T13:19:34Z, twenty minutes before this reading, and a fresh lease is a worker, not litter."
+      "_lease_released_2026_08_31": "Lease released as litter, not as a takeover. `holder_liveness.py --check` reported it NOT OBSERVED, and the control plane then settled it: CI-panels-run-33253509586 — an Actions run from 2026-08-29; runs do not last two days. `continuity.py` was reporting 4 concurrent holders against a governed subagent_width of 1, so these three were blocking every startable row in the queue. ⛔ AUT-046 was left held — it was claimed 2026-08-31T13:19:34Z, twenty minutes before this reading, and a fresh lease is a worker, not litter.",
+      "closed_by": "root-NDRG1-materialization-20260918",
+      "outcome": "Accepted S53 full-membership/background reading materialized from already-retained inputs: GSE24369 hypoxia2/6 and PPARgamma3/6; GSE4303 5/6 and0/6. Neither meets unchanged joint criterion. All24 displayed panel rows agree;42 relevant controls and normal fast preflight pass at0044fb0fb296f154bc440986718848ad49195e7e. No fetch retry or new scientific hypothesis. Current main integration is separately checked before publication.",
+      "evidence_paths": [
+        "research/autonomy/ndrg1-materialization-20260918/VALIDATION.json",
+        "research/autonomy/ndrg1-materialization-20260918/S53-COMPARISON.json",
+        "research/autonomy/ndrg1-materialization-20260918/AMENDMENT.md"
+      ]
     },
     {
       "id": "AUT-PD-022",

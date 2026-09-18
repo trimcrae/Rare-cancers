@@ -20,18 +20,16 @@ repository already holds.
   2. **A SIZE-MATCHED RANDOM NULL.** On a single-channel array every gene carries a shared
      array-level component, so "correlates with the mean of k other genes" is the NULL, not the
      finding. Each panel is compared against `N_DRAWS` random panels of the SAME SIZE drawn from the
-     same readable pool. ⚠ This control is what changes the answer: in the smaller series a RANDOM
-     panel already reaches rho ≈ +0.25 to +0.43, so a raw rho of +0.6 there means nothing at all.
-     Reporting the raw correlations without it would have produced a two-series replication that the
-     data does not support.
+     declared background pool. Raw correlations alone cannot distinguish a panel association from
+     correlations obtained with other array genes. This comparison does not establish the source
+     of either association or remove tissue-composition confounding.
 
-⚠ WHAT LIMITS THIS, STATED HERE RATHER THAN LEFT TO BE FOUND. `emc-expression-panels.json` carries
-per-sample values for 479 genes, not for every member of every panel, so each panel score rests on
-the SUBSET of its members that has one — 9 to 41 genes against published sets of 44 to 231. Every row
-prints `n_panel_members / n_panel_readable` so the subset is visible on the face of the result. This
-is a real narrowing and it is why the panels are treated as PROGRAMME PROXIES rather than as the
-published signatures. Recomputing full per-sample scores needs the GEO series matrices, which is a
-$0 CI dispatch and is NOT done here.
+CURRENT READING (AUT-PD-170, materialized 2026-09-18): score full readable panel membership against
+the already-retained random array background. This implements the S53/AUT-PD-185 measurement; it
+does not retrieve new data or change the original joint criterion. Neither series meets that
+criterion. The smaller series nevertheless has five of six hypoxia panels, and no PPARγ panels,
+above their own nulls; the larger series has two and three, respectively. These are descriptive,
+uncorrected comparisons in mixed-histology series, not a directional or mechanistic attribution.
 
 ⛔ NOTHING HERE IS AN EFFICACY, SELECTIVITY, SAFETY, THERAPEUTIC-WINDOW OR CLINICAL-READINESS claim.
 A correlation between a transcript and a programme proxy in archival tumour tissue is an association
@@ -69,10 +67,10 @@ N_DRAWS = 2000
 #: and no argument. The read is now a constant here and moving it is an edit somebody makes on
 #: purpose and defends in a commit message.
 #:
-#: ⛔ NEITHER AVAILABLE READ IS SOUND, AND THEY FAIL IN OPPOSITE DIRECTIONS. Both were measured on
+#: THE TWO HISTORICAL CONVENIENCE-POOL READS FAIL IN OPPOSITE DIRECTIONS. Both were measured on
 #: `origin/main` b24cb6e22; every figure lives on ledger row AUT-PD-167 and is not retyped here.
 #:
-#:   * `curated_only` (this pin) scores each published set over `curated ∩ published`. That subset is
+#:   * `curated_only` (the historical pin) scores each set over `curated ∩ published`. That subset is
 #:     NOT a thin-but-fair sample of the panel: the 479-gene roster was curated for six targeted EMC
 #:     reads that have nothing to do with this question, and in the LARGER series it picks, out of
 #:     every hypoxia panel, members that track the subject far better than the panel itself does —
@@ -88,19 +86,18 @@ N_DRAWS = 2000
 #:     positive. ⛔ That shift is a POOL effect and not a panel-size one: swept over k = 10…231 the
 #:     null median is flat within each pool and differs between them at every k.
 #:
-#: ★ SO THE PIN IS NOT A VERDICT ON WHICH READ IS RIGHT — IT HOLDS THE PUBLISHED ONE STILL WHILE THE
-#: MEASUREMENT THAT SETTLES IT IS TAKEN. That measurement is full membership scored against a null
-#: drawn from a RANDOM SAMPLE OF THE ARRAY BACKGROUND, which neither read has and which is a $0 CI
-#: read of the same two series matrices. It is ledger row AUT-PD-170.
-MEMBERSHIP_SOURCE = "curated_only"
+#: S53 measured the full-membership/background comparison on retained inputs. AUT-PD-185 corrected
+#: the interpretation; AUT-PD-170's remaining act is to make this artifact reflect that reading.
+#: The 2026-09-18 amendment records the change, original hashes and rounded S53 comparison.
+MEMBERSHIP_SOURCE = "full_membership_background_null"
 
 #: The reads this module knows how to take. All three are implemented and reachable by changing the
-#: constant above; none of the unpinned ones is dead code and none is adopted.
+#: constant above. The two historical alternatives remain available for control tests.
 #: ⭐ `full_membership_background_null` IS THE ONE AUT-PD-170 BUILDS AND THE ONLY ONE WHOSE NULL IS
 #: A BACKGROUND: panels scored over their full readable membership, and the size-matched null drawn
 #: from `background_reads` — a random sample of the ARRAY, not from a curated roster and not from
-#: the union of the signature sets. It cannot be pinned until a `panels` dispatch puts that block in
-#: `emc-expression-panels.json`, and selecting it without the block is a hard error rather than a
+#: the union of the signature sets. Its required block is already present in
+#: `emc-expression-panels.json`; selecting it without the block remains a hard error rather than a
 #: silent narrowing, because a silent narrowing is exactly what AUT-PD-167 was.
 MEMBERSHIP_SOURCES = ("curated_only", "curated_plus_signature_members",
                       "full_membership_background_null")
@@ -346,6 +343,11 @@ def build(n_draws: int = N_DRAWS) -> dict:
             "size-matched null is drawn from a random sample of the array instead of from a "
             "convenience pool. This is the read the other two were confounded relative to."),
         "why_pinned": (
+            "AUT-PD-170 materializes the full-membership/background reading measured in "
+            "S53-HYPOXIA-BACKGROUND-READ.md and interpreted by AUT-PD-185. Both required data "
+            "blocks are already retained. The former curated-only separation is superseded; "
+            "the seed, draw count, subject exclusion and joint criterion are unchanged."
+            if MEMBERSHIP_SOURCE == "full_membership_background_null" else
             "Neither available read is sound and they fail in OPPOSITE directions, so switching "
             "would substitute one confound for another while reversing a published verdict. The "
             "narrow read's members are a SELECTED subset of each panel (see `within_panel_percentile` "
@@ -540,12 +542,23 @@ def build(n_draws: int = N_DRAWS) -> dict:
             "leave_one_out": f"{SUBJECT} is a member of several published hypoxia sets, so it is "
                              "removed from every panel before scoring. Without this the comparison "
                              "is a variable against itself.",
-            "size_matched_null": f"{N_DRAWS} random panels of the same size from the same readable "
-                                 "pool. Without this the array-level shared component reads as "
-                                 "signal — and in the smaller series it fully accounts for a raw "
-                                 "rho of +0.6.",
+            "size_matched_null": f"{N_DRAWS} random panels of the same size from the declared "
+                                 "null pool, excluding the subject. This grades the observed "
+                                 "correlation relative to other readable array genes; it does not "
+                                 "identify a biological cause or eliminate composition confounding.",
         },
         "_what_this_does_not_settle": (
+            "Full readable membership against the retained random array background supersedes "
+            "the historical curated-only separation (AUT-PD-170; S53; AUT-PD-185). Neither "
+            "series meets the unchanged joint criterion. The smaller series has a hypoxia-leaning "
+            "pattern (5/6 panels above their nulls versus 0/6 PPARγ); failure of its one remaining "
+            "panel is not evidence of no association. The larger series has 2/6 hypoxia and "
+            "3/6 PPARγ panels above their nulls. These twelve uncorrected panel comparisons per "
+            "series do not establish a directional programme attribution, mechanism, malignant-cell "
+            "origin, or therapeutic suitability. The series contain mixed histologies, and the "
+            "background comparison does not remove composition or other observational confounding. "
+            "Membership counts and the declared null population remain explicit on every result."
+            if MEMBERSHIP_SOURCE == "full_membership_background_null" else
             "⛔⛔ FIRST AND LOUDEST: WHETHER THE SEPARATION BELOW IS THE BIOLOGY OR THE ROSTER "
             "(AUT-PD-167, measured 2026-08-29). Every panel here is scored over the members that "
             "happen to sit in a 479-gene roster curated for six unrelated targeted EMC reads, and "
@@ -577,13 +590,22 @@ def build(n_draws: int = N_DRAWS) -> dict:
             "separating_series": separating,
             "n_series_usable": len(usable),
             "headline": (
+                f"{len(separating)} of {len(usable)} series meet the original joint hypoxia/PPARγ "
+                "criterion using full readable membership and the retained array background; "
+                "individual panel associations remain descriptive."
+                if usable and MEMBERSHIP_SOURCE == "full_membership_background_null" else
                 f"{len(separating)} of {len(usable)} series separate the two programmes, CONDITIONAL "
                 "ON THE CURATED ROSTER — see `_what_this_does_not_settle` before quoting this."
                 if usable else "no series carries a readable subject probe"),
-            "_weight": "⛔ NOT a confirmed one-series finding. The subset each panel is scored over "
+            "_weight": ("The former curated-only separation is superseded. Failure of the joint "
+                       "criterion is not a claim of no signal: retain the individual panel results "
+                       "and the differing patterns in the two small, mixed-histology series. "
+                       "These uncorrected associations establish neither mechanism nor attribution."
+                       if MEMBERSHIP_SOURCE == "full_membership_background_null" else
+                       "⛔ NOT a confirmed one-series finding. The subset each panel is scored over "
                        "is selected rather than thin-but-fair (`within_panel_percentile`), and the "
                        "wide alternative is confounded the other way. This artifact is the best "
-                       "available read and it is not yet a result.",
+                       "available read and it is not yet a result."),
         },
     }
 
@@ -606,7 +628,7 @@ def main(argv=None) -> int:
             return 1
         print(f"OK {os.path.basename(OUT)} re-derives from this module")
         return 0
-    with open(OUT, "w", encoding="utf-8") as fh:
+    with open(OUT, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(doc, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
     print(f"wrote {os.path.relpath(OUT, os.path.dirname(HERE))}")

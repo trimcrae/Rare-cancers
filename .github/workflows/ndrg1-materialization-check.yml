@@ -1,0 +1,106 @@
+name: NDRG1 materialization validation
+
+# Finite existing-result correction; no retrieval, publication or new scientific analysis.
+on:
+  push:
+    branches: [codex/ndrg1-materialization-20260918, codex/ndrg1-materialization-integrated-20260918]
+    paths:
+      - research/modalities/ndrg1_panel_attribution.py
+      - research/modalities/ndrg1-panel-attribution.json
+      - research/modalities/tests/test_ndrg1_panel_attribution_controls.py
+      - research/modalities/tests/test_the_panel_read_is_pinned_not_inherited.py
+      - research/modalities/tests/test_the_null_pool_is_a_background.py
+      - research/modalities/tests/test_ndrg1_panel_widening_is_declared.py
+      - research/autonomy/research-ledger.json
+      - .github/workflows/ndrg1-materialization-check.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ndrg1-materialization-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check actual device window and storage before checkout
+        run: |
+          python3 - <<'PY'
+          import shutil
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          local = datetime.now(ZoneInfo('America/New_York'))
+          free = shutil.disk_usage('.').free
+          print({'local_time': local.isoformat(), 'free_bytes': free, 'bounded_output_bytes': 20 * 1024**3})
+          assert not 6 <= local.hour < 10, 'Protected device window'
+          assert free >= 30 * 1024**3, 'Leave 10GiB after bounded checkout, dependency and test output'
+          PY
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Provision existing gate environment
+        run: |
+          command -v uv >/dev/null 2>&1 || pip install -q uv
+          ./scripts/dev-setup.sh --if-needed
+      - name: Run targeted controls then normal preflight
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import shutil
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          local = datetime.now(ZoneInfo('America/New_York'))
+          print({'local_time': local.isoformat(), 'free_bytes': shutil.disk_usage('.').free})
+          assert not 5 <= local.hour < 10, 'One-hour test allowance must not cross protected window'
+          assert shutil.disk_usage('.').free >= 15 * 1024**3, 'Preserve 10GiB after bounded test output'
+          PY
+          mkdir -p /tmp/ndrg1-validation
+          echo "PINNED_SHA=$GITHUB_SHA" > /tmp/ndrg1-validation/targeted.log
+          if python3 -c 'import pytest' >/dev/null 2>&1; then
+            PYTEST=(python3 -m pytest)
+          else
+            PYTEST=(pytest)
+          fi
+          set +e
+          "${PYTEST[@]}" -q \
+            research/modalities/tests/test_ndrg1_panel_attribution_controls.py \
+            research/modalities/tests/test_the_panel_read_is_pinned_not_inherited.py \
+            research/modalities/tests/test_the_null_pool_is_a_background.py \
+            research/modalities/tests/test_ndrg1_panel_widening_is_declared.py \
+            >> /tmp/ndrg1-validation/targeted.log 2>&1
+          targeted_rc=$?
+          set -e
+          echo "EXIT=$targeted_rc" >> /tmp/ndrg1-validation/targeted.log
+          cat /tmp/ndrg1-validation/targeted.log
+          if [ "$targeted_rc" != 0 ]; then exit "$targeted_rc"; fi
+          python3 - <<'PY'
+          import shutil
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          local = datetime.now(ZoneInfo('America/New_York'))
+          print({'preflight_local_time': local.isoformat(), 'free_bytes': shutil.disk_usage('.').free})
+          assert not 5 <= local.hour < 10, 'Preflight must finish before protected window'
+          assert shutil.disk_usage('.').free >= 15 * 1024**3, 'Preserve output headroom'
+          PY
+          echo "PINNED_SHA=$GITHUB_SHA" > /tmp/ndrg1-validation/preflight.log
+          set +e
+          ./scripts/preflight.sh >> /tmp/ndrg1-validation/preflight.log 2>&1
+          rc=$?
+          set -e
+          echo "EXIT=$rc" >> /tmp/ndrg1-validation/preflight.log
+          cat /tmp/ndrg1-validation/preflight.log
+          exit "$rc"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ndrg1-validation-${{ github.sha }}
+          path: /tmp/ndrg1-validation/
+          if-no-files-found: warn
+          retention-days: 14
