@@ -2,7 +2,7 @@
 from pathlib import Path
 from collections import defaultdict
 import csv, hashlib, json, math
-from reportlab.graphics.shapes import Drawing, String, Line, Rect, Circle
+from reportlab.graphics.shapes import Drawing, String, Line, Rect, Circle, Group
 from reportlab.graphics import renderSVG, renderPDF
 from reportlab.lib import colors
 W=Path(__file__).resolve().parent
@@ -13,6 +13,7 @@ def text(d,x,y,s,size=10.6,anchor='start',color='#20262d',bold=False):
 def line(d,x,y,x2,y2,color='#c9d0d6',width=0.5):d.add(Line(x,y,x2,y2,strokeColor=colors.HexColor(color),strokeWidth=width))
 def save(d,n):
     renderSVG.drawToFile(d,str(O/(n+'.svg'))); renderPDF.drawToFile(d,str(O/(n+'.pdf')))
+    p=O/(n+'.svg');p.write_text(p.read_text().replace('font-family: Helvetica;', 'font-family: Arial;').replace('font-family: Helvetica-Bold;', 'font-family: Arial; font-weight: bold;'),encoding='utf8')
 def name(s):
     return {'Extraskeletal myxoid chondrosarcoma':'Extraskeletal myxoid chondrosarcoma (EMC)',
     'Myxoinflammatory fibroblastic sarcoma/Hemosiderotic fibrolipomatous tumor':'MIFS / HFLT',
@@ -23,6 +24,7 @@ rows=read('CSPG4-by-type.csv')
 def atlas(selected,n,title):
     selected=sorted(selected,key=lambda r:float(r['median_TPM']),reverse=True)
     step=15.7; h=104+step*len(selected);d=Drawing(950,h)
+    d.add(Rect(0,0,950,h,fillColor=colors.white,strokeColor=None))
     x0=385;x1=857;top=h-56
     text(d,15,h-20,title,14,bold=True)
     text(d,15,h-39,'Original diagnosis',10,bold=True);text(d,363,h-39,'n',10,anchor='end',bold=True);text(d,938,h-39,'Median TPM',10,anchor='end',bold=True)
@@ -37,7 +39,7 @@ def atlas(selected,n,title):
         if len(label)>60:
             # One source-defined combined label; full wording remains in Table S3.
             if 'Myxoinflammatory' in label or 'Hem' in label:label='MIFS / HFLT'
-        text(d,15,y-3,label,10.4,bold=emc);text(d,363,y-3,r['n'],10.4,'end');text(d,938,y-3,f"{float(r['median_TPM']):.2f}",10.4,'end',bold=emc)
+        text(d,15,y-3,label,11.4,bold=emc);text(d,363,y-3,r['n'],11.4,'end');text(d,938,y-3,f"{float(r['median_TPM']):.2f}",11.4,'end',bold=emc)
         for sid,v in samples[r['original_diagnosis']]:
             jitter=((int(hashlib.sha256(sid.encode()).hexdigest()[:8],16)%1001)/1000-.5)*7
             d.add(Circle(pos(v),y+jitter,1.75,strokeColor=None,fillColor=colors.HexColor('#be6980' if emc else '#89aab7')))
@@ -54,14 +56,14 @@ for resource,cohort in cols:
     if resource=='Treehouse25.01': display[(resource,cohort)]='TH '+('TCGA' if 'TCGA' in cohort else next((p for p in cohort.split('|') if p.startswith('SRP')),cohort))
     elif resource=='Boudin2022':display[(resource,cohort)]='B '+cohort
     else:display[(resource,cohort)]=resource
-cell=47; left=353;bottom=75;step=18;h=bottom+len(diagnoses)*step+112;d=Drawing(950,h)
+cell=47; left=353;bottom=75;step=18;h=bottom+len(diagnoses)*step+150;d=Drawing(950,h)
+d.add(Rect(0,0,950,h,fillColor=colors.white,strokeColor=None))
 text(d,15,h-22,'Within-source CSPG4 ordering against leiomyosarcoma',14,bold=True)
 text(d,15,h-43,'A = probability of higher expression than LMS, with half-weight for ties',11)
 for j,c in enumerate(cols):
     x=left+j*cell
-    group=Drawing(cell,65)
-    s=String(6,0,display[c],fontName='Helvetica',fontSize=9.8,fillColor=colors.HexColor('#20262d'))
-    group.add(s);group.rotate(55);group.translate(x+8,h-113);d.add(group)
+    group=Group(String(0,0,display[c],fontName='Helvetica',fontSize=10.5,fillColor=colors.HexColor('#20262d')))
+    angle=math.pi/4;group.transform=(math.cos(angle),math.sin(angle),-math.sin(angle),math.cos(angle),x+8,h-140);d.add(group)
 lookup={(r['diagnosis'],r['resource'],r['cohort']):r for r in lms}
 def color(a):
     # blue below LMS, white at 0.5, rust above LMS; symmetric perceptual cue.
@@ -69,7 +71,7 @@ def color(a):
     return colors.Color(*[(246*(1-t)+v*t)/255 for v in target])
 for i,diag in enumerate(diagnoses):
     y=bottom+(len(diagnoses)-1-i)*step
-    text(d,15,y+5,short.get(diag,diag[0].upper()+diag[1:]),10.4)
+    text(d,15,y+5,short.get(diag,diag[0].upper()+diag[1:]),11.4)
     for j,c in enumerate(cols):
         x=left+j*cell;r=lookup.get((diag,*c));v=float(r['A_type_above_LMS']) if r else None
         d.add(Rect(x,y,cell-2,step-1,fillColor=colors.HexColor('#eeeeee') if v is None else color(v),strokeColor=None))
