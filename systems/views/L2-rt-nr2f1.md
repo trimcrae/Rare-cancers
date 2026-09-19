@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-NR2F1 — Orphan nuclear-receptor agonism against dormancy escape
 
-**Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ○ blocked · scoped · confidence unknown · verified 2026-08-09
+**Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ○ blocked · scoped · confidence unknown · verified 2026-09-19
 
-**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⚠ UNREAD (2026-08-09). NR2F1 has no probe on either readable platform, so the route's precondition cannot be answered from this data at all. ⛔ An absent reading is not a reading of absence. A curated dormancy-associated context set is separately HIGHER in EMC on both platforms.
+**Grade** (owned by [`research/autonomy/nr2f1-route-correction-20260919/CORRECTION.json`](../../research/autonomy/nr2f1-route-correction-20260919/CORRECTION.json)): UNMEASURED by the two retained array mappings and the fourth-cohort assigned-gene table. This does not establish absence from the assay or EMC. A separate already-held full-gene Hofvander TPM matrix contains an NR2F1 row, whose EMC values have not been assessed in this correction. The retained C26 assessment does not provide an experimental pose or affinity known-answer control.
 
 ## What has to land for this route to move
 
@@ -43,7 +43,7 @@ flowchart LR
 
 ## Scientific rationale
 
-A registered lane with no route. It targets this disease's actual clinical problem rather than its driver, and it repoints the orphan-nuclear-receptor modelling stack built for NR4A3 onto a receptor that has a published tool compound — which is the known-answer control the program's own receptor never had, and is worth as much methodologically as the biology is clinically.
+Whether NR2F1-mediated dormancy is relevant to EMC remains a biological question. The retained C26 assessment supports considering that question separately from computational calibration: its modeled pose and cellular evidence do not supply an experimental receptor-ligand pose or measured binding affinity against which this pipeline can be validated.
 
 ## Supporting evidence
 
@@ -53,16 +53,16 @@ A registered lane with no route. It targets this disease's actual clinical probl
 
 ## Remaining unknowns
 
-- Whether the receptor is expressed in EMC at all — unchanged by this pass, because no probe on either platform maps to it.
-- Whether an elevated dormancy-associated context implies anything about the receptor that programme is named for, which it does not on its own.
-- Whether a dormancy-maintenance strategy has any measurable endpoint in a disease whose response endpoint is itself contested here.
+- What the already-held Hofvander TPM row shows in the retained primary EMC specimens. Bulk expression would not determine malignant-cell localization.
+- Whether NR2F1 has a functional role in EMC dormancy and whether modulation changes a relevant outcome.
+- Whether an independent experimental receptor-ligand reference appropriate to a proposed NR2F1 pose or affinity calibration is available; the retained assessment supplies none.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A read of the receptor in the targeted expression panel already committed here | ⛔ none built | yes | — |
-| A demonstration that the existing pocket-modelling pipeline runs on its ligand-binding domain | ⛔ none built | yes | — |
+| Read the NR2F1 row in the already-held Hofvander TPM matrix using the retained primary-EMC sample manifest; describe bulk measurement without inferring cell source or function | ⛔ none built | yes | — |
+| An experimental receptor-ligand pose or measured affinity appropriate to the proposed calibration; reproducing the retained docking model is insufficient | ⛔ none built | **no** | — |
 
 ## Blockers
 
@@ -74,10 +74,11 @@ A registered lane with no route. It targets this disease's actual clinical probl
 
 **`internal_note`**
 
-The precondition is unread, and reporting an unreadable gene as absent is the specific failure the source artifact forbids.
+The retained table lookup resolves coverage only. It neither tests the dormancy hypothesis nor validates a computational instrument, and does not establish a standalone contribution.
 
 **Missing:**
-- a platform that carries a probe for the receptor — the two readable array series do not
+- An unperformed read of the NR2F1 row in the already-held full-gene TPM input; malignant-cell localization and dormancy function remain separate questions
+- An independent experimental reference appropriate to the intended calibration
 
 ## Where this route ends — the paper
 
@@ -85,7 +86,7 @@ The precondition is unread, and reporting an unreadable gene as absent is the sp
 
 `primary` · ◔ `outlined` · aimed at `preprint`
 
-**This route contributes:** The half of the paper that targets the disease's clinical problem — late metastasis — through a receptor that has the tool compound this program's own receptor never had.
+**This route contributes:** An internal record separating the unresolved EMC dormancy hypothesis from the unsupported use of NR2F1/C26 as a computational known-answer control. These retained findings do not establish a standalone paper.
 
 **The paper would claim:** Two nuclear-receptor routes exist in this disease that do not act on its own receptor — one where a 5′ fusion partner imports a druggable transcriptional input, and one targeting dormancy through a receptor that has the published tool compound this program's own receptor never had.
 
@@ -93,9 +94,9 @@ The precondition is unread, and reporting an unreadable gene as absent is the sp
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `wait`**
+**Recommendation: `pursue_now`**
 
-The observation this route needs cannot be taken on the platforms available; it waits on a dataset that carries the gene.
+The fourth-panel lookup is complete. A distinct bounded bulk-expression read is possible from an already-held full-gene TPM input; it needs no new data acquisition and cannot reopen the unsupported calibration premise.
 
 | horizon | effect |
 |---|---|
@@ -114,8 +115,8 @@ The observation this route needs cannot be taken on the platforms available; it 
 
 ## Best next action
 
-Check whether the fourth public cohort carries the receptor at all.
+Perform a bounded descriptive NR2F1 read in the already-held Hofvander TPM input using retained primary-EMC identities. Do not repeat the fourth-panel lookup, infer malignant-cell expression or dormancy function from bulk RNA, or recover a predicted docking pose as a known answer.
 
-*Cost:* $0
+*Cost:* $0; local retained-input read only
 
 [← ST-OCCUPANCY](L1-st-occupancy.md) · [← L0](L0-ecosystem.md)

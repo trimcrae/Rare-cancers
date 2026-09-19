@@ -488,7 +488,7 @@ Two nuclear-receptor routes exist in this disease that do not act on its own rec
 | route | role | what it contributes |
 |---|---|---|
 | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) — Hormonal therapy for hormone-responsive 5′ fusion pa | `primary` | The half of the paper where the druggable input is imported by the 5′ partner rather than supplied by the driver's own receptor. |
-| [RT-NR2F1](L2-rt-nr2f1.md) — Orphan nuclear-receptor agonism against dormancy esc | `primary` | The half of the paper that targets the disease's clinical problem — late metastasis — through a receptor that has the tool compound this program's own receptor never had. |
+| [RT-NR2F1](L2-rt-nr2f1.md) — Orphan nuclear-receptor agonism against dormancy esc | `primary` | An internal record separating the unresolved EMC dormancy hypothesis from the unsupported use of NR2F1/C26 as a computational known-answer control. These retained findings do not establish a standalone paper. |
 
 ### PUB-CARE-DELIVERY — What decides survival in extraskeletal myxoid chondrosarcoma, and what the literature has been looking at instead
 

@@ -77,7 +77,7 @@ last_verified: 2026-08-09
 | 24 | [**PUB-VACCINE-PATH**](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md) | ⛔ known negative / methods | — | **3.0** | 1 | 0 | 0 | 50% of 4 | ◐ `drafted` |
 | 25 | [**PUB-BIOMARKER-DEP**](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) | ⛔ known negative / methods | — | **2.0** | 0 | 0 | ⚠ 5 | 40% of 10 | ◐ `drafted` |
 | 26 | **PUB-MATRIX-ADDRESS** | ⛔ known negative / methods | — | **0.5** | 0 | 0 | ⚠ 4 | 50% of 8 | ◔ `outlined` |
-| 27 | **PUB-NR-OUTSIDE-NR4A3** | ⛔ known negative / methods | — | **0.5** | 0 | 0 | ⚠ 2 | 80% of 5 | ◔ `outlined` |
+| 27 | **PUB-NR-OUTSIDE-NR4A3** | ⛔ known negative / methods | — | **0.5** | 0 | 0 | ⚠ 2 | 60% of 5 | ◔ `outlined` |
 | 28 | [**PUB-ANDGATE**](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ⛔ known negative / methods | — | **0.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
 | 29 | [**PUB-NEOANTIGEN**](../../research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md) | ⛔ known negative / methods | — | **0.0** | 0 | 2 | 0 | 33% of 3 | ◐ `drafted` |
 | 30 | [**PUB-HLA-COVERAGE**](../../research/manuscripts/neoantigen/hla-coverage-emc.md) | ⛔ known negative / methods | — | **-1.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
