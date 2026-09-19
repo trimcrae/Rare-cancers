@@ -99,7 +99,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | ST-DEPENDENCY | `internal_note` | EMC-specific functional-genomics data |
 | [RT-SYNPROMOTER](L2-rt-synpromoter.md) | ST-NUCLEIC-ACID | `internal_note` | a direct binding-specificity read in EMC |
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | ST-IMMUNO | `internal_note` | a stronger presented epitope, and one not confined to a single allele — both corrected e7::e3 strong binders are HLA-B*15:01 |
-| [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | ST-IMMUNO | `internal_note` | a real EMC expression series |
+| [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | ST-IMMUNO | `internal_note` | Antigen-specific protein and cell-source evidence, peptide presentation and relevant HLA eligibility for any proposed intervention.; Whether the released gene-labeled estimates uni |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | ST-REPURPOSING | `internal_note` | a larger EMC series — the located record is 5 patients across two series with 0 objective responses; the second series (Palmerini 2022, PMID 36568164) as a curated registry row, an |
 | [RT-TREATMENT-HARM](L2-rt-treatment-harm.md) | ST-MORTALITY-MECHANISM | `internal_note` | — |
 | [RT-TRIAL-REACH](L2-rt-trial-reach.md) | ST-STRATEGY | `internal_note` | non-US registry coverage, which needs an authenticated endpoint this programme does not have |
