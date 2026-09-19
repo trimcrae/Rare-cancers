@@ -1,3 +1,15 @@
+---
+id: DOC-NR2F1-RETAINED-TPM-20260919
+title: NR2F1 in nine retained primary EMC specimens
+kind: memo
+status: live
+date: 2026-09-19
+last_verified: 2026-09-19
+audience: [maintainers, autonomous research agents]
+purpose: Resolve the retained NR2F1 transcript lookup while preserving functional and calibration limits.
+scope: Nine fixed primary EMC bulk-RNA specimens; descriptive values only, with no new comparator or therapeutic claim.
+---
+
 # NR2F1 in nine retained primary EMC specimens
 
 The retained Hofvander bulk-RNA matrix reports positive NR2F1 TPM values in all nine primary EMC specimens selected by the existing sample manifest. The median is 0.96 TPM and the range is 0.28–17.86 TPM. These are descriptive values from a fixed specimen selection; no expression cutoff, comparator or significance test was used.
