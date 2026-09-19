@@ -1,0 +1,172 @@
+{
+  "utc": "2026-09-19T09:49:50.679000+00:00",
+  "scope": "AUT-047 retained-data lookup and RT-NR2F1 scientific record correction",
+  "base_main": "72380955977e668704c6ff105054d32dc57a0d09",
+  "source_hashes": {
+    "systems/graph/routes.json": "17d208e48c7901eeb01c64a16a415bb1f56a6ce729dfd05846c3b5e0e25f3d3b",
+    "research/modalities/nr2f1-dormancy-lane.json": "fe2b792f5c7d324b711bb35294fcb74c586d16c3831207108e53146d9ba3bdc0",
+    "research/modalities/emc-fourth-cohort-quant.json": "1769b3f0ee01f1a640dabc6c4f36ce86630ff62f87249400e070a4638fcf5165",
+    "research/modalities/emc-fourth-cohort-gene-counts.tsv": "8aa3064a97a496a8fa09ef4ae8e472a612318e49ea91d0daac915a3b8fa180cc",
+    "research/modalities/census-route-expression-grading.json": "5bc3c80c034dde7781394554aa3bc18888248ad4cf1aa0153e4c7e4d5e4f07a8",
+    "research/autonomy/research-ledger.json": "6c2f55374c15b17a66a7468dc665c37d44edd9448b70d46854d08f0814b169b2"
+  },
+  "source_dates": {
+    "nr2f1_dormancy_assessment": "2026-08-07",
+    "fourth_cohort_generated_utc": "2026-09-02T17:42:53Z"
+  },
+  "coverage": {
+    "gene": "NR2F1",
+    "assigned_gene_rows": 862,
+    "matching_rows": 0,
+    "interpretation": "NR2F1 is not measured in this retained assigned-gene table. No inference of absence from the assay or EMC is possible.",
+    "assignment_limits": {
+      "n_probes_offered": 1645,
+      "n_probes_assigned_to_one_gene": 906,
+      "n_probes_matching_several_genes": 77,
+      "n_probes_unassigned": 662
+    },
+    "units": "Raw assigned read counts; no differential expression or normalization performed in this correction."
+  },
+  "calibration": {
+    "decision": "Do not use the retained NR2F1/C26 evidence as a pose or affinity known-answer control.",
+    "basis": "The dated retained assessment reports model-derived C26 poses and no measured receptor-binding constant in the retrieved primary report. Reproducing a docking prediction is not independent experimental calibration.",
+    "scope_limit": "This correction applies the retained assessment; it is not a new claim about the absence of all current structures or binding measurements."
+  },
+  "biology": "NR2F1 expression, dormancy function and response to modulation in EMC remain unresolved. The failure of the calibration rationale does not refute the biological hypothesis.",
+  "reopening_inputs": {
+    "biology": "Attributable NR2F1 coverage/expression evidence in EMC; functional evidence is separately needed for a dormancy or intervention claim.",
+    "calibration": "An independently measured receptor-ligand reference appropriate to the intended pose or affinity task, with applicability to the tested receptor justified. Expression alone does not reopen calibration."
+  },
+  "no_new_analysis_retrieval_or_publication": true,
+  "original_route": {
+    "id": "RT-NR2F1",
+    "display_name": "Orphan nuclear-receptor agonism against dormancy escape",
+    "level": "L2",
+    "kind": "route",
+    "title": "Orphan nuclear-receptor agonism against dormancy escape",
+    "grade": {
+      "value": "⚠ UNREAD (2026-08-09). NR2F1 has no probe on either readable platform, so the route's precondition cannot be answered from this data at all. ⛔ An absent reading is not a reading of absence. A curated dormancy-associated context set is separately HIGHER in EMC on both platforms.",
+      "owner": {
+        "file": "research/modalities/census-route-expression-grading.json"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-OCCUPANCY",
+    "publication": {
+      "endpoint": "PUB-NR-OUTSIDE-NR4A3",
+      "role": "primary",
+      "contribution": "The half of the paper that targets the disease's clinical problem — late metastasis — through a receptor that has the tool compound this program's own receptor never had."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a nuclear receptor other than the driver's be engaged to hold disseminated cells dormant?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "scoped",
+      "confidence": "unknown",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "A registered lane with no route. It targets this disease's actual clinical problem rather than its driver, and it repoints the orphan-nuclear-receptor modelling stack built for NR4A3 onto a receptor that has a published tool compound — which is the known-answer control the program's own receptor never had, and is worth as much methodologically as the biology is clinically.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "a curated dormancy-associated context set scores higher in EMC than in comparator sarcomas on both platforms, while the receptor itself is unreadable on both",
+        "strength": "surrogate"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the receptor is expressed in EMC at all — unchanged by this pass, because no probe on either platform maps to it.",
+      "Whether an elevated dormancy-associated context implies anything about the receptor that programme is named for, which it does not on its own.",
+      "Whether a dormancy-maintenance strategy has any measurable endpoint in a disease whose response endpoint is itself contested here."
+    ],
+    "required_validation": [
+      {
+        "what": "A read of the receptor in the targeted expression panel already committed here",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A demonstration that the existing pocket-modelling pipeline runs on its ligand-binding domain",
+        "feasible_today": true,
+        "blocked_by": []
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a platform that carries a probe for the receptor — the two readable array series do not"
+      ],
+      "why_not_higher": "The precondition is unread, and reporting an unreadable gene as absent is the specific failure the source artifact forbids."
+    },
+    "timing": {
+      "recommendation": "wait",
+      "rationale": "The observation this route needs cannot be taken on the platforms available; it waits on a dataset that carries the gene.",
+      "cost_trend": "falling",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Check whether the fourth public cohort carries the receptor at all.",
+      "cost": "$0"
+    }
+  },
+  "original_ledger_entry": {
+    "id": "AUT-047",
+    "_derived": true,
+    "what": "Check whether the fourth public cohort carries the receptor at all.",
+    "serves": {
+      "route": "RT-NR2F1",
+      "publication": "PUB-NR-OUTSIDE-NR4A3",
+      "strategy": "ST-OCCUPANCY"
+    },
+    "kind": "negative",
+    "state": "queued",
+    "parked_on": null,
+    "parked_by_graph_status": null,
+    "owner": null,
+    "cost_class": "free",
+    "cost_points_at": "research/compute/pricing.md",
+    "blocked_by": null,
+    "blocked_evidence": null,
+    "retry_budget": 3,
+    "attempts": 0,
+    "last_evidence_utc": "2026-08-09",
+    "score": 36.0,
+    "score_inputs": {
+      "live": false,
+      "patient_path": "none",
+      "patient_path_scaled": 0.0,
+      "pursue_now": false,
+      "tier_one": false,
+      "endpoint_reachable": false,
+      "blocker_leverage": 6,
+      "cost_class": "free",
+      "blocked_on_human": false,
+      "fruitless_attempts": 0,
+      "age_factor": 1.0,
+      "age_factor_as_of": "2026-09-04"
+    },
+    "requires_trimcrae": false,
+    "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-NR-OUTSIDE-NR4A3 is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+    "claimed_utc": null
+  },
+  "current_grade": "UNMEASURED in the retained inputs: the two array mappings do not read NR2F1, and the fourth-cohort assigned-gene table contains no NR2F1 row. This is not evidence that the gene is absent from the assay or EMC. The retained C26 assessment does not provide an experimental pose or affinity known-answer control."
+}

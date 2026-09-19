@@ -25,10 +25,10 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 201,
+    "done": 202,
     "in_progress": 9,
     "parked": 30,
-    "queued": 172,
+    "queued": 171,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -11734,7 +11734,7 @@
         "strategy": "ST-OCCUPANCY"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "done",
       "parked_on": null,
       "parked_by_graph_status": null,
       "owner": null,
@@ -11744,7 +11744,7 @@
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
+      "last_evidence_utc": "2026-09-19T09:49:50.679000+00:00",
       "score": 36.0,
       "score_inputs": {
         "live": false,
@@ -11762,7 +11762,12 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-NR-OUTSIDE-NR4A3 is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": null
+      "claimed_utc": null,
+      "closed_by": "root-NR2F1-retained-source-correction-20260919",
+      "outcome": "Existing fourth-cohort assigned-gene table inspected: no NR2F1 row among862 assigned genes. NR2F1 is unmeasured by this panel/matcher; absence from the assay or EMC is not established. Route calibration premise corrected using the dated retained assessment; biological question remains open. No new source fetch or scientific analysis.",
+      "evidence_paths": [
+        "research/autonomy/nr2f1-route-correction-20260919/CORRECTION.json"
+      ]
     },
     {
       "id": "AUT-050",

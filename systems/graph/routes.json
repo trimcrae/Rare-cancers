@@ -6899,9 +6899,9 @@
     "kind": "route",
     "title": "Orphan nuclear-receptor agonism against dormancy escape",
     "grade": {
-      "value": "⚠ UNREAD (2026-08-09). NR2F1 has no probe on either readable platform, so the route's precondition cannot be answered from this data at all. ⛔ An absent reading is not a reading of absence. A curated dormancy-associated context set is separately HIGHER in EMC on both platforms.",
+      "value": "UNMEASURED in the retained inputs: the two array mappings do not read NR2F1, and the fourth-cohort assigned-gene table contains no NR2F1 row. This is not evidence that the gene is absent from the assay or EMC. The retained C26 assessment does not provide an experimental pose or affinity known-answer control.",
       "owner": {
-        "file": "research/modalities/census-route-expression-grading.json"
+        "file": "research/autonomy/nr2f1-route-correction-20260919/CORRECTION.json"
       }
     },
     "grade_pointers": [],
@@ -6921,7 +6921,7 @@
     "publication": {
       "endpoint": "PUB-NR-OUTSIDE-NR4A3",
       "role": "primary",
-      "contribution": "The half of the paper that targets the disease's clinical problem — late metastasis — through a receptor that has the tool compound this program's own receptor never had."
+      "contribution": "An internal record separating the unresolved EMC dormancy hypothesis from the unsupported use of NR2F1/C26 as a computational known-answer control. These retained findings do not establish a standalone paper."
     },
     "provenance": {
       "owner": {
@@ -6935,9 +6935,9 @@
       "status": "blocked",
       "maturity": "scoped",
       "confidence": "unknown",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-09-19"
     },
-    "rationale": "A registered lane with no route. It targets this disease's actual clinical problem rather than its driver, and it repoints the orphan-nuclear-receptor modelling stack built for NR4A3 onto a receptor that has a published tool compound — which is the known-answer control the program's own receptor never had, and is worth as much methodologically as the biology is clinically.",
+    "rationale": "Whether NR2F1-mediated dormancy is relevant to EMC remains a biological question. The retained C26 assessment supports considering that question separately from computational calibration: its modeled pose and cellular evidence do not supply an experimental receptor-ligand pose or measured binding affinity against which this pipeline can be validated.",
     "supporting_evidence": [
       {
         "ref": "ART-CENSUS-ROUTE-GRADING",
@@ -6946,40 +6946,43 @@
       }
     ],
     "remaining_unknowns": [
-      "Whether the receptor is expressed in EMC at all — unchanged by this pass, because no probe on either platform maps to it.",
-      "Whether an elevated dormancy-associated context implies anything about the receptor that programme is named for, which it does not on its own.",
-      "Whether a dormancy-maintenance strategy has any measurable endpoint in a disease whose response endpoint is itself contested here."
+      "Whether NR2F1 is expressed in the relevant EMC cells; no assigned NR2F1 row in these retained tables answers that question.",
+      "Whether NR2F1 has a functional role in EMC dormancy and whether modulation changes a relevant outcome.",
+      "Whether an independent experimental receptor-ligand reference appropriate to a proposed NR2F1 pose or affinity calibration is available; the retained assessment supplies none."
     ],
     "required_validation": [
       {
-        "what": "A read of the receptor in the targeted expression panel already committed here",
-        "feasible_today": true,
-        "blocked_by": []
+        "what": "Attributable NR2F1 coverage and expression in EMC, with cell-source and assay limitations stated",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
       },
       {
-        "what": "A demonstration that the existing pocket-modelling pipeline runs on its ligand-binding domain",
-        "feasible_today": true,
+        "what": "An experimental receptor-ligand pose or measured affinity appropriate to the proposed calibration; reproducing the retained docking model is insufficient",
+        "feasible_today": false,
         "blocked_by": []
       }
     ],
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a platform that carries a probe for the receptor — the two readable array series do not"
+        "Attributable NR2F1 expression evidence in EMC",
+        "An independent experimental reference appropriate to the intended calibration"
       ],
-      "why_not_higher": "The precondition is unread, and reporting an unreadable gene as absent is the specific failure the source artifact forbids."
+      "why_not_higher": "The retained table lookup resolves coverage only. It neither tests the dormancy hypothesis nor validates a computational instrument, and does not establish a standalone contribution."
     },
     "timing": {
       "recommendation": "wait",
-      "rationale": "The observation this route needs cannot be taken on the platforms available; it waits on a dataset that carries the gene.",
+      "rationale": "The available-data lookup is complete and uninformative about biological absence. Reopen only for attributable NR2F1 evidence or an independently justified experimental calibration reference.",
       "cost_trend": "falling",
       "revisit_trigger": [
         "TECH-EMC-EXPRESSION-DATA"
       ]
     },
     "next": {
-      "best_next_action": "Check whether the fourth public cohort carries the receptor at all.",
-      "cost": "$0"
+      "best_next_action": "Wait for attributable NR2F1 coverage/expression evidence in EMC or an independent experimental receptor-ligand calibration reference. Do not repeat the completed fourth-cohort lookup or dispatch docking to recover a predicted pose.",
+      "cost": "$0 for evidence intake; no compute dispatch authorized by this record"
     }
   },
   {

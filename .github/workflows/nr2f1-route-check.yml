@@ -1,0 +1,82 @@
+name: NR2F1 retained-source route correction
+
+on:
+  push:
+    branches: [codex/nr2f1-route-correction-20260919]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nr2f1-route-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Verify remote storage budget
+        run: |
+          python3 - <<'PY'
+          import shutil
+          from datetime import datetime, timezone
+          free = shutil.disk_usage('.').free
+          print({'utc': datetime.now(timezone.utc).isoformat(), 'free_bytes': free,
+                 'bounded_output_bytes': 20 * 1024**3})
+          assert free >= 30 * 1024**3, 'Preserve 10GiB after bounded checkout and dependencies'
+          PY
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Provision the existing check environment
+        run: |
+          command -v uv >/dev/null 2>&1 || pip install -q uv
+          ./scripts/dev-setup.sh --if-needed
+      - name: Generate Markdown projections and report pending integration
+        id: views
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/nr2f1-route
+          python3 systems/systems_check.py --write-views
+          git diff --name-only > /tmp/nr2f1-route/generated-paths.txt
+          python3 - <<'PY'
+          import json, os, pathlib, subprocess, zipfile
+          paths = subprocess.check_output(['git', 'diff', '--name-only'], text=True).splitlines()
+          assert all(p.startswith('systems/views/') and p.endswith('.md') for p in paths)
+          with zipfile.ZipFile('/tmp/nr2f1-route/generated-views.zip', 'w', zipfile.ZIP_DEFLATED) as z:
+              for p in paths: z.write(p, p)
+          pathlib.Path('/tmp/nr2f1-route/generation.json').write_text(json.dumps({
+              'candidate': os.environ['GITHUB_SHA'], 'changed_views': paths,
+              'checks_run': not bool(paths),
+              'scope': 'Markdown projection only; no browser, PDF, image rendering or scientific analysis'
+          }, indent=2))
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('ready=' + ('false' if paths else 'true') + '\n')
+          PY
+      - name: Verify systems and normal preflight on the exact committed tree
+        if: steps.views.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          echo "PINNED_SHA=$GITHUB_SHA" > /tmp/nr2f1-route/checks.log
+          set +e
+          python3 systems/systems_check.py --check >> /tmp/nr2f1-route/checks.log 2>&1
+          systems_rc=$?
+          echo "SYSTEMS_EXIT=$systems_rc" >> /tmp/nr2f1-route/checks.log
+          if [ "$systems_rc" -ne 0 ]; then cat /tmp/nr2f1-route/checks.log; exit "$systems_rc"; fi
+          ./scripts/preflight.sh >> /tmp/nr2f1-route/checks.log 2>&1
+          preflight_rc=$?
+          echo "PREFLIGHT_EXIT=$preflight_rc" >> /tmp/nr2f1-route/checks.log
+          cat /tmp/nr2f1-route/checks.log
+          exit "$preflight_rc"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nr2f1-route-${{ github.sha }}
+          path: /tmp/nr2f1-route/
+          if-no-files-found: error
+          retention-days: 14
