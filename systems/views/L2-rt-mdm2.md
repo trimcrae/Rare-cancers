@@ -56,7 +56,7 @@ The original quiet-genome rationale was a hypothesis. Neither the retained expre
 
 - TP53 genotype, panel coverage and functional status in a model relevant to the drug-response question; absence of a reported variant is not proof of wild type.
 - Whether the one-model ordinal HDM201 signal reproduces with an interpretable compound-specific dose-response and relevant comparison.
-- Whether any response is p53-dependent and offers a therapeutic window. The authors' broad chromosome-1 gain annotation does not establish focal MDM4 amplification.
+- No therapeutic window is established; whether any response is p53-dependent remains unresolved. The authors' broad chromosome-1 gain annotation does not establish focal MDM4 amplification.
 
 ## Required validation
 
@@ -80,7 +80,7 @@ One unvalidated ordinal screen does not establish efficacy, mechanism, selectivi
 **Missing:**
 - TP53 genotype, panel coverage and functional status in a model relevant to the drug-response question; absence of a reported variant is not proof of wild type.
 - Whether the one-model ordinal HDM201 signal reproduces with an interpretable compound-specific dose-response and relevant comparison.
-- Whether any response is p53-dependent and offers a therapeutic window. The authors' broad chromosome-1 gain annotation does not establish focal MDM4 amplification.
+- No therapeutic window is established; whether any response is p53-dependent remains unresolved. The authors' broad chromosome-1 gain annotation does not establish focal MDM4 amplification.
 
 ## Where this route ends — the paper
 
