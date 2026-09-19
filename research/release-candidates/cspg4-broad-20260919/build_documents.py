@@ -37,6 +37,7 @@ def table(doc,rows):
     for i,vals in enumerate(rows):
         cells=t.rows[0].cells if i==0 else t.add_row().cells
         for j,(c,v) in enumerate(zip(cells,vals)):
+            if len(rows[0])==6 and j==1:v=v.replace(';','; ')
             c.width=Inches(widths[j]);c.vertical_alignment=WD_CELL_VERTICAL_ALIGNMENT.CENTER
             p=c.paragraphs[0];p.paragraph_format.line_spacing=1.05;p.paragraph_format.space_after=Pt(3);p.paragraph_format.space_before=Pt(3)
             if len(rows[0])==6 and j>=2 or rows[0][0]=='Gene' and j>0:p.alignment=WD_ALIGN_PARAGRAPH.CENTER

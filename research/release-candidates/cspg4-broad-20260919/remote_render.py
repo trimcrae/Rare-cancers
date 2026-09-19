@@ -1,7 +1,7 @@
 from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
-import subprocess,sys,shutil,json,hashlib,re,unicodedata,zipfile
+import subprocess,sys,shutil,json,hashlib,re,unicodedata,zipfile,os
 from pypdf import PdfReader
 from lxml import etree
 W=Path(__file__).resolve().parent;O=W/'render-result';O.mkdir(exist_ok=True)
@@ -11,7 +11,7 @@ def guard():
     return {'America_New_York':local.isoformat(),'free_bytes':free}
 def norm(s):return re.sub(r'[^\w]+','',unicodedata.normalize('NFKC',s).lower())
 receipt={'before':guard(),'inputs':{},'documents':{}}
-for doc in sorted((W/'journal-package').glob('*.docx')):
+for doc in sorted((W/'journal-package').glob(os.environ.get('CSPG4_DOCUMENT_ONLY') or '*.docx')):
     guard();receipt['inputs'][doc.name]=hashlib.sha256(doc.read_bytes()).hexdigest()
     out=O/doc.stem
     subprocess.run([sys.executable,str(W/'render_docx.py'),str(doc),'--output_dir',str(out),'--dpi','120','--emit_pdf'],check=True,timeout=240)

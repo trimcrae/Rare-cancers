@@ -9,7 +9,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: cspg4-broad-${{ github.ref }}
+  group: cspg4-broad-${{ github.ref }}-${{ inputs.paper }}
   cancel-in-progress: false
 jobs:
   openpedcan:
@@ -44,7 +44,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
   render:
-    if: inputs.paper == 'emc-cspg4-draft-render-20260919' || inputs.paper == 'emc-cspg4-final-qa-20260919'
+    if: inputs.paper == 'emc-cspg4-draft-render-20260919' || inputs.paper == 'emc-cspg4-final-qa-20260919' || inputs.paper == 'emc-cspg4-si-wrap-20260919'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -68,6 +68,8 @@ jobs:
           sudo apt-get install -y -qq libreoffice-writer poppler-utils fonts-liberation >/dev/null
           python3 -m pip install --quiet pdf2image pypdf lxml Pillow
       - name: Render exact candidate and check text preservation
+        env:
+          CSPG4_DOCUMENT_ONLY: ${{ inputs.paper == 'emc-cspg4-si-wrap-20260919' && 'CSPG4-supplement.docx' || '' }}
         run: python3 research/release-candidates/cspg4-broad-20260919/remote_render.py
       - uses: actions/upload-artifact@v4
         with:
