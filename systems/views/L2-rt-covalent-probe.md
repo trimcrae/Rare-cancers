@@ -145,9 +145,9 @@ The blocking criterion is small enough to BUILD rather than wait for — a react
 
 ## Best next action
 
-DONE 2026-09-02 (S56) and it did not clear the axis. The criterion is built (`nr4a3_monovalent_reach.reactivity_weighted_criterion`, three variants) and the enumeration re-ran under it. Next: fetch an external cysteine-reactivity dataset carrying confirmed unreactive cysteines, so the criterion can be calibrated on something that can refute it. That is a networked read, not a local one.
+The S56 criterion and reach rerun remain complete and adverse. AUT-016 methods qualification (2026-09-19) distinguishes assay-defined low-reactivity measurements from universal nonreactive controls. Defer generic calibration; reopen for a specified prediction task with compatible structural inputs and a quantified assay-defined reference, retaining missing observations as missing. No route regrade or automatic rerun follows.
 
-*Cost:* $0 (CI fetch)
+*Cost:* $0 for a bounded new source or task qualification; no current scientific dispatch
 
 ## What this route rests on — drill down
 

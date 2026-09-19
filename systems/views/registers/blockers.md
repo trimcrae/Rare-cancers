@@ -321,7 +321,7 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
 - **held by (2):** RT-COVALENT-PROBE, RT-MONOVALENT
 - **retired by route (0):** —
 - **retired by technology:** TECH-EXPOSURE-CRITERION
-- **⭐ retired by an action we can take:** Re-run the reach enumeration under a reactivity criterion calibrated on an EXTERNAL cysteine-reactivity dataset carrying at least one confirmed NEGATIVE, and report the result as a rank until one exists. ⛔ The in-family calibration is exhausted: with one positive (NR4A1 C551) and no confirmed negatives, 'passes its own positive control' is satisfiable by construction — the floor can always be placed at the control — so no criterion built from this comparison set alone can fail it. Performed and measured 2026-09-02 (S56).
+- **⭐ retired by an action we can take:** First specify the relative-reactivity prediction task, compatible structural inputs and an external measured assay outcome; missing peptides and compound-specific noncompetition are not universal negative controls. A prospectively separated calibration/evaluation against quantified low- and high-reactivity references may test that instrument, but cannot by itself license the route. Preserve the adverse S56 in-family/size-matched-null result and the failed V17 positive control. No blocker retirement follows from this source qualification. See research/autonomy/cysteine-source-qualification-20260919/NOTE.md.
 - **when it could lift:**
 
   | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
