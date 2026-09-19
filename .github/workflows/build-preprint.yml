@@ -122,3 +122,40 @@ jobs:
       - name: Preserve actual failure status
         if: always()
         run: test "${{ steps.gate.outputs.code }}" = 0
+
+  system-diagnostic:
+    if: inputs.paper == 'emc-cspg4-system-diagnostic-20260919'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check remote headroom and time
+        run: |
+          python3 - <<'PY'
+          import shutil,datetime,zoneinfo
+          t=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
+          assert not 6 <= t.hour < 10
+          assert shutil.disk_usage('.').free >= 13*1024**3
+          print(t.isoformat(),shutil.disk_usage('.').free)
+          PY
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Prepare established environment
+        run: |
+          command -v uv >/dev/null 2>&1 || pip install -q uv
+          ./scripts/dev-setup.sh --if-needed
+      - name: Capture full systems diagnostic
+        run: |
+          mkdir -p /tmp/cspg4-system-diagnostic
+          git rev-parse HEAD > /tmp/cspg4-system-diagnostic/candidate.txt
+          set +e
+          python3 -c 'import sys,jsonschema,yaml;print(sys.executable,jsonschema.__file__,yaml.__file__)' > /tmp/cspg4-system-diagnostic/imports.log 2>&1
+          python3 systems/systems_check.py --check > /tmp/cspg4-system-diagnostic/systems.log 2>&1
+          echo "$?" > /tmp/cspg4-system-diagnostic/exit-code.txt
+          cat /tmp/cspg4-system-diagnostic/systems.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cspg4-system-diagnostic-${{ github.run_id }}
+          path: /tmp/cspg4-system-diagnostic/
+          retention-days: 30
