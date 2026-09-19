@@ -1,0 +1,308 @@
+{
+  "date": "2026-09-19",
+  "scope": "Materialization of accepted S55 interpretation and citation corrections; no new source retrieval or analysis.",
+  "input_hashes": {
+    "research/autonomy/sprint-2026-09-01/S55-TWO-BLIND-ROUTES.md": "fec619fd8610892d5862dd6836b7c6111c1bd0e60e89a8b45ecf27a4333c997d",
+    "research/autonomy/sprint-2026-09-01/S55-proposed-route-evidence.json": "c1275e6eb9ef3833198b76ab5b75e4a89fde74b75356672f1dd4da49f9ee64d6",
+    "research/literature/fet-fusion-chaperone-clientship-2026-08-27.json": "4603641f2d342d49d9daa6a9be3f71d968b111872fe89c0b14a9397b9bdbbebe",
+    "systems/graph/evidence.json": "e5c96e401dea46399c459a13b30a109a55beb9e8be96e8163be21d7c8479f01a"
+  },
+  "primary_source": {
+    "commit": "0eac3e3aaa5b3e02c258611588e20162a7996515",
+    "path": "literature/bangerter-2023-emc-exvivo/PMC9813045.txt",
+    "sha256": "3f8cd7e434a9ccd2a6dd8b3e6016ab891ddd8c029177b488270a347753c43cd0",
+    "actually_read_lines": [
+      37,
+      45,
+      48
+    ],
+    "evidence_id": "EV-BANGERTER-2023",
+    "pmid": "36316541",
+    "doi": "10.1007/s13577-022-00818-x",
+    "pmcid": "PMC9813045",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/36316541/",
+    "limits": "Retained main-text passages only. Figures and supplements were not newly retrieved or independently quantified."
+  },
+  "superseded_routes": {
+    "RT-CHAPERONE": {
+      "id": "RT-CHAPERONE",
+      "display_name": "Chaperone dependency of the chimera (HSP90 and co-chaperones)",
+      "level": "L2",
+      "kind": "route",
+      "title": "Chaperone dependency of the chimera (HSP90 and co-chaperones)",
+      "grade": {
+        "value": "\u25d0 PARTLY SUPPORTED (2026-08-09). The HSP90 machine and its co-chaperones read HIGHER in EMC on BOTH platforms. \u26d4 But the HSP70 arm and the heat-shock response go the OTHER way on both \u2014 which is the reading that matters, because a standing proteostatic load should raise the stress response too, and it does not. \u2b50 AND THE DEPENDENCY AXIS ADDS AN ASYMMETRY THE ABUNDANCE READING DOES NOT SHOW. Across the 91 screened sarcoma lines the two HSP90 paralogues are dependencies in only 5.5% and 18.7% \u26d4 DENOMINATOR CORRECTED 2026-08-27: this grade said 176 sarcoma lines. 176 is the number of sarcoma MODELS in DepMap 24Q4; only 91 of them carry CRISPR gene-effect data, and every fraction here is computed over those 91. The repository caught this identical error in the MTAP/PRMT5 manuscript on 2026-08-09/10 -- the day after this grade was written -- and the correction never reached the graph. of lines, while the kinase-specific co-chaperone CDC37 is a dependency in 97.8% \u2014 and none of the three shows any sarcoma selectivity. \u26a0 THE PARALOGUE RESULT MUST NOT BE READ AS 'HSP90 IS DISPENSABLE': two paralogues that back each other up will each score as non-essential in a single-gene knockout screen, which is a limitation of the instrument and not a property of the chaperone. What the near-essential co-chaperone does say is that the machine as a whole is load-bearing in this tissue class, and that a route hoping to exploit it needs an argument for why the tumour needs it MORE than the normal cell \u2014 which nothing here supplies.",
+        "owner": {
+          "file": "research/modalities/census-route-expression-grading.json"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-NO-EMC-DATA",
+        "BLK-NO-WET-LAB"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [],
+      "strategy": "ST-DEPENDENCY",
+      "publication": {
+        "endpoint": "PUB-TXN-DEPENDENCY",
+        "role": "primary",
+        "contribution": "The half of the paper that argues from what the driver IS STRUCTURALLY: a chimera of two domains that never evolved together is a folding problem before it is a signalling one."
+      },
+      "provenance": {
+        "owner": {
+          "file": "systems/graph/routes.json"
+        }
+      },
+      "purpose": "Is the chimeric protein more dependent on the chaperone system than the wild-type proteins it is assembled from?",
+      "state": {
+        "work_state": "complete",
+        "authorization": "free",
+        "status": "blocked",
+        "maturity": "computed",
+        "confidence": "low",
+        "last_verified": "2026-08-09"
+      },
+      "rationale": "A structural argument nobody here had made. Chimeric proteins are disproportionately chaperone-dependent for folding and stability, which offers a way to lower fusion protein levels that needs no pocket ligand, no assembled ternary complex and no paralogue discrimination \u2014 the three blockers holding this portfolio's largest family down.",
+      "supporting_evidence": [
+        {
+          "ref": "ART-CENSUS-ROUTE-GRADING",
+          "what_it_supports": "the HSP90 machine and co-chaperones read higher in EMC on both platforms while the HSP70 arm and heat-shock response read lower \u2014 a split the general-stress reading does not predict",
+          "strength": "direct"
+        },
+        {
+          "ref": "ART-DEPMAP-SARCOMA-DEP",
+          "what_it_supports": "the HSP90 paralogues are individually non-essential across sarcoma lines while the kinase-specific co-chaperone is near-essential, with no sarcoma selectivity for any of the three",
+          "strength": "class_inherited"
+        }
+      ],
+      "remaining_unknowns": [
+        "Whether the chimera is a chaperone CLIENT, which is the route's actual premise and a co-immunoprecipitation question that no expression read can reach. \u26d4 The literature was assessed on 2026-08-27 and NO FET-family fusion protein is a documented client: no binding assay exists for any FUS, EWSR1 or TAF15 fusion, and NR4A3 fusions have no chaperone literature at all. What does exist is dependence without binding \u2014 EWS::FLI1 protein falls on HSP90 inhibition and on knockdown of the co-chaperone SGT1. The assay is not the obstacle: AML1-ETO was shown to bind the chaperonin TRiC directly. See research/literature/fet-fusion-chaperone-clientship-2026-08-27.json.",
+        "Why the HSP90 and HSP70 arms move in opposite directions here, which is unexplained and is the reason this is not graded as support.",
+        "Whether any therapeutic index exists for this class \u2014 its clinical record is dominated by toxicity, and nothing here assumes otherwise.",
+        "Whether the two HSP90 paralogues are mutually redundant, which would make their individually low dependency scores an artefact of single-gene knockout rather than a statement about the chaperone \u2014 a dual-knockout question no public panel answers."
+      ],
+      "required_validation": [
+        {
+          "what": "A literature assessment of chaperone clientship across FET-family fusion proteins",
+          "feasible_today": true,
+          "blocked_by": []
+        },
+        {
+          "what": "A structural assessment of whether the junction region is predicted to be unstable or disordered, using the structural work already committed here",
+          "feasible_today": true,
+          "blocked_by": []
+        },
+        {
+          "what": "Whether the chimera is an HSP90 CLIENT \u2014 a co-immunoprecipitation or degradation-on-inhibition readout in an EMC model, which is the route's premise and which no expression read can reach",
+          "feasible_today": false,
+          "blocked_by": [
+            "BLK-NO-WET-LAB"
+          ]
+        }
+      ],
+      "readiness": {
+        "attainable_today": "internal_note",
+        "missing": [
+          "a client-binding measurement, which is not an expression question"
+        ],
+        "why_not_higher": "An arm-split reading is a reason to ask the client question, not an answer to it."
+      },
+      "timing": {
+        "recommendation": "monitor",
+        "rationale": "The decisive observation is whether the fusion is an HSP90 client, and that needs a model this programme cannot reach. The expression read has given what it can.",
+        "cost_trend": "flat",
+        "revisit_trigger": [
+          "TECH-EMC-MODEL-ACCESS"
+        ]
+      },
+      "next": {
+        "best_next_action": "Fetch IntAct/BioGRID dataset IM-22301, the deposited interaction set of the published human chaperone-interaction network (PMID 25036637), and record whether FUS, EWSR1 or TAF15 appear in its query panel at all \u2014 a $0 fetch, and the last cheap observation left on this route now that the FET-fusion clientship literature has been assessed and come back empty.",
+        "cost": "$0"
+      }
+    },
+    "RT-MDM2": {
+      "id": "RT-MDM2",
+      "display_name": "MDM2 antagonism (p53 reactivation in a quiet genome)",
+      "level": "L2",
+      "kind": "route",
+      "title": "MDM2 antagonism (p53 reactivation in a quiet genome)",
+      "grade": {
+        "value": "\u26d4 NOT SUPPORTED (2026-08-09). The class needs a p53 axis that is intact AND LIVE. The p53 transcriptional output group reads LOWER in EMC on BOTH platforms and the axis genes themselves are flat \u2014 quiet rather than live. \u26a0 The quiet-genome argument that raised this route predicted the opposite.",
+        "owner": {
+          "file": "research/modalities/census-route-expression-grading.json"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [],
+      "strategy": "ST-DEPENDENCY",
+      "publication": {
+        "endpoint": "PUB-BIOMARKER-DEP",
+        "role": "contributing",
+        "contribution": "One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion."
+      },
+      "provenance": {
+        "owner": {
+          "file": "systems/graph/routes.json"
+        }
+      },
+      "purpose": "Does this tumour's quiet, clonal, p53-intact genome make it the profile MDM2 antagonism was built for and rarely finds?",
+      "state": {
+        "work_state": "complete",
+        "authorization": "free",
+        "status": "parked",
+        "maturity": "computed",
+        "confidence": "moderate",
+        "last_verified": "2026-08-09"
+      },
+      "rationale": "The class needs wild-type p53 and performs worst where the genome is chaotic. This disease's genome is quiet and clonal with a single founding translocation, which is an unusually good match and one that no prior sweep here named. The class's own history of dose-limiting haematological toxicity is a stated liability.",
+      "supporting_evidence": [
+        {
+          "ref": "ART-CENSUS-ROUTE-GRADING",
+          "what_it_supports": "the p53 transcriptional output group reads lower in EMC than in comparator sarcomas on both platforms, against the direction the class requires",
+          "strength": "direct"
+        }
+      ],
+      "remaining_unknowns": [
+        "Whether TP53 is wild-type, which this reading does not establish either way \u2014 most inactivating lesions are missense and leave transcript intact.",
+        "Whether low p53 output reflects a suppressed axis or simply an unstressed one, which archival tissue cannot distinguish."
+      ],
+      "required_validation": [
+        {
+          "what": "The expression or committed-artifact lookup that selects this class",
+          "feasible_today": true,
+          "blocked_by": []
+        },
+        {
+          "what": "A measurement in a fusion-positive EMC model",
+          "feasible_today": false,
+          "blocked_by": [
+            "BLK-NO-WET-LAB"
+          ]
+        }
+      ],
+      "readiness": {
+        "attainable_today": "internal_note",
+        "missing": [
+          "a direct TP53 sequence call, which no available EMC dataset supplies"
+        ],
+        "why_not_higher": "A selection question answered against the class is a negative worth one paragraph."
+      },
+      "timing": {
+        "recommendation": "monitor",
+        "rationale": "Only a sequence-level TP53 call would reopen it, and none is available.",
+        "cost_trend": "flat",
+        "revisit_trigger": [
+          "TECH-EMC-EXPRESSION-DATA"
+        ]
+      },
+      "next": {
+        "best_next_action": "Report the negative; the quiet-genome inference did not survive its own test.",
+        "cost": "$0"
+      }
+    },
+    "RT-APOPTOSIS-DEP": {
+      "id": "RT-APOPTOSIS-DEP",
+      "display_name": "Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL)",
+      "level": "L2",
+      "kind": "route",
+      "title": "Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL)",
+      "grade": {
+        "value": "\u25d0 SPLIT, AND THE TWO AXES DISAGREE (2026-08-09). Abundance: all five druggable guardians read LOWER in EMC on both platforms. Dependency: across the 91 screened sarcoma lines MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% \u26d4 DENOMINATOR CORRECTED 2026-08-27: this grade said 176 sarcoma lines. 176 is the number of sarcoma MODELS in DepMap 24Q4; only 91 of them carry CRISPR gene-effect data, and every fraction here is computed over those 91. The repository caught this identical error in the MTAP/PRMT5 manuscript on 2026-08-09/10 -- the day after this grade was written -- and the correction never reached the graph. while BCL2 is in 2.2%. In this tumour class the guardian is not BCL-2 \u2014 which is what the route hypothesised, and what would explain this repository's own EMC result where BCL-2 inhibition was inactive alone and active only in combination.",
+        "owner": {
+          "file": "research/modalities/census-route-expression-grading.json"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [],
+      "strategy": "ST-DEPENDENCY",
+      "publication": {
+        "endpoint": "PUB-BIOMARKER-DEP",
+        "role": "contributing",
+        "contribution": "One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion."
+      },
+      "provenance": {
+        "owner": {
+          "file": "systems/graph/routes.json"
+        }
+      },
+      "purpose": "Which anti-apoptotic family member do patient-derived models of this disease actually depend on?",
+      "state": {
+        "work_state": "future",
+        "authorization": "free",
+        "status": "ready",
+        "maturity": "computed",
+        "confidence": "moderate",
+        "last_verified": "2026-08-09"
+      },
+      "rationale": "This follows directly from a result the repository already holds and never pursued: BCL-2 inhibition was inactive alone and active only in combination in patient-derived models here. That pattern is the signature of dependence on a different member of the same family, and nobody has asked which one.",
+      "supporting_evidence": [
+        {
+          "ref": "ART-CENSUS-ROUTE-GRADING",
+          "what_it_supports": "MCL1 and BCL2L1 are dependencies in most sarcoma lines while BCL2 is in almost none, which is the pattern the route predicted and is the axis abundance cannot measure",
+          "strength": "class_inherited"
+        }
+      ],
+      "remaining_unknowns": [
+        "Which guardian holds the effectors in EMC specifically \u2014 no EMC line appears in the dependency panel, so the pattern is a class transfer and not an EMC observation.",
+        "Why guardian ABUNDANCE is lower in EMC than in comparator sarcomas while the class-level DEPENDENCY runs the other way; the two readings are not reconciled here.",
+        "Whether a primed state \u2014 low guardians with elevated NOXA \u2014 explains the combination-only result better than a co-dependency does."
+      ],
+      "required_validation": [
+        {
+          "what": "BH3 profiling, or an MCL-1/BCL-xL inhibitor arm, in the two published patient-derived EMC models \u2014 the same models that produced the combination-only result",
+          "feasible_today": false,
+          "blocked_by": [
+            "BLK-NO-WET-LAB"
+          ]
+        }
+      ],
+      "readiness": {
+        "attainable_today": "internal_note",
+        "missing": [
+          "a dependency or BH3-profiling readout in an EMC model \u2014 abundance cannot answer this and the class prior contains no EMC line"
+        ],
+        "why_not_higher": "Two readings that disagree is a reason to run an experiment, not a result."
+      },
+      "timing": {
+        "recommendation": "pursue_now",
+        "rationale": "The class prior now points the same way as this repository's own unexplained EMC result, and the experiment that would settle it is an arm on a screen that has already been run once on those models.",
+        "cost_trend": "flat"
+      },
+      "next": {
+        "best_next_action": "Put an MCL-1/BCL-xL arm in front of the group holding the two EMC models, alongside the PRMT5 ask.",
+        "cost": "$0"
+      }
+    }
+  },
+  "no_authorization_for_historical_fetch_proposals": true
+}

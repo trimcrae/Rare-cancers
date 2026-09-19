@@ -5727,7 +5727,9 @@
       "disclosed_failing": []
     },
     "objects": [],
-    "evidence": [],
+    "evidence": [
+      "EV-BANGERTER-2023"
+    ],
     "artifacts": [],
     "distinct_from": [],
     "strategy": "ST-DEPENDENCY",
@@ -5761,10 +5763,15 @@
         "ref": "ART-DEPMAP-SARCOMA-DEP",
         "what_it_supports": "the HSP90 paralogues are individually non-essential across sarcoma lines while the kinase-specific co-chaperone is near-essential, with no sarcoma selectivity for any of the three",
         "strength": "class_inherited"
+      },
+      {
+        "ref": "EV-BANGERTER-2023",
+        "what_it_supports": "PU-H71 has an unvalidated good ordinal viability band in one EMC model, USZ20-EMC1. This is disease-specific drug sensitivity, the existing category (d), not evidence that the fusion is an HSP90 client. No fusion-protein readout, therapeutic index or compound-specific concentration anchor is supplied by the inspected main text. The grade and next action are unchanged.",
+        "strength": "class_inherited"
       }
     ],
     "remaining_unknowns": [
-      "Whether the chimera is a chaperone CLIENT, which is the route's actual premise and a co-immunoprecipitation question that no expression read can reach. ⛔ The literature was assessed on 2026-08-27 and NO FET-family fusion protein is a documented client: no binding assay exists for any FUS, EWSR1 or TAF15 fusion, and NR4A3 fusions have no chaperone literature at all. What does exist is dependence without binding — EWS::FLI1 protein falls on HSP90 inhibition and on knockdown of the co-chaperone SGT1. The assay is not the obstacle: AML1-ETO was shown to bind the chaperonin TRiC directly. See research/literature/fet-fusion-chaperone-clientship-2026-08-27.json.",
+      "Whether the EMC fusion is a chaperone client remains unresolved. The bounded 2026-08-27 review in research/literature/fet-fusion-chaperone-clientship-2026-08-27.json did not establish direct FET-fusion clientship within its inspected sources; it describes EWS::FLI1 protein depletion on chaperone-machine perturbation. The retained Bangerter EMC viability evidence now cited here supplies neither a fusion-binding assay nor a fusion-protein readout. Its presence corrects the old blanket claim of no NR4A3-fusion chaperone literature; neither evidence type establishes EMC fusion clientship.",
       "Why the HSP90 and HSP70 arms move in opposite directions here, which is unexplained and is the reason this is not graded as support.",
       "Whether any therapeutic index exists for this class — its clinical record is dominated by toxicity, and nothing here assumes otherwise.",
       "Whether the two HSP90 paralogues are mutually redundant, which would make their individually low dependency scores an artefact of single-gene knockout rather than a statement about the chaperone — a dual-knockout question no public panel answers."
@@ -6005,9 +6012,9 @@
     "kind": "route",
     "title": "MDM2 antagonism (p53 reactivation in a quiet genome)",
     "grade": {
-      "value": "⛔ NOT SUPPORTED (2026-08-09). The class needs a p53 axis that is intact AND LIVE. The p53 transcriptional output group reads LOWER in EMC on BOTH platforms and the axis genes themselves are flat — quiet rather than live. ⚠ The quiet-genome argument that raised this route predicted the opposite.",
+      "value": "NOT SUPPORTED ON EXPRESSION; UNRESOLVED ON PHARMACOLOGY. The existing two-platform measurement of lower p53 transcriptional output and flat axis-gene expression is preserved. It does not establish antagonist inactivity. The retained HDM201 result is an unvalidated ordinal sensitivity band in one EMC model, with TP53 status unresolved; it does not establish efficacy or a mechanism.",
       "owner": {
-        "file": "research/modalities/census-route-expression-grading.json"
+        "file": "research/autonomy/bangerter-route-fidelity-20260919/NOTE.md"
       }
     },
     "grade_pointers": [],
@@ -6020,73 +6027,81 @@
       "disclosed_failing": []
     },
     "objects": [],
-    "evidence": [],
+    "evidence": [
+      "EV-BANGERTER-2023"
+    ],
     "artifacts": [],
     "distinct_from": [],
     "strategy": "ST-DEPENDENCY",
     "publication": {
       "endpoint": "PUB-BIOMARKER-DEP",
       "role": "contributing",
-      "contribution": "One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion."
+      "contribution": "A bounded account separating the observed expression pattern from unresolved pharmacologic response; no standalone negative-efficacy claim or publication admission."
     },
     "provenance": {
       "owner": {
         "file": "systems/graph/routes.json"
       }
     },
-    "purpose": "Does this tumour's quiet, clonal, p53-intact genome make it the profile MDM2 antagonism was built for and rarely finds?",
+    "purpose": "Does a defined EMC model have an intact, pharmacologically responsive p53 axis? A quiet genome or low basal transcriptional output alone cannot answer that question.",
     "state": {
       "work_state": "complete",
       "authorization": "free",
       "status": "parked",
       "maturity": "computed",
       "confidence": "moderate",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-09-19"
     },
-    "rationale": "The class needs wild-type p53 and performs worst where the genome is chaotic. This disease's genome is quiet and clonal with a single founding translocation, which is an unusually good match and one that no prior sweep here named. The class's own history of dose-limiting haematological toxicity is a stated liability.",
+    "rationale": "The original quiet-genome rationale was a hypothesis. Neither the retained expression result nor the limited HDM201 screen establishes TP53 status or a p53-dependent response. The previously recorded hematologic-toxicity liability remains a limitation; this correction does not reassess clinical safety.",
     "supporting_evidence": [
       {
         "ref": "ART-CENSUS-ROUTE-GRADING",
-        "what_it_supports": "the p53 transcriptional output group reads lower in EMC than in comparator sarcomas on both platforms, against the direction the class requires",
+        "what_it_supports": "The p53 transcriptional output group reads lower in EMC than comparator sarcomas on both platforms. This measured expression result is unchanged and does not determine antagonist sensitivity.",
+        "strength": "direct"
+      },
+      {
+        "ref": "EV-BANGERTER-2023",
+        "what_it_supports": "Direct disease context, weak pharmacologic evidence: HDM201 was reported in the good ordinal sensitivity band in USZ20-EMC1 alone. No separate HDM201 validation, compound-specific concentration anchor, normal-cell comparison or established TP53 status is supplied by the inspected main text. The venetoclax screen band did not reproduce as a monotherapy response on validation. This leaves pharmacology unresolved; it does not support efficacy or a p53-dependent mechanism.",
         "strength": "direct"
       }
     ],
     "remaining_unknowns": [
-      "Whether TP53 is wild-type, which this reading does not establish either way — most inactivating lesions are missense and leave transcript intact.",
-      "Whether low p53 output reflects a suppressed axis or simply an unstressed one, which archival tissue cannot distinguish."
+      "TP53 genotype, panel coverage and functional status in a model relevant to the drug-response question; absence of a reported variant is not proof of wild type.",
+      "Whether the one-model ordinal HDM201 signal reproduces with an interpretable compound-specific dose-response and relevant comparison.",
+      "No therapeutic window is established; whether any response is p53-dependent remains unresolved. The authors' broad chromosome-1 gain annotation does not establish focal MDM4 amplification."
     ],
     "required_validation": [
       {
-        "what": "The expression or committed-artifact lookup that selects this class",
+        "what": "The source-bound interpretation correction and original expression lookup are complete; neither measures antagonist efficacy.",
         "feasible_today": true,
         "blocked_by": []
       },
       {
-        "what": "A measurement in a fusion-positive EMC model",
+        "what": "For a stronger claim, a specific source or measurement resolving genotype/coverage, validated drug response, mechanism or relevant comparison. No current experiment or source-fetch campaign is authorized by this correction.",
         "feasible_today": false,
-        "blocked_by": [
-          "BLK-NO-WET-LAB"
-        ]
+        "blocked_by": []
       }
     ],
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a direct TP53 sequence call, which no available EMC dataset supplies"
+        "TP53 genotype, panel coverage and functional status in a model relevant to the drug-response question; absence of a reported variant is not proof of wild type.",
+        "Whether the one-model ordinal HDM201 signal reproduces with an interpretable compound-specific dose-response and relevant comparison.",
+        "No therapeutic window is established; whether any response is p53-dependent remains unresolved. The authors' broad chromosome-1 gain annotation does not establish focal MDM4 amplification."
       ],
-      "why_not_higher": "A selection question answered against the class is a negative worth one paragraph."
+      "why_not_higher": "One unvalidated ordinal screen does not establish efficacy, mechanism, selectivity or a clinically relevant response."
     },
     "timing": {
       "recommendation": "monitor",
-      "rationale": "Only a sequence-level TP53 call would reopen it, and none is available.",
+      "rationale": "Retain the expression result and unresolved pharmacology. Reopen for specific source-grounded genotype/coverage or validated response evidence. The old claim that only a TP53 call could reopen the route is superseded; source-access and prior fetch restrictions remain.",
       "cost_trend": "flat",
       "revisit_trigger": [
         "TECH-EMC-EXPRESSION-DATA"
       ]
     },
     "next": {
-      "best_next_action": "Report the negative; the quiet-genome inference did not survive its own test.",
-      "cost": "$0"
+      "best_next_action": "Preserve the accepted distinction: not supported on expression, unresolved on pharmacology. Consider only new source-grounded evidence that answers a specific genotype, response or mechanism question. Do not repeat the RNA test, publish an inactivity inference or reopen the exhausted supplement fetch.",
+      "cost": "$0 for bounded evidence intake; no current experiment or retrieval dispatch"
     }
   },
   {
@@ -6096,7 +6111,7 @@
     "kind": "route",
     "title": "Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL)",
     "grade": {
-      "value": "◐ SPLIT, AND THE TWO AXES DISAGREE (2026-08-09). Abundance: all five druggable guardians read LOWER in EMC on both platforms. Dependency: across the 91 screened sarcoma lines MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% ⛔ DENOMINATOR CORRECTED 2026-08-27: this grade said 176 sarcoma lines. 176 is the number of sarcoma MODELS in DepMap 24Q4; only 91 of them carry CRISPR gene-effect data, and every fraction here is computed over those 91. The repository caught this identical error in the MTAP/PRMT5 manuscript on 2026-08-09/10 -- the day after this grade was written -- and the correction never reached the graph. while BCL2 is in 2.2%. In this tumour class the guardian is not BCL-2 — which is what the route hypothesised, and what would explain this repository's own EMC result where BCL-2 inhibition was inactive alone and active only in combination.",
+      "value": "◐ SPLIT, AND THE TWO AXES DISAGREE (2026-08-09). Abundance: all five druggable guardians read LOWER in EMC on both platforms. Dependency: across the 91 screened sarcoma lines MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% ⛔ DENOMINATOR CORRECTED 2026-08-27: this grade said 176 sarcoma lines. 176 is the number of sarcoma MODELS in DepMap 24Q4; only 91 of them carry CRISPR gene-effect data, and every fraction here is computed over those 91. The repository caught this identical error in the MTAP/PRMT5 manuscript on 2026-08-09/10 -- the day after this grade was written -- and the correction never reached the graph. while BCL2 is in 2.2%. In this tumour class the guardian is not BCL-2 — which is what the route hypothesised, and what would explain this repository's own EMC result where BCL-2 inhibition was inactive alone and active only in combination. Qualification 2026-09-19: these dependency fractions are from mixed sarcoma lines, not an EMC-specific dependency assay. The EMC combination observation does not validate the proposed guardian explanation; that remains a hypothesis.",
       "owner": {
         "file": "research/modalities/census-route-expression-grading.json"
       }
@@ -6111,7 +6126,9 @@
       "disclosed_failing": []
     },
     "objects": [],
-    "evidence": [],
+    "evidence": [
+      "EV-BANGERTER-2023"
+    ],
     "artifacts": [],
     "distinct_from": [],
     "strategy": "ST-DEPENDENCY",
@@ -6134,12 +6151,17 @@
       "confidence": "moderate",
       "last_verified": "2026-08-09"
     },
-    "rationale": "This follows directly from a result the repository already holds and never pursued: BCL-2 inhibition was inactive alone and active only in combination in patient-derived models here. That pattern is the signature of dependence on a different member of the same family, and nobody has asked which one.",
+    "rationale": "The retained EMC models showed no venetoclax monotherapy response on validation and additive/synergistic responses in combinations with carfilzomib. Dependence on another anti-apoptotic family member is one hypothesis for further work, not a diagnostic signature established by that pattern. The existing mixed-sarcoma dependency data motivate a question but do not identify the guardian in EMC.",
     "supporting_evidence": [
       {
         "ref": "ART-CENSUS-ROUTE-GRADING",
         "what_it_supports": "MCL1 and BCL2L1 are dependencies in most sarcoma lines while BCL2 is in almost none, which is the pattern the route predicted and is the axis abundance cannot measure",
         "strength": "class_inherited"
+      },
+      {
+        "ref": "EV-BANGERTER-2023",
+        "what_it_supports": "Source for the already-recorded EMC observation: the moderate venetoclax screen band did not reproduce as a monotherapy response in validation, while combinations with carfilzomib had additive/synergistic effects in the two retained models. This does not establish clinical benefit, selectivity or MCL1/BCL2L1 dependence in EMC. The grade category and next action are unchanged.",
+        "strength": "direct"
       }
     ],
     "remaining_unknowns": [

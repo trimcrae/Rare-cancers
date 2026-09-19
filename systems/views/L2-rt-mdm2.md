@@ -5,7 +5,7 @@ level: L2
 kind: generated
 status: generated
 generator: systems/systems_check.py
-purpose: Does this tumour's quiet, clonal, p53-intact genome make it the profile MDM2 antagonism was built for and rarely finds?
+purpose: Does a defined EMC model have an intact, pharmacologically responsive p53 axis? A quiet genome or low basal transcriptional output alone cannot answer that question.
 scope: Level 2 — one route.
 audience: ["maintainers", "autonomous research agents"]
 date: 2026-08-05
@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-MDM2 — MDM2 antagonism (p53 reactivation in a quiet genome)
 
-**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
+**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-09-19
 
-**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ NOT SUPPORTED (2026-08-09). The class needs a p53 axis that is intact AND LIVE. The p53 transcriptional output group reads LOWER in EMC on BOTH platforms and the axis genes themselves are flat — quiet rather than live. ⚠ The quiet-genome argument that raised this route predicted the opposite.
+**Grade** (owned by [`research/autonomy/bangerter-route-fidelity-20260919/NOTE.md`](../../research/autonomy/bangerter-route-fidelity-20260919/NOTE.md)): NOT SUPPORTED ON EXPRESSION; UNRESOLVED ON PHARMACOLOGY. The existing two-platform measurement of lower p53 transcriptional output and flat axis-gene expression is preserved. It does not establish antagonist inactivity. The retained HDM201 result is an unvalidated ordinal sensitivity band in one EMC model, with TP53 status unresolved; it does not establish efficacy or a mechanism.
 
 ## What has to land for this route to move
 
@@ -43,25 +43,27 @@ flowchart LR
 
 ## Scientific rationale
 
-The class needs wild-type p53 and performs worst where the genome is chaotic. This disease's genome is quiet and clonal with a single founding translocation, which is an unusually good match and one that no prior sweep here named. The class's own history of dose-limiting haematological toxicity is a stated liability.
+The original quiet-genome rationale was a hypothesis. Neither the retained expression result nor the limited HDM201 screen establishes TP53 status or a p53-dependent response. The previously recorded hematologic-toxicity liability remains a limitation; this correction does not reassess clinical safety.
 
 ## Supporting evidence
 
 | ref | supports | strength |
 |---|---|---|
-| `ART-CENSUS-ROUTE-GRADING` | the p53 transcriptional output group reads lower in EMC than in comparator sarcomas on both platforms, against the direction the class requires | `direct` |
+| `ART-CENSUS-ROUTE-GRADING` | The p53 transcriptional output group reads lower in EMC than comparator sarcomas on both platforms. This measured expression result is unchanged and does not determine antagonist sensitivity. | `direct` |
+| `EV-BANGERTER-2023` | Direct disease context, weak pharmacologic evidence: HDM201 was reported in the good ordinal sensitivity band in USZ20-EMC1 alone. No separate HDM201 validation, compound-specific concentration anchor, normal-cell comparison or established TP53 status is supplied by the inspected main text. The venetoclax screen band did not reproduce as a monotherapy response on validation. This leaves pharmacology unresolved; it does not support efficacy or a p53-dependent mechanism. | `direct` |
 
 ## Remaining unknowns
 
-- Whether TP53 is wild-type, which this reading does not establish either way — most inactivating lesions are missense and leave transcript intact.
-- Whether low p53 output reflects a suppressed axis or simply an unstressed one, which archival tissue cannot distinguish.
+- TP53 genotype, panel coverage and functional status in a model relevant to the drug-response question; absence of a reported variant is not proof of wild type.
+- Whether the one-model ordinal HDM201 signal reproduces with an interpretable compound-specific dose-response and relevant comparison.
+- No therapeutic window is established; whether any response is p53-dependent remains unresolved. The authors' broad chromosome-1 gain annotation does not establish focal MDM4 amplification.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| The expression or committed-artifact lookup that selects this class | ⛔ none built | yes | — |
-| A measurement in a fusion-positive EMC model | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| The source-bound interpretation correction and original expression lookup are complete; neither measures antagonist efficacy. | ⛔ none built | yes | — |
+| For a stronger claim, a specific source or measurement resolving genotype/coverage, validated drug response, mechanism or relevant comparison. No current experiment or source-fetch campaign is authorized by this correction. | ⛔ none built | **no** | — |
 
 ## Blockers
 
@@ -73,10 +75,12 @@ The class needs wild-type p53 and performs worst where the genome is chaotic. Th
 
 **`internal_note`**
 
-A selection question answered against the class is a negative worth one paragraph.
+One unvalidated ordinal screen does not establish efficacy, mechanism, selectivity or a clinically relevant response.
 
 **Missing:**
-- a direct TP53 sequence call, which no available EMC dataset supplies
+- TP53 genotype, panel coverage and functional status in a model relevant to the drug-response question; absence of a reported variant is not proof of wild type.
+- Whether the one-model ordinal HDM201 signal reproduces with an interpretable compound-specific dose-response and relevant comparison.
+- No therapeutic window is established; whether any response is p53-dependent remains unresolved. The authors' broad chromosome-1 gain annotation does not establish focal MDM4 amplification.
 
 ## Where this route ends — the paper
 
@@ -84,7 +88,7 @@ A selection question answered against the class is a negative worth one paragrap
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 
-**This route contributes:** One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion.
+**This route contributes:** A bounded account separating the observed expression pattern from unresolved pharmacologic response; no standalone negative-efficacy claim or publication admission.
 
 **The paper would claim:** Five therapeutic classes are selected by a molecular state rather than by a histology, every selecting feature is readable in expression data already public for this disease, and the useful output is which classes the data rules OUT rather than which it nominates. Four selecting features are absent; the fifth class survives because the instrument cannot reach its question rather than because the data was favourable. The four negatives are deliberately NOT reported as equally strong.
 
@@ -92,7 +96,7 @@ A selection question answered against the class is a negative worth one paragrap
 
 **Recommendation: `monitor`**
 
-Only a sequence-level TP53 call would reopen it, and none is available.
+Retain the expression result and unresolved pharmacology. Reopen for specific source-grounded genotype/coverage or validated response evidence. The old claim that only a TP53 call could reopen the route is superseded; source-access and prior fetch restrictions remain.
 
 | horizon | effect |
 |---|---|
@@ -111,8 +115,14 @@ Only a sequence-level TP53 call would reopen it, and none is available.
 
 ## Best next action
 
-Report the negative; the quiet-genome inference did not survive its own test.
+Preserve the accepted distinction: not supported on expression, unresolved on pharmacology. Consider only new source-grounded evidence that answers a specific genotype, response or mechanism question. Do not repeat the RNA test, publish an inactivity inference or reopen the exhausted supplement fetch.
 
-*Cost:* $0
+*Cost:* $0 for bounded evidence intake; no current experiment or retrieval dispatch
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 evidence:** [EV-BANGERTER-2023](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
 [← ST-DEPENDENCY](L1-st-dependency.md) · [← L0](L0-ecosystem.md)
