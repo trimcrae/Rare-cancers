@@ -1,0 +1,99 @@
+{
+  "utc": "2026-09-19T10:08:55.931844+00:00",
+  "question": "What NR2F1 bulk-RNA TPM values are reported for the nine primary EMC specimens already selected in the retained Hofvander source manifest?",
+  "contract_sha256": "81acffde5ef7a34d07d1686472ee5aceeb9921ea91d83ffa62975b94bf9f14be",
+  "inputs": {
+    "matrix": "Retained source_data/tpm_matrix.tsv identified by metadata-manifest.json and the exact SHA256 below; not redistributed here.",
+    "matrix_sha256": "b0d665d1bd1d96ace1faf66cc5a4d7ab7e41cb487c8f0f61734f102a1f9a7af3",
+    "manifest": "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
+    "manifest_sha256": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2"
+  },
+  "gene": "NR2F1",
+  "matrix_line": 13495,
+  "samples": [
+    {
+      "sample_id": "11881-19",
+      "TPM_reported": "14.25"
+    },
+    {
+      "sample_id": "3371-22",
+      "TPM_reported": "3.87"
+    },
+    {
+      "sample_id": "3372-22",
+      "TPM_reported": "0.38"
+    },
+    {
+      "sample_id": "4716-22",
+      "TPM_reported": "1.03"
+    },
+    {
+      "sample_id": "4840-13",
+      "TPM_reported": "0.31"
+    },
+    {
+      "sample_id": "5149-18",
+      "TPM_reported": "17.86"
+    },
+    {
+      "sample_id": "5241-06",
+      "TPM_reported": "0.81"
+    },
+    {
+      "sample_id": "7931-19",
+      "TPM_reported": "0.28"
+    },
+    {
+      "sample_id": "8102-22",
+      "TPM_reported": "0.96"
+    }
+  ],
+  "excluded_EMC_records": [
+    {
+      "sample_id": "104-92",
+      "exclusion_reason": "known_EMC_discovery_overlap",
+      "known_overlap": "MDB 9736:3",
+      "specimen_exception": ""
+    },
+    {
+      "sample_id": "168-97",
+      "exclusion_reason": "known_EMC_discovery_overlap",
+      "known_overlap": "MDB 9736:4",
+      "specimen_exception": ""
+    },
+    {
+      "sample_id": "5081-14",
+      "exclusion_reason": "nonprimary_or_unspecified_exception",
+      "known_overlap": "",
+      "specimen_exception": "LR"
+    },
+    {
+      "sample_id": "536-00",
+      "exclusion_reason": "known_EMC_discovery_overlap",
+      "known_overlap": "MDB 9736:7",
+      "specimen_exception": ""
+    }
+  ],
+  "summary_TPM": {
+    "n": 9,
+    "minimum": "0.28",
+    "median": "0.96",
+    "maximum": "17.86",
+    "reported_positive": 9,
+    "reported_zero": 0
+  },
+  "validation": {
+    "unique_row_and_sample_columns": true,
+    "independent_split_read_agrees": true,
+    "retained_CSPG4_nine_raw_value_mapping_control_agrees": true,
+    "control_sha256": "004a0f6da8b0f0197011cb2d1624c62aff19f8b2d00dd17e00d36d15287b121a"
+  },
+  "limits": [
+    "The NR2F1 row's availability is known before this contract; its values have not been read by the root or advisor for this checkpoint. This is a dated internal analysis plan, not an externally preregistered study.",
+    "No new retrieval, normalization, gene panel, comparator, P value, year deletion, rank, threshold selection or expression-derived prediction",
+    "Positive reported TPM is not an experimentally established detection limit, protein localization, malignant-cell expression, dependency, causal dormancy effect or response to a compound",
+    "The retained NR2F1/C26 calibration limitation remains unchanged regardless of the RNA result",
+    "Do not revise or republish an accepted manuscript or create a new paper"
+  ],
+  "disposition": "NR2F1 transcript values are reported for this selected bulk-RNA set. This resolves the held-data lookup only. No inference about tumor-cell source, protein, dormancy, compound binding or patient response follows."
+}
