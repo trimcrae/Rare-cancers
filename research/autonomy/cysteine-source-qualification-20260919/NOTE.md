@@ -1,5 +1,5 @@
 ---
-id: MEM-CYSTEINE-SOURCE-QUALIFICATION-20260919
+id: DOC-CYSTEINE-SOURCE-QUALIFICATION-20260919
 title: What a cysteine reactivity reference can test
 kind: memo
 status: live
