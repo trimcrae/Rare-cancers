@@ -3021,10 +3021,9 @@
       "NY-ESO-1 / MAGE-A4 TCR-T"
     ],
     "grade": {
-      "value": "DOWNGRADED to weak — gating fact resolved, mostly negative",
+      "value": "The fixed CTAG1B, MAGEA3 and SSX2 transcript lookup is complete in nine retained primary EMC specimens. Bulk reported TPM does not establish target-specific protein, peptide presentation, HLA eligibility or treatment coverage; no therapeutic regrade follows.",
       "owner": {
-        "file": "research/manuscripts/neoantigen/immunotherapy-options-emc.md",
-        "anchor": null
+        "file": "research/autonomy/cta-retained-tpm-20260919/RESULT.json"
       }
     },
     "grade_pointers": [
@@ -3062,11 +3061,11 @@
         "why": "EMC is NY-ESO-1-rare and MAGE-A4-low on measured data; PRAME is separately expressed and separately graded"
       }
     ],
-    "closure_kind": "premise_false",
+    "closure_kind": "instrument_limit",
     "revival_trigger": [
       "TR-EMC-EXPRESSION-DATASET"
     ],
-    "closure_note": "EMC is CTA-low on measured data; a real EMC series is what could change it.",
+    "closure_note": "Older platforms did not measure these three genes. A newer released gene-level TPM lookup is complete; a therapeutic conclusion remains limited by antigen identity/assignment, cell source, protein, presentation and eligibility.",
     "strategy": "ST-IMMUNO",
     "publication": {
       "endpoint": "PUB-SURFACE-TARGETS",
@@ -3087,7 +3086,7 @@
       "status": "parked",
       "maturity": "computed",
       "confidence": "moderate",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-09-19"
     },
     "rationale": "The synovial-sarcoma precedent shows the approach works in a translocation sarcoma, and porting an approved approach is far cheaper than inventing one.",
     "supporting_evidence": [
@@ -3098,41 +3097,40 @@
       },
       {
         "ref": "ART-EMC-EXPRESSION-PANELS",
-        "what_it_supports": "The EMC expression series required_validation[0] asked for, and the reason its antigens are still unread: cross_platform_board.by_state.NOT_READABLE_ON_EITHER_PLATFORM lists CTAG1B, MAGEA3 and SSX2.",
+        "what_it_supports": "The older two-array and fourth assigned-gene-panel nonmeasurement is preserved. The separate fixed three-gene Hofvander lookup is now complete in research/autonomy/cta-retained-tpm-20260919/RESULT.json; it does not establish antigen presentation.",
         "strength": "direct"
       }
     ],
     "remaining_unknowns": [
-      "Whether a real EMC series would agree with the surrogate measurement that downgraded this."
+      "Antigen-specific protein and cell-source evidence, peptide presentation and relevant HLA eligibility for any proposed intervention.",
+      "Whether the released gene-labeled estimates uniquely distinguish the relevant homologs/isoforms for a specific target claim."
     ],
     "required_validation": [
       {
-        "what": "A real EMC expression series\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks). SATISFIED AS WRITTEN — and this is the one entry in the population that is. Three EMC tumour series are now read: the two arrays in `ART-EMC-EXPRESSION-PANELS` (`platforms`, licensed by `reads.control`) and the fourth cohort. ⛔ AND THE ANSWER THE SERIES WAS WANTED FOR IS STILL UNREAD: CTAG1B, MAGEA3 and SSX2 all sit in `reads.read_8_SURFACE_ANTIGEN.cross_platform_board.by_state.NOT_READABLE_ON_EITHER_PLATFORM`, and none of the three has an assigned probe in the fourth cohort's committed gene table. That is an instrument state on three instruments and NEVER a negative about the tumour, so this entry's satisfaction is a fact about the RECORD and moves nothing about the route's science. ⚠ `readiness.missing` still reads \"a real EMC expression series\" and now disagrees with this entry; that field belongs to the route's grade owner and is left visibly disagreeing rather than papered over. ⚠ THE RULE THIS APPLIES, THE FOURTH COHORT'S DESIGN AND LIMITS, AND THE PER-GENE COVERAGE ALL HAVE ONE HOME AND ARE NOT RESTATED HERE: research/modalities/emc-fourth-cohort-route-readout.json — its \"⭐ the_rule_this_adjudication_applies\" field, its cohort block, and per_route.RT-TCRT-CTA.",
-        "feasible_today": true,
+        "what": "Claim-specific gene/isoform identity, protein or peptide-presentation and HLA evidence. The fixed nine-specimen three-gene transcript lookup is complete.",
+        "feasible_today": false,
         "blocked_by": []
       }
     ],
     "readiness": {
       "attainable_today": "internal_note",
-      "why_not_higher": "Downgraded on a measurement rather than on reasoning, which is the useful kind of downgrade — but it means the route needs a better measurement, not a better argument.",
       "missing": [
-        "a real EMC expression series"
-      ]
+        "Antigen-specific protein and cell-source evidence, peptide presentation and relevant HLA eligibility for any proposed intervention.",
+        "Whether the released gene-labeled estimates uniquely distinguish the relevant homologs/isoforms for a specific target claim."
+      ],
+      "why_not_higher": "The source answers the limited bulk transcript lookup; treatment or population-coverage claims require distinct evidence."
     },
     "timing": {
-      "recommendation": "monitor",
-      "rationale": "The gating fact was resolved and came back mostly negative. Only better data reopens it, and that data is watched.",
-      "six_month_delta": "None.",
-      "two_year_delta": "Only via an EMC dataset.",
+      "recommendation": "wait",
+      "rationale": "Do not repeat the completed TPM lookup. Reopen for a specific source-grounded antigen question that relevant evidence can answer.",
       "cost_trend": "flat",
-      "automation_outlook": "Re-grading would be automatic once data lands.",
       "revisit_trigger": [
         "TECH-EMC-EXPRESSION-DATA"
       ]
     },
     "next": {
-      "best_next_action": "Keep registered for automatic re-grade when EMC expression data lands. ⛔ CORRECTED 2026-09-02 (AUT-PD-116): three EMC tumour series are now read and the re-grade this field promised cannot be taken from any of them — CTAG1B, MAGEA3 and SSX2 are unreadable on both arrays and have no assigned probe in the fourth cohort. ⚠ Superseded, retained: \"Keep registered for automatic re-grade when EMC expression data lands.\" The live next step is a CTA-covering instrument, not another cohort.",
-      "cost": "$0"
+      "best_next_action": "Retain the nine-specimen CTAG1B/MAGEA3/SSX2 reported TPM table. Reopen for a defined antigen and compatible source/measurement resolving identity, cell source, protein, presentation or eligibility. No automatic therapeutic regrade from these RNA values.",
+      "cost": "$0 for bounded new evidence intake; no current analysis dispatch"
     }
   },
   {

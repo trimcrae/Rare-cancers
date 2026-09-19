@@ -1,0 +1,238 @@
+{
+  "utc": "2026-09-19T14:20:11.199654+00:00",
+  "question": "What reported TPM values do CTAG1B, MAGEA3 and SSX2 have in the existing nine eligible primary EMC specimens?",
+  "contract_sha256": "531f21c760f9a67ead3f0f78de9186c61ba4929169408520f8309fab28ccca32",
+  "inputs": {
+    "matrix": "Retained source_data/tpm_matrix.tsv identified by the accepted metadata-manifest.json and exact SHA256; not redistributed.",
+    "matrix_sha256": "b0d665d1bd1d96ace1faf66cc5a4d7ab7e41cb487c8f0f61734f102a1f9a7af3",
+    "manifest": "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
+    "manifest_sha256": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+    "retained_methods": {
+      "file": "primary-methods-locators.json in the retained EMC atlas source cache",
+      "sha256": "46ea4e1ee75e04e787873b83f667eeae77db10c19b6ef8827447c0d040e43161",
+      "section_id": "s2-2",
+      "title": "RNA-seq",
+      "relevant_method": "STAR v2.7.10b aligned to GRCh38; RSEM v1.3.3 gene-level quantification using GRCh38.104 gene model. No independent homolog/isoform read-assignment verification in this lookup."
+    }
+  },
+  "fixed_gene_order": [
+    "CTAG1B",
+    "MAGEA3",
+    "SSX2"
+  ],
+  "genes": {
+    "CTAG1B": {
+      "matrix_line": 14849,
+      "samples": [
+        {
+          "sample_id": "11881-19",
+          "TPM_reported": "11.45",
+          "matrix_column_1based": 53
+        },
+        {
+          "sample_id": "3371-22",
+          "TPM_reported": "1.93",
+          "matrix_column_1based": 339
+        },
+        {
+          "sample_id": "3372-22",
+          "TPM_reported": "0.06",
+          "matrix_column_1based": 341
+        },
+        {
+          "sample_id": "4716-22",
+          "TPM_reported": "0.08",
+          "matrix_column_1based": 478
+        },
+        {
+          "sample_id": "4840-13",
+          "TPM_reported": "0",
+          "matrix_column_1based": 480
+        },
+        {
+          "sample_id": "5149-18",
+          "TPM_reported": "2.3",
+          "matrix_column_1based": 499
+        },
+        {
+          "sample_id": "5241-06",
+          "TPM_reported": "0",
+          "matrix_column_1based": 504
+        },
+        {
+          "sample_id": "7931-19",
+          "TPM_reported": "0",
+          "matrix_column_1based": 635
+        },
+        {
+          "sample_id": "8102-22",
+          "TPM_reported": "0",
+          "matrix_column_1based": 646
+        }
+      ],
+      "summary_TPM": {
+        "n": 9,
+        "minimum": "0",
+        "median": "0.06",
+        "maximum": "11.45",
+        "reported_positive": 5,
+        "reported_zero": 4
+      }
+    },
+    "MAGEA3": {
+      "matrix_line": 17659,
+      "samples": [
+        {
+          "sample_id": "11881-19",
+          "TPM_reported": "0",
+          "matrix_column_1based": 53
+        },
+        {
+          "sample_id": "3371-22",
+          "TPM_reported": "0",
+          "matrix_column_1based": 339
+        },
+        {
+          "sample_id": "3372-22",
+          "TPM_reported": "0",
+          "matrix_column_1based": 341
+        },
+        {
+          "sample_id": "4716-22",
+          "TPM_reported": "0",
+          "matrix_column_1based": 478
+        },
+        {
+          "sample_id": "4840-13",
+          "TPM_reported": "0",
+          "matrix_column_1based": 480
+        },
+        {
+          "sample_id": "5149-18",
+          "TPM_reported": "0",
+          "matrix_column_1based": 499
+        },
+        {
+          "sample_id": "5241-06",
+          "TPM_reported": "0",
+          "matrix_column_1based": 504
+        },
+        {
+          "sample_id": "7931-19",
+          "TPM_reported": "0",
+          "matrix_column_1based": 635
+        },
+        {
+          "sample_id": "8102-22",
+          "TPM_reported": "0",
+          "matrix_column_1based": 646
+        }
+      ],
+      "summary_TPM": {
+        "n": 9,
+        "minimum": "0",
+        "median": "0",
+        "maximum": "0",
+        "reported_positive": 0,
+        "reported_zero": 9
+      }
+    },
+    "SSX2": {
+      "matrix_line": 18111,
+      "samples": [
+        {
+          "sample_id": "11881-19",
+          "TPM_reported": "0",
+          "matrix_column_1based": 53
+        },
+        {
+          "sample_id": "3371-22",
+          "TPM_reported": "0",
+          "matrix_column_1based": 339
+        },
+        {
+          "sample_id": "3372-22",
+          "TPM_reported": "0",
+          "matrix_column_1based": 341
+        },
+        {
+          "sample_id": "4716-22",
+          "TPM_reported": "0",
+          "matrix_column_1based": 478
+        },
+        {
+          "sample_id": "4840-13",
+          "TPM_reported": "0",
+          "matrix_column_1based": 480
+        },
+        {
+          "sample_id": "5149-18",
+          "TPM_reported": "0",
+          "matrix_column_1based": 499
+        },
+        {
+          "sample_id": "5241-06",
+          "TPM_reported": "0",
+          "matrix_column_1based": 504
+        },
+        {
+          "sample_id": "7931-19",
+          "TPM_reported": "0.09",
+          "matrix_column_1based": 635
+        },
+        {
+          "sample_id": "8102-22",
+          "TPM_reported": "0",
+          "matrix_column_1based": 646
+        }
+      ],
+      "summary_TPM": {
+        "n": 9,
+        "minimum": "0",
+        "median": "0",
+        "maximum": "0.09",
+        "reported_positive": 1,
+        "reported_zero": 8
+      }
+    }
+  },
+  "excluded_EMC_records": [
+    {
+      "sample_id": "104-92",
+      "exclusion_reason": "known_EMC_discovery_overlap",
+      "known_overlap": "MDB 9736:3",
+      "specimen_exception": ""
+    },
+    {
+      "sample_id": "168-97",
+      "exclusion_reason": "known_EMC_discovery_overlap",
+      "known_overlap": "MDB 9736:4",
+      "specimen_exception": ""
+    },
+    {
+      "sample_id": "5081-14",
+      "exclusion_reason": "nonprimary_or_unspecified_exception",
+      "known_overlap": "",
+      "specimen_exception": "LR"
+    },
+    {
+      "sample_id": "536-00",
+      "exclusion_reason": "known_EMC_discovery_overlap",
+      "known_overlap": "MDB 9736:7",
+      "specimen_exception": ""
+    }
+  ],
+  "validation": {
+    "exact_unique_feature_and_sample_labels": true,
+    "all_27_values_agree_between_two_parses": true,
+    "unchanged_specimen_selection": true,
+    "all_values_finite_nonnegative": true
+  },
+  "limits": [
+    "Released gene-labeled TPM estimates, not new quantification of raw reads.",
+    "No source-specific limit of detection or expression-positivity cutoff applied; a reported zero is not proof of biological absence.",
+    "Homolog/isoform-specific read assignment was not independently verified.",
+    "Bulk RNA does not establish malignant-cell protein, peptide presentation, HLA eligibility or clinical coverage.",
+    "No comparator, test of significance, target ranking, treatment inference or standalone paper."
+  ]
+}
