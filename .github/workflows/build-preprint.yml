@@ -43,3 +43,35 @@ jobs:
           path: research/release-candidates/cspg4-broad-20260919/openpedcan-result/
           if-no-files-found: error
           retention-days: 30
+  render:
+    if: inputs.paper == 'emc-cspg4-draft-render-20260919'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check remote storage and permitted time
+        run: |
+          python3 - <<'PY'
+          import shutil,datetime,zoneinfo
+          local=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
+          assert not 6 <= local.hour < 10, 'Daily quiet hours'
+          free=shutil.disk_usage('.').free
+          print('remote_local_time',local.isoformat(),'free_bytes',free)
+          assert free>=13*1024**3
+          PY
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: research/release-candidates/cspg4-broad-20260919
+          fetch-depth: 1
+      - name: Prepare remote document dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libreoffice-writer poppler-utils fonts-liberation >/dev/null
+          python3 -m pip install --quiet pdf2image pypdf lxml Pillow
+      - name: Render exact candidate and check text preservation
+        run: python3 research/release-candidates/cspg4-broad-20260919/remote_render.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cspg4-render-${{ github.run_id }}
+          path: research/release-candidates/cspg4-broad-20260919/render-result/
+          if-no-files-found: error
+          retention-days: 30
