@@ -1,3 +1,16 @@
+---
+id: "DOC-CSPG4-BROAD-20260919-MANUSCRIPT"
+title: "Comparative CSPG4 sarcoma RNA manuscript source"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Present the completed exploratory comparative RNA manuscript for author review."
+scope: "Scoped author-review draft and reproducibility package. RNA comparisons only; no journal submission, diagnostic specificity or therapeutic suitability established."
+audience: ["external reviewers", "collaborators", "maintainers"]
+date: "2026-09-19"
+last_verified: "2026-09-19"
+---
 # CSPG4 RNA across sarcoma types with an expanded comparison of extraskeletal myxoid chondrosarcoma
 
 **Author.** Tristan D. McRae

@@ -1,3 +1,16 @@
+---
+id: "DOC-CSPG4-BROAD-20260919-SUPPLEMENT"
+title: "Comparative CSPG4 sarcoma RNA supplementary information"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Document source eligibility, methods, sensitivity results and supplementary tables."
+scope: "Scoped author-review draft and reproducibility package. RNA comparisons only; no journal submission, diagnostic specificity or therapeutic suitability established."
+audience: ["external reviewers", "collaborators", "maintainers"]
+date: "2026-09-19"
+last_verified: "2026-09-19"
+---
 # Supplementary information for CSPG4 RNA across sarcoma types
 
 This supplement distinguishes the preserved original analysis, the expanded same-source comparison and the new public-source characterization. The original protocols and computations remain available in the Research Square version 1 archive. New calculations and metadata corrections are supplied with this revision; the old archive is not presented as containing them.

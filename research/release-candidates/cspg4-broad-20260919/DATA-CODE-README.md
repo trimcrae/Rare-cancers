@@ -1,3 +1,16 @@
+---
+id: "DOC-CSPG4-BROAD-20260919-DATA-CODE-README"
+title: "CSPG4 expanded sarcoma data and code guide"
+level: "L3"
+kind: "runbook"
+status: "live"
+canonical_for: []
+purpose: "Describe the frozen analysis inputs, outputs and reproducibility commands."
+scope: "Scoped author-review draft and reproducibility package. RNA comparisons only; no journal submission, diagnostic specificity or therapeutic suitability established."
+audience: ["external reviewers", "collaborators", "maintainers"]
+date: "2026-09-19"
+last_verified: "2026-09-19"
+---
 # CSPG4 expanded sarcoma comparison data and code
 
 This package contains the September 19 expanded comparative analysis. It is distinct from the original Research Square version 1 archive. Main supplementary Tables S2/S3 correspond to primary/pooled-panel-tests.csv and primary/CSPG4-by-type.csv; Tables S4/S5 are external/analysis-final/external-type-summaries.csv and external-within-source-pairs.csv.

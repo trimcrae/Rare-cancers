@@ -1,3 +1,16 @@
+---
+id: "DOC-CSPG4-BROAD-20260919-COVER"
+title: "Cancer Genetics CSPG4 draft cover letter"
+level: "L3"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Provide the prepared author-review cover letter for the revised CSPG4 manuscript."
+scope: "Scoped author-review draft and reproducibility package. RNA comparisons only; no journal submission, diagnostic specificity or therapeutic suitability established."
+audience: ["external reviewers", "collaborators", "maintainers"]
+date: "2026-09-19"
+last_verified: "2026-09-19"
+---
 # Cover letter for Cancer Genetics
 
 Dear Editors,
