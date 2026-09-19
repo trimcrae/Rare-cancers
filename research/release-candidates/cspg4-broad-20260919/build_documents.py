@@ -12,6 +12,9 @@ def inline(p,s):
     for part in re.split(r'(\*\*.*?\*\*)',s):
         r=p.add_run(part.strip('*') if part.startswith('**') else part);r.bold=part.startswith('**')
 def setup(doc,supp=False):
+    # The bundled base template carries a decorative title border. Remove it explicitly.
+    for root in [doc.styles.element,doc._element]:
+        for border in list(root.iter(qn('w:pBdr'))):border.getparent().remove(border)
     s=doc.sections[0];s.page_width=Inches(8.5);s.page_height=Inches(11)
     s.top_margin=s.bottom_margin=Inches(.75);s.left_margin=s.right_margin=Inches(.85)
     normal=doc.styles['Normal'];normal.font.name='Times New Roman';normal.font.size=Pt(11 if supp else 12)
