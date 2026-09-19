@@ -101,7 +101,9 @@ jobs:
           ./scripts/dev-setup.sh --if-needed
       - name: Satisfy the observed schema registry dependency
         run: |
-          uv pip install --system --python "$(command -v python3)" --break-system-packages 'jsonschema>=4.18' referencing
+          uv pip install --target "$RUNNER_TEMP/cspg4-schema-deps" 'jsonschema>=4.18' referencing
+          export PYTHONPATH="$RUNNER_TEMP/cspg4-schema-deps${PYTHONPATH:+:$PYTHONPATH}"
+          echo "PYTHONPATH=$PYTHONPATH" >> "$GITHUB_ENV"
           python3 -c 'import sys,jsonschema,referencing; from referencing import Registry,Resource; from jsonschema import Draft202012Validator; Draft202012Validator({},registry=Registry()); print(sys.executable,jsonschema.__file__,referencing.__file__)'
       - name: Run normal preflight on exact draft candidate
         id: gate
