@@ -25,9 +25,9 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 203,
+    "done": 204,
     "in_progress": 9,
-    "parked": 31,
+    "parked": 30,
     "queued": 169,
     "superseded": 1
   },
@@ -10403,7 +10403,7 @@
         "strategy": "ST-IMMUNO"
       },
       "kind": "regrade",
-      "state": "parked",
+      "state": "done",
       "parked_on": [
         "TECH-EMC-EXPRESSION-DATA",
         "TR-EMC-EXPRESSION-DATASET"
@@ -10416,7 +10416,7 @@
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
+      "last_evidence_utc": "2026-09-19T14:20:55.987130+00:00",
       "score": 52.0,
       "score_inputs": {
         "live": false,
@@ -10434,7 +10434,13 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-SURFACE-TARGETS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": null
+      "claimed_utc": null,
+      "_resolution": {
+        "status": "fixed_three_gene_transcript_lookup_complete",
+        "evidence": "research/autonomy/cta-retained-tpm-20260919/RESULT.json",
+        "scope": "Reported values from retained matrix and unchanged nine-specimen manifest. No therapeutic promotion or coverage claim.",
+        "remaining": "Claim-specific identity, protein, presentation and HLA evidence; route stays parked."
+      }
     },
     {
       "id": "AUT-087-e71cf460",
