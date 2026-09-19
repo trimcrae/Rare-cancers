@@ -34,7 +34,7 @@
   },
   "biology": "NR2F1 expression, dormancy function and response to modulation in EMC remain unresolved. The failure of the calibration rationale does not refute the biological hypothesis.",
   "reopening_inputs": {
-    "biology": "Attributable NR2F1 coverage/expression evidence in EMC; functional evidence is separately needed for a dormancy or intervention claim.",
+    "biology": "First inspect the already-held NR2F1 TPM row in retained primary EMC specimens. Malignant-cell localization, dormancy function and response to modulation require separate evidence.",
     "calibration": "An independently measured receptor-ligand reference appropriate to the intended pose or affinity task, with applicability to the tested receptor justified. Expression alone does not reopen calibration."
   },
   "no_new_analysis_retrieval_or_publication": true,
@@ -168,5 +168,12 @@
     "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-NR-OUTSIDE-NR4A3 is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
     "claimed_utc": null
   },
-  "current_grade": "UNMEASURED in the retained inputs: the two array mappings do not read NR2F1, and the fourth-cohort assigned-gene table contains no NR2F1 row. This is not evidence that the gene is absent from the assay or EMC. The retained C26 assessment does not provide an experimental pose or affinity known-answer control."
+  "current_grade": "UNMEASURED by the two retained array mappings and the fourth-cohort assigned-gene table. This does not establish absence from the assay or EMC. A separate already-held full-gene Hofvander TPM matrix contains an NR2F1 row, whose EMC values have not been assessed in this correction. The retained C26 assessment does not provide an experimental pose or affinity known-answer control.",
+  "other_retained_input": {
+    "path": "C:/Users/mcrae/.codex/worktrees/8010/EMC-Research/.cache/emc-atlas-new-source-20260906/source_data/tpm_matrix.tsv",
+    "manifest": "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
+    "gene_row_available": true,
+    "values_not_read_here": true,
+    "next": "Separate bounded read of existing primary-EMC bulk TPM; no external-data wait"
+  }
 }

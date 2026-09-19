@@ -6899,7 +6899,7 @@
     "kind": "route",
     "title": "Orphan nuclear-receptor agonism against dormancy escape",
     "grade": {
-      "value": "UNMEASURED in the retained inputs: the two array mappings do not read NR2F1, and the fourth-cohort assigned-gene table contains no NR2F1 row. This is not evidence that the gene is absent from the assay or EMC. The retained C26 assessment does not provide an experimental pose or affinity known-answer control.",
+      "value": "UNMEASURED by the two retained array mappings and the fourth-cohort assigned-gene table. This does not establish absence from the assay or EMC. A separate already-held full-gene Hofvander TPM matrix contains an NR2F1 row, whose EMC values have not been assessed in this correction. The retained C26 assessment does not provide an experimental pose or affinity known-answer control.",
       "owner": {
         "file": "research/autonomy/nr2f1-route-correction-20260919/CORRECTION.json"
       }
@@ -6946,17 +6946,15 @@
       }
     ],
     "remaining_unknowns": [
-      "Whether NR2F1 is expressed in the relevant EMC cells; no assigned NR2F1 row in these retained tables answers that question.",
+      "What the already-held Hofvander TPM row shows in the retained primary EMC specimens. Bulk expression would not determine malignant-cell localization.",
       "Whether NR2F1 has a functional role in EMC dormancy and whether modulation changes a relevant outcome.",
       "Whether an independent experimental receptor-ligand reference appropriate to a proposed NR2F1 pose or affinity calibration is available; the retained assessment supplies none."
     ],
     "required_validation": [
       {
-        "what": "Attributable NR2F1 coverage and expression in EMC, with cell-source and assay limitations stated",
-        "feasible_today": false,
-        "blocked_by": [
-          "BLK-NO-EMC-DATA"
-        ]
+        "what": "Read the NR2F1 row in the already-held Hofvander TPM matrix using the retained primary-EMC sample manifest; describe bulk measurement without inferring cell source or function",
+        "feasible_today": true,
+        "blocked_by": []
       },
       {
         "what": "An experimental receptor-ligand pose or measured affinity appropriate to the proposed calibration; reproducing the retained docking model is insufficient",
@@ -6967,22 +6965,22 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "Attributable NR2F1 expression evidence in EMC",
+        "An unperformed read of the NR2F1 row in the already-held full-gene TPM input; malignant-cell localization and dormancy function remain separate questions",
         "An independent experimental reference appropriate to the intended calibration"
       ],
       "why_not_higher": "The retained table lookup resolves coverage only. It neither tests the dormancy hypothesis nor validates a computational instrument, and does not establish a standalone contribution."
     },
     "timing": {
-      "recommendation": "wait",
-      "rationale": "The available-data lookup is complete and uninformative about biological absence. Reopen only for attributable NR2F1 evidence or an independently justified experimental calibration reference.",
+      "recommendation": "pursue_now",
+      "rationale": "The fourth-panel lookup is complete. A distinct bounded bulk-expression read is possible from an already-held full-gene TPM input; it needs no new data acquisition and cannot reopen the unsupported calibration premise.",
       "cost_trend": "falling",
       "revisit_trigger": [
         "TECH-EMC-EXPRESSION-DATA"
       ]
     },
     "next": {
-      "best_next_action": "Wait for attributable NR2F1 coverage/expression evidence in EMC or an independent experimental receptor-ligand calibration reference. Do not repeat the completed fourth-cohort lookup or dispatch docking to recover a predicted pose.",
-      "cost": "$0 for evidence intake; no compute dispatch authorized by this record"
+      "best_next_action": "Perform a bounded descriptive NR2F1 read in the already-held Hofvander TPM input using retained primary-EMC identities. Do not repeat the fourth-panel lookup, infer malignant-cell expression or dormancy function from bulk RNA, or recover a predicted docking pose as a known answer.",
+      "cost": "$0; local retained-input read only"
     }
   },
   {
