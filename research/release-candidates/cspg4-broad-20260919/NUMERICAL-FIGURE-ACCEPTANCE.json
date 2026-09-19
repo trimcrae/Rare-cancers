@@ -1,0 +1,36 @@
+{
+  "utc": "2026-09-19T20:26:42.919303+00:00",
+  "status": "PASS",
+  "primary_acceptance": "../cspg4-expanded-characterization-20260919/ROOT-ACCEPTANCE.json",
+  "external_initial_auditor": "/root/comparator_design_rationale",
+  "independently_checked": {
+    "Treehouse_profiles": 1334,
+    "Boudin_profiles": 986,
+    "GSE213065_profiles": 54,
+    "GSE234092_profiles": 69,
+    "initial_summary_rows": 295,
+    "initial_pairwise_rows": 1464,
+    "LMS_figure_rows": 51
+  },
+  "method": "Independent original retained-source matching and recomputation without importing analyze_external.py; all values, IDs, source labels, quartiles and A comparisons matched.",
+  "OpenPedCan_incremental_auditor": "/root/cspg4_question_judgment",
+  "OpenPedCan_increment": {
+    "clinical_profiles": 28,
+    "additional_summary_rows": 9,
+    "additional_pairwise_rows": 16
+  },
+  "OpenPedCan_limit": "Verified remote extraction input checksum, reader, selected29 records,28 clinical exclusions/identities, outputs and summaries. Independent full RDS re-extraction was not performed.",
+  "final_counts": {
+    "summary_rows": 304,
+    "pairwise_rows": 1480,
+    "LMS_figure_rows": 51
+  },
+  "final_output_hashes": {
+    "external-LMS-reference.csv": "b837b298159ac718fe90eabe6940e8a5c78319f51ea892448cb8e25b5cf49dc1",
+    "external-pair-cross-source-ranges.csv": "771426c1fdbb29beebf5783b4ac83221893905a914969415db83e63dbb5b82b3",
+    "external-specimen-values.csv": "9de394d5cc477400496bc9d616e00d92277a4be919cd593034bedaf1a30d38f9",
+    "external-type-summaries.csv": "8448a28f7c9faf3e858591412886d72f22d57833e4d1cf3282531ac2b1df0615",
+    "external-within-source-pairs.csv": "95aa51e1c0e319504135ecb009a34ffcc1d2c02eead9cceae18b8b331e01532e"
+  },
+  "figure_audit": "Independent committed CSV/script/SVG geometry checks and actual figure previews: all29 malignant and31 other source labels,402+242 dots, all60n/median/IQR,51 heatmap values and213 blank cells match. Final-size page inspections passed separately."
+}
