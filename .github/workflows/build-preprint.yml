@@ -1,89 +1,45 @@
-name: Build preprint (PDF + DOCX)
-
-# Renders a manuscript from Markdown to submission-ready PDF + DOCX via pandoc, and bundles the
-# prioritisation figure. Uploads the built files as a workflow artifact and publishes them to the
-# `preprint-cache` branch. bioRxiv accepts PDF/DOCX; this is the "ready to submit" artifact.
-# Internet-only (apt + figure fetch) -> runs on a GitHub-hosted runner.
-
+name: CSPG4 broad cohort draft work
 on:
   workflow_dispatch:
     inputs:
       paper:
-        description: "Manuscript basename under research/manuscripts/ (no .md)"
-        required: false
-        default: "emc-surface-target-landscape"
-
+        description: Scoped draft operation
+        required: true
+        type: string
 permissions:
-  contents: write
-
+  contents: read
 concurrency:
-  group: build-preprint
-  cancel-in-progress: true
-
+  group: cspg4-broad-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
-  build:
+  openpedcan:
+    if: inputs.paper == 'emc-cspg4-openpedcan-20260919'
     runs-on: ubuntu-latest
-    env:
-      PAPER: ${{ inputs.paper }}
+    timeout-minutes: 20
     steps:
+      - name: Check remote storage and permitted time
+        run: |
+          python3 - <<'PY'
+          import shutil,datetime,zoneinfo
+          local=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
+          assert not 6 <= local.hour < 10, 'Daily quiet hours'
+          free=shutil.disk_usage('.').free
+          print('remote_local_time',local.isoformat(),'free_bytes',free)
+          assert free>=13*1024**3
+          PY
       - uses: actions/checkout@v4
-
-      - name: Install pandoc + a PDF engine
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y pandoc wkhtmltopdf
-
-      - name: Assemble build dir + fetch figure
-        run: |
-          set -e
-          paper="${PAPER:-emc-surface-target-landscape}"
-          mkdir -p build
-          # ⚠ RESOLVED BY SEARCH, not by a fixed directory. Manuscripts moved into per-route
-          # subfolders on 2026-08-12, so the basename this workflow takes as input no longer sits
-          # at research/manuscripts/ — a hard-coded path would fail every dispatch.
-          src=$(find research/manuscripts -name "${paper}.md" -not -path "*/__pycache__/*" | head -1)
-          [ -n "$src" ] || { echo "no manuscript named ${paper}.md under research/manuscripts/"; exit 1; }
-          cp "$src" "build/${paper}.md"
-          git fetch origin modalities-cache || true
-          git show origin/modalities-cache:research/modalities/emc-surface-prioritization.png > build/emc-surface-prioritization.png 2>/dev/null || echo "figure not found (continuing without it)"
-
-      - name: Render DOCX (always) and PDF (best-effort)
-        working-directory: build
-        run: |
-          set -e
-          paper="${PAPER:-emc-surface-target-landscape}"
-          pandoc "${paper}.md" -o "${paper}.docx" --resource-path=.
-          pandoc "${paper}.md" -o "${paper}.pdf" --pdf-engine=wkhtmltopdf --resource-path=. || echo "PDF render failed (DOCX still produced)"
-          ls -la
-
-      - name: Upload built preprint + figure as artifact
-        uses: actions/upload-artifact@v4
         with:
-          name: preprint-${{ github.run_id }}
-          path: |
-            build/*.docx
-            build/*.pdf
-            build/*.png
-          if-no-files-found: warn
-          retention-days: 30
-
-      - name: Publish to preprint-cache branch
-        if: always()
+          sparse-checkout: research/release-candidates/cspg4-broad-20260919
+          fetch-depth: 1
+      - name: Prepare remote R reader
         run: |
-          set -e
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          mkdir -p "$RUNNER_TEMP/pp"
-          cp build/*.docx build/*.pdf build/*.png "$RUNNER_TEMP/pp/" 2>/dev/null || true
-          git fetch origin preprint-cache || true
-          if git show-ref --verify --quiet refs/remotes/origin/preprint-cache; then
-            git checkout -B preprint-cache origin/preprint-cache
-          else
-            git checkout --orphan preprint-cache
-            git rm -rf . >/dev/null 2>&1 || true
-          fi
-          mkdir -p preprints
-          cp "$RUNNER_TEMP"/pp/* preprints/ 2>/dev/null || true
-          git add preprints/ 2>/dev/null || true
-          git commit -m "Built preprint (${PAPER:-emc-surface-target-landscape})" || { echo "no changes"; exit 0; }
-          git push origin preprint-cache
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq r-base-core >/dev/null
+      - name: Extract exact frozen gene and specimen slice
+        run: python3 research/release-candidates/cspg4-broad-20260919/remote_openpedcan.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cspg4-openpedcan-${{ github.run_id }}
+          path: research/release-candidates/cspg4-broad-20260919/openpedcan-result/
+          if-no-files-found: error
+          retention-days: 30

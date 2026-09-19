@@ -1,0 +1,76 @@
+{
+  "utc": "2026-09-19T19:33:40.628019+00:00",
+  "timing": "Metadata-qualified freeze before any OpenPedCan CSPG4 values are inspected",
+  "version": "v15",
+  "selected_ids": [
+    "BS_0448A413",
+    "BS_1N9XZXGE",
+    "BS_1XJ73KBQ",
+    "BS_28GPVQAA",
+    "BS_2F5CPC8C",
+    "BS_36T79XQZ",
+    "BS_3ZGXMCJS",
+    "BS_67PX06P3",
+    "BS_7B9FZM3M",
+    "BS_7PER3D69",
+    "BS_8S86CM61",
+    "BS_AZN38B7V",
+    "BS_B47VJXKV",
+    "BS_DBEX7AG2",
+    "BS_JFEZA9KE",
+    "BS_M7TWXKXB",
+    "BS_P4D8Y3S8",
+    "BS_Q9V7A95C",
+    "BS_R4Y180DM",
+    "BS_WJGFDRWK",
+    "BS_XZTV0J8W",
+    "BS_Y5MKCBD1",
+    "BS_Z9ZS6ZS2",
+    "BS_11WY983P",
+    "BS_13AFE9QC",
+    "BS_3J85TTZM",
+    "BS_DHN6WDKG",
+    "BS_H6YSDEDB",
+    "BS_SFRQXM76"
+  ],
+  "selected_patient_count": 29,
+  "selection": "Tumor, RNA-Seq, Solid Tissue, explicit sarcoma/chordoma cancer groups; exclude TCGA/TARGET/PPTC; primary independent-specimen list preferred, then primary-plus only new participants. Exclude myeloid/histiocytic sarcoma and exact Treehouse CBTN donor duplicate. No additional eligible free-text sarcoma hits outside mapped groups in the independent metadata audit.",
+  "source_family": "PBTA, predominantly CNS-associated collection; not a general systemic sarcoma sampling frame",
+  "stage": "Primary list is a source selection label, not proof of untreated primary systemic tumor. Retain actual collection event. Primary-plus adds recurrence/progression/second malignancy context.",
+  "limits": "No confirmed EMC; no direct EMC inference. Global source overlap beyond verified IDs remains possible.",
+  "gene": "CSPG4",
+  "matrix_url": "https://s3.amazonaws.com/d3b-openaccess-us-east-1-prd-pbta/open-targets/v15/gene-expression-rsem-tpm-collapsed.rds",
+  "source_md5": "5e17af159401140c5946dd0517d03015",
+  "expected_compressed_bytes": 285361814,
+  "matrix_contract": "Confirm actual RDS row/column names and exactly one CSPG4 row; selected Kids_First_Biospecimen_ID columns exactly once. Only gene row and dimensions/identifiers exported.",
+  "units": "RSEM TPM from source collapsed gene matrix, pending actual source documentation and schema verification; retain assay strata",
+  "analysis": "Original diagnosis and collection event preserved, per-assay/per-diagnosis summaries and complete within-assay pairwise A, no new P value, no cross-study numerical pooling. All 29 remain a separately identified CNS-enriched context collection.",
+  "remote_required": ">=13GiB before bounded dependencies/output, >=10GiB after; no large matrix or runtime written to local C",
+  "metadata": [
+    {
+      "url": "https://s3.amazonaws.com/d3b-openaccess-us-east-1-prd-pbta/open-targets/v15/histologies.tsv",
+      "bytes": 21440380,
+      "sha256": "3527b0df49725d126904773a79677afb5b4c56b203123aeeb208400117a55e6d",
+      "utc": "2026-09-19T19:33:38.391277+00:00"
+    },
+    {
+      "url": "https://s3.amazonaws.com/d3b-openaccess-us-east-1-prd-pbta/open-targets/v15/independent-specimens.rnaseqpanel.primary.tsv",
+      "bytes": 1085526,
+      "sha256": "bf677d3d40e60cfb9b60311b175829a73a6d07fe30b36b73b8e0f33febab2e8e",
+      "utc": "2026-09-19T19:33:39.749283+00:00"
+    },
+    {
+      "url": "https://s3.amazonaws.com/d3b-openaccess-us-east-1-prd-pbta/open-targets/v15/independent-specimens.rnaseqpanel.primary-plus.tsv",
+      "bytes": 1165224,
+      "sha256": "7c8e8cee8912e35614a273d9b6f93f70c20eb87a5bca64f1a60d5a024ba3c6d7",
+      "utc": "2026-09-19T19:33:40.337944+00:00"
+    },
+    {
+      "url": "https://s3.amazonaws.com/d3b-openaccess-us-east-1-prd-pbta/open-targets/v15/md5sum.txt",
+      "bytes": 8493,
+      "sha256": "1b97c176ada9f660acc855f661689a29e27d860d04e13de910d28e2b1c30afdd",
+      "utc": "2026-09-19T19:33:40.619043+00:00"
+    }
+  ],
+  "metadata_subset_sha256": "d28b5b8d32cd4810dd0d52f57aea4d989af854ccdbd5074e0034c0f225549eaf"
+}
