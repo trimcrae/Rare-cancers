@@ -27,8 +27,8 @@
     "blocked": 2,
     "done": 203,
     "in_progress": 9,
-    "parked": 30,
-    "queued": 170,
+    "parked": 31,
+    "queued": 169,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -13956,7 +13956,7 @@
         "strategy": "ST-OCCUPANCY"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
       "parked_on": null,
       "parked_by_graph_status": null,
       "owner": null,
@@ -13968,8 +13968,8 @@
       "blocked_evidence": "RE-TESTED 2026-09-02 (s24-debt). systems/graph/blockers.json -> BLK-REACH-CATEGORICAL is kind 'scientific_uncertainty' — not a bench, not a person, not a dataset — and its retired_by_action is 'Re-run the reach enumeration under a criterion that passes its own positive control, and report the result as a rank rather than a verdict until one exists. $0.' That is the same sentence as this row's own action and as RT-COVALENT-PROBE.next.best_next_action, and RT-COVALENT-PROBE carries next.cost '$0', required_validation[0].feasible_today true and timing.recommendation pursue_now. ⭐ So the row is takeable by the loop today at $0. RT-COVALENT-PROBE.next.blocked_on was corrected in the same commit as this note (it claimed the $0 act was blocked by the thing the act retires). ⚠ Not taken here: this row is held by another seat (owner s23-live-research) and this seat's remit is the branch/ledger debt, not the reach enumeration.",
       "retry_budget": 3,
       "attempts": 2,
-      "last_evidence_utc": "2026-09-02",
-      "score": -56.3,
+      "last_evidence_utc": "2026-09-19T13:58:47.076312+00:00",
+      "score": -58.0,
       "score_inputs": {
         "live": false,
         "patient_path": "none",
@@ -13981,8 +13981,6 @@
         "cost_class": "cheap",
         "blocked_on_human": false,
         "fruitless_attempts": 0,
-        "age_factor": 0.1429,
-        "age_factor_as_of": "2026-09-04",
         "blocked_with_evidence": true
       },
       "claimed_utc": null,
@@ -14006,7 +14004,14 @@
         "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
         "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
       },
-      "_stall_classification": "(a) loop-doable today, $0"
+      "_stall_classification": "(a) loop-doable today, $0",
+      "_resolution": {
+        "date": "2026-09-19",
+        "status": "source_methods_question_complete_generic_calibration_deferred",
+        "evidence": "research/autonomy/cysteine-source-qualification-20260919/NOTE.md",
+        "reason": "The old request conflated quantified low reactivity with universal unreactivity. Primary figure-caption evidence supports a matched-assay comparison but not a transferable binary negative set. S56 remains adverse; no calibration or rerun performed.",
+        "reopen": "A specified prediction task with compatible structural inputs and an externally quantified assay-defined reference, or a concrete new source that resolves this fit. No new experiment is categorically required."
+      }
     },
     {
       "id": "AUT-113-11f2347b-f050ad8a",

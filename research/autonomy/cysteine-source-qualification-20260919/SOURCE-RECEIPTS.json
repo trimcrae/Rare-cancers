@@ -1,0 +1,42 @@
+{
+  "sources": [
+    {
+      "utc": "2026-09-19T13:53:47.288434+00:00",
+      "pmcid": "PMC10510411",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10510411/fullTextXML",
+      "http_status": 500,
+      "state": "not_read"
+    },
+    {
+      "utc": "2026-09-19T13:53:48.252810+00:00",
+      "pmcid": "PMC3058684",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3058684/fullTextXML",
+      "http_status": 500,
+      "state": "not_read"
+    }
+  ],
+  "initial_CysDB_API_attempt": "HTTP500; one bounded same-endpoint retry in this execution; no alternate authenticated route.",
+  "prior_PMC_HTML": "PMC HTML returned browser challenges, including an indexed-result open. No challenge interaction or credential use. Public repository XML read attempted.",
+  "successful_scoped_reads": [
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/21085121/",
+      "method": "web source text",
+      "observed_utc": "2026-09-19T13:54:00Z",
+      "scope": "Abstract and primary figure captions1-5; Fig1 concentration pairs and measured low/high-ratio peptides; Fig2 labeled high-ratio cysteines; Fig5 catalytic activity and IA labeling in designs. Full methods and supplements not read.",
+      "independent_review": "Read-only advisor independently confirmed captions1,2,5."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37119813/",
+      "method": "web indexed primary-record excerpt and abstract/figure-category text",
+      "scope": "Identification, intrinsic reactivity and ligandability categories. Full methods and numeric tables not read.",
+      "independent_review": "Advisor page open yielded no extractable text; this category statement rests on root inspection."
+    }
+  ],
+  "author_preprint_pdf": {
+    "url": "https://chemrxiv.org/engage/api-gateway/chemrxiv/assets/orp/resource/item/63edc76cfcfb27a31fdedfde/original/cys-db-a-human-cysteine-database-based-on-experimental-quantitative-chemoproteomics.pdf",
+    "initial_result": "Metadata reported PDF45pages; no full-text acceptance",
+    "subsequent_text_result": "HTTP403; stopped",
+    "numeric_table_read": false
+  },
+  "limits": "No dataset downloaded, full-text methods or supplementary table verified; no calibrated threshold or residue-level negative set delivered."
+}
