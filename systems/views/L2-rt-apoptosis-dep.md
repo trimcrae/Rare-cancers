@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ ready · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ SPLIT, AND THE TWO AXES DISAGREE (2026-08-09). Abundance: all five druggable guardians read LOWER in EMC on both platforms. Dependency: across the 91 screened sarcoma lines MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% ⛔ DENOMINATOR CORRECTED 2026-08-27: this grade said 176 sarcoma lines. 176 is the number of sarcoma MODELS in DepMap 24Q4; only 91 of them carry CRISPR gene-effect data, and every fraction here is computed over those 91. The repository caught this identical error in the MTAP/PRMT5 manuscript on 2026-08-09/10 -- the day after this grade was written -- and the correction never reached the graph. while BCL2 is in 2.2%. In this tumour class the guardian is not BCL-2 — which is what the route hypothesised, and what would explain this repository's own EMC result where BCL-2 inhibition was inactive alone and active only in combination.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ SPLIT, AND THE TWO AXES DISAGREE (2026-08-09). Abundance: all five druggable guardians read LOWER in EMC on both platforms. Dependency: across the 91 screened sarcoma lines MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% ⛔ DENOMINATOR CORRECTED 2026-08-27: this grade said 176 sarcoma lines. 176 is the number of sarcoma MODELS in DepMap 24Q4; only 91 of them carry CRISPR gene-effect data, and every fraction here is computed over those 91. The repository caught this identical error in the MTAP/PRMT5 manuscript on 2026-08-09/10 -- the day after this grade was written -- and the correction never reached the graph. while BCL2 is in 2.2%. In this tumour class the guardian is not BCL-2 — which is what the route hypothesised, and what would explain this repository's own EMC result where BCL-2 inhibition was inactive alone and active only in combination. Qualification 2026-09-19: these dependency fractions are from mixed sarcoma lines, not an EMC-specific dependency assay. The EMC combination observation does not validate the proposed guardian explanation; that remains a hypothesis.
 
 ## What has to land for this route to move
 
@@ -43,13 +43,14 @@ flowchart LR
 
 ## Scientific rationale
 
-This follows directly from a result the repository already holds and never pursued: BCL-2 inhibition was inactive alone and active only in combination in patient-derived models here. That pattern is the signature of dependence on a different member of the same family, and nobody has asked which one.
+The retained EMC models showed no venetoclax monotherapy response on validation and additive/synergistic responses in combinations with carfilzomib. Dependence on another anti-apoptotic family member is one hypothesis for further work, not a diagnostic signature established by that pattern. The existing mixed-sarcoma dependency data motivate a question but do not identify the guardian in EMC.
 
 ## Supporting evidence
 
 | ref | supports | strength |
 |---|---|---|
 | `ART-CENSUS-ROUTE-GRADING` | MCL1 and BCL2L1 are dependencies in most sarcoma lines while BCL2 is in almost none, which is the pattern the route predicted and is the axis abundance cannot measure | `class_inherited` |
+| `EV-BANGERTER-2023` | Source for the already-recorded EMC observation: the moderate venetoclax screen band did not reproduce as a monotherapy response in validation, while combinations with carfilzomib had additive/synergistic effects in the two retained models. This does not establish clinical benefit, selectivity or MCL1/BCL2L1 dependence in EMC. The grade category and next action are unchanged. | `direct` |
 
 ## Remaining unknowns
 
@@ -111,5 +112,11 @@ The class prior now points the same way as this repository's own unexplained EMC
 Put an MCL-1/BCL-xL arm in front of the group holding the two EMC models, alongside the PRMT5 ask.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 evidence:** [EV-BANGERTER-2023](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
 [← ST-DEPENDENCY](L1-st-dependency.md) · [← L0](L0-ecosystem.md)

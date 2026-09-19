@@ -57,10 +57,11 @@ A structural argument nobody here had made. Chimeric proteins are disproportiona
 |---|---|---|
 | `ART-CENSUS-ROUTE-GRADING` | the HSP90 machine and co-chaperones read higher in EMC on both platforms while the HSP70 arm and heat-shock response read lower — a split the general-stress reading does not predict | `direct` |
 | `ART-DEPMAP-SARCOMA-DEP` | the HSP90 paralogues are individually non-essential across sarcoma lines while the kinase-specific co-chaperone is near-essential, with no sarcoma selectivity for any of the three | `class_inherited` |
+| `EV-BANGERTER-2023` | PU-H71 has an unvalidated good ordinal viability band in one EMC model, USZ20-EMC1. This is disease-specific drug sensitivity, the existing category (d), not evidence that the fusion is an HSP90 client. No fusion-protein readout, therapeutic index or compound-specific concentration anchor is supplied by the inspected main text. The grade and next action are unchanged. | `class_inherited` |
 
 ## Remaining unknowns
 
-- Whether the chimera is a chaperone CLIENT, which is the route's actual premise and a co-immunoprecipitation question that no expression read can reach. ⛔ The literature was assessed on 2026-08-27 and NO FET-family fusion protein is a documented client: no binding assay exists for any FUS, EWSR1 or TAF15 fusion, and NR4A3 fusions have no chaperone literature at all. What does exist is dependence without binding — EWS::FLI1 protein falls on HSP90 inhibition and on knockdown of the co-chaperone SGT1. The assay is not the obstacle: AML1-ETO was shown to bind the chaperonin TRiC directly. See research/literature/fet-fusion-chaperone-clientship-2026-08-27.json.
+- Whether the EMC fusion is a chaperone client remains unresolved. The bounded 2026-08-27 review in research/literature/fet-fusion-chaperone-clientship-2026-08-27.json did not establish direct FET-fusion clientship within its inspected sources; it describes EWS::FLI1 protein depletion on chaperone-machine perturbation. The retained Bangerter EMC viability evidence now cited here supplies neither a fusion-binding assay nor a fusion-protein readout. Its presence corrects the old blanket claim of no NR4A3-fusion chaperone literature; neither evidence type establishes EMC fusion clientship.
 - Why the HSP90 and HSP70 arms move in opposite directions here, which is unexplained and is the reason this is not graded as support.
 - Whether any therapeutic index exists for this class — its clinical record is dominated by toxicity, and nothing here assumes otherwise.
 - Whether the two HSP90 paralogues are mutually redundant, which would make their individually low dependency scores an artefact of single-gene knockout rather than a statement about the chaperone — a dual-knockout question no public panel answers.
@@ -125,5 +126,11 @@ The decisive observation is whether the fusion is an HSP90 client, and that need
 Fetch IntAct/BioGRID dataset IM-22301, the deposited interaction set of the published human chaperone-interaction network (PMID 25036637), and record whether FUS, EWSR1 or TAF15 appear in its query panel at all — a $0 fetch, and the last cheap observation left on this route now that the FET-fusion clientship literature has been assessed and come back empty.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 evidence:** [EV-BANGERTER-2023](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
 [← ST-DEPENDENCY](L1-st-dependency.md) · [← L0](L0-ecosystem.md)
