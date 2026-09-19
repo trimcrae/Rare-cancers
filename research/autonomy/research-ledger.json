@@ -25,10 +25,10 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 202,
+    "done": 203,
     "in_progress": 9,
     "parked": 30,
-    "queued": 171,
+    "queued": 170,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -12270,7 +12270,7 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -12279,7 +12279,7 @@
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
+      "last_evidence_utc": "2026-09-19T10:25:30.531475+00:00",
       "filed_by": "preprint-review-2026-08-27",
       "depends_on_evidence": "BixBench3 (arXiv:2608.25286v1) Appendix Table 1, task 14 — TITLE ONLY, read 2026-08-27. Portfolio gap confirmed by $0 grep the same day: zero hits for 'feed-forward' or 'cofactor loop' in any markdown under research/ or systems/; RUNX2 appears only in accession-symbol-cache.json and a scraped journal index, never as a target.",
       "what": "READ ONE PAPER AND ASK ONE QUESTION. BixBench3's task 14 is built on 'RUNX2 inhibition disrupts a PAX3::FOXO1-RUNX2 feed-forward loop and dismantles oncogenic gene programs in fusion-positive rhabdomyosarcoma' — a transcription-factor-fusion sarcoma whose oncogenic program is dismantled by hitting a COFACTOR rather than the undruggable fusion. That is EMC's problem shape, and this repository has no vocabulary for it.\nWHAT TO DO, all $0: (1) resolve and read the source paper (its raw data are public — a BixBench3 inclusion criterion — and it published >=4 ground-truth derived artifacts, also a criterion); (2) ask whether any EWSR1::NR4A3 cofactor forms an analogous feed-forward loop, and whether that is answerable from the EMC expression data ALREADY on disk rather than needing new data; (3) grade it against RT-FUSION-OUTPUT, RT-TXN-CDK and RT-PARTNER-STRAT — is it a variant of one of those, or a route they do not cover?\n⛔ WEIGHT IT HONESTLY AND EXPECT A NULL. This is a paper TITLE in the appendix of an unrelated AI benchmark; nothing else has been read, PAX3::FOXO1 is not a FET fusion, and cross-fusion transfer is exactly the kind of analogy that reads as insight and dies on contact with the biology. The deliverable is a graded verdict either way — a clean 'no analogous loop is reported, and here is what would have shown one' is a full result under CLAUDE.md §0, not a failure. ⛔ DO NOT open a route on the title alone. Reading: research/method-watch-bixbench3-calibration.md §6",
@@ -12289,7 +12289,13 @@
         "age_factor_as_of": "2026-09-04"
       },
       "score": 29.1,
-      "_score_inherited_from_route": "RT-FUSION-OUTPUT"
+      "_score_inherited_from_route": "RT-FUSION-OUTPUT",
+      "closed_by": "root-bounded-primary-source-read-20260919",
+      "outcome": "Resolved and read primary preprint DOI10.1101/2025.07.21.665972. Reciprocal-regulation hypothesis retained within fusion-output evidence questions; present observational EMC inputs do not establish causal arrows. No RUNX2 nomination, new route, expression screen or manuscript. Main-text-only source and rescue/selectivity limitations explicit.",
+      "evidence_paths": [
+        "research/autonomy/cofactor-source-read-20260919/VERDICT.md",
+        "research/autonomy/cofactor-source-read-20260919/SOURCE-RECEIPT.json"
+      ]
     },
     {
       "id": "AUT-029",
