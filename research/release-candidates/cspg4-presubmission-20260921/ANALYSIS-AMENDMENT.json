@@ -1,0 +1,39 @@
+{
+  "utc": "2026-09-21T21:36:25.190803+00:00",
+  "status": "frozen before computation of new effects or intervals",
+  "authorization": "Author-requested adversarial presubmission hardening, September21",
+  "named_findings": [
+    "Leading pooled probability-of-superiority lacks an uncertainty interval for nine EMC specimens.",
+    "Source Malignant classification excludes clinically relevant GIST/DFSP/SFT; quantify one broader source-class sensitivity."
+  ],
+  "preserved_primary": "9 EMC versus393 source Malignant references/28labels, exact test and 11-gene adjustment unchanged",
+  "secondary_selection": "All eligible source Malignant OR Intermediate specimens, excluding EMC, melanoma and Spindle cell tumor NOS, retaining all existing recurrence/metastasis/previous-publication exclusions",
+  "metadata_expected": {
+    "EMC_n": 9,
+    "primary_reference_n": 393,
+    "inclusive_reference_n": 489,
+    "inclusive_reference_labels": 37
+  },
+  "estimates": [
+    "specimen-weighted A for primary and inclusive reference",
+    "equal-category-weighted A for inclusive reference; primary accepted estimate retained"
+  ],
+  "interval": {
+    "method": "Nominal95% two-sample specimen bootstrap, percentile interval using numpy.quantile(method=linear), resampling EMC and references independently with replacement at original sample sizes",
+    "replicates": 50000,
+    "seed": 20260921,
+    "generator": "numpy.random.default_rng PCG64; separate fresh same-seed generators for the two references; multinomial specimen weights applied to comparison matrix",
+    "quantiles": [
+      0.025,
+      0.975
+    ],
+    "qualifications": [
+      "approximate pointwise intervals conditional on observed specimen/reference design",
+      "No correction for retrospective target/reference selection, unknown patient overlap, unmeasured confounding, or incomplete population sampling",
+      "All pair dependencies retained by specimen resampling; pairs are never resampled independently",
+      "No interpretation of difference between overlapping-reference estimates as a tested effect"
+    ]
+  },
+  "no_new_tests": "No added P values, thresholds, cohort search, year-effect claims or significance-based comparator selection",
+  "display": "Figure1 shows all38Malignant/Intermediate labels includingEMC, with primary and added categories identified; Figure2 displays four previously accepted same-histology EMC contrasts across assays. External LMS heatmap moves to FigureS2."
+}

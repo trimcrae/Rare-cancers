@@ -1,4 +1,4 @@
-name: CSPG4 broad cohort draft work
+name: CSPG4 presubmission draft checks
 on:
   workflow_dispatch:
     inputs:
@@ -9,88 +9,54 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: cspg4-broad-${{ github.ref }}-${{ inputs.paper }}
+  group: cspg4-presubmission-${{ github.ref }}-${{ inputs.paper }}
   cancel-in-progress: false
 jobs:
-  openpedcan:
-    if: inputs.paper == 'emc-cspg4-openpedcan-20260919'
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Check remote storage and permitted time
-        run: |
-          python3 - <<'PY'
-          import shutil,datetime,zoneinfo
-          local=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
-          assert not 6 <= local.hour < 10, 'Daily quiet hours'
-          free=shutil.disk_usage('.').free
-          print('remote_local_time',local.isoformat(),'free_bytes',free)
-          assert free>=13*1024**3
-          PY
-      - uses: actions/checkout@v4
-        with:
-          sparse-checkout: research/release-candidates/cspg4-broad-20260919
-          fetch-depth: 1
-      - name: Prepare remote R reader
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq r-base-core >/dev/null
-      - name: Extract exact frozen gene and specimen slice
-        run: python3 research/release-candidates/cspg4-broad-20260919/remote_openpedcan.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: cspg4-openpedcan-${{ github.run_id }}
-          path: research/release-candidates/cspg4-broad-20260919/openpedcan-result/
-          if-no-files-found: error
-          retention-days: 30
   render:
-    if: inputs.paper == 'emc-cspg4-draft-render-20260919' || inputs.paper == 'emc-cspg4-final-qa-20260919' || inputs.paper == 'emc-cspg4-si-wrap-20260919'
+    if: inputs.paper == 'emc-cspg4-render-20260921'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Check remote storage and permitted time
+      - name: Check runner storage and permitted time
         run: |
           python3 - <<'PY'
           import shutil,datetime,zoneinfo
-          local=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
-          assert not 6 <= local.hour < 10, 'Daily quiet hours'
+          now=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
+          assert not 6<=now.hour<10
           free=shutil.disk_usage('.').free
-          print('remote_local_time',local.isoformat(),'free_bytes',free)
           assert free>=13*1024**3
+          print(now.isoformat(),free)
           PY
       - uses: actions/checkout@v4
         with:
-          sparse-checkout: research/release-candidates/cspg4-broad-20260919
+          sparse-checkout: research/release-candidates/cspg4-presubmission-20260921
           fetch-depth: 1
-      - name: Prepare remote document dependencies
+      - name: Prepare established renderer
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq libreoffice-writer poppler-utils fonts-liberation >/dev/null
           python3 -m pip install --quiet pdf2image pypdf lxml Pillow
-      - name: Render exact candidate and check text preservation
-        env:
-          CSPG4_DOCUMENT_ONLY: ${{ inputs.paper == 'emc-cspg4-si-wrap-20260919' && 'CSPG4-supplement.docx' || '' }}
-        run: python3 research/release-candidates/cspg4-broad-20260919/remote_render.py
+      - name: Render exact documents and verify text preservation
+        run: python3 research/release-candidates/cspg4-presubmission-20260921/remote_render.py
       - uses: actions/upload-artifact@v4
         with:
-          name: cspg4-render-${{ github.run_id }}
-          path: research/release-candidates/cspg4-broad-20260919/render-result/
+          name: cspg4-presubmission-render-${{ github.run_id }}
+          path: research/release-candidates/cspg4-presubmission-20260921/render-result/
           if-no-files-found: error
           retention-days: 30
-  normal-preflight:
-    if: inputs.paper == 'emc-cspg4-final-qa-20260919' || inputs.paper == 'emc-cspg4-normal-final-20260919'
+  full-preflight:
+    if: inputs.paper == 'emc-cspg4-full-20260921'
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
-      - name: Check remote headroom and permitted time
+      - name: Check headroom and permitted time
         run: |
           python3 - <<'PY'
           import shutil,datetime,zoneinfo
-          local=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
-          assert not 6 <= local.hour < 10
-          free=shutil.disk_usage('.').free
-          print(local.isoformat(),free)
-          assert free>=13*1024**3
+          now=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
+          assert not 6<=now.hour<10
+          assert shutil.disk_usage('.').free>=13*1024**3
+          print(now.isoformat(),shutil.disk_usage('.').free)
           PY
       - uses: actions/checkout@v4
         with:
@@ -99,70 +65,30 @@ jobs:
         run: |
           command -v uv >/dev/null 2>&1 || pip install -q uv
           ./scripts/dev-setup.sh --if-needed
-      - name: Satisfy the observed schema registry dependency
-        run: |
-          uv pip install --target "$RUNNER_TEMP/cspg4-schema-deps" 'jsonschema>=4.18' referencing
-          export PYTHONPATH="$RUNNER_TEMP/cspg4-schema-deps${PYTHONPATH:+:$PYTHONPATH}"
-          echo "PYTHONPATH=$PYTHONPATH" >> "$GITHUB_ENV"
-          python3 -c 'import sys,jsonschema,referencing; from referencing import Registry,Resource; from jsonschema import Draft202012Validator; Draft202012Validator({},registry=Registry()); print(sys.executable,jsonschema.__file__,referencing.__file__)'
-      - name: Run normal preflight on exact draft candidate
+          uv pip install --system --python "$(command -v python3)" --break-system-packages 'jsonschema>=4.18' referencing
+          python3 -c 'from referencing import Registry; from jsonschema import Draft202012Validator; Draft202012Validator({},registry=Registry())'
+      - name: Run unscoped FULL preflight on exact candidate
         id: gate
+        env:
+          PREFLIGHT_FULL: '1'
         run: |
-          mkdir -p /tmp/cspg4-normal-check
-          git rev-parse HEAD > /tmp/cspg4-normal-check/candidate.txt
+          mkdir -p /tmp/cspg4-full-check
+          git rev-parse HEAD > /tmp/cspg4-full-check/candidate.txt
           set +e
-          python3 systems/systems_check.py --check > /tmp/cspg4-normal-check/systems.log 2>&1
-          ./scripts/preflight.sh > /tmp/cspg4-normal-check/preflight.log 2>&1
+          ./scripts/preflight.sh > /tmp/cspg4-full-check/preflight.log 2>&1
           rc=$?
           set -e
-          echo "$rc" > /tmp/cspg4-normal-check/exit-code.txt
-          echo "EXIT=$rc" >> /tmp/cspg4-normal-check/preflight.log
+          echo "$rc" > /tmp/cspg4-full-check/exit-code.txt
+          echo "EXIT=$rc" >> /tmp/cspg4-full-check/preflight.log
           echo "code=$rc" >> "$GITHUB_OUTPUT"
-          df -B1 . > /tmp/cspg4-normal-check/storage-after.txt
+          df -B1 . > /tmp/cspg4-full-check/storage-after.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cspg4-normal-preflight-${{ github.run_id }}
-          path: /tmp/cspg4-normal-check/
+          name: cspg4-presubmission-full-${{ github.run_id }}
+          path: /tmp/cspg4-full-check/
           if-no-files-found: error
           retention-days: 30
-      - name: Preserve actual failure status
+      - name: Preserve actual exit status
         if: always()
         run: test "${{ steps.gate.outputs.code }}" = 0
-
-  system-diagnostic:
-    if: inputs.paper == 'emc-cspg4-system-diagnostic-20260919'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - name: Check remote headroom and time
-        run: |
-          python3 - <<'PY'
-          import shutil,datetime,zoneinfo
-          t=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
-          assert not 6 <= t.hour < 10
-          assert shutil.disk_usage('.').free >= 13*1024**3
-          print(t.isoformat(),shutil.disk_usage('.').free)
-          PY
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Prepare established environment
-        run: |
-          command -v uv >/dev/null 2>&1 || pip install -q uv
-          ./scripts/dev-setup.sh --if-needed
-      - name: Capture full systems diagnostic
-        run: |
-          mkdir -p /tmp/cspg4-system-diagnostic
-          git rev-parse HEAD > /tmp/cspg4-system-diagnostic/candidate.txt
-          set +e
-          python3 -c 'import sys,jsonschema,yaml;print(sys.executable,jsonschema.__file__,yaml.__file__)' > /tmp/cspg4-system-diagnostic/imports.log 2>&1
-          python3 systems/systems_check.py --check > /tmp/cspg4-system-diagnostic/systems.log 2>&1
-          echo "$?" > /tmp/cspg4-system-diagnostic/exit-code.txt
-          cat /tmp/cspg4-system-diagnostic/systems.log
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: cspg4-system-diagnostic-${{ github.run_id }}
-          path: /tmp/cspg4-system-diagnostic/
-          retention-days: 30
