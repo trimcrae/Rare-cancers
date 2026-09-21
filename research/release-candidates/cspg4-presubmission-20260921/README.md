@@ -1,3 +1,16 @@
+---
+id: "DOC-CSPG4-PRESUBMISSION-20260921-README"
+title: "CSPG4 author-review reproducibility package — September 21, 2026"
+level: "L3"
+kind: "runbook"
+status: "live"
+canonical_for: []
+purpose: "Document the independently reviewed CSPG4 author-review paper and its supporting preparation."
+scope: "Exploratory descriptive RNA analysis and current author-review materials; source qualifications and all adverse findings retained. No journal submission or author certification."
+audience: ["external reviewers", "collaborators", "maintainers"]
+date: "2026-09-21"
+last_verified: "2026-09-21"
+---
 # CSPG4 author-review reproducibility package — September 21, 2026
 
 This revision retains the accepted September 19 primary, historical and external data without changing their measurements or accepted test outputs. See README-september19.md for that original package.

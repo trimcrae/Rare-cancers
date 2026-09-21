@@ -55,7 +55,15 @@ def table(doc,rows):
         pr=t.rows[i]._tr.get_or_add_trPr();no=OxmlElement('w:cantSplit');pr.append(no)
         if i==0:repeat=OxmlElement('w:tblHeader');pr.append(repeat)
     doc.add_paragraph().paragraph_format.space_after=Pt(0)
+def prose_content(content):
+    if content.startswith('---\n'):
+        end=content.find('\n---\n',4)
+        if end<0:raise ValueError('Unclosed repository metadata')
+        return content[end+5:]
+    return content
+
 def markdown(doc,content,supp=False):
+    content=prose_content(content)
     lines=content.splitlines();i=0;abstract=False;references=False
     while i<len(lines):
         line=lines[i].strip();i+=1

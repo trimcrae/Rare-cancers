@@ -1,3 +1,16 @@
+---
+id: "DOC-CSPG4-PRESUBMISSION-20260921-JOURNAL-PACKAGE-AUTHOR-COMPLETION"
+title: "Author review and journal handoff"
+level: "L3"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Document the independently reviewed CSPG4 author-review paper and its supporting preparation."
+scope: "Exploratory descriptive RNA analysis and current author-review materials; source qualifications and all adverse findings retained. No journal submission or author certification."
+audience: ["external reviewers", "collaborators", "maintainers"]
+date: "2026-09-21"
+last_verified: "2026-09-21"
+---
 # Author review and journal handoff
 
 This is the September 21 author-review revision, prepared for Cancer Genetics as an original research article. It has not been submitted to the journal.

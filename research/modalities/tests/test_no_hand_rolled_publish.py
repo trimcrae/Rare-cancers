@@ -63,7 +63,6 @@ KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("abfe-progress-aws.yml", "snap"),
     ("aso-breakpoint-scan.yml", "run"),
     ("aso-offtarget.yml", "run"),
-    ("build-preprint.yml", "build"),
     ("deepternary-blind-controls.yml", "audit"),
     ("deepternary-inspect-io.yml", "inspect"),
     ("deepternary-qualify.yml", "qualify"),

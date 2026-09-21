@@ -1,3 +1,16 @@
+---
+id: "DOC-CSPG4-PRESUBMISSION-20260921-JOURNAL-PACKAGE-REVIEW-REPORT"
+title: "CSPG4 pre-submission review — September 21, 2026"
+level: "L3"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Document the independently reviewed CSPG4 author-review paper and its supporting preparation."
+scope: "Exploratory descriptive RNA analysis and current author-review materials; source qualifications and all adverse findings retained. No journal submission or author certification."
+audience: ["external reviewers", "collaborators", "maintainers"]
+date: "2026-09-21"
+last_verified: "2026-09-21"
+---
 # CSPG4 pre-submission review — September 21, 2026
 
 The revised draft retains the original nine-EMC versus 393-reference result and adds two explicitly dated exploratory analyses. Independent scientific review at actual ultra reasoning effort, numerical review, and source review found no substantiated scientific or numerical blocker within their scopes. These are AI-assisted internal reviews, not journal peer review or external expert endorsement.

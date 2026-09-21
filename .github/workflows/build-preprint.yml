@@ -47,7 +47,7 @@ jobs:
   full-preflight:
     if: inputs.paper == 'emc-cspg4-full-20260921'
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 90
     steps:
       - name: Check headroom and permitted time
         run: |
@@ -69,6 +69,21 @@ jobs:
           export PYTHONPATH="$RUNNER_TEMP/cspg4-schema-deps${PYTHONPATH:+:$PYTHONPATH}"
           echo "PYTHONPATH=$PYTHONPATH" >> "$GITHUB_ENV"
           python3 -c 'from referencing import Registry; from jsonschema import Draft202012Validator; Draft202012Validator({},registry=Registry())'
+      - name: Check the observed repository guards before FULL
+        run: |
+          mkdir -p /tmp/cspg4-full-check
+          git rev-parse HEAD > /tmp/cspg4-full-check/candidate.txt
+          set +e
+          python3 systems/systems_check.py --check > /tmp/cspg4-full-check/systems.log 2>&1
+          sysrc=$?
+          pytest -q research/modalities/tests/test_lint_citations.py::test_the_ledger_does_not_anchor_itself research/modalities/tests/test_lint_citations.py::test_the_repository_currently_passes research/modalities/tests/test_no_hand_rolled_publish.py::test_a_registered_entry_cannot_outlive_the_defect_it_names --tb=short > /tmp/cspg4-full-check/observed-guards.log 2>&1
+          guardrc=$?
+          set -e
+          echo "$sysrc" > /tmp/cspg4-full-check/systems-exit.txt
+          echo "$guardrc" > /tmp/cspg4-full-check/observed-guards-exit.txt
+          cat /tmp/cspg4-full-check/systems.log
+          cat /tmp/cspg4-full-check/observed-guards.log
+          test "$sysrc" = 0 && test "$guardrc" = 0
       - name: Run unscoped FULL preflight on exact candidate
         id: gate
         env:
@@ -77,8 +92,8 @@ jobs:
           mkdir -p /tmp/cspg4-full-check
           git rev-parse HEAD > /tmp/cspg4-full-check/candidate.txt
           set +e
-          ./scripts/preflight.sh > /tmp/cspg4-full-check/preflight.log 2>&1
-          rc=$?
+          ./scripts/preflight.sh 2>&1 | tee /tmp/cspg4-full-check/preflight.log
+          rc=${PIPESTATUS[0]}
           set -e
           echo "$rc" > /tmp/cspg4-full-check/exit-code.txt
           echo "EXIT=$rc" >> /tmp/cspg4-full-check/preflight.log

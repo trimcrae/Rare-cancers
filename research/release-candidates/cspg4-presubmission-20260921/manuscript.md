@@ -1,3 +1,16 @@
+---
+id: "DOC-CSPG4-PRESUBMISSION-20260921-MANUSCRIPT"
+title: "CSPG4 RNA across sarcoma types with an expanded comparison of extraskeletal myxoid chondrosarcoma"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Document the independently reviewed CSPG4 author-review paper and its supporting preparation."
+scope: "Exploratory descriptive RNA analysis and current author-review materials; source qualifications and all adverse findings retained. No journal submission or author certification."
+audience: ["external reviewers", "collaborators", "maintainers"]
+date: "2026-09-21"
+last_verified: "2026-09-21"
+---
 # CSPG4 RNA across sarcoma types with an expanded comparison of extraskeletal myxoid chondrosarcoma
 
 **Author.** Tristan D. McRae

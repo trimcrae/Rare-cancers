@@ -1,3 +1,16 @@
+---
+id: "DOC-CSPG4-PRESUBMISSION-20260921-SUPPLEMENT"
+title: "Supplementary information for CSPG4 RNA across sarcoma types"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Document the independently reviewed CSPG4 author-review paper and its supporting preparation."
+scope: "Exploratory descriptive RNA analysis and current author-review materials; source qualifications and all adverse findings retained. No journal submission or author certification."
+audience: ["external reviewers", "collaborators", "maintainers"]
+date: "2026-09-21"
+last_verified: "2026-09-21"
+---
 # Supplementary information for CSPG4 RNA across sarcoma types
 
 This supplement distinguishes the preserved original analysis, the expanded same-source comparison and the new public-source characterization. The original protocols and computations remain available in the Research Square version 1 archive. New calculations and metadata corrections are supplied with this revision; the old archive is not presented as containing them.
