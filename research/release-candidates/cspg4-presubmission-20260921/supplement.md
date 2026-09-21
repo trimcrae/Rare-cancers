@@ -153,38 +153,38 @@ Classes and labels follow the original source. A compares EMC with the row categ
 | Desmoid | Benign | 11 | 7.11 | 5.10–7.84 | 1.000 |
 | Desmoplastic fibroblastoma | Benign | 2 | 24.68 | 18.71–30.65 | 0.833 |
 | Desmoplastic small round cell tumor | Malignant | 7 | 3.15 | 2.10–4.82 | 1.000 |
-| Endometrial stromal sarcoma | Malignant | 2 | 4.81 | 4.38–5.25 | 1.000 |
+| Endometrial stromal sarcoma | Malignant | 2 | 4.82 | 4.38–5.25 | 1.000 |
 | Epithelioid sarcoma | Malignant | 6 | 6.36 | 3.72–9.62 | 0.981 |
 | Ewing sarcoma | Malignant | 3 | 5.34 | 4.67–6.76 | 1.000 |
 | Extraskeletal myxoid chondrosarcoma | Malignant | 9 | 54.18 | 41.41–63.98 | — |
 | GIST | Intermediate | 14 | 59.24 | 24.10–85.81 | 0.500 |
-| Granular cell tumor | Intermediate | 2 | 2.81 | 2.68–2.95 | 1.000 |
+| Granular cell tumor | Intermediate | 2 | 2.82 | 2.68–2.95 | 1.000 |
 | Hamartomatous fibroma | Benign | 2 | 28.58 | 22.98–34.19 | 0.778 |
 | Hibernoma | Benign | 16 | 10.33 | 6.50–13.14 | 0.910 |
 | Inflammatory rhabdomyoblastic tumor | Malignant | 5 | 1.94 | 1.62–2.18 | 0.956 |
 | LMS | Malignant | 39 | 18.98 | 6.85–35.21 | 0.775 |
 | Lipoblastoma | Benign | 7 | 23.42 | 15.57–55.52 | 0.635 |
 | Lipoma | Benign | 20 | 43.97 | 25.14–67.62 | 0.539 |
-| Lipoma, spindle cell/pleomorphic | Benign | 10 | 24.21 | 13.34–30.66 | 0.711 |
+| Lipoma, spindle cell/pleomorphic | Benign | 10 | 24.22 | 13.34–30.66 | 0.711 |
 | Low-grade fibromyxoid sarcoma | Malignant | 13 | 6.11 | 5.26–8.50 | 0.966 |
 | MPNST | Malignant | 18 | 27.80 | 10.87–50.12 | 0.722 |
 | Melanoma | Malignant | 5 | 22.16 | 19.59–71.77 | 0.511 |
 | Myoepithelial tumor | Malignant | 2 | 4.38 | 3.76–4.99 | 1.000 |
 | Myxofibrosarcoma | Malignant | 60 | 12.36 | 5.70–21.97 | 0.854 |
-| Myxoid liposarcoma | Malignant | 14 | 19.69 | 13.06–25.79 | 0.786 |
+| Myxoid liposarcoma | Malignant | 14 | 19.68 | 13.06–25.79 | 0.786 |
 | Myxoid pleomorphic liposarcoma | Malignant | 3 | 14.68 | 13.85–56.09 | 0.556 |
 | Myxoinflammatory fibroblastic sarcoma/hemosiderotic fibrolipomatous tumor | Malignant | 7 | 7.92 | 5.27–15.05 | 0.937 |
 | Myxoma Class 1 | Benign | 5 | 12.01 | 10.29–12.17 | 0.867 |
-| Myxoma Class 2 | Benign | 4 | 11.11 | 7.70–15.86 | 0.917 |
+| Myxoma Class 2 | Benign | 4 | 11.10 | 7.70–15.86 | 0.917 |
 | Neurofibroma | Benign | 4 | 66.26 | 30.57–103.73 | 0.444 |
 | Neurofibroma, atypical | Benign | 1 | 119.11 | 119.11–119.11 | 0.111 |
 | Neurofibroma, diffuse | Benign | 1 | 281.63 | 281.63–281.63 | 0.000 |
 | Neurofibroma, plexiform | Benign | 2 | 78.35 | 42.73–113.97 | 0.556 |
 | Nodular fasciitis | Benign | 3 | 29.14 | 23.79–32.67 | 0.778 |
-| Ossifying fibromyxoid tumor | Intermediate | 8 | 8.23 | 5.41–14.03 | 0.917 |
+| Ossifying fibromyxoid tumor | Intermediate | 8 | 8.24 | 5.41–14.03 | 0.917 |
 | Osteosarcoma | Malignant | 2 | 18.46 | 18.23–18.70 | 0.778 |
 | Pleomorphic hyalinizing angiectatic tumor | Intermediate | 2 | 14.24 | 8.22–20.25 | 0.889 |
-| Pleomorphic liposarcoma | Malignant | 8 | 22.03 | 8.31–66.57 | 0.681 |
+| Pleomorphic liposarcoma | Malignant | 8 | 22.02 | 8.31–66.57 | 0.681 |
 | Pseudomyogenic hemangioendothelioma | Intermediate | 4 | 23.95 | 19.00–32.40 | 0.750 |
 | Rhabdomyosarcoma, NOS | Malignant | 1 | 18.72 | 18.72–18.72 | 0.778 |
 | Rhabdomyosarcoma, alveolar | Malignant | 7 | 8.47 | 4.40–9.88 | 0.968 |
