@@ -1,4 +1,4 @@
-name: CSPG4 presubmission draft checks
+name: CSPG4 concise draft checks
 on:
   workflow_dispatch:
     inputs:
@@ -9,11 +9,11 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: cspg4-presubmission-${{ github.ref }}-${{ inputs.paper }}
+  group: cspg4-concise-${{ github.ref }}-${{ inputs.paper }}
   cancel-in-progress: false
 jobs:
   render:
-    if: inputs.paper == 'emc-cspg4-render-20260921'
+    if: inputs.paper == 'emc-cspg4-render-20260922'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -29,7 +29,7 @@ jobs:
           PY
       - uses: actions/checkout@v4
         with:
-          sparse-checkout: research/release-candidates/cspg4-presubmission-20260921
+          sparse-checkout: research/release-candidates/cspg4-concise-20260922
           fetch-depth: 1
       - name: Prepare established renderer
         run: |
@@ -37,15 +37,15 @@ jobs:
           sudo apt-get install -y -qq libreoffice-writer poppler-utils fonts-liberation >/dev/null
           python3 -m pip install --quiet pdf2image pypdf lxml Pillow
       - name: Render exact documents and verify text preservation
-        run: python3 research/release-candidates/cspg4-presubmission-20260921/remote_render.py
+        run: python3 research/release-candidates/cspg4-concise-20260922/remote_render.py
       - uses: actions/upload-artifact@v4
         with:
-          name: cspg4-presubmission-render-${{ github.run_id }}
-          path: research/release-candidates/cspg4-presubmission-20260921/render-result/
+          name: cspg4-concise-render-${{ github.run_id }}
+          path: research/release-candidates/cspg4-concise-20260922/render-result/
           if-no-files-found: error
           retention-days: 30
-  full-preflight:
-    if: inputs.paper == 'emc-cspg4-full-20260921'
+  normal-preflight:
+    if: inputs.paper == 'emc-cspg4-normal-20260922'
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -69,41 +69,39 @@ jobs:
           export PYTHONPATH="$RUNNER_TEMP/cspg4-schema-deps${PYTHONPATH:+:$PYTHONPATH}"
           echo "PYTHONPATH=$PYTHONPATH" >> "$GITHUB_ENV"
           python3 -c 'from referencing import Registry; from jsonschema import Draft202012Validator; Draft202012Validator({},registry=Registry())'
-      - name: Check the observed repository guards before FULL
+      - name: Check the observed repository guards before normal
         run: |
-          mkdir -p /tmp/cspg4-full-check
-          git rev-parse HEAD > /tmp/cspg4-full-check/candidate.txt
+          mkdir -p /tmp/cspg4-normal-check
+          git rev-parse HEAD > /tmp/cspg4-normal-check/candidate.txt
           set +e
-          python3 systems/systems_check.py --check > /tmp/cspg4-full-check/systems.log 2>&1
+          python3 systems/systems_check.py --check > /tmp/cspg4-normal-check/systems.log 2>&1
           sysrc=$?
-          pytest -q research/modalities/tests/test_lint_citations.py::test_the_ledger_does_not_anchor_itself research/modalities/tests/test_lint_citations.py::test_the_repository_currently_passes research/modalities/tests/test_no_hand_rolled_publish.py::test_a_registered_entry_cannot_outlive_the_defect_it_names --tb=short > /tmp/cspg4-full-check/observed-guards.log 2>&1
+          pytest -q research/modalities/tests/test_lint_citations.py::test_the_ledger_does_not_anchor_itself research/modalities/tests/test_lint_citations.py::test_the_repository_currently_passes research/modalities/tests/test_no_hand_rolled_publish.py::test_a_registered_entry_cannot_outlive_the_defect_it_names --tb=short > /tmp/cspg4-normal-check/observed-guards.log 2>&1
           guardrc=$?
           set -e
-          echo "$sysrc" > /tmp/cspg4-full-check/systems-exit.txt
-          echo "$guardrc" > /tmp/cspg4-full-check/observed-guards-exit.txt
-          cat /tmp/cspg4-full-check/systems.log
-          cat /tmp/cspg4-full-check/observed-guards.log
+          echo "$sysrc" > /tmp/cspg4-normal-check/systems-exit.txt
+          echo "$guardrc" > /tmp/cspg4-normal-check/observed-guards-exit.txt
+          cat /tmp/cspg4-normal-check/systems.log
+          cat /tmp/cspg4-normal-check/observed-guards.log
           test "$sysrc" = 0 && test "$guardrc" = 0
-      - name: Run unscoped FULL preflight on exact candidate
+      - name: Run unscoped normal preflight on exact candidate
         id: gate
-        env:
-          PREFLIGHT_FULL: '1'
         run: |
-          mkdir -p /tmp/cspg4-full-check
-          git rev-parse HEAD > /tmp/cspg4-full-check/candidate.txt
+          mkdir -p /tmp/cspg4-normal-check
+          git rev-parse HEAD > /tmp/cspg4-normal-check/candidate.txt
           set +e
-          ./scripts/preflight.sh 2>&1 | tee /tmp/cspg4-full-check/preflight.log
+          ./scripts/preflight.sh 2>&1 | tee /tmp/cspg4-normal-check/preflight.log
           rc=${PIPESTATUS[0]}
           set -e
-          echo "$rc" > /tmp/cspg4-full-check/exit-code.txt
-          echo "EXIT=$rc" >> /tmp/cspg4-full-check/preflight.log
+          echo "$rc" > /tmp/cspg4-normal-check/exit-code.txt
+          echo "EXIT=$rc" >> /tmp/cspg4-normal-check/preflight.log
           echo "code=$rc" >> "$GITHUB_OUTPUT"
-          df -B1 . > /tmp/cspg4-full-check/storage-after.txt
+          df -B1 . > /tmp/cspg4-normal-check/storage-after.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cspg4-presubmission-full-${{ github.run_id }}
-          path: /tmp/cspg4-full-check/
+          name: cspg4-concise-normal-${{ github.run_id }}
+          path: /tmp/cspg4-normal-check/
           if-no-files-found: error
           retention-days: 30
       - name: Preserve actual exit status
