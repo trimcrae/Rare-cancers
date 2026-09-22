@@ -43,7 +43,7 @@ Here, we expand the same-source reference to eligible source-defined malignant c
 
 ### Study design and reference groups
 
-This exploratory public-data reanalysis extends an earlier fixed 11-gene study.[4,6] We retained its specimen exclusions, gene panel and array-probe mappings. The broader comparison was specified on 19 September 2026 after the earlier findings were known. An amendment on 21 September added bootstrap uncertainty and a reference including intermediate tumors. The supplement records the analysis chronology and original protocol.
+This exploratory public-data reanalysis extends an earlier fixed 11-gene study.[4,6] We retained its specimen exclusions, gene panel and array-probe mappings. The broader comparison was specified on 19 September 2026 after the earlier findings were known. An amendment on 21 September specified bootstrap uncertainty and a reference including intermediate tumors before their computation. The supplement records the analysis chronology and original protocol.
 
 The Hofvander collection provides gene-level transcripts per million (TPM), original diagnoses and specimen metadata.[3] We used the original diagnoses and excluded specimens with a nonblank recurrence or metastasis flag. Of 13 source EMC specimens, three previously reported cases and one local recurrence were excluded, leaving nine. Source Table S1 marked all nine as fusion-positive. Filtered fusion records specify seven NR4A3 fusions, one RT-PCR-verified FUS::NR4A2 fusion and no crosswalked fusion for the remaining specimen (Table S6). Membership follows the source EMC diagnosis.
 
@@ -63,7 +63,7 @@ We summarized expression by median, quartiles and range. The comparison score A=
 
 The primary test used the exact rank-sum distribution for every allocation of nine EMC labels among 402 observations, preserving ties. Its two-sided tail includes sums at least as far from the null expectation as the observed sum. This tests an exchangeable-label, common-distribution null for the observational groups. Bonferroni correction covers the retained 11 genes. Approximate 95% percentile bootstrap intervals for both references used 50,000 independent resamples of specimens within each group at its original size, seed 20260921, with linear-interpolation quantiles.[11] No new hypothesis test was added for the broader reference.
 
-Earlier comparator-specific and sequencing-year-conditioned analyses were retained as sensitivities. External summaries and pairwise A values were calculated within designated source strata; comparisons across sources required at least five profiles per diagnosis in each stratum. External measurements were not pooled, and no external P values were calculated. Code, source digests, selection ledgers and complete results accompany the data archive.
+Earlier comparator-specific and sequencing-year-conditioned analyses were retained as sensitivities. External summaries and pairwise A values were calculated within designated source strata. Cross-source descriptive ranges included only within-source contrasts with at least five profiles per diagnosis in each contributing stratum. External measurements were not pooled, and no external P values were calculated. Code, source digests, selection ledgers and complete results accompany the data archive.
 
 ## Results
 
