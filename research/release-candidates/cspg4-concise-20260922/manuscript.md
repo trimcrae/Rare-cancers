@@ -23,7 +23,7 @@ Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com. ORCID:
 
 **Background:** Extraskeletal myxoid chondrosarcoma (EMC) is a rare soft-tissue sarcoma. Chondroitin sulfate proteoglycan 4 (CSPG4) is a cell-surface protein whose expression has been studied across sarcoma types. We examined where EMC lies within a broader tissue RNA landscape and whether its differences from named sarcomas recur across datasets.
 
-**Methods:** An exploratory extension of a fixed 11-gene analysis compared nine EMC specimens with 393 other specimens from 28 source-defined malignant tumor categories in one RNA-sequencing cohort. All 644 eligible specimens, including other tumor categories, remained in the descriptive atlas. We used an exact rank-sum permutation test with Bonferroni correction for 11 genes, retained the original array comparisons, and characterized additional public collections separately by source and measurement scale.
+**Methods:** An exploratory analysis of a fixed 11-gene panel compared nine EMC specimens with 393 other specimens from 28 source-defined malignant tumor categories in one RNA-sequencing cohort. All 644 eligible specimens, including other tumor categories, remained in the descriptive atlas. We used an exact rank-sum permutation test with Bonferroni correction for 11 genes, evaluated the array comparisons, and characterized additional public collections separately by source and measurement scale.
 
 **Results:** Median CSPG4 was 54.18 TPM in EMC and 11.87 TPM in the defined malignant reference. The probability of higher EMC expression, allowing half credit for ties, was 0.846; exact two-sided P=0.000130 and adjusted P=0.00143. CSPG4 was higher than low-grade fibromyxoid sarcoma in both RNA sequencing and arrays, with comparison scores of 0.966 and 1.000. Gastrointestinal stromal tumors and dermatofibrosarcoma protuberans had slightly higher medians than EMC in the same RNA-sequencing source. External collections expanded histologic context but supplied no additional explicitly labeled EMC comparison.
 
@@ -35,25 +35,25 @@ Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com. ORCID:
 
 Extraskeletal myxoid chondrosarcoma (EMC) is a rare soft-tissue sarcoma characteristically associated with NR4A3 rearrangements.[1] Public expression studies contain few EMC specimens, so comparisons often rely on a small selection of other sarcomas. A difference observed in those comparisons leaves an important question: where does EMC lie within the broader range of tumor types?
 
-CSPG4 encodes a cell-surface proteoglycan studied across sarcomas. Boudin and colleagues described variation in its expression and associations with clinical and immune features in a large soft-tissue sarcoma collection.[2] An earlier fixed-panel analysis identified CSPG4 through comparisons of nine EMC specimens with myxoid liposarcoma, low-grade fibromyxoid sarcoma (LGFMS) and synovial sarcoma, with additional comparisons in an array cohort.[3,4,5]
+CSPG4 encodes a cell-surface proteoglycan studied across sarcomas. Boudin and colleagues described variation in its expression and associations with clinical and immune features in a large soft-tissue sarcoma collection.[2] Public RNA-sequencing and array collections provide small EMC groups alongside other sarcoma types, allowing direct comparisons within each assay.[3,4]
 
-Here, we expand the same-source reference to eligible source-defined malignant categories and examine how the result changes when intermediate tumors are included. We also compare tumor types shared across RNA sequencing and arrays and describe CSPG4 expression in additional public collections. These analyses place the available EMC specimens within a wider RNA expression landscape and distinguish recurring differences from patterns that depend on the chosen reference.
+Here, we compare EMC with eligible source-defined malignant categories and examine how the result changes when intermediate tumors are included. We also compare tumor types shared across RNA sequencing and arrays and describe CSPG4 expression in additional public collections. These analyses place the available EMC specimens within a wider RNA expression landscape and distinguish recurring differences from patterns that depend on the chosen reference.
 
 ## Methods
 
 ### Study design and reference groups
 
-This exploratory public-data reanalysis extends an earlier fixed 11-gene study.[4,6] We retained its specimen exclusions, gene panel and array-probe mappings. The broader comparison was specified on 19 September 2026 after the earlier findings were known. An amendment on 21 September specified bootstrap uncertainty and a reference including intermediate tumors before their computation. The supplement records the analysis chronology and original protocol.
+We evaluated CSPG4 within a fixed panel of 11 genes: CD276, SSTR2, PRAME, FAP, CD248, CSPG4, MSLN, L1CAM, GPC3, ALPP and CDH17. The broader reference and uncertainty analyses were specified after the initial comparator-specific results were known. Supplementary Information describes the analysis chronology, specimen exclusions, probe mappings and comparator-specific decision rule.
 
 The Hofvander collection provides gene-level transcripts per million (TPM), original diagnoses and specimen metadata.[3] We used the original diagnoses and excluded specimens with a nonblank recurrence or metastasis flag. Of 13 source EMC specimens, three previously reported cases and one local recurrence were excluded, leaving nine. Source Table S1 marked all nine as fusion-positive. Filtered fusion records specify seven NR4A3 fusions, one RT-PCR-verified FUS::NR4A2 fusion and no crosswalked fusion for the remaining specimen (Table S6). Membership follows the source EMC diagnosis.
 
 The retained collection contains 644 specimens across 60 original diagnosis labels. The primary reference comprises 393 non-EMC specimens from 28 categories classified as Malignant by the source, excluding melanoma and unclassified spindle-cell tumors. A broader reference adds 96 specimens from nine Intermediate categories, including gastrointestinal stromal tumor (GIST) and dermatofibrosarcoma protuberans (DFSP), for 489 references across 37 labels. All eligible specimens remain in the descriptive atlas.
 
-GSE24369 provides six EMC biopsies, 17 LGFMS, six myxofibrosarcomas (MFS), six desmoids, five solitary fibrous tumors (SFT) and two pooled muscle RNAs.[5] We retained the released GPL6244 robust multi-array average log2 signals and CSPG4 transcript cluster 7990545. Lesion stage was not established. Comparisons were calculated within each dataset, keeping TPM and array signals separate.
+GSE24369 provides six EMC biopsies, 17 low-grade fibromyxoid sarcomas (LGFMS), six myxofibrosarcomas (MFS), six desmoids, five solitary fibrous tumors (SFT) and two pooled muscle RNAs.[4] We retained the released GPL6244 robust multi-array average log2 signals and CSPG4 transcript cluster 7990545. Lesion stage was not established. Comparisons were calculated within each dataset, keeping TPM and array signals separate.
 
 ### Additional public collections
 
-The source search, completed on 19 September, examined public sarcoma compendia, their original accessions and identifiable EMC-containing studies. Records required a usable CSPG4 measurement and traceable diagnosis. We retained source-specific measurement scales: Treehouse Tumor Compendium 25.01 log2(TPM+1), Boudin et al. published normalized log2 values, GSE213065 Salmon TPM, GSE234092 featureCounts-derived counts per million (CPM), and OpenPedCan v15 gene TPM.[2,7,8,9,10] The supplement lists unresolved or inaccessible EMC sources.
+The source search, completed on 19 September, examined public sarcoma compendia, their original accessions and identifiable EMC-containing studies. Records required a usable CSPG4 measurement and traceable diagnosis. We retained source-specific measurement scales: Treehouse Tumor Compendium 25.01 log2(TPM+1), Boudin et al. published normalized log2 values, GSE213065 Salmon TPM, GSE234092 featureCounts-derived counts per million (CPM), and OpenPedCan v15 gene TPM.[2,5,6,7,8] The supplement lists unresolved or inaccessible EMC sources.
 
 Selection used diagnosis and identity metadata rather than CSPG4 values. Treehouse profiles were grouped by donor identifier or conservative specimen prefix; Boudin records were joined to original GEO metadata. TCGA records already represented in Treehouse were omitted from Boudin summaries. GSE213065 contributed one earliest-timepoint T1a profile per explicit patient ID; GSE234092 retained its 69 repository records as a separately defined collection. OpenPedCan used independent-specimen lists, excluded known Treehouse donor aliases and kept one provenance-uncertain parental tumor outside clinical summaries. Analyses retained library-method and original-source strata. Counts describe profiles within resources, not a globally unique patient cohort; detailed selection and overlap ledgers are supplied.
 
@@ -61,9 +61,9 @@ Selection used diagnosis and identity metadata rather than CSPG4 values. Treehou
 
 We summarized expression by median, quartiles and range. The comparison score A=P(EMC>reference)+0.5P(tie) averages all specimen pairs; A=0.5 denotes neutral ordering. The primary estimate weights reference specimens equally. We also averaged the category-specific scores to give each reference category equal weight and examined deletion of individual EMC specimens.
 
-The primary test used the exact rank-sum distribution for every allocation of nine EMC labels among 402 observations, preserving ties. Its two-sided tail includes sums at least as far from the null expectation as the observed sum. This tests an exchangeable-label, common-distribution null for the observational groups. Bonferroni correction covers the retained 11 genes. Approximate 95% percentile bootstrap intervals for both references used 50,000 independent resamples of specimens within each group at its original size, seed 20260921, with linear-interpolation quantiles.[11] No new hypothesis test was added for the broader reference.
+The primary test used the exact rank-sum distribution for every allocation of nine EMC labels among 402 observations, preserving ties. Its two-sided tail includes sums at least as far from the null expectation as the observed sum. This tests an exchangeable-label, common-distribution null for the observational groups. Bonferroni correction covers the retained 11 genes. Approximate 95% percentile bootstrap intervals for both references used 50,000 independent resamples of specimens within each group at its original size, seed 20260921, with linear-interpolation quantiles.[9] No new hypothesis test was added for the broader reference.
 
-Earlier comparator-specific and sequencing-year-conditioned analyses were retained as sensitivities. External summaries and pairwise A values were calculated within designated source strata. Cross-source descriptive ranges included only within-source contrasts with at least five profiles per diagnosis in each contributing stratum. External measurements were not pooled, and no external P values were calculated. Code, source digests, selection ledgers and complete results accompany the data archive.
+Comparator-specific and sequencing-year-conditioned analyses were evaluated as sensitivities. External summaries and pairwise A values were calculated within designated source strata. Cross-source descriptive ranges included only within-source contrasts with at least five profiles per diagnosis in each contributing stratum. External measurements were not pooled, and no external P values were calculated. Code, source digests, selection ledgers and complete results accompany the data archive.
 
 ## Results
 
@@ -95,7 +95,7 @@ EMC lay toward the higher end of CSPG4 RNA expression in both the primary malign
 
 Boudin et al. established broad CSPG4 heterogeneity and prognostic and immune associations across soft-tissue sarcomas.[2] This study adds the explicit placement of a rare histology and a paired view of the available direct EMC comparisons. The additional public collections broadened histologic coverage and showed both recurring and divergent relative patterns. They supplied no further explicitly labeled EMC group, leaving independent replication of the EMC comparison unresolved.
 
-The nine EMC specimens remain the main limit on precision, reflected in the wide bootstrap intervals. Small comparison groups also make median rankings uncertain. The references reflect source classifications and sampling rather than population incidence or a comprehensive clinical taxonomy. Equal-category estimates change the weights but retain this dependence. This exploratory extension followed the identification of CSPG4 as a gene of interest. Correction for 11 genes addresses that family of tests; retrospective selection and unmeasured confounding remain outside both that correction and the approximate bootstrap intervals.
+The nine EMC specimens remain the main limit on precision, reflected in the wide bootstrap intervals. Small comparison groups also make median rankings uncertain. The references reflect source classifications and sampling rather than population incidence or a comprehensive clinical taxonomy. Equal-category estimates change the weights but retain this dependence. The broader exploratory comparison followed the identification of CSPG4 as a gene of interest. Correction for 11 genes addresses that family of tests; retrospective selection and unmeasured confounding remain outside both that correction and the approximate bootstrap intervals.
 
 Incomplete specimen identities, clinical histories and historical overlap further limit interpretation. Assays and collections differ in quantification, library construction, disease stage and tissue composition, so cross-source measurements were kept separate. Uniform computational processing alone does not make them directly comparable. Array lesion stage and independence from historical collections remain incompletely established. The bounded source search and unresolved collections are documented in the supplement.
 
@@ -105,7 +105,7 @@ Finally, bulk RNA measures contributions from malignant and nonmalignant cells. 
 ## Data code and declarations
 
 
-**Data availability.** The original Hofvander data are available through https://doi.org/10.5281/zenodo.17866629. Original array data and annotations are available as GEO GSE24369 and GPL6244. Additional inputs are Treehouse Tumor Compendium 25.01, Boudin et al. Supplementary Table S8, GEO GSE213065 and GSE234092, and OpenPedCan v15. The revision’s data and code package, including exact source URLs, selection ledgers, digests and specimen values, is available at https://github.com/trimcrae/Rare-cancers/blob/1f9f087e2dd666f721bed6c20b8b64d72203c12e/research/release-candidates/cspg4-presubmission-20260921/CSPG4-data-code.zip. The original reproducibility archive remains at https://assets-eu.researchsquare.com/files/rs-10959636/v1/b95606f3a3799c60c8ac4434.zip. That historical archive does not contain the new expanded analyses. Source-specific attribution and reuse terms continue to apply.
+**Data availability.** The original Hofvander data are available through https://doi.org/10.5281/zenodo.17866629. Original array data and annotations are available as GEO GSE24369 and GPL6244. Additional inputs are Treehouse Tumor Compendium 25.01, Boudin et al. Supplementary Table S8, GEO GSE213065 and GSE234092, and OpenPedCan v15. The data and code package, including exact source URLs, selection ledgers, digests and specimen values, is available at https://github.com/trimcrae/Rare-cancers/blob/14fea9109d7f329fe9319f1af58560707c938027/research/release-candidates/cspg4-concise-20260922/journal-package/CSPG4-data-code.zip. Source-specific attribution and reuse terms continue to apply.
 
 **Research scope.** This study reanalyzes public data and includes no newly collected participant specimens or intervention.
 
@@ -125,21 +125,17 @@ Finally, bulk RNA measures contributions from malignant and nonmalignant cells. 
 
 [3] Hofvander J, Köster J, Sydow S, Piccinelli P, Vult von Steyern F, Tsagkozis P, et al. Transcriptomic Subgroups in Soft Tissue Tumors Correlate with Morphologic Subtype, Genomic Features, and Outcome. Clin Cancer Res. 2026;32:1825–1834. https://doi.org/10.1158/1078-0432.CCR-25-3740.
 
-[4] McRae TD. Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts with comparator and sequencing-year limits. Research Square. 2026. Version 1 and accompanying code/data supplement. https://doi.org/10.21203/rs.3.rs-10959636/v1.
+[4] National Center for Biotechnology Information. GEO series GSE24369 and platform GPL6244. https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369; https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL6244.
 
-[5] National Center for Biotechnology Information. GEO series GSE24369 and platform GPL6244. https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369; https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL6244.
+[5] Beale HC, Learned K, Kephart ET, et al. Consistently processed RNA sequencing data from 50 sources enriched for pediatric data. Sci Data. 2025;12:1134. https://doi.org/10.1038/s41597-025-05376-z.
 
-[6] McRae TD. EMC research program expression-panel definitions. Pinned revision 81d2931733aae640220c042039d0c53efed1690a. https://github.com/trimcrae/Rare-cancers/blob/81d2931733aae640220c042039d0c53efed1690a/research/modalities/emc_expression_panels.py.
+[6] Subramanian A, Nemat-Gorgani N, Ellis-Caleo TJ, et al. Sarcoma microenvironment cell states and ecosystems are associated with prognosis and predict response to immunotherapy. Nat Cancer. 2024;5:642–658. https://doi.org/10.1038/s43018-024-00743-y.
 
-[7] Beale HC, Learned K, Kephart ET, et al. Consistently processed RNA sequencing data from 50 sources enriched for pediatric data. Sci Data. 2025;12:1134. https://doi.org/10.1038/s41597-025-05376-z.
+[7] Seligson ND, Asmann YW, Almerey T, et al. Molecular markers of proliferation, DNA repair, and immune infiltration defines high-risk subset of resectable retroperitoneal sarcomas. Surg Oncol. 2024;56:102125. https://doi.org/10.1016/j.suronc.2024.102125.
 
-[8] Subramanian A, Nemat-Gorgani N, Ellis-Caleo TJ, et al. Sarcoma microenvironment cell states and ecosystems are associated with prognosis and predict response to immunotherapy. Nat Cancer. 2024;5:642–658. https://doi.org/10.1038/s43018-024-00743-y.
+[8] Geng Z, Wafula E, Corbett RJ, et al. The Open Pediatric Cancer Project. GigaScience. 2025;14:giaf093. https://doi.org/10.1093/gigascience/giaf093.
 
-[9] Seligson ND, Asmann YW, Almerey T, et al. Molecular markers of proliferation, DNA repair, and immune infiltration defines high-risk subset of resectable retroperitoneal sarcomas. Surg Oncol. 2024;56:102125. https://doi.org/10.1016/j.suronc.2024.102125.
-
-[10] Geng Z, Wafula E, Corbett RJ, et al. The Open Pediatric Cancer Project. GigaScience. 2025;14:giaf093. https://doi.org/10.1093/gigascience/giaf093.
-
-[11] Efron B. Bootstrap methods: another look at the jackknife. Ann Statist. 1979;7:1–26. https://doi.org/10.1214/aos/1176344552.
+[9] Efron B. Bootstrap methods: another look at the jackknife. Ann Statist. 1979;7:1–26. https://doi.org/10.1214/aos/1176344552.
 
 ## Figure legends
 
