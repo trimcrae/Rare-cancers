@@ -1,13 +1,65 @@
 {
   "_what": "Actions runs found `pending` with ZERO jobs \u2014 they hold a concurrency lock and execute nothing. Written on every tick, cancelling nothing included.",
   "_why": "Measured 2026-08-01: a selcal `launch` sat pending 19 min with 0 jobs and blocked the group. `launch` is what re-places a dead host, so the lane looked healthy while every re-placement was silently swallowed (CLAUDE.md \u00a76 \u2014 holding silently).",
-  "utc": "2026-09-22T15:22:55Z",
+  "utc": "2026-09-22T21:31:24Z",
   "threshold_min": 10.0,
   "readable": true,
   "in_progress_readable": true,
-  "pending_seen": [],
-  "wedged": [],
-  "cancelled": [],
+  "pending_seen": [
+    {
+      "run": 35786889952,
+      "name": "Ternary leg watchdog (session-independent)",
+      "jobs": 0,
+      "age_min": 2.6
+    },
+    {
+      "run": 35770727269,
+      "name": "Cross-lane staleness watch \u2014 has any lane gone stale, and is",
+      "jobs": 0,
+      "age_min": 153.0
+    },
+    {
+      "run": 35770515517,
+      "name": "Account-keyed central reaper \u2014 destroy hosts no lane will",
+      "jobs": 0,
+      "age_min": 154.9
+    }
+  ],
+  "wedged": [
+    {
+      "run": 35770727269,
+      "name": "Cross-lane staleness watch \u2014 has any lane gone stale, and is",
+      "age_min": 153.0
+    },
+    {
+      "run": 35770515517,
+      "name": "Account-keyed central reaper \u2014 destroy hosts no lane will",
+      "age_min": 154.9
+    }
+  ],
+  "cancelled": [
+    {
+      "run": 35770515517,
+      "name": "Account-keyed central reaper \u2014 destroy hosts no lane will",
+      "age_min": 154.9,
+      "why": "pending 154.9 min with 0 jobs AND no other run of this workflow in progress, so nothing can be legitimately holding a group it shares \u2014 no step ran, nothing rented, nothing to lose"
+    }
+  ],
   "cancel_failed": [],
-  "spared": []
+  "spared": [
+    {
+      "run": 35786889952,
+      "name": "Ternary leg watchdog (session-independent)",
+      "jobs": 0,
+      "age_min": 2.6,
+      "why": "only 2.6 min old; below the 10 min threshold"
+    },
+    {
+      "run": 35770727269,
+      "name": "Cross-lane staleness watch \u2014 has any lane gone stale, and is",
+      "jobs": 0,
+      "age_min": 153.0,
+      "why": "another run of this workflow is in progress, so this one may be legitimately queued behind it \u2014 REPORTED, not cancelled. Cancelling a queued supervision re-arm would leave a fleet unwatched."
+    }
+  ]
 }
