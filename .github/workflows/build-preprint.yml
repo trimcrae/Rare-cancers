@@ -14,7 +14,7 @@ concurrency:
 jobs:
   render:
     if: inputs.paper == 'emc-cspg4-render-20260922'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:
       - name: Check runner storage and permitted time
@@ -46,7 +46,7 @@ jobs:
           retention-days: 30
   normal-preflight:
     if: inputs.paper == 'emc-cspg4-normal-20260922'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 90
     steps:
       - name: Check headroom and permitted time
