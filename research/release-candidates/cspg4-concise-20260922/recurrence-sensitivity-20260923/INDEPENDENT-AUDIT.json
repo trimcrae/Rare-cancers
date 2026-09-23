@@ -1,0 +1,45 @@
+{
+  "utc": "2026-09-23T10:45:29.727019+00:00",
+  "reviewer": "cspg4_exclusions_year_audit",
+  "mode": "Independent read-only source and numerical audit",
+  "status": "PASS",
+  "method": "Exact Decimal sorted-reference bisect pair counts, independent of the root pairwise implementation",
+  "recurrence_source": {
+    "id": "5081-14",
+    "TableS1_row": 196,
+    "source_flag": "Samplef=LR",
+    "footnote_row": 714,
+    "CSPG4_TPM": "29.38",
+    "fusion": "Yes",
+    "uniquely_mapped_reads_millions": "27.57",
+    "revised_diagnosis": null
+  },
+  "results": {
+    "all13_median_TPM": "48.92",
+    "quartiles_TPM": [
+      "29.38",
+      "58.20"
+    ],
+    "range_TPM": [
+      "5.99",
+      "207.08"
+    ],
+    "primary393": {
+      "wins": 4133,
+      "ties": 0,
+      "losses": 976,
+      "pairs": 5109,
+      "A": "4133/5109"
+    },
+    "broader489": {
+      "wins": 4986,
+      "ties": 0,
+      "losses": 1371,
+      "pairs": 6357,
+      "A": "4986/6357"
+    }
+  },
+  "preservation": "All704 extracted CSPG4 values match original matrix; fixed393/489reference memberships and original9/12scores reproduced; new inputs byte-identical to accepted inputs.",
+  "limitations": "One recurrence does not establish a general recurrence effect. Descriptive sensitivity, no new P value or interval.",
+  "device": "Quiet file/code only; no prohibited UI or rendering."
+}
