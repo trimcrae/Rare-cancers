@@ -101,13 +101,14 @@ jobs:
           cat /tmp/cspg4-normal-check/systems.log
           cat /tmp/cspg4-normal-check/observed-guards.log
           test "$sysrc" = 0 && test "$guardrc" = 0
-      - name: Run unscoped normal preflight on exact candidate
+      - name: Run unscoped FULL normal preflight on exact candidate
         id: gate
         run: |
           mkdir -p /tmp/cspg4-normal-check
           git rev-parse HEAD > /tmp/cspg4-normal-check/candidate.txt
           set +e
-          ./scripts/preflight.sh 2>&1 | tee /tmp/cspg4-normal-check/preflight.log
+          unset PREFLIGHT_PAPER SKIP_TESTS
+          PREFLIGHT_FULL=1 ./scripts/preflight.sh 2>&1 | tee /tmp/cspg4-normal-check/preflight.log
           rc=${PIPESTATUS[0]}
           set -e
           echo "$rc" > /tmp/cspg4-normal-check/exit-code.txt
