@@ -7,7 +7,7 @@ status: "live"
 canonical_for: []
 purpose: "Record the bounded audit findings and exact verification evidence."
 scope: "Completed bibliographic and claim-support audit of all19 main/SI entries and eight supplemental leads."
-audience: ["maintainers", "author"]
+audience: ["maintainers", "collaborators"]
 date: "2026-09-23"
 last_verified: "2026-09-23"
 ---

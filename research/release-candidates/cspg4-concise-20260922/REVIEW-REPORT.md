@@ -7,7 +7,7 @@ status: "historical"
 canonical_for: []
 purpose: "Record the bounded audit findings and exact verification evidence."
 scope: "Prior accepted September22 concise and all12-primary draft; retained historical receipt before the all13 and reference corrections."
-audience: ["maintainers", "author"]
+audience: ["maintainers", "collaborators"]
 date: "2026-09-23"
 last_verified: "2026-09-23"
 history_only: true
