@@ -21,7 +21,7 @@ The 11-gene panel was inherited from a manually curated assessment of proposed t
 
 Myxoid liposarcoma (MLPS), low-grade fibromyxoid sarcoma (LGFMS) and synovial sarcoma were investigator-selected for morphological and diagnostic relevance. No scoring system established them as the three closest EMC mimics. The array comparisons were determined by available tumor types: LGFMS, MFS, desmoid and SFT were present in both collections. Broader references instead applied the source-class rules to every eligible category. The full atlas preserves all 60 labels, including the categories outside those references.
 
-The panel and initial comparator rule were fixed before inspection of Hofvander target values, but earlier array findings were already known. The broader reference and uncertainty analyses were later exploratory extensions; the study was not preregistered. Source selection used diagnosis and identity metadata, not favorable CSPG4 expression. The source search was completed on 19 September 2026. Dated plans, amendments, identity corrections and complete historical results are retained in the data archive, including the author-requested all-12-primary-EMC exclusion sensitivity of 22 September 2026.
+The panel and initial comparator rule were fixed before inspection of Hofvander target values, but earlier array findings were already known. The broader reference and uncertainty analyses were later exploratory extensions; the study was not preregistered. Source selection used diagnosis and identity metadata, not favorable CSPG4 expression. The source search was completed on 19 September 2026. Dated plans, amendments, identity corrections and complete historical results are retained in the data archive, including the author-requested all-12-primary-EMC sensitivity of 22 September 2026 and all-13-EMC sensitivity of 23 September 2026.
 
 ## Table S1 Source inventory and independent-patient limits
 
@@ -48,7 +48,16 @@ The retained EMC IDs are 11881-19, 3371-22, 3372-22, 4716-22, 4840-13, 5149-18, 
 | 536-00 | 199 | MDB9736:7; 2017 case 49, row 56 | Reduce known patient overlap with arrays |
 | 5081-14 | 196 | Samplef=LR; footnote f defines local recurrence | Apply the primary-lesion rule consistently |
 
-The three overlapping cases are valid source-primary tumors. Their CSPG4 values are 36.56, 53.49 and 5.99 TPM, respectively. Including them gives 12 primary EMCs with median 51.205 TPM (51.21 rounded), quartiles 30.6125 and 59.645 TPM, and range 5.99–207.08 TPM. Against the unchanged 393 references, 3,810 of 4,716 pairs favor EMC and none tie, giving A=0.8078880. Against the unchanged 489 references, 4,606 of 5,868 pairs favor EMC and none tie, giving A=0.7849352. This descriptive sensitivity tests the effect of the overlap-reduction policy; the local recurrence remains excluded. The original nine-case analysis is preserved. No patient date is inferred from an identifier suffix.
+The three overlapping cases are valid source-primary tumors. Their CSPG4 values are 36.56, 53.49 and 5.99 TPM, respectively. Including them gives 12 primary EMCs with median 51.205 TPM (51.21 rounded), quartiles 30.6125 and 59.645 TPM, and range 5.99–207.08 TPM. Against the unchanged 393 references, 3,810 of 4,716 pairs favor EMC and none tie, giving A=0.8078880. Against the unchanged 489 references, 4,606 of 5,868 pairs favor EMC and none tie, giving A=0.7849352. This descriptive sensitivity tests the effect of the overlap-reduction policy among primary lesions. The original nine-case analysis is preserved. No patient date is inferred from an identifier suffix.
+
+A second exclusion sensitivity includes all 13 original EMC specimens by adding local recurrence 5081-14, whose CSPG4 value is 29.38 TPM. The 13-specimen median is 48.92 TPM, with quartiles 29.38 and 58.20 TPM and range 5.99–207.08 TPM. Against the unchanged 393 references, 4,133 of 5,109 pairs favor EMC and none tie (A=0.8089646). Against the unchanged 489 references, 4,986 of 6,357 pairs favor EMC and none tie (A=0.7843322). The reference specimens remain primary lesions in both comparisons. These results show the effect of retaining this one recurrence; they do not estimate a general effect of recurrence on CSPG4.
+
+| EMC analysis set | n | Median TPM | A vs 393 references | A vs 489 references |
+|---|---:|---:|---:|---:|
+| Overlap-reduced primary group | 9 | 54.18 | 0.8464801 | 0.8243581 |
+| All source-primary EMC | 12 | 51.21 | 0.8078880 | 0.7849352 |
+| All source EMC, including local recurrence | 13 | 48.92 | 0.8089646 | 0.7843322 |
+
 
 The TPM source SHA256 is b0d665d1bd1d96ace1faf66cc5a4d7ab7e41cb487c8f0f61734f102a1f9a7af3. The original GSE24369 family gzip SHA256 is 98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37. Source precision is preserved. The expanded specimen file contains all 7,084 reported values for the 11 genes across 644 specimens; zeros remain zeros and are not interpreted as biological absence.
 

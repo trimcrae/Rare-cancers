@@ -30,6 +30,7 @@ def table(doc,rows):
     rows=[[v.strip() for v in r.strip('|').split('|')] for r in rows if not re.fullmatch(r'[\s|:\-]+',r)]
     t=doc.add_table(rows=1,cols=len(rows[0]));t.alignment=WD_TABLE_ALIGNMENT.CENTER;t.autofit=False
     if len(rows[0])==6: widths=[2.53,1.08,.36,.72,1.23,.58]
+    elif len(rows[0])==5 and rows[0][0]=='EMC analysis set':widths=[2.50,.35,.90,1.50,1.50]
     elif len(rows[0])==4 and rows[0][0]=='Gene':widths=[1.0,1.5,2.0,2.0]
     elif len(rows[0])==4 and rows[0][1]=='Hofvander S1 row':widths=[.8,.9,2.35,2.75]
     elif len(rows[0])==4 and rows[0][0]=='Specimen ID':widths=[.90,1.45,.55,3.40]
