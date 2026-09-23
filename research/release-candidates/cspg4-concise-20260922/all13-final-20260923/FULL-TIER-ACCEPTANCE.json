@@ -1,0 +1,39 @@
+{
+  "utc": "2026-09-23T14:41:10.866758+00:00",
+  "status": "PASS",
+  "run_id": 35869099409,
+  "candidate": "26f257a5aceacead2e1a44bfb7089fcd3687b51e",
+  "source": "NORMAL-COLLECTION.json",
+  "preflight_log_sha256": "66973a45a98006f5045e0b8603e762a2a7d34dd5f850d1402c21c300b208cecd",
+  "artifact_sha256": "d6d9430efaa97697d953f08be11102b1f7211a59d0e821373743b7ff8818bc86",
+  "actual_unscoped_FULL_banner": true,
+  "clean_exact_PINNED_SHA": true,
+  "all_recorded_exits_zero": true,
+  "suite_headings": [
+    "== pytest (modalities: FULL, PREFLIGHT_FULL=1) ==",
+    "== pytest (manuscripts: endpoints, systems map, pooling, submission citations) ==",
+    "== pytest (pure-logic suites nothing else runs: the selector's contract + the loop's instruments + the systems model) =="
+  ],
+  "actual_suite_summaries": [
+    "8402 passed, 55 skipped, 146 warnings in 516.61s (0:08:36)",
+    "2009 passed, 3 skipped, 24 warnings in 2440.03s (0:40:40)",
+    "1851 passed, 1 skipped, 1 warning, 20 subtests passed in 118.25s (0:01:58)"
+  ],
+  "total_passed": 12262,
+  "total_skipped": 59,
+  "additional_subtests_passed": 20,
+  "test_failures": 0,
+  "limits": [
+    "Skipped tests and warnings remain as reported; this is not zero-skips coverage.",
+    "Repository-wide historical citation/residue advisories remain; displayed retracted-source advisories concern other papers, not this CSPG4 manuscript.",
+    "Selector validation was re-stamped only after all gates and the clean candidate verdict; that derived runner file was not included in the selected artifact."
+  ],
+  "guard_logic_and_failure_baselines_unchanged": true,
+  "fast_only_run35866980558_not_counted_as_FULL": true,
+  "independent_review": {
+    "reviewer": "/root/cspg4_targeting_context",
+    "status": "PASS",
+    "actual_log_raw_exits_and_sha256_inspected": true,
+    "suite_counts_and_governance_execution_confirmed": true
+  }
+}
