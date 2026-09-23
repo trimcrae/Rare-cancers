@@ -21,7 +21,7 @@ concurrency:
 jobs:
   render:
     if: inputs.paper == 'emc-cspg4-render-20260922'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - name: Check runner storage and permitted time
@@ -39,6 +39,10 @@ jobs:
         with:
           sparse-checkout: research/release-candidates/cspg4-concise-20260922
           fetch-depth: 1
+      - name: Prepare isolated runner Python
+        run: |
+          python3 -m venv "$RUNNER_TEMP/cspg4-runner-venv"
+          echo "$RUNNER_TEMP/cspg4-runner-venv/bin" >> "$GITHUB_PATH"
       - name: Prepare established renderer
         run: |
           sudo apt-get update -qq
@@ -54,7 +58,7 @@ jobs:
           retention-days: 30
   normal-preflight:
     if: inputs.paper == 'emc-cspg4-normal-20260922'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
       - name: Check headroom and permitted time
@@ -70,6 +74,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Prepare isolated runner Python
+        run: |
+          python3 -m venv "$RUNNER_TEMP/cspg4-runner-venv"
+          echo "$RUNNER_TEMP/cspg4-runner-venv/bin" >> "$GITHUB_PATH"
       - name: Prepare established gate environment
         run: |
           command -v uv >/dev/null 2>&1 || pip install -q uv
