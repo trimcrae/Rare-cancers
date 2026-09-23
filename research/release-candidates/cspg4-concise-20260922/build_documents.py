@@ -31,6 +31,7 @@ def table(doc,rows):
     t=doc.add_table(rows=1,cols=len(rows[0]));t.alignment=WD_TABLE_ALIGNMENT.CENTER;t.autofit=False
     if len(rows[0])==6: widths=[2.53,1.08,.36,.72,1.23,.58]
     elif len(rows[0])==4 and rows[0][0]=='Gene':widths=[1.0,1.5,2.0,2.0]
+    elif len(rows[0])==4 and rows[0][1]=='Hofvander S1 row':widths=[.8,.9,2.35,2.75]
     elif len(rows[0])==4 and rows[0][0]=='Specimen ID':widths=[.90,1.45,.55,3.40]
     elif len(rows[0])==4:widths=[1.02,1.65,1.10,2.9]
     else:widths=[1.50,2.0,3.27]
