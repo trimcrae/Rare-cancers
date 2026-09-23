@@ -105,9 +105,9 @@ The expanded-reference conditional sensitivity used 199,999 permutations, seed 2
 
 The GPL6244 transcript clusters were CD276 7984743, SSTR2 8009526, PRAME 8074856, FAP 8056257, CD248 7949588, CSPG4 7990545, MSLN 7992071, L1CAM 8175871, GPC3 8175234, ALPP 8049123, CDH17 8151795 and the separate CHRNA6 control 8150550. Each was uniquely assigned under the retained annotation policy; no best-probe search or cross-gene standardization was performed. Finite negative log-array values are valid signals. TPM values must be finite and nonnegative. Missing or duplicate measurements are not imputed.
 
-The original LGFMS-specific CSPG4 scores are 1.00000 in arrays and 0.96581 in Hofvander. The original separate matched RNA-sequencing value is 0.93333. Positive array scores against MFS, SFT and desmoid are retained with all other panel genes, including unfavorable or reversed contrasts. The separate CHRNA6 control had A=1.000 in the original marginal and matched three-histology composites and against LGFMS in both assays. CHRNA6 was discovered using GSE24369, so its reanalysis there is not independent discovery validation.
+The original LGFMS-specific CSPG4 scores are 1.00000 in arrays and 0.96581 in Hofvander. The original separate matched RNA-sequencing value is 0.93333. Positive array scores against MFS, SFT and desmoid are retained with all other panel genes, including unfavorable or reversed contrasts. The separate CHRNA6 control had A=1.000 in the original marginal and matched three-histology composites and against LGFMS in both assays. CHRNA6 was discovered using GSE24369 (Dulken et al.; main-text reference 1), so its reanalysis there is not independent discovery validation.
 
-HPA records distinguish normal RNA, IHC and ICC/IF, with reliability warnings and missing records preserved. HPA normalized TPM is not directly divided into tumor TPM to estimate safety. GSE28866 contains four EMC library/STT records whose patient independence is not established; its selected 3SEQ peaks are a different quantity. A normal-colon value exceeds the lowest EMC library value. The PRAME workbook SHA256 is 20b4bd1243be22e4eee2da7470da986091f91cc4959fa416708748ba99187ca7. Sheet 1 rows 128–132 contain five EMC cases, all negative in both reader columns with antibody QR005. Four have recorded molecular support; the fifth lacks a recorded ancillary method. Blank percentage fields were not turned into measurements.
+HPA records distinguish normal RNA, IHC and ICC/IF, with reliability warnings and missing records preserved.[S2,S3] HPA normalized TPM is not directly divided into tumor TPM to estimate safety. GSE28866 contains four EMC library/STT records whose patient independence is not established; its selected 3SEQ peaks are a different quantity.[S4] A normal-colon value exceeds the lowest EMC library value. The PRAME workbook SHA256 is 20b4bd1243be22e4eee2da7470da986091f91cc4959fa416708748ba99187ca7. Sheet 1 rows 128–132 contain five EMC cases, all negative in both reader columns with antibody QR005.[S5] Four have recorded molecular support; the fifth lacks a recorded ancillary method. Blank percentage fields were not turned into measurements.
 
 ## Source processing and supporting literature
 
@@ -141,10 +141,10 @@ The OpenPedCan RDS was read on a remote runner after a storage check, not copied
 | Arbajian 2017 and GSE103677 | Published EMC discussion and new SEF arrays | EMC comparison reuses the six GSE24369 biopsies |
 | Watson 2018, DOI 10.1002/path.5053 | Four EMC among study controls | Only controlled EGA raw data verified; no open processed matrix and EMC crosswalk recovered |
 | Zullow 2022, DOI 10.1016/j.molcel.2022.03.019 | Article describes seven EMC | Retained deposited-data audit finds MLS/Ewing records, not the EMC measurements |
-| Chaiboonchoe 2026, PRJNA1357027 | 12 molecularly confirmed EMC in targeted TempO-Seq source | No same-study non-EMC comparator set; not a direct broad comparison |
+| Chaiboonchoe 2026, DOI 10.7717/peerj.21497; PRJNA1357027 | 12 molecularly confirmed EMC in targeted TempO-Seq source | No same-study non-EMC comparator set; not a direct broad comparison |
 | Racanelli 2019, DOI 10.1093/annonc/mdz283.054 | Abstract describes 12 EMC and 7 myoepithelial tumors | No public measurement accession verified; independence unresolved |
 
-GSE6481 contains 19 myxoid liposarcomas, not 19 EMC. Selection followed its original diagnosis metadata rather than an inconsistent secondary description. GSE71118 reuses 303 of 312 records from GSE21050 and was not counted as 312 additional independent tumors. The large ORIEN sarcoma collection is a specific request-only lead; no correspondence or controlled-access request was made. These are source-specific availability findings, not a claim that all remaining computational work or all public data are exhausted.
+GSE6481 contains 19 myxoid liposarcomas, not 19 EMC. Selection followed its original diagnosis metadata rather than an inconsistent secondary description. GSE71118 reuses 303 of 312 records from GSE21050 and was not counted as 312 additional independent tumors. The ORIEN sarcoma collection (DOI 10.1038/s41467-025-58678-6) is a specific request-only lead; no correspondence or controlled-access request was made. These are source-specific availability findings, not a claim that all remaining computational work or all public data are exhausted.
 
 ## Reproducibility and supplied tables
 
@@ -248,7 +248,7 @@ Classes and labels follow the original source. A compares EMC with the row categ
 
 ## Supplementary references
 
-[S1] Renner M, et al. Integrative DNA methylation and gene expression analysis in high-grade soft tissue sarcomas. Genome Biol. 2013;14:R137. https://doi.org/10.1186/gb-2013-14-12-r137.
+[S1] Renner M, Wolf T, Meyer H, Hartmann W, Penzel R, Ulrich A, et al. Integrative DNA methylation and gene expression analysis in high-grade soft tissue sarcomas. Genome Biol. 2013;14:R137. https://doi.org/10.1186/gb-2013-14-12-r137.
 
 [S2] Uhlén M, Fagerberg L, Hallström BM, Lindskog C, Oksvold P, Mardinoglu A, et al. Tissue-based map of the human proteome. Science. 2015;347:1260419. https://doi.org/10.1126/science.1260419.
 

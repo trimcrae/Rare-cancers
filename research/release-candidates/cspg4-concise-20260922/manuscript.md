@@ -78,7 +78,7 @@ Some relative patterns recurred across sources (Figure S2). MFS was lower than l
 
 EMC lay toward the higher end of CSPG4 RNA expression in both the primary malignant reference and the broader reference including intermediate tumors. Four named contrasts recurred across RNA sequencing and arrays. The slightly higher medians in GIST and DFSP show that elevated CSPG4 RNA extends across distinct mesenchymal tumor types. These groups provide useful comparators for subsequent EMC tissue studies, while the high values in some benign categories make cellular localization particularly important. Similar bulk expression does not establish a shared biological driver.
 
-CSPG4 is already being investigated as a therapeutic target. A CSPG4-directed antibody inhibited tumor growth and metastasis in mouse models of triple-negative breast cancer.[11] In sarcoma models, cytokine-induced killer cells carrying a CSPG4-directed chimeric antigen receptor (CAR) showed activity in culture and in xenografts of leiomyosarcoma, undifferentiated pleomorphic sarcoma and fibrosarcoma.[12] A CSPG4-directed CAR-T approach has also entered phase I testing in recurrent or refractory head-and-neck squamous-cell carcinoma (NCT06096038), with safety and tolerability as the primary objective.[13] These studies place the EMC expression finding within an existing experimental targeting field, without establishing a treatment for EMC.
+CSPG4 is already being investigated as a therapeutic target. A CSPG4-directed antibody inhibited breast-cancer cell growth in culture and reduced experimental lung metastases in mice.[11] In sarcoma models, cytokine-induced killer cells carrying a CSPG4-directed chimeric antigen receptor (CAR) showed activity in culture and in xenografts of leiomyosarcoma, undifferentiated pleomorphic sarcoma and fibrosarcoma.[12] A CSPG4-directed CAR-T approach has also entered phase I testing in recurrent or refractory head-and-neck squamous-cell carcinoma (NCT06096038), with safety and tolerability as the primary objective.[13] These studies place the EMC expression finding within an existing experimental targeting field, without establishing a treatment for EMC.
 
 The contribution here is the explicit placement of EMC within the wider CSPG4 RNA distribution. The additional collections show both recurring and divergent relationships among other sarcomas, consistent with the heterogeneity reported by Boudin et al.[3] They supplied no further explicitly labeled EMC group, leaving independent replication of the EMC comparison unresolved.
 
@@ -92,7 +92,7 @@ Finally, bulk RNA measures contributions from malignant and nonmalignant cells. 
 ## Data code and declarations
 
 
-**Data availability.** The original Hofvander data are available through https://doi.org/10.5281/zenodo.17866629. Original array data and annotations are available as GEO GSE24369 and GPL6244. Additional inputs are Treehouse Tumor Compendium 25.01, Boudin et al. Supplementary Table S8, GEO GSE213065 and GSE234092, and OpenPedCan v15. The data and code package, including exact source URLs, selection ledgers, digests and specimen values, is available at https://github.com/trimcrae/Rare-cancers/blob/d690cc9dca71debee5fcbb871924862d27bf9397/research/release-candidates/cspg4-concise-20260922/journal-package/CSPG4-data-code.zip. Source-specific attribution and reuse terms continue to apply.
+**Data availability.** The original Hofvander data are available through https://doi.org/10.5281/zenodo.17866629. Original array data and annotations are available as GEO GSE24369 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369) and GPL6244 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL6244). Additional inputs are Treehouse Tumor Compendium 25.01, Boudin et al. Supplementary Table S8, GEO GSE213065 and GSE234092, and OpenPedCan v15. The data and code package, including exact source URLs, selection ledgers, digests and specimen values, is available at https://github.com/trimcrae/Rare-cancers/blob/d690cc9dca71debee5fcbb871924862d27bf9397/research/release-candidates/cspg4-concise-20260922/journal-package/CSPG4-data-code.zip. Source-specific attribution and reuse terms continue to apply.
 
 **Research scope.** This study reanalyzes public data and includes no newly collected participant specimens or intervention.
 
@@ -114,23 +114,23 @@ Finally, bulk RNA measures contributions from malignant and nonmalignant cells. 
 
 [4] Hofvander J, Köster J, Sydow S, Piccinelli P, Vult von Steyern F, Tsagkozis P, et al. Transcriptomic Subgroups in Soft Tissue Tumors Correlate with Morphologic Subtype, Genomic Features, and Outcome. Clin Cancer Res. 2026;32:1825–1834. https://doi.org/10.1158/1078-0432.CCR-25-3740.
 
-[5] National Center for Biotechnology Information. GEO series GSE24369 and platform GPL6244. https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369; https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL6244.
+[5] Möller E, Hornick JL, Magnusson L, Veerla S, Domanski HA, Mertens F. FUS-CREB3L2/L1-positive sarcomas show a specific gene expression profile with upregulation of CD24 and FOXL1. Clin Cancer Res. 2011;17:2646–2656. https://doi.org/10.1158/1078-0432.CCR-11-0145.
 
-[6] Beale HC, Learned K, Kephart ET, et al. Consistently processed RNA sequencing data from 50 sources enriched for pediatric data. Sci Data. 2025;12:1134. https://doi.org/10.1038/s41597-025-05376-z.
+[6] Beale HC, Learned K, Kephart ET, Lyle AG, van den Bout A, McCabe M, et al. Consistently processed RNA sequencing data from 50 sources enriched for pediatric data. Sci Data. 2025;12:1134. https://doi.org/10.1038/s41597-025-05376-z.
 
-[7] Subramanian A, Nemat-Gorgani N, Ellis-Caleo TJ, et al. Sarcoma microenvironment cell states and ecosystems are associated with prognosis and predict response to immunotherapy. Nat Cancer. 2024;5:642–658. https://doi.org/10.1038/s43018-024-00743-y.
+[7] Subramanian A, Nemat-Gorgani N, Ellis-Caleo TJ, van IJzendoorn DGP, Sears TJ, Somani A, et al. Sarcoma microenvironment cell states and ecosystems are associated with prognosis and predict response to immunotherapy. Nat Cancer. 2024;5:642–658. https://doi.org/10.1038/s43018-024-00743-y.
 
-[8] Seligson ND, Asmann YW, Almerey T, et al. Molecular markers of proliferation, DNA repair, and immune infiltration defines high-risk subset of resectable retroperitoneal sarcomas. Surg Oncol. 2024;56:102125. https://doi.org/10.1016/j.suronc.2024.102125.
+[8] Seligson ND, Asmann YW, Almerey T, Zayas YC, Edgar MA, Attia S, et al. Molecular markers of proliferation, DNA repair, and immune infiltration defines high-risk subset of resectable retroperitoneal sarcomas. Surg Oncol. 2024;56:102125. https://doi.org/10.1016/j.suronc.2024.102125.
 
-[9] Geng Z, Wafula E, Corbett RJ, et al. The Open Pediatric Cancer Project. GigaScience. 2025;14:giaf093. https://doi.org/10.1093/gigascience/giaf093.
+[9] Geng Z, Wafula E, Corbett RJ, Zhang Y, Jin R, Gaonkar KS, et al. The Open Pediatric Cancer Project. GigaScience. 2025;14:giaf093. https://doi.org/10.1093/gigascience/giaf093.
 
-[10] Efron B. Bootstrap methods: another look at the jackknife. Ann Statist. 1979;7:1–26. https://doi.org/10.1214/aos/1176344552.
+[10] Efron B. Better bootstrap confidence intervals. J Am Stat Assoc. 1987;82:171–185. https://doi.org/10.1080/01621459.1987.10478410.
 
 [11] Wang X, Osada T, Wang Y, Yu L, Sakakura K, Katayama A, et al. CSPG4 protein as a new target for the antibody-based immunotherapy of triple-negative breast cancer. J Natl Cancer Inst. 2010;102:1496–1512. https://doi.org/10.1093/jnci/djq343.
 
 [12] Leuci V, Donini C, Grignani G, Rotolo R, Mesiano G, Fiorino E, et al. CSPG4-Specific CAR.CIK Lymphocytes as a Novel Therapy for the Treatment of Multiple Soft-Tissue Sarcoma Histotypes. Clin Cancer Res. 2020;26:6321–6334. https://doi.org/10.1158/1078-0432.CCR-20-0357.
 
-[13] National Cancer Institute. iC9-CAR.CSPG4 T-Cells for the Treatment of Patients with Recurrent or Refractory Head and Neck Squamous Cell Carcinoma. NCT06096038; NCI-2024-01228. https://www.cancer.gov/research/participate/clinical-trials-search/v?id=NCI-2024-01228. Accessed 22 September 2026.
+[13] National Cancer Institute. iC9-CAR.CSPG4 T-Cells for the Treatment of Patients with Recurrent or Refractory Head and Neck Squamous Cell Carcinoma. NCT06096038; NCI-2024-01228. https://www.cancer.gov/research/participate/clinical-trials-search/v?id=NCI-2024-01228. Accessed 23 September 2026.
 
 ## Figure legends
 
