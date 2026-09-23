@@ -1,3 +1,17 @@
+---
+id: "DOC-CSPG4-CONCISE-20260922-REVIEW-REPORT"
+title: "Prior concise CSPG4 author revision review"
+level: "cross-cutting"
+kind: "memo"
+status: "historical"
+canonical_for: []
+purpose: "Record the bounded audit findings and exact verification evidence."
+scope: "Prior accepted September22 concise and all12-primary draft; retained historical receipt before the all13 and reference corrections."
+audience: ["maintainers", "author"]
+date: "2026-09-23"
+last_verified: "2026-09-23"
+history_only: true
+---
 # CSPG4 author revision — completed 22 September 2026
 
 [Current manuscript PDF](https://github.com/trimcrae/Rare-cancers/blob/fe55e170901df1efc08afcb7db1365a2c69c4fe1/research/release-candidates/cspg4-concise-20260922/journal-package/CSPG4-manuscript.pdf) | [Word](https://github.com/trimcrae/Rare-cancers/blob/fe55e170901df1efc08afcb7db1365a2c69c4fe1/research/release-candidates/cspg4-concise-20260922/journal-package/CSPG4-manuscript.docx) | [Supplement](https://github.com/trimcrae/Rare-cancers/blob/fe55e170901df1efc08afcb7db1365a2c69c4fe1/research/release-candidates/cspg4-concise-20260922/journal-package/CSPG4-supplement.pdf)

@@ -1,3 +1,16 @@
+---
+id: "DOC-CSPG4-REFERENCE-AUDIT-20260923"
+title: "CSPG4 reference audit September23"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the bounded audit findings and exact verification evidence."
+scope: "Completed bibliographic and claim-support audit of all19 main/SI entries and eight supplemental leads."
+audience: ["maintainers", "author"]
+date: "2026-09-23"
+last_verified: "2026-09-23"
+---
 # CSPG4 reference audit — 23 September 2026
 
 All 19 original reference entries identify real sources. The audit checked bibliographic details, identifiers, claim support, dataset attribution, citation placement and indexed correction/retraction notices. Eight additional source leads in the supplement were also checked.
