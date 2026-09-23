@@ -1,45 +1,36 @@
-name: CSPG4 concise draft checks
+name: CSPG4 journal submission layout
 on:
   workflow_dispatch:
     inputs:
       paper:
-        description: Scoped draft operation
+        description: Scoped manuscript layout check
         required: true
         type: string
-      authorized_check_date:
-        description: Explicit author permission for immediate checks on September 23 only
-        required: false
-        default: ""
-        type: string
-env:
-  CSPG4_AUTHORIZED_CHECK_DATE: ${{ inputs.authorized_check_date }}
 permissions:
   contents: read
 concurrency:
-  group: cspg4-concise-${{ github.ref }}-${{ inputs.paper }}
+  group: cspg4-submission-render-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   render:
-    if: inputs.paper == 'emc-cspg4-render-20260922'
+    if: inputs.paper == 'emc-cspg4-submission-render-20260923'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - name: Check runner storage and permitted time
+      - name: Check storage and permitted time
         run: |
           python3 - <<'PY'
-          import shutil,datetime,zoneinfo,os
+          import shutil,datetime,zoneinfo
           now=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
-          authorized = now.date().isoformat() == "2026-09-23" and os.environ.get("CSPG4_AUTHORIZED_CHECK_DATE") == "2026-09-23"
-          assert not 6<=now.hour<10 or authorized
-          free=shutil.disk_usage('.').free
-          assert free>=13*1024**3
-          print(now.isoformat(),free)
+          assert not 6<=now.hour<10
+          assert shutil.disk_usage('.').free>=13*1024**3
+          print(now.isoformat(),shutil.disk_usage('.').free)
           PY
       - uses: actions/checkout@v4
         with:
-          sparse-checkout: research/release-candidates/cspg4-concise-20260922
+          sparse-checkout: research/release-candidates/cspg4-submission-20260923
           fetch-depth: 1
-      - name: Prepare isolated runner Python
+      - name: Prepare runner Python
         run: |
           python3 -m venv "$RUNNER_TEMP/cspg4-runner-venv"
           echo "$RUNNER_TEMP/cspg4-runner-venv/bin" >> "$GITHUB_PATH"
@@ -48,80 +39,11 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq libreoffice-writer poppler-utils fonts-liberation >/dev/null
           python3 -m pip install --quiet pdf2image pypdf lxml Pillow
-      - name: Render exact documents and verify text preservation
-        run: python3 research/release-candidates/cspg4-concise-20260922/remote_render.py
+      - name: Render policy-only manuscript and verify source text
+        run: python3 research/release-candidates/cspg4-submission-20260923/remote_render.py
       - uses: actions/upload-artifact@v4
         with:
-          name: cspg4-concise-render-${{ github.run_id }}
-          path: research/release-candidates/cspg4-concise-20260922/render-result/
+          name: cspg4-submission-render-${{ github.run_id }}
+          path: research/release-candidates/cspg4-submission-20260923/render-result/
           if-no-files-found: error
           retention-days: 30
-  normal-preflight:
-    if: inputs.paper == 'emc-cspg4-normal-20260922'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 90
-    steps:
-      - name: Check headroom and permitted time
-        run: |
-          python3 - <<'PY'
-          import shutil,datetime,zoneinfo,os
-          now=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
-          authorized = now.date().isoformat() == "2026-09-23" and os.environ.get("CSPG4_AUTHORIZED_CHECK_DATE") == "2026-09-23"
-          assert not 6<=now.hour<10 or authorized
-          assert shutil.disk_usage('.').free>=13*1024**3
-          print(now.isoformat(),shutil.disk_usage('.').free)
-          PY
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Prepare isolated runner Python
-        run: |
-          python3 -m venv "$RUNNER_TEMP/cspg4-runner-venv"
-          echo "$RUNNER_TEMP/cspg4-runner-venv/bin" >> "$GITHUB_PATH"
-      - name: Prepare established gate environment
-        run: |
-          command -v uv >/dev/null 2>&1 || pip install -q uv
-          ./scripts/dev-setup.sh --if-needed
-          uv pip install --target "$RUNNER_TEMP/cspg4-schema-deps" 'jsonschema>=4.18' referencing
-          export PYTHONPATH="$RUNNER_TEMP/cspg4-schema-deps${PYTHONPATH:+:$PYTHONPATH}"
-          echo "PYTHONPATH=$PYTHONPATH" >> "$GITHUB_ENV"
-          python3 -c 'from referencing import Registry; from jsonschema import Draft202012Validator; Draft202012Validator({},registry=Registry())'
-      - name: Check the observed repository guards before normal
-        run: |
-          mkdir -p /tmp/cspg4-normal-check
-          git rev-parse HEAD > /tmp/cspg4-normal-check/candidate.txt
-          set +e
-          python3 systems/systems_check.py --check > /tmp/cspg4-normal-check/systems.log 2>&1
-          sysrc=$?
-          pytest -q research/modalities/tests/test_lint_citations.py::test_the_ledger_does_not_anchor_itself research/modalities/tests/test_lint_citations.py::test_the_repository_currently_passes research/modalities/tests/test_no_hand_rolled_publish.py::test_a_registered_entry_cannot_outlive_the_defect_it_names --tb=short > /tmp/cspg4-normal-check/observed-guards.log 2>&1
-          guardrc=$?
-          set -e
-          echo "$sysrc" > /tmp/cspg4-normal-check/systems-exit.txt
-          echo "$guardrc" > /tmp/cspg4-normal-check/observed-guards-exit.txt
-          cat /tmp/cspg4-normal-check/systems.log
-          cat /tmp/cspg4-normal-check/observed-guards.log
-          test "$sysrc" = 0 && test "$guardrc" = 0
-      - name: Run unscoped FULL normal preflight on exact candidate
-        id: gate
-        run: |
-          mkdir -p /tmp/cspg4-normal-check
-          git rev-parse HEAD > /tmp/cspg4-normal-check/candidate.txt
-          set +e
-          unset PREFLIGHT_PAPER SKIP_TESTS
-          PREFLIGHT_FULL=1 ./scripts/preflight.sh 2>&1 | tee /tmp/cspg4-normal-check/preflight.log
-          rc=${PIPESTATUS[0]}
-          set -e
-          echo "$rc" > /tmp/cspg4-normal-check/exit-code.txt
-          echo "EXIT=$rc" >> /tmp/cspg4-normal-check/preflight.log
-          echo "code=$rc" >> "$GITHUB_OUTPUT"
-          df -B1 . > /tmp/cspg4-normal-check/storage-after.txt
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: cspg4-concise-normal-${{ github.run_id }}
-          path: /tmp/cspg4-normal-check/
-          if-no-files-found: error
-          retention-days: 30
-      - name: Preserve actual exit status
-        if: always()
-        run: test "${{ steps.gate.outputs.code }}" = 0
