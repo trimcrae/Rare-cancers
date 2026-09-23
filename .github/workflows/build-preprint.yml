@@ -1,4 +1,4 @@
-name: CSPG4 journal submission layout
+name: CSPG4 submitted preprint layout
 on:
   workflow_dispatch:
     inputs:
@@ -9,11 +9,11 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: cspg4-submission-render-${{ github.ref }}
+  group: cspg4-aixiv-submitted-render-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   render:
-    if: inputs.paper == 'emc-cspg4-submission-render-20260923'
+    if: inputs.paper == 'emc-cspg4-aixiv-submitted-render-20260923'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -28,7 +28,7 @@ jobs:
           PY
       - uses: actions/checkout@v4
         with:
-          sparse-checkout: research/release-candidates/cspg4-submission-20260923
+          sparse-checkout: research/release-candidates/cspg4-aixiv-submitted-20260923
           fetch-depth: 1
       - name: Prepare runner Python
         run: |
@@ -40,10 +40,10 @@ jobs:
           sudo apt-get install -y -qq libreoffice-writer poppler-utils fonts-liberation >/dev/null
           python3 -m pip install --quiet pdf2image pypdf lxml Pillow
       - name: Render policy-only manuscript and verify source text
-        run: python3 research/release-candidates/cspg4-submission-20260923/remote_render.py
+        run: python3 research/release-candidates/cspg4-aixiv-submitted-20260923/remote_render.py
       - uses: actions/upload-artifact@v4
         with:
-          name: cspg4-submission-render-${{ github.run_id }}
-          path: research/release-candidates/cspg4-submission-20260923/render-result/
+          name: cspg4-aixiv-submitted-render-${{ github.run_id }}
+          path: research/release-candidates/cspg4-aixiv-submitted-20260923/render-result/
           if-no-files-found: error
           retention-days: 30
