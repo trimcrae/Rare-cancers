@@ -1,0 +1,95 @@
+{
+  "utc": "2026-09-24T13:39:38.214643+00:00",
+  "archive_checks": [
+    {
+      "status": "passed",
+      "members_verified": 238,
+      "uncompressed_bytes": 18248886,
+      "extracted_to": null
+    },
+    {
+      "check": "existing extraction destination refused",
+      "status": "passed"
+    },
+    {
+      "check": "corrupted archive refused",
+      "status": "passed"
+    },
+    {
+      "check": "changed manifest refused",
+      "status": "passed"
+    }
+  ],
+  "offline_completion_audit": {
+    "status": "passed",
+    "checks": 6,
+    "total_records": 132380492,
+    "total_bait_retained": 5497,
+    "scope": "Recomputed from a verified extracted copy; source packet unchanged"
+  },
+  "normal_repository_preflight": {
+    "status": "passed",
+    "exit_code": 0,
+    "command": "sh scripts/preflight.sh",
+    "scope": "Normal fast gates: document and artifact linters; no manuscript, modalities or pure-logic test suite; not full publication evidence",
+    "base_commit": "a1c976879e8db5814b1e37a20ec5240015b5e951",
+    "merged_branch_commit": "bf20cd4b3fb919c264e790d3cbd360076f06813e",
+    "tested_state": "Full existing repository with pending merge and final document metadata; validation receipt and compressed logs added after the run",
+    "log": "preflight-settled.log.gz",
+    "prior_attempts": "Initial environment gaps: jsonschema, PyYAML and Biopython. Document frontmatter corrected, including audience enumeration. Final run passed without weakening gates. Prior logs retained.",
+    "remaining_environment_warnings": "pytest, scipy and pymbar absent; their suites were not requested or claimed. Existing repository citation/readability advisories remain."
+  },
+  "publication_full_suite": "Not requested; shelved evidence packet, not a publication candidate",
+  "gate_dependencies": {
+    "runtime": "Existing bundled Python 3.12; Git sh and Node",
+    "task_local_path": "C:\\Users\\mcrae\\.codex\\private\\emc-sequence-closeout-20260924\\gate-deps",
+    "packages": {
+      "jsonschema": "4.26.0",
+      "PyYAML": "6.0.3",
+      "biopython": "1.88"
+    },
+    "scope": "Small gate-only dependencies; no runtime download or global environment changes"
+  },
+  "logs": [
+    {
+      "path": "preflight.log.gz",
+      "uncompressed_sha256": "70d017fedbc08d16de8ee8ac81d691683d9516cafb2688a36905e730f18b2679",
+      "compressed_sha256": "e17b2df1d4768ae7beb6285b40faa6ac9acb1f94d44a9f3f18ecb059931dc6fd"
+    },
+    {
+      "path": "preflight-final.log.gz",
+      "uncompressed_sha256": "e6a02e51387281a0bd859427590c91b09840f187db5895a390e3bdf4002fa6fc",
+      "compressed_sha256": "52451ba371d91eeb110476d89d614ba1d954a9cacec40230349ef6f0caf242d1"
+    },
+    {
+      "path": "preflight-settled.log.gz",
+      "uncompressed_sha256": "dfc2116b28d45b0f2461b9f177115fffcc9e4575eca66313d7ed178172f4d225",
+      "compressed_sha256": "c2f0a3c3bfcdba7dea7a4f80d768b867efaab7023fd42a084b69703f15def08e"
+    },
+    {
+      "path": "systems-check.log.gz",
+      "uncompressed_sha256": "3061d43ae289e0d1cf09a7040a34d847efcd66c9ce1e871926f829c906155d5b",
+      "compressed_sha256": "e53450195691041ce190a431a137783a1d92f13a9cc367a9903b5fd802076ad4"
+    }
+  ],
+  "original_source_reverified": {
+    "files": 237,
+    "status": "passed",
+    "source_packet_mutated": false,
+    "decision_body_preserved": true
+  },
+  "local_integration": {
+    "remote_push_performed": false,
+    "reason": "Pre-existing main divergence: 115 local-only and 320 origin-only commits before integration; remote history reconciliation outside this scoped closeout"
+  },
+  "checked_file_sha256": {
+    "research/README.md": "3800e2c21167e10f8a5c1f77b766dc0a558273640b92faab1aec72c897320f04",
+    "research/autonomy/emc-sequence-discovery-2026-09-23/archive-manifest.json": "55f3023508206e24d95edbb7ed46ac887a8a0c3c82655d526118ce6c86749622",
+    "research/autonomy/emc-sequence-discovery-2026-09-23/closing-manifest.json": "3d56301a282c62bb93dc2bcd4160c35904878bff3a3d952b1273738c1059540b",
+    "research/autonomy/emc-sequence-discovery-2026-09-23/DECISION.md": "acaa4624dba728569702c685a4fb079be79dae22efba25efe3c10e047468637a",
+    "research/autonomy/emc-sequence-discovery-2026-09-23/evidence-packet.tar.gz": "46fbdec126a076eb947effac4a51297e6dbedc5b4120cddd70130367ef96f351",
+    "research/autonomy/emc-sequence-discovery-2026-09-23/README.md": "4e224e505015aa0630b5627b8cf6aaf14c39317ac957789a8f6488148038dbff",
+    "research/autonomy/emc-sequence-discovery-2026-09-23/status.json": "e8fada13979c5e67a0684e19c9334bd287f054ace0cac676186c9ae7a00924c5",
+    "research/autonomy/emc-sequence-discovery-2026-09-23/verify_archive.py": "7b70c40eb366a62869534d52b7cd0e383ccf45199bde50907460d8f892b676d5"
+  }
+}

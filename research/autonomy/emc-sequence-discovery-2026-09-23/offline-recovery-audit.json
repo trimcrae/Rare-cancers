@@ -1,0 +1,127 @@
+{
+  "utc": "2026-09-24T13:27:12.246756+00:00",
+  "audit_status": "passed",
+  "checks": [
+    "All six retained-file hashes, metadata hashes, record/quality lengths and retained counts verified; four complete files match ENA sizes, record counts and MD5 receipts; original V1 prefixes remain partial.",
+    "Recomputed strict known-fusion counts directly from retained sequences and qualities; all frozen summaries agree.",
+    "H05 exact seam recomputed across all 5,497 retained records: two mates from one original fragment; zero in either completed later run.",
+    "Both normal-background splice counts checked against the hash-verified primary GTEx response, with assembly/coordinate limitations retained.",
+    "All large repeat-like exact-split groups remain single-fragment observations; H11 remains one fragment. No novelty or biological validation inferred.",
+    "All five archived USZ analysis outputs decompress to their original hashes; premature mixed-generation snapshot remains explicitly invalid."
+  ],
+  "transport": [
+    {
+      "run": "SRR3380704",
+      "mate": 1,
+      "records": 13195186,
+      "retained_records": 406,
+      "complete_md5_verified": false
+    },
+    {
+      "run": "SRR3380704",
+      "mate": 2,
+      "records": 13905630,
+      "retained_records": 425,
+      "complete_md5_verified": false
+    },
+    {
+      "run": "SRR3380705",
+      "mate": 1,
+      "records": 25694821,
+      "retained_records": 894,
+      "complete_md5_verified": true
+    },
+    {
+      "run": "SRR3380705",
+      "mate": 2,
+      "records": 25694821,
+      "retained_records": 870,
+      "complete_md5_verified": true
+    },
+    {
+      "run": "SRR33903995",
+      "mate": 1,
+      "records": 26945017,
+      "retained_records": 1405,
+      "complete_md5_verified": true
+    },
+    {
+      "run": "SRR33903995",
+      "mate": 2,
+      "records": 26945017,
+      "retained_records": 1497,
+      "complete_md5_verified": true
+    }
+  ],
+  "known_fusion_recomputed": [
+    {
+      "run": "SRR3380705",
+      "model": "canonical",
+      "qualifying_read_records": 12,
+      "fragment_ids": 11,
+      "distinct_oriented_read_starts": 12
+    },
+    {
+      "run": "SRR3380705",
+      "model": "alternative_exon_entry",
+      "qualifying_read_records": 2,
+      "fragment_ids": 2,
+      "distinct_oriented_read_starts": 2
+    },
+    {
+      "run": "SRR3380705",
+      "model": "alternative_exon_continuation_model",
+      "qualifying_read_records": 0,
+      "fragment_ids": 0,
+      "distinct_oriented_read_starts": 0
+    },
+    {
+      "run": "SRR33903995",
+      "model": "canonical",
+      "qualifying_read_records": 102,
+      "fragment_ids": 88,
+      "distinct_oriented_read_starts": 22
+    },
+    {
+      "run": "SRR33903995",
+      "model": "alternative_exon_entry",
+      "qualifying_read_records": 0,
+      "fragment_ids": 0,
+      "distinct_oriented_read_starts": 0
+    },
+    {
+      "run": "SRR33903995",
+      "model": "alternative_exon_continuation_model",
+      "qualifying_read_records": 0,
+      "fragment_ids": 0,
+      "distinct_oriented_read_starts": 0
+    }
+  ],
+  "total_records": 132380492,
+  "total_bait_retained": 5497,
+  "decision": "No-go: no candidate meets the combined novelty, independent-support and utility threshold under currently accessible data and validation resources.",
+  "requirements": [
+    {
+      "requirement": "Actual sequence investigation with known positive controls",
+      "evidence": "Completed four full source streams, two preserved partial streams, exact known-fusion recovery and original known-answer checks."
+    },
+    {
+      "requirement": "Check apparent novelty and replication",
+      "evidence": "Normal RefSeq, catalogue, GTEx and BLAST comparisons; completed second V1 run; retained single-fragment candidates rather than unsupported novelty claims."
+    },
+    {
+      "requirement": "Paper-worthy finding or defensible fruitlessness judgment",
+      "evidence": "DECISION.md explains the no-go, residual hypotheses, data-access limits and conditions for reopening. This is a scientific judgment, not an exhaustive absence theorem."
+    },
+    {
+      "requirement": "Accurate scope and operating-state reporting",
+      "evidence": "Four full files versus two partial files distinguished; two models versus independent patients distinguished; terminal collector and analysis handles observed; pending workers and unresolved remote query explicitly disclosed."
+    }
+  ],
+  "limits": [
+    "Not independent peer review or an exhaustive genome-wide analysis.",
+    "Source-stream MD5s are recorded by the observed completed collectors; raw FASTQ files were not retained for a second offline hash pass.",
+    "No wet-lab, clinical, somatic-origin or therapeutic-effect claim.",
+    "An unresolved reference query cannot supply missing replication; waiting is not treated as a negative result."
+  ]
+}

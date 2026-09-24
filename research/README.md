@@ -112,3 +112,7 @@ research/
   fusion-specific ASO designs. Verification trail in `novel-modalities-factcheck.md`
   (incl. a corrected MHCflurry column bug). **Needs** a wet-lab/sarcoma collaborator —
   the program is explicitly designed to be handed to one — and confirmation of 2 ⚠ DOIs.
+
+## Shelved research campaigns
+
+- [EMC public-sequence discovery, September 2026](autonomy/emc-sequence-discovery-2026-09-23/README.md): evidence, reproducible checks and scoped no-go decision; no automatic resumption.
