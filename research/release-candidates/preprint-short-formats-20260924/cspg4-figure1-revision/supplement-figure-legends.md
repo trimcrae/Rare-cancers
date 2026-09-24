@@ -1,0 +1,1 @@
+**Figure S3. Direct EMC comparisons shared across two assays.** Points show A=P(EMC>comparator)+0.5P(tie) for the four diagnosis groups measured in both Hofvander RNA sequencing and GSE24369 arrays. The table supplies specimen counts and scores. Each score is calculated within its source. LGFMS, low-grade fibromyxoid sarcoma; MFS, myxofibrosarcoma; SFT, solitary fibrous tumor.

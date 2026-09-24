@@ -29,7 +29,7 @@ for doc in sorted((W/'inputs').glob('*.docx')):
     missing=[s for s in paragraphs if len(norm(s))>1 and norm(s) not in whole]
     receipt['documents'][doc.name]={'pages':len(reader.pages),'pdf_sha256':hashlib.sha256(pdf.read_bytes()).hexdigest(),'nonempty_source_paragraphs':sum(bool(norm(s)) for s in paragraphs),'paragraphs_not_contiguous_in_pdf_text':missing,'page_text_characters':[len(s) for s in texts],'page_sizes':[[float(p.mediabox.width),float(p.mediabox.height)] for p in reader.pages],'output_files':{p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in out.iterdir() if p.is_file()}}
 graph=W/'inputs/ASO-graphical-abstract.pdf'
-if graph.exists():
+if graph.exists() and json.loads((W/'RENDER-INPUTS.json').read_text(encoding='utf-8')).get('include_graphical_abstract',True):
     guard(); dest=O/'ASO-graphical-abstract';dest.mkdir(exist_ok=True);shutil.copyfile(graph,dest/graph.name)
     subprocess.run(['pdftoppm','-scale-to','1594','-png','-singlefile',str(graph),str(dest/'page-1')],check=True,timeout=60)
     receipt['graphical_abstract']={'input_sha256':hashlib.sha256(graph.read_bytes()).hexdigest(),'pages':len(PdfReader(graph).pages),'output_files':{p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in dest.iterdir() if p.is_file()}}
