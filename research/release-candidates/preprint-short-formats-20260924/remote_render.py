@@ -14,7 +14,8 @@ def guard():
 def norm(s):return re.sub(r'[^\w]+','',unicodedata.normalize('NFKC',s).lower())
 receipt={'before':guard(),'inputs':{},'documents':{}}
 for doc in sorted((W/'inputs').glob('*.docx')):
-    if doc.name=='CSPG4-cover-letter.docx':continue
+    selected=json.loads((W/'RENDER-INPUTS.json').read_text()).get('selected_docx')
+    if selected is not None and doc.name not in selected:continue
     guard();receipt['inputs'][doc.name]=hashlib.sha256(doc.read_bytes()).hexdigest()
     out=O/doc.stem
     subprocess.run([sys.executable,str(W/'render_docx.py'),str(doc),'--output_dir',str(out),'--dpi','120','--emit_pdf'],check=True,timeout=420)
