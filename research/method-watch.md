@@ -627,3 +627,24 @@ triggers not yet integrated into the curated sections above — review + fold in
   2026-02-07) — direct prior art for our own ΔG_coop cooperativity metric; reports buried PPI interface area
   as the key driver of high cooperativity. Add both to the Track B benchmark/citation set alongside the
   already-tracked JCTC 5c00736/5c00064. https://www.biorxiv.org/content/10.64898/2026.02.07.704601
+- **2026-09-25 — gufe v1.12.0 → v1.13.0 (released 2026-09-22): a DEFAULT changed, not just a version bump.**
+  PR #831 (merged 2026-08-29) changes the default `small_molecule_forcefield` setting to use the full
+  SMIRNOFF force-field filename convention, motivated by `openmmforcefields` now supporting full file names —
+  exact old/new default string not independently confirmed this scan (`gufe.openfree.energy` CHANGELOG and
+  the raw GitHub diff were both unreachable through this session's egress this week; re-check via the CI
+  escape hatch before the next RBFE campaign so runs don't silently pick up an unintended forcefield string).
+  Also in this release: protocol mapping now defaults to `None` (a behavioral shift) and the long-deprecated
+  `LigandNetwork.to_rbfe_alchemical_network()` was removed on its announced schedule. OpenFE (v1.12.0), OpenMM
+  (8.6.1), openmmtools (v0.26.0), openff-toolkit (v0.19.0), openff-nagl (v0.6.1), Kartograf (v2.0.0), LOMAP2
+  (v3.3.0), RDKit (2026.03.6) and Boltz (v2.2.1) all unchanged since last week.
+  https://github.com/OpenFreeEnergy/gufe/releases/tag/v1.13.0 · https://github.com/OpenFreeEnergy/gufe/pull/831
+- **2026-09-25 — Claude Opus 5.5 released 2026-09-22, the first model since Fable 5.1 (2026-09-01) that
+  changes the frontier-model-access picture for this program.** Per Anthropic: substantially outperforms
+  Opus 5 (Terminal-Bench 4.0 agentic coding 66.4% vs Opus 5's 52.3%), "exceed[s] Opus 5 and match[es] or
+  beat[s] Claude Mythos 5.1 across many areas" of biology work, and beats Fable 5.1 on at least one published
+  benchmark (GDPval-AA v2.1 knowledge-work Elo: 1846 vs Fable 5.1's 1735) — while costing 40% less than Opus 5
+  on typical workloads and running >30% faster, and carrying the *same* biology safeguards as Fable 5.1 (no
+  more-restricted tier gap between them). Directly actionable and resolves the multi-week-carried action item
+  below: check `/status` on an interactive research session to see whether it is already running Opus 5.5 —
+  if not, this is a same-or-better-biology-performance, lower-cost upgrade available now, not a hypothetical.
+  https://www.anthropic.com/news/claude-opus-5-5

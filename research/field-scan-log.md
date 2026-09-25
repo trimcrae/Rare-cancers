@@ -551,3 +551,108 @@ $/ns measurement for our workload, flagged for human review only (see `compute/c
 NR4A/EMC + degrader methodology; non-degrader routes; frontier-model/mobile-agent watch; direct GitHub
 releases/Atom-feed pages for the MD/FEP stack). No fabricated papers, trials, releases, or prices; items not
 independently verified beyond the search/fetch snippet are flagged as such above.*
+
+---
+
+## 2026-09-25 (Fri) — AUTOMATED weekly field-scan (delta vs 2026-09-18, ~1 week)
+
+**This week's takeaway: quiet again for NR4A3/EMC direct matter and degrader methodology, but two real
+tooling deltas worth acting on — gufe v1.13.0 changed a DEFAULT that feeds our RBFE numbers, and Claude
+Opus 5.5 (released 2026-09-22) is a same-or-better-biology-performance, cheaper alternative to Fable 5.1 that
+resolves the "which model are we actually running" question this newsletter has carried for three weeks.**
+No new NR4A3/EMC-specific primary paper, ligand, structure, or trial found by direct web search this period.
+
+### 1) METHOD-WATCH (plan-relevant)
+- **gufe v1.12.0 → v1.13.0 (released 2026-09-22): the default `small_molecule_forcefield` string changed**
+  (PR #831, merged 2026-08-29 — full SMIRNOFF filename convention, motivated by `openmmforcefields` now
+  supporting full file names), protocol mapping now defaults to `None`, and the deprecated
+  `LigandNetwork.to_rbfe_alchemical_network()` was removed on schedule. This is a default-affecting stack
+  bump per the standing rule — evaluate before the next RBFE run so a result isn't silently produced under an
+  unintended forcefield string. The exact old/new default value could not be independently confirmed this
+  scan (the gufe changelog site and the raw PR diff were both unreachable through this session's egress this
+  week); resolve via the CI escape hatch, not by trusting this newsletter's paraphrase. Full detail:
+  `method-watch.md` auto-capture (2026-09-25). https://github.com/OpenFreeEnergy/gufe/releases/tag/v1.13.0
+- **No new co-fold/ternary/affinity/selectivity method found.** DeepTernary (still no 2026 release found
+  this scan), FKSFold, Boltz-2 (still v2.2.1) and Protenix (still v2) unchanged.
+
+### 2) NR4A / EMC
+- **No new NR4A3-specific primary paper, ligand, structure, or trial independently found this period** by
+  direct web search (PubMed/general search sweep). ⚠ **One item flagged for a human read, not new this
+  week but worth surfacing here because it is easy to miss inside the trigger-scan log:** the separate
+  mechanical trigger scanner (`TRG-NR4A3-DIRECT-MATTER`, `IDEAS.md` 2026-09-18 entry) caught a preprint
+  titled *"Computational Design and Parent Transcript Liabilities of NR4A3 Fusion Junction Gapmers in
+  Extraskeletal Myxoid Chondrosarcoma"* (Europe PMC PPR/PPR1319933, 2026-09-15) — a title that names our own
+  program's exact topic (NR4A3 fusion-junction gapmers for EMC). **This scan could not independently fetch or
+  verify it**: `europepmc.org` is blocked by this session's egress proxy, and no mirror or abstract turned up
+  in general web search. It is unread and ungraded per the trigger scanner's own flag. Given how directly it
+  names this program's subject matter, it is worth a deliberate read via the CI escape hatch before the next
+  ASO-paper touch — to check authorship (independent group vs. mis-attributed self-citation), whether it
+  overlaps or duplicates our own gapmer panel, and whether it is prior art we now owe a citation. Not
+  auto-captured again here (already tracked in `IDEAS.md`); flagging only so it doesn't stay buried in the
+  200-line trigger log.
+
+### 3) Degrader methodology
+- **Quiet.** No new PROTAC/molecular-glue cooperativity or ternary-prediction paper beyond what's already
+  tracked (the two 2026-09-18 prior-art papers). General 2026 degrader-chemistry and paralogue-selectivity
+  searches surfaced only already-known landmark cases (SJ46421/BRD3BD2, lenalidomide/CK1α, VHL-MZ1-BRD4) —
+  no new NR4A3-relevant result.
+
+### 4) NON-DEGRADER ROUTES
+- **No new fusion-junction vaccine, TCR-T, or immunotherapy trial/readout specific to EMC or a new
+  FET-fusion sarcoma found this period.** Searches surfaced only already-tracked precedents (SarVac
+  NCT07648069, the synovial-sarcoma SYT-SSX fusion-neoantigen TCR-T work, FusionVAC22_01) — nothing new
+  names EMC or a new fusion.
+- **No new AOC/oligonucleotide-delivery technology candidate or EMC-enriched surface antigen found.**
+  General ASO/AOC delivery-landscape reviews (GalNAc, antibody-oligonucleotide conjugation, ligand-based
+  uptake) continue to describe the already-tracked non-hepatic-delivery landscape; nothing new names a
+  concrete candidate for our route.
+
+### 5) Tooling & operating-environment watch
+**(a) Library releases.** **gufe v1.13.0 is the one real bump this window** (see METHOD-WATCH above,
+default-affecting). OpenFE (v1.12.0), OpenMM (8.6.1), openmmtools (v0.26.0), openff-toolkit (v0.19.0),
+openff-nagl (v0.6.1), Kartograf (v2.0.0), LOMAP2 (v3.3.0), RDKit (2026.03.6) and Boltz (v2.2.1) all unchanged
+since last week (checked directly against each project's GitHub releases page).
+
+**(b) Frontier-model access.** **Claude Opus 5.5 released 2026-09-22 — the first model since Fable 5.1
+(2026-09-01) that changes this row's picture.** Per Anthropic's own release material: substantially
+outperforms Opus 5, "exceed[s] Opus 5 and match[es] or beat[s] Claude Mythos 5.1 across many areas" of
+biology work, beats Fable 5.1 on at least the published GDPval-AA v2.1 knowledge-work benchmark (1846 vs 1735
+Elo), costs 40% less than Opus 5 on typical workloads, runs >30% faster, and carries the *same* biology
+safeguards as Fable 5.1 — no new restricted tier introduced. **This directly answers the open action item
+carried for three weeks running**: whether to check if research sessions could move to a cheaper tier without
+losing biology capability. Recommend checking `/status` on an interactive session; if still on Fable 5.1 or
+falling back to Opus 5, Opus 5.5 is a same-or-better-biology, lower-cost option worth switching to now.
+https://www.anthropic.com/news/claude-opus-5-5
+
+**(c) Phone-drivable coding agents.** **No material change this week.** Codex-in-ChatGPT-mobile (shipped
+2026-05-14, already tracked) continues to add incremental features (inline task visualizations, GPT-6
+Sol/Luna model additions); no new comparison to driving Claude Code from the Claude mobile app has been run
+either way.
+
+**(d) Compute-cost / GPU-market.** **No material spot-price move this period on Vast.ai/RunPod/GCP/AWS** for
+GPUs already in the waterfall. RTX 5090 remains **UNPRICEABLE for our OpenMM/OpenFE workload** — current
+on-demand medians (~$0.46–0.63/hr per this week's aggregator search) are consistent with the ~23% y/y decline
+already tracked, but still no OpenMM/OpenFE $/ns benchmark on our own system; the standing smoke-test action
+item is unchanged. No new GPU provider or free/academic credit program found this week (Lium, flagged
+2026-09-18, remains unvetted and untouched — trimcrae's call, not re-flagged again here). Live basis/rate
+figures live in `research/compute/pricing.md` — not restated here.
+
+### Action items for the program
+1. **Read and grade the PPR1319933 gapmer preprint** (see NR4A/EMC above) — highest-priority unread item
+   this scan, given it names this program's own topic directly; this newsletter could not fetch it
+   (europepmc.org egress-blocked from this session).
+2. **Confirm the gufe v1.13.0 `small_molecule_forcefield` default's exact old/new value** before the next
+   RBFE campaign (egress-blocked from this session; use the CI escape hatch).
+3. **Check whether research sessions run on Opus 5.5, Fable 5.1, or fall back to Opus 5** — this is now a
+   concrete, resolvable question with a real cost/capability tradeoff on the table, not just a standing
+   unknown; carried forward from prior weeks but now actionable rather than merely open.
+4. `trig_01X5xHy1cmkLjkATEijZSNJf`'s missing repo `sources` grant remains outstanding and needs trimcrae
+   (unchanged, carried from prior entries — this run again landed on `main` via the session-based mechanism).
+
+*Sources are real search hits from parallel WebSearch/WebFetch passes (method-watch/tooling/compute-cost;
+NR4A/EMC + degrader methodology; non-degrader routes; frontier-model/mobile-agent watch; direct GitHub
+releases pages for the MD/FEP stack; Anthropic's own Opus 5.5 announcement page). No fabricated papers,
+trials, releases, or prices; items not independently verified beyond the search/fetch snippet are flagged as
+such above (notably: the gufe default's exact value, and the PPR1319933 preprint's content, both blocked by
+this session's egress this week).*
+
