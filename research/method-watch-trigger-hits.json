@@ -231,6 +231,49 @@
    ],
    "signals_recorded": 24,
    "abstracts_fetched": 6
+  },
+  {
+   "date": "2026-09-25",
+   "mode": "scan",
+   "triggers": 32,
+   "queries": 135,
+   "new_hits": 12,
+   "appended": 12,
+   "errors": [
+    "TRG-COFOLD-TERNARY-ASSEMBLY arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22ternary+complex%22+AND+all%3A%22structure+prediction%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-COFOLD-TERNARY-ASSEMBLY arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3APROTAC+AND+all%3A%22interface%22+AND+all%3Aprediction&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=protac&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-TERNARY-GEN-NO-SITES arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22ternary+complex%22+AND+all%3Agenerative&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-TERNARY-GEN-NO-SITES arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22induced+proximity%22+AND+all%3A%22structure+prediction%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "chemrxiv: DROPPED FOR THIS RUN after 3 consecutive failures (last: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden). Every ChemRxiv query below was SKIPPED -- this run's preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result is not a reading of absence.",
+    "TRG-FEP-CRYPTIC-POCKET arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22binding+free+energy%22+AND+all%3Acryptic&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-FEP-CRYPTIC-POCKET arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22free+energy+perturbation%22+AND+all%3A%22induced+fit%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-TERNARY-ALCHEMICAL-VALIDATED arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3APROTAC+AND+all%3A%22free+energy%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-TERNARY-ALCHEMICAL-VALIDATED arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3Acooperativity+AND+all%3Aalchemical&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-ATOM-MAPPER-FLOOR arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22atom+mapping%22+AND+all%3A%22free+energy%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-ATOM-MAPPER-FLOOR arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22maximum+common+substructure%22+AND+all%3Aalchemical&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-CHARGE-CHANGE-FEP arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22charge+change%22+AND+all%3A%22free+energy%22+AND+all%3Aalchemical&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-CHARGE-CHANGE-FEP arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22finite-size+correction%22+AND+all%3A%22binding+free+energy%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-GENERATIVE-ENSEMBLE arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22Boltzmann+generator%22+AND+all%3Aprotein&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-GENERATIVE-ENSEMBLE arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22conformational+ensemble%22+AND+all%3Agenerative+AND+all%3Aprotein&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-CRYPTIC-POCKET-PREDICTION arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22cryptic+pocket%22+AND+all%3Aprediction&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-ENDPOINT-SELECTIVITY-READOUT arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22molecular+dynamics%22+AND+all%3Aselectivity+AND+all%3A%22statistical+power%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-GLUE-PROSPECTIVE-DESIGN arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22molecular+glue%22+AND+all%3Adesign&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-VIRTUAL-CELL-NO-LINE arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22perturbation+prediction%22+AND+all%3A%22single-cell%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-VIRTUAL-CELL-NO-LINE arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22virtual+cell%22+AND+all%3Amodel&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-OLIGO-DELIVERY-PREDICTOR arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22endosomal+escape%22+AND+all%3Aprediction&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-CLOUD-WET-LAB arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22self-driving+laboratory%22+AND+all%3Abiology&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-AUTONOMOUS-RESEARCH-AGENT arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22AI+scientist%22+AND+all%3A%22end-to-end%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-AUTONOMOUS-RESEARCH-AGENT arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22autonomous+research%22+AND+%28all%3Aagent+OR+all%3A%22language+model%22%29&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-AUTONOMOUS-RESEARCH-AGENT arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=cat%3Acs.AI+AND+all%3A%22scientific+discovery%22+AND+all%3Aagent&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-POSE-ORIENTATION-CONVERGENCE arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22binding+pose%22+AND+all%3Aprediction+AND+all%3Abenchmark&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-COVALENT-EXPOSURE-CRITERION arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3Acovalent+AND+all%3Acysteine+AND+all%3Aprediction&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-ANTITARGET-PANEL-PROTOCOL arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3Aselectivity+AND+all%3Adocking+AND+all%3Abenchmark&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable",
+    "TRG-CONDENSATE-PARTNER-RESOLUTION arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22coarse-grained%22+AND+all%3A%22phase+separation%22+AND+all%3A%22disordered%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 406: Not Acceptable"
+   ],
+   "signals_recorded": 12,
+   "abstracts_fetched": 4
   }
  ],
  "hits": {
@@ -307,6 +350,16 @@
     "url": "https://europepmc.org/article/MED/42723309",
     "first_seen": "2026-09-11",
     "age_days_at_first_seen": 1
+   },
+   "PMC13594704": {
+    "id": "PMC13594704",
+    "title": "From prediction to performance: &lt;i&gt;In silico&lt;/i&gt;-supported formulation of amorphous solid dispersions for PROTAC NX-2127",
+    "date": "2026-09-10",
+    "venue": "Int J Pharm X",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13594704",
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 15
    }
   },
   "TRG-TERNARY-GEN-NO-SITES": {
@@ -1662,6 +1715,27 @@
     "url": "https://europepmc.org/article/PMC/PMC13575427",
     "first_seen": "2026-09-18",
     "age_days_at_first_seen": 17
+   },
+   "MED/42758091": {
+    "id": "MED/42758091",
+    "title": "Beyond the drug-centric view: Advancing AI virtual cell platforms for environmental perturbation modelling",
+    "date": "2026-09-17",
+    "venue": "ALTEX",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42758091",
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 8
+   },
+   "PPR/PPR1325850": {
+    "id": "PPR/PPR1325850",
+    "title": "Reference-cell design shapes model evaluation in single-cell perturbation prediction",
+    "date": "2026-09-23",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1325850",
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 2,
+    "abstract": "Abstract    Single-cell perturbation benchmarks use control cells as model inputs and as baselines for predicted and observed responses. We show that reallocating these cells can reverse model rankings without changing fitted parameters or the scoring metric. Across eight model families in two peripheral blood mononuclear cell datasets, separating observation controls reversed 10 of 28 comparisons under both training regimes at the largest tested reference depths. Under balanced, equal-depth assignments scored before averaging, an exact squared-error relation links shared-to-disjoint ranking reversals between state-output and fixed direct-effect predictions to their initial margin and reference separation. Balanced input reassignment changed predictions without changing mean scores under shared scoring references. Reference-dependent selection changed secondary expression-program predictions, while observation references reversed the selected models\u2019 mean program-error ordering in 39 additional same-study donors. Refara separates input-dependent prediction changes from rescoring and assesses comparison stability across evaluated allocations. Control assignment should therefore be specified alongside models and metrics."
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -2156,6 +2230,16 @@
     "first_seen": "2026-09-18",
     "age_days_at_first_seen": 3,
     "abstract": "Abstract    Enzalutamide is an androgen receptor inhibitor extensively metabolized to the pharmacologically active metabolite N-desmethyl enzalutamide. This study developed an integrated physiologically based pharmacokinetic (PBPK) and exposure\u2013response (E\u2013R) modeling framework to evaluate the standard 160-mg and reduced 120-mg once-daily regimens. The whole-body PBPK model demonstrated acceptable predictive performance, with geometric mean fold errors of 1.16\u20131.35 and mean relative deviations of 1.39\u20131.41. Virtual population simulations showed that 77.0% and 85.5% of individuals receiving 120 and 160 mg, respectively, achieved the androgen receptor occupancy-associated concentration of 5 \u00b5g/mL, whereas 14.5% and 28.5%, respectively, reached or exceeded the exploratory toxicity-associated reference concentration of 16.1 \u00b5g/mL. PBPK-predicted total active-moiety trough concentrations were integrated with reconstructed clinical survival data using parametric E\u2013R models. Predicted median progression-free survival was 13.7 and 18.0 months for the 120- and 160-mg regimens, respectively, and predicted median overall survival was 32.0 and 34.0 months. Although the simulation intervals overlapped and the independent exposure effects remained uncertain, the findings provide a model-informed pharmacological rationale for prospective evaluation of reduced-dose enzalutamide as a dose-optimization strategy."
+   },
+   "MED/42764259": {
+    "id": "MED/42764259",
+    "title": "From Prediction to Decision Making: PBPK and QSP as Regulatory-Grade NAMs",
+    "date": "2026-09-20",
+    "venue": "Clin Pharmacol Ther",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42764259",
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 5
    }
   },
   "TRG-VECTOR-DELIVERY-SOLID-TUMOUR": {},
@@ -2913,6 +2997,28 @@
     "url": "https://europepmc.org/article/PMC/PMC13580205",
     "first_seen": "2026-09-18",
     "age_days_at_first_seen": 4
+   },
+   "MED/42768451": {
+    "id": "MED/42768451",
+    "title": "Population-specific variation in temperature-dependent RNAi efficacy in the Colorado potato beetle (Leptinotarsa decemlineata)",
+    "date": "2026-09-21",
+    "venue": "Pest Manag Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42768451",
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 4
+   },
+   "PPR/PPR1326288": {
+    "id": "PPR/PPR1326288",
+    "title": "Enhancing the efficacy of siRNA Antibody Oligonucleotide Conjugates (AOCs) through chemical design",
+    "date": "2026-09-23",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1326288",
+    "is_preprint": true,
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 2,
+    "abstract": "Antibody-oligonucleotide conjugates (AOCs) offer a promising solution to delivery challenges of therapeutic oligonucleotides. However, the relationship between their complex chemical architectures and biological activity remains poorly understood, limiting the development of important structure-function relationships. For siRNA-containing AOCs, increasing the siRNA-to-antibody ratio beyond one (drug-to-antibody ratio, DAR>1) reduces potency, attributed to altered pharmacokinetics arising from increased negative charge density. Here, we investigated whether simple chemical modifications could improve AOC efficacy and mitigate limitations associated with higher DAR. Introduction of a single C16 lipid modification to the siRNA significantly enhanced target gene silencing compared to the unmodified AOC. Extending this modification to a DAR2 architecture, in which two siRNAs are conjugated per antibody, restored the loss of activity associated with increasing DAR from 1 to 2. Notably, at an equivalent siRNA dose (1 mg/kg), the DAR2-C16 AOC requires half the amount of antibody while achieving knockdown comparable to the DAR1-C16 AOC. We also developed a charge-balancing ionizable linker (CBIL) designed to partially compensate for the negative charge of siRNA. Incorporation of the CBIL enhanced target gene silencing in heart and skeletal muscle without a corresponding increase in hepatic activity, resulting in a shift toward greater extrahepatic activity relative to liver. Together, these findings demonstrate that chemical modification of both the siRNA payload and antibody-siRNA linker can be used to tune AOC potency and tissue activity, while enabling higher payload loading without compromising efficacy. These results establish chemical design as an important strategy for expanding the architecture and therapeutic potential of AOCs."
    }
   },
   "TRG-EMC-FUNCTIONAL-MODEL": {
@@ -4737,6 +4843,40 @@
     "url": "https://europepmc.org/article/PMC/PMC13573717",
     "first_seen": "2026-09-18",
     "age_days_at_first_seen": 4
+   },
+   "MED/42760786": {
+    "id": "MED/42760786",
+    "title": "OASIS, a self-evolving AI scientist that integrates omics data and literature knowledge for plant stress research",
+    "date": "2026-09-18",
+    "venue": "Mol Plant",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42760786",
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 7
+   },
+   "PPR/PPR1325602": {
+    "id": "PPR/PPR1325602",
+    "title": "An Autonomous 1U Lab-on-chip Platform for Biomedical Research in Simulated Microgravity",
+    "date": "2026-09-23",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1325602",
+    "is_preprint": true,
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 2,
+    "abstract": "Abstract    This paper presents the development of a miniaturized 1U lab-on-chip platform for cell culture studies under simulated microgravity using a Random Positioning Machine (RPM). To enable experiments independently of conventional laboratory incubator, the platform integrates an autonomous thermal control unit and a battery-powered system. The all-glass lab-on-chip, incorporating a resistance heating wire and temperature sensors, was fabricated using standard microengineering techniques. Thermal control parameters, determined based on heat-transfer calculations, were validated by numerical simulations in COMSOL Multiphysics. A microprocessor-based control system was implemented for real-time temperature monitoring and closed-loop regulation of the heating module using a Pulse-Width Modulation (PWM) signal. A custom 3D-printed holder was additionally developed to securely integrate the platform with the RPM. The suitability of the system for cell-based experiments was evaluated using human ovarian cancer SKOV-3 cells. Fluorescent dead-cell staining revealed no significant increase in cell membrane damage indicative of cell death following the exposure. These results highlight the importance of carefully controlled experimental hardware in ground-based microgravity studies, as instrumentation and environmental conditions may substantially influence biological outcomes. Rather than demonstrating a specific cellular response to microgravity, this experiment serves as a proof-of-concept validation of the platform as a controlled and biocompatible environment for subsequent mechanistic studies."
+   },
+   "PPR/PPR1322532": {
+    "id": "PPR/PPR1322532",
+    "title": "A Closed-Loop Robot Scientist for Autonomous Biological Discovery",
+    "date": "2026-09-18",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1322532",
+    "is_preprint": true,
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 7,
+    "abstract": "Biological systems respond to a wide range of physical inputs and an overarching goal of biological research is understanding how these signaling events coordinate cellular, tissue, and organism-level outcomes. Yet the vast combinatorial space of physical and chemical interventions that influence these processes remains largely unexplored. Thus, a search process is required that efficiently learns how inputs affect a biological target via a series of automatically generated interventions, and a robot scientist that can conduct them. To this end we here introduce the Multimodal Organismal Modulation Robot (MOMbot), a robot scientist that integrates four physical intervention modalities\u2014chemical delivery, electrical field application, mechanical vibration, and thermal modulation\u2014within a single hardware platform. MOMbot\u2019s multimodal hardware is paired with high-resolution imaging and an online active learning algorithm that autonomously generates, executes, and refines interventions based on accumulated data. We validate the system across biological materials spanning three orders of magnitude in scale, including  Xenopus laevis embryos, motile mucociliary organoids, and disaggregated ectodermal stem cells, to show the utility of this approach across diverse biological disciplines. Using these biological models, we demonstrate precise thermal control of embryonic developmental rate, automated chemical perturbation with behavioral readouts, programmable electrical field stimulation, and vibrational assembly of functional mucociliary organoids from loose cells. We also describe the active learning algorithm that autonomously concentrates interventions near regions of maximal outcome uncertainty, yielding sample-efficient discovery of an electrical duration\u2013response relationship for motile organoids. These results establish MOMbot as a scalable robot/AI scientist team for biological discovery, enabling autonomous, multimodal physical experimentation and AI-driven exploration of complex biological systems."
    }
   },
   "TRG-POSE-ORIENTATION-CONVERGENCE": {
@@ -5345,6 +5485,26 @@
     "url": "https://europepmc.org/article/PMC/PMC13551558",
     "first_seen": "2026-09-18",
     "duplicate_of_title": true
+   },
+   "MED/42771163": {
+    "id": "MED/42771163",
+    "title": "Bellidifolin alleviates doxorubicin-induced hepatotoxicity: a study integrating network pharmacology, molecular docking, and experimental validation",
+    "date": "2026-09-22",
+    "venue": "Naturwissenschaften",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42771163",
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 3
+   },
+   "MED/42760374": {
+    "id": "MED/42760374",
+    "title": "Revealing the bioactive components and possible mechanism of Tongbi Lingding in the treatment of osteoarthritis based on UPLC-MS/MS, network pharmacology, transcriptomics, molecular docking, and experimental validation",
+    "date": "2026-09-19",
+    "venue": "Naunyn Schmiedebergs Arch Pharmacol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42760374",
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 6
    }
   },
   "TRG-COVALENT-EXPOSURE-CRITERION": {
@@ -6369,6 +6529,16 @@
     "first_seen": "2026-09-18",
     "age_days_at_first_seen": 2,
     "abstract": "DNA often functions in heterogeneous molecular systems containing proteins, lipids, polymers, and other materials. All-atom molecular dynamics simulations can be used to study DNA in these multicomponent systems, but computational cost limits the accessible system sizes and time scales. Coarse-grained models extend these scales, but existing DNA models are generally not designed for interactions with a broad range of other molecular species. To fill this gap, we develop a coarse-grained model of DNA designed for use with the Martini 3 force field. The model was parameterized through an iterative Bayesian optimization workflow, which used a scaled Wasserstein metric to compare distributions of local geometrical features and global structure from coarse-grained simulations against all-atom reference simulations. The optimized model captures key structural and mechanical properties of single- and double-stranded DNA across varying strand lengths and ionic conditions, while retaining compatibility with the broader Martini 3 ecosystem. This compatibility enables DNA to be integrated with a broad range of molecular systems, as we illustrate through simulations of double-stranded DNA bound to a transcription factor, cholesterol-tagged DNA duplex interacting with a lipid bilayer, a crossover-containing DNA nanostructure, and single-stranded DNA adsorbing onto graphene. Together, these results establish a transferable coarse-grained model of DNA for simulations of heterogeneous biomolecular and engineered systems."
+   },
+   "MED/42766754": {
+    "id": "MED/42766754",
+    "title": "Correction for Lobo et al., amyloid-predict and LLPS-predict: Predicting phase separation propensities in the intrinsically disordered proteome",
+    "date": "2026-09-21",
+    "venue": "Proc Natl Acad Sci U S A",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42766754",
+    "first_seen": "2026-09-25",
+    "age_days_at_first_seen": 4
    }
   },
   "TRG-FUSION-JUNCTION-CLINICAL": {

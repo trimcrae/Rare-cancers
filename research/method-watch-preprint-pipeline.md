@@ -8,12 +8,12 @@ canonical_for: []
 purpose: "Unrefereed preprints matching a named reopening trigger, grouped by the blocker they would reopen — a leading indicator for the forecast bands in the blocker register."
 scope: "Preprints only (Europe PMC SRC:PPR, arXiv, ChemRxiv). The published corpus is on the trigger-scan board."
 audience: [maintainers, autonomous research agents]
-date: 2026-09-18
+date: 2026-09-25
 last_verified: unverified
 ---
 # Preprint pipeline — what is coming, by blocker
 
-**Last run: 2026-09-18** (UTC date stamp from the runner).
+**Last run: 2026-09-25** (UTC date stamp from the runner).
 
 ⛔ **EVERYTHING HERE IS UNREFEREED, TITLE-MATCHED AND UNREAD.** A preprint is the weakest lead this repository records. It cannot move a forecast band, it is not evidence, and nothing here may be cited. Its value is WARNING — it is the earliest point at which a capability becomes visible, often months before the journal version.
 
@@ -27,6 +27,9 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-23 | [Enhancing the efficacy of siRNA Antibody Oligonucleotide Conjugates (AOCs) through chemical design](https://europepmc.org/article/PPR/PPR1326288) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
+| 2026-09-23 | [An Autonomous 1U Lab-on-chip Platform for Biomedical Research in Simulated Microgravity](https://europepmc.org/article/PPR/PPR1325602) | PPR | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-09-18 | [A Closed-Loop Robot Scientist for Autonomous Biological Discovery](https://europepmc.org/article/PPR/PPR1322532) | PPR | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-09-16 | [Martini 3 Coarse-Grained Model of DNA for Heterogeneous Molecular Systems](https://europepmc.org/article/PPR/PPR1321838) | PPR | `TRG-CONDENSATE-PARTNER-RESOLUTION` ⚠ |
 | 2026-09-14 | [PAIR-Scan: Single-step identification of highly potent TCR–neoantigen pairs through library-on-library screeni](https://europepmc.org/article/PPR/PPR1319203) | PPR | `TRG-JUNCTION-PHLA` ⚠ |
 | 2026-09-10 | [Auto-RecSys: Harnessing Autonomous Research Agents for Industry-Scale Recommender System](http://arxiv.org/abs/2609.10922v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
@@ -133,6 +136,18 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-02-17 | [RNAiSpline: A Deep learning model for siRNA efficacy prediction](https://europepmc.org/article/PPR/PPR1223467) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Enhancing the efficacy of siRNA Antibody Oligonucleotide Conjugates (AOCs) through chemical design** — PPR, 2026-09-23
+
+> Antibody-oligonucleotide conjugates (AOCs) offer a promising solution to delivery challenges of therapeutic oligonucleotides. However, the relationship between their complex chemical architectures and biological activity remains poorly understood, limiting the development of important structure-function relationships. For siRNA-containing AOCs, increasing the siRNA-to-antibody ratio beyond one (drug-to-antibody ratio, DAR>1) reduces potency, attributed to altered pharmacokinetics arising from increased negative charge density. Here, we investigated whether simple chemical modifications could improve AOC efficacy and mitigate limitations associated with higher DAR. Introduction of a single C16 lipid modification to the siRNA significantly enhanced target gene silencing compared to the unmodified AOC. Extending this modification to a DAR2 architecture, in which two siRNAs are conjugated per antibody, restored the loss of activity associated with increasing DAR from 1 to 2. Notably, at an equivalent siRNA dose (1 mg/kg), the DAR2-C16 AOC requires half the amount of antibody while achieving knockdown comparable to the DAR1-C16 AOC. We also developed a charge-balancing ionizable linker (CBIL) designed to partially compensate for the negative charge of siRNA. Incorporation of the CBIL enhanced target gene silencing in heart and skeletal muscle without a corresponding increase in hepa
+
+**An Autonomous 1U Lab-on-chip Platform for Biomedical Research in Simulated Microgravity** — PPR, 2026-09-23
+
+> Abstract    This paper presents the development of a miniaturized 1U lab-on-chip platform for cell culture studies under simulated microgravity using a Random Positioning Machine (RPM). To enable experiments independently of conventional laboratory incubator, the platform integrates an autonomous thermal control unit and a battery-powered system. The all-glass lab-on-chip, incorporating a resistance heating wire and temperature sensors, was fabricated using standard microengineering techniques. Thermal control parameters, determined based on heat-transfer calculations, were validated by numerical simulations in COMSOL Multiphysics. A microprocessor-based control system was implemented for real-time temperature monitoring and closed-loop regulation of the heating module using a Pulse-Width Modulation (PWM) signal. A custom 3D-printed holder was additionally developed to securely integrate the platform with the RPM. The suitability of the system for cell-based experiments was evaluated using human ovarian cancer SKOV-3 cells. Fluorescent dead-cell staining revealed no significant increase in cell membrane damage indicative of cell death following the exposure. These results highlight the importance of carefully controlled experimental hardware in ground-based microgravity studies, as instrumentation and environmental conditions may substantially influence biological outcomes. Rat
+
+**A Closed-Loop Robot Scientist for Autonomous Biological Discovery** — PPR, 2026-09-18
+
+> Biological systems respond to a wide range of physical inputs and an overarching goal of biological research is understanding how these signaling events coordinate cellular, tissue, and organism-level outcomes. Yet the vast combinatorial space of physical and chemical interventions that influence these processes remains largely unexplored. Thus, a search process is required that efficiently learns how inputs affect a biological target via a series of automatically generated interventions, and a robot scientist that can conduct them. To this end we here introduce the Multimodal Organismal Modulation Robot (MOMbot), a robot scientist that integrates four physical intervention modalities—chemical delivery, electrical field application, mechanical vibration, and thermal modulation—within a single hardware platform. MOMbot’s multimodal hardware is paired with high-resolution imaging and an online active learning algorithm that autonomously generates, executes, and refines interventions based on accumulated data. We validate the system across biological materials spanning three orders of magnitude in scale, including  Xenopus laevis embryos, motile mucociliary organoids, and disaggregated ectodermal stem cells, to show the utility of this approach across diverse biological disciplines. Using these biological models, we demonstrate precise thermal control of embryonic developmental ra
 
 **Martini 3 Coarse-Grained Model of DNA for Heterogeneous Molecular Systems** — PPR, 2026-09-16
 
@@ -556,6 +571,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-23 | [Reference-cell design shapes model evaluation in single-cell perturbation prediction](https://europepmc.org/article/PPR/PPR1325850) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-09 | [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts wi](https://europepmc.org/article/PPR/PPR1315617) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
 | 2026-09-01 | [PopPert: Population-level Joint-Distribution Modeling for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2609.01357v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-31 | [Ki-67 labeling index and HIF-1α expression delineate prognostic heterogeneity within FNCLCC grade 2 soft-tissu](https://europepmc.org/article/PPR/PPR1308533) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
@@ -602,6 +618,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Reference-cell design shapes model evaluation in single-cell perturbation prediction** — PPR, 2026-09-23
+
+> Abstract    Single-cell perturbation benchmarks use control cells as model inputs and as baselines for predicted and observed responses. We show that reallocating these cells can reverse model rankings without changing fitted parameters or the scoring metric. Across eight model families in two peripheral blood mononuclear cell datasets, separating observation controls reversed 10 of 28 comparisons under both training regimes at the largest tested reference depths. Under balanced, equal-depth assignments scored before averaging, an exact squared-error relation links shared-to-disjoint ranking reversals between state-output and fixed direct-effect predictions to their initial margin and reference separation. Balanced input reassignment changed predictions without changing mean scores under shared scoring references. Reference-dependent selection changed secondary expression-program predictions, while observation references reversed the selected models’ mean program-error ordering in 39 additional same-study donors. Refara separates input-dependent prediction changes from rescoring and assesses comparison stability across evaluated allocations. Control assignment should therefore be specified alongside models and metrics.
 
 **Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts with comparator and sequencing-year limits** — PPR, 2026-09-09
 
@@ -837,6 +857,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-23 | [Reference-cell design shapes model evaluation in single-cell perturbation prediction](https://europepmc.org/article/PPR/PPR1325850) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-09-01 | [PopPert: Population-level Joint-Distribution Modeling for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2609.01357v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-08-24 | [DeMixPert: Decomposed Response Modeling with Gaussian Mixtures for OOD Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.23114v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-08-15 | [$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.15288v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
@@ -880,6 +901,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-04-21 | [AblateCell: A Reproduce-then-Ablate Agent for Virtual Cell Repositories](http://arxiv.org/abs/2604.19606v2) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Reference-cell design shapes model evaluation in single-cell perturbation prediction** — PPR, 2026-09-23
+
+> Abstract    Single-cell perturbation benchmarks use control cells as model inputs and as baselines for predicted and observed responses. We show that reallocating these cells can reverse model rankings without changing fitted parameters or the scoring metric. Across eight model families in two peripheral blood mononuclear cell datasets, separating observation controls reversed 10 of 28 comparisons under both training regimes at the largest tested reference depths. Under balanced, equal-depth assignments scored before averaging, an exact squared-error relation links shared-to-disjoint ranking reversals between state-output and fixed direct-effect predictions to their initial margin and reference separation. Balanced input reassignment changed predictions without changing mean scores under shared scoring references. Reference-dependent selection changed secondary expression-program predictions, while observation references reversed the selected models’ mean program-error ordering in 39 additional same-study donors. Refara separates input-dependent prediction changes from rescoring and assesses comparison stability across evaluated allocations. Control assignment should therefore be specified alongside models and metrics.
 
 **PopPert: Population-level Joint-Distribution Modeling for Single-Cell Perturbation Prediction** — arXiv, 2026-09-01
 
@@ -1115,6 +1140,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-09-23 | [Reference-cell design shapes model evaluation in single-cell perturbation prediction](https://europepmc.org/article/PPR/PPR1325850) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-09 | [Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts wi](https://europepmc.org/article/PPR/PPR1315617) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
 | 2026-09-01 | [PopPert: Population-level Joint-Distribution Modeling for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2609.01357v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-31 | [Ki-67 labeling index and HIF-1α expression delineate prognostic heterogeneity within FNCLCC grade 2 soft-tissu](https://europepmc.org/article/PPR/PPR1308533) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
@@ -1162,6 +1188,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Reference-cell design shapes model evaluation in single-cell perturbation prediction** — PPR, 2026-09-23
+
+> Abstract    Single-cell perturbation benchmarks use control cells as model inputs and as baselines for predicted and observed responses. We show that reallocating these cells can reverse model rankings without changing fitted parameters or the scoring metric. Across eight model families in two peripheral blood mononuclear cell datasets, separating observation controls reversed 10 of 28 comparisons under both training regimes at the largest tested reference depths. Under balanced, equal-depth assignments scored before averaging, an exact squared-error relation links shared-to-disjoint ranking reversals between state-output and fixed direct-effect predictions to their initial margin and reference separation. Balanced input reassignment changed predictions without changing mean scores under shared scoring references. Reference-dependent selection changed secondary expression-program predictions, while observation references reversed the selected models’ mean program-error ordering in 39 additional same-study donors. Refara separates input-dependent prediction changes from rescoring and assesses comparison stability across evaluated allocations. Control assignment should therefore be specified alongside models and metrics.
 
 **Fixed-panel tissue RNA prioritization in extraskeletal myxoid chondrosarcoma: CSPG4 evidence across cohorts with comparator and sequencing-year limits** — PPR, 2026-09-09
 
