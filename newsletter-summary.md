@@ -1,18 +1,18 @@
-# NR4A3 method-watch — week of September 18
+# NR4A3 method-watch — week of September 25
 
-Quiet week — no new pivotal clinical readout, no first-in-class result, and nothing new on
-NR4A3/EMC directly. Last week's big stories just kept generating follow-up press with no new data.
+A real week for once — a degrader reached Phase III, and the literature turned up the closest
+precedent yet for the vaccine route. Nothing new on NR4A3/EMC itself.
 
-- **Genexine's GX-BP1 (SOX2 bioPROTAC): 6/6 complete responses** in a mouse triple-combination
-  model with osimertinib + Dato-DXd (Yahoo Finance, 9/15) — preclinical, press-sourced, so a lead
-  not evidence, but a fresh precedent signal for the NR4A3 degrader route if it replicates.
-- **"Protein degrading breast cancer drugs navigate bumpy road to market"** (Chemistry World, 9/15)
-  — background color on degraders' regulatory/market path, not new trial data; touches the degrader
-  route's context, no action needed.
-- Rehash only: the **BioNTech colorectal-vaccine trial halt** and the **Merck/Moderna melanoma
-  mRNA-vaccine win** are still drawing "what it means" analysis pieces — same stories you already
-  saw, no new data attached.
-
-Nothing this week on: ASO/oligo solid-tumour delivery, new tool or model releases (AF3/bioemu
-versions unchanged), or actionable GPU/compute funding for individuals — the funding sweep only
-turned up one new item and it's not in the individual-eligible bucket.
+- **Astellas dosed the first Phase III patient with setidegrasib**, a KRAS G12D-targeted
+  degrader, in previously-treated NSCLC (Morningstar, BioPharma APAC, AllSci; 9/23–9/24). A
+  targeted protein degrader reaching a pivotal trial is direct clinical precedent for the NR4A3
+  degrader route's modality, even though the target class differs.
+- **Literature: durable clinical/immunologic response to an off-the-shelf EWSR1-FLI1 peptide
+  vaccine in metastatic Ewing sarcoma.** This is the closest fusion-breakpoint-vaccine precedent
+  yet for the EWSR1::NR4A3 junction-vaccine route — worth reading in full if you haven't seen it.
+- Sarcoma-adjacent, not EMC-specific: SOTIO's SOT106 (ADC) picked up FDA Fast Track + Orphan Drug
+  designations for osteosarcoma/soft-tissue sarcoma, and an interim analysis showed a 3-year OS
+  benefit for OST-HER2 in metastatic pulmonary osteosarcoma.
+- Quiet elsewhere: no oligonucleotide-in-solid-tumour delivery breakthroughs (ASO route's gate
+  stays shut), no direct NR4A3/EWSR1::NR4A3 literature hits, and no new individual-eligible
+  GPU/compute funding beyond last week's DoD/NSF list.
