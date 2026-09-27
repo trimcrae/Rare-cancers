@@ -1,0 +1,13 @@
+# Administrative notes correction: 22986104
+
+This task branch repairs one stale preparation sentence on the already published ASO dataset. It does not change the frozen scientific candidate at 840e567796e27ee0d95e6da68d55a269dcd51e40. Neither this task-only workflow replacement nor this administrative directory is intended for main integration or a dataset release.
+
+The expected public response was anonymously retrieved after publication and byte verification. The replacement retains the existing first sentence of notes and removes its obsolete description of the earlier draft operation. All other metadata, version/DOI/concept identity and files must remain unchanged. The whole public ZIP is checked before and after against its accepted SHA-256, MD5 and size.
+
+Official protocol: https://developers.zenodo.org/#edit, #update and #publish. A published deposition remains submitted=true while its metadata is editable. This is not the newversion operation. The script contains no file mutation, record creation, deletion or discard endpoint. Authenticated deposition metadata is preserved; only the documented response DOI-reservation object is omitted from the PUT. Unexpected fields or transformations stop execution for inspection.
+
+Run the network-free checks with `python -m unittest discover -s .github/aso-notes-repair-20260927 -p 'test_*.py' -v`. The existing workflow path is used on the administrative branch because a new workflow absent from the default branch may not be dispatchable. Dispatch inspect first on the exact reviewed commit, examine its saved authenticated/public state, then apply on that same commit if the shape is supported. The existing Zenodo token stays in the CI environment and Authorization header. Raw provider receipts remain in the run artifact and external QA directory, not public Git.
+
+Every request intent is saved before transmission. Mutations are never automatically retried. Any uncertain response, unexpected state, or incomplete 202 integration requires read-only reconciliation. No automatic discard is attempted. An already corrected record yields a verified no-op; a foreign editing session fails closed.
+
+This is administrative metadata verification, not a rerun or expansion of scientific acceptance. The previously passed full candidate gate, independent ultra review, offline analysis replay and document checks retain their exact scope. Journal submission and public preprint changes remain unauthorized.

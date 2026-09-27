@@ -1,221 +1,58 @@
-# Create a paper's Zenodo deposition and RESERVE its DOI. Dispatch-only, and it never publishes.
-#
-# ⛔ TO CORRECT AN ALREADY-PUBLISHED RECORD, dispatch with new_version=true. A published version's
-# files cannot be edited, only superseded, so a correction opens a NEW VERSION of the same record:
-# it inherits the concept DOI, reserves a version DOI of its own, and the reserve-then-rebuild
-# ordering below then works for a correction exactly as it worked for the first deposit — paste the
-# reserved DOI into the manuscript, rebuild, and only then publish by hand.
-# ⚠ NOT `--new`, which makes an unrelated SECOND record with its own concept DOI and orphans the
-# citation trail from the published paper.
-#
-# ⛔ THIS IS TIER 2, AND IT IS NOT release.yml. `deploy/release-doi.md` wires GitHub Releases to
-# Zenodo and archives the WHOLE REPOSITORY under one concept DOI that moves to the newest release —
-# right for citing a living project, wrong for citing a paper, whose availability statement has to
-# name a frozen snapshot. This workflow deposits ONE PAPER's artefacts, taken from that paper's own
-# archive manifest, as its own record with its own version history.
-#
-# ⛔ IT PUBLISHES ONLY WHEN `publish=true`, AND THAT PATH REFUSES WHAT IT CANNOT VERIFY.
-# ⚠ Superseded, retained (rule 1.2): "IT DOES NOT PUBLISH, AND THAT IS DELIBERATE." True until
-# 2026-08-30, when trimcrae widened the grant — "You should submit to zenodo on your own. That can
-# be as simple as a quick approval request to me when ready." The second sentence is implemented as
-# a gate: `publish=true` requires `approved_by`, and `refuse_unless_publishable` in the script also
-# demands that publication-authority.json names the act and that the draft's recorded digest still
-# equals the manifest's. ★ THAT LAST CHECK IS THE ONE A HUMAN CLICKING PUBLISH ON zenodo.org CANNOT
-# MAKE, and this draft went stale twice during the 2026-08-29/30 correction.
-#
-# ⛔ THE ORIGINAL REASONING BELOW STILL HOLDS FOR EVERY RUN THAT IS NOT `publish=true`. Publishing on Zenodo is irreversible: a published
-# version's files cannot be edited, only superseded. What this produces is a DRAFT with a RESERVED
-# DOI, printed in the job summary, so the manuscript can be rebuilt citing the identifier the
-# archive will actually carry. The publish click stays human.
-#
-# SETUP (once, by the author — needs a Zenodo account):
-#   1. zenodo.org -> Applications -> Personal access tokens -> new token,
-#      scopes `deposit:write` and `deposit:actions`.
-#   2. GitHub -> repo Settings -> Secrets and variables -> Actions -> New repository secret,
-#      name ZENODO_TOKEN.
-#   3. Dispatch this workflow with sandbox=true first. The sandbox is a full rehearsal against
-#      sandbox.zenodo.org that mints nothing real, and it is how a token scope or a metadata
-#      rejection is found without spending a DOI on the discovery.
-name: Deposit — reserve a paper's Zenodo DOI
-
+# TASK-ONLY administrative replacement. Never merge this workflow to main.
+name: ASO published archive notes correction
 on:
   workflow_dispatch:
     inputs:
-      paper:
-        description: "Which paper's manifest to deposit"
+      mode:
+        description: Inspect first; apply only the recorded same-record notes correction
         type: choice
-        options: [aso]
-        default: aso
-      package:
-        description: "Archive payload; both packages retain the same ASO concept and concurrency lock"
-        type: choice
-        options: [canonical, junction-provenance-20260926]
-        default: canonical
-      inspect:
-        description: "Named package only: inspect authenticated record/draft identity without mutation"
-        type: boolean
-        default: false
-      adopt_draft:
-        description: "Named package only: exact existing draft ID after ownership reconciliation"
-        required: false
-        default: ""
-      sandbox:
-        description: "Rehearse against sandbox.zenodo.org (mints nothing real). Leave TRUE until a rehearsal has passed."
-        type: boolean
-        default: true
-      new_version:
-        description: "The record is already PUBLISHED and needs correcting: open a new VERSION of it and reserve that version's DOI. On its own it does not publish — that needs `publish: true` and an approval."
-        type: boolean
-        default: false
-      record:
-        description: "archive = the paper's code and artefacts (a dataset record). preprint = the condensed article itself, as its OWN record with its own DOI — never a version of the archive. verify = touch nothing; READ the published record the papers cite and report what a reader gets."
-        type: choice
-        options: [archive, preprint, verify]
-        default: archive
-      publish:
-        description: "⛔ IRREVERSIBLE. PUBLISH the existing draft instead of updating it. A published version's files cannot be edited, only superseded. Refuses unless publication-authority.json grants it, approved_by is given, and the draft's digest still equals the manifest's."
-        type: boolean
-        default: false
-      approved_by:
-        description: "Who approved THIS publication, and when. Required when publish is true — an approval for one deposition is not an approval for the next."
-        required: false
-        default: ""
-
+        options: [inspect, apply]
+        default: inspect
+      expected_sha:
+        description: Exact reviewed administrative commit
+        required: true
+        type: string
+      authority:
+        description: Attribution to the existing archive standing grant
+        required: true
+        type: string
 permissions:
   contents: read
-
 concurrency:
-  group: deposit-zenodo-${{ inputs.paper }}
+  group: deposit-zenodo-aso
   cancel-in-progress: false
-
 jobs:
-  deposit:
+  notes:
+    if: github.ref == 'refs/heads/codex/aso-notes-20260927' && github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: ${{ github.sha }}
+          fetch-depth: 1
           persist-credentials: false
-
-      - name: Validate package mode
-        env:
-          PACKAGE: ${{ inputs.package || 'canonical' }}
-          RECORD: ${{ inputs.record }}
-          INSPECT: ${{ inputs.inspect }}
-          ADOPT_DRAFT: ${{ inputs.adopt_draft }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/aso-notes-repair-20260927/
+            /research/autonomy/publication-authority.json
+      - name: Focused behavioral checks
         shell: bash
-        run: |
-          if [ "$PACKAGE" != canonical ] && [ "$RECORD" != archive ]; then
-            echo "::error::Named packages apply only to the existing ASO data archive."
-            exit 1
-          fi
-          if [ "$PACKAGE" = canonical ] && { [ "$INSPECT" = true ] || [ -n "$ADOPT_DRAFT" ]; }; then
-            echo "::error::Inspection/adoption inputs apply only to the named package."
-            exit 1
-          fi
-
-      # The manifest's hashes are only meaningful against the revision it names, and the script
-      # checks every one of them before it opens a socket. A drifted manifest fails here, offline.
-      # (This line typed "all 473" against a manifest whose own n_files had moved to 476: a count
-      # retyped beside the artifact that derives it is the drift the manifest exists to prevent.)
-      - name: Verify the manifest against this tree and build the payload
-        if: inputs.record == 'archive'
-        env:
-          PACKAGE: ${{ inputs.package || 'canonical' }}
-        run: python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" --package "$PACKAGE" --build-only
-
-      # ⛔ THE PREPRINT RECORD IS A SEPARATE RECORD, NOT A VERSION OF THE ARCHIVE, and
-      # scripts/zenodo_preprint.py's header carries the whole argument. In one line: a Zenodo
-      # version means SUPERSESSION and the concept DOI follows the newest one, so making the paper
-      # a version of the artefact archive would point the archive's own DOI at a 6-page manuscript
-      # and assert that the condensed article obsoletes the extended report it cites. The two are
-      # linked by `related_identifiers` instead, which is the mechanism for "related" as against
-      # "the same thing at a later date".
-      # ⚠ --build-only READS AND PRINTS every field it will send. That is not decoration: the first
-      # run of this script reported 35 keywords because a lazy quantifier had escaped its paragraph
-      # and swallowed the paper, and nothing but the printed value would have shown it.
-      - name: Read the preprint metadata out of the manuscript and show it
-        if: inputs.record == 'preprint'
-        run: python3 scripts/zenodo_preprint.py --build-only
-
-      # ⛔ READ-ONLY, NO TOKEN, AND IT ANSWERS THE ONE QUESTION A CLICK CANNOT. "I published it" is
-      # a report about an outside system; "the DOI printed in the paper resolves to a published
-      # record holding N files" is a reading. This repository carried "⏳ Awaiting bioRxiv
-      # screening" for three days after bioRxiv had declined, which is what the difference costs.
-      - name: Read the published record the papers cite
-        if: inputs.record == 'verify'
+        run: python3 -m unittest discover -s .github/aso-notes-repair-20260927 -p 'test_*.py' -v
+      - name: Inspect or correct the existing record
         shell: bash
-        run: python3 scripts/zenodo_verify.py | tee deposit.log
-
-      - name: Create the draft deposition and reserve the DOI
-        if: inputs.record != 'verify'
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
-          # ⛔ THE APPROVAL TRAVELS AS AN ENVIRONMENT VARIABLE, NOT AS INTERPOLATED SHELL TEXT.
-          # `${{ inputs.approved_by }}` pasted into a `run:` block is substituted BEFORE bash sees
-          # the line, so its spaces split it into separate argv entries and its quotes end up in
-          # the command itself. Measured 2026-08-30, run 33315651451: argparse answered
-          # "unrecognized arguments: 2026-08-30, AskUserQuestion ..." and the publish never
-          # happened — the failure was early and safe, but it was a failure.
-          # ⚠ AND THE QUOTING BUG IS THE SMALLER HALF. A dispatch input is attacker-controlled text
-          # in the general case; interpolating it into a shell command is script injection. An env
-          # var is passed as data and never re-parsed, which fixes both at once.
-          APPROVED_BY: ${{ inputs.approved_by }}
-          PACKAGE: ${{ inputs.package || 'canonical' }}
-          INSPECT: ${{ inputs.inspect }}
-          ADOPT_DRAFT: ${{ inputs.adopt_draft }}
-        # ⛔⛔ `shell: bash` IS LOAD-BEARING, AND ITS ABSENCE MADE THIS STEP REPORT SUCCESS ON A
-        # FAILED DEPOSIT (measured 2026-08-22, run 32592438100). GitHub's DEFAULT shell for a `run:`
-        # block is `bash -e {0}` — `-e` and NO `pipefail`. The command below ends `| tee
-        # deposit.log`, so the pipeline's exit status is tee's, and tee always succeeds. The script
-        # exited non-zero on a Zenodo 404, the error printed in the log, and every step and the run
-        # itself came back green. Naming `bash` explicitly gets `bash --noprofile --norc -eo
-        # pipefail {0}`, which is the only difference that matters here.
-        # ⚠ THIS IS THE REPOSITORY'S HEADER DEFECT IN A WORKFLOW: a step that reports while
-        # measuring nothing. It was found by dispatching the rehearsal the workflow exists to
-        # provide, which is the argument for rehearsing.
-        shell: bash
-        run: |
-          if [ -z "$ZENODO_TOKEN" ]; then
-            echo "::error::ZENODO_TOKEN is not set. See this file's SETUP block." && exit 1
-          fi
-          if [ "${{ inputs.record }}" = "preprint" ]; then
-            python3 scripts/zenodo_preprint.py \
-              ${{ inputs.sandbox && '--sandbox' || '' }} | tee deposit.log
-          else
-            args=(--paper "${{ inputs.paper }}")
-            args+=(--package "$PACKAGE")
-            if [ "$PACKAGE" != canonical ]; then
-              args+=(--receipt "$RUNNER_TEMP/zenodo-operation.json")
-            fi
-            if [ "$INSPECT" = true ]; then args+=(--inspect); fi
-            if [ -n "$ADOPT_DRAFT" ]; then args+=(--adopt-draft "$ADOPT_DRAFT"); fi
-            ${{ inputs.sandbox && 'args+=(--sandbox)' || ':' }}
-            ${{ inputs.new_version && 'args+=(--new-version)' || ':' }}
-            if [ "${{ inputs.publish }}" = "true" ]; then
-              args+=(--publish --approved-by "$APPROVED_BY")
-            fi
-            python3 scripts/zenodo_deposit.py "${args[@]}" | tee deposit.log
-          fi
-
-      - name: Preserve the log and factual operation receipts
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          AUTHORITY_RECORD: ${{ inputs.authority }}
+          MODE: ${{ inputs.mode }}
+        run: python3 .github/aso-notes-repair-20260927/repair.py --mode "$MODE" --out "$RUNNER_TEMP/aso-notes-receipts" | tee notes.log
+      - name: Preserve every request intent, response and outcome
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: zenodo-${{ inputs.paper }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: aso-notes-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            deposit.log
-            ${{ runner.temp }}/zenodo-operation.json
-            ${{ runner.temp }}/zenodo-operation.json.publish.json
-          if-no-files-found: warn
-
-      - name: Put the reserved DOI in the job summary
-        if: always()
-        run: |
-          {
-            echo "## Zenodo deposition — ${{ inputs.paper }} (${{ inputs.record }})"
-            [ "${{ inputs.sandbox }}" = "true" ] && echo "**Rehearsal against sandbox.zenodo.org — nothing real was minted.**"
-            echo '```'
-            cat deposit.log 2>/dev/null || echo "no log — the run failed before the deposition step"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+            notes.log
+            ${{ runner.temp }}/aso-notes-receipts/
+          if-no-files-found: error
