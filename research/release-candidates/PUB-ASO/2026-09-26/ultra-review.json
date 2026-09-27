@@ -1,0 +1,38 @@
+{
+  "runtime": {
+    "session_id": "01a0e062-691b-7f32-87d1-04f1849f38a0",
+    "turn_id": "01a0e062-6a49-7490-b03c-c0d987453da8",
+    "model": "gpt-6-astra",
+    "effort": "ultra",
+    "source_log": "C:\\Users\\mcrae\\.codex\\sessions\\2026\\09\\26\\rollout-2026-09-26T21-02-21-01a0e062-691b-7f32-87d1-04f1849f38a0.jsonl",
+    "source_lines": [
+      1,
+      8
+    ]
+  },
+  "frozen_digest": "70b9acb0ddce51bc8db486623368d09f132c22ff6a19d49b5d9fe33f2c3ec8c2",
+  "actual_final_response": {
+    "timestamp": "2026-09-27T01:11:52.202Z",
+    "ordinal": 193,
+    "type": "response_item",
+    "payload": {
+      "type": "message",
+      "id": "msg_011f24aeb7f742f2016ab86d3102f087d1a3c58ceaf8282bc9",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "Independent ultra review completed. **No scientific submission blockers identified.** The narrowly framed contribution warrants submission as concise Original Research to *Computational Biology and Chemistry*. It provides an auditable model-annotation correspondence and specific additional normal-transcript matches; its novelty is modest and does not establish antisense efficacy or selectivity.\n\nThe journal explicitly includes nucleic-acid sequence research. Its warning against premature modeling is relevant, but this manuscript reports verifiable sequence observations rather than unsupported therapeutic predictions. Editorial acceptance remains uncertain because the contribution is specialized and lacks functional evidence. [Official journal scope](https://shop.elsevier.com/journals/computational-biology-and-chemistry/1476-9271).\n\n- **Actual execution:** `gpt-6-astra`, `effort=ultra`. Independently inspected original runtime records: session `01a0e062-691b-7f32-87d1-04f1849f38a0`, turn `01a0e062-6a49-7490-b03c-c0d987453da8`, lines 1 and 8 of `C:/Users/mcrae/.codex/sessions/2026/09/26/rollout-2026-09-26T21-02-21-01a0e062-691b-7f32-87d1-04f1849f38a0.jsonl`.\n- **Reviewed freeze:** `70b9acb0ddce51bc8db486623368d09f132c22ff6a19d49b5d9fe33f2c3ec8c2`.\n- **Integrity:** Recomputed the aggregate digest and verified all 101 listed file hashes, including a concluding unchanged-freeze check.\n- **Completion:** 2026-09-27 01:11 UTC; approximately nine minutes. Read-only; no files or repository state modified. Independent probe completed; nothing remains running.\n\nCandidate base:  \n`C:/Users/mcrae/.codex/worktrees/emc-aso-submission-20260926/EMC-Research/research/release-candidates/PUB-ASO/2026-09-26`\n\nContent inspected included `manuscript.md`, `supplementary-methods.md`, `highlights.txt`, `graphical-abstract-caption.txt`, `evidence/analyze.py`, `evidence/read_prefix_probe.py`, all eleven `evidence/results/` files, relevant pinned inputs, amendments, correction record, source retrieval receipts, prefix receipts, and `VERIFICATION.json`. Primary-source inspection included the Bangerter and Brenca XML, original Figure 4 panel images, DElite XML/metadata, ENA metadata, Ensembl protein/transcript/cDNA records, UCSC genomic and RefSeq records, deposited fusion GenBank records, and NR4A3/U12767 nucleotide records. Watt, Andersson, and Hedvat bibliographic/abstract records were inspected for the claims attributed to them.\n\nIndependent verification supports the principal results:\n\n- Original Figure 4 confirms the transcribed USZ20 coordinates and protein IDs. Independently reconstructed exon boundaries and 30-base flanks agree with both genomic sequence and the catalogue EWSR1 e12/NR4A3 e3 join.\n- That correspondence remains a **reference reconstruction**. The manuscript appropriately retains inferred build/convention and missing patient consensus, variants, and insertions.\n- USZ22’s displayed gene order and internal 41-base intervals support leaving its exact directional seam unresolved.\n- All seven deposited 16+16-base anchors occur uniquely at the reported positions and represent five distinct seams. Duplicate accessions are not treated as independent patients. Brenca construct reconstructions remain a separate evidence class.\n- An independent gap-anchor/extension implementation reproduced all **40 design metrics and 448 tied maximum locations**, including **9/35 increases**, **14→21/35 at ten bases**, and **zero full 16-base matches**.\n- All 68 curated accessions correspond to the gene-filtered archived UCSC queries. The exported corpus contains **77 records and 71 distinct sequences**. Its restriction to captured parent-gene references is accurately stated.\n- Independently verified the full 6–16-base cutoff table and all five label-transfer Hamming/gap distances.\n- The proposed symmetric 5–6–5 architecture correctly maps to target positions 6–11. Forward-RNA comparisons and antisense orientation are correct. Exact gap-spanning length is a descriptive metric; the manuscript does not improperly equate it with cleavage risk.\n- Independently replayed the existing 64-MiB prefixes without writing outputs. Their SHA-256s match the receipts. Results reproduce **1,961,217** and **2,420,522** complete records, **zero exact anchors in either orientation**, 44 candidate joins, and truncated-gzip termination. The negative result remains explicitly limited.\n- The historical 87/190 count is recoverable from the pinned original results. The adverse artificial-control comparison is preserved rather than used to imply an EMC-specific excess.\n\nOne finding:\n\n| Class | Exact artifact/claim | Evidence and consequence | Smallest correction |\n|---|---|---|---|\n| Maintenance | `supplementary-methods.md`, S6: saved probe outputs and receipts are included. | The package includes empty hit arrays and prefix receipts but omits `read-probe-results-64MiB.json`, which records run/sample mapping, exact counts, termination, and search scope. The original file exists in `C:/Users/mcrae/Documents/Codex/2026-09-07/emc-research-orchestrator/work/aso-documented-junctions-20260926/`. Its contents agree with my independent replay. Reproduction remains possible, so this is not an unsupported-result or scientific submission blocker. | Copy the unchanged aggregate result into the supplement and update package manifests. Include the historical aggregate if preserving that probe stage. Verify source/copy hashes; no new scientific analysis or full review required. |\n\nNo material scientific evidence is missing **for the conclusions currently claimed**. Patient RNA consensus/directional calls, attributable construct-spanning reads, transcriptome/pre-mRNA comparisons, tissue-expression context, and chemistry-matched experimental testing remain necessary for stronger biological or lead-selection claims. The present manuscript accurately acknowledges those limits."
+        }
+      ],
+      "phase": "final_answer",
+      "internal_chat_message_metadata_passthrough": {
+        "turn_id": "01a0e062-6a49-7490-b03c-c0d987453da8",
+        "content_item_kinds": [
+          "unknown"
+        ]
+      }
+    }
+  },
+  "disposition": "No scientific blockers. Added unchanged saved probe aggregates. Formatting and metadata repairs preserve the scientific body. Focused verification follows."
+}

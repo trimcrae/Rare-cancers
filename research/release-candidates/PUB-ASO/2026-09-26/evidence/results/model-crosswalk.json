@@ -1,0 +1,62 @@
+{
+  "USZ20": {
+    "evidence_class": "reference_reconstruction_from_reported_coordinates",
+    "reference_genome_build_inferred": "GRCh37/hg19",
+    "coordinate_convention_inferred": "1-based terminal exon bases",
+    "reference_junction_30_plus_30": "CTGCCAAGGCTGCCGTGGAATGGTTTGATG|ATATGCCCTGCGTCCAAGCCCAATATAGCC",
+    "catalogue_matches": [
+      "EWSR1_e12__NR4A3_e3"
+    ],
+    "refseq_corroboration": [
+      {
+        "gene": "EWSR1",
+        "accession": "NM_005243.4",
+        "exon": 12,
+        "start_1based": 29692229,
+        "end_1based": 29692358
+      },
+      {
+        "gene": "NR4A3",
+        "accession": "NM_006981.4",
+        "exon": 3,
+        "start_1based": 102590323,
+        "end_1based": 102591275
+      }
+    ],
+    "unresolved": "patient consensus; variants/insertions; original caller conventions; build not explicitly stated"
+  },
+  "USZ22": {
+    "evidence_class": "unresolved_intervals",
+    "intervals": [
+      {
+        "gene": "NR4A3",
+        "interval": [
+          102590347,
+          102590387
+        ],
+        "exon_start": 102590323,
+        "exon_end": 102591275,
+        "inclusive_width": 41,
+        "offsets_1based_in_exon": [
+          25,
+          65
+        ]
+      },
+      {
+        "gene": "TAF15",
+        "interval": [
+          34149754,
+          34149794
+        ],
+        "exon_start": 34149644,
+        "exon_end": 34149837,
+        "inclusive_width": 41,
+        "offsets_1based_in_exon": [
+          111,
+          151
+        ]
+      }
+    ],
+    "exact_junction": null
+  }
+}
