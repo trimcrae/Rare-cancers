@@ -1,0 +1,71 @@
+name: ASO candidate full verification (artifact only)
+
+# Task-branch diagnostic/release evidence. This workflow never writes to main,
+# publishes a paper, or weakens the existing unscoped preflight command.
+on:
+  push:
+    branches: [codex/aso-submission-20260926]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aso-candidate-full-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.ref == 'refs/heads/codex/aso-submission-20260926'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Check storage headroom before checkout and dependencies
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import shutil
+          free = shutil.disk_usage('.').free
+          budget = 6 * 1024**3
+          print(f'FREE_BYTES={free}; CHECKOUT_DEPENDENCY_TEST_BUDGET={budget}')
+          assert free >= 10 * 1024**3 + budget, 'Insufficient planned storage headroom'
+          PY
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install the existing gates' dependencies
+        shell: bash
+        run: |
+          command -v uv >/dev/null 2>&1 || pip install -q uv
+          ./scripts/dev-setup.sh --if-needed
+      - name: Run the full preflight on the exact checkout
+        env:
+          PINNED_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$PINNED_SHA"
+          test -z "$(git status --porcelain --untracked-files=no)"
+          printf 'PINNED_SHA=%s\n' "$PINNED_SHA" > "$RUNNER_TEMP/aso-preflight-full.log"
+          set +e
+          PREFLIGHT_FULL=1 ./scripts/preflight.sh >> "$RUNNER_TEMP/aso-preflight-full.log" 2>&1
+          rc=$?
+          set -e
+          printf 'EXIT=%s\n' "$rc" >> "$RUNNER_TEMP/aso-preflight-full.log"
+          printf 'PREFLIGHT_RC=%s\n' "$rc" >> "$GITHUB_ENV"
+          tail -n 100 "$RUNNER_TEMP/aso-preflight-full.log"
+      - name: Preserve original verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aso-full-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/aso-preflight-full.log
+          if-no-files-found: error
+      - name: Preserve the full command's exit status
+        if: always()
+        shell: bash
+        run: test "${PREFLIGHT_RC:-unknown}" = 0

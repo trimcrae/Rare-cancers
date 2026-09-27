@@ -60,6 +60,7 @@ import io
 import urllib.error
 import urllib.request
 import zipfile
+from pathlib import Path, PurePosixPath
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -87,6 +88,270 @@ CREATOR = {"name": "McRae, Tristan D.",
            "orcid": "0000-0002-1823-1451"}
 
 REPO_URL = "https://github.com/trimcrae/Rare-cancers"
+
+PACKAGE_NAME = "junction-provenance-20260926"
+PACKAGE_ROOT = "research/release-candidates/PUB-ASO/2026-09-26"
+
+
+def package_configuration(paper_key, package="canonical"):
+    """Select a payload of the same paper; never create a second concept identity."""
+    if package == "canonical":
+        return PAPERS[paper_key]
+    if paper_key != "aso" or package != PACKAGE_NAME:
+        raise SystemExit("Unknown paper/package combination")
+    return {
+        **PAPERS[paper_key],
+        "manifest": PACKAGE_ROOT + "/repository-deposit/zenodo-manifest.json",
+        "zip": "EMC-junction-provenance-data-and-code.zip",
+        "title": "Transcript provenance and normal-parent sequence comparisons for EMC fusion-junction antisense designs",
+        "keywords": ["extraskeletal myxoid chondrosarcoma", "NR4A3", "fusion transcript",
+                     "antisense oligonucleotide", "transcript provenance", "normal isoforms"],
+        "expected_concept": "22028915",
+        "strict_manifest": True,
+    }
+
+
+def content_digest(files):
+    """Use the existing ASO manifest's path-NUL-SHA-newline convention."""
+    digest = hashlib.sha256()
+    for entry in files:
+        digest.update(f"{entry['path']}\0{entry['sha256']}\n".encode("utf-8"))
+    return digest.hexdigest()
+
+
+def _safe_regular_file(relative):
+    if not isinstance(relative, str) or not relative or any(c in relative for c in "\\:\0\n\r"):
+        raise SystemExit("Manifest paths must be safe repository-relative POSIX paths")
+    parts = PurePosixPath(relative)
+    if parts.is_absolute() or ".." in parts.parts or parts.as_posix() != relative:
+        raise SystemExit("Unsafe or non-normalized manifest path")
+    root = Path(REPO).resolve()
+    actual = root.joinpath(*parts.parts)
+    if not actual.is_file() or actual.is_symlink() or not actual.resolve().is_relative_to(root):
+        raise SystemExit(f"Manifest entry is not a regular file within the repository: {relative}")
+    return actual
+
+
+def _git_bytes(revision, relative):
+    try:
+        row = subprocess.check_output(
+            ["git", "-C", REPO, "ls-tree", revision, "--", relative], stderr=subprocess.PIPE)
+        if not row.startswith((b"100644 blob ", b"100755 blob ")):
+            raise SystemExit(f"Payload is not a committed regular file: {relative}")
+        return subprocess.check_output(
+            ["git", "-C", REPO, "show", f"{revision}:{relative}"], stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError:
+        raise SystemExit(f"Cannot resolve committed payload: {revision}:{relative}") from None
+
+
+def validate_package_manifest(manifest, paper):
+    """Additional integrity checks for the named data-only payload; legacy default unchanged."""
+    if not paper.get("strict_manifest"):
+        return
+    if manifest.get("_schema") != "emc-zenodo-package-manifest/1":
+        raise SystemExit("Unsupported data-package manifest schema")
+    files = manifest.get("files")
+    if not isinstance(files, list) or not files or not all(isinstance(e, dict) for e in files):
+        raise SystemExit("Manifest requires a nonempty per-file inventory")
+    paths = [e.get("path") for e in files]
+    if not all(isinstance(p, str) for p in paths) or paths != sorted(set(paths)):
+        raise SystemExit("Manifest paths must be unique and sorted")
+    if type(manifest.get("n_files")) is not int or manifest["n_files"] != len(files) or manifest.get("inventory_limited_to_tracked_files") is not True:
+        raise SystemExit("Manifest inventory/count declaration is invalid")
+    if not isinstance(manifest.get("_what_this_is"), str) or not manifest["_what_this_is"].strip():
+        raise SystemExit("Manifest description is missing")
+    instructions = manifest.get("how_to_reproduce_offline")
+    if not isinstance(instructions, list) or not instructions or not all(isinstance(s, str) and s.strip() for s in instructions):
+        raise SystemExit("Manifest reproduction instructions are missing")
+    revision = manifest.get("git_revision", "")
+    if not isinstance(revision, str) or not re.fullmatch(r"[0-9a-f]{40}", revision):
+        raise SystemExit("Manifest requires an exact source commit")
+    if str(manifest.get("conceptrecid")) != paper["expected_concept"]:
+        raise SystemExit("Manifest names the wrong archive concept")
+    if not re.fullmatch(r"10\.5281/zenodo\.\d+", str(manifest.get("deposition_doi", ""))):
+        raise SystemExit("Manifest must identify an existing ASO archive version")
+    if paper["manifest"] in paths:
+        raise SystemExit("Manifest cannot contain its own hash")
+    for entry in files:
+        actual = _safe_regular_file(entry["path"])
+        if not permitted_package_path(entry["path"]):
+            raise SystemExit(f"Path is outside the named data-only package: {entry['path']}")
+        if not re.fullmatch(r"[0-9a-f]{64}", str(entry.get("sha256", ""))):
+            raise SystemExit("Malformed per-file SHA-256")
+        if type(entry.get("bytes")) is not int or entry["bytes"] != actual.stat().st_size:
+            raise SystemExit(f"Manifest size mismatch: {entry['path']}")
+        if hashlib.sha256(_git_bytes(revision, entry["path"])).hexdigest() != entry["sha256"]:
+            raise SystemExit(f"Manifest hash differs from its source commit: {entry['path']}")
+    if manifest.get("archive_content_digest") != content_digest(files):
+        raise SystemExit("Manifest content digest does not match its inventory")
+
+
+def require_committed_file(relative):
+    actual = _safe_regular_file(relative)
+    if _git_bytes("HEAD", relative) != actual.read_bytes():
+        raise SystemExit(f"External action requires committed file bytes: {relative}")
+
+
+def permitted_package_path(relative):
+    if relative in {"LICENSE", PACKAGE_ROOT + "/supplementary-methods.md",
+                    PACKAGE_ROOT + "/repository-deposit/README.md"}:
+        return True
+    prefix = PACKAGE_ROOT + "/evidence/"
+    if not relative.startswith(prefix):
+        return False
+    local = PurePosixPath(relative[len(prefix):])
+    if len(local.parts) == 1:
+        return local.name in {
+            "analyze.py", "CORRECTIONS.md", "figure-observations.json", "INDEPENDENT-REVIEW.md",
+            "input-manifest.json", "NORMAL-CORPUS-AMENDMENT.md", "read_prefix_probe.py",
+            "READ-PROBE-AMENDMENT.md", "read-probe-results-64MiB.json", "read-probe-results.json",
+            "retrieval.jsonl", "retrieve.py", "VERIFICATION.json"}
+    if len(local.parts) != 2:
+        return False
+    folder, name = local.parts
+    if folder == "inputs":
+        return local.suffix in {".json", ".csv"}
+    if folder == "results":
+        return local.suffix in {".json", ".tsv", ".fasta"}
+    if folder == "reads":
+        return local.suffix == ".json"
+    if folder == "sources":
+        return (local.suffix == ".gb" or
+                (local.suffix == ".json" and (name.startswith(("ENSP", "ENST", "hg19-")) or "-RefSeq.json" in name)) or
+                name in {"parent-refseq-accessions.json", "DElite-metadata.csv", "PRJNA692081-ena.tsv"})
+    return False
+
+
+def verify_package_identity(paper, deposition, *, draft=False, pending=None):
+    if not paper.get("strict_manifest"):
+        return
+    if str(deposition.get("conceptrecid")) != paper["expected_concept"]:
+        raise SystemExit("Remote deposition belongs to the wrong archive concept")
+    if draft and deposition.get("submitted") is not False:
+        raise SystemExit("Remote record is not an explicitly unpublished draft")
+    if pending is not None:
+        if str(pending.get("deposition_id")) != str(deposition.get("id")):
+            raise SystemExit("Pending receipt names a different draft")
+        if str(pending.get("conceptrecid")) != paper["expected_concept"]:
+            raise SystemExit("Pending receipt names a different archive concept")
+        if pending.get("doi") != _record_summary(deposition)["doi"]:
+            raise SystemExit("Pending receipt names a different reserved DOI")
+
+
+def strict_open_draft(base, token, published, concept):
+    """Read the complete bounded account listing; uncertainty never permits a mutation."""
+    matches = []
+    for page in range(1, 11):
+        rows = api(base, token, "GET", f"/deposit/depositions?size=100&page={page}&all_versions=1")
+        if not isinstance(rows, list) or not all(isinstance(row, dict) for row in rows):
+            raise SystemExit("Cannot establish the account's draft inventory")
+        for row in rows:
+            if str(row.get("conceptrecid")) != str(concept) or row.get("id") == published.get("id"):
+                continue
+            if row.get("submitted") is False:
+                matches.append(row)
+            elif row.get("submitted") is not True:
+                raise SystemExit("Ambiguous publication status in matching archive record")
+        if len(rows) < 100:
+            break
+    else:
+        raise SystemExit("Draft inventory exceeds bounded inspection; no mutation permitted")
+    unique = {str(row.get("id")): row for row in matches}
+    if len(unique) > 1:
+        raise SystemExit("Multiple drafts match this concept; reconcile ownership first")
+    if not unique:
+        return None
+    row = next(iter(unique.values()))
+    return api(base, token, "GET", f"/deposit/depositions/{row['id']}")
+
+
+def verify_uploaded_archive(deposition, zip_path, filename):
+    files = deposition.get("files")
+    if not isinstance(files, list) or len(files) != 1:
+        raise SystemExit("Remote draft must contain exactly the intended archive")
+    entry = files[0]
+    if entry.get("filename", entry.get("key")) != filename:
+        raise SystemExit("Remote draft has the wrong archive filename")
+    data = Path(zip_path).read_bytes()
+    expected_md5 = hashlib.md5(data).hexdigest()
+    checksum = str(entry.get("checksum", "")).removeprefix("md5:")
+    size = entry.get("filesize", entry.get("size"))
+    if checksum != expected_md5 or size != len(data):
+        raise SystemExit("Remote archive bytes do not match the local upload")
+    return {"filename": filename, "bytes": len(data), "md5": expected_md5,
+            "sha256": hashlib.sha256(data).hexdigest()}
+
+
+def named_metadata(paper, manifest, digest):
+    return {"upload_type": "dataset", "title": paper["title"], "creators": [CREATOR],
+            "license": paper["license"], "access_right": "open", "keywords": paper["keywords"],
+            "description": description(paper, manifest, paper["manifest"], digest),
+            "related_identifiers": [{"relation": "isDerivedFrom", "scheme": "url",
+                                     "identifier": f"{REPO_URL}/tree/{manifest['git_revision']}"}]}
+
+
+def verify_named_metadata(paper, manifest, digest, metadata):
+    expected = named_metadata(paper, manifest, digest)
+    actual = dict(metadata)
+    if "upload_type" not in actual:
+        actual["upload_type"] = actual.get("resource_type", {}).get("type")
+    if isinstance(actual.get("license"), dict):
+        actual["license"] = actual["license"].get("id")
+    # The API may add creator/identifier metadata. Compare all fields we own.
+    actual["creators"] = [{key: creator.get(key) for key in CREATOR}
+                          for creator in actual.get("creators", [])]
+    actual["related_identifiers"] = [{key: item.get(key) for key in ("relation", "scheme", "identifier")}
+                                     for item in actual.get("related_identifiers", [])]
+    for key, value in expected.items():
+        if actual.get(key) != value:
+            raise SystemExit(f"Remote metadata no longer describes the verified package: {key}")
+
+
+def verify_built_archive(manifest, manifest_relative, zip_path):
+    expected = {entry["path"]: entry["sha256"] for entry in manifest["files"]}
+    expected[manifest_relative] = sha256(os.path.join(REPO, manifest_relative))
+    with zipfile.ZipFile(zip_path) as archive:
+        if sorted(archive.namelist()) != sorted(expected):
+            raise SystemExit("Built ZIP inventory differs from the manifest")
+        for name, digest in expected.items():
+            if hashlib.sha256(archive.read(name)).hexdigest() != digest:
+                raise SystemExit(f"Built ZIP bytes differ from the manifest: {name}")
+
+
+def _package_pending(paper):
+    path = Path(REPO) / Path(paper["manifest"]).parent / "deposit-state.json"
+    if not path.exists():
+        return {}
+    require_committed_file(path.relative_to(REPO).as_posix())
+    with path.open(encoding="utf-8") as stream:
+        return json.load(stream).get("pending") or {}
+
+
+def require_draft_ownership(paper, deposition, adopt_id=None):
+    verify_package_identity(paper, deposition, draft=True)
+    if adopt_id is not None and str(deposition.get("id")) == str(adopt_id):
+        return
+    pending = _package_pending(paper)
+    if not pending:
+        raise SystemExit("Existing draft needs a committed ownership receipt or explicit inspected adoption")
+    verify_package_identity(paper, deposition, draft=True, pending=pending)
+
+
+def _record_summary(deposition):
+    if deposition is None:
+        return None
+    metadata = deposition.get("metadata") or {}
+    return {"deposition_id": deposition.get("id"), "conceptrecid": deposition.get("conceptrecid"),
+            "submitted": deposition.get("submitted"),
+            "doi": deposition.get("doi") or metadata.get("doi") or metadata.get("prereserve_doi", {}).get("doi"),
+            "files": [{k: entry.get(k) for k in ("filename", "key", "filesize", "size", "checksum")}
+                      for entry in deposition.get("files", [])]}
+
+
+def _write_receipt(path, receipt):
+    with open(path, "x", encoding="utf-8") as stream:
+        json.dump(receipt, stream, indent=2)
+        stream.write("\n")
 
 
 def load_manifest(rel):
@@ -124,12 +389,19 @@ def verify(manifest):
     print(f"  verified {len(manifest['files'])} files against the manifest")
 
 
-def build_zip(manifest, manifest_rel, out):
+def build_zip(manifest, manifest_rel, out, deterministic=False):
     """The payload: every file the manifest lists, plus the manifest itself."""
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
-        for entry in manifest["files"]:
-            z.write(os.path.join(REPO, entry["path"]), entry["path"])
-        z.write(os.path.join(REPO, manifest_rel), manifest_rel)
+        paths = [entry["path"] for entry in manifest["files"]] + [manifest_rel]
+        for relative in paths:
+            if deterministic:
+                info = zipfile.ZipInfo(relative, date_time=(1980, 1, 1, 0, 0, 0))
+                info.compress_type = zipfile.ZIP_DEFLATED
+                info.create_system = 3
+                info.external_attr = 0o100644 << 16
+                z.writestr(info, Path(REPO, relative).read_bytes())
+            else:
+                z.write(os.path.join(REPO, relative), relative)
     print(f"  wrote {os.path.relpath(out, REPO)} "
           f"({os.path.getsize(out) / 1024 / 1024:.1f} MiB, {len(manifest['files']) + 1} members)")
 
@@ -256,7 +528,7 @@ def _open_draft_of(base, token, published, concept):
             return api(base, token, "GET", f"/deposit/depositions/{row['id']}")
     return None
 
-def refuse_unless_publishable(paper_key, manifest, approved_by):
+def refuse_unless_publishable(paper_key, manifest, approved_by, package="canonical"):
     """⛔ THE THREE CONDITIONS FOR AN IRREVERSIBLE PUBLISH. Every one FAILS CLOSED.
 
     ★ THEY ARE INDEPENDENT ON PURPOSE. Authority answers "may the loop do this at all"; the approval
@@ -299,12 +571,15 @@ def refuse_unless_publishable(paper_key, manifest, approved_by):
 
     #: deposit-state.json sits beside the paper's manifest. Derived rather than configured, so a
     #: paper added to PAPERS cannot silently arrive without one and be published unchecked.
-    state_rel = os.path.join(os.path.dirname(PAPERS[paper_key]["manifest"]), "deposit-state.json")
+    paper = package_configuration(paper_key, package)
+    state_rel = os.path.join(os.path.dirname(paper["manifest"]), "deposit-state.json")
     state_abs = os.path.join(REPO, state_rel)
     if not os.path.exists(state_abs):
         raise SystemExit(
             f"{state_rel} does not exist, so nothing records what the draft holds. A publish that "
             "cannot be checked against the tree is the one this gate exists to refuse.")
+    if paper.get("strict_manifest"):
+        require_committed_file(Path(state_rel).as_posix())
     state = json.load(io.open(state_abs, encoding="utf-8"))
     pending = state.get("pending") or {}
     uploaded = pending.get("uploaded_manifest_digest")
@@ -322,12 +597,22 @@ def refuse_unless_publishable(paper_key, manifest, approved_by):
             "uploaded_manifest_digest, and only then publish. ⚠ This has gone stale twice, once "
             "because a repair landed AFTER the refresh — so the refresh must be the last act "
             "before the publish, not merely a recent one.")
+    if paper.get("strict_manifest"):
+        if pending.get("doi") != manifest["deposition_doi"] or str(pending.get("conceptrecid")) != paper["expected_concept"]:
+            raise SystemExit("Pending receipt does not match the declared version/concept")
+        if not pending.get("deposition_id") or not pending.get("uploaded_archive_sha256") or not pending.get("uploaded_manifest_sha256"):
+            raise SystemExit("Pending receipt lacks the actual draft identity or uploaded archive hash")
     return grant, pending
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--paper", choices=sorted(PAPERS), required=True)
+    ap.add_argument("--package", choices=["canonical", PACKAGE_NAME], default="canonical",
+                    help="Named payload of the selected paper; canonical remains the default")
+    ap.add_argument("--inspect", action="store_true", help="Named package only: read the record and open draft without mutation")
+    ap.add_argument("--adopt-draft", type=int, help="Explicitly identify an inspected existing draft whose ownership was reconciled")
+    ap.add_argument("--receipt", help="New local JSON receipt path, required for named-package remote operations")
     ap.add_argument("--sandbox", action="store_true",
                     help="deposit to sandbox.zenodo.org — a full rehearsal that mints nothing real")
     ap.add_argument("--build-only", action="store_true",
@@ -353,8 +638,23 @@ def main(argv=None):
                          "in the run's output so the approval is auditable after the fact.")
     args = ap.parse_args(argv)
 
-    paper = PAPERS[args.paper]
+    paper = package_configuration(args.paper, args.package)
+    strict = paper.get("strict_manifest", False)
+    if strict and args.new:
+        raise SystemExit("This package may only continue the existing ASO concept, never mint an unrelated record")
+    if args.inspect and (not strict or args.publish or args.new_version or args.build_only or args.adopt_draft):
+        raise SystemExit("Inspection is a separate read-only named-package operation")
+    if strict and args.publish and args.new_version:
+        raise SystemExit("Publish the already identified draft in a separate invocation")
+    if args.adopt_draft and (not strict or args.publish or args.build_only):
+        raise SystemExit("Draft adoption requires a named-package draft preparation")
+    if strict and not args.build_only:
+        if not args.receipt or os.path.exists(args.receipt) or os.path.exists(args.receipt + ".publish.json"):
+            raise SystemExit("Provide a new receipt path before a named-package remote operation")
+        if not Path(args.receipt).absolute().parent.is_dir():
+            raise SystemExit("Receipt directory must exist before a remote operation")
     manifest = load_manifest(paper["manifest"])
+    validate_package_manifest(manifest, paper)
     print(f"deposition for '{args.paper}' at manifest revision {manifest['git_revision'][:8]}")
 
     gaps = manifest.get("gaps", {}).get("promises_resolving_to_no_file", [])
@@ -364,6 +664,8 @@ def main(argv=None):
                          "close each one or narrow the manuscript before depositing.")
 
     verify(manifest)
+    if strict and not args.build_only:
+        require_committed_file(paper["manifest"])
 
     #: ⛔⛔ THE GATE RUNS HERE, BEFORE ANY NETWORK CALL — AND IT USED TO RUN AFTER THE UPLOAD.
     #: Round 21's regression seat measured the defect: `--publish` reached `refuse_unless_publishable`
@@ -378,13 +680,25 @@ def main(argv=None):
     #: sentence was reworded — a property asserted in prose about an ordering is not a property.
     publish_grant = publish_pending = None
     if args.publish:
-        publish_grant, publish_pending = refuse_unless_publishable(
-            args.paper, manifest, args.approved_by)
+        if strict:
+            publish_grant, publish_pending = refuse_unless_publishable(
+                args.paper, manifest, args.approved_by, args.package)
+        else:
+            publish_grant, publish_pending = refuse_unless_publishable(
+                args.paper, manifest, args.approved_by)
 
     os.makedirs(args.out_dir, exist_ok=True)
     zip_path = os.path.join(args.out_dir, paper["zip"])
-    build_zip(manifest, paper["manifest"], zip_path)
+    if strict:
+        build_zip(manifest, paper["manifest"], zip_path, deterministic=True)
+    else:
+        build_zip(manifest, paper["manifest"], zip_path)
+    if strict:
+        verify_built_archive(manifest, paper["manifest"], zip_path)
     digest = sha256(os.path.join(REPO, paper["manifest"]))
+    if strict and args.publish:
+        if publish_pending["uploaded_archive_sha256"] != sha256(zip_path) or publish_pending["uploaded_manifest_sha256"] != digest:
+            raise SystemExit("The verified upload receipt does not describe the exact archive/manifest bytes to publish")
     print(f"  manifest SHA-256 (recorded in the record, not in the manifest): {digest}")
     if args.build_only:
         return 0
@@ -434,6 +748,36 @@ def main(argv=None):
                     "reachable. Re-run without --sandbox to open the new version for real — opening a "
                     "version does not publish it.") from None
             raise
+        verify_package_identity(paper, dep)
+        if args.inspect:
+            draft = strict_open_draft(base, token, dep, paper["expected_concept"]) if dep.get("submitted") is True else dep
+            if draft is not None:
+                verify_package_identity(paper, draft, draft=True)
+            receipt = {"operation": "inspect", "package": args.package,
+                       "declared_record": _record_summary(dep), "open_draft": _record_summary(draft),
+                       "remote_mutation": False}
+            _write_receipt(args.receipt, receipt)
+            print(json.dumps(receipt))
+            return 0
+        if strict and args.new_version and dep.get("submitted") is not True:
+            raise SystemExit("New-version preparation must start from an explicitly published record")
+        if strict and args.publish:
+            verify_package_identity(paper, dep, draft=True, pending=publish_pending)
+            uploaded = verify_uploaded_archive(dep, zip_path, paper["zip"])
+            remote_meta = dep.get("metadata") or {}
+            verify_named_metadata(paper, manifest, digest, remote_meta)
+            _write_receipt(args.receipt, {"operation": "prepublication_verified", "package": args.package,
+                           "record": _record_summary(dep), "archive": uploaded,
+                           "manifest_sha256": digest, "public_read_back": False})
+            published = api(base, token, "POST", f"/deposit/depositions/{dep_id}/actions/publish")
+            verify_package_identity(paper, published, pending=publish_pending)
+            if published.get("submitted") is not True:
+                raise SystemExit("Publication response is ambiguous; inspect remote state before any retry")
+            _write_receipt(args.receipt + ".publish.json", {"operation": "publish_response",
+                           "record": _record_summary(published), "upload_receipt": args.receipt,
+                           "public_read_back": False})
+            print(f"Publication response received for {declared}; public read-back is still required.")
+            return 0
         if dep.get("submitted") and not args.new_version:
             raise SystemExit(
                 f"deposition {dep_id} ({declared}) is already PUBLISHED and its files cannot be "
@@ -473,7 +817,9 @@ def main(argv=None):
             # corrected archive onto something a reader may already cite, so both refuse.
             published_id = dep_id
             concept = dep.get("conceptrecid")
-            dep = _open_draft_of(base, token, dep, concept)
+            dep = strict_open_draft(base, token, dep, concept) if strict else _open_draft_of(base, token, dep, concept)
+            if strict and dep is not None:
+                require_draft_ownership(paper, dep, args.adopt_draft)
             if dep is None:
                 act = api(base, token, "POST", f"/deposit/depositions/{dep_id}/actions/newversion")
                 latest = act.get("links", {}).get("latest_draft")
@@ -482,6 +828,7 @@ def main(argv=None):
                                      "latest_draft link; open the record on Zenodo and finish by "
                                      "hand")
                 dep = api(base, token, "GET", latest)
+            verify_package_identity(paper, dep, draft=True)
             dep_id = dep["id"]
             # ⛔ THE SAME TWO REFUSALS APPLY TO A DRAFT WE OPENED AND TO ONE WE ADOPTED. Uploading
             # the corrected archive onto a version a reader may already cite is the one outcome
@@ -504,8 +851,13 @@ def main(argv=None):
             if dep.get("files"):
                 print(f"  cleared {len(dep['files'])} inherited file(s) from the new draft")
         else:
+            verify_package_identity(paper, dep, draft=True, pending=publish_pending)
+            if strict:
+                require_draft_ownership(paper, dep, args.adopt_draft)
             print(f"  updating existing draft {dep_id} ({declared}) — not creating a second one")
     else:
+        if strict:
+            raise SystemExit("Named package cannot create an unrelated archive record")
         dep = api(base, token, "POST", "/deposit/depositions", payload={})
         dep_id = dep["id"]
     #: ⛔ RESERVE BEFORE UPLOAD, AND BEFORE ANY PUBLISH. This is the whole ordering fix: the DOI has
@@ -544,13 +896,27 @@ def main(argv=None):
                "Not published by this run: this invocation only reserves the DOI and refreshes the "
                "draft.")),
     }
+    if strict:
+        meta.update(named_metadata(paper, manifest, digest))
     dep = api(base, token, "PUT", f"/deposit/depositions/{dep_id}", payload={"metadata": meta})
+    verify_package_identity(paper, dep, draft=True, pending=publish_pending)
     doi = dep["metadata"].get("prereserve_doi", {}).get("doi")
 
     with open(zip_path, "rb") as fh:
         api(base, token, "PUT", f"{dep['links']['bucket']}/{paper['zip']}",
             raw=fh.read(), ctype="application/octet-stream")
     print(f"  uploaded {paper['zip']}")
+    if strict:
+        observed = api(base, token, "GET", f"/deposit/depositions/{dep_id}")
+        verify_package_identity(paper, observed, draft=True, pending=publish_pending)
+        verify_named_metadata(paper, manifest, digest, observed.get("metadata") or {})
+        uploaded = verify_uploaded_archive(observed, zip_path, paper["zip"])
+        receipt = {"operation": "upload_verified", "package": args.package,
+                   "record": _record_summary(observed), "archive": uploaded,
+                   "uploaded_manifest_digest": manifest["archive_content_digest"],
+                   "manifest_sha256": digest, "source_revision": manifest["git_revision"],
+                   "publication_requested": args.publish, "public_read_back": False}
+        _write_receipt(args.receipt, receipt)
 
     #: ⚠ THE CLOSING BANNER MUST SAY WHICH RUN THIS WAS. It printed "created" and the full
     #: paste-the-DOI checklist on every run, including the UPDATE run whose whole point is that the
@@ -571,6 +937,13 @@ def main(argv=None):
         print(f"    approved by : {args.approved_by}")
         print(f"    digest      : {pending['uploaded_manifest_digest']} (matches the manifest)")
         published = api(base, token, "POST", f"/deposit/depositions/{dep_id}/actions/publish")
+        verify_package_identity(paper, published)
+        if strict:
+            if published.get("submitted") is not True or str(published.get("id")) != str(dep_id):
+                raise SystemExit("Publication response is ambiguous; inspect remote state before any retry")
+            _write_receipt(args.receipt + ".publish.json", {"operation": "publish_response",
+                           "record": _record_summary(published), "upload_receipt": args.receipt,
+                           "public_read_back": False})
         doi = published.get("doi") or (published.get("metadata") or {}).get("doi")
         print("=" * 72)
         print(f"PUBLISHED deposition {dep_id}. This cannot be undone.")
@@ -588,6 +961,11 @@ def main(argv=None):
     print(f"  reserved DOI : {doi}")
     print(f"  edit it at   : {dep['links'].get('html')}")
     print("=" * 72)
+    if strict:
+        print("Preserve this upload receipt. Record the actual reserved DOI and draft ownership,")
+        print("commit the package manifest/state, refresh the draft, then verify before publication.")
+        print("Publication uses the existing standing grant; public read-back is a separate check.")
+        return 0
     if updated:
         print("\nThe archive now carries the manuscript that cites this DOI. One step remains, and")
         print("it is not this script's to take:")

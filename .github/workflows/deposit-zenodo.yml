@@ -46,6 +46,19 @@ on:
         type: choice
         options: [aso]
         default: aso
+      package:
+        description: "Archive payload; both packages retain the same ASO concept and concurrency lock"
+        type: choice
+        options: [canonical, junction-provenance-20260926]
+        default: canonical
+      inspect:
+        description: "Named package only: inspect authenticated record/draft identity without mutation"
+        type: boolean
+        default: false
+      adopt_draft:
+        description: "Named package only: exact existing draft ID after ownership reconciliation"
+        required: false
+        default: ""
       sandbox:
         description: "Rehearse against sandbox.zenodo.org (mints nothing real). Leave TRUE until a rehearsal has passed."
         type: boolean
@@ -80,6 +93,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Validate package mode
+        env:
+          PACKAGE: ${{ inputs.package || 'canonical' }}
+          RECORD: ${{ inputs.record }}
+          INSPECT: ${{ inputs.inspect }}
+          ADOPT_DRAFT: ${{ inputs.adopt_draft }}
+        shell: bash
+        run: |
+          if [ "$PACKAGE" != canonical ] && [ "$RECORD" != archive ]; then
+            echo "::error::Named packages apply only to the existing ASO data archive."
+            exit 1
+          fi
+          if [ "$PACKAGE" = canonical ] && { [ "$INSPECT" = true ] || [ -n "$ADOPT_DRAFT" ]; }; then
+            echo "::error::Inspection/adoption inputs apply only to the named package."
+            exit 1
+          fi
 
       # The manifest's hashes are only meaningful against the revision it names, and the script
       # checks every one of them before it opens a socket. A drifted manifest fails here, offline.
@@ -87,7 +120,9 @@ jobs:
       # retyped beside the artifact that derives it is the drift the manifest exists to prevent.)
       - name: Verify the manifest against this tree and build the payload
         if: inputs.record == 'archive'
-        run: python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" --build-only
+        env:
+          PACKAGE: ${{ inputs.package || 'canonical' }}
+        run: python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" --package "$PACKAGE" --build-only
 
       # ⛔ THE PREPRINT RECORD IS A SEPARATE RECORD, NOT A VERSION OF THE ARCHIVE, and
       # scripts/zenodo_preprint.py's header carries the whole argument. In one line: a Zenodo
@@ -126,6 +161,9 @@ jobs:
           # in the general case; interpolating it into a shell command is script injection. An env
           # var is passed as data and never re-parsed, which fixes both at once.
           APPROVED_BY: ${{ inputs.approved_by }}
+          PACKAGE: ${{ inputs.package || 'canonical' }}
+          INSPECT: ${{ inputs.inspect }}
+          ADOPT_DRAFT: ${{ inputs.adopt_draft }}
         # ⛔⛔ `shell: bash` IS LOAD-BEARING, AND ITS ABSENCE MADE THIS STEP REPORT SUCCESS ON A
         # FAILED DEPOSIT (measured 2026-08-22, run 32592438100). GitHub's DEFAULT shell for a `run:`
         # block is `bash -e {0}` — `-e` and NO `pipefail`. The command below ends `| tee
@@ -146,6 +184,12 @@ jobs:
               ${{ inputs.sandbox && '--sandbox' || '' }} | tee deposit.log
           else
             args=(--paper "${{ inputs.paper }}")
+            args+=(--package "$PACKAGE")
+            if [ "$PACKAGE" != canonical ]; then
+              args+=(--receipt "$RUNNER_TEMP/zenodo-operation.json")
+            fi
+            if [ "$INSPECT" = true ]; then args+=(--inspect); fi
+            if [ -n "$ADOPT_DRAFT" ]; then args+=(--adopt-draft "$ADOPT_DRAFT"); fi
             ${{ inputs.sandbox && 'args+=(--sandbox)' || ':' }}
             ${{ inputs.new_version && 'args+=(--new-version)' || ':' }}
             if [ "${{ inputs.publish }}" = "true" ]; then
@@ -153,6 +197,17 @@ jobs:
             fi
             python3 scripts/zenodo_deposit.py "${args[@]}" | tee deposit.log
           fi
+
+      - name: Preserve the log and factual operation receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zenodo-${{ inputs.paper }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            deposit.log
+            ${{ runner.temp }}/zenodo-operation.json
+            ${{ runner.temp }}/zenodo-operation.json.publish.json
+          if-no-files-found: warn
 
       - name: Put the reserved DOI in the job summary
         if: always()

@@ -1,6 +1,6 @@
 {
   "state": "local_proposal_not_uploaded_or_published",
-  "repository": "Zenodo; proposed continuation of the existing ASO data archive after author approval",
+  "repository": "Zenodo; continuation of existing ASO archive if standing-grant scope, same-concept draft identity and applicable release checks are satisfied",
   "metadata": {
     "upload_type": "dataset",
     "title": "Transcript provenance and normal-parent sequence comparisons for EMC fusion-junction antisense designs",
@@ -37,9 +37,11 @@
     ]
   },
   "before_external_action": [
-    "Obtain author approval for dataset publication and journal submission.",
+    "Journal submission requires separate authorization. Dataset publication instead requires verifying the standing Zenodo grant applies and satisfying existing-record, draft-identity, manifest, upload-digest and release conditions; unrelated new records are outside that grant.",
     "Inspect existing deposit identity and any open version draft before creating or modifying an archive record.",
     "Use the actual deposited DOI/reviewer link in the manuscript; do not reuse the old DOI as if it contains these results.",
     "Confirm the chosen repository arrangement satisfies CBC initial-submission timing."
-  ]
+  ],
+  "preparation_dependency": "The existing uploader hardcodes the canonical ASO manifest and builds its own archive. Support for this data-only inventory must be implemented and integrated without weakening checks, fabricating state or substituting an old digest.",
+  "scope_correction_source": "research/autonomy/publication-authority.json zenodo_archive_publication; independent bounded enforcer audit 2026-09-27"
 }
