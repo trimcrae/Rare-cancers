@@ -25,6 +25,7 @@ class Fake:
         file['filename'] = file.pop('key')
         file['filesize'] = file.pop('size')
         file['checksum'] = file['checksum'].removeprefix('md5:')
+        file['links']['self'] = r.PUB + '/files/' + file['id']
         self.calls = []
         self.fault = fault
         self.body = None
@@ -37,6 +38,7 @@ class Fake:
             return copy.deepcopy(self.dep if url == r.DEP else self.public)
         if url.endswith('/edit'):
             self.dep['state'] = 'inprogress'
+            self.dep['files'][0]['links']['self'] = r.DEP + '/files/' + self.dep['files'][0]['id']
         elif method == 'PUT':
             self.body = copy.deepcopy(body)
             self.dep['metadata'] = copy.deepcopy(body['metadata'])
@@ -49,9 +51,9 @@ class Fake:
 
 
 class RepairTests(unittest.TestCase):
-    def execute(self, client, apply=True):
+    def execute(self, client, apply=True, resume=False):
         with patch.object(r, 'verify_bytes') as checked:
-            result = r.run(client, EXPECTED, apply)
+            result = r.run(client, EXPECTED, apply, resume)
         return result, checked.call_count
 
     def test_success_changes_only_notes_and_uses_same_record(self):
@@ -73,6 +75,32 @@ class RepairTests(unittest.TestCase):
         self.assertEqual(result['status'], 'verified_noop')
         self.assertEqual(byte_checks, 1)
         self.assertTrue(all(method == 'GET' for method, _, _ in fake.calls))
+
+    def test_owned_edit_continuation_never_repeats_edit(self):
+        fake = Fake()
+        fake.dep['state'] = 'inprogress'
+        with patch.object(r, 'OWNED_EDIT_SHA256', r.edit_state_digest(fake.dep)):
+            result, _ = self.execute(fake, resume=True)
+        self.assertEqual(result['mutations'], 2)
+        self.assertEqual([call[:2] for call in fake.calls if call[0] != 'GET'],
+            [('PUT', r.DEP), ('POST', r.DEP + '/actions/publish')])
+
+    def test_changed_or_foreign_owned_edit_refuses_before_mutation(self):
+        fake = Fake(); fake.dep['state'] = 'inprogress'
+        original_digest = r.edit_state_digest(fake.dep)
+        fake.dep['modified'] = 'a later edit timestamp'
+        with patch.object(r, 'OWNED_EDIT_SHA256', original_digest):
+            with self.assertRaisesRegex(ValueError, 'recorded owned edit'):
+                self.execute(fake, resume=True)
+        self.assertTrue(all(method == 'GET' for method, _, _ in fake.calls))
+
+    def test_unexpected_file_link_change_refuses_before_put(self):
+        def fault(f, method, url, body):
+            if method == 'GET' and url == r.DEP and f.dep['state'] == 'inprogress':
+                f.dep['files'][0]['links']['download'] = 'https://zenodo.org/unexpected'
+        fake = Fake(fault)
+        with self.assertRaisesRegex(ValueError, 'Files changed'): self.execute(fake)
+        self.assertFalse(any(method == 'PUT' for method, _, _ in fake.calls))
 
     def test_inspect_never_mutates(self):
         fake = Fake()

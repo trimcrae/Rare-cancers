@@ -6,7 +6,7 @@ on:
       mode:
         description: Inspect first; apply only the recorded same-record notes correction
         type: choice
-        options: [inspect, apply]
+        options: [inspect, apply, resume-owned-edit]
         default: inspect
       expected_sha:
         description: Exact reviewed administrative commit

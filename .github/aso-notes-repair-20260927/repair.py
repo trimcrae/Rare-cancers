@@ -26,6 +26,10 @@ PUB = API + '/records/' + str(RECORD)
 CONTENT = PUB + '/files/' + FILE + '/content'
 AUTHORITY = 'research/autonomy/publication-authority.json'
 BRANCH = 'refs/heads/codex/aso-notes-20260927'
+OWNED_EDIT_RUN = 36298377308
+# Canonical JSON digest of the actual authenticated GET saved after this run's
+# successful edit (no PUT followed). Only that exact edit may be resumed.
+OWNED_EDIT_SHA256 = '1e8064435ad8df966b75be4a08c3132bff08ab142a2bafc4b1e2b56ce3a95b0b'
 
 
 def require(condition, message):
@@ -154,10 +158,29 @@ def verify_bytes(client):
     require(hashlib.md5(raw).hexdigest() == MD5, 'Public archive MD5 changed')
 
 
-def run(client, expected, apply=False):
+def edit_state_digest(record):
+    return hashlib.sha256(json.dumps(record, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+
+
+def comparable_files(record):
+    files = copy.deepcopy(record['files'])
+    for file in files:
+        suffix = '/files/' + file['id']
+        # Observed edit response changes only this provider self-link prefix.
+        # All file IDs, download links, names, sizes and checksums stay compared.
+        require(file['links']['self'] in (PUB + suffix, DEP + suffix), 'Unexpected file self link')
+        file['links']['self'] = PUB + suffix
+    return files
+
+
+def run(client, expected, apply=False, resume=False):
+    require(not resume or apply, 'Owned-edit continuation requires apply mode')
     public_before = client.request('GET', PUB)
     deposition_before = client.request('GET', DEP, auth=True)
-    identity(deposition_before, 'done')
+    identity(deposition_before, 'inprogress' if resume else 'done')
+    if resume:
+        require(edit_state_digest(deposition_before) == OWNED_EDIT_SHA256,
+                'Editable state differs from the recorded owned edit; refuse continuation')
     note = public_before.get('metadata', {}).get('notes')
     require(note in (OLD, NEW), 'Unexpected note; refuse to overwrite another edit')
     public_matches(public_before, expected, note)
@@ -168,12 +191,15 @@ def run(client, expected, apply=False):
     if not apply:
         return {'status': 'inspected', 'notes': OLD, 'mutations': 0}
 
-    edited = client.request('POST', DEP + '/actions/edit', auth=True)
-    identity(edited, 'inprogress')
-    current = client.request('GET', DEP, auth=True)
+    if resume:
+        current = deposition_before
+    else:
+        edited = client.request('POST', DEP + '/actions/edit', auth=True)
+        identity(edited, 'inprogress')
+        current = client.request('GET', DEP, auth=True)
     identity(current, 'inprogress')
     require(editable_metadata(current['metadata']) == baseline, 'Intervening edit before PUT')
-    require(current['files'] == deposition_before['files'], 'Files changed during edit')
+    require(comparable_files(current) == comparable_files(deposition_before), 'Files changed during edit')
     payload = copy.deepcopy(baseline)
     payload['notes'] = NEW
     changed = [key for key in set(payload) | set(baseline) if payload.get(key) != baseline.get(key)]
@@ -184,7 +210,7 @@ def run(client, expected, apply=False):
     current = client.request('GET', DEP, auth=True)
     identity(current, 'inprogress')
     require(editable_metadata(current['metadata']) == payload, 'Unexpected saved metadata')
-    require(current['files'] == deposition_before['files'], 'Files changed before publish')
+    require(comparable_files(current) == comparable_files(deposition_before), 'Files changed before publish')
     # The public view must still be the saved baseline while metadata is edited.
     public_matches(client.request('GET', PUB), expected, OLD)
     published = client.request('POST', DEP + '/actions/publish', auth=True)
@@ -195,14 +221,15 @@ def run(client, expected, apply=False):
     public_after = client.request('GET', PUB)
     public_matches(public_after, expected, NEW)
     verify_bytes(client)
-    return {'status': 'corrected_and_publicly_verified', 'notes': NEW, 'mutations': 3,
+    return {'status': 'corrected_and_publicly_verified', 'notes': NEW, 'mutations': 2 if resume else 3,
+            'resumed_edit_from_run': OWNED_EDIT_RUN if resume else None,
             'record': RECORD, 'concept': CONCEPT, 'doi': DOI, 'archive_sha256': SHA,
             'metadata_delta': ['notes'], 'files_changed': False}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--mode', choices=['inspect', 'apply'], default='inspect')
+    parser.add_argument('--mode', choices=['inspect', 'apply', 'resume-owned-edit'], default='inspect')
     parser.add_argument('--out', type=Path, required=True)
     args = parser.parse_args()
     require(not args.out.exists(), 'Receipt directory must be new')
@@ -220,10 +247,13 @@ def main():
     args.out.mkdir(parents=True)
     dump(args.out / 'intent.json', {'sha': sha, 'mode': args.mode, 'record': RECORD,
          'old_notes': OLD, 'new_notes': NEW, 'authority': os.environ['AUTHORITY_RECORD'],
+         'resumed_edit_from_run': OWNED_EDIT_RUN if args.mode == 'resume-owned-edit' else None,
+         'required_owned_edit_sha256': OWNED_EDIT_SHA256 if args.mode == 'resume-owned-edit' else None,
          'authority_file_sha256': hashlib.sha256(Path(AUTHORITY).read_bytes()).hexdigest(),
          'baseline_file_sha256': hashlib.sha256(Path(__file__).with_name('expected-public-record.json').read_bytes()).hexdigest()})
     try:
-        result = run(Client(token, args.out), expected, apply=args.mode == 'apply')
+        result = run(Client(token, args.out), expected, apply=args.mode != 'inspect',
+                     resume=args.mode == 'resume-owned-edit')
     except Exception as error:
         dump(args.out / 'outcome.json', {'status': 'stopped_for_reconciliation',
              'error_type': type(error).__name__, 'message': str(error),
