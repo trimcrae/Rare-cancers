@@ -1,5 +1,5 @@
 ---
-id: ASO-JUNCTION-ARCHIVE-README-20260926
+id: DOC-ASO-JUNCTION-ARCHIVE-README-20260926
 title: Reproducing the documented-junction sequence comparisons
 kind: memo
 status: live
