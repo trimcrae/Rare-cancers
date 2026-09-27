@@ -2,6 +2,8 @@ name: ASO candidate full verification (artifact only)
 
 # Task-branch diagnostic/release evidence. This workflow never writes to main,
 # publishes a paper, or weakens the existing unscoped preflight command.
+# Preparation commits do not run FULL. Mark the assembled candidate's commit
+# with [aso-full], or manually dispatch on the same task branch.
 on:
   push:
     branches: [codex/aso-submission-20260926]
@@ -16,7 +18,9 @@ concurrency:
 
 jobs:
   verify:
-    if: github.ref == 'refs/heads/codex/aso-submission-20260926'
+    if: >-
+      github.ref == 'refs/heads/codex/aso-submission-20260926' &&
+      (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[aso-full]'))
     runs-on: ubuntu-latest
     timeout-minutes: 180
     steps:
