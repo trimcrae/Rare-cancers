@@ -19,6 +19,7 @@ class Fake:
         self.dep['metadata'].pop('resource_type')
         self.dep['metadata']['upload_type'] = 'dataset'
         self.dep['metadata']['license'] = 'cc-by-4.0'
+        self.dep['metadata']['imprint_publisher'] = 'Zenodo'
         self.dep['metadata']['prereserve_doi'] = {'doi': r.DOI, 'recid': r.RECORD}
         file = self.dep['files'][0]
         file['filename'] = file.pop('key')
@@ -87,6 +88,7 @@ class RepairTests(unittest.TestCase):
             lambda f: f.dep['files'][0].update(filesize=0),
             lambda f: f.dep['files'][0].update(filename='wrong'),
             lambda f: f.dep['metadata'].update(title='intervening title'),
+            lambda f: f.dep['metadata'].update(imprint_publisher='Changed publisher'),
             lambda f: f.public['metadata'].update(notes='someone else edited this'),
             lambda f: f.public['metadata'].update(keywords=[]),
             lambda f: f.dep['metadata']['prereserve_doi'].update(doi='wrong')]

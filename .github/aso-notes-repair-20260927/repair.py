@@ -137,6 +137,9 @@ def validate_deposition_metadata(record, expected, note):
     require(resource['type'] == 'dataset', 'Expected a dataset')
     public['upload_type'] = 'dataset'
     public['license'] = public['license']['id']
+    # Observed authenticated representation adds Zenodo's publisher field; it
+    # is absent from the public Records JSON. Preserve it in every PUT.
+    public['imprint_publisher'] = 'Zenodo'
     public['notes'] = note
     # All remaining fields must match exactly; unfamiliar transformations fail
     # before editing instead of silently dropping scientific/attribution fields.
