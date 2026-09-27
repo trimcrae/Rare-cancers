@@ -392,16 +392,18 @@ def verify(manifest):
 def build_zip(manifest, manifest_rel, out, deterministic=False):
     """The payload: every file the manifest lists, plus the manifest itself."""
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
-        paths = [entry["path"] for entry in manifest["files"]] + [manifest_rel]
-        for relative in paths:
-            if deterministic:
+        if deterministic:
+            paths = [entry["path"] for entry in manifest["files"]] + [manifest_rel]
+            for relative in paths:
                 info = zipfile.ZipInfo(relative, date_time=(1980, 1, 1, 0, 0, 0))
                 info.compress_type = zipfile.ZIP_DEFLATED
                 info.create_system = 3
                 info.external_attr = 0o100644 << 16
                 z.writestr(info, Path(REPO, relative).read_bytes())
-            else:
-                z.write(os.path.join(REPO, relative), relative)
+        else:
+            for entry in manifest["files"]:
+                z.write(os.path.join(REPO, entry["path"]), entry["path"])
+            z.write(os.path.join(REPO, manifest_rel), manifest_rel)
     print(f"  wrote {os.path.relpath(out, REPO)} "
           f"({os.path.getsize(out) / 1024 / 1024:.1f} MiB, {len(manifest['files']) + 1} members)")
 

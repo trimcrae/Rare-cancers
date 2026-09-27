@@ -1,0 +1,90 @@
+{
+  "recorded_utc": "2026-09-27T04:37:04.028902+00:00",
+  "failed_run": {
+    "candidate_sha": "136eb17e39ae7bcb59aed3bdfa3c72d5104e74a4",
+    "run_id": 36292644989,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36292644989",
+    "command": "PREFLIGHT_FULL=1 ./scripts/preflight.sh",
+    "exit_code": 1,
+    "status": "failed",
+    "elapsed_seconds": 2013,
+    "log": {
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\aso-submission-20260926-qa\\linux-full-36292644989\\artifact-10923760790\\aso-preflight-full.log",
+      "bytes": 77239,
+      "sha256": "1dbb589c9ba370e194f71f8467793b77eef7faea029e2dba87f1bada4ae7ed43"
+    },
+    "suites": {
+      "modalities": {
+        "passed": 8399,
+        "skipped": 53,
+        "failed": 0
+      },
+      "manuscripts": {
+        "passed": 1971,
+        "skipped": 3,
+        "failed": 1
+      },
+      "pure_logic": {
+        "passed": 1862,
+        "skipped": 1,
+        "failed": 0,
+        "subtests_passed": 31
+      }
+    },
+    "failure": "test_the_manifest_really_is_shipped_beside_its_own_file_list requires the explicit canonical manifest-write statement; the combined-loop refactor changed that source contract."
+  },
+  "change": "Restore the original canonical per-file loop and explicit manifest write. Keep the deterministic named-package branch and its output bytes unchanged.",
+  "acceptance_rules": "Failing guard, preflight command and baseline are unchanged.",
+  "independent_read_only_advice": "aso_release_gates inspected the actual source and guard, accepted this as a minimal compatibility repair, and required focused tests, canonical member-byte verification, named ZIP equivalence, normal check and repaired-revision Linux FULL.",
+  "focused_tests": {
+    "status": "pass",
+    "passed": 55,
+    "warnings": 2,
+    "elapsed_seconds": 58.41,
+    "log": {
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\aso-submission-20260926-qa\\canonical-repair-tests-short-path.log",
+      "bytes": 614,
+      "sha256": "4b427fd5f0c00e0a3a331489a1f2df0e9c9fcd159db79a354c9b660cbb186e70"
+    },
+    "scope": [
+      "scripts/tests/test_zenodo_named_package.py",
+      "research/manuscripts/tests/test_the_deposited_chain_can_run_from_the_deposit.py"
+    ],
+    "new_behavioral_check": "Canonical ZIP contains every listed payload plus exactly one manifest, all with exact source bytes."
+  },
+  "prior_local_test_attempt": {
+    "log": {
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\aso-submission-20260926-qa\\canonical-repair-tests.log",
+      "bytes": 15660,
+      "sha256": "599de95e6c7c561d416aa4e69a2364cb3b3dbf0c740d98b6b313482c40ba0e66"
+    },
+    "result": "4 failed, 51 passed. Git explicitly reported Filename too long for the deeply nested fixture path. Repeated the same tests in a shorter task-scoped temporary directory; no test or implementation change for that environment repair."
+  },
+  "named_archive": {
+    "archive_sha256": "cde2778bc1673436674c55165f25f2562ba3e7a0191c5c57555628386b16aaf8",
+    "archive_bytes": 553892,
+    "payload_files": 74,
+    "manifest_included": true,
+    "matches_actual_uploaded_archive": true,
+    "source_of_uploaded_hash": "repository-deposit/final-upload-receipt.json; actual run 36292309093",
+    "consequence": "No archive refresh or scientific replay required; the canonical compatibility repair leaves the named archive bytes identical."
+  },
+  "scientific_changes": false,
+  "archive_refresh_required": false,
+  "full_replacement_status": "pending_repaired_commit",
+  "normal_preflight": {
+    "status": "pass",
+    "exit_code": 0,
+    "elapsed_seconds": 90.422,
+    "log": {
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\aso-submission-20260926-qa\\canonical-repair-preflight.log",
+      "bytes": 65335,
+      "sha256": "1863038653e49b2b9dc6454f66f014aa0a444c3e630e891e86f8a94d0eb06742"
+    }
+  },
+  "focused_independent_verification": {
+    "advisor": "aso_release_gates",
+    "mode": "read-only",
+    "finding": "Compatibility finding closed after inspecting the actual diff and saved evidence; no remaining blocker in this scope. Exact repaired-revision FULL remains pending."
+  }
+}

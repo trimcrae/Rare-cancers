@@ -76,6 +76,17 @@ def test_build_is_deterministic_and_checks_every_member(package, tmp_path):
         Z.verify_built_archive(manifest, paper["manifest"], a)
 
 
+def test_canonical_build_ships_manifest_beside_each_declared_payload(package, tmp_path):
+    repo, paper, manifest, *_ = package
+    output = tmp_path / "canonical.zip"
+    Z.build_zip(manifest, paper["manifest"], output)
+    expected = [entry["path"] for entry in manifest["files"]] + [paper["manifest"]]
+    with Z.zipfile.ZipFile(output) as archive:
+        assert archive.namelist() == expected
+        for relative in expected:
+            assert archive.read(relative) == (repo / relative).read_bytes()
+
+
 @pytest.mark.parametrize("change", ["missing", "changed", "uncommitted", "digest", "count", "duplicate", "source", "unsafe", "literature", "manuscript"])
 def test_bad_payload_refuses_before_network(package, tmp_path, monkeypatch, change):
     repo, paper, manifest, payload, git, save = package

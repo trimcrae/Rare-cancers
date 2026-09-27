@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-09-27T03:47:37.054854+00:00",
+  "recorded_at_utc": "2026-09-27T04:39:52.473874+00:00",
   "scope": "Manual CBC candidate; not canonical publish_bar clearance or submission authorization",
   "source_text_and_uploads": {
     "status": "pass",
@@ -190,17 +190,17 @@
   "normal_preflight": {
     "status": "pass",
     "exit_code": 0,
-    "elapsed_seconds": 94.032,
-    "base_sha": "9947aad4544aedbdc3d60be9c3c51e8df3cf07ef",
-    "scope": "Working DOI-bearing assembly; subsequent receipt/freeze metadata recorded after pass. Exact final candidate FULL remains pending.",
+    "elapsed_seconds": 90.422,
+    "base_sha": "136eb17e39ae7bcb59aed3bdfa3c72d5104e74a4",
+    "scope": "Working canonical packager compatibility repair; actual receipt/freeze metadata recorded after pass. Exact repaired candidate FULL remains pending.",
     "log": {
-      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\aso-submission-20260926-qa\\doi-assembled-preflight.log",
-      "bytes": 65815,
-      "sha256": "2ef03ddf2ce063640af453e2683a55e60a424b5d8cce8696736e58a2e04dc76a"
+      "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\aso-submission-20260926-qa\\canonical-repair-preflight.log",
+      "bytes": 65335,
+      "sha256": "1863038653e49b2b9dc6454f66f014aa0a444c3e630e891e86f8a94d0eb06742"
     }
   },
   "full_preflight": {
-    "status": "pending_final_linux_candidate",
+    "status": "pending_repaired_linux_candidate",
     "required": "Unchanged unscoped PREFLIGHT_FULL=1 on exact final frozen commit",
     "native_attempt": {
       "sha": "eb50fe98bf46b24dba8b63adfe5c9dab8d0ae662",
@@ -215,7 +215,42 @@
         "sha256": "7a4cb444870a22f24d2a7a228efe45ac12c3ec7869ff429474185d5332997684"
       }
     },
-    "bootstrap_ci": "Run 36291119909 skipped by preparation scheduling; not a FULL pass"
+    "bootstrap_ci": "Run 36291119909 skipped by preparation scheduling; not a FULL pass",
+    "linux_attempts": [
+      {
+        "candidate_sha": "136eb17e39ae7bcb59aed3bdfa3c72d5104e74a4",
+        "run_id": 36292644989,
+        "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36292644989",
+        "command": "PREFLIGHT_FULL=1 ./scripts/preflight.sh",
+        "exit_code": 1,
+        "status": "failed",
+        "elapsed_seconds": 2013,
+        "log": {
+          "path": "C:\\Users\\mcrae\\Documents\\Codex\\2026-09-07\\emc-research-orchestrator\\work\\aso-submission-20260926-qa\\linux-full-36292644989\\artifact-10923760790\\aso-preflight-full.log",
+          "bytes": 77239,
+          "sha256": "1dbb589c9ba370e194f71f8467793b77eef7faea029e2dba87f1bada4ae7ed43"
+        },
+        "suites": {
+          "modalities": {
+            "passed": 8399,
+            "skipped": 53,
+            "failed": 0
+          },
+          "manuscripts": {
+            "passed": 1971,
+            "skipped": 3,
+            "failed": 1
+          },
+          "pure_logic": {
+            "passed": 1862,
+            "skipped": 1,
+            "failed": 0,
+            "subtests_passed": 31
+          }
+        },
+        "failure": "test_the_manifest_really_is_shipped_beside_its_own_file_list requires the explicit canonical manifest-write statement; the combined-loop refactor changed that source contract."
+      }
+    ]
   },
   "repository_archive_replay": {
     "archive_sha256": "3beda5c1ed1ec67d4cd22332aa786577343cd7aa4451bd7fa9d6d7bdc8e1413c",
@@ -259,5 +294,6 @@
     "unchanged": "Title/abstract/introduction/methods/results/discussion, declarations and first 8 references",
     "changed": "Data availability paragraph and dataset reference 9 only",
     "reserved_doi": "10.5281/zenodo.22986104"
-  }
+  },
+  "packager_compatibility_repair": "repository-deposit/packager-compatibility-repair.json"
 }
