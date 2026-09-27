@@ -97,7 +97,7 @@ The principal limitations can be stated together. USZ20 is a reference reconstru
 
 ## Data availability
 
-Supplementary Data contains versioned reference inputs, a junction-evidence table, all 40 design rows with five hypothetical controls explicitly flagged, tied normal-match locations, cutoff sensitivity results and reproducible Python code. Supplementary Methods explains the bounded read probe and provides retrieval instructions and hashes; the large read prefixes are retained in the local evidence record. The preceding catalogue is archived at https://doi.org/10.5281/zenodo.22229096. That historical deposit does not contain this revision's new analysis, and no new public deposition is claimed.
+Supplementary Data contains versioned reference inputs, a junction-evidence table, all 40 design rows with five hypothetical controls explicitly flagged, tied normal-match locations, cutoff sensitivity results and reproducible Python code. Code, analysis inputs and results are also collected in the versioned data archive.[9] Supplementary Methods explains the bounded read probe and provides retrieval instructions and hashes; the large read prefixes are retained in the local evidence record. The preceding catalogue is archived at https://doi.org/10.5281/zenodo.22229096.
 
 ## Funding and competing interests
 
@@ -128,3 +128,5 @@ Claude (Anthropic) assisted the preceding resource's code, sequence screens, lit
 [7] Baldazzi D, et al. DElite: a tool for integrated differential expression analysis. Front Genet. 2024;15:1440994. https://doi.org/10.3389/fgene.2024.1440994. Supplementary File 2, metadata_file.csv.
 
 [8] Hedvat CV, Irving SG. The isolation and characterization of MINOR, a novel mitogen-inducible nuclear orphan receptor. Mol Endocrinol. 1995;9:1692–1700. https://pubmed.ncbi.nlm.nih.gov/8614405/; GenBank U12767.1.
+
+[9] McRae TD. Transcript provenance and normal-parent sequence comparisons for EMC fusion-junction antisense designs [dataset]. Zenodo; 2026. https://doi.org/10.5281/zenodo.22986104
