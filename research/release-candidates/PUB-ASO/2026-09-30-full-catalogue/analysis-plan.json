@@ -1,0 +1,41 @@
+{
+  "frozen_before_execution_utc": "2026-09-30T11:37:58.151195+00:00",
+  "question": "Which of five fixed 16-base ASO binding positions per catalogued EMC junction has the least normal-parent sequence matching under a declared comparison?",
+  "scope": {
+    "atlas_junctions": 44,
+    "designs": 220,
+    "primary_atlas_junctions": 38,
+    "primary_atlas_designs": 190,
+    "annotation_error_control": "EWSR1_e13__NR4A3_e2",
+    "control_designs": 5,
+    "architecture": "16 bases; proposed 5-LNA/6-DNA/5-LNA; no synthesized oligos",
+    "donor_bases": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ]
+  },
+  "normal_corpus": "Frozen six-parent 77-record/71-unique-sequence corpus, augmented by archived canonical PGR cDNA and all PGR-labelled accession versions returned by a captured hg38 UCSC ncbiRefSeqCurated gene-interval query. Apply the same augmented corpus to all 220 designs. Preserve six-parent comparisons separately.",
+  "comparison": [
+    "Primary: minimize the longest consecutive exact match spanning all six proposed DNA-gap positions across every complete 16-base window in the corpus. A zero means no complete exact six-base gap match, not no complementarity.",
+    "Secondary, applied only to primary ties: maximize the minimum Hamming distance across EVERY complete normal 16-base window, not just primary-metric winning windows.",
+    "Keep every final tie. Also report primary-only co-winners and Pareto alternatives with competing metric values. No weighted score, biological threshold or arbitrary sole representative."
+  ],
+  "orientation": "Target and normal RNA sequences are forward 5-to-3 in DNA alphabet. ASO is the reverse complement of the target. Gap is target positions 6 through 11 inclusive.",
+  "ambiguity": "Require unambiguous A/C/G/T reference bases for whole-window ranking. If ambiguous reference symbols occur, stop and append a handling amendment before execution rather than silently treating them as mismatches.",
+  "evidence": "Carry forward directly deposited sequence matches, coordinate-based reference reconstruction and engineered-construct reconstruction separately. Remaining junctions are hypothetical exact reference joins even where fusion/exon names were published. Keep the annotation-error control separate from target counts. No independent-patient counts.",
+  "verification": [
+    "Pin inputs by SHA256",
+    "Verify all target windows against donor/acceptor sequence and antisense orientation",
+    "Reproduce the 40 previously accepted six-parent expanded comparisons",
+    "Compare two independently implemented gap-run searches",
+    "Validate Hamming encoding against character-wise Hamming including controlled boundary cases",
+    "Retain all winning normal-transcript locations and accession aliases",
+    "Independent read-only review of changed science"
+  ],
+  "claim_boundary": "Best by this declared parent-sequence comparison among five positions. Not an optimal ASO over all lengths, chemistry, transcriptome, pre-mRNA, expression, accessibility or biological activity. No cleavage/selectivity/safety claim. Previous genome/transcriptome screens are unchanged and not ranking gates.",
+  "source_of_rule": "Bounded independent scientific advisor; specified before complete catalogue execution. No cutoff optimization.",
+  "paired_comparisons": "Six canonical parent transcripts and frozen six-gene expanded corpus are retained for continuity checks. Seven canonical parent transcripts provide equal gene coverage for the isoform-expansion comparison. Compare primary co-winner sets between seven canonical and seven expanded corpora."
+}

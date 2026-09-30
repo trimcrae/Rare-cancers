@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "completed_utc": "2026-09-30T11:43:54.526820+00:00",
+  "elapsed_seconds": 223.785,
+  "designs_checked": 220,
+  "unique_normal_windows": 39478,
+  "reference_records": 85,
+  "exhaustive_independent_checks": [
+    "global minimum character-wise Hamming and all tied sequences",
+    "gap-run metric on every complete unique window",
+    "all closest-window accession aliases and locations",
+    "all longest-gap-match accession aliases and locations",
+    "per-junction ranking and all final ties"
+  ],
+  "boundary_fixtures": [
+    "full match",
+    "wing mismatch",
+    "gap mismatch",
+    "truncated transcript end",
+    "repeated normal sites",
+    "primary versus secondary preference",
+    "retained ties"
+  ],
+  "single_substitution_encoding_checks": 64,
+  "files": {
+    "analyze_catalogue.py": "7f11d200568d3533144b96456b297f593ba57ec7d4f852d51567c7f3843fffb2",
+    "verify_catalogue.py": "e8753889e143a7fb622d0068a7f519955b2bb9f3d0464c05ae8ebb3c5b6059f3",
+    "analysis-plan.json": "76a44cfce615475ea8bc020e1bed73db08b858c842bbe66aa104a2692630830b",
+    "input-manifest.json": "06da8e490013780a78df6a2d3a8d8f4128a84bd917a2183c0dc8f68095a54f33",
+    "all-designs.tsv": "f231499b036e4c6b79f729cee0a44a4c482ab6215167e61c2fc0c4a3ceed7799",
+    "gap-match-locations.tsv": "b1dfbdd4edc2b2a3f1f53f7052e921c4259e407df31e130501d54e3f8553d34f",
+    "junction-catalogue.tsv": "afa022b5e0839c7bf03fe733e006e9ee7700fc501adb06ef26af9f39f61fc742",
+    "nearest-normal-windows.tsv": "182da6ededb187f0d53552897f4dedbb8e9f9ebe90fcdd72191675cfc64e4883",
+    "normal-reference-manifest.tsv": "c44e3c2c13d12f391e2b04b1a6221d102c25f8066f5dde454a5cbb35b594a9b6"
+  }
+}

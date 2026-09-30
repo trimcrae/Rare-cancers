@@ -1,0 +1,39 @@
+{
+  "completed_utc": "2026-09-30T11:46:35.332774+00:00",
+  "reviewer": "independent read-only aso_source_advisor",
+  "model_and_effort": "Inherited root configuration; no ultra/submission-readiness claim",
+  "scope": "Single bounded changed-science review and one focused verification of wording repairs",
+  "conclusion": "No blocking findings; final focused check reports no remaining findings.",
+  "inspected": [
+    "analysis-plan.json",
+    "analyze_catalogue.py",
+    "verify_catalogue.py",
+    "README.md",
+    "CATALOGUE.md",
+    "results/summary.json",
+    "input-manifest.json",
+    "PGR acquisition records",
+    "selected design and normal-match rows",
+    "completed independent verifier receipt"
+  ],
+  "independent_small_checks": [
+    "All18 input hashes",
+    "215design/43junction noncontrol denominator",
+    "23isoform-related and50PGR-related increases",
+    "9changedprimarychoicesets",
+    "27singlefinalchoices",
+    "All44finaltiesets"
+  ],
+  "findings": [
+    {
+      "finding": "Define gap-match zero directly in CATALOGUE.md because FUS exon8 displays zero.",
+      "disposition": "Added definition to generator and regenerated catalogue. Independently verified as resolved."
+    },
+    {
+      "finding": "Optional minimax clarification in README selection step1.",
+      "disposition": "Reworded to prefer the shortest of each design maximum match length. Independently verified as resolved."
+    }
+  ],
+  "no_analysis_rerun_by_advisor": true,
+  "postreview_metadata_only": "Document ids/status normalized to repository conventions; scientific content unchanged."
+}
