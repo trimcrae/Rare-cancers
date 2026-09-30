@@ -1,0 +1,19 @@
+{
+  "checked": "2026-09-30",
+  "target": "Nucleic Acid Therapeutics",
+  "category": "Brief Communication",
+  "status": "Author-proofreading package; no journal submission authorized",
+  "official_guide": "https://journals.sagepub.com/author-instructions/NAT",
+  "requirements": {"main_words_max": 1000, "unstructured_abstract_words_max": 150, "figures_tables_max": 3, "keywords_min": 4, "reference_style": "Vancouver", "word_preferred": true},
+  "format_reason": "The requested concise contribution fits Brief Communications better than the journal's 500-word, four-reference Letter category. Two pages describes this author proof, not guaranteed publisher pagination.",
+  "supplement_guide": "https://www.sagepub.com/journals/information-for-authors/preparing-your-manuscript/supplemental-material-guidelines-for-authors",
+  "supplement_plan": "One main table and two supporting tables; standalone TSV, FASTA and PDF/DOCX files for review. ZIP is an additional reproduction convenience, not the sole data supplement.",
+  "cost_note": "Guide lists a mandatory 90 USD fee per published page. No charge or submission is authorized here.",
+  "editorial_fit": "Brief contribution about sequence curation and design sensitivity; computational-only scope may limit editorial interest. Format compliance is not an acceptance prediction.",
+  "citations": [
+    {"number":1,"doi":"10.1172/JCI119152","primary":"https://www.jci.org/articles/view/119152","claim":"Fusion-junction ASOs have been experimentally tested in another cancer.","boundary":"Does not establish EMC efficacy or selective cleavage. The most active ESAS2 targeted the initiation region and also affected normal EWS.","accepted_source_record":"../2026-09-29-contribution/citation-evidence.json"},
+    {"number":2,"doi":"10.1371/journal.pone.0238753","primary":"https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0238753","claim":"Oligonucleotide enumeration and normal-transcript screening are established methods.","boundary":"Our contribution is not a new screening algorithm."},
+    {"number":3,"doi":"10.1007/s13577-022-00818-x","primary":"https://pmc.ncbi.nlm.nih.gov/articles/PMC9813045/","claim":"USZ20 and USZ22 model reports and Figure 4 sequence annotations.","boundary":"Only a reference reconstruction is assigned for USZ20; USZ22 exact junction remains unresolved.","accepted_sources":"../2026-09-26/evidence/figure-observations.json and results/model-crosswalk.json"},
+    {"number":4,"doi":"10.1089/nat.2020.0847","primary":"https://pmc.ncbi.nlm.nih.gov/articles/PMC7418465/","claim":"Simple sequence counts alone do not establish biological selectivity.","boundary":"Different chemistry and gap lengths; no validation of our proposed LNA/6-DNA-gap ranking."}
+  ]
+}

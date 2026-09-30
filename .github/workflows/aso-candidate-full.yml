@@ -6,7 +6,7 @@ name: ASO candidate full verification (artifact only)
 # with [aso-full], or manually dispatch on the same task branch.
 on:
   push:
-    branches: [codex/aso-submission-20260926]
+    branches: [codex/aso-concise-20260927]
   workflow_dispatch:
 
 permissions:
@@ -19,7 +19,7 @@ concurrency:
 jobs:
   verify:
     if: >-
-      github.ref == 'refs/heads/codex/aso-submission-20260926' &&
+      github.ref == 'refs/heads/codex/aso-concise-20260927' &&
       (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[aso-full]'))
     runs-on: ubuntu-latest
     timeout-minutes: 180
@@ -47,6 +47,22 @@ jobs:
         run: |
           command -v uv >/dev/null 2>&1 || pip install -q uv
           ./scripts/dev-setup.sh --if-needed
+      - name: Run the normal preflight on the exact checkout
+        env:
+          PINNED_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$PINNED_SHA"
+          test -z "$(git status --porcelain --untracked-files=no)"
+          printf 'PINNED_SHA=%s\n' "$PINNED_SHA" > "$RUNNER_TEMP/aso-preflight-normal.log"
+          set +e
+          env -u PREFLIGHT_FULL -u PREFLIGHT_PAPER -u SKIP_TESTS -u PREFLIGHT_TESTS -u PREFLIGHT_MODALITIES ./scripts/preflight.sh >> "$RUNNER_TEMP/aso-preflight-normal.log" 2>&1
+          rc=$?
+          set -e
+          printf 'EXIT=%s\n' "$rc" >> "$RUNNER_TEMP/aso-preflight-normal.log"
+          printf 'NORMAL_RC=%s\n' "$rc" >> "$GITHUB_ENV"
+          tail -n 80 "$RUNNER_TEMP/aso-preflight-normal.log"
+          test "$rc" = 0
       - name: Run the full preflight on the exact checkout
         env:
           PINNED_SHA: ${{ github.sha }}
@@ -56,20 +72,30 @@ jobs:
           test -z "$(git status --porcelain --untracked-files=no)"
           printf 'PINNED_SHA=%s\n' "$PINNED_SHA" > "$RUNNER_TEMP/aso-preflight-full.log"
           set +e
-          PREFLIGHT_FULL=1 ./scripts/preflight.sh >> "$RUNNER_TEMP/aso-preflight-full.log" 2>&1
+          env -u PREFLIGHT_PAPER -u SKIP_TESTS PREFLIGHT_FULL=1 ./scripts/preflight.sh >> "$RUNNER_TEMP/aso-preflight-full.log" 2>&1
           rc=$?
           set -e
           printf 'EXIT=%s\n' "$rc" >> "$RUNNER_TEMP/aso-preflight-full.log"
           printf 'PREFLIGHT_RC=%s\n' "$rc" >> "$GITHUB_ENV"
           tail -n 100 "$RUNNER_TEMP/aso-preflight-full.log"
+      - name: Record exact-candidate FULL evidence
+        if: ${{ success() && env.PREFLIGHT_RC == '0' }}
+        env:
+          PINNED_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          python3 research/autonomy/record_bar_evidence.py preflight --sha "$PINNED_SHA" --log "$RUNNER_TEMP/aso-preflight-full.log"
+          cp "research/autonomy/preflight-receipts/$PINNED_SHA.json" "$RUNNER_TEMP/aso-preflight-receipt.json"
       - name: Preserve original verification evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: aso-full-${{ github.sha }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/aso-preflight-full.log
+          path: ${{ runner.temp }}/aso-preflight-*
           if-no-files-found: error
       - name: Preserve the full command's exit status
         if: always()
         shell: bash
-        run: test "${PREFLIGHT_RC:-unknown}" = 0
+        run: |
+          test "${NORMAL_RC:-unknown}" = 0
+          test "${PREFLIGHT_RC:-unknown}" = 0
