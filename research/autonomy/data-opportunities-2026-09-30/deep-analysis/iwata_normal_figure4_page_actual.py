@@ -35,7 +35,7 @@ if b:
   if '13577_2025_1250_Fig4' in u:urls.append(u)
  for m in re.finditer(r'https?[^\s\"\'<>]+13577_2025_1250_Fig4[^\s\"\'<>]+',b.decode('utf-8','replace')):urls.append(html.unescape(m.group(0)).replace('\\/','/'))
 urls=list(dict.fromkeys(u for u in urls if '13577_2025_1250_Fig4' in u and u.startswith('https://media.springernature.com/')));R['literalReturnedFigure4ImageURLs']=urls
-for i,u in enumerate(urls[:6]):
+for i,u in enumerate(urls):
  if '/m312/' in u:continue
  raw,fu=get(u,'literal-returned-figure4-image-'+str(i))
  if not raw:continue
