@@ -1,0 +1,200 @@
+{
+  "schema": "emc-bounded-cli-replay/1",
+  "timestamp_utc": "2026-10-01T01:39:27.640984+00:00",
+  "checkout_commit": "a91f3e3e23ce12bb46b8af0549c576b5c7dc368c",
+  "workflow_run_id": "36802122941",
+  "python_version": "3.12.3",
+  "limits": {
+    "file_bytes": 67108864,
+    "network_seconds": 90,
+    "node_seconds": 120
+  },
+  "scope": "Six Node CLI wrappers; not repository preflight or publication gates",
+  "sources": [
+    {
+      "repository": "trimcrae/Rare-cancers",
+      "revision": "af7211708205b5189d8c537c1ce2a23aa4bea076",
+      "path": "research/literature/emc-census-2026-09-12/sources/clinicaltrials-discovery.json",
+      "bytes": 889359,
+      "git_blob": "b19b851de5da13f768856045da77d95c4ffd7c96",
+      "sha256": "f45b8eb11625e2f2049c43086032951dfaf955bc63683b78dfdba8d87999bb9d",
+      "pinned_hash_verified": true
+    },
+    {
+      "repository": "trimcrae/Rare-cancers",
+      "revision": "af7211708205b5189d8c537c1ce2a23aa4bea076",
+      "path": "research/literature/emc-census-2026-09-12/sources/clinicaltrials-fulltext-discovery.json",
+      "bytes": 1203018,
+      "git_blob": "3593b82b00a4f2f87dcaff10b5239df789db3a61",
+      "sha256": "b1beb99dcc3a9a5ad006ed810ebb2fec68a56d222bc12987b5acf954a46f11bc",
+      "pinned_hash_verified": true
+    },
+    {
+      "repository": "mskcc/ImmunoSarc",
+      "revision": "b71c3373bc182f9c647a6f7bc1fbd641d24db917",
+      "path": "Figures/data/PatientSourceData.txt",
+      "bytes": 20257,
+      "git_blob": "8e65abf4208c2e6d9b96d8271752bfde4c85f443",
+      "sha256": "ce4d01664c7ebba86b13356f36b84c398e4d57c9ef00637ecf1955139a837bdd",
+      "pinned_hash_verified": true
+    },
+    {
+      "repository": "mskcc/ImmunoSarc",
+      "revision": "b71c3373bc182f9c647a6f7bc1fbd641d24db917",
+      "path": "Figures/data/SampleSourceData.txt",
+      "bytes": 85508,
+      "git_blob": "c3d9ee850299eb8930788468c87754b58d5a67f8",
+      "sha256": "66d1f6bf39becc76f82d194ef2bf7b1784689c6d01177a319c717e208427e625",
+      "pinned_hash_verified": true
+    },
+    {
+      "repository": "trimcrae/Rare-cancers",
+      "revision": "af7211708205b5189d8c537c1ce2a23aa4bea076",
+      "path": "research/manuscripts/endpoint/endpoint-corpus-inputs.json",
+      "bytes": 935150,
+      "git_blob": "d66060ca0acea0bb70fbb0e478ca5a3a5a8c4309",
+      "sha256": "f63766a596cdb6978a2e7d8dbbdfc0c8119a50306a18ea6746316916ae040fa8",
+      "pinned_hash_verified": true
+    },
+    {
+      "repository": "trimcrae/Rare-cancers",
+      "revision": "af7211708205b5189d8c537c1ce2a23aa4bea076",
+      "path": "research/manuscripts/endpoint/endpoint-corpus.json",
+      "bytes": 941272,
+      "git_blob": "343922742f88f63a1803dba26904c45369c73d07",
+      "sha256": "1675e8d56707d331805b2ad6b8c664dd683fad6d97b5884197ec9ae66e75c634",
+      "pinned_hash_verified": true
+    },
+    {
+      "repository": "trimcrae/Rare-cancers",
+      "revision": "af7211708205b5189d8c537c1ce2a23aa4bea076",
+      "path": "research/manuscripts/endpoint/orr-dcr-reread.json",
+      "bytes": 428155,
+      "git_blob": "79c82a02cf5ce8534154896db140c9b67e88a892",
+      "sha256": "95ac62e88a18288acee3330ac93541c6f458d23831e3a1c2ee1055930345f6d9",
+      "pinned_hash_verified": true
+    },
+    {
+      "repository": "trimcrae/Rare-cancers",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "path": "literature/xdisease-ctg-results/ctg_results_bor_2022_2026.txt",
+      "bytes": 2727777,
+      "git_blob": "f125b25e71104dc7db4f3134c3632406e88a9033",
+      "sha256": "41c65bc97be1bbf3e298fa7a634531b4507be2135badc0d3001563b6fdfac5bf",
+      "pinned_hash_verified": true
+    },
+    {
+      "repository": "qtran1/MeQTrack_app",
+      "revision": "578bb615e0e89858ffb02cbe1da87680c74a01ba",
+      "path": "reference/GSE140686_sarcoma_methylation_labels.csv",
+      "bytes": 236281,
+      "git_blob": "3dd8b13a4c30d7ef06e5a933633a3e0da670efc1",
+      "sha256": "c3b102c078a1035f4589952ea8b50ff3a8fbbb63ed8edd425aed2ea343119a19",
+      "pinned_hash_verified": true
+    }
+  ],
+  "analyses": [
+    {
+      "analysis": "registry-search",
+      "status": "pass",
+      "script": "research/autonomy/data-opportunities-2026-09-30/analysis/registry_search.mjs",
+      "script_git_blob": "041309b0454d6a3b1c73d5b56109722c10a3622a",
+      "script_sha256": "55a75d5cc491ae34d10e4c6a8b841ab53884a557f71e40865bcc45beb081d2cf",
+      "saved_result": "research/autonomy/data-opportunities-2026-09-30/results/registry-search.json",
+      "saved_result_git_blob": "c544111c2bed5a184b990863ed051a70f2f35df8",
+      "saved_result_sha256": "dbe5208552d667d8ae006e62d525abe8f82a2ca0e3794e9c01958260a8048ac8",
+      "stdout_sha256": "dbe5208552d667d8ae006e62d525abe8f82a2ca0e3794e9c01958260a8048ac8",
+      "canonical_json_sha256": "e25f2e2240122ce480b1a73a89a0dcba49ca887fdd9b9785b7e2e9a8cd24f2af",
+      "semantic_json_equal": true,
+      "excluded_saved_fields": []
+    },
+    {
+      "analysis": "immunosarc-availability",
+      "status": "pass",
+      "script": "research/autonomy/data-opportunities-2026-09-30/analysis/immunosarc_availability.mjs",
+      "script_git_blob": "822909ebcafbad34c8360a19530f66b4e2d13b98",
+      "script_sha256": "343ee1a487b8d8f3fcb52eb47de9201b763c6ff4165bf4b3a1b12b7f11c7de25",
+      "saved_result": "research/autonomy/data-opportunities-2026-09-30/results/immunosarc-availability.json",
+      "saved_result_git_blob": "20b6fe121dfa6f6decf1ae64dc5ffeef274328d5",
+      "saved_result_sha256": "6ca8d7b827ec94c83f8db8e51b991d15ada3daf5bcfa9cbac7fc164a3ee3acee",
+      "stdout_sha256": "6ca8d7b827ec94c83f8db8e51b991d15ada3daf5bcfa9cbac7fc164a3ee3acee",
+      "canonical_json_sha256": "1c371491c2d3ea0116fe6213a50799726b29f916de14f56956f69795efb656b0",
+      "semantic_json_equal": true,
+      "excluded_saved_fields": []
+    },
+    {
+      "analysis": "registry-units",
+      "status": "pass",
+      "script": "research/autonomy/data-opportunities-2026-09-30/analysis/registry_units.mjs",
+      "script_git_blob": "f07fb3e23d1c74cffb6b036580bbb2d94251fcbc",
+      "script_sha256": "f970ba4fed25a1147ad887b0f260556c3b977e7da94a9715a351a6d98edbf73a",
+      "saved_result": "research/autonomy/data-opportunities-2026-09-30/results/registry-units.json",
+      "saved_result_git_blob": "a58af61cbfbd5852dce2fc4859e920b8814ae81b",
+      "saved_result_sha256": "2844967d356f26d09756c1a33727c1ec459b77c0d8d0b03f22cb4fa8aa1083ed",
+      "stdout_sha256": "2844967d356f26d09756c1a33727c1ec459b77c0d8d0b03f22cb4fa8aa1083ed",
+      "canonical_json_sha256": "fbace8666020ddcb70a6e54fa4f2c5b35677680c451718b842da03dca9c0c338",
+      "semantic_json_equal": true,
+      "excluded_saved_fields": []
+    },
+    {
+      "analysis": "methylation-feasibility",
+      "status": "pass",
+      "script": "research/autonomy/data-opportunities-2026-09-30/analysis/methylation_feasibility.mjs",
+      "script_git_blob": "7a36bd70d1aad9c5086d7d70f0a8fac7fb22441e",
+      "script_sha256": "9ac3367318a4323e41b16f3d280fac1411ca153ab5233487f7074b4b94b0eb78",
+      "saved_result": "research/autonomy/data-opportunities-2026-09-30/results/methylation-feasibility.json",
+      "saved_result_git_blob": "9df3a88abadfac4638cfb9d1f6cb86773fee61c9",
+      "saved_result_sha256": "89ea9b1f41dfd074140c3b1f7fc314b85499883b927bbadbc0b3bd24534cb9c5",
+      "stdout_sha256": "5214620ec086dbfa78e0990530e1383d58d8a137104d7e60d4b956196ca3451b",
+      "canonical_json_sha256": "3b6baa2185d1879eb0a48fc2990c3220b190c1de9422c8855b8e41631222a1a4",
+      "semantic_json_equal": true,
+      "excluded_saved_fields": [
+        "primaryReconciliation"
+      ]
+    },
+    {
+      "analysis": "partner-intervals",
+      "status": "pass",
+      "script": "research/autonomy/data-opportunities-2026-09-30/analysis/partner_intervals.mjs",
+      "script_git_blob": "db7aeabed04cba1ed64b3f5c5c464cc778593552",
+      "script_sha256": "1d5b7f44aee8e3ff794baec3e746bfb49670f5863bf37993d1cb839d9b53ed6f",
+      "saved_result": "research/autonomy/data-opportunities-2026-09-30/results/partner-intervals.json",
+      "saved_result_git_blob": "d15c16f20c2eecb65b5ada8e15e2b1dad33b08ad",
+      "saved_result_sha256": "a66c3dce16b069c59707a063031b87cdf0b70d66f20376320e9ebe1642f337ad",
+      "stdout_sha256": "a66c3dce16b069c59707a063031b87cdf0b70d66f20376320e9ebe1642f337ad",
+      "canonical_json_sha256": "b9fa0377c9aa536bc8a8198e7beac21d5df9605070775a4eb6717acc1bc8fd06",
+      "semantic_json_equal": true,
+      "excluded_saved_fields": []
+    },
+    {
+      "analysis": "hla-availability",
+      "status": "pass",
+      "script": "research/autonomy/data-opportunities-2026-09-30/analysis/hla_availability.mjs",
+      "script_git_blob": "0952ae310144b90a50e9fa20d71cfd5422bb2da3",
+      "script_sha256": "3c7d1f87f3f7e429a31b191a9dc725d03dbac148b7e98cde7bf864e536c0937e",
+      "saved_result": "research/autonomy/data-opportunities-2026-09-30/results/hla-availability.json",
+      "saved_result_git_blob": "7464e2e93ccdc21b73a8870dcd1b6313ccc49de4",
+      "saved_result_sha256": "406a314a6d22726f58858e69efc1a3620c68b859db699566bf80514869938824",
+      "stdout_sha256": "406a314a6d22726f58858e69efc1a3620c68b859db699566bf80514869938824",
+      "canonical_json_sha256": "5e1ee782cf3df35884532d04473b3b2fd9897894a5df4a00a06f2df0a09872cc",
+      "semantic_json_equal": true,
+      "excluded_saved_fields": []
+    }
+  ],
+  "status": "pass",
+  "node_version": "v22.23.3",
+  "hla_projection_input": {
+    "path": "campaign-output/public-source-retrieval.json",
+    "bytes": 105913,
+    "sha256": "aa8dde9ce679f1d13a83a03b6dca2e3517309d54bdfd752042ad59d5a1dcdc0f",
+    "provenance": "Public retrieval producer; HLA CLI verifies full-source hashes"
+  },
+  "analyses_passed": 6,
+  "not_replayed": [
+    "Separate primary methylation workbook reconciliation",
+    "Raw-array QC/classifier fitting/CNV/spatial/proteomics analyses",
+    "Repository preflight and publication gates"
+  ],
+  "workflow_job_id": 110178546732,
+  "workflow_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36802122941"
+}
