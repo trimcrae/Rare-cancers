@@ -1,20 +1,17 @@
 {
   "schema": "emc-bounded-measured-analysis/1",
-  "batch": "corrected-methylation-final-replay",
+  "batch": "measured-growth-recovery",
   "dependencies": [
     "numpy",
     "pandas",
-    "scipy"
+    "openpyxl"
   ],
   "jobs": [
     {
-      "name": "corrected-methylation-logscore-fusion-and-source-review",
-      "script": "methylation_final_replay.py",
-      "before": [
-        "restore_previous_outputs.py"
-      ],
-      "restore_run": 36881792527,
-      "restore_name": "emc-corrected-full-CpG-methylation-and-external-36881792527",
+      "name": "recover-primary-measured-growth-column",
+      "script": "targeted_growth_actual.py",
+      "restore_run": 36881354079,
+      "restore_name": "emc-protein-prior-splits-and-measured-growth-36881354079",
       "timeout_seconds": 900
     }
   ]
