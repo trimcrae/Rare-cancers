@@ -1,81 +1,48 @@
 {
   "schema": "emc-bounded-measured-analysis/1",
-  "batch": "clinical-pediatric-and-complete-spatial-cohort",
+  "batch": "structure-and-ASO-full-finite-followthrough",
   "dependencies": [],
   "jobs": [
     {
-      "name": "Foundation-3771-export-ID-proof-and-75-partner-controls",
-      "script": "foundation_identity_and_partner_sensitivity.py",
+      "name": "released-ternary-scores-body-pose-and-extra-native-replay",
+      "script": "deepternary_released_score_analysis.py",
       "timeout_seconds": 900,
       "dependencies": [
-        "xlrd"
+        "numpy",
+        "scipy",
+        "biopython",
+        "gemmi"
+      ],
+      "restore_run": 36882102233,
+      "restore_name": "emc-complete-released-ternary-native-geometry-36882102233",
+      "before": [
+        "restore_previous_outputs.py"
+      ],
+      "after": [
+        "structure_body_and_pose_summary.py",
+        "deepternary_extra_native.py"
       ]
     },
     {
-      "name": "clinical-Agaram-Huang-WLI-primary-fallthrough",
-      "script": "clinical_primary_access_fallthrough.py",
-      "timeout_seconds": 1800,
+      "name": "ASO-global-expression-physical-cellular-and-source-PDFs",
+      "script": "aso_toehold_endpoint.py",
+      "timeout_seconds": 900,
       "dependencies": [
+        "numpy",
+        "scipy",
+        "biopython",
         "pypdf"
-      ]
-    },
-    {
-      "name": "ImmunoSarc-exact-numeric-IHC-table",
-      "script": "immunosarc_numeric_ihc_supplement.py",
-      "timeout_seconds": 900,
-      "dependencies": [
-        "pypdf",
-        "xlrd"
-      ]
-    },
-    {
-      "name": "pediatric-full-ranked-genes-and-89-compositions",
-      "script": "pediatric_processed_numeric_actual.py",
-      "timeout_seconds": 1200,
-      "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn"
       ],
-      "restore_run": 36889768017,
-      "restore_name": "emc-public-pediatric-and-Ewing-measured-derived-exports-36889768017"
-    },
-    {
-      "name": "RMS-primary-GEO-alternate-public-files",
-      "script": "pediatric_geo_alternate_access_actual.py",
-      "timeout_seconds": 900,
-      "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs"
+      "restore_run": 36885549808,
+      "restore_name": "emc-ASO-complete-original-SourceData-member-verification-36885549808",
+      "before": [
+        "restore_previous_outputs.py",
+        "stage_recorded_sources.py"
+      ],
+      "after": [
+        "aso_hypothetical_gap_qualification.py",
+        "aso_pdf_and_protac_controls.py"
       ]
-    },
-    {
-      "name": "all-spatial-checkpoints-patient-unit-merge",
-      "script": "spatial_checkpoint_merge_actual.py",
-      "args": [
-        "--input-root",
-        "restored-artifacts",
-        "--input-root",
-        "restored-artifacts-extra"
-      ],
-      "timeout_seconds": 1800,
-      "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs"
-      ],
-      "restore_run": 36887975194,
-      "restore_all": true,
-      "extra_restore_run": 36892562725
     }
   ]
 }
