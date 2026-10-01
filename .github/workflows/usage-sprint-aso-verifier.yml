@@ -10,6 +10,8 @@ on:
       - research/modalities/tests/test_aso_independent_verification_integrity.py
       - research/manuscripts/aso_archive_manifest.py
       - research/manuscripts/aso/fusion-junction-aso-archive-manifest.json
+      - research/manuscripts/aso_deposit_drift.py
+      - research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md
 permissions:
   contents: read
 concurrency:
@@ -44,6 +46,13 @@ jobs:
       - name: Reproduce committed verification artifact
         if: ${{ !cancelled() }}
         run: python3 research/modalities/aso_independent_verification.py --check
+      - name: Generated deposit drift behavioral guards
+        if: ${{ !cancelled() }}
+        run: >-
+          python3 -m pytest
+          research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py::test_a_declared_drift_states_the_size_it_actually_has
+          research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py::test_the_drift_figure_is_not_satisfied_by_a_digit_pair_inside_a_sha
+          -q
       - name: Install normal preflight dependencies
         id: preflight_dependencies
         if: ${{ !cancelled() }}
@@ -55,6 +64,9 @@ jobs:
       - name: Reproduce committed live archive inventory
         if: ${{ !cancelled() && steps.preflight_dependencies.outcome == 'success' }}
         run: python3 research/manuscripts/aso_archive_manifest.py --check-archive
+      - name: Reproduce declared operational deposit drift
+        if: ${{ !cancelled() && steps.preflight_dependencies.outcome == 'success' }}
+        run: python3 research/manuscripts/aso_deposit_drift.py --check
       - name: Normal preflight (default fast gates)
         if: ${{ !cancelled() && steps.preflight_dependencies.outcome == 'success' }}
         timeout-minutes: 10
