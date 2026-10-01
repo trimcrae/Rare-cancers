@@ -1,0 +1,823 @@
+{
+  "execution": {
+    "run_id": 36888322221,
+    "job_id": 110457311316,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36888322221/job/110457311316"
+  },
+  "result": {
+    "zero_vote_smoothing_sensitivity": [
+      {
+        "input_epsilon": 0.0001,
+        "reference_only_T": 0.31150894706688975,
+        "fusion_profiles": 120,
+        "raw_zero_target_votes": 1,
+        "raw_input_smoothed_normalized_NLL": 0.4052681287066937,
+        "temperature_input_smoothed_normalized_NLL": 0.3127290079351035,
+        "temperature_Brier": 0.037510103014991865,
+        "temperature_score_0.9_assigned": 115,
+        "temperature_score_0.9_discordant": 1
+      },
+      {
+        "input_epsilon": 0.000001,
+        "reference_only_T": 0.3115089490681155,
+        "fusion_profiles": 120,
+        "raw_zero_target_votes": 1,
+        "raw_input_smoothed_normalized_NLL": 0.43886850867822524,
+        "temperature_input_smoothed_normalized_NLL": 0.4359242413670505,
+        "temperature_Brier": 0.03751010299478826,
+        "temperature_score_0.9_assigned": 115,
+        "temperature_score_0.9_discordant": 1
+      },
+      {
+        "input_epsilon": 1e-8,
+        "reference_only_T": 0.31150894906991566,
+        "fusion_profiles": 120,
+        "raw_zero_target_votes": 1,
+        "raw_input_smoothed_normalized_NLL": 0.4771970451252512,
+        "temperature_input_smoothed_normalized_NLL": 0.5591194764653447,
+        "temperature_Brier": 0.03751010299476027,
+        "temperature_score_0.9_assigned": 115,
+        "temperature_score_0.9_discordant": 1
+      }
+    ],
+    "schema": "emc-published-fusion-annotation-audit/1",
+    "status": "executed",
+    "rule_freeze": "2026-10-01 before inspection of our428 external predictions",
+    "target": "Concordance with published hallmark-fusion-compatible methylation label, not adjudicated clinical accuracy",
+    "logscore_definition": "Normalized INPUT-smoothed votes epsilon1e-6; temperature in logspace, no output clipping",
+    "rules": [
+      {
+        "fusion": "EWSR1:FLI1",
+        "class": "EWS"
+      },
+      {
+        "fusion": "EWSR1:ERG",
+        "class": "EWS"
+      },
+      {
+        "fusion": "PAX3:FOXO1",
+        "class": "RMS-ALV"
+      },
+      {
+        "fusion": "PAX7:FOXO1",
+        "class": "RMS-ALV"
+      },
+      {
+        "fusion": "SS18:SSX1",
+        "class": "SYSA"
+      },
+      {
+        "fusion": "SS18:SSX2",
+        "class": "SYSA"
+      },
+      {
+        "fusion": "SS18:SSX2B",
+        "class": "SYSA"
+      },
+      {
+        "fusion": "EWSR1:WT1",
+        "class": "DSRCT"
+      },
+      {
+        "fusion": "ASPSCR1:TFE3",
+        "class": "ASPS"
+      },
+      {
+        "fusion": "NAB2:STAT6",
+        "class": "SFT"
+      },
+      {
+        "fusion": "FUS:DDIT3",
+        "class": "MLS"
+      },
+      {
+        "fusion": "DDIT3:FUS",
+        "class": "MLS"
+      },
+      {
+        "fusion": "CIC:DUX4",
+        "class": "SBRCT-CIC"
+      },
+      {
+        "fusion": "BCOR:CCNB3",
+        "class": "SBRCT-BCOR"
+      },
+      {
+        "fusion": "COL1A1:PDGFB",
+        "class": "DFSP"
+      },
+      {
+        "fusion": "EWSR1:NR4A3",
+        "class": "EMCS"
+      },
+      {
+        "fusion": "HEY1:NCOA2",
+        "class": "CSA-MES"
+      }
+    ],
+    "annotation_inventory_counts": {
+      "Included: explicit reported hallmark fusion": 120,
+      "No explicit reported fusion annotation": 269,
+      "Fusion absent from frozen specific mapping or compatible with multiple taxonomic entities": 30,
+      "Historical/unclear/absent assay explicitly noted; excluded": 9
+    },
+    "fusion_subset": {
+      "profiles": 120,
+      "classes": 12,
+      "class_support": {
+        "ASPS": 9,
+        "CSA-MES": 1,
+        "DFSP": 3,
+        "DSRCT": 15,
+        "EMCS": 1,
+        "EWS": 35,
+        "MLS": 6,
+        "RMS-ALV": 23,
+        "SBRCT-BCOR": 1,
+        "SBRCT-CIC": 3,
+        "SFT": 5,
+        "SYSA": 18
+      }
+    },
+    "molecular_annotation_concordance": {
+      "published_original_classifier": {
+        "n": 120,
+        "concordant": 117,
+        "concordance_fraction": 0.975,
+        "macro_class_concordance": 0.861111111111111,
+        "score_0.9_assigned": 113,
+        "coverage": 0.9416666666666667,
+        "assigned_concordant": 113,
+        "assigned_concordance_fraction": 1
+      },
+      "raw": {
+        "n": 120,
+        "concordant": 117,
+        "concordance_fraction": 0.975,
+        "macro_class_concordance": 0.861111111111111,
+        "score_0.9_assigned": 44,
+        "coverage": 0.36666666666666664,
+        "assigned_concordant": 44,
+        "assigned_concordance_fraction": 1,
+        "Brier_fusion_compatible_label": 0.11232166666666671,
+        "NLL_fusion_compatible_label_input_smoothed": 0.43886850867822524
+      },
+      "reference_temperature": {
+        "n": 120,
+        "concordant": 117,
+        "concordance_fraction": 0.975,
+        "macro_class_concordance": 0.861111111111111,
+        "score_0.9_assigned": 115,
+        "coverage": 0.9583333333333334,
+        "assigned_concordant": 114,
+        "assigned_concordance_fraction": 0.991304347826087,
+        "Brier_fusion_compatible_label": 0.03751010299478826,
+        "NLL_fusion_compatible_label_input_smoothed": 0.4359242413670505
+      }
+    },
+    "molecular_by_class": {
+      "ASPS": {
+        "published_original_classifier": {
+          "n": 9,
+          "concordant": 9,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 9,
+          "coverage": 1,
+          "assigned_concordant": 9,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 9,
+          "concordant": 9,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 0,
+          "coverage": 0,
+          "assigned_concordant": 0,
+          "assigned_concordance_fraction": null,
+          "Brier_fusion_compatible_label": 0.1928,
+          "NLL_fusion_compatible_label_input_smoothed": 0.5438943251478616
+        },
+        "reference_temperature": {
+          "n": 9,
+          "concordant": 9,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 9,
+          "coverage": 1,
+          "assigned_concordant": 9,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.0011840059442072743,
+          "NLL_fusion_compatible_label_input_smoothed": 0.012332021867759564
+        }
+      },
+      "CSA-MES": {
+        "published_original_classifier": {
+          "n": 1,
+          "concordant": 1,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 1,
+          "coverage": 1,
+          "assigned_concordant": 1,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 1,
+          "concordant": 1,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 0,
+          "coverage": 0,
+          "assigned_concordant": 0,
+          "assigned_concordance_fraction": null,
+          "Brier_fusion_compatible_label": 0.024500000000000077,
+          "NLL_fusion_compatible_label_input_smoothed": 0.15670680864092648
+        },
+        "reference_temperature": {
+          "n": 1,
+          "concordant": 1,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 1,
+          "coverage": 1,
+          "assigned_concordant": 1,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 1.1362848217899568e-8,
+          "NLL_fusion_compatible_label_input_smoothed": 0.00008871971065782525
+        }
+      },
+      "DFSP": {
+        "published_original_classifier": {
+          "n": 3,
+          "concordant": 2,
+          "concordance_fraction": 0.6666666666666666,
+          "macro_class_concordance": 0.6666666666666666,
+          "score_0.9_assigned": 2,
+          "coverage": 0.6666666666666666,
+          "assigned_concordant": 2,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 3,
+          "concordant": 2,
+          "concordance_fraction": 0.6666666666666666,
+          "macro_class_concordance": 0.6666666666666666,
+          "score_0.9_assigned": 0,
+          "coverage": 0,
+          "assigned_concordant": 0,
+          "assigned_concordance_fraction": null,
+          "Brier_fusion_compatible_label": 0.42563333333333336,
+          "NLL_fusion_compatible_label_input_smoothed": 4.777464472892008
+        },
+        "reference_temperature": {
+          "n": 3,
+          "concordant": 2,
+          "concordance_fraction": 0.6666666666666666,
+          "macro_class_concordance": 0.6666666666666666,
+          "score_0.9_assigned": 3,
+          "coverage": 1,
+          "assigned_concordant": 2,
+          "assigned_concordance_fraction": 0.6666666666666666,
+          "Brier_fusion_compatible_label": 0.6507907505964824,
+          "NLL_fusion_compatible_label_input_smoothed": 13.727745048937406
+        }
+      },
+      "DSRCT": {
+        "published_original_classifier": {
+          "n": 15,
+          "concordant": 15,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 12,
+          "coverage": 0.8,
+          "assigned_concordant": 12,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 15,
+          "concordant": 15,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 11,
+          "coverage": 0.7333333333333333,
+          "assigned_concordant": 11,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.02838333333333342,
+          "NLL_fusion_compatible_label_input_smoothed": 0.121625258649702
+        },
+        "reference_temperature": {
+          "n": 15,
+          "concordant": 15,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 15,
+          "coverage": 1,
+          "assigned_concordant": 15,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 3.595132004837372e-7,
+          "NLL_fusion_compatible_label_input_smoothed": 0.00022472249844113733
+        }
+      },
+      "EMCS": {
+        "published_original_classifier": {
+          "n": 1,
+          "concordant": 0,
+          "concordance_fraction": 0,
+          "macro_class_concordance": 0,
+          "score_0.9_assigned": 0,
+          "coverage": 0,
+          "assigned_concordant": 0,
+          "assigned_concordance_fraction": null
+        },
+        "raw": {
+          "n": 1,
+          "concordant": 0,
+          "concordance_fraction": 0,
+          "macro_class_concordance": 0,
+          "score_0.9_assigned": 0,
+          "coverage": 0,
+          "assigned_concordant": 0,
+          "assigned_concordance_fraction": null,
+          "Brier_fusion_compatible_label": 1.01705,
+          "NLL_fusion_compatible_label_input_smoothed": 4.199727077637931
+        },
+        "reference_temperature": {
+          "n": 1,
+          "concordant": 0,
+          "concordance_fraction": 0,
+          "macro_class_concordance": 0,
+          "score_0.9_assigned": 0,
+          "coverage": 0,
+          "assigned_concordant": 0,
+          "assigned_concordance_fraction": null,
+          "Brier_fusion_compatible_label": 1.245105393343137,
+          "NLL_fusion_compatible_label_input_smoothed": 7.205009591657335
+        }
+      },
+      "EWS": {
+        "published_original_classifier": {
+          "n": 35,
+          "concordant": 35,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 35,
+          "coverage": 1,
+          "assigned_concordant": 35,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 35,
+          "concordant": 35,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 2,
+          "coverage": 0.05714285714285714,
+          "assigned_concordant": 2,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.15107857142857145,
+          "NLL_fusion_compatible_label_input_smoothed": 0.4360247808637867
+        },
+        "reference_temperature": {
+          "n": 35,
+          "concordant": 35,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 33,
+          "coverage": 0.9428571428571428,
+          "assigned_concordant": 33,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.001952564582690765,
+          "NLL_fusion_compatible_label_input_smoothed": 0.013558624165211756
+        }
+      },
+      "MLS": {
+        "published_original_classifier": {
+          "n": 6,
+          "concordant": 6,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 6,
+          "coverage": 1,
+          "assigned_concordant": 6,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 6,
+          "concordant": 6,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 3,
+          "coverage": 0.5,
+          "assigned_concordant": 3,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.0130083333333334,
+          "NLL_fusion_compatible_label_input_smoothed": 0.09084016308954652
+        },
+        "reference_temperature": {
+          "n": 6,
+          "concordant": 6,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 6,
+          "coverage": 1,
+          "assigned_concordant": 6,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 2.6427159534788322e-9,
+          "NLL_fusion_compatible_label_input_smoothed": 0.00002478836005525541
+        }
+      },
+      "RMS-ALV": {
+        "published_original_classifier": {
+          "n": 23,
+          "concordant": 23,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 23,
+          "coverage": 1,
+          "assigned_concordant": 23,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 23,
+          "concordant": 23,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 18,
+          "coverage": 0.782608695652174,
+          "assigned_concordant": 18,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.019791304347826118,
+          "NLL_fusion_compatible_label_input_smoothed": 0.08717449381219806
+        },
+        "reference_temperature": {
+          "n": 23,
+          "concordant": 23,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 23,
+          "coverage": 1,
+          "assigned_concordant": 23,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.000051140838590586107,
+          "NLL_fusion_compatible_label_input_smoothed": 0.0014716454542129517
+        }
+      },
+      "SBRCT-BCOR": {
+        "published_original_classifier": {
+          "n": 1,
+          "concordant": 1,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 1,
+          "coverage": 1,
+          "assigned_concordant": 1,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 1,
+          "concordant": 1,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 0,
+          "coverage": 0,
+          "assigned_concordant": 0,
+          "assigned_concordance_fraction": null,
+          "Brier_fusion_compatible_label": 0.33175,
+          "NLL_fusion_compatible_label_input_smoothed": 0.683248848354824
+        },
+        "reference_temperature": {
+          "n": 1,
+          "concordant": 1,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 0,
+          "coverage": 0,
+          "assigned_concordant": 0,
+          "assigned_concordance_fraction": null,
+          "Brier_fusion_compatible_label": 0.01875261818280871,
+          "NLL_fusion_compatible_label_input_smoothed": 0.11303632104836625
+        }
+      },
+      "SBRCT-CIC": {
+        "published_original_classifier": {
+          "n": 3,
+          "concordant": 2,
+          "concordance_fraction": 0.6666666666666666,
+          "macro_class_concordance": 0.6666666666666666,
+          "score_0.9_assigned": 2,
+          "coverage": 0.6666666666666666,
+          "assigned_concordant": 2,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 3,
+          "concordant": 2,
+          "concordance_fraction": 0.6666666666666666,
+          "macro_class_concordance": 0.6666666666666666,
+          "score_0.9_assigned": 1,
+          "coverage": 0.3333333333333333,
+          "assigned_concordant": 1,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.3220166666666667,
+          "NLL_fusion_compatible_label_input_smoothed": 0.9449646798660573
+        },
+        "reference_temperature": {
+          "n": 3,
+          "concordant": 2,
+          "concordance_fraction": 0.6666666666666666,
+          "macro_class_concordance": 0.6666666666666666,
+          "score_0.9_assigned": 2,
+          "coverage": 0.6666666666666666,
+          "assigned_concordant": 2,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.4008789479676993,
+          "NLL_fusion_compatible_label_input_smoothed": 1.0387989310001315
+        }
+      },
+      "SFT": {
+        "published_original_classifier": {
+          "n": 5,
+          "concordant": 5,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 4,
+          "coverage": 0.8,
+          "assigned_concordant": 4,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 5,
+          "concordant": 5,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 0,
+          "coverage": 0,
+          "assigned_concordant": 0,
+          "assigned_concordance_fraction": null,
+          "Brier_fusion_compatible_label": 0.28747,
+          "NLL_fusion_compatible_label_input_smoothed": 0.7206954206535006
+        },
+        "reference_temperature": {
+          "n": 5,
+          "concordant": 5,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 5,
+          "coverage": 1,
+          "assigned_concordant": 5,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.00043025609337004055,
+          "NLL_fusion_compatible_label_input_smoothed": 0.012889847975971591
+        }
+      },
+      "SYSA": {
+        "published_original_classifier": {
+          "n": 18,
+          "concordant": 18,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 18,
+          "coverage": 1,
+          "assigned_concordant": 18,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 18,
+          "concordant": 18,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 9,
+          "coverage": 0.5,
+          "assigned_concordant": 9,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.024613888888888928,
+          "NLL_fusion_compatible_label_input_smoothed": 0.12907912626027734
+        },
+        "reference_temperature": {
+          "n": 18,
+          "concordant": 18,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 18,
+          "coverage": 1,
+          "assigned_concordant": 18,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 9.16588470721723e-7,
+          "NLL_fusion_compatible_label_input_smoothed": 0.00032142757006260004
+        }
+      }
+    },
+    "molecular_original_score_below_0.9": {
+      "published_original_classifier": {
+        "n": 7,
+        "concordant": 4,
+        "concordance_fraction": 0.5714285714285714,
+        "macro_class_concordance": 0.4,
+        "score_0.9_assigned": 0,
+        "coverage": 0,
+        "assigned_concordant": 0,
+        "assigned_concordance_fraction": null
+      },
+      "raw": {
+        "n": 7,
+        "concordant": 4,
+        "concordance_fraction": 0.5714285714285714,
+        "macro_class_concordance": 0.4,
+        "score_0.9_assigned": 0,
+        "coverage": 0,
+        "assigned_concordant": 0,
+        "assigned_concordance_fraction": null,
+        "Brier_fusion_compatible_label": 0.5520714285714287,
+        "NLL_fusion_compatible_label_input_smoothed": 3.2510634604397297
+      },
+      "reference_temperature": {
+        "n": 7,
+        "concordant": 4,
+        "concordance_fraction": 0.5714285714285714,
+        "macro_class_concordance": 0.4,
+        "score_0.9_assigned": 5,
+        "coverage": 0.7142857142857143,
+        "assigned_concordant": 4,
+        "assigned_concordance_fraction": 0.8,
+        "Brier_fusion_compatible_label": 0.6285940180085888,
+        "NLL_fusion_compatible_label_input_smoothed": 7.359025978889228
+      }
+    },
+    "molecular_excluding_shared_physical_chip": {
+      "published_original_classifier": {
+        "n": 118,
+        "concordant": 115,
+        "concordance_fraction": 0.9745762711864406,
+        "macro_class_concordance": 0.861111111111111,
+        "score_0.9_assigned": 111,
+        "coverage": 0.940677966101695,
+        "assigned_concordant": 111,
+        "assigned_concordance_fraction": 1
+      },
+      "raw": {
+        "n": 118,
+        "concordant": 115,
+        "concordance_fraction": 0.9745762711864406,
+        "macro_class_concordance": 0.861111111111111,
+        "score_0.9_assigned": 43,
+        "coverage": 0.3644067796610169,
+        "assigned_concordant": 43,
+        "assigned_concordance_fraction": 1,
+        "Brier_fusion_compatible_label": 0.1126877118644068,
+        "NLL_fusion_compatible_label_input_smoothed": 0.44190614551457985
+      },
+      "reference_temperature": {
+        "n": 118,
+        "concordant": 115,
+        "concordance_fraction": 0.9745762711864406,
+        "macro_class_concordance": 0.861111111111111,
+        "score_0.9_assigned": 113,
+        "coverage": 0.9576271186440678,
+        "assigned_concordant": 112,
+        "assigned_concordance_fraction": 0.9911504424778761,
+        "Brier_fusion_compatible_label": 0.038145514773433455,
+        "NLL_fusion_compatible_label_input_smoothed": 0.4432728096959105
+      }
+    },
+    "preparation_counts": {
+      "reference": {
+        "FFPE": 983,
+        "KRYO": 84,
+        "EDTA blood": 10
+      },
+      "validation": {
+        "FFPE": 49,
+        "KRYO": 379
+      }
+    },
+    "molecular_by_DNA_preparation": {
+      "FFPE": {
+        "published_original_classifier": {
+          "n": 7,
+          "concordant": 7,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 6,
+          "coverage": 0.8571428571428571,
+          "assigned_concordant": 6,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 7,
+          "concordant": 7,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 2,
+          "coverage": 0.2857142857142857,
+          "assigned_concordant": 2,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.1115071428571429,
+          "NLL_fusion_compatible_label_input_smoothed": 0.3365109106622698
+        },
+        "reference_temperature": {
+          "n": 7,
+          "concordant": 7,
+          "concordance_fraction": 1,
+          "macro_class_concordance": 1,
+          "score_0.9_assigned": 7,
+          "coverage": 1,
+          "assigned_concordant": 7,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.00010269749183609646,
+          "NLL_fusion_compatible_label_input_smoothed": 0.003704042972558583
+        }
+      },
+      "KRYO": {
+        "published_original_classifier": {
+          "n": 113,
+          "concordant": 110,
+          "concordance_fraction": 0.9734513274336283,
+          "macro_class_concordance": 0.8472222222222222,
+          "score_0.9_assigned": 107,
+          "coverage": 0.9469026548672567,
+          "assigned_concordant": 107,
+          "assigned_concordance_fraction": 1
+        },
+        "raw": {
+          "n": 113,
+          "concordant": 110,
+          "concordance_fraction": 0.9734513274336283,
+          "macro_class_concordance": 0.8472222222222222,
+          "score_0.9_assigned": 42,
+          "coverage": 0.37168141592920356,
+          "assigned_concordant": 42,
+          "assigned_concordance_fraction": 1,
+          "Brier_fusion_compatible_label": 0.11237212389380535,
+          "NLL_fusion_compatible_label_input_smoothed": 0.44520924483850566
+        },
+        "reference_temperature": {
+          "n": 113,
+          "concordant": 110,
+          "concordance_fraction": 0.9734513274336283,
+          "macro_class_concordance": 0.8472222222222222,
+          "score_0.9_assigned": 108,
+          "coverage": 0.9557522123893806,
+          "assigned_concordant": 107,
+          "assigned_concordance_fraction": 0.9907407407407407,
+          "Brier_fusion_compatible_label": 0.039827375902050786,
+          "NLL_fusion_compatible_label_input_smoothed": 0.46269894392246147
+        }
+      }
+    },
+    "shared_chip_sensitivity": {
+      "shared_chip_prefixes": [
+        "203049640040"
+      ],
+      "excluded_validation_ids": [
+        "VALIDATION_SAMPLE 47",
+        "VALIDATION_SAMPLE 58",
+        "VALIDATION_SAMPLE 83",
+        "VALIDATION_SAMPLE 142"
+      ],
+      "remaining_QC_profiles": 424,
+      "algorithm_agreement": {
+        "raw": {
+          "n": 424,
+          "concordant": 354,
+          "concordance_fraction": 0.8349056603773585,
+          "macro_class_concordance": 0.7157058385360273,
+          "score_0.9_assigned": 56,
+          "coverage": 0.1320754716981132,
+          "assigned_concordant": 56,
+          "assigned_concordance_fraction": 1
+        },
+        "reference_temperature": {
+          "n": 424,
+          "concordant": 354,
+          "concordance_fraction": 0.8349056603773585,
+          "macro_class_concordance": 0.7157058385360273,
+          "score_0.9_assigned": 307,
+          "coverage": 0.7240566037735849,
+          "assigned_concordant": 293,
+          "assigned_concordance_fraction": 0.9543973941368078
+        }
+      }
+    },
+    "limitations": [
+      "Molecular findings are author-reported supplemental annotations; raw genomic assays and blinded patient-level adjudication are unavailable",
+      "Testing/workup may have been prompted by methylation or morphology; ascertainment and incorporation effects cannot be removed",
+      "Fusion-to-class rules use specific hallmark events and omit shared/unclear/historical findings; finite subset is not representative of all sarcoma",
+      "Only one NR4A3-fusion-compatible EMC profile exists; neither one case nor ten reference profiles establishes diagnostic sensitivity",
+      "All score transformations were fitted to reference OOF only; no external fusion annotation entered feature selection, forest fitting or temperature fitting",
+      "Existing taxonomy and author-processed methylation values are reused; results are retrospective robustness/annotation audits, not newly discovered tumour entities"
+    ],
+    "input_sha256": {
+      "methylation-external/per-profile-external-evaluation.tsv": "66aa02011a783fc1e3348e9646e04cead3540cce524e0014fe855ef786d6264b",
+      "methylation-external/external-evaluated-votes.npz": "58b8208de6b46f0fdc6661dff3477d474b7d0a8af4fddc1500391f0128b56d1c",
+      "methylation-full-geo/external-reference-and-validation-votes.npz": "84522889c6e55147246dcc40f9f8dcd09be3d944617df3465a60fe56197e77c4",
+      "methylation-validation/primary-workbooks.json": "8073ab73e06c268220b4023c9fa065138446ceb925db38b76c1f95634ad5f31c"
+    },
+    "artifact_sha256": {
+      "internal-confusion-counts.tsv": "b255b8408f2cdd27fe0003965b4c17e0b29cc9fb139d6a451d69598cb3d5d60e",
+      "all-428-annotation-inventory.tsv": "7b3ef147b79dd4af2b021e9e43492af18464afe6af333f2db33106bd1c2bae75",
+      "fusion-supported-profile-predictions.tsv": "8e4febc015541221d41f4d853ace8c171fc8dc56385abe419030da1957d7b1eb"
+    }
+  }
+}
