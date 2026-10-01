@@ -1,48 +1,24 @@
 {
   "schema": "emc-measured-data-run/1",
-  "batch": "actual-RNAseq-retrieval-structure-and-primary-empirical-supplements",
+  "batch": "full-CpG-training-contained-and-external-methylation",
   "date": "2026-10-01",
   "dependencies": [
     "numpy",
     "pandas",
     "scipy",
-    "biopython"
+    "scikit-learn",
+    "openpyxl"
   ],
   "jobs": [
     {
-      "name": "retrieve-pinned-author-RNAseq",
-      "script": "atlas_bootstrap.py",
+      "name": "primary-methylation-validation-labels",
+      "script": "methylation_validation_metadata.py",
       "timeout_seconds": 300
     },
     {
-      "name": "frozen-fusion-RNAseq-transfer",
-      "script": "fusion_external_actual.py",
-      "args": [
-        "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv",
-        "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
-        "research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/fusion-external-actual.json"
-      ],
-      "timeout_seconds": 900
-    },
-    {
-      "name": "matrix-NR2F-and-dependency-context",
-      "script": "atlas_panel_extension.py",
-      "args": [
-        "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv",
-        "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
-        "research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/atlas-matrix-nr2f-actual.json"
-      ],
-      "timeout_seconds": 900
-    },
-    {
-      "name": "fresh-22-PDB-interface-measurements",
-      "script": "structure_sensitivity.py",
-      "timeout_seconds": 600
-    },
-    {
-      "name": "clinical-protein-and-ASO-primary-supplements",
-      "script": "clinical_primary_supplement_audit.py",
-      "timeout_seconds": 900
+      "name": "full-measured-common-CpG-training-contained-transfer",
+      "script": "methylation_full_geo.py",
+      "timeout_seconds": 3300
     }
   ]
 }
