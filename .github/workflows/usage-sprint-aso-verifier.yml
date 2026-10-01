@@ -8,6 +8,8 @@ on:
       - research/modalities/aso_independent_verification.py
       - research/modalities/tests/test_aso_independent_verification.py
       - research/modalities/tests/test_aso_independent_verification_integrity.py
+      - research/manuscripts/aso_archive_manifest.py
+      - research/manuscripts/aso/fusion-junction-aso-archive-manifest.json
 permissions:
   contents: read
 concurrency:
@@ -50,6 +52,9 @@ jobs:
           python3 -m pip install
           uv pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
           pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+      - name: Reproduce committed live archive inventory
+        if: ${{ !cancelled() && steps.preflight_dependencies.outcome == 'success' }}
+        run: python3 research/manuscripts/aso_archive_manifest.py --check-archive
       - name: Normal preflight (default fast gates)
         if: ${{ !cancelled() && steps.preflight_dependencies.outcome == 'success' }}
         timeout-minutes: 10
