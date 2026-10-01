@@ -1,18 +1,23 @@
 {
   "schema": "emc-measured-data-run/1",
-  "batch": "metadata-and-multiomics-measurement-inspection",
+  "batch": "normal-HLA-Foundation-and-ASO-measured-source-analysis",
   "date": "2026-10-01",
-  "dependencies": [
-    "numpy",
-    "pandas",
-    "h5py",
-    "tables"
-  ],
+  "dependencies": [],
   "jobs": [
     {
-      "name": "inspect-measured-multiomics-and-images",
-      "script": "access_followup.py",
-      "timeout_seconds": 1800
+      "name": "benign-HLA-donor-holdout",
+      "script": "normal_ligandomics.py",
+      "timeout_seconds": 900
+    },
+    {
+      "name": "Foundation-EMC-molecular-calls",
+      "script": "clinical_foundation_reanalysis.py",
+      "timeout_seconds": 600
+    },
+    {
+      "name": "ASO-experimental-offtarget-data-sources",
+      "script": "aso_empirical_source_search.py",
+      "timeout_seconds": 600
     }
   ]
 }
