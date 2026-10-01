@@ -1,19 +1,18 @@
 {
   "schema": "emc-measured-data-run/1",
   "date": "2026-10-01",
-  "batch": "actual-spatial-marker-organization-all-mapped-regions",
+  "batch": "saved-methylation-fusion-audit-and-durable-measurements",
   "dependencies": [
     "numpy",
-    "pandas",
-    "scipy",
-    "tifffile",
-    "imagecodecs"
+    "pandas"
   ],
   "jobs": [
     {
-      "name": "spatial-200-IMC-regions-and-50-Ewing-image-grids",
-      "script": "spatial_marker_followthrough_actual.py",
-      "timeout_seconds": 3300
+      "name": "methylation-120-fusion-supported-profiles",
+      "script": "methylation_fusion_audit.py",
+      "restore_run": 36875279072,
+      "restore_name": "emc-full-CpG-methylation-and-428-external-profiles-36875279072",
+      "timeout_seconds": 300
     }
   ]
 }
