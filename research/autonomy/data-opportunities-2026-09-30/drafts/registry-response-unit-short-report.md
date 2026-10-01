@@ -53,6 +53,8 @@ An archived source check identified a separate denominator issue in NCT05323656 
 | Setanaxib plus pembrolizumab | 27 | 26 | 1 |
 | Placebo plus pembrolizumab | 28 | 28 | 0 |
 
+A second archived record, NCT04268277, illustrates endpoint selection. Its “Response Rate” table at approximately 58 weeks reports CR 3, PR 10, SD 7 and PD 2 among 22 participants. Its “Best Response” table over 2.1–33.2 months reports CR 3, PR 11 and SD 8, without a PD category. The parser includes the first table and excludes the second because it lacks all four labels. An absent label cannot be assumed to denote zero. This is a difference in recorded outcome definition and category completeness, not evidence that the registry result is erroneous.
+
 Small reconstructed totals also shaped the corpus description. The median was seven participants; 321 records had totals below 10 and 414 below 20. Zero CR + PR counts occurred in 251/552 records (45.5%), compared with 32/231 (13.9%) among records totaling at least 10 and 4/138 (2.9%) among those totaling at least 20. These are overlapping descriptive subsets of heterogeneous records. They do not show that zero responses are uninformative or identify a treatment effect.
 
 ## Discussion
