@@ -1,0 +1,331 @@
+{
+  "schema": "emc-campaign-independent-review-index/1",
+  "scope": "Draft/protocol review only; coordinator-retained transcriptions of actual independent reviews",
+  "receipts": [
+    {
+      "schema": "emc-llm-readability-review/1",
+      "paper_id": "DATA-IMMUNOSARC-2026-09-30",
+      "review_kind": "independent_llm_editorial",
+      "scope": "draft_only",
+      "reviewed_at": "2026-10-01T01:03:26Z",
+      "candidate_revision": "9224028c3f883a4a88b4c4fa6ac46c9a790e71ac",
+      "reviewer": {
+        "agent_id": "/root/review_immunosarc",
+        "model": "Inherited configuration; exact served model not observable",
+        "execution_evidence": "Patient-linked audit of 77 clinical subjects and 133 source sample rows, with assay-specific availability and an exploratory timing check. The reviewer independently reproduced the complete analysis result and checked pinned source/code bindings."
+      },
+      "writer_ids": [
+        "/root/write_immunosarc",
+        "/root"
+      ],
+      "decision": "pass",
+      "unresolved_blockers": [],
+      "checks": {
+        "reader_facing_text_reviewed": true,
+        "abstract_understandable": true,
+        "terms_explained": true,
+        "narrative_followable": true,
+        "scientific_meaning_preserved": true,
+        "limitations_preserved": true
+      },
+      "reader_explanation": {
+        "question": "Which patients have published analyzable values before and during therapy, and what can the released serial-biopsy data support?",
+        "approach": "Patient-linked audit of 77 clinical subjects and 133 source sample rows, with assay-specific availability and an exploratory timing check. The reviewer independently reproduced the complete analysis result and checked pinned source/code bindings.",
+        "main_finding": "RNA scores have 38 on-treatment records and 31 paired patients; numeric CD8 has 32 and 23. UPS has no published on-treatment numeric CD8 values despite some clinical IHC flags. These are availability counts, not proof an assay was never performed.",
+        "main_limitations": "The source table covers 77 of 84 enrolled patients, no EMC cohort is identified, and individual biopsy dates are absent. A common time-origin shift preserves the illustrated risk sets; no corrected hazard ratio or causal bias estimate is produced.",
+        "next_step": "Clarify patient/timepoint/assay denominators and make individual biopsy times available before timing-sensitive biomarker analyses."
+      },
+      "report": {
+        "path": "research/autonomy/data-opportunities-2026-09-30/reviews/immunosarc-independent-review.md",
+        "sha256": "1b0337ec4a6bc7ba4551ecacd15834ab2a0c7109a2d4633136e713244d9398c0",
+        "retention": "Coordinator transcription of independently completed review messages"
+      },
+      "artifacts": [
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/drafts/immunosarc-availability-correspondence.md",
+          "git_blob": "637c917c6163e803742c700025f3914ae0cd4683",
+          "sha256": "428a6fe5e192ddb4310db1872dbd2f3cd0c62b12c69b5aae1f00b572298f2679"
+        }
+      ],
+      "analysis_dependencies_reviewed": [
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/analysis/immunosarc_availability.mjs",
+          "git_blob": "822909ebcafbad34c8360a19530f66b4e2d13b98",
+          "sha256": "343ee1a487b8d8f3fcb52eb47de9201b763c6ff4165bf4b3a1b12b7f11c7de25"
+        },
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/results/immunosarc-availability.json",
+          "git_blob": "20b6fe121dfa6f6decf1ae64dc5ffeef274328d5",
+          "sha256": "6ca8d7b827ec94c83f8db8e51b991d15ada3daf5bcfa9cbac7fc164a3ee3acee"
+        }
+      ]
+    },
+    {
+      "schema": "emc-llm-readability-review/1",
+      "paper_id": "PUB-STRATEGY-ARCH-2026-09-30",
+      "review_kind": "independent_llm_editorial",
+      "scope": "draft_only",
+      "reviewed_at": "2026-10-01T01:22:55Z",
+      "candidate_revision": "9a35c9fa213ef8b9b0995970b7cf840b8bf89b8e",
+      "reviewer": {
+        "agent_id": "/root/review_registry_search",
+        "model": "Inherited configuration; exact served model not observable",
+        "execution_evidence": "Compare two frozen ClinicalTrials.gov responses. The reviewer independently checked source hashes, query/retrieval metadata, all trial identifiers and result modules, reproduced the full result, and checked the Pappo Cancer bibliographic record."
+      },
+      "writer_ids": [
+        "/root"
+      ],
+      "decision": "pass",
+      "unresolved_blockers": [],
+      "checks": {
+        "reader_facing_text_reviewed": true,
+        "abstract_understandable": true,
+        "terms_explained": true,
+        "narrative_followable": true,
+        "scientific_meaning_preserved": true,
+        "limitations_preserved": true
+      },
+      "reader_explanation": {
+        "question": "Can an archived condition query miss a posted EMC subgroup result that another archived query retrieves?",
+        "approach": "Compare two frozen ClinicalTrials.gov responses. The reviewer independently checked source hashes, query/retrieval metadata, all trial identifiers and result modules, reproduced the full result, and checked the Pappo Cancer bibliographic record.",
+        "main_finding": "The condition query returns 23 studies/8 with results; the phrase query returns 24/9. The sole additional study, NCT00642941, has an EMC group of 11 and a posted WHO objective-response result of 0%.",
+        "main_limitations": "Both query field and expression differ. This is not a field-effect estimate, exhaustive sensitivity study, or new efficacy result. Repeated text hits are not independent findings; the clinical result was already published.",
+        "next_step": "Refocus the existing reachability contribution on reproducible query-dependent findability. Avoid a separate overlapping paper."
+      },
+      "report": {
+        "path": "research/autonomy/data-opportunities-2026-09-30/reviews/registry-search-independent-review.md",
+        "sha256": "ae60a4e3e36368784c0d3e9af99719d23194d8503ee40021f67341b170859ebc",
+        "retention": "Coordinator transcription of independently completed review messages"
+      },
+      "artifacts": [
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/drafts/registry-search-correspondence.md",
+          "git_blob": "5ad42a0cce00a8383a9e47041fc13fa58e251ea7",
+          "sha256": "428c76f9647c31cc03e646a683f556674606a9ecfb2bda5d5de522ee5912a68a"
+        }
+      ],
+      "analysis_dependencies_reviewed": [
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/analysis/registry_search.mjs",
+          "git_blob": "041309b0454d6a3b1c73d5b56109722c10a3622a",
+          "sha256": "55a75d5cc491ae34d10e4c6a8b841ab53884a557f71e40865bcc45beb081d2cf"
+        },
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/results/registry-search.json",
+          "git_blob": "c544111c2bed5a184b990863ed051a70f2f35df8",
+          "sha256": "dbe5208552d667d8ae006e62d525abe8f82a2ca0e3794e9c01958260a8048ac8"
+        }
+      ],
+      "writer_provenance_note": "Coordinator writer identified; original writing assignment was separate, but its historical agent path was not reconstructed."
+    },
+    {
+      "schema": "emc-llm-readability-review/1",
+      "paper_id": "PUB-ENDPOINT-2026-09-30",
+      "review_kind": "independent_llm_editorial",
+      "scope": "draft_only",
+      "reviewed_at": "2026-10-01T01:25:10.162Z",
+      "candidate_revision": "9a7337b3277657a03ad75d37bde2ef8111eafe73",
+      "reviewer": {
+        "agent_id": "/root/review_registry_units",
+        "model": "Inherited configuration; exact served model not observable",
+        "execution_evidence": "Group a frozen 552-record oncology corpus by exact trial identifier and results-group title, compare retained category counts, and examine selected archived primary tables. The reviewer executed auditRegistryUnits in V8 using all four pinned inputs; the complete serialized result matched."
+      },
+      "writer_ids": [
+        "/root/write_registry_units",
+        "/root"
+      ],
+      "decision": "pass",
+      "unresolved_blockers": [],
+      "checks": {
+        "reader_facing_text_reviewed": true,
+        "abstract_understandable": true,
+        "terms_explained": true,
+        "narrative_followable": true,
+        "scientific_meaning_preserved": true,
+        "limitations_preserved": true
+      },
+      "reader_explanation": {
+        "question": "Do extracted response records establish independent treatment arms and validated population denominators?",
+        "approach": "Group a frozen 552-record oncology corpus by exact trial identifier and results-group title, compare retained category counts, and examine selected archived primary tables. The reviewer executed auditRegistryUnits in V8 using all four pinned inputs; the complete serialized result matched.",
+        "main_finding": "There are 465 trial-title combinations, 65 repeated. NCT05323656 has one group with posted population 27, four-category sum 26 and one Not Evaluable participant. NCT04268277 supports the reported distinct time windows/counts; its table without a PD label is not imputed as zero.",
+        "main_limitations": "This posthoc realized corpus includes hematological malignancies. Repeated titles do not identify duplicate patients or independent arms. Purposive examples do not estimate an error rate, and two compact-corpus examples remain explicitly not independently raw-source checked.",
+        "next_step": "Retain outcome/group identifiers, definitions, time windows, posted populations and every reported category. Adjudicate tables before efficacy pooling."
+      },
+      "report": {
+        "path": "research/autonomy/data-opportunities-2026-09-30/reviews/registry-response-unit-independent-review.md",
+        "sha256": "0379a759e6e215291faedb25671bd1c7dbbd367ef98c7d6e3d6d93d51ebe4c81",
+        "retention": "Coordinator transcription of independently completed review messages"
+      },
+      "artifacts": [
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/drafts/registry-response-unit-short-report.md",
+          "git_blob": "425c0b5d731e01975f394f8eedbef80ce5a29810",
+          "sha256": "2cc1630739fc7a575199efcac6e254866968b2d6d627bb3edb8bcaec282ab7d3"
+        }
+      ],
+      "analysis_dependencies_reviewed": [
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/analysis/registry_units.mjs",
+          "git_blob": "f07fb3e23d1c74cffb6b036580bbb2d94251fcbc",
+          "sha256": "f970ba4fed25a1147ad887b0f260556c3b977e7da94a9715a351a6d98edbf73a"
+        },
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/results/registry-units.json",
+          "git_blob": "a58af61cbfbd5852dce2fc4859e920b8814ae81b",
+          "sha256": "2844967d356f26d09756c1a33727c1ec459b77c0d8d0b03f22cb4fa8aa1083ed"
+        }
+      ]
+    },
+    {
+      "schema": "emc-llm-readability-review/1",
+      "paper_id": "PUB-FUSION-PARTNER-2026-09-30",
+      "review_kind": "independent_llm_editorial",
+      "scope": "draft_only",
+      "reviewed_at": "2026-10-01T01:23:28Z",
+      "candidate_revision": "9a35c9fa213ef8b9b0995970b7cf840b8bf89b8e",
+      "reviewer": {
+        "agent_id": "/root/review_partner",
+        "model": "Inherited configuration; exact served model not observable",
+        "execution_evidence": "Audit unpooled primary cohorts, distinguish secondary pazopanib reconstructions, and calculate uncertainty. Initial complete review concluded 2026-10-01T01:05:34Z against blob e9ecd8856172deabb28ff659e6dfc5bb1022eacd / SHA256 f252c3d3cd64da0746935b41a33a6ac5cac4d25b4c0bcc96110da33795b60687. The reviewer directly read Agaram full text, Huang/Suemitsu/pazopanib primary abstracts and both cited secondary reviews, and reproduced the interval result."
+      },
+      "writer_ids": [
+        "/root"
+      ],
+      "decision": "pass",
+      "unresolved_blockers": [],
+      "checks": {
+        "reader_facing_text_reviewed": true,
+        "abstract_understandable": "not_applicable_no_separate_abstract",
+        "terms_explained": true,
+        "narrative_followable": true,
+        "scientific_meaning_preserved": true,
+        "limitations_preserved": true
+      },
+      "reader_explanation": {
+        "question": "Does fusion partner describe prognosis, and do existing observations establish different treatment benefits?",
+        "approach": "Audit unpooled primary cohorts, distinguish secondary pazopanib reconstructions, and calculate uncertainty. Initial complete review concluded 2026-10-01T01:05:34Z against blob e9ecd8856172deabb28ff659e6dfc5bb1022eacd / SHA256 f252c3d3cd64da0746935b41a33a6ac5cac4d25b4c0bcc96110da33795b60687. The reviewer directly read Agaram full text, Huang/Suemitsu/pazopanib primary abstracts and both cited secondary reviews, and reproduced the interval result.",
+        "main_finding": "Agaram reports crude deaths 3/7 versus 1/16 under unequal follow-up. Conditional pazopanib reconstructions remain uncertain. For 0/3 the exact two-sided 95% upper bound is 70.8%. Single-arm outcomes cannot identify a treatment-by-partner benefit.",
+        "main_limitations": "Follow-up, size/metastasis confounding, possible overlap, small subgroups and unverified complete evaluable partner distribution remain consequential. Huang full PDF and primary pazopanib partner breakdown were not rechecked.",
+        "next_step": "Improve partner-specific reporting and use appropriately controlled treatment-effect comparisons. Repair the existing correspondence rather than count a new discovery."
+      },
+      "report": {
+        "path": "research/autonomy/data-opportunities-2026-09-30/reviews/fusion-partner-independent-review.md",
+        "sha256": "1a2583b482c837d933f571efd8ef0298b4d318291a22f0df035f5c11732693bd",
+        "retention": "Coordinator transcription of independently completed review messages"
+      },
+      "artifacts": [
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/drafts/fusion-partner-revised-correspondence.md",
+          "git_blob": "17e9f98c750db40eb87a168c926e9db8da4c151d",
+          "sha256": "64766b321e5047cc12df50bc1d3be158f6bf8939238349893afb15353afeea3a"
+        }
+      ],
+      "analysis_dependencies_reviewed": [
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/analysis/partner_intervals.mjs",
+          "git_blob": "db7aeabed04cba1ed64b3f5c5c464cc778593552",
+          "sha256": "1d5b7f44aee8e3ff794baec3e746bfb49670f5863bf37993d1cb839d9b53ed6f"
+        },
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/results/partner-intervals.json",
+          "git_blob": "d15c16f20c2eecb65b5ada8e15e2b1dad33b08ad",
+          "sha256": "a66c3dce16b069c59707a063031b87cdf0b70d66f20376320e9ebe1642f337ad"
+        }
+      ],
+      "writer_provenance_note": "Coordinator writer identified; original writing assignment was separate, but its historical agent path was not reconstructed."
+    },
+    {
+      "schema": "emc-draft-review-continuity/1",
+      "review_kind": "independent_llm_editorial_with_focused_addendum",
+      "scope": "internal_protocol_and_portfolio",
+      "reviewed_at": "2026-10-01T01:36:32Z",
+      "candidate_revision": "7fcab87f459406144cfacfd0268295d414eba91d",
+      "reviewer": {
+        "agent_id": "/root/review_methylation",
+        "model": "Inherited configuration; exact served model unobservable",
+        "execution_evidence": "Complete independent claims/methods/prose review followed by bounded exact-byte diff and digest verification"
+      },
+      "writer_ids": [
+        "/root/write_methylation_protocol",
+        "/root"
+      ],
+      "decision": "pass",
+      "unresolved_blockers": [],
+      "checks": {
+        "reader_facing_text_reviewed": true,
+        "abstract_understandable": true,
+        "terms_explained": true,
+        "narrative_followable": true,
+        "scientific_meaning_preserved": true,
+        "limitations_preserved": true
+      },
+      "report": {
+        "path": "research/autonomy/data-opportunities-2026-09-30/reviews/methylation-independent-review.md",
+        "sha256": "c688314e59d607f2c28ad823f7fec02e2b1b37e7f4b8d027c9e72fad90131b81",
+        "retention": "Coordinator transcription of independently completed review messages"
+      },
+      "artifacts": [
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/protocols/methylation-validation-protocol.md",
+          "git_blob": "57292f3efabb110ddf83cf3931307f324772a0b6",
+          "sha256": "988c4515dee5d5b5caff1cb1610eb76db0466c37979e5512b99bcb10f996b53b"
+        }
+      ],
+      "scope_limit": "No registered-manuscript/export/venue/full-preflight/publication approval"
+    },
+    {
+      "schema": "emc-draft-review-continuity/1",
+      "review_kind": "independent_llm_editorial_with_focused_addendum",
+      "scope": "internal_protocol_and_portfolio",
+      "reviewed_at": "2026-10-01T01:35:26Z",
+      "candidate_revision": "7fcab87f459406144cfacfd0268295d414eba91d",
+      "reviewer": {
+        "agent_id": "/root/review_portfolio",
+        "model": "Inherited configuration; exact served model unobservable",
+        "execution_evidence": "Complete independent claims/methods/prose review followed by bounded exact-byte diff and digest verification"
+      },
+      "writer_ids": [
+        "/root/write_future_protocols",
+        "/root"
+      ],
+      "decision": "pass",
+      "unresolved_blockers": [],
+      "checks": {
+        "reader_facing_text_reviewed": true,
+        "abstract_understandable": true,
+        "terms_explained": true,
+        "narrative_followable": true,
+        "scientific_meaning_preserved": true,
+        "limitations_preserved": true
+      },
+      "report": {
+        "path": "research/autonomy/data-opportunities-2026-09-30/reviews/portfolio-independent-review.md",
+        "sha256": "7c6c95f7997f87ffcf92b5ea556ed72f866d79524e20238be18bc3279682985d",
+        "retention": "Coordinator transcription of independently completed review messages"
+      },
+      "artifacts": [
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/protocols/experimental-data-protocols.md",
+          "git_blob": "2e9f9d32125767ddfede5c9e284a0888dbdbb7de",
+          "sha256": "edb8853c54d0daeb2461b1f14bf9a305362a8c69291323ec50c2f9f6b053284d"
+        },
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/RANKING.md",
+          "git_blob": "1fbeb4cfefc0e438ed50b0c6325b126b72e7726d",
+          "sha256": "238ea68bbff48f9f48915a166d9df68265533c8c62031d10c569726c8b54caca"
+        },
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/candidate-catalogue.json",
+          "git_blob": "f3b0b6fdf67d63b5da83a60acd12369d04e1746e",
+          "sha256": "c7e47fe97eb56471c7848abed1b693da702ca676f06e26fb0d260ce4f8927d1c"
+        },
+        {
+          "path": "research/autonomy/data-opportunities-2026-09-30/backlog-assessment.md",
+          "git_blob": "efe4aea1a195055e2c04980eb14afdb0d80c425d",
+          "sha256": "bf40dc936a1623a65e70cfce2db23382b65f4be1f6f88ddac5f70867ed20ae93"
+        }
+      ],
+      "scope_limit": "No registered-manuscript/export/venue/full-preflight/publication approval"
+    }
+  ]
+}
