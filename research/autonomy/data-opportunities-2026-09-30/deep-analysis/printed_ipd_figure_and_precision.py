@@ -1,4 +1,4 @@
-import hashlib,itertools,json,math
+import hashlib,itertools,json,math,subprocess
 from collections import Counter
 from pathlib import Path
 D=Path('research/autonomy/data-opportunities-2026-09-30');O=Path('campaign-output/printed-ipd-followthrough');O.mkdir(parents=True,exist_ok=True)
@@ -18,7 +18,9 @@ def unwrap(x,predicate):
    if z is not None:return z
  return None
 def source(p,predicate):
- b=p.read_bytes();R['sources'].append(dict(path=str(p),bytes=len(b),sha256=hashlib.sha256(b).hexdigest()));q=unwrap(json.loads(b),predicate);assert q is not None;return q
+ b=p.read_bytes() if p.exists() else subprocess.check_output(['git','show','HEAD:'+p.as_posix()])
+ if p.as_posix()=='research/modalities/km-figure-readings.json':assert hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()=='65edc0013dc2691091cbde9435b548dac5f54c0e'
+ R['sources'].append(dict(path=str(p),bytes=len(b),sha256=hashlib.sha256(b).hexdigest()));q=unwrap(json.loads(b),predicate);assert q is not None;return q
 def km(v):
  assert v and all(math.isfinite(x['time']) and x['time']>=0 for x in v)
  risk=len(v);s=1.;steps=[];med=None
