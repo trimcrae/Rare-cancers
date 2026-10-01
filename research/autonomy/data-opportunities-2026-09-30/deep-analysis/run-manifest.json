@@ -1,15 +1,21 @@
 {
   "schema": "emc-deep-analysis-manifest/1",
-  "purpose": "Complete remaining exact normal main-figure source caption check without repeated fits",
+  "purpose": "Complete already identified two-model40-drug source coverage rather than stopping at genotype metadata",
   "jobs": [
     {
-      "name": "Iwata-exact-normal-Fig4-public-caption-and-returned-assets",
-      "script": "iwata_normal_figure4_page_actual.py",
-      "timeout_seconds": 900,
+      "name": "Bangerter-all40-drug-primary-tables-and-actual-source-figures",
+      "script": "bangerter_complete_drug_screen_source_actual.py",
+      "before": [
+        "restore_previous_outputs.py"
+      ],
+      "restore_run": "36900530648",
+      "restore_name": "emc-authentic-EMC-two-model-declared-genotypes-36900530648",
+      "timeout_seconds": 1800,
       "dependencies": [
         "requests",
-        "beautifulsoup4",
-        "Pillow"
+        "Pillow",
+        "numpy",
+        "rapidocr_onnxruntime"
       ]
     }
   ]
