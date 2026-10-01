@@ -1,20 +1,44 @@
 {
-  "schema": "emc-bounded-measured-analysis/1",
-  "batch": "public-RMS-count-retrieval-with-scoped-GEO",
   "dependencies": [],
   "jobs": [
     {
-      "name": "RMS-processed-counts-after-GEO-query-scope-repair",
-      "script": "pediatric_rms_processed_count_pilot_actual.py",
-      "timeout_seconds": 3600,
+      "name": "Agaram-final-exact-public-rendering-routes",
+      "script": "agaram_html_patient_table_actual.py",
+      "timeout_seconds": 400,
+      "dependencies": []
+    },
+    {
+      "name": "ImmunoSarc1-all-published-gene-statistics",
+      "script": "immunosarc1_published_gene_summary_actual.py",
+      "timeout_seconds": 300,
+      "dependencies": [
+        "pypdf"
+      ]
+    },
+    {
+      "name": "ASO-image-only-supplement-all-pages-OCR",
+      "script": "aso_burel_s6_ocr.py",
+      "timeout_seconds": 1200,
+      "dependencies": [
+        "pymupdf",
+        "Pillow"
+      ],
+      "restore_run": "36898798217",
+      "restore_name": "emc-ASO-global-expression-physical-cellular-and-source-PDFs-36898798217",
+      "before": [
+        "restore_previous_outputs.py"
+      ]
+    },
+    {
+      "name": "protein-identical-model-three-gene-overlap",
+      "script": "protein_overlap_actual.py",
+      "timeout_seconds": 1000,
       "dependencies": [
         "numpy",
         "pandas",
         "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn"
+        "scikit-learn",
+        "h5py"
       ]
     }
   ]
