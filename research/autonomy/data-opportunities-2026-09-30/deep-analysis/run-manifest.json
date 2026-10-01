@@ -2,8 +2,8 @@
   "dependencies": [],
   "jobs": [
     {
-      "name": "Ewing-all26-sourcecases-fixed-geometry-and-cluster-tests",
-      "script": "ewing_patient_geometry_actual.py",
+      "name": "RMS-all42-frozen88-string-measurements-and-aggregation",
+      "script": "pediatric_rms_full42_aggregate_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
@@ -14,44 +14,8 @@
         "scikit-learn",
         "openpyxl"
       ],
-      "restore_run": "36917071796",
-      "restore_name": "emc-Ewing-all234-saved-pixels-and-fixed-cell-windows-36917071796",
-      "timeout_seconds": 1800
-    },
-    {
-      "name": "NR4A3-all32-ATAC-marker-panels-official-annotation-repair",
-      "script": "frozen_fusion_ATAC_promoter_actual.py",
-      "dependencies": [
-        "scipy"
-      ],
-      "timeout_seconds": 1000
-    },
-    {
-      "name": "ASO-exact-primary-tables-and-measured-supplement-assets",
-      "script": "aso_exact_primary_HTML_inspection.py",
-      "dependencies": [
-        "pypdf",
-        "pandas",
-        "openpyxl",
-        "xlrd"
-      ],
-      "restore_run": "36917071796",
-      "restore_name": "emc-ASO-exact-title-source-after-index-filter-repair-36917071796",
-      "timeout_seconds": 1800
-    },
-    {
-      "name": "PeerJ-measured-expression-diagnostics-dependency-repair",
-      "script": "peerj_expression_diagnostic_actual.py",
-      "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn",
-        "openpyxl"
-      ],
+      "restore_run": "36914111788",
+      "restore_all": true,
       "timeout_seconds": 1800
     }
   ]
