@@ -42,6 +42,8 @@ The PeerJ export comprised 9,500 literal gene-label rows and 12 specimen columns
 
 Exact PRJNA1357027 BioSample metadata supplied 12 unique literal specimen joins and Prognosis B/G labels. The label legend and survival/event semantics were not independently established, so B/G remained literal source labels. The field Time equalled 2020 minus collection year for all 12 specimens and was not interpreted as survival duration. One source record had sample alias Si22 but ENA library name Si21; the conflict was retained. We examined all 24 gene/value-variant/identity-scope label comparisons, including exclusion of that record. Eleven unambiguous ENA records also supported a separate three-pair read-count-adjusted internal diagnostic.
 
+Residual-rank associations and their nominal P values are descriptive; the P values do not incorporate nuisance-fitting uncertainty. Their BH values correct those nominal P values within the stated families.
+
 ## Results
 
 | Source | Completed measured coverage | Analysis unit | Corrected result or qualification |
