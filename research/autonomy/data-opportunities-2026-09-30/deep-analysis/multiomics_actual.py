@@ -17,6 +17,7 @@ SEED=20261001
 PANEL=["CD276","SSTR2","PRAME","FAP","CD248","CSPG4","MSLN","L1CAM","GPC3","ALPP","CDH17"]
 CONTROL=["CHRNA6"]
 TARGETS=["CDK7","CDK9","HSP90AA1","HSP90AB1","CDC37","ATR","PRMT5","MTAP","MAT2A","BCL2","BCL2L1","MCL1","ASS1","MDM2","EZH2","SMARCB1","POLQ","PSMB5","BRD4"]
+TARGETS+=["BRD9","SMARCA2","ALK","ROS1","EGFR","HDAC1","HDAC2","HDAC3","HDAC6","PRKDC","RET"]
 ALPHAS=[.01,.1,1.,10.,100.];NBOOT=1000;NPERM=1000
 ROOT=Path(os.environ.get("PROTEOMICS_OUTPUT_DIR","campaign-output/proteomics"));ROOT.mkdir(parents=True,exist_ok=True)
 CACHE=ROOT/"inputs";CACHE.mkdir(exist_ok=True);RECEIPTS=[];STAGES=[]
@@ -123,7 +124,7 @@ def main():
     meta=pd.read_csv(mp,sep="\t").set_index("SIDM");meta.index=meta.index.astype(str);meta.index.name="model_id"
     if not meta.index.is_unique:raise ValueError("Duplicate primary mapping SIDM")
     keep=[c for c in cmp.columns if c not in meta.columns];meta=meta.join(cmp[keep],how="left")
-    accessions={"CD276":"Q5ZPR3","SSTR2":"P30874","PRAME":"P78395","FAP":"Q12884","CD248":"Q9HCU0","CSPG4":"Q6UVK1","MSLN":"Q13421","L1CAM":"P32004","GPC3":"P51654","ALPP":"P05187","CDH17":"Q12864","CHRNA6":"Q15825","CDK7":"P50613","CDK9":"P50750","HSP90AA1":"P07900","HSP90AB1":"P08238","CDC37":"Q16543","ATR":"Q13535","PRMT5":"O14744","MTAP":"Q13126","MAT2A":"P31153","BCL2":"P10415","BCL2L1":"Q07817","MCL1":"Q07820","ASS1":"P00966","MDM2":"Q00987","EZH2":"Q15910","SMARCB1":"Q12824","POLQ":"O75417","PSMB5":"P28074","BRD4":"O60885"}
+    accessions={"CD276":"Q5ZPR3","SSTR2":"P30874","PRAME":"P78395","FAP":"Q12884","CD248":"Q9HCU0","CSPG4":"Q6UVK1","MSLN":"Q13421","L1CAM":"P32004","GPC3":"P51654","ALPP":"P05187","CDH17":"Q12864","CHRNA6":"Q15825","CDK7":"P50613","CDK9":"P50750","HSP90AA1":"P07900","HSP90AB1":"P08238","CDC37":"Q16543","ATR":"Q13535","PRMT5":"O14744","MTAP":"Q13126","MAT2A":"P31153","BCL2":"P10415","BCL2L1":"Q07817","MCL1":"Q07820","ASS1":"P00966","MDM2":"Q00987","EZH2":"Q15910","SMARCB1":"Q12824","POLQ":"O75417","PSMB5":"P28074","BRD4":"O60885","BRD9":"Q9H8M2","SMARCA2":"P51531","ALK":"Q9UM73","ROS1":"P08922","EGFR":"P00533","HDAC1":"Q13547","HDAC2":"Q92769","HDAC3":"O15379","HDAC6":"Q9UBN7","PRKDC":"P78527","RET":"P07949"}
     uniprot_url="https://rest.uniprot.org/uniprotkb/stream?"+urlencode({"format":"tsv","fields":"accession,id,gene_primary","query":" OR ".join("accession:"+v for v in accessions.values())})
     with req(uniprot_url) as h:ub=h.read()
     up=CACHE/"frozen-uniprot-target-map.tsv";up.write_bytes(ub)
@@ -314,6 +315,10 @@ def main():
             specificity.append(res)
     write("atr-specificity-controls.json",specificity)
     observed={"metadataMatchedModels":len(ids),"nonSarcomaTrainingModels":int(training.sum()),"primarySarcomaModels":int(primary.sum()),"disputedEMCModelsExcludedPrimary":meta.loc[disputed].reset_index().replace({np.nan:None}).to_dict("records"),"sarcomaClasses":meta.loc[primary].Cancer_type.value_counts().to_dict(),"relatedGroupCollisions":groupcollisions[groupcollisions>1].to_dict(),"crossLineageRelatedFamilies":cross_lineage,"crossLineageHandling":"familypooled;lexicographicallyfirstCancer_type; exclusion sensitivity","coverage":feasibility,"panelPrimary":summary,"secondaryEvaluated":sum(r.get("status")=="evaluated" for r in secondary),"secondaryUnsupported":sum(r.get("status")!="evaluated" for r in secondary),"sourceReceipts":RECEIPTS,"stages":STAGES,"perGeneTransfer":genewise,"secondaryBenchmarks":secondary,"atrSpecificityControls":specificity,"primaryCoverageByLineage":coverage,"drugSourceSchema":source_schema,"processingDisclosure":"Original publishedlog2intensity6692protein; Other-groupMOFA-scaledmeasuredRNA+centeringinterceptonly; globalarchivalprocessingdisclosed. Newimputation/scaling/selectiondevelopmentonly. Wholecellnot surface; noverifiedEMC; RNAproxy notmeasuredgrowth; noCNA/dependency/genotype/causalwindowclaim.","frozen":frozen}
+    reuse_genes=[g for g in PANEL+CONTROL+TARGETS+proliferation_genes if g in rna.columns]
+    reuse={"schema":"frozen-sarcoma-matched-measurements/1","sourceReceipts":RECEIPTS,"seed":SEED,"genes":reuse_genes,"metadata":meta.reset_index().replace({np.nan:None}).to_dict("records"),"rna":rna[reuse_genes].reset_index().replace({np.nan:None}).to_dict("records"),"protein":prot.reset_index().replace({np.nan:None}).to_dict("records"),"processingDisclosure":observed["processingDisclosure"]}
+    write("matched-measurements-for-followthrough.json",reuse)
+    print("PROTEOMICS_MATCHED_MEASUREMENTS_BEGIN",flush=True);print(json.dumps(safe(reuse),allow_nan=False),flush=True);print("PROTEOMICS_MATCHED_MEASUREMENTS_END",flush=True)
     write("execution-summary.json",observed);stage("completed");print("PROTEOMICS_RESULT_BEGIN",flush=True);print(json.dumps(safe(observed),allow_nan=False),flush=True);print("PROTEOMICS_RESULT_END",flush=True)
 if __name__=="__main__":
     try:main()
