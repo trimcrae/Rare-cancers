@@ -36,7 +36,7 @@ def parse(b,ct,p):
    text='\n'.join(page.extract_text() or '' for page in PdfReader(io.BytesIO(b)).pages);txt.write_text(text);reader='pypdf'
   return dict(kind='PDF',text=text,tables=[],reader=reader)
  s=b.decode('utf-8','replace')
- if s.lstrip().startswith('<?xml') or '<article' in s or '<OAI-PMH' in s:
+ if 'html' not in ct.lower() and (s.lstrip().startswith('<?xml') or '<article' in s or '<OAI-PMH' in s):
   root=E.fromstring(b);body=[x for x in root.iter() if local(x)=='body'];paras=[textof(x) for z in body for x in z.iter() if local(x)=='p'];tables=[]
   for tab in root.iter():
    if local(tab)!='table-wrap':continue
