@@ -18,7 +18,7 @@ The completed reanalysis supplies exact compound joins, unclipped measurements, 
 
 ## Data and reproducibility
 
-The [complete 221-compound source replay](../deep-analysis/results/authentic-EMC-complete221-compound-screen-final.json) retains all published means, standard deviations, dose-response values and source hashes. The [two-model genotype and STR audit](../deep-analysis/results/authentic-two-model-genotype-actual.json) preserves the separate authenticated models and literal genotypic qualifications.
+The [complete 221-compound source replay](../deep-analysis/results/authentic-EMC-complete221-compound-screen-final.json) retains all published means, standard deviations, dose-response values and source hashes. The [two-model genotype and STR audit](../deep-analysis/results/authentic-EMC-two-model-genotype-supplements.json) preserves the separate authenticated models and literal genotypic qualifications.
 
 ## References
 
