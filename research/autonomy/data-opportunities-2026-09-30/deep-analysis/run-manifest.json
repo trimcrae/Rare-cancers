@@ -1,25 +1,20 @@
 {
   "schema": "emc-measured-data-run/1",
   "date": "2026-10-01",
-  "batch": "corrected-methylation-imputation-impact-audit",
+  "batch": "released-ternary-native-benchmark",
   "dependencies": [
     "numpy",
-    "pandas",
     "scipy",
-    "scikit-learn",
-    "openpyxl"
+    "biopython"
   ],
   "jobs": [
     {
-      "name": "corrected-full-CpG-methylation-and-external",
-      "script": "methylation_full_geo.py",
-      "before": [
-        "methylation_validation_metadata.py"
-      ],
+      "name": "complete-released-ternary-native-geometry",
+      "script": "deepternary_release_inventory.py",
       "after": [
-        "methylation_external_metrics.py"
+        "deepternary_native_geometry.py"
       ],
-      "timeout_seconds": 3300
+      "timeout_seconds": 1200
     }
   ]
 }
