@@ -39,14 +39,15 @@ def main():
  for i in range(a.start,a.stop):
   row=entries[i];url='https://www.ebi.ac.uk/biostudies/files/S-BIAD1597/'+row['path'];file={'global_panel3_index':i,'path':row['path'],'manifest_bytes':int(row['size']),'tiles':[]};result['files'].append(file)
   try:
-   rf=ref.RangeFile(url,row['size'])
+   from spatial_tiff_transport_actual import RetryingRangeFile;rf=RetryingRangeFile(url,row['size'])
    with tifffile.TiffFile(rf) as tf:
-    names,pixel=ref.channels(tf);dna_idx=[j for j,v in enumerate(names) if re.fullmatch(r'(dapi|hoechst|nuclei)',v,re.I)];assert len(dna_idx)==1;dna_idx=dna_idx[0];mi=[j for j,v in enumerate(names) if j!=dna_idx and not re.fullmatch(r'(af|autofluorescence)',v,re.I)];mn=[aliases.get(names[j].lower(),names[j]) for j in mi];assert mn==['CD68','HLA-DR','MRC1','NKX2.2','PSMA3'];p0=tf.pages[0];assert len(tf.pages)==len(names);ny=int(np.ceil(p0.imagelength/p0.tilelength));nx=int(np.ceil(p0.imagewidth/p0.tilewidth));positions=sorted({(round((ny-1)*y),round((nx-1)*x)) for y in [.25,.5,.75] for x in [.25,.5,.75]});assert len(positions)==9;file.update(OME_channels=names,physical_pixel_um=pixel,series_shape=list(tf.series[0].shape),series_axes=tf.series[0].axes)
+    pages=list(tf.pages)
+    names,pixel=ref.channels(tf);dna_idx=[j for j,v in enumerate(names) if re.fullmatch(r'(dapi|hoechst|nuclei)',v,re.I)];assert len(dna_idx)==1;dna_idx=dna_idx[0];mi=[j for j,v in enumerate(names) if j!=dna_idx and not re.fullmatch(r'(af|autofluorescence)',v,re.I)];mn=[aliases.get(names[j].lower(),names[j]) for j in mi];assert mn==['CD68','HLA-DR','MRC1','NKX2.2','PSMA3'];p0=pages[0];assert len(pages)==len(names);ny=int(np.ceil(p0.imagelength/p0.tilelength));nx=int(np.ceil(p0.imagewidth/p0.tilewidth));positions=sorted({(round((ny-1)*y),round((nx-1)*x)) for y in [.25,.5,.75] for x in [.25,.5,.75]});assert len(positions)==9;file.update(OME_channels=names,physical_pixel_um=pixel,image_shape=[int(p0.imagelength),int(p0.imagewidth)],tile_shape=[int(p0.tilelength),int(p0.tilewidth)],TIFF_pages=len(pages))
     for tile_i,(yi,xi) in enumerate(positions):
      index=yi*nx+xi;label='Panel3-CellposeNuclei-'+Path(row['path']).stem+f'-grid{yi}-{xi}';tile={'label':label,'tile_row':yi,'tile_column':xi,'segments':[],'analyses':[]};file['tiles'].append(tile);print('EMC_EWING_CELLPOSE_TILE '+str(i)+'/'+str(tile_i)+' '+row['path'],flush=True)
      try:
       planes=[]
-      for page in tf.pages:one,receipt=ref.tile(page,index,rf);planes.append(one[:,:,0]);tile['segments'].append(receipt)
+      for page in pages:one,receipt=ref.tile(page,index,rf);planes.append(one[:,:,0]);tile['segments'].append(receipt)
       raw=np.stack(planes,axis=2);dna=np.asarray(raw[:,:,dna_idx],np.float32);stack=np.asarray(raw[:,:,mi],np.float32);resized=ndimage.zoom(np.nan_to_num(dna),pixel/.5001,order=1);low,high=np.percentile(resized[::10,::10],[.1,99.8]);tile.update(shape=list(dna.shape),pixel_um=pixel,normalization_percentile_values=[float(low),float(high)])
       if not np.isfinite(low+high) or high<=low:mask=np.zeros(dna.shape,np.int32);tile.update(reference_status='normalization_degenerate',reason='Reference mask not inferred for degenerate fixedROI DNA percentile range; retained in coverage',absence_claim=False)
       else:
