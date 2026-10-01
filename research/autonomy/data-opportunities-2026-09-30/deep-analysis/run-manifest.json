@@ -1,15 +1,20 @@
 {
   "schema": "emc-measured-data-run/1",
   "date": "2026-10-01",
-  "batch": "source-identified-Foundation-EMC-measured-calls",
+  "batch": "measured-ASO-model-challenge-and-complete-source-data",
   "dependencies": [
-    "xlrd"
+    "numpy",
+    "scipy",
+    "biopython"
   ],
   "jobs": [
     {
-      "name": "Foundation-75-EMC-original-CNA-and-fusion-calls",
-      "script": "foundation_emc_workbook_analysis.py",
-      "timeout_seconds": 600
+      "name": "ASO-12-measured-offtargets-and-69MB-SourceData",
+      "before": [
+        "stage_recorded_sources.py"
+      ],
+      "script": "aso_empirical_matched_benchmark.py",
+      "timeout_seconds": 1500
     }
   ]
 }
