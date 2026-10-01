@@ -94,9 +94,9 @@ def evaluate(panel_name,mask,schemes,x,md,rows,archive):
     return out,classes,idx
 def paired_bootstrap(frame,md,group):
     f=frame[(frame.panel=='common')&(frame.model=='methylation')]
-    z=f.pivot(index='IDAT',columns='scheme',values='brier').join(md.set_index('IDAT')[[group]])
+    z=f.pivot(index='IDAT',columns='scheme',values='brier').join(md.set_index('IDAT')[[group]].rename(columns={group:'__cluster'}))
     if z[['sample','supplier','chip']].isna().any().any():raise ValueError('unpaired profiles')
-    levels=sorted(z[group].unique());blocks=[z[z[group]==g] for g in levels];rng=np.random.default_rng(SEED)
+    levels=sorted(z['__cluster'].unique());blocks=[z[z['__cluster']==g] for g in levels];rng=np.random.default_rng(SEED)
     other='supplier' if group=='Supplier' else 'chip';observed=float((z[other]-z['sample']).mean());boots=[]
     sums=np.array([(b[other]-b['sample']).sum() for b in blocks]);sizes=np.array([len(b) for b in blocks])
     for k in range(1000):
