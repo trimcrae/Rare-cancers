@@ -11,7 +11,14 @@ b=get(url,'PMID30895378-core.json');hits=json.loads(b)['resultList']['result'] i
 record=hits[0] if hits else {};pmcid=record.get('pmcid');passages=[];alltext=[('indexed_abstract',record.get('abstractText',''))];supplement_exports=[]
 ids=['200406080083_R06C01','3998909033_R02C02','3999547153_R01C02','3999547153_R06C01','3999547153_R05C01','3999547153_R04C01','3999547153_R03C01','3999547153_R02C01','200406080083_R01C01','201172580026_R03C01'];gsms=['GSM4180874','GSM4181103','GSM4181117','GSM4181118','GSM4181119','GSM4181120','GSM4181121','GSM4181122','GSM4181387','GSM4180711']
 if pmcid:
- x=get('https://www.ebi.ac.uk/europepmc/webservices/rest/'+pmcid+'/fullTextXML','primary.xml')
+ x=None
+ for source_url in ['https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id='+pmcid.removeprefix('PMC')+'&retmode=xml','https://www.ebi.ac.uk/europepmc/webservices/rest/'+pmcid+'/fullTextXML']:
+  candidate=get(source_url,'primary-'+hashlib.sha256(source_url.encode()).hexdigest()[:8]+'.xml')
+  if not candidate:continue
+  try:
+   root_candidate=ET.fromstring(candidate)
+   if any(n.tag.split('}')[-1]=='article' for n in root_candidate.iter()):x=candidate;break
+  except ET.ParseError:pass
  if x:
   root=ET.fromstring(x)
   for el in root.iter():
