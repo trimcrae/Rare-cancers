@@ -1,20 +1,24 @@
 {
   "schema": "emc-measured-data-run/1",
   "date": "2026-10-01",
-  "batch": "class-preserving-registry-and-primary-clinical-followthrough",
+  "batch": "measured-growth-prior-splits-and-authentic-EMC-screen",
   "dependencies": [
-    "pypdf"
+    "numpy",
+    "pandas",
+    "scipy",
+    "openpyxl",
+    "xlrd"
   ],
   "jobs": [
     {
-      "name": "registry-literal-class-preserving-normalization",
-      "script": "registry_class_preserving_normalization.py",
-      "timeout_seconds": 300
+      "name": "protein-prior-splits-and-measured-growth",
+      "script": "multiomics_prior_and_growth.py",
+      "timeout_seconds": 900
     },
     {
-      "name": "clinical-case-and-immune-primary-fulltexts",
-      "script": "clinical_source_followup.py",
-      "timeout_seconds": 1200
+      "name": "authentic-EMC-screen-primary-replay",
+      "script": "authentic_screen_actual.py",
+      "timeout_seconds": 900
     }
   ]
 }
