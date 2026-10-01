@@ -2,8 +2,19 @@
   "dependencies": [],
   "jobs": [
     {
-      "name": "RMS-exact-public-manuscript-annotation-and-code-recovery",
-      "script": "pediatric_rms_public_primary_recovery_actual.py",
+      "name": "EMC-ten-repaired-raw-arrays-both-frozen-CN-pipelines",
+      "script": "methylation_EMC_both_pipelines_actual.py",
+      "dependencies": [],
+      "restore_run": "36917071796",
+      "restore_name": "emc-EMC-ten-raw-methylation-and18-normal-IDAT-sources-36917071796",
+      "before": [
+        "restore_previous_outputs.py"
+      ],
+      "timeout_seconds": 5200
+    },
+    {
+      "name": "PeerJ-all9500-genes-export-and-internal-partial-rank-diagnostics",
+      "script": "peerj_fullmatrix_export_forensics_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
@@ -12,22 +23,14 @@
         "imagecodecs",
         "h5py",
         "scikit-learn",
-        "openpyxl",
-        "beautifulsoup4",
-        "pymupdf"
+        "openpyxl"
       ],
-      "timeout_seconds": 1800
+      "restore_run": "36921168639",
+      "restore_name": "emc-PeerJ-measured-expression-diagnostics-dependency-repair-36921168639",
+      "timeout_seconds": 900
     },
     {
-      "name": "ASO-seven-literal-measured-supplement-public-route-followthrough",
-      "script": "aso_hagedorn2013_asset_fallthrough.py",
-      "dependencies": [
-        "pypdf"
-      ],
-      "timeout_seconds": 600
-    },
-    {
-      "name": "EMC-exact-disease-specific-copy-number-prior-art-and-overlap",
+      "name": "EMC-exact2019-primary-XML-public-route-repair",
       "script": "methylation_EMC_CNV_prior_art.py",
       "dependencies": [
         "pypdf",
