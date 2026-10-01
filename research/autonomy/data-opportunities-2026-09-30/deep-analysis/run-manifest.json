@@ -1,6 +1,6 @@
 {
   "schema": "emc-measured-data-run/1",
-  "batch": "parallel-measured-protein-drug-and-clinical-provenance",
+  "batch": "repaired-measured-protein-drug-CRISPR-execution",
   "date": "2026-10-01",
   "dependencies": [
     "numpy",
@@ -12,39 +12,9 @@
   ],
   "jobs": [
     {
-      "name": "measured-protein-drug-transfer",
+      "name": "measured-protein-drug-CRISPR-transfer",
       "script": "multiomics_actual.py",
       "timeout_seconds": 2400
-    },
-    {
-      "name": "Foundation-primary-workbook-reconciliation",
-      "script": "foundation_primary_provenance_reconciliation.py",
-      "timeout_seconds": 1800
-    },
-    {
-      "name": "all-registry-response-table-matches",
-      "script": "registry_response_complete_reconciliation.py",
-      "timeout_seconds": 900
-    },
-    {
-      "name": "printed-EMC-clinical-patient-reanalysis",
-      "script": "printed_clinical_ipd_analysis.py",
-      "before": [
-        "stage_recorded_sources.py"
-      ],
-      "args": [
-        "research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/primary-supplements-staged.json",
-        "research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/legacy-km-figure-readings.json"
-      ],
-      "timeout_seconds": 300
-    },
-    {
-      "name": "eighteen-historical-RNA-module-transfer",
-      "script": "atlas_transcription_chaperone_actual.py",
-      "before": [
-        "atlas_bootstrap.py"
-      ],
-      "timeout_seconds": 900
     }
   ]
 }
