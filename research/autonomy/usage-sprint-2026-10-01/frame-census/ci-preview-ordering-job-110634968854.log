@@ -1,0 +1,356 @@
+﻿2026-10-01T23:38:27.2048652Z Current runner version: '2.337.0'
+2026-10-01T23:38:27.2074019Z ##[group]Runner Image Provisioner
+2026-10-01T23:38:27.2075039Z Hosted Compute Agent
+2026-10-01T23:38:27.2075754Z Version: 20260901.588
+2026-10-01T23:38:27.2076428Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-01T23:38:27.2077206Z Build Date: 2026-09-01T19:56:44Z
+2026-10-01T23:38:27.2077889Z Worker ID: {4ec62caf-1379-438d-9290-be05d36a7288}
+2026-10-01T23:38:27.2078593Z Azure Region: westus2
+2026-10-01T23:38:27.2079301Z ##[endgroup]
+2026-10-01T23:38:27.2080915Z ##[group]Operating System
+2026-10-01T23:38:27.2081650Z Ubuntu
+2026-10-01T23:38:27.2082197Z 24.04.5
+2026-10-01T23:38:27.2082741Z LTS
+2026-10-01T23:38:27.2083611Z ##[endgroup]
+2026-10-01T23:38:27.2084252Z ##[group]Runner Image
+2026-10-01T23:38:27.2085282Z Image: ubuntu-24.04
+2026-10-01T23:38:27.2085966Z Version: 20260927.320.1
+2026-10-01T23:38:27.2087291Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-01T23:38:27.2088953Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-01T23:38:27.2089962Z ##[endgroup]
+2026-10-01T23:38:27.2091084Z ##[group]GITHUB_TOKEN Permissions
+2026-10-01T23:38:27.2093499Z Contents: read
+2026-10-01T23:38:27.2094414Z Metadata: read
+2026-10-01T23:38:27.2095021Z ##[endgroup]
+2026-10-01T23:38:27.2097233Z Secret source: Actions
+2026-10-01T23:38:27.2098236Z Cache mode: write
+2026-10-01T23:38:27.2099067Z Prepare workflow directory
+2026-10-01T23:38:27.2445030Z Prepare all required actions
+2026-10-01T23:38:27.2492365Z Getting action download info
+2026-10-01T23:38:27.6330789Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-01T23:38:27.7264998Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-01T23:38:27.9059227Z Complete job name: validate
+2026-10-01T23:38:27.9845016Z ##[group]Run actions/checkout@v4
+2026-10-01T23:38:27.9846268Z with:
+2026-10-01T23:38:27.9846738Z   fetch-depth: 2
+2026-10-01T23:38:27.9847201Z   persist-credentials: false
+2026-10-01T23:38:27.9847734Z   repository: trimcrae/Rare-cancers
+2026-10-01T23:38:27.9851610Z   token: ***
+2026-10-01T23:38:27.9852041Z   ssh-strict: true
+2026-10-01T23:38:27.9852470Z   ssh-user: git
+2026-10-01T23:38:27.9852879Z   clean: true
+2026-10-01T23:38:27.9853543Z   sparse-checkout-cone-mode: true
+2026-10-01T23:38:27.9854086Z   fetch-tags: false
+2026-10-01T23:38:27.9854527Z   show-progress: true
+2026-10-01T23:38:27.9854978Z   lfs: false
+2026-10-01T23:38:27.9855386Z   submodules: false
+2026-10-01T23:38:27.9855827Z   set-safe-directory: true
+2026-10-01T23:38:27.9856337Z   allow-unsafe-pr-checkout: false
+2026-10-01T23:38:27.9857184Z ##[endgroup]
+2026-10-01T23:38:28.0861168Z Syncing repository: trimcrae/Rare-cancers
+2026-10-01T23:38:28.0863927Z ##[group]Getting Git version info
+2026-10-01T23:38:28.0865408Z Working directory is '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-10-01T23:38:28.0867156Z [command]/usr/bin/git version
+2026-10-01T23:38:28.0920892Z git version 2.55.0
+2026-10-01T23:38:28.0943535Z ##[endgroup]
+2026-10-01T23:38:28.0959486Z Temporarily overriding HOME='/home/runner/work/_temp/5630078c-9aed-4dd4-9fa2-105ad036067f' before making global git config changes
+2026-10-01T23:38:28.0961981Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-01T23:38:28.0964399Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-01T23:38:28.1021422Z Deleting the contents of '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-10-01T23:38:28.1026212Z ##[group]Initializing the repository
+2026-10-01T23:38:28.1030004Z [command]/usr/bin/git init /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-01T23:38:28.1164947Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-01T23:38:28.1166664Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-01T23:38:28.1168571Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-01T23:38:28.1169846Z hint: call:
+2026-10-01T23:38:28.1170543Z hint:
+2026-10-01T23:38:28.1171335Z hint: 	git config --global init.defaultBranch <name>
+2026-10-01T23:38:28.1172297Z hint:
+2026-10-01T23:38:28.1173207Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-01T23:38:28.1174974Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-01T23:38:28.1176256Z hint:
+2026-10-01T23:38:28.1176906Z hint: 	git branch -m <name>
+2026-10-01T23:38:28.1177680Z hint:
+2026-10-01T23:38:28.1178666Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-01T23:38:28.1185775Z Initialized empty Git repository in /home/runner/work/Rare-cancers/Rare-cancers/.git/
+2026-10-01T23:38:28.1196138Z [command]/usr/bin/git remote add origin https://github.com/trimcrae/Rare-cancers
+2026-10-01T23:38:28.1254990Z ##[endgroup]
+2026-10-01T23:38:28.1256215Z ##[group]Disabling automatic garbage collection
+2026-10-01T23:38:28.1258924Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-01T23:38:28.1292110Z ##[endgroup]
+2026-10-01T23:38:28.1293545Z ##[group]Setting up auth
+2026-10-01T23:38:28.1299558Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-01T23:38:28.1332790Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-01T23:38:28.1736301Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-01T23:38:28.1806899Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-01T23:38:28.2018917Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-01T23:38:28.2055894Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-01T23:38:28.2280347Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-01T23:38:28.2320999Z ##[endgroup]
+2026-10-01T23:38:28.2321821Z ##[group]Fetching the repository
+2026-10-01T23:38:28.2331398Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=2 origin +1cb814f6bee0cadea11a6ea4c384af3e5b09345f:refs/remotes/origin/codex/usage-sprint-2026-10-01-frame-census
+2026-10-01T23:38:37.7478551Z From https://github.com/trimcrae/Rare-cancers
+2026-10-01T23:38:37.7481138Z  * [new ref]         1cb814f6bee0cadea11a6ea4c384af3e5b09345f -> origin/codex/usage-sprint-2026-10-01-frame-census
+2026-10-01T23:38:37.7486795Z ##[endgroup]
+2026-10-01T23:38:37.7488322Z ##[group]Determining the checkout info
+2026-10-01T23:38:37.7489938Z ##[endgroup]
+2026-10-01T23:38:37.7494392Z [command]/usr/bin/git sparse-checkout disable
+2026-10-01T23:38:37.7552942Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-01T23:38:37.7588934Z ##[group]Checking out the ref
+2026-10-01T23:38:37.7593995Z [command]/usr/bin/git checkout --progress --force -B codex/usage-sprint-2026-10-01-frame-census refs/remotes/origin/codex/usage-sprint-2026-10-01-frame-census
+2026-10-01T23:38:38.7800805Z Updating files:  34% (2904/8425)
+2026-10-01T23:38:38.8526106Z Updating files:  35% (2949/8425)
+2026-10-01T23:38:38.8998583Z Updating files:  36% (3033/8425)
+2026-10-01T23:38:38.9106788Z Updating files:  37% (3118/8425)
+2026-10-01T23:38:38.9201031Z Updating files:  38% (3202/8425)
+2026-10-01T23:38:38.9328754Z Updating files:  39% (3286/8425)
+2026-10-01T23:38:38.9407031Z Updating files:  40% (3370/8425)
+2026-10-01T23:38:38.9498763Z Updating files:  41% (3455/8425)
+2026-10-01T23:38:38.9616960Z Updating files:  42% (3539/8425)
+2026-10-01T23:38:38.9720996Z Updating files:  43% (3623/8425)
+2026-10-01T23:38:38.9794549Z Updating files:  44% (3707/8425)
+2026-10-01T23:38:38.9875696Z Updating files:  45% (3792/8425)
+2026-10-01T23:38:38.9952996Z Updating files:  46% (3876/8425)
+2026-10-01T23:38:39.0035317Z Updating files:  47% (3960/8425)
+2026-10-01T23:38:39.0179433Z Updating files:  48% (4044/8425)
+2026-10-01T23:38:39.0349419Z Updating files:  49% (4129/8425)
+2026-10-01T23:38:39.0477900Z Updating files:  50% (4213/8425)
+2026-10-01T23:38:39.0612706Z Updating files:  51% (4297/8425)
+2026-10-01T23:38:39.0655923Z Updating files:  52% (4381/8425)
+2026-10-01T23:38:39.1307686Z Updating files:  53% (4466/8425)
+2026-10-01T23:38:39.2306379Z Updating files:  54% (4550/8425)
+2026-10-01T23:38:39.3034859Z Updating files:  55% (4634/8425)
+2026-10-01T23:38:39.3694222Z Updating files:  56% (4718/8425)
+2026-10-01T23:38:39.3832870Z Updating files:  57% (4803/8425)
+2026-10-01T23:38:39.4424886Z Updating files:  58% (4887/8425)
+2026-10-01T23:38:39.5261691Z Updating files:  59% (4971/8425)
+2026-10-01T23:38:39.5908809Z Updating files:  60% (5055/8425)
+2026-10-01T23:38:39.5945092Z Updating files:  61% (5140/8425)
+2026-10-01T23:38:39.5981485Z Updating files:  62% (5224/8425)
+2026-10-01T23:38:39.6034659Z Updating files:  63% (5308/8425)
+2026-10-01T23:38:39.6073952Z Updating files:  64% (5392/8425)
+2026-10-01T23:38:39.6107745Z Updating files:  65% (5477/8425)
+2026-10-01T23:38:39.6142933Z Updating files:  66% (5561/8425)
+2026-10-01T23:38:39.6183960Z Updating files:  67% (5645/8425)
+2026-10-01T23:38:39.6219912Z Updating files:  68% (5729/8425)
+2026-10-01T23:38:39.6270253Z Updating files:  69% (5814/8425)
+2026-10-01T23:38:39.6304040Z Updating files:  70% (5898/8425)
+2026-10-01T23:38:39.6337609Z Updating files:  71% (5982/8425)
+2026-10-01T23:38:39.6374783Z Updating files:  72% (6066/8425)
+2026-10-01T23:38:39.6409151Z Updating files:  73% (6151/8425)
+2026-10-01T23:38:39.6444553Z Updating files:  74% (6235/8425)
+2026-10-01T23:38:39.6479276Z Updating files:  75% (6319/8425)
+2026-10-01T23:38:39.6514160Z Updating files:  76% (6403/8425)
+2026-10-01T23:38:39.6549642Z Updating files:  77% (6488/8425)
+2026-10-01T23:38:39.6586628Z Updating files:  78% (6572/8425)
+2026-10-01T23:38:39.6620455Z Updating files:  79% (6656/8425)
+2026-10-01T23:38:39.6655813Z Updating files:  80% (6740/8425)
+2026-10-01T23:38:39.6689961Z Updating files:  81% (6825/8425)
+2026-10-01T23:38:39.6723694Z Updating files:  82% (6909/8425)
+2026-10-01T23:38:39.6757626Z Updating files:  83% (6993/8425)
+2026-10-01T23:38:39.6791718Z Updating files:  84% (7077/8425)
+2026-10-01T23:38:39.6826129Z Updating files:  85% (7162/8425)
+2026-10-01T23:38:39.6860418Z Updating files:  86% (7246/8425)
+2026-10-01T23:38:39.6900410Z Updating files:  87% (7330/8425)
+2026-10-01T23:38:39.6939676Z Updating files:  88% (7414/8425)
+2026-10-01T23:38:39.6980813Z Updating files:  89% (7499/8425)
+2026-10-01T23:38:39.7022698Z Updating files:  90% (7583/8425)
+2026-10-01T23:38:39.7061346Z Updating files:  91% (7667/8425)
+2026-10-01T23:38:39.7099500Z Updating files:  92% (7751/8425)
+2026-10-01T23:38:39.7134634Z Updating files:  93% (7836/8425)
+2026-10-01T23:38:39.7171228Z Updating files:  94% (7920/8425)
+2026-10-01T23:38:39.7207663Z Updating files:  95% (8004/8425)
+2026-10-01T23:38:39.7265286Z Updating files:  96% (8088/8425)
+2026-10-01T23:38:39.7403175Z Updating files:  97% (8173/8425)
+2026-10-01T23:38:39.7544528Z Updating files:  98% (8257/8425)
+2026-10-01T23:38:39.7635026Z Updating files:  99% (8341/8425)
+2026-10-01T23:38:39.7635720Z Updating files: 100% (8425/8425)
+2026-10-01T23:38:39.7636292Z Updating files: 100% (8425/8425), done.
+2026-10-01T23:38:39.8717077Z Switched to a new branch 'codex/usage-sprint-2026-10-01-frame-census'
+2026-10-01T23:38:39.8723204Z branch 'codex/usage-sprint-2026-10-01-frame-census' set up to track 'origin/codex/usage-sprint-2026-10-01-frame-census'.
+2026-10-01T23:38:39.8793094Z ##[endgroup]
+2026-10-01T23:38:39.8848611Z [command]/usr/bin/git log -1 --format=%H
+2026-10-01T23:38:39.8886611Z 1cb814f6bee0cadea11a6ea4c384af3e5b09345f
+2026-10-01T23:38:39.8904300Z ##[group]Removing auth
+2026-10-01T23:38:39.8916086Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-01T23:38:39.8941986Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-01T23:38:39.9180917Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-01T23:38:39.9209811Z http.https://github.com/.extraheader
+2026-10-01T23:38:39.9219410Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-01T23:38:39.9253728Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-01T23:38:39.9488143Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-01T23:38:39.9520250Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-01T23:38:39.9749779Z ##[endgroup]
+2026-10-01T23:38:40.0064905Z ##[group]Run actions/setup-python@v5
+2026-10-01T23:38:40.0065230Z with:
+2026-10-01T23:38:40.0065444Z   python-version: 3.11
+2026-10-01T23:38:40.0065914Z   check-latest: false
+2026-10-01T23:38:40.0068451Z   token: ***
+2026-10-01T23:38:40.0068680Z   update-environment: true
+2026-10-01T23:38:40.0068940Z   allow-prereleases: false
+2026-10-01T23:38:40.0069183Z   freethreaded: false
+2026-10-01T23:38:40.0069402Z ##[endgroup]
+2026-10-01T23:38:40.1399369Z ##[group]Installed versions
+2026-10-01T23:38:40.1496558Z (node:2359) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-01T23:38:40.1497850Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-01T23:38:40.1498624Z Successfully set up CPython (3.11.16)
+2026-10-01T23:38:40.1499521Z ##[endgroup]
+2026-10-01T23:38:40.1654128Z ##[group]Run python3 -m pip install pytest
+2026-10-01T23:38:40.1654576Z [36;1mpython3 -m pip install pytest[0m
+2026-10-01T23:38:40.2296441Z shell: /usr/bin/bash -e {0}
+2026-10-01T23:38:40.2296789Z env:
+2026-10-01T23:38:40.2297104Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:40.2297656Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-01T23:38:40.2298145Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:40.2298573Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:40.2299016Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:40.2299459Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-01T23:38:40.2299832Z ##[endgroup]
+2026-10-01T23:38:43.2252917Z Collecting pytest
+2026-10-01T23:38:43.2906834Z   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+2026-10-01T23:38:43.3122736Z Collecting iniconfig>=1.0.1 (from pytest)
+2026-10-01T23:38:43.3201160Z   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-01T23:38:43.3401188Z Collecting packaging>=22 (from pytest)
+2026-10-01T23:38:43.3473204Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-10-01T23:38:43.3630356Z Collecting pluggy<2,>=1.5 (from pytest)
+2026-10-01T23:38:43.3699076Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+2026-10-01T23:38:43.3914883Z Collecting pygments>=2.7.2 (from pytest)
+2026-10-01T23:38:43.3982981Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-01T23:38:43.4106227Z Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+2026-10-01T23:38:43.4533488Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+2026-10-01T23:38:43.4629423Z Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+2026-10-01T23:38:43.4724982Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-10-01T23:38:43.4883075Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-10-01T23:38:43.5429633Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 25.0 MB/s  0:00:00
+2026-10-01T23:38:43.6980718Z Installing collected packages: pygments, pluggy, packaging, iniconfig, pytest
+2026-10-01T23:38:44.6636129Z 
+2026-10-01T23:38:44.6645636Z Successfully installed iniconfig-2.3.0 packaging-26.3 pluggy-1.6.0 pygments-2.21.0 pytest-9.1.1
+2026-10-01T23:38:44.7180682Z ##[group]Run python3 -m pytest research/modalities/tests/test_aso_independent_verification.py research/modalities/tests/test_aso_independent_verification_integrity.py -q
+2026-10-01T23:38:44.7182311Z [36;1mpython3 -m pytest research/modalities/tests/test_aso_independent_verification.py research/modalities/tests/test_aso_independent_verification_integrity.py -q[0m
+2026-10-01T23:38:44.7247619Z shell: /usr/bin/bash -e {0}
+2026-10-01T23:38:44.7247926Z env:
+2026-10-01T23:38:44.7248279Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:44.7248870Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-01T23:38:44.7249456Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:44.7249972Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:44.7250496Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:44.7251056Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-01T23:38:44.7251473Z ##[endgroup]
+2026-10-01T23:38:55.3592581Z ..............................................                           [100%]
+2026-10-01T23:38:55.3593220Z 46 passed in 8.97s
+2026-10-01T23:38:55.3875700Z ##[group]Run python3 research/modalities/aso_independent_verification.py --check
+2026-10-01T23:38:55.3876325Z [36;1mpython3 research/modalities/aso_independent_verification.py --check[0m
+2026-10-01T23:38:55.3939680Z shell: /usr/bin/bash -e {0}
+2026-10-01T23:38:55.3939940Z env:
+2026-10-01T23:38:55.3940222Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:55.3940681Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-01T23:38:55.3941141Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:55.3941544Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:55.3941954Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:55.3942366Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-01T23:38:55.3942703Z ##[endgroup]
+2026-10-01T23:38:55.7406817Z independent-verification artifact is current
+2026-10-01T23:38:55.7480654Z ##[group]Run set -euo pipefail
+2026-10-01T23:38:55.7481013Z [36;1mset -euo pipefail[0m
+2026-10-01T23:38:55.7481266Z [36;1mgit rev-parse HEAD[0m
+2026-10-01T23:38:55.7481550Z [36;1mtest -z "$(git status --porcelain)"[0m
+2026-10-01T23:38:55.7481852Z [36;1msnapshot=$(mktemp)[0m
+2026-10-01T23:38:55.7482288Z [36;1mcp research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md "$snapshot"[0m
+2026-10-01T23:38:55.7483910Z [36;1mtrap 'git restore research/manuscripts/aso/fusion-junction-aso-archive-manifest.json research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md; rm -f research/autonomy/usage-sprint-2026-10-01/frame-census/aso-frame-candidate-census.json "$snapshot"' EXIT[0m
+2026-10-01T23:38:55.7485306Z [36;1mpython3 research/autonomy/usage-sprint-2026-10-01/frame-census/aso_frame_candidate_census.py[0m
+2026-10-01T23:38:55.7486056Z [36;1mpython3 research/autonomy/usage-sprint-2026-10-01/frame-census/aso_frame_candidate_census.py --check[0m
+2026-10-01T23:38:55.7486677Z [36;1mpython3 research/manuscripts/aso_archive_manifest.py[0m
+2026-10-01T23:38:55.7487126Z [36;1mpython3 research/manuscripts/aso_archive_manifest.py --check[0m
+2026-10-01T23:38:55.7487561Z [36;1mpython3 research/manuscripts/aso_deposit_drift.py[0m
+2026-10-01T23:38:55.7487978Z [36;1mpython3 research/manuscripts/aso_deposit_drift.py --check[0m
+2026-10-01T23:38:55.7488355Z [36;1mpython3 - "$snapshot" <<'PY'[0m
+2026-10-01T23:38:55.7488638Z [36;1mfrom pathlib import Path[0m
+2026-10-01T23:38:55.7489074Z [36;1mimport subprocess[0m
+2026-10-01T23:38:55.7489309Z [36;1mimport sys[0m
+2026-10-01T23:38:55.7489519Z [36;1mallowed = {[0m
+2026-10-01T23:38:55.7489881Z [36;1m    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",[0m
+2026-10-01T23:38:55.7490438Z [36;1m    "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",[0m
+2026-10-01T23:38:55.7490835Z [36;1m}[0m
+2026-10-01T23:38:55.7491232Z [36;1mchanged = set(subprocess.check_output(["git", "diff", "--name-only"], text=True).splitlines())[0m
+2026-10-01T23:38:55.7491722Z [36;1massert changed == allowed, changed[0m
+2026-10-01T23:38:55.7492037Z [36;1mold = Path(sys.argv[1]).read_bytes()[0m
+2026-10-01T23:38:55.7492546Z [36;1mnew = Path("research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md").read_bytes()[0m
+2026-10-01T23:38:55.7493082Z [36;1mbegin = b"<!-- BEGIN GENERATED deposit-drift"[0m
+2026-10-01T23:38:55.7493711Z [36;1mend = b"<!-- END GENERATED deposit-drift -->"[0m
+2026-10-01T23:38:55.7494102Z [36;1massert old[:old.index(begin)] == new[:new.index(begin)][0m
+2026-10-01T23:38:55.7494544Z [36;1massert old[old.index(end):] == new[new.index(end):][0m
+2026-10-01T23:38:55.7494939Z [36;1mprint("CHECKLIST MANUAL HEAD AND TAIL PRESERVED")[0m
+2026-10-01T23:38:55.7495261Z [36;1mPY[0m
+2026-10-01T23:38:55.7495474Z [36;1mpython3 - <<'PY'[0m
+2026-10-01T23:38:55.7495708Z [36;1mimport base64[0m
+2026-10-01T23:38:55.7495935Z [36;1mimport hashlib[0m
+2026-10-01T23:38:55.7496179Z [36;1mfrom pathlib import Path[0m
+2026-10-01T23:38:55.7496431Z [36;1mpaths = {[0m
+2026-10-01T23:38:55.7496892Z [36;1m    "CENSUS": "research/autonomy/usage-sprint-2026-10-01/frame-census/aso-frame-candidate-census.json",[0m
+2026-10-01T23:38:55.7497587Z [36;1m    "ARCHIVE": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",[0m
+2026-10-01T23:38:55.7498220Z [36;1m    "CHECKLIST": "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",[0m
+2026-10-01T23:38:55.7498684Z [36;1m}[0m
+2026-10-01T23:38:55.7498902Z [36;1mfor label, path in paths.items():[0m
+2026-10-01T23:38:55.7499199Z [36;1m    raw = Path(path).read_bytes()[0m
+2026-10-01T23:38:55.7499631Z [36;1m    blob = hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()[0m
+2026-10-01T23:38:55.7500283Z [36;1m    print(f"{label}_METADATA bytes={len(raw)} sha256={hashlib.sha256(raw).hexdigest()} git_blob={blob}")[0m
+2026-10-01T23:38:55.7500786Z [36;1m    print(f"{label}_B64_BEGIN")[0m
+2026-10-01T23:38:55.7501279Z [36;1m    encoded = base64.b64encode(raw).decode("ascii")[0m
+2026-10-01T23:38:55.7501644Z [36;1m    for offset in range(0, len(encoded), 76):[0m
+2026-10-01T23:38:55.7501982Z [36;1m        print(encoded[offset:offset + 76])[0m
+2026-10-01T23:38:55.7502287Z [36;1m    print(f"{label}_B64_END")[0m
+2026-10-01T23:38:55.7502544Z [36;1m[0m
+2026-10-01T23:38:55.7502727Z [36;1mPY[0m
+2026-10-01T23:38:55.7566528Z shell: /usr/bin/bash -e {0}
+2026-10-01T23:38:55.7566792Z env:
+2026-10-01T23:38:55.7567075Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:55.7567536Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-01T23:38:55.7567980Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:55.7568398Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:55.7568799Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:55.7569197Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-01T23:38:55.7569524Z ##[endgroup]
+2026-10-01T23:38:55.7670514Z 1cb814f6bee0cadea11a6ea4c384af3e5b09345f
+2026-10-01T23:38:56.2267270Z 38 otherwise-eligible register candidates; 38 translation-eligible; 8 fixed-offset terminations; 0 added exclusions
+2026-10-01T23:38:56.6442674Z Candidate census is current
+2026-10-01T23:38:57.6981929Z wrote research/manuscripts/aso/fusion-junction-aso-archive-manifest.json: 521 files, 51.575 MiB
+2026-10-01T23:38:57.7547839Z REFUSED: the manifest on disk records `git_tree_is_clean_apart_from_this_manifest: false`.
+2026-10-01T23:38:57.7548918Z   Its hash list was taken while tracked files were uncommitted, so a hash in it may
+2026-10-01T23:38:57.7549527Z   describe content that is in NO COMMIT. A reader who checks out the `git_revision` this
+2026-10-01T23:38:57.7550109Z   manifest names and verifies gets a mismatch on a file nobody can produce. That is not a
+2026-10-01T23:38:57.7550946Z   staleness — the inventory may well be current — it is a provenance failure, and it is
+2026-10-01T23:38:57.7551430Z   why this is refused rather than reported as STALE.
+2026-10-01T23:38:57.7551949Z   ⭐ THE FIX IS AN ORDERING, NOT A REGENERATION, AND REGENERATING NOW MAKES IT WORSE.
+2026-10-01T23:38:57.7552530Z   Running `python3 research/manuscripts/aso_archive_manifest.py` against the tree you have
+2026-10-01T23:38:57.7553408Z   right now re-hashes the same uncommitted edits and writes `false` again — that is the
+2026-10-01T23:38:57.7554208Z   obvious response to a STALE line and it is what produced the bad artifact on `main`.
+2026-10-01T23:38:57.7554785Z   Instead: commit (or stash) every other change FIRST, then regenerate the manifest
+2026-10-01T23:38:57.7555337Z   against the clean tree as the session's LAST commit. Same generator, same inputs; only
+2026-10-01T23:38:57.7555873Z   the ordering differs, and the ordering is the whole content of this field.
+2026-10-01T23:38:57.7726222Z ##[error]Process completed with exit code 1.
+2026-10-01T23:38:57.7778378Z ##[group]Run test -z "$(git status --porcelain)"
+2026-10-01T23:38:57.7778809Z [36;1mtest -z "$(git status --porcelain)"[0m
+2026-10-01T23:38:57.7779119Z [36;1mgit diff --exit-code[0m
+2026-10-01T23:38:57.7840761Z shell: /usr/bin/bash -e {0}
+2026-10-01T23:38:57.7841021Z env:
+2026-10-01T23:38:57.7841294Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:57.7841766Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-01T23:38:57.7842220Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:57.7842629Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:57.7843026Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:38:57.7843575Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-01T23:38:57.7843907Z ##[endgroup]
+2026-10-01T23:38:57.8455265Z Post job cleanup.
+2026-10-01T23:38:57.9352426Z [command]/usr/bin/git version
+2026-10-01T23:38:57.9400208Z git version 2.55.0
+2026-10-01T23:38:57.9442448Z Temporarily overriding HOME='/home/runner/work/_temp/e9f890b1-4589-45e7-ae37-7703be20ec36' before making global git config changes
+2026-10-01T23:38:57.9444089Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-01T23:38:57.9449294Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-01T23:38:57.9492229Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-01T23:38:57.9531148Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-01T23:38:57.9800923Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-01T23:38:57.9844903Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-01T23:38:58.0123190Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-01T23:38:58.0167382Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-01T23:38:58.0562827Z Cleaning up orphan processes
+2026-10-01T23:38:58.0960364Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

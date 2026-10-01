@@ -64,7 +64,28 @@ was generated before the archive. The next preview passed generation but rejecte
 that assumed the unchanged drift block must differ. Both restored tracked inputs. The corrected
 capture generates the archive first and permits an unchanged checklist; no acceptance gate changed.
 
-Settled branch validation is pending; the preview is not a normal preflight receipt. Stop after
-the targeted behavior, artifact/census/inventory/drift checks and normal fast preflight conclude.
-The coordinator owns integration; frozen submission or deposited-package replacement requires
-its separate existing release procedure.
+# Actual settled validation and endpoint
+
+[Run 36942362454](https://github.com/trimcrae/Rare-cancers/actions/runs/36942362454), job
+`110636583482`, completed successfully against `c9aa07680cff61d0f7561934258d410f9082c0e4`:
+46 verifier tests passed in 8.84 seconds; two drift guards passed in 1.76 seconds; unchanged
+scientific-artifact, new census, live archive-content and operational-drift checks passed.
+Normal preflight exited 0 with `PREFLIGHT OK (fast gates only (doc + artifact linters))`.
+Tracked status/diff stayed clean. The CPU job lasted 165 seconds, including 114 seconds for
+normal preflight. Broad scientific pytest suites and full publication preflight were not run.
+
+The coordinator independently matched every census quantity/stop witness and reviewed the
+question, method, finding, limitations and next step at census blob
+`09e0b87bf2f5f97a1310c6e808192d0ea07ff2c5` and original prose blob
+`6c70af61a28689813448bcc770e8bc43d8ac9b50`; no scoped blocker or misleading biological claim was found.
+Only this operational receipt footer changed after that prose review. Exact output hashes,
+job timings, review scope and full original logs are preserved in
+[validation-receipt.json](validation-receipt.json).
+
+This bounded task is finished; no job remains running. The coordinator owns integration.
+Frozen submission or deposited-package replacement requires its separate existing release
+procedure. The next science priority follows the current CHRNA6 readiness outcome: obtain
+authoritative GPL6244 probe annotation plus matching per-probe measurements/preprocessing
+metadata for the 42 recorded GSMs, preserving all seven exclusions and unresolved discovery-study
+overlap. Stop with a precise missing-evidence result before statistics or independence claims.
+

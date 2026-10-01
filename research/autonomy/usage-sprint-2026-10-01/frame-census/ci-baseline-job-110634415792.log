@@ -1,0 +1,267 @@
+﻿2026-10-01T23:36:24.9618566Z Current runner version: '2.337.0'
+2026-10-01T23:36:24.9646283Z ##[group]Runner Image Provisioner
+2026-10-01T23:36:24.9647200Z Hosted Compute Agent
+2026-10-01T23:36:24.9648184Z Version: 20260901.588
+2026-10-01T23:36:24.9648799Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-01T23:36:24.9649603Z Build Date: 2026-09-01T19:56:44Z
+2026-10-01T23:36:24.9650296Z Worker ID: {e8f1c87c-c608-4a1e-a7dc-f683d9ed7b75}
+2026-10-01T23:36:24.9651117Z Azure Region: eastus
+2026-10-01T23:36:24.9651717Z ##[endgroup]
+2026-10-01T23:36:24.9653204Z ##[group]Operating System
+2026-10-01T23:36:24.9653933Z Ubuntu
+2026-10-01T23:36:24.9654447Z 24.04.5
+2026-10-01T23:36:24.9654982Z LTS
+2026-10-01T23:36:24.9655539Z ##[endgroup]
+2026-10-01T23:36:24.9656083Z ##[group]Runner Image
+2026-10-01T23:36:24.9656717Z Image: ubuntu-24.04
+2026-10-01T23:36:24.9657468Z Version: 20260927.320.1
+2026-10-01T23:36:24.9658851Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-01T23:36:24.9660481Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-01T23:36:24.9661489Z ##[endgroup]
+2026-10-01T23:36:24.9662617Z ##[group]GITHUB_TOKEN Permissions
+2026-10-01T23:36:24.9664848Z Contents: read
+2026-10-01T23:36:24.9665447Z Metadata: read
+2026-10-01T23:36:24.9666363Z ##[endgroup]
+2026-10-01T23:36:24.9668687Z Secret source: Actions
+2026-10-01T23:36:24.9669590Z Cache mode: write
+2026-10-01T23:36:24.9670749Z Prepare workflow directory
+2026-10-01T23:36:25.0041961Z Prepare all required actions
+2026-10-01T23:36:25.0112321Z Getting action download info
+2026-10-01T23:36:25.2352793Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-01T23:36:25.3502807Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-01T23:36:25.5359997Z Complete job name: validate
+2026-10-01T23:36:25.6130143Z ##[group]Run actions/checkout@v4
+2026-10-01T23:36:25.6131031Z with:
+2026-10-01T23:36:25.6131480Z   fetch-depth: 2
+2026-10-01T23:36:25.6131948Z   persist-credentials: false
+2026-10-01T23:36:25.6132468Z   repository: trimcrae/Rare-cancers
+2026-10-01T23:36:25.6136390Z   token: ***
+2026-10-01T23:36:25.6136823Z   ssh-strict: true
+2026-10-01T23:36:25.6137606Z   ssh-user: git
+2026-10-01T23:36:25.6138272Z   clean: true
+2026-10-01T23:36:25.6138716Z   sparse-checkout-cone-mode: true
+2026-10-01T23:36:25.6139243Z   fetch-tags: false
+2026-10-01T23:36:25.6139689Z   show-progress: true
+2026-10-01T23:36:25.6140140Z   lfs: false
+2026-10-01T23:36:25.6140555Z   submodules: false
+2026-10-01T23:36:25.6140999Z   set-safe-directory: true
+2026-10-01T23:36:25.6141511Z   allow-unsafe-pr-checkout: false
+2026-10-01T23:36:25.6142350Z ##[endgroup]
+2026-10-01T23:36:25.7173503Z Syncing repository: trimcrae/Rare-cancers
+2026-10-01T23:36:25.7176283Z ##[group]Getting Git version info
+2026-10-01T23:36:25.7177506Z Working directory is '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-10-01T23:36:25.7178721Z [command]/usr/bin/git version
+2026-10-01T23:36:25.7289443Z git version 2.55.0
+2026-10-01T23:36:25.7316212Z ##[endgroup]
+2026-10-01T23:36:25.7333494Z Temporarily overriding HOME='/home/runner/work/_temp/36450de5-f278-400a-be8e-967950847b6d' before making global git config changes
+2026-10-01T23:36:25.7336382Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-01T23:36:25.7340989Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-01T23:36:25.7398549Z Deleting the contents of '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-10-01T23:36:25.7404885Z ##[group]Initializing the repository
+2026-10-01T23:36:25.7410183Z [command]/usr/bin/git init /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-01T23:36:25.7532597Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-01T23:36:25.7534026Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-01T23:36:25.7535993Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-01T23:36:25.7537547Z hint: call:
+2026-10-01T23:36:25.7538485Z hint:
+2026-10-01T23:36:25.7539461Z hint: 	git config --global init.defaultBranch <name>
+2026-10-01T23:36:25.7540607Z hint:
+2026-10-01T23:36:25.7541701Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-01T23:36:25.7543440Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-01T23:36:25.7544824Z hint:
+2026-10-01T23:36:25.7545553Z hint: 	git branch -m <name>
+2026-10-01T23:36:25.7546357Z hint:
+2026-10-01T23:36:25.7547684Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-01T23:36:25.7549612Z Initialized empty Git repository in /home/runner/work/Rare-cancers/Rare-cancers/.git/
+2026-10-01T23:36:25.7551823Z [command]/usr/bin/git remote add origin https://github.com/trimcrae/Rare-cancers
+2026-10-01T23:36:25.7612230Z ##[endgroup]
+2026-10-01T23:36:25.7613579Z ##[group]Disabling automatic garbage collection
+2026-10-01T23:36:25.7616649Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-01T23:36:25.7655778Z ##[endgroup]
+2026-10-01T23:36:25.7656526Z ##[group]Setting up auth
+2026-10-01T23:36:25.7664988Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-01T23:36:25.7699740Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-01T23:36:25.8113412Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-01T23:36:25.8151049Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-01T23:36:25.8376599Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-01T23:36:25.8412425Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-01T23:36:25.8637646Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-01T23:36:25.8678517Z ##[endgroup]
+2026-10-01T23:36:25.8679440Z ##[group]Fetching the repository
+2026-10-01T23:36:25.8689148Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=2 origin +00935ad95ebec3575eec4cef5b9082a977ec8dfe:refs/remotes/origin/codex/usage-sprint-2026-10-01-frame-census
+2026-10-01T23:36:33.7310826Z From https://github.com/trimcrae/Rare-cancers
+2026-10-01T23:36:33.7312754Z  * [new ref]         00935ad95ebec3575eec4cef5b9082a977ec8dfe -> origin/codex/usage-sprint-2026-10-01-frame-census
+2026-10-01T23:36:33.7316913Z ##[endgroup]
+2026-10-01T23:36:33.7318923Z ##[group]Determining the checkout info
+2026-10-01T23:36:33.7320344Z ##[endgroup]
+2026-10-01T23:36:33.7323797Z [command]/usr/bin/git sparse-checkout disable
+2026-10-01T23:36:33.7379877Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-01T23:36:33.7414691Z ##[group]Checking out the ref
+2026-10-01T23:36:33.7419168Z [command]/usr/bin/git checkout --progress --force -B codex/usage-sprint-2026-10-01-frame-census refs/remotes/origin/codex/usage-sprint-2026-10-01-frame-census
+2026-10-01T23:36:34.7676222Z Updating files:  34% (2888/8425)
+2026-10-01T23:36:34.8396063Z Updating files:  35% (2949/8425)
+2026-10-01T23:36:34.8864092Z Updating files:  36% (3033/8425)
+2026-10-01T23:36:34.8971382Z Updating files:  37% (3118/8425)
+2026-10-01T23:36:34.9065989Z Updating files:  38% (3202/8425)
+2026-10-01T23:36:34.9192159Z Updating files:  39% (3286/8425)
+2026-10-01T23:36:34.9272457Z Updating files:  40% (3370/8425)
+2026-10-01T23:36:34.9365316Z Updating files:  41% (3455/8425)
+2026-10-01T23:36:34.9487721Z Updating files:  42% (3539/8425)
+2026-10-01T23:36:34.9592187Z Updating files:  43% (3623/8425)
+2026-10-01T23:36:34.9681224Z Updating files:  44% (3707/8425)
+2026-10-01T23:36:34.9778431Z Updating files:  45% (3792/8425)
+2026-10-01T23:36:34.9859876Z Updating files:  46% (3876/8425)
+2026-10-01T23:36:34.9932462Z Updating files:  47% (3960/8425)
+2026-10-01T23:36:35.0055833Z Updating files:  48% (4044/8425)
+2026-10-01T23:36:35.0250246Z Updating files:  49% (4129/8425)
+2026-10-01T23:36:35.0382413Z Updating files:  50% (4213/8425)
+2026-10-01T23:36:35.0517526Z Updating files:  51% (4297/8425)
+2026-10-01T23:36:35.0558989Z Updating files:  52% (4381/8425)
+2026-10-01T23:36:35.1210094Z Updating files:  53% (4466/8425)
+2026-10-01T23:36:35.2117032Z Updating files:  54% (4550/8425)
+2026-10-01T23:36:35.2905259Z Updating files:  55% (4634/8425)
+2026-10-01T23:36:35.3533827Z Updating files:  56% (4718/8425)
+2026-10-01T23:36:35.3668752Z Updating files:  57% (4803/8425)
+2026-10-01T23:36:35.4246852Z Updating files:  58% (4887/8425)
+2026-10-01T23:36:35.5058492Z Updating files:  59% (4971/8425)
+2026-10-01T23:36:35.5685148Z Updating files:  60% (5055/8425)
+2026-10-01T23:36:35.5720052Z Updating files:  61% (5140/8425)
+2026-10-01T23:36:35.5753761Z Updating files:  62% (5224/8425)
+2026-10-01T23:36:35.5786646Z Updating files:  63% (5308/8425)
+2026-10-01T23:36:35.5822267Z Updating files:  64% (5392/8425)
+2026-10-01T23:36:35.5855848Z Updating files:  65% (5477/8425)
+2026-10-01T23:36:35.5889338Z Updating files:  66% (5561/8425)
+2026-10-01T23:36:35.5924024Z Updating files:  67% (5645/8425)
+2026-10-01T23:36:35.5958142Z Updating files:  68% (5729/8425)
+2026-10-01T23:36:35.5992343Z Updating files:  69% (5814/8425)
+2026-10-01T23:36:35.6026655Z Updating files:  70% (5898/8425)
+2026-10-01T23:36:35.6060105Z Updating files:  71% (5982/8425)
+2026-10-01T23:36:35.6095072Z Updating files:  72% (6066/8425)
+2026-10-01T23:36:35.6129608Z Updating files:  73% (6151/8425)
+2026-10-01T23:36:35.6164776Z Updating files:  74% (6235/8425)
+2026-10-01T23:36:35.6199599Z Updating files:  75% (6319/8425)
+2026-10-01T23:36:35.6233799Z Updating files:  76% (6403/8425)
+2026-10-01T23:36:35.6267898Z Updating files:  77% (6488/8425)
+2026-10-01T23:36:35.6301172Z Updating files:  78% (6572/8425)
+2026-10-01T23:36:35.6335294Z Updating files:  79% (6656/8425)
+2026-10-01T23:36:35.6370220Z Updating files:  80% (6740/8425)
+2026-10-01T23:36:35.6403636Z Updating files:  81% (6825/8425)
+2026-10-01T23:36:35.6437082Z Updating files:  82% (6909/8425)
+2026-10-01T23:36:35.6471722Z Updating files:  83% (6993/8425)
+2026-10-01T23:36:35.6505922Z Updating files:  84% (7077/8425)
+2026-10-01T23:36:35.6540753Z Updating files:  85% (7162/8425)
+2026-10-01T23:36:35.6575165Z Updating files:  86% (7246/8425)
+2026-10-01T23:36:35.6609513Z Updating files:  87% (7330/8425)
+2026-10-01T23:36:35.6644449Z Updating files:  88% (7414/8425)
+2026-10-01T23:36:35.6678726Z Updating files:  89% (7499/8425)
+2026-10-01T23:36:35.6714704Z Updating files:  90% (7583/8425)
+2026-10-01T23:36:35.6748178Z Updating files:  91% (7667/8425)
+2026-10-01T23:36:35.6783060Z Updating files:  92% (7751/8425)
+2026-10-01T23:36:35.6817336Z Updating files:  93% (7836/8425)
+2026-10-01T23:36:35.6852213Z Updating files:  94% (7920/8425)
+2026-10-01T23:36:35.6886665Z Updating files:  95% (8004/8425)
+2026-10-01T23:36:35.6937139Z Updating files:  96% (8088/8425)
+2026-10-01T23:36:35.7073527Z Updating files:  97% (8173/8425)
+2026-10-01T23:36:35.7214931Z Updating files:  98% (8257/8425)
+2026-10-01T23:36:35.7305151Z Updating files:  99% (8341/8425)
+2026-10-01T23:36:35.7305800Z Updating files: 100% (8425/8425)
+2026-10-01T23:36:35.7306257Z Updating files: 100% (8425/8425), done.
+2026-10-01T23:36:35.7400577Z Switched to a new branch 'codex/usage-sprint-2026-10-01-frame-census'
+2026-10-01T23:36:35.7407830Z branch 'codex/usage-sprint-2026-10-01-frame-census' set up to track 'origin/codex/usage-sprint-2026-10-01-frame-census'.
+2026-10-01T23:36:35.7473915Z ##[endgroup]
+2026-10-01T23:36:35.7527752Z [command]/usr/bin/git log -1 --format=%H
+2026-10-01T23:36:35.7555469Z 00935ad95ebec3575eec4cef5b9082a977ec8dfe
+2026-10-01T23:36:35.7568937Z ##[group]Removing auth
+2026-10-01T23:36:35.7571261Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-01T23:36:35.7606253Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-01T23:36:35.7840580Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-01T23:36:35.7870071Z http.https://github.com/.extraheader
+2026-10-01T23:36:35.7878858Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-01T23:36:35.7913679Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-01T23:36:35.8146783Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-01T23:36:35.8181705Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-01T23:36:35.8411099Z ##[endgroup]
+2026-10-01T23:36:35.8663316Z ##[group]Run actions/setup-python@v5
+2026-10-01T23:36:35.8663632Z with:
+2026-10-01T23:36:35.8663850Z   python-version: 3.11
+2026-10-01T23:36:35.8664083Z   check-latest: false
+2026-10-01T23:36:35.8666455Z   token: ***
+2026-10-01T23:36:35.8666672Z   update-environment: true
+2026-10-01T23:36:35.8666928Z   allow-prereleases: false
+2026-10-01T23:36:35.8667160Z   freethreaded: false
+2026-10-01T23:36:35.8667716Z ##[endgroup]
+2026-10-01T23:36:35.9981401Z ##[group]Installed versions
+2026-10-01T23:36:36.0068703Z (node:2355) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-01T23:36:36.0069800Z Successfully set up CPython (3.11.16)
+2026-10-01T23:36:36.0070888Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-01T23:36:36.0071787Z ##[endgroup]
+2026-10-01T23:36:36.0267495Z ##[group]Run git rev-parse HEAD
+2026-10-01T23:36:36.0267930Z [36;1mgit rev-parse HEAD[0m
+2026-10-01T23:36:36.0268205Z [36;1mpython3 - <<'PY'[0m
+2026-10-01T23:36:36.0268451Z [36;1mimport copy[0m
+2026-10-01T23:36:36.0268672Z [36;1mimport json[0m
+2026-10-01T23:36:36.0268896Z [36;1mfrom pathlib import Path[0m
+2026-10-01T23:36:36.0269159Z [36;1mimport sys[0m
+2026-10-01T23:36:36.0269382Z [36;1mimport tempfile[0m
+2026-10-01T23:36:36.0269661Z [36;1msys.path.insert(0, "research/modalities")[0m
+2026-10-01T23:36:36.0270022Z [36;1mimport aso_independent_verification as v[0m
+2026-10-01T23:36:36.0270444Z [36;1moriginal = json.loads(Path(v.ATLAS).read_text(encoding="utf-8"))[0m
+2026-10-01T23:36:36.0270897Z [36;1mwith tempfile.TemporaryDirectory() as tmp:[0m
+2026-10-01T23:36:36.0271247Z [36;1m    atlas_path = Path(tmp) / "atlas.json"[0m
+2026-10-01T23:36:36.0271561Z [36;1m    v.ATLAS = str(atlas_path)[0m
+2026-10-01T23:36:36.0271917Z [36;1m    for name in ("duplicate", "wrong_count"):[0m
+2026-10-01T23:36:36.0272259Z [36;1m        atlas = copy.deepcopy(original)[0m
+2026-10-01T23:36:36.0272562Z [36;1m        if name == "duplicate":[0m
+2026-10-01T23:36:36.0272966Z [36;1m            atlas["graded_pairs"].append(copy.deepcopy(atlas["graded_pairs"][0]))[0m
+2026-10-01T23:36:36.0273384Z [36;1m        else:[0m
+2026-10-01T23:36:36.0273645Z [36;1m            atlas["grade_counts"]["EMITTABLE"] += 1[0m
+2026-10-01T23:36:36.0274046Z [36;1m        atlas_path.write_text(json.dumps(atlas), encoding="utf-8")[0m
+2026-10-01T23:36:36.0274430Z [36;1m        result = v.run()[0m
+2026-10-01T23:36:36.0274792Z [36;1m        print(json.dumps({"corruption": name, "verdict": result["verdict"],[0m
+2026-10-01T23:36:36.0275358Z [36;1m                          "problems": result["problems"], "rows": len(atlas["graded_pairs"]),[0m
+2026-10-01T23:36:36.0275868Z [36;1m                          "atlas_grade_counts": atlas["grade_counts"]}))[0m
+2026-10-01T23:36:36.0276637Z [36;1m        assert result["verdict"] == "AGREES", "Baseline silent-corruption premise not reproduced"[0m
+2026-10-01T23:36:36.0277686Z [36;1mprint("BASELINE SILENT CORRUPTION REPRODUCED: duplicate row and incorrect EMITTABLE aggregate")[0m
+2026-10-01T23:36:36.0278204Z [36;1mPY[0m
+2026-10-01T23:36:36.0635992Z shell: /usr/bin/bash -e {0}
+2026-10-01T23:36:36.0636335Z env:
+2026-10-01T23:36:36.0636674Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:36:36.0637508Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-01T23:36:36.0638095Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:36:36.0638578Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:36:36.0639008Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:36:36.0639424Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-01T23:36:36.0639791Z ##[endgroup]
+2026-10-01T23:36:36.0774099Z 00935ad95ebec3575eec4cef5b9082a977ec8dfe
+2026-10-01T23:36:36.8177708Z {"corruption": "duplicate", "verdict": "AGREES", "problems": [], "rows": 232, "atlas_grade_counts": {"EMITTABLE": 38, "NON_CODING_ACCEPTOR": 77, "OUT_OF_FRAME": 39, "SEAM_NOT_PRODUCED": 77}}
+2026-10-01T23:36:36.8180050Z {"corruption": "wrong_count", "verdict": "AGREES", "problems": [], "rows": 231, "atlas_grade_counts": {"EMITTABLE": 39, "NON_CODING_ACCEPTOR": 77, "OUT_OF_FRAME": 39, "SEAM_NOT_PRODUCED": 77}}
+2026-10-01T23:36:36.8181767Z BASELINE SILENT CORRUPTION REPRODUCED: duplicate row and incorrect EMITTABLE aggregate
+2026-10-01T23:36:36.8291811Z ##[group]Run git status --short
+2026-10-01T23:36:36.8292162Z [36;1mgit status --short[0m
+2026-10-01T23:36:36.8292418Z [36;1mgit diff --exit-code[0m
+2026-10-01T23:36:36.8358571Z shell: /usr/bin/bash -e {0}
+2026-10-01T23:36:36.8358829Z env:
+2026-10-01T23:36:36.8359101Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:36:36.8359563Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-01T23:36:36.8360037Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:36:36.8360438Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:36:36.8360827Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-01T23:36:36.8361234Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-01T23:36:36.8361573Z ##[endgroup]
+2026-10-01T23:36:37.4808277Z Post job cleanup.
+2026-10-01T23:36:37.5986639Z (node:2401) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-01T23:36:37.5988181Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-01T23:36:37.6188022Z Post job cleanup.
+2026-10-01T23:36:37.7043237Z [command]/usr/bin/git version
+2026-10-01T23:36:37.7087057Z git version 2.55.0
+2026-10-01T23:36:37.7126931Z Temporarily overriding HOME='/home/runner/work/_temp/69c6f837-4bf2-4480-9ddc-f5e8f771c1d6' before making global git config changes
+2026-10-01T23:36:37.7129296Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-01T23:36:37.7133399Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-01T23:36:37.7175740Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-01T23:36:37.7219965Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-01T23:36:37.7487683Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-01T23:36:37.7526626Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-01T23:36:37.7796762Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-01T23:36:37.7846772Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-01T23:36:37.8303756Z Cleaning up orphan processes
+2026-10-01T23:36:37.8600683Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

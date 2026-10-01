@@ -1,0 +1,194 @@
+{
+  "schema": "aso-frame-candidate-census-validation/1",
+  "date": "2026-10-01",
+  "repository": "trimcrae/Rare-cancers",
+  "branch": "codex/usage-sprint-2026-10-01-frame-census",
+  "base_revision": "c93daca9947c3f16e41e309a302d6279a7b47fa5",
+  "source_checkpoint": "33ceb4739c9eef5842a1863d2fe28ef192487f0f",
+  "validated_revision": "c9aa07680cff61d0f7561934258d410f9082c0e4",
+  "question": "Which register-correct declared rows terminate under fixed-offset translation, and does this exclude any additional candidate under the current native gate ladder?",
+  "outcome": {
+    "declared_pairs": 231,
+    "unrestricted_pairs": 616,
+    "otherwise_eligible_register": 38,
+    "translation_eligible": 38,
+    "fixed_offset_terminations": 8,
+    "new_translation_exclusions": 0,
+    "all_terminations_already_seam_excluded": true,
+    "native_start_absent_diagnostics": [
+      "TCF12_e1__NR4A3_e4",
+      "TFG_e1__NR4A3_e4"
+    ]
+  },
+  "generated_artifacts": [
+    {
+      "label": "CENSUS",
+      "path": "research/autonomy/usage-sprint-2026-10-01/frame-census/aso-frame-candidate-census.json",
+      "sha256": "8a3cf0e5d98e2524e015a788e096092270836fa8a63fe4dd08c843838d0320e2",
+      "git_blob": "09e0b87bf2f5f97a1310c6e808192d0ea07ff2c5",
+      "bytes": 8523
+    },
+    {
+      "label": "ARCHIVE",
+      "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+      "sha256": "85b2c4dd710557d87364d4df4a3733898be6b4f1aaece4b30dd8038c8137240d",
+      "git_blob": "cf743b66278c232f13ed1f1227cd5676e1a33d7e",
+      "bytes": 385999
+    }
+  ],
+  "baseline_corruption": {
+    "revision": "00935ad95ebec3575eec4cef5b9082a977ec8dfe",
+    "run_id": 36941687725,
+    "job_id": 110634415792,
+    "duplicate_rows": {
+      "rows": 232,
+      "verdict": "AGREES",
+      "problems": []
+    },
+    "incorrect_emittable_count": {
+      "recorded": 39,
+      "actual": 38,
+      "verdict": "AGREES",
+      "problems": []
+    }
+  },
+  "generation": {
+    "run_id": 36942117282,
+    "job_id": 110635794796,
+    "revision": "33ceb4739c9eef5842a1863d2fe28ef192487f0f",
+    "status": "success",
+    "strict_archive_check": true,
+    "census_check": true,
+    "drift_check": true,
+    "manual_checklist_head_tail_unchanged": true,
+    "restored_clean_tree": true,
+    "checklist_content_unchanged": true
+  },
+  "settled_validation": {
+    "run_id": 36942362454,
+    "job_id": 110636583482,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36942362454",
+    "status": "success",
+    "head_sha": "c9aa07680cff61d0f7561934258d410f9082c0e4",
+    "started_at": "2026-10-01T23:44:15Z",
+    "completed_at": "2026-10-01T23:47:00Z",
+    "job_seconds": 165,
+    "targeted_verifier_tests": {
+      "passed": 46,
+      "seconds": 8.84
+    },
+    "drift_behavior_guards": {
+      "passed": 2,
+      "seconds": 1.76
+    },
+    "verifier_check": "passed",
+    "census_check": "passed",
+    "archive_content_check": "passed",
+    "drift_check": "passed",
+    "normal_preflight": {
+      "exit_code": 0,
+      "scope": "fast gates only (doc + artifact linters)",
+      "seconds": 114
+    },
+    "tracked_status_diff": "clean",
+    "python": "3.11.16",
+    "full_publication_preflight_run": false,
+    "broad_scientific_pytest_suites_run": false
+  },
+  "independent_review": {
+    "reviewer": "coordinator /root, separate from implementation worker",
+    "revision": "c9aa07680cff61d0f7561934258d410f9082c0e4",
+    "census_git_blob": "09e0b87bf2f5f97a1310c6e808192d0ea07ff2c5",
+    "census_sha256": "8a3cf0e5d98e2524e015a788e096092270836fa8a63fe4dd08c843838d0320e2",
+    "reviewed_handoff_git_blob": "6c70af61a28689813448bcc770e8bc43d8ac9b50",
+    "reviewed_handoff_sha256": "911eee332d806c0d7ea71f5c502fd4e8a5bdca2b576c34d72e46361978741d3c",
+    "scope": [
+      "independent genomic/CDNA base comparison",
+      "brute-force ORF comparison",
+      "all 231 declared pairs and 10 fields",
+      "616 unrestricted grade census",
+      "all donor counts and 8 stop witnesses",
+      "native start retention",
+      "manifest 521-file delta",
+      "question/method/findings/limitations/next step readability"
+    ],
+    "result": "No differences or scoped blocking concerns. Clear for declared technical audience.",
+    "receipt_completion_note": "Only the operational validation/footer is completed after this exact prose review; scientific prose and generated census remain unchanged."
+  },
+  "preservation": {
+    "scientific_inputs_and_existing_verifier_artifact_unchanged": true,
+    "frozen_deposited_manuscript_assets_unchanged": true,
+    "manifest_only_two_existing_entries_changed": true,
+    "manifest_file_count": 521,
+    "manifest_promises_gaps_unchanged": true,
+    "checklist_unchanged": true,
+    "no_pr": true,
+    "no_merge": true,
+    "no_gpu_or_paid_fleet": true,
+    "no_owner_or_shared_queue_changes": true
+  },
+  "runtime": {
+    "model_identifier": null,
+    "reasoning_effort_identifier": null,
+    "subscription_usage": null,
+    "remaining_capacity": null,
+    "unknown_reason": "Not exposed in the connector session",
+    "task_wall_seconds": null,
+    "time_from_baseline_job_start_to_verified_job_end_seconds": 636,
+    "ci_only": true
+  },
+  "logs": [
+    {
+      "label": "baseline",
+      "job_id": 110634415792,
+      "path": "research/autonomy/usage-sprint-2026-10-01/frame-census/ci-baseline-job-110634415792.log",
+      "bytes": 21091,
+      "sha256": "be2f3eb06a85b44cef223507b38df1812f2c212e99da06a0afeb5987bfaa8d02",
+      "git_blob": "f6461ed044e11b9182fba8fe60bf43ed358d63d5"
+    },
+    {
+      "label": "preview-ordering",
+      "job_id": 110634968854,
+      "path": "research/autonomy/usage-sprint-2026-10-01/frame-census/ci-preview-ordering-job-110634968854.log",
+      "bytes": 29005,
+      "sha256": "76554ed43e55733a0cc8a5614d87355f30418de84df0cc8c2ce841f1a67de8ee",
+      "git_blob": "759da3bae82f6359a81034b6ed3e596cdb3a8f5b"
+    },
+    {
+      "label": "preview-diff-assertion",
+      "job_id": 110635354325,
+      "path": "research/autonomy/usage-sprint-2026-10-01/frame-census/ci-preview-diff-assertion-job-110635354325.log",
+      "bytes": 27870,
+      "sha256": "a7b759a15559b2ef78fa9630f27c137fe7073521ffc9bdedc8d32da2f22711d1",
+      "git_blob": "2c51dae726044cd2ecd3d7b2017785c1e217bb96"
+    },
+    {
+      "label": "settled",
+      "job_id": 110636583482,
+      "path": "research/autonomy/usage-sprint-2026-10-01/frame-census/ci-settled-job-110636583482.log",
+      "bytes": 105636,
+      "sha256": "2e9a9adb7696041c2ea3f40d3ef07124f062c7c9b85aac38fde6cc548ff027e8",
+      "git_blob": "b25f821db15f14bd8001f2a0019aac89bdde44e7"
+    }
+  ],
+  "bootstrap_failures": [
+    {
+      "run_id": 36941858771,
+      "job_id": 110634968854,
+      "reason": "Untracked generated census preceded archive generation, causing clean-source provenance refusal.",
+      "restored_clean_tree": true
+    },
+    {
+      "run_id": 36941979195,
+      "job_id": 110635354325,
+      "reason": "Preview assertion required a checklist change although actual generated drift bytes were unchanged.",
+      "restored_clean_tree": true
+    }
+  ],
+  "unresolved_limits": [
+    "Reference isoforms and declared scope do not establish observed patient junctions or clinical utility.",
+    "Preserved verifier artifact contains an obsolete explanatory OUT_OF_FRAME sentence; current 8 diagnostic row grades are SEAM_NOT_PRODUCED.",
+    "No publication/deposit replacement readiness inferred."
+  ],
+  "next_bounded_science_task": "Follow the current CHRNA6 expression readiness gap: retrieve authoritative GPL6244 CHRNA6 probe annotation and matching per-probe measurements/preprocessing metadata for the recorded 42 GSMs. Retain all 7 exclusions and discovery-study overlap uncertainty; stop with an explicit evidence gap if unavailable, before statistics or independence claims."
+}
