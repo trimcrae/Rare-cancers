@@ -2,40 +2,26 @@
   "dependencies": [],
   "jobs": [
     {
-      "name": "RMS-published-integrated-study-portal-and-literal-annotations",
-      "script": "pediatric_rms_literal_portal_followthrough_actual.py",
+      "name": "ASO-exact-full-primary-text-and-main-measured-assets",
+      "script": "aso_hagedorn2013_main_source_actual.py",
       "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn",
-        "openpyxl",
-        "beautifulsoup4"
+        "beautifulsoup4",
+        "pypdf",
+        "pillow"
       ],
-      "restore_run": "36922850727",
-      "restore_name": "emc-RMS-exact-public-manuscript-annotation-and-code-recovery-36922850727",
-      "timeout_seconds": 1800
+      "restore_run": "36917071796",
+      "restore_name": "emc-ASO-exact-title-source-after-index-filter-repair-36917071796",
+      "timeout_seconds": 900
     },
     {
-      "name": "PeerJ-full-source-archive-and-workbook-outcome-metadata",
-      "script": "peerj_source_metadata_actual.py",
+      "name": "EMC2019-exact-full-body-source-and-cohort-reuse-qualification",
+      "script": "methylation_EMC_CNV_prior_art.py",
       "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn",
-        "openpyxl",
-        "beautifulsoup4"
+        "beautifulsoup4",
+        "pypdf",
+        "openpyxl"
       ],
-      "restore_run": "36921168639",
-      "restore_name": "emc-PeerJ-measured-expression-diagnostics-dependency-repair-36921168639",
-      "timeout_seconds": 900
+      "timeout_seconds": 600
     }
   ]
 }
