@@ -1,62 +1,140 @@
 {
   "schema": "emc-bounded-measured-analysis/1",
-  "batch": "clinical-survival-replay-and-transient-spatial-retries",
-  "dependencies": [
-    "numpy",
-    "pandas",
-    "scipy",
-    "tifffile",
-    "imagecodecs"
-  ],
+  "batch": "final-protein-and-full-Ewing-nuclei",
+  "dependencies": [],
   "jobs": [
     {
-      "name": "printed-IPD-precision-and-eightcase-concordance",
+      "name": "final-measured-growth-protein-RNA-drug-CRISPR",
+      "script": "multiomics_actual.py",
+      "timeout_seconds": 3600,
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "scikit-learn",
+        "h5py",
+        "openpyxl"
+      ]
+    },
+    {
+      "name": "repaired-ENSG-observed-FET-fusion-calls",
+      "script": "primary_methods_and_fusion_actual.py",
+      "timeout_seconds": 900,
+      "dependencies": [
+        "numpy",
+        "pandas"
+      ]
+    },
+    {
+      "name": "genomic-state-exact-source-inspection",
+      "script": "genomic_source_inspection_actual.py",
+      "timeout_seconds": 600,
+      "dependencies": [
+        "numpy",
+        "pandas"
+      ]
+    },
+    {
+      "name": "printed-IPD-complete-fixture-precision",
       "script": "printed_ipd_figure_and_precision.py",
-      "timeout_seconds": 900
+      "timeout_seconds": 900,
+      "dependencies": []
     },
     {
-      "name": "ImmunoSarc-availability-PFS-and-response-composition",
-      "script": "immunosarc_assay_outcome_composition.py",
-      "timeout_seconds": 900
-    },
-    {
-      "name": "retry-spatial-TIFF-20-25",
-      "script": "spatial_marker_followthrough_batch_actual.py",
+      "name": "Ewing-Cellpose-nuclei-0-7",
+      "script": "ewing_cellpose_all_patient_actual.py",
       "args": [
-        "--mode",
-        "tiff",
+        "--start",
+        "0",
+        "--stop",
+        "7"
+      ],
+      "timeout_seconds": 4500,
+      "dependencies": [
+        "numpy==1.26.4",
+        "scipy",
+        "pandas",
+        "tifffile",
+        "imagecodecs==2024.12.30",
+        "cellpose==2.3.2",
+        "torch==2.5.1+cpu",
+        "opencv-python-headless==4.10.0.84",
+        "numba==0.61.2",
+        "--extra-index-url",
+        "https://download.pytorch.org/whl/cpu"
+      ]
+    },
+    {
+      "name": "Ewing-Cellpose-nuclei-7-14",
+      "script": "ewing_cellpose_all_patient_actual.py",
+      "args": [
+        "--start",
+        "7",
+        "--stop",
+        "14"
+      ],
+      "timeout_seconds": 4500,
+      "dependencies": [
+        "numpy==1.26.4",
+        "scipy",
+        "pandas",
+        "tifffile",
+        "imagecodecs==2024.12.30",
+        "cellpose==2.3.2",
+        "torch==2.5.1+cpu",
+        "opencv-python-headless==4.10.0.84",
+        "numba==0.61.2",
+        "--extra-index-url",
+        "https://download.pytorch.org/whl/cpu"
+      ]
+    },
+    {
+      "name": "Ewing-Cellpose-nuclei-14-20",
+      "script": "ewing_cellpose_all_patient_actual.py",
+      "args": [
+        "--start",
+        "14",
+        "--stop",
+        "20"
+      ],
+      "timeout_seconds": 4500,
+      "dependencies": [
+        "numpy==1.26.4",
+        "scipy",
+        "pandas",
+        "tifffile",
+        "imagecodecs==2024.12.30",
+        "cellpose==2.3.2",
+        "torch==2.5.1+cpu",
+        "opencv-python-headless==4.10.0.84",
+        "numba==0.61.2",
+        "--extra-index-url",
+        "https://download.pytorch.org/whl/cpu"
+      ]
+    },
+    {
+      "name": "Ewing-Cellpose-nuclei-20-26",
+      "script": "ewing_cellpose_all_patient_actual.py",
+      "args": [
         "--start",
         "20",
         "--stop",
-        "25"
+        "26"
       ],
-      "timeout_seconds": 2400
-    },
-    {
-      "name": "retry-spatial-TIFF-30-35",
-      "script": "spatial_marker_followthrough_batch_actual.py",
-      "args": [
-        "--mode",
-        "tiff",
-        "--start",
-        "30",
-        "--stop",
-        "35"
-      ],
-      "timeout_seconds": 2400
-    },
-    {
-      "name": "retry-spatial-TIFF-35-40",
-      "script": "spatial_marker_followthrough_batch_actual.py",
-      "args": [
-        "--mode",
-        "tiff",
-        "--start",
-        "35",
-        "--stop",
-        "40"
-      ],
-      "timeout_seconds": 2400
+      "timeout_seconds": 4500,
+      "dependencies": [
+        "numpy==1.26.4",
+        "scipy",
+        "pandas",
+        "tifffile",
+        "imagecodecs==2024.12.30",
+        "cellpose==2.3.2",
+        "torch==2.5.1+cpu",
+        "opencv-python-headless==4.10.0.84",
+        "numba==0.61.2",
+        "--extra-index-url",
+        "https://download.pytorch.org/whl/cpu"
+      ]
     }
   ]
 }
