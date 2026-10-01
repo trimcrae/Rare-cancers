@@ -3,20 +3,27 @@ No credentials, secrets, paid APIs or clinical treatment decisions.
 This exploratory retrieval preserves literal source fields; it does not infer
 HLA loss, allele presentation or molecular diagnosis from missing values.
 """
-import csv, hashlib, io, json, re, sys
+import base64, csv, hashlib, io, json, re, sys
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
 
 REV = "dca75cb3f32b82d54a6f78bf0a6323e5b975aca1"
 ROOT = "https://raw.githubusercontent.com/cBioPortal/datahub/" + REV + "/public/msk_impact_50k_2026/"
-MEDIA = "https://media.githubusercontent.com/media/cBioPortal/datahub/" + REV + "/public/msk_impact_50k_2026/"
+LFS_ENDPOINT = "https://nsssw8k94d.execute-api.us-east-1.amazonaws.com/objects/batch"
+POINTERS = {
+ "data_clinical_sample.txt":"968a9ffaf8ee3e1c7eb0c52b908d8153676433ce",
+ "data_clinical_patient.txt":"b9f87799e889ea10600b8f25cc05dd3f0856640a",
+ "data_hla_loh.txt":"2af6d43abd0f4ebfd59d15ab9eaf2f7d4be083a0"
+}
 LIMIT = 64 * 1024 * 1024
 result = {"schema":"emc-public-source-retrieval/1","started_utc":datetime.now(timezone.utc).isoformat(),
  "source_revision":REV,"sources":[],"errors":[],
  "scope":"Exploratory source retrieval. Exact diagnostic labels define the subset. No clinical efficacy, antigen presentation, genotype imputation or loss-of-heterozygosity interpretation."}
-def download(url):
-    request = Request(url, headers={"User-Agent":"EMC-public-secondary-analysis/1"})
+def download(url, payload=None, extra_headers=None):
+    headers={"User-Agent":"EMC-public-secondary-analysis/1"}
+    headers.update(extra_headers or {})
+    request = Request(url, data=payload, headers=headers)
     with urlopen(request, timeout=90) as response:
         declared=response.headers.get("Content-Length")
         if declared and int(declared)>LIMIT: raise ValueError("source exceeds 64 MiB cap")
@@ -24,15 +31,21 @@ def download(url):
         if len(data)>LIMIT: raise ValueError("source exceeds 64 MiB cap")
     return data
 def source(name):
-    pointer=download(ROOT+name)
+    blob_url="https://api.github.com/repos/cBioPortal/datahub/git/blobs/"+POINTERS[name] if name in POINTERS else None
+    pointer=base64.b64decode(json.loads(download(blob_url))["content"]) if blob_url else download(ROOT+name)
     if pointer.startswith(b"version https://git-lfs.github.com/spec/v1"):
         text=pointer.decode("utf-8")
         expected=re.search(r"oid sha256:([0-9a-f]{64})",text).group(1)
         expected_size=int(re.search(r"size ([0-9]+)",text).group(1))
-        data=download(MEDIA+name)
+        if expected_size>LIMIT: raise ValueError("LFS source exceeds 64 MiB cap")
+        batch=json.loads(download(LFS_ENDPOINT,json.dumps({"operation":"download","transfers":["basic"],"objects":[{"oid":expected,"size":expected_size}]}).encode(),{"Content-Type":"application/vnd.git-lfs+json","Accept":"application/vnd.git-lfs+json"}))
+        obj=batch["objects"][0]
+        if obj.get("error"): raise ValueError("Public LFS download batch rejected object: "+str(obj["error"].get("message")))
+        action=obj["actions"]["download"]
+        data=download(action["href"],extra_headers=action.get("header",{}))
         if hashlib.sha256(data).hexdigest()!=expected or len(data)!=expected_size:
             raise ValueError("LFS source hash/size mismatch: "+name)
-        result["sources"].append({"file":name,"url":MEDIA+name,"bytes":len(data),
+        result["sources"].append({"file":name,"pointer_url":blob_url,"download_protocol":"custom public LFS basic download","bytes":len(data),
           "sha256":expected,"lfs_hash_and_size_verified":True})
     else:
         data=pointer
