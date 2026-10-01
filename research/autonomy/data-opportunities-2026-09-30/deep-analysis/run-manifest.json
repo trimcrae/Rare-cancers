@@ -1,19 +1,19 @@
 {
   "schema": "emc-measured-data-run/1",
-  "batch": "foundation-primary-workbook-repaired-retrieval",
   "date": "2026-10-01",
+  "batch": "actual-spatial-marker-organization-all-mapped-regions",
   "dependencies": [
     "numpy",
     "pandas",
     "scipy",
-    "xlrd",
-    "openpyxl"
+    "tifffile",
+    "imagecodecs"
   ],
   "jobs": [
     {
-      "name": "Foundation-primary-XLS-and-export-identifiers",
-      "script": "foundation_legacy_workbook_analysis.py",
-      "timeout_seconds": 900
+      "name": "spatial-200-IMC-regions-and-50-Ewing-image-grids",
+      "script": "spatial_marker_followthrough_actual.py",
+      "timeout_seconds": 3300
     }
   ]
 }
