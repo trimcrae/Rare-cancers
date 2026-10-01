@@ -2,8 +2,19 @@
   "dependencies": [],
   "jobs": [
     {
-      "name": "RMS-all42-frozen88-string-measurements-and-aggregation",
-      "script": "pediatric_rms_full42_aggregate_actual.py",
+      "name": "EMC-ten-author-BAF-baseline-and18-reference-controls",
+      "script": "methylation_EMC_MTAPlocus_author_BAF_actual.py",
+      "dependencies": [],
+      "restore_run": "36917071796",
+      "restore_name": "emc-EMC-ten-raw-methylation-and18-normal-IDAT-sources-36917071796",
+      "before": [
+        "restore_previous_outputs.py"
+      ],
+      "timeout_seconds": 5000
+    },
+    {
+      "name": "Spatial-all50-files450-tiles-complete-source-assembly",
+      "script": "spatial_complete50_ledger_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
@@ -11,12 +22,13 @@
         "tifffile",
         "imagecodecs",
         "h5py",
-        "scikit-learn",
-        "openpyxl"
+        "scikit-learn"
       ],
-      "restore_run": "36914111788",
+      "restore_run": "36897521385",
       "restore_all": true,
-      "timeout_seconds": 1800
+      "extra_restore_run": "36900530648",
+      "third_restore_run": "36917071796",
+      "timeout_seconds": 600
     }
   ]
 }
