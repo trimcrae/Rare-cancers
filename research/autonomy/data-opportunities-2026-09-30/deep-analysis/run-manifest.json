@@ -1,39 +1,22 @@
 {
   "schema": "emc-deep-analysis-manifest/1",
-  "purpose": "Complete finite recovered source analyses for all45 campaign options; source annotation and normal provider checks",
+  "purpose": "Complete finite actual acquired primary figure-label reconciliation",
   "jobs": [
     {
-      "name": "RMS-all588-source-qualified-subtype-lineage-tests",
-      "script": "pediatric_rms_source_qualified_subtype_lineage_actual.py",
-      "restore_run": "36932382794",
-      "restore_name": "emc-RMS-complete-real-publisher-sheets-and-source-annotation-repair-36932382794",
-      "extra_restore_run": "36921291739",
-      "timeout_seconds": 3000,
-      "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile"
-      ]
-    },
-    {
-      "name": "ASO-exact-normal-publisher-all14-supplement-routes",
-      "script": "aso2013_exact_normal_publisher_actual.py",
+      "name": "Iwata-actual-S2-and-literal-Fig4-source-image-reconciliation",
+      "script": "iwata_curve_figure_actual.py",
+      "before": [
+        "restore_previous_outputs.py"
+      ],
+      "restore_run": "36936001053",
+      "restore_name": "emc-Iwata-exact-public-primary-providers-and-S6-unit-audit-36936001053",
       "timeout_seconds": 1800,
       "dependencies": [
+        "requests",
         "beautifulsoup4",
-        "pdfplumber",
-        "openpyxl"
-      ]
-    },
-    {
-      "name": "Iwata-exact-public-primary-providers-and-S6-unit-audit",
-      "script": "iwata_exact_primary_provider_actual.py",
-      "timeout_seconds": 1200,
-      "dependencies": [
-        "pandas",
+        "Pillow",
         "openpyxl",
-        "pypdf"
+        "rapidocr_onnxruntime"
       ]
     }
   ]
