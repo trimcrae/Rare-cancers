@@ -1,0 +1,1516 @@
+{
+  "execution": {
+    "run_id": 36915151999,
+    "job_id": 110547256853,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36915151999/job/110547256853"
+  },
+  "result": {
+    "schema": "emc-pediatric-reranked-bootstrap/1",
+    "executed_utc": "2026-10-01T19:34:13.066148+00:00",
+    "amendment": {
+      "dated_utc": "2026-10-01",
+      "reason": "Recompute ranks in everystratifiedresampledidentifier draw; reproduce/retainoriginalfixedrankCI",
+      "unchanged": "All33points/withinentitypermutationp/BH33; no newendpoints",
+      "identity": "62identifierprefixgroups notverifiedpatients"
+    },
+    "sources": [
+      {
+        "saved": "restored-artifacts/research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/pediatric-public-numeric-actual.json",
+        "bytes": 273694,
+        "sha256": "6d6a5a4a36cc912e2edec43d53e3e9c7536d29efbbaeab33673b3dc55c3a0b16"
+      },
+      {
+        "saved": "restored-artifacts/research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/pediatric-identifier-cluster-QC-composition.tsv",
+        "bytes": 10876,
+        "sha256": "b9547313255712b39b86af58df606e910de205309a6a1a367d3942e58da66032"
+      }
+    ],
+    "all33_fixed_quality_composition_tests": [
+      {
+        "QC_metric": "Median Genes per Cell",
+        "composition_endpoint": "malignant",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.8951048951048951
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.5
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": -0.1649026527109736
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.14463087864829746,
+        "identifier_cluster_permutation_p": 0.26717328267173285,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.39277489113310476,
+          0.1067791488805213
+        ],
+        "BH_q_fixed33": 0.5769473052694731,
+        "original_fixed_rank_resample95": [
+          -0.38752789857867265,
+          0.11060856337682935
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.39277489113310476,
+          0.1067791488805213
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median Genes per Cell",
+        "composition_endpoint": "CD4+ T",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.3216783216783217
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.21757512627648798
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.17467861653756425
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.1254412329244617,
+        "identifier_cluster_permutation_p": 0.34126587341265874,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.14572796419178705,
+          0.37339995401261283
+        ],
+        "BH_q_fixed33": 0.5769473052694731,
+        "original_fixed_rank_resample95": [
+          -0.13646098085939487,
+          0.3720345235439192
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.14572796419178705,
+          0.37339995401261283
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median Genes per Cell",
+        "composition_endpoint": "CD4+ T within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.013986013986013986
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.03347309635022892
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": 0.09457684535068292
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.07414034084849365,
+        "identifier_cluster_permutation_p": 0.5765423457654234,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.167673550087746,
+          0.32765904945129565
+        ],
+        "BH_q_fixed33": 0.6917522533460939,
+        "original_fixed_rank_resample95": [
+          -0.162389891261896,
+          0.30754349283449856
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.167673550087746,
+          0.32765904945129565
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median Genes per Cell",
+        "composition_endpoint": "CD8+ T",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.2842122758581141
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.18333333333333335
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.17176678423950578
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.17542555679493071,
+        "identifier_cluster_permutation_p": 0.1770822917708229,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.08718829612113199,
+          0.41107690488381843
+        ],
+        "BH_q_fixed33": 0.5769473052694731,
+        "original_fixed_rank_resample95": [
+          -0.07279561882130582,
+          0.39478006462028614
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.08718829612113199,
+          0.41107690488381843
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median Genes per Cell",
+        "composition_endpoint": "CD8+ T within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.049036852783684234
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.43333333333333335
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": 0.1447098480432758
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.1467117049300845,
+        "identifier_cluster_permutation_p": 0.26017398260173985,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.1267896284645881,
+          0.3865220758135784
+        ],
+        "BH_q_fixed33": 0.5769473052694731,
+        "original_fixed_rank_resample95": [
+          -0.11631121936667131,
+          0.36744956070122037
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.1267896284645881,
+          0.3865220758135784
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median Genes per Cell",
+        "composition_endpoint": "Macrophages",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.6013986013986015
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.46025507481564765
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.15348432055749134
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.12796232671528576,
+        "identifier_cluster_permutation_p": 0.3317668233176682,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.14699156579410436,
+          0.39076199009581
+        ],
+        "BH_q_fixed33": 0.5769473052694731,
+        "original_fixed_rank_resample95": [
+          -0.14205952041665934,
+          0.3878484527498097
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.14699156579410436,
+          0.39076199009581
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median Genes per Cell",
+        "composition_endpoint": "Macrophages within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.0979020979020979
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.11666666666666665
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": -0.15384615384615388
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.08703134931381988,
+        "identifier_cluster_permutation_p": 0.5082491750824918,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.34074002751949295,
+          0.1711585459811963
+        ],
+        "BH_q_fixed33": 0.6766861775360925,
+        "original_fixed_rank_resample95": [
+          -0.3363462807262618,
+          0.16189747420506964
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.34074002751949295,
+          0.1711585459811963
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median Genes per Cell",
+        "composition_endpoint": "Fibroblasts",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.7272727272727274
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.31666666666666665
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.0986062717770035
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.10969660873590412,
+        "identifier_cluster_permutation_p": 0.39276072392760725,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.14370583373197282,
+          0.3468796295313449
+        ],
+        "BH_q_fixed33": 0.5891410858914109,
+        "original_fixed_rank_resample95": [
+          -0.13845584536354733,
+          0.34752461601322143
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.14370583373197282,
+          0.3468796295313449
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median Genes per Cell",
+        "composition_endpoint": "Fibroblasts within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.22377622377622378
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.19999999999999998
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": -0.14727954971857413
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.0846408596697147,
+        "identifier_cluster_permutation_p": 0.5132486751324867,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.32820478137303133,
+          0.17221929299683766
+        ],
+        "BH_q_fixed33": 0.6766861775360925,
+        "original_fixed_rank_resample95": [
+          -0.30812176137096114,
+          0.1579793050667708
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.32820478137303133,
+          0.17221929299683766
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median Genes per Cell",
+        "composition_endpoint": "Endothelial cells",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.7622377622377624
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.43333333333333335
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.3446743710603463
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.32821717118607013,
+        "identifier_cluster_permutation_p": 0.010298970102989701,
+        "stratified_identifier_cluster_bootstrap95": [
+          0.07872359343560999,
+          0.5541466776755202
+        ],
+        "BH_q_fixed33": 0.14188581141885812,
+        "original_fixed_rank_resample95": [
+          0.08516059759207667,
+          0.5476239547002905
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          0.07872359343560999,
+          0.5541466776755202
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median Genes per Cell",
+        "composition_endpoint": "Endothelial cells within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.15384615384615385
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.2333333333333333
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": 0.3549718574108819
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.3199455690093188,
+        "identifier_cluster_permutation_p": 0.012898710128987101,
+        "stratified_identifier_cluster_bootstrap95": [
+          0.0742101325331897,
+          0.5418400533320085
+        ],
+        "BH_q_fixed33": 0.14188581141885812,
+        "original_fixed_rank_resample95": [
+          0.1016128411801963,
+          0.5447898662341938
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          0.0742101325331897,
+          0.5418400533320085
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median UMI Counts per Cell",
+        "composition_endpoint": "malignant",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.8251748251748254
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.6333333333333333
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": -0.24739753497050448
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.19040190841048307,
+        "identifier_cluster_permutation_p": 0.1496850314968503,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.42328202089696537,
+          0.06487493354707241
+        ],
+        "BH_q_fixed33": 0.573042695730427,
+        "original_fixed_rank_resample95": [
+          -0.42200474883130257,
+          0.061759509411304044
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.42328202089696537,
+          0.06487493354707241
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median UMI Counts per Cell",
+        "composition_endpoint": "CD4+ T",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.18881118881118883
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.3765723339400754
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.20893445301424227
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.12479212814620855,
+        "identifier_cluster_permutation_p": 0.34966503349665035,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.12450550754343291,
+          0.3705025394778141
+        ],
+        "BH_q_fixed33": 0.5769473052694731,
+        "original_fixed_rank_resample95": [
+          -0.1160890988898365,
+          0.3639845511691093
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.12450550754343291,
+          0.3705025394778141
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median UMI Counts per Cell",
+        "composition_endpoint": "CD4+ T within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.11188811188811189
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.09205101496312953
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": 0.06999437165834271
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.0299319578339301,
+        "identifier_cluster_permutation_p": 0.8232176782321767,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.21874310444304312,
+          0.2792845387413721
+        ],
+        "BH_q_fixed33": 0.8763284961826397,
+        "original_fixed_rank_resample95": [
+          -0.20428535966399705,
+          0.2775391703065118
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.21874310444304312,
+          0.2792845387413721
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median UMI Counts per Cell",
+        "composition_endpoint": "CD8+ T",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.10526380587337558
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.016666666666666666
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.22290346046348078
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.1888189107008291,
+        "identifier_cluster_permutation_p": 0.1436856314368563,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.0711851688410475,
+          0.4295362027052166
+        ],
+        "BH_q_fixed33": 0.573042695730427,
+        "original_fixed_rank_resample95": [
+          -0.056256520366296185,
+          0.41808019829684195
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.0711851688410475,
+          0.4295362027052166
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median UMI Counts per Cell",
+        "composition_endpoint": "CD8+ T within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.19614741113473694
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.3666666666666667
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": 0.1538246891213263
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.1276209106586742,
+        "identifier_cluster_permutation_p": 0.3327667233276672,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.1314407497820523,
+          0.3653958202153423
+        ],
+        "BH_q_fixed33": 0.5769473052694731,
+        "original_fixed_rank_resample95": [
+          -0.11400836126732831,
+          0.3591670297003011
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.1314407497820523,
+          0.3653958202153423
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median UMI Counts per Cell",
+        "composition_endpoint": "Macrophages",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.5104895104895105
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.619252282479235
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.2709059233449478
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.18412506354742772,
+        "identifier_cluster_permutation_p": 0.15628437156284372,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.062086361643712645,
+          0.44725785943720414
+        ],
+        "BH_q_fixed33": 0.573042695730427,
+        "original_fixed_rank_resample95": [
+          -0.06493742047050237,
+          0.45084268524860727
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.062086361643712645,
+          0.44725785943720414
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median UMI Counts per Cell",
+        "composition_endpoint": "Macrophages within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.09999999999999999
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": -0.12870544090056285
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.08083932120104677,
+        "identifier_cluster_permutation_p": 0.5331466853314668,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.3475769842260733,
+          0.17980648054906426
+        ],
+        "BH_q_fixed33": 0.6766861775360925,
+        "original_fixed_rank_resample95": [
+          -0.34677108862630135,
+          0.16760133760026452
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.3475769842260733,
+          0.17980648054906426
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median UMI Counts per Cell",
+        "composition_endpoint": "Fibroblasts",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.7342657342657343
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.4666666666666666
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.19390243902439028
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.16463033020921417,
+        "identifier_cluster_permutation_p": 0.20237976202379762,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.09335650229882533,
+          0.4214700121336076
+        ],
+        "BH_q_fixed33": 0.5769473052694731,
+        "original_fixed_rank_resample95": [
+          -0.09052286825074193,
+          0.4170323737226365
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.09335650229882533,
+          0.4214700121336076
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median UMI Counts per Cell",
+        "composition_endpoint": "Fibroblasts within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.1258741258741259
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.13333333333333333
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": -0.1133208255159475
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.052371365460857855,
+        "identifier_cluster_permutation_p": 0.6828317168283171,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.30191164920803937,
+          0.20237423636878438
+        ],
+        "BH_q_fixed33": 0.7511148885111488,
+        "original_fixed_rank_resample95": [
+          -0.28771161504814313,
+          0.19480107535290497
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.30191164920803937,
+          0.20237423636878438
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median UMI Counts per Cell",
+        "composition_endpoint": "Endothelial cells",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0.6643356643356644
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.5666666666666667
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.4232629157257742
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.3676078910679113,
+        "identifier_cluster_permutation_p": 0.0034996500349965005,
+        "stratified_identifier_cluster_bootstrap95": [
+          0.12675816569849405,
+          0.5788052924027343
+        ],
+        "BH_q_fixed33": 0.11548845115488451,
+        "original_fixed_rank_resample95": [
+          0.14016142968972048,
+          0.577388271526103
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          0.12675816569849405,
+          0.5788052924027343
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Median UMI Counts per Cell",
+        "composition_endpoint": "Endothelial cells within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.02097902097902098
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.39999999999999997
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": 0.3549718574108819
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.2974118486901211,
+        "identifier_cluster_permutation_p": 0.022897710228977103,
+        "stratified_identifier_cluster_bootstrap95": [
+          0.060412803225325676,
+          0.5384079339133526
+        ],
+        "BH_q_fixed33": 0.1889061093890611,
+        "original_fixed_rank_resample95": [
+          0.0729482570310697,
+          0.5321899720109434
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          0.060412803225325676,
+          0.5384079339133526
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Fraction Reads in Cells",
+        "composition_endpoint": "malignant",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.07692307692307693
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.43333333333333335
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": -0.27965326506472127
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.19934627759546777,
+        "identifier_cluster_permutation_p": 0.11998800119988001,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.4563829690641283,
+          0.055030369457659746
+        ],
+        "BH_q_fixed33": 0.573042695730427,
+        "original_fixed_rank_resample95": [
+          -0.4512323282146881,
+          0.049549471545952524
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.4563829690641283,
+          0.055030369457659746
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Fraction Reads in Cells",
+        "composition_endpoint": "CD4+ T",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.39860139860139865
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.025104822262671692
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.15569021372154565
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.11375328059964174,
+        "identifier_cluster_permutation_p": 0.38746125387461255,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.16073641401325917,
+          0.3771466828753175
+        ],
+        "BH_q_fixed33": 0.5891410858914109,
+        "original_fixed_rank_resample95": [
+          -0.15223807621225477,
+          0.36808305254719303
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.16073641401325917,
+          0.3771466828753175
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Fraction Reads in Cells",
+        "composition_endpoint": "CD4+ T within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.4685314685314686
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.35983578576496095
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": 0.03959838621167852
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.025872507736813856,
+        "identifier_cluster_permutation_p": 0.8513148685131486,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.293490023292247,
+          0.23613383773056185
+        ],
+        "BH_q_fixed33": 0.8779184581541846,
+        "original_fixed_rank_resample95": [
+          -0.3008698217188037,
+          0.23384435147622373
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.293490023292247,
+          0.23613383773056185
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Fraction Reads in Cells",
+        "composition_endpoint": "CD8+ T",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.32982659173657675
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.2255017914239138
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.1509655506444961,
+        "identifier_cluster_permutation_p": 0.24467553244675533,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.11258550897907833,
+          0.40016776655582537
+        ],
+        "BH_q_fixed33": 0.5769473052694731,
+        "original_fixed_rank_resample95": [
+          -0.11040277312214787,
+          0.39716779174238787
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.11258550897907833,
+          0.40016776655582537
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Fraction Reads in Cells",
+        "composition_endpoint": "CD8+ T within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.4903685278368424
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.19999999999999998
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": 0.10990522436467709
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.008917762013839267,
+        "identifier_cluster_permutation_p": 0.9447055294470553,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.2508994662549982,
+          0.252750885431265
+        ],
+        "BH_q_fixed33": 0.9447055294470553,
+        "original_fixed_rank_resample95": [
+          -0.25551390257733503,
+          0.2531170570714515
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.2508994662549982,
+          0.252750885431265
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Fraction Reads in Cells",
+        "composition_endpoint": "Macrophages",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.18881118881118883
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.32636268941473195
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.14365362890994307
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.12538766213036068,
+        "identifier_cluster_permutation_p": 0.3374662533746625,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.13585624254597747,
+          0.3754508522693293
+        ],
+        "BH_q_fixed33": 0.5769473052694731,
+        "original_fixed_rank_resample95": [
+          -0.11890581381482057,
+          0.3638740204866888
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.13585624254597747,
+          0.3754508522693293
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Fraction Reads in Cells",
+        "composition_endpoint": "Macrophages within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.1258741258741259
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.09999999999999999
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": -0.2373581021797696
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.07161099749573416,
+        "identifier_cluster_permutation_p": 0.5869413058694131,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.36560518342323645,
+          0.19140897566024767
+        ],
+        "BH_q_fixed33": 0.6917522533460939,
+        "original_fixed_rank_resample95": [
+          -0.3575357230676614,
+          0.1697228092888204
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.36560518342323645,
+          0.19140897566024767
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Fraction Reads in Cells",
+        "composition_endpoint": "Fibroblasts",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.14685314685314685
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.5833333333333334
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.20899033096116035
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.1415886499418424,
+        "identifier_cluster_permutation_p": 0.2840715928407159,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.09147983254202055,
+          0.36954111991332556
+        ],
+        "BH_q_fixed33": 0.5769473052694731,
+        "original_fixed_rank_resample95": [
+          -0.09064259348303036,
+          0.36608327119195133
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.09147983254202055,
+          0.36954111991332556
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Fraction Reads in Cells",
+        "composition_endpoint": "Fibroblasts within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.3216783216783217
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.48333333333333334
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": 0.002908340382439864
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.058619195669568976,
+        "identifier_cluster_permutation_p": 0.6546345365463454,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.3088590819425283,
+          0.19693792382492695
+        ],
+        "BH_q_fixed33": 0.7449289553803241,
+        "original_fixed_rank_resample95": [
+          -0.3088268141039251,
+          0.18895729357875257
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.3088590819425283,
+          0.19693792382492695
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Fraction Reads in Cells",
+        "composition_endpoint": "Endothelial cells",
+        "n_identifier_clusters": 62,
+        "entity_counts": {
+          "STS": 41,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": 0
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": -0.08333333333333334
+          },
+          {
+            "entity": "STS",
+            "n": 41,
+            "rho": 0.12608373740770576
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": 0.09920861504471275,
+        "identifier_cluster_permutation_p": 0.43825617438256176,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.15362982415884305,
+          0.3480589986962737
+        ],
+        "BH_q_fixed33": 0.6288023371575886,
+        "original_fixed_rank_resample95": [
+          -0.14592820856596694,
+          0.34411384782570237
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.15362982415884305,
+          0.3480589986962737
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      },
+      {
+        "QC_metric": "Fraction Reads in Cells",
+        "composition_endpoint": "Endothelial cells within nonmalignant percent",
+        "n_identifier_clusters": 61,
+        "entity_counts": {
+          "STS": 40,
+          "EWS": 12,
+          "OST": 9
+        },
+        "within_entity_descriptive": [
+          {
+            "entity": "EWS",
+            "n": 12,
+            "rho": -0.43356643356643365
+          },
+          {
+            "entity": "OST",
+            "n": 9,
+            "rho": 0.31666666666666665
+          },
+          {
+            "entity": "STS",
+            "n": 40,
+            "rho": -0.18500797529585203
+          }
+        ],
+        "status": "measured",
+        "entity_adjusted_rank_rho": -0.1852937082426344,
+        "identifier_cluster_permutation_p": 0.15458454154584542,
+        "stratified_identifier_cluster_bootstrap95": [
+          -0.44950617901288925,
+          0.08786900583875135
+        ],
+        "BH_q_fixed33": 0.573042695730427,
+        "original_fixed_rank_resample95": [
+          -0.44786683759136575,
+          0.0817548650755754
+        ],
+        "reranked_identifier_cluster_bootstrap95": [
+          -0.44950617901288925,
+          0.08786900583875135
+        ],
+        "bootstrap_finite_draws": 2000,
+        "bootstrap_discarded_constant_draws": 0
+      }
+    ]
+  }
+}
