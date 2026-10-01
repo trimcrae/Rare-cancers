@@ -6,6 +6,7 @@ on:
       - research/autonomy/data-opportunities-2026-09-30/deep-analysis/run-manifest.json
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: emc-deep-${{ github.event.after }}
   cancel-in-progress: false
@@ -50,6 +51,14 @@ jobs:
             research/autonomy/data-opportunities-2026-09-30
             research/autonomy/atlas-hofvander-source-2026-09-06
             research/autonomy/atlas-hofvander-validation-2026-09-06
+      - name: Restore prior derived measurements
+        if: ${{ matrix.restore_run != '' }}
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ matrix.restore_run }}
+          name: ${{ matrix.restore_name }}
+          path: restored-artifacts
       - name: Execute finite CPU analysis
         env:
           JOB_JSON: ${{ toJson(matrix) }}
@@ -93,6 +102,12 @@ jobs:
             campaign-output/**/*.tsv
             campaign-output/**/*.csv
             campaign-output/structure-coordinate-inputs/*.cif
+            campaign-output/deepternary-released-files/**/*
+            campaign-output/**/*.txt
+            campaign-output/**/*.xml
+            campaign-output/**/*.zip
+            research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/**/*.csv
+            research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/**/*.txt
             research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/**/*.json
             research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/**/*.tsv
             research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/**/*.npz
