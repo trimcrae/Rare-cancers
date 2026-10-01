@@ -61,7 +61,7 @@ result={'schema':'emc-published-fusion-annotation-audit/1','status':'executed','
 print('EMC_METHYLATION_FUSION_AUDIT_BEGIN');print(json.dumps(result,allow_nan=False));print('EMC_METHYLATION_FUSION_AUDIT_END')
 interest=sel[(sel.ID.map(sid)=='VALIDATION_SAMPLE405')|(~sel.our_fusion_concordance)|(~sel.original_fusion_concordance)]
 print('EMC_METHYLATION_FUSION_CASES_BEGIN');print(json.dumps({'fusion_audit_selected_profiles':interest.to_dict(orient='records')},default=str));print('EMC_METHYLATION_FUSION_CASES_END')
-for f in [EXT/'external-evaluated-votes.npz',FULL/'external-reference-and-validation-votes.npz',FULL/'per-profile-predictions.tsv']:
+for f in [EXT/'external-evaluated-votes.npz',FULL/'external-reference-and-validation-votes.npz',FULL/'class-votes.npz',FULL/'external-fit-inputs.npz']:
  if not f.exists():continue
  b=f.read_bytes();v=base64.b64encode(b).decode();parts=[v[i:i+500000] for i in range(0,len(v),500000)]
  for i,part in enumerate(parts):
