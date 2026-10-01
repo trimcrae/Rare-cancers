@@ -14,6 +14,8 @@ Si22's ENA alias and BioSample name indicated Si22, while its ENA library name i
 
 PXN, TYMS and H1FX were source-selected genes. Four expression settings—log2-CPM, within-specimen ranks among all 9,500 rows, censoring a repeated low value, and censoring the bottom quartile—were evaluated against literal Prognosis labels, both using all specimens and excluding Si22. The resulting 24 fixed comparisons used exact label permutations, stratified reranked bootstrap intervals and leave-one-specimen-out analyses. Correction retained the 24-test family and the two twelve-test identity-scope families. Separate three-gene correlation diagnostics considered specified export-level covariates and the eleven-source RNA count covariate; they were not prognostic validation tests.
 
+Residual-rank associations and their nominal P values are descriptive; the P values do not incorporate nuisance-fitting uncertainty. Their BH values correct those nominal P values within the stated families.
+
 ## Results
 
 None of the 24 clinical-label comparisons passed Benjamini–Hochberg correction across the complete family; minimum q was 0.06234. In the all-twelve smaller family, raw-expression contrasts had q=0.04453 for PXN/TYMS and 0.04906 for H1FX. After excluding the accession-conflicting specimen, none passed that scope's twelve-test correction; minimum q was 0.06926. Available exact assignments varied with retained observations, including 924, 462 and 210 label allocations. The H1FX bottom-quartile diagnostic used ten usable specimens. Smaller-family results do not overturn the complete-family result or establish out-of-sample prediction.
