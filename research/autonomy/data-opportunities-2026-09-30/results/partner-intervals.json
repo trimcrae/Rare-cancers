@@ -1,0 +1,103 @@
+{
+  "schema": "partner-unpooled-intervals/1",
+  "rows": [
+    {
+      "label": "Agaram primary TAF15 disease death",
+      "x": 3,
+      "n": 7,
+      "provenance": "primary",
+      "wilson95": {
+        "p": 0.42857142857142855,
+        "lower": 0.15821985525146975,
+        "upper": 0.7495416354723428
+      }
+    },
+    {
+      "label": "Agaram primary EWSR1 disease death",
+      "x": 1,
+      "n": 16,
+      "provenance": "primary",
+      "wilson95": {
+        "p": 0.0625,
+        "lower": 0.01111934476464252,
+        "upper": 0.28328737570298945
+      }
+    },
+    {
+      "label": "Huang human-transcribed TAF15 disease death",
+      "x": 4,
+      "n": 8,
+      "provenance": "conditional human transcription",
+      "wilson95": {
+        "p": 0.5,
+        "lower": 0.21521606221387757,
+        "upper": 0.7847839377861224
+      }
+    },
+    {
+      "label": "Huang human-transcribed EWSR1 disease death",
+      "x": 5,
+      "n": 42,
+      "provenance": "conditional human transcription",
+      "wilson95": {
+        "p": 0.11904761904761904,
+        "lower": 0.05193803327758237,
+        "upper": 0.25000390262009675
+      }
+    },
+    {
+      "label": "Pazopanib TAF15 response",
+      "x": 0,
+      "n": 3,
+      "provenance": "secondary; evaluability assumption",
+      "wilson95": {
+        "p": 0,
+        "lower": 0,
+        "upper": 0.5614970317550454
+      }
+    },
+    {
+      "label": "Pazopanib non-TAF15 response",
+      "x": 4,
+      "n": 19,
+      "provenance": "derived; evaluability assumption",
+      "wilson95": {
+        "p": 0.21052631578947367,
+        "lower": 0.08507676632916253,
+        "upper": 0.43334278443814167
+      }
+    },
+    {
+      "label": "Pazopanib TAF15 sensitivity",
+      "x": 0,
+      "n": 2,
+      "provenance": "alternative evaluability assumption",
+      "wilson95": {
+        "p": 0,
+        "lower": 0,
+        "upper": 0.6576197724933469
+      }
+    },
+    {
+      "label": "Pazopanib non-TAF15 sensitivity",
+      "x": 4,
+      "n": 20,
+      "provenance": "alternative evaluability assumption",
+      "wilson95": {
+        "p": 0.2,
+        "lower": 0.08065766257979806,
+        "upper": 0.41601743225189364
+      }
+    }
+  ],
+  "exactClopperPearsonZeroOfThree95": {
+    "lower": 0,
+    "upper": 0.7075982261787134
+  },
+  "limitations": [
+    "Unequal follow-up; proportions are not time-anchored survival.",
+    "No pooling, adjusted prognosis or partner-by-treatment effect.",
+    "4/19 is non-TAF15, not verified EWSR1.",
+    "Huang source counts were not independently reread from primary PDF."
+  ]
+}
