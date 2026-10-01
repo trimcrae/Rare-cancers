@@ -1,23 +1,37 @@
 {
   "schema": "emc-measured-data-run/1",
-  "batch": "normal-HLA-Foundation-and-ASO-measured-source-analysis",
+  "batch": "RNAseq-frozen-fusion-glycan-NR2F-and-full-methylation-feasibility",
   "date": "2026-10-01",
-  "dependencies": [],
+  "dependencies": [
+    "numpy",
+    "pandas",
+    "scipy"
+  ],
   "jobs": [
     {
-      "name": "benign-HLA-donor-holdout",
-      "script": "normal_ligandomics.py",
+      "name": "full-GEO-methylation-stream-pilot",
+      "script": "methylation_geo_pilot.py",
+      "timeout_seconds": 600
+    },
+    {
+      "name": "frozen-fusion-RNAseq-transfer",
+      "script": "fusion_external_actual.py",
+      "args": [
+        "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz",
+        "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
+        "research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/fusion-external-actual.json"
+      ],
       "timeout_seconds": 900
     },
     {
-      "name": "Foundation-EMC-molecular-calls",
-      "script": "clinical_foundation_reanalysis.py",
-      "timeout_seconds": 600
-    },
-    {
-      "name": "ASO-experimental-offtarget-data-sources",
-      "script": "aso_empirical_source_search.py",
-      "timeout_seconds": 600
+      "name": "glycan-and-NR2F-RNAseq-panels",
+      "script": "atlas_panel_extension.py",
+      "args": [
+        "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz",
+        "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
+        "research/autonomy/data-opportunities-2026-09-30/deep-analysis/outputs/atlas-matrix-nr2f-actual.json"
+      ],
+      "timeout_seconds": 900
     }
   ]
 }
