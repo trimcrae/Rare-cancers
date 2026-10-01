@@ -13,6 +13,14 @@ def safe(label,fn):
  print('EMC_SOURCE_STEP '+label,flush=True)
  try:return {'name':label,'status':'completed','result':fn()}
  except Exception as e:return {'name':label,'status':'error','error_type':type(e).__name__,'error':str(e)}
+_single_source_fetch=fetch
+def fetch(url,label):
+ import http.client,time,urllib.error
+ for attempt in range(3):
+  try:return _single_source_fetch(url,label)
+  except (http.client.HTTPException,urllib.error.URLError,ConnectionError,TimeoutError):
+   if attempt==2:raise
+   time.sleep(1+attempt)
 def jsonget(url,label):b,r=fetch(url,label);r['metadata']=json.loads(b);return r
 def xlsx_tables(b):
  z=zipfile.ZipFile(io.BytesIO(b));ss=[]
