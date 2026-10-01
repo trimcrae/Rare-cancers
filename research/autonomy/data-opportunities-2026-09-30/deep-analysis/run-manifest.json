@@ -1,18 +1,25 @@
 {
   "schema": "emc-bounded-measured-analysis/1",
-  "batch": "measured-growth-recovery",
-  "dependencies": [
-    "numpy",
-    "pandas",
-    "openpyxl"
-  ],
+  "batch": "cellpose-frozen-54-tile-reference-sensitivity",
+  "dependencies": [],
   "jobs": [
     {
-      "name": "recover-primary-measured-growth-column",
-      "script": "targeted_growth_actual.py",
-      "restore_run": 36881354079,
-      "restore_name": "emc-protein-prior-splits-and-measured-growth-36881354079",
-      "timeout_seconds": 900
+      "name": "Cellpose-54-fixed-Ewing-tiles-two-model-sensitivity",
+      "script": "spatial_cellpose_reference_sensitivity_actual.py",
+      "dependencies": [
+        "numpy==1.26.4",
+        "scipy",
+        "pandas",
+        "tifffile",
+        "imagecodecs==2024.12.30",
+        "cellpose==2.3.2",
+        "torch==2.5.1+cpu",
+        "opencv-python-headless==4.10.0.84",
+        "numba==0.61.2",
+        "--extra-index-url",
+        "https://download.pytorch.org/whl/cpu"
+      ],
+      "timeout_seconds": 4500
     }
   ]
 }
