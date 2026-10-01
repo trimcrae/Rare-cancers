@@ -1,45 +1,20 @@
 {
-  "dependencies": [
-    "numpy",
-    "pandas",
-    "scipy",
-    "tifffile",
-    "imagecodecs",
-    "h5py",
-    "scikit-learn"
-  ],
+  "dependencies": [],
   "jobs": [
     {
-      "name": "EMC-ten-raw-methylation-and18-normal-IDAT-sources",
-      "script": "methylation_EMC_MTAPlocus_source_actual.py",
-      "dependencies": [
-        "openpyxl",
-        "pypdf"
+      "name": "EMC-ten-raw-array-relative-copy-number-and18-reference-controls",
+      "script": "methylation_EMC_MTAPlocus_conumee_actual.py",
+      "dependencies": [],
+      "restore_run": "36917071796",
+      "restore_name": "emc-EMC-ten-raw-methylation-and18-normal-IDAT-sources-36917071796",
+      "before": [
+        "restore_previous_outputs.py"
       ],
-      "timeout_seconds": 1800
+      "timeout_seconds": 5000
     },
     {
-      "name": "NR4A3-four-fusion-and-all32-author-marker-promoters",
-      "script": "frozen_fusion_ATAC_promoter_actual.py",
-      "dependencies": [
-        "scipy"
-      ],
-      "timeout_seconds": 1000
-    },
-    {
-      "name": "ASO-exact-title-source-after-index-filter-repair",
-      "script": "aso_hagedorn2013_source.py",
-      "dependencies": [
-        "pypdf",
-        "pandas",
-        "openpyxl",
-        "xlrd"
-      ],
-      "timeout_seconds": 1500
-    },
-    {
-      "name": "Ewing-all234-saved-pixels-and-fixed-cell-windows",
-      "script": "ewing_finalize_pixels_actual.py",
+      "name": "RMS-all42-measured-library-and-literal-root-aggregation",
+      "script": "pediatric_rms_full42_aggregate_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
@@ -49,9 +24,34 @@
         "h5py",
         "scikit-learn"
       ],
-      "restore_run": "36896523203",
+      "restore_run": "36914111788",
       "restore_all": true,
-      "extra_restore_run": "36902596504",
+      "timeout_seconds": 1800
+    },
+    {
+      "name": "RMS-exact-primary-cell-state-and-model-annotations",
+      "script": "pediatric_rms_exact_primary_annotations_actual.py",
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "tifffile",
+        "imagecodecs",
+        "h5py",
+        "scikit-learn",
+        "openpyxl"
+      ],
+      "timeout_seconds": 1800
+    },
+    {
+      "name": "PeerJ-exact-measured-expression-recovery-and-diagnostics",
+      "script": "peerj_expression_diagnostic_actual.py",
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "openpyxl"
+      ],
       "timeout_seconds": 1800
     }
   ]
