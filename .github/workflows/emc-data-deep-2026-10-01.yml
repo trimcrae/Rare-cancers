@@ -38,10 +38,13 @@ jobs:
               py_compile.compile(str(script),doraise=True)
               start=time.time()
               try:
-                  code=subprocess.run([sys.executable,str(script)],check=False,timeout=job.get("timeout_seconds",1800)).returncode
+                  code=subprocess.run([sys.executable,str(script),*job.get("args",[])],check=False,timeout=job.get("timeout_seconds",1800)).returncode
               except subprocess.TimeoutExpired:
                   code=124
               receipts.append({"name":job["name"],"script":job["script"],"script_sha256":hashlib.sha256(script.read_bytes()).hexdigest(),"returncode":code,"seconds":round(time.time()-start,2),"commit":os.environ.get("GITHUB_SHA"),"run_id":os.environ.get("GITHUB_RUN_ID")})
+          output=here/"outputs"/("receipts-"+str(os.environ.get("GITHUB_RUN_ID"))+".json")
+          output.parent.mkdir(parents=True,exist_ok=True)
+          output.write_text(json.dumps(receipts,indent=2)+"\n")
           print("EMC_DEEP_RECEIPTS_BEGIN")
           print(json.dumps(receipts,separators=(",",":")))
           print("EMC_DEEP_RECEIPTS_END")
