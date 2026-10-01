@@ -58,12 +58,12 @@ def run(meta,rna,prot,training,primary,benchmark):
  if not ge.index.is_unique:raise ValueError("Duplicate raw model ID")
  if len(ge) and not ge.index.str.startswith("ACH-").all():raise ValueError("Nonstable Broad ID")
  ge=numeric(ge).rename(columns={v:k for k,v in gene_cols.items()});pairs=meta[["BROAD_ID","Cell_line","Cancer_type","relatedGroup","isTraining","primarySarcomaTest","disputedEMCLabel"]].copy()
- pairs["rawCRISPRModelPresent"]=pairs.BROAD_ID.isin(ge.index)&pairs.BROAD_ID.isin(dm.index);pairs["modernSourceModelName"]=pairs.BROAD_ID.map(dm["CellLineName"]) if "CellLineName" in dm else None;pairs["modernSourcePatientID"]=pairs.BROAD_ID.map(dm["PatientID"]) if "PatientID" in dm else None
+ pairs["rawCRISPRModelPresent"]=pairs.BROAD_ID.isin(ge.index)&pairs.BROAD_ID.isin(dm.index);pairs["ambiguousSourceIdentifier"]=meta["ambiguousSourceIdentifier"].fillna(False).astype(bool);pairs["eligibleIdentifierPair"]=pairs.rawCRISPRModelPresent&~pairs.ambiguousSourceIdentifier;pairs["modernSourceModelName"]=pairs.BROAD_ID.map(dm["CellLineName"]) if "CellLineName" in dm else None;pairs["modernSourcePatientID"]=pairs.BROAD_ID.map(dm["PatientID"]) if "PatientID" in dm else None
  write("crispr-identifier-pairing.json",pairs.reset_index().replace({np.nan:None}).to_dict("records"))
- write("crispr-data-boundary.json",{"source":"DepMap23Q2 Chronos,article22765112","targetColumnMap":gene_cols,"rawDimensions":ge.shape,"pairedModels":int(pairs.rawCRISPRModelPresent.sum()),"pairing":"CMP BROAD_ID to modern ModelID; same cells, not independent cohorts","geneEffectUnits":"Chronos normalized effects,zero nonessential, commonessentials about-1","dependencyThreshold":-.5,"interpretation":"Cancer-cell knockout not pharmacologic efficacy, normal-tissue window, EMCdependency or causal synthetic lethality"})
+ write("crispr-data-boundary.json",{"source":"DepMap23Q2 Chronos,article22765112","targetColumnMap":gene_cols,"rawDimensions":ge.shape,"pairedModels":int(pairs.rawCRISPRModelPresent.sum()),"eligibleIdentifierPairs":int(pairs.eligibleIdentifierPair.sum()),"pairing":"CMP BROAD_ID to modern ModelID; same cells, not independent cohorts","geneEffectUnits":"Chronos normalized effects,zero nonessential, commonessentials about-1","dependencyThreshold":-.5,"interpretation":"Cancer-cell knockout not pharmacologic efficacy, normal-tissue window, EMCdependency or causal synthetic lethality"})
  ge_sid=pd.DataFrame(index=meta.index)
  for gene in TARGETS:
-  if gene in ge:ge_sid[gene]=meta.BROAD_ID.map(ge[gene])
+  if gene in ge:ge_sid[gene]=meta.BROAD_ID.map(ge[gene]).where(pairs.eligibleIdentifierPair)
  pairs_frozen=[(g,g,"cognate abundance") for g in TARGETS]+[("MTAP","PRMT5","locus-expression proxy"),("MTAP","MAT2A","locus-expression proxy"),("SMARCB1","EZH2","SWI/SNF abundance proxy"),("BCL2L1","MCL1","BH3 cross-target"),("MCL1","BCL2L1","BH3 cross-target"),("BCL2","BCL2L1","BH3 cross-target"),("BCL2L1","BCL2","BH3 cross-target")]
  distributions=[]
  for outcome_gene in TARGETS:
@@ -75,12 +75,31 @@ def run(meta,rna,prot,training,primary,benchmark):
    if len(z)>=3:
     vals=z.effect.to_numpy();boots=[np.mean(rng.choice(vals,size=len(vals),replace=True)) for _ in range(NBOOT)];d["meanFamilyBootstrapCI95"]=np.quantile(boots,[.025,.975])
    distributions.append(d)
-  if outcome_gene=="BRD9":
-   z=dd[dd.primarySarcomaTest];flag=z.Cancer_type.str.contains("Synovial",case=False)
-   distributions.append({"gene":"BRD9","control":"historical synovial vs other-sarcoma","synovialN":int(flag.sum()),"otherN":int((~flag).sum()),"synovialMean":z.loc[flag,"effect"].mean(),"otherMean":z.loc[~flag,"effect"].mean(),"scope":"annotation control,no EMC/normal-tissue inference"})
  for predictor,outcome_gene,role in pairs_frozen:
   if outcome_gene not in ge_sid:continue
   rr=benchmark(predictor,ge_sid[outcome_gene],"CRISPR:"+outcome_gene,"Chronos gene effect");rr.update({"sourceRelease":"DepMap23Q2","outcomeGene":outcome_gene,"predictorRole":role,"stateBoundary":"abundance proxy not genomic loss/functional state"});secondary.append(rr)
+ modern_columns=[c for c in ["CellLineName","PatientID","OncotreeSubtype","OncotreePrimaryDisease","OncotreeLineage"] if c in dm]
+ write("crispr-frozen-modern-context.json",{"schema":"depmap23Q2-frozen-modern-context/1","sourceReceipts":RECEIPTS,"frozenTargets":TARGETS,"geneEffects":ge.reset_index().rename(columns={ge.index.name or "index":"ModelID"}).replace({np.nan:None}).to_dict("records"),"metadata":dm[modern_columns].reset_index().rename(columns={dm.index.name or "index":"ModelID"}).replace({np.nan:None}).to_dict("records"),"units":"Chronos normalized gene effect; cancer-cell knockout, not drug exposure or normal-tissue window"})
+ if "BRD9" in ge:
+  modern=dm.reindex(ge.index).copy()
+  ont=modern.reindex(columns=["OncotreeSubtype","OncotreePrimaryDisease"]).fillna("").astype(str).agg(" ".join,axis=1)
+  syn=ont.str.contains("Synovial",case=False,na=False)
+  sar=ont.str.contains("Ewing|Osteosarcoma|Rhabdomyosarcoma|Chondrosarcoma|Leiomyosarcoma|Synovial|Fibrosarcoma|Liposarcoma|Epithelioid Sarcoma|Undifferentiated Pleomorphic|Malignant Peripheral",case=False,regex=True,na=False)
+  names=modern.get("CellLineName",pd.Series("",index=modern.index)).fillna("").astype(str)
+  invalid=names.str.upper().str.replace(r"[^A-Z0-9]","",regex=True).eq("SW982")
+  z=pd.DataFrame({"effect":ge["BRD9"],"synovial":syn,"modelName":names,"ModelID":ge.index},index=ge.index)
+  pats=modern.get("PatientID",pd.Series("",index=modern.index)).fillna("").astype(str)
+  z["family"]=[p if p.startswith("PT-") else j for j,p in zip(z.index,pats)]
+  z=z[sar&~invalid].dropna(subset=["effect"])
+  mixed=z.groupby("family").synovial.nunique();mixedfamilies=mixed.index[mixed>1]
+  z=z[~z.family.isin(mixedfamilies)]
+  grouped=z.groupby(["family","synovial"],as_index=False).effect.mean()
+  s=grouped.loc[grouped.synovial,"effect"].to_numpy();o=grouped.loc[~grouped.synovial,"effect"].to_numpy()
+  control={"gene":"BRD9","control":"Full modern-source nominal synovial versus other named sarcoma","sourceRelease":"DepMap23Q2","synovialFamilyN":len(s),"otherSarcomaFamilyN":len(o),"synovialMean":np.mean(s) if len(s) else None,"otherSarcomaMean":np.mean(o) if len(o) else None,"meanDifference":np.mean(s)-np.mean(o) if len(s) and len(o) else None,"synovialSourceRows":z[z.synovial].reset_index(drop=True).to_dict("records"),"excludedDisputedSW982":modern.loc[invalid].reset_index().to_dict("records"),"excludedMixedSynovialPatientFamilies":list(mixedfamilies),"scope":"Source ontology control; not molecular SS18-fusion verification, a new dependency discovery, or independent EMC evidence","rawControlUnits":"Chronos normalized gene effect; descriptive cancer-cell knockout"}
+  if min(len(s),len(o))>=3:
+   diffs=[np.mean(rng.choice(s,len(s),replace=True))-np.mean(rng.choice(o,len(o),replace=True)) for _ in range(NBOOT)]
+   control["familyBootstrapMeanDifferenceCI95"]=np.quantile(diffs,[.025,.975])
+  distributions.append(control)
  write("crispr-class-distributions.json",distributions)
- result={"benchmarks":secondary,"classDistributions":distributions,"sourceReceipts":RECEIPTS,"sourceSchema":schema,"pairingCounts":{"metaModels":len(meta),"rawCRISPRModels":len(ge),"pairedModels":int(pairs.rawCRISPRModelPresent.sum())},"frozenTargets":TARGETS,"frozenPredictorOutcomePairs":pairs_frozen,"executedUTC":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime())}
+ result={"benchmarks":secondary,"classDistributions":distributions,"sourceReceipts":RECEIPTS,"sourceSchema":schema,"pairingCounts":{"metaModels":len(meta),"rawCRISPRModels":len(ge),"pairedModels":int(pairs.rawCRISPRModelPresent.sum()),"eligibleIdentifierPairs":int(pairs.eligibleIdentifierPair.sum())},"frozenTargets":TARGETS,"frozenPredictorOutcomePairs":pairs_frozen,"executedUTC":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime())}
  write("crispr-execution-summary.json",result);print("CRISPR_RESULT_BEGIN",flush=True);print(json.dumps(safe(result),allow_nan=False),flush=True);print("CRISPR_RESULT_END",flush=True);return result
