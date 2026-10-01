@@ -2,14 +2,15 @@ suppressPackageStartupMessages({library(minfi);library(conumee);library(GenomicR
 stopifnot(as.character(packageVersion('conumee'))=='1.6.0');set.seed(2601003)
 out<-'campaign-output/methylation-emc-MTAP-author-BAF';dir.create(out,recursive=TRUE,showWarnings=FALSE);m<-fromJSON(file.path(out,'source-and-IDAT-manifest.json'),simplifyVector=FALSE);rr<-m$raw_profiles
 stopifnot(length(rr)==28,all(vapply(rr,function(r)length(r$channels)==2&&all(vapply(r$channels,function(z)identical(z$status,'acquired'),logical(1))),logical(1))))
+writeLines(capture.output(print(minfi::read.metharray)),file.path(out,'minfi-raw-IDAT-loader-source.txt'))
 meta<-data.frame(ID=vapply(rr,function(r)r$ID,character(1)),IDAT=vapply(rr,function(r)r$IDAT,character(1)),platform=vapply(rr,function(r)r$geo$platform,character(1)),role=vapply(rr,function(r)r$analysis_role,character(1)),class=vapply(rr,function(r)r$Meth_Class,character(1)),DNA=vapply(rr,function(r)r$DNA,character(1)),stringsAsFactors=FALSE)
 stopifnot(sum(meta$role=='EMC_query')==10,sum(meta$role!='EMC_query')==18,!anyDuplicated(meta$IDAT));qc<-list();mat<-list();qd<-list()
 for(p in unique(meta$platform)){
- ids<-meta$IDAT[meta$platform==p];rg<-read.metharray(basenames=file.path(out,'uncompressed-idats',ids),extended=TRUE,verbose=TRUE);colnames(rg)<-ids;dp<-detectionP(rg);snps<-getSnpBeta(rg);stopifnot(identical(colnames(snps),ids));ms<-preprocessIllumina(rg,bg.correct=TRUE,normalize='controls')
+ ids<-meta$IDAT[meta$platform==p];rg<-read.metharray(basenames=file.path(out,'uncompressed-idats',ids),extended=TRUE,verbose=TRUE,force=TRUE);colnames(rg)<-ids;dp<-detectionP(rg);snps<-getSnpBeta(rg);stopifnot(identical(colnames(snps),ids));ms<-preprocessIllumina(rg,bg.correct=TRUE,normalize='controls')
  if(p=='GPL21145')annotation(ms)<-c(array='IlluminaHumanMethylationEPIC',annotation='ilm10b2.hg19')
  z<-getMeth(ms)+getUnmeth(ms);stopifnot(identical(colnames(z),ids));mat[[p]]<-z
  for(i in seq_along(ids)){one<-CNV.load(ms[,i,drop=FALSE],as.data.frame(snps[,i,drop=FALSE]),names=ids[i]);stopifnot(ncol(one@intensity)==1,'BAF'%in%names(one@BAFsnps));qd[[ids[i]]]<-one}
- qc[[p]]<-data.frame(IDAT=ids,platform=p,n_detection_probes=nrow(dp),detection_P_above_0.01_fraction=colMeans(dp>0.01,na.rm=TRUE),SNP_BAF_n=nrow(snps),SNP_BAF_missing=colSums(!is.finite(snps)),stringsAsFactors=FALSE);rm(rg,dp,ms,snps);gc()
+ qc[[p]]<-data.frame(IDAT=ids,platform=p,raw_address_rows=nrow(rg),n_detection_probes=nrow(dp),detection_P_above_0.01_fraction=colMeans(dp>0.01,na.rm=TRUE),SNP_BAF_n=nrow(snps),SNP_BAF_missing=colSums(!is.finite(snps)),stringsAsFactors=FALSE);rm(rg,dp,ms,snps);gc()
 }
 common<-Reduce(intersect,lapply(mat,rownames));stopifnot(length(common)>300000);zz<-do.call(cbind,lapply(mat,function(z)z[common,,drop=FALSE]));zz<-zz[,meta$IDAT,drop=FALSE];stopifnot(all(is.finite(zz)))
 d<-CNV.load(as.data.frame(zz),data.frame(),names=colnames(zz));for(id in names(qd))qd[[id]]@intensity<-d@intensity[,id,drop=FALSE]
