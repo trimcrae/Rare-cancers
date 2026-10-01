@@ -1,0 +1,70 @@
+name: ASO deposit drift metadata preview
+on:
+  push:
+    branches:
+      - codex/usage-sprint-2026-10-01-aso-verifier
+    paths:
+      - .github/workflows/usage-sprint-aso-drift-preview.yml
+permissions:
+  contents: read
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Generate exact operational drift block and restore input
+        shell: bash
+        run: |
+          set -euo pipefail
+          checklist=research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md
+          test -z "$(git status --porcelain)"
+          git rev-parse HEAD
+          cp -- "$checklist" "$RUNNER_TEMP/aso-checklist-before.md"
+          trap 'git restore -- "$checklist"' EXIT
+          python3 research/manuscripts/aso_deposit_drift.py
+          python3 research/manuscripts/aso_deposit_drift.py --check
+          python3 - <<'PY'
+          import base64
+          import hashlib
+          import os
+          from pathlib import Path
+          import subprocess
+          import textwrap
+
+          checklist = "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md"
+          changed = subprocess.check_output(["git", "diff", "--name-only"], text=True).splitlines()
+          assert changed == [checklist], changed
+          before = (Path(os.environ["RUNNER_TEMP"]) / "aso-checklist-before.md").read_bytes()
+          after = Path(checklist).read_bytes()
+          begin = "<!-- BEGIN GENERATED deposit-drift · aso_deposit_drift.py · DO NOT EDIT BY HAND -->".encode("utf-8")
+          end = b"<!-- END GENERATED deposit-drift -->"
+          old_head, old_rest = before.split(begin, 1)
+          old_inner, old_tail = old_rest.split(end, 1)
+          new_head, new_rest = after.split(begin, 1)
+          new_inner, new_tail = new_rest.split(end, 1)
+          assert old_head == new_head and old_tail == new_tail, "surrounding checklist changed"
+          block = begin + new_inner + end
+          def git_blob(raw):
+              return hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
+          print(f"ASO_DRIFT_INPUT_GIT_BLOB={git_blob(before)}")
+          print(f"ASO_DRIFT_OUTPUT_GIT_BLOB={git_blob(after)}")
+          print(f"ASO_DRIFT_OUTPUT_BYTES={len(after)}")
+          print(f"ASO_DRIFT_OUTPUT_SHA256={hashlib.sha256(after).hexdigest()}")
+          print(f"ASO_DRIFT_BLOCK_BYTES={len(block)}")
+          print("ASO_DRIFT_BASE64_BEGIN")
+          for line in textwrap.wrap(base64.b64encode(block).decode("ascii"), 76):
+              print(line)
+          print("ASO_DRIFT_BASE64_END")
+          PY
+      - name: Confirm preview preserved all tracked inputs
+        if: ${{ !cancelled() }}
+        run: |
+          test -z "$(git status --porcelain)"
+          git diff --exit-code
