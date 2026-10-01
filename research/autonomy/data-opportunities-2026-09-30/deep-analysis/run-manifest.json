@@ -1,19 +1,15 @@
 {
   "schema": "emc-bounded-measured-analysis/1",
-  "batch": "public-pediatric-Ewing-numeric-exports",
+  "batch": "primary-method-definitions-and-FET-calls",
   "dependencies": [
     "numpy",
-    "pandas",
-    "scipy",
-    "tifffile",
-    "imagecodecs",
-    "pypdf"
+    "pandas"
   ],
   "jobs": [
     {
-      "name": "public-pediatric-and-Ewing-measured-derived-exports",
-      "script": "pediatric_and_ewing_processed_exports_actual.py",
-      "timeout_seconds": 1800
+      "name": "primary-growth-screen-methods-and-observed-FET-drivers",
+      "script": "primary_methods_and_fusion_actual.py",
+      "timeout_seconds": 900
     }
   ]
 }
