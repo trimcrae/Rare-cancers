@@ -1,0 +1,107 @@
+{
+  "execution": {
+    "run_id": 36915151999,
+    "job_id": 110547256728,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36915151999/job/110547256728"
+  },
+  "result": {
+    "schema": "deepternary-released-embedded-config-metadata/1",
+    "completedAt": "2026-10-01T19:33:45.902411+00:00",
+    "embeddedConfigs": [
+      {
+        "task": "PROTAC",
+        "sourceReceipt": {
+          "path": "campaign-output/deepternary-released-files/v1.0.1-output.zip-extracted/output/checkpoints/PROTAC/result_20240515193524.txt",
+          "bytes": 12316,
+          "sha256": "dcf19e2d71ad98055770c2aa40ab6aded039f67fe80954eadb2a5220d9756cf2"
+        },
+        "lines": [
+          {
+            "line": 100,
+            "text": "    known_pocket_info=("
+          },
+          {
+            "line": 185,
+            "text": "test_dataloader = dict("
+          },
+          {
+            "line": 193,
+            "text": "        complex_names_path='data/PROTAC/protac22.txt',"
+          },
+          {
+            "line": 233,
+            "text": "train_cfg = dict(by_epoch=True, max_epochs=1000, val_interval=50)"
+          },
+          {
+            "line": 242,
+            "text": "        complex_names_path='data/PROTAC/train_clusters_poc6.json',"
+          },
+          {
+            "line": 282,
+            "text": "val_dataloader = dict("
+          },
+          {
+            "line": 290,
+            "text": "        complex_names_path='data/PROTAC/protac22.txt',"
+          }
+        ],
+        "testDataloader": {
+          "sectionLine": 185,
+          "complexNamesPath": "data/PROTAC/protac22.txt"
+        },
+        "validationDataloader": {
+          "sectionLine": 282,
+          "complexNamesPath": "data/PROTAC/protac22.txt"
+        },
+        "sameConfiguredTestAndValidationDataset": true
+      },
+      {
+        "task": "MGD",
+        "sourceReceipt": {
+          "path": "campaign-output/deepternary-released-files/v1.0.1-output.zip-extracted/output/checkpoints/MGD/result_20240515203824.txt",
+          "bytes": 19032,
+          "sha256": "16e4c0a3aa866040d55ec6374395974a68d97326203e08b047e766cb3c1d2b16"
+        },
+        "lines": [
+          {
+            "line": 246,
+            "text": "test_dataloader = dict("
+          },
+          {
+            "line": 254,
+            "text": "        complex_names_path='data/MolecularGlue/test_all.txt',"
+          },
+          {
+            "line": 294,
+            "text": "train_cfg = dict(by_epoch=True, max_epochs=1000, val_interval=50)"
+          },
+          {
+            "line": 303,
+            "text": "        complex_names_path='data/MolecularGlue/train_clusters_poc3.json',"
+          },
+          {
+            "line": 343,
+            "text": "val_dataloader = dict("
+          },
+          {
+            "line": 351,
+            "text": "        complex_names_path='data/MolecularGlue/test_all.txt',"
+          }
+        ],
+        "testDataloader": {
+          "sectionLine": 246,
+          "complexNamesPath": "data/MolecularGlue/test_all.txt"
+        },
+        "validationDataloader": {
+          "sectionLine": 343,
+          "complexNamesPath": "data/MolecularGlue/test_all.txt"
+        },
+        "sameConfiguredTestAndValidationDataset": true
+      }
+    ],
+    "limits": [
+      "Metadataonly repair; no inference/scoring/geometryreplay.",
+      "Configuredvalidation/testoverlap nothistoricaltraining/selectionreconstruction."
+    ]
+  }
+}
