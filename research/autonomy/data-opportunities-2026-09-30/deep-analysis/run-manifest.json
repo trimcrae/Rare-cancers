@@ -1,20 +1,30 @@
 {
   "schema": "emc-measured-data-run/1",
-  "batch": "repaired-measured-protein-drug-CRISPR-execution",
+  "batch": "raw-spatial-pixels-HLA-finite-and-Foundation-original-data",
   "date": "2026-10-01",
   "dependencies": [
     "numpy",
     "pandas",
     "scipy",
-    "scikit-learn",
-    "h5py",
-    "openpyxl"
+    "xlrd",
+    "tifffile",
+    "imagecodecs"
   ],
   "jobs": [
     {
-      "name": "measured-protein-drug-CRISPR-transfer",
-      "script": "multiomics_actual.py",
+      "name": "spatial-raw-pixels-and-primary-source-followthrough",
+      "script": "scientific_source_access_followthrough.py",
       "timeout_seconds": 2400
+    },
+    {
+      "name": "HLA-finite-robustness-and-assay-joins",
+      "script": "normal_ligandomics_finite_followup.py",
+      "timeout_seconds": 1200
+    },
+    {
+      "name": "original-Foundation-XLS-and-complete-SVs",
+      "script": "foundation_legacy_workbook_analysis.py",
+      "timeout_seconds": 900
     }
   ]
 }
