@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import csv,gzip,hashlib,json,math,urllib.request
+import csv,gzip,hashlib,json,math,re,urllib.request
 from collections import Counter,defaultdict
 from pathlib import Path
 OUT=Path('campaign-output/normal-ligandomics');OUT.mkdir(parents=True,exist_ok=True)
@@ -21,8 +21,9 @@ def download(name):
     return rows
 readers={n:download(n) for n in ['donors','peptides','sample_hits','aggregated']}
 donor_rows=list(readers['donors']());assert donor_rows and {'donor','hla_allele'}<=set(donor_rows[0]),'unexpected donor columns'
+def norm(a):return re.sub(r'(\*\d+:\d+)(?::\d+)+',r'\1',a.removeprefix('HLA-'))
 donor_alleles=defaultdict(set)
-for r in donor_rows: donor_alleles[r['donor']].add(r['hla_allele'].removeprefix('HLA-'))
+for r in donor_rows: donor_alleles[r['donor']].add(norm(r['hla_allele']))
 donors=sorted(donor_alleles);di={d:i for i,d in enumerate(donors)}
 all_alleles=sorted(set().union(*donor_alleles.values()));carriers={a:sum(1<<di[d] for d in donors if a in donor_alleles[d]) for a in all_alleles}
 peptides={};pep_headers=None
@@ -40,7 +41,7 @@ for r in readers['aggregated']():
     k=r['peptide_sequence_id']
     if k in peptides: assert r['peptide_sequence']==peptides[k]
     for item in r['donor_alleles'].split(','):
-        if item.startswith('s/'): flags[item[2:].removeprefix('HLA-')].add(k)
+        if item.startswith('s/'): flags[norm(item[2:])].add(k)
     if r['peptide_sequence'] in QUERIES: query_aggregate.append(r)
 presence=defaultdict(dict);tissue_presence=defaultdict(dict);units=set();query_hits=[];sh_headers=None;class_counts=Counter();missing_pep=0;sh_n=0
 def classes(c):
