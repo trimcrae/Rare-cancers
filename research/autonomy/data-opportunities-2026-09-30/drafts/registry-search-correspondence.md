@@ -1,3 +1,5 @@
+> Campaign status: This companion draft is merged into the [complete registry response-unit report](registry-response-unit-short-report.md). Its historical text is retained for traceability; it is not a separate submission candidate. The final report and executed 575-row audit are authoritative.
+
 # Finding posted EMC outcomes beyond a condition query
 
 A condition query can leave posted subtype results out of view. In two archived ClinicalTrials.gov responses, a query for extraskeletal myxoid chondrosarcoma (EMC) did not return a sarcoma trial that explicitly reports EMC outcomes. A shorter phrase entered through a different query parameter returned that trial. This example concerns the findability of existing evidence; it does not establish patient eligibility or treatment benefit.
