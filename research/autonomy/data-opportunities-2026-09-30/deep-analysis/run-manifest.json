@@ -1,33 +1,21 @@
 {
   "schema": "emc-bounded-measured-analysis/1",
-  "batch": "exact-missing-pixels-and-primary-tables",
+  "batch": "public-RMS-count-retrieval-with-scoped-GEO",
   "dependencies": [],
   "jobs": [
     {
-      "name": "Ewing-exact-missing-12-tile-nuclei-repair",
-      "script": "ewing_cellpose_missing_tiles_actual.py",
-      "timeout_seconds": 1800,
-      "restore_run": 36896523203,
-      "restore_name": "emc-Ewing-Cellpose-nuclei-7-14-36896523203",
+      "name": "RMS-processed-counts-after-GEO-query-scope-repair",
+      "script": "pediatric_rms_processed_count_pilot_actual.py",
+      "timeout_seconds": 3600,
       "dependencies": [
-        "numpy==1.26.4",
-        "scipy",
+        "numpy",
         "pandas",
+        "scipy",
         "tifffile",
-        "imagecodecs==2024.12.30",
-        "cellpose==2.3.2",
-        "torch==2.5.1+cpu",
-        "opencv-python-headless==4.10.0.84",
-        "numba==0.61.2",
-        "--extra-index-url",
-        "https://download.pytorch.org/whl/cpu"
+        "imagecodecs",
+        "h5py",
+        "scikit-learn"
       ]
-    },
-    {
-      "name": "Agaram-three-previously-usable-HTML-routes",
-      "script": "agaram_html_patient_table_actual.py",
-      "timeout_seconds": 300,
-      "dependencies": []
     }
   ]
 }
