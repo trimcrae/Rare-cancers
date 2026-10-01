@@ -2,19 +2,15 @@
   "dependencies": [],
   "jobs": [
     {
-      "name": "EMC-common-probe-rebuilt-bins-both-frozen-CN-pipelines",
-      "script": "methylation_EMC_both_pipelines_actual.py",
-      "dependencies": [],
-      "restore_run": "36923792066",
-      "restore_name": "emc-EMC-ten-repaired-raw-arrays-both-frozen-CN-pipelines-36923792066",
-      "before": [
-        "restore_previous_outputs.py",
-        "restore_methylation_R_cache_actual.py"
+      "name": "ASO-all-four-main-redesigns-exact-frozen-proxy",
+      "script": "aso2013_main_redesign_frozen_proxy_actual.py",
+      "dependencies": [
+        "biopython"
       ],
-      "timeout_seconds": 5200
+      "timeout_seconds": 300
     },
     {
-      "name": "RMS-same-assay-all13-frozen-programmes-and-CSPG4",
+      "name": "RMS-same-assay-all13-programmes-correct-source-artifact",
       "script": "pediatric_rms_same_assay_programme_actual.py",
       "dependencies": [
         "numpy",
@@ -23,8 +19,23 @@
         "tifffile"
       ],
       "restore_run": "36921291739",
-      "restore_name": "emc-RMS-complete42-frozen-target-aggregate-36921291739",
+      "restore_name": "emc-RMS-all42-frozen88-string-measurements-and-aggregation-36921291739",
       "timeout_seconds": 1200
+    },
+    {
+      "name": "RMS-exact-publisher-and-PeerJ-public-project-metadata",
+      "script": "exact_rms_publisher_and_peerj_project_metadata_actual.py",
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "tifffile",
+        "openpyxl",
+        "pymupdf"
+      ],
+      "restore_run": "36921168639",
+      "restore_all": true,
+      "timeout_seconds": 2400
     }
   ]
 }
