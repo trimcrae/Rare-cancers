@@ -113,7 +113,21 @@ def aggregate_records(records,fixed_support=None):
  rr=rr.set_index(['gene','lineage']);rr=rr.loc[rr.index.isin(support)].reset_index()
  z=rr.groupby(['gene','lineage'])[['selectedError','singleError','baselineError']].mean()
  return {'strata':len(z),'genes':int(z.index.get_level_values(0).nunique()),'lineages':int(z.index.get_level_values(1).nunique()),'selectedNMAE':float(z.selectedError.mean()),'singleNMAE':float(z.singleError.mean()),'medianBaselineNMAE':float(z.baselineError.mean()),'relativeImprovement':float(1-z.selectedError.mean()/z.baselineError.mean()) if z.baselineError.mean()>0 else None}
+def load_measured_growth():
+ candidates=[Path(os.environ["PROTEOMICS_MEASURED_GROWTH_SOURCE"])] if os.environ.get("PROTEOMICS_MEASURED_GROWTH_SOURCE") else [Path(__file__).resolve().parent/"results"/"primary-measured-growth-reconciliation.json",ROOT/"primary-measured-growth-reconciliation.json"]
+ path=next((p for p in candidates if p.exists()),None)
+ if path is None:raise ValueError("Final run requires verified primary measured growth; source file absent")
+ b=path.read_bytes();d=json.loads(b)
+ if d.get("workbookSHA256")!="9327f665d259ef4d148d3a64e7c76cdeb51dce8dee06768efd6b7d044130e203":raise ValueError("Measured growth workbook pin mismatch")
+ if d.get("growthHeader")!="growth" or d.get("sheet")!="Cell line level sample info":raise ValueError("Measured growth column identity mismatch")
+ if d.get("sourceDefinitionVerified") is not True or not d.get("sourceDefinition"):raise ValueError("Verify exact primary growth definition before final execution")
+ frame=pd.DataFrame(d["records"])
+ if not {"model_id","growthValue"}.issubset(frame) or frame.model_id.duplicated().any():raise ValueError("Measured growth identifiers invalid")
+ if not frame.model_id.astype(str).str.fullmatch(r"SIDM\d+").all():raise ValueError("Nonstable measured growth identifiers")
+ series=pd.to_numeric(frame.set_index("model_id").growthValue,errors="raise");series.index=series.index.astype(str)
+ return series,{"sourcePath":str(path),"sourceJSONSHA256":hashlib.sha256(b).hexdigest(),"workbookSHA256":d["workbookSHA256"],"sourceReceipt":d.get("source"),"sourceDefinition":d["sourceDefinition"],"sourceDefinitionVerified":True,"unitsVerified":d.get("unitsVerified",False),"sourceScale":d.get("sourceScale","Published growth column used as released; mapping of exported numerical scale to the primary control ratio is unverified; no extra transformation"),"sourceMeasuredModels":len(series),"transform":"Published growth covariate used as released; no inferred additional log transform"}
 def main():
+    measured_growth,growth_manifest=load_measured_growth()
     stage("manifest");m=get_manifest()
     def by_id(fid):
      hits=[f for f in m["files"] if f["id"]==fid]
@@ -185,7 +199,8 @@ def main():
     for j in meta.index:
         if patient.loc[j].startswith("SIDP"):union(j,"PATIENT:"+patient.loc[j])
         if parent.loc[j].startswith("SIDM"):union(j,parent.loc[j])
-        if broad.loc[j].startswith("ACH-"):union(j,"BROAD:"+broad.loc[j])
+        for alias in str(broad.loc[j]).split(";"):
+            if re.fullmatch(r"ACH-\d+",alias.strip()):union(j,"BROAD:"+alias.strip())
         if normalized.loc[j]:union(j,"NAME:"+normalized.loc[j])
     meta["relatedGroup"]=[find(j) for j in meta.index]
     held_family=set(meta.loc[sarcoma|meso_context|ambiguous,"relatedGroup"])
@@ -279,19 +294,27 @@ def main():
     write("drug-endpoint-manifest.json",[{"drug_id":k[0],"drug_name":k[1],"dataset":k[2],"targets":ts,"sourceTargetAnnotation":tx} for k,d,ts,tx in selection])
     stage("bounded target-outcome transfer/confounding controls");secondary=[];proliferation_genes=["MKI67","PCNA","TOP2A","MCM2","MCM3","MCM4","MCM5","MCM6","MCM7","CDK1","CCNB1"];pg=[g for g in proliferation_genes if g in rna.columns]
     pmean=rna.loc[training,pg].mean();psd=rna.loc[training,pg].std().replace(0,np.nan);proliferation=((rna[pg]-pmean)/psd).mean(axis=1)
-    write("proliferation-proxy-manifest.json",{"genes":pg,"centering":"non-sarcoma family-heldout trainingmean/SD","interpretation":"RNAproliferation proxy,notmeasuredgrowth/causaladjustment"})
+    write("proliferation-proxy-manifest.json",{"genes":pg,"centering":"non-sarcoma family-heldout trainingmean/SD","interpretation":"RNA proliferation proxy retained as context, not used as final measured growth"})
+    growth_for_adjustment=measured_growth.reindex(meta.index)
+    growth_label="Published growth covariate: "+growth_manifest["sourceDefinition"]
+    growth_manifest.update({"observedTrainingModels":int(growth_for_adjustment.loc[training].notna().sum()),"trainingModels":int(training.sum()),"observedPrimaryModels":int(growth_for_adjustment.loc[primary].notna().sum()),"primaryModels":int(primary.sum()),"associationMissingness":"Complete cases; no zero or median fill of unknown measured growth","predictiveMissingness":"Development-contained imputation"})
+    write("growth-control-manifest.json",growth_manifest)
+    print("MEASURED_GROWTH_CONTROL "+json.dumps(safe(growth_manifest),allow_nan=False),flush=True)
     def benchmark(gene,y,label,outcome_kind):
         if gene not in rna or gene not in prot:return {"gene":gene,"outcome":label,"kind":outcome_kind,"status":"nomatchedRNA/protein"}
         d=pd.concat([rna[gene].rename("rna"),prot[gene].rename("protein"),y.rename("outcome")],axis=1).join(meta[["Cancer_type","relatedGroup","primarySarcomaTest","isSarcoma"]])
-        growth=proliferation;d=d.join(growth.rename("growth")).dropna(subset=["rna","protein","outcome","Cancer_type"]);d["Cancer_type"]=[uncertainty_lineage[g] for g in d.relatedGroup]
+        growth=growth_for_adjustment;d=d.join(growth.rename("growth")).dropna(subset=["rna","protein","outcome","Cancer_type"]);d["Cancer_type"]=[uncertainty_lineage[g] for g in d.relatedGroup]
         d=d.groupby(["relatedGroup","Cancer_type","primarySarcomaTest","isSarcoma"],as_index=False).mean(numeric_only=True)
         tr=d[d.relatedGroup.isin(set(meta.loc[training,"relatedGroup"]))].copy();te=d[d.primarySarcomaTest].copy()
         rr={"gene":gene,"outcome":label,"kind":outcome_kind,"trainN":len(tr),"testN":len(te),"trainLineages":tr.Cancer_type.nunique(),"testLineages":te.Cancer_type.nunique(),"unadjustedRNAOutcome":corr(te.rna.to_numpy(),te.outcome.to_numpy()),"unadjustedProteinOutcome":corr(te.protein.to_numpy(),te.outcome.to_numpy())}
-        if len(te)>=10:
-            x=te[["rna","protein","outcome","growth"]].copy();x=x-x.groupby(te.Cancer_type).transform("mean");ctr=np.column_stack([np.ones(len(x)),x.growth.fillna(0).to_numpy()])
+        adjusted=te.dropna(subset=["growth"]).copy()
+        rr.update({"growthObservedTestN":len(adjusted),"growthObservedTrainN":int(tr.growth.notna().sum()),"growthControl":growth_label,"growthAdjustedLineages":int(adjusted.Cancer_type.nunique()),"growthAdjustmentMissingness":"Complete cases for association; development-only imputation for predictive growth variants","adjustedAssociationInference":"Descriptive residual rank association; nominal Spearman p does not incorporate nuisance-fitting uncertainty"})
+        if len(adjusted)>=10 and adjusted.Cancer_type.nunique()>=2:
+            x=adjusted[["rna","protein","outcome","growth"]].copy();x=x-x.groupby(adjusted.Cancer_type).transform("mean");ctr=np.column_stack([np.ones(len(x)),x.growth.to_numpy()])
             for col in ["rna","protein","outcome"]:
                 values=x[col].to_numpy();x[col]=values-ctr@np.linalg.lstsq(ctr,values,rcond=None)[0]
-            rr["withinLineageGrowthAdjustedRNAOutcome"]=corr(x.rna.to_numpy(),x.outcome.to_numpy());rr["withinLineageGrowthAdjustedProteinOutcome"]=corr(x.protein.to_numpy(),x.outcome.to_numpy());rr["growthObservedTestN"]=int(te.growth.notna().sum());rr["growthAdjustmentMissingness"]="RNAproxy missingcenteredproxyfilledzero;descriptiveonly"
+            rr["withinLineageGrowthAdjustedRNAOutcome"]=corr(x.rna.to_numpy(),x.outcome.to_numpy());rr["withinLineageGrowthAdjustedProteinOutcome"]=corr(x.protein.to_numpy(),x.outcome.to_numpy())
+        else:rr["adjustedAssociationStatus"]="Insufficient complete-case measured-growth/lineage support"
         rr["primaryEligible"]=bool(len(tr)>=50 and len(te)>=10 and tr.Cancer_type.nunique()>=3)
         if len(tr)<10 or len(te)<3 or tr.Cancer_type.nunique()<2:
             rr["status"]="insufficient matched support fortransfer";return rr
@@ -327,13 +350,16 @@ def main():
         controls=[c for c in matrix.columns if str(c[1]) in {"Paclitaxel","Docetaxel","Olaparib","Talazoparib","Doxorubicin","Cisplatin"}];atrcols=[c for c in matrix.columns if str(c[1]) in atr_names]
         for col in atrcols+controls:
             general=z.drop(columns=[col],errors="ignore").median(axis=1);response=matrix[col];d=pd.concat([response.rename("response"),general.rename("general")],axis=1).join(meta[["Cancer_type","primarySarcomaTest","relatedGroup"]]);d=d[d.primarySarcomaTest.fillna(False)].dropna(subset=["response","general","Cancer_type"]);d=d.groupby(["relatedGroup","Cancer_type"],as_index=False).mean(numeric_only=True)
-            fet=d.Cancer_type.str.contains("Ewing|Clear Cell|Clear cell|Myxoid Lipo|Low.grade Fibromyx",case=False,regex=True);growth=proliferation;bygroup=growth.groupby(meta.relatedGroup).mean();d["growth"]=bygroup.reindex(d.relatedGroup).values
+            fet=d.Cancer_type.str.contains("Ewing|Clear Cell|Clear cell|Myxoid Lipo|Low.grade Fibromyx",case=False,regex=True);growth=growth_for_adjustment;bygroup=growth.groupby(meta.relatedGroup).mean();d["growth"]=bygroup.reindex(d.relatedGroup).values
             res={"drug_id":col[0],"drug_name":col[1],"dataset":dataset,"role":"ATR" if col in atrcols else "frozencomparator","n":len(d),"FETHistologyProxyN":int(fet.sum()),"nonFETHistologyProxyN":int((~fet).sum()),"rawMeanContrast":d.loc[fet,"response"].mean()-d.loc[~fet,"response"].mean(),"groupDefinition":"histologyproxyonly,noverifiedFETcalls"}
-            if min(int(fet.sum()),int((~fet).sum()))>=5:
-                g=d["growth"].fillna(d["growth"].median());X=np.column_stack([np.ones(len(d)),fet.astype(float),d.general,g]);fit=np.linalg.lstsq(X,d.response,rcond=None)[0];res["generalSensitivityGrowthAdjustedProxyContrast"]=fit[1];res["coefficientUnits"]="archivedlnIC50lower=moresensitive;association"
+            complete=d.dropna(subset=["growth"]).copy();complete_fet=fet.loc[complete.index]
+            res.update({"growthControl":growth_label,"growthAdjustedN":len(complete),"growthAdjustedFETProxyN":int(complete_fet.sum()),"growthAdjustedOtherProxyN":int((~complete_fet).sum()),"otherDrugNormalization":"Median/IQR computed in non-sarcoma development only","missingGrowthHandling":"Complete cases, not zero or median fill"})
+            if min(int(complete_fet.sum()),int((~complete_fet).sum()))>=5:
+                X=np.column_stack([np.ones(len(complete)),complete_fet.astype(float),complete.general,complete.growth]);fit=np.linalg.lstsq(X,complete.response,rcond=None)[0];res["generalSensitivityGrowthAdjustedProxyContrast"]=fit[1];res["coefficientUnits"]="Archived lnIC50; lower means greater sensitivity; descriptive histology-proxy association"
+            else:res["adjustedStatus"]="Insufficient measured-growth complete-case group support"
             specificity.append(res)
     write("atr-specificity-controls.json",specificity)
-    observed={"metadataMatchedModels":len(ids),"nonSarcomaTrainingModels":int(training.sum()),"primarySarcomaModels":int(primary.sum()),"disputedEMCModelsExcludedPrimary":meta.loc[disputed].reset_index().replace({np.nan:None}).to_dict("records"),"sarcomaClasses":meta.loc[primary].Cancer_type.value_counts().to_dict(),"relatedGroupCollisions":groupcollisions[groupcollisions>1].to_dict(),"crossLineageRelatedFamilies":cross_lineage,"crossLineageHandling":"familypooled;lexicographicallyfirstCancer_type; exclusion sensitivity","coverage":feasibility,"panelPrimary":summary,"secondaryEvaluated":sum(r.get("status")=="evaluated" for r in secondary),"secondaryUnsupported":sum(r.get("status")!="evaluated" for r in secondary),"sourceReceipts":RECEIPTS,"stages":STAGES,"perGeneTransfer":genewise,"secondaryBenchmarks":secondary,"atrSpecificityControls":specificity,"primaryCoverageByLineage":coverage,"drugSourceSchema":source_schema,"processingDisclosure":"Original publishedlog2intensity6692protein; Other-groupMOFA-scaledmeasuredRNA+centeringinterceptonly; globalarchivalprocessingdisclosed. Newimputation/scaling/selectiondevelopmentonly. Wholecellnot surface; noverifiedEMC; RNAproxy notmeasuredgrowth; noCNA/dependency/genotype/causalwindowclaim.","frozen":frozen}
+    observed={"metadataMatchedModels":len(ids),"nonSarcomaTrainingModels":int(training.sum()),"primarySarcomaModels":int(primary.sum()),"disputedEMCModelsExcludedPrimary":meta.loc[disputed].reset_index().replace({np.nan:None}).to_dict("records"),"sarcomaClasses":meta.loc[primary].Cancer_type.value_counts().to_dict(),"relatedGroupCollisions":groupcollisions[groupcollisions>1].to_dict(),"crossLineageRelatedFamilies":cross_lineage,"crossLineageHandling":"Ambiguous ACH-000561 family excluded from development and primary analyses; all source relations retained for audit","growthControl":growth_manifest,"coverage":feasibility,"panelPrimary":summary,"secondaryEvaluated":sum(r.get("status")=="evaluated" for r in secondary),"secondaryUnsupported":sum(r.get("status")!="evaluated" for r in secondary),"sourceReceipts":RECEIPTS,"stages":STAGES,"perGeneTransfer":genewise,"secondaryBenchmarks":secondary,"atrSpecificityControls":specificity,"primaryCoverageByLineage":coverage,"drugSourceSchema":source_schema,"processingDisclosure":"Original publishedlog2intensity6692protein; Other-groupMOFA-scaledmeasuredRNA+centeringinterceptonly; globalarchivalprocessingdisclosed. Newimputation/scaling/selectiondevelopmentonly. Wholecellnot surface; noverifiedEMC; Published measured growth used for complete-case controls; RNA proliferation proxy retained only as context; noCNA/dependency/genotype/causalwindowclaim.","frozen":frozen}
     reuse_genes=[g for g in PANEL+CONTROL+TARGETS+proliferation_genes if g in rna.columns]
     reuse={"schema":"frozen-sarcoma-matched-measurements/1","sourceReceipts":RECEIPTS,"seed":SEED,"genes":reuse_genes,"metadata":meta.reset_index().replace({np.nan:None}).to_dict("records"),"rna":rna[reuse_genes].reset_index().replace({np.nan:None}).to_dict("records"),"protein":prot.reset_index().replace({np.nan:None}).to_dict("records"),"processingDisclosure":observed["processingDisclosure"]}
     write("matched-measurements-for-followthrough.json",reuse)
