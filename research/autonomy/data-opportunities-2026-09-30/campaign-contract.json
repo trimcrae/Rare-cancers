@@ -20,11 +20,19 @@
     "repository_changes": "New isolated campaign directory; existing manuscripts, preregistrations, scientific graph, patient registry, priority queue and main branch preserved."
   },
   "coordination": {
-    "writers": "one owner per article; independent immutable Git blobs, no shared reference writes",
+    "writers": "One owner per draft; returned text integrated and persisted by root. Some unconfirmed worker blob calls stalled and were interrupted.",
     "integration": "coordinator only",
-    "local_worktrees": "unavailable in this session; remote work branch and worker-owned blobs provide isolation",
-    "scheduled_jobs": "none launched",
-    "legacy_handover": "Read codex-handover.json (historical disabled driver); no scheduler cutover or live claims made"
+    "local_worktrees": "Unavailable; isolated remote branch, root-only confirmed persistence.",
+    "scheduled_jobs": "No recurring scheduler launched; bounded branch-specific public GitHub CPU source retrieval and CLI replay completed.",
+    "legacy_handover": "Read codex-handover.json (historical disabled driver); no scheduler cutover or live claims made",
+    "completed_primary_assignments": {
+      "discovery": 6,
+      "verification": 6,
+      "writing": 6,
+      "independent_review": 6,
+      "total": 24,
+      "additional_helpers_separate": true
+    }
   },
   "planned_agent_seats": {
     "wave1_discovery": 6,
@@ -37,7 +45,7 @@
     "Require a new contribution beyond restating original study.",
     "Preserve original-study overlap, assay scope, independent sample units, negative findings, normal context and confounding.",
     "No drug efficacy or tumor protein conclusions from RNA or class-transfer data.",
-    "No dispatch to perform blocked downloads/paid APIs/GPU jobs or re-run shelved sequence screens."
+    "No paid APIs, GPU jobs or shelved sequence-screen reruns. Scope-specific public CPU retrieval/replay exception is documented in retrieval-amendment.json and results receipts."
   ],
   "ranking_rubric": {
     "clinical_or_methodological_consequence": "0-4",
@@ -50,14 +58,17 @@
   },
   "validation": {
     "required": "source traceability, independently checked material arithmetic, independent prose and claims review of exact draft blobs, repair verification",
-    "normal_preflight": "unavailable without a terminal; draft checkpoint only, no main integration or publication readiness claim",
+    "normal_preflight": "Not executed. Bounded source retrieval/replay is not repo preflight or publication approval.",
     "full_publication_checks": "not claimed",
-    "journal_submission": "not authorized by drafting request and not performed"
+    "journal_submission": "not authorized by drafting request and not performed",
+    "cli_replay": "All six pinned Node wrappers passed in public run36802122941; separate primaryReconciliation annex excluded from methylation CLI comparison and independently verified.",
+    "independent_review": "Six complete independent reviews and finite focused repairs retained; current reviewed drafts/protocols have no material blockers within their bounded scope."
   },
   "stop_conditions": [
     "Discovery waves return durable evidence-grounded reports, including rejected candidates.",
     "Every supported contribution receives a bounded draft or an explicit evidence blocker; all ranked candidates retain reasoned disposition.",
     "Independent reviewers provide retained reports tied to exact draft content; unresolved findings remain visible.",
     "One isolated branch package preserves sources, methods, actual checks, drafts, rankings and execution ledger."
-  ]
+  ],
+  "as_of": "2026-10-01"
 }
