@@ -1,7 +1,7 @@
 {
   "schema": "emc-measured-data-run/1",
   "date": "2026-10-01",
-  "batch": "measured-ASO-model-challenge-and-complete-source-data",
+  "batch": "ASO-member-identity-repaired-source-data",
   "dependencies": [
     "numpy",
     "scipy",
@@ -9,7 +9,7 @@
   ],
   "jobs": [
     {
-      "name": "ASO-12-measured-offtargets-and-69MB-SourceData",
+      "name": "ASO-complete-original-SourceData-member-verification",
       "before": [
         "stage_recorded_sources.py"
       ],
