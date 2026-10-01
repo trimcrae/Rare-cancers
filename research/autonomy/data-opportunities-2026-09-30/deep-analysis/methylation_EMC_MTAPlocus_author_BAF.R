@@ -15,7 +15,25 @@ for(p in unique(meta$platform)){
 common<-Reduce(intersect,lapply(mat,rownames));stopifnot(length(common)>300000);zz<-do.call(cbind,lapply(mat,function(z)z[common,,drop=FALSE]));zz<-zz[,meta$IDAT,drop=FALSE];stopifnot(all(is.finite(zz)))
 d<-CNV.load(as.data.frame(zz),data.frame(),names=colnames(zz));for(id in names(qd))qd[[id]]@intensity<-d@intensity[,id,drop=FALSE]
 genes_frozen<-c('MTAP','CDKN2A','CDKN2B');gm<-unique(AnnotationDbi::select(org.Hs.eg.db,keys=genes_frozen,keytype='SYMBOL',columns='ENTREZID')[,c('SYMBOL','ENTREZID')]);stopifnot(nrow(gm)==3,!anyNA(gm$ENTREZID));gr<-GenomicFeatures::genes(TxDb.Hsapiens.UCSC.hg19.knownGene);genegr<-gr[gm$ENTREZID];genegr$name<-gm$SYMBOL;names(genegr)<-gm$SYMBOL;stopifnot(all(as.character(seqnames(genegr))=='chr9'))
-data(exclude_regions,package='conumee');a0<-CNV.create_anno(array_type='overlap',exclude_regions=exclude_regions,detail_regions=genegr);unavailable<-a0@probes[!names(a0@probes)%in%common];a<-if(length(unavailable))CNV.create_anno(array_type='overlap',exclude_regions=c(exclude_regions,unavailable),detail_regions=genegr)else a0;stopifnot(all(names(a@probes)%in%common))
+data(exclude_regions,package='conumee')
+anno_args<-list(exclude_regions=exclude_regions,detail_regions=genegr,bin_minprobes=15,bin_minsize=50000,bin_maxsize=5000000)
+if('array_type'%in%names(formals(CNV.create_anno)))anno_args$array_type<-'overlap'
+a0<-do.call(CNV.create_anno,anno_args)
+stopifnot(!is.null(names(a0@probes)),!anyDuplicated(names(a0@probes)))
+unavailable<-a0@probes[!names(a0@probes)%in%common]
+a<-a0
+a@probes<-a0@probes[names(a0@probes)%in%common]
+stopifnot(length(a@probes)>300000,all(names(a@probes)%in%common),!anyDuplicated(names(a@probes)))
+create_bins<-getFromNamespace('CNV.create_bins','conumee')
+merge_bins<-getFromNamespace('CNV.merge_bins','conumee')
+common_tiles<-create_bins(hg19.anno=a@genome,bin_minsize=50000,hg19.gap=a@gap,hg19.exclude=a@exclude)
+a@bins<-merge_bins(hg19.anno=a@genome,hg19.tile=common_tiles,bin_minprobes=15,hg19.probes=a@probes,bin_maxsize=5000000)
+stopifnot(length(a@bins)>0,all(as.integer(mcols(a@bins)$probes)==as.integer(countOverlaps(a@bins,a@probes))))
+methods::validObject(a)
+a@args$actual_common_probe_n<-length(a@probes)
+a@args$common_probe_construction<-'Pinned native coordinates filtered by measured literal common IDs; native bin tiling/merging recomputed at unchanged15/50kb/5Mb defaults'
+annotation_receipt<-list(native_annotation_probe_n=length(a0@probes),common_intensity_probe_n=length(common),retained_common_annotation_probe_n=length(a@probes),unavailable_probe_n=length(unavailable),unavailable_probe_ids=names(unavailable),actual_bin_n=length(a@bins),bin_minprobes=15,bin_minsize=50000,bin_maxsize=5000000,genome='hg19',native_constructor_array_type=if('array_type'%in%names(anno_args))'overlap'else'450k-only author fork; no array_type argument',construction=a@args$common_probe_construction)
+write_json(annotation_receipt,file.path(out,'actual-common-probe-annotation-receipt.json'),pretty=TRUE,auto_unbox=TRUE)
 qids<-meta$IDAT[meta$role=='EMC_query'];refs<-meta$IDAT[meta$role!='EMC_query'];rows<-list();errors<-list();receipts<-list()
 run_one<-function(id,refids,label){
  key<-paste(label,id,sep='__');tryCatch({
@@ -34,5 +52,5 @@ run_one<-function(id,refids,label){
 }
 for(id in qids)run_one(id,refs,'author_fork_18_FFPE_controls');for(id in refs)run_one(id,setdiff(refs,id),'author_fork_leave_one_control_out')
 locus<-if(length(rows))do.call(rbind,rows)else data.frame();if(nrow(locus))write.table(locus,file.path(out,'author-fork-locus-measurements.tsv'),sep='\t',quote=FALSE,row.names=FALSE);writeLines(capture.output(sessionInfo()),file.path(out,'R-session-info.txt'))
-result<-list(schema='emc-ten-author-conumee-BAF-sensitivity/1',status=if(length(errors))'partial; exact author-fork runtime errors retained'else'completed',source_commit='372c3f0342ce8eec3e7eca03c45d5bce2f1d0a3a',expected_fit_n=28,completed_fit_n=length(rows),error_n=length(errors),errors=errors,common_probe_n=length(common),annotation_probe_n=length(a@probes),source_metadata_sha256=m$metadata_sha256,source_primary_xml_sha256=m$primary_xml_sha256,locus_measurements=locus,raw_QC=do.call(rbind,qc),fit_receipts=receipts,method_caveats=c('Publication cites this fork without a historical commit; pinned source-defined sensitivity is not proof of exact published execution','Historical CNV.fit unbraced-if removes highest-correlated reference on every fit; behavior preserved and coefficient counts reported','BAF adds 1-2^baseline in intensity space; invalid results become -1.2 in package; qualified values withheld','Historical MAD fallback leaves ratios unmodified while storing shift; literal and ancillary centered values separated','CBS default alpha .001, permutations50000,minwidth5,undoSD2.2; fork separates chromosome arms','No absolute/biallelic CN, protein, MTA, dependency or drug-response claims','Reference CN neutrality/purity/ploidy unverified; all normal LOO measurements retained'))
+result<-list(schema='emc-ten-author-conumee-BAF-sensitivity/1',status=if(length(errors))'partial; exact author-fork runtime errors retained'else'completed',source_commit='372c3f0342ce8eec3e7eca03c45d5bce2f1d0a3a',expected_fit_n=28,completed_fit_n=length(rows),error_n=length(errors),errors=errors,common_probe_n=length(common),annotation_probe_n=length(a@probes),annotation=annotation_receipt,source_metadata_sha256=m$metadata_sha256,source_primary_xml_sha256=m$primary_xml_sha256,locus_measurements=locus,raw_QC=do.call(rbind,qc),fit_receipts=receipts,method_caveats=c('Publication cites this fork without a historical commit; pinned source-defined sensitivity is not proof of exact published execution','Historical CNV.fit unbraced-if removes highest-correlated reference on every fit; behavior preserved and coefficient counts reported','BAF adds 1-2^baseline in intensity space; invalid results become -1.2 in package; qualified values withheld','Historical MAD fallback leaves ratios unmodified while storing shift; literal and ancillary centered values separated','CBS default alpha .001, permutations50000,minwidth5,undoSD2.2; fork separates chromosome arms','No absolute/biallelic CN, protein, MTA, dependency or drug-response claims','Reference CN neutrality/purity/ploidy unverified; all normal LOO measurements retained'))
 write_json(result,file.path(out,'author-BAF-sensitivity-results.json'),pretty=TRUE,auto_unbox=TRUE,na='null',digits=16);cat('EMC_MTAP_AUTHOR_BAF_BEGIN\n');cat(toJSON(result,auto_unbox=TRUE,na='null',digits=16));cat('\nEMC_MTAP_AUTHOR_BAF_END\n');if(length(errors))quit(status=2)
