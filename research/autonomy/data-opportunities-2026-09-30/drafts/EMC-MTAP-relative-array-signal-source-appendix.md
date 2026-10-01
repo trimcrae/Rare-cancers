@@ -8,11 +8,11 @@ We acquired all 28 required paired IDAT sources: ten EMC array profiles and eigh
 
 We used minfi 1.48 preprocessing and total methylated-plus-unmethylated intensity. The common intensity intersection comprised 452,453 probes. Standard conumee 1.6, pinned to hovestadt/conumee commit cc1caffa49143ef06fde5036b434846649542623, retained 439,031 probes from its native annotation and rebuilt 15,136 hg19 bins after the intersection. A separate author-pipeline sensitivity used dstichel/conumee commit 372c3f0342ce8eec3e7eca03c45d5bce2f1d0a3a, the same retained common probes and rebuilt bins, with its BAF correction. Source annotations, centromere handling and the author implementation's reference-dropping behavior were preserved explicitly.
 
-The specified hg19 locus ranges contained sixteen MTAP probes, five CDKN2A probes and three CDKN2B probes. These counts describe those ranges rather than coverage of every transcript or exon. Standard analysis comprised ten EMC fits against all eighteen references, ten against same-platform references, and eighteen leave-one-normal-reference-out controls. The author sensitivity comprised ten EMC fits and eighteen normal controls. All 66 fits completed, generating 198 locus rows, with no invalid locus corrections or MAD fallbacks. Rebuilding bins after restricting the annotation avoided treating excluded probes as present in the common assay.
+The specified hg19 locus ranges contained sixteen MTAP probes, five CDKN2A probes and three CDKN2B probes. These counts describe those ranges rather than coverage of every transcript or exon. CNV.detail summarizes each specified locus by its median probe log2 ratio before the stated baseline corrections. Standard analysis comprised ten EMC fits against all eighteen references, ten against same-platform references, and eighteen leave-one-normal-reference-out controls. The author sensitivity comprised ten EMC fits and eighteen normal controls. All 66 fits completed, generating 198 locus rows, with no invalid locus corrections or MAD fallbacks. Rebuilding bins after restricting the annotation avoided treating excluded probes as present in the common assay.
 
 ## Results
 
-| Analysis | Profiles | MTAP mean-probe log2-ratio range | Corresponding relative-ratio range |
+| Analysis | Profiles | MTAP locus-detail log2-ratio range | Corresponding relative-ratio range |
 |---|---:|---:|---:|
 | Standard, all references | 10 EMC | −0.13419 to +0.04717 | 0.91118–1.03324 |
 | Standard, same-platform references | 10 EMC | −0.08677 to +0.06196 | 0.94163–1.04388 |
@@ -20,7 +20,7 @@ The specified hg19 locus ranges contained sixteen MTAP probes, five CDKN2A probe
 | Standard normal leave-one-out | 18 normals | −0.08485 to +0.07325 | 0.94288–1.05208 |
 | Author BAF normal leave-one-out | 18 normals | −0.11007 to +0.12256 | 0.92655–1.08866 |
 
-No EMC MTAP relative ratio was below 0.8 under either main pipeline. Here 0.8 is a descriptive comparison value, not a validated deletion threshold. The median standard all-reference MTAP mean-probe log2 ratio was −0.02006.
+No EMC MTAP relative ratio was below 0.8 under either main pipeline. Here 0.8 is a descriptive comparison value, not a validated deletion threshold. The median across profiles of the standard all-reference MTAP locus-detail log2 ratio was −0.02006.
 
 CDKN2A ranges were −0.13907 to +0.03985 under standard analysis and −0.18686 to +0.09189 under the author sensitivity. CDKN2B ranged from −0.40264 to +0.08585 and from −0.37223 to +0.06941, respectively. One EMC CDKN2B range was below a relative ratio of 0.8 in both pipelines. This three-probe observation does not establish adjacent MTAP deletion. Normal controls also showed locus and profile variation; high-noise reference profiles limit genotype interpretation.
 
