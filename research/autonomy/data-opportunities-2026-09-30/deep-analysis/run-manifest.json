@@ -2,19 +2,8 @@
   "dependencies": [],
   "jobs": [
     {
-      "name": "EMC-ten-repaired-raw-arrays-both-frozen-CN-pipelines",
-      "script": "methylation_EMC_both_pipelines_actual.py",
-      "dependencies": [],
-      "restore_run": "36917071796",
-      "restore_name": "emc-EMC-ten-raw-methylation-and18-normal-IDAT-sources-36917071796",
-      "before": [
-        "restore_previous_outputs.py"
-      ],
-      "timeout_seconds": 5200
-    },
-    {
-      "name": "PeerJ-all9500-genes-export-and-internal-partial-rank-diagnostics",
-      "script": "peerj_fullmatrix_export_forensics_actual.py",
+      "name": "RMS-published-integrated-study-portal-and-literal-annotations",
+      "script": "pediatric_rms_literal_portal_followthrough_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
@@ -23,21 +12,30 @@
         "imagecodecs",
         "h5py",
         "scikit-learn",
-        "openpyxl"
+        "openpyxl",
+        "beautifulsoup4"
+      ],
+      "restore_run": "36922850727",
+      "restore_name": "emc-RMS-exact-public-manuscript-annotation-and-code-recovery-36922850727",
+      "timeout_seconds": 1800
+    },
+    {
+      "name": "PeerJ-full-source-archive-and-workbook-outcome-metadata",
+      "script": "peerj_source_metadata_actual.py",
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "tifffile",
+        "imagecodecs",
+        "h5py",
+        "scikit-learn",
+        "openpyxl",
+        "beautifulsoup4"
       ],
       "restore_run": "36921168639",
       "restore_name": "emc-PeerJ-measured-expression-diagnostics-dependency-repair-36921168639",
       "timeout_seconds": 900
-    },
-    {
-      "name": "EMC-exact2019-primary-XML-public-route-repair",
-      "script": "methylation_EMC_CNV_prior_art.py",
-      "dependencies": [
-        "pypdf",
-        "openpyxl",
-        "beautifulsoup4"
-      ],
-      "timeout_seconds": 600
     }
   ]
 }
