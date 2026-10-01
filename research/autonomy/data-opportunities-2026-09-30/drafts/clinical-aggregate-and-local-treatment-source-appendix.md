@@ -1,0 +1,11 @@
+# Clinical aggregate endpoints and local-treatment units: source qualification
+
+This supporting note covers the locoregional-treatment and mortality-mechanism routes. The completed source calculations do not supply comparative treatment efficacy or a new cause-of-death mechanism.
+
+Published EMC cohorts reported aggregate mortality counts with different stated populations and endpoint definitions. The source audit retains the separate 171- and 163-person denominators and their reported counts; it does not pool them into one patient dataset. Bounds and descriptive proportions derived from those published totals do not identify event times, competing-risk incidence or a causal chain from primary treatment to disease death. No patient-level cumulative-incidence function or partner-adjusted survival estimate can be reconstructed from totals alone.
+
+The identified local-treatment reports describe one SABR patient and one HDR patient. Multiple lesions, treatment fractions or scans within either report remain observations from that patient; they are not independent patients or comparative treatment arms. The sources can document clinical examples and their reported response definitions. They cannot establish a population response rate, superiority of local therapy, synergy with systemic treatment or an optimal modality.
+
+These analyses qualify the estimands in existing clinical manuscripts. Numerical work that can be done on the printed summaries has been retained, but obtaining a controlled comparison would require different patient-level measurements and appropriately comparable groups. The present conclusion is a lack of that estimand in the identified sources, rather than proof that local treatment has no benefit or that no suitable data exist elsewhere.
+
+The campaign's [durable source/result directory](../deep-analysis/results/) retains the clinical aggregate and local-treatment audits. The [printed-patient correspondence](printed-patient-tables-and-survival-reconstruction-correspondence.md) supplies a separate, reproducible check where genuine patient rows were printed, and the [fusion-partner revision](fusion-partner-revised-correspondence.md) retains explicit limitations on secondary cohort counts. These support notes are not counted as distinct new discovery manuscripts.
