@@ -18,7 +18,7 @@ def main():
  for k,url in enumerate(html_urls):
   try:
    p,receipt=sm.getfull(url,'RMS-exact-author-manuscript-'+str(k)+'.html',32*1024**2);r['attempts'].append(receipt);body=p.read_text(errors='replace');soup=BeautifulSoup(body,'html.parser');text=soup.get_text(' ',strip=True)
-   if not identify(text):raise ValueError('Response doesnotidentify exactfreeauthor manuscript; preserve receipt, notsourceabsence')
+   if not (identify(text) and len(text)>15000 and re.search(r'methods|data and code|data availability',text,re.I)):raise ValueError('Response doesnotidentify exactfreeauthor manuscript; preserve receipt, notsourceabsence')
    texts.append(text);r['primary_documents'].append({'source_receipt':receipt,'text_chars':len(text),'complete_text_saved':str(p),'kind':'HTML'})
    for a in soup.find_all('a',href=True):
     u=urllib.parse.urljoin(receipt['final_url'],a['href']);label=a.get_text(' ',strip=True)
@@ -32,7 +32,7 @@ def main():
   try:
    p,receipt=sm.getfull(url,'RMS-exact-author-manuscript-'+str(k)+'.pdf',128*1024**2);r['attempts'].append(receipt)
    with fitz.open(p) as doc:text='\n'.join(page.get_text() for page in doc);plinks=[v.get('uri') for page in doc for v in page.get_links() if v.get('uri')]
-   if not identify(text):raise ValueError('PDF doesnotidentify exactprimary')
+   if not (identify(text) and len(text)>15000 and re.search(r'methods|data and code|data availability',text,re.I)):raise ValueError('PDF doesnotidentify exactprimary')
    texts.append(text);tp=OUT/'RMS-exact-author-manuscript-pdf-text.txt';tp.write_text(text);r['primary_documents'].append({'source_receipt':receipt,'text_chars':len(text),'complete_text_receipt':rec(tp),'kind':'PDF'})
    for u in plinks+urls(text):links.setdefault(u,[]).append('LiteralprimaryPDFlink')
   except Exception as e:r['errors'].append(error('FreeauthorPDF',e,url=url))
