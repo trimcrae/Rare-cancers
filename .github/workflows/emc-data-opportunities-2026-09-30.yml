@@ -1,11 +1,12 @@
-name: EMC data opportunities - bounded public-source retrieval
+name: EMC data opportunities - bounded public-source retrieval and CLI replay
 on:
   push:
     branches: [codex/data-opportunities-2026-09-30]
     paths:
       - .github/workflows/emc-data-opportunities-2026-09-30.yml
       - research/autonomy/data-opportunities-2026-09-30/analysis/public_source_retrieval.py
-      - research/autonomy/data-opportunities-2026-09-30/analysis/primary_source_retrieval.py
+      - research/autonomy/data-opportunities-2026-09-30/analysis/replay_analyses.py
+      - research/autonomy/data-opportunities-2026-09-30/analysis/*.mjs
 permissions:
   contents: read
 concurrency:
@@ -24,5 +25,5 @@ jobs:
       - name: Fetch hash-verified public source tables
         run: python3 research/autonomy/data-opportunities-2026-09-30/analysis/public_source_retrieval.py
 
-      - name: Verify primary literature and reference metadata
-        run: python3 research/autonomy/data-opportunities-2026-09-30/analysis/primary_source_retrieval.py
+      - name: Replay six pinned analysis wrappers
+        run: python3 research/autonomy/data-opportunities-2026-09-30/analysis/replay_analyses.py
