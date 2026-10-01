@@ -1,0 +1,2699 @@
+{
+  "schema": "sarcoma-methylation-metadata-feasibility/1",
+  "profiles": 1077,
+  "uniqueIDAT": 1077,
+  "referenceClasses": 65,
+  "rareThreshold": 10,
+  "rareClasses": 31,
+  "rareProfiles": 258,
+  "rareOneSupplier": 11,
+  "rareSupplierMajority": 27,
+  "rareChipMajority": 13,
+  "missing": {
+    "batch": 64,
+    "manifestation": 56,
+    "site": 88
+  },
+  "exploratoryHoldoutCriterion": {
+    "minimumTest": 3,
+    "minimumTrain": 5,
+    "rareClassesWithAnyEligibleSupplier": 3,
+    "rareClassesWithAnyEligibleChip": 11,
+    "rareClassesWithEveryEligibleSupplier": 0,
+    "rareClassesWithEveryEligibleChip": 0
+  },
+  "emc": {
+    "className": "methylation class extraskeletal myxoid chondrosarcoma",
+    "n": 10,
+    "supplierCounts": {
+      "Heidelberg Neuropathology": 1,
+      "Heidelberg Pathology": 1,
+      "Jena Pathology": 8
+    },
+    "chipCounts": {
+      "3998909033": 1,
+      "3999547153": 6,
+      "200406080083": 2,
+      "201172580026": 1
+    },
+    "oneSupplier": false,
+    "supplierMajority": true,
+    "chipMajority": true,
+    "eligibleSupplierHoldouts": [],
+    "eligibleChipHoldouts": [],
+    "dna": {
+      "FFPE": 10
+    },
+    "manifestation": {
+      "Primary": 10
+    }
+  },
+  "classDetails": [
+    {
+      "className": "methylation class Ewings sarcoma",
+      "n": 37,
+      "supplierCounts": {
+        "Cologne Pathology": 3,
+        "Heidelberg Neuropathology": 5,
+        "INFORM": 6,
+        "Münster Pathology": 20,
+        "PTT2.0": 1,
+        "Tübingen Neuropathology": 2
+      },
+      "chipCounts": {
+        "3998568127": 1,
+        "3998909203": 1,
+        "3998909204": 2,
+        "3999078123": 3,
+        "3999078124": 5,
+        "3999834063": 1,
+        "200091640036": 4,
+        "200091640041": 1,
+        "200394970025": 1,
+        "200394970045": 1,
+        "200511460047": 4,
+        "200848860109": 1,
+        "200889820088": 2,
+        "201194010136": 1,
+        "201247460060": 2,
+        "201414140038": 1,
+        "201530480042": 1,
+        "201533480049": 1,
+        "201876940215": 1,
+        "202128330225": 1,
+        "9426021086": 1,
+        "9553932123": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Cologne Pathology",
+          "test": 3,
+          "train": 34
+        },
+        {
+          "group": "Heidelberg Neuropathology",
+          "test": 5,
+          "train": 32
+        },
+        {
+          "group": "INFORM",
+          "test": 6,
+          "train": 31
+        },
+        {
+          "group": "Münster Pathology",
+          "test": 20,
+          "train": 17
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "3999078123",
+          "test": 3,
+          "train": 34
+        },
+        {
+          "group": "3999078124",
+          "test": 5,
+          "train": 32
+        },
+        {
+          "group": "200091640036",
+          "test": 4,
+          "train": 33
+        },
+        {
+          "group": "200511460047",
+          "test": 4,
+          "train": 33
+        }
+      ]
+    },
+    {
+      "className": "methylation class Kaposi sarcoma",
+      "n": 8,
+      "supplierCounts": {
+        "Jena Pathology": 8
+      },
+      "chipCounts": {
+        "200325530149": 3,
+        "200325530150": 5
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200325530149",
+          "test": 3,
+          "train": 5
+        }
+      ]
+    },
+    {
+      "className": "methylation class Langerhans cell histiocytosis",
+      "n": 11,
+      "supplierCounts": {
+        "Münster Neuropathology": 11
+      },
+      "chipCounts": {
+        "201904660103": 4,
+        "201904660108": 7
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201904660103",
+          "test": 4,
+          "train": 7
+        }
+      ]
+    },
+    {
+      "className": "methylation class alveolar soft part sarcoma",
+      "n": 16,
+      "supplierCounts": {
+        "Heidelberg Pathology": 1,
+        "INFORM": 1,
+        "Jena Pathology": 4,
+        "Kiel Pathology": 10
+      },
+      "chipCounts": {
+        "3998568084": 1,
+        "3999547168": 1,
+        "200397860029": 1,
+        "200397870027": 1,
+        "200397870059": 1,
+        "200928190152": 2,
+        "200928190153": 4,
+        "200928190197": 4,
+        "201530490035": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Jena Pathology",
+          "test": 4,
+          "train": 12
+        },
+        {
+          "group": "Kiel Pathology",
+          "test": 10,
+          "train": 6
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200928190153",
+          "test": 4,
+          "train": 12
+        },
+        {
+          "group": "200928190197",
+          "test": 4,
+          "train": 12
+        }
+      ]
+    },
+    {
+      "className": "methylation class angioleiomyoma / myopericytoma",
+      "n": 16,
+      "supplierCounts": {
+        "Nijmegen Pathology": 16
+      },
+      "chipCounts": {
+        "202292320054": 3,
+        "202292320098": 4,
+        "202292320100": 2,
+        "202292320101": 2,
+        "203033880063": 2,
+        "203033880073": 2,
+        "203034110020": 1
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "202292320054",
+          "test": 3,
+          "train": 13
+        },
+        {
+          "group": "202292320098",
+          "test": 4,
+          "train": 12
+        }
+      ]
+    },
+    {
+      "className": "methylation class angiomatoid fibrous histiocytoma",
+      "n": 8,
+      "supplierCounts": {
+        "Kiel Pathology": 8
+      },
+      "chipCounts": {
+        "200848860098": 2,
+        "200928190151": 3,
+        "200928190152": 3
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200928190151",
+          "test": 3,
+          "train": 5
+        },
+        {
+          "group": "200928190152",
+          "test": 3,
+          "train": 5
+        }
+      ]
+    },
+    {
+      "className": "methylation class angiosarcoma",
+      "n": 37,
+      "supplierCounts": {
+        "Bamberg Pathology": 4,
+        "Jena Pathology": 2,
+        "Luxembourg National Center of Pathology": 1,
+        "Nijmegen Pathology": 27,
+        "Rotterdam Pathology": 3
+      },
+      "chipCounts": {
+        "200325530150": 1,
+        "200486890029": 1,
+        "201364900016": 1,
+        "201364900048": 1,
+        "201465900007": 1,
+        "201869680196": 1,
+        "201870620067": 1,
+        "201876940199": 3,
+        "201959740066": 1,
+        "201959740071": 8,
+        "201959740085": 7,
+        "201959740093": 6,
+        "201959740118": 3,
+        "201959740189": 2
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Bamberg Pathology",
+          "test": 4,
+          "train": 33
+        },
+        {
+          "group": "Nijmegen Pathology",
+          "test": 27,
+          "train": 10
+        },
+        {
+          "group": "Rotterdam Pathology",
+          "test": 3,
+          "train": 34
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201876940199",
+          "test": 3,
+          "train": 34
+        },
+        {
+          "group": "201959740071",
+          "test": 8,
+          "train": 29
+        },
+        {
+          "group": "201959740085",
+          "test": 7,
+          "train": 30
+        },
+        {
+          "group": "201959740093",
+          "test": 6,
+          "train": 31
+        },
+        {
+          "group": "201959740118",
+          "test": 3,
+          "train": 34
+        }
+      ]
+    },
+    {
+      "className": "methylation class atypical fibroxanthoma / pleomorphic dermal sarcoma",
+      "n": 14,
+      "supplierCounts": {
+        "Friedrichshafen Dermatopathology": 14
+      },
+      "chipCounts": {
+        "201465970012": 3,
+        "201465970013": 5,
+        "201465970014": 3,
+        "201465970015": 3
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201465970012",
+          "test": 3,
+          "train": 11
+        },
+        {
+          "group": "201465970013",
+          "test": 5,
+          "train": 9
+        },
+        {
+          "group": "201465970014",
+          "test": 3,
+          "train": 11
+        },
+        {
+          "group": "201465970015",
+          "test": 3,
+          "train": 11
+        }
+      ]
+    },
+    {
+      "className": "methylation class chondroblastoma",
+      "n": 10,
+      "supplierCounts": {
+        "Basel Pathology": 10
+      },
+      "chipCounts": {
+        "201904410003": 6,
+        "201904410004": 4
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201904410004",
+          "test": 4,
+          "train": 6
+        }
+      ]
+    },
+    {
+      "className": "methylation class chondrosarcoma (IDH group A)",
+      "n": 29,
+      "supplierCounts": {
+        "Freiburg Neuropathology": 1,
+        "Göttingen Neuropathology": 2,
+        "Hannover Neuropathology": 1,
+        "Heidelberg Neuropathology": 12,
+        "Heidelberg Radiation Oncology": 7,
+        "Jena Pathology": 1,
+        "Kiel Pathology": 1,
+        "Münster Neuropathology": 1,
+        "Nijmegen Pathology": 1,
+        "Tübingen Neuropathology": 2
+      },
+      "chipCounts": {
+        "101231000009": 1,
+        "200325530098": 2,
+        "200325530099": 1,
+        "200406080065": 1,
+        "201247480022": 1,
+        "201332340139": 1,
+        "201465830049": 1,
+        "201869680197": 4,
+        "201869690168": 3,
+        "201869690203": 2,
+        "201869690205": 1,
+        "201870610040": 2,
+        "201870620017": 1,
+        "201904660176": 1,
+        "9407201028": 1,
+        "9611519061": 3,
+        "9741950027": 1,
+        "9969477102": 1,
+        "9969477122": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Heidelberg Neuropathology",
+          "test": 12,
+          "train": 17
+        },
+        {
+          "group": "Heidelberg Radiation Oncology",
+          "test": 7,
+          "train": 22
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201869680197",
+          "test": 4,
+          "train": 25
+        },
+        {
+          "group": "201869690168",
+          "test": 3,
+          "train": 26
+        },
+        {
+          "group": "9611519061",
+          "test": 3,
+          "train": 26
+        }
+      ]
+    },
+    {
+      "className": "methylation class chondrosarcoma (IDH group B)",
+      "n": 13,
+      "supplierCounts": {
+        "Heidelberg Radiation Oncology": 1,
+        "Nijmegen Pathology": 12
+      },
+      "chipCounts": {
+        "200992340033": 1,
+        "201247480005": 2,
+        "201247480009": 1,
+        "201247480013": 3,
+        "201247480019": 4,
+        "201247480023": 1,
+        "201869690168": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201247480013",
+          "test": 3,
+          "train": 10
+        },
+        {
+          "group": "201247480019",
+          "test": 4,
+          "train": 9
+        }
+      ]
+    },
+    {
+      "className": "methylation class chondrosarcoma (clear cell)",
+      "n": 7,
+      "supplierCounts": {
+        "Basel Pathology": 6,
+        "Heidelberg Radiation Oncology": 1
+      },
+      "chipCounts": {
+        "201869690168": 1,
+        "201904410006": 1,
+        "201904410007": 5
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class chondrosarcoma (group A)",
+      "n": 9,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 3,
+        "Jena Pathology": 1,
+        "Nijmegen Pathology": 5
+      },
+      "chipCounts": {
+        "200406080083": 1,
+        "201247480005": 1,
+        "201247480009": 1,
+        "201247480012": 1,
+        "201247480013": 1,
+        "201247480024": 1,
+        "9969477107": 3
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Heidelberg Neuropathology",
+          "test": 3,
+          "train": 6
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "9969477107",
+          "test": 3,
+          "train": 6
+        }
+      ]
+    },
+    {
+      "className": "methylation class chondrosarcoma (group B)",
+      "n": 9,
+      "supplierCounts": {
+        "Freiburg Neuropathology": 1,
+        "Heidelberg Neuropathology": 3,
+        "Jena Pathology": 3,
+        "Nijmegen Pathology": 2
+      },
+      "chipCounts": {
+        "200406080083": 3,
+        "201247480009": 1,
+        "201247480024": 1,
+        "201332340139": 1,
+        "9422493146": 1,
+        "9444374158": 1,
+        "9878820104": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Heidelberg Neuropathology",
+          "test": 3,
+          "train": 6
+        },
+        {
+          "group": "Jena Pathology",
+          "test": 3,
+          "train": 6
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200406080083",
+          "test": 3,
+          "train": 6
+        }
+      ]
+    },
+    {
+      "className": "methylation class chondrosarcoma (mesenchymal)",
+      "n": 8,
+      "supplierCounts": {
+        "Basel Pathology": 4,
+        "Heidelberg Neuropathology": 1,
+        "INFORM": 1,
+        "Jena Pathology": 1,
+        "PTT2.0": 1
+      },
+      "chipCounts": {
+        "200397870025": 1,
+        "200406080083": 1,
+        "201194010136": 1,
+        "201876940193": 2,
+        "201876940196": 2,
+        "9969477122": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class chordoma",
+      "n": 59,
+      "supplierCounts": {
+        "Freiburg Neuropathology": 1,
+        "Gera Pathology": 1,
+        "Heidelberg Neuropathology": 34,
+        "Heidelberg Radiation Oncology": 18,
+        "Münster Neuropathology": 3,
+        "Tübingen Neuropathology": 2
+      },
+      "chipCounts": {
+        "200325530097": 1,
+        "200325530098": 7,
+        "200325530099": 7,
+        "200325530100": 2,
+        "200325530101": 3,
+        "200406080089": 1,
+        "200772300041": 1,
+        "201869680197": 1,
+        "201869690203": 2,
+        "201869690205": 4,
+        "201870610040": 3,
+        "201870610041": 2,
+        "201870610042": 4,
+        "201870620016": 5,
+        "201870620017": 3,
+        "202178770020": 1,
+        "9553932008": 1,
+        "9611519061": 3,
+        "9741950007": 2,
+        "9741950008": 1,
+        "9741950101": 1,
+        "9855358058": 3,
+        "9878820105": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Heidelberg Neuropathology",
+          "test": 34,
+          "train": 25
+        },
+        {
+          "group": "Heidelberg Radiation Oncology",
+          "test": 18,
+          "train": 41
+        },
+        {
+          "group": "Münster Neuropathology",
+          "test": 3,
+          "train": 56
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200325530098",
+          "test": 7,
+          "train": 52
+        },
+        {
+          "group": "200325530099",
+          "test": 7,
+          "train": 52
+        },
+        {
+          "group": "200325530101",
+          "test": 3,
+          "train": 56
+        },
+        {
+          "group": "201869690205",
+          "test": 4,
+          "train": 55
+        },
+        {
+          "group": "201870610040",
+          "test": 3,
+          "train": 56
+        },
+        {
+          "group": "201870610042",
+          "test": 4,
+          "train": 55
+        },
+        {
+          "group": "201870620016",
+          "test": 5,
+          "train": 54
+        },
+        {
+          "group": "201870620017",
+          "test": 3,
+          "train": 56
+        },
+        {
+          "group": "9611519061",
+          "test": 3,
+          "train": 56
+        },
+        {
+          "group": "9855358058",
+          "test": 3,
+          "train": 56
+        }
+      ]
+    },
+    {
+      "className": "methylation class chordoma (dedifferentiated)",
+      "n": 8,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 1,
+        "Münster Neuropathology": 7
+      },
+      "chipCounts": {
+        "3998568150": 3,
+        "3998909051": 4,
+        "200394870072": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "3998568150",
+          "test": 3,
+          "train": 5
+        }
+      ]
+    },
+    {
+      "className": "methylation class clear cell sarcoma of soft parts",
+      "n": 7,
+      "supplierCounts": {
+        "Bamberg Pathology": 1,
+        "Heidelberg Pathology": 2,
+        "Jena Pathology": 4
+      },
+      "chipCounts": {
+        "200848860124": 1,
+        "200861300051": 5,
+        "201870620067": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class clear cell sarcoma of the kidney",
+      "n": 11,
+      "supplierCounts": {
+        "Singapore Pathology": 2,
+        "Würzburg Department of Developmental Biochemistry": 9
+      },
+      "chipCounts": {
+        "200876170093": 3,
+        "200876170101": 6,
+        "201465970015": 1,
+        "201465970016": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200876170093",
+          "test": 3,
+          "train": 8
+        },
+        {
+          "group": "200876170101",
+          "test": 6,
+          "train": 5
+        }
+      ]
+    },
+    {
+      "className": "methylation class control (blood)",
+      "n": 10,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 1,
+        "INFORM": 1,
+        "MNP2.0": 6,
+        "PTT2.0": 2
+      },
+      "chipCounts": {
+        "203049640040": 2,
+        "203049640041": 8
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class control (muscle tissue)",
+      "n": 8,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 8
+      },
+      "chipCounts": {
+        "201904410007": 2,
+        "201904410008": 6
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class control (reactive tissue)",
+      "n": 10,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 10
+      },
+      "chipCounts": {
+        "200394870074": 6,
+        "201194010006": 1,
+        "201247480004": 3
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201247480004",
+          "test": 3,
+          "train": 7
+        }
+      ]
+    },
+    {
+      "className": "methylation class dermatofibrosarcoma protuberans",
+      "n": 37,
+      "supplierCounts": {
+        "Cologne Pathology": 2,
+        "Jena Pathology": 25,
+        "Kiel Pathology": 10
+      },
+      "chipCounts": {
+        "3998909203": 2,
+        "200325530104": 7,
+        "200325530105": 11,
+        "200325530107": 3,
+        "200360420020": 4,
+        "200848860086": 7,
+        "200848860094": 2,
+        "200928190197": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Jena Pathology",
+          "test": 25,
+          "train": 12
+        },
+        {
+          "group": "Kiel Pathology",
+          "test": 10,
+          "train": 27
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200325530104",
+          "test": 7,
+          "train": 30
+        },
+        {
+          "group": "200325530105",
+          "test": 11,
+          "train": 26
+        },
+        {
+          "group": "200325530107",
+          "test": 3,
+          "train": 34
+        },
+        {
+          "group": "200360420020",
+          "test": 4,
+          "train": 33
+        },
+        {
+          "group": "200848860086",
+          "test": 7,
+          "train": 30
+        }
+      ]
+    },
+    {
+      "className": "methylation class desmoid-type fibromatosis",
+      "n": 13,
+      "supplierCounts": {
+        "Cologne Pathology": 7,
+        "Heidelberg Neuropathology": 2,
+        "Jena Pathology": 4
+      },
+      "chipCounts": {
+        "3998546134": 4,
+        "3998920094": 7,
+        "201530480027": 1,
+        "9878827239": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Cologne Pathology",
+          "test": 7,
+          "train": 6
+        },
+        {
+          "group": "Jena Pathology",
+          "test": 4,
+          "train": 9
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "3998546134",
+          "test": 4,
+          "train": 9
+        },
+        {
+          "group": "3998920094",
+          "test": 7,
+          "train": 6
+        }
+      ]
+    },
+    {
+      "className": "methylation class desmoplastic small round cell tumour",
+      "n": 26,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 1,
+        "INFORM": 6,
+        "Jena Pathology": 4,
+        "Kiel Pathology": 13,
+        "PTT2.0": 1,
+        "Rotterdam Pathology": 1
+      },
+      "chipCounts": {
+        "3998523077": 1,
+        "101231000026": 1,
+        "200256300120": 1,
+        "200397860108": 1,
+        "200406080010": 1,
+        "200406080065": 2,
+        "200992270054": 1,
+        "201465960044": 5,
+        "201465960045": 7,
+        "201465960046": 1,
+        "201465960047": 1,
+        "201533490047": 1,
+        "201858500066": 1,
+        "202178770016": 1,
+        "9534104007": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "INFORM",
+          "test": 6,
+          "train": 20
+        },
+        {
+          "group": "Jena Pathology",
+          "test": 4,
+          "train": 22
+        },
+        {
+          "group": "Kiel Pathology",
+          "test": 13,
+          "train": 13
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201465960044",
+          "test": 5,
+          "train": 21
+        },
+        {
+          "group": "201465960045",
+          "test": 7,
+          "train": 19
+        }
+      ]
+    },
+    {
+      "className": "methylation class endometrial stromal sarcoma (high grade)",
+      "n": 9,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 1,
+        "Heidelberg Pathology": 5,
+        "München LMU Pathology": 1,
+        "Singapore Pathology": 2
+      },
+      "chipCounts": {
+        "200992340016": 1,
+        "201530470060": 1,
+        "201530480006": 1,
+        "202163110073": 1,
+        "202259350187": 1,
+        "202259350188": 1,
+        "202279130003": 2,
+        "202292310098": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class endometrial stromal sarcoma (low grade)",
+      "n": 16,
+      "supplierCounts": {
+        "Heidelberg Pathology": 8,
+        "Singapore Pathology": 8
+      },
+      "chipCounts": {
+        "201530470054": 2,
+        "201530470060": 5,
+        "201530480006": 1,
+        "202163110068": 1,
+        "202163110073": 2,
+        "202163110076": 5
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Heidelberg Pathology",
+          "test": 8,
+          "train": 8
+        },
+        {
+          "group": "Singapore Pathology",
+          "test": 8,
+          "train": 8
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201530470060",
+          "test": 5,
+          "train": 11
+        },
+        {
+          "group": "202163110076",
+          "test": 5,
+          "train": 11
+        }
+      ]
+    },
+    {
+      "className": "methylation class epithelioid haemangioendothelioma",
+      "n": 9,
+      "supplierCounts": {
+        "Kiel Pathology": 1,
+        "Nijmegen Pathology": 8
+      },
+      "chipCounts": {
+        "201414140114": 1,
+        "201465950022": 1,
+        "201465950038": 3,
+        "201465950039": 2,
+        "201465950040": 1,
+        "201465960019": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201465950038",
+          "test": 3,
+          "train": 6
+        }
+      ]
+    },
+    {
+      "className": "methylation class epithelioid sarcoma",
+      "n": 18,
+      "supplierCounts": {
+        "Jena Pathology": 10,
+        "Kiel Pathology": 2,
+        "Nijmegen Pathology": 6
+      },
+      "chipCounts": {
+        "200772270037": 3,
+        "200772270038": 4,
+        "200784530003": 3,
+        "201465950019": 1,
+        "201465950020": 2,
+        "201465950021": 3,
+        "201465960046": 2
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Jena Pathology",
+          "test": 10,
+          "train": 8
+        },
+        {
+          "group": "Nijmegen Pathology",
+          "test": 6,
+          "train": 12
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200772270037",
+          "test": 3,
+          "train": 15
+        },
+        {
+          "group": "200772270038",
+          "test": 4,
+          "train": 14
+        },
+        {
+          "group": "200784530003",
+          "test": 3,
+          "train": 15
+        },
+        {
+          "group": "201465950021",
+          "test": 3,
+          "train": 15
+        }
+      ]
+    },
+    {
+      "className": "methylation class extraskeletal myxoid chondrosarcoma",
+      "n": 10,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 1,
+        "Heidelberg Pathology": 1,
+        "Jena Pathology": 8
+      },
+      "chipCounts": {
+        "3998909033": 1,
+        "3999547153": 6,
+        "200406080083": 2,
+        "201172580026": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class fibrous dysplasia",
+      "n": 12,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 4,
+        "Heidelberg Pathology": 4,
+        "Jena Pathology": 4
+      },
+      "chipCounts": {
+        "3998568084": 1,
+        "3999095007": 2,
+        "101231000003": 3,
+        "200394970004": 1,
+        "200406080065": 3,
+        "200406080083": 1,
+        "200511460046": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Heidelberg Neuropathology",
+          "test": 4,
+          "train": 8
+        },
+        {
+          "group": "Heidelberg Pathology",
+          "test": 4,
+          "train": 8
+        },
+        {
+          "group": "Jena Pathology",
+          "test": 4,
+          "train": 8
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "101231000003",
+          "test": 3,
+          "train": 9
+        },
+        {
+          "group": "200406080065",
+          "test": 3,
+          "train": 9
+        }
+      ]
+    },
+    {
+      "className": "methylation class gastrointestinal stromal tumour",
+      "n": 48,
+      "supplierCounts": {
+        "Barcelona IDIBELL": 36,
+        "Jena Pathology": 12
+      },
+      "chipCounts": {
+        "200325530180": 8,
+        "200362700006": 1,
+        "200397860029": 3,
+        "200514030106": 8,
+        "200550900061": 8,
+        "200550900073": 6,
+        "200550900084": 8,
+        "200550900090": 6
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Barcelona IDIBELL",
+          "test": 36,
+          "train": 12
+        },
+        {
+          "group": "Jena Pathology",
+          "test": 12,
+          "train": 36
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200325530180",
+          "test": 8,
+          "train": 40
+        },
+        {
+          "group": "200397860029",
+          "test": 3,
+          "train": 45
+        },
+        {
+          "group": "200514030106",
+          "test": 8,
+          "train": 40
+        },
+        {
+          "group": "200550900061",
+          "test": 8,
+          "train": 40
+        },
+        {
+          "group": "200550900073",
+          "test": 6,
+          "train": 42
+        },
+        {
+          "group": "200550900084",
+          "test": 8,
+          "train": 40
+        },
+        {
+          "group": "200550900090",
+          "test": 6,
+          "train": 42
+        }
+      ]
+    },
+    {
+      "className": "methylation class giant cell tumour of bone",
+      "n": 9,
+      "supplierCounts": {
+        "Heidelberg Pathology": 9
+      },
+      "chipCounts": {
+        "3998568071": 1,
+        "3998568072": 2,
+        "101231000003": 1,
+        "101231000137": 1,
+        "200091640026": 1,
+        "200091640036": 2,
+        "200109360096": 1
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class infantile fibrosarcoma",
+      "n": 14,
+      "supplierCounts": {
+        "Freiburg Neuropathology": 1,
+        "Kiel Pathology": 13
+      },
+      "chipCounts": {
+        "200848860099": 1,
+        "200848860134": 1,
+        "200848860136": 1,
+        "200925700210": 1,
+        "200928190007": 7,
+        "201332340140": 1,
+        "201869680190": 1,
+        "9553932008": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200928190007",
+          "test": 7,
+          "train": 7
+        }
+      ]
+    },
+    {
+      "className": "methylation class inflammatory myofibroblastic tumour",
+      "n": 7,
+      "supplierCounts": {
+        "Kiel Pathology": 6,
+        "Rotterdam Pathology": 1
+      },
+      "chipCounts": {
+        "201465900007": 1,
+        "201465960016": 1,
+        "201465960017": 2,
+        "201465960018": 3
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class leiomyoma",
+      "n": 7,
+      "supplierCounts": {
+        "Bamberg Pathology": 7
+      },
+      "chipCounts": {
+        "202163110077": 1,
+        "202163110082": 6
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class leiomyosarcoma",
+      "n": 18,
+      "supplierCounts": {
+        "Barcelona IDIBELL": 5,
+        "Cologne Pathology": 2,
+        "Freiburg Neuropathology": 1,
+        "Heidelberg Neuropathology": 1,
+        "Heidelberg Pathology": 4,
+        "Jena Pathology": 2,
+        "Rotterdam Pathology": 3
+      },
+      "chipCounts": {
+        "3999112137": 3,
+        "3999112146": 1,
+        "3999834063": 1,
+        "200394970030": 2,
+        "200512330096": 3,
+        "200512330130": 2,
+        "200790260059": 1,
+        "200875800080": 1,
+        "201332340140": 1,
+        "201465960047": 1,
+        "201465960048": 2
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Barcelona IDIBELL",
+          "test": 5,
+          "train": 13
+        },
+        {
+          "group": "Heidelberg Pathology",
+          "test": 4,
+          "train": 14
+        },
+        {
+          "group": "Rotterdam Pathology",
+          "test": 3,
+          "train": 15
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "3999112137",
+          "test": 3,
+          "train": 15
+        },
+        {
+          "group": "200512330096",
+          "test": 3,
+          "train": 15
+        }
+      ]
+    },
+    {
+      "className": "methylation class lipoma",
+      "n": 10,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 10
+      },
+      "chipCounts": {
+        "200362700196": 1,
+        "200362700204": 5,
+        "200925700134": 1,
+        "201247480004": 2,
+        "201904640134": 1
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200362700204",
+          "test": 5,
+          "train": 5
+        }
+      ]
+    },
+    {
+      "className": "methylation class low-grade fibromyxoid sarcoma",
+      "n": 8,
+      "supplierCounts": {
+        "Jena Pathology": 8
+      },
+      "chipCounts": {
+        "3999547144": 7,
+        "3999547153": 1
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class malignant peripheral nerve sheath tumour",
+      "n": 26,
+      "supplierCounts": {
+        "Hamburg Neurology": 6,
+        "Hannover Neuropathology": 2,
+        "Heidelberg Neuropathology": 7,
+        "Heidelberg Pathology": 2,
+        "INFORM": 3,
+        "Tübingen Neuropathology": 6
+      },
+      "chipCounts": {
+        "3999100048": 1,
+        "3999543050": 1,
+        "3999834045": 1,
+        "101178130131": 1,
+        "200091640058": 1,
+        "201904640101": 1,
+        "201904640134": 3,
+        "201904650006": 3,
+        "9407201027": 2,
+        "9426021086": 4,
+        "9533774023": 1,
+        "9533774088": 1,
+        "9741950044": 3,
+        "9741950107": 2,
+        "9741950149": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Hamburg Neurology",
+          "test": 6,
+          "train": 20
+        },
+        {
+          "group": "Heidelberg Neuropathology",
+          "test": 7,
+          "train": 19
+        },
+        {
+          "group": "INFORM",
+          "test": 3,
+          "train": 23
+        },
+        {
+          "group": "Tübingen Neuropathology",
+          "test": 6,
+          "train": 20
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201904640134",
+          "test": 3,
+          "train": 23
+        },
+        {
+          "group": "201904650006",
+          "test": 3,
+          "train": 23
+        },
+        {
+          "group": "9426021086",
+          "test": 4,
+          "train": 22
+        },
+        {
+          "group": "9741950044",
+          "test": 3,
+          "train": 23
+        }
+      ]
+    },
+    {
+      "className": "methylation class malignant rhabdoid tumour",
+      "n": 17,
+      "supplierCounts": {
+        "Cologne Pathology": 1,
+        "INFORM": 2,
+        "Kiel Pathology": 11,
+        "Münster Pathology": 1,
+        "PTT2.0": 2
+      },
+      "chipCounts": {
+        "200848860109": 1,
+        "200889820088": 1,
+        "201465910026": 1,
+        "201465910041": 1,
+        "201465960039": 4,
+        "201465960040": 2,
+        "201465960041": 5,
+        "201530480009": 1,
+        "201959750142": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Kiel Pathology",
+          "test": 11,
+          "train": 6
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201465960039",
+          "test": 4,
+          "train": 13
+        },
+        {
+          "group": "201465960041",
+          "test": 5,
+          "train": 12
+        }
+      ]
+    },
+    {
+      "className": "methylation class melanoma (cutaneous)",
+      "n": 12,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 12
+      },
+      "chipCounts": {
+        "3998568167": 1,
+        "3999543051": 1,
+        "9305651055": 1,
+        "9406921038": 3,
+        "9406921039": 1,
+        "9420867053": 2,
+        "9420867087": 1,
+        "9969477024": 1,
+        "9969477101": 1
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "9406921038",
+          "test": 3,
+          "train": 9
+        }
+      ]
+    },
+    {
+      "className": "methylation class myositis ossificans",
+      "n": 8,
+      "supplierCounts": {
+        "Jena Pathology": 1,
+        "Kiel Pathology": 7
+      },
+      "chipCounts": {
+        "200784530099": 1,
+        "201465960041": 1,
+        "201465960042": 4,
+        "201465960043": 2
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class myositis proliferans",
+      "n": 7,
+      "supplierCounts": {
+        "Jena Pathology": 7
+      },
+      "chipCounts": {
+        "200784530099": 1,
+        "200793300001": 1,
+        "200793300003": 1,
+        "200793820067": 1,
+        "200875800080": 2,
+        "200876170027": 1
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class myxoid liposarcoma",
+      "n": 31,
+      "supplierCounts": {
+        "Barcelona IDIBELL": 1,
+        "Cologne Pathology": 4,
+        "Heidelberg Neuropathology": 1,
+        "Heidelberg Pathology": 18,
+        "Jena Pathology": 7
+      },
+      "chipCounts": {
+        "3998523002": 1,
+        "3998909004": 8,
+        "3998909006": 1,
+        "3998909033": 7,
+        "3998909037": 2,
+        "3999100048": 4,
+        "3999875107": 6,
+        "201194000154": 1,
+        "8691803020": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Cologne Pathology",
+          "test": 4,
+          "train": 27
+        },
+        {
+          "group": "Heidelberg Pathology",
+          "test": 18,
+          "train": 13
+        },
+        {
+          "group": "Jena Pathology",
+          "test": 7,
+          "train": 24
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "3998909004",
+          "test": 8,
+          "train": 23
+        },
+        {
+          "group": "3998909033",
+          "test": 7,
+          "train": 24
+        },
+        {
+          "group": "3999100048",
+          "test": 4,
+          "train": 27
+        },
+        {
+          "group": "3999875107",
+          "test": 6,
+          "train": 25
+        }
+      ]
+    },
+    {
+      "className": "methylation class neurofibroma",
+      "n": 9,
+      "supplierCounts": {
+        "Hamburg Neurology": 2,
+        "Heidelberg Neuropathology": 7
+      },
+      "chipCounts": {
+        "9533774022": 4,
+        "9721366135": 2,
+        "9721366138": 3
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "9533774022",
+          "test": 4,
+          "train": 5
+        },
+        {
+          "group": "9721366138",
+          "test": 3,
+          "train": 6
+        }
+      ]
+    },
+    {
+      "className": "methylation class neurofibroma (plexiform)",
+      "n": 7,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 2,
+        "Tübingen Neuropathology": 5
+      },
+      "chipCounts": {
+        "9444374133": 1,
+        "9533774014": 4,
+        "9533774021": 2
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class nodular fasciitis",
+      "n": 10,
+      "supplierCounts": {
+        "Kiel Pathology": 9,
+        "München LMU Pathology": 1
+      },
+      "chipCounts": {
+        "200848860099": 2,
+        "200848860106": 7,
+        "202250800134": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class ossifying fibromyxoid tumour",
+      "n": 13,
+      "supplierCounts": {
+        "Jena Pathology": 13
+      },
+      "chipCounts": {
+        "200772280060": 6,
+        "200772300008": 6,
+        "200790260042": 1
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200772280060",
+          "test": 6,
+          "train": 7
+        },
+        {
+          "group": "200772300008",
+          "test": 6,
+          "train": 7
+        }
+      ]
+    },
+    {
+      "className": "methylation class osteoblastoma",
+      "n": 7,
+      "supplierCounts": {
+        "Basel Pathology": 6,
+        "Heidelberg Pathology": 1
+      },
+      "chipCounts": {
+        "200397540010": 1,
+        "201492560021": 1,
+        "201530470054": 5
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": true,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class osteosarcoma (high grade)",
+      "n": 44,
+      "supplierCounts": {
+        "Cologne Pathology": 7,
+        "Heidelberg Pathology": 7,
+        "INFORM": 7,
+        "Münster Pathology": 5,
+        "Nijmegen Pathology": 14,
+        "PTT2.0": 4
+      },
+      "chipCounts": {
+        "3998523055": 1,
+        "3998909203": 2,
+        "3998909204": 3,
+        "3998920094": 1,
+        "3998920096": 2,
+        "3999112131": 3,
+        "3999112137": 2,
+        "200397540010": 1,
+        "200397860056": 1,
+        "200406080083": 1,
+        "200793300001": 1,
+        "200793300003": 1,
+        "200889820089": 2,
+        "200925700108": 3,
+        "200925700120": 5,
+        "200925700124": 3,
+        "200925700125": 1,
+        "200925700133": 4,
+        "201465960009": 1,
+        "201492560186": 1,
+        "201530470018": 1,
+        "202073190048": 2,
+        "202178770094": 1,
+        "9611518099": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Cologne Pathology",
+          "test": 7,
+          "train": 37
+        },
+        {
+          "group": "Heidelberg Pathology",
+          "test": 7,
+          "train": 37
+        },
+        {
+          "group": "INFORM",
+          "test": 7,
+          "train": 37
+        },
+        {
+          "group": "Münster Pathology",
+          "test": 5,
+          "train": 39
+        },
+        {
+          "group": "Nijmegen Pathology",
+          "test": 14,
+          "train": 30
+        },
+        {
+          "group": "PTT2.0",
+          "test": 4,
+          "train": 40
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "3998909204",
+          "test": 3,
+          "train": 41
+        },
+        {
+          "group": "3999112131",
+          "test": 3,
+          "train": 41
+        },
+        {
+          "group": "200925700108",
+          "test": 3,
+          "train": 41
+        },
+        {
+          "group": "200925700120",
+          "test": 5,
+          "train": 39
+        },
+        {
+          "group": "200925700124",
+          "test": 3,
+          "train": 41
+        },
+        {
+          "group": "200925700133",
+          "test": 4,
+          "train": 40
+        }
+      ]
+    },
+    {
+      "className": "methylation class rhabdomyosarcoma (MYOD1)",
+      "n": 7,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 3,
+        "INFORM": 4
+      },
+      "chipCounts": {
+        "3999095007": 1,
+        "200325530093": 1,
+        "201194000076": 1,
+        "201533490047": 1,
+        "201869680016": 1,
+        "202273260014": 1,
+        "9533774023": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class rhabdomyosarcoma (alveolar)",
+      "n": 36,
+      "supplierCounts": {
+        "Barcelona IDIBELL": 5,
+        "Heidelberg Neuropathology": 1,
+        "INFORM": 22,
+        "Jena Pathology": 1,
+        "Kiel Pathology": 1,
+        "PTT2.0": 6
+      },
+      "chipCounts": {
+        "3998523055": 1,
+        "3998523077": 2,
+        "3998590106": 1,
+        "3998909073": 1,
+        "3998909075": 1,
+        "3999100043": 1,
+        "200325530149": 1,
+        "200397860110": 1,
+        "200397870033": 1,
+        "200511510045": 1,
+        "200875800080": 1,
+        "201194000072": 1,
+        "201194010136": 1,
+        "201364900021": 1,
+        "201465900054": 1,
+        "201465900058": 1,
+        "201465910026": 1,
+        "201465950042": 1,
+        "201465970003": 1,
+        "201465970016": 1,
+        "201490030243": 1,
+        "201530470018": 1,
+        "201533510024": 2,
+        "201869680182": 1,
+        "201904650072": 1,
+        "202128330246": 1,
+        "8359026006": 2,
+        "8359026028": 1,
+        "8363800206": 2,
+        "9420867122": 1,
+        "9533774067": 1,
+        "9741950075": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Barcelona IDIBELL",
+          "test": 5,
+          "train": 31
+        },
+        {
+          "group": "INFORM",
+          "test": 22,
+          "train": 14
+        },
+        {
+          "group": "PTT2.0",
+          "test": 6,
+          "train": 30
+        }
+      ],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class rhabdomyosarcoma (embryonal)",
+      "n": 28,
+      "supplierCounts": {
+        "Barcelona IDIBELL": 5,
+        "Heidelberg Pathology": 1,
+        "INFORM": 10,
+        "Jena Pathology": 8,
+        "PTT2.0": 4
+      },
+      "chipCounts": {
+        "3998568081": 1,
+        "3998909205": 1,
+        "101231000026": 1,
+        "200277210036": 1,
+        "200325530149": 5,
+        "200360420020": 3,
+        "200394870086": 1,
+        "200397860055": 1,
+        "200397870025": 2,
+        "200889820111": 1,
+        "200925700107": 1,
+        "201247480006": 1,
+        "201465910042": 1,
+        "201465960009": 1,
+        "201465970058": 1,
+        "8221932018": 2,
+        "8359026006": 1,
+        "8359026010": 1,
+        "8359026028": 1,
+        "9969477111": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Barcelona IDIBELL",
+          "test": 5,
+          "train": 23
+        },
+        {
+          "group": "INFORM",
+          "test": 10,
+          "train": 18
+        },
+        {
+          "group": "Jena Pathology",
+          "test": 8,
+          "train": 20
+        },
+        {
+          "group": "PTT2.0",
+          "test": 4,
+          "train": 24
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200325530149",
+          "test": 5,
+          "train": 23
+        },
+        {
+          "group": "200360420020",
+          "test": 3,
+          "train": 25
+        }
+      ]
+    },
+    {
+      "className": "methylation class sarcoma (MPNST-like)",
+      "n": 7,
+      "supplierCounts": {
+        "Hannover Neuropathology": 1,
+        "Heidelberg Neuropathology": 5,
+        "Tübingen Neuropathology": 1
+      },
+      "chipCounts": {
+        "10006823132": 1,
+        "200400320082": 1,
+        "9422493151": 1,
+        "9647455233": 1,
+        "9741950044": 1,
+        "9741950107": 1,
+        "9968646117": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class sarcoma (RMS-like)",
+      "n": 17,
+      "supplierCounts": {
+        "Freiburg Neuropathology": 1,
+        "Hamburg Neuropathology": 6,
+        "Heidelberg Neuropathology": 6,
+        "MNP2.0": 2,
+        "New York NYU Langone Pathology": 1,
+        "PTT2.0": 1
+      },
+      "chipCounts": {
+        "3998568066": 1,
+        "3998909013": 1,
+        "200397860028": 1,
+        "200687170043": 1,
+        "200848860109": 1,
+        "200970160060": 1,
+        "201332340139": 1,
+        "201465910026": 1,
+        "201533480048": 1,
+        "202093110109": 1,
+        "202232290177": 4,
+        "202232290190": 2,
+        "9878820123": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Hamburg Neuropathology",
+          "test": 6,
+          "train": 11
+        },
+        {
+          "group": "Heidelberg Neuropathology",
+          "test": 6,
+          "train": 11
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "202232290177",
+          "test": 4,
+          "train": 13
+        }
+      ]
+    },
+    {
+      "className": "methylation class schwannoma",
+      "n": 27,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 24,
+        "INFORM": 1,
+        "MNP2.0": 1,
+        "Münster Neuropathology": 1
+      },
+      "chipCounts": {
+        "201490030020": 1,
+        "201533510033": 1,
+        "9305651053": 1,
+        "9305651055": 1,
+        "9305651060": 7,
+        "9444374132": 1,
+        "9553932098": 1,
+        "9553932113": 4,
+        "9741950030": 3,
+        "9741950044": 3,
+        "9741950046": 1,
+        "9741950140": 3
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "9305651060",
+          "test": 7,
+          "train": 20
+        },
+        {
+          "group": "9553932113",
+          "test": 4,
+          "train": 23
+        },
+        {
+          "group": "9741950030",
+          "test": 3,
+          "train": 24
+        },
+        {
+          "group": "9741950044",
+          "test": 3,
+          "train": 24
+        },
+        {
+          "group": "9741950140",
+          "test": 3,
+          "train": 24
+        }
+      ]
+    },
+    {
+      "className": "methylation class sclerosing epithelioid fibrosarcoma",
+      "n": 7,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 1,
+        "München LMU Pathology": 1,
+        "Münster Neuropathology": 1,
+        "New York Memorial Sloan Kettering Cancer Center": 3,
+        "PTT2.0": 1
+      },
+      "chipCounts": {
+        "200511510045": 1,
+        "201465910039": 1,
+        "202234390038": 1,
+        "202234390081": 2,
+        "202292310098": 1,
+        "9741950091": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class small blue round cell tumour with BCOR alteration",
+      "n": 8,
+      "supplierCounts": {
+        "INFORM": 4,
+        "Münster Pathology": 3,
+        "Singapore Pathology": 1
+      },
+      "chipCounts": {
+        "3998568154": 1,
+        "200277210145": 2,
+        "200360420060": 1,
+        "200511460095": 1,
+        "201465900058": 1,
+        "201465970001": 1,
+        "202073190097": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Münster Pathology",
+          "test": 3,
+          "train": 5
+        }
+      ],
+      "eligibleChipHoldouts": []
+    },
+    {
+      "className": "methylation class small blue round cell tumour with CIC alteration",
+      "n": 11,
+      "supplierCounts": {
+        "Cologne Pathology": 1,
+        "INFORM": 1,
+        "Münster Pathology": 4,
+        "New York Memorial Sloan Kettering Cancer Center": 4,
+        "PTT2.0": 1
+      },
+      "chipCounts": {
+        "3998909204": 1,
+        "200091640035": 2,
+        "200325530101": 3,
+        "200325530107": 1,
+        "200511460047": 1,
+        "201247460060": 1,
+        "201533480051": 1,
+        "202073190042": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Münster Pathology",
+          "test": 4,
+          "train": 7
+        },
+        {
+          "group": "New York Memorial Sloan Kettering Cancer Center",
+          "test": 4,
+          "train": 7
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200325530101",
+          "test": 3,
+          "train": 8
+        }
+      ]
+    },
+    {
+      "className": "methylation class solitary fibrous tumour",
+      "n": 26,
+      "supplierCounts": {
+        "Heidelberg Neuropathology": 13,
+        "INFORM": 1,
+        "Nijmegen Pathology": 11,
+        "Rotterdam Pathology": 1
+      },
+      "chipCounts": {
+        "3999100100": 1,
+        "3999875056": 1,
+        "10003886253": 1,
+        "200383880131": 4,
+        "200400320082": 1,
+        "201057150206": 2,
+        "201057150207": 1,
+        "201096090028": 3,
+        "201096090067": 2,
+        "201465830032": 1,
+        "201465900054": 1,
+        "9305651055": 1,
+        "9340996003": 1,
+        "9340996050": 1,
+        "9373551108": 1,
+        "9444375033": 1,
+        "9533774097": 1,
+        "9741950027": 1,
+        "9878820156": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Heidelberg Neuropathology",
+          "test": 13,
+          "train": 13
+        },
+        {
+          "group": "Nijmegen Pathology",
+          "test": 11,
+          "train": 15
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "200383880131",
+          "test": 4,
+          "train": 22
+        },
+        {
+          "group": "201096090028",
+          "test": 3,
+          "train": 23
+        }
+      ]
+    },
+    {
+      "className": "methylation class squamous cell carcinoma (cutaneous)",
+      "n": 10,
+      "supplierCounts": {
+        "Essen Dermatology": 10
+      },
+      "chipCounts": {
+        "201530480041": 4,
+        "201530480045": 4,
+        "201530490056": 2
+      },
+      "oneSupplier": true,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201530480041",
+          "test": 4,
+          "train": 6
+        },
+        {
+          "group": "201530480045",
+          "test": 4,
+          "train": 6
+        }
+      ]
+    },
+    {
+      "className": "methylation class synovial sarcoma",
+      "n": 39,
+      "supplierCounts": {
+        "Barcelona IDIBELL": 1,
+        "Cologne Pathology": 6,
+        "Gera Pathology": 1,
+        "Heidelberg Neuropathology": 4,
+        "Heidelberg Pathology": 7,
+        "INFORM": 4,
+        "Jena Pathology": 10,
+        "Münster Neuropathology": 1,
+        "Münster Pathology": 2,
+        "PTT2.0": 3
+      },
+      "chipCounts": {
+        "3998909037": 1,
+        "3998909050": 6,
+        "3999078079": 1,
+        "3999100047": 3,
+        "3999100048": 3,
+        "3999834070": 1,
+        "3999875076": 4,
+        "3999875078": 6,
+        "200091640035": 1,
+        "200325530103": 1,
+        "200394970004": 1,
+        "200511460095": 1,
+        "201194000160": 1,
+        "201465830060": 1,
+        "201465940025": 1,
+        "201490030243": 1,
+        "201530480026": 1,
+        "201904410016": 1,
+        "201959740245": 1,
+        "8795207018": 1,
+        "9533774018": 1,
+        "9741950095": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Cologne Pathology",
+          "test": 6,
+          "train": 33
+        },
+        {
+          "group": "Heidelberg Neuropathology",
+          "test": 4,
+          "train": 35
+        },
+        {
+          "group": "Heidelberg Pathology",
+          "test": 7,
+          "train": 32
+        },
+        {
+          "group": "INFORM",
+          "test": 4,
+          "train": 35
+        },
+        {
+          "group": "Jena Pathology",
+          "test": 10,
+          "train": 29
+        },
+        {
+          "group": "PTT2.0",
+          "test": 3,
+          "train": 36
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "3998909050",
+          "test": 6,
+          "train": 33
+        },
+        {
+          "group": "3999100047",
+          "test": 3,
+          "train": 36
+        },
+        {
+          "group": "3999100048",
+          "test": 3,
+          "train": 36
+        },
+        {
+          "group": "3999875076",
+          "test": 4,
+          "train": 35
+        },
+        {
+          "group": "3999875078",
+          "test": 6,
+          "train": 33
+        }
+      ]
+    },
+    {
+      "className": "methylation class undifferentiated sarcoma",
+      "n": 26,
+      "supplierCounts": {
+        "Bamberg Pathology": 1,
+        "Cologne Pathology": 1,
+        "Freiburg Neuropathology": 1,
+        "Heidelberg Pathology": 10,
+        "INFORM": 1,
+        "Jena Pathology": 12
+      },
+      "chipCounts": {
+        "3998546133": 2,
+        "3998546134": 1,
+        "3998568081": 3,
+        "3998568099": 3,
+        "3998568104": 1,
+        "3998909001": 1,
+        "101231000037": 2,
+        "200394970026": 1,
+        "200397860029": 1,
+        "200397860030": 1,
+        "200397860108": 1,
+        "200406080088": 1,
+        "200772300036": 3,
+        "200790260059": 1,
+        "201194000168": 1,
+        "201332340120": 1,
+        "201876940198": 1,
+        "202163530140": 1
+      },
+      "oneSupplier": false,
+      "supplierMajority": false,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Heidelberg Pathology",
+          "test": 10,
+          "train": 16
+        },
+        {
+          "group": "Jena Pathology",
+          "test": 12,
+          "train": 14
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "3998568081",
+          "test": 3,
+          "train": 23
+        },
+        {
+          "group": "3998568099",
+          "test": 3,
+          "train": 23
+        },
+        {
+          "group": "200772300036",
+          "test": 3,
+          "train": 23
+        }
+      ]
+    },
+    {
+      "className": "methylation class well- / dedifferentiated liposarcoma",
+      "n": 21,
+      "supplierCounts": {
+        "Cologne Pathology": 2,
+        "Heidelberg Pathology": 5,
+        "Jena Pathology": 2,
+        "Luxembourg National Center of Pathology": 1,
+        "Rotterdam Pathology": 11
+      },
+      "chipCounts": {
+        "3998909001": 1,
+        "3998909004": 1,
+        "3998909064": 2,
+        "200848860112": 1,
+        "200848860119": 1,
+        "201465900009": 2,
+        "201465900013": 6,
+        "201465900014": 2,
+        "201465900044": 1,
+        "201959740065": 1,
+        "9373551039": 1,
+        "9373551042": 2
+      },
+      "oneSupplier": false,
+      "supplierMajority": true,
+      "chipMajority": false,
+      "eligibleSupplierHoldouts": [
+        {
+          "group": "Heidelberg Pathology",
+          "test": 5,
+          "train": 16
+        },
+        {
+          "group": "Rotterdam Pathology",
+          "test": 11,
+          "train": 10
+        }
+      ],
+      "eligibleChipHoldouts": [
+        {
+          "group": "201465900013",
+          "test": 6,
+          "train": 15
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Reference classes include62tumorclasses and3controls; not65sarcomaentities.",
+    "Physical chip inferred fromIDAT basename is not asserted biological batch.",
+    "Metadata concentration does not demonstrate confounding, classifier failure or performance degradation.",
+    "No methylation signal matrix, classifier fit, CNV or new diagnostic result was analyzed.",
+    "Holdout thresholds are exploratory feasibility cutoffs, not power guarantees.",
+    "Original study included nested calibration and independent428case validation."
+  ],
+  "primaryReconciliation": {
+    "primaryWorkbookSha256": "85a148285ef1812d6ca8d68c839a2d64f73cebb6f8ebfa95844e3d85b5c03bb9",
+    "mirrorGitBlob": "3dd8b13a4c30d7ef06e5a933633a3e0da670efc1",
+    "mirrorSha256": "c3b102c078a1035f4589952ea8b50ff3a8fbbb63ed8edd425aed2ea343119a19",
+    "primaryNonemptyReferenceRows": 1077,
+    "matchedIDs": 1077,
+    "fieldsCompared": [
+      "idat",
+      "cls",
+      "supplier",
+      "dna",
+      "manifestation",
+      "site"
+    ],
+    "mismatches": 37,
+    "scope": "IDAT,class,supplier,DNA,manifestation,site exact fields; Excel-vs-formatted Batch dates and rounded purity not compared",
+    "mismatchDetails": {
+      "Methylation_Class_Name: methylation class Ewings sarcoma => methylation class Ewing´s sarcoma": 37
+    },
+    "emcFieldsConcordant": true
+  }
+}

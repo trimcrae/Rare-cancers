@@ -1,0 +1,33 @@
+{
+  "schema": "emc-hla-availability-audit/1",
+  "sourceRevision": "dca75cb3f32b82d54a6f78bf0a6323e5b975aca1",
+  "samples": 15,
+  "patients": 13,
+  "genotypedPatients": 8,
+  "patientsWithoutGenotype": 5,
+  "allTypedHeterozygous": true,
+  "samplesWithPublishedCalls": 4,
+  "patientsWithPublishedCalls": 4,
+  "samplesWithoutPublishedCalls": 11,
+  "concordant": true,
+  "allUnchanged": true,
+  "nonCarriedAllelesNA": true,
+  "facetsQC": {
+    "called": {
+      "Pass": 4,
+      "Fail": 0
+    },
+    "withoutCalls": {
+      "Pass": 8,
+      "Fail": 3
+    }
+  },
+  "decision": "Stop standalone EMC HLA prevalence paper; four selected patients insufficient",
+  "limitations": [
+    "Literal published Unchanged classifications; no independent allele recalling.",
+    "Non-carried allele NA cells are structural, not missing assay observations.",
+    "No inference about population prevalence, protein, antigen presentation, immune escape or treatment efficacy.",
+    "Original study HLA analysis restricted to96histologies with>=50patients; EMC13patients does not meet that criterion.",
+    "EMC absence checked in primarybody/keyresources only; supplementsS25/S6 unread."
+  ]
+}

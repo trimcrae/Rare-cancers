@@ -1,0 +1,122 @@
+{
+  "schema": "bounded-source-retrieval-receipt/1",
+  "workflow_runs": [
+    {
+      "id": 36796166905,
+      "job": 110159995449,
+      "conclusion": "failure",
+      "reason": "Incorrect raw/media LFS route404"
+    },
+    {
+      "id": 36797307429,
+      "job": 110163588755,
+      "conclusion": "success",
+      "projection_issue": "First unrelated sample column erroneously included; excluded from independent audit and fixed before final retrieval"
+    },
+    {
+      "id": 36797786226,
+      "job": 110165087206,
+      "conclusion": "success",
+      "commit": "e025c61d53986152dfd94af19938ff34dd4711e3",
+      "projection": "Explicit metadata column names plus EMC columns; QC fields retained"
+    }
+  ],
+  "download_scope": "Finite public CPU retrieval, stdlib only, hash+sizeverifiedLFS, noGPU/paidAPI/secrets",
+  "hla_sources": [
+    {
+      "file": "meta_study.txt",
+      "url": "https://raw.githubusercontent.com/cBioPortal/datahub/dca75cb3f32b82d54a6f78bf0a6323e5b975aca1/public/msk_impact_50k_2026/meta_study.txt",
+      "bytes": 856,
+      "sha256": "71da73048c3e99a37a84dabae565ea23b9c9a58a64c214fd193295c04831b358",
+      "lfs_hash_and_size_verified": null
+    },
+    {
+      "file": "data_clinical_sample.txt",
+      "pointer_url": "https://api.github.com/repos/cBioPortal/datahub/git/blobs/968a9ffaf8ee3e1c7eb0c52b908d8153676433ce",
+      "download_protocol": "custom public LFS basic download",
+      "bytes": 12614399,
+      "sha256": "22db6ca4689303e9178645df5f7a6a18f0b6b1288aff160097df688438760072",
+      "lfs_hash_and_size_verified": true
+    },
+    {
+      "file": "data_clinical_patient.txt",
+      "pointer_url": "https://api.github.com/repos/cBioPortal/datahub/git/blobs/b9f87799e889ea10600b8f25cc05dd3f0856640a",
+      "download_protocol": "custom public LFS basic download",
+      "bytes": 6810327,
+      "sha256": "64cd81c349345f1abb31e68fdeb8e068a742b20b4e36bfd9d8293218eea0de10",
+      "lfs_hash_and_size_verified": true
+    },
+    {
+      "file": "meta_hla_loh.txt",
+      "url": "https://raw.githubusercontent.com/cBioPortal/datahub/dca75cb3f32b82d54a6f78bf0a6323e5b975aca1/public/msk_impact_50k_2026/meta_hla_loh.txt",
+      "bytes": 371,
+      "sha256": "fa3a3088389e55ef01d334317cc921e1ebe7d4159ff332f2418544482f8ff8a1",
+      "lfs_hash_and_size_verified": null
+    },
+    {
+      "file": "data_hla_loh.txt",
+      "pointer_url": "https://api.github.com/repos/cBioPortal/datahub/git/blobs/2af6d43abd0f4ebfd59d15ab9eaf2f7d4be083a0",
+      "download_protocol": "custom public LFS basic download",
+      "bytes": 37114139,
+      "sha256": "ebfd192cac394008c1691a86da58df69259a2a223b67c981032e48963e2e5b66",
+      "lfs_hash_and_size_verified": true
+    }
+  ],
+  "primary_sources": [
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A33479225+AND+SRC%3AMED&format=json&resultType=core",
+      "bytes": 52829,
+      "sha256": "e3b6918b11770463cdd914eb09514efa99d7d6f824799e760cc3adca5f162bad"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7819999/fullTextXML",
+      "bytes": 132351,
+      "sha256": "5f2202198ac42b5d4abe0341e8b0e5a33147fd76a82568418b7ecb24d08bd47a"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A41895280+AND+SRC%3AMED&format=json&resultType=core",
+      "bytes": 27599,
+      "sha256": "05081794fd71fc3a367d672efbefa599e75b506755e1eefbcbad98b1685681ae"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13198192/fullTextXML",
+      "bytes": 287426,
+      "sha256": "cb3002104c2f264ec452f9ccaef539fb35d04751ba1edf0850382e76715195c2"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/fullTextXML",
+      "bytes": 219239,
+      "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768"
+    },
+    {
+      "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-020-20603-4/MediaObjects/41467_2020_20603_MOESM4_ESM.xlsx",
+      "bytes": 100023,
+      "sha256": "85a148285ef1812d6ca8d68c839a2d64f73cebb6f8ebfa95844e3d85b5c03bb9"
+    }
+  ],
+  "primary_record_identifiers": [
+    {
+      "pmid": "33479225",
+      "pmc": "PMC7819999",
+      "title": "Sarcoma classification by DNA methylation profiling",
+      "doi": "10.1038/s41467-020-20603-4",
+      "paragraphs_read": 56
+    },
+    {
+      "pmid": "41895280",
+      "pmc": "PMC13198192",
+      "title": "Cancer type-specific variation in patterns of driver alterations across 50,000 tumors",
+      "doi": "10.1016/j.ccell.2026.03.003",
+      "paragraphs_read": 56
+    },
+    {
+      "pmid": "",
+      "pmc": "PMC13374579",
+      "title": "Prognostic biomarkers for enhanced risk stratification in extraskeletal myxoid chondrosarcoma: a retrospective cohort study",
+      "paragraphs_read": 113
+    }
+  ],
+  "methylation_workbook_sha256": "85a148285ef1812d6ca8d68c839a2d64f73cebb6f8ebfa95844e3d85b5c03bb9",
+  "errors": [],
+  "all_repository_gates": "Not run; retrieval success does not imply preflight or publication approval"
+}

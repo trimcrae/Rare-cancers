@@ -1,0 +1,2289 @@
+{
+  "schema": "response-table-unit-audit/1",
+  "baseCommit": "af7211708205b5189d8c537c1ce2a23aa4bea076",
+  "counts": {
+    "tableRows": 552,
+    "trials": 138,
+    "titleKeys": 465,
+    "repeatedTitleKeys": 65,
+    "rowsInRepeatedKeys": 152,
+    "extraRowsBeyondOnePerTitleKey": 87,
+    "multiplicityHistogram": {
+      "1": 400,
+      "2": 50,
+      "3": 8,
+      "4": 7
+    },
+    "trialsWithRepeatedTitles": 14,
+    "repeatedKeysWithSameSum": 38,
+    "repeatedKeysWithDifferentCells": 43,
+    "medianReconstructedN": 7,
+    "nBelow10": 321,
+    "nBelow20": 414,
+    "zeroResponses": 251,
+    "zeroAmongNAtLeast10": {
+      "zero": 32,
+      "total": 231
+    },
+    "zeroAmongNAtLeast20": {
+      "zero": 4,
+      "total": 138
+    }
+  },
+  "consistency": {
+    "inputsEqualCorpus": true,
+    "rereadAligned": true,
+    "rereadDropsOutcomeTitle": true,
+    "fourCategorySumMatches": true,
+    "allUnitsParticipants": true
+  },
+  "primaryRegistryChecks": [
+    {
+      "nctId": "NCT05323656",
+      "enrollment": 55,
+      "responseTables": [
+        {
+          "sourceOutcomeIndex": 5,
+          "title": "Overall Response Rate (ORR)",
+          "type": "SECONDARY",
+          "timeFrame": "Baseline up to approximately 12 months",
+          "populationDescription": "Full Analysis Set",
+          "paramType": "COUNT_OF_PARTICIPANTS",
+          "unit": "Participants",
+          "groups": [
+            {
+              "groupId": "OG000",
+              "title": "Setanaxib 1600 mg and Pembrolizumab 200 mg",
+              "postedDenominator": 27,
+              "cells": {
+                "CR": 1,
+                "PR": 8,
+                "SD": 10,
+                "PD": 7
+              },
+              "allFourLabels": true,
+              "reconstructedSum": 26,
+              "allPostedCategories": [
+                {
+                  "title": "Complete Response",
+                  "value": "1"
+                },
+                {
+                  "title": "Partial Response",
+                  "value": "8"
+                },
+                {
+                  "title": "Stable Disease",
+                  "value": "10"
+                },
+                {
+                  "title": "Progressive Disease",
+                  "value": "7"
+                },
+                {
+                  "title": "Not Evaluable",
+                  "value": "1"
+                }
+              ],
+              "corpusRows": 1
+            },
+            {
+              "groupId": "OG001",
+              "title": "Placebo and Pembrolizumab 200 mg",
+              "postedDenominator": 28,
+              "cells": {
+                "CR": 0,
+                "PR": 9,
+                "SD": 5,
+                "PD": 14
+              },
+              "allFourLabels": true,
+              "reconstructedSum": 28,
+              "allPostedCategories": [
+                {
+                  "title": "Complete Response",
+                  "value": "0"
+                },
+                {
+                  "title": "Partial Response",
+                  "value": "9"
+                },
+                {
+                  "title": "Stable Disease",
+                  "value": "5"
+                },
+                {
+                  "title": "Progressive Disease",
+                  "value": "14"
+                },
+                {
+                  "title": "Not Evaluable",
+                  "value": "0"
+                }
+              ],
+              "corpusRows": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nctId": "NCT04268277",
+      "enrollment": 22,
+      "responseTables": [
+        {
+          "sourceOutcomeIndex": 1,
+          "title": "Response Rate",
+          "type": "SECONDARY",
+          "timeFrame": "4 weeks after end of treatment (18 cycles), approx. 58 weeks",
+          "populationDescription": null,
+          "paramType": "COUNT_OF_PARTICIPANTS",
+          "unit": "Participants",
+          "groups": [
+            {
+              "groupId": "OG000",
+              "title": "Rituximab & Pembrolizumab",
+              "postedDenominator": 22,
+              "cells": {
+                "CR": 3,
+                "PR": 10,
+                "SD": 7,
+                "PD": 2
+              },
+              "allFourLabels": true,
+              "reconstructedSum": 22,
+              "allPostedCategories": [
+                {
+                  "title": "Complete Response (CR)",
+                  "value": "3"
+                },
+                {
+                  "title": "Partial Response (PR)",
+                  "value": "10"
+                },
+                {
+                  "title": "Stable Disease (SD)",
+                  "value": "7"
+                },
+                {
+                  "title": "Progressive Disease (PD)",
+                  "value": "2"
+                }
+              ],
+              "corpusRows": 1
+            }
+          ]
+        },
+        {
+          "sourceOutcomeIndex": 2,
+          "title": "Best Response",
+          "type": "SECONDARY",
+          "timeFrame": "2.1 - 33.2 months",
+          "populationDescription": null,
+          "paramType": "COUNT_OF_PARTICIPANTS",
+          "unit": "Participants",
+          "groups": [
+            {
+              "groupId": "OG000",
+              "title": "Rituximab & Pembrolizumab",
+              "postedDenominator": 22,
+              "cells": {
+                "CR": 3,
+                "PR": 11,
+                "SD": 8
+              },
+              "allFourLabels": false,
+              "reconstructedSum": null,
+              "allPostedCategories": [
+                {
+                  "title": "Complete Response (CR)",
+                  "value": "3"
+                },
+                {
+                  "title": "Partial Response (PR)",
+                  "value": "11"
+                },
+                {
+                  "title": "Stable Disease (SD)",
+                  "value": "8"
+                }
+              ],
+              "corpusRows": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "repeatedTitleGroups": [
+    {
+      "nctId": "NCT00858117",
+      "title": "Alemtuzumab and Rituximab",
+      "records": [
+        {
+          "outcome": "Best Response in Patients Treated With Alemtuzumab and Rituximab Combination Assessed by NCI-WG 1996 Criteria With Lymphadenopathy and Organomegaly Measured During Physical Examination",
+          "n": 30,
+          "cells": {
+            "CR": 18,
+            "PR": 12,
+            "SD": 0,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "outcome": "Best Response in Patients Treated With Alemtuzumab and Rituximab Combination Assessed by NCI-WG 1996 Criteria With Measurements of the Lymph Nodes and Spleen Size by CT Scans",
+          "n": 30,
+          "cells": {
+            "CR": 7,
+            "PR": 14,
+            "SD": 9,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT00600340",
+      "title": "Bevacizumab Plus Paclitaxel",
+      "records": [
+        {
+          "outcome": "Best Overall Response (ITT Population)",
+          "n": 270,
+          "cells": {
+            "CR": 10,
+            "PR": 115,
+            "SD": 127,
+            "PD": 18
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "outcome": "Best Overall Response (PP Population)",
+          "n": 255,
+          "cells": {
+            "CR": 10,
+            "PR": 111,
+            "SD": 117,
+            "PD": 17
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "outcome": "Unconfirmed Best Overall Response (ITT Population)",
+          "n": 270,
+          "cells": {
+            "CR": 16,
+            "PR": 147,
+            "SD": 89,
+            "PD": 18
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "outcome": "Unconfirmed Best Overall Response (PP Population)",
+          "n": 255,
+          "cells": {
+            "CR": 16,
+            "PR": 141,
+            "SD": 81,
+            "PD": 17
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT00600340",
+      "title": "Bevacizumab Plus Capecitabine",
+      "records": [
+        {
+          "outcome": "Best Overall Response (ITT Population)",
+          "n": 261,
+          "cells": {
+            "CR": 2,
+            "PR": 74,
+            "SD": 138,
+            "PD": 47
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "outcome": "Best Overall Response (PP Population)",
+          "n": 249,
+          "cells": {
+            "CR": 2,
+            "PR": 72,
+            "SD": 130,
+            "PD": 45
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "outcome": "Unconfirmed Best Overall Response (ITT Population)",
+          "n": 261,
+          "cells": {
+            "CR": 4,
+            "PR": 101,
+            "SD": 109,
+            "PD": 47
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        },
+        {
+          "outcome": "Unconfirmed Best Overall Response (PP Population)",
+          "n": 249,
+          "cells": {
+            "CR": 4,
+            "PR": 96,
+            "SD": 104,
+            "PD": 45
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01403948",
+      "title": "BI 836826 1 mg iv (Caucasian Patients)",
+      "records": [
+        {
+          "outcome": "Best Overall Response Based on All Assessment",
+          "n": 1,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Best Overall Response Based on Imaging Data",
+          "n": 1,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01403948",
+      "title": "BI 836826 3 mg iv (Caucasian Patients)",
+      "records": [
+        {
+          "outcome": "Best Overall Response Based on All Assessment",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Best Overall Response Based on Imaging Data",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01403948",
+      "title": "BI 836826 9 mg iv (Caucasian Patients)",
+      "records": [
+        {
+          "outcome": "Best Overall Response Based on All Assessment",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Best Overall Response Based on Imaging Data",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01403948",
+      "title": "BI 836826 25 mg iv (Caucasian Patients)",
+      "records": [
+        {
+          "outcome": "Best Overall Response Based on All Assessment",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Best Overall Response Based on Imaging Data",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01403948",
+      "title": "BI 836826 50 mg iv (Caucasian Patients)",
+      "records": [
+        {
+          "outcome": "Best Overall Response Based on All Assessment",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 3,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Best Overall Response Based on Imaging Data",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01403948",
+      "title": "BI 836826 50mg iv (Korean Patients)",
+      "records": [
+        {
+          "outcome": "Best Overall Response Based on All Assessment",
+          "n": 6,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Best Overall Response Based on Imaging Data",
+          "n": 6,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 5
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01403948",
+      "title": "BI 836826 100 mg iv (Caucasian Patients)",
+      "records": [
+        {
+          "outcome": "Best Overall Response Based on All Assessment",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 3,
+            "SD": 2,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Best Overall Response Based on Imaging Data",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 2,
+            "SD": 1,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01403948",
+      "title": "BI 836826 100 mg iv (Korean Patients)",
+      "records": [
+        {
+          "outcome": "Best Overall Response Based on All Assessment",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Best Overall Response Based on Imaging Data",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01403948",
+      "title": "BI 836826 150 mg iv (Caucasian Patients)",
+      "records": [
+        {
+          "outcome": "Best Overall Response Based on All Assessment",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 5
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Best Overall Response Based on Imaging Data",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 5
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01403948",
+      "title": "BI 836826 200 mg iv (Caucasian Patients)",
+      "records": [
+        {
+          "outcome": "Best Overall Response Based on All Assessment",
+          "n": 6,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Best Overall Response Based on Imaging Data",
+          "n": 6,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01256359",
+      "title": "Docetaxel and AZD6244",
+      "records": [
+        {
+          "outcome": "Objective Response Rate",
+          "n": 32,
+          "cells": {
+            "CR": 1,
+            "PR": 12,
+            "SD": 14,
+            "PD": 5
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Objective Response Rate in Patients With WT NRAS",
+          "n": 9,
+          "cells": {
+            "CR": 0,
+            "PR": 2,
+            "SD": 4,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Objective Response Rate in Patients With Mutated NRAS",
+          "n": 16,
+          "cells": {
+            "CR": 1,
+            "PR": 6,
+            "SD": 7,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01256359",
+      "title": "Docetaxel and Placebo",
+      "records": [
+        {
+          "outcome": "Objective Response Rate",
+          "n": 40,
+          "cells": {
+            "CR": 0,
+            "PR": 6,
+            "SD": 15,
+            "PD": 19
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Objective Response Rate in Patients With WT NRAS",
+          "n": 14,
+          "cells": {
+            "CR": 0,
+            "PR": 2,
+            "SD": 4,
+            "PD": 8
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        },
+        {
+          "outcome": "Objective Response Rate in Patients With Mutated NRAS",
+          "n": 17,
+          "cells": {
+            "CR": 0,
+            "PR": 2,
+            "SD": 9,
+            "PD": 6
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02395172",
+      "title": "Avelumab",
+      "records": [
+        {
+          "outcome": "Number of Participants With Confirmed Best Overall Response (BOR) as Assessed by an Independent Endpoint Review Committee (IERC) in Full Analysis Set Population",
+          "n": 338,
+          "cells": {
+            "CR": 5,
+            "PR": 54,
+            "SD": 129,
+            "PD": 150
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Number of Participants With Confirmed Best Overall Response (BOR) as Assessed by Independent Endpoint Review Committee (IERC) in PD-L1+ Full Analysis Set Population",
+          "n": 229,
+          "cells": {
+            "CR": 4,
+            "PR": 46,
+            "SD": 86,
+            "PD": 93
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02395172",
+      "title": "Docetaxel",
+      "records": [
+        {
+          "outcome": "Number of Participants With Confirmed Best Overall Response (BOR) as Assessed by an Independent Endpoint Review Committee (IERC) in Full Analysis Set Population",
+          "n": 284,
+          "cells": {
+            "CR": 2,
+            "PR": 42,
+            "SD": 158,
+            "PD": 82
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Number of Participants With Confirmed Best Overall Response (BOR) as Assessed by Independent Endpoint Review Committee (IERC) in PD-L1+ Full Analysis Set Population",
+          "n": 192,
+          "cells": {
+            "CR": 1,
+            "PR": 30,
+            "SD": 104,
+            "PD": 57
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02263508",
+      "title": "Phase 3: Placebo + Pembrolizumab",
+      "records": [
+        {
+          "outcome": "Phase 3: Best Overall Response Assessed Using Modified RECIST 1.1",
+          "n": 293,
+          "cells": {
+            "CR": 40,
+            "PR": 103,
+            "SD": 30,
+            "PD": 120
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase 3: Best Overall Response Assessed Using Modified irRC-RECIST",
+          "n": 251,
+          "cells": {
+            "CR": 28,
+            "PR": 110,
+            "SD": 57,
+            "PD": 56
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02263508",
+      "title": "Phase 3: Talimogene Laherparepvec + Pembrolizumab",
+      "records": [
+        {
+          "outcome": "Phase 3: Best Overall Response Assessed Using Modified RECIST 1.1",
+          "n": 302,
+          "cells": {
+            "CR": 62,
+            "PR": 106,
+            "SD": 28,
+            "PD": 106
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase 3: Best Overall Response Assessed Using Modified irRC-RECIST",
+          "n": 286,
+          "cells": {
+            "CR": 50,
+            "PR": 120,
+            "SD": 51,
+            "PD": 65
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02421588",
+      "title": "Lurbinectedin",
+      "records": [
+        {
+          "outcome": "Overall Response Rate (ORR) by Independent Review Committee",
+          "n": 205,
+          "cells": {
+            "CR": 3,
+            "PR": 29,
+            "SD": 90,
+            "PD": 83
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Overall Response Rate by Investigator's Assessment",
+          "n": 205,
+          "cells": {
+            "CR": 3,
+            "PR": 32,
+            "SD": 107,
+            "PD": 63
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Response According to Tumor Marker Evaluation (CA-125)",
+          "n": 158,
+          "cells": {
+            "CR": 13,
+            "PR": 33,
+            "SD": 95,
+            "PD": 17
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02421588",
+      "title": "Control (PLD or Topotecan)",
+      "records": [
+        {
+          "outcome": "Overall Response Rate (ORR) by Independent Review Committee",
+          "n": 197,
+          "cells": {
+            "CR": 3,
+            "PR": 25,
+            "SD": 97,
+            "PD": 72
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Overall Response Rate by Investigator's Assessment",
+          "n": 199,
+          "cells": {
+            "CR": 2,
+            "PR": 35,
+            "SD": 94,
+            "PD": 68
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Response According to Tumor Marker Evaluation (CA-125)",
+          "n": 142,
+          "cells": {
+            "CR": 3,
+            "PR": 29,
+            "SD": 94,
+            "PD": 16
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT03175172",
+      "title": "Experimental",
+      "records": [
+        {
+          "outcome": "Overall Response Rate (ORR)",
+          "n": 9,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 8
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Disease Control Rate (DCR)",
+          "n": 9,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 6
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02440464",
+      "title": "Ixazomib Maintenance",
+      "records": [
+        {
+          "outcome": "Percentage of Participants With Best Response to Treatment After Randomization",
+          "n": 5,
+          "cells": {
+            "CR": 2,
+            "PR": 2,
+            "SD": 0,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Percentage of Participants With Response to Treatment",
+          "n": 2,
+          "cells": {
+            "CR": 1,
+            "PR": 0,
+            "SD": 1,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02440464",
+      "title": "Placebo",
+      "records": [
+        {
+          "outcome": "Percentage of Participants With Best Response to Treatment After Randomization",
+          "n": 3,
+          "cells": {
+            "CR": 3,
+            "PR": 0,
+            "SD": 0,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Percentage of Participants With Response to Treatment",
+          "n": 2,
+          "cells": {
+            "CR": 2,
+            "PR": 0,
+            "SD": 0,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT03146663",
+      "title": "Arm A",
+      "records": [
+        {
+          "outcome": "Best Overall Response",
+          "n": 22,
+          "cells": {
+            "CR": 0,
+            "PR": 2,
+            "SD": 8,
+            "PD": 12
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (in Evaluable for Response Set)",
+          "n": 16,
+          "cells": {
+            "CR": 0,
+            "PR": 2,
+            "SD": 6,
+            "PD": 8
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT03146663",
+      "title": "Arm B",
+      "records": [
+        {
+          "outcome": "Best Overall Response",
+          "n": 19,
+          "cells": {
+            "CR": 1,
+            "PR": 0,
+            "SD": 8,
+            "PD": 10
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (in Evaluable for Response Set)",
+          "n": 5,
+          "cells": {
+            "CR": 1,
+            "PR": 0,
+            "SD": 1,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 150 mg 7d on/7d Off QD",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 300 mg 7d on/7d Off QD",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 7,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 6
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 7,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 6
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 300 mg Q1W QD",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 450 mg Q1W QD",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 4,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 4,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 600 mg Q1W QD",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 1000 mg Q1W QD",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 1600 mg Q1W QD",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 300 mg 4d on/10d Off QD",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 8,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 4,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 8,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 4,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 600 mg 4d on/10d Off QD",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 7,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 7,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per RANO",
+          "n": 1,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 800 mg 4d on/10d Off QD",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 1200 mg 4d on/10d Off QD",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 6,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 6,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per RANO",
+          "n": 1,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 0,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per iRANO",
+          "n": 1,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 0,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 600 mg Q1W BID",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 1,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 1,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per RANO",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per iRANO",
+          "n": 2,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 600 mg 4d on/10d Off BID",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per RANO",
+          "n": 2,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per iRANO",
+          "n": 1,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 150 mg Q1W QD + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 300 mg Q1W QD + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 600 mg Q1W QD + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 7,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 3,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 7,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 3,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 1000 mg Q1W QD + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 1400 mg Q1W QD + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 300 mg 4d on/10d Off QD + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per RANO",
+          "n": 1,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per iRANO",
+          "n": 1,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 0,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 450 mg 4d on/10d Off QD + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per RANO",
+          "n": 2,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per iRANO",
+          "n": 2,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 700 mg 4d on/10d Off QD + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 4,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 4,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 4,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) Per Guidelines for Efficacy Evaluation in Lymphoma Studies",
+          "n": 2,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 0,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 1200 mg 4d on/10d Off QD + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 2,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 2,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 600 mg Q1W BID + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 2,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase I: BLZ945 800 mg Q1W BID + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per RECIST v1.1",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 1,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per RANO",
+          "n": 1,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 0,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase II: BLZ945 1200 mg 4d on/10d Off QD",
+      "records": [
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per RANO",
+          "n": 10,
+          "cells": {
+            "CR": 0,
+            "PR": 3,
+            "SD": 3,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per iRANO",
+          "n": 6,
+          "cells": {
+            "CR": 0,
+            "PR": 3,
+            "SD": 3,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02829723",
+      "title": "Phase II: BLZ945 700 mg 4d on/10d Off QD + PDR001 400 mg Q4W",
+      "records": [
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per RANO",
+          "n": 6,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 5,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Phase I and II: Best Overall Response (BOR) (Sustained) Per iRANO",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 5,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02212015",
+      "title": "Pazopanib + Paclitaxel",
+      "records": [
+        {
+          "outcome": "Response Rate (RR)",
+          "n": 25,
+          "cells": {
+            "CR": 2,
+            "PR": 7,
+            "SD": 6,
+            "PD": 10
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Response Rate (RR), Subgroup1 Analysis",
+          "n": 7,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 2,
+            "PD": 4
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Response Rate (RR), Subgroup 2 Analysis",
+          "n": 12,
+          "cells": {
+            "CR": 2,
+            "PR": 2,
+            "SD": 3,
+            "PD": 5
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02475213",
+      "title": "Cohort 1",
+      "records": [
+        {
+          "outcome": "Best Overall Response (RECIST 1.1)",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 4,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (irRECIST 1.1)",
+          "n": 5,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 4,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02475213",
+      "title": "Cohort 2",
+      "records": [
+        {
+          "outcome": "Best Overall Response (RECIST 1.1)",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 0,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (irRECIST 1.1)",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 0,
+            "PD": 2
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02475213",
+      "title": "Cohort 3",
+      "records": [
+        {
+          "outcome": "Best Overall Response (RECIST 1.1)",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (irRECIST 1.1)",
+          "n": 3,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 3,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02475213",
+      "title": "Melanoma Cohort",
+      "records": [
+        {
+          "outcome": "Best Overall Response (RECIST 1.1)",
+          "n": 15,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 5,
+            "PD": 9
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (irRECIST 1.1)",
+          "n": 15,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 7,
+            "PD": 7
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02475213",
+      "title": "Urothelial Cancer Cohort",
+      "records": [
+        {
+          "outcome": "Best Overall Response (RECIST 1.1)",
+          "n": 17,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 8,
+            "PD": 8
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (irRECIST 1.1)",
+          "n": 17,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 8,
+            "PD": 8
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02475213",
+      "title": "NSCLC Cohort: PD1/PDL1 Naïve",
+      "records": [
+        {
+          "outcome": "Best Overall Response (RECIST 1.1)",
+          "n": 15,
+          "cells": {
+            "CR": 0,
+            "PR": 5,
+            "SD": 9,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (irRECIST 1.1)",
+          "n": 15,
+          "cells": {
+            "CR": 0,
+            "PR": 5,
+            "SD": 10,
+            "PD": 0
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02475213",
+      "title": "NSCLC Cohort: PD1/PDL1 Experienced",
+      "records": [
+        {
+          "outcome": "Best Overall Response (RECIST 1.1)",
+          "n": 19,
+          "cells": {
+            "CR": 0,
+            "PR": 2,
+            "SD": 9,
+            "PD": 8
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (irRECIST 1.1)",
+          "n": 19,
+          "cells": {
+            "CR": 0,
+            "PR": 1,
+            "SD": 11,
+            "PD": 7
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02475213",
+      "title": "SCCHN Cohort: PD1/PDL1 Naïve",
+      "records": [
+        {
+          "outcome": "Best Overall Response (RECIST 1.1)",
+          "n": 16,
+          "cells": {
+            "CR": 1,
+            "PR": 4,
+            "SD": 4,
+            "PD": 7
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (irRECIST 1.1)",
+          "n": 16,
+          "cells": {
+            "CR": 1,
+            "PR": 4,
+            "SD": 5,
+            "PD": 6
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02475213",
+      "title": "SCCHN Cohort: PD1/PDL1 Experienced",
+      "records": [
+        {
+          "outcome": "Best Overall Response (RECIST 1.1)",
+          "n": 19,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 9,
+            "PD": 10
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (irRECIST 1.1)",
+          "n": 19,
+          "cells": {
+            "CR": 0,
+            "PR": 0,
+            "SD": 10,
+            "PD": 9
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT02475213",
+      "title": "Cohort 4",
+      "records": [
+        {
+          "outcome": "Best Overall Response (RECIST 1.1)",
+          "n": 12,
+          "cells": {
+            "CR": 0,
+            "PR": 2,
+            "SD": 7,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        },
+        {
+          "outcome": "Best Overall Response (irRECIST 1.1)",
+          "n": 12,
+          "cells": {
+            "CR": 0,
+            "PR": 3,
+            "SD": 6,
+            "PD": 3
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01744249",
+      "title": "Axitinib + Sandostatin LAR",
+      "records": [
+        {
+          "outcome": "Objective Response Rate (ORR) (Investigator Assessment)",
+          "n": 118,
+          "cells": {
+            "CR": 2,
+            "PR": 20,
+            "SD": 87,
+            "PD": 9
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_placebo_onc_2010_2013.txt"
+        },
+        {
+          "outcome": "Objective Response Rate (ORR) (Central Blinded Assessment)",
+          "n": 114,
+          "cells": {
+            "CR": 2,
+            "PR": 13,
+            "SD": 98,
+            "PD": 1
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_placebo_onc_2010_2013.txt"
+        }
+      ]
+    },
+    {
+      "nctId": "NCT01744249",
+      "title": "Placebo + Sandostatin LAR",
+      "records": [
+        {
+          "outcome": "Objective Response Rate (ORR) (Investigator Assessment)",
+          "n": 127,
+          "cells": {
+            "CR": 1,
+            "PR": 5,
+            "SD": 96,
+            "PD": 25
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_placebo_onc_2010_2013.txt"
+        },
+        {
+          "outcome": "Objective Response Rate (ORR) (Central Blinded Assessment)",
+          "n": 125,
+          "cells": {
+            "CR": 0,
+            "PR": 4,
+            "SD": 109,
+            "PD": 12
+          },
+          "source": "literature-cache:literature/xdisease-ctg-results/ctg_placebo_onc_2010_2013.txt"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Posthoc exploratory extraction audit, not a preregistered solid-tumor benchmark.",
+    "Repeated title keys are not confirmed duplicate patients or independent arms.",
+    "Purposive source cases do not estimate discrepancy prevalence.",
+    "Four-category sum is reconstructed, not automatically posted analysis denominator.",
+    "No unique-patient count, pooled response or efficacy inference."
+  ]
+}
