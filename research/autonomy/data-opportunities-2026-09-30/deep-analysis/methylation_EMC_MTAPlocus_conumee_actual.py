@@ -41,3 +41,8 @@ try:
  script=pathlib.Path(__file__).with_name('methylation_EMC_MTAPlocus_conumee.R');run(['Rscript',str(script)],1800,env)
 finally:
  (OUT/'R-command-receipts.json').write_text(json.dumps(receipts,indent=2)+'\n')
+ cache=OUT/'R-dependency-cache.zip'
+ with zipfile.ZipFile(cache,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=1) as z:
+  for p in sorted(lib.rglob('*')):
+   if p.is_file():z.write(p,str(p.relative_to(lib)))
+ (OUT/'R-dependency-cache-receipt.json').write_text(json.dumps({'bytes':cache.stat().st_size,'sha256':hashlib.sha256(cache.read_bytes()).hexdigest(),'R_LIBS_USER':str(lib),'scope':'Installed analysis dependencies for exact runner reuse; no numeric result implication'},indent=2)+'\n')
