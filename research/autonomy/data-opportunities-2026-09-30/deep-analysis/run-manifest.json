@@ -1,24 +1,25 @@
 {
   "schema": "emc-measured-data-run/1",
   "date": "2026-10-01",
-  "batch": "measured-growth-prior-splits-and-authentic-EMC-screen",
+  "batch": "corrected-methylation-imputation-impact-audit",
   "dependencies": [
     "numpy",
     "pandas",
     "scipy",
-    "openpyxl",
-    "xlrd"
+    "scikit-learn",
+    "openpyxl"
   ],
   "jobs": [
     {
-      "name": "protein-prior-splits-and-measured-growth",
-      "script": "multiomics_prior_and_growth.py",
-      "timeout_seconds": 900
-    },
-    {
-      "name": "authentic-EMC-screen-primary-replay",
-      "script": "authentic_screen_actual.py",
-      "timeout_seconds": 900
+      "name": "corrected-full-CpG-methylation-and-external",
+      "script": "methylation_full_geo.py",
+      "before": [
+        "methylation_validation_metadata.py"
+      ],
+      "after": [
+        "methylation_external_metrics.py"
+      ],
+      "timeout_seconds": 3300
     }
   ]
 }
