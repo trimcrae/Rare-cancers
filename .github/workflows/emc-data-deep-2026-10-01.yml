@@ -52,13 +52,27 @@ jobs:
             research/autonomy/atlas-hofvander-source-2026-09-06
             research/autonomy/atlas-hofvander-validation-2026-09-06
       - name: Restore prior derived measurements
-        if: ${{ matrix.restore_run != '' }}
+        if: ${{ matrix.restore_run != '' && matrix.restore_all != true }}
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ matrix.restore_run }}
           name: ${{ matrix.restore_name }}
           path: restored-artifacts
+      - name: Restore all checkpoint artifacts
+        if: ${{ matrix.restore_run != '' && matrix.restore_all == true }}
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ matrix.restore_run }}
+          path: restored-artifacts
+      - name: Restore supplementary checkpoint run
+        if: ${{ matrix.extra_restore_run != '' }}
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ matrix.extra_restore_run }}
+          path: restored-artifacts-extra
       - name: Execute finite CPU analysis
         env:
           JOB_JSON: ${{ toJson(matrix) }}
