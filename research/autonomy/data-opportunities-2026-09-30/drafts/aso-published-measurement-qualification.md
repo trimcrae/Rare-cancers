@@ -1,0 +1,62 @@
+# Published measurements qualify contiguous-run scoring of junction-gapmer designs
+
+## Abstract
+
+Computational junction-gapmer design requires separating sequence prioritization from measured activity. We challenged a frozen contiguous-run thermodynamic descriptor using published measurements: 12 off-target duplexes nested in two modified ASOs, cellular source-data endpoints, 17,031 matched gene-level expression exports, and chemical-pattern controls. Measured mismatch-containing duplexes retained stability that was not represented by scoring only their longest perfect fragment. The expression data also showed that a scalar stability descriptor cannot establish cleavage, specificity or safety. Published toxicity sources contained different modifications, censored dose summaries and reused observations; these did not expand the measured-duplex denominator. Four verified PTEN redesigns from the exact 2013 primary source illustrated the descriptor's chemistry insensitivity without establishing toxicity prediction failure. This analysis supplies empirical qualifications for an existing computational preprint. It provides no measured EMC knockdown, delivery, target engagement or therapeutic window.
+
+## Introduction
+
+The existing EMC junction-gapmer preprint screened 190 designs and explicitly described its ten-base criterion as a convention rather than a measured cleavage threshold. Our question is narrower than validating those designs: what can published duplex, expression and toxicity measurements establish about the descriptor used to prioritize them? The source papers already demonstrated mismatch tolerance, modification-dependent effects and toehold regulation. Those biological findings are prior work, not discoveries of this reanalysis.
+
+## Methods
+
+We froze the repository model, Git blob 500462327ee69b5835ba4d1f798715e71c4765d5. It scores the longest exact RNA/DNA fragment using Bio.SeqUtils.MeltingTemp.R_DNA_NN1, the Sugimoto RNA/DNA nearest-neighbor table, with the existing concentration convention. It does not represent LNA, phosphorothioate effects, salt correction, complete mismatched duplexes or accessibility. Printed RNA orientation was reconciled before scoring. The primary calculation used 250 nM; a 4 µM sensitivity calculation retained the same unmodified-fragment assumptions.
+
+We extracted nine off-target duplex measurements from Kamola et al. and three from Terada et al., with their on-target controls. These are 12 sites nested in two ASOs, not 12 independently validated chemistries. Kamola Table 4 describes gymnotic NHBE treatment for 48 hours with six biological replicates and a dose series up to 50 µM. Its Table 3 uses a different OpenArray design and was kept separate. Terada's hApo1n is a fully phosphorothioate, 2–8–3 LNA gapmer. Its brother strand is partially complementary PNA.
+
+We acquired the complete 69,326,040-byte Terada Source Data workbook, preserving its member identity and SHA256, and exported all cells from 39 sheets. Cellular means and sample standard deviations were calculated from the three biological observations per arm in Figure 6f. Global expression exports were joined by unique gene symbols after excluding duplicated symbols. No missing gene was zero-filled. Fixed expression filters and absolute log2-fold-change summaries were descriptive; exported replicate-level counts and adjusted P values were unavailable.
+
+## Results
+
+### Measured duplexes qualify the fragment descriptor
+
+For Kamola's NRF1 off-target site, the longest exact run was eight bases. Measured melting temperature was 52.0 °C, compared with 60.3 °C on target. The fragment descriptor returned 9.81 and 57.55 °C, respectively: measured stability loss was 8.3 °C, whereas the descriptor difference was 47.73 °C. Different chemistry and assay assumptions prevent interpreting this as a calibrated temperature error or a validated bound. It shows which measured stability the fragment representation omits.
+
+For Terada's Copg, Mast2 and Hltf sites, measured temperatures were 54, 50 and 51 °C versus 63 °C on target. Fragment-descriptor differences were 34.43, 24.97 and 24.97 °C at 250 nM, and 31.47, 22.87 and 22.87 °C at 4 µM. Changing nominal concentration did not supply the missing chemistry or mismatch representation.
+
+Kamola Table 3 further qualifies a run-only flag: HDAC9 and LARP1B had nine- and eight-base exact runs yet reported maximum knockdown of 86% and 80%. Three comparisons with runs of at least ten bases were categorized as 'No Activity'. These selected, single-ASO observations do not estimate screening sensitivity or specificity. Gap-dependent feature calculations remain explicitly hypothetical because the experimental LNA-position map was not recovered.
+
+### Cellular and global expression endpoints remain separate from cleavage
+
+In Terada Figure 6f, mean residual ApoB RNA was 0.140 for single-stranded hApo1n, 0.166 for the C8 PNA duplex and 0.269 for C9. Corresponding Copg means were 0.467, 1.368 and 1.391; Mast2 means were 0.482, 0.817 and 0.936; Hltf means were 0.659, 0.946 and 1.131. Values above control were retained, not clipped. These are three biological observations per arm after 1 µM treatment of Huh-7 cells for 24 hours. Workbook C9 labeling omits the final 'n'; the primary legend supports hApo1n/PNA(C9). Row adjacency does not establish paired replicates.
+
+A different experiment compared mPCS1 with mPCS1/PNA(C8) in mouse liver, with two biological replicates per arm. The unique-symbol intersection contained 17,031 genes. Median absolute exported log2-fold changes were 0.353 and 0.187; the median within-gene difference was −0.110. There were 11,174 attenuated, 5,198 increased and 659 equal absolute changes at exported precision. Counts with absolute log2-fold change at least one were 2,332 and 636. These are twofold-change counts, not differentially expressed gene counts. Fixed expression-filter summaries remained conditional on the exported expression values; their baseline interpretation was unverified. The source authors already established broad attenuation. This reanalysis does not identify direct cleavage sites or validate EMC biology.
+
+### Chemistry and toxicity sources do not expand the thermal benchmark
+
+Burel's primary tables contained 19 molecules with 13 distinct base sequences and 25 ALT dose/time rows. Three identical-base groups had LNA/MOE/cEt first-toxic-dose literals of 11/300/11, 100/300/100 and 33/300/33 mg/kg. The unmodified descriptor necessarily gave identical scores within each group. Six other thresholds were explicitly greater than 300 and remained censored. The table's plain 300 entries for MOE and the prose's description of suppression within the tested range were both retained. These summaries are not potency-matched therapeutic margins.
+
+All 28 pages of Burel's image-only supplement were OCR-processed, followed by visual review. Figure S6 contains aggregate site-quality and transcript-length plots, with different filtered and unfiltered selections; it supplies no additional per-site measured melting temperatures. Dieckmann's six recovered Myd88 rows contain theoretical temperatures and reuse earlier ALT observations, so they are not an independent thermal or toxicity cohort.
+
+The exact earlier source is Hagedorn 2013. It screened 236 oligonucleotides, trained its published classifier on 206 extreme-ALT observations after excluding 30 intermediate observations, and evaluated 23 dose-selected validation oligonucleotides. Four verified PTEN redesigns form one sequence family. Their frozen unmodified Tm surrogates were 63.4086, 59.4517, 60.5316 and 60.5316 °C for seth, r1, r2 and r3; corresponding ΔG37 values were −18.791, −16.980, −17.867 and −17.867 kcal/mol. Primary-prose ALT ratios were 6.7 and 29 for seth/r1. Both r2/r3 were below twice the reported ULN of 1.7, preserved as a less-than-3.4 bound. Their identical bases and scores demonstrate representation insensitivity to LNA placement; both had low ALT, so this is not demonstrated toxicity misranking.
+
+Seven supplementary PDFs were not recovered from the tested PMC and EuropePMC routes. A subsequent exact normal-provider audit verified the DOI through Crossref and requested both Sage and Liebert landing/supplement routes, two Crossref-declared content routes and all fourteen routes derived from the seven primary filenames. All twenty publisher requests returned HTTP 403; no genuine PDF or measured table was recovered. Derived provider routes are not asserted to be literal publisher links. This is a specific access limit, not proof that the supplements or their underlying data do not exist. The primary body does not specify a complete 236-row public release; individual records were not reconstructed from figures.
+
+## Discussion
+
+Published measurements support retaining contiguous-run scores as transparent descriptors while avoiding claims of measured stability, cleavage or safety. The empirical contribution is a source-linked qualification of the existing computational design work. Its novelty is limited: mismatch tolerance, chemical-pattern effects and PNA regulation were established by the source authors. These data neither invalidate the existing preprint's expressly conventional cutoff nor validate its proposed EMC interventions.
+
+## Data and reproducibility
+
+Durable results include the [matched duplex/workbook audit](../deep-analysis/results/ASO-matched-duplexes-and-source-data-actual.json), [cellular and global-expression analysis](../deep-analysis/results/ASO-cellular-and-complete-global-expression-final.json), [printed-feature qualification](../deep-analysis/results/ASO-printed-alignment-and-gap-qualification-final.json), [chemistry controls](../deep-analysis/results/ASO-full-main-table-chemistry-controls-final.json), [28-page OCR](../deep-analysis/results/ASO-Burel-complete28-page-image-supplement-OCR.json), [exact 2013 source/asset audit](../deep-analysis/results/ASO-exact2013-primary-table-and-literal-asset-audit.json), [all four redesign calculations](../deep-analysis/results/ASO-exact2013-four-main-redesigns-frozen-proxy-final.json) and [normal publisher audit](../deep-analysis/results/ASO-exact2013-normal-publisher-source-final.json). The workbook SHA256 is a50312a03357bb3ee9bf31713295dd3ecd1cc30afb0055ce06731d64b82108cc.
+
+Successful source and calculation jobs include [36898798217/job 110492516367](https://github.com/trimcrae/Rare-cancers/actions/runs/36898798217/job/110492516367), [36915151999/job 110547256934](https://github.com/trimcrae/Rare-cancers/actions/runs/36915151999/job/110547256934), [36926658121/job 110585637365](https://github.com/trimcrae/Rare-cancers/actions/runs/36926658121/job/110585637365), [36930743580/job 110599157355](https://github.com/trimcrae/Rare-cancers/actions/runs/36930743580/job/110599157355) and [36936001053/job 110616354098](https://github.com/trimcrae/Rare-cancers/actions/runs/36936001053/job/110616354098). Source identity, literal values and access failures accompany the calculations; no new bench experiments were performed.
+
+## References
+
+1. Kamola PJ et al. In silico and in vitro evaluation of exonic and intronic off-target effects form a critical element of therapeutic ASO gapmer optimization. Nucleic Acids Research. 2015;43:8638–8650. [doi:10.1093/nar/gkv857](https://doi.org/10.1093/nar/gkv857).
+2. Terada C et al. Dynamic and static control of the off-target interactions of antisense oligonucleotides using toehold chemistry. Nature Communications. 2023;14. [doi:10.1038/s41467-023-43714-0](https://doi.org/10.1038/s41467-023-43714-0).
+3. Burel SA et al. Nucleic Acids Research. 2016;44:2093–2109. [doi:10.1093/nar/gkv1210](https://doi.org/10.1093/nar/gkv1210).
+4. Dieckmann A et al. A Sensitive In Vitro Approach to Assess the Hybridization-Dependent Toxic Potential of High Affinity Gapmer Oligonucleotides. Molecular Therapy Nucleic Acids. 2018;10:45–54. [doi:10.1016/j.omtn.2017.11.004](https://doi.org/10.1016/j.omtn.2017.11.004).
+5. Hagedorn PH et al. Hepatotoxic Potential of Therapeutic Oligonucleotides Can Be Predicted from Their Sequence and Modification Pattern. Nucleic Acid Therapeutics. 2013;23:302–310. [doi:10.1089/nat.2013.0436](https://doi.org/10.1089/nat.2013.0436).
+6. Sugimoto N et al. Thermodynamic parameters to predict stability of RNA/DNA hybrid duplexes. Biochemistry. 1995;34:11211–11216. [PMID:7545436](https://pubmed.ncbi.nlm.nih.gov/7545436/).
