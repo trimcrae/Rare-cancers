@@ -167,6 +167,27 @@ def main():
  rare_result,rclasses,ridx=mt.evaluate('sample_supported',raremask,{'sample':splits['sample']},stub,md,rows,archive);result['sample_supported']=rare_result
  index.update(sample_supported_classes=rclasses,sample_supported_IDAT=md.iloc[ridx].IDAT.tolist());mt.write_json('class-votes-index.json',index)
  checkpoint('rare-class sample comparison completed')
+ # Frozen all-reference model; external values never enter ranking/imputation/fitting.
+ validation_idx=np.arange(1077,1505,dtype=int)
+ training_y=md.iloc[ridx].Meth_Class.to_numpy(dtype=str)
+ train500,validation500,external_cols=chunk_select(np.asarray(ridx).reshape(-1,1),validation_idx.reshape(-1,1),training_y)
+ final_rf=mt.RandomForestClassifier(n_estimators=200,max_features='sqrt',class_weight='balanced_subsample',n_jobs=2,random_state=mt.SEED+100)
+ final_rf.fit(train500,training_y)
+ if list(final_rf.classes_)!=rclasses:raise ValueError('external fit class order changed')
+ validation_votes=final_rf.predict_proba(validation500)
+ reference_oof=archive['votes']['sample_supported__sample__methylation']
+ if reference_oof.shape!=(len(ridx),len(rclasses)) or validation_votes.shape!=(428,len(rclasses)):raise ValueError('external vote shape mismatch')
+ if not np.isfinite(validation_votes).all() or not np.allclose(validation_votes.sum(1),1):raise ValueError('invalid external probabilities')
+ validation_ids=np.array(['VALIDATION_SAMPLE '+str(k) for k in range(1,429)],dtype=str)
+ validation_qc=missing[1077:]/len(common)<=.05
+ selected_probe_ids=np.array([common_probes[z] for z in external_cols],dtype=str)
+ np.savez_compressed(OUT/'external-fit-inputs.npz',training_X500=train500,validation_X500=validation500,training_y=training_y,reference_ID=md.iloc[ridx].ID.to_numpy(dtype=str),reference_IDAT=md.iloc[ridx].IDAT.to_numpy(dtype=str),validation_ID=validation_ids,selected_probe_ids=selected_probe_ids,validation_QC=validation_qc,classes=np.array(rclasses,dtype=str),random_seed=np.array([mt.SEED+100]))
+ np.savez_compressed(OUT/'external-reference-and-validation-votes.npz',reference_OOF_votes=reference_oof,reference_y=training_y,reference_ID=md.iloc[ridx].ID.to_numpy(dtype=str),reference_IDAT=md.iloc[ridx].IDAT.to_numpy(dtype=str),validation_votes=validation_votes,validation_ID=validation_ids,validation_QC=validation_qc,classes=np.array(rclasses,dtype=str))
+ ext_pred=pd.DataFrame({'ID':validation_ids,'QC_pass':validation_qc,'predicted_class':[rclasses[z] for z in validation_votes.argmax(1)],'max_uncalibrated_vote':validation_votes.max(1),'assigned_vote_0.9':validation_votes.max(1)>=.9})
+ mt.save_tsv('external-uncalibrated-predictions.tsv',ext_pred)
+ result['external_frozen_fit']={'reference_n':len(ridx),'classes':rclasses,'validation_n':428,'validation_QC_pass_n':int(validation_qc.sum()),'selected_probe_n':len(external_cols),'selected_probe_ids_sha256':mt.digest('\n'.join(selected_probe_ids).encode()),'seed':mt.SEED+100,'vote_0.9_assigned_all':int(np.sum(validation_votes.max(1)>=.9)),'vote_0.9_assigned_QC_pass':int(np.sum((validation_votes.max(1)>=.9)&validation_qc)),'status':'executed predictions; external target reconciliation and reference-only score transform pending','reference_OOF_status':'fivefold training-contained base predictions retained; fitting a transform and scoring these same OOF targets would not be an independent calibration assessment'}
+ index.update(external_classes=rclasses,validation_ID=validation_ids.tolist());mt.write_json('class-votes-index.json',index)
+ checkpoint('all-reference fit and 428 external predictions saved')
  eq_result,eqclasses,eqidx=mt.evaluate('equal_budget',mask,equal,stub,md,rows,archive);result['equal_budget']=eq_result
  if eqclasses!=classes or not np.array_equal(eqidx,idx):raise ValueError('equal budget comparison panel changed')
  frame=pd.DataFrame(rows)
