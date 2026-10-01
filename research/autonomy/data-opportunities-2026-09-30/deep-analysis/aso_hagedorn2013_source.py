@@ -47,7 +47,7 @@ def main():
  while isinstance(d,dict) and isinstance(d.get('result'),dict):d=d['result']
  panel=next(x for x in d['ASOSupplements'] if x['pmcid']=='PMC5725219');pdf=next(x for x in panel['pdfs'] if x['member']=='mmc2.pdf');assert pdf['sha256']=='b2132e89351f53dc997ffd3bec1d8f9e0cf3fa8c5771b720071b414ed56d6747';reference=next(x for x in pdf['pages'] if x['page']==9)['plainText'];assert norm(TITLE) in norm(reference) and 'Hagedorn' in reference and '(2013)' in reference
  out['citedSource']={'pmcid':'PMC5725219','inputPath':a.input,'inputSHA256':hashlib.sha256(b).hexdigest(),'member':pdf['member'],'memberSHA256':pdf['sha256'],'page':9,'literalReference':reference,'reportedCohortExpectation':236}
- q='TITLE:"'+TITLE+'" AND AUTH_LAST:Hagedorn AND FIRST_PDATE:[2013-01-01 TO 2013-12-31]';url='https://www.ebi.ac.uk/europepmc/webservices/rest/search?'+urllib.parse.urlencode({'query':q,'format':'json','resultType':'core','pageSize':20});b,r=get(url,'exact-query.json');assert b is not None;results=json.loads(b).get('resultList',{}).get('result',[]);exact=[x for x in results if norm(x.get('title',''))==norm(TITLE) and str(x.get('pubYear',''))=='2013' and re.match(r'^Hagedorn\b',x.get('authorString',''),re.I)];out['query']=q;out['nQueryHits']=len(results);assert len(exact)==1,'Uniqueexactidentityrequired';hit=exact[0];out['primaryCitation']=hit;pmcid=hit.get('pmcid');visited=set()
+ q='TITLE:"'+TITLE+'"';url='https://www.ebi.ac.uk/europepmc/webservices/rest/search?'+urllib.parse.urlencode({'query':q,'format':'json','resultType':'core','pageSize':20});b,r=get(url,'exact-query.json');assert b is not None;results=json.loads(b).get('resultList',{}).get('result',[]);exact=[x for x in results if norm(x.get('title',''))==norm(TITLE) and str(x.get('pubYear',''))=='2013' and re.match(r'^Hagedorn\b',x.get('authorString',''),re.I)];out['query']=q;out['nQueryHits']=len(results);out['exactQueryResultRecords']=results;assert len(exact)==1,'Uniqueexactidentityrequired';hit=exact[0];out['primaryCitation']=hit;pmcid=hit.get('pmcid');visited=set()
  def acquire(url,name):
   if url in visited:return
   visited.add(url);name=hashlib.sha256(url.encode()).hexdigest()[:10]+'-'+name;b,r=get(url,name)
@@ -94,4 +94,4 @@ def main():
  out['sourceRecoveryStatus']='Resolvedexactprimary; acquired literal sources require endpoint/row review.'
 try:main()
 except Exception as e:out['errors'].append(type(e).__name__+': '+str(e))
-P('campaign-output/aso-hagedorn2013-source.json').write_text(json.dumps(out,ensure_ascii=False,indent=2));print('ASO_HAGEDORN2013_SOURCE_BEGIN');print(json.dumps(out,ensure_ascii=False));print('ASO_HAGEDORN2013_SOURCE_END')
+P('campaign-output/aso-hagedorn2013-source.json').write_text(json.dumps(out,ensure_ascii=False,indent=2));print('ASO_HAGEDORN2013_SOURCE_BEGIN');print(json.dumps(out,ensure_ascii=False));print('ASO_HAGEDORN2013_SOURCE_END');raise SystemExit(1 if out['errors'] else 0)
