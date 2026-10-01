@@ -1,25 +1,19 @@
 {
   "schema": "emc-measured-data-run/1",
-  "batch": "full-methylation-bootstrap-repair-and-external-evaluation",
+  "batch": "foundation-primary-workbook-repaired-retrieval",
   "date": "2026-10-01",
   "dependencies": [
     "numpy",
     "pandas",
     "scipy",
-    "scikit-learn",
+    "xlrd",
     "openpyxl"
   ],
   "jobs": [
     {
-      "name": "full-CpG-methylation-and-428-external-profiles",
-      "script": "methylation_full_geo.py",
-      "before": [
-        "methylation_validation_metadata.py"
-      ],
-      "after": [
-        "methylation_external_metrics.py"
-      ],
-      "timeout_seconds": 3300
+      "name": "Foundation-primary-XLS-and-export-identifiers",
+      "script": "foundation_legacy_workbook_analysis.py",
+      "timeout_seconds": 900
     }
   ]
 }
