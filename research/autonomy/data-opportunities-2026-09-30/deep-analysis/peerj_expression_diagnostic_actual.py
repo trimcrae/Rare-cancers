@@ -13,10 +13,19 @@ def get():
  if paths:
   for p in paths:assert p.stat().st_size==SIZE and hashlib.sha256(p.read_bytes()).hexdigest()==PIN
   return paths[0],{'saved':str(paths[0]),'bytes':SIZE,'sha256':PIN,'source':'restoredfrozenmember'}
- p,r=sm.getfull('https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/supplementaryFiles','PeerJ-complete-supplements.zip',32*1024**2)
- with zipfile.ZipFile(p) as z:
-  hits=[v for v in z.namelist() if Path(v).name==NAME];assert len(hits)==1;b=z.read(hits[0]);assert len(b)==SIZE and hashlib.sha256(b).hexdigest()==PIN;target=OUT/NAME;target.write_bytes(b)
- return target,{'saved':str(target),'bytes':SIZE,'sha256':PIN,'source_zip_member':hits[0],'container_receipt':r,'container_identity_rule':'RegeneratedZIPreceipt retained; exactmember frozen'}
+ attempts=[];routes=[('ZIP','https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/supplementaryFiles')]*3+[('XLSX','https://pmc.ncbi.nlm.nih.gov/articles/instance/13374579/bin/'+NAME),('XLSX','https://pmc.ncbi.nlm.nih.gov/articles/PMC13374579/bin/'+NAME),('XLSX','https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13374579/bin/'+NAME)]
+ for i,(kind,url) in enumerate(routes):
+  item={'url':url,'kind':kind,'attempt':i+1};attempts.append(item)
+  try:
+   p,r=sm.getfull(url,'PeerJ-source-recovery-'+str(i)+('.zip' if kind=='ZIP' else'.xlsx'),32*1024**2 if kind=='ZIP' else2*1024**2);item.update(receipt=r)
+   if kind=='ZIP':
+    with zipfile.ZipFile(p) as z:
+     hits=[v for v in z.namelist() if Path(v).name==NAME];assert len(hits)==1;b=z.read(hits[0]);member=hits[0]
+   else:b=p.read_bytes();member=None
+   assert len(b)==SIZE and hashlib.sha256(b).hexdigest()==PIN,'ExactXLSXmemberidentityfailed';target=OUT/NAME;target.write_bytes(b);(OUT/'PeerJ-access-recovery-receipts.json').write_text(json.dumps(attempts,indent=2));return target,{'saved':str(target),'bytes':SIZE,'sha256':PIN,'source_zip_member':member,'container_receipt':r,'access_attempts':attempts,'container_identity_rule':'Exactmember establishesfrozenidentity; retainroutefailures'}
+  except Exception as e:item.update(error_type=type(e).__name__,error=str(e),absence_claim=False);(OUT/'PeerJ-access-recovery-receipts.json').write_text(json.dumps(attempts,indent=2))
+ raise RuntimeError('Declaredexactpublicroutesfailed; retainedreceipts; notbiologicalabsence')
+
 def association(a,b):
  valid=np.isfinite(a)&np.isfinite(b);x=a[valid];y=b[valid];n=len(x);r={'n_source_specimens':n,'included_specimens':np.asarray(IDS)[valid].tolist(),'excluded_specimens':np.asarray(IDS)[~valid].tolist()}
  if n<4 or np.unique(x).size<2 or np.unique(y).size<2:return {**r,'status':'constant_or_insufficient'}
