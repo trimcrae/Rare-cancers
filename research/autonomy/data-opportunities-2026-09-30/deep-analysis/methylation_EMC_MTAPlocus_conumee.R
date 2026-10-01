@@ -12,11 +12,29 @@ common<-Reduce(intersect,lapply(mat,rownames));stopifnot(length(common)>300000);
 if(any(!is.finite(zz)))stop('Nonfinite intensities; repairsource missingness beforefit')
 d<-CNV.load(as.data.frame(zz),names=colnames(zz));genes_frozen<-c('MTAP','CDKN2A','CDKN2B');gm<-AnnotationDbi::select(org.Hs.eg.db,keys=genes_frozen,keytype='SYMBOL',columns='ENTREZID');gm<-unique(gm[,c('SYMBOL','ENTREZID')]);stopifnot(nrow(gm)==3,!anyNA(gm$ENTREZID));gr<-GenomicFeatures::genes(TxDb.Hsapiens.UCSC.hg19.knownGene);genegr<-gr[gm$ENTREZID];genegr$name<-gm$SYMBOL;names(genegr)<-gm$SYMBOL;stopifnot(all(as.character(seqnames(genegr))=='chr9'))
 write.table(data.frame(gene=genegr$name,entrez=gm$ENTREZID,genome='hg19',chr=as.character(seqnames(genegr)),start_1based=start(genegr),end_inclusive=end(genegr)),file.path(out,'frozen-locus-genomic-ranges.tsv'),sep='\t',quote=FALSE,row.names=FALSE)
-data(exclude_regions,package='conumee');a0<-CNV.create_anno(array_type='overlap',exclude_regions=exclude_regions,detail_regions=genegr);unavailable<-a0@probes[!names(a0@probes)%in%common];a<-if(length(unavailable))CNV.create_anno(array_type='overlap',exclude_regions=c(exclude_regions,unavailable),detail_regions=genegr)else a0;stopifnot(all(names(a@probes)%in%common));annotation_receipt<-list(common_intensity_probe_n=length(common),annotation_probe_n=length(a@probes),excluded_unavailable_probe_n=length(unavailable),excluded_unavailable_probe_ids=names(unavailable),bin_minprobes=15,bin_minsize=50000,array_type='overlap',genome='hg19')
+data(exclude_regions,package='conumee')
+anno_args<-list(exclude_regions=exclude_regions,detail_regions=genegr,bin_minprobes=15,bin_minsize=50000,bin_maxsize=5000000)
+if('array_type'%in%names(formals(CNV.create_anno)))anno_args$array_type<-'overlap'
+a0<-do.call(CNV.create_anno,anno_args)
+stopifnot(!is.null(names(a0@probes)),!anyDuplicated(names(a0@probes)))
+unavailable<-a0@probes[!names(a0@probes)%in%common]
+a<-a0
+a@probes<-a0@probes[names(a0@probes)%in%common]
+stopifnot(length(a@probes)>300000,all(names(a@probes)%in%common),!anyDuplicated(names(a@probes)))
+create_bins<-getFromNamespace('CNV.create_bins','conumee')
+merge_bins<-getFromNamespace('CNV.merge_bins','conumee')
+common_tiles<-create_bins(hg19.anno=a@genome,bin_minsize=50000,hg19.gap=a@gap,hg19.exclude=a@exclude)
+a@bins<-merge_bins(hg19.anno=a@genome,hg19.tile=common_tiles,bin_minprobes=15,hg19.probes=a@probes,bin_maxsize=5000000)
+stopifnot(length(a@bins)>0,all(as.integer(mcols(a@bins)$probes)==as.integer(countOverlaps(a@bins,a@probes))))
+methods::validObject(a)
+a@args$actual_common_probe_n<-length(a@probes)
+a@args$common_probe_construction<-'Pinned native coordinates filtered by measured literal common IDs; native bin tiling/merging recomputed at unchanged15/50kb/5Mb defaults'
+annotation_receipt<-list(native_annotation_probe_n=length(a0@probes),common_intensity_probe_n=length(common),retained_common_annotation_probe_n=length(a@probes),unavailable_probe_n=length(unavailable),unavailable_probe_ids=names(unavailable),actual_bin_n=length(a@bins),bin_minprobes=15,bin_minsize=50000,bin_maxsize=5000000,genome='hg19',native_constructor_array_type=if('array_type'%in%names(anno_args))'overlap'else'450k-only author fork; no array_type argument',construction=a@args$common_probe_construction)
+write_json(annotation_receipt,file.path(out,'actual-common-probe-annotation-receipt.json'),pretty=TRUE,auto_unbox=TRUE)
 qids<-meta$IDAT[meta$role=='EMC_query'];refs<-meta$IDAT[meta$role!='EMC_query'];allresults<-list();coefrows<-list();errors<-list()
 run_one<-function(id,refids,label,segment=FALSE){
  tryCatch({
-  stopifnot(length(refids)>=2,!id%in%refids);x<-CNV.detail(CNV.bin(CNV.fit(d[id],d[refids],a,name=id)));effective_n<-max(0,length(x@fit$coef)-as.integer('(Intercept)'%in%names(x@fit$coef)));if(effective_n<2)stop('Fewer than twoeffective normalrefs aftersourcecorrelationfilter')
+  stopifnot(length(refids)>=2,!id%in%refids);x<-CNV.detail(CNV.bin(CNV.fit(d[id],d[refids],a,name=id)));effective_n<-sum(is.finite(x@fit$coef)&names(x@fit$coef)!='(Intercept)');if(effective_n<2)stop('Fewer than twoeffective normalrefs aftersourcecorrelationfilter')
   reg<-a@detail;dt<-data.frame(IDAT=id,analysis=label,gene=reg$name,chr=as.character(seqnames(reg)),start_1based=start(reg),end_inclusive=end(reg),n_probes=as.integer(x@detail$probes),log2_relative_ratio=as.numeric(x@detail$ratio-x@bin$shift),reference_intended_n=length(refids),reference_effective_n=effective_n,fit_noise=x@fit$noise,centering_shift=x@bin$shift,stringsAsFactors=FALSE);dt$n_probes[is.na(dt$n_probes)]<-0L;dt$log2_relative_ratio[dt$n_probes==0]<-NA_real_;dt$normalized_signal_ratio<-2^dt$log2_relative_ratio;dt$interpretation<-ifelse(dt$n_probes==0,'unmeasured locus','relative array signal; not absolute copies/deletion genotype');allresults[[paste(label,id,sep='__')]]<<-dt;coefrows[[paste(label,id,sep='__')]]<<-data.frame(IDAT=id,analysis=label,literal_coefficient_name=names(x@fit$coef),coefficient=as.numeric(x@fit$coef),stringsAsFactors=FALSE)
   oo<-findOverlaps(reg,a@probes);pp<-data.frame(IDAT=id,analysis=label,gene=reg$name[queryHits(oo)],probe=names(a@probes)[subjectHits(oo)],chr=as.character(seqnames(a@probes))[subjectHits(oo)],start_1based=start(a@probes)[subjectHits(oo)],log2_relative_ratio=as.numeric(x@fit$ratio[subjectHits(oo)]-x@bin$shift),stringsAsFactors=FALSE);write.table(pp,file.path(out,paste0(label,'__',id,'__locus-probes.tsv')),sep='\t',quote=FALSE,row.names=FALSE)
   if(segment){
