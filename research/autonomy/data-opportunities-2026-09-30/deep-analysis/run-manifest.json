@@ -2,19 +2,8 @@
   "dependencies": [],
   "jobs": [
     {
-      "name": "EMC-ten-author-BAF-baseline-and18-reference-controls",
-      "script": "methylation_EMC_MTAPlocus_author_BAF_actual.py",
-      "dependencies": [],
-      "restore_run": "36917071796",
-      "restore_name": "emc-EMC-ten-raw-methylation-and18-normal-IDAT-sources-36917071796",
-      "before": [
-        "restore_previous_outputs.py"
-      ],
-      "timeout_seconds": 5000
-    },
-    {
-      "name": "Spatial-all50-files450-tiles-complete-source-assembly",
-      "script": "spatial_complete50_ledger_actual.py",
+      "name": "RMS-exact-public-manuscript-annotation-and-code-recovery",
+      "script": "pediatric_rms_public_primary_recovery_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
@@ -22,12 +11,29 @@
         "tifffile",
         "imagecodecs",
         "h5py",
-        "scikit-learn"
+        "scikit-learn",
+        "openpyxl",
+        "beautifulsoup4",
+        "pymupdf"
       ],
-      "restore_run": "36897521385",
-      "restore_all": true,
-      "extra_restore_run": "36900530648",
-      "third_restore_run": "36917071796",
+      "timeout_seconds": 1800
+    },
+    {
+      "name": "ASO-seven-literal-measured-supplement-public-route-followthrough",
+      "script": "aso_hagedorn2013_asset_fallthrough.py",
+      "dependencies": [
+        "pypdf"
+      ],
+      "timeout_seconds": 600
+    },
+    {
+      "name": "EMC-exact-disease-specific-copy-number-prior-art-and-overlap",
+      "script": "methylation_EMC_CNV_prior_art.py",
+      "dependencies": [
+        "pypdf",
+        "openpyxl",
+        "beautifulsoup4"
+      ],
       "timeout_seconds": 600
     }
   ]
