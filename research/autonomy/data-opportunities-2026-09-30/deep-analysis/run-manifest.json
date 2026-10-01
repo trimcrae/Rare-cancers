@@ -2,26 +2,29 @@
   "dependencies": [],
   "jobs": [
     {
-      "name": "ASO-exact-full-primary-text-and-main-measured-assets",
-      "script": "aso_hagedorn2013_main_source_actual.py",
-      "dependencies": [
-        "beautifulsoup4",
-        "pypdf",
-        "pillow"
+      "name": "EMC-common-probe-rebuilt-bins-both-frozen-CN-pipelines",
+      "script": "methylation_EMC_both_pipelines_actual.py",
+      "dependencies": [],
+      "restore_run": "36923792066",
+      "restore_name": "emc-EMC-ten-repaired-raw-arrays-both-frozen-CN-pipelines-36923792066",
+      "before": [
+        "restore_previous_outputs.py",
+        "restore_methylation_R_cache_actual.py"
       ],
-      "restore_run": "36917071796",
-      "restore_name": "emc-ASO-exact-title-source-after-index-filter-repair-36917071796",
-      "timeout_seconds": 900
+      "timeout_seconds": 5200
     },
     {
-      "name": "EMC2019-exact-full-body-source-and-cohort-reuse-qualification",
-      "script": "methylation_EMC_CNV_prior_art.py",
+      "name": "RMS-same-assay-all13-frozen-programmes-and-CSPG4",
+      "script": "pediatric_rms_same_assay_programme_actual.py",
       "dependencies": [
-        "beautifulsoup4",
-        "pypdf",
-        "openpyxl"
+        "numpy",
+        "pandas",
+        "scipy",
+        "tifffile"
       ],
-      "timeout_seconds": 600
+      "restore_run": "36921291739",
+      "restore_name": "emc-RMS-complete42-frozen-target-aggregate-36921291739",
+      "timeout_seconds": 1200
     }
   ]
 }
