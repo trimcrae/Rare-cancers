@@ -1,123 +1,19 @@
 {
   "schema": "emc-bounded-measured-analysis/1",
-  "batch": "complete-clinical-source-proof-and-repaired-imaging",
+  "batch": "frozen-genomic-state-controls",
   "dependencies": [],
   "jobs": [
     {
-      "name": "Agaram-original-patient-table",
-      "script": "agaram_html_patient_table_actual.py",
-      "timeout_seconds": 600,
-      "dependencies": []
-    },
-    {
-      "name": "Foundation-current-HEAD-complete-ID-proof",
-      "script": "foundation_rearrangement_identity_postprocess.py",
-      "args": [
-        "--input",
-        "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/Foundation-complete-rearrangement-source-mapping.json"
-      ],
-      "timeout_seconds": 300,
-      "dependencies": []
-    },
-    {
-      "name": "measured-CD8-PD1-patient-outcome-composition",
-      "script": "immunosarc_numeric_PD1_outcome_postprocess.py",
-      "args": [
-        "--clinical",
-        "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/ImmunoSarc-availability-PFS-composition-actual.json",
-        "--numeric",
-        "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/ImmunoSarc-measured-numeric-IHC-actual.json"
-      ],
-      "timeout_seconds": 300,
-      "dependencies": []
-    },
-    {
-      "name": "authentic-EMC-two-model-declared-genotypes",
-      "script": "bangerter_genotype_supplement_actual.py",
-      "timeout_seconds": 600,
-      "dependencies": [
-        "pypdf"
-      ]
-    },
-    {
-      "name": "repaired-released-ternary-complete-score-body-native",
-      "script": "deepternary_released_score_analysis.py",
-      "timeout_seconds": 900,
-      "dependencies": [
-        "numpy",
-        "scipy",
-        "biopython",
-        "gemmi"
-      ],
-      "restore_run": 36882102233,
-      "restore_name": "emc-complete-released-ternary-native-geometry-36882102233",
-      "before": [
-        "restore_previous_outputs.py"
-      ],
-      "after": [
-        "structure_body_and_pose_summary.py",
-        "deepternary_extra_native.py"
-      ]
-    },
-    {
-      "name": "repaired-spatial-Panel2-3-7",
-      "script": "spatial_marker_followthrough_batch_actual.py",
-      "args": [
-        "--mode",
-        "tiff",
-        "--start",
-        "3",
-        "--stop",
-        "7"
-      ],
-      "timeout_seconds": 2400,
+      "name": "actual-genomic-state-36-fixed-knockout-controls",
+      "script": "genomic_state_controls_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
-        "scipy",
-        "tifffile==2026.3.3",
-        "imagecodecs"
-      ]
-    },
-    {
-      "name": "repaired-spatial-Panel2-8-10",
-      "script": "spatial_marker_followthrough_batch_actual.py",
-      "args": [
-        "--mode",
-        "tiff",
-        "--start",
-        "8",
-        "--stop",
-        "10"
+        "scipy"
       ],
-      "timeout_seconds": 2400,
-      "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile==2026.3.3",
-        "imagecodecs"
-      ]
-    },
-    {
-      "name": "repaired-spatial-Panel2-18-19",
-      "script": "spatial_marker_followthrough_batch_actual.py",
-      "args": [
-        "--mode",
-        "tiff",
-        "--start",
-        "18",
-        "--stop",
-        "19"
-      ],
-      "timeout_seconds": 2400,
-      "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile==2026.3.3",
-        "imagecodecs"
-      ]
+      "restore_run": 36896523203,
+      "restore_name": "emc-final-measured-growth-protein-RNA-drug-CRISPR-36896523203",
+      "timeout_seconds": 2700
     }
   ]
 }
