@@ -5816,42 +5816,20 @@
     ],
     "status": "Complete OCR and literal image acquisition; final source-label reconciliation requires actual image inspection. No inferred 3+21 split."
   },
-  "manual_qualification": {
-    "reviewed_utc": "2026-10-01",
-    "reviewers": "Root and two independent agent source inspections",
-    "supplementary_panels": "a–u across two TIFF frames:12+9=21",
-    "main_panels": {
-      "a": "Brigatinib",
-      "b": "Panobinostat",
-      "c": "Romidepsin"
-    },
-    "joins": [
-      {
-        "printed": "Doxorubicin",
-        "workbook": "Doxorubicin (Adriamycin)",
-        "qualification": "Parenthetical synonym retained"
-      },
-      {
-        "printed": "Mitoxantron",
-        "workbook": "Mitoxantrone",
-        "qualification": "Source spelling discrepancy retained; CAS70476-82-3 in workbook"
-      }
+  "subsequent_complete_public_figure_check": {
+    "result": "Iwata-normal-public-Fig4-caption-and-assets-final.json",
+    "run_id": 36938047423,
+    "job_id": 110622894550,
+    "image_resolution": [
+      970,
+      756
     ],
-    "separate_entries": [
-      "Crizotinib",
-      "S-Crizotinib",
-      "Ixazomib",
-      "Ixazomib citrate"
-    ],
-    "figure_concentration_unit": "µM",
-    "workbook_IC50_unit": "nM",
-    "conversion": "1000nM=1µM",
-    "source_panel_coverage": 24,
-    "source_screen_drugs": 221,
-    "quantitative_values_from": "Reported workbook; no curve digitization or refit",
-    "limits": [
-      "Main preview image312×243; complete primary methods not returned",
-      "OCR alone missed Mitoxantron and spuriously nested Crizotinib; manual labels authoritative"
+    "image_sha256": "fcc7f152c07b24fa8697214eea54cec258fbc5c3b7df8aaf250f633c30c39b63",
+    "caption": "a - c The growth-suppressive effects of the anticancer drugs on NCC-EMC1-C1 cells (passage 24) were assessed by drug screening. Cell viability tested with three anti-cancer agents at different concentrations. The name of each anti-cancer agent is shown under the graph",
+    "qualified_limits": [
+      "Complete main caption/full image limitation resolved",
+      "Passage24 established only for mainFigure4",
+      "Complete main experimental methods, replicate counts/error-bar definitions/raw replicates not recovered"
     ]
   }
 }
