@@ -10,62 +10,24 @@
   ],
   "jobs": [
     {
-      "name": "IMC-complete-density-conditioned-patient-control",
-      "script": "spatial_density_sensitivity_actual.py",
+      "name": "EMC-ten-raw-methylation-and18-normal-IDAT-sources",
+      "script": "methylation_EMC_MTAPlocus_source_actual.py",
       "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn"
+        "openpyxl",
+        "pypdf"
       ],
-      "restore_run": "36887975194",
-      "restore_all": true,
-      "extra_restore_run": "36897521385",
       "timeout_seconds": 1800
     },
     {
-      "name": "pediatric-all33-reranked-bootstrap-intervals",
-      "script": "pediatric_rank_bootstrap_actual.py",
+      "name": "NR4A3-four-fusion-and-all32-author-marker-promoters",
+      "script": "frozen_fusion_ATAC_promoter_actual.py",
       "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn"
+        "scipy"
       ],
-      "restore_run": "36897521385",
-      "restore_name": "emc-pediatric-full-ranked-genes-and-89-compositions-36897521385",
-      "timeout_seconds": 900
+      "timeout_seconds": 1000
     },
     {
-      "name": "PeerJ-complete-small-EMC-fixed-expression-diagnostics",
-      "script": "peerj_expression_diagnostic_actual.py",
-      "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn"
-      ],
-      "timeout_seconds": 900
-    },
-    {
-      "name": "ASO-all-primary-chemistry-and-surrogate-controls",
-      "script": "aso_main_table_chemistry_controls.py",
-      "dependencies": [
-        "biopython"
-      ],
-      "timeout_seconds": 300
-    },
-    {
-      "name": "ASO-exact-cited-2013-source-and-supplements",
+      "name": "ASO-exact-title-source-after-index-filter-repair",
       "script": "aso_hagedorn2013_source.py",
       "dependencies": [
         "pypdf",
@@ -76,15 +38,21 @@
       "timeout_seconds": 1500
     },
     {
-      "name": "released-ternary-exact-embedded-config-receipts",
-      "script": "deepternary_embedded_config_metadata.py",
-      "dependencies": [],
-      "restore_run": "36882102233",
-      "restore_name": "emc-complete-released-ternary-native-geometry-36882102233",
-      "before": [
-        "restore_previous_outputs.py"
+      "name": "Ewing-all234-saved-pixels-and-fixed-cell-windows",
+      "script": "ewing_finalize_pixels_actual.py",
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "tifffile",
+        "imagecodecs",
+        "h5py",
+        "scikit-learn"
       ],
-      "timeout_seconds": 180
+      "restore_run": "36896523203",
+      "restore_all": true,
+      "extra_restore_run": "36902596504",
+      "timeout_seconds": 1800
     }
   ]
 }
