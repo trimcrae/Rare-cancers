@@ -1,6 +1,6 @@
 # Patient-linked measured assay availability in a serial-biopsy sarcoma trial
 
-Serial-biopsy studies can report similar aggregate assay counts while supporting different patient-level comparisons. The public clinical, molecular and supplementary data from the sarcoma immunotherapy study NCT03282344 permit an additional analysis: which patients contribute published measurements to each assay at each timepoint, and what clinical outcomes describe those subsets?[1] We linked these sources and recovered numerical CD8 and PD-1 immunohistochemistry (IHC) values. The analysis concerns the composition of measured subsets, rather than treatment efficacy or biomarker validation. This study contains no extraskeletal myxoid chondrosarcoma and is distinct from the similarly named IMMUNOSARC1 study.
+Serial-biopsy studies can report similar aggregate assay counts while supporting different patient-level comparisons. The public clinical, molecular and supplementary data from the sarcoma immunotherapy study NCT03282344 permit an additional analysis: which patients contribute published measurements to each assay at each timepoint, and what clinical outcomes describe those subsets?[1] We linked these sources and recovered numerical CD8 and PD-1 immunohistochemistry (IHC) values. The analysis concerns the composition of measured subsets, rather than treatment efficacy or biomarker validation. The linked exports provide no separately verified EMC-specific subset and concern NCT03282344, distinct from IMMUNOSARC1.
 
 We used PatientSourceData.txt and SampleSourceData.txt from mskcc/ImmunoSarc, pinned to revision b71c3373bc182f9c647a6f7bc1fbd641d24db917. The respective Git blob identifiers were 8e65abf4208c2e6d9b96d8271752bfde4c85f443 and c3d9ee850299eb8930788468c87754b58d5a67f8. We joined records by Subject and checked PatientID, cohort, best response, progression-free survival (PFS) and censoring concordance. All 133 sample rows linked to the 77 clinical records without duplicate patient–timepoint records. The sample table represented 69 patients; eight clinical records had missing PatientID values. These source denominators differ from the 84 patients enrolled in the original study.[1]
 
@@ -49,4 +49,4 @@ The original clinical, sample and figure-code sources are available at the [pinn
 
 ## Reference
 
-1. D'Angelo SP et al. Nature Communications. 2022. [doi:10.1038/s41467-022-30874-8](https://doi.org/10.1038/s41467-022-30874-8).
+1. D'Angelo SP et al. Pilot study of bempegaldesleukin in combination with nivolumab in patients with metastatic sarcoma. Nature Communications. 2022;13:3477. PMID:35710741. [doi:10.1038/s41467-022-30874-8](https://doi.org/10.1038/s41467-022-30874-8).
