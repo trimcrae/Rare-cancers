@@ -63,7 +63,7 @@ jobs:
           job=json.loads(os.environ["JOB_JSON"]);dependencies=json.loads(os.environ["DEPENDENCIES_JSON"])
           if dependencies:subprocess.run([sys.executable,"-m","pip","install",*dependencies],check=True,timeout=600)
           receipts=[]
-          tasks=[{"name":"prepare-"+p,"script":p,"timeout_seconds":300} for p in job.get("before",[])]+[job]
+          tasks=[{"name":"prepare-"+p,"script":p,"timeout_seconds":300} for p in job.get("before",[])]+[job]+[{"name":"after-"+p,"script":p,"timeout_seconds":900} for p in job.get("after",[])]
           for task in tasks:
               script=(here/task["script"]).resolve();script.relative_to(here.resolve())
               start=time.time()
