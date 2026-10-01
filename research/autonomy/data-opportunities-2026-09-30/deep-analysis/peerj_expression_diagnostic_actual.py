@@ -1,3 +1,4 @@
+import urllib.parse
 import json,io,zipfile,hashlib,datetime,re,collections
 from pathlib import Path
 import numpy as np,pandas as pd
@@ -14,10 +15,16 @@ def get():
   for p in paths:assert p.stat().st_size==SIZE and hashlib.sha256(p.read_bytes()).hexdigest()==PIN
   return paths[0],{'saved':str(paths[0]),'bytes':SIZE,'sha256':PIN,'source':'restoredfrozenmember'}
  attempts=[];routes=[('ZIP','https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/supplementaryFiles')]*3+[('XLSX','https://pmc.ncbi.nlm.nih.gov/articles/instance/13374579/bin/'+NAME),('XLSX','https://pmc.ncbi.nlm.nih.gov/articles/PMC13374579/bin/'+NAME),('XLSX','https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13374579/bin/'+NAME)]
+ try:
+  page,pr=sm.getfull('https://peerj.com/articles/21497/','PeerJ-publisher-source-page.html',8*1024**2);attempts.append({'publisher_page_receipt':pr});html=page.read_text(errors='replace')
+  for link in re.findall(r'href=["\x27]([^"\x27]+)["\x27]',html):
+   if re.search(r'(Supplemental_Information_9|s009).*\.xlsx(?:\?|$)',link,re.I):routes.append(('XLSX',urllib.parse.urljoin(pr.get('final_url','https://peerj.com/articles/21497/'),link)))
+ except Exception as e:attempts.append({'url':'https://peerj.com/articles/21497/','error_type':type(e).__name__,'error':str(e),'absence_claim':False})
+ routes.append(('XLSX','https://europepmc.org/articles/PMC13374579/bin/'+NAME))
  for i,(kind,url) in enumerate(routes):
   item={'url':url,'kind':kind,'attempt':i+1};attempts.append(item)
   try:
-   p,r=sm.getfull(url,'PeerJ-source-recovery-'+str(i)+('.zip' if kind=='ZIP' else'.xlsx'),32*1024**2 if kind=='ZIP' else2*1024**2);item.update(receipt=r)
+   p,r=sm.getfull(url,'PeerJ-source-recovery-'+str(i)+('.zip' if kind=='ZIP' else'.xlsx'),32*1024**2 if kind=='ZIP' else 2*1024**2);item.update(receipt=r)
    if kind=='ZIP':
     with zipfile.ZipFile(p) as z:
      hits=[v for v in z.namelist() if Path(v).name==NAME];assert len(hits)==1;b=z.read(hits[0]);member=hits[0]
