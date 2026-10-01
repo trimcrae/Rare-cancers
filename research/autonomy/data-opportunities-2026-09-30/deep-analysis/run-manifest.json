@@ -2,35 +2,8 @@
   "dependencies": [],
   "jobs": [
     {
-      "name": "EMC-ten-raw-array-relative-copy-number-and18-reference-controls",
-      "script": "methylation_EMC_MTAPlocus_conumee_actual.py",
-      "dependencies": [],
-      "restore_run": "36917071796",
-      "restore_name": "emc-EMC-ten-raw-methylation-and18-normal-IDAT-sources-36917071796",
-      "before": [
-        "restore_previous_outputs.py"
-      ],
-      "timeout_seconds": 5000
-    },
-    {
-      "name": "RMS-all42-measured-library-and-literal-root-aggregation",
-      "script": "pediatric_rms_full42_aggregate_actual.py",
-      "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn"
-      ],
-      "restore_run": "36914111788",
-      "restore_all": true,
-      "timeout_seconds": 1800
-    },
-    {
-      "name": "RMS-exact-primary-cell-state-and-model-annotations",
-      "script": "pediatric_rms_exact_primary_annotations_actual.py",
+      "name": "Ewing-all26-sourcecases-fixed-geometry-and-cluster-tests",
+      "script": "ewing_patient_geometry_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
@@ -41,15 +14,42 @@
         "scikit-learn",
         "openpyxl"
       ],
+      "restore_run": "36917071796",
+      "restore_name": "emc-Ewing-all234-saved-pixels-and-fixed-cell-windows-36917071796",
       "timeout_seconds": 1800
     },
     {
-      "name": "PeerJ-exact-measured-expression-recovery-and-diagnostics",
+      "name": "NR4A3-all32-ATAC-marker-panels-official-annotation-repair",
+      "script": "frozen_fusion_ATAC_promoter_actual.py",
+      "dependencies": [
+        "scipy"
+      ],
+      "timeout_seconds": 1000
+    },
+    {
+      "name": "ASO-exact-primary-tables-and-measured-supplement-assets",
+      "script": "aso_exact_primary_HTML_inspection.py",
+      "dependencies": [
+        "pypdf",
+        "pandas",
+        "openpyxl",
+        "xlrd"
+      ],
+      "restore_run": "36917071796",
+      "restore_name": "emc-ASO-exact-title-source-after-index-filter-repair-36917071796",
+      "timeout_seconds": 1800
+    },
+    {
+      "name": "PeerJ-measured-expression-diagnostics-dependency-repair",
       "script": "peerj_expression_diagnostic_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
         "scipy",
+        "tifffile",
+        "imagecodecs",
+        "h5py",
+        "scikit-learn",
         "openpyxl"
       ],
       "timeout_seconds": 1800
