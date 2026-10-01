@@ -1,20 +1,20 @@
 {
   "schema": "emc-measured-data-run/1",
   "date": "2026-10-01",
-  "batch": "all-pair-structure-eligibility-census",
+  "batch": "class-preserving-registry-and-primary-clinical-followthrough",
   "dependencies": [
-    "numpy",
-    "scipy",
-    "biopython"
+    "pypdf"
   ],
   "jobs": [
     {
-      "name": "all-eligible-structural-pairs",
-      "before": [
-        "structure_sensitivity.py"
-      ],
-      "script": "structure_omitted_pairs.py",
-      "timeout_seconds": 600
+      "name": "registry-literal-class-preserving-normalization",
+      "script": "registry_class_preserving_normalization.py",
+      "timeout_seconds": 300
+    },
+    {
+      "name": "clinical-case-and-immune-primary-fulltexts",
+      "script": "clinical_source_followup.py",
+      "timeout_seconds": 1200
     }
   ]
 }
