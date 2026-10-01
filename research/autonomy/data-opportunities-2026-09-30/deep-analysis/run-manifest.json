@@ -1,21 +1,20 @@
 {
   "schema": "emc-deep-analysis-manifest/1",
-  "purpose": "Complete already identified two-model40-drug source coverage rather than stopping at genotype metadata",
+  "purpose": "Complete all measured40-source categorical responses and exact/qualified cross-source coverage",
   "jobs": [
     {
-      "name": "Bangerter-all40-drug-primary-tables-and-actual-source-figures",
-      "script": "bangerter_complete_drug_screen_source_actual.py",
+      "name": "Bangerter-all40-measured-ordinal-rows-and-complete-Iwata-overlap",
+      "script": "bangerter_all40_ordinal_and_complete_overlap_actual.py",
       "before": [
         "restore_previous_outputs.py"
       ],
-      "restore_run": "36900530648",
-      "restore_name": "emc-authentic-EMC-two-model-declared-genotypes-36900530648",
-      "timeout_seconds": 1800,
+      "restore_run": "36939274161",
+      "restore_name": "emc-Bangerter-all40-drug-primary-tables-and-actual-source-figures-36939274161",
+      "timeout_seconds": 900,
       "dependencies": [
-        "requests",
-        "Pillow",
         "numpy",
-        "rapidocr_onnxruntime"
+        "Pillow",
+        "requests"
       ]
     }
   ]
