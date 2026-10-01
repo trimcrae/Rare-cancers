@@ -281,6 +281,31 @@ def _parent_witness_matches(target, length, row, parents):
 
 
 # ────────────────────────────────────────────────────────────────────────────────── the verifier
+def _frame_rows(atlas, independent, problems):
+    """Retain row multiplicity and check reported counts against rows and independent grades."""
+    rows = {}
+    row_counts = {}
+    for row in atlas["graded_pairs"]:
+        label = row["junction_label"]
+        grade = row["grade"]
+        row_counts[grade] = row_counts.get(grade, 0) + 1
+        if label in rows:
+            problems.append(f"C: duplicate atlas graded pair {label}")
+        else:
+            rows[label] = row
+    recorded = atlas["grade_counts"]
+    if (not isinstance(recorded, dict) or
+            any(type(value) is not int or value < 0 for value in recorded.values())):
+        problems.append("C: atlas grade_counts must be non-negative integer counts")
+    if recorded != row_counts:
+        problems.append("C: atlas grade_counts disagrees with its graded rows")
+    expected = {grade: sum(row["grade"] == grade for row in independent.values())
+                for grade in sorted({row["grade"] for row in independent.values()})}
+    if recorded != expected:
+        problems.append("C: atlas grade_counts disagrees with independent grades")
+    return rows
+
+
 def run():
     problems = []
     notes = {}
@@ -331,7 +356,7 @@ def run():
     mine = grade_all_pairs(models, lo, hi, window)
     unrestricted = grade_all_pairs(
         models, lo, hi, range(1, len(models["NR4A3"]["exon_lengths"]) + 1))
-    theirs = {p["junction_label"]: p for p in atlas["graded_pairs"]}
+    theirs = _frame_rows(atlas, mine, problems)
 
     if set(mine) != set(theirs):
         problems.append(f"C: pair set differs — mine {len(mine)}, atlas {len(theirs)}")

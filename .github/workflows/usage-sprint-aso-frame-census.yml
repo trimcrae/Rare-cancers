@@ -6,6 +6,8 @@ on:
     paths:
       - .github/workflows/usage-sprint-aso-frame-census.yml
       - research/autonomy/usage-sprint-2026-10-01/frame-census/**
+      - research/modalities/aso_independent_verification.py
+      - research/modalities/tests/test_aso_independent_verification_integrity.py
 permissions:
   contents: read
 concurrency:
@@ -14,7 +16,7 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,37 +25,70 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Demonstrate baseline corruption
+      - name: Install targeted test dependency
+        timeout-minutes: 3
+        run: python3 -m pip install pytest
+      - name: Targeted verifier behavior
+        run: >-
+          python3 -m pytest
+          research/modalities/tests/test_aso_independent_verification.py
+          research/modalities/tests/test_aso_independent_verification_integrity.py -q
+      - name: Reproduce unchanged scientific verification artifact
+        run: python3 research/modalities/aso_independent_verification.py --check
+      - name: Generate and capture derived census and live metadata
         run: |
+          set -euo pipefail
           git rev-parse HEAD
-          python3 - <<'PY'
-          import copy
-          import json
+          test -z "$(git status --porcelain)"
+          snapshot=$(mktemp)
+          cp research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md "$snapshot"
+          trap 'git restore research/manuscripts/aso/fusion-junction-aso-archive-manifest.json research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md; rm -f research/autonomy/usage-sprint-2026-10-01/frame-census/aso-frame-candidate-census.json "$snapshot"' EXIT
+          python3 research/autonomy/usage-sprint-2026-10-01/frame-census/aso_frame_candidate_census.py
+          python3 research/autonomy/usage-sprint-2026-10-01/frame-census/aso_frame_candidate_census.py --check
+          python3 research/manuscripts/aso_archive_manifest.py
+          python3 research/manuscripts/aso_archive_manifest.py --check
+          python3 research/manuscripts/aso_deposit_drift.py
+          python3 research/manuscripts/aso_deposit_drift.py --check
+          python3 - "$snapshot" <<'PY'
           from pathlib import Path
+          import subprocess
           import sys
-          import tempfile
-          sys.path.insert(0, "research/modalities")
-          import aso_independent_verification as v
-          original = json.loads(Path(v.ATLAS).read_text(encoding="utf-8"))
-          with tempfile.TemporaryDirectory() as tmp:
-              atlas_path = Path(tmp) / "atlas.json"
-              v.ATLAS = str(atlas_path)
-              for name in ("duplicate", "wrong_count"):
-                  atlas = copy.deepcopy(original)
-                  if name == "duplicate":
-                      atlas["graded_pairs"].append(copy.deepcopy(atlas["graded_pairs"][0]))
-                  else:
-                      atlas["grade_counts"]["EMITTABLE"] += 1
-                  atlas_path.write_text(json.dumps(atlas), encoding="utf-8")
-                  result = v.run()
-                  print(json.dumps({"corruption": name, "verdict": result["verdict"],
-                                    "problems": result["problems"], "rows": len(atlas["graded_pairs"]),
-                                    "atlas_grade_counts": atlas["grade_counts"]}))
-                  assert result["verdict"] == "AGREES", "Baseline silent-corruption premise not reproduced"
-          print("BASELINE SILENT CORRUPTION REPRODUCED: duplicate row and incorrect EMITTABLE aggregate")
+          allowed = {
+              "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+              "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",
+          }
+          changed = set(subprocess.check_output(["git", "diff", "--name-only"], text=True).splitlines())
+          assert changed == allowed, changed
+          old = Path(sys.argv[1]).read_bytes()
+          new = Path("research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md").read_bytes()
+          begin = b"<!-- BEGIN GENERATED deposit-drift"
+          end = b"<!-- END GENERATED deposit-drift -->"
+          assert old[:old.index(begin)] == new[:new.index(begin)]
+          assert old[old.index(end):] == new[new.index(end):]
+          print("CHECKLIST MANUAL HEAD AND TAIL PRESERVED")
           PY
-      - name: Preserve tracked inputs
+          python3 - <<'PY'
+          import base64
+          import hashlib
+          from pathlib import Path
+          paths = {
+              "CENSUS": "research/autonomy/usage-sprint-2026-10-01/frame-census/aso-frame-candidate-census.json",
+              "ARCHIVE": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+              "CHECKLIST": "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",
+          }
+          for label, path in paths.items():
+              raw = Path(path).read_bytes()
+              blob = hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
+              print(f"{label}_METADATA bytes={len(raw)} sha256={hashlib.sha256(raw).hexdigest()} git_blob={blob}")
+              print(f"{label}_B64_BEGIN")
+              encoded = base64.b64encode(raw).decode("ascii")
+              for offset in range(0, len(encoded), 76):
+                  print(encoded[offset:offset + 76])
+              print(f"{label}_B64_END")
+          
+          PY
+      - name: Confirm preview restoration
         if: ${{ !cancelled() }}
         run: |
-          git status --short
+          test -z "$(git status --porcelain)"
           git diff --exit-code
