@@ -2,40 +2,33 @@
   "dependencies": [],
   "jobs": [
     {
-      "name": "ASO-all-four-main-redesigns-exact-frozen-proxy",
-      "script": "aso2013_main_redesign_frozen_proxy_actual.py",
-      "dependencies": [
-        "biopython"
-      ],
-      "timeout_seconds": 300
-    },
-    {
-      "name": "RMS-same-assay-all13-programmes-correct-source-artifact",
-      "script": "pediatric_rms_same_assay_programme_actual.py",
-      "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile"
-      ],
-      "restore_run": "36921291739",
-      "restore_name": "emc-RMS-all42-frozen88-string-measurements-and-aggregation-36921291739",
-      "timeout_seconds": 1200
-    },
-    {
-      "name": "RMS-exact-publisher-and-PeerJ-public-project-metadata",
-      "script": "exact_rms_publisher_and_peerj_project_metadata_actual.py",
+      "name": "RMS-complete-real-publisher-sheets-and-source-annotation-repair",
+      "script": "pediatric_rms_restored_publisher_assets_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
         "scipy",
         "tifffile",
-        "openpyxl",
-        "pymupdf"
+        "openpyxl"
       ],
-      "restore_run": "36921168639",
-      "restore_all": true,
-      "timeout_seconds": 2400
+      "restore_run": "36930743580",
+      "restore_name": "emc-RMS-exact-publisher-and-PeerJ-public-project-metadata-36930743580",
+      "timeout_seconds": 3000
+    },
+    {
+      "name": "PeerJ-all24-actual-clinical-label-diagnostics",
+      "script": "peerj_literal_clinical_label_actual.py",
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "tifffile",
+        "openpyxl"
+      ],
+      "restore_run": "36930743580",
+      "restore_name": "emc-RMS-exact-publisher-and-PeerJ-public-project-metadata-36930743580",
+      "extra_restore_run": "36921168639",
+      "timeout_seconds": 1200
     }
   ]
 }
