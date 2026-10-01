@@ -16,7 +16,7 @@ The available record therefore supports reporting fusion partner as a candidate 
 
 ## Original genomic source and callability appendix
 
-The original Foundation source contains 75 EMC profile identifiers: 63 with reported EWSR1–NR4A3 and 12 with reported TAF15–NR4A3 calls. These are source profiles, not 75 independently verified clinical patients. The 76 response-element annotations attached to those profiles are also not an extra patient. Using original source identifiers, all 28 frozen fusion-partner/reported-co-alteration contrasts had Benjamini–Hochberg q=1. Isolated TP53/PTEN source calls did not establish partner-specific enrichment.
+The original Foundation source contains 75 EMC profile identifiers: 63 with reported EWSR1–NR4A3 and 12 with reported TAF15–NR4A3 calls. These are source profiles, not 75 independently verified clinical patients. The 76 rearrangement annotations attached to those profiles are also not an extra patient. Using original source identifiers, all 28 frozen fusion-partner/reported-co-alteration contrasts had Benjamini–Hochberg q=1. Isolated TP53/PTEN source calls did not establish partner-specific enrichment.
 
 No MTAP/CDKN2A/CDKN2B EMC alteration was reported in these rows, but the export lacks specimen-specific negative-callability and assay-modality manifests. Absence from the reported-call table is not a verified negative genotype; MTAP was outside the listed original panel. The source contains no matched treatment or individual follow-up endpoints, and genomic evidence contributed to final diagnosis in some cases. These qualifications prevent using the repaired source identities to infer fusion-partner prognosis, drug response or absolute genotype.
 
