@@ -5,6 +5,7 @@ on:
     paths:
       - .github/workflows/emc-data-opportunities-2026-09-30.yml
       - research/autonomy/data-opportunities-2026-09-30/analysis/public_source_retrieval.py
+      - research/autonomy/data-opportunities-2026-09-30/analysis/primary_source_retrieval.py
 permissions:
   contents: read
 concurrency:
@@ -22,3 +23,6 @@ jobs:
           sparse-checkout: research/autonomy/data-opportunities-2026-09-30
       - name: Fetch hash-verified public source tables
         run: python3 research/autonomy/data-opportunities-2026-09-30/analysis/public_source_retrieval.py
+
+      - name: Verify primary literature and reference metadata
+        run: python3 research/autonomy/data-opportunities-2026-09-30/analysis/primary_source_retrieval.py

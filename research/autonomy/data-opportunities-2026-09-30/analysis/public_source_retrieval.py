@@ -69,7 +69,7 @@ try:
     patient_ids={r.get("PATIENT_ID") for r in targets if r.get("PATIENT_ID")}
     result["unique_sample_ids"]=len(sample_ids)
     result["unique_patient_ids"]=len(patient_ids)
-    fields=[k for k in result["sample_columns"] if any(t in k.upper() for t in ["HLA","CANCER","ONCOTREE","SAMPLE_ID","PATIENT_ID","SAMPLE_TYPE","PRIMARY","METAST"])]
+    fields=[k for k in result["sample_columns"] if any(t in k.upper() for t in ["HLA","CANCER","ONCOTREE","SAMPLE_ID","PATIENT_ID","SAMPLE_TYPE","PRIMARY","METAST","FACETS","PURITY","COVERAGE","GENE_PANEL"])]
     result["selected_sample_fields"]=[{k:r.get(k) for k in fields} for r in targets]
     patients=table(source("data_clinical_patient.txt"))
     result["patient_columns"]=list(patients[0]) if patients else []
@@ -82,7 +82,7 @@ try:
     reader=csv.reader((line for line in matrix.splitlines() if line and not line.startswith("#")),delimiter="\t")
     header=next(reader)
     selected=[i for i,v in enumerate(header) if v in sample_ids]
-    leading=[i for i,v in enumerate(header) if v not in sample_ids and i<3]
+    leading=[i for i,v in enumerate(header) if v in ("ENTITY_STABLE_ID","HLA_GENE")]
     result["hla_matrix_header_prefix"]=header[:6]
     result["hla_matrix_matching_columns"]=[header[i] for i in selected]
     rows=[]
