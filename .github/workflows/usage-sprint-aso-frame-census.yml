@@ -1,0 +1,59 @@
+name: ASO frame census sprint
+on:
+  push:
+    branches:
+      - codex/usage-sprint-2026-10-01-frame-census
+    paths:
+      - .github/workflows/usage-sprint-aso-frame-census.yml
+      - research/autonomy/usage-sprint-2026-10-01/frame-census/**
+permissions:
+  contents: read
+concurrency:
+  group: usage-sprint-aso-frame-census-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Demonstrate baseline corruption
+        run: |
+          git rev-parse HEAD
+          python3 - <<'PY'
+          import copy
+          import json
+          from pathlib import Path
+          import sys
+          import tempfile
+          sys.path.insert(0, "research/modalities")
+          import aso_independent_verification as v
+          original = json.loads(Path(v.ATLAS).read_text(encoding="utf-8"))
+          with tempfile.TemporaryDirectory() as tmp:
+              atlas_path = Path(tmp) / "atlas.json"
+              v.ATLAS = str(atlas_path)
+              for name in ("duplicate", "wrong_count"):
+                  atlas = copy.deepcopy(original)
+                  if name == "duplicate":
+                      atlas["graded_pairs"].append(copy.deepcopy(atlas["graded_pairs"][0]))
+                  else:
+                      atlas["grade_counts"]["EMITTABLE"] += 1
+                  atlas_path.write_text(json.dumps(atlas), encoding="utf-8")
+                  result = v.run()
+                  print(json.dumps({"corruption": name, "verdict": result["verdict"],
+                                    "problems": result["problems"], "rows": len(atlas["graded_pairs"]),
+                                    "atlas_grade_counts": atlas["grade_counts"]}))
+                  assert result["verdict"] == "AGREES", "Baseline silent-corruption premise not reproduced"
+          print("BASELINE SILENT CORRUPTION REPRODUCED: duplicate row and incorrect EMITTABLE aggregate")
+          PY
+      - name: Preserve tracked inputs
+        if: ${{ !cancelled() }}
+        run: |
+          git status --short
+          git diff --exit-code
