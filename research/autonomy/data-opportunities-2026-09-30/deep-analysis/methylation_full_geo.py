@@ -190,6 +190,7 @@ def main():
  checkpoint('all-reference fit and 428 external predictions saved')
  eq_result,eqclasses,eqidx=mt.evaluate('equal_budget',mask,equal,stub,md,rows,archive);result['equal_budget']=eq_result
  if eqclasses!=classes or not np.array_equal(eqidx,idx):raise ValueError('equal budget comparison panel changed')
+ checkpoint('equal training budget fits saved')
  frame=pd.DataFrame(rows)
  result['paired_brier_comparisons']=[mt.paired_bootstrap(frame,md,'Supplier'),mt.paired_bootstrap(frame,md,'chip')]
  eqframe=frame[frame.panel=='equal_budget'].assign(panel='common')
