@@ -48,8 +48,15 @@ for gene in ['ApoB','Copg','Mast2','Hltf']:
 if rr[0]['RNA5to3'].replace('U','T')!='AATGGCCAGCTTG'.translate(str.maketrans('ACGT','TGCA'))[::-1]:raise ValueError('Toehold orientation mismatch')
 toehold={'primarySource':ths['primarySource'],'ASO':'hApo1n AAtggccagcTTG,fullyPS2-8-3LNA13mer','nOffTargetDuplexes':3,'rows':score(rr)};workbook=None
 try:
- arch=ths['supplementArchive'];raw=get(arch['url'],96*1024*1024,arch['sha256']);zipfile_path=OUT.parent/'aso-toehold-primary-supplements.zip';zipfile_path.write_bytes(raw)
+ arch=ths['supplementArchive'];raw=get(arch['url'],96*1024*1024);zipfile_path=OUT.parent/'aso-toehold-primary-supplements.zip';zipfile_path.write_bytes(raw)
  with zipfile.ZipFile(io.BytesIO(raw)) as z:
+  observed={i.filename:i.file_size for i in z.infolist() if not i.is_dir()};expected_manifest={i['name']:i['bytes'] for i in ths['archiveMembers'] if not i['name'].endswith('/')};assert observed==expected_manifest,'supplement member manifest changed'
+  verified=[]
+  for saved in ths['parsedSupplementTables']:
+   if saved.get('sha256') and saved['file'].endswith('.xlsx'):
+    member=z.read(saved['file']);assert hashlib.sha256(member).hexdigest()==saved['sha256'],saved['file'];verified.append({'file':saved['file'],'sha256':saved['sha256']})
+  assert len(verified)==3
+  receipts[-1].update(originalArchiveSha256=arch['sha256'],archiveContainerDigestChanged=hashlib.sha256(raw).hexdigest()!=arch['sha256'],originalMemberManifestMatched=True,frozenMemberDigestsVerified=verified)
   hits=[n for n in z.namelist() if n.endswith('41467_2023_43714_MOESM8_ESM.xlsx')]
   if len(hits)!=1:raise ValueError('expected SourceData XLSX')
   info=z.getinfo(hits[0])
