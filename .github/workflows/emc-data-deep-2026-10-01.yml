@@ -41,7 +41,7 @@ jobs:
         include: ${{ fromJson(needs.prepare.outputs.jobs) }}
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -69,7 +69,7 @@ jobs:
           python3 - <<'PY'
           import hashlib,json,os,pathlib,py_compile,subprocess,sys,time
           here=pathlib.Path("research/autonomy/data-opportunities-2026-09-30/deep-analysis")
-          job=json.loads(os.environ["JOB_JSON"]);dependencies=json.loads(os.environ["DEPENDENCIES_JSON"])
+          job=json.loads(os.environ["JOB_JSON"]);dependencies=job.get("dependencies",json.loads(os.environ["DEPENDENCIES_JSON"]))
           if dependencies:subprocess.run([sys.executable,"-m","pip","install",*dependencies],check=True,timeout=600)
           receipts=[]
           tasks=[{"name":"prepare-"+p,"script":p,"timeout_seconds":300} for p in job.get("before",[])]+[job]+[{"name":"after-"+p,"script":p,"timeout_seconds":900} for p in job.get("after",[])]
