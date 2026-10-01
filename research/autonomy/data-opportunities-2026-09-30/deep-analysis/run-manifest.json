@@ -1,20 +1,15 @@
 {
   "schema": "emc-measured-data-run/1",
   "date": "2026-10-01",
-  "batch": "released-ternary-native-benchmark",
+  "batch": "source-identified-Foundation-EMC-measured-calls",
   "dependencies": [
-    "numpy",
-    "scipy",
-    "biopython"
+    "xlrd"
   ],
   "jobs": [
     {
-      "name": "complete-released-ternary-native-geometry",
-      "script": "deepternary_release_inventory.py",
-      "after": [
-        "deepternary_native_geometry.py"
-      ],
-      "timeout_seconds": 1200
+      "name": "Foundation-75-EMC-original-CNA-and-fusion-calls",
+      "script": "foundation_emc_workbook_analysis.py",
+      "timeout_seconds": 600
     }
   ]
 }
