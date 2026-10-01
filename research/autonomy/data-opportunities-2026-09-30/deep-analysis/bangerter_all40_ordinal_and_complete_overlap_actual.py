@@ -7,7 +7,15 @@ import requests
 from PIL import Image
 O=Path('campaign-output/bangerter-all40-ordinal');O.mkdir(parents=True,exist_ok=True)
 P=Path('campaign-output/bangerter-drug-screen/13577_2022_818_Fig5_HTML.jpg')
-SOURCE_SHA='3d22b276d0b845d7d11ca8ef967caefedc3c4798a3d41e2b0ea129912106eb36';B=P.read_bytes()
+SOURCE_SHA='3d22b276d0b845d7d11ca8ef967caefedc3c4798a3d41e2b0ea129912106eb36'
+if not P.exists():
+ import zipfile,io
+ ap=Path('campaign-output/bangerter-genotypes/declared-supplements.zip');zb=ap.read_bytes()
+ if hashlib.sha256(zb).hexdigest()!='f81f4cad2ff8a456aadf971db0e38db3e8fecbd4f9aa5ac94c52a412f5c45c93':raise ValueError('Restored source archive hash mismatch')
+ z=zipfile.ZipFile(io.BytesIO(zb));hits=[n for n in z.namelist() if Path(n).name==P.name]
+ if len(hits)!=1:raise ValueError('Exact source figure member unresolved')
+ P.parent.mkdir(parents=True,exist_ok=True);P.write_bytes(z.read(hits[0]))
+B=P.read_bytes()
 if hashlib.sha256(B).hexdigest()!=SOURCE_SHA:raise ValueError('Figure5 identity mismatch')
 a=np.asarray(Image.open(P).convert('RGB'))
 if a.shape[:2]!=(544,677):raise ValueError('Fixed coordinates require actual677x544 source')
