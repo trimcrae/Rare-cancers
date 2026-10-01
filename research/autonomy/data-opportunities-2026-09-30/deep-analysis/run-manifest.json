@@ -1,25 +1,19 @@
 {
   "schema": "emc-measured-data-run/1",
   "date": "2026-10-01",
-  "batch": "alternate-protein-measurements-and-primary-spatial-sources",
+  "batch": "all-pair-structure-eligibility-census",
   "dependencies": [
     "numpy",
-    "pandas",
     "scipy",
-    "scikit-learn",
-    "h5py",
-    "tifffile",
-    "imagecodecs"
+    "biopython"
   ],
   "jobs": [
     {
-      "name": "finite-protein-cross-assay-ranks-and-coverage",
-      "script": "finite_protein_cross_assay.py",
-      "timeout_seconds": 1200
-    },
-    {
-      "name": "spatial-and-pediatric-primary-supplements",
-      "script": "spatial_primary_followthrough.py",
+      "name": "all-eligible-structural-pairs",
+      "before": [
+        "structure_sensitivity.py"
+      ],
+      "script": "structure_omitted_pairs.py",
       "timeout_seconds": 600
     }
   ]
