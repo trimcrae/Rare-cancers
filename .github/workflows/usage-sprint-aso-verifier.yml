@@ -1,0 +1,61 @@
+name: ASO verifier sprint validation
+on:
+  push:
+    branches:
+      - codex/usage-sprint-2026-10-01-aso-verifier
+    paths:
+      - .github/workflows/usage-sprint-aso-verifier.yml
+      - research/modalities/aso_independent_verification.py
+      - research/modalities/tests/test_aso_independent_verification.py
+      - research/modalities/tests/test_aso_independent_verification_integrity.py
+permissions:
+  contents: read
+concurrency:
+  group: usage-sprint-aso-verifier-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Record tested revision and source modes
+        run: |
+          git rev-parse HEAD
+          python3 --version
+          git ls-files --stage research/modalities/aso_independent_verification.py research/modalities/tests/test_aso_independent_verification_integrity.py
+      - name: Install targeted test dependency
+        timeout-minutes: 3
+        run: python3 -m pip install pytest
+      - name: Targeted verifier regression tests
+        run: >-
+          python3 -m pytest
+          research/modalities/tests/test_aso_independent_verification.py
+          research/modalities/tests/test_aso_independent_verification_integrity.py
+          -q --durations=10
+      - name: Reproduce committed verification artifact
+        if: ${{ !cancelled() }}
+        run: python3 research/modalities/aso_independent_verification.py --check
+      - name: Install normal preflight dependencies
+        id: preflight_dependencies
+        if: ${{ !cancelled() }}
+        timeout-minutes: 5
+        run: >-
+          python3 -m pip install
+          uv pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
+          pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+      - name: Normal preflight (default fast gates)
+        if: ${{ !cancelled() && steps.preflight_dependencies.outcome == 'success' }}
+        timeout-minutes: 10
+        run: ./scripts/preflight.sh
+      - name: Confirm validation preserved tracked inputs
+        if: ${{ !cancelled() }}
+        run: |
+          git status --short
+          git diff --exit-code
