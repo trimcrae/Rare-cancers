@@ -229,6 +229,57 @@ def longest_run_by_substring(target, parents):
     return best
 
 
+def _screen4_rows(s4, problems):
+    """Index rows without silently discarding duplicate scientific records."""
+    rows = {}
+    for row in s4["per_design"]:
+        key = (row["junction"], row["antisense_5to3"])
+        if key in rows:
+            problems.append(f"D: duplicate screen-4 design {key[0]}/{key[1]}")
+        else:
+            rows[key] = row
+    return rows
+
+
+def _check_screen4_summaries(s4, problems):
+    """Recount every released corpus summary from the raw rows, not their liability flags."""
+    by_margin, by_parent = {}, {}
+    liable = 0
+    for row in s4["per_design"]:
+        counts = row["longest_parent_duplex_bp_through_gap"] >= MIN_DUPLEX_BP
+        if row.get("counts_as_liability") is not counts:
+            problems.append(f"D: liability flag disagrees for {row['antisense_5to3']}")
+        margin = str(row["gap_specificity_margin"])
+        group = by_margin.setdefault(margin, {"n_designs": 0, "n_with_parent_duplex": 0})
+        group["n_designs"] += 1
+        group["n_with_parent_duplex"] += int(counts)
+        if counts:
+            liable += 1
+            parent = row["parent"]
+            by_parent[parent] = by_parent.get(parent, 0) + 1
+    expected = {
+        "n_designs": len(s4["per_design"]),
+        "n_with_parent_duplex_through_gap": liable,
+        "by_gap_specificity_margin": by_margin,
+        "which_parent_supplies_it": by_parent,
+    }
+    for field, value in expected.items():
+        if s4["corpus"].get(field) != value:
+            problems.append(f"D: screen-4 corpus {field} disagrees with its per-design rows")
+
+
+def _parent_witness_matches(target, length, row, parents):
+    """Check the reported parent and full-window coordinate by the independent substring route."""
+    parent, start = row.get("parent"), row.get("parent_start_0based")
+    if length == 0:
+        return parent is None and start is None
+    seq = parents.get(parent)
+    if seq is None or type(start) is not int or not 0 <= start <= len(seq) - OLIGO_LEN:
+        return False
+    window = seq[start:start + OLIGO_LEN]
+    return longest_run_by_substring(target, {parent: window})[0] == length
+
+
 # ────────────────────────────────────────────────────────────────────────────────── the verifier
 def run():
     problems = []
@@ -335,13 +386,21 @@ def run():
     # D · screen 4, by substring search
     parents = {g: v["cdna"] for g, v in genomic.items()}
     s4 = json.load(open(SCREEN4, encoding="utf-8"))
-    by_key = {(r["junction"], r["antisense_5to3"]): r for r in s4["per_design"]}
+    by_key = _screen4_rows(s4, problems)
+    _check_screen4_summaries(s4, problems)
+    checked_keys = set()
     geom = atlas.get("oligo_geometry")
     notes["D_geometry_restated_not_imported"] = {
         "oligo_len": OLIGO_LEN, "wing": WING, "min_duplex_bp": MIN_DUPLEX_BP,
         "atlas_oligo_geometry": geom,
     }
-    if s4["method"]["min_duplex_bp"] != MIN_DUPLEX_BP or s4["method"]["oligo_len"] != OLIGO_LEN:
+    expected_geometry = {"min_duplex_bp": MIN_DUPLEX_BP, "oligo_len": OLIGO_LEN,
+                         "wing": WING, "gap_positions_0based": [WING, OLIGO_LEN - WING - 1]}
+    if not isinstance(geom, dict) or any(
+            geom.get(k) != v for k, v in
+            {"length": OLIGO_LEN, "wing": WING, "gap": OLIGO_LEN - 2 * WING}.items()):
+        problems.append("D: atlas geometry differs from the one restated here")
+    if any(s4["method"].get(k) != v for k, v in expected_geometry.items()):
         problems.append("D: screen 4's recorded geometry differs from the one restated here")
 
     n_d = run_disagree = 0
@@ -354,7 +413,11 @@ def run():
             length, gene = longest_run_by_substring(d["target_mRNA_5to3"], parents)
             liable += 1 if length >= MIN_DUPLEX_BP else 0
             nr4a3 += 1 if (length >= MIN_DUPLEX_BP and gene == "NR4A3") else 0
-            ref = by_key.get((panel["junction_label"], d["antisense_5to3"]))
+            key = (panel["junction_label"], d["antisense_5to3"])
+            if key in checked_keys:
+                problems.append(f"D: duplicate atlas design {key[0]}/{key[1]}")
+            checked_keys.add(key)
+            ref = by_key.get(key)
             if ref is None:
                 problems.append(f"D: {panel['junction_label']}/{d['antisense_5to3']} "
                                 "has no row in the screen-4 artifact")
@@ -363,13 +426,21 @@ def run():
                 run_disagree += 1
                 problems.append(f"D: {d['antisense_5to3']} run {length} here, "
                                 f"{ref['longest_parent_duplex_bp_through_gap']} in the artifact")
-            elif length and gene != ref["parent"]:
-                # ⚠ NOT AUTOMATICALLY A DEFECT: two parents can tie at the same run length, and the
-                # two implementations break the tie in different orders. Recorded, not raised,
-                # unless the run lengths themselves differ.
-                notes.setdefault("D_ties", []).append(
-                    {"design": d["antisense_5to3"], "run_bp": length,
-                     "independent": gene, "screen4": ref["parent"]})
+            else:
+                if not _parent_witness_matches(d["target_mRNA_5to3"], length, ref, parents):
+                    problems.append(f"D: invalid parent witness for {d['antisense_5to3']}")
+                elif length and gene != ref["parent"]:
+                    # Different tie-breaking is valid only when the reported parent and coordinate
+                    # independently reproduce the same maximal run.
+                    notes.setdefault("D_ties", []).append(
+                        {"design": d["antisense_5to3"], "run_bp": length,
+                         "independent": gene, "screen4": ref["parent"]})
+            if ref["gap_specificity_margin"] != d["gap_specificity_margin"]:
+                problems.append(f"D: gap-specificity margin disagrees for {d['antisense_5to3']}")
+
+    extra = set(by_key) - checked_keys
+    if extra:
+        problems.append(f"D: {len(extra)} screen-4 designs are absent from the atlas")
 
     notes["D_mature_parent_screen"] = {
         "designs_checked": n_d,
@@ -422,6 +493,10 @@ def main(argv=None):
         cur = open(OUT, encoding="utf-8").read() if os.path.exists(OUT) else ""
         if cur != new:
             print("aso-independent-verification.json is stale; re-run without --check",
+                  file=sys.stderr)
+            return 1
+        if art["verdict"] != "AGREES":
+            print("independent-verification artifact is current, but comparisons DISAGREE",
                   file=sys.stderr)
             return 1
         print("independent-verification artifact is current")
