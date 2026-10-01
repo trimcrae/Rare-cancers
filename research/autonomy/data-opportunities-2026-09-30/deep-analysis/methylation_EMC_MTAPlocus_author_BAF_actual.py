@@ -20,10 +20,10 @@ def run(args,timeout,env=None):
 if not shutil.which('Rscript'):
  run(['sudo','apt-get','update','-qq'],600)
  run(['sudo','apt-get','install','-y','--no-install-recommends','r-base','r-base-dev','libcurl4-openssl-dev','libssl-dev','libxml2-dev','libzstd-dev','libbz2-dev','liblzma-dev','libpcre2-dev','libpng-dev','libjpeg-dev','libtiff-dev','libfontconfig1-dev','libfreetype6-dev','gfortran'],1200)
-lib=OUT/'R-library';lib.mkdir(exist_ok=True);env=os.environ.copy();env['R_LIBS_USER']=str(lib.resolve());env['MAKEFLAGS']='-j2'
+lib=SRC/'R-library';lib.mkdir(exist_ok=True);env=os.environ.copy();env['R_LIBS_USER']=str(lib.resolve());env['MAKEFLAGS']='-j2'
 commit='372c3f0342ce8eec3e7eca03c45d5bce2f1d0a3a';url='https://codeload.github.com/dstichel/conumee/tar.gz/'+commit
-with urllib.request.urlopen(url,timeout=120) as r:b=r.read(2000001);status=r.status
-assert status==200 and len(b)<=2000000
+with urllib.request.urlopen(url,timeout=120) as r:b=r.read(64000001);status=r.status
+assert status==200 and len(b)<=64000000
 archive=OUT/'conumee-pinned-source.tar.gz';archive.write_bytes(b);src=OUT/'conumee-source';src.mkdir(exist_ok=True)
 with tarfile.open(archive,'r:gz') as t:
  for member in t.getmembers():
@@ -43,3 +43,8 @@ try:
  script=pathlib.Path(__file__).with_name('methylation_EMC_MTAPlocus_author_BAF.R');run(['Rscript',str(script)],1800,env)
 finally:
  (OUT/'R-command-receipts.json').write_text(json.dumps(receipts,indent=2)+'\n')
+ cache=OUT/'R-dependency-cache.zip'
+ with zipfile.ZipFile(cache,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=1) as z:
+  for p in sorted(lib.rglob('*')):
+   if p.is_file():z.write(p,str(p.relative_to(lib)))
+ (OUT/'R-dependency-cache-receipt.json').write_text(json.dumps({'bytes':cache.stat().st_size,'sha256':hashlib.sha256(cache.read_bytes()).hexdigest(),'R_LIBS_USER':str(lib),'scope':'Installed analysis dependencies for exact runner reuse; no numeric result implication'},indent=2)+'\n')
