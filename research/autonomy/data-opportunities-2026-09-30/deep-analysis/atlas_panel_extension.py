@@ -17,11 +17,13 @@ GROUPS={
 'gag_catabolism_chondroitinase_context':['ARSB','GALNS','GUSB','HEXA','HEXB'],
 'NR2F_receptors':['NR2F1','NR2F2','NR2F6'],
 'nr2f1_dormancy_context_only':['SOX9','RARB','NANOG','SOX2']}
+GROUPS['dependency_context_only']=['MTAP','PRMT5','MAT2A','CDK7','CDK9','HSP90AA1','HSP90AB1','CDC37','ASS1','MDM2','EZH2','SMARCB1','POLQ','BCL2','BCL2L1','MCL1','PSMB5','CDKN2A']
 NR_GENES=GROUPS['NR2F_receptors']+GROUPS['nr2f1_dormancy_context_only']
 BOOT_GROUPS=['gag_linker_tetrasaccharide','cs_backbone_polymerisation','cs_sulfotransferases_4O','cs_sulfotransferases_6O','paps_module']
 def run(matpath,metapath,outpath):
-    assert h(matpath)=='0255cd254762c6184a782d5b9a90aba6e545b6b2206e28f283455df2de4d62fc'
-    raw=gzip.decompress(Path(matpath).read_bytes());assert hashlib.sha256(raw).hexdigest()=='b0d665d1bd1d96ace1faf66cc5a4d7ab7e41cb487c8f0f61734f102a1f9a7af3'
+    wire=Path(matpath).read_bytes()
+    raw=gzip.decompress(wire) if wire.startswith(b'\x1f\x8b') else wire
+    assert hashlib.sha256(raw).hexdigest()=='b0d665d1bd1d96ace1faf66cc5a4d7ab7e41cb487c8f0f61734f102a1f9a7af3'
     frame=pd.read_csv(io.BytesIO(raw),sep='\t',index_col=0)
     mb=Path(metapath).read_bytes();assert hashlib.sha1(b'blob '+str(len(mb)).encode()+b'\x00'+mb).hexdigest()=='2998ce73eaca2e86507fa86dd38d924948d28d0c'
     metadata=json.loads(mb);rows=[r for r in metadata['samples'] if r['eligible']]
@@ -46,7 +48,7 @@ def run(matpath,metapath,outpath):
             scores=ranks[[lookup[g] for g in members]].mean(axis=0);rec.update({'primary':contrast(scores,rows),'context':contrast(scores,rows,CONTEXT),'EMC_scores':dict(zip([rows[i]['sample_id'] for i in eis],map(float,scores[eis])))})
             if name in BOOT_GROUPS:rec.update({'bootstrap_conditional_95':boot(scores,rows,rng),'deletions':deletions(scores,rows)})
         grouprecords[name]=rec
-    out={'schema':'emc-atlas-matrix-nr2f-actual/1','executed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'input_sha256':{'matrix_gzip':h(matpath),'matrix_uncompressed':hashlib.sha256(raw).hexdigest(),'metadata':h(metapath)},'matrix_shape':list(frame.shape),'eligible_patients':len(rows),'EMC_n':len(eis),'frozen_panel_source':'research/modalities/emc_expression_panels.py blob e48f8b38fba17237ea5985088f9e2e340a70042c; NG2 alias maps to CSPG4 once','route_ids':['PUB-MATRIX-ADDRESS','PUB-NR-OUTSIDE-NR4A3'],'genes':records,'groups':grouprecords,'limitations':['Bulk transcript abundance only; no glycan epitope, sulfation pattern, donor limitation, enzymatic activity, dormancy state, agonist response or delivery effect measured','Nonzero TPM is quantification, not malignant-cell protein localization','No new-value selection or exploratory inferential discovery claim; compositional ranks are not fold changes','Nine overlap-reduced EMC; four unique EMC support exact-year primary contrasts; bootstrap conditional on small observed cells','RNAseq may resolve unreadable array NR2F1 but not receptor activity or therapy fit','Equal positive group coefficients are annotations, not validated activity signatures']}
+    out={'schema':'emc-atlas-matrix-nr2f-actual/1','executed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'input_sha256':{'matrix_input':h(matpath),'matrix_uncompressed':hashlib.sha256(raw).hexdigest(),'metadata':h(metapath)},'matrix_shape':list(frame.shape),'eligible_patients':len(rows),'EMC_n':len(eis),'frozen_panel_source':'research/modalities/emc_expression_panels.py blob e48f8b38fba17237ea5985088f9e2e340a70042c; NG2 alias maps to CSPG4 once','route_ids':['PUB-MATRIX-ADDRESS','PUB-NR-OUTSIDE-NR4A3'],'genes':records,'groups':grouprecords,'limitations':['Bulk transcript abundance only; no glycan epitope, sulfation pattern, donor limitation, enzymatic activity, dormancy state, agonist response or delivery effect measured','Nonzero TPM is quantification, not malignant-cell protein localization','No new-value selection or exploratory inferential discovery claim; compositional ranks are not fold changes','Nine overlap-reduced EMC; four unique EMC support exact-year primary contrasts; bootstrap conditional on small observed cells','RNAseq may resolve unreadable array NR2F1 but not receptor activity or therapy fit','Equal positive group coefficients are annotations, not validated activity signatures']}
     Path(outpath).parent.mkdir(parents=True,exist_ok=True);Path(outpath).write_text(json.dumps(out,indent=2,allow_nan=False)+'\n')
     print('EMC_ATLAS_PANEL_RESULT_BEGIN');print(json.dumps(out,separators=(',',':')));print('EMC_ATLAS_PANEL_RESULT_END')
 if __name__=='__main__':run(*sys.argv[1:4])
