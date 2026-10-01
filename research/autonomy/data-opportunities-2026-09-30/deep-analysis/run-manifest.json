@@ -1,22 +1,15 @@
 {
   "schema": "emc-deep-analysis-manifest/1",
-  "purpose": "Complete finite actual acquired primary figure-label reconciliation",
+  "purpose": "Complete remaining exact normal main-figure source caption check without repeated fits",
   "jobs": [
     {
-      "name": "Iwata-actual-S2-and-literal-Fig4-source-image-reconciliation",
-      "script": "iwata_curve_figure_actual.py",
-      "before": [
-        "restore_previous_outputs.py"
-      ],
-      "restore_run": "36936001053",
-      "restore_name": "emc-Iwata-exact-public-primary-providers-and-S6-unit-audit-36936001053",
-      "timeout_seconds": 1800,
+      "name": "Iwata-exact-normal-Fig4-public-caption-and-returned-assets",
+      "script": "iwata_normal_figure4_page_actual.py",
+      "timeout_seconds": 900,
       "dependencies": [
         "requests",
         "beautifulsoup4",
-        "Pillow",
-        "openpyxl",
-        "rapidocr_onnxruntime"
+        "Pillow"
       ]
     }
   ]
