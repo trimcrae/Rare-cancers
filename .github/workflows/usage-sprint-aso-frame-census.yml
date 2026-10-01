@@ -43,10 +43,10 @@ jobs:
           snapshot=$(mktemp)
           cp research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md "$snapshot"
           trap 'git restore research/manuscripts/aso/fusion-junction-aso-archive-manifest.json research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md; rm -f research/autonomy/usage-sprint-2026-10-01/frame-census/aso-frame-candidate-census.json "$snapshot"' EXIT
-          python3 research/autonomy/usage-sprint-2026-10-01/frame-census/aso_frame_candidate_census.py
-          python3 research/autonomy/usage-sprint-2026-10-01/frame-census/aso_frame_candidate_census.py --check
           python3 research/manuscripts/aso_archive_manifest.py
           python3 research/manuscripts/aso_archive_manifest.py --check
+          python3 research/autonomy/usage-sprint-2026-10-01/frame-census/aso_frame_candidate_census.py
+          python3 research/autonomy/usage-sprint-2026-10-01/frame-census/aso_frame_candidate_census.py --check
           python3 research/manuscripts/aso_deposit_drift.py
           python3 research/manuscripts/aso_deposit_drift.py --check
           python3 - "$snapshot" <<'PY'
