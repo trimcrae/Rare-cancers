@@ -1,0 +1,642 @@
+{
+  "execution": {
+    "run_id": 36874318874,
+    "job_id": 110409809073,
+    "commit": "6eaf981f90eb76ad16c675b36afda3e43db4ad77",
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36874318874"
+  },
+  "result": {
+    "schema": "benign-hla-nonrecovery-sensitivity/1",
+    "timing": "exploratory after initial result",
+    "base_script_sha256": "19f70cd8fb6e8216a35d182e3196c26cd0f4903974c35983bf79a68877f30424",
+    "source_receipts": [
+      {
+        "name": "donors",
+        "url": "https://hla-ligand-atlas.org/rel/2020.12/donors.tsv.gz",
+        "bytes": 1190,
+        "sha256": "753c8ba45bdd4d9026decc4cd837325a66b2d1ea93d28d437c66aabe5c45a5b3"
+      },
+      {
+        "name": "peptides",
+        "url": "https://hla-ligand-atlas.org/rel/2020.12/peptides.tsv.gz",
+        "bytes": 2104709,
+        "sha256": "daeb0c0146e3037c6e4b2b58663a7a9dc6bce821ef1995e817f70367a0ad28c3"
+      },
+      {
+        "name": "sample_hits",
+        "url": "https://hla-ligand-atlas.org/rel/2020.12/sample_hits.tsv.gz",
+        "bytes": 3167689,
+        "sha256": "0e8771113cae27c620b2b9619f035675ddcc87b8d7dfac50750e71ab60eb0167"
+      },
+      {
+        "name": "aggregated",
+        "url": "https://hla-ligand-atlas.org/rel/2020.12/aggregated.tsv.gz",
+        "bytes": 5644902,
+        "sha256": "3de89767e5dda7841f2bf2e8bbcf10f7d10ef452619679685f435a0efc649bc8"
+      }
+    ],
+    "checks": "strong reconstruction exact; incidence/singletonsconsistent; full-unionrarefactionzero",
+    "analyses": [
+      {
+        "allele": "B*15:01",
+        "hla_class": "HLA-I",
+        "flag_mode": "s",
+        "autopsy_only": false,
+        "donors": [
+          "AUT01-DN02",
+          "AUT01-DN03",
+          "AUT01-DN08",
+          "AUT01-DN12",
+          "THY01-DN4"
+        ],
+        "n_donors": 5,
+        "peptide_union": 7384,
+        "singleton_peptides": 3550,
+        "singleton_fraction": 0.4807692307692308,
+        "donor_breadth_histogram": {
+          "1": 3550,
+          "2": 1440,
+          "3": 927,
+          "4": 771,
+          "5": 696
+        },
+        "heldout_donor_peptide_incidences": 15775,
+        "pooled_heldout_nonrecovery": 0.22503961965134706,
+        "per_donor_holdout": [
+          {
+            "donor": "AUT01-DN02",
+            "test_peptides": 1623,
+            "not_detected_in_other_carriers": 44,
+            "fraction": 0.027110289587184228
+          },
+          {
+            "donor": "AUT01-DN03",
+            "test_peptides": 3071,
+            "not_detected_in_other_carriers": 297,
+            "fraction": 0.09671116900032563
+          },
+          {
+            "donor": "AUT01-DN08",
+            "test_peptides": 3155,
+            "not_detected_in_other_carriers": 605,
+            "fraction": 0.19175911251980982
+          },
+          {
+            "donor": "AUT01-DN12",
+            "test_peptides": 5463,
+            "not_detected_in_other_carriers": 1895,
+            "fraction": 0.34687900421014095
+          },
+          {
+            "donor": "THY01-DN4",
+            "test_peptides": 2463,
+            "not_detected_in_other_carriers": 709,
+            "fraction": 0.2878603329273244
+          }
+        ],
+        "exact_rarefaction": [
+          {
+            "training_donors": 1,
+            "fraction_of_full_union_not_detected": 0.5727248104008668
+          },
+          {
+            "training_donors": 2,
+            "fraction_of_full_union_not_detected": 0.35952058504875406
+          },
+          {
+            "training_donors": 3,
+            "fraction_of_full_union_not_detected": 0.21180931744312026
+          },
+          {
+            "training_donors": 4,
+            "fraction_of_full_union_not_detected": 0.09615384615384616
+          },
+          {
+            "training_donors": 5,
+            "fraction_of_full_union_not_detected": 0
+          }
+        ]
+      },
+      {
+        "allele": "B*15:01",
+        "hla_class": "HLA-I",
+        "flag_mode": "sw",
+        "autopsy_only": false,
+        "donors": [
+          "AUT01-DN02",
+          "AUT01-DN03",
+          "AUT01-DN08",
+          "AUT01-DN12",
+          "THY01-DN4"
+        ],
+        "n_donors": 5,
+        "peptide_union": 11597,
+        "singleton_peptides": 6547,
+        "singleton_fraction": 0.5645425541088213,
+        "donor_breadth_histogram": {
+          "1": 6547,
+          "2": 2316,
+          "3": 1129,
+          "4": 857,
+          "5": 748
+        },
+        "heldout_donor_peptide_incidences": 21734,
+        "pooled_heldout_nonrecovery": 0.30123309100947826,
+        "per_donor_holdout": [
+          {
+            "donor": "AUT01-DN02",
+            "test_peptides": 1894,
+            "not_detected_in_other_carriers": 90,
+            "fraction": 0.04751847940865892
+          },
+          {
+            "donor": "AUT01-DN03",
+            "test_peptides": 4066,
+            "not_detected_in_other_carriers": 690,
+            "fraction": 0.16969995081160846
+          },
+          {
+            "donor": "AUT01-DN08",
+            "test_peptides": 4616,
+            "not_detected_in_other_carriers": 1450,
+            "fraction": 0.3141247833622184
+          },
+          {
+            "donor": "AUT01-DN12",
+            "test_peptides": 7266,
+            "not_detected_in_other_carriers": 2753,
+            "fraction": 0.3788879713735205
+          },
+          {
+            "donor": "THY01-DN4",
+            "test_peptides": 3892,
+            "not_detected_in_other_carriers": 1564,
+            "fraction": 0.40184994861253853
+          }
+        ],
+        "exact_rarefaction": [
+          {
+            "training_donors": 1,
+            "fraction_of_full_union_not_detected": 0.6251789255842028
+          },
+          {
+            "training_donors": 2,
+            "fraction_of_full_union_not_detected": 0.40837285504871945
+          },
+          {
+            "training_donors": 3,
+            "fraction_of_full_union_not_detected": 0.2457877037164784
+          },
+          {
+            "training_donors": 4,
+            "fraction_of_full_union_not_detected": 0.11290851082176426
+          },
+          {
+            "training_donors": 5,
+            "fraction_of_full_union_not_detected": 0
+          }
+        ]
+      },
+      {
+        "allele": "B*15:01",
+        "hla_class": "HLA-I",
+        "flag_mode": "all",
+        "autopsy_only": false,
+        "donors": [
+          "AUT01-DN02",
+          "AUT01-DN03",
+          "AUT01-DN08",
+          "AUT01-DN12",
+          "THY01-DN4"
+        ],
+        "n_donors": 5,
+        "peptide_union": 33186,
+        "singleton_peptides": 21381,
+        "singleton_fraction": 0.6442777074670042,
+        "donor_breadth_histogram": {
+          "1": 21381,
+          "2": 6961,
+          "3": 2731,
+          "4": 1298,
+          "5": 815
+        },
+        "heldout_donor_peptide_incidences": 52763,
+        "pooled_heldout_nonrecovery": 0.40522714781191366,
+        "per_donor_holdout": [
+          {
+            "donor": "AUT01-DN02",
+            "test_peptides": 6475,
+            "not_detected_in_other_carriers": 1578,
+            "fraction": 0.2437065637065637
+          },
+          {
+            "donor": "AUT01-DN03",
+            "test_peptides": 10019,
+            "not_detected_in_other_carriers": 2857,
+            "fraction": 0.28515819942109993
+          },
+          {
+            "donor": "AUT01-DN08",
+            "test_peptides": 11762,
+            "not_detected_in_other_carriers": 5341,
+            "fraction": 0.4540894405713314
+          },
+          {
+            "donor": "AUT01-DN12",
+            "test_peptides": 18124,
+            "not_detected_in_other_carriers": 8751,
+            "fraction": 0.4828404325755904
+          },
+          {
+            "donor": "THY01-DN4",
+            "test_peptides": 6383,
+            "not_detected_in_other_carriers": 2854,
+            "fraction": 0.4471251762494125
+          }
+        ],
+        "exact_rarefaction": [
+          {
+            "training_donors": 1,
+            "fraction_of_full_union_not_detected": 0.6820165129874043
+          },
+          {
+            "training_donors": 2,
+            "fraction_of_full_union_not_detected": 0.4577231362622793
+          },
+          {
+            "training_donors": 3,
+            "fraction_of_full_union_not_detected": 0.2786867956367143
+          },
+          {
+            "training_donors": 4,
+            "fraction_of_full_union_not_detected": 0.12885554149340084
+          },
+          {
+            "training_donors": 5,
+            "fraction_of_full_union_not_detected": 0
+          }
+        ]
+      },
+      {
+        "allele": "A*30:02",
+        "hla_class": "HLA-I",
+        "flag_mode": "s",
+        "autopsy_only": false,
+        "donors": [],
+        "n_donors": 0,
+        "peptide_union": 0,
+        "singleton_peptides": 0,
+        "singleton_fraction": null,
+        "donor_breadth_histogram": {},
+        "heldout_donor_peptide_incidences": 0,
+        "pooled_heldout_nonrecovery": null,
+        "per_donor_holdout": [],
+        "exact_rarefaction": []
+      },
+      {
+        "allele": "A*30:02",
+        "hla_class": "HLA-I",
+        "flag_mode": "sw",
+        "autopsy_only": false,
+        "donors": [],
+        "n_donors": 0,
+        "peptide_union": 0,
+        "singleton_peptides": 0,
+        "singleton_fraction": null,
+        "donor_breadth_histogram": {},
+        "heldout_donor_peptide_incidences": 0,
+        "pooled_heldout_nonrecovery": null,
+        "per_donor_holdout": [],
+        "exact_rarefaction": []
+      },
+      {
+        "allele": "A*30:02",
+        "hla_class": "HLA-I",
+        "flag_mode": "all",
+        "autopsy_only": false,
+        "donors": [],
+        "n_donors": 0,
+        "peptide_union": 0,
+        "singleton_peptides": 0,
+        "singleton_fraction": null,
+        "donor_breadth_histogram": {},
+        "heldout_donor_peptide_incidences": 0,
+        "pooled_heldout_nonrecovery": null,
+        "per_donor_holdout": [],
+        "exact_rarefaction": []
+      },
+      {
+        "allele": "DRB1*14:01",
+        "hla_class": "HLA-II",
+        "flag_mode": "s",
+        "autopsy_only": false,
+        "donors": [
+          "AUT01-DN08"
+        ],
+        "n_donors": 1,
+        "peptide_union": 2051,
+        "singleton_peptides": 2051,
+        "singleton_fraction": 1,
+        "donor_breadth_histogram": {
+          "1": 2051
+        },
+        "heldout_donor_peptide_incidences": 2051,
+        "pooled_heldout_nonrecovery": 1,
+        "per_donor_holdout": [
+          {
+            "donor": "AUT01-DN08",
+            "test_peptides": 2051,
+            "not_detected_in_other_carriers": 2051,
+            "fraction": 1
+          }
+        ],
+        "exact_rarefaction": [
+          {
+            "training_donors": 1,
+            "fraction_of_full_union_not_detected": 0
+          }
+        ]
+      },
+      {
+        "allele": "DRB1*14:01",
+        "hla_class": "HLA-II",
+        "flag_mode": "sw",
+        "autopsy_only": false,
+        "donors": [
+          "AUT01-DN08"
+        ],
+        "n_donors": 1,
+        "peptide_union": 4558,
+        "singleton_peptides": 4558,
+        "singleton_fraction": 1,
+        "donor_breadth_histogram": {
+          "1": 4558
+        },
+        "heldout_donor_peptide_incidences": 4558,
+        "pooled_heldout_nonrecovery": 1,
+        "per_donor_holdout": [
+          {
+            "donor": "AUT01-DN08",
+            "test_peptides": 4558,
+            "not_detected_in_other_carriers": 4558,
+            "fraction": 1
+          }
+        ],
+        "exact_rarefaction": [
+          {
+            "training_donors": 1,
+            "fraction_of_full_union_not_detected": 0
+          }
+        ]
+      },
+      {
+        "allele": "DRB1*14:01",
+        "hla_class": "HLA-II",
+        "flag_mode": "all",
+        "autopsy_only": false,
+        "donors": [
+          "AUT01-DN08"
+        ],
+        "n_donors": 1,
+        "peptide_union": 22436,
+        "singleton_peptides": 22436,
+        "singleton_fraction": 1,
+        "donor_breadth_histogram": {
+          "1": 22436
+        },
+        "heldout_donor_peptide_incidences": 22436,
+        "pooled_heldout_nonrecovery": 1,
+        "per_donor_holdout": [
+          {
+            "donor": "AUT01-DN08",
+            "test_peptides": 22436,
+            "not_detected_in_other_carriers": 22436,
+            "fraction": 1
+          }
+        ],
+        "exact_rarefaction": [
+          {
+            "training_donors": 1,
+            "fraction_of_full_union_not_detected": 0
+          }
+        ]
+      },
+      {
+        "allele": "B*15:01",
+        "hla_class": "HLA-I",
+        "flag_mode": "s",
+        "autopsy_only": true,
+        "donors": [
+          "AUT01-DN02",
+          "AUT01-DN03",
+          "AUT01-DN08",
+          "AUT01-DN12"
+        ],
+        "n_donors": 4,
+        "peptide_union": 6675,
+        "singleton_peptides": 3169,
+        "singleton_fraction": 0.4747565543071161,
+        "donor_breadth_histogram": {
+          "1": 3169,
+          "2": 1444,
+          "3": 993,
+          "4": 1069
+        },
+        "heldout_donor_peptide_incidences": 13312,
+        "pooled_heldout_nonrecovery": 0.23805588942307693,
+        "per_donor_holdout": [
+          {
+            "donor": "AUT01-DN02",
+            "test_peptides": 1623,
+            "not_detected_in_other_carriers": 47,
+            "fraction": 0.02895871842267406
+          },
+          {
+            "donor": "AUT01-DN03",
+            "test_peptides": 3071,
+            "not_detected_in_other_carriers": 336,
+            "fraction": 0.10941061543471182
+          },
+          {
+            "donor": "AUT01-DN08",
+            "test_peptides": 3155,
+            "not_detected_in_other_carriers": 681,
+            "fraction": 0.21584786053882726
+          },
+          {
+            "donor": "AUT01-DN12",
+            "test_peptides": 5463,
+            "not_detected_in_other_carriers": 2105,
+            "fraction": 0.3853194215632436
+          }
+        ],
+        "exact_rarefaction": [
+          {
+            "training_donors": 1,
+            "fraction_of_full_union_not_detected": 0.5014232209737828
+          },
+          {
+            "training_donors": 2,
+            "fraction_of_full_union_not_detected": 0.2734332084893883
+          },
+          {
+            "training_donors": 3,
+            "fraction_of_full_union_not_detected": 0.11868913857677903
+          },
+          {
+            "training_donors": 4,
+            "fraction_of_full_union_not_detected": 0
+          }
+        ]
+      },
+      {
+        "allele": "B*15:01",
+        "hla_class": "HLA-I",
+        "flag_mode": "sw",
+        "autopsy_only": true,
+        "donors": [
+          "AUT01-DN02",
+          "AUT01-DN03",
+          "AUT01-DN08",
+          "AUT01-DN12"
+        ],
+        "n_donors": 4,
+        "peptide_union": 10033,
+        "singleton_peptides": 5726,
+        "singleton_fraction": 0.5707166351041563,
+        "donor_breadth_histogram": {
+          "1": 5726,
+          "2": 1965,
+          "3": 1182,
+          "4": 1160
+        },
+        "heldout_donor_peptide_incidences": 17842,
+        "pooled_heldout_nonrecovery": 0.32092814706871425,
+        "per_donor_holdout": [
+          {
+            "donor": "AUT01-DN02",
+            "test_peptides": 1894,
+            "not_detected_in_other_carriers": 95,
+            "fraction": 0.0501583949313622
+          },
+          {
+            "donor": "AUT01-DN03",
+            "test_peptides": 4066,
+            "not_detected_in_other_carriers": 730,
+            "fraction": 0.17953762911952778
+          },
+          {
+            "donor": "AUT01-DN08",
+            "test_peptides": 4616,
+            "not_detected_in_other_carriers": 1706,
+            "fraction": 0.3695840554592721
+          },
+          {
+            "donor": "AUT01-DN12",
+            "test_peptides": 7266,
+            "not_detected_in_other_carriers": 3195,
+            "fraction": 0.439719240297275
+          }
+        ],
+        "exact_rarefaction": [
+          {
+            "training_donors": 1,
+            "fraction_of_full_union_not_detected": 0.5554171234924749
+          },
+          {
+            "training_donors": 2,
+            "fraction_of_full_union_not_detected": 0.3180005980265125
+          },
+          {
+            "training_donors": 3,
+            "fraction_of_full_union_not_detected": 0.14267915877603907
+          },
+          {
+            "training_donors": 4,
+            "fraction_of_full_union_not_detected": 0
+          }
+        ]
+      },
+      {
+        "allele": "B*15:01",
+        "hla_class": "HLA-I",
+        "flag_mode": "all",
+        "autopsy_only": true,
+        "donors": [
+          "AUT01-DN02",
+          "AUT01-DN03",
+          "AUT01-DN08",
+          "AUT01-DN12"
+        ],
+        "n_donors": 4,
+        "peptide_union": 30332,
+        "singleton_peptides": 20295,
+        "singleton_fraction": 0.6690953448503231,
+        "donor_breadth_histogram": {
+          "1": 20295,
+          "2": 5652,
+          "3": 2759,
+          "4": 1626
+        },
+        "heldout_donor_peptide_incidences": 46380,
+        "pooled_heldout_nonrecovery": 0.43758085381630013,
+        "per_donor_holdout": [
+          {
+            "donor": "AUT01-DN02",
+            "test_peptides": 6475,
+            "not_detected_in_other_carriers": 1586,
+            "fraction": 0.24494208494208494
+          },
+          {
+            "donor": "AUT01-DN03",
+            "test_peptides": 10019,
+            "not_detected_in_other_carriers": 2899,
+            "fraction": 0.2893502345543467
+          },
+          {
+            "donor": "AUT01-DN08",
+            "test_peptides": 11762,
+            "not_detected_in_other_carriers": 6004,
+            "fraction": 0.5104574052031967
+          },
+          {
+            "donor": "AUT01-DN12",
+            "test_peptides": 18124,
+            "not_detected_in_other_carriers": 9806,
+            "fraction": 0.541050540719488
+          }
+        ],
+        "exact_rarefaction": [
+          {
+            "training_donors": 1,
+            "fraction_of_full_union_not_detected": 0.6177304496900963
+          },
+          {
+            "training_donors": 2,
+            "fraction_of_full_union_not_detected": 0.36560398259264143
+          },
+          {
+            "training_donors": 3,
+            "fraction_of_full_union_not_detected": 0.16727383621258077
+          },
+          {
+            "training_donors": 4,
+            "fraction_of_full_union_not_detected": 0
+          }
+        ]
+      }
+    ],
+    "interpretation": "Observed reference nonrecovery, not sensitivity/absence/safety; one-donor holdout tautological",
+    "primary_totals": {
+      "class_units": {
+        "HLA-II": 220,
+        "HLA-I": 198
+      },
+      "unique_donor_tissue_units": 227,
+      "class_peptide_unions": {
+        "HLA-II": 142625,
+        "HLA-I": 90428
+      }
+    }
+  }
+}
