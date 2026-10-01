@@ -1,0 +1,435 @@
+{
+  "execution": {
+    "run_id": 36905457130,
+    "job_id": 110514841009,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36905457130/job/110514841009"
+  },
+  "result": {
+    "schema": "fixed-three-gene-assay-overlap-diagnostic/1",
+    "rows": [
+      {
+        "gene": "CD276",
+        "ProCan6692to8498SameModels": {
+          "n": 35,
+          "rho": 0.9070028011204482,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            0.7585656764917424,
+            0.9792143575088065
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "ProCan8498toBroadPairwise": {
+          "n": 8,
+          "rho": 0.5000000000000001,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            0.21518987341772153,
+            0.6585365853658537
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAto8498OriginalQuantifiedSubset": {
+          "n": 35,
+          "rho": 0.7156862745098039,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            0.523475687011517,
+            0.8452673913918162
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAto8498AdditionalQuantifiedSubset": {
+          "n": 18,
+          "rho": 0.21568627450980388,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            -0.1871215516034169,
+            0.6435449771798275
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAto8498BroadMatchedSubset": {
+          "n": 8,
+          "rho": 0.8095238095238096,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            0.5365853658536586,
+            0.8536585365853658
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAtoBroad8498MatchedSubset": {
+          "n": 8,
+          "rho": 0.4047619047619048,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            -0.17073170731707318,
+            0.926829268292683
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "allAssaysCommonN": 5,
+        "allAssaysCommonSourceFamilies": [
+          {
+            "relatedGroup": "BROAD:ACH-000100",
+            "Cancer_type": "Rhabdomyosarcoma"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000201",
+            "Cancer_type": "Rhabdomyosarcoma"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000364",
+            "Cancer_type": "Osteosarcoma"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000410",
+            "Cancer_type": "Osteosarcoma"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000748",
+            "Cancer_type": "Osteosarcoma"
+          }
+        ],
+        "commonSubsetCorrelations": {
+          "rna__protein6692": {
+            "n": 5,
+            "rho": 0.09999999999999999,
+            "scope": "descriptive family-level rank association",
+            "familyHistologyBootstrapCI95": [
+              -1,
+              1
+            ],
+            "successfulBootstrapReplicates": 1000
+          },
+          "rna__protein8498": {
+            "n": 5,
+            "rho": 0.6,
+            "scope": "descriptive family-level rank association",
+            "familyHistologyBootstrapCI95": [
+              -0.9999999999999999,
+              1
+            ],
+            "successfulBootstrapReplicates": 1000
+          },
+          "rna__broad": {
+            "n": 5,
+            "rho": 0.8999999999999998,
+            "scope": "descriptive family-level rank association",
+            "familyHistologyBootstrapCI95": [
+              0.1111111111111111,
+              1
+            ],
+            "successfulBootstrapReplicates": 1000
+          },
+          "protein6692__broad": {
+            "n": 5,
+            "rho": 0,
+            "scope": "descriptive family-level rank association",
+            "familyHistologyBootstrapCI95": [
+              -1,
+              0.6718749999999952
+            ],
+            "successfulBootstrapReplicates": 1000
+          },
+          "protein8498__broad": {
+            "n": 5,
+            "rho": 0.3,
+            "scope": "descriptive family-level rank association",
+            "familyHistologyBootstrapCI95": [
+              -0.9999999999999999,
+              1
+            ],
+            "successfulBootstrapReplicates": 1000
+          }
+        }
+      },
+      {
+        "gene": "CSPG4",
+        "ProCan6692to8498SameModels": {
+          "n": 33,
+          "rho": 0.9555481283422461,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            0.8579836869745706,
+            1
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "ProCan8498toBroadPairwise": {
+          "n": 12,
+          "rho": -0.07692307692307693,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            -0.6113416363907829,
+            0.5057347670250892
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAto8498OriginalQuantifiedSubset": {
+          "n": 33,
+          "rho": 0.6657754010695187,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            0.40578964680290974,
+            0.8182784358369563
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAto8498AdditionalQuantifiedSubset": {
+          "n": 18,
+          "rho": -0.30443756449948395,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            -0.6948311631858688,
+            0.09557207384023372
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAto8498BroadMatchedSubset": {
+          "n": 12,
+          "rho": 0.1188811188811189,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            -0.4683005414474186,
+            0.5215649001536098
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAtoBroad8498MatchedSubset": {
+          "n": 12,
+          "rho": 0.8811188811188813,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            0.624113475177305,
+            0.9782608695652175
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "allAssaysCommonN": 6,
+        "allAssaysCommonSourceFamilies": [
+          {
+            "relatedGroup": "BROAD:ACH-000054",
+            "Cancer_type": "Other Sarcomas"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000100",
+            "Cancer_type": "Rhabdomyosarcoma"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000169",
+            "Cancer_type": "Rhabdomyosarcoma"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000201",
+            "Cancer_type": "Rhabdomyosarcoma"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000364",
+            "Cancer_type": "Osteosarcoma"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000410",
+            "Cancer_type": "Osteosarcoma"
+          }
+        ],
+        "commonSubsetCorrelations": {
+          "rna__protein6692": {
+            "n": 6,
+            "rho": 0.4285714285714286,
+            "scope": "descriptive family-level rank association",
+            "familyHistologyBootstrapCI95": [
+              -0.9393939393939392,
+              0.818181818181818
+            ],
+            "successfulBootstrapReplicates": 1000
+          },
+          "rna__protein8498": {
+            "n": 6,
+            "rho": 0.4285714285714286,
+            "scope": "descriptive family-level rank association",
+            "familyHistologyBootstrapCI95": [
+              -0.9393939393939392,
+              0.818181818181818
+            ],
+            "successfulBootstrapReplicates": 1000
+          },
+          "rna__broad": {
+            "n": 6,
+            "rho": 0.2,
+            "scope": "descriptive family-level rank association",
+            "familyHistologyBootstrapCI95": [
+              -1,
+              0.818181818181818
+            ],
+            "successfulBootstrapReplicates": 1000
+          },
+          "protein6692__broad": {
+            "n": 6,
+            "rho": -0.2571428571428572,
+            "scope": "descriptive family-level rank association",
+            "familyHistologyBootstrapCI95": [
+              -0.9999999999999999,
+              0.9393939393939392
+            ],
+            "successfulBootstrapReplicates": 1000
+          },
+          "protein8498__broad": {
+            "n": 6,
+            "rho": -0.2571428571428572,
+            "scope": "descriptive family-level rank association",
+            "familyHistologyBootstrapCI95": [
+              -0.9999999999999999,
+              0.9393939393939392
+            ],
+            "successfulBootstrapReplicates": 1000
+          }
+        }
+      },
+      {
+        "gene": "L1CAM",
+        "ProCan6692to8498SameModels": {
+          "n": 29,
+          "rho": 0.9985221674876845,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            0.9866666666666666,
+            1
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "ProCan8498toBroadPairwise": {
+          "n": 8,
+          "rho": 0.261904761904762,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            -0.43902439024390244,
+            0.8518518518518517
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAto8498OriginalQuantifiedSubset": {
+          "n": 29,
+          "rho": 0.669950738916256,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            0.3614622574083237,
+            0.855784205189044
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAto8498AdditionalQuantifiedSubset": {
+          "n": 17,
+          "rho": -0.482843137254902,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            -0.8263188324893337,
+            -0.05923018816096693
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAto8498BroadMatchedSubset": {
+          "n": 8,
+          "rho": -0.023809523809523815,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            -0.6708860759493672,
+            0.675
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "RNAtoBroad8498MatchedSubset": {
+          "n": 8,
+          "rho": 0.6666666666666669,
+          "scope": "descriptive family-level rank association",
+          "familyHistologyBootstrapCI95": [
+            0.06172839506172839,
+            0.9259259259259259
+          ],
+          "successfulBootstrapReplicates": 1000
+        },
+        "allAssaysCommonN": 4,
+        "allAssaysCommonSourceFamilies": [
+          {
+            "relatedGroup": "BROAD:ACH-000087",
+            "Cancer_type": "Ewing's Sarcoma"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000100",
+            "Cancer_type": "Rhabdomyosarcoma"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000169",
+            "Cancer_type": "Rhabdomyosarcoma"
+          },
+          {
+            "relatedGroup": "BROAD:ACH-000364",
+            "Cancer_type": "Osteosarcoma"
+          }
+        ],
+        "commonSubsetCorrelations": {
+          "rna__protein6692": {
+            "n": 4,
+            "rho": 0.7999999999999999,
+            "scope": "descriptive family-level rank association"
+          },
+          "rna__protein8498": {
+            "n": 4,
+            "rho": 0.7999999999999999,
+            "scope": "descriptive family-level rank association"
+          },
+          "rna__broad": {
+            "n": 4,
+            "rho": 0.39999999999999997,
+            "scope": "descriptive family-level rank association"
+          },
+          "protein6692__broad": {
+            "n": 4,
+            "rho": 0.19999999999999998,
+            "scope": "descriptive family-level rank association"
+          },
+          "protein8498__broad": {
+            "n": 4,
+            "rho": 0.19999999999999998,
+            "scope": "descriptive family-level rank association"
+          }
+        }
+      }
+    ],
+    "scope": "Descriptive same-model sensitivity, not frozen predictor error or new clinical validation",
+    "limitations": [
+      "Quantification-selected subsets; missing is not biological negative",
+      "8498 changes identification support; no attribution to one processing step",
+      "Broad Other inputs retain author preprocessing; ranks only",
+      "Conditional histology-stratified family bootstrap; not simultaneous, training or cross-lab uncertainty"
+    ],
+    "executedUTC": "2026-10-01T18:16:24Z",
+    "primarySarcomaModels": 61,
+    "matchedSourceSHA256": "46deef9526068591a76c62bda6c20fa26ca95969f666769850eb626306f63f24",
+    "receipts": [
+      {
+        "name": "article19345397manifest",
+        "sha256": "c636fb82c143212a8619c28258e3a407d74ccc0cef6ae85b84ef93c8fd7b57f0",
+        "bytes": 13301,
+        "version": 1
+      },
+      {
+        "id": 34411172,
+        "name": "ProCan-DepMapSanger_protein_matrix_8498_averaged.txt",
+        "bytes": 94222540,
+        "md5": "940812e0362385ee5219166053201062",
+        "sha256": "5e7adf7e8217e5a02389c299dce1266e74c7a3b786b8c177e56d12402fe783ac",
+        "url": "https://ndownloader.figshare.com/files/34411172"
+      },
+      {
+        "id": 34411016,
+        "name": "MultiOmics_DIANN.hdf5",
+        "bytes": 246459733,
+        "md5": "eff4e877573f81601c0c3048ea4362e2",
+        "sha256": "839818e7333caec11b2717e63aafc0a0fee2186349573819fc9e06b1f377ef52",
+        "url": "https://ndownloader.figshare.com/files/34411016"
+      }
+    ]
+  }
+}
