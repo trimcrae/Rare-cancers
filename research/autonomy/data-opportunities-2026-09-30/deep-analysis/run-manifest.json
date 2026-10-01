@@ -1,0 +1,18 @@
+{
+  "schema": "emc-measured-data-run/1",
+  "batch": "metadata-and-multiomics-measurement-inspection",
+  "date": "2026-10-01",
+  "dependencies": [
+    "numpy",
+    "pandas",
+    "h5py",
+    "tables"
+  ],
+  "jobs": [
+    {
+      "name": "inspect-measured-multiomics-and-images",
+      "script": "access_followup.py",
+      "timeout_seconds": 1800
+    }
+  ]
+}
