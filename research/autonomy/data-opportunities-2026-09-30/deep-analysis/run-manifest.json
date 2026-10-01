@@ -10,15 +10,8 @@
   ],
   "jobs": [
     {
-      "name": "RMS-all-public-RNA-libraries-0-7",
-      "script": "pediatric_rms_full42_counts_actual.py",
-      "args": [
-        "--start",
-        "0",
-        "--stop",
-        "7"
-      ],
-      "timeout_seconds": 5000,
+      "name": "IMC-complete-density-conditioned-patient-control",
+      "script": "spatial_density_sensitivity_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
@@ -27,18 +20,15 @@
         "imagecodecs",
         "h5py",
         "scikit-learn"
-      ]
+      ],
+      "restore_run": "36887975194",
+      "restore_all": true,
+      "extra_restore_run": "36897521385",
+      "timeout_seconds": 1800
     },
     {
-      "name": "RMS-all-public-RNA-libraries-7-14",
-      "script": "pediatric_rms_full42_counts_actual.py",
-      "args": [
-        "--start",
-        "7",
-        "--stop",
-        "14"
-      ],
-      "timeout_seconds": 5000,
+      "name": "pediatric-all33-reranked-bootstrap-intervals",
+      "script": "pediatric_rank_bootstrap_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
@@ -47,18 +37,14 @@
         "imagecodecs",
         "h5py",
         "scikit-learn"
-      ]
+      ],
+      "restore_run": "36897521385",
+      "restore_name": "emc-pediatric-full-ranked-genes-and-89-compositions-36897521385",
+      "timeout_seconds": 900
     },
     {
-      "name": "RMS-all-public-RNA-libraries-14-21",
-      "script": "pediatric_rms_full42_counts_actual.py",
-      "args": [
-        "--start",
-        "14",
-        "--stop",
-        "21"
-      ],
-      "timeout_seconds": 5000,
+      "name": "PeerJ-complete-small-EMC-fixed-expression-diagnostics",
+      "script": "peerj_expression_diagnostic_actual.py",
       "dependencies": [
         "numpy",
         "pandas",
@@ -67,67 +53,38 @@
         "imagecodecs",
         "h5py",
         "scikit-learn"
-      ]
+      ],
+      "timeout_seconds": 900
     },
     {
-      "name": "RMS-all-public-RNA-libraries-21-28",
-      "script": "pediatric_rms_full42_counts_actual.py",
-      "args": [
-        "--start",
-        "21",
-        "--stop",
-        "28"
-      ],
-      "timeout_seconds": 5000,
+      "name": "ASO-all-primary-chemistry-and-surrogate-controls",
+      "script": "aso_main_table_chemistry_controls.py",
       "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn"
-      ]
+        "biopython"
+      ],
+      "timeout_seconds": 300
     },
     {
-      "name": "RMS-all-public-RNA-libraries-28-35",
-      "script": "pediatric_rms_full42_counts_actual.py",
-      "args": [
-        "--start",
-        "28",
-        "--stop",
-        "35"
-      ],
-      "timeout_seconds": 5000,
+      "name": "ASO-exact-cited-2013-source-and-supplements",
+      "script": "aso_hagedorn2013_source.py",
       "dependencies": [
-        "numpy",
+        "pypdf",
         "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn"
-      ]
+        "openpyxl",
+        "xlrd"
+      ],
+      "timeout_seconds": 1500
     },
     {
-      "name": "RMS-all-public-RNA-libraries-35-42",
-      "script": "pediatric_rms_full42_counts_actual.py",
-      "args": [
-        "--start",
-        "35",
-        "--stop",
-        "42"
+      "name": "released-ternary-exact-embedded-config-receipts",
+      "script": "deepternary_embedded_config_metadata.py",
+      "dependencies": [],
+      "restore_run": "36882102233",
+      "restore_name": "emc-complete-released-ternary-native-geometry-36882102233",
+      "before": [
+        "restore_previous_outputs.py"
       ],
-      "timeout_seconds": 5000,
-      "dependencies": [
-        "numpy",
-        "pandas",
-        "scipy",
-        "tifffile",
-        "imagecodecs",
-        "h5py",
-        "scikit-learn"
-      ]
+      "timeout_seconds": 180
     }
   ]
 }
