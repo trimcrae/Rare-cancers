@@ -276,7 +276,8 @@ def main():
             for col in ["rna","protein","outcome"]:
                 values=x[col].to_numpy();x[col]=values-ctr@np.linalg.lstsq(ctr,values,rcond=None)[0]
             rr["withinLineageGrowthAdjustedRNAOutcome"]=corr(x.rna.to_numpy(),x.outcome.to_numpy());rr["withinLineageGrowthAdjustedProteinOutcome"]=corr(x.protein.to_numpy(),x.outcome.to_numpy());rr["growthObservedTestN"]=int(te.growth.notna().sum());rr["growthAdjustmentMissingness"]="RNAproxy missingcenteredproxyfilledzero;descriptiveonly"
-        if len(tr)<50 or len(te)<10 or tr.Cancer_type.nunique()<3:
+        rr["primaryEligible"]=bool(len(tr)>=50 and len(te)>=10 and tr.Cancer_type.nunique()>=3)
+        if len(tr)<10 or len(te)<3 or tr.Cancer_type.nunique()<2:
             rr["status"]="insufficient matched support fortransfer";return rr
         predictions={}
         for typ,cols in [("rna",["rna"]),("protein",["protein"]),("both",["rna","protein"]),("rnaGrowth",["rna","growth"]),("proteinGrowth",["protein","growth"])]:
@@ -290,7 +291,9 @@ def main():
             ix=np.concatenate([rng.choice(ix,size=len(ix),replace=True) for ix in idxs]);denom=aa[ix].mean()
             if denom>0:boot.append(1-bb[ix].mean()/denom)
         rr["proteinOverRNABootstrapCI95"]=np.quantile(boot,[.025,.975]) if boot else None;return rr
-    for gene in TARGETS:secondary.append({"gene":gene,"outcome":"CRISPR:"+gene,"kind":"CRISPRgeneeffect","status":"rawCRISPRnotinprocessedHDF5; separaterawsourceworkpending,noexecutionclaim"})
+    import raw_crispr_extension
+    crispr=raw_crispr_extension.run(meta,rna,prot,training,primary,benchmark)
+    secondary.extend(crispr["benchmarks"]);RECEIPTS.extend(crispr["sourceReceipts"])
     for key,d,targets,targettext in selection:
         if "ln_IC50" not in d:continue
         response=numeric(d[["ln_IC50"]]).ln_IC50.groupby(d.model_id).mean();predictors=set(targets)
