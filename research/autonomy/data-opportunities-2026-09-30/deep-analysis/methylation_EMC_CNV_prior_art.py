@@ -17,7 +17,8 @@ if pmcid:
   if not candidate:continue
   try:
    root_candidate=ET.fromstring(candidate)
-   if any(n.tag.split('}')[-1]=='article' for n in root_candidate.iter()):x=candidate;break
+   bodies=[n for n in root_candidate.iter() if n.tag.split('}')[-1]=='body'];body_chars=sum(len(' '.join(n.itertext())) for n in bodies);receipts.append({'url':source_url,'XML_body_count':len(bodies),'XML_body_text_characters':body_chars,'qualified_full_body':body_chars>10000})
+   if any(n.tag.split('}')[-1]=='article' for n in root_candidate.iter()) and body_chars>10000:x=candidate;break
   except ET.ParseError:pass
  if x:
   root=ET.fromstring(x)
@@ -27,8 +28,8 @@ if pmcid:
     if re.search('myxoid chondrosarcoma|EMCS|copy.number|chromosomal|9p21|MTAP|CDKN2|GSE',s,re.I):passages.append(s[:10000])
  if not x:
   from bs4 import BeautifulSoup
-  for host in ['https://europepmc.org/articles/','https://pmc.ncbi.nlm.nih.gov/articles/']:
-   raw=get(host+pmcid,'primary-fallback-'+hashlib.sha256(host.encode()).hexdigest()[:6]+'.html')
+  for host in ['https://pmc.ncbi.nlm.nih.gov/articles/','https://europepmc.org/articles/']:
+   raw=get(host+pmcid+'/','primary-fallback-'+hashlib.sha256(host.encode()).hexdigest()[:6]+'.html')
    if not raw:continue
    s=BeautifulSoup(raw,'html.parser').get_text(' ',strip=True)
    if re.search('myxoid chondrosarcoma',s,re.I) and len(s)>10000:
