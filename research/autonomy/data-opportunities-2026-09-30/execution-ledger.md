@@ -2,7 +2,7 @@
 
 As of 1 October 2026. These counts describe assignments, not simultaneous workers, independent discoveries or publishable papers.
 
-Four waves of six primary assignments provided24 primary assignments. The environment permits seven concurrent agents including the coordinator; the work proceeded in waves. Additional methods and integration assignments appear separately.
+Four waves of six primary assignments provided 24 primary assignments. The environment permits seven concurrent agents including the coordinator; the work proceeded in waves. Additional methods and integration assignments appear separately.
 
 ## Discovery wave — six assignments
 
@@ -45,16 +45,16 @@ Reviews covered source claims, arithmetic/methods, limitations and actual prose.
 - /root/prepare_inventory: consolidated source inventory and ledger preparation, no new searches or writes.
 - /root/prepare_replay: inspected CLI wrappers and prepared bounded replay, no writes or execution by that helper.
 
-These are outside the24 primary assignments. The root coordinator performed integration and actual persistent writes.
+These are outside the 24 primary assignments. The root coordinator performed integration and actual persistent writes.
 
 ## Actual executions
 
 Pinned-source pure analysis functions ran in-session; independent reviewers reproduced relevant complete results. The separate public GitHub CPU workflow fetched LFS sources and primary literature/metadata, then a focused replay executed all six Node CLI wrappers.
 
-- Retrieval36796166905: failed on initial public raw/media URL.
-- Retrieval36797307429: downloaded sources; subsequently identified an overbroad HLA column projection, superseded.
-- Retrieval36797786226: corrected explicit HLA projection and primary literature/workbook retrieval, successful.
-- Replay36802122941, job110178546732: all six CLI outputs matched saved semantic JSON. The methylation primaryReconciliation annex is separately recorded and excluded from CLI comparison; it was independently checked against the primary workbook.
+- Retrieval 36796166905: failed on initial public raw/media URL.
+- Retrieval 36797307429: downloaded sources; subsequently identified an overbroad HLA column projection, superseded.
+- Retrieval 36797786226: corrected explicit HLA projection and primary literature/workbook retrieval, successful.
+- Replay 36802122941, job 110178546732: all six CLI outputs matched saved semantic JSON. The methylation primaryReconciliation annex is separately recorded and excluded from CLI comparison; it was independently checked against the primary workbook.
 
 Some worker write calls stalled and were interrupted; no successful Git writes are inferred from them. Root persistence is evidenced by confirmed blob/tree/commit/ref receipts.
 

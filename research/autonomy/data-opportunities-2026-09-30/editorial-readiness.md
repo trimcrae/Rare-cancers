@@ -26,9 +26,9 @@ Methods were independently reviewed and exact repairs verified. These are prospe
 
 ## Other backlog items and rejected candidates
 
-[Backlog assessment](backlog-assessment.md) covers every registered endpoint; [catalogue](candidate-catalogue.json) supplies a disposition for all45 candidates. Lower-ranked entries were assessed at endpoint/source-family level, not by rereading every full manuscript. A conditional existing draft is not newly verified or rewritten here.
+[Backlog assessment](backlog-assessment.md) covers every registered endpoint; [catalogue](candidate-catalogue.json) supplies a disposition for all 45 candidates. Lower-ranked entries were assessed at endpoint/source-family level, not by rereading every full manuscript. A conditional existing draft is not newly verified or rewritten here.
 
-HLA prevalence, causal mortality ceilings, identity-invalid EMC drug validation and another existing CSPG4 context slice do not qualify as new standalone contributions on this evidence. User-closed routes remain closed. ASO ranks29 under the current measured-data criterion; the shared priority queue was not edited.
+HLA prevalence, causal mortality ceilings, identity-invalid EMC drug validation and another existing CSPG4 context slice do not qualify as new standalone contributions on this evidence. User-closed routes remain closed. ASO ranks 29 under the current measured-data criterion; the shared priority queue was not edited.
 
 ## Before an actual submission
 
