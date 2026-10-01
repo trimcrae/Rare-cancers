@@ -1,0 +1,63 @@
+{
+  "schema": "emc-data-opportunity-campaign/1",
+  "date": "2026-09-30",
+  "coordinator": "/root",
+  "repository": "trimcrae/Rare-cancers",
+  "base_commit": "af7211708205b5189d8c537c1ce2a23aa4bea076",
+  "branch": "codex/data-opportunities-2026-09-30",
+  "user_goal": "Broad multi-agent discovery of existing experimental and clinical datasets; evaluate new and existing publication ideas; write supported journal articles or letters; rank contributions.",
+  "tools_observed": {
+    "github_read_write": true,
+    "general_web_search": false,
+    "terminal": false,
+    "filesystem": false,
+    "maximum_concurrent_agents_including_coordinator": 7
+  },
+  "scope": {
+    "focus": "EMC-relevant measured data and transferable sarcoma/oncology methods",
+    "discovery": "Successive agents inspect cached primary sources, actual data inventories, and callable public GitHub source repositories. Search dates and limitations recorded per seat; not an exhaustive fresh archive or literature census.",
+    "writing": "Supported drafts only; proposal-stage questions do not receive invented Results sections.",
+    "repository_changes": "New isolated campaign directory; existing manuscripts, preregistrations, scientific graph, patient registry, priority queue and main branch preserved."
+  },
+  "coordination": {
+    "writers": "one owner per article; independent immutable Git blobs, no shared reference writes",
+    "integration": "coordinator only",
+    "local_worktrees": "unavailable in this session; remote work branch and worker-owned blobs provide isolation",
+    "scheduled_jobs": "none launched",
+    "legacy_handover": "Read codex-handover.json (historical disabled driver); no scheduler cutover or live claims made"
+  },
+  "planned_agent_seats": {
+    "wave1_discovery": 6,
+    "wave2_source_and_novelty_verification": 6,
+    "wave3_writing": 6,
+    "wave4_independent_review": 6
+  },
+  "scientific_rules": [
+    "No invented measurements, accessions, analysis execution, patient identities or novelty claims.",
+    "Require a new contribution beyond restating original study.",
+    "Preserve original-study overlap, assay scope, independent sample units, negative findings, normal context and confounding.",
+    "No drug efficacy or tumor protein conclusions from RNA or class-transfer data.",
+    "No dispatch to perform blocked downloads/paid APIs/GPU jobs or re-run shelved sequence screens."
+  ],
+  "ranking_rubric": {
+    "clinical_or_methodological_consequence": "0-4",
+    "distinct_contribution": "0-4",
+    "measurement_and_provenance_strength": "0-4",
+    "answerability_without_new_wet_lab": "0-4",
+    "validation_and_independence": "0-4",
+    "readiness_reported_separately": true,
+    "weights": "internal judgments, not journal acceptance probabilities"
+  },
+  "validation": {
+    "required": "source traceability, independently checked material arithmetic, independent prose and claims review of exact draft blobs, repair verification",
+    "normal_preflight": "unavailable without a terminal; draft checkpoint only, no main integration or publication readiness claim",
+    "full_publication_checks": "not claimed",
+    "journal_submission": "not authorized by drafting request and not performed"
+  },
+  "stop_conditions": [
+    "Discovery waves return durable evidence-grounded reports, including rejected candidates.",
+    "Every supported contribution receives a bounded draft or an explicit evidence blocker; all ranked candidates retain reasoned disposition.",
+    "Independent reviewers provide retained reports tied to exact draft content; unresolved findings remain visible.",
+    "One isolated branch package preserves sources, methods, actual checks, drafts, rankings and execution ledger."
+  ]
+}

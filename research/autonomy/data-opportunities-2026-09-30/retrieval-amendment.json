@@ -1,0 +1,11 @@
+{
+  "schema": "emc-data-opportunity-amendment/1",
+  "recorded_at": "2026-10-01 00:18:37 UTC",
+  "date": "2026-10-01",
+  "reason": "Read-only GitHub connector returns Git LFS pointers rather than the actual public clinical/HLA tables. A bounded read-only GitHub Actions job can retrieve and hash-check the public originals.",
+  "scope": "One CPU job on campaign branch;20-minute timeout;64MiB cap per file;standard-library Python;no credentials/secrets/paid APIs/GPU;no shared-state or main writes;no journal submission.",
+  "changes_from_contract": "Adds bounded remote source retrieval to the initially connector-only plan. No claim that job launched or completed until observed.",
+  "research_question": "Are exact diagnostic EMC records and usable HLA measurements present in the public 2026 MSK IMPACT50k release? This is a feasibility/source extraction, not an efficacy or antigen-presentation analysis.",
+  "source_revision": "dca75cb3f32b82d54a6f78bf0a6323e5b975aca1",
+  "stop_condition": "Actual source hashes and literal matching columns/cells, or a preserved exact access/download failure."
+}

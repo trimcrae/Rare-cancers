@@ -1,0 +1,24 @@
+name: EMC data opportunities - bounded public-source retrieval
+on:
+  push:
+    branches: [codex/data-opportunities-2026-09-30]
+    paths:
+      - .github/workflows/emc-data-opportunities-2026-09-30.yml
+      - research/autonomy/data-opportunities-2026-09-30/analysis/public_source_retrieval.py
+permissions:
+  contents: read
+concurrency:
+  group: emc-data-opportunities-public-retrieval
+  cancel-in-progress: true
+jobs:
+  public-source-retrieval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: research/autonomy/data-opportunities-2026-09-30
+      - name: Fetch hash-verified public source tables
+        run: python3 research/autonomy/data-opportunities-2026-09-30/analysis/public_source_retrieval.py
