@@ -1,0 +1,49 @@
+name: EMC deeper measured-data analyses
+on:
+  push:
+    branches: [codex/data-opportunities-2026-09-30]
+    paths:
+      - .github/workflows/emc-data-deep-2026-10-01.yml
+      - research/autonomy/data-opportunities-2026-09-30/deep-analysis/run-manifest.json
+permissions:
+  contents: read
+concurrency:
+  group: emc-deep-analysis
+  cancel-in-progress: false
+jobs:
+  measured-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            research/autonomy/data-opportunities-2026-09-30
+            research/autonomy/atlas-hofvander-source-2026-09-06
+            research/autonomy/atlas-hofvander-validation-2026-09-06
+      - name: Execute finite CPU analysis batch
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,subprocess,sys,time
+          here=pathlib.Path("research/autonomy/data-opportunities-2026-09-30/deep-analysis")
+          path=here/"run-manifest.json"
+          manifest=json.loads(path.read_text()) if path.exists() else {"jobs":[{"name":"dataset-access","script":"access_probe.py","timeout_seconds":900}],"dependencies":[]}
+          if manifest.get("dependencies"):
+              subprocess.run([sys.executable,"-m","pip","install",*manifest["dependencies"]],check=True,timeout=600)
+          receipts=[]
+          for job in manifest["jobs"]:
+              script=(here/job["script"]).resolve()
+              script.relative_to(here.resolve())
+              start=time.time()
+              try:
+                  code=subprocess.run([sys.executable,str(script)],check=False,timeout=job.get("timeout_seconds",1800)).returncode
+              except subprocess.TimeoutExpired:
+                  code=124
+              receipts.append({"name":job["name"],"script":job["script"],"script_sha256":hashlib.sha256(script.read_bytes()).hexdigest(),"returncode":code,"seconds":round(time.time()-start,2),"commit":os.environ.get("GITHUB_SHA"),"run_id":os.environ.get("GITHUB_RUN_ID")})
+          print("EMC_DEEP_RECEIPTS_BEGIN")
+          print(json.dumps(receipts,separators=(",",":")))
+          print("EMC_DEEP_RECEIPTS_END")
+          sys.exit(0 if all(x["returncode"]==0 for x in receipts) else 1)
+          PY
