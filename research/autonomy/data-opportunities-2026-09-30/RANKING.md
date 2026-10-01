@@ -11,17 +11,17 @@ These are internal research-priority judgments, not journal acceptance probabili
 | Action rank | Contribution | Score / 20 | Current artifact | Publication judgment and next step |
 |---|---|---:|---|---|
 |1|Registry response-table units and denominators|16|[draft](drafts/registry-response-unit-short-report.md)|Refocus on response-table units and reconstructed denominators; old claims about uninformative zero response, exact Wilson intervals and reporting omission are unsupported.|
-|2|Patient-linked availability in serial-biopsy data|15|[draft](drafts/immunosarc-availability-correspondence.md)|Completed audit and correspondence:38onRNA/31pairs;32onCD8/23pairs;UPS numericCD8gap. Incremental reporting contribution, no causal bias correction.|
-|3|Methylation validation across suppliers/chips|15|[protocol](protocols/methylation-validation-protocol.md)|Primary/mirror metadata reconciled;31smallclasses and EMC support constraints. Classifier performance not analyzed.|
+|2|Patient-linked availability in serial-biopsy data|15|[draft](drafts/immunosarc-availability-correspondence.md)|Completed audit and correspondence: 38 on-treatment RNA records/31 pairs; 32 on-treatment CD8 records/23 pairs; a gap in UPS numeric CD8 values. Incremental reporting contribution, no causal bias correction.|
+|3|Methylation validation across suppliers/chips|15|[protocol](protocols/methylation-validation-protocol.md)|Primary/mirror metadata reconciled; 31 small classes and EMC support constraints. Classifier performance not analyzed.|
 |4|Spatial immune organization beyond abundance|14|[protocol](protocols/experimental-data-protocols.md)|Public annotations/code verified; coordinates/masks and treatment mapping unresolved. A density reanalysis duplicates original work.|
 |5|RNA-to-protein reliability in held-out sarcoma models|13|[protocol](protocols/experimental-data-protocols.md)|Original already benchmarks RNA/protein; distinct transfer question, matrix coverage and independent validation required. Whole-cell protein is not surface.|
-|6|External fusion-output transfer/calibration|14|[protocol](protocols/experimental-data-protocols.md)|Distinct external transfer/calibration in overlap-reduced Hofvander atlas; freeze membership and reconcile three prior-overlap exclusions.|
+|6|External fusion-output transfer/calibration|14|[protocol](protocols/experimental-data-protocols.md)|Test a candidate gene set that failed the original matched-size null on both source platforms; freeze membership and reconcile three prior-overlap exclusions.|
 |7|Query-dependent findability of posted EMC results|14|[draft](drafts/registry-search-correspondence.md)|Refocus the existing reachability contribution on archived query-dependent findability of posted subtype results; do not make another overlapping paper.|
 |8|Prognosis versus treatment prediction: existing letter repair|12|[revision](drafts/fusion-partner-revised-correspondence.md)|Existing correspondence repaired: unpooled proportions and uncertainty; single-arm data do not identify treatment prediction.|
 
 Four scientific drafts are supplied: one methods short report, two reporting correspondences, and one revised existing fusion-partner correspondence. They are candidates for author review, not submission-ready papers. The search letter should replace/refocus the existing reachability contribution; the partner letter repairs its existing counterpart. Do not count them as four entirely new independent discoveries.
 
-Methylation has completed primary-linked metadata findings but no classifier fit. Spatial analysis lacks verified coordinate/mask access. Proteomics lacks an audited sarcoma subset and distinctness from the original paper's benchmarking. Fusion-output analysis needs a locked signature and a resolved overlap map. Their methods are specified in the two protocol documents; there are no invented Results sections.
+Methylation has completed primary-linked metadata findings but no classifier fit. Spatial analysis lacks verified coordinate/mask access. Proteomics lacks an audited sarcoma subset and distinctness from the original paper's benchmarking. Fusion-output analysis needs a locked candidate gene set and a resolved overlap map. Their methods are specified in the two protocol documents; there are no invented Results sections.
 
 ## Complete ordering
 
@@ -78,7 +78,7 @@ The [catalogue](candidate-catalogue.json) and [all 33-endpoint assessment](backl
 
 ## What did not survive as a standalone paper
 
-- EMC HLA LOH:15 samples/13 patients, but only four patients with calls, all literal Unchanged. This does not estimate population prevalence or rule out immune escape.
+- EMC HLA LOH: 15 samples/13 patients, but only four patients with calls, all literal Unchanged. This does not estimate population prevalence or rule out immune escape.
 - Mortality “therapy ceilings”: crude deaths under unequal follow-up and mismatched expected survival cannot identify a counterfactual treatment-benefit ceiling.
 - Another PRAME/HPA/CSPG4 context slice: already represented in the surface-target paper.
 - H-EMC-SS drug screens as EMC validation: molecular disease identity is unresolved.
