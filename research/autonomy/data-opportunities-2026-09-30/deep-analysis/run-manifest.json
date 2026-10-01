@@ -1,140 +1,81 @@
 {
   "schema": "emc-bounded-measured-analysis/1",
-  "batch": "final-protein-and-full-Ewing-nuclei",
+  "batch": "clinical-pediatric-and-complete-spatial-cohort",
   "dependencies": [],
   "jobs": [
     {
-      "name": "final-measured-growth-protein-RNA-drug-CRISPR",
-      "script": "multiomics_actual.py",
-      "timeout_seconds": 3600,
+      "name": "Foundation-3771-export-ID-proof-and-75-partner-controls",
+      "script": "foundation_identity_and_partner_sensitivity.py",
+      "timeout_seconds": 900,
+      "dependencies": [
+        "xlrd"
+      ]
+    },
+    {
+      "name": "clinical-Agaram-Huang-WLI-primary-fallthrough",
+      "script": "clinical_primary_access_fallthrough.py",
+      "timeout_seconds": 1800,
+      "dependencies": [
+        "pypdf"
+      ]
+    },
+    {
+      "name": "ImmunoSarc-exact-numeric-IHC-table",
+      "script": "immunosarc_numeric_ihc_supplement.py",
+      "timeout_seconds": 900,
+      "dependencies": [
+        "pypdf",
+        "xlrd"
+      ]
+    },
+    {
+      "name": "pediatric-full-ranked-genes-and-89-compositions",
+      "script": "pediatric_processed_numeric_actual.py",
+      "timeout_seconds": 1200,
       "dependencies": [
         "numpy",
         "pandas",
         "scipy",
-        "scikit-learn",
+        "tifffile",
+        "imagecodecs",
         "h5py",
-        "openpyxl"
-      ]
+        "scikit-learn"
+      ],
+      "restore_run": 36889768017,
+      "restore_name": "emc-public-pediatric-and-Ewing-measured-derived-exports-36889768017"
     },
     {
-      "name": "repaired-ENSG-observed-FET-fusion-calls",
-      "script": "primary_methods_and_fusion_actual.py",
+      "name": "RMS-primary-GEO-alternate-public-files",
+      "script": "pediatric_geo_alternate_access_actual.py",
       "timeout_seconds": 900,
       "dependencies": [
         "numpy",
-        "pandas"
+        "pandas",
+        "scipy",
+        "tifffile",
+        "imagecodecs"
       ]
     },
     {
-      "name": "genomic-state-exact-source-inspection",
-      "script": "genomic_source_inspection_actual.py",
-      "timeout_seconds": 600,
+      "name": "all-spatial-checkpoints-patient-unit-merge",
+      "script": "spatial_checkpoint_merge_actual.py",
+      "args": [
+        "--input-root",
+        "restored-artifacts",
+        "--input-root",
+        "restored-artifacts-extra"
+      ],
+      "timeout_seconds": 1800,
       "dependencies": [
         "numpy",
-        "pandas"
-      ]
-    },
-    {
-      "name": "printed-IPD-complete-fixture-precision",
-      "script": "printed_ipd_figure_and_precision.py",
-      "timeout_seconds": 900,
-      "dependencies": []
-    },
-    {
-      "name": "Ewing-Cellpose-nuclei-0-7",
-      "script": "ewing_cellpose_all_patient_actual.py",
-      "args": [
-        "--start",
-        "0",
-        "--stop",
-        "7"
-      ],
-      "timeout_seconds": 4500,
-      "dependencies": [
-        "numpy==1.26.4",
-        "scipy",
         "pandas",
-        "tifffile",
-        "imagecodecs==2024.12.30",
-        "cellpose==2.3.2",
-        "torch==2.5.1+cpu",
-        "opencv-python-headless==4.10.0.84",
-        "numba==0.61.2",
-        "--extra-index-url",
-        "https://download.pytorch.org/whl/cpu"
-      ]
-    },
-    {
-      "name": "Ewing-Cellpose-nuclei-7-14",
-      "script": "ewing_cellpose_all_patient_actual.py",
-      "args": [
-        "--start",
-        "7",
-        "--stop",
-        "14"
-      ],
-      "timeout_seconds": 4500,
-      "dependencies": [
-        "numpy==1.26.4",
         "scipy",
-        "pandas",
         "tifffile",
-        "imagecodecs==2024.12.30",
-        "cellpose==2.3.2",
-        "torch==2.5.1+cpu",
-        "opencv-python-headless==4.10.0.84",
-        "numba==0.61.2",
-        "--extra-index-url",
-        "https://download.pytorch.org/whl/cpu"
-      ]
-    },
-    {
-      "name": "Ewing-Cellpose-nuclei-14-20",
-      "script": "ewing_cellpose_all_patient_actual.py",
-      "args": [
-        "--start",
-        "14",
-        "--stop",
-        "20"
+        "imagecodecs"
       ],
-      "timeout_seconds": 4500,
-      "dependencies": [
-        "numpy==1.26.4",
-        "scipy",
-        "pandas",
-        "tifffile",
-        "imagecodecs==2024.12.30",
-        "cellpose==2.3.2",
-        "torch==2.5.1+cpu",
-        "opencv-python-headless==4.10.0.84",
-        "numba==0.61.2",
-        "--extra-index-url",
-        "https://download.pytorch.org/whl/cpu"
-      ]
-    },
-    {
-      "name": "Ewing-Cellpose-nuclei-20-26",
-      "script": "ewing_cellpose_all_patient_actual.py",
-      "args": [
-        "--start",
-        "20",
-        "--stop",
-        "26"
-      ],
-      "timeout_seconds": 4500,
-      "dependencies": [
-        "numpy==1.26.4",
-        "scipy",
-        "pandas",
-        "tifffile",
-        "imagecodecs==2024.12.30",
-        "cellpose==2.3.2",
-        "torch==2.5.1+cpu",
-        "opencv-python-headless==4.10.0.84",
-        "numba==0.61.2",
-        "--extra-index-url",
-        "https://download.pytorch.org/whl/cpu"
-      ]
+      "restore_run": 36887975194,
+      "restore_all": true,
+      "extra_restore_run": 36892562725
     }
   ]
 }
