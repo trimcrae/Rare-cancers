@@ -52,7 +52,7 @@ if cached_missing:
    attrs=dict(re.findall(r'(\w+) "([^"]*)"',cols[8]));stable_id=attrs.get("gene_id","").split(".")[0]
    if not stable_id:continue
    record={"chrom":cols[0],"start":int(cols[3]),"end":int(cols[4]),"strand":1 if cols[6]=="+" else -1,"gene_id":stable_id,"gene_name":attrs.get("gene_name"),"literal_gtf_line":line};by_id.setdefault(stable_id,[]).append(record);by_name.setdefault(attrs.get("gene_name"),[]).append(record)
-  if not any(re.match(r"#!genome-build\s+GRCh38(?:\s|$)",x) for x in header):raise ValueError("GTF header did not verify GRCh38 build")
+  if not any(re.match(r"#!genome-build\s+GRCh38(?:\.p\d+)?(?:\s|$)",x) for x in header):raise ValueError("GTF header did not verify GRCh38 build")
   hgnc=None;hgnc_sha=None
   for symbol in unresolved:
    candidates=by_name.get(symbol,[]);alias_row=None
