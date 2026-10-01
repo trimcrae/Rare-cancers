@@ -7,10 +7,38 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: emc-deep-analysis
+  group: emc-deep-${{ github.event.after }}
   cancel-in-progress: false
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      jobs: ${{ steps.manifest.outputs.jobs }}
+      dependencies: ${{ steps.manifest.outputs.dependencies }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: research/autonomy/data-opportunities-2026-09-30/deep-analysis
+      - id: manifest
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib
+          m=json.loads(pathlib.Path("research/autonomy/data-opportunities-2026-09-30/deep-analysis/run-manifest.json").read_text())
+          with open(os.environ["GITHUB_OUTPUT"],"a") as f:
+              f.write("jobs="+json.dumps(m["jobs"],separators=(",",":"))+"\n")
+              f.write("dependencies="+json.dumps(m.get("dependencies",[]),separators=(",",":"))+"\n")
+          PY
   measured-data:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        include: ${{ fromJson(needs.prepare.outputs.jobs) }}
+    name: ${{ matrix.name }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -22,39 +50,41 @@ jobs:
             research/autonomy/data-opportunities-2026-09-30
             research/autonomy/atlas-hofvander-source-2026-09-06
             research/autonomy/atlas-hofvander-validation-2026-09-06
-      - name: Execute finite CPU analysis batch
+      - name: Execute finite CPU analysis
+        env:
+          JOB_JSON: ${{ toJson(matrix) }}
+          DEPENDENCIES_JSON: ${{ needs.prepare.outputs.dependencies }}
+          OMP_NUM_THREADS: 2
+          OPENBLAS_NUM_THREADS: 2
         run: |
           python3 - <<'PY'
           import hashlib,json,os,pathlib,py_compile,subprocess,sys,time
           here=pathlib.Path("research/autonomy/data-opportunities-2026-09-30/deep-analysis")
-          path=here/"run-manifest.json"
-          manifest=json.loads(path.read_text()) if path.exists() else {"jobs":[{"name":"dataset-access","script":"access_probe.py","timeout_seconds":900}],"dependencies":[]}
-          if manifest.get("dependencies"):
-              subprocess.run([sys.executable,"-m","pip","install",*manifest["dependencies"]],check=True,timeout=600)
+          job=json.loads(os.environ["JOB_JSON"]);dependencies=json.loads(os.environ["DEPENDENCIES_JSON"])
+          if dependencies:subprocess.run([sys.executable,"-m","pip","install",*dependencies],check=True,timeout=600)
           receipts=[]
-          for job in manifest["jobs"]:
-              script=(here/job["script"]).resolve()
-              script.relative_to(here.resolve())
-              py_compile.compile(str(script),doraise=True)
+          tasks=[{"name":"prepare-"+p,"script":p,"timeout_seconds":300} for p in job.get("before",[])]+[job]
+          for task in tasks:
+              script=(here/task["script"]).resolve();script.relative_to(here.resolve())
               start=time.time()
               try:
-                  code=subprocess.run([sys.executable,str(script),*job.get("args",[])],check=False,timeout=job.get("timeout_seconds",1800)).returncode
-              except subprocess.TimeoutExpired:
-                  code=124
-              receipts.append({"name":job["name"],"script":job["script"],"script_sha256":hashlib.sha256(script.read_bytes()).hexdigest(),"returncode":code,"seconds":round(time.time()-start,2),"commit":os.environ.get("GITHUB_SHA"),"run_id":os.environ.get("GITHUB_RUN_ID")})
-          output=here/"outputs"/("receipts-"+str(os.environ.get("GITHUB_RUN_ID"))+".json")
-          output.parent.mkdir(parents=True,exist_ok=True)
-          output.write_text(json.dumps(receipts,indent=2)+"\n")
-          print("EMC_DEEP_RECEIPTS_BEGIN")
-          print(json.dumps(receipts,separators=(",",":")))
-          print("EMC_DEEP_RECEIPTS_END")
+                  py_compile.compile(str(script),doraise=True)
+                  code=subprocess.run([sys.executable,str(script),*task.get("args",[])],check=False,timeout=task.get("timeout_seconds",1800)).returncode
+              except subprocess.TimeoutExpired:code=124
+              except Exception as error:
+                  print(type(error).__name__+": "+str(error),flush=True);code=125
+              receipts.append({"name":task["name"],"script":task["script"],"script_sha256":hashlib.sha256(script.read_bytes()).hexdigest(),"returncode":code,"seconds":round(time.time()-start,2),"commit":os.environ.get("GITHUB_SHA"),"run_id":os.environ.get("GITHUB_RUN_ID")})
+              if code:break
+          output=here/"outputs"/("receipts-"+job["name"]+"-"+str(os.environ.get("GITHUB_RUN_ID"))+".json")
+          output.parent.mkdir(parents=True,exist_ok=True);output.write_text(json.dumps(receipts,indent=2)+"\n")
+          print("EMC_DEEP_RECEIPTS_BEGIN");print(json.dumps(receipts,separators=(",",":")));print("EMC_DEEP_RECEIPTS_END")
           sys.exit(0 if all(x["returncode"]==0 for x in receipts) else 1)
           PY
-      - name: Preserve derived measurements and execution receipts
+      - name: Preserve derived measurements and receipts
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: emc-measured-analysis-${{ github.run_id }}
+          name: emc-${{ matrix.name }}-${{ github.run_id }}
           retention-days: 30
           if-no-files-found: warn
           path: |
