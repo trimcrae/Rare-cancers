@@ -49,7 +49,7 @@ for r,n in zip(pro,native['rows']):
 lb,lr=fetch('data/MolecularGlue/test_all.txt');cb,cr=fetch('data/MolecularGlue/test_clusters.json');out['receipts'] += [lr,cr];mlist=[x.split()[0] for x in lb.decode().splitlines() if x.strip() and not x.startswith('#')];assert len(mlist)==94
 releasedTests=[x for x in P('campaign-output/deepternary-released-files').rglob('test.txt') if 'MGD' in x.parts];assert len(releasedTests)==1,[str(x) for x in releasedTests];b=releasedTests[0].read_bytes();releasedList=[x.split()[0] for x in b.decode().splitlines() if x.strip() and not x.startswith('#')];assert releasedList==mlist
 out['receipts'].append({'path':str(releasedTests[0]),'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()});clusters=json.loads(cb);assignment={}
-for k,v in clusters.items():
+for k,v in (clusters.items() if isinstance(clusters,dict) else enumerate(clusters)):
  for item in v['items']:assert item not in assignment;assignment[item]=k
 for r,c in zip(mgd,mlist):r.update(case=c,pdb=c.split('_')[0],authorCluster=assignment[c])
 assert all(r['predDockQ']==r['oracleDockQ'] for r in mgd)
