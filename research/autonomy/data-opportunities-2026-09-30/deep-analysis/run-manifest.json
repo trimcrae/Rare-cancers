@@ -1,19 +1,21 @@
 {
   "schema": "emc-bounded-measured-analysis/1",
-  "batch": "frozen-genomic-state-controls",
+  "batch": "RMS-processed-counts-and-verified-cohort-lead",
   "dependencies": [],
   "jobs": [
     {
-      "name": "actual-genomic-state-36-fixed-knockout-controls",
-      "script": "genomic_state_controls_actual.py",
+      "name": "RMS-complete-metadata-and-actual-processed-count-pilot",
+      "script": "pediatric_rms_processed_count_pilot_actual.py",
+      "timeout_seconds": 3600,
       "dependencies": [
         "numpy",
         "pandas",
-        "scipy"
-      ],
-      "restore_run": 36896523203,
-      "restore_name": "emc-final-measured-growth-protein-RNA-drug-CRISPR-36896523203",
-      "timeout_seconds": 2700
+        "scipy",
+        "tifffile",
+        "imagecodecs",
+        "h5py",
+        "scikit-learn"
+      ]
     }
   ]
 }
