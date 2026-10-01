@@ -1,30 +1,25 @@
 {
   "schema": "emc-measured-data-run/1",
-  "batch": "raw-spatial-pixels-HLA-finite-and-Foundation-original-data",
+  "batch": "full-methylation-bootstrap-repair-and-external-evaluation",
   "date": "2026-10-01",
   "dependencies": [
     "numpy",
     "pandas",
     "scipy",
-    "xlrd",
-    "tifffile",
-    "imagecodecs"
+    "scikit-learn",
+    "openpyxl"
   ],
   "jobs": [
     {
-      "name": "spatial-raw-pixels-and-primary-source-followthrough",
-      "script": "scientific_source_access_followthrough.py",
-      "timeout_seconds": 2400
-    },
-    {
-      "name": "HLA-finite-robustness-and-assay-joins",
-      "script": "normal_ligandomics_finite_followup.py",
-      "timeout_seconds": 1200
-    },
-    {
-      "name": "original-Foundation-XLS-and-complete-SVs",
-      "script": "foundation_legacy_workbook_analysis.py",
-      "timeout_seconds": 900
+      "name": "full-CpG-methylation-and-428-external-profiles",
+      "script": "methylation_full_geo.py",
+      "before": [
+        "methylation_validation_metadata.py"
+      ],
+      "after": [
+        "methylation_external_metrics.py"
+      ],
+      "timeout_seconds": 3300
     }
   ]
 }
