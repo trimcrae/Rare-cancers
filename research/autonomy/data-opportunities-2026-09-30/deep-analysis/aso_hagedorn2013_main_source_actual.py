@@ -4,7 +4,7 @@ from PIL import Image
 OUT=pathlib.Path('campaign-output/hagedorn2013-main-measured-source');OUT.mkdir(parents=True,exist_ok=True)
 PIN='321e2baa5ef304351a867592f3cb4337e7b2ad368c5d23ce1ec94cc616550a4c';roots=[pathlib.Path('restored-artifacts'),pathlib.Path('restored-artifacts-extra')];source=next((p for root in roots for p in root.rglob('*indexed-000.html') if hashlib.sha256(p.read_bytes()).hexdigest()==PIN),None);assert source,'Restore exactprimaryHTML'
 raw=source.read_bytes();soup=BeautifulSoup(raw,'html.parser');article=soup.find('article') or soup.find(id='main-content');assert article is not None
-body=article.get_text(' ',strip=True);assert len(body)>15000 and 'Hepatotoxic potential' in body;(OUT/'primary-complete-text.txt').write_text(body)
+body=article.get_text(' ',strip=True);assert len(body)>15000 and 'hepatotoxic potential' in body.lower();(OUT/'primary-complete-text.txt').write_text(body)
 result={'schema':'ASO2013-main-measured-source-audit/1','executed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'identity':{'PMID':'23952551','PMCID':'PMC3760025','DOI':'10.1089/nat.2013.0436'},'input_receipt':{'path':str(source),'bytes':len(raw),'sha256':PIN},'primary_complete_text':body,'literal_figure_table_inventory':[],'primary_asset_attempts':[],'qualified_assets':[],'limits':['OCR assists source transcription; no validatednumeric plot digitization or inferredTm. Only literal primaryHTMLassets; originalbinary hashes preserved. PNG conversions preserve pixel dimensions for visualinspection.']}
 base='https://pmc.ncbi.nlm.nih.gov/articles/PMC3760025/';assets={}
 for box in article.find_all(['figure','div']):
@@ -12,7 +12,10 @@ for box in article.find_all(['figure','div']):
  if not any(c in classes for c in ['fig','table-wrap','fig-inline']):continue
  row={'id':box.get('id'),'complete_caption_and_text':box.get_text(' ',strip=True),'images':[],'literal_anchors':[]}
  for im in box.find_all('img'):row['images'].append({k:im.get(k) for k in ['src','data-src','srcset','alt'] if im.get(k)})
- for a in box.find_all('a',href=True):row['literal_anchors'].append({'href':a['href'],'label':a.get_text(' ',strip=True)})
+ for a in box.find_all('a',href=True):
+  row['literal_anchors'].append({'href':a['href'],'label':a.get_text(' ',strip=True)})
+  u=urllib.parse.urljoin(base,a['href'])
+  if any(x in urllib.parse.urlparse(u).path.lower() for x in ['.png','.jpg','.jpeg','.gif','.tif']):assets[u]={'kind':'literal_main_figure_image','figure_id':box.get('id'),'literal_href':a['href']}
  result['literal_figure_table_inventory'].append(row)
 result['all_literal_primary_images']=[]
 for im in article.find_all('img'):
