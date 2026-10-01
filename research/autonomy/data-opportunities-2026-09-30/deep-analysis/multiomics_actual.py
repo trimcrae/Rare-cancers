@@ -101,12 +101,18 @@ def nested_choice(xone,X,y,groups):
   outs["median"].extend(np.abs(y[va]-np.median(y[tr])))
  maes={k:float(np.mean(v)) for k,v in outs.items()};chosen="single" if maes["single"]<=maes["ridge"] else "ridge"
  return chosen,{"outerGroupedMAE":maes,"outerRidgeAlphas":alpha_log,"selectionRule":"minimum outerMAE,tie tosingle"}
-def aggregate_records(records):
+def aggregate_records(records,fixed_support=None):
  if len(records)==0:return None
- rr=pd.DataFrame(records);good=rr.groupby(["gene","lineage"])["group"].nunique();support=good[good>=5].index;rr=rr.set_index(["gene","lineage"])
- if len(support)==0:return None
- rr=rr.loc[rr.index.isin(support)].reset_index();z=rr.groupby(["gene","lineage"])[["selectedError","singleError","baselineError"]].mean()
- return {"strata":len(z),"genes":int(z.index.get_level_values(0).nunique()),"lineages":int(z.index.get_level_values(1).nunique()),"selectedNMAE":float(z.selectedError.mean()),"singleNMAE":float(z.singleError.mean()),"medianBaselineNMAE":float(z.baselineError.mean()),"relativeImprovement":float(1-z.selectedError.mean()/z.baselineError.mean()) if z.baselineError.mean()>0 else None}
+ rr=pd.DataFrame(records)
+ if fixed_support is None:
+  good=rr.groupby(['gene','lineage'])['group'].nunique();support=set(good[good>=5].index)
+ else:support=set(fixed_support)
+ if not support:return None
+ present=set(rr.groupby(['gene','lineage']).size().index)
+ if not support.issubset(present):return None
+ rr=rr.set_index(['gene','lineage']);rr=rr.loc[rr.index.isin(support)].reset_index()
+ z=rr.groupby(['gene','lineage'])[['selectedError','singleError','baselineError']].mean()
+ return {'strata':len(z),'genes':int(z.index.get_level_values(0).nunique()),'lineages':int(z.index.get_level_values(1).nunique()),'selectedNMAE':float(z.selectedError.mean()),'singleNMAE':float(z.singleError.mean()),'medianBaselineNMAE':float(z.baselineError.mean()),'relativeImprovement':float(1-z.selectedError.mean()/z.baselineError.mean()) if z.baselineError.mean()>0 else None}
 def main():
     stage("manifest");m=get_manifest()
     def by_id(fid):
@@ -156,12 +162,16 @@ def main():
     write("source-receipts.json",RECEIPTS)
     ids=sorted(set(meta.index)&set(prot.index)&set(rna.index));meta=meta.reindex(ids);prot=prot.reindex(ids);rna=rna.reindex(ids)
     ctype=meta.Cancer_type.fillna("UNKNOWN").astype(str);subtype=meta.get("Cancer_subtype",pd.Series("",index=meta.index)).fillna("").astype(str)
-    sarcoma=(ctype.str.contains("sarcoma",case=False)|subtype.str.contains("sarcoma",case=False))
-    disputed=meta.get("Cell_line",pd.Series("",index=meta.index)).fillna("").astype(str).str.contains("EMC",case=False)
-    disputed|=subtype.str.contains("Extraskeletal myxoid",case=False);disputed|=meta.get("BROAD_ID",pd.Series("",index=meta.index)).fillna("").astype(str).eq("ACH-001519")
+    name=meta.get('Cell_line',pd.Series('',index=meta.index)).fillna('').astype(str)
+    norm_name=name.str.upper().str.replace(r'[^A-Z0-9]','',regex=True)
+    broad=meta.get('BROAD_ID',pd.Series('',index=meta.index)).fillna('').astype(str)
+    meso_context=ctype.eq('Mesothelioma')&subtype.str.contains('Sarcomatoid',case=False,na=False)
+    sarcoma=(ctype.str.contains('sarcoma',case=False)|subtype.str.contains('sarcoma',case=False))&~ctype.eq('Mesothelioma')
+    disputed=norm_name.eq('HEMCSS')|broad.eq('ACH-001519')|subtype.str.contains('Extraskeletal myxoid',case=False,na=False)
     sarcoma|=disputed;primary=sarcoma&~disputed
-    known_label=~ctype.str.strip().str.lower().isin({"","unknown","uncertain","nan","na","n/a","none"})
-    training=~sarcoma&known_label
+    known_label=~ctype.str.strip().str.lower().isin({'','unknown','uncertain','nan','na','n/a','none'})
+    ambiguous=broad.eq('ACH-000561')|meta.index.isin(['SIDM00322','SIDM00484'])
+    training=~sarcoma&~meso_context&~ambiguous&known_label
     name=meta.get("Cell_line",pd.Series("",index=meta.index)).fillna("").astype(str);normalized=name.str.upper().str.replace(r"[^A-Z0-9]","",regex=True)
     broad=meta.get("BROAD_ID",pd.Series("",index=meta.index)).fillna("").astype(str);patient=meta.get("patient_id",pd.Series("",index=meta.index)).fillna("").astype(str);parent=meta.get("parent_id",pd.Series("",index=meta.index)).fillna("").astype(str)
     links={j:j for j in meta.index}
@@ -177,7 +187,12 @@ def main():
         if parent.loc[j].startswith("SIDM"):union(j,parent.loc[j])
         if broad.loc[j].startswith("ACH-"):union(j,"BROAD:"+broad.loc[j])
         if normalized.loc[j]:union(j,"NAME:"+normalized.loc[j])
-    meta["relatedGroup"]=[find(j) for j in meta.index];held_family=set(meta.loc[sarcoma,"relatedGroup"]);training=~meta.relatedGroup.isin(held_family)&known_label
+    meta["relatedGroup"]=[find(j) for j in meta.index]
+    held_family=set(meta.loc[sarcoma|meso_context|ambiguous,"relatedGroup"])
+    training=~meta.relatedGroup.isin(held_family)&known_label
+    meta["heldoutMesotheliomaContext"]=meso_context
+    meta["ambiguousSourceIdentifier"]=ambiguous
+    write("taxonomy-and-identity-exclusions.json",meta.loc[meso_context|ambiguous|disputed].reset_index().replace({np.nan:None}).to_dict("records"))
     write("excluded-uncertain-training-labels.json",meta.loc[~known_label].reset_index().replace({np.nan:None}).to_dict("records"))
     meta["isTraining"]=training;meta["isSarcoma"]=sarcoma;meta["primarySarcomaTest"]=primary;meta["disputedEMCLabel"]=disputed
     write("sarcoma-model-manifest.json",meta.loc[sarcoma].reset_index().replace({np.nan:None}).to_dict("records"));write("identifier-audit.json",mapping_receipt)
@@ -226,7 +241,7 @@ def main():
     # Freeze eligible gene/lineage strata before bootstrap; resampling cannot add unsupported strata.
     supported={(g,l) for (g,l),v in pd.DataFrame(panel_records).groupby(["gene","lineage"]) if v["group"].nunique()>=5} if panel_records else set()
     panel_records=[r for r in panel_records if (r["gene"],r["lineage"]) in supported]
-    summary=aggregate_records(panel_records)
+    summary=aggregate_records(panel_records,supported)
     independent=meta.loc[primary].groupby("relatedGroup").Cancer_type.agg(lambda z:sorted(set(z.astype(str)))[0]);cls_groups={c:list(v.index) for c,v in independent.groupby(independent)}
     if summary is not None:
         grouped={g:[r for r in panel_records if r["group"]==g] for g in independent.index};bs=[]
@@ -236,8 +251,9 @@ def main():
                 for bno,g in enumerate(rng.choice(gs,size=len(gs),replace=True)):
                     for r in grouped.get(g,[]):
                         q=dict(r);q["group"]=str(g)+"#"+str(bno);b.append(q)
-            v=aggregate_records(b)
+            v=aggregate_records(b,supported)
             if v is not None:bs.append(v["relativeImprovement"])
+        summary["fixedEligibleStrata"]=sorted([list(x) for x in supported]);summary["bootstrapSkippedMissingEntireStratum"]=NBOOT-len(bs)
         summary["bootstrapRelativeImprovementCI95"]=np.quantile(bs,[.025,.975]) if bs else None;summary["bootstrapSuccessfulReplicates"]=len(bs)
         rr=pd.DataFrame(panel_records);bystratum=[d.to_dict("records") for _,d in rr.groupby(["gene","lineage"])];null=[]
         for _ in range(NPERM):
@@ -246,7 +262,7 @@ def main():
                 obs=rng.permutation([r["observed"] for r in block])
                 for r,o in zip(block,obs):
                     q=dict(r);q["observed"]=o;q["selectedError"]=abs(o-q["predicted"])/q["scale"];q["singleError"]=abs(o-q["single"])/q["scale"];q["baselineError"]=abs(o-q["baseline"])/q["scale"];perm.append(q)
-            z=aggregate_records(perm)
+            z=aggregate_records(perm,supported)
             if z is not None:null.append(z["relativeImprovement"])
         summary["withinLineageProteinPermutationP"]=(1+sum(v>=summary["relativeImprovement"] for v in null))/(1+len(null));summary["withinLineageNullRelativeImprovementCI95"]=np.quantile(null,[.025,.975]) if null else None
     coverage_total={g:float(prot[g].reindex(meta.index[primary]).notna().mean()) if g in prot else 0 for g in PANEL}
@@ -307,7 +323,7 @@ def main():
         for i,q in zip(inds,qs):secondary[i][field]["FDRAcrossFrozenEndpointFamily"]=q
     write("target-outcome-benchmarks.json",secondary);specificity=[];atr_names={"AZD6738","VE-822","VE822","Ceralasertib","AZ20","VX-970","Berzosertib"}
     for dataset,ds in drug.groupby("dataset"):
-        matrix=ds.pivot_table(index="model_id",columns=["drug_id","drug_name"],values="ln_IC50",aggfunc="mean");med=matrix.median();sc=matrix.quantile(.75)-matrix.quantile(.25);z=(matrix-med)/sc.replace(0,np.nan)
+        matrix=ds.pivot_table(index="model_id",columns=["drug_id","drug_name"],values="ln_IC50",aggfunc="mean");reference=matrix.reindex(meta.index[training]);med=reference.median();sc=reference.quantile(.75)-reference.quantile(.25);z=(matrix-med)/sc.replace(0,np.nan)
         controls=[c for c in matrix.columns if str(c[1]) in {"Paclitaxel","Docetaxel","Olaparib","Talazoparib","Doxorubicin","Cisplatin"}];atrcols=[c for c in matrix.columns if str(c[1]) in atr_names]
         for col in atrcols+controls:
             general=z.drop(columns=[col],errors="ignore").median(axis=1);response=matrix[col];d=pd.concat([response.rename("response"),general.rename("general")],axis=1).join(meta[["Cancer_type","primarySarcomaTest","relatedGroup"]]);d=d[d.primarySarcomaTest.fillna(False)].dropna(subset=["response","general","Cancer_type"]);d=d.groupby(["relatedGroup","Cancer_type"],as_index=False).mean(numeric_only=True)
