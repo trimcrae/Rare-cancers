@@ -1,15 +1,62 @@
 {
   "schema": "emc-bounded-measured-analysis/1",
-  "batch": "primary-method-definitions-and-FET-calls",
+  "batch": "clinical-survival-replay-and-transient-spatial-retries",
   "dependencies": [
     "numpy",
-    "pandas"
+    "pandas",
+    "scipy",
+    "tifffile",
+    "imagecodecs"
   ],
   "jobs": [
     {
-      "name": "primary-growth-screen-methods-and-observed-FET-drivers",
-      "script": "primary_methods_and_fusion_actual.py",
+      "name": "printed-IPD-precision-and-eightcase-concordance",
+      "script": "printed_ipd_figure_and_precision.py",
       "timeout_seconds": 900
+    },
+    {
+      "name": "ImmunoSarc-availability-PFS-and-response-composition",
+      "script": "immunosarc_assay_outcome_composition.py",
+      "timeout_seconds": 900
+    },
+    {
+      "name": "retry-spatial-TIFF-20-25",
+      "script": "spatial_marker_followthrough_batch_actual.py",
+      "args": [
+        "--mode",
+        "tiff",
+        "--start",
+        "20",
+        "--stop",
+        "25"
+      ],
+      "timeout_seconds": 2400
+    },
+    {
+      "name": "retry-spatial-TIFF-30-35",
+      "script": "spatial_marker_followthrough_batch_actual.py",
+      "args": [
+        "--mode",
+        "tiff",
+        "--start",
+        "30",
+        "--stop",
+        "35"
+      ],
+      "timeout_seconds": 2400
+    },
+    {
+      "name": "retry-spatial-TIFF-35-40",
+      "script": "spatial_marker_followthrough_batch_actual.py",
+      "args": [
+        "--mode",
+        "tiff",
+        "--start",
+        "35",
+        "--stop",
+        "40"
+      ],
+      "timeout_seconds": 2400
     }
   ]
 }
