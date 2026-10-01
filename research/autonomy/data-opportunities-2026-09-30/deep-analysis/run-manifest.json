@@ -1,44 +1,132 @@
 {
-  "dependencies": [],
+  "dependencies": [
+    "numpy",
+    "pandas",
+    "scipy",
+    "tifffile",
+    "imagecodecs",
+    "h5py",
+    "scikit-learn"
+  ],
   "jobs": [
     {
-      "name": "Agaram-final-exact-public-rendering-routes",
-      "script": "agaram_html_patient_table_actual.py",
-      "timeout_seconds": 400,
-      "dependencies": []
-    },
-    {
-      "name": "ImmunoSarc1-all-published-gene-statistics",
-      "script": "immunosarc1_published_gene_summary_actual.py",
-      "timeout_seconds": 300,
-      "dependencies": [
-        "pypdf"
-      ]
-    },
-    {
-      "name": "ASO-image-only-supplement-all-pages-OCR",
-      "script": "aso_burel_s6_ocr.py",
-      "timeout_seconds": 1200,
-      "dependencies": [
-        "pymupdf",
-        "Pillow"
+      "name": "RMS-all-public-RNA-libraries-0-7",
+      "script": "pediatric_rms_full42_counts_actual.py",
+      "args": [
+        "--start",
+        "0",
+        "--stop",
+        "7"
       ],
-      "restore_run": "36898798217",
-      "restore_name": "emc-ASO-global-expression-physical-cellular-and-source-PDFs-36898798217",
-      "before": [
-        "restore_previous_outputs.py"
-      ]
-    },
-    {
-      "name": "protein-identical-model-three-gene-overlap",
-      "script": "protein_overlap_actual.py",
-      "timeout_seconds": 1000,
+      "timeout_seconds": 5000,
       "dependencies": [
         "numpy",
         "pandas",
         "scipy",
-        "scikit-learn",
-        "h5py"
+        "tifffile",
+        "imagecodecs",
+        "h5py",
+        "scikit-learn"
+      ]
+    },
+    {
+      "name": "RMS-all-public-RNA-libraries-7-14",
+      "script": "pediatric_rms_full42_counts_actual.py",
+      "args": [
+        "--start",
+        "7",
+        "--stop",
+        "14"
+      ],
+      "timeout_seconds": 5000,
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "tifffile",
+        "imagecodecs",
+        "h5py",
+        "scikit-learn"
+      ]
+    },
+    {
+      "name": "RMS-all-public-RNA-libraries-14-21",
+      "script": "pediatric_rms_full42_counts_actual.py",
+      "args": [
+        "--start",
+        "14",
+        "--stop",
+        "21"
+      ],
+      "timeout_seconds": 5000,
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "tifffile",
+        "imagecodecs",
+        "h5py",
+        "scikit-learn"
+      ]
+    },
+    {
+      "name": "RMS-all-public-RNA-libraries-21-28",
+      "script": "pediatric_rms_full42_counts_actual.py",
+      "args": [
+        "--start",
+        "21",
+        "--stop",
+        "28"
+      ],
+      "timeout_seconds": 5000,
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "tifffile",
+        "imagecodecs",
+        "h5py",
+        "scikit-learn"
+      ]
+    },
+    {
+      "name": "RMS-all-public-RNA-libraries-28-35",
+      "script": "pediatric_rms_full42_counts_actual.py",
+      "args": [
+        "--start",
+        "28",
+        "--stop",
+        "35"
+      ],
+      "timeout_seconds": 5000,
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "tifffile",
+        "imagecodecs",
+        "h5py",
+        "scikit-learn"
+      ]
+    },
+    {
+      "name": "RMS-all-public-RNA-libraries-35-42",
+      "script": "pediatric_rms_full42_counts_actual.py",
+      "args": [
+        "--start",
+        "35",
+        "--stop",
+        "42"
+      ],
+      "timeout_seconds": 5000,
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "tifffile",
+        "imagecodecs",
+        "h5py",
+        "scikit-learn"
       ]
     }
   ]
