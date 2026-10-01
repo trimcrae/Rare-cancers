@@ -121,21 +121,21 @@ def main():
  mask=md.Meth_Class.isin(eligible).to_numpy()&qc
  folds['QC_pass']=folds.IDAT.map(dict(zip(md.IDAT,qc)));folds['common_panel']=folds.IDAT.map(dict(zip(md.IDAT,mask)))
  mt.save_tsv('frozen-folds.tsv',folds);mt.write_json('class-support.json',postqc)
+ imputation_audits=[]
  def chunk_select(ai,bi,y):
-  a=ai.ravel().astype(int);b=bi.ravel().astype(int)
-  scores=np.empty(len(common),float);medians=np.zeros(len(common),np.float32)
+  a=ai.ravel().astype(int);b=bi.ravel().astype(int);scores=np.empty(len(common),float);medians=np.zeros(len(common),np.float32)
   for start in range(0,len(common),4096):
-   stop=min(start+4096,len(common));v=np.array(matrix[common[start:stop]][:,a].T,copy=True)
-   has=np.isnan(v).any(axis=0)
+   stop=min(start+4096,len(common));v=np.array(matrix[common[start:stop]][:,a].T,copy=True);has=np.isnan(v).any(axis=0)
    if np.any(has):
-    m=np.nanmedian(v[:,has],axis=0);m=np.nan_to_num(m,nan=0.0);medians[start:stop][has]=m
-    rr,cc=np.where(np.isnan(v));v[rr,cc]=medians[start:stop][cc]
-   f,_=f_classif(v.astype(np.float64),y)
-   scores[start:stop]=np.nan_to_num(f,nan=-np.inf,posinf=np.finfo(float).max,neginf=-np.inf)
-  cols=np.argsort(-scores,kind='stable')[:500]
-  av=np.array(matrix[common[cols]][:,a].T,copy=True);bv=np.array(matrix[common[cols]][:,b].T,copy=True)
+    m=np.nan_to_num(np.nanmedian(v[:,has],axis=0),nan=0.0);medians[start:stop][has]=m;rr,cc=np.where(np.isnan(v));v[rr,cc]=medians[start:stop][cc]
+   f,_=f_classif(v.astype(np.float64),y);scores[start:stop]=np.nan_to_num(f,nan=-np.inf,posinf=np.finfo(float).max,neginf=-np.inf)
+  cols=np.argsort(-scores,kind='stable')[:500];av=np.array(matrix[common[cols]][:,a].T,copy=True);bv=np.array(matrix[common[cols]][:,b].T,copy=True);selected_medians=np.nan_to_num(np.nanmedian(av,axis=0),nan=0.0)
+  missing_test=np.isnan(bv);training_complete=~np.isnan(av).any(axis=0);bad=missing_test&training_complete[None,:];changed=bad&(selected_medians[None,:]!=0);affected=b[changed.any(axis=1)]
+  imputation_audits.append({'call':len(imputation_audits),'train_n':len(a),'test_n':len(b),'external':bool(np.any(b>=1077)),'selected_test_missing_cells':int(missing_test.sum()),'training_complete_test_missing_cells':int(bad.sum()),'old_zero_imputation_would_change_cells':int(changed.sum()),'old_zero_imputation_would_change_profiles':int(changed.any(axis=1).sum()),'affected_profile_ID':[str(md.iloc[k].ID) if k<1077 else 'VALIDATION_SAMPLE '+str(k-1077+1) for k in affected]})
   for v in [av,bv]:
-   rr,cc=np.where(np.isnan(v));v[rr,cc]=medians[cols][cc]
+   rr,cc=np.where(np.isnan(v));v[rr,cc]=selected_medians[cc]
+  mt.write_json('imputation-audit.json',imputation_audits)
+  print('EMC_METHYLATION_IMPUTATION_AUDIT '+json.dumps(imputation_audits[-1]),flush=True)
   return av,bv,cols
  mt.select_train=chunk_select
  quotas={c:min(int(((md.Meth_Class.to_numpy()==c)&mask)[a].sum()) for ss in splits.values() for a,b in ss) for c in eligible}
