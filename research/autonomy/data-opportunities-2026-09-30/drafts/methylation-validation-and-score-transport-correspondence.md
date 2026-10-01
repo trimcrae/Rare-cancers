@@ -24,6 +24,8 @@ Our analysis supports reporting grouped validation, training support, assignment
 
 Data and code: GEO GSE140686 and the primary supplemental workbooks provide the measured inputs. The analysis scripts, frozen partitions, per-profile evaluation tables, exclusion ledger, source digests, and final results are retained in the accompanying research repository. The analyzed processed matrices contain 408,768 common CpGs; the primary publication describes a different raw-intensity processing pipeline and retained-probe manifest. Raw IDAT reprocessing was not undertaken for these processed-data classification claims. No new patient material was collected.
 
+The [processed external validation](../deep-analysis/results/methylation-processed-external-validation-final.json), [fusion-score transport](../deep-analysis/results/methylation-hallmark-fusion-score-transport-final.json) and [case-level exceptions](../deep-analysis/results/methylation-hallmark-fusion-selected-cases-final.json) preserve measured values, fixed partitions and conditional sensitivities. Separate raw intensity analysis addressed only the [MTAP locus-source question](EMC-MTAP-relative-array-signal-source-appendix.md); it is not raw validation of these classifier claims.
+
 Reference
 
 1. Koelsche C, et al. Sarcoma classification by DNA methylation profiling. Nature Communications. 2021;12:498. DOI: 10.1038/s41467-020-20603-4. https://pmc.ncbi.nlm.nih.gov/articles/PMC7819999/.
