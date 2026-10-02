@@ -1,5 +1,5 @@
 ---
-id: DOC-ASO-PRIMARY-INTEGRATED-DRAFT-20261002
+id: DOC-ASO-PRIMARY-SOURCE-SNAPSHOT-20261002
 title: NR4A3 fusion-junction gapmer designs and sensitivity to reference-transcript coverage
 kind: manuscript
 status: live
