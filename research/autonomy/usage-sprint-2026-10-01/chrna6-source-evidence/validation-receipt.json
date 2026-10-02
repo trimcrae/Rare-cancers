@@ -1,0 +1,158 @@
+{
+  "schema": "chrna6-source-evidence-validation/1",
+  "record_kind": "isolated-connector-sprint-operational-validation-not-a-legacy-cycle-or-publication-receipt",
+  "authorship": "AI-generated record of actual public source acquisition, independent review and supported CI",
+  "branch": "codex/usage-sprint-2026-10-01-chrna6-source-evidence",
+  "base_revision": "7f0971a331272695dcfe4b2a7fac554185b398d9",
+  "acquisition": {
+    "source_revision": "88920dd07bcce6f75d9c36917f5a6700a412726f",
+    "workflow_run": 36946984140,
+    "job": 110651246654,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36946984140",
+    "conclusion": "success",
+    "actual_unittest_cases": 16,
+    "started_utc": "2026-10-02T00:38:16Z",
+    "last_updated_utc": "2026-10-02T00:41:21Z",
+    "network_acquisitions": 1,
+    "primary_source": {
+      "bytes": 20240336,
+      "completed_utc": "2026-10-02T00:38:35.745361+00:00",
+      "etag": null,
+      "final_url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE24nnn/GSE24369/soft/GSE24369_family.soft.gz",
+      "last_modified": "Fri, 03 Jul 2026 11:58:52 GMT",
+      "requested_url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE24nnn/GSE24369/soft/GSE24369_family.soft.gz",
+      "sha256": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+      "started_utc": "2026-10-02T00:38:34.422999+00:00"
+    },
+    "output_bytes": 105819,
+    "output_sha256": "469f272cabc709578f4c6a08bdd8574b0f7e60d721cc4d0624e2c67c96140825",
+    "original_log": "acquisition-original.log",
+    "original_log_sha256": "ec0029f6a08b29d0f3aeba5bc6990064ae9f4e56b2a67f91ca950b11a4195d99",
+    "normal_preflight": {
+      "exit_code": 0,
+      "scope": "default FAST document/artifact gates",
+      "reported": "PREFLIGHT OK (fast gates only (doc + artifact linters))"
+    }
+  },
+  "settled_validation": {
+    "source_revision": "e7ce6eac2eddd741a6b79f44cff46b7305bc2f72",
+    "workflow_run": 36947531796,
+    "job": 110652916128,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36947531796",
+    "conclusion": "success",
+    "actual_unittest_cases": 19,
+    "python": "3.11.16",
+    "started_utc": "2026-10-02T00:44:50Z",
+    "last_updated_utc": "2026-10-02T00:47:47Z",
+    "original_log": "settled-original.log",
+    "original_log_sha256": "45fb14477dae445b5b63f2db3e4255cc1de411ddb9853dbb4c0fe81348239751",
+    "acquisition_step": "skipped",
+    "source_artifact_upload_step": "skipped",
+    "network_reacquisitions": 0,
+    "offline_integrity": {
+      "status": "PASS",
+      "samples": 42,
+      "excluded_records": 7,
+      "sha256": "469f272cabc709578f4c6a08bdd8574b0f7e60d721cc4d0624e2c67c96140825"
+    },
+    "normal_preflight": {
+      "exit_code": 0,
+      "scope": "default FAST document/artifact gates",
+      "reported": "PREFLIGHT OK (fast gates only (doc + artifact linters))"
+    },
+    "tracked_status": "clean; git diff --exit-code exited 0",
+    "full_scientific_suites": "not run",
+    "full_publication_preflight": "not run",
+    "tested_file_sha256": {
+      "acquire.py": "b1ade387a5221bf68336696e5d3b3486792f12f3ce218283d257e8731b100947",
+      "test_acquire.py": "5f91df72b2e8529f9415e00bcc201eb5744bea45f5819c32614675b31eaccffe",
+      "evidence.json": "469f272cabc709578f4c6a08bdd8574b0f7e60d721cc4d0624e2c67c96140825",
+      ".github/workflows/usage-sprint-chrna6-source-evidence.yml": "1cb5037e813095670bef4b352c767dd291dd60a3f59df85ff362eea4fe499f91"
+    }
+  },
+  "independent_review": {
+    "source_correspondence": {
+      "reviewer": "/root",
+      "method": "JavaScript/V8 parsing of ORIGINAL acquisition job-log Base64 and raw source lines; no Python scientific kernel imported or rerun",
+      "original_evidence_bytes": 105819,
+      "committed_evidence_bytes": "byte-identical to original acquired output",
+      "annotation_rows": 33297,
+      "matched_probe": "8150550",
+      "assigned_symbols": [
+        "CHRNA6"
+      ],
+      "raw_values_compared": 42,
+      "raw_metadata_bindings_compared": 294,
+      "historical_arm_map": {
+        "EMC": 6,
+        "comparator": 29,
+        "excluded_from_cached_contrast": 7
+      },
+      "exclusions": [
+        "GSM600963",
+        "GSM600964",
+        "GSM600965",
+        "GSM600966",
+        "GSM600967",
+        "GSM600968",
+        "GSM600969"
+      ],
+      "mismatches": 0,
+      "handoff_prose_blob": "ed6345b994ec573bb9984e9e3b0967b7dce8fb06",
+      "limitations": "selected source projection; no complete source bundle, patient independence, expression statistics or clinical claim"
+    },
+    "methods": {
+      "reviewer": "/root/release_timing_review",
+      "reviewed_source_revision": "e7ce6eac2eddd741a6b79f44cff46b7305bc2f72",
+      "finding": "Offline projection could accept coherently changed raw/parsed sample platform.",
+      "repair": "Explicit GPL6244 top-level and all-sample invariants, meaningful coherent platform and incomplete-table regressions.",
+      "actual_ci_independently_observed": {
+        "run": 36947531796,
+        "job": 110652916128,
+        "cases": 19,
+        "offline": "PASS",
+        "default_FAST_preflight": "PASS",
+        "reacquisition": "actually skipped",
+        "tracked_diff": "clean"
+      },
+      "status": "cleared; no scoped blocker",
+      "reviewed_handoff_prose_blob": "ed6345b994ec573bb9984e9e3b0967b7dce8fb06"
+    }
+  },
+  "input_sha256": {
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-manifest.json": "41def87dde52663a73ea09a3b52924843d5d20103c7f0523bc03ae842426e0ae",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/array-values.json": "33ce40f615cb7db706565c559cfafebcd57b5b9d84f30c4af7a6502f03faed9c",
+    "research/modalities/expression-validation-readiness.json": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12"
+  },
+  "ownership": {
+    "base_main_rechecked_utc": "2026-10-02T00:48:14Z",
+    "main_still": "7f0971a331272695dcfe4b2a7fac554185b398d9",
+    "ledger_entries": 415,
+    "live_owners": 0,
+    "legacy_driver": "disabled",
+    "completed_handoff_owner": "coordinator /root",
+    "remote_legacy_claim": "not made; isolated direct-user task, no shared queue or scheduler state changed"
+  },
+  "endpoint": {
+    "status": "completed",
+    "running_jobs": 0,
+    "new_scientific_analysis": false,
+    "scientific_or_frozen_asset_changes": 0,
+    "main_merge": false,
+    "pull_request": false,
+    "publication": false,
+    "GPU_dispatches": 0,
+    "paid_model_API_calls": 0,
+    "unknowns": [
+      "discovery-study specimen overlap",
+      "unique patients/specimens",
+      "complete portable source bundle not supplied by selected excerpt"
+    ],
+    "next_bounded_task": "Inspect current authoritative CHRNA6 primary study/discovery evidence for a specimen crosswalk; stop with an explicit missing-input result if unavailable. No classifier or independent-validation claim.",
+    "model_identifier": null,
+    "effort_identifier": null,
+    "task_elapsed_seconds": null,
+    "subscription_usage": null,
+    "unknown_runtime_reason": "Connector does not expose model/effort, task elapsed timer or account quota; exact CI timing retained separately."
+  }
+}
