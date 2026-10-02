@@ -1,18 +1,20 @@
-# NR4A3 method-watch — week of September 25
+# NR4A3 method-watch — week of October 2
 
-A real week for once — a degrader reached Phase III, and the literature turned up the closest
-precedent yet for the vaccine route. Nothing new on NR4A3/EMC itself.
+Two clinical items worth a look, both from news feeds (leads, not confirmed — primary sources
+still to be read). Nothing new on NR4A3/EMC itself.
 
-- **Astellas dosed the first Phase III patient with setidegrasib**, a KRAS G12D-targeted
-  degrader, in previously-treated NSCLC (Morningstar, BioPharma APAC, AllSci; 9/23–9/24). A
-  targeted protein degrader reaching a pivotal trial is direct clinical precedent for the NR4A3
-  degrader route's modality, even though the target class differs.
-- **Literature: durable clinical/immunologic response to an off-the-shelf EWSR1-FLI1 peptide
-  vaccine in metastatic Ewing sarcoma.** This is the closest fusion-breakpoint-vaccine precedent
-  yet for the EWSR1::NR4A3 junction-vaccine route — worth reading in full if you haven't seen it.
-- Sarcoma-adjacent, not EMC-specific: SOTIO's SOT106 (ADC) picked up FDA Fast Track + Orphan Drug
-  designations for osteosarcoma/soft-tissue sarcoma, and an interim analysis showed a 3-year OS
-  benefit for OST-HER2 in metastatic pulmonary osteosarcoma.
-- Quiet elsewhere: no oligonucleotide-in-solid-tumour delivery breakthroughs (ASO route's gate
-  stays shut), no direct NR4A3/EWSR1::NR4A3 literature hits, and no new individual-eligible
-  GPU/compute funding beyond last week's DoD/NSF list.
+- **Vepdegestrant (Veppanu) reported FDA-approved** (Breast Cancer.org, 9/24). If confirmed, a
+  targeted protein degrader clearing a regulator is the strongest precedent yet for the NR4A3
+  degrader route's modality, though the target class differs. The Astellas setidegrasib Phase III
+  start (last week's item) is a second degrader pivotal trial.
+- **UTRxMYCN M1-14 reported to receive two FDA designations in soft tissue sarcoma** (OncLive,
+  10/1). Filed under the oligonucleotide feed; check the source to see whether it is an
+  oligonucleotide and what the designations are, since that bears on the ASO route's delivery gate.
+- **Personalized-vaccine coverage is heavy**: a kidney cancer vaccine report (nine patients, none
+  recurred, ScienceAlert, 10/1) plus Moderna market news. Merck's INTerpath-009 Phase 3 (V940 +
+  pembrolizumab, lung) was updated on ClinicalTrials.gov 9/28. All bear on the junction-vaccine
+  route's precedent; none is EMC-specific.
+- Sarcoma-adjacent: NCCN introduced first-ever guidelines for pediatric bone sarcoma (News-Medical,
+  10/2).
+- Quiet: no new tool or model releases, no new individual-eligible compute funding, and the
+  literature hits were keyword noise.
