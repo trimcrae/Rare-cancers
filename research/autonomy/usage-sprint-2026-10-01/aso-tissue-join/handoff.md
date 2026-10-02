@@ -77,8 +77,20 @@ GPU/model API/paid compute, outreach, PR, main merge or publication occurred.
 
 This is one completed scientific-selection audit with an explicit no-change outcome. It starts
 no second audit. Reopen this join question only for a changed pinned input or an independently
-demonstrated current join/completeness defect. The coordinator chooses any next separate bounded
-protocol priority; unchanged CHRNA6 acquisition and paper reviews are not that next action.
+demonstrated current join/completeness defect.
+
+The next prioritized bounded task is the ASO patient-model junction identity gap for USZ20-EMC1
+and USZ22-EMC2. Current emc-model-junction-evidence.json, Git blob
+7d672031cc98ea1529303515001b803f360ff012, records no nucleotide-resolved junction or transcript
+accession. First recheck ownership, completed outputs and authoritative cached-source fingerprints.
+Proceed only if a changed source supplies an exact RT-PCR/Sanger junction sequence or the
+FoundationOne HEME native NR4A3 transcript reference, or if a current source-to-model provenance
+mismatch is independently demonstrated. Bind that new evidence to the pinned transcript/exon
+model in one read-only compatibility audit. A transcript reference can clarify numbering without
+establishing a nucleotide boundary; retain that distinction and any unresolved acceptor ambiguity.
+Stop with an explicit missing-input/no-change result if no such input or defect exists. Do not
+retry old failed supplements, infer junction sequence from exon labels, design new oligos, contact
+model owners or edit protected manuscripts. This next task is recorded only; it has not started.
 
 AI authorship: Codex AI assistant. Independent LLM review is distinct from human scientific
 validation. No attached shell or managed runtime was available; model/effort IDs and subscription
