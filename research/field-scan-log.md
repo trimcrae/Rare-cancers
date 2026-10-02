@@ -656,3 +656,17 @@ trials, releases, or prices; items not independently verified beyond the search/
 such above (notably: the gufe default's exact value, and the PPR1319933 preprint's content, both blocked by
 this session's egress this week).*
 
+
+## 2026-10-02 — weekly field-scan (quiet week)
+
+**Takeaway:** Quiet week. No new NR4A/EMC, ternary-prediction, fusion-neoantigen or ASO-delivery item beyond what is already tracked; no library bumps on the stack.
+
+- **NR4A/EMC:** only already-known reviews/case reports surfaced (e.g. https://link.springer.com/article/10.1007/s00432-025-06316-5). Nothing new on NR4A3 ligands/degraders. PPR1319933 gapmer preprint action item (see 2026-09 entry) still open.
+- **Degrader methodology:** only the already-published AF3 vs Boltz-2 ternary benchmark (Mar 2026; https://onlinelibrary.wiley.com/doi/10.1002/ardp.70225; Boltz-2 more accurate, VHL > CRBN). Not new this week; supports the Boltz-first generation choice.
+- **Non-degrader routes:** no new EMC/EWSR1::NR4A3 item. Only already-tracked precedents (PerVision NCT06094101, SYT-SSX TCR, DSRCT fusion TCR). No new oligonucleotide-delivery candidate.
+- **Tooling (a):** unchanged — OpenFE v1.12.0, openff-toolkit 0.19.0 (Aug 12), Boltz v2.2.1 (Sep 8) re-checked on GitHub releases; others not re-checked this week (UNKNOWN, assumed unchanged).
+- **Tooling (b):** top available tier remains Opus 5.5 (2026-09-22); Sonnet 5.5 now also listed. Nothing newer found. https://www.anthropic.com/news/claude-opus-5-5
+- **Tooling (c):** no change found.
+- **Tooling (d):** no verified spot-price move; aggregator figures are not OUR $/ns. RTX 5090 stays UNPRICEABLE without an OpenMM/OpenFE throughput measurement. Rates live in research/compute/pricing.md.
+
+Captured: nothing new to capture to method-watch / IDEAS / cheap-gpu-plan.
