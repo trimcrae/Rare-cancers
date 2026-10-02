@@ -12,7 +12,7 @@ last_verified: 2026-10-02
 
 **Author.** Tristan D. McRae
 
-Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com. ORCID: 0000-0002-1823-1451. City and country: AUTHOR TO SUPPLY.
+Independent researcher, unaffiliated. Correspondence: trimcrae@gmail.com. ORCID: 0000-0002-1823-1451.
 
 **Running title.** Sample identity in a sarcoma export
 
@@ -76,11 +76,11 @@ Yoo S, et al. (2021) A community effort to identify and correct mislabeled sampl
 
 ### Data and code availability
 
-The primary workbook is Supplementary Data 1 of Gounder et al. (2022). The analyzed Datahub export is fixed at the snapshot in cBioPortal Datahub (2026). Exact input bytes, the complete mapping and identity-corrected export are preserved in [primary-inputs.zip](https://github.com/trimcrae/Rare-cancers/blob/5d2f2e2116f43c0bb56a46120902a1332f27720b/research/autonomy/continuation-2026-10-02/foundation-publication/primary-inputs.zip), with member hashes and attribution in [source-archive.json](https://github.com/trimcrae/Rare-cancers/blob/5d2f2e2116f43c0bb56a46120902a1332f27720b/research/autonomy/continuation-2026-10-02/foundation-publication/source-archive.json). Recovery code, independent confirmation and gene-text evidence are versioned in McRae (2026). Online Resource 1 describes the files, offline reproduction and limitations. The proposed derivative preserves non-ID fields; no importer compatibility, maintainer approval or corrected live deployment is claimed.
+The primary workbook is Supplementary Data 1 of Gounder et al. (2022). The analyzed Datahub export is fixed at the snapshot in cBioPortal Datahub (2026). Exact input bytes, the complete mapping and identity-corrected export are preserved in [primary-inputs.zip](https://github.com/trimcrae/Rare-cancers/blob/5d2f2e2116f43c0bb56a46120902a1332f27720b/research/autonomy/continuation-2026-10-02/foundation-publication/primary-inputs.zip), with member hashes and attribution in [source-archive.json](https://github.com/trimcrae/Rare-cancers/blob/5d2f2e2116f43c0bb56a46120902a1332f27720b/research/autonomy/continuation-2026-10-02/foundation-publication/source-archive.json). Recovery code, independent confirmation and gene-text evidence are versioned in McRae (2026). Online Resource 1 describes the files, offline reproduction and limitations. The [reproducibility package](https://github.com/trimcrae/Rare-cancers/blob/c29f301be3c90c9355b04501ff4ae43ab2199c67/research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/reproducibility.zip) and [offline instructions](https://github.com/trimcrae/Rare-cancers/blob/c29f301be3c90c9355b04501ff4ae43ab2199c67/research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/README-reproduction.txt) preserve these inputs and scripts with separate source licences. The proposed derivative preserves non-ID fields; no importer compatibility, maintainer approval or corrected live deployment is claimed.
 
 ### Source licences
 
-Primary-source content retains the article's CC BY 4.0 terms and any stated third-party exceptions. Datahub data and the adapted database retain ODbL 1.0, including applicable attribution and share-alike obligations; they are not offered under a publisher-exclusive article licence or relabeled CC BY or CC0. Original repository code retains its Apache 2.0 licence. Third-party content is not relicensed by the archive wrapper.
+Primary-source content retains the article's CC BY 4.0 terms and any stated third-party exceptions. Datahub data and the adapted database retain ODbL 1.0, including applicable attribution and share-alike obligations; they are not offered under a publisher-exclusive article licence or relabeled CC BY or CC0. Original repository code retains its Apache 2.0 licence. Third-party content is not relicensed by the archive wrapper. Source notices are available from [the primary article](https://www.nature.com/articles/s41467-022-30496-0), [Datahub](https://github.com/cBioPortal/datahub/blob/dca75cb3f32b82d54a6f78bf0a6323e5b975aca1/README.md#license) and [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/).
 
 ### AI assistance
 
