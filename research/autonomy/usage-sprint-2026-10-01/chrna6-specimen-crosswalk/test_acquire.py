@@ -127,10 +127,15 @@ class Integrity(unittest.TestCase):
         self.r["sources"][0]["http_status"] = 403
         self.bad()
     def test_robots_policy_decision_flip_refused(self):
-        raw = "User-agent: *\\nDisallow: /"
+        raw = "User-agent: *\nDisallow: /"
         self.r["sources"][0]["robots"] = {"url": "https://www.ebi.ac.uk/robots.txt", "decision": "allow",
               "http_status": 200, "raw_utf8": raw, "bytes": len(raw.encode()), "sha256": m.sha(raw.encode())}
         self.bad()
+    def test_valid_200_robots_policy_replayed(self):
+        raw = "User-agent: *\nDisallow: /private"
+        self.r["sources"][0]["robots"] = {"url": "https://www.ebi.ac.uk/robots.txt", "decision": "allow",
+              "http_status": 200, "raw_utf8": raw, "bytes": len(raw.encode()), "sha256": m.sha(raw.encode())}
+        m.validate(self.r)
     def test_robots_receipt_wrong_origin_refused(self):
         self.r["sources"][0]["robots"]["url"] = "https://api.crossref.org/robots.txt"
         self.bad()
