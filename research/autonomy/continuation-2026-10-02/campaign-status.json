@@ -1,6 +1,6 @@
 {
   "schema": "emc-continuation-checkpoint/1",
-  "as_of_utc": "2026-10-02T21:38:20Z",
+  "as_of_utc": "2026-10-02T21:43:43Z",
   "branch": "codex/emc-continuation-2026-10-02",
   "scientific_baseline": "da49c4e836533253825587f83656675dac4c913b",
   "original_run": {
@@ -21,19 +21,16 @@
   },
   "normal_preflight": {
     "status": "passed",
-    "revision": "36dc301e6d21719620294f389d0c7459c6b49216",
-    "run_id": "37063921474",
+    "revision": "dfc9caac43fd83d6dc92aa7c94febad026cebfff",
+    "run_id": "37068156816",
     "scope": "normal/default preflight; not FULL",
     "exit_code": 0,
     "forced_stop": null,
-    "elapsed_seconds": 148.02324026099998,
-    "free_bytes_after": 89311547392,
-    "receipt_path": "validation/checkpoint-07-final/emc-default-preflight.exit",
-    "log_path": "validation/checkpoint-07-final/emc-default-preflight.log",
-    "initial_failed_run": 37062325447,
-    "initial_failed_revision": "f7d7ae054d6974834f56df437a1abec5981cc309",
-    "repair": "One README link corrected; claim census generated in37063167907 and archive manifest generated from clean committed source in37063409194. All520 archive inventory entries unchanged except shared renderer hash. Exact originals and failed/passing logs preserved.",
-    "not_run": "Optional pure-logic and modality suites; this normal gate is not full publication clearance."
+    "elapsed_seconds": 165.03591570599997,
+    "free_bytes_after": 89310834688,
+    "receipt_path": "validation/checkpoint-08-final/emc-default-preflight.exit",
+    "log_path": "validation/checkpoint-08-final/emc-default-preflight.log",
+    "not_run": "Optional pure-logic/manuscript/modality suites; counts in test-budget census are not executions. No FULL or publication clearance."
   },
   "figure": "generated from committed hashed data, static visual inspection passed; figures/ has original manifest and subsequent QA",
   "publication": "Foundation source/PDF and reviews complete; original FULL failed timeout, no retry planned after scoped relevance audit and user question. Existing enforcer still requires FULL; no green/readiness claim. Methylation remains reviewed working manuscript.",
@@ -66,7 +63,7 @@
     "minimum_reserve_GiB": 10
   },
   "main_checked": "5c5d5bc6c234494d3fdba6965c5dba1d43c7d194",
-  "integration": "Checkpoint08 isolated branch: original Foundation FULL failure archived and broad retry held. Prospective metadata/evaluation protocols and exact code frozen before3new metadata requests. New source frame frozen before outcomes; settled normal validation pending.",
+  "integration": "Prospective registry code/schema frozen before source acquisition; independently verified metadata selection and exact archive committed. Normal/default preflight passed atdfc9caac43fd83d6dc92aa7c94febad026cebfff. Final seal adds receipts/status/index/ownership only. No main merge, external record change, PR, publication or outreach.",
   "next_computations": {
     "status": "completed; both jobs passed",
     "run_id": 37017553101,
@@ -107,25 +104,26 @@
   },
   "ownership": {
     "coordinator": "/root sole branch/shared-state writer",
-    "finite_worker_tasks": "All finite workers complete; root owns normal validation, result integration and final seal.",
-    "cloud_jobs": "All scientific jobs terminal; new normal checkpoint validation dispatched by this source commit.",
+    "finite_worker_tasks": "All finite workers complete; metadata preparation, prospective adapter, independent reviews and raw source-frame verification are integrated.",
+    "cloud_jobs": "All checkpoint scientific and normal jobs complete. Metadata37067615876 passed; normal37068156816 passed; FoundationFULL37058750900 failed/time limit and is preserved. No branch scientific job active at closure.",
     "local_checkouts_created": 0,
     "preservation": "No accepted publication/history/local changes/main merge/outreach/PR changes. Exact old failed FULL and new metadata artifact preserved.",
-    "next_owner": "/root through settled normal validation and checkpoint seal",
+    "next_owner": "/root at next heartbeat, through next fixed-ID outcome retrieval/oracle checkpoint.",
     "researchLedger": {
       "blob": "79983403fd38d9ec5be3533bcf91b3af36c2657b",
       "checkedMain": "5c5d5bc6c234494d3fdba6965c5dba1d43c7d194",
       "verification": "Exact blob unchanged from previously verified415entries/0owners; current oversized body was truncated, so no fresh whole-ledger parse claimed."
-    }
+    },
+    "active_future_work": "Checkpoint08 source frame is complete and independently verified. Next substantive task: implement and validate outcome retrieval for the exact10 selected IDs, preserving their metadata projections; bounded10requests/1MiB, no retry/reselection. Root must freeze complete successful source bytes before a new source-only blind reader with no classifier/repair/old-label context; lock oracle+input manifest before one frozen v2 evaluation. An integrity/access/drift/cap failure stops the entire slice, with no opportunistic subset. No outcomes or classifier were run in checkpoint08. Do not repeat the completed metadata acquisition or successful earlier science without a changed input/defect/named question. Foundation broad modalities/FULL retry is held; failed original is archived, no readiness claim. Source-bound manuscript checks remain reusable. Do not restart retired/Claude schedulers, main writes, PRs, publication, or outreach."
   },
   "usage_at_checkpoint": {
     "ordinary_usage_allowed": true,
-    "weekly_used_percent": 0,
-    "weekly_remaining_percent": 100,
+    "weekly_used_percent": 1,
+    "weekly_remaining_percent": 99,
     "resets_at": 1791580398,
-    "observed_utc": "2026-10-02T21:22:00Z",
-    "prior_same_wake": "92% used/8%remaining at21:05:59",
-    "reset_action": "No reset/credits redeemed by this task; reason for reported window change unknown. Fixed campaign end remains2026-10-03T20:14:24Z."
+    "observed_utc": "2026-10-02T21:40:16Z",
+    "prior_same_wake": "92% used/8%remaining at21:05:59, later0%used at21:22",
+    "reset_action": "No reset/credits redeemed by this task; cause of reported window change unknown. Fixed campaign end remains2026-10-03T20:14:24Z."
   },
   "previous_normal_preflight": {
     "status": "passed",
@@ -473,7 +471,7 @@
     "not_run": "Optional pure-logic/modality suites, full publication gates and protocol-certified ultra readiness review. Focused scientific/code tests and independent source/result reviews recorded separately."
   },
   "checkpoint_08": {
-    "status": "metadata frame acquired; settled normal validation pending",
+    "status": "completed",
     "contract": "checkpoint-08-contract.json",
     "metadata": {
       "run_id": 37067615876,
@@ -497,6 +495,30 @@
       "root_provenance_correction": "Allthreeworkers requestedmedium; inherited runtime/model telemetry unavailable; original inaccurate effort fields preserved and corrected separately."
     },
     "foundation": "Original FULL run37058750900 failed timeout; exact artifact/logs preserved. No retry planned after user correction and relevance audit; existing publication enforcer unchanged, no passing FULL or readiness claim.",
-    "normal_preflight": "pending"
+    "normal_preflight": {
+      "status": "passed",
+      "run_id": 37068156816,
+      "revision": "dfc9caac43fd83d6dc92aa7c94febad026cebfff",
+      "scope": "normal/default preflight; not FULL",
+      "exit_code": 0
+    },
+    "completed_utc": "2026-10-02T21:43:43Z",
+    "validated_revision": "dfc9caac43fd83d6dc92aa7c94febad026cebfff"
+  },
+  "previous_normal_preflight_checkpoint_07": {
+    "status": "passed",
+    "revision": "36dc301e6d21719620294f389d0c7459c6b49216",
+    "run_id": "37063921474",
+    "scope": "normal/default preflight; not FULL",
+    "exit_code": 0,
+    "forced_stop": null,
+    "elapsed_seconds": 148.02324026099998,
+    "free_bytes_after": 89311547392,
+    "receipt_path": "validation/checkpoint-07-final/emc-default-preflight.exit",
+    "log_path": "validation/checkpoint-07-final/emc-default-preflight.log",
+    "initial_failed_run": 37062325447,
+    "initial_failed_revision": "f7d7ae054d6974834f56df437a1abec5981cc309",
+    "repair": "One README link corrected; claim census generated in37063167907 and archive manifest generated from clean committed source in37063409194. All520 archive inventory entries unchanged except shared renderer hash. Exact originals and failed/passing logs preserved.",
+    "not_run": "Optional pure-logic and modality suites; this normal gate is not full publication clearance."
   }
 }
