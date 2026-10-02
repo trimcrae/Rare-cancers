@@ -1,0 +1,98 @@
+{
+  "schema": "emc-usz-junction-input-validation/1",
+  "date": "2026-10-02",
+  "status": "complete_missing_input_no_scientific_change",
+  "branch": "codex/usage-sprint-2026-10-01-usz-junction-inputs",
+  "base_revision": "0a587508867813adf25cb711dd227ade08f5506f",
+  "tested_source_revision": "f214677a52f455196f109d57e7c44cd2baadfb31",
+  "input_fingerprints": {
+    "path": "research/autonomy/usage-sprint-2026-10-01/usz-junction-inputs/input-fingerprints.json",
+    "git_blob": "8a1597767bcdc2f7944249f75bb40d91a58a5319",
+    "unchanged_after_source_checkpoint": true
+  },
+  "scientific_outcome": "No qualifying changed authoritative exact junction read, native FoundationOne HEME NR4A3 transcript reference or independently demonstrated source-to-model mismatch was found in the checked committed inputs. Conditional compatibility audit was not entered. Both models' nucleotide boundary/native assay transcript states remain unknown.",
+  "actual_checks": {
+    "workflow_path": ".github/workflows/usage-sprint-usz-junction-inputs.yml",
+    "workflow_blob": "d12165f62b31d2845a7fad14da4dfe116fe6a490",
+    "run_id": 36970277195,
+    "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36970277195",
+    "run_attempt": 1,
+    "job_id": 110722611924,
+    "head_sha": "f214677a52f455196f109d57e7c44cd2baadfb31",
+    "status": "completed",
+    "conclusion": "success",
+    "python": "CPython 3.11.16",
+    "job_started_utc": "2026-10-02T05:44:17Z",
+    "job_completed_utc": "2026-10-02T05:47:23Z",
+    "job_elapsed_seconds": 186,
+    "model_record_binding": {
+      "path": "research/modalities/emc-model-junction-evidence.json",
+      "git_blob": "7d672031cc98ea1529303515001b803f360ff012",
+      "bytes": 21609,
+      "status": "passed",
+      "reported_line": "UNCHANGED_MODEL_RECORD research/modalities/emc-model-junction-evidence.json 7d672031cc98ea1529303515001b803f360ff012 21609"
+    },
+    "normal_preflight": {
+      "command": "./scripts/preflight.sh",
+      "default_scope": "FAST document and artifact linters",
+      "status": "passed",
+      "exit_code": 0,
+      "started_utc": "2026-10-02T05:44:56Z",
+      "completed_utc": "2026-10-02T05:47:20Z",
+      "elapsed_seconds": 144,
+      "reported_line": "PREFLIGHT OK (fast gates only (doc + artifact linters))"
+    },
+    "tracked_status_and_diff": {
+      "commands": [
+        "git status --short",
+        "git diff --exit-code"
+      ],
+      "status": "passed",
+      "tracked_tree_clean": true
+    },
+    "scientific_suites": {
+      "executed_newly": false,
+      "pure_logic_report": "SKIPPED -- PREFLIGHT_TESTS=1 runs them; tests.yml runs all",
+      "full_publication_verification": false
+    },
+    "cached_source_bindings_scope": "Four current/original Git identities were compared read-only via the GitHub connector and independently by root. The operational Actions job checked the main model record only; it did not download the literature cache or execute historical scientific audits."
+  },
+  "original_job_log": {
+    "path": "research/autonomy/usage-sprint-2026-10-01/usz-junction-inputs/operational-ci-original.log",
+    "git_blob": "75e094d31c6b015e748cc9d728521aa963a28f05",
+    "utf8_bytes": 96686,
+    "sha256": "eb944dc16f6ed6ad4948c45339029496eec972a1ab993bf073fe0f670152649a",
+    "scope": "Original decoded UTF-8 connector job transcript; preserved without truncation or rewriting, byte-identical to root's independent completed-job log."
+  },
+  "independent_review": {
+    "reviewer": "Root Codex LLM coordinator; not human scientific validation",
+    "reviewed_source_revision": "f214677a52f455196f109d57e7c44cd2baadfb31",
+    "exact_checkpoint_artifacts": {
+      "input_fingerprints_git_blob": "8a1597767bcdc2f7944249f75bb40d91a58a5319",
+      "handoff_git_blob": "5d740746b40c44544dd503cd201255f5f378074d",
+      "workflow_git_blob": "d12165f62b31d2845a7fad14da4dfe116fe6a490"
+    },
+    "coverage": [
+      "Fresh model record and point-in-time ledger raw reads",
+      "All four exact current/original cache Git bindings",
+      "Reported exon labels, public RefSeq annotation versus native assay transcript/nucleotide boundary",
+      "Primary/registry source dependence and checked-input versus global-absence distinction",
+      "Question, method, result, limitations and next action in the reader-facing handoff",
+      "Workflow scope, exact settled operational run, original transcript identity"
+    ],
+    "source_method_prose_workflow": "cleared",
+    "exact_settled_ci_and_original_log": "cleared",
+    "generation_pending_fields": "Input fingerprint JSON is preserved byte-identical as a generation checkpoint. This final receipt records completed review and operational checks."
+  },
+  "post_test_changes": "Only handoff operational footer, this receipt and original job log. Scientific files, input-fingerprints JSON and workflow are unchanged.",
+  "unresolved_inputs": [
+    "Exact nucleotide-resolved RT-PCR/Sanger junction read for either USZ model",
+    "FoundationOne HEME native NR4A3 transcript reference; numbering identity alone would not establish a nucleotide boundary"
+  ],
+  "stop_condition": "Met. No second audit, external acquisition, supplement retry, inferred sequence or oligo design. Reopen only for a qualifying changed authoritative input or independently demonstrated current provenance mismatch, with fresh ownership and fingerprints.",
+  "running_jobs_or_workers": "none pending after closure; task ownership returned to coordinator",
+  "preserved": "Frozen/deposited paper and scientific outputs; preregistrations; seven exclusions and CHRNA6 overlap/independence uncertainty; existing review seats; queues/fleet owners; no-GPU and publication enforcers.",
+  "publication_or_integration": "No PR, main merge or publication.",
+  "authorship": "Codex AI assistant; independent LLM review is distinct from human scientific validation.",
+  "runtime_limitations": "No attached shell or local cloud runtime. Actual operational checks ran on GitHub Actions. Model/effort IDs and task-specific subscription usage are not exposed."
+}

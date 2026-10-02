@@ -41,10 +41,24 @@ has 415 entries and no non-null owners at that point in time. Current guidance, 
 main commits, open PRs and completed sprint refs were read before selection. This isolated branch
 is not a legacy remote claim, scheduler cutover or shared-queue write.
 
-Operational validation and independent source/method/prose review are pending at this checkpoint.
-The branch workflow is limited to the exact model-record Git blob binding, normal default FAST
-preflight and clean tracked status. No new scientific test suite, transcript reconstruction,
-junction alignment, expression kernel, rescreen or oligo design is proposed.
+[Run 36970277195](https://github.com/trimcrae/Rare-cancers/actions/runs/36970277195),
+job 110722611924, completed successfully at f214677a52f455196f109d57e7c44cd2baadfb31.
+CPython 3.11.16 confirmed the exact unchanged model-record Git blob and 21,609-byte length.
+Normal default FAST preflight exited 0 with PREFLIGHT OK (fast gates only (doc + artifact linters));
+tracked status and diff stayed clean. FAST took 144 seconds and the job took 186 seconds.
+Scientific test suites were not executed; the log explicitly marks the pure-logic suites skipped.
+
+Root independently read the current model and owner ledger, checked all four current/original
+cached source bindings, and reviewed this question, approach, result, limitations, next action
+and branch workflow. Independent LLM review is not human scientific validation. The final
+[validation receipt](validation-receipt.json) and original transcript preserve exact execution.
+The input JSON retains its generation-time pending fields unchanged; this receipt closes review
+and operational validation. No worker or job remains pending. After the tested checkpoint, only
+this operational footer, receipt and original log changed.
+
+No old scientific audit, transcript reconstruction, junction alignment, expression kernel,
+rescreen or oligo design was undertaken. The cached-source Git comparisons were read-only
+repository observations, not additional Actions tests or external source acquisitions.
 
 The concrete next action is to obtain a qualifying authoritative exact RT-PCR/Sanger junction
 read or the native FoundationOne HEME NR4A3 transcript reference through a separately authorized
@@ -59,5 +73,5 @@ publication enforcers are unchanged. No GPU/model API/paid compute, outreach, PR
 publication occurred. The result establishes no activity, hazard, efficacy, safety or clinical claim.
 
 AI authorship: Codex AI assistant. Independent LLM review is distinct from human scientific
-validation. No attached shell or local cloud runtime was available; operational checks run on
+validation. No attached shell or local cloud runtime was available; operational checks ran on
 GitHub Actions. Model/effort IDs and subscription usage are not exposed.
