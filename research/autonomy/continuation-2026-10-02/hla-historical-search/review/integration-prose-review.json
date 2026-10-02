@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-02",
+  "reviewer": "foundation_contribution",
+  "scope": "Only new historical FASTA prose and text-diff preservation of baseline donor analysis; no whole-paper review or new scientific computation.",
+  "draft_sha256": "f8dc59a58e5df1a2ae4ab60495f3795bc2b0b7fb425a3ce3e0ec09010dfab2b3",
+  "baseline": {
+    "repository": "trimcrae/Rare-cancers",
+    "ref": "52a9fd8b8bf119d30912dca308baa0cc5541df69",
+    "path": "research/autonomy/data-opportunities-2026-09-30/drafts/normal-hla-donor-coverage-short-report.md",
+    "inspection": "Fetched through GitHub; unified text diff examined."
+  },
+  "disposition": "cleared_for_scoped_research_integration; optional_test_description_precision",
+  "blocking_issues": [],
+  "findings": [
+    {
+      "severity": "minor_optional",
+      "location": "Methods historical FASTA paragraph",
+      "text": "Six exhaustive short-pattern and boundary/decoy tests passed before the cloud scan.",
+      "suggestion": "Six synthetic tests, including an exhaustive short-pattern oracle and boundary/decoy cases, passed before the cloud scan.",
+      "reason": "Only the short-pattern test is exhaustive; other tests cover specific examples. This does not change the scientific result."
+    }
+  ],
+  "confirmed": [
+    "Abstract limits the new result to the deposited canonical FASTA and retains provisional queries and no normal-tissue-absence/safety conclusions.",
+    "Methods correctly reports README association, full byte identity and SHA256, within-record exact search, target/decoy separation, and lack of per-run/cryptic/presentation validation.",
+    "Results match the reviewed cloud receipt: 20365 targets plus20365decoys, zero occurrences, lengths9/11/15/9 and length-only eligibility.",
+    "Paper20365 versus PRIDE20416 plus contaminants and Percolator3.4 versus3.1.1 remain explicitly unresolved as per-run provenance.",
+    "Discussion correctly rejects measured-negative inference from sequence absence and leaves separate cryptic searches unexamined.",
+    "Unified diff shows baseline donor typing, donor counts, peptide totals, breadth counts, percentages, rarefaction formula, sensitivity table and historical analyses unchanged.",
+    "Execution run/revision link matches reviewed receipt. Relative source/result/review links are appropriate if this draft is integrated in the historical-FASTA package root as their paths imply."
+  ],
+  "limitations": [
+    "No rerun or fresh source retrieval besides frozen baseline manuscript.",
+    "No submission-readiness or whole-manuscript clearance."
+  ]
+}

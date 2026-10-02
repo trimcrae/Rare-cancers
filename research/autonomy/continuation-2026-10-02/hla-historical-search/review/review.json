@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-02",
+  "reviewer": "foundation_contribution",
+  "scope": "Distinct-source scoped static review; read captured primary XML Methods, deposited project protocol, README schema/examples and audit logic; no full FASTA download, scan replay, or test rerun.",
+  "disposition": "no_blocking_findings_in_source_and_code_review",
+  "reviewed_sha256": {
+    "plan.md": "74392650cf625de048b2ae18d953d02d10aaee9b15652858e86653ac238c1ff5",
+    "primary.xml": "1d901f85a12c3772d785688b84473044d34c699d8d339af005b43d97c6dd7edb",
+    "pride-project.json": "c127e62cb152d9144dcf223922b5b7cf38c3c01aa8df7fcf43640445e720c53f",
+    "historical-fasta-metadata.json": "adde18e6750f0301400163ce20d5ef697d633ccf03e7da83823d8c7515657f60",
+    "archive-readme.txt": "2cd9f81770806de9324a3178aeb91554b97147a6da74ace7229f54da0a6490c0",
+    "audit_metadata.py": "82f1cd96cc0858740bea5760f3c09c78863083b44403b2b3fe5c108ddd340959",
+    "metadata-association.json": "031193e84cf1cec6dac7325e5e4f43e5cd8627e0a2e404a8955216a333f01985",
+    "findings.md": "ef2b1fd880384b00af8cc138e2db18332290f243a572517381ff5b9f3df1ce0a",
+    "scan_historical_fasta.py": "facbf32489854afb4c820ee46120a009022f0981201f7d127b50bc4a9c2712b7",
+    "test_scan.py": "0f892e997941dfa9a92a245c2f6f5ea86237f9b5d9aa027047bd9e9d350a8295"
+  },
+  "checks": [
+    {
+      "topic": "Historical object vs per-run search",
+      "finding": "PRIDE metadata identifies one concrete FASTA object with filename,size and40hexchecksum. README association audit uses exact comma-delimited file IDs and reports483RESULT records associated with FASTA1. Direct header/example inspection agrees with schema. Association is not proof of every actual run database/settings, and findings explicitly retain this limitation."
+    },
+    {
+      "topic": "Paper/deposit discrepancy",
+      "finding": "Primary XML Methods explicitly reports20365Swiss-Prot sequences andPercolator3.4. PRIDE dataProcessingProtocol reports20416Swiss-Prot sequences extended bycustomcontaminants andPercolator3.1.1. Findings preserve both; neither reported count can be silently substituted for all deposited FASTA records or used to infer a unique release."
+    },
+    {
+      "topic": "Canonical and cryptic scope",
+      "finding": "Primary XML separately describes PEAKSStudioX top10candidates followed by Peptide-PRISM six-frameHG38/three-frameEnsembl90 and stratified10%FDR. The proposed single Swiss-Prot file scan does not audit those spaces. Exact absence is not evidence of absent normal-tissue presentation or a negative experimental test."
+    },
+    {
+      "topic": "Eligibility flags",
+      "finding": "Primary XML search Methods explicitly sets 8�12 for HLA-I and 8�25 for HLA-II, plus mass/charge conditions. Flags implement only length. Literal query lengths verified against cloud receipt are 9, 11, 15, 9; only the 15-mer exceeds class-I length. This corrects a reviewer transcription error in the initial receipt; scanner lengths were correct."
+    },
+    {
+      "topic": "Record boundaries and matching",
+      "finding": "finish() runs beforeeachnewheader and atEOF; parts reset perrecord. Wrapped linesjoin onlywithinrecord. X andstopare retained so cannotform falsecross-symbolmatch. positions() permits overlapping exactmatches. Allfixedqueriesnonempty. Duplicatefirst-token IDs andinvalidalphabetfail; decoyprefix classified beforetargetprefix."
+    },
+    {
+      "topic": "Counts and completeness",
+      "finding": "Occurrences andmatching-recordcounts are separatelycomputed;20witnesscapdoesnotcapcounts. Full HTTP200, exact27229450bytes andcomputedSHA1matchingmetadata required beforeoutput. Too-large,truncatedorchangeddatafails. SHA256also reported. Metadata doesnotnamechecksumalgorithm; findings appropriatelysayobservedSHA1agreement."
+    },
+    {
+      "topic": "Tests",
+      "finding": "Sixoracle tests staticallyinspected, notrerun: exhaustivebinarysubstringoracle, wrapping/recordboundary/decoy, X/stop, duplicateID, invalidsequence, countvswitnesscap. They support algorithmic cases, not per-run search provenance."
+    }
+  ],
+  "cloud_result_status": "Receipt inspected and source/code/output consistency checks passed; no independent full rescan.",
+  "limits": [
+    "No independent raw mzIdentML/search-configuration audit.",
+    "No independent repeat of483READMEcounts; staticauditlogic/sourceexamples reviewed.",
+    "No mass/charge/modification eligibility or cryptic sequence audit.",
+    "Filename date is not a formal verified UniProt release."
+  ],
+  "next_action": "Integrate scoped deposited-FASTA result with source discrepancy and cryptic-search limitations retained; no repeat scan required.",
+  "cloud_receipt": {
+    "run_id": "37041943617",
+    "revision": "9918aa902d96128adcc86009174645d0300f59f4",
+    "exit_code": 0,
+    "zip_sha256_reported_by_root": "50860a02b7ad641d4129c80031300f8fcf7642b70b7d095ff24f6d9c77b7ccb7",
+    "zip_bytes": 2281,
+    "wrapper_sha256": "7458f7c744a78273eae20cf8f2b05ea071c0bf9c832e6ffc791314f55685bc6a",
+    "fasta_bytes": 27229450,
+    "fasta_sha256": "d351fdc0add26d0a1eb6c2214ee9bf597096387c866f2d6e6ed4507a7a090dcd",
+    "record_categories": {
+      "swissprot_target": 20365,
+      "decoy": 20365
+    },
+    "all_four_queries_zero_in_both_categories": true,
+    "other_record_categories": [],
+    "checks_performed": "Scanner hash matches inspected code and execution receipt; stdout equals saved result; record count sums; query literal lengths/flags; zero counts, empty uncapped witnesses."
+  },
+  "interpretation": "All four fixed literal queries are absent from the hash-bound deposited FASTA targets and decoys. The 20365 target count matches the paper count, but does not resolve PRIDE protocol text stating20416 or the Percolator version discrepancy. This is sequence representation evidence only, not biological nondetection, normal-tissue absence, full algorithmic eligibility or an audit of the separate cryptic translated search spaces."
+}

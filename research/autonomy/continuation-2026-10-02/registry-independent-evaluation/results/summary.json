@@ -1,0 +1,54 @@
+{
+  "schema": "registry-independent-evaluation/1",
+  "status": "complete",
+  "sourceSHA256": "d20367d3d14f99716b20309ee8bed1cebe4b6a1270077fc0ac234a4cc5b91fa6",
+  "oracleSHA256": "302ba913bdebe23f312f7cdb674b34af79ed4b7a4b8c0b57f3695c8794e6af6e",
+  "offsetAmendmentSHA256": "8977179a2c54afefa75e05e8a1fba87fa965526dd36998b6609833a67109bcb3",
+  "presenceAmendmentSHA256": "086d974d984f56ebb1690aa05f245b5db39ecac4e96b038b40ab3a2737e010a1",
+  "codeRevision": "52a9fd8b8bf119d30912dca308baa0cc5541df69",
+  "extractorGitBlobSHA1": "dc7d9540df807bf072f1833dee1c1300a9081c00",
+  "companionGitBlobSHA1": "f7b1d257106c255fe86d20c5fde17166431792e8",
+  "wrapperSHA256": "fad80092f33d880fed8b8ede4996a819e2538c90aed7d5e606c3ac4da70cff17",
+  "auditSHA256": "ec6d15b34d8f7f8e5e8f746ab0c1b90c845bbf3a3991110befd5c8a321a2bed8",
+  "screeningCounts": {
+    "excluded": 59,
+    "eligible": 9
+  },
+  "allOutcomes": 68,
+  "literalRows": 460,
+  "companionRows": 45,
+  "strata": {
+    "eligible": {
+      "outcomes": 9,
+      "jointAgreements": 2,
+      "fieldAgreements": {
+        "status": 2,
+        "family": 2,
+        "version": 2,
+        "modifier": 9
+      },
+      "predictedStatusCounts": {
+        "unknown": 3,
+        "ambiguous": 5,
+        "assigned": 1
+      }
+    },
+    "uncertain": {
+      "outcomes": 0,
+      "jointAgreements": 0,
+      "fieldAgreements": {
+        "status": 0,
+        "family": 0,
+        "version": 0,
+        "modifier": 0
+      },
+      "predictedStatusCounts": {}
+    }
+  },
+  "limits": [
+    "Small date-defined capped snapshot; no population or clinical error rate inference.",
+    "Uncertain outcomes separate from eligible-only agreement denominator. No outcome exclusions based on predictions.",
+    "Status/family/version/modifier exact-string agreement; no alias equivalence or semantic adjudication by wrapper.",
+    "All oracle fields retained; confirmation/reader/aggregate roles are not automatically adjudicated."
+  ]
+}

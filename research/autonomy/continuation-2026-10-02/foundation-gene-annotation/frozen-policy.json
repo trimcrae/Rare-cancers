@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-02",
+  "source_commit": "52a9fd8b8bf119d30912dca308baa0cc5541df69",
+  "source_blob": "67a37fa342391fff324fd3889daf56aeab2ef024",
+  "event_ordinals": [
+    412,
+    871,
+    908,
+    1145,
+    1211,
+    1814,
+    1891,
+    1922,
+    2160,
+    2342,
+    2760,
+    3204,
+    3213,
+    3317,
+    3491
+  ],
+  "unique_changed_pairs": [
+    [
+      "C22orf46",
+      "C22orf46P"
+    ],
+    [
+      "ICK",
+      "CILK1"
+    ],
+    [
+      "MLF1IP",
+      "CENPU"
+    ],
+    [
+      "LINC00476",
+      "ERCC6L2-AS1"
+    ],
+    [
+      "44621.0",
+      "MARCHF1"
+    ],
+    [
+      "HIST1H1D",
+      "H1-3"
+    ],
+    [
+      "SLC26A10",
+      "SLC26A10P"
+    ],
+    [
+      "ARNTL",
+      "BMAL1"
+    ],
+    [
+      "BTBD11",
+      "ABTB3"
+    ],
+    [
+      "44812.0",
+      "SEPTIN8"
+    ],
+    [
+      "KIAA0100",
+      "BLTP2"
+    ],
+    [
+      "AKAP2",
+      "PALM2AKAP2"
+    ]
+  ],
+  "policy": [
+    "Preserve exact15events,source rows,IDs,and gene-slot order.",
+    "Empty source and N/A export remain accepted missing-token convention, not gene synonym evidence.",
+    "Fetch current official HGNC record for each unique export symbol. Exact source-symbol membership in approved symbol,prev_symbol,alias_symbol is direct current nomenclature support only.",
+    "Numeric source literals cannot be synonyms; do not convert them to dates or guess intended symbols.",
+    "If no exact source membership, mark unresolved/conflicting; no fuzzy matching or name similarity.",
+    "Record HGNC ID,status,date_modified and exact field evidence. Current support is not source-era equivalence or experimental validation.",
+    "Never alter corrected export or original genes."
+  ],
+  "lookup_status": "not_started"
+}

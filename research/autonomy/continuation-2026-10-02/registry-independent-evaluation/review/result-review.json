@@ -1,0 +1,277 @@
+{
+  "schema": "registry-post-evaluation-source-review/1",
+  "utc": "2026-10-02T18:02:02.444738+00:00",
+  "status": "reviewed_without_retuning",
+  "checks": {
+    "oracleSHA256": true,
+    "offsetAmendmentSHA256": true,
+    "presenceAmendmentSHA256": true,
+    "sourceSHA256": true,
+    "runRevision": true,
+    "stepsSucceeded": true,
+    "nineOracleRowsExactlyRetained": true,
+    "jointCount": true,
+    "comparisonArithmetic": true,
+    "allContainerHashes": true,
+    "containerCoverage": true,
+    "allCoordinateHashes": true,
+    "allAuxiliaryPointersExist": true,
+    "measurementCoverage": true,
+    "measurementCount": true,
+    "outcomeCount": true
+  },
+  "cases": [
+    {
+      "nctId": "NCT04008706",
+      "outcomeIndex": 1,
+      "title": "Overall Response (OR)",
+      "oracle": {
+        "status": "assigned",
+        "family": "iwCLL",
+        "version": "2018",
+        "modifier": null
+      },
+      "prediction": {
+        "status": "unknown",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "jointAgreement": false,
+      "interpretationCategory": "family_mention_coverage_miss_conservative_abstention",
+      "interpretation": "Explicit iwCLL 2018 source not recognized in mentions; only incidental who/WHO mention appears without assessment context. Unknown loses supported family/version.",
+      "versionParsingObservation": null
+    },
+    {
+      "nctId": "NCT05508867",
+      "outcomeIndex": 2,
+      "title": "Objective Response Rate (ORR) Per Lugano Response Criteria as Assessed by Investigator",
+      "oracle": {
+        "status": "assigned",
+        "family": "Lugano",
+        "version": "2014",
+        "modifier": null
+      },
+      "prediction": {
+        "status": "ambiguous",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "jointAgreement": false,
+      "interpretationCategory": "spurious_context_ambiguity_conservative_abstention",
+      "interpretation": "Output treats lowercase relative pronoun who as WHO in an assessment sentence alongside the actually named family; source does not establish paired families. Family withheld rather than wrongly assigned.",
+      "versionParsingObservation": "Source Lugano criteria 2014 appears, but output Lugano mentions have version null."
+    },
+    {
+      "nctId": "NCT05327530",
+      "outcomeIndex": 7,
+      "title": "Objective Response Rate (ORR) According to Response Evaluation Criteria in Solid Tumor (RECIST) v1.1 Assessed by Investigator- Avelumab + Sacituzumab Govitecan Versus Avelumab",
+      "oracle": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "prediction": {
+        "status": "ambiguous",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "jointAgreement": false,
+      "interpretationCategory": "spurious_context_ambiguity_conservative_abstention",
+      "interpretation": "Output treats lowercase relative pronoun who as WHO in an assessment sentence alongside the actually named family; source does not establish paired families. Family withheld rather than wrongly assigned.",
+      "versionParsingObservation": null
+    },
+    {
+      "nctId": "NCT05327530",
+      "outcomeIndex": 8,
+      "title": "Objective Response Rate (ORR) According to Response Evaluation Criteria in Solid Tumor (RECIST) v1.1 Assessed by Investigator - Avelumab + M6223 Versus Avelumab",
+      "oracle": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "prediction": {
+        "status": "ambiguous",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "jointAgreement": false,
+      "interpretationCategory": "spurious_context_ambiguity_conservative_abstention",
+      "interpretation": "Output treats lowercase relative pronoun who as WHO in an assessment sentence alongside the actually named family; source does not establish paired families. Family withheld rather than wrongly assigned.",
+      "versionParsingObservation": null
+    },
+    {
+      "nctId": "NCT05327530",
+      "outcomeIndex": 9,
+      "title": "Objective Response Rate (ORR) According to Response Evaluation Criteria in Solid Tumor (RECIST) v1.1 Assessed by Investigator - Avelumab + NKTR-255 Versus Avelumab",
+      "oracle": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "prediction": {
+        "status": "ambiguous",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "jointAgreement": false,
+      "interpretationCategory": "spurious_context_ambiguity_conservative_abstention",
+      "interpretation": "Output treats lowercase relative pronoun who as WHO in an assessment sentence alongside the actually named family; source does not establish paired families. Family withheld rather than wrongly assigned.",
+      "versionParsingObservation": null
+    },
+    {
+      "nctId": "NCT04557956",
+      "outcomeIndex": 2,
+      "title": "Overall Response Rates (Complete Response, Partial Response)",
+      "oracle": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "prediction": {
+        "status": "unknown",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "jointAgreement": false,
+      "interpretationCategory": "spelled_out_family_coverage_miss_conservative_abstention",
+      "interpretation": "Source explicitly names Response Evaluation Criteria in Solid Tumors 1.1 without acronym; output mentions empty and unknown. Malformed SD prose does not remove the explicit named family.",
+      "versionParsingObservation": null
+    },
+    {
+      "nctId": "NCT04276493",
+      "outcomeIndex": 1,
+      "title": "Objective Response Rate (ORR)",
+      "oracle": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "prediction": {
+        "status": "ambiguous",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "jointAgreement": false,
+      "interpretationCategory": "spurious_context_ambiguity_conservative_abstention",
+      "interpretation": "Output treats lowercase relative pronoun who as WHO in an assessment sentence alongside the actually named family; source does not establish paired families. Family withheld rather than wrongly assigned.",
+      "versionParsingObservation": "Source parenthesized RECIST followed by Version 1.1 appears, but output RECIST mention has version null."
+    },
+    {
+      "nctId": "NCT04276493",
+      "outcomeIndex": 5,
+      "title": "Disease Control Rate (DCR)",
+      "oracle": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "prediction": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "jointAgreement": true,
+      "interpretationCategory": "correct_source_supported_assignment",
+      "interpretation": "Explicit RECIST Version 1.1 DCR source agrees.",
+      "versionParsingObservation": null
+    },
+    {
+      "nctId": "NCT02657486",
+      "outcomeIndex": 0,
+      "title": "Tumor Response",
+      "oracle": {
+        "status": "unknown",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "prediction": {
+        "status": "unknown",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "jointAgreement": true,
+      "interpretationCategory": "appropriate_unknown_family",
+      "interpretation": "Local cystoscopy/cytology definition names no criteria family; unknown appropriately preserved.",
+      "versionParsingObservation": null
+    }
+  ],
+  "counts": {
+    "eligible": 9,
+    "jointAgreements": 2,
+    "correctAssignedFamilies": 1,
+    "appropriateUnknownFamilies": 1,
+    "wrongAssignedFamiliesObserved": 0,
+    "disagreements": 7,
+    "spuriousAmbiguityAbstentions": 5,
+    "familyCoverageUnknownAbstentions": 2,
+    "sourceOutcomes": 68,
+    "sourceMeasurements": 421,
+    "sourceCategoryDenominatorContainers": 442,
+    "coordinateRecords": 1084,
+    "coordinateKinds": {
+      "measurement": 421,
+      "denominator": 663
+    },
+    "reportedLiteralRows": 460,
+    "reportedCompanionRows": 45,
+    "literalRoleAssertions": 23,
+    "comparableLiteralRoleAssertions": 2,
+    "comparableRoleAgreements": 0
+  },
+  "literalFidelityInterpretation": "All 442 category/denominator container hashes and 1084 coordinate hashes bind to exact frozen source. Measurement pointer coverage accounts for all 421 source measurements. The output asserts fullOutcomeLiteralsEqual and460 literal rows, but does not include extracted acceptance rows or full exported literal payloads to independently compare all row values/flags. Treat preservation as coordinate/hash audit plus wrapper assertion, not separately inspected acceptance-row export.",
+  "roleCoverageLimit": "Only the two category-title roles are automatically comparable, and both yield familyRole:null; 0/2 agree. Five class-title roles and definition spans are retained but not automatically assessed. These role results are separate from family agreement.",
+  "semanticLimits": [
+    "All seven family disagreements are unknown/ambiguous abstentions, not observed wrong assigned families. Conservative output does not make missed source-supported assignments correct.",
+    "Failure categorization is inferred from emitted mentions and exact source, not from rerunning or changing classifier code.",
+    "Modifier agreement 9/9 is all-null and does not demonstrate modifier recognition.",
+    "Confirmation, reader, aggregate roles and clinical response correctness were not automatically adjudicated.",
+    "Nine outcomes in six studies include three highly similar ORR endpoints from one study; this is not nine independent clinical validations.",
+    "Tiny capped convenience snapshot and LLM oracle; no population accuracy or independent clinical adjudication."
+  ],
+  "inputs": [
+    {
+      "file": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint05-registry-results\\results_summary.json",
+      "sha256": "39159676d04c4816e378958daac5d0b5895cd1b468d19f7aa076ca4f4e0c4263"
+    },
+    {
+      "file": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint05-registry-results\\results_outcome-comparisons.json",
+      "sha256": "ffe1a145c5ab92fdd02d4267d7d2c6939095879bb621985995e746fc997e8a23"
+    },
+    {
+      "file": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint05-registry-results\\results_literal-fidelity.json",
+      "sha256": "6f3d0e8c9aa76247dbc1bf3c4a0904a684b6cb591314c746b3caade60108611e"
+    },
+    {
+      "file": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint05-registry-results\\execution.json",
+      "sha256": "10a51cd2a5fb5a4232b0e3520a4c4c406d2ef1b1eb248e6047afd7b9052485ab"
+    },
+    {
+      "file": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint05-registry-oracle\\oracle.json",
+      "sha256": "302ba913bdebe23f312f7cdb674b34af79ed4b7a4b8c0b57f3695c8794e6af6e"
+    },
+    {
+      "file": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint05-registry-oracle\\offset-amendment-01.json",
+      "sha256": "8977179a2c54afefa75e05e8a1fba87fa965526dd36998b6609833a67109bcb3"
+    },
+    {
+      "file": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint05-registry-oracle\\source-presence-amendment-02.json",
+      "sha256": "086d974d984f56ebb1690aa05f245b5db39ecac4e96b038b40ab3a2737e010a1"
+    }
+  ]
+}
