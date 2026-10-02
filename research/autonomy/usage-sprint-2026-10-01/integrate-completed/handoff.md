@@ -87,7 +87,9 @@ native parser/handoff/link controls, and all four original transcript identities
 historical systems witness is parsed from the cancelled fourth run's retained stdout; its cleanup
 and unrun current checks are not claimed as successful.
 
-This checkpoint executes the unchanged direct current systems check, normal default FAST
+This checkpoint visibly installs the two existing native OS prerequisites, ghostscript and
+libreoffice-writer, with bounded package retrieval and verifies gs and the actual Writer registry.
+It executes the unchanged direct current systems check and normal default FAST
 (which includes the native citation guard), and clean tracked status. The earlier standalone
 citation passes and strict historical systems witness are reused. The original 181 scoped cases
 and six passed formatter cases are skipped at unchanged code/evidence. Native post-merge CPU CI

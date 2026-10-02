@@ -1,7 +1,7 @@
 {
   "schema": "usage-sprint-completed-integration-plan/1",
   "date": "2026-10-02",
-  "status": "immutable_history_retrieval_pending_cpu_validation",
+  "status": "native_os_prerequisites_pending_cpu_validation",
   "repository": "trimcrae/Rare-cancers",
   "branch": "codex/usage-sprint-2026-10-01-integrate-completed",
   "base_revision": "ee84a76beb7c51004eca05cad09cf9612bb0e959",
@@ -625,7 +625,9 @@
     "research/autonomy/usage-sprint-2026-10-01/integrate-completed/diagnostic-prose-ci-original.log",
     "research/autonomy/usage-sprint-2026-10-01/integrate-completed/diagnostic-prose-validation-receipt.json",
     "research/autonomy/usage-sprint-2026-10-01/integrate-completed/future-link-ci-original.log",
-    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/future-link-validation-receipt.json"
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/future-link-validation-receipt.json",
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/immutable-history-ci-original.log",
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/immutable-history-validation-receipt.json"
   ],
   "conflicts": [],
   "overlap": "Frame-census is descendant of exact aso-verifier head; retain its upgraded verifier/test/manifest bytes and every original source ancestor/log.",
@@ -838,5 +840,45 @@
     "shallow_repository_after_fetch": false,
     "unrelated_refs_or_tags": "not requested",
     "integration_timeout_minutes": 20
+  },
+  "immutable_history_ci": {
+    "revision": "e2f157d402e4a262a1e4d9e49c5be657e9ea5d8b",
+    "tree": "41d06e7539192c7191dacf91bc07d17c046f047c",
+    "id": 37068067404,
+    "job_id": 111040709753,
+    "event": "push",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "job_start_utc": "2026-10-02T21:38:55Z",
+    "job_end_utc": "2026-10-02T21:50:28Z",
+    "job_elapsed_seconds": 693,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/37068067404",
+    "log_path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/immutable-history-ci-original.log",
+    "log_blob": "0cb3d8f15ca745a99bb054ee639b41b1a5292a15",
+    "log_bytes": 67975,
+    "log_sha256": "4a898e385b416545889ac83c7dadff49e8a0721d600798988e5b54b9684d7788",
+    "receipt_path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/immutable-history-validation-receipt.json",
+    "scope": "Retrieval/preservation/current systems/clean passed; normalFAST did not reach gates due native OS bootstrap timeout."
+  },
+  "native_os_environment": {
+    "packages": [
+      "ghostscript",
+      "libreoffice-writer"
+    ],
+    "scope": "Exactly native dev-setup package prerequisites; visible install before unchanged FAST; no native setup/checker/script/native-main tests.yml change.",
+    "step_timeout_minutes": 5,
+    "apt_retries": 0,
+    "http_timeout_seconds": 30,
+    "https_timeout_seconds": 30,
+    "checks": [
+      "command -v gs",
+      "gs --version",
+      "/usr/lib/libreoffice/share/registry/writer.xcd exists",
+      "soffice --version"
+    ],
+    "original_fast_timeout_minutes": 10,
+    "original_job_timeout_minutes": 20,
+    "scientific_source_acquisition": "not present"
   }
 }
