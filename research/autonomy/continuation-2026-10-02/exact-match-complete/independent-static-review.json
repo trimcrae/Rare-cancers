@@ -1,0 +1,83 @@
+{
+  "schema": "emc-focused-static-review/1",
+  "reviewer": "registry_contribution independent of foundation_contribution implementation",
+  "reviewed_on": "2026-10-02",
+  "scope": "Complete overlapping exact-hit recovery, GENCODE header identity/biotype, design/stratum reconciliation, pinned release116 comparison; no whole-paper review.",
+  "verdict": "no blocking defect identified in inspected code",
+  "files": {
+    "recover_exact_hits.py": {
+      "bytes": 13499,
+      "sha256": "d5ff9ef860c990619f0efb9813ee841cf9a42dc016adf0757ca05b8f89220efa"
+    },
+    "test_recover_exact_hits.py": {
+      "bytes": 5220,
+      "sha256": "5c10ff7b6a3bb270926186c74a72f12c0911ee157ce04eed5b7e7e657400eeed"
+    },
+    "header-format-source.json": {
+      "bytes": 956,
+      "sha256": "e5e1523fb4fb18c6e44e7b341088379a0fd40742e7a05600406e54f77bea0d46"
+    }
+  },
+  "concrete_defects": [],
+  "checks": [
+    {
+      "topic": "Complete overlapping occurrence capture",
+      "finding": "positions advances by start+1, preserving overlapping windows; per-target hit iteration includes terminal starts and multiple occurrences in one transcript. Full recovery retains up to a deliberate10000-hit fail-fast scope cap, not a silent20-hit witness truncation. Shared target sequences fan out to all design IDs. Record boundaries are separate.",
+      "test_coverage": [
+        "test_overlaps_and_no_twenty_hit_cap",
+        "test_terminal_windows",
+        "test_no_cross_record_window",
+        "test_alias_targets_preserved"
+      ]
+    },
+    {
+      "topic": "Header identity and biotype",
+      "finding": "Eight positional fields match inspected official GENCODE50 README receipt. Versioned transcript/gene IDs are retained; field8 is explicitly transcript biotype. Declared length and unique full transcript ID are enforced. Gene symbol, not gene ID, determines the same declared parent-gene stratum.",
+      "test_coverage": [
+        "test_header_schema_and_versioned_gene",
+        "test_duplicate_transcript_and_length_fail",
+        "test_parent_stratum_and_multidesign_transcript_count"
+      ]
+    },
+    {
+      "topic": "Per-design/per-stratum reconciliation",
+      "finding": "Counts compare every expected parent/other pair including expectedzero; nearest-gene sets compare for positive strata. Recovered and saved coordinate identities must be unique; every saved tuple must exist, with gene/window equality and exact metric/value. Saved128-row pinned witness schema independently inspected: it has start_0based and window_5to3, no end-coordinate field. New end is derived as start+16.",
+      "saved_witness_source": "https://github.com/trimcrae/Rare-cancers/blob/d39296bdf4114e7bf366c8a9ffeefc22e6cfb71f/research/autonomy/continuation-2026-10-02/results/aso-exact-match-witnesses.tsv",
+      "test_coverage": [
+        "test_reconciliation_saved_subset_and_mutated_coordinate",
+        "test_counts_genes_fields_and_duplicates_fail"
+      ]
+    },
+    {
+      "topic": "Release116 annotation comparison",
+      "finding": "Pinned release receipt and60-ID snapshot hashes checked before use. Snapshot key/returned stable ID must agree; transcript version, gene stable ID, biotype and length disagreements are exposed separately. Absent snapshot IDs receive not_in_pinned_release116_snapshot; version match is labelled comparison rather than universal annotation agreement. No live current-release equivalence is asserted.",
+      "test_coverage": [
+        "test_annotation_agreement_disagreement_missing_and_versions"
+      ]
+    }
+  ],
+  "static_test_inventory": [
+    "test_overlaps_and_no_twenty_hit_cap",
+    "test_terminal_windows",
+    "test_N_windows_not_exact",
+    "test_normalization_and_final_no_newline",
+    "test_no_cross_record_window",
+    "test_alias_targets_preserved",
+    "test_duplicate_transcript_and_length_fail",
+    "test_header_schema_and_versioned_gene",
+    "test_reconciliation_saved_subset_and_mutated_coordinate",
+    "test_counts_genes_fields_and_duplicates_fail",
+    "test_parent_stratum_and_multidesign_transcript_count",
+    "test_annotation_agreement_disagreement_missing_and_versions",
+    "test_invalid_sequence_and_empty_corpus"
+  ],
+  "executed_validation": "Read source and tests, parsed test AST, hashed current files; did not execute tests, recovery, scientific corpus or external packages.",
+  "untested_limits": [
+    "No actual134-occurrence recovery or six-new-occurrence result is established by this review; those remain cloud acceptance assertions.",
+    "No whole-record GENCODE header compatibility or duplicate-ID absence verified here; code fails closed on unexpected headers.",
+    "PAR_Y/legacy R-prefixed IDs, missing optional snapshot length, deadline, output-path and input-hash failure paths are not covered by inspected synthetic tests. PAR_Y version strings may compare as mismatches rather than normalized equivalence; no evidence this affects the19-design hit set.",
+    "The19 accepted exact-positive designs are the entire recovery scope, not an independent rediscovery of all targets or negative strata outside that selection.",
+    "Release116 snapshot covers only60 previously captured transcript IDs. Newly encountered IDs cannot receive release116 annotations from this utility.",
+    "Pinned source hashes protect provenance but are not semantic validation of original accepted nearest-count fields; separate independent exact-census evidence supplies that context."
+  ]
+}

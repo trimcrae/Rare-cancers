@@ -1,0 +1,33 @@
+name: EMC complete exact-match annotations
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/exact-complete-token.json]
+permissions:
+  contents: read
+jobs:
+  complete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Reserve cloud storage before sparse checkout
+        run: python3 -c 'import shutil; assert shutil.disk_usage(".").free >= 14*1024**3'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout: research/autonomy/continuation-2026-10-02
+      - name: Recover missing coordinates and frozen transcript labels
+        run: python3 research/autonomy/continuation-2026-10-02/run_exact_complete.py
+      - name: Preserve result and failure receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: emc-exact-complete-${{ github.sha }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            outputs-exact-complete/*.json
+            outputs-exact-complete/*.log
+            outputs-exact-complete/analysis/*.json
+            outputs-exact-complete/analysis/*.tsv
