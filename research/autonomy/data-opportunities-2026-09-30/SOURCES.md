@@ -1,3 +1,5 @@
+> Historical initial-screen record. Its shortlist/prospective status is superseded by the [executed 45-option ledger](ALL45-EXECUTED-STATUS.md), [current ranking](RANKING.md), [manuscript index](MANUSCRIPT-INDEX.md) and [final validation](validation-summary.json). Earlier numerical/provenance labels must be read in their original scope; current source qualifications and exact draft bindings are in the final package.
+
 # Source inventory and scientific opportunities
 
 As of 1 October 2026. This inventory separates executed audits, inspected metadata/code, historical repository evidence and unresolved access leads. A public accession does not establish retrieval of every required file. Specimens, patients, libraries, images and table rows retain their original units.
