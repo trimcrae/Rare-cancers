@@ -1,0 +1,59 @@
+name: EMC registry outcome-family companion
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths:
+      - research/autonomy/continuation-2026-10-02/registry-family-token.json
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  family-companion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Check cloud storage headroom
+        run: |
+          python3 - <<'PY'
+          import shutil
+          free=shutil.disk_usage(".").free
+          assert free > 11*1024**3, free
+          print("free_bytes_before", free)
+          PY
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            research/autonomy/continuation-2026-10-02/registry-family-companion
+            research/autonomy/continuation-2026-10-02/registry-full-replay/results/full-replay-output.zip
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Execute frozen conformance and known-corpus transfer
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/registry-family-receipt"
+          mkdir -p "$out"
+          cd research/autonomy/continuation-2026-10-02/registry-family-companion
+          python3 -m unittest -v test_family_companion.py 2>&1 | tee "$out/tests.log"
+          python3 family_companion.py --zip ../registry-full-replay/results/full-replay-output.zip --out "$out/results" 2>&1 | tee "$out/replay.log"
+          python3 - "$out" <<'PY'
+          import hashlib,json,os,pathlib,shutil,sys,zipfile
+          p=pathlib.Path(sys.argv[1])
+          with zipfile.ZipFile(p/"results.zip","w",zipfile.ZIP_DEFLATED) as z:
+              for f in sorted((p/"results").glob("*")):
+                  z.write(f,f.name)
+          receipts=[{"name":f.name,"bytes":f.stat().st_size,"sha256":hashlib.sha256(f.read_bytes()).hexdigest()} for f in sorted((p/"results").glob("*"))]
+          receipt={"revision":os.environ["GITHUB_SHA"],"run_id":os.environ["GITHUB_RUN_ID"],"files":receipts,"zip_sha256":hashlib.sha256((p/"results.zip").read_bytes()).hexdigest(),"free_bytes_after":shutil.disk_usage(".").free}
+          (p/"execution.json").write_text(json.dumps(receipt,indent=2)+"\n")
+          shutil.copyfile(p/"results"/"summary.json",p/"summary.json")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: registry-family-companion
+          path: |
+            ${{ runner.temp }}/registry-family-receipt/*.log
+            ${{ runner.temp }}/registry-family-receipt/*.json
+            ${{ runner.temp }}/registry-family-receipt/*.zip
+          retention-days: 30
