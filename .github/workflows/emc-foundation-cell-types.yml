@@ -1,0 +1,51 @@
+name: EMC Foundation source-cell encoding evidence
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/foundation-cell-token.json]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  two-source-cells:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Reserve cloud storage
+        run: python3 -c 'import shutil; assert shutil.disk_usage(".").free > 12*1024**3'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: research/autonomy/continuation-2026-10-02/foundation-gene-annotation
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: foundation-primary-inputs
+          run-id: 37035103326
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/primary-inputs
+      - name: Install pinned XLS reader
+        run: python3 -m pip install --no-cache-dir xlrd==2.0.1
+      - name: Inspect exactly two source cell encodings
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,platform,subprocess,time
+          base=pathlib.Path(os.environ["RUNNER_TEMP"])
+          candidates=list((base/"primary-inputs").rglob("primary.xls"))
+          if len(candidates)!=1: raise ValueError("Missing or ambiguous workbook")
+          out=base/"cell-results";out.mkdir()
+          code=pathlib.Path("research/autonomy/continuation-2026-10-02/foundation-gene-annotation/probe_source_cells.py")
+          start=time.monotonic()
+          r=subprocess.run(["python3",str(code),"--workbook",str(candidates[0])],capture_output=True,text=True,timeout=120)
+          (out/"probe.stdout").write_text(r.stdout);(out/"probe.stderr").write_text(r.stderr)
+          receipt={"revision":os.environ["GITHUB_SHA"],"run_id":os.environ["GITHUB_RUN_ID"],"python":platform.python_version(),"code_sha256":hashlib.sha256(code.read_bytes()).hexdigest(),"exit_code":r.returncode,"seconds":time.monotonic()-start,"scope":"Two named cell encodings only; prior identity extraction not repeated"}
+          (out/"execution.json").write_text(json.dumps(receipt,indent=2)+"\n")
+          if r.returncode:raise SystemExit(r.returncode)
+          if json.loads(r.stdout)["status"]!="passed":raise ValueError("Probe did not pass")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: foundation-two-cell-encoding
+          path: ${{ runner.temp }}/cell-results/
+          retention-days: 30
