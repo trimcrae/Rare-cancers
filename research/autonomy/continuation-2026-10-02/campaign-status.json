@@ -1,6 +1,6 @@
 {
   "schema": "emc-continuation-checkpoint/1",
-  "as_of_utc": "2026-10-02T21:43:43Z",
+  "as_of_utc": "2026-10-02T22:33:42Z",
   "branch": "codex/emc-continuation-2026-10-02",
   "scientific_baseline": "da49c4e836533253825587f83656675dac4c913b",
   "original_run": {
@@ -38,7 +38,9 @@
     "automation": "emc-research-sprint-through-reset",
     "cadence": "hourly",
     "ends_utc": "2026-10-03T20:14:24Z",
-    "ordinary_usage_only": true
+    "ordinary_usage_only": true,
+    "status": "PAUSED by user after reported usage reset",
+    "pause_record": "checkpoint-09-paused.json"
   },
   "next_work": [
     "Foundation: do not rerun broad modalities/FULL automatically. Timeout and relevance audit are preserved. Paper-specific mapping/reconstruction/source and review evidence remain verified unchanged. Existing publication enforcer requires legacy FULL; any future scope-policy replacement needs explicit dated contract and reviewed producer/consumer changes, never relabel EXIT124. No journal submission or contact authorized.",
@@ -104,17 +106,17 @@
   },
   "ownership": {
     "coordinator": "/root sole branch/shared-state writer",
-    "finite_worker_tasks": "All finite workers complete; metadata preparation, prospective adapter, independent reviews and raw source-frame verification are integrated.",
+    "finite_worker_tasks": "Checkpoint09 acquisition preparation and focused review finished locally; prospective source-only reader idle without source data. Portfolio status audit completed.",
     "cloud_jobs": "All checkpoint scientific and normal jobs complete. Metadata37067615876 passed; normal37068156816 passed; FoundationFULL37058750900 failed/time limit and is preserved. No branch scientific job active at closure.",
     "local_checkouts_created": 0,
     "preservation": "No accepted publication/history/local changes/main merge/outreach/PR changes. Exact old failed FULL and new metadata artifact preserved.",
-    "next_owner": "/root at next heartbeat, through next fixed-ID outcome retrieval/oracle checkpoint.",
+    "next_owner": "/root if subsequently resumed; accelerated heartbeat paused",
     "researchLedger": {
       "blob": "79983403fd38d9ec5be3533bcf91b3af36c2657b",
       "checkedMain": "5c5d5bc6c234494d3fdba6965c5dba1d43c7d194",
       "verification": "Exact blob unchanged from previously verified415entries/0owners; current oversized body was truncated, so no fresh whole-ledger parse claimed."
     },
-    "active_future_work": "Checkpoint08 source frame is complete and independently verified. Next substantive task: implement and validate outcome retrieval for the exact10 selected IDs, preserving their metadata projections; bounded10requests/1MiB, no retry/reselection. Root must freeze complete successful source bytes before a new source-only blind reader with no classifier/repair/old-label context; lock oracle+input manifest before one frozen v2 evaluation. An integrity/access/drift/cap failure stops the entire slice, with no opportunistic subset. No outcomes or classifier were run in checkpoint08. Do not repeat the completed metadata acquisition or successful earlier science without a changed input/defect/named question. Foundation broad modalities/FULL retry is held; failed original is archived, no readiness claim. Source-bound manuscript checks remain reusable. Do not restart retired/Claude schedulers, main writes, PRs, publication, or outreach."
+    "active_future_work": "Paused by user. See checkpoint-09-paused.json for preserved local preparation and exact remaining work. No checkpoint09 outcome acquisition, oracle labeling or classifier run launched. Separate daily watch unchanged."
   },
   "usage_at_checkpoint": {
     "ordinary_usage_allowed": true,
@@ -520,5 +522,9 @@
     "initial_failed_revision": "f7d7ae054d6974834f56df437a1abec5981cc309",
     "repair": "One README link corrected; claim census generated in37063167907 and archive manifest generated from clean committed source in37063409194. All520 archive inventory entries unchanged except shared renderer hash. Exact originals and failed/passing logs preserved.",
     "not_run": "Optional pure-logic and modality suites; this normal gate is not full publication clearance."
+  },
+  "checkpoint_09": {
+    "status": "paused at user request after preparation; no scientific computation launched",
+    "record": "checkpoint-09-paused.json"
   }
 }

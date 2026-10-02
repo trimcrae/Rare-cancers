@@ -1,0 +1,140 @@
+{
+  "schema": "emc-continuation-user-pause/1",
+  "as_of_utc": "2026-10-02T22:33:42Z",
+  "user_instruction": "Our usage just reset so you can slow down. Summarize where all the papers stand.",
+  "status": "temporary accelerated sprint paused by user; no further computation launched",
+  "automation": {
+    "id": "emc-research-sprint-through-reset",
+    "status": "PAUSED",
+    "verified_by": "Codex automation_update result",
+    "daily_watch": "unchanged"
+  },
+  "parent_revision": "710e23c3103fa8cdc4d32fdbcf15a84a926b5c69",
+  "cloud": {
+    "last_global_in_progress_check_utc": "2026-10-02T22:17:12Z",
+    "in_progress": 0,
+    "checkpoint09_jobs_launched": 0
+  },
+  "preparation": {
+    "status": "local preparation only; not committed executable workflow, acquired outcomes, blinded labels, or classifier output",
+    "author_tests_passed": 18,
+    "independent_tests_passed": 12,
+    "source_requests": 0,
+    "classifier_executions": 0,
+    "defects": "Duplicate schema key and derived-artifact budget overflow were corrected and independently checked before source acquisition. Initial files/findings retained.",
+    "local_root": "C:/Users/mcrae/.codex/private/emc-continuation-20261002",
+    "manifests": [
+      {
+        "directory": "checkpoint09-outcome-acquisition",
+        "files": [
+          {
+            "name": "acquire_outcomes.py",
+            "sha256": "bc77848f9f6aa3271ea8dd368e46cb061e2c2e388b51a393aebdf01e4c199a23"
+          },
+          {
+            "name": "acquire_outcomes.py.initial.txt",
+            "sha256": "946fa9a1759a060d78afe566c2cd708b380883be5b0836f974e1cc78111cf3fb"
+          },
+          {
+            "name": "HANDOFF.md",
+            "sha256": "8c0e80ceecf7090d77f44339ad67df476795b9c20d2d5fb96ab76212b3829b50"
+          },
+          {
+            "name": "HANDOFF.md.initial.txt",
+            "sha256": "76ee6ffbc1d9856b51ade79c62845d110c0574e87857a514f1808faf0cb9499b"
+          },
+          {
+            "name": "outcome-protocol.json",
+            "sha256": "cd38111242a06c2fc8821cafca7065b3832335ebb9482e554efd153aa3f572fa"
+          },
+          {
+            "name": "outcome-protocol.json.initial.txt",
+            "sha256": "542012594103ef10c9784c268e677ca84575ff3294dcd23711cca91de3ff7e39"
+          },
+          {
+            "name": "test_acquire_outcomes.py",
+            "sha256": "69e1c553c09dbc57384eda639b3e369eabda2db2b8e44ff839c4093722f5a819"
+          },
+          {
+            "name": "test_acquire_outcomes.py.initial.txt",
+            "sha256": "5173c9b8a219d76f32678ce0fae5a82351002aec2215baaed191e51dff089a91"
+          },
+          {
+            "name": "worker-receipt.json",
+            "sha256": "920089e11417d01b9998a13ea488496d704714ebdf80ee47eeacac5e26f943a5"
+          },
+          {
+            "name": "worker-receipt.json.initial.txt",
+            "sha256": "f8754ca03158d89a73366ac68466880bc101d4647da3583561509b45e95d824e"
+          },
+          {
+            "name": "inputs/evaluation-schema.json",
+            "sha256": "02e4647e84824dddfe25cdd3a23a4f3f3ed7ddffe936dffba4d916c62c1bf9e8"
+          },
+          {
+            "name": "inputs/metadata-receipt.json",
+            "sha256": "69fa7a16e5178315df8080b396482537f28bc7bf1bbe657308963bcc5e3cf47c"
+          },
+          {
+            "name": "inputs/selected-metadata.json",
+            "sha256": "63bf6c26162c712de302935a339b052b7c1c37817226140440cffcf10415d0a0"
+          },
+          {
+            "name": "inputs/selection-freeze.json",
+            "sha256": "2af6fad3e545d2fd5752b470e0ec2dc791c8c40dcd4b3a93354bb29a9904101e"
+          }
+        ]
+      },
+      {
+        "directory": "checkpoint09-outcome-review",
+        "files": [
+          {
+            "name": "design-receipt.json",
+            "sha256": "e92a00924b29bf28a414a6ef34b760c7a6de4acab6e84dba1f7e328421a5a0c8"
+          },
+          {
+            "name": "final-review-receipt.json",
+            "sha256": "4cd89686d0e4537d63b2b0ba1d85767cbc651e227f005c165b79ae10d82917a5"
+          },
+          {
+            "name": "final-test.log",
+            "sha256": "328eb027f1a8d9c20f3432e8cef63e3fb5e39a3b12760b28e42d1ce4642ffd06"
+          },
+          {
+            "name": "initial-findings.json",
+            "sha256": "067dc7cf31770169d4c00583c92fb3b1735d9e39e05f99acc06ec4601b0024d1"
+          },
+          {
+            "name": "sealed-cases.json",
+            "sha256": "3463abda0502405a769448971d53e44fdbe4dc27e213c5962e3a4e7aaea6787d"
+          },
+          {
+            "name": "verification.initial.json",
+            "sha256": "a6ace7c0d9c7049ccf3607f92ce2021813a85b0f5120e59f96196afc03a34435"
+          },
+          {
+            "name": "verification.json",
+            "sha256": "b1072b6ea66f8d946dd3597153b7d3612a89387adabb43785d4c712da5cc2249"
+          },
+          {
+            "name": "verify_outcomes.py",
+            "sha256": "14154daa8b0d175f84128a635e406388352c48b3e75d55037cd1ab6ee312bace"
+          }
+        ]
+      }
+    ],
+    "oracle_contract": {
+      "status": "fresh source-only reader has no source or classifier data; annotation not started",
+      "contract_sha256": "2cffd33fe9e84918347627b472e19aae0f69365d9dde3f33f86801560dbe6362",
+      "encoding_supplement_sha256": "2353a81ec2a3d73fcbe3b86859a44bc57051cd33155679a35cfc2918cc6f6b4e"
+    }
+  },
+  "ownership": {
+    "coordinator": "/root",
+    "active_science_workers": 0,
+    "next_action": "Only resume bounded work under subsequent user direction or the separate existing daily watch. Do not restart the accelerated hourly campaign.",
+    "remaining_work": "Preserve checkpoint08 source selection. If registry resumes, inspect the local preparation and receipt hashes, freeze reviewed acquisition code before requesting the selected10 outcomes, then freeze independent source-only labels before one classifier run. No repeat of metadata selection or completed science."
+  },
+  "validation": "Pause record only. No new preflight or modalities/full suite run; previous normal-preflight receipt remains bound to dfc9caac43fd83d6dc92aa7c94febad026cebfff.",
+  "preservation": "Accepted papers/history, main, other automations, local files and private preparation unchanged. No PR, submission or outreach."
+}
