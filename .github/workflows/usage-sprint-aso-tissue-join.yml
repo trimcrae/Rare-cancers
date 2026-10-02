@@ -1,0 +1,57 @@
+name: ASO existing tissue-join operational checkpoint
+on:
+  push:
+    branches:
+      - codex/usage-sprint-2026-10-01-aso-tissue-join
+    paths:
+      - .github/workflows/usage-sprint-aso-tissue-join.yml
+      - research/autonomy/usage-sprint-2026-10-01/aso-tissue-join/audit-evidence.json
+permissions:
+  contents: read
+concurrency:
+  group: usage-sprint-aso-tissue-join-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  operational:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Exact revision and six unchanged source bindings
+        run: |
+          git rev-parse HEAD
+          python3 --version
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          receipt = json.loads(Path("research/autonomy/usage-sprint-2026-10-01/aso-tissue-join/audit-evidence.json").read_text())
+          assert receipt["status"] == "complete_no_scientific_change"
+          pins = receipt["exact_historical_current_bindings"]
+          assert len(pins) == 6
+          for pin in pins:
+              raw = Path(pin["path"]).read_bytes()
+              blob = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+              assert blob == pin["current_blob"] == pin["historical_blob"], pin["path"]
+              print("UNCHANGED_SOURCE", pin["path"], blob)
+          print("OPERATIONAL_SOURCE_BINDINGS_OK six unchanged pinned blobs; historical scientific tests reused, not run anew")
+          PY
+      - name: Install normal preflight dependencies
+        timeout-minutes: 5
+        run: >-
+          python3 -m pip install
+          uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
+          pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+      - name: Normal preflight (default fast scope)
+        timeout-minutes: 10
+        run: ./scripts/preflight.sh
+      - name: Tracked source unchanged by operational checks
+        if: ${{ !cancelled() }}
+        run: |
+          git status --short
+          git diff --exit-code
