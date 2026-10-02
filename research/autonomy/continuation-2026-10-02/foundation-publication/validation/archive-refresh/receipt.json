@@ -1,0 +1,60 @@
+{
+  "revision": "7e104ff2f0682dc88c14fcfb8777f868177ad1a6",
+  "run_id": "37063409194",
+  "mode": "archive",
+  "steps": [
+    {
+      "name": "base-dependencies",
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "pip",
+        "install",
+        "--no-cache-dir",
+        "pyyaml",
+        "jsonschema>=4.18",
+        "referencing",
+        "pypdf",
+        "pdfplumber",
+        "uv"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 5.001413843000002,
+      "log_sha256": "555b801b103d79d2e53ca3992a7c1c224f4467bdae9a6af285eb85b8ffbc1076"
+    },
+    {
+      "name": "refresh-archive-manifest",
+      "command": [
+        "/usr/bin/python3",
+        "research/manuscripts/aso_archive_manifest.py"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 2.000973031000001,
+      "log_sha256": "c809d510f6217efa5dcd6639ce1b6ddffeec5e0d1e73999521d29b88b3a42438"
+    },
+    {
+      "name": "check-archive-manifest",
+      "command": [
+        "/usr/bin/python3",
+        "research/manuscripts/aso_archive_manifest.py",
+        "--check-archive"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 2.000948000000001,
+      "log_sha256": "8a13bed71e70162dd1a47f91ddd1847e60dd7bc0a10898e5b4010abfbc4c32ba"
+    }
+  ],
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T20:53:32.632677+00:00",
+  "free_bytes_after": 91400585216,
+  "files": [
+    {
+      "path": "files/research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+      "bytes": 385349,
+      "sha256": "b42705800b605cee8e2e35a7ce08cd276d0ae366d654f9459db7fc7aef3333d8"
+    }
+  ]
+}
