@@ -1,0 +1,179 @@
+{
+  "schema": "registry-repair-independent-synthetic-oracle/1",
+  "frozen_utc": "2026-10-02T18:33:00Z",
+  "scope": "Synthetic behavioral cases frozen by root before reading v2 code; not clinical evaluation; assert only stated fields. Case outputs must not mutate the outcome.",
+  "cases": [
+    {
+      "id": "title_case_pronoun",
+      "outcome": {
+        "title": "Participants Who Responded",
+        "description": "Response assessed according to RECIST version 1.1."
+      },
+      "expected": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      }
+    },
+    {
+      "id": "all_caps_pronoun_not_criteria",
+      "outcome": {
+        "title": "WHO RESPONDED TO TREATMENT",
+        "description": "Counts of participants."
+      },
+      "expected": {
+        "status": "unknown",
+        "familyName": null
+      }
+    },
+    {
+      "id": "who_performance_status",
+      "outcome": {
+        "title": "WHO performance status",
+        "description": "WHO performance status was assessed at baseline."
+      },
+      "expected": {
+        "status": "unknown",
+        "familyName": null
+      }
+    },
+    {
+      "id": "actual_who_response",
+      "outcome": {
+        "title": "Response per WHO criteria",
+        "description": "Tumor response assessed according to WHO criteria."
+      },
+      "expected": {
+        "status": "assigned",
+        "familyName": "WHO"
+      }
+    },
+    {
+      "id": "whoqol_not_response",
+      "outcome": {
+        "title": "Quality of life",
+        "description": "Evaluated using WHOQOL-BREF."
+      },
+      "expected": {
+        "status": "unknown",
+        "familyName": null
+      }
+    },
+    {
+      "id": "full_name_parenthetical_version",
+      "outcome": {
+        "title": "Objective response",
+        "description": "Assessed per Response Evaluation Criteria in Solid Tumors (RECIST) Version 1.1."
+      },
+      "expected": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      }
+    },
+    {
+      "id": "full_name_no_acronym",
+      "outcome": {
+        "title": "Objective response",
+        "description": "Assessed per Response Evaluation Criteria in Solid Tumors 1.1."
+      },
+      "expected": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      }
+    },
+    {
+      "id": "iwcll_2018",
+      "outcome": {
+        "title": "Overall response",
+        "description": "Evaluated using iwCLL 2018 criteria."
+      },
+      "expected": {
+        "status": "assigned",
+        "familyName": "iwCLL",
+        "criteriaVersion": "2018"
+      }
+    },
+    {
+      "id": "lugano_intervening_criteria",
+      "outcome": {
+        "title": "Overall response",
+        "description": "Assessed per Lugano criteria 2014."
+      },
+      "expected": {
+        "status": "assigned",
+        "familyName": "Lugano",
+        "criteriaVersion": "2014"
+      }
+    },
+    {
+      "id": "genuine_paired_families",
+      "outcome": {
+        "title": "Response per RECIST 1.1 and iRECIST",
+        "description": "Both criteria were used."
+      },
+      "expected": {
+        "status": "ambiguous",
+        "familyName": null
+      }
+    },
+    {
+      "id": "negated_response_family",
+      "outcome": {
+        "title": "Response",
+        "description": "RECIST 1.1 was not used."
+      },
+      "notAssigned": true
+    },
+    {
+      "id": "historical_only",
+      "outcome": {
+        "title": "Response",
+        "description": "Earlier studies assessed response using RECIST 1.1."
+      },
+      "notAssigned": true
+    },
+    {
+      "id": "bare_citation",
+      "outcome": {
+        "title": "Response",
+        "description": "See RECIST 1.1 publication for background."
+      },
+      "notAssigned": true
+    },
+    {
+      "id": "explicit_version_conflict",
+      "outcome": {
+        "title": "Response per RECIST 1.0 and RECIST 1.1"
+      },
+      "expected": {
+        "status": "ambiguous",
+        "familyName": null
+      }
+    },
+    {
+      "id": "no_version_inference",
+      "outcome": {
+        "title": "Response per RECIST",
+        "description": "Observed during 2024."
+      },
+      "expected": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": null
+      }
+    },
+    {
+      "id": "labels_do_not_name_family",
+      "outcome": {
+        "title": "CR PR SD PD",
+        "description": "Numbers reported by investigator."
+      },
+      "expected": {
+        "status": "unknown",
+        "familyName": null
+      }
+    }
+  ]
+}
