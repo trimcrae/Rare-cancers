@@ -1,0 +1,58 @@
+{
+  "schema": "registry-exposure-audit-receipt/1",
+  "completedUTC": "2026-10-02T21:08:44Z",
+  "owner": "/root/registry_exposure_audit",
+  "integrationOwner": "/root",
+  "status": "finite_audit_complete_pending_root_integration",
+  "repository": "trimcrae/Rare-cancers",
+  "revision": "2024788e3be40e8accc7887690c06117122a5a31",
+  "localFreeBytesBeforeWrite": 9074647040,
+  "artifactBudgetBytes": 65536,
+  "model": "inherited; exact runtime identifier unavailable",
+  "effort": "inherited",
+  "inputs": [
+    {
+      "path": "research/autonomy/OPERATING_PROTOCOL.md",
+      "blob": "a482b7e024ae63c96aff3c3c0ee11032703d5666"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/registry-next-slice/proposed-plan.txt",
+      "blob": "d35f54b7d345ba5b388930115952a37adc7f6b37"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/registry-next-slice/source-ownership-receipt.json",
+      "blob": "7732db82bb48341d7fade0226e9e7817d129dfc7"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/registry-independent-evaluation/acquisition/acquisition-receipt.json",
+      "blob": "58b0d1df4def5d594b6bfcbb8ac74fc7525050fb"
+    }
+  ],
+  "checks": {
+    "baseline138": true,
+    "selected10": true,
+    "disjoint": true,
+    "union148": true,
+    "wellFormed": true,
+    "matchesPlanningReceipt": true,
+    "additionalScopedIds": []
+  },
+  "knownCaseIdsCovered": [
+    "NCT00654238",
+    "NCT00942162",
+    "NCT01403948",
+    "NCT02263508",
+    "NCT02626000",
+    "NCT02829723"
+  ],
+  "scope": "Scoped GitHub contents directory listings and objects only; no local git or checkout. Source strings scanned programmatically for NCT plus eight digits; synthetic source/oracle and known-case fixture semantics not emitted. Actual acquisition receipt baselineTrialIds and selected[].nctId parsed directly.",
+  "exposureDisclosure": "Read requested plan and receipts including prior aggregate counts and repair descriptions. Retrieved named known-case fixtures and synthetic oracle solely to extract IDs programmatically without emitting semantic contents. No prior prediction files or raw ClinicalTrials.gov outcome payloads inspected. This audit does not qualify its worker as the future blind oracle reader.",
+  "noNewClinicalTrialsRequests": true,
+  "noNewOutcomeAcquisition": true,
+  "classifierExecutions": 0,
+  "uiOperations": 0,
+  "noRuntimeOrCheckout": true,
+  "noBranchWrites": true,
+  "limitations": "This is an exact exclusion ledger for documented acquisition baseline and selected IDs plus scoped development/source fixtures at the pinned revision. No additional distinct NCT IDs were identified in the named inspected objects. It does not establish absence from every historical retrieval, uninspected archive, other task history, or model training corpus. Original archived retrievals referenced by registry/sources.json were not downloaded or enumerated; disjointness is limited to this documented ID ledger.",
+  "next": "Root reviews and commits the exact exclusion ledger before any new acquisition. Future disjointness claims must name this ledger and retain the limited historical-exposure statement."
+}

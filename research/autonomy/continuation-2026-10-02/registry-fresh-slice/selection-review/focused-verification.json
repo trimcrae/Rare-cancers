@@ -1,0 +1,170 @@
+{
+  "sealedFixtureSHA256": "69106630850218ebe6bc39aae0cd447a43da733b6104ca1d752bc2bf1d370a82",
+  "implementationSHA256": "a44964ee7634ec21b4dfbd04081b8af3ebe4fff1644da30c307f4dce3463db25",
+  "protocolSHA256": "cc780238619c821a8f287f47fc16b1b45af2c1299b18a05427f2e5e3b7e9a57a",
+  "authorTestsSHA256": "8cdf649fbacdac2375b08d02c86c8ba49ea4c818bc850a32329fdb0e4871fb03",
+  "independentCases": [
+    {
+      "id": "tie_spans_pages",
+      "status": "passed",
+      "mockRequests": 2,
+      "observedStatus": "metadata_frame_frozen",
+      "selectedNctIds": [
+        "NCT00000001",
+        "NCT00000002",
+        "NCT00000003",
+        "NCT00000004",
+        "NCT00000005",
+        "NCT00000006",
+        "NCT00000007",
+        "NCT00000008",
+        "NCT00000018",
+        "NCT00000019"
+      ]
+    },
+    {
+      "id": "excluded_records_inside_cutoff_tie",
+      "status": "passed",
+      "mockRequests": 2,
+      "observedStatus": "metadata_frame_frozen",
+      "selectedNctIds": [
+        "NCT00000004",
+        "NCT00000005",
+        "NCT00000006",
+        "NCT00000007",
+        "NCT00000008",
+        "NCT00000009",
+        "NCT00000010",
+        "NCT00000011",
+        "NCT00000012",
+        "NCT00000013"
+      ]
+    },
+    {
+      "id": "short_exhausted_frame",
+      "status": "passed",
+      "mockRequests": 1,
+      "observedStatus": "metadata_frame_frozen",
+      "selectedNctIds": [
+        "NCT00000001",
+        "NCT00000003"
+      ]
+    },
+    {
+      "id": "empty_exhausted_frame",
+      "status": "passed",
+      "mockRequests": 1,
+      "observedStatus": "metadata_frame_frozen",
+      "selectedNctIds": []
+    },
+    {
+      "id": "tie_ends_exactly_at_exhaustion",
+      "status": "passed",
+      "mockRequests": 1,
+      "observedStatus": "metadata_frame_frozen",
+      "selectedNctIds": [
+        "NCT00000001",
+        "NCT00000002",
+        "NCT00000003",
+        "NCT00000004",
+        "NCT00000005",
+        "NCT00000006",
+        "NCT00000007",
+        "NCT00000008",
+        "NCT00000009",
+        "NCT00000010"
+      ]
+    },
+    {
+      "id": "incomplete_tie_at_page_record_cap",
+      "status": "passed",
+      "mockRequests": 20,
+      "observedStatus": "stopped",
+      "selectedNctIds": []
+    },
+    {
+      "id": "exhaustion_at_exact_cap",
+      "status": "passed",
+      "mockRequests": 20,
+      "observedStatus": "metadata_frame_frozen",
+      "selectedNctIds": [
+        "NCT00000001",
+        "NCT00000002",
+        "NCT00000003",
+        "NCT00000004",
+        "NCT00000005",
+        "NCT00000006",
+        "NCT00000007",
+        "NCT00000008",
+        "NCT00000009",
+        "NCT00000010"
+      ]
+    },
+    {
+      "id": "duplicate_across_pages",
+      "status": "passed",
+      "mockRequests": 2,
+      "observedStatus": "stopped",
+      "selectedNctIds": []
+    },
+    {
+      "id": "excluded_duplicate_also_fails",
+      "status": "passed",
+      "mockRequests": 1,
+      "observedStatus": "stopped",
+      "selectedNctIds": []
+    },
+    {
+      "id": "date_regression_across_pages",
+      "status": "passed",
+      "mockRequests": 2,
+      "observedStatus": "stopped",
+      "selectedNctIds": []
+    },
+    {
+      "id": "invalid_tail_after_later_sentinel",
+      "status": "passed",
+      "mockRequests": 2,
+      "observedStatus": "stopped",
+      "selectedNctIds": []
+    },
+    {
+      "id": "duplicate_with_changed_date",
+      "status": "passed",
+      "mockRequests": 2,
+      "observedStatus": "stopped",
+      "selectedNctIds": []
+    },
+    {
+      "id": "declared_oversize_page",
+      "status": "passed",
+      "mockRequests": 1,
+      "observedStatus": "stopped",
+      "selectedNctIds": []
+    },
+    {
+      "id": "unknown_length_oversize_prefix",
+      "status": "passed",
+      "mockRequests": 1,
+      "observedStatus": "stopped",
+      "selectedNctIds": []
+    },
+    {
+      "id": "incomplete_under_cap_body",
+      "status": "passed",
+      "mockRequests": 1,
+      "observedStatus": "stopped",
+      "selectedNctIds": []
+    },
+    {
+      "id": "selected_date_changed_later",
+      "status": "deferred",
+      "reason": "Future selected-record acquisition is absent from metadata-only implementation; protocol projection-equality rule reviewed, not executed."
+    }
+  ],
+  "authorUnitTestsRun": 17,
+  "authorUnitTestsPassed": true,
+  "networkAttempts": 0,
+  "guard": "socket.create_connection, socket.socket.connect/connect_ex hard-disabled before target import; all acquisition runs injected synthetic fetch",
+  "scope": "No live CT.gov compatibility/network/headroom execution claim; selected future record drift test deferred until later separately authorized implementation exists."
+}

@@ -1,0 +1,29 @@
+{
+  "kind": "independent_selection_design_preimplementation",
+  "date": "2026-10-02",
+  "baseCommit": "2024788e3be40e8accc7887690c06117122a5a31",
+  "reviewer": "Codex delegated independent methods-selection reviewer",
+  "model": "inherited; serving telemetry unknown",
+  "reasoningEffort": "medium per assignment",
+  "read": [
+    "research/autonomy/OPERATING_PROTOCOL.md",
+    "research/autonomy/continuation-2026-10-02/registry-next-slice/proposed-plan.txt"
+  ],
+  "implementationRead": false,
+  "liveRegistryRequests": 0,
+  "claims": "Fixtures are design expectations, not passed execution tests. No manuscript readiness or clinical claim.",
+  "findings": [
+    {
+      "id": "F1",
+      "artifact": "proposed-plan.txt step 5",
+      "classification": "future acquisition wording clarification",
+      "evidence": "Require source bytes and dates to match when acquiring each selected record follows metadata-only projection then four-module retrieval.",
+      "consequence": "Whole-response byte equality is impossible across these projections. A weaker date-only comparison could miss changes to other frozen selection metadata.",
+      "smallestCorrection": "Require exact equality of selected identity and the requested metadata projection (IdentificationModule, StatusModule, ConditionsModule), retaining each request's exact raw bytes/hash independently. Stop on observable differences. This clarification is for the separately authorized outcome checkpoint."
+    }
+  ],
+  "acceptedClarification": "Declared oversize rejects before body; unknown-length crossing retains at most explicitly incomplete failure prefix and never complete-source/evaluation claim.",
+  "residualLimit": "Live API pagination has no guaranteed atomic snapshot. These checks establish archived checked frame selection only.",
+  "nextAction": "Wait for coordinator-provided implementation and then conduct one focused code/execution check against sealed fixtures.",
+  "storage": "Only small fixture/receipt files; no checkout/runtime/large artifact. Measured C free bytes 9075851264, below 10 GiB, so no large local work."
+}

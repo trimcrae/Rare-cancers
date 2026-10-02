@@ -1,0 +1,68 @@
+{
+  "schema": "foundation-modalities-value-audit/1",
+  "completedUTC": "2026-10-02T21:21:39Z",
+  "revision": "8be64d3be6a4e37c7e0d7529ac38828919f4964e",
+  "owner": "/root/registry_exposure_audit",
+  "status": "finite_read_only_complete_no_retry",
+  "retryDisposition": "Earlier diagnostic retry recommendation superseded by direct user question and coordinator hold; no automatic retry recommended or dispatched.",
+  "findings": [
+    {
+      "claim": "Modalities removed from ordinary commit loop as of 2026-08-25, but retained for explicit modalities and FULL flags.",
+      "path": "scripts/preflight.sh",
+      "lines": "554-578",
+      "basis": "Code and source comment quoting user instruction; not a claim about unseen conversation history."
+    },
+    {
+      "claim": "September 2 introduced paper deposit scoping; bare FULL remained unchanged.",
+      "path": "scripts/preflight.sh",
+      "lines": "1003-1035"
+    },
+    {
+      "claim": "Existing scoper supports only PUB-ASO; absent manifest returns None/FULL, so setting Foundation paper scope does not give a supported Foundation-only check.",
+      "path": "research/manuscripts/paper_scoped_tests.py",
+      "lines": "48-49,67-79,83-104"
+    },
+    {
+      "claim": "Publication gate requires exact-revision FULL receipt, matching log digest, FULL banner and EXIT=0; this is mechanical policy, not evidence of Foundation scientific relevance.",
+      "path": "research/autonomy/publish_bar.py",
+      "lines": "622-677"
+    },
+    {
+      "claim": "Direct paper scientific checks compare all 3771 source events/mappings/exports, original and corrected IDs, non-ID preservation, multiplicities and EMC join.",
+      "path": "research/autonomy/continuation-2026-10-02/foundation/foundation_primary_workbook_check.py",
+      "lines": "177-208,221-242"
+    },
+    {
+      "claim": "Foundation paper states source/export comparison and limited claim scope; no docking, ABFE or GPU-fleet result supports its identity conclusion.",
+      "path": "research/manuscripts/foundation/source-identity-correspondence.md",
+      "lines": "28-38,50-66"
+    },
+    {
+      "claim": "Potential identity-named modality test concerns disputed cell-line markers in DepMap/surfaceome generated artifacts, not this Foundation export.",
+      "path": "research/modalities/tests/test_identity_correction_survives_regeneration.py",
+      "lines": "2-11"
+    }
+  ],
+  "inventory": {
+    "directory": "research/modalities/tests",
+    "testPythonFiles": 436,
+    "foundationNamedTestFiles": 0,
+    "scopeLimitation": "Inspected exact pinned directory inventory and one plausible identity-named test plus Foundation evidence scripts; did not read all 436 test bodies, so no exhaustive absence claim."
+  },
+  "assessment": "The broad modality suite has no demonstrated direct value for this Foundation identity-only paper. Its general repository regression value is separate. Running the whole legacy scientific stack here was a consequence of FULL/publication coupling, not a documented dependency of the paper's claims.",
+  "proposedProportionalContract": [
+    "Bind all evidence to exact paper, scripts, source bytes and output hashes; reuse completed verified evidence when those bytes are unchanged.",
+    "Verify primary workbook/export hashes, complete event coverage, original ordinal transformation, recovered source IDs, unchanged non-ID values and sample multiplicities, exact disease-specific join and preserved gene-text discrepancies/limits using the two existing code paths.",
+    "Retain source/history/HGNC provenance and distinguish current alias support from biological validation; retain independent claims/citations and required prose review against the exact outgoing manuscript.",
+    "Validate manuscript citations, claim strength and current render/build-stamp identity with focused shared tooling checks covering changed code. Do not require unrelated docking, ABFE, fleet or degrader science tests solely to validate Foundation table linkage.",
+    "If publication acceptance is intentionally changed later, make it a dated explicit replacement contract with separate scoped receipt type and reviewed producer/consumer changes. Do not label a scoped pass FULL or change the exit124 receipt. Until then existing publication acceptance remains unmet."
+  ],
+  "actions": {
+    "testsRun": 0,
+    "sourceAcquisitions": 0,
+    "acceptanceRulesEdited": 0,
+    "branchWrites": 0,
+    "uiOperations": 0
+  },
+  "next": "Root answer user with distinction between retired routine testing, residual FULL coupling and claim-bound scientific value; no retry by default."
+}

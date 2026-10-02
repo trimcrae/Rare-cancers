@@ -1,0 +1,22 @@
+# Metadata acquisition implementation handoff
+
+Root owns integration and any source execution. This worker performed no ClinicalTrials.gov request, outcome inspection, classifier run, UI operation, checkout or shared branch write. Private implementation and tests use the existing bundled Python standard library. Source inspection used the pinned operating protocol, next-slice plan and ownership receipt; cached official OpenAPI and metadata SHA256 both matched the plan; the prior acquisition receipt's URL/status/pagination fields were read without opening outcomes or oracle/prediction files. No prior acquisition executable was found or invented.
+
+Files: `acquire_metadata.py`, `test_acquire_metadata.py`, `protocol.json`, this handoff, and `worker-receipt.json`. Before execution root must commit the exact protocol/code/tests, frozen exclusion ledger and evaluation/oracle schema. The ledger input key is `exclusionTrialIds`; root-provided ledger SHA256 is `2058753adf3ceb52050d5e4657f30b3bf39755200a22256d1fa1c93085668bf1` (148 IDs). The ledger remains external and is archived byte-for-byte by the acquisition script.
+
+Remote invocation, after freeze and storage checks:
+
+```text
+python -B acquire_metadata.py --output-dir NEW_ARCHIVE_DIRECTORY --exclusion-file FROZEN_LEDGER_JSON
+python -B -m unittest -v test_acquire_metadata
+```
+
+The CLI refuses reused output directories. It requires 10 GiB plus 20 MiB headroom; no CLI bypass exists. The test-only Python call uses injected synthetic transport and disables headroom enforcement. Successful exit zero means only that the observed metadata frame and zero-to-ten selection are frozen. Exit two means stopped; inspect receipt and retained evidence. A failure has no selected cohort. Nothing in this tool fetches an outcome or claims an atomic server snapshot. An empty eligible frame is valid.
+
+The fixed metadata query completes the tenth nonexcluded candidate's date tie by pagination exhaustion or a strictly later observed date, validates the entire fetched page, and applies local `(date, NCT)` ordering. It never uses an old pagination token, changes query parameters, retries, redirects or expands the query. A selected projection file preserves complete requested metadata per selected ID. Later outcome acquisition must compare this projection structurally with JSON types, missing/null, array order and strings preserved, while independently hashing full response bytes. Page bytes cannot equal a later full response's bytes.
+
+Transport clarification, agreed before acquisition: raw entity-body limits exclude headers and HTTP framing. An oversized declared body is rejected before body acquisition. An undeclared stream is read to at most the remaining cap; reaching the cap stops and retains an explicitly incomplete diagnostic prefix. A partial network body is also retained as incomplete. These cannot be used as completed source evidence. This resolves the impossible combination of preserving an arbitrarily oversized body and never exceeding the cap without silently truncating a successful source.
+
+Validation: 17 focused synthetic transport tests passed with Python unittest (0.467 seconds). Covered cross-page tied ordering, exclusions, empty-page continuation/empty frame, duplicates beyond tie boundary, date drift and malformed date, unexpected outcome/schema fields, 20-page incomplete tie, per-body and aggregate caps, unknown-length prefix preservation, HTTP/connection failure, duplicate JSON keys, repeated token, truncated body and reused destination. No arbitrary success threshold. Tests create and clean tiny temporary directories inside this worker's private directory.
+
+Local free space measured 9,074,642,944 bytes; only these small private files were created, no runtime or acquisition archive. Local real acquisition remains blocked by headroom. Root should review the finite transport/schema contract and run synthetic tests on the integrated exact revision before authorized remote execution. Any API drift, ambiguous response or cap stop is retained as a real failure, not repaired by opportunistic reselection. TLS/network availability and live API schema compatibility have not been tested here.

@@ -1,0 +1,37 @@
+{
+  "kind": "finite_independent_metadata_selection_implementation_review",
+  "date": "2026-10-02",
+  "reviewer": "Delegated Codex methods-selection reviewer",
+  "model": "inherited; serving telemetry unknown",
+  "reasoningEffort": "medium per assignment",
+  "implementationSHA256": "a44964ee7634ec21b4dfbd04081b8af3ebe4fff1644da30c307f4dce3463db25",
+  "protocolSHA256": "cc780238619c821a8f287f47fc16b1b45af2c1299b18a05427f2e5e3b7e9a57a",
+  "sealedIndependentCasesSHA256": "69106630850218ebe6bc39aae0cd447a43da733b6104ca1d752bc2bf1d370a82",
+  "verificationScriptSHA256": "f8f5883aa6157706d2b054addf6f2b9de8dff2a5ef78847b225e7601fde80c27",
+  "verificationOutputSHA256": "4d6b10b690e4af0734b7d7c0b35f45dadef61a1b2b9971806fe7032172bd6754",
+  "result": "No unresolved metadata-selection implementation defect identified in the finite code review and synthetic checks.",
+  "tests": {
+    "independentExecutableCasesPassed": 15,
+    "independentFuturePhaseCasesDeferred": 1,
+    "authorUnitTestsPassed": 17,
+    "liveNetworkAttempts": 0,
+    "wallSecondsTool": 1.0902948,
+    "authorUnitSeconds": 0.268,
+    "runtime": "Existing bundled Python; standard library only; -B avoids bytecode artifacts"
+  },
+  "reviewCoverage": [
+    "Fixed metadata-only URL, immediate token chaining, no retry/redirect or query expansion",
+    "Whole-page identity/date/schema/order/duplicate validation before selection, including excluded records and records after cutoff sentinel",
+    "Nonexcluded candidate counting, cutoff tie completion and canonical NCT ordering, exhaustion below ten and exact-cap exhaustion",
+    "Open tie at request/record cap fails with empty selected cohort",
+    "Declared oversize rejects before body; unknown-length cap and incomplete body retain failure-only bounded evidence",
+    "Frozen selected metadata projection and independent response hashes support accepted clarification",
+    "CLI enforces archive headroom; all verification uses explicit mock transport and tiny temporary archives"
+  ],
+  "findingF1Disposition": "Original projection/raw-byte equality ambiguity remains recorded in original review-receipt.json. Root-accepted correction appears in protocol.json: structural equality of requested metadata preserving types, null/absence, array order and strings, with object-key order immaterial and independent raw response hashes.",
+  "deferredCase": "selected_date_changed_later concerns future full-record retrieval. No such code is in scope; do not report its expected stop behavior as executed or verified.",
+  "networkAssurance": "Before target import, verification script hard-disables socket.create_connection and socket.socket.connect/connect_ex. Every run injects synthetic fetch; live attempts counter remained zero.",
+  "limitations": "No live CT.gov request, server compatibility check, atomic-snapshot guarantee, outcome/oracle/prediction access, clinical or manuscript readiness claim. Root must freeze exact integrated bytes and all required artifacts before separately authorized acquisition.",
+  "ownership": "Private review files only; no shared branch/queue edits, checkout, runtime download, UI, browser or rendering. Test temporary directories cleaned. No process left running.",
+  "nextAction": "Root owns prospective integration and authorization/storage checks. Recheck only changed relevant bytes if implementation changes."
+}

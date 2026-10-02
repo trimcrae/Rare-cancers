@@ -1,0 +1,40 @@
+Foundation FULL timeout diagnosis
+Revision: 8be64d3be6a4e37c7e0d7529ac38828919f4964e
+Run: 37058750900
+
+Observed: development setup exited 0 after 55.0105 s. Preflight was stopped by its launcher at 3601.1258 s (exit 124, forced_stop=time budget), with modalities as the final stage heading. It did not produce a completed FULL verdict or accepted receipt. The 89,632,841,728 free bytes recorded after the run do not implicate the storage guard.
+
+Exact selected interpreter branch: bare pytest console script (UV tool venv). The archive does not contain its absolute shebang path, Python version, nproc value or effective plugin list. The package log records pytest 9.1.1 and pytest-xdist 3.8.0; dependency probe passes. A prior fast-gate python3 -m pytest branch is a difference to record, not proof of this timeout's cause.
+
+Canonical modalities invocation:
+pytest [conditional -n N --dist loadfile] research/modalities/tests/ -q --durations=25 --continue-on-collection-errors --ignore=research/modalities/tests/test_ternary_endpoint_align.py
+N is nproc when preflight detects xdist in pytest --version --version and PREFLIGHT_SERIAL is not 1; otherwise no parallel flags. Installed xdist makes activation plausible but archive does not establish actual activation/N. The existing --ignore is part of the pinned preflight; no new exclusion is proposed.
+
+Evidenced observability defect: preflight.sh lines 1052, 1086-1092 allocate a temp file and redirect all pytest stdout/stderr there. It emits duration profile and last line only after pytest returns. The launcher kills the entire process group at its fixed 3600-second budget and archives only the outer preflight log, leaving no actual pytest temp output in the ZIP. Hence the final heading does not distinguish collection, a test, teardown, worker startup or simply ongoing slow work. --durations=25 is an end-of-run summary and cannot diagnose an interrupted run by itself.
+
+Scoped config inspection: GitHub contents listings at repo root, research and research/modalities found no pytest/config files matching pytest, conftest, pyproject, setup.cfg or tox.ini. The named tests/conftest.py adjusts imports, isolates receipt/board writes, patches spend controls for mocked tests, installs tracked_tree_guard and checks tree integrity at session finish. Its existence does not identify a failing/hanging fixture. No specific scientific test has been identified as stuck.
+
+Concrete next action: ONE instrumented, unscoped FULL retry in the authorized remote runner, retaining the existing 3600-second preflight cap, storage reserve, 06-10 NY guard and entire canonical script. Do not spend another silent hour or merely increase the cap. Do not set PREFLIGHT_PAPER, SKIP_TESTS, selection filters, maxfail, timeouts that convert a test into a skip, or a new --ignore. Keep interpreter selection and parallelism unchanged initially so the retry diagnoses the same environment.
+
+Instrumentation to add to the launcher before that retry, outside the tracked test tree:
+1. Record UTC/monotonic stage times, command -v python3/pytest, console-script shebang, the selected interpreter sys.executable/sys.version, nproc, selected interpreter pytest --version --version, and exact relevant PREFLIGHT_/PYTEST_ environment. Avoid dumping other environment variables or secrets. Verify pytest --help exposes faulthandler_timeout before using the diagnostic option.
+2. Set PYTHONUNBUFFERED=1 and PYTEST_ADDOPTS='-vv -o faulthandler_timeout=300'. The script's own -q remains; net verbosity is increased without altering test selection. Fault dumps are diagnostic only, not a per-test timeout/failure/skip rule.
+3. While the subprocess runs, every 30 seconds identify only owned process-group descendants whose argv runs pytest. On Linux resolve /proc/PID/fd/1 and fd/2 to their redirected regular files, and copy/deduplicate those exact current temp-file bytes into the external artifact directory as pytest-live-PID.log. Also record bounded process PID/PPID/elapsed/CPU/state/argv metadata. Snapshot before sending SIGTERM and again after exit, then archive these logs even on failure. This recovers preflight's otherwise-hidden actual output without editing scripts/preflight.sh or its verdict parser. Include file name, original byte count and hash; cap aggregate diagnostic retention at 32 MiB and fail closed with a preserved size-limit receipt rather than silently truncating evidence.
+4. Capture the full original preflight log and ordinary receipt as before. Inspect live diagnostic tails in bounded output only; no repeated whole-log/advisory dumps.
+
+Actionable diagnostic command (to be launched through the guarded existing run() supervisor with the process-group log sampler above):
+env PREFLIGHT_FULL=1 PYTHONUNBUFFERED=1 PYTEST_ADDOPTS='-vv -o faulthandler_timeout=300' bash scripts/preflight.sh
+The launcher must remove PREFLIGHT_PAPER and SKIP_TESTS exactly as it already does. Preserve the run's existing parallel setting; do not silently force serial or switch Python interpreters.
+
+Retry decision:
+- Complete 0 verdict and accepted exact-revision receipt: validate and retain normal FULL evidence; stop.
+- Repeat budget stop: preserve worker/temp logs and exact last completed stage plus stack evidence; stop. Diagnose only the named stage/test/fixture before any further run.
+- If logs demonstrate steady completion progress through the cap rather than a stationary stage, root may authorize a separate finite cap based on measured remaining work; do not infer this from silence or old comments.
+- If a specific test/import/teardown defect appears, fix that evidenced defect in a separate checkpoint, then rerun the legitimate FULL contract. A partial modality run is never a replacement for FULL evidence.
+
+Hypotheses not established: collection stall, long scientific test, worker deadlock/oversubscription, teardown delay, runtime/package-version behavior. No blanket profiling, subset execution, dependency reinstall or scientific rerun was performed.
+
+Exposure receipt correction: prior exposure audit-receipt.json and exclusion-ledger.json remain untouched. Coordinator now reports that original spawn explicitly requested medium effort and omitted model. Correct provenance is effort=medium requested by coordinator, model=inherited/omitted override; actual runtime identifier remains unavailable. The earlier receipt's effort=inherited was imprecise.
+
+No tests, classifier, UI, browser/headless work, runtime install, checkout or branch mutation were performed for this diagnosis.
+
