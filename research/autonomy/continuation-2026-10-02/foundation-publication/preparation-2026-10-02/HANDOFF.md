@@ -36,7 +36,7 @@ daily watch, paused sprint and methylation branch are not written by this task.
 Original scientific/editorial reviews and three-page visual QA remain valid for their exact hashes.
 The venue copy has a 169-word abstract, author-year references, expanded HGNC name, source-attributed table
 caption and explicit event-order limitation. It has not acquired a new scientific result.
-Focused initial review, repair verification and final URL/transport review passed (`review/focused-final.json`, `review/transport-final.json`). All six new rendered pages were inspected; complete text and all Markdown links matched (`validation/render-final/qa.json`). The four-page journal render is QA only; the two-page supplement PDF is an outgoing file. The normal/default validation receipt is sealed at closure.
+Focused initial review, repair verification and final URL/transport review passed (`review/focused-final.json`, `review/transport-final.json`). All six new rendered pages were inspected; complete text and all Markdown links matched (`validation/render-final/qa.json`). The four-page journal render is QA only; the two-page supplement PDF is an outgoing file. Normal/default preflight passed in run 37079377220 at `2345c92cc25c175ccc8665d240dac11a780523cd` (exit 0); the initial metadata failure and cancelled duplicate remain preserved.
 The original independent primary extraction from run 37035103326 is reused, not repeated.
 
 The package integrity verifier checked 15 packaged files, four primary archive members and 14 HGNC
@@ -55,7 +55,7 @@ outside the proposed publisher-exclusive article licence. Primary-source attribu
 HGNC CC0 and original Apache 2.0 code terms are retained. This resolves the documented venue-policy
 mismatch for preparation, not all possible third-party rights or the future agreement itself.
 
-The current remote operating protocol at `5bc02d3cf6ad5b2af9541149c2bb0eae470feafc` matches the
+The current remote operating protocol at `3294988f2e60db009ff8045e1e16e655b6403c3b` matches the
 continuation revision and requires a hash-bound independent LLM editorial review. That requirement is
 covered by the focused review and render bindings here. The older local checkout contains different
 ultra wording; it is recorded as protocol drift, not an extra gate for this continuation. Existing and
@@ -79,7 +79,7 @@ The reproduction ZIP and its README are frozen at `d187c779f9f528a657048a13e849f
 the final Word sources were rendered at `ffb048d079cd8bf8f18bac4040dbdcb5f1d71709` in
 run `37078989634`. The ZIP SHA-256 is
 `01d7a8ea7d92ae1a6d1c79d33c7b89d8b31a68453f9b82ad095de3234b53b98f`.
-The final revision, normal receipt and running-job status are sealed in `closure.json`.
+The settled package revision is `2345c92cc25c175ccc8665d240dac11a780523cd`. Its immediate child commit seals the receipts and handoff only; all outgoing bytes are identical. `closure.json` binds that candidate, file manifest, normal receipt and completed-job status. The exact seal commit is reported in the task and its local `final-revision.json` receipt.
 No merge to main or cleanup of any existing checkout was performed; this branch remains the owned handoff.
 
 ## Rendering-tool licence remediation
@@ -98,3 +98,17 @@ no support outreach was authorized or performed. The current outgoing files and 
 contain the restricted helper. The history rewrite triggered an old render that failed for the
 removed helper and a redundant default check that was cancelled; both are preserved in validation
 and neither is represented as passing. No FULL/modalities retry occurred.
+
+## Final state
+
+Scientific claims remain restricted to the pinned derivative export. Paper-specific evidence, focused
+review, package integrity, all-page render/text/link verification and the default preflight passed.
+Submission readiness remains false: no passing exact-revision FULL receipt exists; author details,
+final approval and the actual publishing agreement remain outstanding. No manuscript was submitted
+and no preprint or outreach was sent. All task jobs and finite reviewers have finished; neither the
+paused sprint nor the daily watch was changed.
+
+Three original render ZIPs were integrity-verified against every extracted file and page-image hash.
+Automatic approval review blocked deletion of their disposable extractions with only “blocked by
+policy” as its reason. The extractions and verified original ZIPs were retained; no deletion workaround
+was attempted. No local checkout/runtime or unrelated filesystem content was removed.
