@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location("crosswalk", Path(__file__).with_name("acquire.py"))
 m = importlib.util.module_from_spec(spec)
@@ -13,7 +14,7 @@ spec.loader.exec_module(m)
 def source(key, body):
     raw = json.dumps(body, ensure_ascii=False)
     return {"key": key, "requested_url": m.METADATA[key], "status": "acquired", "http_status": 200,
-            "final_url": m.METADATA[key], "robots": {"decision": "allow_missing_robots", "http_status": 404},
+            "final_url": m.METADATA[key], "robots": {"url": "https://" + m.urllib.parse.urlsplit(m.METADATA[key]).hostname + "/robots.txt", "decision": "allow_missing_robots", "http_status": 404},
             "raw_utf8": raw, "sha256": m.sha(raw.encode()), "bytes": len(raw.encode())}
 
 def fixture():
@@ -38,7 +39,7 @@ class Integrity(unittest.TestCase):
         self.assertEqual(len(m.validate(self.r)), 2)
     def test_blocked_source_retains_unknown(self):
         self.r["sources"] = [{"key": k, "requested_url": u, "status": "http_unavailable", "http_status": 403,
-           "robots": {"decision": "allow_missing_robots", "http_status": 404}} for k, u in m.METADATA.items()]
+           "robots": {"url": "https://" + m.urllib.parse.urlsplit(u).hostname + "/robots.txt", "decision": "allow_missing_robots", "http_status": 404}} for k, u in m.METADATA.items()]
         self.r["metadata_projection"] = {}
         self.assertEqual(m.validate(self.r), {})
     def test_changed_raw_hash(self):
@@ -119,12 +120,31 @@ class Integrity(unittest.TestCase):
         self.r["sources"][1]["bytes"] = len(self.r["sources"][1]["raw_utf8"])
         self.bad()
     def test_changed_robots_bytes_refused(self):
-        self.r["sources"][0]["robots"] = {"decision": "allow", "http_status": 200, "raw_utf8": "User-agent: *\nDisallow: /private",
+        self.r["sources"][0]["robots"] = {"url": "https://www.ebi.ac.uk/robots.txt", "decision": "allow", "http_status": 200, "raw_utf8": "User-agent: *\nDisallow: /private",
               "bytes": 1, "sha256": "a" * 64}
         self.bad()
     def test_acquired_http_error_refused(self):
         self.r["sources"][0]["http_status"] = 403
         self.bad()
+    def test_robots_policy_decision_flip_refused(self):
+        raw = "User-agent: *\\nDisallow: /"
+        self.r["sources"][0]["robots"] = {"url": "https://www.ebi.ac.uk/robots.txt", "decision": "allow",
+              "http_status": 200, "raw_utf8": raw, "bytes": len(raw.encode()), "sha256": m.sha(raw.encode())}
+        self.bad()
+    def test_robots_receipt_wrong_origin_refused(self):
+        self.r["sources"][0]["robots"]["url"] = "https://api.crossref.org/robots.txt"
+        self.bad()
+    def test_robots_403_is_not_missing_policy(self):
+        self.r["sources"][0]["robots"]["http_status"] = 403
+        self.bad()
+    def test_deadline_not_swallowed_by_robots(self):
+        with patch.object(m, "request", side_effect=m.CycleDeadline("synthetic timeout")):
+            with self.assertRaises(m.CycleDeadline):
+                m.robots(m.METADATA["europe_pmc"])
+    def test_deadline_not_swallowed_by_source_handler(self):
+        with patch.object(m, "robots", side_effect=m.CycleDeadline("synthetic timeout")):
+            with self.assertRaises(m.CycleDeadline):
+                m.acquire_source("europe_pmc", m.METADATA["europe_pmc"])
     def test_scope_escalation_refused(self):
         self.r["scope"] = "independent clinical validation"
         self.bad()

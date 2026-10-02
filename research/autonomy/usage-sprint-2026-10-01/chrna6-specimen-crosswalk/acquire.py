@@ -29,6 +29,10 @@ ROBOTS_LIMIT = 64_000
 DEADLINE = 180
 ROOT = Path(__file__).resolve().parent
 
+class CycleDeadline(BaseException):
+    """Terminate the finite cycle; ordinary source-error handlers must not swallow it."""
+
+
 def utc():
     return dt.datetime.now(dt.timezone.utc).isoformat()
 
@@ -142,6 +146,22 @@ def validate(record):
         rb = s["robots"]
         if rb["decision"] not in {"allow", "allow_missing_robots", "refuse"}:
             raise ValueError("Unknown robots decision")
+        origin = urllib.parse.urlsplit(s["requested_url"]).hostname
+        if rb.get("url") != f"https://{origin}/robots.txt":
+            raise ValueError("Robots locator is not bound to requested source origin")
+        if rb.get("http_status") == 200:
+            if "raw_utf8" not in rb:
+                raise ValueError("200 robots receipt lacks replayable policy")
+            parser = urllib.robotparser.RobotFileParser()
+            parser.parse(rb["raw_utf8"].splitlines())
+            replayed = "allow" if parser.can_fetch(UA, s["requested_url"]) else "refuse"
+            if rb["decision"] != replayed:
+                raise ValueError("Robots decision disagrees with acquired policy")
+        elif rb.get("http_status") in (404, 410):
+            if rb["decision"] != "allow_missing_robots" or "raw_utf8" in rb:
+                raise ValueError("Missing-robots access policy mismatch")
+        elif rb["decision"] != "refuse":
+            raise ValueError("Unavailable robots cannot authorize source access")
         if s["status"] == "acquired":
             if rb["decision"] == "refuse" or s["http_status"] != 200:
                 raise ValueError("Acquired source conflicts with access receipt")
@@ -209,7 +229,7 @@ def main():
         if not args.output:
             p.error("--output required")
         socket.setdefaulttimeout(12)
-        signal.signal(signal.SIGALRM, lambda *_: (_ for _ in ()).throw(TimeoutError("Finite source-cycle deadline")))
+        signal.signal(signal.SIGALRM, lambda *_: (_ for _ in ()).throw(CycleDeadline("Finite source-cycle deadline")))
         signal.alarm(DEADLINE)
         record = acquire()
         signal.alarm(0)
