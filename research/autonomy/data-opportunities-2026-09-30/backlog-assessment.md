@@ -1,3 +1,5 @@
+> Historical initial-screen record. Its shortlist/prospective status is superseded by the [executed 45-option ledger](ALL45-EXECUTED-STATUS.md), [current ranking](RANKING.md), [manuscript index](MANUSCRIPT-INDEX.md) and [final validation](validation-summary.json). Earlier numerical/provenance labels must be read in their original scope; current source qualifications and exact draft bindings are in the final package.
+
 # Assessment of all 33 registered backlog endpoints
 
 This table uses the pinned publication registry at af7211708205b5189d8c537c1ce2a23aa4bea076. It is an endpoint-level assessment; shortlisted sources received deeper audits. Registered states are preserved as historical metadata, not endorsed scientific claims or current submission authority. No shared priority queue or graph was changed.
