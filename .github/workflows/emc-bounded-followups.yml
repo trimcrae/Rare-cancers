@@ -1,0 +1,36 @@
+name: EMC bounded follow-up computations
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/followup-token.json]
+permissions:
+  contents: read
+jobs:
+  followup:
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [registry, extrema]
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Reserve cloud input, output and checkout storage
+        run: python3 -c 'import shutil; assert shutil.disk_usage(".").free >= 14*1024**3'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout: research/autonomy/continuation-2026-10-02
+      - name: Execute bounded CPU follow-up
+        run: python3 research/autonomy/continuation-2026-10-02/run_followups.py ${{ matrix.lane }}
+      - name: Preserve result and failure receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: emc-followup-${{ matrix.lane }}-${{ github.sha }}
+          retention-days: 30
+          path: |
+            outputs-followup-${{ matrix.lane }}/*.json
+            outputs-followup-${{ matrix.lane }}/*.log
+            outputs-followup-${{ matrix.lane }}/analysis/*.json
+            outputs-followup-${{ matrix.lane }}/analysis/*.tsv
