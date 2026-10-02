@@ -228,6 +228,23 @@ def test_empty_and_current_histories_sample_one_utc_observation(monkeypatch):
     assert rep["latest_ledger_utc"] == current[-1].when.isoformat()
     assert calls == [datetime.timezone.utc, datetime.timezone.utc]
 
+    offset = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+    normalized = L.report(hours=16, now=observed.astimezone(offset))
+    assert normalized == rep, "the same instant in another offset changed the window or UTC receipt"
+    assert normalized["observed_utc"] == observed.isoformat()
+    assert normalized["window_start_utc"] == (
+        observed - datetime.timedelta(hours=16)
+    ).isoformat()
+
+    class UndefinedOffset(datetime.tzinfo):
+        def utcoffset(self, dt):
+            return None
+
+    for invalid in (observed.replace(tzinfo=None), observed.replace(tzinfo=UndefinedOffset())):
+        with pytest.raises(ValueError, match="defined UTC offset"):
+            L.report(hours=16, now=invalid)
+    assert calls == [datetime.timezone.utc, datetime.timezone.utc]
+
 
 def test_shallow_censoring_uses_the_observation_window_boundary(monkeypatch):
     observed = T0 + datetime.timedelta(hours=20)

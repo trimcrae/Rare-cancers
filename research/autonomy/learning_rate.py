@@ -106,6 +106,9 @@ def report(repo: str = stuck_clock.REPO, hours: float | None = None, state_path=
     versions = stuck_clock.ledger_versions(repo)
     shallow = stuck_clock.is_shallow(repo)
     now = now if now is not None else datetime.datetime.now(datetime.timezone.utc)
+    if now.tzinfo is None or now.utcoffset() is None:
+        raise ValueError("observation time must have a defined UTC offset")
+    now = now.astimezone(datetime.timezone.utc)
     since = now - datetime.timedelta(hours=h)
     # ⛔ SHALLOW CENSORS ONLY WHAT IT ACTUALLY HIDES. The first version reachable in a shallow clone
     # is the horizon; if it PREDATES the window, the window is fully readable and calling it censored

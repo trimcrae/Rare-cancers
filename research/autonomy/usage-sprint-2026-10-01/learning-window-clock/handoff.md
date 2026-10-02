@@ -17,7 +17,9 @@ publication is authorized.
 The reporter used the latest ledger edit as observation time. With unchanged history, an old
 closure stayed in the displayed current window indefinitely. The repair samples UTC observation
 time once, supports an explicit deterministic observation time, and reports observation/window
-start/latest-ledger times separately. Closure transitions, route classifications, thresholds,
+start/latest-ledger times separately. An explicit observation clock is caller-supplied input, not an
+authenticated time receipt: aware offsets normalize to UTC, and naive or undefined-offset inputs
+refuse. Closure transitions, route classifications, thresholds,
 shallow-history rules, cadence readers and CLI exit mapping are unchanged.
 
 The original module's historical scientific/prior-art assertions are preserved bytes, not newly
