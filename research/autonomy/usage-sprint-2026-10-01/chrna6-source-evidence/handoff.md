@@ -58,8 +58,24 @@ Independent methods review found a real omission: the offline checker bound raw 
 metadata but did not reassert GPL6244. A coherent raw/parsed platform change could pass.
 The repair adds explicit top-level and sample-platform invariants plus malformed-projection
 regressions. The same repair batch prevents repeated acquisition on later commits; handoff,
-receipt and log changes do not trigger this workflow. Settled offline CI/preflight and
-independent source correspondence review remain pending at this checkpoint.
+receipt and log changes do not trigger this workflow. Settled offline validation and both independent review scopes are now complete.
+
+Settled [run 36947531796](https://github.com/trimcrae/Rare-cancers/actions/runs/36947531796),
+job `110652916128`, passed against `e7ce6eac2eddd741a6b79f44cff46b7305bc2f72`:
+19 actual Python unittest cases, committed-evidence offline integrity, default fast preflight
+and clean tracked diff. Acquisition and source-artifact upload were actually skipped. Full
+scientific suites and full publication preflight were not run. Exact original logs and hashes
+are recorded in [validation-receipt.json](validation-receipt.json).
+
+The coordinator independently parsed the original acquisition log's 105,819 output bytes and
+the raw annotation/value/metadata text in JavaScript/V8. All 42 values, 294 metadata bindings
+(six cached fields plus platform per sample), the entire historical arm map and the primary
+source pin matched; zero differences were found. The final committed source JSON was also
+byte-identical to that original output. A separate methods reviewer verified the platform
+repair and actual settled CI. Both reviewed the qualified prose at blob
+`ed6345b994ec573bb9984e9e3b0967b7dce8fb06`; only this operational receipt block changed afterward.
+This bounded task is complete, no job remains running, and ownership has returned to the
+coordinator.
 
 Base main is `7f0971a331272695dcfe4b2a7fac554185b398d9`. Fresh ownership was checked from the
 full research-ledger Git blob: 415 entries and zero live owners; the legacy driver remains
