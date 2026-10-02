@@ -1,0 +1,85 @@
+name: Completed usage sprint integration CPU checks
+on:
+  push:
+    branches:
+      - codex/usage-sprint-2026-10-01-integrate-completed
+    paths:
+      - .github/workflows/usage-sprint-integrate-completed.yml
+      - .github/workflows/tests.yml
+      - research/autonomy/usage-sprint-2026-10-01/integrate-completed/check_integration.py
+      - research/autonomy/usage-sprint-2026-10-01/integrate-completed/integration-plan.json
+      - research/autonomy/tests/test_ci_terminal_verdict.py
+      - research/autonomy/tests/test_the_loop_notices_it_is_not_learning.py
+      - research/autonomy/await_ci.py
+      - research/autonomy/learning_rate.py
+      - research/autonomy/amendments.jsonl
+      - research/modalities/aso_independent_verification.py
+      - research/modalities/tests/test_aso_independent_verification_integrity.py
+permissions:
+  contents: read
+concurrency:
+  group: usage-sprint-integrate-completed-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  combined-offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Exact source revision and interpreter
+        run: |
+          git rev-parse HEAD
+          git rev-parse HEAD^{tree}
+          python3 --version
+      - name: Exact ancestry, protected main bytes and original assertion bodies
+        run: python3 research/autonomy/usage-sprint-2026-10-01/integrate-completed/check_integration.py
+      - name: Install existing normal preflight dependencies
+        timeout-minutes: 5
+        run: >-
+          python3 -m pip install
+          uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
+          pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+      - name: Offline reporters and unchanged budget guards
+        run: |
+          python3 -m unittest discover -s research/autonomy/tests -p test_ci_terminal_verdict.py -v
+          python3 -m pytest research/autonomy/tests/test_the_loop_notices_it_is_not_learning.py research/autonomy/tests/test_an_error_body_is_the_diagnosis.py scripts/tests/test_a_tier_budget_is_a_decision_somebody_took.py -v -s --tb=short -p no:cacheprovider
+          python3 -m py_compile research/autonomy/await_ci.py research/autonomy/learning_rate.py research/autonomy/tests/test_ci_terminal_verdict.py research/autonomy/usage-sprint-2026-10-01/integrate-completed/check_integration.py
+      - name: Existing source integrity tests and committed evidence offline only
+        run: |
+          python3 research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/test_acquire.py -v
+          python3 research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/acquire.py --check research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/evidence.json
+          python3 research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/test_acquire.py -v
+          python3 research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/acquire.py --check research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/evidence.json
+          python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/test_acquire.py -v
+          python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/acquire.py --check research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/evidence.json
+      - name: Changed verifier and frame regressions with unchanged science
+        run: |
+          python3 -m pytest research/modalities/tests/test_aso_independent_verification.py research/modalities/tests/test_aso_independent_verification_integrity.py -q --durations=10
+          python3 research/modalities/aso_independent_verification.py --check
+          python3 research/autonomy/usage-sprint-2026-10-01/frame-census/aso_frame_candidate_census.py --check
+          python3 -m pytest research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py::test_a_declared_drift_states_the_size_it_actually_has research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py::test_the_drift_figure_is_not_satisfied_by_a_digit_pair_inside_a_sha -q
+          python3 research/manuscripts/aso_archive_manifest.py --check-archive
+          python3 research/manuscripts/aso_deposit_drift.py --check
+      - name: Existing amendment guard and append-only log checks
+        run: |
+          python3 -c 'import json; print(json.dumps({"cycle_id":"USAGE-SPRINT-2026-10-01-INTEGRATE-COMPLETED","blocked_by":[]}))' > "$RUNNER_TEMP/integration-amendment-receipt.json"
+          python3 research/autonomy/amendment_guard.py --receipt "$RUNNER_TEMP/integration-amendment-receipt.json" --diff-from ee84a76beb7c51004eca05cad09cf9612bb0e959 --json
+          python3 research/autonomy/amendment_guard.py --check-log
+      - name: Unchanged budget and systems diagnostics
+        run: |
+          python3 scripts/tier_budget.py --check
+          python3 systems/systems_check.py --check
+      - name: Normal preflight default FAST scope
+        timeout-minutes: 10
+        run: ./scripts/preflight.sh
+      - name: Tracked source remained clean
+        if: ${{ !cancelled() }}
+        run: |
+          git status --short
+          git diff --exit-code

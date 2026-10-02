@@ -69,7 +69,7 @@ class TerminalVerdictTests(unittest.TestCase):
         self.assertEqual("CI decided GREEN" in output, expected == 0, output)
         return output
 
-    def test_exact_original_cancelled_false_green_witness(self):
+    def test_original_witness_and_terminal_inventory_classification(self):
         # Retained scenario family: test_exact_original_cancelled_false_green_witness
         raw = subprocess.check_output(["git", "show", f"{BASE}:{SOURCE}"], cwd=REPO)
         blob = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
@@ -87,7 +87,6 @@ class TerminalVerdictTests(unittest.TestCase):
         print(f"PINNED_BASELINE_FALSE_GREEN base={BASE} blob={blob} "
               "conclusion=cancelled exit=0; mocked API/time, no HTTP")
 
-    def test_positive_and_terminal_single_inventory_verdicts(self):
         # Retained scenario family: test_current_success_and_neutral_controls
         for conclusions in (["success"], ["neutral"], ["success", "neutral"]):
             with self.subTest(conclusions=conclusions):
@@ -110,7 +109,8 @@ class TerminalVerdictTests(unittest.TestCase):
         self.assertIn("UNKNOWN", output)
         self.assertNotIn("still going", output)
 
-    def test_positive_runs_cannot_hide_terminal_nonverdicts(self):
+
+    def test_mixed_terminal_inventory_and_red_precedence(self):
         # Retained scenario family: test_success_does_not_hide_a_terminal_no_verdict
         for conclusion in ("cancelled", "skipped", "new_unknown_conclusion", ""):
             for reverse in (False, True):
@@ -123,7 +123,6 @@ class TerminalVerdictTests(unittest.TestCase):
             with self.subTest(conclusion=conclusion):
                 self.checked([run("neutral"), run(conclusion)], 2)
 
-    def test_red_precedence_is_preserved(self):
         # Retained scenario family: test_red_precedence_is_preserved
         for conclusion in sorted(await_ci.RED):
             for other in (None, "cancelled", "success"):
@@ -134,7 +133,8 @@ class TerminalVerdictTests(unittest.TestCase):
                     output = self.checked(runs, 1)
                     self.assertIn("RED", output)
 
-    def test_pending_or_missing_inventory_has_no_green_verdict(self):
+
+    def test_pending_inventory_waiting_and_terminal_transition(self):
         # Retained scenario family: test_unfinished_statuses_and_null_conclusion_wait_then_timeout
         cases = [(status, "success") for status in
                  ("queued", "in_progress", "waiting", "requested", "pending")]
@@ -157,7 +157,6 @@ class TerminalVerdictTests(unittest.TestCase):
                 self.assertTrue(sleeps)
                 self.assertNotIn("CI decided GREEN", output)
 
-    def test_waiting_ends_with_the_observed_terminal_verdict(self):
         # Retained scenario family: test_waiting_can_then_reach_a_measured_success
         replies = [{"workflow_runs": []},
                    {"workflow_runs": [run(None, "in_progress")]},
@@ -177,7 +176,15 @@ class TerminalVerdictTests(unittest.TestCase):
         self.assertIn("UNKNOWN", output)
         self.assertNotIn("CI decided GREEN", output)
 
-    def test_minimum_inventory_count_remains_enforced(self):
+        # Retained scenario family: test_mixed_pending_and_red_keeps_existing_waiting_behavior
+        code, output, calls, sleeps = observe(
+            await_ci, [{"workflow_runs": [run("failure"), run(None, "in_progress")]}])
+        self.assertEqual(code, 2, output)
+        self.assertGreater(len(calls), 1)
+        self.assertTrue(sleeps)
+        self.assertNotIn("CI decided GREEN", output)
+
+    def test_minimum_inventory_cardinality(self):
         # Retained scenario family: test_minimum_inventory_count_remains_enforced
         code, output, calls, sleeps = observe(
             await_ci, [{"workflow_runs": [run("success")]}], require=2)
@@ -191,14 +198,6 @@ class TerminalVerdictTests(unittest.TestCase):
         self.assertEqual(len(calls), 1)
         self.assertEqual(sleeps, [])
 
-    def test_mixed_pending_and_red_keeps_existing_waiting_behavior(self):
-        # Retained scenario family: test_mixed_pending_and_red_keeps_existing_waiting_behavior
-        code, output, calls, sleeps = observe(
-            await_ci, [{"workflow_runs": [run("failure"), run(None, "in_progress")]}])
-        self.assertEqual(code, 2, output)
-        self.assertGreater(len(calls), 1)
-        self.assertTrue(sleeps)
-        self.assertNotIn("CI decided GREEN", output)
 
 
 
