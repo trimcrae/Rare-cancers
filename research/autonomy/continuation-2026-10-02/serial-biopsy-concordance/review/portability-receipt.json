@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "before_sha256": {
+    "independent_check.py": "1f2519bab5b14db6a6314285a2ba0b884d123ecdcd84624e9dae13739a928800",
+    "independent-results.json": "43c96810c9bca8ab464428671463e442ef3647e8348bc530b0c37a0f93d48d8b",
+    "review.json": "5c318999c7fce3399d7551d96950b70c113418c9d2a349fed6a20ba3bfb193ba"
+  },
+  "change": {
+    "old": "SRC = HERE.parent / 'checkpoint04-serial-biopsy'",
+    "new": "import argparse\nparser = argparse.ArgumentParser(description=__doc__)\nparser.add_argument('--input-dir', type=Path, default=HERE.parent)\nSRC = parser.parse_args().input_dir.resolve()"
+  },
+  "preserved_executed_script": "independent_check.executed.txt",
+  "date": "2026-10-02",
+  "exit_code": 0,
+  "tool_chunk": "d723f1",
+  "command": "python -B independent_check.py --input-dir C:/Users/mcrae/.codex/private/emc-continuation-20261002/checkpoint04-serial-biopsy",
+  "result_bytes_unchanged": true,
+  "original_review_receipt_unchanged": true,
+  "after_sha256": {
+    "independent_check.py": "1c0727dc7a62e85d0614f9004c6c034a461dd73aeec07cf4a1a2b41f65cea046",
+    "independent_check.executed.txt": "1f2519bab5b14db6a6314285a2ba0b884d123ecdcd84624e9dae13739a928800",
+    "independent-results.json": "43c96810c9bca8ab464428671463e442ef3647e8348bc530b0c37a0f93d48d8b",
+    "review.json": "5c318999c7fce3399d7551d96950b70c113418c9d2a349fed6a20ba3bfb193ba"
+  }
+}

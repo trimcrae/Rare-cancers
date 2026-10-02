@@ -1,0 +1,61 @@
+{
+  "schema": "foundation-cloud-result-review/1",
+  "reviewDate": "2026-10-02",
+  "run": 37035103326,
+  "job": 110931230146,
+  "revision": "83e0fb5348fe41b1747970d6346c6f3b19a3b5ea",
+  "workflowURL": "https://github.com/trimcrae/Rare-cancers/actions/runs/37035103326/job/110931230146",
+  "rootSuppliedZIP": {
+    "bytes": 3688,
+    "sha256": "029cdb250b66dc8b5244c3bae8a15fccd5ee7d4c7f53aa1b8f6c6628e85678df",
+    "note": "ZIP digest verified by root; reviewer inspected exact wrapped member texts, not ZIP transport."
+  },
+  "wrappedMemberFileSHA256": "725ae0fe5197c84d220b9dc132228f358f18790be3041e9357e45f49809cf30d",
+  "status": "consistent_with_inspected_code_and_receipts",
+  "checksExecuted": "Small result-JSON consistency assertions only; no XLS download/re-extraction",
+  "counts": {
+    "events": 3771,
+    "sourceMappingMatches": 3771,
+    "correctedIDMatches": 3771,
+    "oldIDDiscordances": 3770,
+    "oldIDConcordances": 1,
+    "distinctEventSourceIDs": 3182,
+    "genePairsAgreeAfterMissingConvention": 3756,
+    "genePairsDiffer": 15,
+    "numericPrimaryGeneCells": 2,
+    "N_A_export_tokens": 564
+  },
+  "primaryEMCJoin": {
+    "source_profiles": 75,
+    "source_events": 76,
+    "export_selected_events": 28,
+    "selected_originating_in_EMC": 0,
+    "source_profiles_outside_export_suffix_range": 47
+  },
+  "literalDifferenceOrdinals": [
+    412,
+    871,
+    908,
+    1145,
+    1211,
+    1814,
+    1891,
+    1922,
+    2160,
+    2342,
+    2760,
+    3204,
+    3213,
+    3317,
+    3491
+  ],
+  "interpretation": "Independent extraction from the hash-pinned published workbook confirms every corrected event-to-source identity, original non-ID export fields and event multiplicities. This closes the previous primary-workbook execution gap for this frozen correction artifact. It does not imply gene-symbol equivalence: all15 differing pairs remain explicit, including two numeric source cells; no alias/date repair was independently adjudicated.",
+  "limits": [
+    "Same xlrd parser family as historical extraction; separate code path, not independent file-format parser.",
+    "Count3771 denotes rearrangement records and3182 source IDs, not3771 independent patients.",
+    "The75 source EMC profiles and76 events are source-label joins, not clinically re-adjudicated diagnoses. The28 original-export-selected events originate from zero of those EMC IDs under this join.",
+    "No validation of assay truth, clinical function, portal deployment, or other exports/releases.",
+    "Review used reported primary extraction plus inspected fail-closed assertions; did not reproduce all primary rows locally."
+  ],
+  "findings": []
+}

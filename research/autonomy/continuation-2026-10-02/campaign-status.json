@@ -1,6 +1,6 @@
 {
   "schema": "emc-continuation-checkpoint/1",
-  "as_of_utc": "2026-10-02T16:11:00Z",
+  "as_of_utc": "2026-10-02T16:42:00Z",
   "branch": "codex/emc-continuation-2026-10-02",
   "scientific_baseline": "da49c4e836533253825587f83656675dac4c913b",
   "original_run": {
@@ -12,23 +12,16 @@
     "id": 37011070408,
     "revision": "5e289f506e5eb5e934192b8c68d69870e67e4b50",
     "aso": "passed",
-    "foundation": "failed: primary extraction subprocess timed out after 240 seconds; no success receipt"
+    "foundation": "failed: primary extraction subprocess timed out after 240 seconds; no success receipt",
+    "foundation_resolution": {
+      "status": "closed by distinct primary source route",
+      "run_id": 37035103326,
+      "earlier_failure_preserved": true
+    }
   },
   "normal_preflight": {
-    "status": "passed",
-    "revision": "c3dfcbfdaabb165b17cfbb386e528143a6c90d2f",
-    "run_id": "37031572697",
-    "scope": "normal/default preflight; not FULL",
-    "exit_code": 0,
-    "forced_stop": null,
-    "elapsed_seconds": 158.029559183,
-    "free_bytes_after": 89322012672,
-    "receipt_path": "validation/checkpoint-03-final/emc-default-preflight.exit",
-    "log_path": "validation/checkpoint-03-final/emc-default-preflight.log",
-    "initial_failed_run": 37030840629,
-    "initial_failed_revision": "5c5befbaeddf833b6ee9a185aaf10f81948634fa",
-    "repair": "Unique document identifier for source-intake draft; scientific body unchanged",
-    "not_run": "Full publication gates and optional pure-logic/modality suites. Focused registry/protein tests and independent result checks recorded separately."
+    "status": "pending checkpoint04 settled integration",
+    "scope": "normal/default; not FULL"
   },
   "figure": "generated from committed hashed data, static visual inspection passed; figures/ has original manifest and subsequent QA",
   "publication": "No submission, outreach, PR, main merge or publication-readiness assertion",
@@ -39,12 +32,13 @@
     "ordinary_usage_only": true
   },
   "next_work": [
-    "Prioritize empirical measured-data reanalysis under the user's October2 correction; see empirical-priorities.json.",
-    "The fixed two-antigen support/histology question is complete. Use the new compact122row measurements for justified follow-up; do not download the matrix or refit accepted models again without a new question or defect. Most within-histology comparisons remain sparse.",
-    "For methylation, keep array-level evidence separate from author-reported patient independence; a common cross-study patient key and adjudicated/taxonomy-reconciled labels remain missing.",
-    "For registry generalization, an independently selected adjudicated corpus is needed; the575-unit transfer is not held-out accuracy validation.",
-    "For Foundation, reopen primary extraction only for a newly accessible hash-matched source. Preserve unchanged timeout disposition.",
-    "ASO source integration is closed for this checkpoint; no package rebuild solely to consume usage. Existing accepted brief and new draft remain distinct."
+    "Continue empirical measured-data priorities. Do not repeat completed ASO scans, protein support decomposition, methylation reaggregation or the now-passed Foundation primary extraction without a distinct question/defect.",
+    "Serial biopsy: new13-patient paired change comparison is complete and integrated in a working draft. Further causal/longitudinal interpretation needs actual collection dates, assay eligibility/reasons for missingness and aliquot/spatial linkage; absence of these is a limit, not a license to invent them.",
+    "Registry: amend the frozen sampling plan to a documented server-supported ordering and prespecified tie handling before acquisition; keep the cancer/date/10study bound. No predictions until a separate blind source-context oracle is locked. Initial400 failure and exact rejected sort preserved.",
+    "Foundation: primary identity recovery is now independently verified; all15 gene-text differences remain unadjudicated. A next question may inspect actual source gene-cell typing/alias provenance, without changing the identity resource or claiming genes equivalent.",
+    "Methylation: common cross-study patient keys, adjudicated labels and taxonomy/version mapping remain gaps; no repeat fixed-prediction fit or loss.",
+    "HLA: historical search-FASTA inclusion of provisional peptides remains unverified; latest database substitution cannot settle historical searchability. Existing nondetection/rarefaction results are complete.",
+    "Raw Foundation input artifact expiresNovember1; exact primary public URL/hashes retained. Preserve bundle in ordinary evidence archive before expiry if needed; no local bulk download with <10GiB free."
   ],
   "scientific_review": {
     "frozen_revision": "0f6d9e896fe90352a1d39f03d96c8567fff30a4d",
@@ -53,7 +47,7 @@
   },
   "local_storage": {
     "policy": "No new local checkout or bulk reference corpus; cloud CPU execution.",
-    "free_GiB_last_measured": 8.63,
+    "free_GiB_last_measured": 8.6,
     "incident": "One partial-clone size query unexpectedly initiated lazy fetch and auto-pack; the owned command was stopped. Fetched objects are unknown and preserved."
   },
   "main_checked": "60202f659075078496f0a4550258695f31dfb1d7",
@@ -98,36 +92,37 @@
   },
   "ownership": {
     "coordinator": "/root sole branch writer",
-    "finite_worker_tasks": "All checkpoint03 workers completed; source intake, implementation, independent code/source review and new result verification integrated.",
-    "cloud_jobs": "All checkpoint03 jobs completed. Registry37028182181 and protein37029842078 passed. Initial normal preflight37030840629 failed only duplicate document id; metadata repaired and37031572697 passed.",
+    "finite_worker_tasks": "Checkpoint04 serial analysis, independent source-literal review, Foundation route/retrieval/result review and registry query diagnosis complete or final portability receipt being sealed; root sole writer.",
+    "cloud_jobs": "Foundation37035103326 passed; no analysis job running. Normal gate pending.",
     "local_checkouts_created": 0,
-    "active_future_work": "Hourly empirical-priority campaign through2026-10-03T20:14:24Z; no finite analysis worker/job remains running from this checkpoint.",
+    "active_future_work": "Hourly empirical campaign through2026-10-03T20:14:24Z; next root selects distinct justified work.",
     "preservation": "Accepted publication files, original evidence, other branches and local changes preserved",
     "other_jobs": "Two historical queuedmain workflows fromAugust observed; not touched",
-    "worker_receipts": "methylation-identity/receipt.json, independent-review.json and execution-note.json; aso-primary-sources/integration-receipt.json; registry-family-companion/results/execution.json.",
-    "next_owner": "/root at next campaign wake; select a distinct justified empirical question from empirical-priorities.json and current source gaps, with new input or question recorded before execution."
+    "worker_receipts": "serial-biopsy-concordance/receipt.json and review/; foundation-primary-aws/results/ and review/; registry-independent/ diagnostics.",
+    "next_owner": "/root at next campaign wake; no legacy ownership or extra scheduler."
   },
   "usage_at_checkpoint": {
     "ordinary_usage_allowed": true,
-    "weekly_used_percent": 76,
-    "weekly_remaining_percent": 24,
+    "weekly_used_percent": 77,
+    "weekly_remaining_percent": 23,
     "resets_at": 1791058464,
     "resets_utc": "2026-10-03T20:14:24Z"
   },
   "previous_normal_preflight": {
     "status": "passed",
-    "revision": "4020de62bef6cc43c005a18f5477ac478f3c5ccf",
-    "run_id": "37023702227",
+    "revision": "c3dfcbfdaabb165b17cfbb386e528143a6c90d2f",
+    "run_id": "37031572697",
     "scope": "normal/default preflight; not FULL",
     "exit_code": 0,
     "forced_stop": null,
-    "elapsed_seconds": 161.02900648899998,
-    "free_bytes_after": 89323216896,
-    "receipt_path": "validation/checkpoint-02-final/emc-default-preflight.exit",
-    "log_path": "validation/checkpoint-02-final/emc-default-preflight.log",
-    "initial_failed_run": 37022943432,
-    "repair": "Actual PFRED metadata and DOI/reference separation",
-    "not_run": "Full publication gates and optional pure-logic/modality suites; targeted scientific tests and recovery are separately recorded."
+    "elapsed_seconds": 158.029559183,
+    "free_bytes_after": 89322012672,
+    "receipt_path": "validation/checkpoint-03-final/emc-default-preflight.exit",
+    "log_path": "validation/checkpoint-03-final/emc-default-preflight.log",
+    "initial_failed_run": 37030840629,
+    "initial_failed_revision": "5c5befbaeddf833b6ee9a185aaf10f81948634fa",
+    "repair": "Unique document identifier for source-intake draft; scientific body unchanged",
+    "not_run": "Full publication gates and optional pure-logic/modality suites. Focused registry/protein tests and independent result checks recorded separately."
   },
   "checkpoint_02": {
     "contract": "checkpoint-02-contract.json",
@@ -196,5 +191,42 @@
     "source_tree_unchanged": true,
     "tree": "0882a9e81b52089ca669c503853b48384cdcbbb0",
     "branch_merge_performed": false
+  },
+  "checkpoint_04": {
+    "status": "results integrated; normal gate pending",
+    "contract": "checkpoint-04-contract.json",
+    "serial_biopsy": {
+      "shared_pairs": 13,
+      "registered_patients": 69,
+      "same_nonzero_direction": 6,
+      "discordant": 7,
+      "zero_changes": 0,
+      "spearman_changes": 0.06043956043956044,
+      "synthetic_tests": 7,
+      "independent_literal_rational_check": "passed;3 trailing-decimal input differences leave signs and ranks unchanged",
+      "scope": "Sparse selected measured-data description; no cause, efficacy, EMC-specific or assay-interchangeability claim"
+    },
+    "foundation": {
+      "run_id": 37035103326,
+      "job_id": 110931230146,
+      "revision": "83e0fb5348fe41b1747970d6346c6f3b19a3b5ea",
+      "status": "passed",
+      "primary_workbook_sha256": "88c1a0bab7509ffe3bcff955b89f3d60ddb58a68311cd4c56ca4b0c78506b475",
+      "direct_primary_matches": 3771,
+      "corrected_ID_matches": 3771,
+      "old_ID_discordances": 3770,
+      "distinct_source_IDs": 3182,
+      "gene_pair_differences": 15,
+      "review": "independent code and result-receipt checks passed",
+      "primary_input_artifact": 11239081000,
+      "artifact_expires_utc": "2026-11-01T16:36:56Z"
+    },
+    "registry": {
+      "status": "selection query failed; explicit sort incompatibility diagnosed",
+      "acquired_studies": 0,
+      "companion_executed": false,
+      "reason": "API rejects NCTId:asc; original frozen selection order unavailable",
+      "remaining": "Freeze amended supported ordering/tie handling before outcomes acquired; preserve original plan and failure. Separate blinded oracle before classifier."
+    }
   }
 }

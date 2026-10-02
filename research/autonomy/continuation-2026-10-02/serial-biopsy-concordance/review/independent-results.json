@@ -1,0 +1,265 @@
+{
+  "status": "aggregate_and_identity_confirmation_passed_with_precision_observation",
+  "registered_patients": 69,
+  "shared_pairs": 13,
+  "source_literal_vs_normalized_precision_differences": [
+    {
+      "patient": "C-4DV3D5",
+      "field": "ihc_on",
+      "source_literal_fraction": "10375000000000001/2500000000000000",
+      "accepted_normalized_decimal": "4.15"
+    },
+    {
+      "patient": "C-H7RF5A",
+      "field": "ihc_baseline",
+      "source_literal_fraction": "46100000000000003/10000000000000000",
+      "accepted_normalized_decimal": "4.61"
+    },
+    {
+      "patient": "C-LX87X3",
+      "field": "ihc_on",
+      "source_literal_fraction": "11000000000000001/10000000000000000",
+      "accepted_normalized_decimal": "1.1"
+    }
+  ],
+  "direction_table": {
+    "(-1, -1)": 4,
+    "(-1, 1)": 3,
+    "(1, -1)": 4,
+    "(1, 1)": 2
+  },
+  "same_nonzero_direction": 6,
+  "zero_deltas": {
+    "rna": 0,
+    "ihc": 0
+  },
+  "distinct_deltas": {
+    "rna": 13,
+    "ihc": 13
+  },
+  "rank_moments": {
+    "numerator": "143",
+    "variance_x": "2366",
+    "variance_y": "2366"
+  },
+  "spearman": 0.06043956043956044,
+  "histology": {
+    "Chondrosarcoma": 2,
+    "Osteosarcoma": 4,
+    "ASPS": 1,
+    "Liposarcoma": 2,
+    "Small Blue Round Cell": 1,
+    "Leiomyosarcoma": 1,
+    "Other": 1,
+    "Vascular": 1
+  },
+  "missingness_order": [
+    "rna_baseline",
+    "rna_on",
+    "ihc_baseline",
+    "ihc_on"
+  ],
+  "missingness": {
+    "(False, False, False, True)": 9,
+    "(True, True, True, True)": 6,
+    "(True, True, False, True)": 7,
+    "(True, True, False, False)": 6,
+    "(True, True, True, False)": 2,
+    "(False, True, False, True)": 5,
+    "(False, False, False, False)": 13,
+    "(False, True, False, False)": 2,
+    "(False, False, True, True)": 4,
+    "(True, False, True, True)": 1,
+    "(False, True, True, True)": 2,
+    "(False, False, True, False)": 5,
+    "(True, False, False, True)": 3,
+    "(True, False, False, False)": 2,
+    "(False, True, True, False)": 1,
+    "(True, False, True, False)": 1
+  },
+  "pairs": [
+    {
+      "patient_id": "C-20LTFP",
+      "subject": "24",
+      "histology": "Chondrosarcoma",
+      "rna_baseline": "159133921512127/100000000000000",
+      "rna_on": "176554043736389/100000000000000",
+      "ihc_baseline": "587/100",
+      "ihc_on": "287/100",
+      "rna_delta": "8710061112131/50000000000000",
+      "ihc_delta": "-3",
+      "rna_sign": 1,
+      "ihc_sign": -1
+    },
+    {
+      "patient_id": "C-26NK0F",
+      "subject": "44",
+      "histology": "Osteosarcoma",
+      "rna_baseline": "317088821372693/1000000000000000",
+      "rna_on": "23915805917153/200000000000000",
+      "ihc_baseline": "23/4",
+      "ihc_on": "101/100",
+      "rna_delta": "-12344361986683/62500000000000",
+      "ihc_delta": "-237/50",
+      "rna_sign": -1,
+      "ihc_sign": -1
+    },
+    {
+      "patient_id": "C-358579",
+      "subject": "35",
+      "histology": "Osteosarcoma",
+      "rna_baseline": "393244458407713/10000000000000000",
+      "rna_on": "212404872366301/10000000000000000",
+      "ihc_baseline": "1/20",
+      "ihc_on": "2/25",
+      "rna_delta": "-45209896510353/2500000000000000",
+      "ihc_delta": "3/100",
+      "rna_sign": -1,
+      "ihc_sign": 1
+    },
+    {
+      "patient_id": "C-4DV3D5",
+      "subject": "10",
+      "histology": "Osteosarcoma",
+      "rna_baseline": "720733988403427/1000000000000000",
+      "rna_on": "134431375010777/25000000000000",
+      "ihc_baseline": "421/50",
+      "ihc_on": "10375000000000001/2500000000000000",
+      "rna_delta": "4656521012027653/1000000000000000",
+      "ihc_delta": "-10674999999999999/2500000000000000",
+      "rna_sign": 1,
+      "ihc_sign": -1
+    },
+    {
+      "patient_id": "C-CPRNJ2",
+      "subject": "82",
+      "histology": "ASPS",
+      "rna_baseline": "312424040892769/500000000000000",
+      "rna_on": "915499059421087/1000000000000000",
+      "ihc_baseline": "167/50",
+      "ihc_on": "193/50",
+      "rna_delta": "290650977635549/1000000000000000",
+      "ihc_delta": "13/25",
+      "rna_sign": 1,
+      "ihc_sign": 1
+    },
+    {
+      "patient_id": "C-H7RF5A",
+      "subject": "18",
+      "histology": "Chondrosarcoma",
+      "rna_baseline": "182651243917277/100000000000000",
+      "rna_on": "54369663121089/2500000000000",
+      "ihc_baseline": "46100000000000003/10000000000000000",
+      "ihc_on": "1639/50",
+      "rna_delta": "1992135280926283/100000000000000",
+      "ihc_delta": "281699999999999997/10000000000000000",
+      "rna_sign": 1,
+      "ihc_sign": 1
+    },
+    {
+      "patient_id": "C-H896LA",
+      "subject": "36",
+      "histology": "Liposarcoma",
+      "rna_baseline": "238481453904071/250000000000000",
+      "rna_on": "204782956279771/1000000000000000",
+      "ihc_baseline": "269/100",
+      "ihc_on": "21/50",
+      "rna_delta": "-749142859336513/1000000000000000",
+      "ihc_delta": "-227/100",
+      "rna_sign": -1,
+      "ihc_sign": -1
+    },
+    {
+      "patient_id": "C-J0AW9Y",
+      "subject": "73",
+      "histology": "Small Blue Round Cell",
+      "rna_baseline": "434980103249299/5000000000000000",
+      "rna_on": "428301539888313/1000000000000000",
+      "ihc_baseline": "101/100",
+      "ihc_on": "9/20",
+      "rna_delta": "853263798096133/2500000000000000",
+      "ihc_delta": "-14/25",
+      "rna_sign": 1,
+      "ihc_sign": -1
+    },
+    {
+      "patient_id": "C-LX87X3",
+      "subject": "37",
+      "histology": "Liposarcoma",
+      "rna_baseline": "311786060241307/500000000000000",
+      "rna_on": "113051059079971/200000000000000",
+      "ihc_baseline": "141/100",
+      "ihc_on": "11000000000000001/10000000000000000",
+      "rna_delta": "-58316825082759/1000000000000000",
+      "ihc_delta": "-3099999999999999/10000000000000000",
+      "rna_sign": -1,
+      "ihc_sign": -1
+    },
+    {
+      "patient_id": "C-MVMX43",
+      "subject": "16",
+      "histology": "Osteosarcoma",
+      "rna_baseline": "308892776450421/50000000000000",
+      "rna_on": "627495400714503/1000000000000000",
+      "ihc_baseline": "193/50",
+      "ihc_on": "8/25",
+      "rna_delta": "-5550360128293917/1000000000000000",
+      "ihc_delta": "-177/50",
+      "rna_sign": -1,
+      "ihc_sign": -1
+    },
+    {
+      "patient_id": "C-WD4RUC",
+      "subject": "31",
+      "histology": "Leiomyosarcoma",
+      "rna_baseline": "149362303203561/200000000000000",
+      "rna_on": "79943672010921/25000000000000",
+      "ihc_baseline": "213/50",
+      "ihc_on": "373/100",
+      "rna_delta": "490187072883807/200000000000000",
+      "ihc_delta": "-53/100",
+      "rna_sign": 1,
+      "ihc_sign": -1
+    },
+    {
+      "patient_id": "C-WKND2T",
+      "subject": "60",
+      "histology": "Other",
+      "rna_baseline": "311862977495719/100000000000000",
+      "rna_on": "8148945131017/4000000000000",
+      "ihc_baseline": "67/25",
+      "ihc_on": "449/100",
+      "rna_delta": "-54069674610147/50000000000000",
+      "ihc_delta": "181/100",
+      "rna_sign": -1,
+      "ihc_sign": 1
+    },
+    {
+      "patient_id": "C-WNVW3H",
+      "subject": "34",
+      "histology": "Vascular",
+      "rna_baseline": "112018994229323/25000000000000",
+      "rna_on": "216937764540239/100000000000000",
+      "ihc_baseline": "967/100",
+      "ihc_on": "583/50",
+      "rna_delta": "-231138212377053/100000000000000",
+      "ihc_delta": "199/100",
+      "rna_sign": -1,
+      "ihc_sign": 1
+    }
+  ],
+  "sha256": {
+    "plan.md": "481c1e8161e94f54074ab34e53a358a44ee2f8c037e21af627e01e60c0a81c6d",
+    "SampleSourceData.txt": "66d1f6bf39becc76f82d194ef2bf7b1784689c6d01177a319c717e208427e625",
+    "numeric-ihc.json": "7fd0b176fa688c49f98aa21177f687e608e4de02739dd6a155eab430a9b2b51a",
+    "results.json": "65fab5f74c8fbe036830c537df01b6c2ce6f22c01296676e20beec6c0d198984",
+    "analyze_pairs.py": "f83c59f843109bd948eab1fb144be07b67a3cba9b8183587edd3d10e81d10e96",
+    "findings.md": "985d6ce8d13c201f887a6b4d505f24372cf70238e3dc6cb8e168f163bce1d0d3",
+    "FigureS2.R": "89833744458f62e78d2f716b80afba2906c3fb9c2d3e4f983baafaed1223ff5e",
+    "SetUpData.R": "12ef55fcb354b50c7852f8138d80284bf3fcf95fd9ee7494d0bca14d7ba2c50f"
+  },
+  "limitations": [
+    "Independent arithmetic and literal selection from captured extraction, not fresh primary workbook extraction.",
+    "No raw RNA reprocessing or publication readiness assessment."
+  ]
+}

@@ -1,0 +1,105 @@
+"""Independent small-table check using source literals and rational arithmetic."""
+import csv, hashlib, json, math
+from collections import Counter, defaultdict
+from fractions import Fraction
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+import argparse
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--input-dir', type=Path, default=HERE.parent)
+SRC = parser.parse_args().input_dir.resolve()
+
+def finite(value):
+    try:
+        return Fraction(str(value))
+    except (ValueError, ZeroDivisionError):
+        return None
+
+def midranks(values):
+    order = sorted(range(len(values)), key=values.__getitem__)
+    out = [None]*len(values)
+    first = 0
+    while first < len(order):
+        last = first+1
+        while last < len(order) and values[order[last]] == values[order[first]]:
+            last += 1
+        for i in order[first:last]:
+            out[i] = Fraction(first+1+last, 2)
+        first = last
+    return out
+
+rows = list(csv.DictReader((SRC/'SampleSourceData.txt').open(encoding='utf-8'), delimiter='\t'))
+data = json.loads((SRC/'numeric-ihc.json').read_text())['result']
+by_pair, identities, subjects = {}, {}, {}
+for row in rows:
+    pid, tp = row['PatientID'], row['SampleTimepoint']
+    assert row['SampleID'] == pid+';'+tp
+    assert (pid,tp) not in by_pair
+    by_pair[pid,tp] = row
+    ident = row['Subject'], row['Cohort']
+    assert pid not in identities or identities[pid] == ident
+    assert row['Subject'] not in subjects or subjects[row['Subject']] == pid
+    identities[pid] = ident; subjects[row['Subject']] = pid
+
+# Deliberately use captured primary valueLiteral, not distinctNumericValues.
+ihc = {}
+for cell in data['numericCells']:
+    if cell['field'] != 'CD8': continue
+    pid, tp = cell['sampleKey'].split(';')
+    row = by_pair[pid,tp]
+    assert (str(cell['subject']),cell['cohort']) == identities[pid]
+    assert cell['timepoint'] == tp
+    assert (pid,tp) not in ihc
+    values = {finite(s['valueLiteral']) for s in cell['sourceValues']}
+    values.discard(None)
+    assert len(values) <= 1
+    ihc[pid,tp] = next(iter(values)) if values else None
+
+records, missingness = [], Counter()
+for pid in sorted(identities):
+    vals=[]
+    for assay in ['rna','ihc']:
+        for tp in ['Baseline','On-Treatment']:
+            row=by_pair.get((pid,tp))
+            vals.append(finite(row['T-cell (CD8)']) if assay=='rna' and row else ihc.get((pid,tp)) if assay=='ihc' else None)
+    missingness[tuple(v is None for v in vals)] += 1
+    if any(v is None for v in vals): continue
+    dr,di=vals[1]-vals[0],vals[3]-vals[2]
+    records.append({'patient_id':pid,'subject':identities[pid][0],'histology':identities[pid][1],
+                    'rna_baseline':str(vals[0]),'rna_on':str(vals[1]),'ihc_baseline':str(vals[2]),'ihc_on':str(vals[3]),
+                    'rna_delta':str(dr),'ihc_delta':str(di),'rna_sign':(dr>0)-(dr<0),'ihc_sign':(di>0)-(di<0)})
+x=[Fraction(p['rna_delta']) for p in records]; y=[Fraction(p['ihc_delta']) for p in records]
+a,b=midranks(x),midranks(y); n=len(a)
+# Raw rank moments, distinct from the producer's centered covariance loop.
+numer=n*sum(u*v for u,v in zip(a,b))-sum(a)*sum(b)
+varx=n*sum(u*u for u in a)-sum(a)**2
+vary=n*sum(v*v for v in b)-sum(b)**2
+rho=float(numer)/math.sqrt(float(varx*vary))
+expected=json.loads((SRC/'results.json').read_text())
+accepted={p['patient_id']:p for p in expected['patients'] if p['included']}
+assert set(accepted)=={p['patient_id'] for p in records}
+precision_differences=[]
+for p in records:
+    old=accepted[p['patient_id']]
+    for key in ['rna_baseline','rna_on','ihc_baseline','ihc_on']:
+        if Fraction(p[key])!=Fraction(old[key]):
+            precision_differences.append({'patient':p['patient_id'],'field':key,'source_literal_fraction':p[key],'accepted_normalized_decimal':old[key]})
+    assert Fraction(p['rna_delta'])==Fraction(old['rna_change'])
+    assert p['rna_sign']==({'positive':1,'negative':-1,'zero':0}[old['rna_direction']])
+    assert p['ihc_sign']==({'positive':1,'negative':-1,'zero':0}[old['ihc_direction']])
+assert abs(rho-expected['spearman_changes'])<1e-14
+result={'status':'aggregate_and_identity_confirmation_passed_with_precision_observation','registered_patients':len(identities),'shared_pairs':n,
+ 'source_literal_vs_normalized_precision_differences':precision_differences,
+ 'direction_table':{str(k):v for k,v in sorted(Counter((p['rna_sign'],p['ihc_sign']) for p in records).items())},
+ 'same_nonzero_direction':sum(p['rna_sign']==p['ihc_sign']!=0 for p in records),
+ 'zero_deltas':{'rna':sum(v==0 for v in x),'ihc':sum(v==0 for v in y)},
+ 'distinct_deltas':{'rna':len(set(x)),'ihc':len(set(y))},
+ 'rank_moments':{'numerator':str(numer),'variance_x':str(varx),'variance_y':str(vary)},
+ 'spearman':rho,'histology':dict(Counter(p['histology'] for p in records)),
+ 'missingness_order':['rna_baseline','rna_on','ihc_baseline','ihc_on'],
+ 'missingness':{str(k):v for k,v in missingness.items()},'pairs':records,
+ 'sha256':{name:hashlib.sha256((SRC/name).read_bytes()).hexdigest() for name in ['plan.md','SampleSourceData.txt','numeric-ihc.json','results.json','analyze_pairs.py','findings.md','FigureS2.R','SetUpData.R']},
+ 'limitations':['Independent arithmetic and literal selection from captured extraction, not fresh primary workbook extraction.','No raw RNA reprocessing or publication readiness assessment.']}
+(HERE/'independent-results.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps({k:v for k,v in result.items() if k not in ['pairs','sha256','missingness']}))

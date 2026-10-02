@@ -1,0 +1,1208 @@
+{
+  "registered_patients": 69,
+  "shared_pairs": 13,
+  "direction_table_rna_then_ihc": {
+    "negative/negative": 4,
+    "negative/zero": 0,
+    "negative/positive": 3,
+    "zero/negative": 0,
+    "zero/zero": 0,
+    "zero/positive": 0,
+    "positive/negative": 4,
+    "positive/zero": 0,
+    "positive/positive": 2
+  },
+  "same_nonzero_direction": 6,
+  "nonzero_pairs": 13,
+  "same_over_nonzero": 0.46153846153846156,
+  "same_over_all": 0.46153846153846156,
+  "spearman_changes": 0.06043956043956044,
+  "histology": {
+    "ASPS": {
+      "included": 1,
+      "excluded": 1
+    },
+    "Chondrosarcoma": {
+      "included": 2,
+      "excluded": 8
+    },
+    "Leiomyosarcoma": {
+      "included": 1,
+      "excluded": 8
+    },
+    "Liposarcoma": {
+      "included": 2,
+      "excluded": 8
+    },
+    "Osteosarcoma": {
+      "included": 4,
+      "excluded": 5
+    },
+    "Other": {
+      "included": 1,
+      "excluded": 8
+    },
+    "Small Blue Round Cell": {
+      "included": 1,
+      "excluded": 3
+    },
+    "UPS/MFH/High Grade MFS": {
+      "included": 0,
+      "excluded": 10
+    },
+    "Vascular": {
+      "included": 1,
+      "excluded": 5
+    }
+  },
+  "missingness_patterns": {
+    "ihc_on": 9,
+    "rna_baseline|ihc_baseline|rna_on|ihc_on": 6,
+    "rna_baseline|rna_on|ihc_on": 7,
+    "rna_baseline|rna_on": 6,
+    "rna_baseline|ihc_baseline|rna_on": 2,
+    "rna_on|ihc_on": 5,
+    "complete": 13,
+    "rna_on": 2,
+    "ihc_baseline|ihc_on": 4,
+    "rna_baseline|ihc_baseline|ihc_on": 1,
+    "ihc_baseline|rna_on|ihc_on": 2,
+    "ihc_baseline": 5,
+    "rna_baseline|ihc_on": 3,
+    "rna_baseline": 2,
+    "ihc_baseline|rna_on": 1,
+    "rna_baseline|ihc_baseline": 1
+  },
+  "patients": [
+    {
+      "patient_id": "C-001528",
+      "subject": "48",
+      "histology": "UPS/MFH/High Grade MFS",
+      "sample_baseline": "C-001528;Baseline",
+      "sample_on": "C-001528;On-Treatment",
+      "rna_baseline": "0.196845327555217",
+      "ihc_baseline": "0.35",
+      "rna_on": "0.439762004558481",
+      "ihc_on": null,
+      "missing": [
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-001613",
+      "subject": "30",
+      "histology": "UPS/MFH/High Grade MFS",
+      "sample_baseline": "C-001613;Baseline",
+      "sample_on": null,
+      "rna_baseline": null,
+      "ihc_baseline": null,
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "ihc_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-002766",
+      "subject": "29",
+      "histology": "Chondrosarcoma",
+      "sample_baseline": "C-002766;Baseline",
+      "sample_on": null,
+      "rna_baseline": null,
+      "ihc_baseline": "2.48",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-002784",
+      "subject": "19",
+      "histology": "Chondrosarcoma",
+      "sample_baseline": "C-002784;Baseline",
+      "sample_on": "C-002784;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "0.2",
+      "rna_on": null,
+      "ihc_on": "0.51",
+      "missing": [
+        "rna_baseline",
+        "rna_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-0L7M3J",
+      "subject": "11",
+      "histology": "Chondrosarcoma",
+      "sample_baseline": "C-0L7M3J;Baseline",
+      "sample_on": "C-0L7M3J;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": null,
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "ihc_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-0WEUU3",
+      "subject": "6",
+      "histology": "Liposarcoma",
+      "sample_baseline": "C-0WEUU3;Baseline",
+      "sample_on": "C-0WEUU3;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": null,
+      "rna_on": null,
+      "ihc_on": "12.92",
+      "missing": [
+        "rna_baseline",
+        "ihc_baseline",
+        "rna_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-1LM4EJ",
+      "subject": "65",
+      "histology": "Other",
+      "sample_baseline": "C-1LM4EJ;Baseline",
+      "sample_on": "C-1LM4EJ;On-Treatment",
+      "rna_baseline": "0.676734477632152",
+      "ihc_baseline": "1.59",
+      "rna_on": "6.46718816941091",
+      "ihc_on": null,
+      "missing": [
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-1PCN42",
+      "subject": "33",
+      "histology": "UPS/MFH/High Grade MFS",
+      "sample_baseline": "C-1PCN42;Baseline",
+      "sample_on": "C-1PCN42;On-Treatment",
+      "rna_baseline": "11.0955756288254",
+      "ihc_baseline": "5.87",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-20FDCU",
+      "subject": "75",
+      "histology": "Other",
+      "sample_baseline": "C-20FDCU;Baseline",
+      "sample_on": "C-20FDCU;On-Treatment",
+      "rna_baseline": "0.63803759646396",
+      "ihc_baseline": "3.62",
+      "rna_on": "1.67102344403565",
+      "ihc_on": null,
+      "missing": [
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-20LTFP",
+      "subject": "24",
+      "histology": "Chondrosarcoma",
+      "sample_baseline": "C-20LTFP;Baseline",
+      "sample_on": "C-20LTFP;On-Treatment",
+      "rna_baseline": "1.59133921512127",
+      "ihc_baseline": "5.87",
+      "rna_on": "1.76554043736389",
+      "ihc_on": "2.87",
+      "missing": [],
+      "included": true,
+      "rna_change": "0.17420122224262",
+      "ihc_change_percentage_points": "-3.00",
+      "rna_direction": "positive",
+      "ihc_direction": "negative"
+    },
+    {
+      "patient_id": "C-26NK0F",
+      "subject": "44",
+      "histology": "Osteosarcoma",
+      "sample_baseline": "C-26NK0F;Baseline",
+      "sample_on": "C-26NK0F;On-Treatment",
+      "rna_baseline": "0.317088821372693",
+      "ihc_baseline": "5.75",
+      "rna_on": "0.119579029585765",
+      "ihc_on": "1.01",
+      "missing": [],
+      "included": true,
+      "rna_change": "-0.197509791786928",
+      "ihc_change_percentage_points": "-4.74",
+      "rna_direction": "negative",
+      "ihc_direction": "negative"
+    },
+    {
+      "patient_id": "C-2EE23U",
+      "subject": "4",
+      "histology": "UPS/MFH/High Grade MFS",
+      "sample_baseline": "C-2EE23U;Baseline",
+      "sample_on": "C-2EE23U;On-Treatment",
+      "rna_baseline": "1.29953100134578",
+      "ihc_baseline": "4.14",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-2FPL8C",
+      "subject": "79",
+      "histology": "Vascular",
+      "sample_baseline": "C-2FPL8C;Baseline",
+      "sample_on": "C-2FPL8C;On-Treatment",
+      "rna_baseline": "1.49390892990776",
+      "ihc_baseline": "2.03",
+      "rna_on": null,
+      "ihc_on": "2.01",
+      "missing": [
+        "rna_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-2M22RC",
+      "subject": "87",
+      "histology": "Vascular",
+      "sample_baseline": "C-2M22RC;Baseline",
+      "sample_on": "C-2M22RC;On-Treatment",
+      "rna_baseline": "2.41723492101965",
+      "ihc_baseline": null,
+      "rna_on": "3.25584907396501",
+      "ihc_on": null,
+      "missing": [
+        "ihc_baseline",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-322N7U",
+      "subject": "49",
+      "histology": "Liposarcoma",
+      "sample_baseline": "C-322N7U;Baseline",
+      "sample_on": "C-322N7U;On-Treatment",
+      "rna_baseline": "10.7030544879281",
+      "ihc_baseline": null,
+      "rna_on": "9.79545907119091",
+      "ihc_on": null,
+      "missing": [
+        "ihc_baseline",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-358579",
+      "subject": "35",
+      "histology": "Osteosarcoma",
+      "sample_baseline": "C-358579;Baseline",
+      "sample_on": "C-358579;On-Treatment",
+      "rna_baseline": "0.0393244458407713",
+      "ihc_baseline": "0.05",
+      "rna_on": "0.0212404872366301",
+      "ihc_on": "0.08",
+      "missing": [],
+      "included": true,
+      "rna_change": "-0.0180839586041412",
+      "ihc_change_percentage_points": "0.03",
+      "rna_direction": "negative",
+      "ihc_direction": "positive"
+    },
+    {
+      "patient_id": "C-3YRFE6",
+      "subject": "47",
+      "histology": "Vascular",
+      "sample_baseline": "C-3YRFE6;Baseline",
+      "sample_on": "C-3YRFE6;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": null,
+      "rna_on": "4.92351531861321",
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "ihc_baseline",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-44CDAN",
+      "subject": "2",
+      "histology": "UPS/MFH/High Grade MFS",
+      "sample_baseline": "C-44CDAN;Baseline",
+      "sample_on": "C-44CDAN;On-Treatment",
+      "rna_baseline": "0.139917918724308",
+      "ihc_baseline": "0.5",
+      "rna_on": "0.719670622002746",
+      "ihc_on": null,
+      "missing": [
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-46JU8E",
+      "subject": "52",
+      "histology": "UPS/MFH/High Grade MFS",
+      "sample_baseline": "C-46JU8E;Baseline",
+      "sample_on": "C-46JU8E;On-Treatment",
+      "rna_baseline": "4.14370684305033",
+      "ihc_baseline": null,
+      "rna_on": "10.7588099691912",
+      "ihc_on": null,
+      "missing": [
+        "ihc_baseline",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-4D26R8",
+      "subject": "28",
+      "histology": "Leiomyosarcoma",
+      "sample_baseline": "C-4D26R8;Baseline",
+      "sample_on": "C-4D26R8;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "1.34",
+      "rna_on": null,
+      "ihc_on": "0.92",
+      "missing": [
+        "rna_baseline",
+        "rna_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-4DV3D5",
+      "subject": "10",
+      "histology": "Osteosarcoma",
+      "sample_baseline": "C-4DV3D5;Baseline",
+      "sample_on": "C-4DV3D5;On-Treatment",
+      "rna_baseline": "0.720733988403427",
+      "ihc_baseline": "8.42",
+      "rna_on": "5.37725500043108",
+      "ihc_on": "4.15",
+      "missing": [],
+      "included": true,
+      "rna_change": "4.656521012027653",
+      "ihc_change_percentage_points": "-4.27",
+      "rna_direction": "positive",
+      "ihc_direction": "negative"
+    },
+    {
+      "patient_id": "C-4J9RUE",
+      "subject": "46",
+      "histology": "UPS/MFH/High Grade MFS",
+      "sample_baseline": "C-4J9RUE;Baseline",
+      "sample_on": "C-4J9RUE;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": null,
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "ihc_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-4PEVTX",
+      "subject": "61",
+      "histology": "UPS/MFH/High Grade MFS",
+      "sample_baseline": "C-4PEVTX;Baseline",
+      "sample_on": null,
+      "rna_baseline": "7.12414339087901",
+      "ihc_baseline": null,
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "ihc_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-556AL5",
+      "subject": "38",
+      "histology": "Liposarcoma",
+      "sample_baseline": "C-556AL5;Baseline",
+      "sample_on": "C-556AL5;On-Treatment",
+      "rna_baseline": "1.24009333209349",
+      "ihc_baseline": "6.52",
+      "rna_on": "2.28937238988615",
+      "ihc_on": null,
+      "missing": [
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-6PL9CN",
+      "subject": "84",
+      "histology": "Vascular",
+      "sample_baseline": "C-6PL9CN;Baseline",
+      "sample_on": "C-6PL9CN;On-Treatment",
+      "rna_baseline": "1.02260153706908",
+      "ihc_baseline": null,
+      "rna_on": "3.96976861184159",
+      "ihc_on": "16.6",
+      "missing": [
+        "ihc_baseline"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-6RJP70",
+      "subject": "54",
+      "histology": "Other",
+      "sample_baseline": "C-6RJP70;Baseline",
+      "sample_on": "C-6RJP70;On-Treatment",
+      "rna_baseline": "0.704835384800394",
+      "ihc_baseline": null,
+      "rna_on": "6.4501013157522",
+      "ihc_on": null,
+      "missing": [
+        "ihc_baseline",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-706775",
+      "subject": "13",
+      "histology": "Leiomyosarcoma",
+      "sample_baseline": "C-706775;Baseline",
+      "sample_on": "C-706775;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "1.4",
+      "rna_on": null,
+      "ihc_on": "11.49",
+      "missing": [
+        "rna_baseline",
+        "rna_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-70K997",
+      "subject": "56",
+      "histology": "Small Blue Round Cell",
+      "sample_baseline": "C-70K997;Baseline",
+      "sample_on": "C-70K997;On-Treatment",
+      "rna_baseline": "0.296068339036604",
+      "ihc_baseline": "0.41",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-8UJKAR",
+      "subject": "25",
+      "histology": "Leiomyosarcoma",
+      "sample_baseline": "C-8UJKAR;Baseline",
+      "sample_on": "C-8UJKAR;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": null,
+      "rna_on": null,
+      "ihc_on": "1.25",
+      "missing": [
+        "rna_baseline",
+        "ihc_baseline",
+        "rna_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-ADELNY",
+      "subject": "43",
+      "histology": "Chondrosarcoma",
+      "sample_baseline": "C-ADELNY;Baseline",
+      "sample_on": "C-ADELNY;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "0.06",
+      "rna_on": "0.916213837913858",
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-AN0CUK",
+      "subject": "50",
+      "histology": "Liposarcoma",
+      "sample_baseline": "C-AN0CUK;Baseline",
+      "sample_on": "C-AN0CUK;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "9.08",
+      "rna_on": "6.02373036690034",
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-C1XA6T",
+      "subject": "74",
+      "histology": "Other",
+      "sample_baseline": "C-C1XA6T;Baseline",
+      "sample_on": "C-C1XA6T;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "1.07",
+      "rna_on": "2.26541169050748",
+      "ihc_on": "0.67",
+      "missing": [
+        "rna_baseline"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-CPRNJ2",
+      "subject": "82",
+      "histology": "ASPS",
+      "sample_baseline": "C-CPRNJ2;Baseline",
+      "sample_on": "C-CPRNJ2;On-Treatment",
+      "rna_baseline": "0.624848081785538",
+      "ihc_baseline": "3.34",
+      "rna_on": "0.915499059421087",
+      "ihc_on": "3.86",
+      "missing": [],
+      "included": true,
+      "rna_change": "0.290650977635549",
+      "ihc_change_percentage_points": "0.52",
+      "rna_direction": "positive",
+      "ihc_direction": "positive"
+    },
+    {
+      "patient_id": "C-CTK666",
+      "subject": "3",
+      "histology": "Leiomyosarcoma",
+      "sample_baseline": "C-CTK666;Baseline",
+      "sample_on": "C-CTK666;On-Treatment",
+      "rna_baseline": "0.0616851178878726",
+      "ihc_baseline": "0.91",
+      "rna_on": null,
+      "ihc_on": "1.78",
+      "missing": [
+        "rna_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-D3KFD5",
+      "subject": "68",
+      "histology": "Small Blue Round Cell",
+      "sample_baseline": "C-D3KFD5;Baseline",
+      "sample_on": "C-D3KFD5;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "0.14",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-E36838",
+      "subject": "17",
+      "histology": "Chondrosarcoma",
+      "sample_baseline": "C-E36838;Baseline",
+      "sample_on": "C-E36838;On-Treatment",
+      "rna_baseline": "5.50700497711439",
+      "ihc_baseline": null,
+      "rna_on": null,
+      "ihc_on": "20.69",
+      "missing": [
+        "ihc_baseline",
+        "rna_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-EJA7N2",
+      "subject": "7",
+      "histology": "Leiomyosarcoma",
+      "sample_baseline": "C-EJA7N2;Baseline",
+      "sample_on": null,
+      "rna_baseline": null,
+      "ihc_baseline": "16.91",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-F8KXJU",
+      "subject": "5",
+      "histology": "Chondrosarcoma",
+      "sample_baseline": "C-F8KXJU;Baseline",
+      "sample_on": "C-F8KXJU;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "0",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-FN268L",
+      "subject": "12",
+      "histology": "Liposarcoma",
+      "sample_baseline": "C-FN268L;Baseline",
+      "sample_on": "C-FN268L;On-Treatment",
+      "rna_baseline": "0.095584322066277",
+      "ihc_baseline": "0.53",
+      "rna_on": "0.475941671078129",
+      "ihc_on": null,
+      "missing": [
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-H7RF5A",
+      "subject": "18",
+      "histology": "Chondrosarcoma",
+      "sample_baseline": "C-H7RF5A;Baseline",
+      "sample_on": "C-H7RF5A;On-Treatment",
+      "rna_baseline": "1.82651243917277",
+      "ihc_baseline": "4.61",
+      "rna_on": "21.7478652484356",
+      "ihc_on": "32.78",
+      "missing": [],
+      "included": true,
+      "rna_change": "19.92135280926283",
+      "ihc_change_percentage_points": "28.17",
+      "rna_direction": "positive",
+      "ihc_direction": "positive"
+    },
+    {
+      "patient_id": "C-H896LA",
+      "subject": "36",
+      "histology": "Liposarcoma",
+      "sample_baseline": "C-H896LA;Baseline",
+      "sample_on": "C-H896LA;On-Treatment",
+      "rna_baseline": "0.953925815616284",
+      "ihc_baseline": "2.69",
+      "rna_on": "0.204782956279771",
+      "ihc_on": "0.42",
+      "missing": [],
+      "included": true,
+      "rna_change": "-0.749142859336513",
+      "ihc_change_percentage_points": "-2.27",
+      "rna_direction": "negative",
+      "ihc_direction": "negative"
+    },
+    {
+      "patient_id": "C-HFHK04",
+      "subject": "27",
+      "histology": "Leiomyosarcoma",
+      "sample_baseline": "C-HFHK04;Baseline",
+      "sample_on": null,
+      "rna_baseline": null,
+      "ihc_baseline": "0.07",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-HMPJVW",
+      "subject": "15",
+      "histology": "Osteosarcoma",
+      "sample_baseline": "C-HMPJVW;Baseline",
+      "sample_on": "C-HMPJVW;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": null,
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "ihc_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-J0AW9Y",
+      "subject": "73",
+      "histology": "Small Blue Round Cell",
+      "sample_baseline": "C-J0AW9Y;Baseline",
+      "sample_on": "C-J0AW9Y;On-Treatment",
+      "rna_baseline": "0.0869960206498598",
+      "ihc_baseline": "1.01",
+      "rna_on": "0.428301539888313",
+      "ihc_on": "0.45",
+      "missing": [],
+      "included": true,
+      "rna_change": "0.3413055192384532",
+      "ihc_change_percentage_points": "-0.56",
+      "rna_direction": "positive",
+      "ihc_direction": "negative"
+    },
+    {
+      "patient_id": "C-J0UH5P",
+      "subject": "85",
+      "histology": "ASPS",
+      "sample_baseline": "C-J0UH5P;Baseline",
+      "sample_on": "C-J0UH5P;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": null,
+      "rna_on": "2.27833261621286",
+      "ihc_on": "9.98",
+      "missing": [
+        "rna_baseline",
+        "ihc_baseline"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-JNLDDC",
+      "subject": "63",
+      "histology": "Other",
+      "sample_baseline": "C-JNLDDC;Baseline",
+      "sample_on": "C-JNLDDC;On-Treatment",
+      "rna_baseline": "1.50304962882181",
+      "ihc_baseline": "1.55",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-K61C9C",
+      "subject": "20",
+      "histology": "Liposarcoma",
+      "sample_baseline": "C-K61C9C;Baseline",
+      "sample_on": "C-K61C9C;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": null,
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "ihc_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-K9P277",
+      "subject": "71",
+      "histology": "Osteosarcoma",
+      "sample_baseline": "C-K9P277;Baseline",
+      "sample_on": "C-K9P277;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "4.99",
+      "rna_on": null,
+      "ihc_on": "19.04",
+      "missing": [
+        "rna_baseline",
+        "rna_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-K9U229",
+      "subject": "14",
+      "histology": "Chondrosarcoma",
+      "sample_baseline": "C-K9U229;Baseline",
+      "sample_on": null,
+      "rna_baseline": "2.98505298357861",
+      "ihc_baseline": null,
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "ihc_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-L7C8JC",
+      "subject": "53",
+      "histology": "Liposarcoma",
+      "sample_baseline": "C-L7C8JC;Baseline",
+      "sample_on": "C-L7C8JC;On-Treatment",
+      "rna_baseline": "1.0993304602568",
+      "ihc_baseline": null,
+      "rna_on": "5.85347810203546",
+      "ihc_on": "4.01",
+      "missing": [
+        "ihc_baseline"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-L7M7WP",
+      "subject": "1",
+      "histology": "Leiomyosarcoma",
+      "sample_baseline": "C-L7M7WP;Baseline",
+      "sample_on": "C-L7M7WP;On-Treatment",
+      "rna_baseline": "7.4877601694672",
+      "ihc_baseline": "13.22",
+      "rna_on": "9.88860000327751",
+      "ihc_on": null,
+      "missing": [
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-LCR6NT",
+      "subject": "45",
+      "histology": "Vascular",
+      "sample_baseline": "C-LCR6NT;Baseline",
+      "sample_on": "C-LCR6NT;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "1.32",
+      "rna_on": "8.87379878344797",
+      "ihc_on": "14.28",
+      "missing": [
+        "rna_baseline"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-LND16D",
+      "subject": "76",
+      "histology": "Other",
+      "sample_baseline": "C-LND16D;Baseline",
+      "sample_on": "C-LND16D;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "14.04",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-LX87X3",
+      "subject": "37",
+      "histology": "Liposarcoma",
+      "sample_baseline": "C-LX87X3;Baseline",
+      "sample_on": "C-LX87X3;On-Treatment",
+      "rna_baseline": "0.623572120482614",
+      "ihc_baseline": "1.41",
+      "rna_on": "0.565255295399855",
+      "ihc_on": "1.1",
+      "missing": [],
+      "included": true,
+      "rna_change": "-0.058316825082759",
+      "ihc_change_percentage_points": "-0.31",
+      "rna_direction": "negative",
+      "ihc_direction": "negative"
+    },
+    {
+      "patient_id": "C-MAT890",
+      "subject": "39",
+      "histology": "Osteosarcoma",
+      "sample_baseline": "C-MAT890;Baseline",
+      "sample_on": null,
+      "rna_baseline": "0.692131977990221",
+      "ihc_baseline": "1.65",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-MVMX43",
+      "subject": "16",
+      "histology": "Osteosarcoma",
+      "sample_baseline": "C-MVMX43;Baseline",
+      "sample_on": "C-MVMX43;On-Treatment",
+      "rna_baseline": "6.17785552900842",
+      "ihc_baseline": "3.86",
+      "rna_on": "0.627495400714503",
+      "ihc_on": "0.32",
+      "missing": [],
+      "included": true,
+      "rna_change": "-5.550360128293917",
+      "ihc_change_percentage_points": "-3.54",
+      "rna_direction": "negative",
+      "ihc_direction": "negative"
+    },
+    {
+      "patient_id": "C-N4N2FL",
+      "subject": "23",
+      "histology": "Liposarcoma",
+      "sample_baseline": "C-N4N2FL;Baseline",
+      "sample_on": "C-N4N2FL;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "1.4",
+      "rna_on": null,
+      "ihc_on": "15.18",
+      "missing": [
+        "rna_baseline",
+        "rna_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-NF6VH4",
+      "subject": "67",
+      "histology": "Other",
+      "sample_baseline": "C-NF6VH4;Baseline",
+      "sample_on": "C-NF6VH4;On-Treatment",
+      "rna_baseline": "2.51925813471321",
+      "ihc_baseline": "1.55",
+      "rna_on": "1.40504097239346",
+      "ihc_on": null,
+      "missing": [
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-NFM1DC",
+      "subject": "26",
+      "histology": "UPS/MFH/High Grade MFS",
+      "sample_baseline": "C-NFM1DC;Baseline",
+      "sample_on": null,
+      "rna_baseline": null,
+      "ihc_baseline": "7",
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-PY3UUN",
+      "subject": "8",
+      "histology": "Leiomyosarcoma",
+      "sample_baseline": "C-PY3UUN;Baseline",
+      "sample_on": "C-PY3UUN;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "3.09",
+      "rna_on": null,
+      "ihc_on": "0.6",
+      "missing": [
+        "rna_baseline",
+        "rna_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-R5FT5U",
+      "subject": "9",
+      "histology": "Osteosarcoma",
+      "sample_baseline": "C-R5FT5U;Baseline",
+      "sample_on": "C-R5FT5U;On-Treatment",
+      "rna_baseline": "4.01732215549337",
+      "ihc_baseline": null,
+      "rna_on": "3.63671492837375",
+      "ihc_on": "11.15",
+      "missing": [
+        "ihc_baseline"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-UDHH22",
+      "subject": "21",
+      "histology": "UPS/MFH/High Grade MFS",
+      "sample_baseline": "C-UDHH22;Baseline",
+      "sample_on": "C-UDHH22;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": "2.13",
+      "rna_on": "1.37525216829112",
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-WD4RUC",
+      "subject": "31",
+      "histology": "Leiomyosarcoma",
+      "sample_baseline": "C-WD4RUC;Baseline",
+      "sample_on": "C-WD4RUC;On-Treatment",
+      "rna_baseline": "0.746811516017805",
+      "ihc_baseline": "4.26",
+      "rna_on": "3.19774688043684",
+      "ihc_on": "3.73",
+      "missing": [],
+      "included": true,
+      "rna_change": "2.450935364419035",
+      "ihc_change_percentage_points": "-0.53",
+      "rna_direction": "positive",
+      "ihc_direction": "negative"
+    },
+    {
+      "patient_id": "C-WJ49UR",
+      "subject": "32",
+      "histology": "Chondrosarcoma",
+      "sample_baseline": "C-WJ49UR;Baseline",
+      "sample_on": "C-WJ49UR;On-Treatment",
+      "rna_baseline": "1.83897637477662",
+      "ihc_baseline": "0.4",
+      "rna_on": "4.7749787704689",
+      "ihc_on": null,
+      "missing": [
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-WKND2T",
+      "subject": "60",
+      "histology": "Other",
+      "sample_baseline": "C-WKND2T;Baseline",
+      "sample_on": "C-WKND2T;On-Treatment",
+      "rna_baseline": "3.11862977495719",
+      "ihc_baseline": "2.68",
+      "rna_on": "2.03723628275425",
+      "ihc_on": "4.49",
+      "missing": [],
+      "included": true,
+      "rna_change": "-1.08139349220294",
+      "ihc_change_percentage_points": "1.81",
+      "rna_direction": "negative",
+      "ihc_direction": "positive"
+    },
+    {
+      "patient_id": "C-WNVW3H",
+      "subject": "34",
+      "histology": "Vascular",
+      "sample_baseline": "C-WNVW3H;Baseline",
+      "sample_on": "C-WNVW3H;On-Treatment",
+      "rna_baseline": "4.48075976917292",
+      "ihc_baseline": "9.67",
+      "rna_on": "2.16937764540239",
+      "ihc_on": "11.66",
+      "missing": [],
+      "included": true,
+      "rna_change": "-2.31138212377053",
+      "ihc_change_percentage_points": "1.99",
+      "rna_direction": "negative",
+      "ihc_direction": "positive"
+    },
+    {
+      "patient_id": "C-XNNK0Y",
+      "subject": "58",
+      "histology": "Small Blue Round Cell",
+      "sample_baseline": "C-XNNK0Y;Baseline",
+      "sample_on": "C-XNNK0Y;On-Treatment",
+      "rna_baseline": null,
+      "ihc_baseline": null,
+      "rna_on": null,
+      "ihc_on": null,
+      "missing": [
+        "rna_baseline",
+        "ihc_baseline",
+        "rna_on",
+        "ihc_on"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-Y03274",
+      "subject": "42",
+      "histology": "Osteosarcoma",
+      "sample_baseline": "C-Y03274;Baseline",
+      "sample_on": "C-Y03274;On-Treatment",
+      "rna_baseline": "2.61008173387573",
+      "ihc_baseline": null,
+      "rna_on": "1.99375035449759",
+      "ihc_on": "0.54",
+      "missing": [
+        "ihc_baseline"
+      ],
+      "included": false
+    },
+    {
+      "patient_id": "C-Y6TH4J",
+      "subject": "64",
+      "histology": "Other",
+      "sample_baseline": "C-Y6TH4J;Baseline",
+      "sample_on": "C-Y6TH4J;On-Treatment",
+      "rna_baseline": "16.2863223074195",
+      "ihc_baseline": null,
+      "rna_on": "29.0614391246385",
+      "ihc_on": "39.32",
+      "missing": [
+        "ihc_baseline"
+      ],
+      "included": false
+    }
+  ],
+  "input_sha256": {
+    "SampleSourceData.txt": "66d1f6bf39becc76f82d194ef2bf7b1784689c6d01177a319c717e208427e625",
+    "numeric-ihc.json": "7fd0b176fa688c49f98aa21177f687e608e4de02739dd6a155eab430a9b2b51a",
+    "plan.md": "481c1e8161e94f54074ab34e53a358a44ee2f8c037e21af627e01e60c0a81c6d",
+    "analyze_pairs.py": "f83c59f843109bd948eab1fb144be07b67a3cba9b8183587edd3d10e81d10e96"
+  },
+  "interpretation_scope": "Within-patient descriptive changes; no causal, efficacy, survival or EMC-specific inference. RNA score units and IHC percentage points are different scales."
+}

@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-02",
+  "reviewer": "foundation_contribution",
+  "disposition": "aggregate_results_confirmed; nonblocking_precision_provenance_clarification",
+  "scope": "Independent small-table reconstruction using exact rational sourceValues.valueLiteral and RNA text, sorted-block midranks and raw rank moments; static review of plan/author code/analysis. No raw RNA or fresh primary IHC workbook extraction.",
+  "actual_execution": {
+    "script": "independent_check.py",
+    "final_exit_code": 0,
+    "initial_exact_value_check": "Failed on source-literal versus earlier normalized JSON precision; retained as explicit observation, not silently equated."
+  },
+  "confirmed": {
+    "registered_patients": 69,
+    "shared_pairs": 13,
+    "same_nonzero_direction": 6,
+    "direction_table_rna_then_ihc": {
+      "negative/negative": 4,
+      "negative/positive": 3,
+      "positive/negative": 4,
+      "positive/positive": 2
+    },
+    "exact_zero_deltas": 0,
+    "distinct_rna_deltas": 13,
+    "distinct_ihc_deltas": 13,
+    "spearman": 0.06043956043956044,
+    "exact_rational_rank_moments": "143 / sqrt(2366 * 2366) = 11/182",
+    "identity": "One-to-one patient/Subject, unique patient/timepoint, exact SampleID patient;timepoint, consistent Cohort and IHC key/timepoint/Subject validated. Inclusion patient IDs equal accepted result, with Baseline and On-Treatment only.",
+    "histology": "Eight represented categories; Osteosarcoma4, Chondrosarcoma2, Liposarcoma2, five singleton categories; complete13 patient values in independent-results.json."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "topic": "Exact decimal provenance",
+      "detail": "Worker uses distinctNumericValues from accepted historical extraction, not captured original valueLiteral. Three included IHC cells differ only in trailing decimal digits (documented in independent-results.json). Literal-based deltas preserve all signs, ranks and rho. Clarify that reported decimals are the accepted normalized numeric extraction, or use original literals. Do not imply literal-perfect decimal preservation.",
+      "blocking_for_aggregate_claim": false
+    }
+  ],
+  "source_and_interpretation_review": {
+    "score_provenance": "SetUpData.R computes MCP-counter via immunedeconv, then merges scores into clin2 before separate heatmap Z scoring; FigureS2.R reads published T-cell (CD8) directly for pooled correlation. Using the exported score scale directly is supported; no independent raw-RNA pipeline reproduction occurred.",
+    "novelty_scope": "FigureS2.R contains pooled CD8 RNA/IHC correlations and IHC change by response, not RNA-change versus IHC-change correlation. This scoped author-code distinction supports the specific follow-up, not exhaustive literature novelty.",
+    "limits": "Same patient/timepoint is not proof of same aliquot or spatially equivalent biopsy.69 registered in source is not84 enrolled. Complete-case13 is selective, sparse and multi-histology. No causal, efficacy, EMC-specific or assay interchangeability claim is supported. Findings preserve these limits.",
+    "frozen_plan": "Reviewed plan hash bound in independent-results; historical pre-computation timing is worker-provided provenance, not independently reconstructed."
+  },
+  "files": {
+    "independent_check.py": "1f2519bab5b14db6a6314285a2ba0b884d123ecdcd84624e9dae13739a928800",
+    "independent-results.json": "43c96810c9bca8ab464428671463e442ef3647e8348bc530b0c37a0f93d48d8b"
+  },
+  "reviewed_findings_sha256": "985d6ce8d13c201f887a6b4d505f24372cf70238e3dc6cb8e168f163bce1d0d3",
+  "next_action": "Integrate with the precision wording clarified; no additional empirical calculation is required to confirm these aggregate results."
+}
