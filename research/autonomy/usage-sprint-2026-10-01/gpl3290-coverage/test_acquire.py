@@ -159,6 +159,24 @@ class RefusalIntegrity(unittest.TestCase):
         raw = "User-agent: *\nDisallow: /unrelated\n"
         self.r["robots"].update(raw_utf8=raw, bytes=len(raw.encode()), sha256=m.sha(raw.encode()))
         self.bad()
+    def test_coherent_different_refusing_policy_cannot_replace_original(self):
+        raw = "User-agent: *\nDisallow: /geo/\n"
+        self.r["robots"].update(raw_utf8=raw, bytes=len(raw.encode()), sha256=m.sha(raw.encode()))
+        self.bad()
+    def test_same_roster_changed_readiness_is_not_a_new_accepted_input(self):
+        with tempfile.TemporaryDirectory() as td:
+            tmp = Path(td)
+            for path in m.PINS:
+                target = tmp / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes((m.ROOT / path).read_bytes())
+            ready_path = tmp / "research/modalities/expression-validation-readiness.json"
+            ready = m.json.loads(ready_path.read_text())
+            ready["cohorts"]["GSE4303"]["sample_records"][0]["annotation"]["value"] += " | UHR"
+            ready_path.write_text(m.json.dumps(ready), encoding="utf-8")
+            with patch.object(m, "ROOT", tmp):
+                with self.assertRaisesRegex(ValueError, "Existing expression input changed"):
+                    m.frozen_inputs()
     def test_source_url_change_refused(self):
         self.r["attempted_source_url"] += "?retry=1"
         self.bad()

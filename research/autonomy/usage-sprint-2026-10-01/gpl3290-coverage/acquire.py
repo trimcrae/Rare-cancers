@@ -35,6 +35,7 @@ DESCRIPTORS = {"CRH", "CRH-mRNA", "UHR"}
 PINS = {
  "research/modalities/emc-expression-panels-inputs.json": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
  "research/modalities/emc-expression-panels.json": "123bd05a9f9f5d08a362df3bd51cdbb72c241b49712123aaf5c5ea914f336bd9",
+ "research/modalities/expression-validation-readiness.json": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12",
 }
 
 class CycleDeadline(BaseException):
@@ -60,7 +61,7 @@ def frozen_inputs():
     fail(roster == expected and len(samples) == len(roster) == 16, "Current cached roster changed")
     arms = {r["sample_id"]["value"]: r["class"]["value"] for r in old}
     fail(collections.Counter(arms.values()) == {"EMC": 10, "DFSP": 3, "GIST": 3}, "Cached arms changed")
-    return roster, arms, {**PINS, "research/modalities/expression-validation-readiness.json": sha(readiness_path.read_bytes())}
+    return roster, arms, dict(PINS)
 
 def metadata_from_lines(rows):
     out = collections.defaultdict(list)
@@ -308,6 +309,8 @@ def acquire(cache, expected, arms, pins):
     return out
 
 
+ORIGINAL_ROBOTS_BYTES = 26
+ORIGINAL_ROBOTS_SHA256 = "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1"
 ORIGINAL_REFUSAL = {
  "run_id": 36956839577, "job_id": 110681574472,
  "source_commit": "bdd2608c61d1d9e5c4317ba74febbfa2f9cf2403",
@@ -348,7 +351,8 @@ def validate_refusal(record, expected, arms, pins, cached):
     fail(r["requested_url"] == ROBOTS_URL and r["http_status"] == 200 and r["decision"] == "refuse",
          "Wrong observed robots status/origin/decision")
     raw = r["raw_utf8"].encode("utf-8")
-    fail(len(raw) == r["bytes"] and sha(raw) == r["sha256"], "Robots raw hash/byte binding mismatch")
+    fail(len(raw) == r["bytes"] == ORIGINAL_ROBOTS_BYTES and
+         sha(raw) == r["sha256"] == ORIGINAL_ROBOTS_SHA256, "Original robots raw hash/byte binding mismatch")
     parser = urllib.robotparser.RobotFileParser()
     parser.parse(r["raw_utf8"].splitlines())
     fail(not parser.can_fetch(UA, URL), "Exact original policy does not refuse unchanged request")
