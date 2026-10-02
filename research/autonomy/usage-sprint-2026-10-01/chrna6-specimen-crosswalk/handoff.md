@@ -61,7 +61,26 @@ the finite source acquisition, its immediate offline check, normal
 `PREFLIGHT OK (fast gates only (doc + artifact linters))`, and clean tracked diff.
 The complete original log is preserved in [acquisition-original.log](acquisition-original.log).
 This validates source integrity and repository fast gates, not full scientific or publication suites.
-Settled committed-evidence validation and independent root review remain pending at this checkpoint.
+Settled [run 36952479957](https://github.com/trimcrae/Rare-cancers/actions/runs/36952479957),
+job 110668444392, completed SUCCESS at 9bfd7112bf76f184d632e4d72fea3fa95f5e9d34.
+Actual execution passed 32 Python cases, committed-evidence offline validation, normal FAST
+preflight and clean tracked diff. The acquisition and artifact-upload steps were actually
+skipped. The final tests exercise robots policy/origin refusal, missing-policy handling and
+hard deadline propagation through both error handlers. Its full original log is preserved in
+[settled-original.log](settled-original.log); [validation-receipt.json](validation-receipt.json)
+records exact commits, source/code/log Git blobs, run/job receipts and scope limitations.
+
+The coordinator independently extracted the original output and checked its 41,711 UTF-8
+bytes and SHA256, all three raw source sizes/hashes, exact study identity and all four
+source-findings observations against raw JSON pointers or substrings. The committed evidence
+was byte-identical to that original output. Root cleared source methods and prose at
+9bfd7112, including handoff blob 939d1ac46c00e006a4ab7018bc4c396e5aa7b649 and derived findings
+blob 77f9fe60b78adafa5e072c883f0fa69c1e862e81. Root also reviewed the named robots/deadline
+repair and final handler fixture. This is independent LLM review, not human scientific
+validation or a new whole-paper review seat. Only operational completion/receipt wording
+and the findings' authorship-review status change afterward; source observations and bytes
+are unchanged. This bounded task is complete, no task job remains running, and ownership
+has returned to the coordinator.
 
 The existing abstract-only marker evidence and completed 42-value GEO source projection were reused.
 The historical readiness packet, seven excluded records, frozen analyses, immutable preregistrations,
