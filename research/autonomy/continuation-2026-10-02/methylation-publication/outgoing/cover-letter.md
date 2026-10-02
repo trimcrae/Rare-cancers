@@ -2,7 +2,7 @@
 id: DOC-METH-PACKAGE-COVER-20261002
 title: Virchows Archiv cover letter draft
 level: L3
-kind: report
+kind: memo
 status: live
 purpose: Prepare the completed methylation empirical methods study for author and journal review.
 scope: Dataset-specific secondary analysis; no publication authorization or readiness claim.

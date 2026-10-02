@@ -2,7 +2,7 @@
 id: DOC-METH-PACKAGE-SUPPLEMENT-20261002
 title: Methylation methods and reproducibility supplement
 level: L3
-kind: report
+kind: manuscript
 status: live
 purpose: Prepare the completed methylation empirical methods study for author and journal review.
 scope: Dataset-specific secondary analysis; no publication authorization or readiness claim.

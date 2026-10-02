@@ -2,7 +2,7 @@
 id: DOC-METH-PACKAGE-INDEX-20261002
 title: Methylation outgoing package
 level: L3
-kind: report
+kind: index
 status: live
 purpose: Prepare the completed methylation empirical methods study for author and journal review.
 scope: Dataset-specific secondary analysis; no publication authorization or readiness claim.

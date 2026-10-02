@@ -27,6 +27,15 @@ def build(stem):
     if text.startswith('---\n'):
         text = text.split('---', 2)[2].strip()
     doc = Document()
+    # The runtime template carries decorative title borders and theme fonts.
+    # Remove them explicitly so exported journal files use the stated plain style.
+    for style in doc.styles:
+        for border in list(style.element.iter(qn('w:pBdr'))):
+            border.getparent().remove(border)
+        for fonts in style.element.iter(qn('w:rFonts')):
+            for attribute in list(fonts.attrib):
+                if 'theme' in attribute.lower():
+                    del fonts.attrib[attribute]
     sec = doc.sections[0]
     sec.page_width, sec.page_height = Inches(8.27), Inches(11.69)
     sec.top_margin = sec.bottom_margin = Inches(0.8)
@@ -50,6 +59,7 @@ def build(stem):
     field = OxmlElement('w:fldSimple'); field.set(qn('w:instr'), 'PAGE'); foot._p.append(field)
     lines = text.splitlines()
     i = 0
+    in_references = False
     while i < len(lines):
         line = lines[i].strip()
         if not line:
@@ -88,11 +98,16 @@ def build(stem):
             p = doc.add_paragraph(line[4:], 'Heading 2')
         elif line.startswith('## '):
             p = doc.add_paragraph(line[3:], 'Heading 1')
+            in_references = line == '## References'
         else:
             p = doc.add_paragraph()
             inline(p, line)
             if line.startswith('Table '):
                 p.paragraph_format.keep_with_next = True
+                for run in p.runs: run.font.size = Pt(10)
+            if in_references:
+                p.paragraph_format.space_after = Pt(4)
+                p.paragraph_format.line_spacing = 1
                 for run in p.runs: run.font.size = Pt(10)
         i += 1
     doc.core_properties.author = 'Tristan D. McRae'
