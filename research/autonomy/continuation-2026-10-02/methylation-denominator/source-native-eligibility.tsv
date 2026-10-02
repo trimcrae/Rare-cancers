@@ -1,0 +1,987 @@
+source_sheet	source_row	Case number	Sentrix ID	Array type	Methylation DNA source (Frozen tissue= FT, paraffin embedded= FFPET)	Final Diagnosis	Histological subtype (if applicable)	Diagnosis Summary	Initial Diagnosis (if modified after classifier result)	Sample in core validation cohort?	Summary of review findings (discrepant results only)	Revision of diagnosis (score >=0.9 only)	Prediction group (>=0.9)	Predicted methylation class	Calibration score (Methylation class)
+Table S1	4	1	100994770004_R01C02	450k	DNA FT	Osteofibrous Dysplasia	NA	OFD		No	Not validated (below threshold)	NA	Below threshold	FDY	0.799
+Table S1	5	2	100994770004_R02C02	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Not validated (below threshold)	NA	Below threshold	FDY	0.102
+Table S1	6	3	100994770004_R03C02	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.976
+Table S1	7	4	100994770004_R04C01	450k	DNA FFPET	Osteoclast-rich sarcoma	Difficult to classify	USARC		Yes	Not validated (below threshold)	NA	Below threshold	OS_HG	0.157
+Table S1	8	5	100994770004_R04C02	EPIC	DNA FFPET 	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	Not validated (below threshold)	NA	Below threshold	GCTB	0.785
+Table S1	9	6	100994770004_R05C01	450k	DNA FT	Adamantinoma	Classical	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.138
+Table S1	10	7	100994770004_R05C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	Not validated (below threshold)	NA	Below threshold	FDY	0.24
+Table S1	11	8	100994770004_R06C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.995
+Table S1	12	9	100994770005_R01C02	450k	DNA FFPET	Fibrous Dysplasia	Secondary ABC-change	FDY		Yes	Molecular- GNAS mutation	NA	Below threshold	OS_HG	0.134
+Table S1	13	10	100994770005_R02C01	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	Molecular- H3K36m mutant	NA	Below threshold	CSA_IDH_GROUP_B	0.634
+Table S1	14	11	100994770005_R02C02	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.992
+Table S1	15	12	100994770005_R03C02	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.495
+Table S1	16	13	100994770005_R05C01	450k	DNA FFPET	Osteoblastoma	Conventional	OB		Yes	NA	No	Grp1- Classifier correct (concordant)	OB	0.984
+Table S1	17	14	100994770005_R05C02	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	CSA_GROUP_A	0.137
+Table S1	18	15	100994770005_R06C01	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.214
+Table S1	19	16	100994770005_R06C02	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.069
+Table S1	20	17	101103430066_R01C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	IHC- G34W positive	NA	Below threshold	CB	0.493
+Table S1	21	18	101103430066_R01C02	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CB	0.283
+Table S1	22	19	101103430066_R02C01	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.321
+Table S1	23	20	101103430066_R02C02	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.11
+Table S1	24	21	101103430066_R03C01	450k	DNA FFPET	Osteoblastoma	Conventional	OB		Yes	NA	No	Grp1- Classifier correct (concordant)	OB	0.995
+Table S1	25	22	101103430066_R03C02	450k	DNA FFPET	Osteoblastoma	Conventional	OB		Yes	NA	No	Grp1- Classifier correct (concordant)	OB	0.996
+Table S1	26	23	101103430066_R04C01	450k	DNA FFPET	Osteosarcoma	osteoclast rich	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.26
+Table S1	27	24	101103430066_R04C02	450k	DNA FFPET	Osteoblastoma	Conventional	OB		Yes	NA	No	Grp1- Classifier correct (concordant)	OB	0.944
+Table S1	28	25	101103430066_R05C01	450k	DNA FFPET	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.995
+Table S1	29	26	101103430066_R05C02	450k	DNA FFPET	Osteoblastoma	Conventional	OB		Yes	NA	No	Grp1- Classifier correct (concordant)	OB	0.999
+Table S1	30	27	101103430066_R06C01	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CB	0.343
+Table S1	31	28	101103430066_R06C02	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.448
+Table S1	32	29	101103430084_R01C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.78
+Table S1	33	30	101103430084_R02C01	450k	DNA FFPET	Chondromyxoid Fibroma	Difficult to classify	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	CSA_GROUP_A	0.206
+Table S1	34	31	101103430084_R03C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Atypical	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.908
+Table S1	35	32	101103430084_R03C02	450k	DNA FFPET	Osteoblastoma	Conventional	OB		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OB	0.408
+Table S1	36	33	101103430084_R04C01	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.448
+Table S1	37	34	101103430084_R04C02	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.174
+Table S1	38	35	101103430084_R05C01	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Not validated (below threshold)	NA	Below threshold	IMT	0.608
+Table S1	39	36	101103430084_R05C02	450k	DNA FT	Adamantinoma	Osteofibrous dysplasia-like	Adamantinoma		No	Histology- typical epithelial (squamoid) islands		Grp2- Discrepant (with evidence)	FDY	0.91
+Table S1	40	37	101103430084_R06C01	450k	DNA FFPET	Osteoblastoma	NA	OB		Yes	NA	No	Grp1- Classifier correct (concordant)	OB	0.996
+Table S1	41	38	101103430084_R06C02	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Histology- low grade lesion with no cytological atypia. Blood filled ectatic spaces. Molecular- USP6 negative (FISH). IHC- G34W negative	No	Grp2- Discrepant (inconclusive)	OS_HG	0.937
+Table S1	42	39	101103430087_R01C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.998
+Table S1	43	40	101103430087_R01C02	450k	DNA FFPET	Osteosarcoma	Soft Tissue	OS (ST)		No	NA	No	Grp2- Discrepant (inconclusive)	USARC	0.9
+Table S1	44	41	101103430087_R02C01	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	NA	No	Grp1- Classifier correct (concordant)	CB	0.949
+Table S1	45	42	101103430087_R02C02	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.141
+Table S1	46	43	101103430087_R03C01	450k	DNA FFPET	Pigmented villonodular synovitis/Tenosynovial giant cell tumour 	Conventional	PVNS/GCTTS		No	Not validated (below threshold)	NA	Below threshold	IMT	0.59
+Table S1	47	44	101103430087_R03C02	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	NA	No	Grp1- Classifier correct (concordant)	CB	0.991
+Table S1	48	45	101103430087_R04C01	450k	DNA FFPET	Osteosarcoma	Telangiectatic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.28
+Table S1	49	46	101103430087_R04C02	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.585
+Table S1	50	47	101103430087_R05C01	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	IMT	0.431
+Table S1	51	48	101103430087_R05C02	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	NA	No	Grp1- Classifier correct (concordant)	CB	0.994
+Table S1	52	49	101103430087_R06C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.997
+Table S1	53	50	101103430087_R06C02	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.663
+Table S1	54	51	101103430097_R01C01	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.11
+Table S1	55	52	101103430097_R01C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.999
+Table S1	56	53	101103430097_R02C01	450k	DNA FFPET	Osteoclast-rich sarcoma	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.859
+Table S1	57	54	101103430097_R02C02	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Not validated (below threshold)	NA	Below threshold	GCTB	0.309
+Table S1	58	55	101103430097_R03C01	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.145
+Table S1	59	56	101103430097_R03C02	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Not validated (below threshold)	NA	Below threshold	CSA_CC	0.404
+Table S1	60	57	101103430097_R04C02	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	NA	No	Grp1- Classifier correct (concordant)	CB	0.987
+Table S1	61	58	101103430097_R05C01	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	NA	No	Grp1- Classifier correct (concordant)	CB	0.981
+Table S1	62	59	101103430097_R05C02	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	IMT	0.817
+Table S1	63	60	101103430097_R06C01	450k	DNA FT	Adamantinoma	Dedifferentiated	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.537
+Table S1	64	61	101103430097_R06C02	450k	DNA FFPET	Leiomyosarcoma	NA	LMS		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.695
+Table S1	65	62	101103430106_R01C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	GCTB	0.532
+Table S1	66	63	101103430106_R01C02	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	USARC	0.167
+Table S1	67	64	101103430106_R02C02	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.229
+Table S1	68	65	101103430106_R03C01	450k	DNA FFPET	Osteoclast-rich sarcoma	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	OS_HG	0.183
+Table S1	69	66	101103430106_R03C02	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CB	0.835
+Table S1	70	67	101103430106_R04C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	GCTB	0.634
+Table S1	71	68	101103430106_R05C01	450k	DNA FFPET	Aneurysmal bone cyst	Conventional	ABC		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.238
+Table S1	72	69	101103430106_R05C02	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CB	0.838
+Table S1	73	70	101103430106_R06C02	450k	DNA FFPET	Osteoclast-rich sarcoma	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	74	71	101103430147_R01C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.991
+Table S1	75	72	101103430147_R01C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.993
+Table S1	76	73	101103430147_R02C01	450k	DNA FFPET	Osteosarcoma	Malignant	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.253
+Table S1	77	74	101103430147_R02C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.999
+Table S1	78	75	101103430147_R03C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.991
+Table S1	79	76	101103430147_R03C02	450k	DNA FFPET	Osteoclast-rich sarcoma	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.559
+Table S1	80	77	101103430147_R04C02	450k	DNA FFPET	Aneurysmal bone cyst	Malignant	ABC		No	Molecular- USP6 rearrangement	No	Grp2- Discrepant (with evidence)	OS_HG	0.987
+Table S1	81	78	101103430147_R05C01	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	IMT	0.398
+Table S1	82	517	202262730113_R03C01	EPIC	DNA FT	Angiosarcoma	Likely Radiation-induced	Angiosarcoma		Yes	Histology- high grade infiltrative vasoformative lesion with atypical hobnail cells	No	Grp2- Discrepant (inconclusive)	EHE	0.994
+Table S1	83	80	101103430147_R06C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	Not validated (below threshold)	NA	Below threshold	CSA_GROUP_A	0.167
+Table S1	84	81	101130760059_R01C01	450k	DNA FFPET	Fibrous Dysplasia	Conventional	FDY		Yes	NA	No	Grp1- Classifier correct (concordant)	FDY	0.999
+Table S1	85	82	101130760059_R02C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Atypical	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	1
+Table S1	86	83	101130760059_R03C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	1
+Table S1	87	84	101130760059_R04C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	1
+Table S1	88	85	101130760059_R05C01	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	USARC	0.248
+Table S1	89	86	101130760059_R06C01	450k	DNA FFPET	Chondroblastoma	Atypical	CB		Yes	Molecular- H3K36m mutant	NA	Below threshold	IMT	0.584
+Table S1	90	87	101130760087_R01C01	450k	DNA FFPET	Phosphaturic mesenchymal tumor (PMT)	Conventional	PMT		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.373
+Table S1	91	88	101130760087_R01C02	450k	DNA FFPET	Osteoblastoma	Conventional	OB		Yes	NA	No	Grp1- Classifier correct (concordant)	OB	1
+Table S1	92	89	101130760087_R02C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	1
+Table S1	93	90	101130760087_R03C01	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	NA	No	Grp1- Classifier correct (concordant)	CB	0.996
+Table S1	94	91	101130760087_R03C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Atypical	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.986
+Table S1	95	92	101130760087_R04C01	450k	DNA FFPET	Osteoblastoma	Conventional	OB		Yes	NA	No	Grp1- Classifier correct (concordant)	OB	0.995
+Table S1	96	93	101130760087_R04C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.996
+Table S1	97	94	101130760087_R05C01	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.855
+Table S1	98	95	101130760087_R05C02	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.865
+Table S1	99	96	101130760087_R06C01	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Clinical- primary bone tumour. Typical osteoblast rich lesion	No	Grp2- Discrepant (with evidence)	NFB_PLEX	0.931
+Table S1	100	97	101130760087_R06C02	450k	DNA FFPET	Osteofibrous Dysplasia	Conventional	OFD		No	Not validated (below threshold)	NA	Below threshold	FDY	0.518
+Table S1	101	98	101130760092_R01C01	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	NA	No	Grp1- Classifier correct (concordant)	CB	0.953
+Table S1	102	99	101130760092_R01C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	1
+Table S1	103	100	101130760092_R02C01	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	USARC	0.188
+Table S1	104	101	101130760092_R02C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	1
+Table S1	105	102	101130760092_R03C01	450k	DNA FFPET	Fibrous Dysplasia	Conventional	FDY		Yes	NA	No	Grp1- Classifier correct (concordant)	FDY	0.999
+Table S1	106	103	101130760092_R03C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.992
+Table S1	107	104	101130760092_R04C01	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.86
+Table S1	108	105	101130760092_R04C02	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	NA	No	Grp1- Classifier correct (concordant)	CB	0.996
+Table S1	109	106	101130760092_R05C01	450k	DNA FFPET	Phosphaturic mesenchymal tumor (PMT)	Conventional	PMT		No	Not validated (below threshold)	NA	Below threshold	OB	0.116
+Table S1	110	107	101130760092_R05C02	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	NA	No	Grp1- Classifier correct (concordant)	CB	1
+Table S1	111	108	101130760092_R06C01	450k	DNA FFPET	Osteoblastoma	Conventional	OB		Yes	NA	No	Grp1- Classifier correct (concordant)	OB	0.972
+Table S1	112	109	200362700236_R01C01	450K	DNA FT	Osteosarcoma	Soft Tissue  	OS (ST)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.841
+Table S1	113	110	200362700236_R01C02	450K	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.237
+Table S1	114	111	200362700236_R02C01	450K	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Histology- pleomorphic spindle cell tumour with prominent osteoid formation	No	Grp2- Discrepant (inconclusive)	USARC	0.993
+Table S1	115	112	200362700236_R02C02	450K	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.66
+Table S1	116	113	200362700236_R03C01	450K	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Clinical- primary soft tissue lesion. Histology- osteoid forming lesion	No	Grp2- Discrepant (inconclusive)	OS_HG	0.949
+Table S1	117	114	200362700236_R03C02	450K	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.223
+Table S1	118	115	200362700236_R04C01	450K	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.585
+Table S1	119	116	200362700236_R04C02	450K	DNA FT	Osteosarcoma	Low grade central	OS (LG)		No	Molecular- MDM2 amplified (FISH). Histology- low grade bone forming tumour	No	Grp2- Discrepant (with evidence)	OS_HG	0.982
+Table S1	120	117	200362700236_R05C01	450K	DNA FT 	Osteosarcoma	Soft Tissue  	OS (ST)		No	Not validated (below threshold)	NA	Below threshold	CSA_CC	0.656
+Table S1	121	118	200362700236_R05C02	450K	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.71
+Table S1	122	119	200362700236_R06C01	450K	DNA FT	Osteosarcoma	Dedifferentiated Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.086
+Table S1	123	120	200362700236_R06C02	450K	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Clinical- surface bone lesion. Molecular- MDM2 amplified (FISH)	No	Grp2- Discrepant (with evidence)	OS_HG	0.993
+Table S1	124	121	200379120035_R01C01	450K	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.602
+Table S1	125	122	200379120035_R01C02	450K	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Not validated (below threshold)	NA	Below threshold	IMT	0.896
+Table S1	126	123	200379120035_R02C01	450K	DNA FT	Osteosarcoma	Periosteal	OS (Surface)		No	Clinical- surface bone lesion	No	Grp2- Discrepant (inconclusive)	OS_HG	0.999
+Table S1	127	124	200379120035_R02C02	450K	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Histology- pleomorphic spindle cell tumour with prominent osteoid formation	No	Grp2- Discrepant (inconclusive)	USARC	0.983
+Table S1	128	125	200379120035_R03C01	450K	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.178
+Table S1	129	126	200379120035_R03C02	450K	DNA FFPET	Phosphaturic mesenchymal tumor (PMT)	NA	PMT		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.181
+Table S1	130	127	200379120035_R04C01	450K	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	FDY	0.678
+Table S1	131	128	200379120035_R04C02	450K	DNA FFPET	Osteosarcoma	Soft Tissue	OS (ST)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.436
+Table S1	132	129	200379120035_R05C01	450K	DNA FT	Osteosarcoma	Low grade central	OS (LG)		No	Not validated (below threshold)	NA	Below threshold	CSA_GROUP_A	0.309
+Table S1	133	130	200379120035_R06C01	450K	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Histology- pleomorphic spindle cell tumour with prominent osteoid formation	No	Grp2- Discrepant (inconclusive)	USARC	0.997
+Table S1	134	131	200379120035_R06C02	450K	DNA FFPET 	Osteosarcoma	Low grade central	OS (LG)		No	Not validated (below threshold)	NA	Below threshold	FDY	0.151
+Table S1	135	132	200379120064_R01C01	450K	DNA FFPET	Osteosarcoma	Low grade central	OS (LG)		No	Molecular- GNAS negative (hotspots R201C, R201H, Q227L). Clinical- Radiology not in keeping with FDY. Histology- fibrous dysplasia like areas but osteoblast rimming present	No	Grp2- Discrepant (with evidence)	FDY	0.985
+Table S1	136	133	200379120064_R01C02	450K	DNA FT	Osteosarcoma	Radiation-induced	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	137	134	200379120064_R02C01	450K	DNA FFPET 	Osteosarcoma	Osteoblastic and Chondroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.864
+Table S1	138	135	200379120064_R02C02	450K	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.533
+Table S1	139	136	200379120064_R03C02	450K	DNA FT	Osteosarcoma	Osteoblastic. Radiation-induced	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	LCH	0.756
+Table S1	140	137	200379120064_R04C01	450K	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic. Radiation-induced	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.994
+Table S1	141	138	200379120064_R04C02	450K	DNA FT	Osteosarcoma	Chondroblastic. Radiation-induced	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.805
+Table S1	142	372	201496710150_R07C01	EPIC	DNA FFPET	Chondrosarcoma	Central conventional	CSA		Yes	Histology- cartilaginous tumour. Clinical- local recurrence in soft tissue (surrounded by reactive myofibroblasts)	No	Grp2- Discrepant (with evidence)	MP	0.938
+Table S1	143	140	200379120064_R05C02	450K	DNA FT	Osteosarcoma	Chondroblastic. Radiation-induced	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.99
+Table S1	144	141	200379120064_R06C01	450K	DNA FT	Osteosarcoma	Radiation-induced	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.751
+Table S1	145	142	200379120064_R06C02	450K	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.988
+Table S1	146	143	200512330046_R01C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.861
+Table S1	147	144	200512330046_R02C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.999
+Table S1	148	145	200512330046_R03C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	149	146	200512330046_R04C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.716
+Table S1	150	147	200512330046_R05C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.573
+Table S1	151	148	200512330046_R06C01	EPIC	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Histology- pleomorphic spindle cell tumour with prominent osteoid formation	No	Grp2- Discrepant (inconclusive)	USARC	0.961
+Table S1	152	149	200512330046_R07C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	153	150	200512330046_R08C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.997
+Table S1	154	151	200550900071_R01C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.993
+Table S1	155	152	200550900071_R02C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.985
+Table S1	156	153	200550900071_R03C01	EPIC	DNA FFPET	Atypical neurofibroma	NA	NFB		Yes	Not validated (below threshold)	NA	Below threshold	SWN	0.169
+Table S1	157	154	200550900071_R04C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	IFS	0.433
+Table S1	158	155	200550900071_R05C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.281
+Table S1	159	156	200550900071_R06C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.494
+Table S1	160	157	200550900071_R07C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.377
+Table S1	161	158	200550900082_R01C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Epithelioid-like	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	SARC_MPNST_LIKE	0.12
+Table S1	162	159	200550900082_R02C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	MPNST	0.293
+Table S1	163	161	200550900082_R06C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Myxoid	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	DFSP	0.471
+Table S1	164	162	200550900082_R07C01	EPIC	DNA FFPET	Synovial sarcoma	Monophasic fibrous type	SYSA		Yes	NA	No	Grp1- Classifier correct (concordant)	SYSA	0.998
+Table S1	165	163	200550900082_R08C01	EPIC	DNA FFPET	Epithelioid sarcoma	Conventional	ES		Yes	NA	No	Grp1- Classifier correct (concordant)	ES	0.999
+Table S1	166	164	200550900083_R01C01	EPIC	DNA FFPET	Atypical neurofibroma	NA	NFB		Yes	Not validated (below threshold)	NA	Below threshold	SWN	0.159
+Table S1	167	165	200550900083_R03C01	EPIC	DNA FFPET	Chondrosarcoma	Mesenchymal	CSA-MES		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_MES	1
+Table S1	168	166	200550900083_R04C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	NA	MPNST	Myxofibrosarcoma	Yes	IHC- H3k27me3 lost. Histology- myxoid but in keeping with MPNST.	Yes	Grp1- Classifier correct (caused revised diagnosis)	MPNST	0.994
+Table S1	169	167	200550900083_R05C01	EPIC	DNA FFPET	Leiomyosarcoma	NA	LMS		Yes	NA	No	Grp1- Classifier correct (concordant)	LMS	0.991
+Table S1	170	168	200550900083_R06C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic and angiosarcomatous	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.999
+Table S1	171	169	200550900083_R08C01	EPIC	DNA FFPET	Synovial sarcoma	Monophasic fibrous type	SYSA		Yes	NA	No	Grp1- Classifier correct (concordant)	SYSA	0.993
+Table S1	172	170	200550900089_R01C01	EPIC	DNA FFPET	Atypical neurofibroma	NA	NFB		Yes	Not validated (below threshold)	NA	Below threshold	SWN	0.265
+Table S1	173	171	200550900089_R02C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	OS_HG	0.634
+Table S1	174	172	200550900089_R03C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	1
+Table S1	175	173	200550900089_R04C01	EPIC	DNA FFPET	Spindle Cell Sarcoma, MPNST like	MPNST-like	MPNST-like		Yes	NA	No	Grp1- Classifier correct (concordant)	SARC_MPNST_LIKE	0.968
+Table S1	176	174	200550900089_R06C01	EPIC	DNA FFPET	Atypical neurofibroma	NA	NFB		Yes	Not validated (below threshold)	NA	Below threshold	SWN	0.84
+Table S1	177	175	200550900089_R07C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	SARC_MPNST_LIKE	0.64
+Table S1	178	176	200550900089_R08C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.332
+Table S1	179	177	200550940005_R01C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Pleomorphic	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	MPNST	0.178
+Table S1	180	178	200550940005_R02C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	MPNST	0.633
+Table S1	181	179	200550940005_R03C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.485
+Table S1	182	180	200550940005_R04C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	MPNST	0.497
+Table S1	183	181	200550940005_R05C01	EPIC	DNA FFPET	Undifferentiated pleomorphic sarcoma (UPS)	Classical	USARC		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.619
+Table S1	184	182	200550940005_R06C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.927
+Table S1	185	183	200550940005_R07C01	EPIC	DNA FFPET	Melanoma	Malignant	MEL (CUT)		Yes	NA	No	Grp1- Classifier correct (concordant)	MEL_CUT	0.997
+Table S1	186	184	200550940005_R08C01	EPIC	DNA FFPET	Melanoma	Malignant	MEL (CUT)		Yes	NA	No	Grp1- Classifier correct (concordant)	MEL_CUT	0.995
+Table S1	187	185	200550940006_R01C01	EPIC	DNA FFPET	Round cell sarcoma	Classical	SBRCT		Yes	Not validated (below threshold)	NA	Below threshold	OS_HG	0.645
+Table S1	188	187	200550940006_R03C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	CSA_GROUP_B	0.481
+Table S1	189	188	200550940006_R04C01	EPIC	DNA FFPET	Undifferentiated pleomorphic sarcoma (UPS)	Pleomorphic	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.943
+Table S1	190	189	200550940006_R05C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.339
+Table S1	191	190	200550940006_R07C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Epithelioid	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	MEL_CUT	0.422
+Table S1	192	191	200550940006_R08C01	EPIC	DNA FFPET	Rhabdomyosarcoma	Spindle cell	RMS		Yes	NA	No	Grp1- Classifier correct (concordant)	RMS_MYOD1	1
+Table S1	193	192	200550940013_R01C01	EPIC	DNA FFPET	Rhabdomyosarcoma	MYOD1 mutant	RMS		Yes	NA	No	Grp1- Classifier correct (concordant)	RMS_MYOD1	1
+Table S1	194	193	200550940013_R03C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	RMS_EMB	0.626
+Table S1	195	194	200550940013_R04C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Round cell	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	LMS	0.614
+Table S1	196	195	200550940013_R07C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Epithelioid	MPNST		Yes	Histology- inflammatory infiltrate but no features of AFH	NA	Below threshold	AFH	0.893
+Table S1	197	196	200550940013_R08C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.404
+Table S1	198	197	200550940023_R01C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	RMS_EMB	0.456
+Table S1	199	198	200550940023_R02C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Pleomorphic	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.359
+Table S1	200	200	200550940023_R05C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Epithelioid	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	LCH	0.243
+Table S1	201	399	201496860129_R03C01	EPIC	DNA FFPET	Chondrosarcoma	Central conventional	CSA		Yes	Clinical- primary bone lesion. Histology- cartilaginous tumour	No	Grp2- Discrepant (with evidence)	USARC	0.928
+Table S1	202	619	202273260027_R05C01	EPIC	DNA FT	Chondrosarcoma	Clear Cell	CSA-CC		Yes	Histology- typical clear cell chondrosarcoma	No	Grp2- Discrepant (inconclusive)	CSA_GROUP_A	0.98
+Table S1	203	205	200550940024_R03C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Chondroblastic and Rhabdomyoblastic	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.993
+Table S1	204	207	200550940024_R05C01	EPIC	DNA FFPET	Atypical neurofibroma	NA	NFB		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.579
+Table S1	205	209	200550940025_R02C01	EPIC	DNA FFPET	Round cell sarcoma	Epithelioid-like	SBRCT		Yes	Not validated (below threshold)	NA	Below threshold	SBRCT_CIC	0.138
+Table S1	206	210	200550940025_R03C01	EPIC	DNA FFPET	Rhabdomyosarcoma	Spindle cell	RMS		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.784
+Table S1	207	212	200550940025_R06C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Low grade (with ossification)	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	SWN	0.403
+Table S1	208	213	200550940025_R07C01	EPIC	DNA FFPET	Rhabdomyosarcoma	Spindle cell	RMS		Yes	NA	No	Grp1- Classifier correct (concordant)	RMS_MYOD1	1
+Table S1	209	620	202273260027_R06C01	EPIC	DNA FT	Chondrosarcoma	Clear Cell	CSA-CC		Yes	Histology- typical clear cell chondrosarcoma	No	Grp2- Discrepant (inconclusive)	CSA_GROUP_A	0.967
+Table S1	210	216	200550940029_R03C01	EPIC	DNA FFPET	Epithelioid sarcoma	Classical	ES		Yes	NA	No	Grp1- Classifier correct (concordant)	ES	0.999
+Table S1	211	217	200550940029_R04C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	MEL_CUT	0.18
+Table S1	212	218	200550940029_R05C01	EPIC	DNA FFPET	Melanoma	Malignant	MEL (CUT)		Yes	NA	No	Grp1- Classifier correct (concordant)	MEL_CUT	0.998
+Table S1	213	219	200550940029_R06C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.999
+Table S1	214	221	200550940029_R08C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	MPNST	0.871
+Table S1	215	621	202273260027_R07C01	EPIC	DNA FT	Chondrosarcoma	Clear Cell	CSA-CC		Yes	Histology- typical clear cell chondrosarcoma	No	Grp2- Discrepant (inconclusive)	CSA_GROUP_A	0.961
+Table S1	216	223	200550940047_R03C01	EPIC	DNA FFPET	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.968
+Table S1	217	1022	5859501025_R05C01	450K	DNA FT	Chondrosarcoma	Central- Dediff Osteosarcomatous	CSA		Yes	Histology- low grade cartilaginous tumour plus dedifferentiated component with osteosarcomatous differentiation	No	Grp2- Discrepant (inconclusive)	CSA_MES	0.995
+Table S1	218	225	200550940047_R05C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.997
+Table S1	219	226	200550940047_R07C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.46
+Table S1	220	227	200550940047_R08C01	EPIC	DNA FFPET	Synovial sarcoma	Heterologous elements (glandular tumor)	SYSA		Yes	NA	No	Grp1- Classifier correct (concordant)	SYSA	0.997
+Table S1	221	1024	5903111029_R01C01	450K	DNA FT	Chondrosarcoma	Central- Dediff Osteosarcomatous	CSA		Yes	Histology- low grade cartilaginous tumour plus dedifferentiated component with osteosarcomatous differentiation	No	Grp2- Discrepant (with evidence)	OS_HG	0.991
+Table S1	222	229	200598660011_R02C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.992
+Table S1	223	230	200598660011_R03C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.966
+Table S1	224	231	200598660011_R04C01	EPIC	DNA FT	Liposarcoma	Dedifferentiated	WDLS/DDLS		Yes	Molecular- MDM2 amplified	NA	Below threshold	LCH	0.697
+Table S1	225	232	200598660011_R05C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	1
+Table S1	226	233	200598660011_R06C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.995
+Table S1	227	234	200598660011_R07C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	228	235	200598660011_R08C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.998
+Table S1	229	236	200598660015_R01C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.961
+Table S1	230	237	200598660015_R02C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	231	238	200598660015_R03C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	Low grade, favouring an unusual lipomatous neoplasm	USARC		Yes	Molecular- MDM2 not amplified	NA	Below threshold	WDLS_DDLS	0.422
+Table S1	232	239	200598660015_R04C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	Undifferentiated	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	233	240	200598660015_R05C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.859
+Table S1	234	241	200598660015_R06C01	EPIC	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.816
+Table S1	235	242	200598660015_R07C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.985
+Table S1	236	243	200598660015_R08C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.994
+Table S1	237	244	200598660026_R01C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.993
+Table S1	238	245	200598660026_R02C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	ESS_HG	0.399
+Table S1	239	246	200598660026_R03C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.931
+Table S1	240	247	200598660026_R04C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	MPNST	0.292
+Table S1	241	248	200598660026_R05C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.998
+Table S1	242	249	200598660026_R06C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	243	250	200598660026_R07C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	244	251	200598660026_R08C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	ES	0.736
+Table S1	245	252	200598660034_R01C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.997
+Table S1	246	253	200598660034_R02C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.119
+Table S1	247	254	200598660034_R03C01	EPIC	DNA FT	Leiomyosarcoma	NA	LMS	UPS	Yes	IHC- SMA diffuse positive, caldesmon positive (focal areas of tumour). Histology- pleomorphic spindle cell tumour with areas of smooth muscle differentiation	Yes	Grp1- Classifier correct (caused revised diagnosis)	LMS	0.998
+Table S1	248	255	200598660034_R04C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.999
+Table S1	249	256	200598660034_R05C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	250	1034	5903111030_R04C01	450K	DNA FT	Chondrosarcoma	Central- Dediff Osteosarcomatous	CSA		Yes	Histology- low grade cartilaginous tumour plus dedifferentiated component with osteosarcomatous differentiation	No	Grp2- Discrepant (with evidence)	OS_HG	1
+Table S1	251	258	200598660034_R07C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.993
+Table S1	252	259	200598660034_R08C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	253	260	200598660040_R01C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.234
+Table S1	254	261	200598660040_R02C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.886
+Table S1	255	262	200598660040_R03C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	256	263	200598660040_R04C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.997
+Table S1	257	264	200598660040_R05C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.846
+Table S1	258	265	200598660040_R06C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.868
+Table S1	259	758	203219640032_R02C01	EPIC	DNA FT	Chordoma	Dedifferentiated	CHORD		Yes	IHC- Brachyury positive. Histology- dedifferentiated and conventional chordoma (Focal)	No	Grp2- Discrepant (with evidence)	USARC	0.998
+Table S1	260	267	200598660040_R08C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.513
+Table S1	261	268	200598660059_R01C01	EPIC	DNA FT	Superficial CD34 fibroblastic tumour	NA	CD34FT		No	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.774
+Table S1	262	269	200598660059_R02C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.721
+Table S1	263	270	200598660059_R03C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.987
+Table S1	264	271	200598660059_R04C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	265	272	200598660059_R05C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.751
+Table S1	266	273	200598660059_R06C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.825
+Table S1	267	274	200598660059_R07C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	268	275	200598660059_R08C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	269	276	200598660066_R01C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	ESS_HG	0.446
+Table S1	270	277	200598660066_R02C01	EPIC	DNA FT	Superficial CD34 fibroblastic tumour	NA	CD34FT		No	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.692
+Table S1	271	278	200598660066_R03C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.937
+Table S1	272	279	200598660066_R04C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.51
+Table S1	273	280	200598660066_R05C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.999
+Table S1	274	281	200598660066_R06C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold	ASPS	0.564
+Table S1	275	282	200598660066_R07C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	Myxoid	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.875
+Table S1	276	283	200598660066_R08C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	277	284	200598660070_R01C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.999
+Table S1	278	285	200598660070_R02C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.502
+Table S1	279	286	200598660070_R03C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.999
+Table S1	280	287	200598660070_R04C01	EPIC	DNA FT	Dermatofibrosarcoma protuberans	NA	DFSP	UPS (High grade spindle cell sarcoma)	Yes	Molecular- COL1A1-PDGFB fusion detected (FISH). Histology- spindle cell lesion with prominent long fascicular rearrangement (Fibrosarcomatous change)	Yes	Grp1- Classifier correct (caused revised diagnosis)	DFSP	0.999
+Table S1	281	288	200598660070_R05C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.995
+Table S1	282	289	200598660070_R06C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.997
+Table S1	283	290	200598660070_R07C01	EPIC	DNA FT	Solitary fibrous tumour	NA	SFT		Yes	Not validated (below threshold)	NA	Below threshold	OFMT	0.552
+Table S1	284	291	200598660070_R08C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	285	292	200598660078_R01C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	ESS_HG	0.352
+Table S1	286	293	200598660078_R02C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.996
+Table S1	287	294	200598660078_R03C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.991
+Table S1	288	295	200598660078_R04C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold	ASPS	0.815
+Table S1	289	296	200598660078_R05C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold	ASPS	0.828
+Table S1	290	297	200598660078_R06C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CTRL_MUS	0.659
+Table S1	291	298	200598660078_R07C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CTRL_MUS	0.816
+Table S1	292	299	200598660078_R08C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.999
+Table S1	293	300	200598660079_R01C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.96
+Table S1	294	301	200598660079_R02C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.995
+Table S1	295	302	200598660079_R03C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.969
+Table S1	296	303	200598660079_R04C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CTRL_MUS	0.809
+Table S1	297	214	200550940025_R08C01	EPIC	DNA FFPET	Epithelioid sarcoma	Proximal type	ES		Yes	Clinical- age unusual for MRT. IHC- INI1 negative. Histology- epithelioid tumour.	No	Grp2- Discrepant (inconclusive)	MRT	0.967
+Table S1	298	305	200598660079_R06C01	EPIC	DNA FT	Carcinoma	Adnexal/Malignant mixed tumour	Carcinoma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.247
+Table S1	299	306	200598660079_R07C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.926
+Table S1	300	307	200598660079_R08C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	301	308	200598660081_R01C01	EPIC	DNA FT	Leiomyosarcoma	Pleomorphic	LMS		Yes	Not validated (below threshold)	NA	Below threshold	OS_HG	0.287
+Table S1	302	309	200598660081_R03C01	EPIC	DNA FT	Leiomyosarcoma	NA	LMS		Yes	Not validated (below threshold)	NA	Below threshold	ES	0.781
+Table S1	303	310	200598660081_R04C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	ES	0.648
+Table S1	304	311	200598660081_R05C01	EPIC	DNA FT	Carcinoma	Breast (Sarcomatoid)	Carcinoma		No	IHC- diffuse cytokeratin positivity (CAM 5.2)	No	Grp2- Discrepant (inconclusive)	USARC	0.909
+Table S1	305	312	200598660081_R06C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	1
+Table S1	306	313	200598660081_R07C01	EPIC	DNA FT	Leiomyosarcoma	NA	LMS		Yes	NA	No	Grp1- Classifier correct (concordant)	LMS	0.993
+Table S1	307	314	200598660081_R08C01	EPIC	DNA FT	Normal tissue	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.977
+Table S1	308	315	200788220001_R01C01	EPIC	DNA FT 	Osteosarcoma	Telangiectatic and osteoblast-like	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.713
+Table S1	309	316	200788220001_R02C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.993
+Table S1	310	318	200788220001_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	311	319	200788220001_R05C01	EPIC	DNA FT 	Giant Cell Tumour of Bone	Malignant 	H3.3mut		No	Histology- high grade malignant tumour. IHC- G34W positive	No	1c- Classified but can be refined	GCTB	0.998
+Table S1	312	320	200788220001_R06C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	313	321	200788220001_R07C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.996
+Table S1	314	322	200788220001_R08C01	EPIC	DNA FT 	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	IHC- G34W positive. Histology- High grade malignant components	No	1c- Classified but can be refined	GCTB	0.993
+Table S1	315	323	200788220003_R01C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.993
+Table S1	316	324	200788220003_R02C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	1
+Table S1	317	325	200788220003_R03C01	EPIC	DNA FT 	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	Histology- high grade malignant tumour. IHC- G34W positive	No	1c- Classified but can be refined	GCTB	0.987
+Table S1	318	326	200788220003_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.904
+Table S1	319	327	200788220003_R05C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	1
+Table S1	320	328	200788220003_R07C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	321	329	200788220003_R08C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.992
+Table S1	322	331	200788220016_R02C01	EPIC	DNA FT	Chordoma	Poorly differentiated	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD_DD	0.964
+Table S1	323	332	200788220016_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.998
+Table S1	324	333	200788220016_R05C01	EPIC	DNA FT 	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	Molecular- G34W mutant (verify platform). Histology- high grade malignant tumour	No	1c- Classified but can be refined	GCTB	0.943
+Table S1	325	334	200788220016_R06C01	EPIC	DNA FT	Chordoma	Dedifferentiated	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	326	335	200788220016_R07C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.972
+Table S1	327	336	200788220016_R08C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	1
+Table S1	328	337	200788220019_R01C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.998
+Table S1	329	338	200788220019_R02C01	EPIC	DNA FT 	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	Not validated (below threshold)	NA	Below threshold	USARC	0.512
+Table S1	330	339	200788220019_R03C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	331	340	200788220019_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	332	341	200788220019_R05C01	EPIC	DNA FT 	Giant Cell Tumour of Bone	Malignant H3.3 mutated tumour (G34W), adamantinoma-like	H3.3mut		No	Histology- high grade malignant tumour. IHC- G34W positive	No	1c- Classified but can be refined	GCTB	0.998
+Table S1	333	342	200788220019_R06C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.998
+Table S1	334	343	200788220019_R07C01	EPIC	DNA FT 	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	IHC- G34W positive. Histology- High grade malignant components	No	1c- Classified but can be refined	GCTB	0.992
+Table S1	335	345	200788220049_R01C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	IHC- G34W positive. Histology- High grade malignant components	No	1c- Classified but can be refined	GCTB	0.948
+Table S1	336	346	200788220049_R02C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.991
+Table S1	337	347	200788220049_R04C01	EPIC	DNA FT 	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	338	348	200788220049_R05C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	1
+Table S1	339	349	200788220049_R06C01	EPIC	DNA FT 	Giant Cell Tumour of Bone	Malignant H3.3 mutated tumour (G34W) arising in Hardcastle syndrome	H3.3mut		No	Not validated (below threshold)	NA	Below threshold	ES	0.453
+Table S1	340	350	200788220049_R08C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.993
+Table S1	341	351	200788220051_R01C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	1
+Table S1	342	352	200788220051_R02C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	IHC- G34W positive. Histology- High grade malignant components	No	1c- Classified but can be refined	GCTB	0.998
+Table S1	343	353	200788220051_R03C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CHORD	0.789
+Table S1	344	354	200788220051_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.996
+Table S1	345	355	200788220051_R05C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	346	356	200788220051_R06C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.998
+Table S1	347	358	201496710050_R01C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_A	0.469
+Table S1	348	359	201496710050_R02C01	EPIC	DNA FFPET	Chondrosarcoma	Peripheral	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	WDLS_DDLS	0.577
+Table S1	349	626	202273260044_R04C01	EPIC	DNA FT	Epithelioid sarcoma	Proximal type	ES		Yes	Clinical- age unusual for MRT, groin typical site for proximal ES. IHC- INI1 loss, MNF116 & EMA positive.	No	Grp2- Discrepant (inconclusive)	MRT	0.972
+Table S1	350	361	201496710050_R04C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.921
+Table S1	351	362	201496710050_R05C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_IDH_GROUP_B	0.978
+Table S1	352	363	201496710050_R06C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_IDH_GROUP_A	0.969
+Table S1	353	364	201496710050_R07C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_IDH_GROUP_A	0.96
+Table S1	354	365	201496710050_R08C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.993
+Table S1	355	366	201496710150_R01C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	Molecular- IDH mutant	NA	Below threshold	OS_HG	0.634
+Table S1	356	367	201496710150_R02C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_A	0.869
+Table S1	357	368	201496710150_R03C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	USARC	0.847
+Table S1	358	369	201496710150_R04C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.999
+Table S1	359	370	201496710150_R05C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	AS	0.106
+Table S1	360	371	201496710150_R06C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.5
+Table S1	361	704	202273260117_R02C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	Clinical- low grade lesion curetted with no recurrence 5+ years. Histology- typical features of giant cell rich tumour. IHC- G34W negative (tissue unavailable for additional testing)	No	Grp2- Discrepant (inconclusive)	OS_HG	0.978
+Table S1	362	373	201496710150_R08C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	WDLS_DDLS	0.551
+Table S1	363	374	201496850114_R01C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	USARC	0.565
+Table S1	364	375	201496850114_R02C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.624
+Table S1	365	376	201496850114_R03C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_A	0.661
+Table S1	366	377	201496850114_R04C01	EPIC	DNA FFPET	Myxoma	NA	Myxoma		No	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.861
+Table S1	367	378	201496850114_R05C01	EPIC	DNA FFPET	Normal muscle	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.999
+Table S1	368	379	201496850114_R06C01	EPIC	DNA FFPET	Normal muscle	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.998
+Table S1	369	380	201496850114_R07C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.997
+Table S1	370	381	201496850114_R08C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.212
+Table S1	371	528	202262730115_R06C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	Histology- marked pleomorphism, no well differentiated component	No	Grp2- Discrepant (inconclusive)	WDLS_DDLS	0.971
+Table S1	372	383	201496850137_R02C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	Molecular- IDH mutant	NA	Below threshold	OS_HG	0.812
+Table S1	373	385	201496850137_R04C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.55
+Table S1	374	533	202262730118_R03C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	Histology- markedly pleomorphic tumour with focal lipoblasts. No well differentiated component	No	Grp2- Discrepant (inconclusive)	WDLS_DDLS	0.997
+Table S1	375	387	201496850137_R06C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.991
+Table S1	376	388	201496850137_R07C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.585
+Table S1	377	389	201496850137_R08C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	WDLS_DDLS	0.87
+Table S1	378	390	201496860118_R01C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_A	0.381
+Table S1	379	391	201496860118_R02C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_A	0.789
+Table S1	380	392	201496860118_R03C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_A	0.936
+Table S1	381	393	201496860118_R05C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_A	0.515
+Table S1	382	394	201496860118_R06C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.99
+Table S1	383	395	201496860118_R07C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_A	0.715
+Table S1	384	396	201496860118_R08C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.928
+Table S1	385	397	201496860129_R01C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.957
+Table S1	386	398	201496860129_R02C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_B	0.765
+Table S1	387	204	200550940024_R02C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Perineurial	MPNST		Yes	Histology- in keeping with MPNST. IHC- H3k27me3 partially retained. 	No	Grp2- Discrepant (inconclusive)	USARC	0.985
+Table S1	388	400	201496860129_R04C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	WDLS_DDLS	0.611
+Table S1	389	401	201496860129_R05C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.999
+Table S1	390	402	201496860129_R06C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	Molecular- IDH mutant	NA	Below threshold	ES	0.281
+Table S1	391	403	201496860129_R07C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_B	0.838
+Table S1	392	405	201506830054_R01C01	EPIC	DNA FFPET	Chondrosarcoma	Peripheral	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	USARC	0.33
+Table S1	393	406	201506830054_R02C01	EPIC	DNA FFPET	Chondrosarcoma	Peripheral	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.662
+Table S1	394	407	201506830054_R03C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	WDLS_DDLS	0.124
+Table S1	395	408	201506830054_R04C01	EPIC	DNA FFPET	Phosphaturic mesenchymal tumor (PMT)	NA	PMT		No	Clinical- history of osteomalacia. Histology- typical features, no cytological atypia	No	Grp2- Discrepant (inconclusive)	OS_HG	0.949
+Table S1	396	409	201506830054_R06C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.919
+Table S1	397	410	201506830054_R07C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.98
+Table S1	398	411	201506830054_R08C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	1
+Table S1	399	412	201506830093_R01C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_A	0.683
+Table S1	400	413	201506830093_R02C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_A	0.717
+Table S1	401	414	201506830093_R03C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_B	0.646
+Table S1	402	415	201506830093_R04C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.972
+Table S1	403	416	201506830093_R05C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.906
+Table S1	404	417	201506830093_R06C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	WDLS_DDLS	0.679
+Table S1	405	418	201506830093_R07C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	1
+Table S1	406	419	201506830093_R08C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_A	0.786
+Table S1	407	420	201508110028_R01C01	EPIC	DNA FFPET	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_B	0.566
+Table S1	408	421	201508110028_R02C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.971
+Table S1	409	422	201508110028_R03C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	Molecular- IDH mutant	NA	Below threshold	OS_HG	0.559
+Table S1	410	423	201508110028_R04C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_B	0.485
+Table S1	411	424	201508110028_R05C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	Molecular- IDH mutant	NA	Below threshold	CTRL_MUS	0.323
+Table S1	412	425	201508110028_R06C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.947
+Table S1	413	426	201508110028_R07C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.977
+Table S1	414	427	201508110028_R08C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.995
+Table S1	415	431	201508110031_R01C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.923
+Table S1	416	434	201508110031_R02C01	EPIC	Blood	Blood	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CTRL_BLOOD	0.795
+Table S1	417	437	201508110031_R03C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.946
+Table S1	418	440	201508110031_R04C01	EPIC	DNA FT	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.998
+Table S1	419	441	201508110031_R05C01	EPIC	DNA FT	Chondrosarcoma	Central- Dediff Osteosarcomatous	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	USARC	0.552
+Table S1	420	442	201508110031_R06C01	EPIC	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.865
+Table S1	421	443	201508110031_R07C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.966
+Table S1	422	448	201508110031_R08C01	EPIC	Blood	Blood	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CTRL_BLOOD	0.642
+Table S1	423	451	202128330130_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	424	452	202128330130_R02C01	EPIC	DNA FT	Osteosarcoma	Pleomorphic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.927
+Table S1	425	453	202128330130_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic. Rothmund-Thomson syndrome	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.522
+Table S1	426	454	202128330130_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic 	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	427	455	202128330130_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.487
+Table S1	428	456	202128330130_R06C01	EPIC	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.607
+Table S1	429	457	202128330130_R07C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.743
+Table S1	430	458	202128330130_R08C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	431	459	202259490096_R01C01	EPIC	DNA FT	Osteosarcoma	Dedifferentiated Parosteal	OS (Surface)		No	Clinical- surface bone lesion. Molecular- MDM2 amplified (FISH)	No	Grp2- Discrepant (with evidence)	OS_HG	0.993
+Table S1	432	460	202259490096_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.937
+Table S1	433	461	202259490096_R03C01	EPIC	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.64
+Table S1	434	462	202259490096_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Fibroblastic, Radiation-induced	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.997
+Table S1	435	463	202259490096_R05C01	EPIC	DNA FT	Osteosarcoma	Dedifferentiated Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	LMS	0.29
+Table S1	436	464	202259490096_R06C01	EPIC	DNA FT	Osteosarcoma	Dedifferentiated Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.233
+Table S1	437	465	202259490096_R07C01	EPIC	DNA FT	Osteosarcoma	Telangiectatic 	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.888
+Table S1	438	466	202259490096_R08C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Telangiectatic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	439	467	202262730005_R01C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.994
+Table S1	440	468	202262730005_R02C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.971
+Table S1	441	469	202262730005_R03C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.96
+Table S1	442	470	202262730005_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	1
+Table S1	443	471	202262730005_R05C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CHORD	0.859
+Table S1	444	472	202262730005_R06C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.997
+Table S1	445	473	202262730005_R07C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	1
+Table S1	446	474	202262730005_R08C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.978
+Table S1	447	475	202262730036_R01C01	EPIC	DNA FT	Myxoma	NA	Myxoma		No	Histology- bland myxoid lesion. No inflammatory component	No	Grp2- Discrepant (inconclusive)	IMT	0.986
+Table S1	448	476	202262730036_R02C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic. Radiation-induced	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.997
+Table S1	449	477	202262730036_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic. Radiation-induced	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	450	478	202262730036_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.996
+Table S1	451	479	202262730036_R05C01	EPIC	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.391
+Table S1	452	480	202262730036_R06C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	453	481	202262730036_R07C01	EPIC	DNA FT	Pleomorphic hyalinising angiectatic tumour (PHAT)	NA	PHAT		No	IHC- ALK negative. Histology- classic ectatic vessels with perivascular hyalinisation	No	Grp2- Discrepant (with evidence)	IMT	0.999
+Table S1	454	482	202262730036_R08C01	EPIC	DNA FT	Osteosarcoma	High grade NOS	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.971
+Table S1	455	483	202262730037_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic 	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.963
+Table S1	456	484	202262730037_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic 	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	457	485	202262730037_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastoma like	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.978
+Table S1	458	486	202262730037_R04C01	EPIC	DNA FT	Osteosarcoma	Periosteal	OS (Surface)		No	Clinical- surface bone lesion	No	Grp2- Discrepant (inconclusive)	OS_HG	0.991
+Table S1	459	487	202262730037_R05C01	EPIC	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.882
+Table S1	460	488	202262730037_R06C01	EPIC	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.596
+Table S1	461	489	202262730037_R07C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.982
+Table S1	462	490	202262730037_R08C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.991
+Table S1	463	491	202262730095_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	464	492	202262730095_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.997
+Table S1	465	493	202262730095_R03C01	EPIC	DNA FT	Osteosarcoma	Telangiectatic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.705
+Table S1	466	494	202262730095_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	467	495	202262730095_R05C01	EPIC	DNA FT	Osteosarcoma	Periosteal 	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.147
+Table S1	468	496	202262730095_R06C01	EPIC	DNA FT	Osteosarcoma	Parosteal 	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	AFH	0.832
+Table S1	469	497	202262730095_R07C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.249
+Table S1	470	498	202262730095_R08C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.696
+Table S1	471	499	202262730098_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.738
+Table S1	472	500	202262730098_R02C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.295
+Table S1	473	501	202262730098_R03C01	EPIC	DNA FT	Osteosarcoma	High grade NOS	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	FDY	0.407
+Table S1	474	502	202262730098_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.996
+Table S1	475	503	202262730098_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.281
+Table S1	476	504	202262730098_R06C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Osteosclerotic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	SYSA	0.646
+Table S1	477	505	202262730098_R07C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic Osteoblastoma-like	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	OB	0.479
+Table S1	478	506	202262730098_R08C01	EPIC	DNA FT	Osteosarcoma	Periosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.842
+Table S1	479	507	202262730112_R01C01	EPIC	DNA FT	Osteosarcoma	Periosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.895
+Table S1	480	508	202262730112_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.881
+Table S1	481	509	202262730112_R03C01	EPIC	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	CSA_IDH_GROUP_B	0.873
+Table S1	482	224	200550940047_R04C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Pleomorphic	MPNST		Yes	Neurofibromatosis patient (germline NF1). H3k27me3 retained	No	Grp2- Discrepant (inconclusive)	USARC	1
+Table S1	483	796	203257030177_R01C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Histology- high grade malignant tumour arising from nerve. H3K27me3	No	Grp2- Discrepant (inconclusive)	NFA	0.999
+Table S1	484	512	202262730112_R06C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.998
+Table S1	485	513	202262730112_R07C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.372
+Table S1	486	811	203257030211_R01C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Clinical- arising from nerve, H3k27me3 retained	No	Grp2- Discrepant (inconclusive)	USARC	0.996
+Table S1	487	515	202262730113_R01C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional (benign metastasising)	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.999
+Table S1	488	516	202262730113_R02C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional (benign metastasising)	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.999
+Table S1	489	960	203869580131_R01C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Molecular- BCOR rearrangement not detected (PCR). Clinical- arising from nerve. H3k27me3 retained	No	Grp2- Discrepant (inconclusive)	ESS_HG	0.973
+Table S1	490	518	202262730113_R04C01	EPIC	DNA FT	Angiosarcoma	NA	Angiosarcoma		Yes	NA	No	Grp1- Classifier correct (concordant)	AS	0.977
+Table S1	491	519	202262730113_R05C01	EPIC	DNA FT	Angiosarcoma	NA	Angiosarcoma		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	AS	0.648
+Table S1	492	520	202262730113_R06C01	EPIC	DNA FT	Angiosarcoma	NA	Angiosarcoma		Yes	NA	No	Grp1- Classifier correct (concordant)	AS	0.999
+Table S1	493	521	202262730113_R07C01	EPIC	DNA FT	Angiosarcoma	NA	Angiosarcoma		Yes	NA	No	Grp1- Classifier correct (concordant)	AS	0.994
+Table S1	494	522	202262730113_R08C01	EPIC	DNA FT	Angiosarcoma	NA	Angiosarcoma		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	AS	0.236
+Table S1	495	523	202262730115_R01C01	EPIC	DNA FT	Angiosarcoma	NA	Angiosarcoma		Yes	IHC- CD31 pos, CD1a Negative, S100 neg	NA	Below threshold	LCH	0.71
+Table S1	496	524	202262730115_R02C01	EPIC	DNA FT	Angiosarcoma	NA	Angiosarcoma		Yes	NA	No	Grp1- Classifier correct (concordant)	AS	0.959
+Table S1	497	525	202262730115_R03C01	EPIC	DNA FT	Angiosarcoma	Radiation-induced	Angiosarcoma		Yes	NA	No	Grp1- Classifier correct (concordant)	AS	0.981
+Table S1	498	526	202262730115_R04C01	EPIC	DNA FT	Angiosarcoma	Radiation-induced	Angiosarcoma		Yes	IHC- CD31 pos, MNF116 neg	NA	Below threshold	SCC_CUT	0.208
+Table S1	499	527	202262730115_R05C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.988
+Table S1	500	970	203869580140_R03C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	IHC- MUC4 negative, H3K27me3 retained	No	Grp2- Discrepant (inconclusive)	SEF	1
+Table S1	501	529	202262730115_R07C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.159
+Table S1	502	530	202262730115_R08C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.175
+Table S1	503	531	202262730118_R01C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.969
+Table S1	504	532	202262730118_R02C01	EPIC	DNA FT	PRDM10 rearranged undifferentiated sarcoma	NA	PRDM10		No	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.5
+Table S1	505	386	201496850137_R05C01	EPIC	DNA FFPET	Myxofibrosarcoma	NA	MFS		Yes	Histology- inflammatory infiltrate but myxoid tumour with curvilinear vessels. No features of AFH	No	Grp2- Discrepant (inconclusive)	AFH	0.949
+Table S1	506	534	202262730118_R04C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.269
+Table S1	507	535	202262730118_R05C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	Not validated (below threshold)	NA	Below threshold	MLS	0.083
+Table S1	508	536	202262730118_R06C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.711
+Table S1	509	537	202262730118_R07C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	510	538	202262730118_R08C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.778
+Table S1	511	539	202262730124_R01C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.988
+Table S1	512	540	202262730124_R02C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.989
+Table S1	513	541	202262730124_R03C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.598
+Table S1	514	542	202262730124_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.965
+Table S1	515	543	202262730124_R05C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.957
+Table S1	516	544	202262730124_R06C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	517	545	202262730124_R07C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	518	546	202262730124_R08C01	EPIC	DNA FT	Chordoma	Dedifferentiated	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.998
+Table S1	519	547	202262730135_R01C01	EPIC	DNA FT	Alveolar soft part sarcoma	NA	ASPS		Yes	NA	No	Grp1- Classifier correct (concordant)	ASPS	1
+Table S1	520	548	202262730135_R02C01	EPIC	DNA FT	Alveolar soft part sarcoma	NA	ASPS		Yes	Molecular- TFE3 rearrangement	NA	Below threshold	AFH	0.824
+Table S1	521	549	202262730135_R03C01	EPIC	DNA FT	Alveolar soft part sarcoma	NA	ASPS		Yes	NA	No	Grp1- Classifier correct (concordant)	ASPS	1
+Table S1	522	552	202262730181_R01C01	EPIC	DNA FT	Angiomatoid fibrous histiocytoma	NA	AFH		Yes	NA	No	Grp1- Classifier correct (concordant)	AFH	0.943
+Table S1	523	553	202262730181_R02C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.22
+Table S1	524	554	202262730181_R03C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.262
+Table S1	525	555	202262730181_R04C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	FDY	0.532
+Table S1	526	556	202262730181_R05C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.069
+Table S1	527	557	202262730181_R06C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.574
+Table S1	528	558	202262730181_R07C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	CSA_CC	0.669
+Table S1	529	559	202262730181_R08C01	EPIC	DNA FT	Adamantinoma	Classical	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.268
+Table S1	530	560	202262730188_R01C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.993
+Table S1	531	561	202262730188_R02C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.962
+Table S1	532	562	202262730188_R03C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.998
+Table S1	533	563	202262730188_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	534	564	202262730188_R05C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	535	565	202262730188_R06C01	EPIC	DNA FT	Chordoma	Dedifferentiated	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.983
+Table S1	536	566	202262730188_R07C01	EPIC	DNA FT	Adamantinoma	Osteofibrous dysplasia-like	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.706
+Table S1	537	567	202262730188_R08C01	EPIC	DNA FT	Adamantinoma	Conventional	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	SCC_CUT	0.128
+Table S1	538	568	202262730196_R01C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.543
+Table S1	539	569	202262730196_R02C01	EPIC	DNA FT	Liposarcoma	Pleomorphic	Pleo LPS		Yes	Not validated (below threshold)	NA	Below threshold	MLS	0.198
+Table S1	540	570	202262730196_R03C01	EPIC	DNA FT	Myxoinflammatory fibroblastic sarcoma	NA	MIFS		No	Not validated (below threshold)	NA	Below threshold	LCH	0.328
+Table S1	541	571	202262730196_R04C01	EPIC	DNA FT	Myxoinflammatory fibroblastic sarcoma	NA	MIFS		No	Histology- typical features with inflammatory infiltrate and scattered giant cells with viral inclusion-like nuclei	No	Grp2- Discrepant (inconclusive)	USARC	0.981
+Table S1	542	572	202262730196_R05C01	EPIC	DNA FT	Myxoinflammatory fibroblastic sarcoma	NA	MIFS		No	Histology- typical features with inflammatory infiltrate and scattered giant cells with viral inclusion-like nuclei	No	Grp2- Discrepant (inconclusive)	IMT	0.999
+Table S1	543	738	203212860167_R06C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Histology- high grade myxoid tumour, infiltrating soft tissue	No	Grp2- Discrepant (with evidence)	CTRL_MUS	0.953
+Table S1	544	574	202262730196_R07C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.998
+Table S1	545	575	202262730196_R08C01	EPIC	DNA FT	Osteoclast-rich sarcoma	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.282
+Table S1	546	578	202262730198_R03C01	EPIC	DNA FT	Rhabdomyosarcoma	Pleomorphic	RMS		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.667
+Table S1	547	579	202273260008_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.177
+Table S1	548	580	202273260008_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.948
+Table S1	549	581	202273260008_R03C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	550	582	202273260008_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	551	583	202273260008_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	552	584	202273260008_R06C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.827
+Table S1	553	585	202273260008_R07C01	EPIC	DNA FFPET	Osteosarcoma	Telangiectatic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	554	586	202273260008_R08C01	EPIC	DNA FFPET	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.973
+Table S1	555	587	202273260009_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	556	588	202273260009_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	557	589	202273260009_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.996
+Table S1	558	590	202273260009_R04C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.588
+Table S1	559	591	202273260009_R05C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.663
+Table S1	560	592	202273260009_R06C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic  	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.989
+Table S1	561	593	202273260009_R07C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.525
+Table S1	562	594	202273260009_R08C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.995
+Table S1	563	595	202273260019_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic. Rothmund-Thomson syndrome	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	564	596	202273260019_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	565	597	202273260019_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	566	598	202273260019_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	CSA_IDH_GROUP_B	0.371
+Table S1	567	599	202273260019_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.984
+Table S1	568	600	202273260019_R06C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.991
+Table S1	569	601	202273260019_R07C01	EPIC	DNA FFPET	Osteosarcoma	Telangiectatic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.584
+Table S1	570	602	202273260019_R08C01	EPIC	DNA FFPET	Osteosarcoma	Pleomorphic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.616
+Table S1	571	603	202273260020_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	572	604	202273260020_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.998
+Table S1	573	605	202273260020_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	574	606	202273260020_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic 	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.765
+Table S1	575	607	202273260020_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic 	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.843
+Table S1	576	608	202273260020_R06C01	EPIC	DNA FT	Osteosarcoma	Telangiectatic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.479
+Table S1	577	609	202273260020_R07C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.997
+Table S1	578	610	202273260020_R08C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.959
+Table S1	579	611	202273260025_R05C01	EPIC	DNA FT	Infantile fibrosarcoma	NA	IFS		Yes	NA	No	Grp1- Classifier correct (concordant)	IFS	0.989
+Table S1	580	612	202273260025_R06C01	EPIC	DNA FT	Rhabdomyosarcoma	Spindle cell	RMS		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.143
+Table S1	581	613	202273260025_R07C01	EPIC	DNA FT	Rhabdomyosarcoma	Spindle cell	RMS		Yes	NA	No	Grp1- Classifier correct (concordant)	RMS_MYOD1	1
+Table S1	582	614	202273260025_R08C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.994
+Table S1	583	615	202273260027_R01C01	EPIC	DNA FT	Chondrosarcoma	Clear Cell	CSA-CC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_CC	0.702
+Table S1	584	616	202273260027_R02C01	EPIC	DNA FT	Chondrosarcoma	Clear Cell	CSA-CC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.791
+Table S1	585	617	202273260027_R03C01	EPIC	DNA FT	Chondrosarcoma	Clear Cell	CSA-CC		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_CC	0.919
+Table S1	586	618	202273260027_R04C01	EPIC	DNA FT	Chondrosarcoma	Clear Cell	CSA-CC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_CC	0.888
+Table S1	587	857	203259060025_R01C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Histology- high grade cellular myxoid tumour.	No	Grp2- Discrepant (inconclusive)	IMT	0.965
+Table S1	588	874	203259060036_R02C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Histology- brisk inflammatory infiltrate but myxoid lesion with curvilinear vessels. No features of AFH	No	Grp2- Discrepant (inconclusive)	AFH	0.988
+Table S1	589	514	202262730112_R08C01	EPIC	DNA FT	Normal Nerve	NA	Ctrl		Yes	Clinical- grossly normal nerve	No	Grp2- Discrepant (inconclusive)	NFB_PLEX	0.992
+Table S1	590	622	202273260027_R08C01	EPIC	DNA FT	Chondrosarcoma	Mesenchymal	CSA-MES		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_MES	1
+Table S1	591	623	202273260044_R01C01	EPIC	DNA FT	Osteoclast-rich sarcoma	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	CSA_IDH_GROUP_B	0.171
+Table S1	592	624	202273260044_R02C01	EPIC	DNA FT	Epithelioid sarcoma	Conventional	ES		Yes	NA	No	Grp1- Classifier correct (concordant)	ES	1
+Table S1	593	625	202273260044_R03C01	EPIC	DNA FT	Epithelioid sarcoma	Conventional	ES		Yes	Not validated (below threshold)	NA	Below threshold	MRT	0.746
+Table S1	594	710	202273260117_R08C01	EPIC	DNA FT	Normal Nerve	NA	Ctrl		Yes	Clinical- grossly normal nerve. Noted that patient has germline NF1	No	Grp2- Discrepant (inconclusive)	NFB	0.989
+Table S1	595	627	202273260044_R05C01	EPIC	DNA FT	Epithelioid sarcoma	Proximal type	ES		Yes	NA	No	Grp1- Classifier correct (concordant)	ES	0.999
+Table S1	596	628	202273260044_R06C01	EPIC	DNA FT	Epithelioid sarcoma	Conventional	ES		Yes	NA	No	Grp1- Classifier correct (concordant)	ES	1
+Table S1	597	629	202273260044_R07C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.988
+Table S1	598	630	202273260044_R08C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	Not validated (below threshold)	NA	Below threshold	OS_HG	0.566
+Table S1	599	631	202273260045_R01C01	EPIC	DNA FT	Chondrosarcoma	Mesenchymal	CSA-MES		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_MES	1
+Table S1	600	632	202273260045_R02C01	EPIC	DNA FT	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.982
+Table S1	601	633	202273260045_R03C01	EPIC	DNA FT	Chondrosarcoma	Mesenchymal	CSA-MES		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_MES	1
+Table S1	602	634	202273260045_R04C01	EPIC	DNA FT	Chondrosarcoma	Mesenchymal	CSA-MES		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_MES	1
+Table S1	603	635	202273260045_R05C01	EPIC	DNA FT	Chondrosarcoma	Mesenchymal	CSA-MES		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_MES	1
+Table S1	604	636	202273260045_R06C01	EPIC	DNA FT	Chondrosarcoma	Mesenchymal	CSA-MES		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_MES	1
+Table S1	605	637	202273260045_R07C01	EPIC	DNA FT	Chondrosarcoma	Mesenchymal	CSA-MES		Yes	Not validated (below threshold)	NA	Below threshold	ES	0.451
+Table S1	606	638	202273260045_R08C01	EPIC	DNA FT	Spindle cell sarcoma of bone	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.818
+Table S1	607	639	202273260054_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.996
+Table S1	608	640	202273260054_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	609	641	202273260054_R03C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic and Chondroblastic 	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.996
+Table S1	610	139	200379120064_R05C01	450K	DNA FT	Osteosarcoma	Osteoblastic. Radiation-induced	OS (HG)		Yes	Clinical- primary bone tumour, Radiology and Histology- features of typical OS	No	Grp2- Discrepant (with evidence)	USARC	1
+Table S1	611	643	202273260054_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	612	644	202273260054_R06C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.993
+Table S1	613	645	202273260054_R07C01	EPIC	DNA FFPET	Osteosarcoma	Telangiectatic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	614	646	202273260054_R08C01	EPIC	DNA FFPET	Osteosarcoma	Chondroblastic 	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.872
+Table S1	615	647	202273260058_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	616	648	202273260058_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	617	649	202273260058_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	618	650	202273260058_R04C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.987
+Table S1	619	651	202273260058_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	620	652	202273260058_R06C01	EPIC	DNA FT	Osteosarcoma	Telangiectatic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.981
+Table S1	621	653	202273260058_R07C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.435
+Table S1	622	654	202273260058_R08C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.998
+Table S1	623	655	202273260060_R01C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic and Osteoblastic 	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	624	510	202262730112_R04C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic	OS (HG)		Yes	Clinical- primary bone tumour. Histology- focal osteoid	No	Grp2- Discrepant (with evidence)	SARC_MPNST_LIKE	0.942
+Table S1	625	657	202273260060_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	626	658	202273260060_R04C01	EPIC	DNA FT	Osteosarcoma	High grade NOS	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.551
+Table S1	627	659	202273260060_R05C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.839
+Table S1	628	660	202273260060_R06C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic  	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.716
+Table S1	629	661	202273260060_R07C01	EPIC	DNA FFPET	Osteosarcoma	Telangiectatic 	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.438
+Table S1	630	662	202273260060_R08C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	631	663	202273260064_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	632	664	202273260064_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic 	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	633	665	202273260064_R03C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	634	666	202273260064_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic 	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	OB	0.806
+Table S1	635	667	202273260064_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	ES	0.843
+Table S1	636	668	202273260064_R06C01	EPIC	DNA FFPET	Osteosarcoma	unknown	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.537
+Table S1	637	669	202273260064_R07C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic and fibroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.101
+Table S1	638	670	202273260064_R08C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.973
+Table S1	639	671	202273260065_R01C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.985
+Table S1	640	672	202273260065_R02C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.998
+Table S1	641	673	202273260065_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	642	674	202273260065_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic 	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	643	675	202273260065_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.986
+Table S1	644	676	202273260065_R06C01	EPIC	DNA FFPET	Osteosarcoma	High grade NOS	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	645	677	202273260065_R07C01	EPIC	DNA FFPET	Osteosarcoma	High grade NOS	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.997
+Table S1	646	678	202273260065_R08C01	EPIC	DNA FFPET	Osteosarcoma	Telangiectatic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	647	679	202273260066_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	648	680	202273260066_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic 	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	649	681	202273260066_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.558
+Table S1	650	511	202262730112_R05C01	EPIC	DNA FT	Osteosarcoma	Telangiectatic 	OS (HG)		Yes	Histology and radiology- typical features of OS. Clinical- primary bone tumour	No	Grp2- Discrepant (with evidence)	CTRL_MUS	0.984
+Table S1	651	683	202273260066_R05C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.989
+Table S1	652	684	202273260066_R06C01	EPIC	DNA FFPET	Osteosarcoma	Pleomorphic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.224
+Table S1	653	685	202273260066_R07C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	654	686	202273260066_R08C01	EPIC	DNA FFPET	Osteosarcoma	Telangiectatic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.963
+Table S1	655	687	202273260080_R01C01	EPIC	DNA FT	Alveolar soft part sarcoma	NA	ASPS		Yes	NA	No	Grp1- Classifier correct (concordant)	ASPS	0.961
+Table S1	656	688	202273260080_R02C01	EPIC	DNA FT	Alveolar soft part sarcoma	NA	ASPS		Yes	NA	No	Grp1- Classifier correct (concordant)	ASPS	0.992
+Table S1	657	689	202273260080_R03C01	EPIC	DNA FT	Alveolar soft part sarcoma	NA	ASPS		Yes	Molecular- TFE3 rearrangement	NA	Below threshold	AFH	0.305
+Table S1	658	690	202273260080_R04C01	EPIC	DNA FT	Alveolar soft part sarcoma	NA	ASPS		Yes	NA	No	Grp1- Classifier correct (concordant)	ASPS	1
+Table S1	659	691	202273260080_R05C01	EPIC	DNA FT	Alveolar soft part sarcoma	NA	ASPS		Yes	NA	No	Grp1- Classifier correct (concordant)	ASPS	0.994
+Table S1	660	692	202273260080_R06C01	EPIC	DNA FT	Alveolar soft part sarcoma	NA	ASPS		Yes	NA	No	Grp1- Classifier correct (concordant)	ASPS	0.999
+Table S1	661	693	202273260080_R07C01	EPIC	DNA FT	Alveolar soft part sarcoma	NA	ASPS		Yes	NA	No	Grp1- Classifier correct (concordant)	ASPS	0.903
+Table S1	662	694	202273260080_R08C01	EPIC	DNA FT	Alveolar soft part sarcoma	NA	ASPS		Yes	NA	No	Grp1- Classifier correct (concordant)	ASPS	0.999
+Table S1	663	573	202262730196_R06C01	EPIC	DNA FT	Osteosarcoma	Radiation-induced in the setting of Li-Fraumeni's syndrome	OS (HG)		Yes	Clinical- primary bone lesion and germline TP53 mutation	No	Grp2- Discrepant (with evidence)	IMT	0.954
+Table S1	664	656	202273260060_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Clinical- primary bone tumour. Histology- minimal/no osteoid	No	Grp2- Discrepant (with evidence)	USARC	1
+Table S1	665	697	202273260111_R03C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	666	698	202273260111_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	667	699	202273260111_R05C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.986
+Table S1	668	700	202273260111_R06C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic and Chondroblastic 	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.527
+Table S1	669	701	202273260111_R07C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	670	702	202273260111_R08C01	EPIC	DNA FFPET	Osteosarcoma	Telangiectatic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.667
+Table S1	671	703	202273260117_R01C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	Not validated (below threshold)	NA	Below threshold	OS_HG	0.335
+Table S1	672	682	202273260066_R04C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic. Rothmund-Thompson syndrome	OS (HG)		Yes	Clinical- primary bone tumour, Histology- typical chondroblastic osteosarcoma	No	Grp2- Discrepant (with evidence)	USARC	0.999
+Table S1	673	705	202273260117_R03C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	Not validated (below threshold)	NA	Below threshold	CSA_IDH_GROUP_B	0.471
+Table S1	674	706	202273260117_R04C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	Not validated (below threshold)	NA	Below threshold	OS_HG	0.118
+Table S1	675	707	202273260117_R05C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.967
+Table S1	676	708	202273260117_R06C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.998
+Table S1	677	709	202273260117_R07C01	EPIC	DNA FT	Phosphaturic mesenchymal tumor (PMT)	NA	PMT		No	Not validated (below threshold)	NA	Below threshold	CSA_GROUP_A	0.135
+Table S1	678	695	202273260111_R01C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	Clinical- primary bone tumour, Histology- typical OS	No	Grp2- Discrepant (with evidence)	USARC	0.998
+Table S1	679	711	202273260143_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.939
+Table S1	680	712	202273260143_R02C01	EPIC	DNA FT	Osteosarcoma	High grade NOS	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.554
+Table S1	681	713	202273260143_R03C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.761
+Table S1	682	714	202273260143_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.998
+Table S1	683	715	202273260143_R05C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.991
+Table S1	684	716	202273260143_R06C01	EPIC	DNA FFPET	Osteosarcoma	Osteoblastic and Chondroblastic 	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.29
+Table S1	685	717	202273260143_R07C01	EPIC	DNA FFPET	Osteosarcoma	Pleomorphic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.577
+Table S1	686	718	202273260143_R08C01	EPIC	DNA FFPET	Osteosarcoma	Telangiectatic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.974
+Table S1	687	719	202273260229_R01C01	EPIC	DNA FT	Dermatofibrosarcoma protuberans	NA	DFSP		Yes	Molecular- COL1A1-PDGFB fusion	NA	Below threshold	SARC_MPNST_LIKE	0.599
+Table S1	688	696	202273260111_R02C01	EPIC	DNA FT	Osteosarcoma	High grade NOS	OS (HG)		Yes	Clinical- primary bone tumour. Histology- minimal/no osteoid	No	Grp2- Discrepant (with evidence)	USARC	0.974
+Table S1	689	722	202273260229_R05C01	EPIC	DNA FT	EWSR1-NFATC2 rearranged sarcoma	NA	EWSR1-NFATC2		No	Not validated (below threshold)	NA	Below threshold	EHE	0.12
+Table S1	690	780	203257030093_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic	OS (HG)		Yes	Histology- classical chondroblastic osteosarcoma. Clinical- primary bone tumour	No	Grp2- Discrepant (with evidence)	MPNST	0.996
+Table S1	691	724	202273260229_R08C01	EPIC	DNA FT	PEComa	NA	PEComa		No	Not validated (below threshold)	NA	Below threshold	USARC	0.102
+Table S1	692	725	202273260231_R01C01	EPIC	DNA FT	PEComa	NA	PEComa		No	Not validated (below threshold)	NA	Below threshold	USARC	0.298
+Table S1	693	726	202273260231_R02C01	EPIC	DNA FT	PEComa	NA	PEComa		No	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.473
+Table S1	694	727	202273260231_R03C01	EPIC	DNA FT	PEComa	NA	PEComa		No	Histology- high grade malignant tumour with nests of epithelioid cells. IHC- Focal HMB45 expression	No	Grp2- Discrepant (with evidence)	USARC	0.952
+Table S1	695	728	202273260231_R04C01	EPIC	DNA FT	PEComa	NA	PEComa		No	Not validated (below threshold)	NA	Below threshold	ASPS	0.185
+Table S1	696	729	202273260231_R05C01	EPIC	DNA FT	PEComa	NA	PEComa		No	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.149
+Table S1	697	730	202273260231_R06C01	EPIC	DNA FT	PEComa	NA	PEComa		No	Not validated (below threshold)	NA	Below threshold	USARC	0.867
+Table S1	698	731	202273260231_R07C01	EPIC	DNA FT	PEComa	NA	PEComa		No	Not validated (below threshold)	NA	Below threshold	EMCS	0.153
+Table S1	699	732	202273260231_R08C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.962
+Table S1	700	733	203212860167_R01C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	Not validated (below threshold)	NA	Below threshold	GCTB	0.857
+Table S1	701	734	203212860167_R02C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Chondroblastic	GCTB		Yes	IHC- G34W positive	NA	Below threshold	AFH	0.228
+Table S1	702	735	203212860167_R03C01	EPIC	DNA FT	Chondroblastoma	NA	CB		Yes	NA	No	Grp1- Classifier correct (concordant)	CB	0.968
+Table S1	703	736	203212860167_R04C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.999
+Table S1	704	737	203212860167_R05C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.73
+Table S1	705	784	203257030093_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Fibroblastic	OS (HG)		Yes	Clinical- primary bone tumour, Histology- typical osteoblastic osteosarcoma	No	Grp2- Discrepant (with evidence)	USARC	0.963
+Table S1	706	739	203212860167_R07C01	EPIC	DNA FT	Normal muscle	Muscle	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CTRL_MUS	0.817
+Table S1	707	740	203212860167_R08C01	EPIC	Blood	Normal tissue	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.993
+Table S1	708	741	203212860245_R01C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	IHC- Brachyury +	NA	Below threshold	IMT	0.318
+Table S1	709	742	203212860245_R02C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CHORD	0.891
+Table S1	710	743	203212860245_R03C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	1
+Table S1	711	744	203212860245_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	Molec + IHC: Brachyury+ (low level polysomy)	NA	Below threshold	LCH	0.284
+Table S1	712	745	203212860245_R05C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.971
+Table S1	713	746	203212860245_R06C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.973
+Table S1	714	747	203212860245_R07C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.977
+Table S1	715	748	203212860245_R08C01	EPIC	Blood	Normal tissue	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.993
+Table S1	716	749	203218680032_R01C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.982
+Table S1	717	750	203218680032_R02C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.994
+Table S1	718	751	203218680032_R03C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	719	752	203218680032_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.985
+Table S1	720	753	203218680032_R05C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	IHC- Brachyury +	NA	Below threshold	CSA_IDH_GROUP_B	0.445
+Table S1	721	754	203218680032_R06C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	722	755	203218680032_R07C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	723	756	203218680032_R08C01	EPIC	DNA FT	Normal muscle	Muscle	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.984
+Table S1	724	757	203219640032_R01C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.998
+Table S1	725	829	203259060009_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Clinical- primary bone tumour. Histology- pleomorphic tumour with focal osteoid formation	No	Grp2- Discrepant (with evidence)	USARC	0.988
+Table S1	726	759	203219640032_R03C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	727	760	203219640032_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	IHC- Brachyury +	NA	Below threshold	ASPS	0.325
+Table S1	728	761	203219640032_R05C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	729	762	203219640032_R06C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.997
+Table S1	730	763	203219640032_R07C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	731	764	203219640032_R08C01	EPIC	DNA FT	Normal muscle	Muscle	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.987
+Table S1	732	765	203219640049_R01C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.981
+Table S1	733	766	203219640049_R02C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.997
+Table S1	734	767	203219640049_R03C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	735	768	203219640049_R04C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	736	769	203219640049_R05C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CHORD	0.309
+Table S1	737	770	203219640049_R06C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.997
+Table S1	738	771	203219640049_R07C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.913
+Table S1	739	772	203219640049_R08C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	1
+Table S1	740	774	203257030091_R02C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.998
+Table S1	741	775	203257030091_R03C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	MPNST	0.256
+Table S1	742	776	203257030091_R05C01	EPIC	DNA FT	Melanoma	Classical	MEL (CUT)		Yes	IHC- S100 (focal)	NA	Below threshold	AFH	0.8
+Table S1	743	777	203257030091_R06C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.366
+Table S1	744	778	203257030091_R07C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.091
+Table S1	745	779	203257030091_R08C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.996
+Table S1	746	852	203259060023_R04C01	EPIC	DNA FT	Osteosarcoma	 Fibroblastic	OS (HG)		Yes	Clinical- primary bone tumour, history of Paget's disease. Histology-  fibroblastic with minimal osteoid formation	No	Grp2- Discrepant (with evidence)	USARC	1
+Table S1	747	781	203257030093_R02C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	Not validated (below threshold)	NA	Below threshold	GCTB	0.489
+Table S1	748	782	203257030093_R03C01	EPIC	DNA FT	Osteosarcoma	Periosteal	OS (Surface)		No	Clinical- primary surface bone lesion. Histology- classical 	No	Grp2- Discrepant (inconclusive)	OS_HG	1
+Table S1	749	783	203257030093_R04C01	EPIC	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.387
+Table S1	750	870	203259060034_R06C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and fibroblastic	OS (HG)		Yes	Clinical- primary bone tumour, Histology- typical osteoblastic osteosarcoma	No	Grp2- Discrepant (with evidence)	USARC	0.965
+Table S1	751	785	203257030093_R06C01	EPIC	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	FDY	0.496
+Table S1	752	786	203257030093_R07C01	EPIC	DNA FT	Chordoma	unknown	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.995
+Table S1	753	787	203257030093_R08C01	EPIC	DNA FT	Normal Bone	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.498
+Table S1	754	788	203257030100_R01C01	EPIC	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	CSA_IDH_GROUP_B	0.296
+Table S1	755	789	203257030100_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Fibroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.972
+Table S1	756	790	203257030100_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	757	791	203257030100_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.108
+Table S1	758	792	203257030100_R05C01	EPIC	DNA FT	Osteosarcoma	Telangiectatic 	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.998
+Table S1	759	793	203257030100_R06C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	760	794	203257030100_R07C01	EPIC	DNA FT	Chordoma	unknown	CHORD		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CHORD	0.369
+Table S1	761	795	203257030100_R08C01	EPIC	DNA FT	Normal Bone	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold	LCH	0.76
+Table S1	762	901	203259060079_R05C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic	OS (HG)		Yes	Clinical- primary intramedullary bone tumour. Histology- focal osteoid deposition	No	Grp2- Discrepant (with evidence)	USARC	0.939
+Table S1	763	797	203257030177_R02C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	ES	0.234
+Table S1	764	907	203259060092_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Clinical- primary bone tumour, Histology- typical osteoblastic osteosarcoma	No	Grp2- Discrepant (with evidence)	USARC	1
+Table S1	765	799	203257030177_R05C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	Classical	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.856
+Table S1	766	800	203257030177_R06C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	DFSP	0.462
+Table S1	767	801	203257030177_R07C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic and chondroblastic	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	1
+Table S1	768	802	203257030177_R08C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.946
+Table S1	769	803	203257030209_R01C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.605
+Table S1	770	804	203257030209_R02C01	EPIC	DNA FT	Osteosarcoma	Periosteal 	OS (Surface)		No	Clinical- primary surface bone lesion. Histology- classical 	No	Grp2- Discrepant (inconclusive)	OS_HG	1
+Table S1	771	805	203257030209_R03C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.995
+Table S1	772	806	203257030209_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	GCTB	0.406
+Table S1	773	807	203257030209_R05C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	Histology- high grade malignant tumour	No	1c- Classified but can be refined	GCTB	0.921
+Table S1	774	808	203257030209_R06C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	775	809	203257030209_R07C01	EPIC	DNA FT	Chordoma	unknown	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.992
+Table S1	776	810	203257030209_R08C01	EPIC	DNA FT	Normal Bone	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold	LCH	0.831
+Table S1	777	228	200598660011_R01C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	IHC- SMA positive (very focal), desmin negative. Histology- high grade pleomorphic tumour	No	Grp2- Discrepant (inconclusive)	LMS	0.998
+Table S1	778	812	203257030211_R02C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	1
+Table S1	779	815	203257030211_R08C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.992
+Table S1	780	816	203257030216_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	RMS_ALV	0.177
+Table S1	781	817	203257030216_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.998
+Table S1	782	818	203257030216_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Fibroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.618
+Table S1	783	819	203257030216_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.799
+Table S1	784	820	203257030216_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.308
+Table S1	785	821	203257030216_R06C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	786	822	203257030216_R07C01	EPIC	DNA FT	Chordoma	conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	787	823	203257030216_R08C01	EPIC	DNA FT	Normal Bone	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold	LCH	0.807
+Table S1	788	826	203259060009_R01C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	Histology- high grade spindle cell tumour (G34W negative IHC) with focal area of conventional giant cell tumour (G34W IHC positive)	No	1c- Classified but can be refined	GCTB	0.997
+Table S1	789	827	203259060009_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Telangiectatic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.996
+Table S1	790	828	203259060009_R03C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Histology- spindle cell lesion with numerous epithelial (squamoid) islands	No	Grp2- Discrepant (inconclusive)	OS_HG	1
+Table S1	791	202	200550940023_R07C01	EPIC	DNA FFPET	Atypical plexiform neurofibroma	NA	NFB		Yes	Molecular- NF1 germline. Histology- typical plexiform neurofibroma with scattered atypia	No	Grp2- Discrepant (with evidence)	IMT	0.971
+Table S1	792	830	203259060009_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.999
+Table S1	793	831	203259060009_R06C01	EPIC	DNA FT	Osteosarcoma	Mixed- osteoblastic, fibroblastic and telangiectatic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	794	832	203259060009_R07C01	EPIC	DNA FT	Chordoma	unknown	CHORD		Yes	Not validated (below threshold)	NA	Below threshold	LCH	0.416
+Table S1	795	833	203259060009_R08C01	EPIC	DNA FT	Normal Bone	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold	CSA_IDH_GROUP_B	0.546
+Table S1	796	834	203259060012_R01C01	EPIC	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.868
+Table S1	797	835	203259060012_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	798	836	203259060012_R03C01	EPIC	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Histology- pleomorphic spindle cell tumour with prominent osteoid formation	No	Grp2- Discrepant (inconclusive)	USARC	0.939
+Table S1	799	837	203259060012_R04C01	EPIC	DNA FT	Osteosarcoma	Telangiectatic 	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.24
+Table S1	800	838	203259060012_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.848
+Table S1	801	839	203259060012_R06C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.716
+Table S1	802	840	203259060012_R07C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	EWING	0.069
+Table S1	803	841	203259060012_R08C01	EPIC	DNA FT	Normal Bone	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_MUS	0.983
+Table S1	804	845	203259060018_R05C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.999
+Table S1	805	846	203259060018_R06C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.913
+Table S1	806	847	203259060018_R07C01	EPIC	DNA FT	Osteosarcoma	Telangiectatic	FAILED		FAILED			FAILED	FAILED	NA
+Table S1	807	848	203259060018_R08C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	FAILED		FAILED			FAILED	FAILED	NA
+Table S1	808	849	203259060023_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Fibroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.879
+Table S1	809	850	203259060023_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.971
+Table S1	810	851	203259060023_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.474
+Table S1	811	1009	3999078064_R06C01	450k	DNA FFPET	Chondroblastoma	Conventional	CB		Yes	Molecular- H3F3B K36m mutant	No	Grp2- Discrepant (with evidence)	NFB_PLEX	0.975
+Table S1	812	853	203259060023_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	ES	0.678
+Table S1	813	854	203259060023_R06C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic	OS (HG)		Yes	Clinical- primary bone tumour. Histology- minimal/no osteoid	NA	Below threshold	USARC	0.889
+Table S1	814	855	203259060023_R07C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.45
+Table S1	815	856	203259060023_R08C01	EPIC	DNA FT	Normal Bone	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold	CSA_IDH_GROUP_B	0.78
+Table S1	816	360	201496710050_R03C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff Osteosarcomatous	CSA		Yes	Molecular- IDH1 mutant (ddPCR). Histology- conventional low grade chondrosarcoma and dedifferentiated osteosarcomatous regions	No	Grp2- Discrepant (with evidence)	OS_HG	0.962
+Table S1	817	858	203259060025_R02C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.262
+Table S1	818	859	203259060025_R03C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.614
+Table S1	819	860	203259060025_R04C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.785
+Table S1	820	861	203259060025_R05C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.91
+Table S1	821	862	203259060025_R06C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.986
+Table S1	822	382	201496850137_R01C01	EPIC	DNA FFPET	Chondrosarcoma	Central- Dediff Osteosarcomatous	CSA		Yes	Molecular- IDH1 mutant (ddPCR). Histology- conventional low grade chondrosarcoma and dedifferentiated osteosarcomatous regions	No	Grp2- Discrepant (with evidence)	OS_HG	0.985
+Table S1	823	864	203259060025_R08C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.831
+Table S1	824	865	203259060034_R01C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic/Pleomorphic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.918
+Table S1	825	866	203259060034_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.995
+Table S1	826	867	203259060034_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	827	868	203259060034_R04C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.993
+Table S1	828	869	203259060034_R05C01	EPIC	DNA FT	Osteosarcoma	Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.98
+Table S1	829	222	200550940047_R02C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Epithelioid-like	MPNST		Yes	Molecular- CIC rearrangement negative (FISH). H3k27me3 retained	No	Grp2- Discrepant (inconclusive)	SBRCT_CIC	0.998
+Table S1	830	871	203259060034_R07C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.785
+Table S1	831	872	203259060034_R08C01	EPIC	DNA FT	Normal Bone	NA	Ctrl		Yes	Not validated (below threshold)	NA	Below threshold	LCH	0.598
+Table S1	832	873	203259060036_R01C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	833	304	200598660079_R05C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Molecular- SS18 negative (FISH). H3k27me3 retained	No	Grp2- Discrepant (inconclusive)	SYSA	0.968
+Table S1	834	875	203259060036_R03C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.861
+Table S1	835	876	203259060036_R04C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	836	877	203259060036_R05C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.836
+Table S1	837	878	203259060036_R06C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	838	879	203259060036_R07C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.707
+Table S1	839	880	203259060036_R08C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.997
+Table S1	840	881	203259060043_R01C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	841	882	203259060043_R02C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic and Chondroblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	842	883	203259060043_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	1
+Table S1	843	884	203259060043_R04C01	EPIC	DNA FT	Sclerosing epithelioid fibrosarcoma	Osteoblastic	SEF	Osteosarcoma osteoblastic	Yes	IHC- MUC4 positive, INI1 retained. Histology- high grade with epithelioid cells. 	Yes	Grp1- Classifier correct (caused revised diagnosis)	SEF	1
+Table S1	844	885	203259060043_R05C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.995
+Table S1	845	886	203259060043_R06C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	OS_HG	0.845
+Table S1	846	887	203259060043_R07C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	OB	0.316
+Table S1	847	888	203259060043_R08C01	EPIC	DNA FT	Normal Bone	NA	Ctrl		Yes	Histology and Clinical- degenerative bone disease, no history LCH	NA	Below threshold	LCH	0.892
+Table S1	848	889	203259060074_R01C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.993
+Table S1	849	890	203259060074_R02C01	EPIC	DNA FT	Osteosarcoma	Soft Tissue	OS (ST)		No	Not validated (below threshold)	NA	Below threshold	USARC	0.866
+Table S1	850	891	203259060074_R03C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.993
+Table S1	851	892	203259060074_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.253
+Table S1	852	893	203259060074_R05C01	EPIC	DNA FT	Osteosarcoma	Fibroblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	LCH	0.445
+Table S1	853	894	203259060074_R06C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	NA	No	Grp1- Classifier correct (concordant)	OS_HG	0.989
+Table S1	854	895	203259060074_R07C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.094
+Table S1	855	896	203259060074_R08C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional (benign metastasising)	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.999
+Table S1	856	897	203259060079_R01C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.996
+Table S1	857	898	203259060079_R02C01	EPIC	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Molecular- MDM2 amplified (FISH). Histology- surface bone tumour with cartilage cap	No	Grp2- Discrepant (with evidence)	WDLS_DDLS	0.905
+Table S1	858	899	203259060079_R03C01	EPIC	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Clinical- surface bone lesion. Molecular- MDM2 amplified (FISH)	No	Grp2- Discrepant (with evidence)	OS_HG	0.999
+Table S1	859	900	203259060079_R04C01	EPIC	DNA FT	Osteosarcoma	Low grade central	OS (LG)		No	Molecular-GNAS negative (hotspot locations). Histology- Osteoblasts lining bone seams	No	Grp2- Discrepant (with evidence)	FDY	0.996
+Table S1	860	720	202273260229_R03C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	NA	MPNST		Yes	Molecular- NF1 germline. Clinical- arising from nerve	No	Grp2- Discrepant (with evidence)	USARC	0.987
+Table S1	861	902	203259060079_R06C01	EPIC	DNA FT	Osteosarcoma	Extraskeletal, Parosteal-like 	OS (ST)		No	Clinical- primary soft tissue lesion. Molecular- MDM2 positive. Histology- osteoid forming tumour	No	Grp2- Discrepant (with evidence)	OS_HG	0.918
+Table S1	862	903	203259060079_R07C01	EPIC	DNA FT	Adamantinoma	NA	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	SCC_CUT	0.674
+Table S1	863	904	203259060079_R08C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Conventional (benign metastasising)	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.999
+Table S1	864	905	203259060092_R01C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.986
+Table S1	865	906	203259060092_R02C01	EPIC	DNA FT	Osteosarcoma	Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.236
+Table S1	866	723	202273260229_R06C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	NA	MPNST		Yes	IHC- H3k27me3 loss	No	Grp2- Discrepant (with evidence)	SARC_MPNST_LIKE	1
+Table S1	867	908	203259060092_R04C01	EPIC	DNA FT	Osteosarcoma	Telangiectatic 	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.81
+Table S1	868	909	203259060092_R05C01	EPIC	DNA FT	Osteosarcoma	Dedifferentiated Parosteal	OS (Surface)		No	Not validated (below threshold)	NA	Below threshold	FDY	0.197
+Table S1	869	910	203259060092_R06C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.122
+Table S1	870	911	203259060092_R07C01	EPIC	DNA FT	Adamantinoma	OFD like	Adamantinoma		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.36
+Table S1	871	912	203259060092_R08C01	EPIC	DNA FT	Phosphaturic mesenchymal tumor (PMT)	NA	PMT		No	Not validated (below threshold)	NA	Below threshold	CSA_CC	0.282
+Table S1	872	913	203259190005_R01C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.814
+Table S1	873	914	203259190005_R02C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.986
+Table S1	874	915	203259190005_R03C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.613
+Table S1	875	916	203259190005_R04C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.999
+Table S1	876	917	203259190005_R05C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.657
+Table S1	877	918	203259190005_R06C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.38
+Table S1	878	919	203259190005_R07C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.943
+Table S1	879	920	203259190005_R08C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.988
+Table S1	880	921	203259190023_R01C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.749
+Table S1	881	922	203259190023_R02C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.983
+Table S1	882	923	203259190023_R03C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.848
+Table S1	883	924	203259190023_R04C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.124
+Table S1	884	925	203259190023_R05C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.761
+Table S1	885	926	203259190023_R06C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.362
+Table S1	886	927	203259190023_R07C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.861
+Table S1	887	928	203259190023_R08C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.573
+Table S1	888	929	203259190029_R01C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.49
+Table S1	889	930	203259190029_R02C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.999
+Table S1	890	931	203259190029_R03C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.913
+Table S1	891	932	203259190029_R04C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.998
+Table S1	892	933	203259190029_R05C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.831
+Table S1	893	934	203259190029_R06C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.786
+Table S1	894	935	203259190029_R07C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold	WDLS_DDLS	0.775
+Table S1	895	936	203259190029_R08C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.999
+Table S1	896	937	203259190075_R01C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.995
+Table S1	897	938	203259190075_R02C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	898	939	203259190075_R03C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.687
+Table S1	899	940	203259190075_R04C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.813
+Table S1	900	941	203259190075_R05C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.821
+Table S1	901	942	203259190075_R06C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	1
+Table S1	902	943	203259190075_R07C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.999
+Table S1	903	944	203259190075_R08C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	NA	No	Grp1- Classifier correct (concordant)	USARC	0.999
+Table S1	904	945	203869580117_R01C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	MPNST	0.877
+Table S1	905	946	203869580117_R02C01	EPIC	DNA FFPET	Osteosarcoma	Pleomorphic	OS (HG)		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.15
+Table S1	906	947	203869580117_R04C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	MPNST	0.879
+Table S1	907	948	203869580117_R05C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Epithelioid-like	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	SARC_MPNST_LIKE	0.992
+Table S1	908	949	203869580117_R06C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.998
+Table S1	909	798	203257030177_R04C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Molecular- NF1 Loss of heterozygosity. H3K27me3 retained	No	Grp2- Discrepant (with evidence)	USARC	0.961
+Table S1	910	951	203869580117_R08C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.932
+Table S1	911	952	203869580123_R01C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Epithelioid	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	MRT	0.56
+Table S1	912	955	203869580123_R04C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Rhabdomyoblastic	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	RMS_ALV	0.076
+Table S1	913	956	203869580123_R05C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	IMT	0.332
+Table S1	914	950	203869580117_R07C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Osteosarcomatous	MPNST		Yes	Molecular- SS18 negative. H3K27me3 retained	No	Grp2- Discrepant (inconclusive)	SYSA	0.968
+Table S1	915	958	203869580123_R07C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	ESS_HG	0.598
+Table S1	916	959	203869580123_R08C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.97
+Table S1	917	863	203259060025_R07C01	EPIC	DNA FT	Myxofibrosarcoma	NA	MFS		Yes	Molecular- MDM2 not amplified (FISH). Histology- cellular myxoid lesion, no lipoblastic differentiation	No	Grp2- Discrepant (with evidence)	WDLS_DDLS	0.994
+Table S1	918	961	203869580131_R02C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.076
+Table S1	919	962	203869580131_R03C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	1
+Table S1	920	963	203869580131_R04C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.986
+Table S1	921	964	203869580131_R05C01	EPIC	DNA FFPET	CIC-rearranged sarcoma	Classical	CIC	MPNST	Yes	Molecular- CIC rearrangement confirmed on FISH	Yes	Grp1- Classifier correct (caused revised diagnosis)	SBRCT_CIC	0.999
+Table S1	922	965	203869580131_R06C01	EPIC	DNA FFPET	BCOR-rearranged sarcoma	Epithelioid	BCOR	MPNST	Yes	Molecular- BCOR rearrangement confirmed on PCR. IHC- BCOR diffuse positive	Yes	Grp1- Classifier correct (caused revised diagnosis)	SBRCT_BCOR	1
+Table S1	923	966	203869580131_R07C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	SARC_MPNST_LIKE	0.188
+Table S1	924	967	203869580131_R08C01	EPIC	Blood	Blood	NA	Ctrl		Yes	NA	No	Grp1- Classifier correct (concordant)	CTRL_BLOOD	0.959
+Table S1	925	968	203869580140_R01C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	NA	No	Grp1- Classifier correct (concordant)	MPNST	0.988
+Table S1	926	969	203869580140_R02C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	SARC_MPNST_LIKE	0.298
+Table S1	927	642	202273260054_R04C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	OS (HG)		Yes	Molecular- FGFR1 amplified (10%). Histology- osteoblastic and telangiectatic tumour	No	Grp2- Discrepant (inconclusive)	EWING	1
+Table S1	928	971	203869580140_R04C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	DFSP	0.204
+Table S1	929	972	203869580140_R05C01	EPIC	DNA FFPET	Sarcoma, NOS	NA	USARC		Yes	Not validated (below threshold)	NA	Below threshold	AFH	0.302
+Table S1	930	973	203869580140_R06C01	EPIC	DNA FFPET	Undifferentiated pleomorphic sarcoma (UPS)	Classical	USARC		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	USARC	0.3
+Table S1	931	974	203869580140_R07C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.454
+Table S1	932	975	203869580140_R08C01	EPIC	DNA FFPET	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	SARC_RMSLIKE	0.336
+Table S1	933	976	203869580141_R01C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Epithelioid-like	MPNST		Yes	Not validated (below threshold)	NA	Below threshold	USARC	0.419
+Table S1	934	977	203869580141_R02C01	EPIC	DNA FT	Ossifying fibromyxoid tumour	NA	OFMT		Yes	Not validated (below threshold)	NA	Below threshold	ESS_HG	0.276
+Table S1	935	978	203869580141_R03C01	EPIC	DNA FT	Malignant peripheral nerve sheath tumour (MPNST)	Classical	MPNST		Yes	Clinical- arising from nerve	NA	Below threshold	OFMT	0.862
+Table S1	936	980	203869580141_R05C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	Not validated (below threshold)	NA	Below threshold	GCTB	0.558
+Table S1	937	981	203869580141_R06C01	EPIC	DNA FT	Giant Cell Tumour of Bone	Malignant	H3.3mut		No	Histology & IHC- high grade spindle cell tumour with focal G34W expression. H3F3 G34 mutation confirmed on WGS	No	1c- Classified but can be refined	GCTB	0.951
+Table S1	938	982	203869580141_R08C01	EPIC	DNA FT	Osteosarcoma	Osteoblastic	FAILED		FAILED			FAILED	FAILED	NA
+Table S1	939	987	203869580143_R05C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	1
+Table S1	940	988	203869580143_R06C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CHORD	0.736
+Table S1	941	989	203869580143_R07C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	942	990	203869580143_R08C01	EPIC	DNA FT	Chordoma	Conventional	CHORD		Yes	NA	No	Grp1- Classifier correct (concordant)	CHORD	0.999
+Table S1	943	991	3999078002_R01C01	450k	DNA FFPET	Osteoblastoma	Conventional	OB		Yes	Not validated (below threshold)	NA	Below threshold	OS_HG	0.594
+Table S1	944	992	3999078002_R01C02	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.413
+Table S1	945	993	3999078002_R03C01	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.742
+Table S1	946	994	3999078002_R03C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.998
+Table S1	947	995	3999078002_R04C01	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.881
+Table S1	948	996	3999078002_R04C02	450k	DNA FFPET	Fibrous Dysplasia	NA	FDY		Yes	NA	No	Grp1- Classifier correct (concordant)	FDY	0.992
+Table S1	949	997	3999078002_R05C01	450k	DNA FFPET	Osteoblastoma	Conventional	OB		Yes	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.301
+Table S1	950	998	3999078002_R06C02	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	USARC	0.494
+Table S1	951	999	3999078064_R01C01	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.999
+Table S1	952	1000	3999078064_R01C02	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.169
+Table S1	953	1001	3999078064_R02C01	450k	DNA FFPET	Non-ossifying Fibroma	Conventional	NOF		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.723
+Table S1	954	1002	3999078064_R02C02	450k	DNA FFPET	Osteofibrous Dysplasia	Conventional	OFD		No	Not validated (below threshold)	NA	Below threshold	FDY	0.474
+Table S1	955	1003	3999078064_R03C01	450k	DNA FFPET	Fibrous Dysplasia	Conventional	FDY		Yes	NA	No	Grp1- Classifier correct (concordant)	FDY	0.969
+Table S1	956	1004	3999078064_R03C02	450k	DNA FFPET	Giant Cell Tumour of Bone	Conventional	GCTB		Yes	NA	No	Grp1- Classifier correct (concordant)	GCTB	0.996
+Table S1	957	1005	3999078064_R04C01	450k	DNA FFPET	Fibrous Dysplasia	NA	FDY		Yes	NA	No	Grp1- Classifier correct (concordant)	FDY	0.997
+Table S1	958	1006	3999078064_R04C02	450k	DNA FFPET	Osteofibrous Dysplasia	Conventional	OFD		No	Histology- osteoblast rimming, MNF116 scattered positive cells	NA	Below threshold	FDY	0.863
+Table S1	959	1007	3999078064_R05C01	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.521
+Table S1	960	1008	3999078064_R05C02	450k	DNA FFPET	Phosphaturic mesenchymal tumor (PMT)	Conventional	PMT		No	Not validated (below threshold)	NA	Below threshold	OS_HG	0.103
+Table S1	961	79	101103430147_R06C01	450k	DNA FFPET	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Molecular- H3F3B G34R mutation. Clinical- soft tissue lesion	No	Grp2- Discrepant (with evidence)	CB	0.998
+Table S1	962	1010	3999078064_R06C02	450k	DNA FFPET	Chondromyxoid Fibroma	Conventional	Chondromyxoid Fibroma		No	Not validated (below threshold)	NA	Below threshold	NFB_PLEX	0.869
+Table S1	963	1011	5859501023_R01C01	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.573
+Table S1	964	1012	5859501023_R01C02	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_A	0.996
+Table S1	965	1013	5859501023_R02C01	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_B	0.682
+Table S1	966	1014	5859501023_R02C02	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.39
+Table S1	967	1015	5859501023_R04C01	450K	DNA FT	Chondrosarcoma	Central- Dediff	CSA	Central	Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.998
+Table S1	968	1016	5859501023_R04C02	450K	DNA FT	Chondrosarcoma	Peripheral (subperiosteal)	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_A	0.994
+Table S1	969	1017	5859501023_R05C02	450K	DNA FT	Chondrosarcoma	Central- Dediff	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_B	0.874
+Table S1	970	1018	5859501023_R06C02	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.989
+Table S1	971	1019	5859501025_R02C01	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	LCH	0.788
+Table S1	972	1020	5859501025_R03C01	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.457
+Table S1	973	1021	5859501025_R03C02	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_B	0.89
+Table S1	974	257	200598660034_R06C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Molecular- MDM2 not amplified (FISH). Histology- no well differentiated component. High grade spindle cell lesion	No	Grp2- Discrepant (with evidence)	WDLS_DDLS	0.95
+Table S1	975	1023	5859501025_R05C02	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Histology- cartilaginous tumour	NA	Below threshold	LCH	0.753
+Table S1	976	266	200598660040_R07C01	EPIC	DNA FT	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Molecular HEY1-NCOA2 negative	No	Grp2- Discrepant (inconclusive)	CSA_MES	1
+Table S1	977	1025	5903111029_R01C02	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.979
+Table S1	978	1026	5903111029_R02C01	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_B	0.557
+Table S1	979	1027	5903111029_R04C01	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.626
+Table S1	980	1028	5903111029_R04C02	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.786
+Table S1	981	1029	5903111029_R05C01	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_GROUP_B	0.45
+Table S1	982	1030	5903111029_R06C01	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.99
+Table S1	983	1031	5903111029_R06C02	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_A	0.966
+Table S1	984	1032	5903111030_R01C02	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.999
+Table S1	985	1033	5903111030_R02C02	450K	DNA FT	Chondrosarcoma	Central- Dediff Osteosarcomatous	CSA		Yes	Molecular- IDH mutant	NA	Below threshold	OS_HG	0.656
+Table S1	986	957	203869580123_R06C01	EPIC	DNA FFPET	Undifferentiated pleomorphic sarcoma (UPS)	NA	USARC		Yes	Molecular- CIC rearrangement negative (FISH)	No	Grp2- Discrepant (inconclusive)	SBRCT_CIC	0.989
+Table S1	987	1035	5903111030_R04C02	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_A	0.843
+Table S1	988	1036	5903111030_R05C01	450K	DNA FT	Chondrosarcoma	Central- Dediff	CSA		Yes	NA	No	Grp1- Classifier correct (concordant)	CSA_GROUP_B	0.975
+Table S1	989	1037	5903111030_R06C01	450K	DNA FT	Chondrosarcoma	Central	CSA		Yes	Not validated (below threshold)	NA	Below threshold, but highest class matches diagnosis	CSA_IDH_GROUP_B	0.749

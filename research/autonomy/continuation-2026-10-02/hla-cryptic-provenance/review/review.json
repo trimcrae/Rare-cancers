@@ -1,0 +1,181 @@
+{
+  "id": "DOC-CHECKPOINT06-PRIMARY-REVIEW",
+  "status": "live",
+  "audience": [
+    "external reviewers"
+  ],
+  "reviewed_utc": "2026-10-02T18:39:11.066212+00:00",
+  "scope": "Independent bounded primary result-provenance review; no whole-paper or submission-readiness review. Quiet local stdlib-only inspection; no canonical FASTA or peptide scan.",
+  "result": "PASS: no substantive correction necessary for bounded claims",
+  "reviewed_files": [
+    {
+      "name": "audit.json",
+      "bytes": 3711,
+      "sha256": "efd65ba0888989673cee641a5438f5a787bdc763f2e5e39f003748fe6a83be67"
+    },
+    {
+      "name": "audit.py",
+      "bytes": 2908,
+      "sha256": "0e648c5c10be49eacc71c08937a51b7a637e73922f1ffa262762f59598bbdc47"
+    },
+    {
+      "name": "extract_parameters.py",
+      "bytes": 733,
+      "sha256": "2cbcf89b48fe582fb9f008a3dca1f3605d19d90cb075306454b19a7c1a6ba0a5"
+    },
+    {
+      "name": "findings.md",
+      "bytes": 9344,
+      "sha256": "5ef250e6216d054eaae9139e34b5d32a03ae74996f689c158c1d66e7cfdd653d"
+    },
+    {
+      "name": "get_source.py",
+      "bytes": 732,
+      "sha256": "61603b5430349a37c6c396084c1e33139db75b96666c7a2676905cdc505135a3"
+    },
+    {
+      "name": "plan.md",
+      "bytes": 1242,
+      "sha256": "1ec2c8757f3e6ecf576925abfe430394e4e4afb485b16162d14238ef1ca95488"
+    },
+    {
+      "name": "pmc-supplement-response.html",
+      "bytes": 1817,
+      "sha256": "a28e90dc19a1947b89eacbfe37c7d36cb7a4557188389a9fac992eece2b77ba8"
+    },
+    {
+      "name": "primary-cryptic-context.json",
+      "bytes": 2046,
+      "sha256": "c42cf5fcc7cc9b45cb37e46ebbd4b39f274bcc6589a5ecccc8de626153f61469"
+    },
+    {
+      "name": "retrievals.jsonl",
+      "bytes": 2153,
+      "sha256": "158b107f78005e8198256546bae85f553115c9e5234f8ccee14e190490b8e893"
+    },
+    {
+      "name": "sample-run-parameters.xml",
+      "bytes": 6297,
+      "sha256": "d44e7680df32e0f08c14c66ef3588e6ff7fcc517519d6258b69116e19df628e5"
+    },
+    {
+      "name": "sample-run.mzid.gz",
+      "bytes": 78546,
+      "sha256": "ebbae14f847dd4a3a554c5b818fa1399fbdc2005a22b46288ab1690b3570e1ed"
+    },
+    {
+      "name": "validation.json",
+      "bytes": 1099,
+      "sha256": "e1571b60d7a8a8ff789046259a1a14a85b25259b3ab27072588e4be7adb73516"
+    }
+  ],
+  "manifest_sha256": "463dd103b04a13e76259b21ed51434346d07032cb48203f280ae2a1a0fb2bbb5",
+  "reused_source_sha256": {
+    "primary.xml": "1d901f85a12c3772d785688b84473044d34c699d8d339af005b43d97c6dd7edb",
+    "pride-files.json": "1e9e3fcca434b0c21c9bee030dbaa2b2af9f17170e02611f06470669cf85d176",
+    "archive-readme.txt": "2cd9f81770806de9324a3178aeb91554b97147a6da74ace7229f54da0a6490c0",
+    "archive-index.html": "ff3cb8fa894fc679961a1fbbd707c1a2ff96cb598cdd31178d05e2aea06aac70",
+    "pride-project.json": "c127e62cb152d9144dcf223922b5b7cf38c3c01aa8df7fcf43640445e720c53f"
+  },
+  "independent_checks": [
+    "All 12 manifest file lengths and SHA256 values matched",
+    "All four audit source hashes matched",
+    "Selection independently recomputed as minimum (fileSizeBytes, filename) among 16 RESULT entries in 100 cached PRIDE rows",
+    "Compressed SHA1 equals PRIDE checksum; compressed SHA256 and length match audit",
+    "Decompressed SHA256 and 814334-byte length match audit and metadata size",
+    "Original XML namespace, Percolator 3.02, database references, both signed precursor 6.0 ppm and fragment 0.01 Da fields independently parsed",
+    "Saved parameter fragment matches original element structure, attributes and text; fragment is deliberately not standalone XML",
+    "README counts, sole FASTA name and bounded cryptic filename hit independently reproduced",
+    "Primary XML cryptic methods and conventional 3.4/5 ppm/0.02 Da summary checked; project protocol 3.1.1 checked",
+    "Cryptic source-context extract matches exact original paragraph"
+  ],
+  "selected_filename": "AM_AUT01-DN13_Skin_W6-32_10_DDA_merged_400-650mz_standard_all_ids_merged_psm_perc_filtered.mzid.gz",
+  "compressed": {
+    "bytes": 78546,
+    "sha1": "6fd0ddf159917003808f1c93843b45520f2324f7",
+    "sha256": "ebbae14f847dd4a3a554c5b818fa1399fbdc2005a22b46288ab1690b3570e1ed"
+  },
+  "decompressed": {
+    "bytes": 814334,
+    "sha256": "9ae13ad300ad6e9805d3deb680b2031e93c5f25a0ba66e9b292ec02a9e15a563"
+  },
+  "raw_xml_fields": {
+    "software": [
+      {
+        "version": "3.02",
+        "name": "Percolator",
+        "id": "SOF_17604000122747983354"
+      },
+      {
+        "version": "OpenMS TOPP v2.5.0-HEAD-HASH-NOTFOUND-HEAD-HASH-NOTFOUND",
+        "name": "TOPP software",
+        "id": "SOF_8681052690764611007"
+      }
+    ],
+    "database": [
+      {
+        "location": "sp_21_04_2020_decoy.fasta",
+        "id": "SDB_14072545889876147102"
+      }
+    ],
+    "tolerances": {
+      "ParentTolerance": [
+        {
+          "accession": "MS:1001412",
+          "name": "search tolerance plus value",
+          "unitCvRef": "UO",
+          "unitName": "parts per million",
+          "unitAccession": "UO:0000169",
+          "cvRef": "PSI-MS",
+          "value": "6.0"
+        },
+        {
+          "accession": "MS:1001413",
+          "name": "search tolerance minus value",
+          "unitCvRef": "UO",
+          "unitName": "parts per million",
+          "unitAccession": "UO:0000169",
+          "cvRef": "PSI-MS",
+          "value": "6.0"
+        }
+      ],
+      "FragmentTolerance": [
+        {
+          "accession": "MS:1001412",
+          "name": "search tolerance plus value",
+          "unitCvRef": "UO",
+          "unitName": "dalton",
+          "unitAccession": "UO:0000221",
+          "cvRef": "PSI-MS",
+          "value": "0.01"
+        },
+        {
+          "accession": "MS:1001413",
+          "name": "search tolerance minus value",
+          "unitCvRef": "UO",
+          "unitName": "dalton",
+          "unitAccession": "UO:0000221",
+          "cvRef": "PSI-MS",
+          "value": "0.01"
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Serialized metadata is not independent proof of execution settings; possible conversion/default/stage provenance remains unresolved.",
+    "Database filename is an internal association with the deposited canonical FASTA name, not an embedded sequence-byte identity or proof of the executed input.",
+    "Plus/minus 0.01 Da tolerance is not asserted comparable to Comet fragment bin width 0.02 Da.",
+    "Selection concerns 16 cached candidates, not all 483 README results; one DN13 skin witness cannot characterize every output.",
+    "Cryptic filename screen is bounded to README names and does not prove contents of all files or absence of external input deposits.",
+    "Missing exact historical cryptic inputs/configuration leaves all four sequence representations UNKNOWN; it is not negative identification or HLA-presentation evidence.",
+    "Retrieval ledger contains one successful mzIdentML request; absence of earlier requests outside the ledger is not independently provable.",
+    "Supplement retrieval failure and contextual publisher-index excerpt are not evidence the needed inputs do not exist.",
+    "No new network retrieval, spectrum reanalysis, canonical scan, scientific scan, or readiness determination performed."
+  ],
+  "findings": [],
+  "smallest_necessary_correction": null,
+  "execution_notes": [
+    "Initial stdout display encountered Windows cp1252 UnicodeEncodeError; rerun configured UTF-8 successfully, with no source mutations.",
+    "Source audit.py was read, not executed, because it overwrites existing artifacts."
+  ]
+}

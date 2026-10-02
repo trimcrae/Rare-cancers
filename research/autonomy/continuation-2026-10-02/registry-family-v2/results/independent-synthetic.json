@@ -1,0 +1,530 @@
+{
+  "scope": "Independent synthetic behavioral cases only; no medical accuracy claim",
+  "oracleSHA256": "9217c14711ad5ebec6b3409f0a0f58d21a937bf6ca2be07c414c26a5e7c59fb8",
+  "codeSHA256": "8becca0c0143cf5384d12c5db6467df00b85ff10f00d1dc8c014eed743e50f1a",
+  "passed": 16,
+  "total": 16,
+  "checks": [
+    {
+      "id": "title_case_pronoun",
+      "passed": true,
+      "expected": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1",
+        "versionStatus": "source-explicit",
+        "mentions": [
+          {
+            "field": "description",
+            "start": 31,
+            "end": 49,
+            "literal": "RECIST version 1.1",
+            "sentenceLiteral": "Response assessed according to RECIST version 1.1.",
+            "baseName": "RECIST",
+            "modifier": "",
+            "version": "1.1",
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          }
+        ],
+        "evidenceStatus": "explicit-in-outcome",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "all_caps_pronoun_not_criteria",
+      "passed": true,
+      "expected": {
+        "status": "unknown",
+        "familyName": null
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "unknown",
+        "familyName": null,
+        "criteriaVersion": null,
+        "versionStatus": "not-established",
+        "mentions": [],
+        "evidenceStatus": "not-established",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "who_performance_status",
+      "passed": true,
+      "expected": {
+        "status": "unknown",
+        "familyName": null
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "unknown",
+        "familyName": null,
+        "criteriaVersion": null,
+        "versionStatus": "not-established",
+        "mentions": [],
+        "evidenceStatus": "not-established",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "actual_who_response",
+      "passed": true,
+      "expected": {
+        "status": "assigned",
+        "familyName": "WHO"
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "assigned",
+        "familyName": "WHO",
+        "criteriaVersion": null,
+        "versionStatus": "not-established",
+        "mentions": [
+          {
+            "field": "title",
+            "start": 13,
+            "end": 16,
+            "literal": "WHO",
+            "sentenceLiteral": "Response per WHO criteria",
+            "baseName": "WHO",
+            "modifier": "",
+            "version": null,
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          },
+          {
+            "field": "description",
+            "start": 37,
+            "end": 40,
+            "literal": "WHO",
+            "sentenceLiteral": "Tumor response assessed according to WHO criteria.",
+            "baseName": "WHO",
+            "modifier": "",
+            "version": null,
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          }
+        ],
+        "evidenceStatus": "explicit-in-outcome",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "whoqol_not_response",
+      "passed": true,
+      "expected": {
+        "status": "unknown",
+        "familyName": null
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "unknown",
+        "familyName": null,
+        "criteriaVersion": null,
+        "versionStatus": "not-established",
+        "mentions": [],
+        "evidenceStatus": "not-established",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "full_name_parenthetical_version",
+      "passed": true,
+      "expected": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1",
+        "versionStatus": "source-explicit",
+        "mentions": [
+          {
+            "field": "description",
+            "start": 13,
+            "end": 78,
+            "literal": "Response Evaluation Criteria in Solid Tumors (RECIST) Version 1.1",
+            "sentenceLiteral": "Assessed per Response Evaluation Criteria in Solid Tumors (RECIST) Version 1.1.",
+            "baseName": "RECIST",
+            "modifier": "",
+            "version": "1.1",
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          },
+          {
+            "field": "description",
+            "start": 59,
+            "end": 78,
+            "literal": "RECIST) Version 1.1",
+            "sentenceLiteral": "Assessed per Response Evaluation Criteria in Solid Tumors (RECIST) Version 1.1.",
+            "baseName": "RECIST",
+            "modifier": "",
+            "version": "1.1",
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          }
+        ],
+        "evidenceStatus": "explicit-in-outcome",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "full_name_no_acronym",
+      "passed": true,
+      "expected": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1",
+        "versionStatus": "source-explicit",
+        "mentions": [
+          {
+            "field": "description",
+            "start": 13,
+            "end": 61,
+            "literal": "Response Evaluation Criteria in Solid Tumors 1.1",
+            "sentenceLiteral": "Assessed per Response Evaluation Criteria in Solid Tumors 1.1.",
+            "baseName": "RECIST",
+            "modifier": "",
+            "version": "1.1",
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          }
+        ],
+        "evidenceStatus": "explicit-in-outcome",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "iwcll_2018",
+      "passed": true,
+      "expected": {
+        "status": "assigned",
+        "familyName": "iwCLL",
+        "criteriaVersion": "2018"
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "assigned",
+        "familyName": "iwCLL",
+        "criteriaVersion": "2018",
+        "versionStatus": "source-explicit",
+        "mentions": [
+          {
+            "field": "description",
+            "start": 16,
+            "end": 26,
+            "literal": "iwCLL 2018",
+            "sentenceLiteral": "Evaluated using iwCLL 2018 criteria.",
+            "baseName": "iwCLL",
+            "modifier": "",
+            "version": "2018",
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          }
+        ],
+        "evidenceStatus": "explicit-in-outcome",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "lugano_intervening_criteria",
+      "passed": true,
+      "expected": {
+        "status": "assigned",
+        "familyName": "Lugano",
+        "criteriaVersion": "2014"
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "assigned",
+        "familyName": "Lugano",
+        "criteriaVersion": "2014",
+        "versionStatus": "source-explicit",
+        "mentions": [
+          {
+            "field": "description",
+            "start": 13,
+            "end": 33,
+            "literal": "Lugano criteria 2014",
+            "sentenceLiteral": "Assessed per Lugano criteria 2014.",
+            "baseName": "Lugano",
+            "modifier": "",
+            "version": "2014",
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          }
+        ],
+        "evidenceStatus": "explicit-in-outcome",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "genuine_paired_families",
+      "passed": true,
+      "expected": {
+        "status": "ambiguous",
+        "familyName": null
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "ambiguous",
+        "familyName": null,
+        "criteriaVersion": null,
+        "versionStatus": "not-established",
+        "mentions": [
+          {
+            "field": "title",
+            "start": 13,
+            "end": 23,
+            "literal": "RECIST 1.1",
+            "sentenceLiteral": "Response per RECIST 1.1 and iRECIST",
+            "baseName": "RECIST",
+            "modifier": "",
+            "version": "1.1",
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          },
+          {
+            "field": "title",
+            "start": 28,
+            "end": 35,
+            "literal": "iRECIST",
+            "sentenceLiteral": "Response per RECIST 1.1 and iRECIST",
+            "baseName": "iRECIST",
+            "modifier": "",
+            "version": null,
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          }
+        ],
+        "evidenceStatus": "conflicting-or-negated-context",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "negated_response_family",
+      "passed": true,
+      "expected": null,
+      "notAssigned": true,
+      "prediction": {
+        "status": "unknown",
+        "familyName": null,
+        "criteriaVersion": null,
+        "versionStatus": "not-established",
+        "mentions": [
+          {
+            "field": "description",
+            "start": 0,
+            "end": 10,
+            "literal": "RECIST 1.1",
+            "sentenceLiteral": "RECIST 1.1 was not used.",
+            "baseName": "RECIST",
+            "modifier": "",
+            "version": "1.1",
+            "explicitAssessmentContext": false,
+            "negated": true,
+            "historicalContext": false
+          }
+        ],
+        "evidenceStatus": "not-established",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "historical_only",
+      "passed": true,
+      "expected": null,
+      "notAssigned": true,
+      "prediction": {
+        "status": "ambiguous",
+        "familyName": null,
+        "criteriaVersion": null,
+        "versionStatus": "not-established",
+        "mentions": [
+          {
+            "field": "description",
+            "start": 40,
+            "end": 50,
+            "literal": "RECIST 1.1",
+            "sentenceLiteral": "Earlier studies assessed response using RECIST 1.1.",
+            "baseName": "RECIST",
+            "modifier": "",
+            "version": "1.1",
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": true
+          }
+        ],
+        "evidenceStatus": "conflicting-or-negated-context",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "bare_citation",
+      "passed": true,
+      "expected": null,
+      "notAssigned": true,
+      "prediction": {
+        "status": "unknown",
+        "familyName": null,
+        "criteriaVersion": null,
+        "versionStatus": "not-established",
+        "mentions": [
+          {
+            "field": "description",
+            "start": 4,
+            "end": 14,
+            "literal": "RECIST 1.1",
+            "sentenceLiteral": "See RECIST 1.1 publication for background.",
+            "baseName": "RECIST",
+            "modifier": "",
+            "version": "1.1",
+            "explicitAssessmentContext": false,
+            "negated": false,
+            "historicalContext": false
+          }
+        ],
+        "evidenceStatus": "not-established",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "explicit_version_conflict",
+      "passed": true,
+      "expected": {
+        "status": "ambiguous",
+        "familyName": null
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "ambiguous",
+        "familyName": null,
+        "criteriaVersion": null,
+        "versionStatus": "not-established",
+        "mentions": [
+          {
+            "field": "title",
+            "start": 13,
+            "end": 23,
+            "literal": "RECIST 1.0",
+            "sentenceLiteral": "Response per RECIST 1.0 and RECIST 1.1",
+            "baseName": "RECIST",
+            "modifier": "",
+            "version": "1.0",
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          },
+          {
+            "field": "title",
+            "start": 28,
+            "end": 38,
+            "literal": "RECIST 1.1",
+            "sentenceLiteral": "Response per RECIST 1.0 and RECIST 1.1",
+            "baseName": "RECIST",
+            "modifier": "",
+            "version": "1.1",
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          }
+        ],
+        "evidenceStatus": "conflicting-or-negated-context",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "no_version_inference",
+      "passed": true,
+      "expected": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": null
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": null,
+        "versionStatus": "not-established",
+        "mentions": [
+          {
+            "field": "title",
+            "start": 13,
+            "end": 19,
+            "literal": "RECIST",
+            "sentenceLiteral": "Response per RECIST",
+            "baseName": "RECIST",
+            "modifier": "",
+            "version": null,
+            "explicitAssessmentContext": true,
+            "negated": false,
+            "historicalContext": false
+          }
+        ],
+        "evidenceStatus": "explicit-in-outcome",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    },
+    {
+      "id": "labels_do_not_name_family",
+      "passed": true,
+      "expected": {
+        "status": "unknown",
+        "familyName": null
+      },
+      "notAssigned": false,
+      "prediction": {
+        "status": "unknown",
+        "familyName": null,
+        "criteriaVersion": null,
+        "versionStatus": "not-established",
+        "mentions": [],
+        "evidenceStatus": "not-established",
+        "crossOutcomeEquivalence": "not-established",
+        "poolingAllowed": false
+      }
+    }
+  ]
+}

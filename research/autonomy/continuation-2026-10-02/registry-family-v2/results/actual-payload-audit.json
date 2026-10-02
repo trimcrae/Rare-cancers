@@ -1,0 +1,160 @@
+{
+  "schema": "registry-actual-payload-regression-audit/1",
+  "status": "passed",
+  "versions": {
+    "v1": {
+      "outcomes": 68,
+      "literalRows": 460,
+      "sourceMeasurements": 421,
+      "literalDenominatorRecordsIncludingRepeatedScopes": 663,
+      "companionRows": 45
+    },
+    "v2": {
+      "outcomes": 68,
+      "literalRows": 460,
+      "sourceMeasurements": 421,
+      "literalDenominatorRecordsIncludingRepeatedScopes": 663,
+      "companionRows": 45
+    }
+  },
+  "fullLiteralExportsUnchanged": true,
+  "acceptedPayloadsUnchanged": true,
+  "frozenOracleUnchanged": true,
+  "evaluatedOutcomes": 9,
+  "changedPredictions": [
+    {
+      "sourcePointer": "/studies/0/resultsSection/outcomeMeasuresModule/outcomeMeasures/1",
+      "nctId": "NCT04008706",
+      "outcomeIndex": 1,
+      "before": {
+        "status": "unknown",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "after": {
+        "status": "assigned",
+        "family": "iwCLL",
+        "version": "2018",
+        "modifier": null
+      },
+      "beforeJointAgreement": false,
+      "afterJointAgreement": true
+    },
+    {
+      "sourcePointer": "/studies/2/resultsSection/outcomeMeasuresModule/outcomeMeasures/2",
+      "nctId": "NCT05508867",
+      "outcomeIndex": 2,
+      "before": {
+        "status": "ambiguous",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "after": {
+        "status": "assigned",
+        "family": "Lugano",
+        "version": "2014",
+        "modifier": null
+      },
+      "beforeJointAgreement": false,
+      "afterJointAgreement": true
+    },
+    {
+      "sourcePointer": "/studies/3/resultsSection/outcomeMeasuresModule/outcomeMeasures/7",
+      "nctId": "NCT05327530",
+      "outcomeIndex": 7,
+      "before": {
+        "status": "ambiguous",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "after": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "beforeJointAgreement": false,
+      "afterJointAgreement": true
+    },
+    {
+      "sourcePointer": "/studies/3/resultsSection/outcomeMeasuresModule/outcomeMeasures/8",
+      "nctId": "NCT05327530",
+      "outcomeIndex": 8,
+      "before": {
+        "status": "ambiguous",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "after": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "beforeJointAgreement": false,
+      "afterJointAgreement": true
+    },
+    {
+      "sourcePointer": "/studies/3/resultsSection/outcomeMeasuresModule/outcomeMeasures/9",
+      "nctId": "NCT05327530",
+      "outcomeIndex": 9,
+      "before": {
+        "status": "ambiguous",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "after": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "beforeJointAgreement": false,
+      "afterJointAgreement": true
+    },
+    {
+      "sourcePointer": "/studies/5/resultsSection/outcomeMeasuresModule/outcomeMeasures/2",
+      "nctId": "NCT04557956",
+      "outcomeIndex": 2,
+      "before": {
+        "status": "unknown",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "after": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "beforeJointAgreement": false,
+      "afterJointAgreement": true
+    },
+    {
+      "sourcePointer": "/studies/7/resultsSection/outcomeMeasuresModule/outcomeMeasures/1",
+      "nctId": "NCT04276493",
+      "outcomeIndex": 1,
+      "before": {
+        "status": "ambiguous",
+        "family": null,
+        "version": null,
+        "modifier": null
+      },
+      "after": {
+        "status": "assigned",
+        "family": "RECIST",
+        "version": "1.1",
+        "modifier": null
+      },
+      "beforeJointAgreement": false,
+      "afterJointAgreement": true
+    }
+  ],
+  "scope": "Actual exported literals, measurements, denominator records and companion accepted payloads checked. Normalized clinical correctness not re-adjudicated. Seen-case regression only, not independent generalization."
+}

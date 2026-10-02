@@ -1,0 +1,176 @@
+{
+  "id": "DOC-METHYLATION-DENOMINATOR-INDEPENDENT-REVIEW-20261002",
+  "status": "live",
+  "audience": [
+    "external reviewers"
+  ],
+  "dateUtc": "2026-10-02T18:45:23.744012+00:00",
+  "verdict": "pass_with_editorial_precision_note",
+  "scope": "Finite independent source/results review. Not a whole-paper or ultra pass.",
+  "method": "Existing bundled Python -B; standard-library zipfile and ElementTree direct XLSX XML reader resolving workbook relationship IDs. Checks executed in this review session. No worker script rerun, UI, browser, package install, checkout or large artifacts.",
+  "reviewed_artifact_hashes": {
+    "audit-results.json": "35b4624e8243404a669421dd9e8427da86032c6a2a632788f54a3014587b7062",
+    "audit_denominator.py": "e1f2ae360c494c6a71bb9a127a16de0e30c583d4abda40d51ab580241e735eaa",
+    "CJP2-7-350-s001.xlsx": "6e549cfb75cc37f7cc7c0efc9c715917282b376e7f172155fee01f538c69587b",
+    "CJP2-7-350-s003.docx": "b658f5dfad81235e7be7a5546ef503c489b605573ec35cd496ddef5c4bcafe26",
+    "CONTRACT.txt": "a3202fac1baa6ea8f8b7a44b120ef16c255ac1992c925550ff272a1fc454f882",
+    "field-dictionary.tsv": "1ee9924879380e9149949a10d50d6795d0eb11427078db414983649eab8a9370",
+    "findings.md": "16dca038722047db9221f99e5f6d80ba8d64820171168cfbfed26565b88a43e4",
+    "methods-text.txt": "cc2bfaa3b1bfddbb1308e184c220888ebdc17f6edfc2d98063f4c51346935fb6",
+    "primary-source-coordinates.json": "57f243ba2f77148403b7717aa0bbe8dbea294ae99cbbd0cf1ebcb66c7f233fa2",
+    "qc-exclusions-sdrf-evidence.tsv": "6f147cbf0af17c3db065dca37b7844b97c152add53d777f91a9dfdd1abde564c",
+    "receipt.json": "cf6984b0a7b67ba36d8880272f1c06200abfe19933340e563fa9521f8255633b",
+    "retrieval.json": "d6420598b2ece1689e8b60c5ee970280a59fb1f6539e5ca8737d4bb3d27f80af",
+    "revised-diagnoses.tsv": "ed18bd5f2603274cd209581ff2c776d614e3609386a8a4a01df660253019001f",
+    "source-native-eligibility.tsv": "4ba08aa5354406537fc6f6409624a1778701dc4dab42e97bd3065b8053f73a97"
+  },
+  "primary_source_hashes": [
+    {
+      "file": "CJP2-7-350-s001.xlsx",
+      "sha256": "6e549cfb75cc37f7cc7c0efc9c715917282b376e7f172155fee01f538c69587b",
+      "bytes": 494859
+    },
+    {
+      "file": "CJP2-7-350-s003.docx",
+      "sha256": "b658f5dfad81235e7be7a5546ef503c489b605573ec35cd496ddef5c4bcafe26",
+      "bytes": 22875
+    },
+    {
+      "file": "lyskjaer.xml",
+      "sha256": "31c0987584ecc056960d5e4e6800efd3de8858598769240bb432f1f8b0077ba5",
+      "bytes": 107938
+    },
+    {
+      "file": "E-MTAB-9875.sdrf.txt",
+      "sha256": "c6ffc854493f95d3b1c70bc18e0862abf269ea889e7ca2db153d435c80adc216",
+      "bytes": 816169
+    }
+  ],
+  "checks": {
+    "receipt_files_verified": 13,
+    "case_rows": 986,
+    "unique_case_numbers": 986,
+    "unique_sentrix_ids": 986,
+    "J_flags": {
+      "Yes": 820,
+      "No": 163,
+      "FAILED": 3
+    },
+    "retained_rows": 983,
+    "failed_exact_cells": [
+      {
+        "row": 806,
+        "case": 847,
+        "sentrix": "203259060018_R07C01",
+        "F": "Osteosarcoma",
+        "G": "Telangiectatic"
+      },
+      {
+        "row": 807,
+        "case": 848,
+        "sentrix": "203259060018_R08C01",
+        "F": "Osteosarcoma",
+        "G": "Osteoblastic"
+      },
+      {
+        "row": 938,
+        "case": 982,
+        "sentrix": "203869580141_R08C01",
+        "F": "Osteosarcoma",
+        "G": "Osteoblastic"
+      }
+    ],
+    "all_three_failed_additional_cells": {
+      "C": "EPIC",
+      "D": "DNA FT",
+      "H": "FAILED",
+      "J": "FAILED",
+      "N": "FAILED",
+      "O": "FAILED",
+      "P": "NA",
+      "Y": "FAILED"
+    },
+    "ledger_verification": {
+      "rows": 986,
+      "source_fields": 14,
+      "comparisons": 13804,
+      "field_dictionary_matches_source_row3": true,
+      "row_coordinates_and_sheet_keys_verified": true,
+      "text_comparison": "exact",
+      "numeric_comparison": "identical binary64 value, not necessarily identical XML numeric lexeme"
+    },
+    "revision_rows_exact": [
+      168,
+      247,
+      280,
+      843,
+      921,
+      922
+    ],
+    "revision_cases": [
+      166,
+      254,
+      287,
+      884,
+      964,
+      965
+    ],
+    "revision_all_fields_equal_corresponding_ledger_rows": true,
+    "S3_D4": {
+      "literal": 821,
+      "formula_present": false
+    },
+    "S3_E4": {
+      "literal": 821,
+      "formula_present": false
+    },
+    "case1015": {
+      "A967": "1015",
+      "I967": "Central",
+      "M967": "No"
+    },
+    "SDRF_all_evidence_fields_verified": 6,
+    "SDRF_line_numbers": [
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973
+    ],
+    "SDRF_exactly_two_channels_per_excluded_case": true,
+    "primary_XML_coordinates_text_exact": 3,
+    "methods_text_matches_all_25_DOCX_body_paragraphs": true
+  },
+  "findings": [
+    {
+      "class": "editorial suggestion",
+      "artifact": "findings.md",
+      "evidence": "TSV numeric strings are value-preserving binary64 serializations, not literal copies of raw XLSX XML numeric lexemes. For example P4 is 0.79900000000000004 in XML and 0.799 in TSV.",
+      "smallest_correction": "Add after the ledger-copy description: Numeric fields use value-preserving binary64 serialization rather than literal XLSX numeric lexemes; the original workbook remains authoritative."
+    }
+  ],
+  "normalization_notes": [
+    "Numeric TSV serialization uses shorter decimal strings than raw XLSX numeric XML; every compared binary64 numeric value is unchanged. No performance computation uses these values in this checkpoint.",
+    "All three primary XML paragraph extracts match exactly when decoded as UTF-8. An initial reviewer diagnostic used the Windows default text encoding and produced an apparent quotation mismatch; this was resolved by explicit UTF-8. No quote normalization or correction is needed."
+  ],
+  "limitations": [
+    "Table S3 literal 821 differs from Table S1 J Yes count 820; source discrepancy remains correctly acknowledged and unresolved.",
+    "Case-specific QC metric, threshold and technical reason are not identified in inspected Table S1 or supplementary methods; the memo correctly restricts its absence statement to inspected sources.",
+    "No patient-identity inference, classifier performance calculation, threshold selection, or raw IDAT analysis.",
+    "Review verifies persisted workbook and methods members plus source and receipt hashes; it does not independently repeat archive retrieval or assess historical access failures."
+  ],
+  "smallest_correction": "One optional precision sentence about value-preserving numeric serialization; no scientific correction.",
+  "working_addendum_review": {
+    "file": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint06-root\\methylation-addendum-prose.txt",
+    "sha256": "1f5043db4c92d0c7cfad7cb188bd36995ee5e7821dd4e1e48fe30b7dfc9483da",
+    "disposition": "pass; working addendum only, no outgoing or publication approval",
+    "question": "Implied clearly: which deposited profiles were excluded, and what eligibility and adjudication fields are supported by the original sources?",
+    "approach": "Primary case-table flags and identifiers, revision fields, methods review procedure and summary-table counts are described understandably.",
+    "finding": "All exact case identifiers, 820/163/3 counts, 983 retained denominator, six revisions, case 1015 exception and 820-versus-821 discrepancy agree with reviewed evidence.",
+    "limits": "Clearly distinguishes source-native flags from the 12-class mapping, source review from independent diagnosis assignment, and profile metadata from cross-study patient independence. No classifier performance claim or unstated failed QC metric is introduced.",
+    "next_step": "No executable next step is stated. This is acceptable for the requested bounded working addendum; further transport would require prespecified taxonomy mapping and an explicit reference-diagnosis independence policy, as the already-reviewed findings acknowledge.",
+    "material_correction": null,
+    "readability": "Three short paragraphs present denominator recovery, adjudication dependence, then remaining source limitations in a coherent order."
+  }
+}

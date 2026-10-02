@@ -1,0 +1,93 @@
+{
+  "id": "DOC-CHECKPOINT06-ACTUAL-RESULT-REVIEW",
+  "status": "live",
+  "audience": [
+    "external reviewers"
+  ],
+  "verifiedUtc": "2026-10-02T19:03:14.128961+00:00",
+  "result": "Actual result checks PASS; three small prose precision corrections requested, no scientific-result correction.",
+  "archiveSHA256": "d57b42af57a3ce6c20fed58af8e29f2946e13c60728341077ba0ecc147082d0b",
+  "runId": "37050069878",
+  "revision": "6f7cb786511853dcb77b8acc90704ace3469a165",
+  "codeSHA256": "8becca0c0143cf5384d12c5db6467df00b85ff10f00d1dc8c014eed743e50f1a",
+  "verified": {
+    "rawOutcomes": 68,
+    "literalRows": 460,
+    "emptyMeasurementRows": 40,
+    "measurements": 421,
+    "denominatorRecordsIncludingRepeatedScopes": 663,
+    "companionRows": 45,
+    "eligibleCompanionCoverageExact": true,
+    "v1JointAgreement": 2,
+    "v2SeenCaseJointAgreement": 9,
+    "eligibleDenominator": 9,
+    "changedPredictions": 7,
+    "knownUnits": 575,
+    "knownStatusCounts": {
+      "assigned": 424,
+      "unknown": 116,
+      "ambiguous": 35
+    },
+    "knownFourCellUnits": 387,
+    "knownAcceptedFourCellUnits": 510,
+    "reviewedKnownAgreements": 27,
+    "syntheticPassTotal": 16
+  },
+  "checks": [
+    "ZIP bytes/digest, unique members, exported small JSON byte identity, receipt run/revision/all zero exits",
+    "Raw source, oracle and offset amendment hashes; wrapper hash and code Git blob",
+    "Independently constructed raw source outcome/class/group coverage including empty groups, category and full measurement payloads, literal denominator scope records compared to actual exports",
+    "Full v1/v2 extraction exports identical; every companion accepted row and hash match source-derived literal export; exact evaluated-outcome row coverage",
+    "Actual v1/v2 records retain identical oracle; recomputed 2/9 and 9/9 with seven changes",
+    "Known575 counts recomputed and accepted-row digests checked",
+    "Pinned remote manifest/reviewed27 bytes match bindings; all27 actual payloads independently match family, four cells, denominator and scope; outcome literal digest matches manifest"
+  ],
+  "limits": [
+    "9/9 is seen-case regression after failures informed repair; original independent2/9 remains. No accuracy/generalization claim.",
+    "Known575 original source ZIP not fetched or reexecuted; its binding verified through pinned manifest, outcome literal digest and execution receipt, not full original accepted575 input-row byte comparison.",
+    "No classifier/science/test-suite rerun or clinical re-adjudication. Saved cloud evidence checked, not independent runtime telemetry."
+  ],
+  "reviewExecutionNote": "First read-only checker attempted whole measurement-object equality against native payload components; exported objects also contain normalizedCategory/integerValue. Corrected checker compares the full native literal components and checks whole v1/v2 exports separately. No source/result artifact changed.",
+  "neededCorrections": [
+    {
+      "text": "Five meaningful negative-control tests for that audit",
+      "replaceWith": "Five payload-audit tests, including four negative controls",
+      "reason": "test_payload_audit.py contains four mutation/drop negative controls and one positive complete-payload/empty-group control."
+    },
+    {
+      "text": "focused independent nine-counterexample repair check",
+      "replaceWith": "focused independent nine-probe repair check",
+      "reason": "The nine probes include unchanged positive/negative controls, not nine defects."
+    },
+    {
+      "text": "663 literal denominator records",
+      "replaceWith": "663 literal denominator records including repeated scopes",
+      "reason": "Exact count is literalDenominatorRecordsIncludingRepeatedScopes; retain that counting definition for external readers."
+    }
+  ],
+  "priorResultReviewSHA256": "dc8016037ad10733926b311339629f7db3a8503848b84f36dfa63b02a776297b",
+  "proseReview": {
+    "path": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint06-root\\registry-results-prose.md",
+    "sha256": "497975c25737544a883be6413f1a5630909fc495046e4449537c22ff772baff0",
+    "questionApproachFindingsLimitsNextStep": "Clear: prior defects motivate bounded syntax repair; direct payload preservation and same-slice replay are distinct; limitations and need for fresh predeclared slice/oracle are explicit. No submission/readiness claim.",
+    "metadata": "DOC ID, live status, date, last_verified, purpose, scope and audience present.",
+    "neededSmallCorrections": [
+      {
+        "text": "Five meaningful negative-control tests for that audit",
+        "replaceWith": "Five payload-audit tests, including four negative controls",
+        "reason": "test_payload_audit.py contains four mutation/drop negative controls and one positive complete-payload/empty-group control."
+      },
+      {
+        "text": "focused independent nine-counterexample repair check",
+        "replaceWith": "focused independent nine-probe repair check",
+        "reason": "The nine probes include unchanged positive/negative controls, not nine defects."
+      },
+      {
+        "text": "663 literal denominator records",
+        "replaceWith": "663 literal denominator records including repeated scopes",
+        "reason": "Exact count is literalDenominatorRecordsIncludingRepeatedScopes; retain that counting definition for external readers."
+      }
+    ],
+    "otherScopeClaims": "Verified 9/9 is explicitly seen-case after failure-informed repair, original independent2/9 retained; known575 is not held-out; source fidelity distinguished from clinical validity; no pooling authorization."
+  }
+}

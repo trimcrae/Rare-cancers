@@ -1,0 +1,99 @@
+{
+  "revision": "6f7cb786511853dcb77b8acc90704ace3469a165",
+  "run_id": "37050069878",
+  "python": "3.12.3",
+  "steps": [
+    {
+      "name": "payload-tests",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_payload_audit.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.10830068500000323
+    },
+    {
+      "name": "independent-synthetic",
+      "command": [
+        "python3",
+        "-B",
+        "run_independent_synthetic.py",
+        "--code",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-family-v2/companion_v2.py",
+        "--oracle",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-family-v2/independent-synthetic-oracle.json",
+        "--out",
+        "/home/runner/work/_temp/registry-v2/independent-synthetic.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.05075149500000009
+    },
+    {
+      "name": "seen-regression",
+      "command": [
+        "python3",
+        "-B",
+        "replay_seen.py",
+        "--source",
+        "/home/runner/work/_temp/registry-v2/v1/inputs/api-response.json",
+        "--oracle",
+        "/home/runner/work/_temp/registry-v2/v1/inputs/oracle.json",
+        "--offset-amendment",
+        "/home/runner/work/_temp/registry-v2/v1/inputs/offset-amendment-01.json",
+        "--presence-amendment",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-independent-evaluation/source-presence-amendment-02.json",
+        "--oracle-sha256",
+        "302ba913bdebe23f312f7cdb674b34af79ed4b7a4b8c0b57f3695c8794e6af6e",
+        "--extractor",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry/registry_literal_extractor.py",
+        "--companion",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-family-v2/companion_v2.py",
+        "--out",
+        "/home/runner/work/_temp/registry-v2/seen-regression"
+      ],
+      "exit_code": 0,
+      "seconds": 0.20143910299999845
+    },
+    {
+      "name": "actual-payload-audit",
+      "command": [
+        "python3",
+        "-B",
+        "compare_actual_payloads.py",
+        "--source",
+        "/home/runner/work/_temp/registry-v2/v1/inputs/api-response.json",
+        "--v1",
+        "/home/runner/work/_temp/registry-v2/v1/results",
+        "--v2",
+        "/home/runner/work/_temp/registry-v2/seen-regression",
+        "--out",
+        "/home/runner/work/_temp/registry-v2/actual-payload-audit.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.09533778899999845
+    },
+    {
+      "name": "known575",
+      "command": [
+        "python3",
+        "-B",
+        "companion_v2.py",
+        "--zip",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-full-replay/results/full-replay-output.zip",
+        "--manifest",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-family-companion/inputs.json",
+        "--reviewed",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-family-companion/reviewed-27.json",
+        "--out",
+        "/home/runner/work/_temp/registry-v2/known575"
+      ],
+      "exit_code": 0,
+      "seconds": 0.4907994450000075
+    }
+  ],
+  "scope": "Changed-code seen-case regression. Original2/9 independent result preserved. No new generalization evaluation."
+}
