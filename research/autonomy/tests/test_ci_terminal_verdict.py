@@ -70,6 +70,7 @@ class TerminalVerdictTests(unittest.TestCase):
         return output
 
     def test_exact_original_cancelled_false_green_witness(self):
+        # Retained scenario family: test_exact_original_cancelled_false_green_witness
         raw = subprocess.check_output(["git", "show", f"{BASE}:{SOURCE}"], cwd=REPO)
         blob = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
         self.assertEqual(blob, ORIGINAL_BLOB)
@@ -86,36 +87,44 @@ class TerminalVerdictTests(unittest.TestCase):
         print(f"PINNED_BASELINE_FALSE_GREEN base={BASE} blob={blob} "
               "conclusion=cancelled exit=0; mocked API/time, no HTTP")
 
-    def test_current_success_and_neutral_controls(self):
+    def test_positive_and_terminal_single_inventory_verdicts(self):
+        # Retained scenario family: test_current_success_and_neutral_controls
         for conclusions in (["success"], ["neutral"], ["success", "neutral"]):
             with self.subTest(conclusions=conclusions):
                 self.checked([run(c) for c in conclusions], 0)
 
-    def test_terminal_no_verdict_is_unknown(self):
+        # Retained scenario family: test_terminal_no_verdict_is_unknown
         for conclusion in ("cancelled", "skipped", "new_unknown_conclusion", ""):
             with self.subTest(conclusion=conclusion):
                 output = self.checked([run(conclusion)], 2)
                 self.assertIn("UNKNOWN", output)
 
-    def test_success_does_not_hide_a_terminal_no_verdict(self):
+        # Retained scenario family: test_multiple_cancelled_and_skipped_runs_are_unknown
+        for conclusions in (["cancelled", "cancelled"], ["skipped", "skipped"],
+                            ["cancelled", "skipped"]):
+            with self.subTest(conclusions=conclusions):
+                self.checked([run(c) for c in conclusions], 2)
+
+        # Retained scenario family: test_quiet_still_reports_terminal_unknown
+        output = self.checked([run("cancelled")], 2, quiet=True)
+        self.assertIn("UNKNOWN", output)
+        self.assertNotIn("still going", output)
+
+    def test_positive_runs_cannot_hide_terminal_nonverdicts(self):
+        # Retained scenario family: test_success_does_not_hide_a_terminal_no_verdict
         for conclusion in ("cancelled", "skipped", "new_unknown_conclusion", ""):
             for reverse in (False, True):
                 with self.subTest(conclusion=conclusion, reverse=reverse):
                     runs = [run("success"), run(conclusion)]
                     self.checked(list(reversed(runs)) if reverse else runs, 2)
 
-    def test_neutral_does_not_hide_cancelled_or_skipped(self):
+        # Retained scenario family: test_neutral_does_not_hide_cancelled_or_skipped
         for conclusion in ("cancelled", "skipped"):
             with self.subTest(conclusion=conclusion):
                 self.checked([run("neutral"), run(conclusion)], 2)
 
-    def test_multiple_cancelled_and_skipped_runs_are_unknown(self):
-        for conclusions in (["cancelled", "cancelled"], ["skipped", "skipped"],
-                            ["cancelled", "skipped"]):
-            with self.subTest(conclusions=conclusions):
-                self.checked([run(c) for c in conclusions], 2)
-
     def test_red_precedence_is_preserved(self):
+        # Retained scenario family: test_red_precedence_is_preserved
         for conclusion in sorted(await_ci.RED):
             for other in (None, "cancelled", "success"):
                 with self.subTest(conclusion=conclusion, other=other):
@@ -125,12 +134,8 @@ class TerminalVerdictTests(unittest.TestCase):
                     output = self.checked(runs, 1)
                     self.assertIn("RED", output)
 
-    def test_quiet_still_reports_terminal_unknown(self):
-        output = self.checked([run("cancelled")], 2, quiet=True)
-        self.assertIn("UNKNOWN", output)
-        self.assertNotIn("still going", output)
-
-    def test_unfinished_statuses_and_null_conclusion_wait_then_timeout(self):
+    def test_pending_or_missing_inventory_has_no_green_verdict(self):
+        # Retained scenario family: test_unfinished_statuses_and_null_conclusion_wait_then_timeout
         cases = [(status, "success") for status in
                  ("queued", "in_progress", "waiting", "requested", "pending")]
         cases.append(("completed", None))
@@ -143,7 +148,7 @@ class TerminalVerdictTests(unittest.TestCase):
                 self.assertTrue(sleeps)
                 self.assertNotIn("CI decided GREEN", output)
 
-    def test_empty_or_missing_inventory_is_not_green(self):
+        # Retained scenario family: test_empty_or_missing_inventory_is_not_green
         for response in ({"workflow_runs": []}, {}):
             with self.subTest(response=response):
                 code, output, calls, sleeps = observe(await_ci, [response])
@@ -152,7 +157,8 @@ class TerminalVerdictTests(unittest.TestCase):
                 self.assertTrue(sleeps)
                 self.assertNotIn("CI decided GREEN", output)
 
-    def test_waiting_can_then_reach_a_measured_success(self):
+    def test_waiting_ends_with_the_observed_terminal_verdict(self):
+        # Retained scenario family: test_waiting_can_then_reach_a_measured_success
         replies = [{"workflow_runs": []},
                    {"workflow_runs": [run(None, "in_progress")]},
                    {"workflow_runs": [run("success")]}]
@@ -161,7 +167,18 @@ class TerminalVerdictTests(unittest.TestCase):
         self.assertEqual(len(calls), 3)
         self.assertEqual(sleeps, [1, 1])
 
+        # Retained scenario family: test_terminal_unknown_after_wait_is_not_green
+        code, output, calls, sleeps = observe(
+            await_ci, [{"workflow_runs": [run(None, "in_progress")]},
+                       {"workflow_runs": [run("cancelled")]}])
+        self.assertEqual(code, 2, output)
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(sleeps, [1])
+        self.assertIn("UNKNOWN", output)
+        self.assertNotIn("CI decided GREEN", output)
+
     def test_minimum_inventory_count_remains_enforced(self):
+        # Retained scenario family: test_minimum_inventory_count_remains_enforced
         code, output, calls, sleeps = observe(
             await_ci, [{"workflow_runs": [run("success")]}], require=2)
         self.assertEqual(code, 2, output)
@@ -175,6 +192,7 @@ class TerminalVerdictTests(unittest.TestCase):
         self.assertEqual(sleeps, [])
 
     def test_mixed_pending_and_red_keeps_existing_waiting_behavior(self):
+        # Retained scenario family: test_mixed_pending_and_red_keeps_existing_waiting_behavior
         code, output, calls, sleeps = observe(
             await_ci, [{"workflow_runs": [run("failure"), run(None, "in_progress")]}])
         self.assertEqual(code, 2, output)
@@ -182,15 +200,6 @@ class TerminalVerdictTests(unittest.TestCase):
         self.assertTrue(sleeps)
         self.assertNotIn("CI decided GREEN", output)
 
-    def test_terminal_unknown_after_wait_is_not_green(self):
-        code, output, calls, sleeps = observe(
-            await_ci, [{"workflow_runs": [run(None, "in_progress")]},
-                       {"workflow_runs": [run("cancelled")]}])
-        self.assertEqual(code, 2, output)
-        self.assertEqual(len(calls), 2)
-        self.assertEqual(sleeps, [1])
-        self.assertIn("UNKNOWN", output)
-        self.assertNotIn("CI decided GREEN", output)
 
 
 if __name__ == "__main__":
