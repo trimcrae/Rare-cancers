@@ -16,7 +16,7 @@ OUT = Path('/tmp/foundation-publication')
 OUT.mkdir(exist_ok=True)
 TOKEN = ROOT / 'research/autonomy/continuation-2026-10-02/foundation-publication-token.json'
 MODE = json.loads(TOKEN.read_text())['mode']
-assert MODE in {'prepare', 'full', 'evaluate'}
+assert MODE in {'prepare', 'render', 'full', 'evaluate'}
 SHA = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
 RECEIPT = {'revision': SHA, 'run_id': os.environ['GITHUB_RUN_ID'], 'mode': MODE, 'steps': []}
 
@@ -76,26 +76,28 @@ result = 1
 try:
     assert run('base-dependencies', [sys.executable, '-m', 'pip', 'install', '--no-cache-dir',
                'pyyaml', 'jsonschema>=4.18', 'referencing', 'pypdf', 'pdfplumber', 'uv'], 300) == 0
-    if MODE == 'prepare':
-        assert run('extend-derived-ids', [sys.executable, 'research/autonomy/derived_ids.py', '--extend']) == 0
-        assert run('derive-views', [sys.executable, 'systems/systems_check.py', '--write-views']) == 0
-        changed = subprocess.check_output(['git', 'diff', '--name-only'], text=True).splitlines()
-        changed += subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard'], text=True).splitlines()
-        for path in changed:
-            assert path.startswith('systems/views/') or path == 'research/autonomy/derived-ledger-ids.json', path
-            keep(path)
-        assert run('check-systems', [sys.executable, 'systems/systems_check.py', '--check']) == 0
-        assert run('check-derived-ids', [sys.executable, 'research/autonomy/derived_ids.py', '--check']) == 0
+    if MODE in {'prepare', 'render'}:
+        if MODE == 'prepare':
+            assert run('extend-derived-ids', [sys.executable, 'research/autonomy/derived_ids.py', '--extend']) == 0
+            assert run('derive-views', [sys.executable, 'systems/systems_check.py', '--write-views']) == 0
+            changed = subprocess.check_output(['git', 'diff', '--name-only'], text=True).splitlines()
+            changed += subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard'], text=True).splitlines()
+            for path in changed:
+                assert path.startswith('systems/views/') or path == 'research/autonomy/derived-ledger-ids.json', path
+                keep(path)
+            assert run('check-systems', [sys.executable, 'systems/systems_check.py', '--check']) == 0
+            assert run('check-derived-ids', [sys.executable, 'research/autonomy/derived_ids.py', '--check']) == 0
         assert run('render-manuscript', [sys.executable, 'research/manuscripts/build_submission_pdf.py',
                    '--paper', 'foundation-identity', '--style', 'preprint'], 300, guarded=True) == 0
         for path in (ROOT / 'research/manuscripts/foundation').glob('*'):
             if path.suffix != '.md':
                 keep(str(path.relative_to(ROOT)))
         pdf = ROOT / 'research/manuscripts/foundation/source-identity-correspondence-preprint.pdf'
-        from pypdf import PdfReader
-        pages = PdfReader(pdf).pages
-        (OUT / 'rendered-text.txt').write_text('\n\n'.join(p.extract_text() for p in pages))
-        RECEIPT['pdf_pages'] = len(pages)
+        extract = ('from pathlib import Path; from pypdf import PdfReader; '
+                   'pages=PdfReader('+repr(str(pdf))+').pages; '
+                   'Path('+repr(str(OUT/'rendered-text.txt'))+').write_text("\\n\\n".join(p.extract_text() for p in pages)); '
+                   'print("PDF_PAGES="+str(len(pages)))')
+        assert run('extract-rendered-text', [sys.executable, '-c', extract], 90) == 0
     elif MODE == 'full':
         assert run('development-dependencies', ['bash', 'scripts/dev-setup.sh', '--if-needed'], 900, guarded=True) == 0
         assert subprocess.check_output(['git', 'status', '--porcelain'], text=True).strip() == ''

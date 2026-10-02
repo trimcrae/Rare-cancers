@@ -98,6 +98,7 @@ PAPERS = {
             "preprint_note": "Research correspondence; not peer reviewed.",
         },
         "out": "foundation/source-identity-correspondence.pdf",
+        "deposited_out": "foundation/source-identity-correspondence-preprint.pdf",
     },
     
     # Readable preview only. The deposited DOCX/PDF are byte-identical Word exports.

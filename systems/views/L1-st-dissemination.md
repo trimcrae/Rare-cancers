@@ -6,7 +6,7 @@ kind: generated
 status: generated
 generator: systems/systems_check.py
 purpose: What can this program contribute even if no route reaches a patient — and what is the honest publishable content of a failure record?
-scope: Level 1. 4 routes.
+scope: Level 1. 5 routes.
 audience: ["maintainers", "autonomous research agents"]
 date: 2026-08-05
 last_verified: 2026-08-05
@@ -36,6 +36,8 @@ flowchart LR
   ST_DISSEMINATION["ST-DISSEMINATION"]:::fam
   RT_ENDPOINT_CHOICE["✓ RT-ENDPOINT-CHOICE"]:::fam
   ST_DISSEMINATION --> RT_ENDPOINT_CHOICE
+  RT_FOUNDATION_IDENTITY["○ RT-FOUNDATION-IDENTITY"]:::fam
+  ST_DISSEMINATION --> RT_FOUNDATION_IDENTITY
   RT_FUSION_OUTPUT["✓ RT-FUSION-OUTPUT"]:::fam
   ST_DISSEMINATION --> RT_FUSION_OUTPUT
   RT_METHODS_PAPER["○ RT-METHODS-PAPER"]:::fam
@@ -58,6 +60,7 @@ flowchart LR
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
 | **[RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md)**<br/>Reframe the endpoint systemic-therapy trials are judged on | ✓ ready | computed | `journal_submission` | [PUB-ENDPOINT](L3-publications.md) ◐ *primary* | Review the manuscript for external posting to medRxiv. Nothing else in the route is unrun. |
+| **[RT-FOUNDATION-IDENTITY](L2-rt-foundation-identity.md)**<br/>Foundation export source-identity correction | ○ active | computed | `reproducible_workflow` | [PUB-FOUNDATION-IDENTITY](L3-publications.md) ◐ *primary* | Freeze the canonical correspondence and register its final outgoing prose before the bounded independent publi |
 | **[RT-FUSION-OUTPUT](L2-rt-fusion-output.md)**<br/>The fusion's transcriptional output, read in EMC tissue | ✓ active | validated_in_silico | `journal_submission` | [PUB-FUSION-OUTPUT](L3-publications.md) ◐ *primary* | Submit. The free in-silico work on this route is done: catalogue, null calibration, instrument controls, three |
 | **[RT-METHODS-PAPER](L2-rt-methods-paper.md)**<br/>The honest methods paper on the degrader program's own failure record | ○ ready | scoped | `journal_submission` | [PUB-METHODS](L3-publications.md) ◐ *primary* | Write it — no scientific blocker. ⚠ But the FRAMING choice (P1 vs P6) is trimcrae's and is not settled here. |
 | **[RT-MODALITY-CENSUS](L2-rt-modality-census.md)**<br/>The modality census as a publication | ○ ready | concept | `preprint` | [PUB-MODALITY-CENSUS](L3-publications.md) ◐ *primary* | Close the three open publish_bar clauses for PUB-MODALITY-CENSUS, in this order: a hardening round (hardening_ |

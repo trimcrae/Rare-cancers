@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**33 endpoints for 83 routes · 30 with a document · 3 unwritten.**
+**34 endpoints for 84 routes · 31 with a document · 3 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -47,6 +47,7 @@ last_verified: 2026-08-06
 | **PUB-EMC-CLASSIFICATION**<br/>[One code, three diseases: what a registry cohort selected on ICD-O-3 mo…](../../research/manuscripts/care-delivery/emc-icdo-9231-classification.md) | ◐ `drafted` | `internal_note` | 2 | ⛔ IT WILL NOT BE. Closed 2026-08-23 on trimcrae's instruction: 'this is not a paper. … |
 | **PUB-EMC-PROGRAM**<br/>[Attacking an "undruggable" fusion oncoprotein by computation alone: a d…](../../research/manuscripts/program/emc-treatment-roadmap.md) | ◐ `drafted` | `journal_submission` | 2 | — |
 | **PUB-ENDPOINT**<br/>[Objective response and disease control on identical patients: what the …](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md) | ◐ `drafted` | `journal_submission` | 1 | — |
+| **PUB-FOUNDATION-IDENTITY**<br/>[A row-ordinal sample-ID transformation in a public sarcoma rearrangemen…](../../research/manuscripts/foundation/source-identity-correspondence.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-FUSION-OUTPUT**<br/>[Almost every gene set reads higher in the index arm: a size-matched emp…](../../research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-FUSION-PARTNER**<br/>[Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a…](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-HLA-COVERAGE**<br/>[Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunoth…](../../research/manuscripts/neoantigen/hla-coverage-emc.md) | ◐ `drafted` | `preprint` | 1 | — |
@@ -229,6 +230,16 @@ An objective-response summary discards a large, measurable share of what a trial
 | route | role | what it contributes |
 |---|---|---|
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) — Reframe the endpoint systemic-therapy trials are jud | `primary` | The whole paper: 552 arms re-read with both endpoints on one denominator, 44 conditions placed on the two coordinates that decide whether a response readout can work, the audit showing the remedy already exists in four families across 12 domains, and the limitations section that states the natural-history confound at full strength. |
+
+### PUB-FOUNDATION-IDENTITY — A row-ordinal sample-ID transformation in a public sarcoma rearrangement export
+
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/foundation/source-identity-correspondence.md`](../../research/manuscripts/foundation/source-identity-correspondence.md)**
+
+In a pinned derivative export of the Foundation sarcoma cohort, 3,770 of 3,771 rearrangement records are assigned to different source identifiers than the published workbook; a reversible mapping restores event-to-source identity while preserving literal gene-field differences and separating source EMC profiles from the export-selected events.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-FOUNDATION-IDENTITY](L2-rt-foundation-identity.md) — Foundation export source-identity correction | `primary` | The correspondence's complete event-to-source mapping, primary-workbook verification, literal gene-field discrepancies and explicit EMC profile join. |
 
 ### PUB-FUSION-OUTPUT — Almost every gene set reads higher in the index arm: a size-matched empirical null for small rare-tumour expression series, and what it leaves of the EWSR1::NR4A3 direct-target catalogue
 
@@ -585,6 +596,7 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-ENDPOINT** ◐ | `journal_submission` | `primary` |
+| [RT-FOUNDATION-IDENTITY](L2-rt-foundation-identity.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `reproducible_workflow` | **PUB-FOUNDATION-IDENTITY** ◐ | `journal_submission` | `primary` |
 | [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-FUSION-OUTPUT** ◐ | `journal_submission` | `primary` |
 | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `preprint` | **PUB-FUSION-PARTNER** ◐ | `preprint` | `primary` |
 | [RT-VACCINE](L2-rt-vaccine.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-HLA-COVERAGE** ◐ | `preprint` | `primary` |

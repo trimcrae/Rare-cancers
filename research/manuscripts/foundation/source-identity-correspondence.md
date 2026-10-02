@@ -17,6 +17,8 @@ related: []
 
 **Author.** Tristan D. McRae
 
+Independent researcher, unaffiliated.
+
 **Running title.** Sample identity in a sarcoma export
 
 **Keywords.** sarcoma; sample identity; structural variation; data curation; extraskeletal myxoid chondrosarcoma
@@ -25,9 +27,11 @@ related: []
 
 Public cancer datasets can retain the reported gene alteration while assigning it to the wrong sample. We compared all 3,771 rearrangement records in a published sarcoma workbook with a corresponding cBioPortal Datahub export. In every export row, the numeric sample-ID suffix equaled the rearrangement's position counted from one, plus three; 3,770 identifiers differed from their source identifiers. An independent extraction of the original workbook confirmed the complete mapping and an identity-only recovery. Selecting export records using the 75 original extraskeletal myxoid chondrosarcoma identifiers retrieved 28 events originating outside that source group and none of its 76 events. Separate gene-text discrepancies remain explicitly qualified. This is an export-linkage defect, not evidence that the original assays, diagnoses or study conclusions were wrong. The reproducible mapping provides a basis for curator correction, but no corrected deployment or effect on downstream studies has been established.
 
-## Correspondence
+## Introduction
 
 A genomic alteration can retain its reported genes while losing its link to the sample in which it was measured. We identified this problem in the cBioPortal Datahub rearrangement export associated with a 7,494-profile sarcoma study.[1,2] We compared the export with the study's primary supplementary workbook and recovered the original sample identifiers.
+
+## Correspondence
 
 We compared all rows marked `alteration_type=RE` in the workbook with all rows in the export, retaining their source order. For each event, we recorded the original sample ID, physical worksheet row, rearrangement ordinal, exported sample ID and ordered gene pair. File hashes fixed the identity of both sources. A separate extraction read the original workbook without using the first extractor or the recovery program. The two code paths used the same xlrd reader family, so they were not independent tests of the file-format parser.[7]
 

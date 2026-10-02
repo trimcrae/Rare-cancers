@@ -47,7 +47,7 @@ last_verified: 2026-08-09
 
 ⛔ **AND THE BOOLEAN `wet_lab_test_named` IS RETIRED, HAVING FAILED IN BOTH DIRECTIONS AT ONCE.** It could not tell a test somebody had **already run** from one a lab could pick up — PUB-REPURPOSING drew the full flag on a completed third-party *ex-vivo* screen. And it scored **zero** for the one paper that reaches a patient with no laboratory at all, whose own note read *"which is why the flag is False and not a demerit"* while the flag was costing it the largest single term in the score. `patient_path` replaces it with five graded values, printed in the table.
 
-⛔ **A LOW SCORE CAN MEAN 'CLOSED' OR IT CAN MEAN 'NOBODY GRADED IT', AND THOSE ARE OPPOSITE THINGS.** `closure_kind` is unset on 28 of 83 routes, and an unset field contributes nothing in either direction — so a paper can sit low here purely because its routes have never been graded. The `ungraded` column is that reading, and a high number in it means **go grade the routes**, not **the paper is weak** (CLAUDE.md §4: an absent reading is not a reading of absence).
+⛔ **A LOW SCORE CAN MEAN 'CLOSED' OR IT CAN MEAN 'NOBODY GRADED IT', AND THOSE ARE OPPOSITE THINGS.** `closure_kind` is unset on 29 of 84 routes, and an unset field contributes nothing in either direction — so a paper can sit low here purely because its routes have never been graded. The `ungraded` column is that reading, and a high number in it means **go grade the routes**, not **the paper is weak** (CLAUDE.md §4: an absent reading is not a reading of absence).
 
 | # | endpoint | band | path to a patient | score | open | closed | ungraded | doable here | state |
 |---:|---|---|---|---:|---:|---:|---:|---:|---|
@@ -72,18 +72,19 @@ last_verified: 2026-08-09
 | 19 | [**PUB-ENDPOINT**](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md) | ⛔ known negative / methods | — | **7.0** | 1 | 0 | 0 | 67% of 3 | ◐ `drafted` |
 | 20 | [**PUB-ATR-PANEL-ASK**](../../research/manuscripts/dependency/cancer-genetics-20260910/manuscript.md) | ⛔ known negative / methods | — | **6.0** | 0 | 0 | 0 | 0% of 1 | ◐ `drafted` |
 | 21 | [**PUB-EMC-CLASSIFICATION**](../../research/manuscripts/care-delivery/emc-icdo-9231-classification.md) | ⛔ known negative / methods | 🏥 clinical adoption | **6.0** | 1 | 1 | 0 | 25% of 4 | ◐ `drafted` |
-| 22 | [**PUB-FUSION-OUTPUT**](../../research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md) | ⛔ known negative / methods | — | **6.0** | 1 | 0 | 0 | 50% of 6 | ◐ `drafted` |
-| 23 | [**PUB-TCIP**](../../research/manuscripts/tcip/tcip-induced-interface-preprint.md) | ⛔ known negative / methods | — | **3.0** | 1 | 0 | 0 | 67% of 3 | ◐ `drafted` |
-| 24 | [**PUB-VACCINE-PATH**](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md) | ⛔ known negative / methods | — | **3.0** | 1 | 0 | 0 | 50% of 4 | ◐ `drafted` |
-| 25 | [**PUB-BIOMARKER-DEP**](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) | ⛔ known negative / methods | — | **2.0** | 0 | 0 | ⚠ 5 | 40% of 10 | ◐ `drafted` |
-| 26 | **PUB-MATRIX-ADDRESS** | ⛔ known negative / methods | — | **0.5** | 0 | 0 | ⚠ 4 | 50% of 8 | ◔ `outlined` |
-| 27 | **PUB-NR-OUTSIDE-NR4A3** | ⛔ known negative / methods | — | **0.5** | 0 | 0 | ⚠ 2 | 40% of 5 | ◔ `outlined` |
-| 28 | [**PUB-ANDGATE**](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ⛔ known negative / methods | — | **0.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
-| 29 | [**PUB-NEOANTIGEN**](../../research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md) | ⛔ known negative / methods | — | **0.0** | 0 | 2 | 0 | 33% of 3 | ◐ `drafted` |
-| 30 | [**PUB-HLA-COVERAGE**](../../research/manuscripts/neoantigen/hla-coverage-emc.md) | ⛔ known negative / methods | — | **-1.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
-| 31 | [**PUB-SYNLETH**](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md) | ⛔ known negative / methods | — | **-1.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
-| 32 | [**PUB-CLOSED-ROUTES**](../../research/manuscripts/methods-record/closed-routes-negative-record.md) | ⛔ known negative / methods | — | **-7.0** | 0 | 7 | 0 | 0% of 3 | ◐ `drafted` |
-| 33 | **PUB-PARKED-MODALITIES** | ○ parked on a capability nobody has | — | **-6.0** | 0 | 5 | 0 | 0% of 6 | ○ `unwritten` |
+| 22 | [**PUB-FOUNDATION-IDENTITY**](../../research/manuscripts/foundation/source-identity-correspondence.md) | ⛔ known negative / methods | ⭐ **no bench needed** | **6.0** | 0 | 0 | ⚠ 1 | 100% of 1 | ◐ `drafted` · ✎ letter |
+| 23 | [**PUB-FUSION-OUTPUT**](../../research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md) | ⛔ known negative / methods | — | **6.0** | 1 | 0 | 0 | 50% of 6 | ◐ `drafted` |
+| 24 | [**PUB-TCIP**](../../research/manuscripts/tcip/tcip-induced-interface-preprint.md) | ⛔ known negative / methods | — | **3.0** | 1 | 0 | 0 | 67% of 3 | ◐ `drafted` |
+| 25 | [**PUB-VACCINE-PATH**](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md) | ⛔ known negative / methods | — | **3.0** | 1 | 0 | 0 | 50% of 4 | ◐ `drafted` |
+| 26 | [**PUB-BIOMARKER-DEP**](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) | ⛔ known negative / methods | — | **2.0** | 0 | 0 | ⚠ 5 | 40% of 10 | ◐ `drafted` |
+| 27 | **PUB-MATRIX-ADDRESS** | ⛔ known negative / methods | — | **0.5** | 0 | 0 | ⚠ 4 | 50% of 8 | ◔ `outlined` |
+| 28 | **PUB-NR-OUTSIDE-NR4A3** | ⛔ known negative / methods | — | **0.5** | 0 | 0 | ⚠ 2 | 40% of 5 | ◔ `outlined` |
+| 29 | [**PUB-ANDGATE**](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ⛔ known negative / methods | — | **0.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
+| 30 | [**PUB-NEOANTIGEN**](../../research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md) | ⛔ known negative / methods | — | **0.0** | 0 | 2 | 0 | 33% of 3 | ◐ `drafted` |
+| 31 | [**PUB-HLA-COVERAGE**](../../research/manuscripts/neoantigen/hla-coverage-emc.md) | ⛔ known negative / methods | — | **-1.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
+| 32 | [**PUB-SYNLETH**](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md) | ⛔ known negative / methods | — | **-1.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
+| 33 | [**PUB-CLOSED-ROUTES**](../../research/manuscripts/methods-record/closed-routes-negative-record.md) | ⛔ known negative / methods | — | **-7.0** | 0 | 7 | 0 | 0% of 3 | ◐ `drafted` |
+| 34 | **PUB-PARKED-MODALITIES** | ○ parked on a capability nobody has | — | **-6.0** | 0 | 5 | 0 | 0% of 6 | ○ `unwritten` |
 
 ## The open routes, which are the only ones that can still change an answer
 

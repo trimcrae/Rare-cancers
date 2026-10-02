@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 26 evidence items · 56 artifacts · 14 pinned claims.**
+**19 objects · 26 evidence items · 57 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -112,6 +112,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-ENDPOINT-PRIOR-ART-AUDIT** | `research/manuscripts/endpoint/endpoint-prior-art-audit.json` | `research/manuscripts/endpoint_prior_art_audit.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
 | **ART-ENDPOINT-REGIME-MAP** | `research/manuscripts/endpoint/endpoint-regime-map.json` | `research/manuscripts/endpoint_regime_map.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
 | **ART-FET-TRIAL-ELIGIBILITY** | `research/literature/fet-fusion-trial-eligibility-2026-08-07.json` | `a ClinicalTrials.gov API v2 sweep read into JSON from the literature-cache corpus` | [RT-TRIAL-REACH](L2-rt-trial-reach.md) |
+| **ART-FOUNDATION-PRIMARY-IDENTITY-REVIEW** | `research/autonomy/continuation-2026-10-02/foundation-primary-aws/review/result-review.json` | `—` | [RT-FOUNDATION-IDENTITY](L2-rt-foundation-identity.md) |
 | **ART-FUSION-OBJECT-INVENTORY** | `research/modalities/fusion-object-inventory.json` | `research/modalities/fusion_object_inventory.py` | `CLM-BREAKPOINT-FILTER`, `OBJ-EWSR1-WT`, `OBJ-NR4A3-WT`, [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md), [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) |
 | **ART-FUSION-PARTNER-POOLING** | `research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json` | `research/manuscripts/emc_fusion_partner_pooling.py` | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) |
 | **ART-GSE28866-TUMOUR-VS-NORMAL** | `research/modalities/gse28866-tumour-vs-normal.json` | `the GSE28866 supplementary peak-table read (emc-expression-datasets.yml)` | ⚠ **nothing** |
