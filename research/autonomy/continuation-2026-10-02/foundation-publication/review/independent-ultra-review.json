@@ -1,0 +1,409 @@
+{
+  "schema": "emc-independent-final-manuscript-review/1",
+  "readability_contract": "emc-llm-readability-review/1",
+  "paper_id": "PUB-FOUNDATION-IDENTITY",
+  "paper_id_status": "Actual identifier supplied by coordinator after review; coordinator will bind the committed report path and reviewed commit only after verifying exact manuscript bytes.",
+  "review_kind": "independent_llm_editorial",
+  "reviewed_at": "2026-10-02T19:44:23+00:00",
+  "reviewer": {
+    "agent_id": "/root/foundation_final_ultra",
+    "model": "Model argument omitted; inherited root configuration. Served model identity is unverified.",
+    "execution_evidence": "Live independent reviewer turn. Coordinator reported actual spawn arguments task_name=foundation_final_ultra, fork_turns=none, reasoning_effort=ultra, model omitted. Reviewer fetched pinned GitHub source files, inspected scripts and executed bounded saved-record consistency/hash checks. No primary-science rerun.",
+    "runtime_config_request": {
+      "task_name": "foundation_final_ultra",
+      "fork_turns": "none",
+      "reasoning_effort": "ultra",
+      "model": null,
+      "model_policy": "inherit root"
+    },
+    "service_telemetry": {
+      "served_model": null,
+      "served_reasoning_effort": null,
+      "status": "not available / not attested"
+    }
+  },
+  "writer_ids": [
+    "/root/cloud_portfolio_review",
+    "/root"
+  ],
+  "decision": "pass",
+  "decision_scope": "Scientific/adversarial and reader-facing prose review of the bound Markdown source. Not publication clearance or author approval.",
+  "unresolved_blockers": [],
+  "counts": {
+    "reviewer_instances": 1,
+    "coverage_lenses": 6,
+    "unresolved_P1": 0,
+    "unresolved_P2": 0,
+    "resolved_P2": 1,
+    "accepted_nonblocking_editorial_suggestions": 2
+  },
+  "blinding": {
+    "author_blind": false,
+    "writer_ledger_visible": true,
+    "writer_source_map_visible": true,
+    "other_final_manuscript_review_reports_or_verdicts_provided": false,
+    "prior_computation_review_receipts_read": true,
+    "description": "Independent nonwriter reviewer; no claim of author blinding or of six separate independent seats."
+  },
+  "reader_explanation": {
+    "question": "Does the public rearrangement export preserve the original study workbook's sample identities?",
+    "approach": "Compare every rearrangement row in two hash-pinned files, keeping source order and recording sample identifiers, worksheet positions and gene pairs; use a separate primary-workbook extraction and quantify one explicitly defined EMC-ID join. Investigate gene-name differences separately.",
+    "main_finding": "All 3,771 export numeric suffixes follow event position plus three. Of these event records, 3,770 disagree with their original identifiers; the records represent 3,182 source IDs. Selecting with 75 original EMC IDs retrieves 28 events from other source samples and none of the 76 EMC events. The offline recovery restores primary identifiers while retaining every non-ID export field.",
+    "main_limitations": "The result concerns frozen file linkage and source-order recovery. It does not validate assays, diagnoses, expressed fusions, germline/somatic origin, a live portal or downstream harm. Both extractors share xlrd. Three gene-text discrepancies remain unresolved; HGNC support for twelve others is current nomenclature evidence, not biological or source-era validation.",
+    "next_step": "Reconcile the reproducible mapping with the data maintainers and verify any resulting corrected export. Preserve the identity-only derivative's limits."
+  },
+  "checks": {
+    "reader_facing_text_reviewed": true,
+    "abstract_understandable": true,
+    "terms_explained": true,
+    "narrative_followable": true,
+    "scientific_meaning_preserved": true,
+    "limitations_preserved": true
+  },
+  "report": {
+    "path": "review.md",
+    "local_path": "C:/Users/mcrae/.codex/private/emc-continuation-20261002/checkpoint07-foundation-ultra/review.md",
+    "sha256": "53e377e766770859e0be05be7ce3695d0b6ea928ced7cc238835e7118457064f",
+    "path_status": "Local reviewer report; coordinator must preserve bytes and record its final repository-relative path."
+  },
+  "artifacts": [
+    {
+      "path": "research/manuscripts/foundation/source-identity-correspondence.md",
+      "local_path": "C:/Users/mcrae/.codex/private/emc-continuation-20261002/checkpoint07-foundation-root/source-identity-correspondence.md",
+      "sha256": "006ab3c2ebea1b7ce5633727b7466de07030f138e2b7688c3de44a423c1b8442",
+      "sections_reviewed": [
+        "YAML scope metadata",
+        "Title, author, running title and keywords",
+        "Abstract",
+        "Correspondence",
+        "Table 1, caption and interpretive note",
+        "Data and code availability",
+        "Source licenses",
+        "AI assistance",
+        "Funding",
+        "Competing interests",
+        "References"
+      ]
+    }
+  ],
+  "earlier_reviewed_hashes": [
+    {
+      "artifact": "initial writer manuscript",
+      "sha256": "f5274e492ddbf88b89832dcb7851f1e0fb28a5be3bfc60ecee750d5ba049279c"
+    },
+    {
+      "artifact": "first canonical manuscript including added declarations",
+      "sha256": "8136369dccbf63a4b32ed0e692ab7dd7f84bc80e1cb13e6b99fd9d85c79ece65"
+    },
+    {
+      "artifact": "internal claim-ledger.json",
+      "sha256": "a5f74671b240d28bd408c68e85f2ba59fb0a20baa12ac19975ae79265743a32e"
+    },
+    {
+      "artifact": "internal source-map.md",
+      "sha256": "f9282817b13b0fa8f7dbeecfc707497c4c580210e6330cddbfa63e87d66c368a"
+    }
+  ],
+  "findings": [
+    {
+      "id": "P2-F1",
+      "priority": "P2",
+      "classification": "source-license scope wording",
+      "status": "resolved",
+      "initial_artifact_sha256": "8136369dccbf63a4b32ed0e692ab7dd7f84bc80e1cb13e6b99fd9d85c79ece65",
+      "outgoing_claim": "The original article and its supplementary material are available under CC BY; source and adapted dataset licenses are retained.",
+      "evidence": "Publisher notice contains a third-party credit-line exception; Datahub pinned README requires applicable ODbL terms. This manuscript review cannot certify unseen release-package compliance.",
+      "consequence": "Unconditional license coverage/package-compliance language exceeded the inspected source notice.",
+      "minimum_repair": "State article CC BY 4.0 with third-party exceptions, cite pinned Datahub ODbL notice, state applicable reuse terms without asserting complete package compliance.",
+      "verification": "Read final repair and diff; correct scope and direct source notice link. Scientific body unchanged.",
+      "resolved_in_sha256": "006ab3c2ebea1b7ce5633727b7466de07030f138e2b7688c3de44a423c1b8442"
+    }
+  ],
+  "focused_verification": {
+    "scientific_body_byte_identical_to_initial_reviewed_body": true,
+    "license_repair_correct": true,
+    "abstract_ordinal_definition_correct": true,
+    "direct_pinned_mapping_and_proof_links_correct": true,
+    "additional_scientific_review_round_performed": false
+  },
+  "coverage_lenses": [
+    {
+      "area": "hostile/adversarial",
+      "result": "pass",
+      "basis": "No first-discovery claim, original-study-error claim, live deployment inference or clinical-outcome assertion; unresolved biological questions explicitly separated."
+    },
+    {
+      "area": "statistics",
+      "result": "pass",
+      "basis": "Exact fixed-file counts; event/profile/source-ID denominators distinct; no unwarranted population inference or pseudoreplication."
+    },
+    {
+      "area": "methods/results",
+      "result": "pass",
+      "basis": "Primary checker, recovery code, returned outputs, execution and hash provenance inspected; mapping/HGNC saved records independently audited."
+    },
+    {
+      "area": "citations",
+      "result": "pass",
+      "basis": "Primary publications and source notices checked; exact GitHub pins/record links map the claims to results and scripts."
+    },
+    {
+      "area": "consistency",
+      "result": "pass",
+      "basis": "Full mapping and annotation recounts reconcile with manuscript and table; historical misleading ordinal-summary flags are not used by validation code."
+    },
+    {
+      "area": "plain prose",
+      "result": "pass",
+      "basis": "Independent question/approach/finding/limitations/next-step explanation and all six substantive readability checks above."
+    }
+  ],
+  "explicit_check_results": {
+    "mapping_and_annotation": {
+      "mapping": {
+        "keys": [
+          "schema",
+          "sources",
+          "errors",
+          "limits",
+          "workbookSHA256",
+          "REmapping",
+          "perEMC",
+          "geneTypeCalls",
+          "partnerSummary",
+          "exploratoryFourContrastFamily",
+          "sourceAssayLimitation",
+          "shortVariantIdentityControl"
+        ],
+        "rows": 3771,
+        "orderedOrdinals": true,
+        "plus3": 3771,
+        "discordant": 3770,
+        "sourceIds": 3182,
+        "emcIds": 75,
+        "emcEvents": 76,
+        "emcIdDiscordances": 76,
+        "selected": 28,
+        "selectedFromEmc": 0,
+        "retainedTrueEventOrdinals": 0,
+        "emcIDsAbove3774": 47,
+        "emcIDsBelow4": 0,
+        "examples": [
+          {
+            "REordinal": 25,
+            "sourceID": "49",
+            "sourceExcelRow": 204,
+            "exportSampleID": "sarcoma_msk_2022-28",
+            "sourceGenePair": [
+              "EWSR1",
+              "NR4A3"
+            ],
+            "exportGenePair": [
+              "EWSR1",
+              "NR4A3"
+            ],
+            "orderedMatch": true,
+            "ordinalIDMatch": false
+          },
+          {
+            "REordinal": 112,
+            "sourceID": "245",
+            "sourceExcelRow": 896,
+            "exportSampleID": "sarcoma_msk_2022-115",
+            "sourceGenePair": [
+              "EWSR1",
+              "NR4A3"
+            ],
+            "exportGenePair": [
+              "EWSR1",
+              "NR4A3"
+            ],
+            "orderedMatch": true,
+            "ordinalIDMatch": false
+          },
+          {
+            "REordinal": 113,
+            "sourceID": "245",
+            "sourceExcelRow": 898,
+            "exportSampleID": "sarcoma_msk_2022-116",
+            "sourceGenePair": [
+              "NR4A3",
+              "SASH1"
+            ],
+            "exportGenePair": [
+              "NR4A3",
+              "SASH1"
+            ],
+            "orderedMatch": true,
+            "ordinalIDMatch": false
+          }
+        ]
+      },
+      "gene": {
+        "events": 15,
+        "supportedEvents": 12,
+        "supportedUniquePairs": 9,
+        "supportedChangedSlots": 13
+      }
+    },
+    "saved_HGNC_source_verification": {
+      "archive_hash": true,
+      "archive_bytes": true,
+      "all14_member_hashes": true,
+      "all9_prev_symbol_pairs": true,
+      "AKAP2_distinct": true,
+      "PALM2AKAP2_no_AKAP2_prev_alias": true
+    },
+    "primary_execution_reviewed": {
+      "run": 37035103326,
+      "revision": "83e0fb5348fe41b1747970d6346c6f3b19a3b5ea",
+      "primary_byte_receipt_exit": 0,
+      "primary_independent_check_exit": 0,
+      "rerun_by_this_reviewer": false
+    },
+    "review_source_pin": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+    "mapping_source_pin": "da49c4e836533253825587f83656675dac4c913b"
+  },
+  "artifact_check_report": {
+    "path": "artifact-checks.json",
+    "sha256": "274e430755723111161f3c9328c41dbaa0ba6751b90778c947b03d52a067c649"
+  },
+  "sources": [
+    {
+      "path": "research/autonomy/OPERATING_PROTOCOL.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "a482b7e024ae63c96aff3c3c0ee11032703d5666",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/OPERATING_PROTOCOL.md"
+    },
+    {
+      "path": ".claude/skills/paper-hardening/SKILL.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "8818c1e784c3a0f1b0a6600f107b2a0fa3711525",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/.claude/skills/paper-hardening/SKILL.md"
+    },
+    {
+      "path": ".claude/skills/scientific-writing/SKILL.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "a23566b6c2b97d6733dd8535fabd5e12393abf27",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/.claude/skills/scientific-writing/SKILL.md"
+    },
+    {
+      "path": "research/autonomy/readability-reviews/README.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "ec65a355c028396bb015ade15b81d27f8f24f175",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/readability-reviews/README.md"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/primary-independent-check.stdout",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "67a37fa342391fff324fd3889daf56aeab2ef024",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/primary-independent-check.stdout"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation/foundation_primary_workbook_check.py",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "a169d329c80852be10174893af9f54334a2c018d",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/foundation_primary_workbook_check.py"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation/foundation_identity_recovery.py",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "1bdeaa4bb6d09d84a5153dc6f14fa714e1abe969",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/foundation_identity_recovery.py"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation/foundation_recovery_check.json",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "979dc805912d507af40183f826d5cce5b4f4deeb",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/foundation_recovery_check.json"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/execution.json",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "2059ee5e289a7f3663ebb102f345ad54d50f1980",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/execution.json"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/primary-byte-receipt.stdout",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "c5779df57bb9aec2f632b8ff789d92cdc27869ff",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/primary-byte-receipt.stdout"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-gene-annotation/annotation.json",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "17937ab01a2818a1c93e8c4b028be1d798793b2f",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-gene-annotation/annotation.json"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-gene-annotation/probe_source_cells.py",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "87015d031a2e3c359b29d12bae9c11f438e29ff2",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-gene-annotation/probe_source_cells.py"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-gene-annotation/results/probe.stdout",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "aa4379566661edca2bd7eeb22dda1b3d70ab8c8e",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-gene-annotation/results/probe.stdout"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-gene-annotation/classify_hgnc.py",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "a262a6a0ff8e6d23eb07cb90b1a9d4a339fea74c",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-gene-annotation/classify_hgnc.py"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation/history-addendum.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "93182757f615402117b7396b77efcad118c7d8a4",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/history-addendum.md"
+    },
+    {
+      "path": "research/autonomy/author-declarations.json",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "bf484434ea38f2d82f1ee5129633a5a9808e1e1c",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/author-declarations.json"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation/foundation-source-identity-correspondence-revised.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "2bc8cdf2f19aaa5a56ca7e94a441e75be516d495",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/foundation-source-identity-correspondence-revised.md"
+    },
+    {
+      "path": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/Foundation-complete-rearrangement-source-mapping.json",
+      "revision": "da49c4e836533253825587f83656675dac4c913b",
+      "git_blob_sha": "e3e5c16a6a080da66ebd00f013a39fa743953e22",
+      "sha256_recorded_in_primary_execution": "341f64562039230c581aefb7f03d7da4769969a79290217962216f3d7e567a5e",
+      "retrieval": "GitHub git/blobs endpoint; full text retrieved after contents/raw helper size failures"
+    },
+    {
+      "path": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/Foundation-complete-ID-proof-and-current-source.json",
+      "revision": "da49c4e836533253825587f83656675dac4c913b",
+      "git_blob_sha": "b3fa80e536f42f59acdab17e23580fb8c82cbe56"
+    },
+    {
+      "repository": "cBioPortal/datahub",
+      "path": "README.md",
+      "revision": "dca75cb3f32b82d54a6f78bf0a6323e5b975aca1",
+      "git_blob_sha": "31f4866cc2b6e6272f5f318cd4d2edfb4f6bb06c"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-gene-annotation/hgnc-source-records.zip",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "10465806ce045d208969344a7bd46064ede15f12",
+      "sha256_verified": "f5a98962f771a4cee5ee05d4e2699af48408dd0f2e17c71c1947558535d75376",
+      "bytes": 10107
+    }
+  ],
+  "review_limits": [
+    "One reviewer covers multiple areas; not independent multi-reviewer consensus.",
+    "Author not blinded; writer ledger/source map visible.",
+    "No new primary extraction or science rerun.",
+    "Historical payload comparisons reused from preserved evidence; dates and pointer independently cross-checked.",
+    "No original curation-operation proof or biological/clinical revalidation.",
+    "No rendered artifact, venue compliance, formal publish-bar, durable archival or author approval established.",
+    "Low-disk posture: quiet scoped API/file work only, output limited to small review records; no checkout/runtime/large artifact created."
+  ]
+}

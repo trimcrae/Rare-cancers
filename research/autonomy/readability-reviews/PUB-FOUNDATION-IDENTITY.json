@@ -1,0 +1,68 @@
+{
+  "schema": "emc-llm-readability-review/1",
+  "paper_id": "PUB-FOUNDATION-IDENTITY",
+  "review_kind": "independent_llm_editorial",
+  "reviewed_at": "2026-10-02T19:44:23+00:00",
+  "reviewer": {
+    "agent_id": "/root/foundation_final_ultra",
+    "model": "Model argument omitted; inherited root configuration. Served model identity is unverified.",
+    "execution_evidence": "Live independent reviewer turn. Coordinator reported actual spawn arguments task_name=foundation_final_ultra, fork_turns=none, reasoning_effort=ultra, model omitted. Reviewer fetched pinned GitHub source files, inspected scripts and executed bounded saved-record consistency/hash checks. No primary-science rerun.",
+    "runtime_config_request": {
+      "task_name": "foundation_final_ultra",
+      "fork_turns": "none",
+      "reasoning_effort": "ultra",
+      "model": null,
+      "model_policy": "inherit root"
+    },
+    "service_telemetry": {
+      "served_model": null,
+      "served_reasoning_effort": null,
+      "status": "not available / not attested"
+    }
+  },
+  "writer_ids": [
+    "/root/cloud_portfolio_review",
+    "/root"
+  ],
+  "decision": "pass",
+  "unresolved_blockers": [],
+  "checks": {
+    "reader_facing_text_reviewed": true,
+    "abstract_understandable": true,
+    "terms_explained": true,
+    "narrative_followable": true,
+    "scientific_meaning_preserved": true,
+    "limitations_preserved": true
+  },
+  "reader_explanation": {
+    "question": "Does the public rearrangement export preserve the original study workbook's sample identities?",
+    "approach": "Compare every rearrangement row in two hash-pinned files, keeping source order and recording sample identifiers, worksheet positions and gene pairs; use a separate primary-workbook extraction and quantify one explicitly defined EMC-ID join. Investigate gene-name differences separately.",
+    "main_finding": "All 3,771 export numeric suffixes follow event position plus three. Of these event records, 3,770 disagree with their original identifiers; the records represent 3,182 source IDs. Selecting with 75 original EMC IDs retrieves 28 events from other source samples and none of the 76 EMC events. The offline recovery restores primary identifiers while retaining every non-ID export field.",
+    "main_limitations": "The result concerns frozen file linkage and source-order recovery. It does not validate assays, diagnoses, expressed fusions, germline/somatic origin, a live portal or downstream harm. Both extractors share xlrd. Three gene-text discrepancies remain unresolved; HGNC support for twelve others is current nomenclature evidence, not biological or source-era validation.",
+    "next_step": "Reconcile the reproducible mapping with the data maintainers and verify any resulting corrected export. Preserve the identity-only derivative's limits."
+  },
+  "report": {
+    "path": "research/autonomy/continuation-2026-10-02/foundation-publication/review/independent-ultra-report.txt",
+    "sha256": "53e377e766770859e0be05be7ce3695d0b6ea928ced7cc238835e7118457064f"
+  },
+  "artifacts": [
+    {
+      "path": "research/manuscripts/foundation/source-identity-correspondence.md",
+      "sha256": "006ab3c2ebea1b7ce5633727b7466de07030f138e2b7688c3de44a423c1b8442",
+      "sections_reviewed": [
+        "YAML scope metadata",
+        "Title, author, running title and keywords",
+        "Abstract",
+        "Correspondence",
+        "Table 1, caption and interpretive note",
+        "Data and code availability",
+        "Source licenses",
+        "AI assistance",
+        "Funding",
+        "Competing interests",
+        "References"
+      ]
+    }
+  ],
+  "release_boundary": "Source scientific/prose review passed; rendered export comparison and actual full technical gates remain required; no authority to submit."
+}

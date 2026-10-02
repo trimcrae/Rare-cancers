@@ -1,0 +1,340 @@
+﻿2026-10-02T19:46:45.8002012Z Current runner version: '2.337.0'
+2026-10-02T19:46:45.8029227Z ##[group]Runner Image Provisioner
+2026-10-02T19:46:45.8030115Z Hosted Compute Agent
+2026-10-02T19:46:45.8030796Z Version: 20260901.588
+2026-10-02T19:46:45.8031552Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-02T19:46:45.8032341Z Build Date: 2026-09-01T19:56:44Z
+2026-10-02T19:46:45.8033442Z Worker ID: {72180c76-7102-49c3-8d84-442de25052d2}
+2026-10-02T19:46:45.8034201Z Azure Region: northcentralus
+2026-10-02T19:46:45.8034883Z ##[endgroup]
+2026-10-02T19:46:45.8036870Z ##[group]Operating System
+2026-10-02T19:46:45.8037560Z Ubuntu
+2026-10-02T19:46:45.8038208Z 24.04.5
+2026-10-02T19:46:45.8038752Z LTS
+2026-10-02T19:46:45.8039290Z ##[endgroup]
+2026-10-02T19:46:45.8039984Z ##[group]Runner Image
+2026-10-02T19:46:45.8040660Z Image: ubuntu-24.04
+2026-10-02T19:46:45.8041316Z Version: 20260927.320.1
+2026-10-02T19:46:45.8042825Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-02T19:46:45.8044924Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-02T19:46:45.8045909Z ##[endgroup]
+2026-10-02T19:46:45.8047131Z ##[group]GITHUB_TOKEN Permissions
+2026-10-02T19:46:45.8049525Z Contents: read
+2026-10-02T19:46:45.8050294Z Metadata: read
+2026-10-02T19:46:45.8050881Z ##[endgroup]
+2026-10-02T19:46:45.8053377Z Secret source: Actions
+2026-10-02T19:46:45.8054352Z Cache mode: write
+2026-10-02T19:46:45.8055325Z Prepare workflow directory
+2026-10-02T19:46:45.8468798Z Prepare all required actions
+2026-10-02T19:46:45.8518885Z Getting action download info
+2026-10-02T19:46:46.0912280Z Download action repository 'actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2026-10-02T19:46:46.2172357Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-02T19:46:46.4268277Z Complete job name: checkpoint
+2026-10-02T19:46:46.4904202Z ##[group]Run python3 - <<'PY'
+2026-10-02T19:46:46.4904940Z [36;1mpython3 - <<'PY'[0m
+2026-10-02T19:46:46.4905478Z [36;1mimport shutil[0m
+2026-10-02T19:46:46.4906029Z [36;1mfree = shutil.disk_usage('.').free[0m
+2026-10-02T19:46:46.4906651Z [36;1massert free >= 42*1024**3, free[0m
+2026-10-02T19:46:46.4907465Z [36;1mprint('Budget: checkout8GiB, dependencies24GiB, reserve10GiB; free', free)[0m
+2026-10-02T19:46:46.4908262Z [36;1mPY[0m
+2026-10-02T19:46:46.5136257Z shell: /usr/bin/bash -e {0}
+2026-10-02T19:46:46.5137088Z env:
+2026-10-02T19:46:46.5137520Z   UV_NO_CACHE: 1
+2026-10-02T19:46:46.5137978Z   PIP_NO_CACHE_DIR: 1
+2026-10-02T19:46:46.5138447Z ##[endgroup]
+2026-10-02T19:46:46.5507483Z Budget: checkout8GiB, dependencies24GiB, reserve10GiB; free 92410994688
+2026-10-02T19:46:46.5754770Z ##[group]Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+2026-10-02T19:46:46.5755533Z with:
+2026-10-02T19:46:46.5755953Z   fetch-depth: 2
+2026-10-02T19:46:46.5756420Z   persist-credentials: false
+2026-10-02T19:46:46.5756972Z   repository: trimcrae/Rare-cancers
+2026-10-02T19:46:46.5760925Z   token: ***
+2026-10-02T19:46:46.5761362Z   ssh-strict: true
+2026-10-02T19:46:46.5761806Z   ssh-user: git
+2026-10-02T19:46:46.5762228Z   clean: true
+2026-10-02T19:46:46.5762817Z   sparse-checkout-cone-mode: true
+2026-10-02T19:46:46.5763342Z   fetch-tags: false
+2026-10-02T19:46:46.5763787Z   show-progress: true
+2026-10-02T19:46:46.5764224Z   lfs: false
+2026-10-02T19:46:46.5764625Z   submodules: false
+2026-10-02T19:46:46.5765064Z   set-safe-directory: true
+2026-10-02T19:46:46.5765558Z env:
+2026-10-02T19:46:46.5765952Z   UV_NO_CACHE: 1
+2026-10-02T19:46:46.5766384Z   PIP_NO_CACHE_DIR: 1
+2026-10-02T19:46:46.5766825Z ##[endgroup]
+2026-10-02T19:46:46.6750445Z Syncing repository: trimcrae/Rare-cancers
+2026-10-02T19:46:46.6752309Z ##[group]Getting Git version info
+2026-10-02T19:46:46.6753380Z Working directory is '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-10-02T19:46:46.6754534Z [command]/usr/bin/git version
+2026-10-02T19:46:46.6822359Z git version 2.55.0
+2026-10-02T19:46:46.6851248Z ##[endgroup]
+2026-10-02T19:46:46.6859852Z Temporarily overriding HOME='/home/runner/work/_temp/5bf0467e-9766-4a3b-8823-85f0619732dd' before making global git config changes
+2026-10-02T19:46:46.6862428Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-02T19:46:46.6866145Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-02T19:46:46.6922181Z Deleting the contents of '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-10-02T19:46:46.6926887Z ##[group]Initializing the repository
+2026-10-02T19:46:46.6933146Z [command]/usr/bin/git init /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-02T19:46:46.7010962Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-02T19:46:46.7012423Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-02T19:46:46.7014013Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-02T19:46:46.7014795Z hint: call:
+2026-10-02T19:46:46.7015211Z hint:
+2026-10-02T19:46:46.7015751Z hint: 	git config --global init.defaultBranch <name>
+2026-10-02T19:46:46.7016525Z hint:
+2026-10-02T19:46:46.7017111Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-02T19:46:46.7018061Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-02T19:46:46.7018821Z hint:
+2026-10-02T19:46:46.7019248Z hint: 	git branch -m <name>
+2026-10-02T19:46:46.7019724Z hint:
+2026-10-02T19:46:46.7020347Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-02T19:46:46.7026000Z Initialized empty Git repository in /home/runner/work/Rare-cancers/Rare-cancers/.git/
+2026-10-02T19:46:46.7048650Z [command]/usr/bin/git remote add origin https://github.com/trimcrae/Rare-cancers
+2026-10-02T19:46:46.7091339Z ##[endgroup]
+2026-10-02T19:46:46.7092528Z ##[group]Disabling automatic garbage collection
+2026-10-02T19:46:46.7095485Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-02T19:46:46.7137461Z ##[endgroup]
+2026-10-02T19:46:46.7138561Z ##[group]Setting up auth
+2026-10-02T19:46:46.7143688Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-02T19:46:46.7194806Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-02T19:46:46.7547879Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-02T19:46:46.7590885Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-02T19:46:46.7866975Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-02T19:46:46.7915237Z ##[endgroup]
+2026-10-02T19:46:46.7916511Z ##[group]Fetching the repository
+2026-10-02T19:46:46.7927446Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=2 origin +dbae056d6a466db904a5fc83f2f709aa6e28488f:refs/remotes/origin/codex/emc-continuation-2026-10-02
+2026-10-02T19:46:56.7212298Z From https://github.com/trimcrae/Rare-cancers
+2026-10-02T19:46:56.7214490Z  * [new ref]         dbae056d6a466db904a5fc83f2f709aa6e28488f -> origin/codex/emc-continuation-2026-10-02
+2026-10-02T19:46:56.7218967Z ##[endgroup]
+2026-10-02T19:46:56.7220518Z ##[group]Determining the checkout info
+2026-10-02T19:46:56.7222060Z ##[endgroup]
+2026-10-02T19:46:56.7226074Z [command]/usr/bin/git sparse-checkout disable
+2026-10-02T19:46:56.7281435Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-02T19:46:56.7317391Z ##[group]Checking out the ref
+2026-10-02T19:46:56.7323630Z [command]/usr/bin/git checkout --progress --force -B codex/emc-continuation-2026-10-02 refs/remotes/origin/codex/emc-continuation-2026-10-02
+2026-10-02T19:46:57.9058654Z Updating files:  34% (3209/9201)
+2026-10-02T19:46:57.9257085Z Updating files:  35% (3221/9201)
+2026-10-02T19:46:57.9417502Z Updating files:  36% (3313/9201)
+2026-10-02T19:46:57.9503150Z Updating files:  37% (3405/9201)
+2026-10-02T19:46:57.9644207Z Updating files:  38% (3497/9201)
+2026-10-02T19:46:57.9816757Z Updating files:  39% (3589/9201)
+2026-10-02T19:46:58.0081038Z Updating files:  40% (3681/9201)
+2026-10-02T19:46:58.1148346Z Updating files:  41% (3773/9201)
+2026-10-02T19:46:58.1269962Z Updating files:  42% (3865/9201)
+2026-10-02T19:46:58.1381671Z Updating files:  43% (3957/9201)
+2026-10-02T19:46:58.1521944Z Updating files:  44% (4049/9201)
+2026-10-02T19:46:58.1607463Z Updating files:  45% (4141/9201)
+2026-10-02T19:46:58.1710058Z Updating files:  46% (4233/9201)
+2026-10-02T19:46:58.1850353Z Updating files:  47% (4325/9201)
+2026-10-02T19:46:58.1958762Z Updating files:  48% (4417/9201)
+2026-10-02T19:46:58.2039532Z Updating files:  49% (4509/9201)
+2026-10-02T19:46:58.2133041Z Updating files:  50% (4601/9201)
+2026-10-02T19:46:58.2213506Z Updating files:  51% (4693/9201)
+2026-10-02T19:46:58.2308658Z Updating files:  52% (4785/9201)
+2026-10-02T19:46:58.2451115Z Updating files:  53% (4877/9201)
+2026-10-02T19:46:58.2596210Z Updating files:  54% (4969/9201)
+2026-10-02T19:46:58.2774834Z Updating files:  55% (5061/9201)
+2026-10-02T19:46:58.2834161Z Updating files:  56% (5153/9201)
+2026-10-02T19:46:58.3688087Z Updating files:  57% (5245/9201)
+2026-10-02T19:46:58.4761888Z Updating files:  58% (5337/9201)
+2026-10-02T19:46:58.5464497Z Updating files:  59% (5429/9201)
+2026-10-02T19:46:58.6076432Z Updating files:  60% (5521/9201)
+2026-10-02T19:46:58.6408238Z Updating files:  61% (5613/9201)
+2026-10-02T19:46:58.7307717Z Updating files:  62% (5705/9201)
+2026-10-02T19:46:58.7438539Z Updating files:  63% (5797/9201)
+2026-10-02T19:46:58.8239062Z Updating files:  63% (5808/9201)
+2026-10-02T19:46:58.8392079Z Updating files:  64% (5889/9201)
+2026-10-02T19:46:58.8426969Z Updating files:  65% (5981/9201)
+2026-10-02T19:46:58.8461831Z Updating files:  66% (6073/9201)
+2026-10-02T19:46:58.8497947Z Updating files:  67% (6165/9201)
+2026-10-02T19:46:58.8532631Z Updating files:  68% (6257/9201)
+2026-10-02T19:46:58.8568128Z Updating files:  69% (6349/9201)
+2026-10-02T19:46:58.8604301Z Updating files:  70% (6441/9201)
+2026-10-02T19:46:58.8639365Z Updating files:  71% (6533/9201)
+2026-10-02T19:46:58.8674307Z Updating files:  72% (6625/9201)
+2026-10-02T19:46:58.8708945Z Updating files:  73% (6717/9201)
+2026-10-02T19:46:58.8744039Z Updating files:  74% (6809/9201)
+2026-10-02T19:46:58.8786986Z Updating files:  75% (6901/9201)
+2026-10-02T19:46:58.8823476Z Updating files:  76% (6993/9201)
+2026-10-02T19:46:58.8859508Z Updating files:  77% (7085/9201)
+2026-10-02T19:46:58.8894802Z Updating files:  78% (7177/9201)
+2026-10-02T19:46:58.8930158Z Updating files:  79% (7269/9201)
+2026-10-02T19:46:58.8964378Z Updating files:  80% (7361/9201)
+2026-10-02T19:46:58.8999872Z Updating files:  81% (7453/9201)
+2026-10-02T19:46:58.9034987Z Updating files:  82% (7545/9201)
+2026-10-02T19:46:58.9069420Z Updating files:  83% (7637/9201)
+2026-10-02T19:46:58.9104411Z Updating files:  84% (7729/9201)
+2026-10-02T19:46:58.9138963Z Updating files:  85% (7821/9201)
+2026-10-02T19:46:58.9175422Z Updating files:  86% (7913/9201)
+2026-10-02T19:46:58.9211021Z Updating files:  87% (8005/9201)
+2026-10-02T19:46:58.9246916Z Updating files:  88% (8097/9201)
+2026-10-02T19:46:58.9282835Z Updating files:  89% (8189/9201)
+2026-10-02T19:46:58.9321552Z Updating files:  90% (8281/9201)
+2026-10-02T19:46:58.9371551Z Updating files:  91% (8373/9201)
+2026-10-02T19:46:58.9421180Z Updating files:  92% (8465/9201)
+2026-10-02T19:46:58.9471948Z Updating files:  93% (8557/9201)
+2026-10-02T19:46:58.9519126Z Updating files:  94% (8649/9201)
+2026-10-02T19:46:58.9571848Z Updating files:  95% (8741/9201)
+2026-10-02T19:46:58.9632846Z Updating files:  96% (8833/9201)
+2026-10-02T19:46:58.9786607Z Updating files:  97% (8925/9201)
+2026-10-02T19:46:58.9951081Z Updating files:  98% (9017/9201)
+2026-10-02T19:46:59.0051578Z Updating files:  99% (9109/9201)
+2026-10-02T19:46:59.0052096Z Updating files: 100% (9201/9201)
+2026-10-02T19:46:59.0052516Z Updating files: 100% (9201/9201), done.
+2026-10-02T19:46:59.0154388Z Switched to a new branch 'codex/emc-continuation-2026-10-02'
+2026-10-02T19:46:59.0159997Z branch 'codex/emc-continuation-2026-10-02' set up to track 'origin/codex/emc-continuation-2026-10-02'.
+2026-10-02T19:46:59.0230001Z ##[endgroup]
+2026-10-02T19:46:59.0289561Z [command]/usr/bin/git log -1 --format=%H
+2026-10-02T19:46:59.0319635Z dbae056d6a466db904a5fc83f2f709aa6e28488f
+2026-10-02T19:46:59.0329888Z ##[group]Removing auth
+2026-10-02T19:46:59.0333922Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-02T19:46:59.0369733Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-02T19:46:59.0626545Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-02T19:46:59.0660453Z http.https://github.com/.extraheader
+2026-10-02T19:46:59.0668600Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-02T19:46:59.0708900Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-02T19:46:59.0956675Z ##[endgroup]
+2026-10-02T19:46:59.1169268Z ##[group]Run python3 research/autonomy/continuation-2026-10-02/foundation-publication-check.py
+2026-10-02T19:46:59.1170123Z [36;1mpython3 research/autonomy/continuation-2026-10-02/foundation-publication-check.py[0m
+2026-10-02T19:46:59.1241459Z shell: /usr/bin/bash -e {0}
+2026-10-02T19:46:59.1241728Z env:
+2026-10-02T19:46:59.1241942Z   UV_NO_CACHE: 1
+2026-10-02T19:46:59.1242173Z   PIP_NO_CACHE_DIR: 1
+2026-10-02T19:46:59.1242404Z ##[endgroup]
+2026-10-02T19:47:08.1949533Z base-dependencies exit 0 last lines:    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 395.5/395.5 kB 68.1 MB/s eta 0:00:00
+2026-10-02T19:47:08.1950491Z Downloading pdfplumber-0.11.10-py3-none-any.whl (60 kB)
+2026-10-02T19:47:08.1951275Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 60.0/60.0 kB 283.5 MB/s eta 0:00:00
+2026-10-02T19:47:08.1951920Z Downloading pdfminer_six-20260107-py3-none-any.whl (6.6 MB)
+2026-10-02T19:47:08.1952896Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 187.5 MB/s eta 0:00:00
+2026-10-02T19:47:08.1953568Z Downloading uv-0.12.22-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20.6 MB)
+2026-10-02T19:47:08.1954154Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 20.6/20.6 MB 318.1 MB/s eta 0:00:00
+2026-10-02T19:47:08.1954663Z Downloading pillow-12.3.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+2026-10-02T19:47:08.1955239Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 317.4 MB/s eta 0:00:00
+2026-10-02T19:47:08.1955762Z Downloading pypdfium2-5.13.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.7 MB)
+2026-10-02T19:47:08.1956353Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.7/3.7 MB 363.9 MB/s eta 0:00:00
+2026-10-02T19:47:08.1956975Z Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (257 kB)
+2026-10-02T19:47:08.1957668Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 257.6/257.6 kB 390.5 MB/s eta 0:00:00
+2026-10-02T19:47:08.1958255Z Installing collected packages: uv, pypdfium2, pypdf, Pillow, charset-normalizer, pdfminer.six, pdfplumber
+2026-10-02T19:47:08.1959129Z Successfully installed Pillow-12.3.0 charset-normalizer-3.5.2 pdfminer.six-20260107 pdfplumber-0.11.10 pypdf-6.19.0 pypdfium2-5.13.0 uv-0.12.22
+2026-10-02T19:47:08.1959938Z extend-derived-ids exit 0 last lines: bound RT-FOUNDATION-IDENTITY -> AUT-225
+2026-10-02T19:47:08.1960471Z derive-views exit 0 last lines: systems_check: wrote 112 view(s) to systems/views/
+2026-10-02T19:47:08.1961257Z check-systems exit 1 last lines: Traceback (most recent call last):
+2026-10-02T19:47:08.1961822Z   File "/home/runner/work/Rare-cancers/Rare-cancers/systems/systems_check.py", line 4649, in <module>
+2026-10-02T19:47:08.1962284Z     sys.exit(main())
+2026-10-02T19:47:08.1962498Z              ^^^^^^
+2026-10-02T19:47:08.1963188Z   File "/home/runner/work/Rare-cancers/Rare-cancers/systems/systems_check.py", line 4625, in main
+2026-10-02T19:47:08.1963650Z     run_checks(g, f)
+2026-10-02T19:47:08.1964084Z   File "/home/runner/work/Rare-cancers/Rare-cancers/systems/systems_check.py", line 2501, in run_checks
+2026-10-02T19:47:08.1964557Z     check_schemas(g, f)
+2026-10-02T19:47:08.1964991Z   File "/home/runner/work/Rare-cancers/Rare-cancers/systems/systems_check.py", line 494, in check_schemas
+2026-10-02T19:47:08.1965476Z     mv = SchemaSet(SCHEMA)
+2026-10-02T19:47:08.1965714Z          ^^^^^^^^^^^^^^^^^
+2026-10-02T19:47:08.1966133Z   File "/home/runner/work/Rare-cancers/Rare-cancers/systems/systems_check.py", line 176, in __init__
+2026-10-02T19:47:08.1966628Z     from referencing import Registry, Resource
+2026-10-02T19:47:08.1966969Z ModuleNotFoundError: No module named 'referencing'
+2026-10-02T19:47:08.1967273Z {
+2026-10-02T19:47:08.1967515Z   "revision": "dbae056d6a466db904a5fc83f2f709aa6e28488f",
+2026-10-02T19:47:08.1967829Z   "run_id": "37056311009",
+2026-10-02T19:47:08.1968066Z   "mode": "prepare",
+2026-10-02T19:47:08.1968287Z   "steps": [
+2026-10-02T19:47:08.1968482Z     {
+2026-10-02T19:47:08.1968692Z       "name": "base-dependencies",
+2026-10-02T19:47:08.1969157Z       "command": [
+2026-10-02T19:47:08.1969376Z         "/usr/bin/python3",
+2026-10-02T19:47:08.1969616Z         "-m",
+2026-10-02T19:47:08.1969831Z         "pip",
+2026-10-02T19:47:08.1970030Z         "install",
+2026-10-02T19:47:08.1970245Z         "--no-cache-dir",
+2026-10-02T19:47:08.1970477Z         "pyyaml",
+2026-10-02T19:47:08.1970680Z         "jsonschema",
+2026-10-02T19:47:08.1970901Z         "pypdf",
+2026-10-02T19:47:08.1971109Z         "pdfplumber",
+2026-10-02T19:47:08.1971321Z         "uv"
+2026-10-02T19:47:08.1971527Z       ],
+2026-10-02T19:47:08.1971718Z       "exit_code": 0,
+2026-10-02T19:47:08.1971937Z       "forced_stop": null,
+2026-10-02T19:47:08.1972188Z       "elapsed_seconds": 6.001571163000001,
+2026-10-02T19:47:08.1972607Z       "log_sha256": "87f48ee31c0b957f0478b06f1b94a5329c50887eea50be0b9d3d539609f6acf5"
+2026-10-02T19:47:08.1973235Z     },
+2026-10-02T19:47:08.1973418Z     {
+2026-10-02T19:47:08.1973620Z       "name": "extend-derived-ids",
+2026-10-02T19:47:08.1973886Z       "command": [
+2026-10-02T19:47:08.1974103Z         "/usr/bin/python3",
+2026-10-02T19:47:08.1974360Z         "research/autonomy/derived_ids.py",
+2026-10-02T19:47:08.1974631Z         "--extend"
+2026-10-02T19:47:08.1974825Z       ],
+2026-10-02T19:47:08.1975010Z       "exit_code": 0,
+2026-10-02T19:47:08.1975225Z       "forced_stop": null,
+2026-10-02T19:47:08.1975460Z       "elapsed_seconds": 1.000906570000005,
+2026-10-02T19:47:08.1975889Z       "log_sha256": "79832e35f935e4da5ee7de59b7adcca75b90a056193de43ccc0818dae20f7b97"
+2026-10-02T19:47:08.1976361Z     },
+2026-10-02T19:47:08.1976542Z     {
+2026-10-02T19:47:08.1976743Z       "name": "derive-views",
+2026-10-02T19:47:08.1976980Z       "command": [
+2026-10-02T19:47:08.1977183Z         "/usr/bin/python3",
+2026-10-02T19:47:08.1977423Z         "systems/systems_check.py",
+2026-10-02T19:47:08.1977679Z         "--write-views"
+2026-10-02T19:47:08.1977895Z       ],
+2026-10-02T19:47:08.1978075Z       "exit_code": 0,
+2026-10-02T19:47:08.1978287Z       "forced_stop": null,
+2026-10-02T19:47:08.1978530Z       "elapsed_seconds": 1.0008763050000056,
+2026-10-02T19:47:08.1978929Z       "log_sha256": "070541b40e73f458580fbf46064f34d4b7fc621ebde760251c7f24a81aa28393"
+2026-10-02T19:47:08.1979304Z     },
+2026-10-02T19:47:08.1979485Z     {
+2026-10-02T19:47:08.1979696Z       "name": "check-systems",
+2026-10-02T19:47:08.1979933Z       "command": [
+2026-10-02T19:47:08.1980315Z         "/usr/bin/python3",
+2026-10-02T19:47:08.1980554Z         "systems/systems_check.py",
+2026-10-02T19:47:08.1980804Z         "--check"
+2026-10-02T19:47:08.1981002Z       ],
+2026-10-02T19:47:08.1981194Z       "exit_code": 1,
+2026-10-02T19:47:08.1981403Z       "forced_stop": null,
+2026-10-02T19:47:08.1981641Z       "elapsed_seconds": 1.0008801640000016,
+2026-10-02T19:47:08.1982036Z       "log_sha256": "9b306ab5a666b96e7e2dd492e406b814a041f4a357fe3eb8cec58fd7ed6f60d8"
+2026-10-02T19:47:08.1982429Z     }
+2026-10-02T19:47:08.1982606Z   ],
+2026-10-02T19:47:08.1982935Z   "exception": "AssertionError: ",
+2026-10-02T19:47:08.1983308Z   "exit_code": 1,
+2026-10-02T19:47:08.1983547Z   "finished_utc": "2026-10-02T19:47:08.193891+00:00",
+2026-10-02T19:47:08.1983843Z   "free_bytes_after": 91404984320,
+2026-10-02T19:47:08.1984083Z   "files": []
+2026-10-02T19:47:08.1984275Z }
+2026-10-02T19:47:08.2031059Z ##[error]Process completed with exit code 1.
+2026-10-02T19:47:08.2140891Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-10-02T19:47:08.2141310Z with:
+2026-10-02T19:47:08.2141641Z   name: foundation-publication-dbae056d6a466db904a5fc83f2f709aa6e28488f
+2026-10-02T19:47:08.2142033Z   retention-days: 30
+2026-10-02T19:47:08.2142260Z   if-no-files-found: error
+2026-10-02T19:47:08.2142533Z   path: /tmp/foundation-publication/
+2026-10-02T19:47:08.2143045Z   compression-level: 6
+2026-10-02T19:47:08.2143272Z   overwrite: false
+2026-10-02T19:47:08.2143496Z   include-hidden-files: false
+2026-10-02T19:47:08.2143751Z env:
+2026-10-02T19:47:08.2143937Z   UV_NO_CACHE: 1
+2026-10-02T19:47:08.2144152Z   PIP_NO_CACHE_DIR: 1
+2026-10-02T19:47:08.2144371Z ##[endgroup]
+2026-10-02T19:47:08.3846103Z (node:2368) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-02T19:47:08.3846993Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-02T19:47:08.3976008Z With the provided path, there will be 5 files uploaded
+2026-10-02T19:47:08.3976867Z Artifact name is valid!
+2026-10-02T19:47:08.3977262Z Root directory input is valid!
+2026-10-02T19:47:08.8778342Z Beginning upload of artifact content to blob storage
+2026-10-02T19:47:08.9014102Z (node:2368) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-02T19:47:09.0103068Z Uploaded bytes 2490
+2026-10-02T19:47:09.0436903Z Finished uploading artifact content to blob storage!
+2026-10-02T19:47:09.0438162Z SHA256 digest of uploaded artifact zip is da169d20001b37c467339e7616036d0eb83d2beb27c75cffb5b75f9f6fca2ab0
+2026-10-02T19:47:09.0439075Z Finalizing artifact upload
+2026-10-02T19:47:09.2805831Z Artifact foundation-publication-dbae056d6a466db904a5fc83f2f709aa6e28488f.zip successfully finalized. Artifact ID 11248223484
+2026-10-02T19:47:09.2807677Z Artifact foundation-publication-dbae056d6a466db904a5fc83f2f709aa6e28488f has been successfully uploaded! Final size is 2490 bytes. Artifact ID is 11248223484
+2026-10-02T19:47:09.2813405Z Artifact download URL: https://github.com/trimcrae/Rare-cancers/actions/runs/37056311009/artifacts/11248223484
+2026-10-02T19:47:09.3030997Z Post job cleanup.
+2026-10-02T19:47:09.3916392Z [command]/usr/bin/git version
+2026-10-02T19:47:09.3965003Z git version 2.55.0
+2026-10-02T19:47:09.4007948Z Temporarily overriding HOME='/home/runner/work/_temp/0d6078cf-9651-4cca-a6cd-b935bf3e7df8' before making global git config changes
+2026-10-02T19:47:09.4008924Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-02T19:47:09.4014490Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-02T19:47:09.4059358Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-02T19:47:09.4108260Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-02T19:47:09.4383655Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-02T19:47:09.4423425Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-02T19:47:09.4894012Z Cleaning up orphan processes
+2026-10-02T19:47:09.5220244Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

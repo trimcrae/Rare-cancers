@@ -75,17 +75,17 @@ def keep(path):
 result = 1
 try:
     assert run('base-dependencies', [sys.executable, '-m', 'pip', 'install', '--no-cache-dir',
-               'pyyaml', 'jsonschema', 'pypdf', 'pdfplumber', 'uv'], 300) == 0
+               'pyyaml', 'jsonschema>=4.18', 'referencing', 'pypdf', 'pdfplumber', 'uv'], 300) == 0
     if MODE == 'prepare':
         assert run('extend-derived-ids', [sys.executable, 'research/autonomy/derived_ids.py', '--extend']) == 0
         assert run('derive-views', [sys.executable, 'systems/systems_check.py', '--write-views']) == 0
-        assert run('check-systems', [sys.executable, 'systems/systems_check.py', '--check']) == 0
-        assert run('check-derived-ids', [sys.executable, 'research/autonomy/derived_ids.py', '--check']) == 0
         changed = subprocess.check_output(['git', 'diff', '--name-only'], text=True).splitlines()
         changed += subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard'], text=True).splitlines()
         for path in changed:
             assert path.startswith('systems/views/') or path == 'research/autonomy/derived-ledger-ids.json', path
             keep(path)
+        assert run('check-systems', [sys.executable, 'systems/systems_check.py', '--check']) == 0
+        assert run('check-derived-ids', [sys.executable, 'research/autonomy/derived_ids.py', '--check']) == 0
         assert run('render-manuscript', [sys.executable, 'research/manuscripts/build_submission_pdf.py',
                    '--paper', 'foundation-identity', '--style', 'preprint'], 300, guarded=True) == 0
         for path in (ROOT / 'research/manuscripts/foundation').glob('*'):
