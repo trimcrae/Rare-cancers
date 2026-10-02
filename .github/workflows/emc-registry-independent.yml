@@ -1,0 +1,55 @@
+name: EMC independent registry source-context evaluation
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/registry-independent-token.json]
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Reserve cloud storage
+        run: python3 -c 'import shutil; assert shutil.disk_usage(".").free > 12*1024**3'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: |
+            research/autonomy/continuation-2026-10-02/registry-independent-evaluation
+            research/autonomy/continuation-2026-10-02/registry
+            research/autonomy/continuation-2026-10-02/registry-family-companion
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Verify input archive, test new wrapper and execute frozen evaluation
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,platform,subprocess,time,zipfile
+          code=pathlib.Path("research/autonomy/continuation-2026-10-02/registry-independent-evaluation").resolve()
+          base=pathlib.Path(os.environ["RUNNER_TEMP"])/"registry-independent";base.mkdir()
+          inputs=base/"inputs";inputs.mkdir()
+          manifest=json.loads((code/"inputs-manifest.json").read_text())
+          raw=(code/"inputs.zip").read_bytes()
+          if len(raw)!=manifest["bytes"] or hashlib.sha256(raw).hexdigest()!=manifest["sha256"]:raise ValueError("Archive identity mismatch")
+          with zipfile.ZipFile(code/"inputs.zip") as z:
+              if set(z.namelist())!={x["name"] for x in manifest["entries"]} or len(z.namelist())!=len(manifest["entries"]):raise ValueError("Unexpected archive members")
+              for entry in manifest["entries"]:
+                  b=z.read(entry["name"])
+                  if len(b)!=entry["bytes"] or hashlib.sha256(b).hexdigest()!=entry["sha256"]:raise ValueError("Member identity mismatch")
+                  (inputs/entry["name"]).write_bytes(b)
+          receipt={"revision":os.environ["GITHUB_SHA"],"run_id":os.environ["GITHUB_RUN_ID"],"python":platform.python_version(),"steps":[]}
+          def run(name,cmd):
+              start=time.monotonic()
+              r=subprocess.run(cmd,cwd=code,capture_output=True,text=True,timeout=150)
+              (base/(name+".stdout")).write_text(r.stdout);(base/(name+".stderr")).write_text(r.stderr)
+              receipt["steps"].append({"name":name,"command":cmd,"exit_code":r.returncode,"seconds":time.monotonic()-start})
+              (base/"execution.json").write_text(json.dumps(receipt,indent=2)+"\n")
+              if r.returncode:raise SystemExit(r.returncode)
+          run("tests",["python3","-m","unittest","-v","test_wrapper.py"])
+          run("evaluation",["python3","evaluate.py","--source",str(inputs/"api-response.json"),"--oracle",str(inputs/"oracle.json"),"--offset-amendment",str(inputs/"offset-amendment-01.json"),"--oracle-sha256","302ba913bdebe23f312f7cdb674b34af79ed4b7a4b8c0b57f3695c8794e6af6e","--extractor",str(code.parent/"registry"/"registry_literal_extractor.py"),"--companion",str(code.parent/"registry-family-companion"/"family_companion.py"),"--out",str(base/"results")])
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: registry-independent-evaluation
+          path: ${{ runner.temp }}/registry-independent/
+          retention-days: 30
