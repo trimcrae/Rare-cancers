@@ -1,0 +1,58 @@
+{
+  "schema": "checkpoint06-replay-layout/1",
+  "purpose": "Map exact executed worker paths to durable repository inputs without altering executed scripts or rerunning science.",
+  "scientificRevision": "4532178365f451054f09f1c5ec7cdf63a2b8d2b6",
+  "hla": {
+    "script": "hla-cryptic-provenance/audit.py",
+    "scratchLayout": "Copy hla-cryptic-provenance to scratch/checkpoint06-hla-cryptic. Create sibling scratch/checkpoint05-hla and extract the named historical archives into that sibling. Run audit.py with Python standard library. Outputs write only inside scratch/checkpoint06-hla-cryptic.",
+    "priorArchives": [
+      {
+        "path": "hla-historical-search/primary-metadata.zip",
+        "sha256": "41587c7a737781c8e0befc3ac8f092dae50724966e0663360cfdbfc64bfb8507",
+        "requiredMembers": [
+          "primary.xml",
+          "pride-files.json"
+        ]
+      },
+      {
+        "path": "hla-historical-search/deposit-readme.zip",
+        "sha256": "b4e6648224e2ab97142408bc62b3c57e8f93a1f4e96e0040f957174cbdc83c6f",
+        "requiredMembers": [
+          "archive-readme.txt"
+        ]
+      },
+      {
+        "path": "hla-cryptic-provenance/archive-index.zip",
+        "bytes": 51618,
+        "sha256": "e5a028f4dead4685be768a873343509b07050b9adc3bb13227aa6690e202d040",
+        "requiredMembers": [
+          "archive-index.html"
+        ],
+        "memberBytes": 1183848,
+        "memberSHA256": "ff3cb8fa894fc679961a1fbbd707c1a2ff96cb598cdd31178d05e2aea06aac70"
+      }
+    ],
+    "newInput": "hla-cryptic-provenance/sample-run.mzid.gz",
+    "supplementalIndexReason": "audit.py also hashes the reused HTML listing. That exact previously downloaded file was omitted from the prior compressed metadata bundles; it is now archived for execution reproducibility. No new retrieval, selection, peptide scan or result change.",
+    "frozenPlan": "manifest.json binds original plan.md bytes; those bytes are preserved as plan.original.txt. Current plan.md adds purpose/scope/last_verified metadata only."
+  },
+  "methylation": {
+    "script": "methylation-denominator/audit_denominator.py",
+    "scratchLayout": "Copy methylation-denominator into a scratch folder. Verify and extract methylation-identity/metadata-inputs.zip into a separate scratch prior-source directory. Run python audit_denominator.py PATH_TO_PRIOR_SOURCE_DIRECTORY with existing openpyxl; the optional argument overrides the original checkpoint03-methylation default. Outputs write beside the copied script.",
+    "priorArchive": {
+      "path": "methylation-identity/metadata-inputs.zip",
+      "bytes": 286330,
+      "sha256": "959139b982d8a1616d01155d6a5005b122a27809d6cbfc873a999295bad4971d",
+      "requiredMembers": [
+        "lyskjaer.xml",
+        "E-MTAB-9875.sdrf.txt"
+      ]
+    },
+    "newInputs": [
+      "methylation-denominator/CJP2-7-350-s001.xlsx",
+      "methylation-denominator/CJP2-7-350-s003.docx"
+    ],
+    "numericSerialization": "Value-preserving binary64 text may differ from raw XLSX numeric lexemes; workbook authoritative."
+  },
+  "executionBoundary": "This maps previously executed and independently checked sources. No changed scientific input or repeat computation is asserted."
+}
