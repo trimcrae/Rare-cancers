@@ -1,7 +1,7 @@
 {
   "schema": "usage-sprint-completed-integration-plan/1",
   "date": "2026-10-02",
-  "status": "diagnostic_prose_repair_pending_cpu_validation",
+  "status": "future_link_repair_pending_cpu_validation",
   "repository": "trimcrae/Rare-cancers",
   "branch": "codex/usage-sprint-2026-10-01-integrate-completed",
   "base_revision": "ee84a76beb7c51004eca05cad09cf9612bb0e959",
@@ -621,7 +621,9 @@
     "research/IDEAS.md",
     "research/method-watch-trigger-scan.md",
     "research/autonomy/usage-sprint-2026-10-01/integrate-completed/catalogue-render-ci-original.log",
-    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/catalogue-render-validation-receipt.json"
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/catalogue-render-validation-receipt.json",
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/diagnostic-prose-ci-original.log",
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/diagnostic-prose-validation-receipt.json"
   ],
   "conflicts": [],
   "overlap": "Frame-census is descendant of exact aso-verifier head; retain its upgraded verifier/test/manifest bytes and every original source ancestor/log.",
@@ -764,5 +766,37 @@
     "original_quote": "\"A case report\" next to PMC13598529. The original transcript contains both errors; diagnostic",
     "corrected_quote": "PMCID PMC13598529, whose literal\ncatalogue title has the suffix \"A case report\".",
     "reason": "Observed handoff diagnostic binding; name PMCID before literal title suffix; current handoff must contain no native type claims."
+  },
+  "diagnostic_prose_ci": {
+    "revision": "605f772977c87a4f1140ac8b4c595aaddd67e79f",
+    "tree": "0296ec5648e1d710314a2313b50c6b855debfab2",
+    "id": 37062998021,
+    "job_id": 111023884337,
+    "event": "push",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "job_start_utc": "2026-10-02T20:49:13Z",
+    "job_end_utc": "2026-10-02T20:52:51Z",
+    "job_elapsed_seconds": 218,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/37062998021",
+    "log_path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/diagnostic-prose-ci-original.log",
+    "log_blob": "d67978291c571d65713c97e11622f31054083050",
+    "log_bytes": 210270,
+    "log_sha256": "a92a5c1fab979e694ee23a0ee9e6a1c6cdf393328e9dcf86dad338e31c92cff7",
+    "receipt_path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/diagnostic-prose-validation-receipt.json"
+  },
+  "future_receipt_link_control": {
+    "before": "[final validation receipt](validation-receipt.json)",
+    "after": "final validation receipt, `validation-receipt.json`,",
+    "cause_classification": "Static check_links K1 candidate; original third runtime reports only generic systems gate failure",
+    "scope": "Handoff relative link targets must exist; planned final receipt is not linked until committed."
+  },
+  "historical_systems_witness": {
+    "revision": "605f772977c87a4f1140ac8b4c595aaddd67e79f",
+    "command": "python3 systems/systems_check.py --check --json",
+    "expected_exit": 1,
+    "expected_only_error": "[K1]  research/autonomy/usage-sprint-2026-10-01/integrate-completed/handoff.md links to 'validation-receipt.json', which does not exist",
+    "scope": "Temporary detached exact Git worktree; unchanged native systems checker only; full stdout retained; current tree untouched; cleanup required. Actual witness pending."
   }
 }

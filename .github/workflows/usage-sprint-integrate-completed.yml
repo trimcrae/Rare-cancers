@@ -94,6 +94,39 @@ jobs:
           python3 -m pytest research/modalities/tests/test_trigger_board_filter.py -v -s --tb=short -p no:cacheprovider
       - name: Unchanged native citation gate
         run: python3 research/manuscripts/lint_citations.py
+      - name: Exact historical systems failure witness without source acquisition
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import subprocess
+          import sys
+          import tempfile
+          revision = "605f772977c87a4f1140ac8b4c595aaddd67e79f"
+          expected = "[K1]  research/autonomy/usage-sprint-2026-10-01/integrate-completed/handoff.md links to 'validation-receipt.json', which does not exist"
+          root = Path.cwd()
+          with tempfile.TemporaryDirectory(prefix="rare-systems-witness-", dir=os.environ["RUNNER_TEMP"]) as temporary:
+              checkout = Path(temporary) / "checkout"
+              subprocess.run(["git", "worktree", "add", "--detach", str(checkout), revision], check=True)
+              try:
+                  result = subprocess.run(
+                      [sys.executable, str(checkout / "systems/systems_check.py"), "--check", "--json"],
+                      cwd=checkout, capture_output=True, text=True)
+                  print("HISTORICAL_SYSTEMS_STDOUT_BEGIN")
+                  print(result.stdout, end="")
+                  print("HISTORICAL_SYSTEMS_STDOUT_END")
+                  if result.stderr:
+                      print(result.stderr, end="", file=sys.stderr)
+                  findings = json.loads(result.stdout)
+                  assert result.returncode == 1, result.returncode
+                  assert findings["errors"] == [expected], findings["errors"]
+                  print("HISTORICAL_SYSTEMS_WITNESS_OK exact605f exit1; exactly one native K1 missing future receipt; no other errors")
+              finally:
+                  subprocess.run(["git", "worktree", "remove", str(checkout)], cwd=root, check=True)
+          PY
+      - name: Unchanged native systems check with visible diagnostics
+        run: python3 systems/systems_check.py --check
       - name: Normal preflight default FAST scope
         timeout-minutes: 10
         run: ./scripts/preflight.sh

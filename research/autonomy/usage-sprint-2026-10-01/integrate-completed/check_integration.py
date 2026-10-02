@@ -106,6 +106,14 @@ def check_catalogue_rendering(plan):
             handoff_path = "research/autonomy/usage-sprint-2026-10-01/integrate-completed/handoff.md"
             assert diagnostic["corrected_quote"] in (ROOT / handoff_path).read_text()
             assert classifier.claims([handoff_path], root=str(ROOT)) == [], "Handoff diagnostic became a type claim"
+            handoff = ROOT / handoff_path
+            handoff_text = handoff.read_text()
+            future_link = plan["future_receipt_link_control"]
+            assert future_link["before"] not in handoff_text and future_link["after"] in handoff_text
+            for target in re.findall(r"\]\(([^)]+)\)", handoff_text):
+                if target.startswith(("https://", "http://", "#")):
+                    continue
+                assert (handoff.parent / target.split("#", 1)[0]).exists(), target
             special = dict(hit, title=r"A [catalogue] \ path *literal* _term_: A case report",
                            url="https://example.invalid/catalogue")
             escaped = formatter._catalogue_title_link(special)
@@ -130,6 +138,13 @@ def check_catalogue_rendering(plan):
     assert hashlib.sha256(second_log).hexdigest() == second["log_sha256"]
     assert b"handoff.md:50 TYPE CLAIM WITH NO CACHED METADATA" in second_log
     print("HANDOFF_TYPE_CONTROL_OK original diagnostic fails MISSING; current full handoff contains no native type claim")
+    third = plan["diagnostic_prose_ci"]
+    third_log = (ROOT / third["log_path"]).read_bytes()
+    assert len(third_log) == third["log_bytes"] and blob(third_log) == third["log_blob"]
+    assert hashlib.sha256(third_log).hexdigest() == third["log_sha256"]
+    assert b"FAILED -- rerun 'python3 systems/systems_check.py --check' to see why" in third_log
+    print("HANDOFF_LINKS_OK actual relative targets exist; planned future receipt is named without a premature link")
+    print("PROSE_FAILED_LOG_OK third original generic systems failure preserved; precise K1 cause is static review")
     print("CATALOGUE_FAILED_LOG_OK second original failed transcript/verdict preserved")
     print("INITIAL_FAILED_LOG_OK original observed two annotations and exact bytes/hash preserved")
 

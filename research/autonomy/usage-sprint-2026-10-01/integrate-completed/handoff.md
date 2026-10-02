@@ -93,6 +93,6 @@ scientific/publication suites and publication readiness are not newly executed o
 No public-source GET, inference/API/GPU/paid job, publication, outreach or PR is performed. This
 integration starts no second scientific task. Model/effort IDs and task-specific subscription
 usage are not exposed. AI authorship and independent AI review are distinct from human scientific
-validation. This handoff records the preparation checkpoints. The [final validation receipt](validation-receipt.json)
+validation. This handoff records the preparation checkpoints. The final validation receipt, `validation-receipt.json`,
 will record the latest settled disposition when committed. Root alone performs main integration
 after actual CPU success and final independent receipt review.
