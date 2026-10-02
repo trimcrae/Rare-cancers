@@ -1,0 +1,33 @@
+{
+  "schema": "registry-next-slice-evaluation-contract/1",
+  "status": "prospective_exact_bytes_to_be_committed_before_sources",
+  "inputManifest": {
+    "schema": "registry-next-slice-inputs/1",
+    "required": ["frozenUTC", "adapterSHA256", "schemaSHA256", "selectionReceipt", "selectedMetadata", "rawSources", "assembledSourceSHA256", "oracle", "code"],
+    "fileReference": {"path": "relative path inside manifest directory", "sha256": "lowercase SHA256 of original file bytes"},
+    "rawSources": "Array of file references with nctId, one per selected ID in frozen canonical order; each original response is one study object. Total original response bytes <=1MiB. Empty array is allowed for empty selection.",
+    "assembledSourceSHA256": "SHA256 of UTF-8 json.dumps({'studies':parsed original responses},ensure_ascii=False,sort_keys=True,separators=(',',':'),allow_nan=False), with no newline. Source custodian computes and freezes this before blind oracle reading.",
+    "code": "extractor, companion, audit and payloadAudit each reference exact files matching hardcoded prospective SHA256 pins in adapter; no substituted implementations.",
+    "freezeSequence": "Root first commits adapter/schema/exclusions before any new metadata or outcomes. After authorized source capture and blind oracle lock, root commits this input manifest with exact raw/source/oracle hashes BEFORE any companion invocation. Root validates actual chronology and exposure attestation; timestamps alone are not proof."
+  },
+  "oracle": {
+    "schema": "registry-next-slice-oracle/1",
+    "required": ["sourceSHA256", "frozenUTC", "reviewer", "studyInventory", "outcomes"],
+    "reviewer": {"identity":"nonempty string","model":"nonempty string","effort":"nonempty string or explicitly unavailable","prompt":"full exact prompt","accessExposureAttestation":"full source/access/exposure account","blindToClassifierAndPredictions":true},
+    "studyInventory": "One ordered record per selected study: studyIndex, nctId, outcomeCount, resultsSectionPresent, outcomeModulePresent, outcomeArrayPresent. Presence booleans preserve absent versus empty arrays/modules. Missing and zero outcome studies retained.",
+    "outcomes": "Exactly one record per original zero-based outcome pointer, no omission or duplicates. Required fields: sourcePointer, studyIndex, nctId, outcomeIndex, outcomeSHA256 (canonical complete original object), eligibility, reason, evidence, literalRoles, confirmationContext, scopeDenominatorReferences, absentEvidence. Eligible and uncertain records additionally require family.",
+    "eligibility": ["eligible", "uncertain", "excluded"],
+    "screening": "Include tumor/disease response or its categorical distribution; exclude unrelated symptom/laboratory/behavioral responses with source-based reasons. No need for explicit family name, complete vector, populated category row or likely parser success. Preserve uncertainty.",
+    "family": {"status":"assigned|unknown|ambiguous","family":"string or null","version":"string or null","modifier":"string or null"},
+    "evidence": "Nonempty array of pointer-bound source values or literals. All references must stay inside that original outcome. Optional decodedStringStart and decodedStringEndExclusive are zero-based Unicode decoded string offsets, both required together, nonempty exact slice. Full value equality preserves JSON types. sourceFieldPresent=false requires genuinely absent dictionary key, explicit value:null placeholder, no literal.",
+    "literalRoles": "Array of evidence objects with role and scope strings. Preserve class/category/description/aggregate scope and supported literal role; empty array allowed with absent evidence/context explanation.",
+    "confirmationContext": "Reader's retained source-based confirmation/reader judgment and evidence; no automatic equivalence or clinical adjudication.",
+    "scopeDenominatorReferences": "Array of evidence objects binding original denominator entries, units, class/group/outcome scope and references; unknown/absent evidence retained, no inferred vector.",
+    "absentEvidence": "Array of evidence objects with sourceFieldPresent=false for absent relevant keys; no forced completion of absent findings."
+  },
+  "normalization": "Status/family/version/modifier comparison is exact string equality, except empty string and null are prospectively equivalent absence for family/version/modifier on BOTH oracle and prediction. Explicit keys required; missing is an error. No trimming, casefolding, alias mapping or semantic equivalence. Unknown/conflicting labels preserved. Source objects and literal payloads receive NO such normalization.",
+  "execution": "Validate hashes, metadata drift, canonical source and all-oracle coverage/evidence first. Load pinned extractor, independently audit all outcomes, empty categories, measurements, denominators and scope. Run pinned v2 once per outcome through classify_context and once per literal row through accompany; classifier may internally call its own classification function. All outcomes, including excluded, have literal auditing and carried-row auditing. Save prediction and companion artifacts before comparison. Reused actual-payload audit plus extra complete companion coverage/hash checks precede scoring.",
+  "report": "Eligible and uncertain strata separately: outcome and study counts, each field exact agreement, joint agreement, study all-outcomes joint agreement. Retain excluded decisions and zero-outcome studies. Role and confirmation/reader judgments retained but not automatically scored; no claim that aggregate/description roles equal category-title semantics. No quota/pass percentage. Disagreement is a result; source/pointer/literal/hash/coverage failures terminate without agreement claims.",
+  "amendments": "No old mechanical amendments or post-output relabelling is automatically applied. Any needed source/oracle correction is separately documented with original bytes, exact old/new and provenance before deciding a new run; semantic post-output relabelling is post hoc.",
+  "limitations": "Frozen observed metadata frame is not immutable atomic population. Small registry method check cannot establish clinical accuracy, safety, efficacy or population error rates. Metadata acquisition and outcome custodian receipt review remain separate root-owned gates; adapter cannot prove attestation truth or remote acquisition chronology."
+}

@@ -1,0 +1,74 @@
+name: EMC registry fresh metadata frame
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/registry-fresh-token.json]
+permissions:
+  contents: read
+concurrency:
+  group: emc-registry-fresh-metadata
+  cancel-in-progress: false
+jobs:
+  metadata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Reserve cloud storage for scoped input and bounded archive
+        run: python3 -c 'import shutil; assert shutil.disk_usage(".").free >= 12*1024**3'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: |
+            research/autonomy/continuation-2026-10-02/registry-fresh-slice
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Verify frozen inputs and acquire metadata only
+        run: |
+          python3 - <<'PY'
+          import datetime,hashlib,json,os,pathlib,platform,shutil,subprocess,sys,time
+          src=pathlib.Path("research/autonomy/continuation-2026-10-02/registry-fresh-slice").resolve()
+          out=pathlib.Path(os.environ["RUNNER_TEMP"])/"registry-fresh-metadata"
+          out.mkdir()
+          receipt={"revision":os.environ["GITHUB_SHA"],"run_id":os.environ["GITHUB_RUN_ID"],"python":platform.python_version(),"scope":"Metadata acquisition only; no outcomes, oracle or classifier invocation","started_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),"steps":[]}
+          def save():
+              receipt["free_bytes"]=shutil.disk_usage(out).free
+              (out/"execution.json").write_text(json.dumps(receipt,indent=2)+"\n")
+          try:
+              assert shutil.disk_usage(out).free >= 10*1024**3+20*1024**2
+              manifest=json.loads((src/"freeze.json").read_bytes())
+              for item in manifest["files"]:
+                  raw=(src/item["path"]).read_bytes()
+                  assert hashlib.sha256(raw).hexdigest()==item["sha256"], item["path"]
+              (out/"freeze.json").write_bytes((src/"freeze.json").read_bytes())
+              testroot=out/"synthetic";testroot.mkdir()
+              target=testroot/"checkpoint08-registry-acquisition"
+              review=testroot/"checkpoint08-registry-selection-review"
+              shutil.copytree(src/"acquisition",target);shutil.copytree(src/"selection-review",review)
+              def run(name,cmd,cwd,timeout):
+                  start=time.monotonic()
+                  with (out/(name+".stdout")).open("w") as stdout,(out/(name+".stderr")).open("w") as stderr:
+                      try:
+                          result=subprocess.run(cmd,cwd=cwd,stdout=stdout,stderr=stderr,timeout=timeout)
+                          code=result.returncode;forced=None
+                      except subprocess.TimeoutExpired:
+                          code=124;forced="time budget"
+                  receipt["steps"].append({"name":name,"command":cmd,"exit_code":code,"forced_stop":forced,"seconds":time.monotonic()-start});save()
+                  if code:raise RuntimeError(name+" exit="+str(code))
+              run("selection-verification",[sys.executable,"-B",str(review/"verify_independent.py")],testroot,30)
+              run("metadata",[sys.executable,"-B",str(src/"acquisition"/"acquire_metadata.py"),"--output-dir",str(out/"source"),"--exclusion-file",str(src/"exposure"/"exclusion-ledger.json")],src,650)
+              receipt["status"]="completed"
+          except Exception as error:
+              receipt["status"]="failed";receipt["error"]=type(error).__name__+": "+str(error)
+          finally:
+              receipt["finished_utc"]=datetime.datetime.now(datetime.timezone.utc).isoformat();save()
+              print(json.dumps(receipt,indent=2))
+              if (out/"source"/"receipt.json").exists():
+                  source=json.loads((out/"source"/"receipt.json").read_bytes())
+                  print(json.dumps({"source_status":source["status"],"error":source.get("error"),"selected":source["selected"],"pages":len(source["pages"]),"rawBytes":source.get("rawBytes")},indent=2))
+          sys.exit(0 if receipt["status"]=="completed" else 1)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: registry-fresh-metadata
+          path: ${{ runner.temp }}/registry-fresh-metadata/
+          retention-days: 30

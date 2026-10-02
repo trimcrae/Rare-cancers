@@ -1,0 +1,107 @@
+{
+  "schema": "registry-next-slice-freeze/1",
+  "baseRevision": "a179070e71fbb5be83e051bf3a18ee1bf51d927c",
+  "frozenBeforeAnyNewSource": true,
+  "status": "frozen_before_metadata_execution",
+  "sourceRequestScope": "metadata_only",
+  "companion": {
+    "path": "registry-family-v2/companion_v2.py",
+    "sha256": "8becca0c0143cf5384d12c5db6467df00b85ff10f00d1dc8c014eed743e50f1a"
+  },
+  "files": [
+    {
+      "path": "acquisition/acquire_metadata.py",
+      "sha256": "a44964ee7634ec21b4dfbd04081b8af3ebe4fff1644da30c307f4dce3463db25"
+    },
+    {
+      "path": "acquisition/HANDOFF.txt",
+      "sha256": "4d05f5897b9b2c3e1b46ec6df7cfb9bcbe585995dcb86cb53bacf47cfed14b6f"
+    },
+    {
+      "path": "acquisition/protocol.json",
+      "sha256": "cc780238619c821a8f287f47fc16b1b45af2c1299b18a05427f2e5e3b7e9a57a"
+    },
+    {
+      "path": "acquisition/test_acquire_metadata.py",
+      "sha256": "8cdf649fbacdac2375b08d02c86c8ba49ea4c818bc850a32329fdb0e4871fb03"
+    },
+    {
+      "path": "acquisition/worker-receipt.json",
+      "sha256": "ca1b4e95a19a8d69fff300ef1ee892c2e50b7714943ea50fe92a85e72f7f59c3"
+    },
+    {
+      "path": "selection-review/focused-review-receipt.json",
+      "sha256": "d7230d50bc5f1ef4d7f79ac943de86811a6f7c6862b0711819e97118c55a8f50"
+    },
+    {
+      "path": "selection-review/focused-verification.json",
+      "sha256": "4d6b10b690e4af0734b7d7c0b35f45dadef61a1b2b9971806fe7032172bd6754"
+    },
+    {
+      "path": "selection-review/independent-cases.json",
+      "sha256": "69106630850218ebe6bc39aae0cd447a43da733b6104ca1d752bc2bf1d370a82"
+    },
+    {
+      "path": "selection-review/review-receipt.json",
+      "sha256": "408919cfb45bdd02a3fa0c6fb6a4fc795f46ca5935651272b3b2a801487ea7fe"
+    },
+    {
+      "path": "selection-review/verify_independent.py",
+      "sha256": "f8f5883aa6157706d2b054addf6f2b9de8dff2a5ef78847b225e7601fde80c27"
+    },
+    {
+      "path": "exposure/audit-receipt.json",
+      "sha256": "e4b36422a83bba06536a7d36fd4d160a418860fe77979a3fe5bbc832137cdc6b"
+    },
+    {
+      "path": "exposure/exclusion-ledger.json",
+      "sha256": "2058753adf3ceb52050d5e4657f30b3bf39755200a22256d1fa1c93085668bf1"
+    },
+    {
+      "path": "evaluation/compare_actual_payloads.py",
+      "sha256": "5cb79ad7a51afd7ae4cc69b630c88bf9d54294840b3d3cf81f0ab4c4baa14d25"
+    },
+    {
+      "path": "evaluation/evaluate_next_slice.py",
+      "sha256": "f2d1726896994d08db28286bdf9b8bb0bd2a36c9456528a1a1060c87cc56d168"
+    },
+    {
+      "path": "evaluation/evaluation-schema.json",
+      "sha256": "02e4647e84824dddfe25cdd3a23a4f3f3ed7ddffe936dffba4d916c62c1bf9e8"
+    },
+    {
+      "path": "evaluation/HANDOFF.txt",
+      "sha256": "ca8455ffc84649f42a305a537f82e04109f421b5d3522a83ad767e7c763ad102"
+    },
+    {
+      "path": "evaluation/literal_audit.py",
+      "sha256": "ec6d15b34d8f7f8e5e8f746ab0c1b90c845bbf3a3991110befd5c8a321a2bed8"
+    },
+    {
+      "path": "evaluation/registry_literal_extractor.py",
+      "sha256": "c9ea1a864b0c5a16eebd7a41f5dc1575395fcf3d6f6affb00f1b2a68695af154"
+    },
+    {
+      "path": "evaluation/test_evaluate_next_slice.py",
+      "sha256": "6be30c1ee84167d0c2a35f5b859c87eb2850eab1b4e0fc3fab4d92fc6090a0e5"
+    },
+    {
+      "path": "evaluation/worker-receipt.json",
+      "sha256": "a08d71313bbf4da975b4ab1b8896c8cb8a1ab5f5677ca36542aa42f727f9f516"
+    },
+    {
+      "path": "evaluation-review/evaluation-verification.json",
+      "sha256": "38969fa43c2dd1cbb15b515014a9176a38b54c9a7a360d66d0d5b896e8249594"
+    },
+    {
+      "path": "evaluation-review/verify_evaluation.py",
+      "sha256": "09ac83da72a910e1d4b195c6cd24ae3af0a6db107d2ad83f059940a23ba2577d"
+    }
+  ],
+  "frozenUTC": "2026-10-02T21:33:09Z",
+  "reviewScope": "15 independent selection cases +17 author tests; one future retrieval case deferred. Evaluation5 independent +12 author tests; no classifier or source execution.",
+  "prospectiveClarifications": [
+    "Oversized arbitrary bodies cannot be fully preserved under a byte cap; declared oversize rejected pre-body, unknown-length cap retains explicitly incomplete diagnostic prefix only.",
+    "Later selected-record metadata projection uses deep equality preserving JSON types/null/absence/array order; full-response/page raw bytes separately hashed."
+  ]
+}

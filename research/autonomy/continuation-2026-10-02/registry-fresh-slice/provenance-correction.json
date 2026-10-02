@@ -1,0 +1,13 @@
+{
+  "schema": "coordinator-provenance-correction/1",
+  "as_of_utc": "2026-10-02T21:31:29Z",
+  "workers": [
+    "/root/registry_exposure_audit",
+    "/root/registry_metadata_acquisition",
+    "/root/registry_selection_review"
+  ],
+  "requested_effort": "medium",
+  "model_override": "omitted; inherited model, exact serving telemetry unavailable",
+  "reason": "Some worker receipts describe effort as inherited. Coordinator spawn record explicitly requested medium; original receipts remain preserved.",
+  "scope": "Requested configuration only, not certification of actual serving runtime."
+}
