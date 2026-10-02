@@ -1,0 +1,130 @@
+{
+  "schema": "emc-usz-junction-input-audit/1",
+  "date": "2026-10-02",
+  "status": "complete_missing_input_no_scientific_change",
+  "question": "Does a changed authoritative cached source now provide a nucleotide-resolved USZ20-EMC1 or USZ22-EMC2 junction, a native FoundationOne HEME NR4A3 transcript reference, or a demonstrated current source-to-model provenance mismatch?",
+  "entry_condition": "Proceed to one read-only compatibility audit only for one such changed input or independently demonstrated mismatch; otherwise stop.",
+  "outcome": "Entry condition not met: the model evidence and all four cited cached sources retain their known/original Git blob identities. No compatibility computation or scientific repair was undertaken.",
+  "main_base": "0a587508867813adf25cb711dd227ade08f5506f",
+  "literature_cache_ref": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+  "ownership": {
+    "ledger_path": "research/autonomy/research-ledger.json",
+    "ledger_blob": "79983403fd38d9ec5be3533bcf91b3af36c2657b",
+    "entries": 415,
+    "non_null_owners": 0,
+    "scope": "Point-in-time read of the existing research ledger; no remote legacy claim, scheduler cutover or shared queue write."
+  },
+  "model_evidence": {
+    "path": "research/modalities/emc-model-junction-evidence.json",
+    "current_blob": "7d672031cc98ea1529303515001b803f360ff012",
+    "known_previous_blob": "7d672031cc98ea1529303515001b803f360ff012",
+    "bytes": 21609,
+    "latest_path_commit": "ad87aa4c7c40729de3e8bc2d7f6e9fe3835415b4",
+    "latest_path_commit_utc": "2026-09-02T02:31:26Z",
+    "previous_handoff": {
+      "commit": "b4d16a0330e1990edffe25b22ec076326b92a87f",
+      "path": "research/autonomy/usage-sprint-2026-10-01/aso-tissue-join/handoff.md",
+      "blob": "6bd496d99698871cfdb2e2a878c78fce1c773b52"
+    }
+  },
+  "exact_original_current_cache_bindings": [
+    {
+      "path": "literature/emc-cell-models-round2b-2026-08-15/ftxt_PMC9813045_usz.txt",
+      "current_ref": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "current_blob": "6545d693685587fe28d264b3c53d55bd4c0532fd",
+      "original_path_commit": "72e0d48da326cf25b732780b07bf62da4d83f9ca",
+      "original_blob": "6545d693685587fe28d264b3c53d55bd4c0532fd",
+      "bytes": 70078,
+      "latest_path_update_utc": "2026-08-15T17:28:01Z",
+      "historical_source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9813045/fullTextXML"
+    },
+    {
+      "path": "literature/emc-cell-models-round2b-2026-08-15/ucsc_NR4A3_refseq_hg38.txt",
+      "current_ref": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "current_blob": "bffdadad9996d8884cba6f3b1189959e7363d720",
+      "original_path_commit": "72e0d48da326cf25b732780b07bf62da4d83f9ca",
+      "original_blob": "bffdadad9996d8884cba6f3b1189959e7363d720",
+      "bytes": 2834,
+      "latest_path_update_utc": "2026-08-15T17:28:01Z",
+      "historical_source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=ncbiRefSeqCurated;chrom=chr9;start=99815000;end=99900000"
+    },
+    {
+      "path": "literature/emc-cell-models-registry-2026-08-15/cellosaurus_usz20_emc1.txt",
+      "current_ref": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "current_blob": "004916396e4adc966e7aedfd08da24c5757e9df9",
+      "original_path_commit": "680fcf2b965f42322442fa74b8c2c19f5c069d24",
+      "original_blob": "004916396e4adc966e7aedfd08da24c5757e9df9",
+      "bytes": 2073,
+      "latest_path_update_utc": "2026-08-15T17:12:40Z",
+      "historical_source_url": "https://api.cellosaurus.org/search/cell-line?q=USZ20-EMC1&format=txt&rows=50"
+    },
+    {
+      "path": "literature/emc-cell-models-registry-2026-08-15/cellosaurus_usz22_emc2.txt",
+      "current_ref": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "current_blob": "1b4f2a3566e32e3cd1403dd5c978756246c07cb6",
+      "original_path_commit": "680fcf2b965f42322442fa74b8c2c19f5c069d24",
+      "original_blob": "1b4f2a3566e32e3cd1403dd5c978756246c07cb6",
+      "bytes": 2373,
+      "latest_path_update_utc": "2026-08-15T17:12:40Z",
+      "historical_source_url": "https://api.cellosaurus.org/search/cell-line?q=USZ22-EMC2&format=txt&rows=50"
+    }
+  ],
+  "historical_metadata_manifests": [
+    {
+      "path": "literature/emc-cell-models-round2b-2026-08-15/_manifest.json",
+      "blob": "8a2c9d977d6b151551edb3e27b795c4006a425e5"
+    },
+    {
+      "path": "literature/emc-cell-models-registry-2026-08-15/_manifest.json",
+      "blob": "2771c35b46094aac3e46ffa0a4b66801adc3878c"
+    }
+  ],
+  "existing_record_states": {
+    "primary_article": {
+      "pmid": "36316541",
+      "pmcid": "PMC9813045",
+      "doi": "10.1007/s13577-022-00818-x"
+    },
+    "models": [
+      {
+        "model": "USZ20-EMC1",
+        "rrid": "RRID:CVCL_C6MX",
+        "reported_junction": "EWSR1 exon 13 :: NR4A3 exon 2",
+        "nucleotide_boundary": "unknown",
+        "native_assay_nr4a3_transcript_reference": "unknown"
+      },
+      {
+        "model": "USZ22-EMC2",
+        "rrid": "RRID:CVCL_C6MY",
+        "reported_junction": "TAF15 exon 6 :: NR4A3 exon 2",
+        "nucleotide_boundary": "unknown",
+        "native_assay_nr4a3_transcript_reference": "unknown"
+      }
+    ],
+    "source_independence": "Both Cellosaurus records cite the same primary paper; registry reuse is not independent corroboration.",
+    "public_reference_context": "Cached curated RefSeq NR4A3 models are public annotation context, not the assay's native transcript reference. Exon labels and transcript reference identity do not establish a nucleotide-resolved patient junction.",
+    "supplementary_input": "The existing record reports a historical empty supplementaryFiles response. No retry was performed; unanswered input is not evidence that the supplement or junction information is absent.",
+    "compatibility_audit": "not_entered",
+    "source_to_model_mismatch": "none independently demonstrated in this input-fingerprint entry check"
+  },
+  "method": {
+    "performed": [
+      "Read current guidance, main/PR/sprint refs, handover and point-in-time owner ledger.",
+      "Read the existing model evidence and existing source manifests/directory metadata.",
+      "Compared exact current cached-file Git blobs with each original latest-path commit."
+    ],
+    "not_performed": [
+      "External source acquisition or supplement retry",
+      "Old paper/model-junction scientific audit",
+      "Transcript reconstruction, compatibility alignment, expression kernel, rescreen or oligo design",
+      "New scientific tests or full publication verification"
+    ],
+    "metadata_limit": "Original manifests record URLs/status/type/character counts, not raw SHA256. This audit uses repository Git blob identity, not new HTTP results or a new source retrieval. It does not establish that no new information exists outside the checked committed inputs."
+  },
+  "validation_at_generation": {
+    "normal_fast": "pending exact-revision GitHub Actions operational check",
+    "independent_review": "pending root source/method/prose review; completed result will be recorded in the final receipt"
+  },
+  "next_action": "Reopen only after a qualifying changed authoritative junction read or native assay transcript reference is supplied, or an independently demonstrated current provenance mismatch. A transcript reference may clarify numbering without settling a nucleotide boundary. Stop again if neither is available.",
+  "authorship": "Codex AI assistant; independent LLM review is not human scientific validation."
+}

@@ -1,0 +1,128 @@
+{
+  "schema": "emc-usage-sprint-validation/1",
+  "task": "chrna6-specimen-crosswalk",
+  "ai_authorship": "Codex AI assistant; coordinator independent LLM evidence/code/prose review; no human scientific validation",
+  "branch": "codex/usage-sprint-2026-10-01-chrna6-specimen-crosswalk",
+  "base_main_commit": "7f0971a331272695dcfe4b2a7fac554185b398d9",
+  "initial_source_commit": "98051296780d146e862810a2f3daf75e055f266b",
+  "evidence_checkpoint": "f4a73448476d190f68b7812ac996065be0660b48",
+  "tested_source_commit": "9bfd7112bf76f184d632e4d72fea3fa95f5e9d34",
+  "source_artifacts": {
+    "evidence.json": {
+      "bytes": 41711,
+      "sha256": "bda7d71678705ba84f82381dba49a3d47eacbfa4fb9cea4552def0e837919ffb",
+      "git_blob_sha": "aa69fe21fcaa56ac9c63ca33bbe438b7b2235706"
+    },
+    "acquire.py": {
+      "git_blob_sha": "bb805627cba467dc3d77ed2a33ef831fb048a6bb"
+    },
+    "test_acquire.py": {
+      "git_blob_sha": "a4ae703c9537a0a5e93bf24f488dbae0609aeafa"
+    },
+    ".github/workflows/usage-sprint-chrna6-specimen-crosswalk.yml": {
+      "git_blob_sha": "e6e8a1220b81738905b2148c2df1907de1210d72"
+    },
+    "source-findings.json": {
+      "git_blob_sha": "d94714f3f0d5db522791d5ec970970047a2393b9",
+      "independently_reviewed_observations_blob": "77f9fe60b78adafa5e072c883f0fa69c1e862e81",
+      "change_after_review": "AI authorship/review status only"
+    }
+  },
+  "validation": {
+    "initial_acquisition": {
+      "run_id": 36951680169,
+      "job_id": 110665777636,
+      "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36951680169",
+      "tested_commit": "98051296780d146e862810a2f3daf75e055f266b",
+      "conclusion": "success",
+      "started_at": "2026-10-02T01:35:45Z",
+      "completed_at": "2026-10-02T01:39:06Z",
+      "actual_python": "3.11.16",
+      "synthetic_test_cases_passed": 26,
+      "performed": [
+        "one finite official-metadata/publisher source cycle",
+        "immediate offline evidence validation",
+        "normal default FAST preflight",
+        "clean tracked diff"
+      ],
+      "source_records_acquired": 3,
+      "metadata_records_identity_bound": 2,
+      "full_article_methods_acquired": false,
+      "specimen_crosswalk_obtained": false,
+      "original_deadline_enforcement": "ordinary TimeoutError 180-second alarm could be caught; four-minute workflow step hard cap. Actual source cycle completed in about 2.2 seconds.",
+      "log": {
+        "path": "acquisition-original.log",
+        "git_blob_sha": "4d45900dfb370cd79671fb9d1cc53c7e79591021"
+      }
+    },
+    "settled_offline": {
+      "run_id": 36952479957,
+      "job_id": 110668444392,
+      "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36952479957",
+      "tested_commit": "9bfd7112bf76f184d632e4d72fea3fa95f5e9d34",
+      "conclusion": "success",
+      "started_at": "2026-10-02T01:46:49Z",
+      "completed_at": "2026-10-02T01:50:06Z",
+      "actual_python": "3.11.16",
+      "synthetic_test_cases_passed": 32,
+      "performed": [
+        "32 synthetic provenance/unsupported-inference/robots/deadline cases",
+        "committed evidence offline validation",
+        "normal default FAST preflight",
+        "clean tracked diff"
+      ],
+      "actually_skipped": [
+        "source acquisition",
+        "source artifact upload"
+      ],
+      "preflight_verdict": "PREFLIGHT OK (fast gates only (doc + artifact linters))",
+      "log": {
+        "path": "settled-original.log",
+        "git_blob_sha": "45f13b5641c472eb8ac3d5726b92d1a59d29021a"
+      }
+    },
+    "not_run": [
+      "full scientific suites",
+      "full publication preflight",
+      "expression or CISH reanalysis",
+      "model inference/API",
+      "human scientific validation"
+    ]
+  },
+  "independent_review": {
+    "reviewer": "root coordinator; independent LLM",
+    "source_and_methods": "Original acquisition transcript/output bytes, all three raw source byte counts/hashes, PMID/DOI identity, indexed primary abstract, publisher redirect classification, source-findings raw pointers/substrings and qualified missing-input result checked independently.",
+    "code": "Named robots decision/origin replay and hard deadline repair plus final request-handler propagation fixture reviewed.",
+    "reviewed_commit": "9bfd7112bf76f184d632e4d72fea3fa95f5e9d34",
+    "reviewed_handoff_git_blob": "939d1ac46c00e006a4ab7018bc4c396e5aa7b649",
+    "reviewed_findings_git_blob": "77f9fe60b78adafa5e072c883f0fa69c1e862e81",
+    "result": "cleared"
+  },
+  "ownership": {
+    "fresh_ledger_git_blob": "79983403fd38d9ec5be3533bcf91b3af36c2657b",
+    "entries": 415,
+    "non_null_owners": 0,
+    "legacy_handover_git_blob": "e47c7ad1fe0def96a8a24b2073008668682a2519",
+    "legacy_driver": "disabled",
+    "remote_legacy_claim_created": false,
+    "complete": true,
+    "current_owner": "coordinator"
+  },
+  "scientific_outcome": {
+    "crosswalk_status": "not_established",
+    "independent_validation": "not_established",
+    "patient_overlap": "unknown",
+    "reason": "No reviewed specimen/patient crosswalk binds the CHRNA6 discovery/validation study to the existing GEO cohort. Accessible abstract or link metadata alone cannot adjudicate reuse.",
+    "specimen_overlap": "unknown"
+  },
+  "limitations": [
+    "Indexed access flags and lack of acquired full methods do not prove global source/supplement/crosswalk absence.",
+    "Reported CISH or GEO records cannot establish unique patients/specimens or independent validation.",
+    "Source-integrity checks and FAST preflight are not full scientific/publication validation."
+  ],
+  "final_checkpoint_changes": "docs, operational receipt/review status and preserved settled log only; tested code, workflow and raw evidence unchanged",
+  "next_bounded_task": "Reopen overlap only with a distinct authorized accessible primary crosswalk/method source; otherwise inspect current GPL3290 completed outputs/owners for a separate bounded CHRNA6 coverage/reference-pool compatibility evidence audit.",
+  "prohibited_actions_performed": [],
+  "no_pr_merge_publication_or_gpu_dispatch": true,
+  "model_effort_ids_and_usage": "not exposed; remaining subscription capacity unknown"
+}

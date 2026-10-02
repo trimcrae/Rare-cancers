@@ -1,0 +1,666 @@
+﻿2026-10-02T21:38:57.9035932Z Current runner version: '2.337.0'
+2026-10-02T21:38:57.9060017Z ##[group]Runner Image Provisioner
+2026-10-02T21:38:57.9060935Z Hosted Compute Agent
+2026-10-02T21:38:57.9061508Z Version: 20260901.588
+2026-10-02T21:38:57.9062276Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-02T21:38:57.9063382Z Build Date: 2026-09-01T19:56:44Z
+2026-10-02T21:38:57.9064119Z Worker ID: {d351a414-2966-43ea-89be-429aca08d40f}
+2026-10-02T21:38:57.9064867Z Azure Region: westcentralus
+2026-10-02T21:38:57.9065471Z ##[endgroup]
+2026-10-02T21:38:57.9067300Z ##[group]Operating System
+2026-10-02T21:38:57.9068003Z Ubuntu
+2026-10-02T21:38:57.9068509Z 24.04.5
+2026-10-02T21:38:57.9069233Z LTS
+2026-10-02T21:38:57.9069745Z ##[endgroup]
+2026-10-02T21:38:57.9070326Z ##[group]Runner Image
+2026-10-02T21:38:57.9070960Z Image: ubuntu-24.04
+2026-10-02T21:38:57.9071510Z Version: 20260927.320.1
+2026-10-02T21:38:57.9073346Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-02T21:38:57.9075033Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-02T21:38:57.9076075Z ##[endgroup]
+2026-10-02T21:38:57.9077281Z ##[group]GITHUB_TOKEN Permissions
+2026-10-02T21:38:57.9079139Z Contents: read
+2026-10-02T21:38:57.9079745Z Metadata: read
+2026-10-02T21:38:57.9080522Z ##[endgroup]
+2026-10-02T21:38:57.9082829Z Secret source: Actions
+2026-10-02T21:38:57.9083902Z Cache mode: write
+2026-10-02T21:38:57.9084602Z Prepare workflow directory
+2026-10-02T21:38:57.9422241Z Prepare all required actions
+2026-10-02T21:38:57.9469782Z Getting action download info
+2026-10-02T21:38:58.2499891Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-02T21:38:58.3344933Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-02T21:38:58.5180852Z Complete job name: combined-offline
+2026-10-02T21:38:58.6001372Z ##[group]Run actions/checkout@v4
+2026-10-02T21:38:58.6002520Z with:
+2026-10-02T21:38:58.6002969Z   fetch-depth: 1
+2026-10-02T21:38:58.6003430Z   persist-credentials: false
+2026-10-02T21:38:58.6003954Z   repository: trimcrae/Rare-cancers
+2026-10-02T21:38:58.6008004Z   token: ***
+2026-10-02T21:38:58.6008434Z   ssh-strict: true
+2026-10-02T21:38:58.6008864Z   ssh-user: git
+2026-10-02T21:38:58.6009282Z   clean: true
+2026-10-02T21:38:58.6009718Z   sparse-checkout-cone-mode: true
+2026-10-02T21:38:58.6010237Z   fetch-tags: false
+2026-10-02T21:38:58.6010668Z   show-progress: true
+2026-10-02T21:38:58.6011102Z   lfs: false
+2026-10-02T21:38:58.6011512Z   submodules: false
+2026-10-02T21:38:58.6011951Z   set-safe-directory: true
+2026-10-02T21:38:58.6012846Z   allow-unsafe-pr-checkout: false
+2026-10-02T21:38:58.6013731Z ##[endgroup]
+2026-10-02T21:38:58.7020197Z Syncing repository: trimcrae/Rare-cancers
+2026-10-02T21:38:58.7021962Z ##[group]Getting Git version info
+2026-10-02T21:38:58.7023111Z Working directory is '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-10-02T21:38:58.7024185Z [command]/usr/bin/git version
+2026-10-02T21:38:58.7118658Z git version 2.55.0
+2026-10-02T21:38:58.7121970Z ##[endgroup]
+2026-10-02T21:38:58.7133507Z Temporarily overriding HOME='/home/runner/work/_temp/819c9e3c-afa8-4513-a778-2079feba08be' before making global git config changes
+2026-10-02T21:38:58.7136455Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-02T21:38:58.7140410Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-02T21:38:58.7194661Z Deleting the contents of '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-10-02T21:38:58.7198838Z ##[group]Initializing the repository
+2026-10-02T21:38:58.7204123Z [command]/usr/bin/git init /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-02T21:38:58.7325760Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-02T21:38:58.7327192Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-02T21:38:58.7328436Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-02T21:38:58.7329240Z hint: call:
+2026-10-02T21:38:58.7329637Z hint:
+2026-10-02T21:38:58.7330158Z hint: 	git config --global init.defaultBranch <name>
+2026-10-02T21:38:58.7330785Z hint:
+2026-10-02T21:38:58.7331366Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-02T21:38:58.7332288Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-02T21:38:58.7333866Z hint:
+2026-10-02T21:38:58.7334619Z hint: 	git branch -m <name>
+2026-10-02T21:38:58.7335439Z hint:
+2026-10-02T21:38:58.7336524Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-02T21:38:58.7338087Z Initialized empty Git repository in /home/runner/work/Rare-cancers/Rare-cancers/.git/
+2026-10-02T21:38:58.7348793Z [command]/usr/bin/git remote add origin https://github.com/trimcrae/Rare-cancers
+2026-10-02T21:38:58.7398681Z ##[endgroup]
+2026-10-02T21:38:58.7399513Z ##[group]Disabling automatic garbage collection
+2026-10-02T21:38:58.7403119Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-02T21:38:58.7446030Z ##[endgroup]
+2026-10-02T21:38:58.7447317Z ##[group]Setting up auth
+2026-10-02T21:38:58.7454603Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-02T21:38:58.7491094Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-02T21:38:58.7844708Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-02T21:38:58.7885682Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-02T21:38:58.8109312Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-02T21:38:58.8144799Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-02T21:38:58.8369118Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-02T21:38:58.8408339Z ##[endgroup]
+2026-10-02T21:38:58.8409772Z ##[group]Fetching the repository
+2026-10-02T21:38:58.8420481Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e2f157d402e4a262a1e4d9e49c5be657e9ea5d8b:refs/remotes/origin/codex/usage-sprint-2026-10-01-integrate-completed
+2026-10-02T21:39:07.4889922Z From https://github.com/trimcrae/Rare-cancers
+2026-10-02T21:39:07.4891978Z  * [new ref]         e2f157d402e4a262a1e4d9e49c5be657e9ea5d8b -> origin/codex/usage-sprint-2026-10-01-integrate-completed
+2026-10-02T21:39:07.4895761Z ##[endgroup]
+2026-10-02T21:39:07.4896949Z ##[group]Determining the checkout info
+2026-10-02T21:39:07.4898240Z ##[endgroup]
+2026-10-02T21:39:07.4898987Z [command]/usr/bin/git sparse-checkout disable
+2026-10-02T21:39:07.4940823Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-02T21:39:07.4975540Z ##[group]Checking out the ref
+2026-10-02T21:39:07.4988285Z [command]/usr/bin/git checkout --progress --force -B codex/usage-sprint-2026-10-01-integrate-completed refs/remotes/origin/codex/usage-sprint-2026-10-01-integrate-completed
+2026-10-02T21:39:08.5096137Z Updating files:  34% (2972/8494)
+2026-10-02T21:39:08.5295735Z Updating files:  35% (2973/8494)
+2026-10-02T21:39:08.6316918Z Updating files:  36% (3058/8494)
+2026-10-02T21:39:08.6425280Z Updating files:  37% (3143/8494)
+2026-10-02T21:39:08.6528444Z Updating files:  38% (3228/8494)
+2026-10-02T21:39:08.6648050Z Updating files:  39% (3313/8494)
+2026-10-02T21:39:08.6749864Z Updating files:  40% (3398/8494)
+2026-10-02T21:39:08.6808026Z Updating files:  41% (3483/8494)
+2026-10-02T21:39:08.6949516Z Updating files:  42% (3568/8494)
+2026-10-02T21:39:08.7046369Z Updating files:  43% (3653/8494)
+2026-10-02T21:39:08.7129259Z Updating files:  44% (3738/8494)
+2026-10-02T21:39:08.7207681Z Updating files:  45% (3823/8494)
+2026-10-02T21:39:08.7289887Z Updating files:  46% (3908/8494)
+2026-10-02T21:39:08.7361262Z Updating files:  47% (3993/8494)
+2026-10-02T21:39:08.7443454Z Updating files:  48% (4078/8494)
+2026-10-02T21:39:08.7565857Z Updating files:  49% (4163/8494)
+2026-10-02T21:39:08.7688909Z Updating files:  50% (4247/8494)
+2026-10-02T21:39:08.7856404Z Updating files:  51% (4332/8494)
+2026-10-02T21:39:08.7918031Z Updating files:  52% (4417/8494)
+2026-10-02T21:39:08.8234805Z Updating files:  53% (4502/8494)
+2026-10-02T21:39:08.9139899Z Updating files:  54% (4587/8494)
+2026-10-02T21:39:09.0069303Z Updating files:  55% (4672/8494)
+2026-10-02T21:39:09.0560200Z Updating files:  56% (4757/8494)
+2026-10-02T21:39:09.0937109Z Updating files:  57% (4842/8494)
+2026-10-02T21:39:09.1410032Z Updating files:  58% (4927/8494)
+2026-10-02T21:39:09.2121516Z Updating files:  59% (5012/8494)
+2026-10-02T21:39:09.2862558Z Updating files:  60% (5097/8494)
+2026-10-02T21:39:09.3005560Z Updating files:  61% (5182/8494)
+2026-10-02T21:39:09.3039053Z Updating files:  62% (5267/8494)
+2026-10-02T21:39:09.3072657Z Updating files:  63% (5352/8494)
+2026-10-02T21:39:09.3106745Z Updating files:  64% (5437/8494)
+2026-10-02T21:39:09.3140785Z Updating files:  65% (5522/8494)
+2026-10-02T21:39:09.3172926Z Updating files:  66% (5607/8494)
+2026-10-02T21:39:09.3207329Z Updating files:  67% (5691/8494)
+2026-10-02T21:39:09.3242228Z Updating files:  68% (5776/8494)
+2026-10-02T21:39:09.3277103Z Updating files:  69% (5861/8494)
+2026-10-02T21:39:09.3311155Z Updating files:  70% (5946/8494)
+2026-10-02T21:39:09.3344814Z Updating files:  71% (6031/8494)
+2026-10-02T21:39:09.3378826Z Updating files:  72% (6116/8494)
+2026-10-02T21:39:09.3413375Z Updating files:  73% (6201/8494)
+2026-10-02T21:39:09.3454036Z Updating files:  74% (6286/8494)
+2026-10-02T21:39:09.3506163Z Updating files:  75% (6371/8494)
+2026-10-02T21:39:09.3540068Z Updating files:  76% (6456/8494)
+2026-10-02T21:39:09.3574740Z Updating files:  77% (6541/8494)
+2026-10-02T21:39:09.3607492Z Updating files:  78% (6626/8494)
+2026-10-02T21:39:09.3640861Z Updating files:  79% (6711/8494)
+2026-10-02T21:39:09.3675851Z Updating files:  80% (6796/8494)
+2026-10-02T21:39:09.3710026Z Updating files:  81% (6881/8494)
+2026-10-02T21:39:09.3744236Z Updating files:  82% (6966/8494)
+2026-10-02T21:39:09.3783257Z Updating files:  83% (7051/8494)
+2026-10-02T21:39:09.3812366Z Updating files:  84% (7135/8494)
+2026-10-02T21:39:09.3848065Z Updating files:  85% (7220/8494)
+2026-10-02T21:39:09.3882684Z Updating files:  86% (7305/8494)
+2026-10-02T21:39:09.3918144Z Updating files:  87% (7390/8494)
+2026-10-02T21:39:09.3952960Z Updating files:  88% (7475/8494)
+2026-10-02T21:39:09.3987682Z Updating files:  89% (7560/8494)
+2026-10-02T21:39:09.4023951Z Updating files:  90% (7645/8494)
+2026-10-02T21:39:09.4059144Z Updating files:  91% (7730/8494)
+2026-10-02T21:39:09.4093555Z Updating files:  92% (7815/8494)
+2026-10-02T21:39:09.4127710Z Updating files:  93% (7900/8494)
+2026-10-02T21:39:09.4162619Z Updating files:  94% (7985/8494)
+2026-10-02T21:39:09.4197595Z Updating files:  95% (8070/8494)
+2026-10-02T21:39:09.4248888Z Updating files:  96% (8155/8494)
+2026-10-02T21:39:09.4413547Z Updating files:  97% (8240/8494)
+2026-10-02T21:39:09.4542246Z Updating files:  98% (8325/8494)
+2026-10-02T21:39:09.4631779Z Updating files:  99% (8410/8494)
+2026-10-02T21:39:09.4632601Z Updating files: 100% (8494/8494)
+2026-10-02T21:39:09.4633135Z Updating files: 100% (8494/8494), done.
+2026-10-02T21:39:09.4727967Z Switched to a new branch 'codex/usage-sprint-2026-10-01-integrate-completed'
+2026-10-02T21:39:09.4734375Z branch 'codex/usage-sprint-2026-10-01-integrate-completed' set up to track 'origin/codex/usage-sprint-2026-10-01-integrate-completed'.
+2026-10-02T21:39:09.4804964Z ##[endgroup]
+2026-10-02T21:39:09.4860048Z [command]/usr/bin/git log -1 --format=%H
+2026-10-02T21:39:09.4888030Z e2f157d402e4a262a1e4d9e49c5be657e9ea5d8b
+2026-10-02T21:39:09.4899369Z ##[group]Removing auth
+2026-10-02T21:39:09.4904087Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-02T21:39:09.4939889Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-02T21:39:09.5175937Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-02T21:39:09.5204501Z http.https://github.com/.extraheader
+2026-10-02T21:39:09.5213911Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-02T21:39:09.5246852Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-02T21:39:09.5475459Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-02T21:39:09.5507354Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-02T21:39:09.5734345Z ##[endgroup]
+2026-10-02T21:39:09.5930171Z ##[group]Run test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+2026-10-02T21:39:09.5930643Z [36;1mtest "$(git rev-parse HEAD)" = "$GITHUB_SHA"[0m
+2026-10-02T21:39:09.5931234Z [36;1mgit -c protocol.version=2 fetch --no-tags --unshallow --no-recurse-submodules origin "$GITHUB_SHA"[0m
+2026-10-02T21:39:09.5931850Z [36;1mtest "$(git rev-parse --is-shallow-repository)" = "false"[0m
+2026-10-02T21:39:09.6193832Z shell: /usr/bin/bash -e {0}
+2026-10-02T21:39:09.6194140Z ##[endgroup]
+2026-10-02T21:39:39.3451691Z From https://github.com/trimcrae/Rare-cancers
+2026-10-02T21:39:39.3454833Z  * branch                e2f157d402e4a262a1e4d9e49c5be657e9ea5d8b -> FETCH_HEAD
+2026-10-02T21:39:39.3574821Z ##[group]Run actions/setup-python@v5
+2026-10-02T21:39:39.3575144Z with:
+2026-10-02T21:39:39.3575352Z   python-version: 3.11
+2026-10-02T21:39:39.3575597Z   check-latest: false
+2026-10-02T21:39:39.3578351Z   token: ***
+2026-10-02T21:39:39.3578572Z   update-environment: true
+2026-10-02T21:39:39.3578830Z   allow-prereleases: false
+2026-10-02T21:39:39.3579066Z   freethreaded: false
+2026-10-02T21:39:39.3579286Z ##[endgroup]
+2026-10-02T21:39:39.4873565Z ##[group]Installed versions
+2026-10-02T21:39:39.4956212Z (node:2537) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-02T21:39:39.4956942Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-02T21:39:39.4957962Z Successfully set up CPython (3.11.16)
+2026-10-02T21:39:39.4958732Z ##[endgroup]
+2026-10-02T21:39:39.5146229Z ##[group]Run git rev-parse HEAD
+2026-10-02T21:39:39.5146745Z [36;1mgit rev-parse HEAD[0m
+2026-10-02T21:39:39.5147154Z [36;1mgit rev-parse HEAD^{tree}[0m
+2026-10-02T21:39:39.5147587Z [36;1mpython3 --version[0m
+2026-10-02T21:39:39.5225777Z shell: /usr/bin/bash -e {0}
+2026-10-02T21:39:39.5226192Z env:
+2026-10-02T21:39:39.5226697Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.5227473Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T21:39:39.5228234Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.5228885Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.5229559Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.5230210Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T21:39:39.5230781Z ##[endgroup]
+2026-10-02T21:39:39.5369466Z e2f157d402e4a262a1e4d9e49c5be657e9ea5d8b
+2026-10-02T21:39:39.5386216Z 41d06e7539192c7191dacf91bc07d17c046f047c
+2026-10-02T21:39:39.5500906Z Python 3.11.16
+2026-10-02T21:39:39.5538047Z ##[group]Run python3 -c 'import json; print("scope="+json.load(open("research/autonomy/usage-sprint-2026-10-01/integrate-completed/integration-plan.json"))["validation_scope"])' >> "$GITHUB_OUTPUT"
+2026-10-02T21:39:39.5539691Z [36;1mpython3 -c 'import json; print("scope="+json.load(open("research/autonomy/usage-sprint-2026-10-01/integrate-completed/integration-plan.json"))["validation_scope"])' >> "$GITHUB_OUTPUT"[0m
+2026-10-02T21:39:39.5605425Z shell: /usr/bin/bash -e {0}
+2026-10-02T21:39:39.5605687Z env:
+2026-10-02T21:39:39.5605968Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.5606433Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T21:39:39.5606909Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.5607327Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.5607724Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.5608161Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T21:39:39.5608498Z ##[endgroup]
+2026-10-02T21:39:39.6166327Z ##[group]Run python3 research/autonomy/usage-sprint-2026-10-01/integrate-completed/check_integration.py
+2026-10-02T21:39:39.6167132Z [36;1mpython3 research/autonomy/usage-sprint-2026-10-01/integrate-completed/check_integration.py[0m
+2026-10-02T21:39:39.6231635Z shell: /usr/bin/bash -e {0}
+2026-10-02T21:39:39.6231904Z env:
+2026-10-02T21:39:39.6232180Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.6232998Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T21:39:39.6233461Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.6233874Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.6234277Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:39.6234686Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T21:39:39.6235020Z ##[endgroup]
+2026-10-02T21:39:39.9900007Z CATALOGUE_RENDERING_OK exact two rows and pure formatter; all literal metadata/warnings retained
+2026-10-02T21:39:39.9901704Z NATIVE_TYPE_CONTROLS_OK old title shapes fail MISSING; linked titles excluded; explicit classification still fails MISSING
+2026-10-02T21:39:39.9903611Z HANDOFF_TYPE_CONTROL_OK original diagnostic fails MISSING; current full handoff contains no native type claim
+2026-10-02T21:39:39.9905261Z CANCELLED_FOURTH_LOG_OK retained timeout; observed singleton native K1 witness reused; cleanup/current FAST unclaimed
+2026-10-02T21:39:39.9906893Z HANDOFF_LINKS_OK actual relative targets exist; planned future receipt is named without a premature link
+2026-10-02T21:39:39.9908546Z PROSE_FAILED_LOG_OK third original trace retains only generic systems failure; separate fourth native witness proves exact K1
+2026-10-02T21:39:39.9910046Z CATALOGUE_FAILED_LOG_OK second original failed transcript/verdict preserved
+2026-10-02T21:39:39.9911185Z INITIAL_FAILED_LOG_OK original observed two annotations and exact bytes/hash preserved
+2026-10-02T21:39:39.9912892Z INTEGRATION_IDENTITIES_OK 72 source paths; 8406 main entries preserved; nine source ancestors/two-parent merges
+2026-10-02T21:39:39.9914481Z TERMINAL_GROUPING_OK eight original AST bodies/four meaningful families; fourteen scenario markers
+2026-10-02T21:39:39.9915793Z AMENDMENT_APPEND_OK six declarations; every prior source log byte preserved
+2026-10-02T21:39:39.9917100Z MAIN_CI_HISTORY_OK exact pytest immutable-ref history repair; both original base/witness objects available
+2026-10-02T21:39:39.9918511Z REUSED_SCIENCE_BINDINGS_OK six tissue inputs and USZ model; historical audits not rerun
+2026-10-02T21:39:39.9919838Z IMMUTABLE_HEAD_HISTORY_OK full exact tested ancestry; no unrelated branch/tag refs requested
+2026-10-02T21:39:39.9920933Z HEAD e2f157d402e4a262a1e4d9e49c5be657e9ea5d8b
+2026-10-02T21:39:40.0098786Z ##[group]Run python3 -m pip install uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+2026-10-02T21:39:40.0100057Z [36;1mpython3 -m pip install uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi[0m
+2026-10-02T21:39:40.0167766Z shell: /usr/bin/bash -e {0}
+2026-10-02T21:39:40.0168024Z env:
+2026-10-02T21:39:40.0168307Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:40.0168769Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T21:39:40.0169238Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:40.0169647Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:40.0170052Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:39:40.0170481Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T21:39:40.0170823Z ##[endgroup]
+2026-10-02T21:39:41.2044452Z Collecting uv
+2026-10-02T21:39:41.2993502Z   Downloading uv-0.12.22-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (11 kB)
+2026-10-02T21:39:41.3487505Z Collecting pytest
+2026-10-02T21:39:41.3681966Z   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+2026-10-02T21:39:41.4033908Z Collecting pytest-xdist
+2026-10-02T21:39:41.4226792Z   Downloading pytest_xdist-3.8.0-py3-none-any.whl.metadata (3.0 kB)
+2026-10-02T21:39:41.6784244Z Collecting numpy
+2026-10-02T21:39:41.6984834Z   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-10-02T21:39:41.8540059Z Collecting scipy
+2026-10-02T21:39:41.8736144Z   Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+2026-10-02T21:39:41.9687275Z Collecting pymbar
+2026-10-02T21:39:41.9888901Z   Downloading pymbar-4.0.3-py3-none-any.whl.metadata (1.2 kB)
+2026-10-02T21:39:42.0818006Z Collecting rdkit
+2026-10-02T21:39:42.1051158Z   Downloading rdkit-2026.3.6-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+2026-10-02T21:39:42.1567063Z Collecting pyyaml
+2026-10-02T21:39:42.1762751Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-10-02T21:39:42.4783051Z Collecting boto3
+2026-10-02T21:39:42.4978311Z   Downloading boto3-1.43.108-py3-none-any.whl.metadata (6.6 kB)
+2026-10-02T21:39:42.5385311Z Collecting jsonschema
+2026-10-02T21:39:42.5564287Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-10-02T21:39:42.6099569Z Collecting biopython
+2026-10-02T21:39:42.6310791Z   Downloading biopython-1.88-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (13 kB)
+2026-10-02T21:39:42.6627128Z Collecting pdfminer.six
+2026-10-02T21:39:42.6821012Z   Downloading pdfminer_six-20260107-py3-none-any.whl.metadata (4.3 kB)
+2026-10-02T21:39:42.7193773Z Collecting pypdf
+2026-10-02T21:39:42.7386345Z   Downloading pypdf-6.19.0-py3-none-any.whl.metadata (7.5 kB)
+2026-10-02T21:39:42.7704273Z Collecting pdfplumber
+2026-10-02T21:39:42.7898173Z   Downloading pdfplumber-0.11.10-py3-none-any.whl.metadata (43 kB)
+2026-10-02T21:39:42.9469866Z Collecting matplotlib
+2026-10-02T21:39:42.9668935Z   Downloading matplotlib-3.11.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (80 kB)
+2026-10-02T21:39:43.0563968Z Collecting netCDF4
+2026-10-02T21:39:43.0765073Z   Downloading netcdf4-1.7.4-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (2.1 kB)
+2026-10-02T21:39:43.1946620Z Collecting cffi
+2026-10-02T21:39:43.2138813Z   Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+2026-10-02T21:39:43.2407391Z Collecting iniconfig>=1.0.1 (from pytest)
+2026-10-02T21:39:43.2599804Z   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-02T21:39:43.2894133Z Collecting packaging>=22 (from pytest)
+2026-10-02T21:39:43.3092178Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-10-02T21:39:43.3358553Z Collecting pluggy<2,>=1.5 (from pytest)
+2026-10-02T21:39:43.3549338Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+2026-10-02T21:39:43.3870262Z Collecting pygments>=2.7.2 (from pytest)
+2026-10-02T21:39:43.4063265Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-02T21:39:43.4556283Z Collecting execnet>=2.1 (from pytest-xdist)
+2026-10-02T21:39:43.4748532Z   Downloading execnet-2.1.2-py3-none-any.whl.metadata (2.9 kB)
+2026-10-02T21:39:43.5688376Z Collecting numexpr (from pymbar)
+2026-10-02T21:39:43.5886655Z   Downloading numexpr-2.14.2-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.0 kB)
+2026-10-02T21:39:43.7726255Z Collecting Pillow (from rdkit)
+2026-10-02T21:39:43.7920997Z   Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+2026-10-02T21:39:44.0661630Z Collecting botocore<1.44.0,>=1.43.108 (from boto3)
+2026-10-02T21:39:44.0860184Z   Downloading botocore-1.43.108-py3-none-any.whl.metadata (5.6 kB)
+2026-10-02T21:39:44.1133372Z Collecting jmespath<2.0.0,>=0.7.1 (from boto3)
+2026-10-02T21:39:44.1325352Z   Downloading jmespath-1.1.0-py3-none-any.whl.metadata (7.6 kB)
+2026-10-02T21:39:44.1629320Z Collecting s3transfer<0.20.0,>=0.19.0 (from boto3)
+2026-10-02T21:39:44.1823259Z   Downloading s3transfer-0.19.2-py3-none-any.whl.metadata (1.7 kB)
+2026-10-02T21:39:44.2106474Z Collecting python-dateutil<3.0.0,>=2.1 (from botocore<1.44.0,>=1.43.108->boto3)
+2026-10-02T21:39:44.2299345Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-10-02T21:39:44.2657253Z Collecting urllib3!=2.2.0,<3,>=1.25.4 (from botocore<1.44.0,>=1.43.108->boto3)
+2026-10-02T21:39:44.2856396Z   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+2026-10-02T21:39:44.3144567Z Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.1->botocore<1.44.0,>=1.43.108->boto3)
+2026-10-02T21:39:44.3340292Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-10-02T21:39:44.3788634Z Collecting attrs>=22.2.0 (from jsonschema)
+2026-10-02T21:39:44.3980316Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-10-02T21:39:44.4282871Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema)
+2026-10-02T21:39:44.4476568Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-10-02T21:39:44.4818780Z Collecting referencing>=0.28.4 (from jsonschema)
+2026-10-02T21:39:44.5010825Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-10-02T21:39:44.7671386Z Collecting rpds-py>=0.25.0 (from jsonschema)
+2026-10-02T21:39:44.7867836Z   Downloading rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-10-02T21:39:44.9558383Z Collecting charset-normalizer>=2.0.0 (from pdfminer.six)
+2026-10-02T21:39:44.9756364Z   Downloading charset_normalizer-3.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (46 kB)
+2026-10-02T21:39:45.1713511Z Collecting cryptography>=36.0.0 (from pdfminer.six)
+2026-10-02T21:39:45.1909019Z   Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.4 kB)
+2026-10-02T21:39:45.2869101Z Collecting pypdfium2>=5.9.0 (from pdfplumber)
+2026-10-02T21:39:45.3068670Z   Downloading pypdfium2-5.13.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (66 kB)
+2026-10-02T21:39:45.3852840Z Collecting contourpy>=1.0.1 (from matplotlib)
+2026-10-02T21:39:45.4045703Z   Downloading contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.5 kB)
+2026-10-02T21:39:45.4311305Z Collecting cycler>=0.10 (from matplotlib)
+2026-10-02T21:39:45.4505537Z   Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+2026-10-02T21:39:45.6490070Z Collecting fonttools>=4.28.2 (from matplotlib)
+2026-10-02T21:39:45.6684703Z   Downloading fonttools-4.66.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (130 kB)
+2026-10-02T21:39:45.7616292Z Collecting kiwisolver>=1.3.1 (from matplotlib)
+2026-10-02T21:39:45.7811589Z   Downloading kiwisolver-1.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.2 kB)
+2026-10-02T21:39:45.8215355Z Collecting pyparsing>=3 (from matplotlib)
+2026-10-02T21:39:45.8414366Z   Downloading pyparsing-3.3.3-py3-none-any.whl.metadata (5.9 kB)
+2026-10-02T21:39:45.9030201Z Collecting cftime (from netCDF4)
+2026-10-02T21:39:45.9241993Z   Downloading cftime-1.6.6-cp311-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.7 kB)
+2026-10-02T21:39:45.9569026Z Collecting certifi (from netCDF4)
+2026-10-02T21:39:45.9779681Z   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+2026-10-02T21:39:46.0067781Z Collecting pycparser (from cffi)
+2026-10-02T21:39:46.0261295Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-10-02T21:39:46.0667541Z Collecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema)
+2026-10-02T21:39:46.0860387Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-10-02T21:39:46.1158617Z Downloading uv-0.12.22-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20.6 MB)
+2026-10-02T21:39:46.3205876Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 20.6/20.6 MB 110.4 MB/s  0:00:00
+2026-10-02T21:39:46.3400184Z Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+2026-10-02T21:39:46.3622659Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+2026-10-02T21:39:46.3846813Z Downloading pytest_xdist-3.8.0-py3-none-any.whl (46 kB)
+2026-10-02T21:39:46.4060943Z Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2026-10-02T21:39:46.4595562Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 327.6 MB/s  0:00:00
+2026-10-02T21:39:46.4803250Z Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+2026-10-02T21:39:46.6060624Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 285.6 MB/s  0:00:00
+2026-10-02T21:39:46.6276459Z Downloading pymbar-4.0.3-py3-none-any.whl (107 kB)
+2026-10-02T21:39:46.6498376Z Downloading rdkit-2026.3.6-cp311-cp311-manylinux_2_28_x86_64.whl (38.2 MB)
+2026-10-02T21:39:46.8425589Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 38.2/38.2 MB 201.2 MB/s  0:00:00
+2026-10-02T21:39:46.8623530Z Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+2026-10-02T21:39:46.8675043Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 175.3 MB/s  0:00:00
+2026-10-02T21:39:46.8868140Z Downloading boto3-1.43.108-py3-none-any.whl (140 kB)
+2026-10-02T21:39:46.9085798Z Downloading botocore-1.43.108-py3-none-any.whl (16.0 MB)
+2026-10-02T21:39:46.9539483Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.0/16.0 MB 367.9 MB/s  0:00:00
+2026-10-02T21:39:46.9738931Z Downloading jmespath-1.1.0-py3-none-any.whl (20 kB)
+2026-10-02T21:39:46.9953009Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-10-02T21:39:47.0169594Z Downloading s3transfer-0.19.2-py3-none-any.whl (90 kB)
+2026-10-02T21:39:47.0384247Z Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+2026-10-02T21:39:47.0601626Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-10-02T21:39:47.0839381Z Downloading biopython-1.88-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (3.2 MB)
+2026-10-02T21:39:47.1029238Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.2/3.2 MB 177.5 MB/s  0:00:00
+2026-10-02T21:39:47.1227503Z Downloading pdfminer_six-20260107-py3-none-any.whl (6.6 MB)
+2026-10-02T21:39:47.1420314Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 372.2 MB/s  0:00:00
+2026-10-02T21:39:47.1616545Z Downloading pypdf-6.19.0-py3-none-any.whl (395 kB)
+2026-10-02T21:39:47.1881145Z Downloading pdfplumber-0.11.10-py3-none-any.whl (60 kB)
+2026-10-02T21:39:47.2099558Z Downloading matplotlib-3.11.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (9.9 MB)
+2026-10-02T21:39:47.2526884Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.9/9.9 MB 236.3 MB/s  0:00:00
+2026-10-02T21:39:47.2730726Z Downloading netcdf4-1.7.4-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (10.4 MB)
+2026-10-02T21:39:47.3216453Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.4/10.4 MB 219.6 MB/s  0:00:00
+2026-10-02T21:39:47.3411242Z Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (217 kB)
+2026-10-02T21:39:47.3626002Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-10-02T21:39:47.3842990Z Downloading charset_normalizer-3.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (269 kB)
+2026-10-02T21:39:47.4059957Z Downloading contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (355 kB)
+2026-10-02T21:39:47.4282687Z Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl (4.8 MB)
+2026-10-02T21:39:47.4443070Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.8/4.8 MB 325.8 MB/s  0:00:00
+2026-10-02T21:39:47.4635051Z Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+2026-10-02T21:39:47.4854046Z Downloading execnet-2.1.2-py3-none-any.whl (40 kB)
+2026-10-02T21:39:47.5072544Z Downloading fonttools-4.66.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.4 MB)
+2026-10-02T21:39:47.5259608Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.4/5.4 MB 318.8 MB/s  0:00:00
+2026-10-02T21:39:47.5456886Z Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+2026-10-02T21:39:47.5670282Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-10-02T21:39:47.5889368Z Downloading kiwisolver-1.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.4 MB)
+2026-10-02T21:39:47.5967530Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 217.7 MB/s  0:00:00
+2026-10-02T21:39:47.6159346Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-10-02T21:39:47.6371395Z Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+2026-10-02T21:39:47.6572205Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 371.2 MB/s  0:00:00
+2026-10-02T21:39:47.6768791Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-10-02T21:39:47.6839174Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 263.5 MB/s  0:00:00
+2026-10-02T21:39:47.7033768Z Downloading pyparsing-3.3.3-py3-none-any.whl (126 kB)
+2026-10-02T21:39:47.7247003Z Downloading pypdfium2-5.13.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.7 MB)
+2026-10-02T21:39:47.7361512Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.7/3.7 MB 370.2 MB/s  0:00:00
+2026-10-02T21:39:47.7557023Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-10-02T21:39:47.7767241Z Downloading rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (371 kB)
+2026-10-02T21:39:47.7990116Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-10-02T21:39:47.8197724Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-10-02T21:39:47.8424320Z Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+2026-10-02T21:39:47.8690839Z Downloading cftime-1.6.6-cp311-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (1.7 MB)
+2026-10-02T21:39:47.8760832Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 283.0 MB/s  0:00:00
+2026-10-02T21:39:47.8970324Z Downloading numexpr-2.14.2-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (443 kB)
+2026-10-02T21:39:47.9193246Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-10-02T21:39:48.3403751Z Installing collected packages: uv, urllib3, typing-extensions, six, rpds-py, pyyaml, pypdfium2, pypdf, pyparsing, pygments, pycparser, pluggy, Pillow, packaging, numpy, kiwisolver, jmespath, iniconfig, fonttools, execnet, cycler, charset-normalizer, certifi, attrs, scipy, referencing, rdkit, python-dateutil, pytest, numexpr, contourpy, cftime, cffi, biopython, pytest-xdist, pymbar, netCDF4, matplotlib, jsonschema-specifications, cryptography, botocore, s3transfer, pdfminer.six, jsonschema, pdfplumber, boto3
+2026-10-02T21:40:01.6289317Z 
+2026-10-02T21:40:01.6314881Z Successfully installed Pillow-12.3.0 attrs-26.1.0 biopython-1.88 boto3-1.43.108 botocore-1.43.108 certifi-2026.7.22 cffi-2.1.1 cftime-1.6.6 charset-normalizer-3.5.2 contourpy-1.3.3 cryptography-50.0.2 cycler-0.12.1 execnet-2.1.2 fonttools-4.66.1 iniconfig-2.3.0 jmespath-1.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kiwisolver-1.5.1 matplotlib-3.11.2 netCDF4-1.7.4 numexpr-2.14.2 numpy-2.4.6 packaging-26.3 pdfminer.six-20260107 pdfplumber-0.11.10 pluggy-1.6.0 pycparser-3.0 pygments-2.21.0 pymbar-4.0.3 pyparsing-3.3.3 pypdf-6.19.0 pypdfium2-5.13.0 pytest-9.1.1 pytest-xdist-3.8.0 python-dateutil-2.9.0.post0 pyyaml-6.0.3 rdkit-2026.3.6 referencing-0.37.0 rpds-py-2026.6.3 s3transfer-0.19.2 scipy-1.17.1 six-1.17.0 typing-extensions-4.16.0 urllib3-2.8.0 uv-0.12.22
+2026-10-02T21:40:01.8229337Z ##[group]Run python3 systems/systems_check.py --check
+2026-10-02T21:40:01.8229765Z [36;1mpython3 systems/systems_check.py --check[0m
+2026-10-02T21:40:01.8293191Z shell: /usr/bin/bash -e {0}
+2026-10-02T21:40:01.8293462Z env:
+2026-10-02T21:40:01.8293747Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:40:01.8294219Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T21:40:01.8294679Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:40:01.8295105Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:40:01.8295512Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:40:01.8295930Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T21:40:01.8296263Z ##[endgroup]
+2026-10-02T21:40:12.1703255Z INFO  [B6]  33 publication endpoint(s) for 83 routes: 30 with a document, 3 unwritten
+2026-10-02T21:40:12.1706920Z INFO  [B7]  237 document(s) declare level L3 and are the endpoint of no route — expected, most are memos, plans and red-teams rather than deliverables: claim-audit-stratified-2026-08-28.md, DECISION.md, README.md, s22-round-2026-09-02-seat-brief.md…
+2026-10-02T21:40:12.1709770Z INFO  [Q3]  R4 has no instrument -- no instrument can be built here -- CLAUDE.md §5, no wet lab
+2026-10-02T21:40:12.1711036Z INFO  [Q3]  R16 has no instrument -- not this paper's question, by its own claim ceiling
+2026-10-02T21:40:12.1713176Z INFO  [D11]  hierarchy census (documents, by declared `level`): L0 8 · L1 4 · L3 263 · L4 97 · L5 3 · cross-cutting 10 · «absent» 44 · — 41 — and 14 L1 strategies, 83 L2 routes, 32 L4 instruments, 115 L5 items in the graph
+2026-10-02T21:40:12.1714696Z INFO  [K0]  relative links checked: 5675 (+1013 anchors), broken: 0 — no grandfather list exists; a broken link is an error
+2026-10-02T21:40:12.1716641Z INFO  [K1]  `valb-triangle-chem.json` is absent and LANE-9 derives `withdrawn`; all 2 document(s) naming it record the withdrawal (research/manuscripts/degrader/valb-closure-triangle-pregate-2026-07-25.md, systems/MAINTENANCE.md). Closed, not pending
+2026-10-02T21:40:12.1719645Z WARN  [X4]  relations.json declares `modalities.parent` as an asserted edge and no row in modalities.json carries it — either the edge was removed and this entry is stale, or it is derived and mis-declared
+2026-10-02T21:40:12.1720980Z WARN  [L4]  routes/RT-PARTNER-STRAT is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1722741Z WARN  [L4]  routes/RT-EZH2 is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1723911Z WARN  [L4]  routes/RT-COMPETING-MORTALITY is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1725016Z WARN  [L4]  routes/RT-SGK1 is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1726077Z WARN  [L4]  routes/RT-SURVEILLANCE is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1727184Z WARN  [L4]  routes/RT-METASTASECTOMY is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1728252Z WARN  [L4]  routes/RT-RET is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1729330Z WARN  [L4]  routes/RT-IMMUNOCYTOKINE is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1730404Z WARN  [L4]  routes/RT-POLQ is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1731685Z WARN  [L4]  routes/RT-IPD-SURVIVAL is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1732972Z WARN  [L4]  routes/RT-MATRIX-SYNTHESIS is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1733958Z WARN  [L4]  routes/RT-ALK-HIT is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1734965Z WARN  [L4]  routes/RT-POPULATION-REGISTRY is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1736022Z WARN  [L4]  routes/RT-DIAGNOSTIC-PATHWAY is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1737040Z WARN  [L4]  routes/RT-RESPIRATORY-FAILURE is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1738050Z WARN  [L4]  routes/RT-VTE-PROPHYLAXIS is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1739025Z WARN  [L4]  routes/RT-RT-INTENSIFY is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1739977Z WARN  [L4]  routes/RT-TRIAL-REACH is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1740951Z WARN  [L4]  routes/RT-MATRIX-ADDRESS is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1741894Z WARN  [L4]  routes/RT-MDM2 is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1743055Z WARN  [L4]  routes/RT-MDT-LUNG is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1744027Z WARN  [L4]  routes/RT-ENDPOINT-CHOICE is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1745045Z WARN  [L4]  routes/RT-VACCINE-COMBINATION is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1746035Z WARN  [L4]  routes/RT-HOST-FACTOR is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1747160Z WARN  [L4]  routes/RT-HYPOXIA-PRODRUG is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1748122Z WARN  [L4]  routes/RT-RISK-MODEL is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1749099Z WARN  [L4]  routes/RT-SURGICAL-QUALITY is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1750042Z WARN  [L4]  routes/RT-NR2F1 is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1750981Z WARN  [L4]  routes/RT-LUNG-DIRECTED is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1751938Z WARN  [L4]  routes/RT-MTAP-PRMT5 is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1753235Z WARN  [L4]  routes/RT-MODALITY-CENSUS is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1754207Z WARN  [L4]  routes/RT-FUSION-OUTPUT is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1755338Z WARN  [L4]  routes/RT-APOPTOSIS-DEP is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1756282Z WARN  [L4]  routes/RT-DNAPK is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1757226Z WARN  [L4]  routes/RT-HORMONE-PARTNER is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1758214Z WARN  [L4]  routes/RT-LIMB-PERFUSION is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1759172Z WARN  [L4]  routes/RT-ARGININE is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1760147Z WARN  [L4]  routes/RT-EARLY-PALLIATIVE is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1761126Z WARN  [L4]  routes/RT-SCHEDULING is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1762057Z WARN  [L4]  routes/RT-TXN-CDK is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1763282Z WARN  [L4]  routes/RT-SEQUENCING is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1764250Z WARN  [L4]  routes/RT-TREATMENT-HARM is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1765206Z WARN  [L4]  routes/RT-CHAPERONE is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1766208Z WARN  [L4]  blockers/BLK-TCIP-INTERFACE-FLOOR is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1767319Z WARN  [L4]  blockers/BLK-NO-FIELD-ATTENTION-MEASUREMENT is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1768446Z WARN  [L4]  blockers/BLK-NO-CURATED-CLINICAL-DATA is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1769489Z WARN  [L4]  blockers/BLK-REGISTRY-DUA is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained)
+2026-10-02T21:40:12.1770689Z WARN  [B5]  RT-MDT-LUNG is ready and its endpoint PUB-LOCOREGIONAL is outlined — nothing blocks this paper except writing it
+2026-10-02T21:40:12.1771629Z WARN  [B5]  RT-IPD-SURVIVAL is ready and its endpoint PUB-IPD-SURVIVAL is unwritten — nothing blocks this paper except writing it
+2026-10-02T21:40:12.1772889Z WARN  [B5]  RT-SURGICAL-QUALITY is ready and its endpoint PUB-CARE-DELIVERY is unwritten — nothing blocks this paper except writing it
+2026-10-02T21:40:12.1773884Z WARN  [B5]  RT-SURVEILLANCE is ready and its endpoint PUB-CARE-DELIVERY is unwritten — nothing blocks this paper except writing it
+2026-10-02T21:40:12.1774864Z WARN  [B5]  RT-METASTASECTOMY is ready and its endpoint PUB-CARE-DELIVERY is unwritten — nothing blocks this paper except writing it
+2026-10-02T21:40:12.1775816Z WARN  [B5]  RT-RISK-MODEL is ready and its endpoint PUB-CARE-DELIVERY is unwritten — nothing blocks this paper except writing it
+2026-10-02T21:40:12.1776622Z WARN  [B3]  BLK-NO-FIELD-ATTENTION-MEASUREMENT holds down no route -- it may be retired or mis-scoped
+2026-10-02T21:40:12.1777761Z WARN  [Q4]  R1 has instruments but NONE has returned a usable answer -- V13 (its control FAILED), V14 (it has NO control), V15 (its control was MIXED -- partly, which is not a pass). That is a different and more actionable failure than having none
+2026-10-02T21:40:12.1779211Z WARN  [Q4]  R2 has instruments but NONE has returned a usable answer -- V13 (its control FAILED). That is a different and more actionable failure than having none
+2026-10-02T21:40:12.1780343Z WARN  [Q4]  R5 has instruments but NONE has returned a usable answer -- V3 (its control was INCONCLUSIVE), V22 (it has NO control). That is a different and more actionable failure than having none
+2026-10-02T21:40:12.1782194Z WARN  [Q3]  R6 has NO instrument at all -- nothing built yet, and it could be built in this program. ΔG_open is computable — a per-paralogue opening free energy — and nothing has been built for it. `authorization: needs_decision` because it is a GPU spend, not because the method is missing.
+2026-10-02T21:40:12.1784190Z WARN  [Q4]  R8 has instruments but NONE has returned a usable answer -- V17 (its control FAILED), INS-MONOVALENT-REACH (it inherits limits it cannot clear). That is a different and more actionable failure than having none
+2026-10-02T21:40:12.1785450Z WARN  [Q4]  R12 has instruments but NONE has returned a usable answer -- V18 (it has NO control). That is a different and more actionable failure than having none
+2026-10-02T21:40:12.1786536Z WARN  [Q4]  R13 has instruments but NONE has returned a usable answer -- INS-FUSION-COFOLD (it has NO control). That is a different and more actionable failure than having none
+2026-10-02T21:40:12.1787624Z WARN  [Q4]  R14 has instruments but NONE has returned a usable answer -- V21 (its control FAILED). That is a different and more actionable failure than having none
+2026-10-02T21:40:12.1788853Z WARN  [Q4]  R15 has instruments but NONE has returned a usable answer -- V17 (its control FAILED), V19 (its control was MIXED -- partly, which is not a pass). That is a different and more actionable failure than having none
+2026-10-02T21:40:12.1790346Z WARN  [X4]  TECH-FE-CRYPTIC-POCKET has 1 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1791763Z WARN  [X4]  TECH-EMC-EXPRESSION-DATA has 6 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1793386Z WARN  [X4]  TECH-EMC-MODEL-ACCESS has 1 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1794768Z WARN  [X4]  TECH-CHEAP-ENSEMBLE has 14 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1796304Z WARN  [X4]  TECH-POSE-CONVERGENCE has 63 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1797681Z WARN  [X4]  TECH-COFOLD-ASSEMBLY has 6 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1799073Z WARN  [X4]  TECH-EXPOSURE-CRITERION has 24 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1800451Z WARN  [X4]  TECH-OLIGO-DELIVERY has 17 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1801819Z WARN  [X4]  TECH-CHARGE-CHANGE-FEP has 1 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1803445Z WARN  [X4]  TECH-GLUE-DESIGN has 7 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1804936Z WARN  [X4]  TECH-TERNARY-ALCHEMY has 1 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1806351Z WARN  [X4]  TECH-ANTITARGET-PROTOCOL has 19 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1807732Z WARN  [X4]  TECH-ATOM-MAPPER has 1 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1809135Z WARN  [X4]  TECH-RXR-HETERODIMER-REPORT has 11 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1810526Z WARN  [X4]  TECH-VIRTUAL-CELL has 24 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1811882Z WARN  [X4]  TECH-CLOUD-WET-LAB has 2 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1813396Z WARN  [X4]  TECH-AUTONOMOUS-AGENT has 72 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1814806Z WARN  [X4]  TECH-ASO-SPECIFICITY-MODEL has 35 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1816221Z WARN  [X4]  TECH-JUNCTION-PMHC has 24 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1817663Z WARN  [X4]  TECH-JUNCTION-CLINICAL-PRECEDENT has 55 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1819132Z WARN  [X4]  TECH-CONDENSATE-RESOLUTION has 44 UNGRADED scan signal(s) — a human must read them and either promote to `evidence` or mark graded; the scan deliberately cannot change `current_state` itself
+2026-10-02T21:40:12.1821179Z WARN  [D5]  164 document(s) carry `last_verified: unverified` — nobody has confirmed their content is still true. This is honest, not a defect; the count is meant to fall. ⭐ **1 of them are LOAD-BEARING** — pinned or named by the project instructions, so something reads them today: research/manuscripts/dependency/emc-atr-vulnerability-assessment.md
+2026-10-02T21:40:12.1823503Z WARN  [L5]  1 object at L5 is cited by no route, instrument, lane or claim — reachable in [the evidence base](views/L5-evidence-base.md) but by no path DOWN the hierarchy: OBJ-RES-C166
+2026-10-02T21:40:12.1824846Z WARN  [L5]  1 evidence item at L5 is cited by no route, instrument, lane or claim — reachable in [the evidence base](views/L5-evidence-base.md) but by no path DOWN the hierarchy: EV-LI-GONG-2026
+2026-10-02T21:40:12.1826623Z WARN  [L5]  4 artifacts at L5 are cited by no route, instrument, lane or claim — reachable in [the evidence base](views/L5-evidence-base.md) but by no path DOWN the hierarchy: ART-ATM-STATUS-ATRI, ART-GSE28866-TUMOUR-VS-NORMAL, ART-PUBLISHED-WARHEAD-REGISTRY, ART-WETLAB-CONTRACTING-COSTS
+2026-10-02T21:40:12.1828240Z WARN  [B9]  12 trigger(s) claim a blocker their technology does not unblock. Each is either a missing technology edge or an over-claiming trigger; the count is the finding and is meant to fall
+2026-10-02T21:40:12.1828926Z 
+2026-10-02T21:40:12.1829211Z systems_check: 620 objects across 15 collections · 0 ERROR · 90 WARN · 7 INFO
+2026-10-02T21:40:12.1933352Z ##[group]Run ./scripts/preflight.sh
+2026-10-02T21:40:12.1933708Z [36;1m./scripts/preflight.sh[0m
+2026-10-02T21:40:12.1997748Z shell: /usr/bin/bash -e {0}
+2026-10-02T21:40:12.1998003Z env:
+2026-10-02T21:40:12.1998280Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:40:12.1998750Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T21:40:12.1999199Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:40:12.1999591Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:40:12.2000009Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:40:12.2000415Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T21:40:12.2000775Z ##[endgroup]
+2026-10-02T21:40:12.2229082Z dev-setup: core.hooksPath -> .githooks (both push guards armed)
+2026-10-02T21:40:18.2820436Z dev-setup: a system binary the artifact chain needs is missing: ghostscript libreoffice-writer
+2026-10-02T21:40:18.2821376Z dev-setup: installing.
+2026-10-02T21:40:18.2822071Z == system python3 (systems_check.py, the linters and the node-free gates run here) ==
+2026-10-02T21:40:20.4305899Z == the pytest tool venv (every test import resolves here, NOT in the system interpreter) ==
+2026-10-02T21:40:21.2884625Z Resolved 45 packages in 809ms
+2026-10-02T21:40:21.3567592Z Downloading pypdfium2 (3.6MiB)
+2026-10-02T21:40:21.3568859Z Downloading pygments (1.2MiB)
+2026-10-02T21:40:21.3891713Z Downloading cryptography (4.5MiB)
+2026-10-02T21:40:21.3897750Z Downloading kiwisolver (1.4MiB)
+2026-10-02T21:40:21.3899113Z Downloading botocore (15.3MiB)
+2026-10-02T21:40:21.3902411Z Downloading matplotlib (9.4MiB)
+2026-10-02T21:40:21.3907291Z Downloading scipy (33.7MiB)
+2026-10-02T21:40:21.3914256Z Downloading numpy (16.1MiB)
+2026-10-02T21:40:21.3916369Z Downloading pillow (6.6MiB)
+2026-10-02T21:40:21.3921209Z Downloading netcdf4 (9.9MiB)
+2026-10-02T21:40:21.3926114Z Downloading pdfminer-six (6.3MiB)
+2026-10-02T21:40:21.3928083Z Downloading fonttools (5.2MiB)
+2026-10-02T21:40:21.3932028Z Downloading biopython (3.1MiB)
+2026-10-02T21:40:21.3934005Z Downloading cftime (1.6MiB)
+2026-10-02T21:40:21.3936460Z Downloading rdkit (36.4MiB)
+2026-10-02T21:40:21.6405329Z  Downloaded pygments
+2026-10-02T21:40:21.6561290Z  Downloaded kiwisolver
+2026-10-02T21:40:21.7236592Z  Downloaded cftime
+2026-10-02T21:40:21.7932913Z  Downloaded biopython
+2026-10-02T21:40:21.8117884Z  Downloaded pypdfium2
+2026-10-02T21:40:21.8759573Z  Downloaded cryptography
+2026-10-02T21:40:21.8997058Z  Downloaded fonttools
+2026-10-02T21:40:21.9368226Z  Downloaded pdfminer-six
+2026-10-02T21:40:21.9443258Z  Downloaded pillow
+2026-10-02T21:40:22.0253967Z  Downloaded matplotlib
+2026-10-02T21:40:22.0424896Z  Downloaded netcdf4
+2026-10-02T21:40:22.1409758Z  Downloaded botocore
+2026-10-02T21:40:22.1482891Z  Downloaded numpy
+2026-10-02T21:40:22.3607917Z  Downloaded scipy
+2026-10-02T21:40:22.4296535Z  Downloaded rdkit
+2026-10-02T21:40:22.4299355Z Prepared 45 packages in 1.13s
+2026-10-02T21:40:22.5520097Z Installed 45 packages in 121ms
+2026-10-02T21:40:22.5520763Z  + attrs==26.1.0
+2026-10-02T21:40:22.5521379Z  + biopython==1.88
+2026-10-02T21:40:22.5521929Z  + boto3==1.43.108
+2026-10-02T21:40:22.5532611Z  + botocore==1.43.108
+2026-10-02T21:40:22.5533023Z  + certifi==2026.7.22
+2026-10-02T21:40:22.5533442Z  + cffi==2.1.1
+2026-10-02T21:40:22.5533764Z  + cftime==1.6.6
+2026-10-02T21:40:22.5534129Z  + charset-normalizer==3.5.2
+2026-10-02T21:40:22.5534524Z  + contourpy==1.3.3
+2026-10-02T21:40:22.5534871Z  + cryptography==50.0.2
+2026-10-02T21:40:22.5535224Z  + cycler==0.12.1
+2026-10-02T21:40:22.5535539Z  + execnet==2.1.2
+2026-10-02T21:40:22.5535854Z  + fonttools==4.66.1
+2026-10-02T21:40:22.5536266Z  + iniconfig==2.3.0
+2026-10-02T21:40:22.5536532Z  + jmespath==1.1.0
+2026-10-02T21:40:22.5536758Z  + jsonschema==4.26.0
+2026-10-02T21:40:22.5537008Z  + jsonschema-specifications==2025.9.1
+2026-10-02T21:40:22.5537346Z  + kiwisolver==1.5.1
+2026-10-02T21:40:22.5537574Z  + matplotlib==3.11.2
+2026-10-02T21:40:22.5538056Z  + netcdf4==1.7.4
+2026-10-02T21:40:22.5538278Z  + numexpr==2.14.2
+2026-10-02T21:40:22.5538489Z  + numpy==2.4.6
+2026-10-02T21:40:22.5538698Z  + packaging==26.3
+2026-10-02T21:40:22.5538924Z  + pdfminer-six==20260107
+2026-10-02T21:40:22.5539176Z  + pdfplumber==0.11.10
+2026-10-02T21:40:22.5539398Z  + pillow==12.3.0
+2026-10-02T21:40:22.5539613Z  + pluggy==1.6.0
+2026-10-02T21:40:22.5539821Z  + pycparser==3.0
+2026-10-02T21:40:22.5540027Z  + pygments==2.21.0
+2026-10-02T21:40:22.5540233Z  + pymbar==4.0.3
+2026-10-02T21:40:22.5540434Z  + pyparsing==3.3.3
+2026-10-02T21:40:22.5540634Z  + pypdf==6.19.0
+2026-10-02T21:40:22.5540832Z  + pypdfium2==5.13.0
+2026-10-02T21:40:22.5541036Z  + pytest==9.1.1
+2026-10-02T21:40:22.5541245Z  + pytest-xdist==3.8.0
+2026-10-02T21:40:22.5541482Z  + python-dateutil==2.9.0.post0
+2026-10-02T21:40:22.5541738Z  + pyyaml==6.0.3
+2026-10-02T21:40:22.5541936Z  + rdkit==2026.3.6
+2026-10-02T21:40:22.5542150Z  + referencing==0.37.0
+2026-10-02T21:40:22.5543618Z  + rpds-py==2026.6.3
+2026-10-02T21:40:22.5543868Z  + s3transfer==0.19.2
+2026-10-02T21:40:22.5544084Z  + scipy==1.17.1
+2026-10-02T21:40:22.5544286Z  + six==1.17.0
+2026-10-02T21:40:22.5544505Z  + typing-extensions==4.16.0
+2026-10-02T21:40:22.5544751Z  + urllib3==2.8.0
+2026-10-02T21:40:22.5545002Z Installed 2 executables: py.test, pytest
+2026-10-02T21:40:23.9346440Z 
+2026-10-02T21:45:08.7115096Z == ghostscript (figures/svg_to_print_formats.py: EPS + CMYK TIFF; no other offline path) ==
+2026-10-02T21:45:08.7115863Z    installed: 10.02.1
+2026-10-02T21:45:08.7118091Z 
+2026-10-02T21:45:08.7118982Z == libreoffice-writer (build_submission_docx.py / build_submission_parts.py: the .docx chain) ==
+2026-10-02T21:50:24.7009834Z ##[error]The action 'Normal preflight default FAST scope' has timed out after 10 minutes.
+2026-10-02T21:50:24.7058443Z ##[group]Run git status --short
+2026-10-02T21:50:24.7058765Z [36;1mgit status --short[0m
+2026-10-02T21:50:24.7059015Z [36;1mgit diff --exit-code[0m
+2026-10-02T21:50:24.7120755Z shell: /usr/bin/bash -e {0}
+2026-10-02T21:50:24.7121004Z env:
+2026-10-02T21:50:24.7121276Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:50:24.7121735Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T21:50:24.7122190Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:50:24.7122734Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:50:24.7123123Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T21:50:24.7123521Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T21:50:24.7123851Z ##[endgroup]
+2026-10-02T21:50:25.1386376Z Post job cleanup.
+2026-10-02T21:50:25.2251294Z [command]/usr/bin/git version
+2026-10-02T21:50:25.2296814Z git version 2.55.0
+2026-10-02T21:50:25.2341308Z Temporarily overriding HOME='/home/runner/work/_temp/97a69cdd-87d5-4586-b7ae-cb3de800f87f' before making global git config changes
+2026-10-02T21:50:25.2342676Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-02T21:50:25.2346424Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-02T21:50:25.2385654Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-02T21:50:25.2420407Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-02T21:50:25.4050446Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-02T21:50:25.4052166Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-02T21:50:25.4053793Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-02T21:50:25.4054805Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-02T21:50:25.4116372Z Cleaning up orphan processes
+2026-10-02T21:50:25.4519147Z Terminate orphan process: pid (2641) (bash)
+2026-10-02T21:50:25.4540749Z Terminate orphan process: pid (2646) (bash)
+2026-10-02T21:50:25.4614023Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

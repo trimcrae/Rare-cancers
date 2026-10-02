@@ -1,0 +1,1094 @@
+﻿2026-10-02T02:49:40.0288712Z Current runner version: '2.337.0'
+2026-10-02T02:49:40.0315051Z ##[group]Runner Image Provisioner
+2026-10-02T02:49:40.0316387Z Hosted Compute Agent
+2026-10-02T02:49:40.0317013Z Version: 20260901.588
+2026-10-02T02:49:40.0317726Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-02T02:49:40.0318487Z Build Date: 2026-09-01T19:56:44Z
+2026-10-02T02:49:40.0319214Z Worker ID: {083a33d5-7e89-4348-a239-236097825428}
+2026-10-02T02:49:40.0320068Z Azure Region: northcentralus
+2026-10-02T02:49:40.0320721Z ##[endgroup]
+2026-10-02T02:49:40.0322324Z ##[group]Operating System
+2026-10-02T02:49:40.0323021Z Ubuntu
+2026-10-02T02:49:40.0323625Z 24.04.5
+2026-10-02T02:49:40.0324228Z LTS
+2026-10-02T02:49:40.0324762Z ##[endgroup]
+2026-10-02T02:49:40.0325368Z ##[group]Runner Image
+2026-10-02T02:49:40.0326224Z Image: ubuntu-24.04
+2026-10-02T02:49:40.0326855Z Version: 20260927.320.1
+2026-10-02T02:49:40.0328221Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-02T02:49:40.0329918Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-02T02:49:40.0330920Z ##[endgroup]
+2026-10-02T02:49:40.0332214Z ##[group]GITHUB_TOKEN Permissions
+2026-10-02T02:49:40.0334388Z Actions: read
+2026-10-02T02:49:40.0335017Z Contents: read
+2026-10-02T02:49:40.0336036Z Metadata: read
+2026-10-02T02:49:40.0336648Z ##[endgroup]
+2026-10-02T02:49:40.0338767Z Secret source: Actions
+2026-10-02T02:49:40.0339924Z Cache mode: write
+2026-10-02T02:49:40.0340619Z Prepare workflow directory
+2026-10-02T02:49:40.0692949Z Prepare all required actions
+2026-10-02T02:49:40.0740604Z Getting action download info
+2026-10-02T02:49:40.3663547Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-02T02:49:40.4628720Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-02T02:49:40.5428249Z Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+2026-10-02T02:49:40.8736341Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-02T02:49:41.0910999Z Complete job name: source-evidence
+2026-10-02T02:49:41.1734112Z ##[group]Run actions/checkout@v4
+2026-10-02T02:49:41.1735019Z with:
+2026-10-02T02:49:41.1735455Z   fetch-depth: 2
+2026-10-02T02:49:41.1736183Z   persist-credentials: false
+2026-10-02T02:49:41.1736742Z   repository: trimcrae/Rare-cancers
+2026-10-02T02:49:41.1740821Z   token: ***
+2026-10-02T02:49:41.1741259Z   ssh-strict: true
+2026-10-02T02:49:41.1741695Z   ssh-user: git
+2026-10-02T02:49:41.1742109Z   clean: true
+2026-10-02T02:49:41.1742567Z   sparse-checkout-cone-mode: true
+2026-10-02T02:49:41.1743101Z   fetch-tags: false
+2026-10-02T02:49:41.1743547Z   show-progress: true
+2026-10-02T02:49:41.1743998Z   lfs: false
+2026-10-02T02:49:41.1744418Z   submodules: false
+2026-10-02T02:49:41.1744883Z   set-safe-directory: true
+2026-10-02T02:49:41.1745392Z   allow-unsafe-pr-checkout: false
+2026-10-02T02:49:41.1746365Z ##[endgroup]
+2026-10-02T02:49:41.2774776Z Syncing repository: trimcrae/Rare-cancers
+2026-10-02T02:49:41.2777572Z ##[group]Getting Git version info
+2026-10-02T02:49:41.2778878Z Working directory is '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-10-02T02:49:41.2780655Z [command]/usr/bin/git version
+2026-10-02T02:49:41.2840488Z git version 2.55.0
+2026-10-02T02:49:41.2862609Z ##[endgroup]
+2026-10-02T02:49:41.2886337Z Temporarily overriding HOME='/home/runner/work/_temp/65775e23-fecc-4e72-b760-d4e7419f0ca8' before making global git config changes
+2026-10-02T02:49:41.2888759Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-02T02:49:41.2891039Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-02T02:49:41.2964941Z Deleting the contents of '/home/runner/work/Rare-cancers/Rare-cancers'
+2026-10-02T02:49:41.2971442Z ##[group]Initializing the repository
+2026-10-02T02:49:41.2975996Z [command]/usr/bin/git init /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-02T02:49:41.3117331Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-02T02:49:41.3119192Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-02T02:49:41.3120781Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-02T02:49:41.3122053Z hint: call:
+2026-10-02T02:49:41.3122730Z hint:
+2026-10-02T02:49:41.3123599Z hint: 	git config --global init.defaultBranch <name>
+2026-10-02T02:49:41.3124624Z hint:
+2026-10-02T02:49:41.3125817Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-02T02:49:41.3127442Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-02T02:49:41.3128694Z hint:
+2026-10-02T02:49:41.3129393Z hint: 	git branch -m <name>
+2026-10-02T02:49:41.3130196Z hint:
+2026-10-02T02:49:41.3131252Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-02T02:49:41.3133113Z Initialized empty Git repository in /home/runner/work/Rare-cancers/Rare-cancers/.git/
+2026-10-02T02:49:41.3141537Z [command]/usr/bin/git remote add origin https://github.com/trimcrae/Rare-cancers
+2026-10-02T02:49:41.3187590Z ##[endgroup]
+2026-10-02T02:49:41.3188805Z ##[group]Disabling automatic garbage collection
+2026-10-02T02:49:41.3192745Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-02T02:49:41.3226288Z ##[endgroup]
+2026-10-02T02:49:41.3227553Z ##[group]Setting up auth
+2026-10-02T02:49:41.3233682Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-02T02:49:41.3270108Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-02T02:49:41.3685849Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-02T02:49:41.3724852Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-02T02:49:41.3956606Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-02T02:49:41.3994567Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-02T02:49:41.4223837Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-02T02:49:41.4265350Z ##[endgroup]
+2026-10-02T02:49:41.4266537Z ##[group]Fetching the repository
+2026-10-02T02:49:41.4276287Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=2 origin +006016cf6d2e9a4f9391509fc709c871964e6a6d:refs/remotes/origin/codex/usage-sprint-2026-10-01-gpl3290-coverage
+2026-10-02T02:49:49.3842611Z From https://github.com/trimcrae/Rare-cancers
+2026-10-02T02:49:49.3848706Z  * [new ref]         006016cf6d2e9a4f9391509fc709c871964e6a6d -> origin/codex/usage-sprint-2026-10-01-gpl3290-coverage
+2026-10-02T02:49:49.3851923Z ##[endgroup]
+2026-10-02T02:49:49.3852958Z ##[group]Determining the checkout info
+2026-10-02T02:49:49.3854045Z ##[endgroup]
+2026-10-02T02:49:49.3857812Z [command]/usr/bin/git sparse-checkout disable
+2026-10-02T02:49:49.3916487Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-02T02:49:49.3949576Z ##[group]Checking out the ref
+2026-10-02T02:49:49.3956724Z [command]/usr/bin/git checkout --progress --force -B codex/usage-sprint-2026-10-01-gpl3290-coverage refs/remotes/origin/codex/usage-sprint-2026-10-01-gpl3290-coverage
+2026-10-02T02:49:50.4154401Z Updating files:  34% (2908/8423)
+2026-10-02T02:49:50.4879246Z Updating files:  35% (2949/8423)
+2026-10-02T02:49:50.5356396Z Updating files:  36% (3033/8423)
+2026-10-02T02:49:50.5463389Z Updating files:  37% (3117/8423)
+2026-10-02T02:49:50.5562532Z Updating files:  38% (3201/8423)
+2026-10-02T02:49:50.5691513Z Updating files:  39% (3285/8423)
+2026-10-02T02:49:50.5769650Z Updating files:  40% (3370/8423)
+2026-10-02T02:49:50.5862165Z Updating files:  41% (3454/8423)
+2026-10-02T02:49:50.5980931Z Updating files:  42% (3538/8423)
+2026-10-02T02:49:50.6084616Z Updating files:  43% (3622/8423)
+2026-10-02T02:49:50.6228734Z Updating files:  44% (3707/8423)
+2026-10-02T02:49:50.6310118Z Updating files:  45% (3791/8423)
+2026-10-02T02:49:50.6388470Z Updating files:  46% (3875/8423)
+2026-10-02T02:49:50.6460292Z Updating files:  47% (3959/8423)
+2026-10-02T02:49:50.6557834Z Updating files:  48% (4044/8423)
+2026-10-02T02:49:50.6706714Z Updating files:  49% (4128/8423)
+2026-10-02T02:49:50.6833491Z Updating files:  50% (4212/8423)
+2026-10-02T02:49:50.6967169Z Updating files:  51% (4296/8423)
+2026-10-02T02:49:50.7007900Z Updating files:  52% (4380/8423)
+2026-10-02T02:49:50.7671503Z Updating files:  53% (4465/8423)
+2026-10-02T02:49:50.8576515Z Updating files:  54% (4549/8423)
+2026-10-02T02:49:50.9290017Z Updating files:  55% (4633/8423)
+2026-10-02T02:49:50.9913024Z Updating files:  56% (4717/8423)
+2026-10-02T02:49:51.0047406Z Updating files:  57% (4802/8423)
+2026-10-02T02:49:51.0632456Z Updating files:  58% (4886/8423)
+2026-10-02T02:49:51.1463086Z Updating files:  59% (4970/8423)
+2026-10-02T02:49:51.2082229Z Updating files:  60% (5054/8423)
+2026-10-02T02:49:51.2117446Z Updating files:  61% (5139/8423)
+2026-10-02T02:49:51.2151960Z Updating files:  62% (5223/8423)
+2026-10-02T02:49:51.2186516Z Updating files:  63% (5307/8423)
+2026-10-02T02:49:51.2220629Z Updating files:  64% (5391/8423)
+2026-10-02T02:49:51.2254540Z Updating files:  65% (5475/8423)
+2026-10-02T02:49:51.2288090Z Updating files:  66% (5560/8423)
+2026-10-02T02:49:51.2322710Z Updating files:  67% (5644/8423)
+2026-10-02T02:49:51.2356395Z Updating files:  68% (5728/8423)
+2026-10-02T02:49:51.2390896Z Updating files:  69% (5812/8423)
+2026-10-02T02:49:51.2424827Z Updating files:  70% (5897/8423)
+2026-10-02T02:49:51.2458629Z Updating files:  71% (5981/8423)
+2026-10-02T02:49:51.2492553Z Updating files:  72% (6065/8423)
+2026-10-02T02:49:51.2527642Z Updating files:  73% (6149/8423)
+2026-10-02T02:49:51.2564044Z Updating files:  74% (6234/8423)
+2026-10-02T02:49:51.2597778Z Updating files:  75% (6318/8423)
+2026-10-02T02:49:51.2632402Z Updating files:  76% (6402/8423)
+2026-10-02T02:49:51.2666674Z Updating files:  77% (6486/8423)
+2026-10-02T02:49:51.2700425Z Updating files:  78% (6570/8423)
+2026-10-02T02:49:51.2734228Z Updating files:  79% (6655/8423)
+2026-10-02T02:49:51.2768567Z Updating files:  80% (6739/8423)
+2026-10-02T02:49:51.2802468Z Updating files:  81% (6823/8423)
+2026-10-02T02:49:51.2836527Z Updating files:  82% (6907/8423)
+2026-10-02T02:49:51.2871967Z Updating files:  83% (6992/8423)
+2026-10-02T02:49:51.2905758Z Updating files:  84% (7076/8423)
+2026-10-02T02:49:51.2940291Z Updating files:  85% (7160/8423)
+2026-10-02T02:49:51.2975736Z Updating files:  86% (7244/8423)
+2026-10-02T02:49:51.3010129Z Updating files:  87% (7329/8423)
+2026-10-02T02:49:51.3044428Z Updating files:  88% (7413/8423)
+2026-10-02T02:49:51.3079466Z Updating files:  89% (7497/8423)
+2026-10-02T02:49:51.3115065Z Updating files:  90% (7581/8423)
+2026-10-02T02:49:51.3148846Z Updating files:  91% (7665/8423)
+2026-10-02T02:49:51.3182495Z Updating files:  92% (7750/8423)
+2026-10-02T02:49:51.3216407Z Updating files:  93% (7834/8423)
+2026-10-02T02:49:51.3251586Z Updating files:  94% (7918/8423)
+2026-10-02T02:49:51.3286526Z Updating files:  95% (8002/8423)
+2026-10-02T02:49:51.3337040Z Updating files:  96% (8087/8423)
+2026-10-02T02:49:51.3473430Z Updating files:  97% (8171/8423)
+2026-10-02T02:49:51.3615199Z Updating files:  98% (8255/8423)
+2026-10-02T02:49:51.3705815Z Updating files:  99% (8339/8423)
+2026-10-02T02:49:51.3706820Z Updating files: 100% (8423/8423)
+2026-10-02T02:49:51.3707306Z Updating files: 100% (8423/8423), done.
+2026-10-02T02:49:51.3798701Z Switched to a new branch 'codex/usage-sprint-2026-10-01-gpl3290-coverage'
+2026-10-02T02:49:51.3805837Z branch 'codex/usage-sprint-2026-10-01-gpl3290-coverage' set up to track 'origin/codex/usage-sprint-2026-10-01-gpl3290-coverage'.
+2026-10-02T02:49:51.3870035Z ##[endgroup]
+2026-10-02T02:49:51.3927784Z [command]/usr/bin/git log -1 --format=%H
+2026-10-02T02:49:51.3948649Z 006016cf6d2e9a4f9391509fc709c871964e6a6d
+2026-10-02T02:49:51.3960525Z ##[group]Removing auth
+2026-10-02T02:49:51.3965923Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-02T02:49:51.4002566Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-02T02:49:51.4244246Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-02T02:49:51.4274511Z http.https://github.com/.extraheader
+2026-10-02T02:49:51.4283121Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-02T02:49:51.4317829Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-02T02:49:51.4553476Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-02T02:49:51.4586168Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-02T02:49:51.4817389Z ##[endgroup]
+2026-10-02T02:49:51.5073105Z ##[group]Run actions/setup-python@v5
+2026-10-02T02:49:51.5073401Z with:
+2026-10-02T02:49:51.5073613Z   python-version: 3.11
+2026-10-02T02:49:51.5073846Z   check-latest: false
+2026-10-02T02:49:51.5076809Z   token: ***
+2026-10-02T02:49:51.5077029Z   update-environment: true
+2026-10-02T02:49:51.5077286Z   allow-prereleases: false
+2026-10-02T02:49:51.5077514Z   freethreaded: false
+2026-10-02T02:49:51.5077727Z ##[endgroup]
+2026-10-02T02:49:51.6378967Z ##[group]Installed versions
+2026-10-02T02:49:51.6470180Z (node:2401) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-02T02:49:51.6471252Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-02T02:49:51.6472087Z Successfully set up CPython (3.11.16)
+2026-10-02T02:49:51.6472971Z ##[endgroup]
+2026-10-02T02:49:51.6643650Z ##[group]Run git rev-parse HEAD
+2026-10-02T02:49:51.6644021Z [36;1mgit rev-parse HEAD[0m
+2026-10-02T02:49:51.6644288Z [36;1mpython3 --version[0m
+2026-10-02T02:49:51.6990284Z shell: /usr/bin/bash -e {0}
+2026-10-02T02:49:51.6990624Z env:
+2026-10-02T02:49:51.6990969Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:51.6991551Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T02:49:51.6992128Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:51.6992639Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:51.6993165Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:51.6993671Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T02:49:51.6994095Z ##[endgroup]
+2026-10-02T02:49:51.7123274Z 006016cf6d2e9a4f9391509fc709c871964e6a6d
+2026-10-02T02:49:51.7262758Z Python 3.11.16
+2026-10-02T02:49:51.7303707Z ##[group]Run python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/test_acquire.py -v
+2026-10-02T02:49:51.7304475Z [36;1mpython3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/test_acquire.py -v[0m
+2026-10-02T02:49:51.7369753Z shell: /usr/bin/bash -e {0}
+2026-10-02T02:49:51.7370005Z env:
+2026-10-02T02:49:51.7370281Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:51.7370742Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T02:49:51.7371196Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:51.7371607Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:51.7372196Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:51.7372601Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T02:49:51.7372945Z ##[endgroup]
+2026-10-02T02:49:52.0249511Z test_annotation_raw_binding_refused (__main__.CohortIntegrity.test_annotation_raw_binding_refused) ... ok
+2026-10-02T02:49:52.0250979Z test_changed_cached_platform_refused (__main__.CohortIntegrity.test_changed_cached_platform_refused) ... ok
+2026-10-02T02:49:52.0252328Z test_changed_series_refused (__main__.CohortIntegrity.test_changed_series_refused) ... ok
+2026-10-02T02:49:52.0255784Z test_coherent_channel_removal_refused (__main__.CohortIntegrity.test_coherent_channel_removal_refused) ... ok
+2026-10-02T02:49:52.0258555Z test_coherent_one_channel_mutation_refused (__main__.CohortIntegrity.test_coherent_one_channel_mutation_refused) ... ok
+2026-10-02T02:49:52.0261238Z test_coherent_wrong_platform_projection_refused (__main__.CohortIntegrity.test_coherent_wrong_platform_projection_refused) ... ok
+2026-10-02T02:49:52.0264626Z test_correct_target_and_metadata_only (__main__.CohortIntegrity.test_correct_target_and_metadata_only) ... ok
+2026-10-02T02:49:52.0275872Z test_deadline_is_not_swallowed_by_request (__main__.CohortIntegrity.test_deadline_is_not_swallowed_by_request) ... ok
+2026-10-02T02:49:52.0279375Z test_descriptor_group_mutation_refused (__main__.CohortIntegrity.test_descriptor_group_mutation_refused) ... ok
+2026-10-02T02:49:52.0283049Z test_distinct_descriptors_make_groups_without_pool_identity_claim (__main__.CohortIntegrity.test_distinct_descriptors_make_groups_without_pool_identity_claim) ... ok
+2026-10-02T02:49:52.0284911Z test_duplicate_cached_sample_refused (__main__.CohortIntegrity.test_duplicate_cached_sample_refused) ... ok
+2026-10-02T02:49:52.0286652Z test_duplicate_target_probe_refused (__main__.CohortIntegrity.test_duplicate_target_probe_refused) ... ok
+2026-10-02T02:49:52.0307431Z test_empty_protocol_retained_as_empty_not_invented (__main__.CohortIntegrity.test_empty_protocol_retained_as_empty_not_invented) ... ok
+2026-10-02T02:49:52.0309364Z test_false_expression_analysis_marker_refused (__main__.CohortIntegrity.test_false_expression_analysis_marker_refused) ... ok
+2026-10-02T02:49:52.0311567Z test_literal_chrname_row_preserved_without_assignment_inference (__main__.CohortIntegrity.test_literal_chrname_row_preserved_without_assignment_inference) ... ok
+2026-10-02T02:49:52.0313547Z test_missing_cached_sample_refused (__main__.CohortIntegrity.test_missing_cached_sample_refused) ... ok
+2026-10-02T02:49:52.0315090Z test_missing_second_channel_refused (__main__.CohortIntegrity.test_missing_second_channel_refused) ... ok
+2026-10-02T02:49:52.0317146Z test_other_platform_sample_stays_outside_cached_arm (__main__.CohortIntegrity.test_other_platform_sample_stays_outside_cached_arm) ... ok
+2026-10-02T02:49:52.0319102Z test_parsed_channel_without_raw_binding_refused (__main__.CohortIntegrity.test_parsed_channel_without_raw_binding_refused) ... ok
+2026-10-02T02:49:52.0320873Z test_ragged_target_annotation_refused (__main__.CohortIntegrity.test_ragged_target_annotation_refused) ... ok
+2026-10-02T02:49:52.0322514Z test_source_cache_title_mismatch_refused (__main__.CohortIntegrity.test_source_cache_title_mismatch_refused) ... ok
+2026-10-02T02:49:52.0324350Z test_source_redirect_refused (__main__.CohortIntegrity.test_source_redirect_refused) ... ok
+2026-10-02T02:49:52.0326566Z test_target_annotation_missing_refused (__main__.CohortIntegrity.test_target_annotation_missing_refused) ... ok
+2026-10-02T02:49:52.0328081Z test_truncated_source_table_refused (__main__.CohortIntegrity.test_truncated_source_table_refused) ... ok
+2026-10-02T02:49:52.0329518Z test_two_colour_declaration_required (__main__.CohortIntegrity.test_two_colour_declaration_required) ... ok
+2026-10-02T02:49:52.0331284Z test_automatic_acquisition_is_disabled_even_without_evidence (__main__.RefusalIntegrity.test_automatic_acquisition_is_disabled_even_without_evidence) ... ok
+2026-10-02T02:49:52.0333387Z test_changed_cache_descriptor_refused (__main__.RefusalIntegrity.test_changed_cache_descriptor_refused) ... ok
+2026-10-02T02:49:52.0335086Z test_coherent_allow_policy_cannot_be_terminal_refusal (__main__.RefusalIntegrity.test_coherent_allow_policy_cannot_be_terminal_refusal) ... ok
+2026-10-02T02:49:52.0337321Z test_common_pool_claim_refused (__main__.RefusalIntegrity.test_common_pool_claim_refused) ... ok
+2026-10-02T02:49:52.0357378Z test_corrupt_frozen_input_pin_refused (__main__.RefusalIntegrity.test_corrupt_frozen_input_pin_refused) ... ok
+2026-10-02T02:49:52.0359286Z test_coverage_absence_claim_refused (__main__.RefusalIntegrity.test_coverage_absence_claim_refused) ... ok
+2026-10-02T02:49:52.0360907Z test_decision_flip_refused (__main__.RefusalIntegrity.test_decision_flip_refused) ... ok
+2026-10-02T02:49:52.0362580Z test_fake_annotation_projection_refused (__main__.RefusalIntegrity.test_fake_annotation_projection_refused) ... ok
+2026-10-02T02:49:52.0364426Z test_fake_dataset_receipt_refused (__main__.RefusalIntegrity.test_fake_dataset_receipt_refused) ... ok
+2026-10-02T02:49:52.0366390Z test_original_artifact_change_refused (__main__.RefusalIntegrity.test_original_artifact_change_refused) ... ok
+2026-10-02T02:49:52.0368131Z test_original_refusal_replay (__main__.RefusalIntegrity.test_original_refusal_replay) ... ok
+2026-10-02T02:49:52.0369662Z test_source_url_change_refused (__main__.RefusalIntegrity.test_source_url_change_refused) ... ok
+2026-10-02T02:49:52.0371177Z test_user_agent_change_refused (__main__.RefusalIntegrity.test_user_agent_change_refused) ... ok
+2026-10-02T02:49:52.0372100Z 
+2026-10-02T02:49:52.0372642Z ----------------------------------------------------------------------
+2026-10-02T02:49:52.0373249Z Ran 38 tests in 0.013s
+2026-10-02T02:49:52.0373487Z 
+2026-10-02T02:49:52.0373606Z OK
+2026-10-02T02:49:52.1087084Z ##[group]Run actions/download-artifact@v4
+2026-10-02T02:49:52.1087396Z with:
+2026-10-02T02:49:52.1087600Z   artifact-ids: 11206600090
+2026-10-02T02:49:52.1087837Z   run-id: 36956839577
+2026-10-02T02:49:52.1090647Z   github-token: ***
+2026-10-02T02:49:52.1090911Z   path: .cache/gpl3290-coverage/original-robots/
+2026-10-02T02:49:52.1091222Z   merge-multiple: true
+2026-10-02T02:49:52.1091456Z   repository: trimcrae/Rare-cancers
+2026-10-02T02:49:52.1091707Z env:
+2026-10-02T02:49:52.1091960Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:52.1092391Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T02:49:52.1092821Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:52.1093199Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:52.1093573Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:52.1093991Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T02:49:52.1094315Z ##[endgroup]
+2026-10-02T02:49:52.2688125Z Downloading artifacts by ID
+2026-10-02T02:49:52.2693035Z Fetching artifact list for workflow run 36956839577 in repository trimcrae/Rare-cancers
+2026-10-02T02:49:52.2775113Z (node:2426) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-02T02:49:52.2776777Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-02T02:49:52.3006834Z (node:2426) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-02T02:49:52.4907589Z Found 1 artifact(s)
+2026-10-02T02:49:52.4909204Z Preparing to download the following artifacts:
+2026-10-02T02:49:52.4910661Z - gpl3290-coverage-bdd2608c61d1d9e5c4317ba74febbfa2f9cf2403 (ID: 11206600090, Size: 162, Expected Digest: sha256:a3a02bc43ea4cd4b0e01d9aafe00fd5345dac1920605d20b302182f925a38c0b)
+2026-10-02T02:49:52.4966170Z Downloading artifact '11206600090' from 'trimcrae/Rare-cancers'
+2026-10-02T02:49:52.6796560Z Redirecting to blob download url: https://productionresultssa14.blob.core.windows.net/actions-results/934eef78-a79f-8df0-b638-721dc7a86b48/workflow-job-run-6699bef7-bf5e-5e36-9b58-60262d554f64/artifacts/59bce30649c2242704162a3c7757776fb03c3663e79c41710f323951fb02edfb.zip
+2026-10-02T02:49:52.6799928Z Starting download of artifact to: /home/runner/work/Rare-cancers/Rare-cancers/.cache/gpl3290-coverage/original-robots
+2026-10-02T02:49:52.7718596Z (node:2426) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-10-02T02:49:52.7748005Z SHA256 digest of downloaded artifact is a3a02bc43ea4cd4b0e01d9aafe00fd5345dac1920605d20b302182f925a38c0b
+2026-10-02T02:49:52.7749068Z Artifact download completed successfully.
+2026-10-02T02:49:52.7749517Z Total of 1 artifact(s) downloaded
+2026-10-02T02:49:52.7753906Z Download artifact has finished successfully
+2026-10-02T02:49:52.8388086Z ##[group]Run python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/acquire.py --record-refusal .cache/gpl3290-coverage/original-robots/robots.txt --output .cache/gpl3290-coverage/evidence.json
+2026-10-02T02:49:52.8389628Z [36;1mpython3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/acquire.py --record-refusal .cache/gpl3290-coverage/original-robots/robots.txt --output .cache/gpl3290-coverage/evidence.json[0m
+2026-10-02T02:49:52.8457338Z shell: /usr/bin/bash -e {0}
+2026-10-02T02:49:52.8457601Z env:
+2026-10-02T02:49:52.8457880Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:52.8458353Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T02:49:52.8458810Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:52.8459213Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:52.8459619Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:52.8460068Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T02:49:52.8460423Z ##[endgroup]
+2026-10-02T02:49:53.0052641Z SOURCE_EVIDENCE_BEGIN
+2026-10-02T02:49:53.0053165Z {
+2026-10-02T02:49:53.0053541Z   "adjudication": {
+2026-10-02T02:49:53.0054017Z     "CHRNA6_coverage": "unknown",
+2026-10-02T02:49:53.0054448Z     "common_reference_pool": "unknown",
+2026-10-02T02:49:53.0054829Z     "expression_statistics": "not_run",
+2026-10-02T02:49:53.0055204Z     "independent_validation": "unknown",
+2026-10-02T02:49:53.0056004Z     "processing_compatibility": "unknown"
+2026-10-02T02:49:53.0056445Z   },
+2026-10-02T02:49:53.0056824Z   "ai_authorship": "Codex AI assistant; independent LLM review pending",
+2026-10-02T02:49:53.0057653Z   "attempted_source_url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE4nnn/GSE4303/soft/GSE4303_family.soft.gz",
+2026-10-02T02:49:53.0058421Z   "cache_observations": [
+2026-10-02T02:49:53.0058708Z     {
+2026-10-02T02:49:53.0059185Z       "cached_annotation": "STT3126-DFSP | CRH | STT3126-DFSP mRNA | CRH | STT3126-DFSP mRNA",
+2026-10-02T02:49:53.0059826Z       "cached_class": "DFSP",
+2026-10-02T02:49:53.0060148Z       "cached_title": "STT3126-DFSP",
+2026-10-02T02:49:53.0060483Z       "gsm": "GSM89883",
+2026-10-02T02:49:53.0060997Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0061562Z     },
+2026-10-02T02:49:53.0061781Z     {
+2026-10-02T02:49:53.0062217Z       "cached_annotation": "STT3068-DFSP | CRH | STT3068-DFSP mRNA | CRH | STT3068-DFSP mRNA",
+2026-10-02T02:49:53.0062782Z       "cached_class": "DFSP",
+2026-10-02T02:49:53.0063093Z       "cached_title": "STT3068-DFSP",
+2026-10-02T02:49:53.0063427Z       "gsm": "GSM89898",
+2026-10-02T02:49:53.0063918Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0064420Z     },
+2026-10-02T02:49:53.0064607Z     {
+2026-10-02T02:49:53.0064982Z       "cached_annotation": "STT3053-DFSP | CRH | STT3053-DFSP mRNA | CRH | STT3053-DFSP mRNA",
+2026-10-02T02:49:53.0065458Z       "cached_class": "DFSP",
+2026-10-02T02:49:53.0066129Z       "cached_title": "STT3053-DFSP",
+2026-10-02T02:49:53.0066419Z       "gsm": "GSM89924",
+2026-10-02T02:49:53.0066840Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0067311Z     },
+2026-10-02T02:49:53.0067493Z     {
+2026-10-02T02:49:53.0067975Z       "cached_annotation": "STT2001c-GIST-Total RNA-WT | UHR | STT2001c-GIST-Total RNA | UHR | STT2001c-GIST-Total RNA",
+2026-10-02T02:49:53.0068558Z       "cached_class": "GIST",
+2026-10-02T02:49:53.0068852Z       "cached_title": "STT2001c-GIST-Total RNA-WT",
+2026-10-02T02:49:53.0069177Z       "gsm": "GSM91381",
+2026-10-02T02:49:53.0069602Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0070073Z     },
+2026-10-02T02:49:53.0070264Z     {
+2026-10-02T02:49:53.0070946Z       "cached_annotation": "STT794b-GIST-Total RNA-PDGFRa | UHR | STT794b-GIST-Total RNA | UHR | STT794b-GIST-Total RNA",
+2026-10-02T02:49:53.0071552Z       "cached_class": "GIST",
+2026-10-02T02:49:53.0071858Z       "cached_title": "STT794b-GIST-Total RNA-PDGFRa",
+2026-10-02T02:49:53.0072192Z       "gsm": "GSM91397",
+2026-10-02T02:49:53.0072615Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0073090Z     },
+2026-10-02T02:49:53.0073279Z     {
+2026-10-02T02:49:53.0073746Z       "cached_annotation": "STT94b-GIST-Total RNA-exon9 | UHR | STT94b-GIST-Total RNA | UHR | STT94b-GIST-Total RNA",
+2026-10-02T02:49:53.0074320Z       "cached_class": "GIST",
+2026-10-02T02:49:53.0074585Z       "cached_title": "STT94b-GIST-Total RNA-exon9",
+2026-10-02T02:49:53.0074874Z       "gsm": "GSM91405",
+2026-10-02T02:49:53.0075245Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0075800Z     },
+2026-10-02T02:49:53.0075985Z     {
+2026-10-02T02:49:53.0076628Z       "cached_annotation": "STT3699-Myxoid Chondrosarcoma | CRH-mRNA | STT3699-Myxoid Chondrosarcoma | CRH-mRNA | STT3699-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0077260Z       "cached_class": "EMC",
+2026-10-02T02:49:53.0077535Z       "cached_title": "STT3699-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0077828Z       "gsm": "GSM98495",
+2026-10-02T02:49:53.0078200Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0078614Z     },
+2026-10-02T02:49:53.0078779Z     {
+2026-10-02T02:49:53.0079315Z       "cached_annotation": "STT3698-Myxoid Chondrosarcoma | CRH-mRNA | STT3698-Myxoid Chondrosarcoma | CRH-mRNA | STT3698-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0079921Z       "cached_class": "EMC",
+2026-10-02T02:49:53.0080187Z       "cached_title": "STT3698-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0080482Z       "gsm": "GSM98496",
+2026-10-02T02:49:53.0080859Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0081268Z     },
+2026-10-02T02:49:53.0081445Z     {
+2026-10-02T02:49:53.0081977Z       "cached_annotation": "STT3697-Myxoid Chondrosarcoma | CRH-mRNA | STT3697-Myxoid Chondrosarcoma | CRH-mRNA | STT3697-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0082577Z       "cached_class": "EMC",
+2026-10-02T02:49:53.0082851Z       "cached_title": "STT3697-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0083142Z       "gsm": "GSM98499",
+2026-10-02T02:49:53.0083512Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0083935Z     },
+2026-10-02T02:49:53.0084105Z     {
+2026-10-02T02:49:53.0084613Z       "cached_annotation": "STT3782-Myxoid chondrosarcoma | CRH-mRNA | STT3782-Myxoid chondrosarcoma | CRH-mRNA | STT3782-Myxoid chondrosarcoma",
+2026-10-02T02:49:53.0085208Z       "cached_class": "EMC",
+2026-10-02T02:49:53.0085473Z       "cached_title": "STT3782-Myxoid chondrosarcoma",
+2026-10-02T02:49:53.0086173Z       "gsm": "GSM98503",
+2026-10-02T02:49:53.0086744Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0087326Z     },
+2026-10-02T02:49:53.0087497Z     {
+2026-10-02T02:49:53.0088012Z       "cached_annotation": "STT3783-Myxoid chondrosarcoma | CRH-mRNA | STT3783-Myxoid chondrosarcoma | CRH-mRNA | STT3783-Myxoid chondrosarcoma",
+2026-10-02T02:49:53.0088607Z       "cached_class": "EMC",
+2026-10-02T02:49:53.0088867Z       "cached_title": "STT3783-Myxoid chondrosarcoma",
+2026-10-02T02:49:53.0089157Z       "gsm": "GSM98506",
+2026-10-02T02:49:53.0089525Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0089938Z     },
+2026-10-02T02:49:53.0090117Z     {
+2026-10-02T02:49:53.0090632Z       "cached_annotation": "STT3714-Myxoid Chondrosarcoma | CRH-mRNA | STT3714-Myxoid Chondrosarcoma | CRH-mRNA | STT3714-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0091224Z       "cached_class": "EMC",
+2026-10-02T02:49:53.0091613Z       "cached_title": "STT3714-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0091915Z       "gsm": "GSM98509",
+2026-10-02T02:49:53.0092283Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0092689Z     },
+2026-10-02T02:49:53.0092856Z     {
+2026-10-02T02:49:53.0093361Z       "cached_annotation": "STT3780-Myxoid chondrosarcoma | CRH-mRNA | STT3780-Myxoid chondrosarcoma | CRH-mRNA | STT3780-Myxoid chondrosarcoma",
+2026-10-02T02:49:53.0093965Z       "cached_class": "EMC",
+2026-10-02T02:49:53.0094222Z       "cached_title": "STT3780-Myxoid chondrosarcoma",
+2026-10-02T02:49:53.0094511Z       "gsm": "GSM98510",
+2026-10-02T02:49:53.0094877Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0095285Z     },
+2026-10-02T02:49:53.0095452Z     {
+2026-10-02T02:49:53.0096313Z       "cached_annotation": "STT1169-Myxoid Chondrosarcoma | CRH-mRNA | STT1169-Myxoid Chondrosarcoma | CRH-mRNA | STT1169-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0096945Z       "cached_class": "EMC",
+2026-10-02T02:49:53.0097223Z       "cached_title": "STT1169-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0097524Z       "gsm": "GSM98511",
+2026-10-02T02:49:53.0097899Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0098311Z     },
+2026-10-02T02:49:53.0098484Z     {
+2026-10-02T02:49:53.0098997Z       "cached_annotation": "STT2003-Myxoid Chondrosarcoma | CRH-mRNA | STT2003-Myxoid Chondrosarcoma | CRH-mRNA | STT2003-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0099602Z       "cached_class": "EMC",
+2026-10-02T02:49:53.0099865Z       "cached_title": "STT2003-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0100151Z       "gsm": "GSM98512",
+2026-10-02T02:49:53.0100518Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0100930Z     },
+2026-10-02T02:49:53.0101098Z     {
+2026-10-02T02:49:53.0101642Z       "cached_annotation": "STT2528(2)-Myxoid Chondrosarcoma | CRH-mRNA | STT2528(2)-Myxoid Chondrosarcoma | CRH-mRNA | STT2528(2)-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0102266Z       "cached_class": "EMC",
+2026-10-02T02:49:53.0102536Z       "cached_title": "STT2528(2)-Myxoid Chondrosarcoma",
+2026-10-02T02:49:53.0102832Z       "gsm": "GSM98513",
+2026-10-02T02:49:53.0103197Z       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"
+2026-10-02T02:49:53.0103607Z     }
+2026-10-02T02:49:53.0103773Z   ],
+2026-10-02T02:49:53.0103952Z   "cached_arm_by_gsm": {
+2026-10-02T02:49:53.0104171Z     "GSM89883": "DFSP",
+2026-10-02T02:49:53.0104381Z     "GSM89898": "DFSP",
+2026-10-02T02:49:53.0104582Z     "GSM89924": "DFSP",
+2026-10-02T02:49:53.0104782Z     "GSM91381": "GIST",
+2026-10-02T02:49:53.0104982Z     "GSM91397": "GIST",
+2026-10-02T02:49:53.0105181Z     "GSM91405": "GIST",
+2026-10-02T02:49:53.0105380Z     "GSM98495": "EMC",
+2026-10-02T02:49:53.0105696Z     "GSM98496": "EMC",
+2026-10-02T02:49:53.0105903Z     "GSM98499": "EMC",
+2026-10-02T02:49:53.0106104Z     "GSM98503": "EMC",
+2026-10-02T02:49:53.0106450Z     "GSM98506": "EMC",
+2026-10-02T02:49:53.0106654Z     "GSM98509": "EMC",
+2026-10-02T02:49:53.0106849Z     "GSM98510": "EMC",
+2026-10-02T02:49:53.0107044Z     "GSM98511": "EMC",
+2026-10-02T02:49:53.0107239Z     "GSM98512": "EMC",
+2026-10-02T02:49:53.0107437Z     "GSM98513": "EMC"
+2026-10-02T02:49:53.0107629Z   },
+2026-10-02T02:49:53.0107817Z   "cached_descriptor_groups": [
+2026-10-02T02:49:53.0108052Z     {
+2026-10-02T02:49:53.0108239Z       "cached_sample_ids": [
+2026-10-02T02:49:53.0108461Z         "GSM89883",
+2026-10-02T02:49:53.0108657Z         "GSM89898",
+2026-10-02T02:49:53.0108856Z         "GSM89924"
+2026-10-02T02:49:53.0109048Z       ],
+2026-10-02T02:49:53.0109243Z       "native_descriptor": "CRH"
+2026-10-02T02:49:53.0109472Z     },
+2026-10-02T02:49:53.0109642Z     {
+2026-10-02T02:49:53.0109825Z       "cached_sample_ids": [
+2026-10-02T02:49:53.0110045Z         "GSM98495",
+2026-10-02T02:49:53.0110362Z         "GSM98496",
+2026-10-02T02:49:53.0110555Z         "GSM98499",
+2026-10-02T02:49:53.0110742Z         "GSM98503",
+2026-10-02T02:49:53.0110925Z         "GSM98506",
+2026-10-02T02:49:53.0111109Z         "GSM98509",
+2026-10-02T02:49:53.0111301Z         "GSM98510",
+2026-10-02T02:49:53.0111484Z         "GSM98511",
+2026-10-02T02:49:53.0111668Z         "GSM98512",
+2026-10-02T02:49:53.0111851Z         "GSM98513"
+2026-10-02T02:49:53.0112032Z       ],
+2026-10-02T02:49:53.0112224Z       "native_descriptor": "CRH-mRNA"
+2026-10-02T02:49:53.0112473Z     },
+2026-10-02T02:49:53.0112638Z     {
+2026-10-02T02:49:53.0112819Z       "cached_sample_ids": [
+2026-10-02T02:49:53.0113038Z         "GSM91381",
+2026-10-02T02:49:53.0113226Z         "GSM91397",
+2026-10-02T02:49:53.0113417Z         "GSM91405"
+2026-10-02T02:49:53.0113601Z       ],
+2026-10-02T02:49:53.0113789Z       "native_descriptor": "UHR"
+2026-10-02T02:49:53.0114017Z     }
+2026-10-02T02:49:53.0114183Z   ],
+2026-10-02T02:49:53.0114383Z   "dataset_get_performed": false,
+2026-10-02T02:49:53.0114629Z   "input_sha256": {
+2026-10-02T02:49:53.0115164Z     "research/modalities/emc-expression-panels-inputs.json": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+2026-10-02T02:49:53.0116338Z     "research/modalities/emc-expression-panels.json": "123bd05a9f9f5d08a362df3bd51cdbb72c241b49712123aaf5c5ea914f336bd9",
+2026-10-02T02:49:53.0117206Z     "research/modalities/expression-validation-readiness.json": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12"
+2026-10-02T02:49:53.0117773Z   },
+2026-10-02T02:49:53.0118819Z   "limitations": "Only the original robots body was recovered from its existing GitHub artifact. No new platform annotation or primary sample/channel metadata was acquired. Cache descriptors cannot establish pool composition, channel roles, processing compatibility or CHRNA6 assay coverage.",
+2026-10-02T02:49:53.0119954Z   "original_refusal": {
+2026-10-02T02:49:53.0120375Z     "artifact_digest": "sha256:a3a02bc43ea4cd4b0e01d9aafe00fd5345dac1920605d20b302182f925a38c0b",
+2026-10-02T02:49:53.0120875Z     "artifact_id": 11206600090,
+2026-10-02T02:49:53.0121109Z     "job_id": 110681574472,
+2026-10-02T02:49:53.0121352Z     "run_id": 36956839577,
+2026-10-02T02:49:53.0121638Z     "source_commit": "bdd2608c61d1d9e5c4317ba74febbfa2f9cf2403"
+2026-10-02T02:49:53.0121957Z   },
+2026-10-02T02:49:53.0122169Z   "projection": null,
+2026-10-02T02:49:53.0122377Z   "robots": {
+2026-10-02T02:49:53.0122564Z     "bytes": 26,
+2026-10-02T02:49:53.0122779Z     "decision": "refuse",
+2026-10-02T02:49:53.0123025Z     "http_status": 200,
+2026-10-02T02:49:53.0123303Z     "raw_utf8": "User-agent: *\nDisallow: /\n",
+2026-10-02T02:49:53.0123726Z     "requested_url": "https://ftp.ncbi.nlm.nih.gov/robots.txt",
+2026-10-02T02:49:53.0124215Z     "response_headers": "not retained by original failed source step",
+2026-10-02T02:49:53.0124726Z     "sha256": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1"
+2026-10-02T02:49:53.0125107Z   },
+2026-10-02T02:49:53.0125322Z   "schema": "emc-gpl3290-coverage/1",
+2026-10-02T02:49:53.0125896Z   "source_receipt": null,
+2026-10-02T02:49:53.0126133Z   "status": "blocked_by_robots",
+2026-10-02T02:49:53.0126426Z   "user_agent": "EMCResearchSourceAudit/1.0"
+2026-10-02T02:49:53.0126726Z }
+2026-10-02T02:49:53.0126921Z SOURCE_EVIDENCE_END
+2026-10-02T02:49:53.0127349Z EVIDENCE_SHA256=1b3298db804976b4f7cfac4f50ebcb6ca4680a5ed57e9670de57e4280cc77dc2 BYTES=8522
+2026-10-02T02:49:53.0206959Z ##[group]Run EVIDENCE_PATH=research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/evidence.json
+2026-10-02T02:49:53.0208356Z [36;1mEVIDENCE_PATH=research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/evidence.json[0m
+2026-10-02T02:49:53.0209293Z [36;1mif [ ! -f "$EVIDENCE_PATH" ]; then[0m
+2026-10-02T02:49:53.0209956Z [36;1m  EVIDENCE_PATH=.cache/gpl3290-coverage/evidence.json[0m
+2026-10-02T02:49:53.0210569Z [36;1mfi[0m
+2026-10-02T02:49:53.0211406Z [36;1mpython3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/acquire.py --check "$EVIDENCE_PATH"[0m
+2026-10-02T02:49:53.0292134Z shell: /usr/bin/bash -e {0}
+2026-10-02T02:49:53.0292420Z env:
+2026-10-02T02:49:53.0292699Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:53.0293147Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T02:49:53.0293578Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:53.0293989Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:53.0294386Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:53.0294820Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T02:49:53.0295144Z ##[endgroup]
+2026-10-02T02:49:53.1927544Z OFFLINE_CHECK_OK cached_samples=16 robots=refused dataset_get=False scientific_states=unknown
+2026-10-02T02:49:53.2598239Z ##[group]Run actions/upload-artifact@v4
+2026-10-02T02:49:53.2598548Z with:
+2026-10-02T02:49:53.2598850Z   name: gpl3290-coverage-006016cf6d2e9a4f9391509fc709c871964e6a6d
+2026-10-02T02:49:53.2599233Z   path: .cache/gpl3290-coverage/
+2026-10-02T02:49:53.2599502Z   retention-days: 30
+2026-10-02T02:49:53.2599725Z   if-no-files-found: ignore
+2026-10-02T02:49:53.2599968Z   compression-level: 6
+2026-10-02T02:49:53.2600190Z   overwrite: false
+2026-10-02T02:49:53.2600410Z   include-hidden-files: false
+2026-10-02T02:49:53.2600646Z env:
+2026-10-02T02:49:53.2600922Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:53.2601355Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T02:49:53.2601786Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:53.2602182Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:53.2602573Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:53.2603021Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T02:49:53.2603354Z ##[endgroup]
+2026-10-02T02:49:53.4281321Z (node:2465) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-02T02:49:53.4282672Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-02T02:49:53.4347903Z With the provided path, there will be 2 files uploaded
+2026-10-02T02:49:53.4348898Z Artifact name is valid!
+2026-10-02T02:49:53.4376475Z Root directory input is valid!
+2026-10-02T02:49:53.7008108Z Beginning upload of artifact content to blob storage
+2026-10-02T02:49:53.7220784Z (node:2465) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-02T02:49:53.8375524Z Uploaded bytes 2057
+2026-10-02T02:49:53.8748956Z Finished uploading artifact content to blob storage!
+2026-10-02T02:49:53.8750062Z SHA256 digest of uploaded artifact zip is 196becc61af1c63d29fd4f3779aec505cd861bd5516afaa7c021ec8c3ce70ec2
+2026-10-02T02:49:53.8752101Z Finalizing artifact upload
+2026-10-02T02:49:54.1153883Z Artifact gpl3290-coverage-006016cf6d2e9a4f9391509fc709c871964e6a6d.zip successfully finalized. Artifact ID 11206362948
+2026-10-02T02:49:54.1156578Z Artifact gpl3290-coverage-006016cf6d2e9a4f9391509fc709c871964e6a6d has been successfully uploaded! Final size is 2057 bytes. Artifact ID is 11206362948
+2026-10-02T02:49:54.1161440Z Artifact download URL: https://github.com/trimcrae/Rare-cancers/actions/runs/36957406599/artifacts/11206362948
+2026-10-02T02:49:54.1281654Z ##[group]Run python3 -m pip install uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+2026-10-02T02:49:54.1282857Z [36;1mpython3 -m pip install uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi[0m
+2026-10-02T02:49:54.1346394Z shell: /usr/bin/bash -e {0}
+2026-10-02T02:49:54.1346646Z env:
+2026-10-02T02:49:54.1346920Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:54.1347383Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T02:49:54.1347825Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:54.1348211Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:54.1348599Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:49:54.1349017Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T02:49:54.1349348Z ##[endgroup]
+2026-10-02T02:49:55.2446253Z Collecting uv
+2026-10-02T02:49:55.2925387Z   Downloading uv-0.12.22-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (11 kB)
+2026-10-02T02:49:55.3236096Z Collecting pytest
+2026-10-02T02:49:55.3272905Z   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+2026-10-02T02:49:55.3450840Z Collecting pytest-xdist
+2026-10-02T02:49:55.3486417Z   Downloading pytest_xdist-3.8.0-py3-none-any.whl.metadata (3.0 kB)
+2026-10-02T02:49:55.5458932Z Collecting numpy
+2026-10-02T02:49:55.5500418Z   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-10-02T02:49:55.6678037Z Collecting scipy
+2026-10-02T02:49:55.6719974Z   Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+2026-10-02T02:49:55.7035101Z Collecting pymbar
+2026-10-02T02:49:55.7083594Z   Downloading pymbar-4.0.3-py3-none-any.whl.metadata (1.2 kB)
+2026-10-02T02:49:55.7621536Z Collecting rdkit
+2026-10-02T02:49:55.7678498Z   Downloading rdkit-2026.3.6-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+2026-10-02T02:49:55.8035535Z Collecting pyyaml
+2026-10-02T02:49:55.8074944Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-10-02T02:49:56.0804166Z Collecting boto3
+2026-10-02T02:49:56.0846761Z   Downloading boto3-1.43.107-py3-none-any.whl.metadata (6.6 kB)
+2026-10-02T02:49:56.1057835Z Collecting jsonschema
+2026-10-02T02:49:56.1092666Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-10-02T02:49:56.1438398Z Collecting biopython
+2026-10-02T02:49:56.1496466Z   Downloading biopython-1.88-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (13 kB)
+2026-10-02T02:49:56.1629046Z Collecting pdfminer.six
+2026-10-02T02:49:56.1665164Z   Downloading pdfminer_six-20260107-py3-none-any.whl.metadata (4.3 kB)
+2026-10-02T02:49:56.1885283Z Collecting pypdf
+2026-10-02T02:49:56.1927725Z   Downloading pypdf-6.19.0-py3-none-any.whl.metadata (7.5 kB)
+2026-10-02T02:49:56.2095298Z Collecting pdfplumber
+2026-10-02T02:49:56.2141019Z   Downloading pdfplumber-0.11.10-py3-none-any.whl.metadata (43 kB)
+2026-10-02T02:49:56.3409953Z Collecting matplotlib
+2026-10-02T02:49:56.3450507Z   Downloading matplotlib-3.11.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (80 kB)
+2026-10-02T02:49:56.4106115Z Collecting netCDF4
+2026-10-02T02:49:56.4147336Z   Downloading netcdf4-1.7.4-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (2.1 kB)
+2026-10-02T02:49:56.5118864Z Collecting cffi
+2026-10-02T02:49:56.5158171Z   Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+2026-10-02T02:49:56.5278495Z Collecting iniconfig>=1.0.1 (from pytest)
+2026-10-02T02:49:56.5314728Z   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-02T02:49:56.5460348Z Collecting packaging>=22 (from pytest)
+2026-10-02T02:49:56.5496212Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-10-02T02:49:56.5616391Z Collecting pluggy<2,>=1.5 (from pytest)
+2026-10-02T02:49:56.5652051Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+2026-10-02T02:49:56.5885860Z Collecting pygments>=2.7.2 (from pytest)
+2026-10-02T02:49:56.5922636Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-02T02:49:56.6310419Z Collecting execnet>=2.1 (from pytest-xdist)
+2026-10-02T02:49:56.6348435Z   Downloading execnet-2.1.2-py3-none-any.whl.metadata (2.9 kB)
+2026-10-02T02:49:56.7023198Z Collecting numexpr (from pymbar)
+2026-10-02T02:49:56.7060877Z   Downloading numexpr-2.14.2-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.0 kB)
+2026-10-02T02:49:56.8645536Z Collecting Pillow (from rdkit)
+2026-10-02T02:49:56.8689947Z   Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+2026-10-02T02:49:57.1065205Z Collecting botocore<1.44.0,>=1.43.107 (from boto3)
+2026-10-02T02:49:57.1103426Z   Downloading botocore-1.43.107-py3-none-any.whl.metadata (5.6 kB)
+2026-10-02T02:49:57.1226096Z Collecting jmespath<2.0.0,>=0.7.1 (from boto3)
+2026-10-02T02:49:57.1264549Z   Downloading jmespath-1.1.0-py3-none-any.whl.metadata (7.6 kB)
+2026-10-02T02:49:57.1416146Z Collecting s3transfer<0.20.0,>=0.19.0 (from boto3)
+2026-10-02T02:49:57.1452427Z   Downloading s3transfer-0.19.2-py3-none-any.whl.metadata (1.7 kB)
+2026-10-02T02:49:57.1589287Z Collecting python-dateutil<3.0.0,>=2.1 (from botocore<1.44.0,>=1.43.107->boto3)
+2026-10-02T02:49:57.1626136Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-10-02T02:49:57.1825738Z Collecting urllib3!=2.2.0,<3,>=1.25.4 (from botocore<1.44.0,>=1.43.107->boto3)
+2026-10-02T02:49:57.1863215Z   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+2026-10-02T02:49:57.2002316Z Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.1->botocore<1.44.0,>=1.43.107->boto3)
+2026-10-02T02:49:57.2035942Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-10-02T02:49:57.2338801Z Collecting attrs>=22.2.0 (from jsonschema)
+2026-10-02T02:49:57.2373519Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-10-02T02:49:57.2493699Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema)
+2026-10-02T02:49:57.2529162Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-10-02T02:49:57.2723866Z Collecting referencing>=0.28.4 (from jsonschema)
+2026-10-02T02:49:57.2758964Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-10-02T02:49:57.5128140Z Collecting rpds-py>=0.25.0 (from jsonschema)
+2026-10-02T02:49:57.5172501Z   Downloading rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-10-02T02:49:57.6775545Z Collecting charset-normalizer>=2.0.0 (from pdfminer.six)
+2026-10-02T02:49:57.6816396Z   Downloading charset_normalizer-3.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (46 kB)
+2026-10-02T02:49:57.8576553Z Collecting cryptography>=36.0.0 (from pdfminer.six)
+2026-10-02T02:49:57.8659225Z   Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.4 kB)
+2026-10-02T02:49:57.9480781Z Collecting pypdfium2>=5.9.0 (from pdfplumber)
+2026-10-02T02:49:57.9521186Z   Downloading pypdfium2-5.13.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (66 kB)
+2026-10-02T02:49:58.0149690Z Collecting contourpy>=1.0.1 (from matplotlib)
+2026-10-02T02:49:58.0189730Z   Downloading contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.5 kB)
+2026-10-02T02:49:58.0327258Z Collecting cycler>=0.10 (from matplotlib)
+2026-10-02T02:49:58.0373941Z   Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+2026-10-02T02:49:58.2243235Z Collecting fonttools>=4.28.2 (from matplotlib)
+2026-10-02T02:49:58.2284178Z   Downloading fonttools-4.66.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (130 kB)
+2026-10-02T02:49:58.3016137Z Collecting kiwisolver>=1.3.1 (from matplotlib)
+2026-10-02T02:49:58.3056311Z   Downloading kiwisolver-1.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.2 kB)
+2026-10-02T02:49:58.3310434Z Collecting pyparsing>=3 (from matplotlib)
+2026-10-02T02:49:58.3345991Z   Downloading pyparsing-3.3.3-py3-none-any.whl.metadata (5.9 kB)
+2026-10-02T02:49:58.3803530Z Collecting cftime (from netCDF4)
+2026-10-02T02:49:58.3842625Z   Downloading cftime-1.6.6-cp311-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.7 kB)
+2026-10-02T02:49:58.4016054Z Collecting certifi (from netCDF4)
+2026-10-02T02:49:58.4050068Z   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+2026-10-02T02:49:58.4181411Z Collecting pycparser (from cffi)
+2026-10-02T02:49:58.4218388Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-10-02T02:49:58.4473551Z Collecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema)
+2026-10-02T02:49:58.4508495Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-10-02T02:49:58.4655489Z Downloading uv-0.12.22-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20.6 MB)
+2026-10-02T02:49:58.5446784Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 20.6/20.6 MB 271.7 MB/s  0:00:00
+2026-10-02T02:49:58.5487953Z Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+2026-10-02T02:49:58.5553176Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+2026-10-02T02:49:58.5612837Z Downloading pytest_xdist-3.8.0-py3-none-any.whl (46 kB)
+2026-10-02T02:49:58.5666701Z Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2026-10-02T02:49:58.6232250Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 309.4 MB/s  0:00:00
+2026-10-02T02:49:58.6271326Z Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+2026-10-02T02:49:58.7390685Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 322.1 MB/s  0:00:00
+2026-10-02T02:49:58.7435770Z Downloading pymbar-4.0.3-py3-none-any.whl (107 kB)
+2026-10-02T02:49:58.7514688Z Downloading rdkit-2026.3.6-cp311-cp311-manylinux_2_28_x86_64.whl (38.2 MB)
+2026-10-02T02:49:58.9089659Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 38.2/38.2 MB 245.1 MB/s  0:00:00
+2026-10-02T02:49:58.9158023Z Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+2026-10-02T02:49:58.9212286Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 169.2 MB/s  0:00:00
+2026-10-02T02:49:58.9253449Z Downloading boto3-1.43.107-py3-none-any.whl (140 kB)
+2026-10-02T02:49:58.9311937Z Downloading botocore-1.43.107-py3-none-any.whl (16.0 MB)
+2026-10-02T02:49:58.9853214Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.0/16.0 MB 306.0 MB/s  0:00:00
+2026-10-02T02:49:58.9892878Z Downloading jmespath-1.1.0-py3-none-any.whl (20 kB)
+2026-10-02T02:49:58.9952655Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-10-02T02:49:59.0010742Z Downloading s3transfer-0.19.2-py3-none-any.whl (90 kB)
+2026-10-02T02:49:59.0068132Z Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+2026-10-02T02:49:59.0123854Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-10-02T02:49:59.0187075Z Downloading biopython-1.88-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (3.2 MB)
+2026-10-02T02:49:59.0378167Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.2/3.2 MB 176.1 MB/s  0:00:00
+2026-10-02T02:49:59.0414597Z Downloading pdfminer_six-20260107-py3-none-any.whl (6.6 MB)
+2026-10-02T02:49:59.0636924Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 319.5 MB/s  0:00:00
+2026-10-02T02:49:59.0675942Z Downloading pypdf-6.19.0-py3-none-any.whl (395 kB)
+2026-10-02T02:49:59.0743304Z Downloading pdfplumber-0.11.10-py3-none-any.whl (60 kB)
+2026-10-02T02:49:59.0801116Z Downloading matplotlib-3.11.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (9.9 MB)
+2026-10-02T02:49:59.1158879Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.9/9.9 MB 289.0 MB/s  0:00:00
+2026-10-02T02:49:59.1196944Z Downloading netcdf4-1.7.4-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (10.4 MB)
+2026-10-02T02:49:59.1641248Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.4/10.4 MB 244.8 MB/s  0:00:00
+2026-10-02T02:49:59.1680397Z Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (217 kB)
+2026-10-02T02:49:59.1739322Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-10-02T02:49:59.1796088Z Downloading charset_normalizer-3.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (269 kB)
+2026-10-02T02:49:59.1854210Z Downloading contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (355 kB)
+2026-10-02T02:49:59.1916241Z Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl (4.8 MB)
+2026-10-02T02:49:59.2091175Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.8/4.8 MB 296.2 MB/s  0:00:00
+2026-10-02T02:49:59.2130290Z Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+2026-10-02T02:49:59.2184942Z Downloading execnet-2.1.2-py3-none-any.whl (40 kB)
+2026-10-02T02:49:59.2241627Z Downloading fonttools-4.66.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.4 MB)
+2026-10-02T02:49:59.2432259Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.4/5.4 MB 311.6 MB/s  0:00:00
+2026-10-02T02:49:59.2473504Z Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+2026-10-02T02:49:59.2526275Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-10-02T02:49:59.2582041Z Downloading kiwisolver-1.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.4 MB)
+2026-10-02T02:49:59.2652535Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 241.5 MB/s  0:00:00
+2026-10-02T02:49:59.2689568Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-10-02T02:49:59.2747199Z Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+2026-10-02T02:49:59.2994053Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 298.3 MB/s  0:00:00
+2026-10-02T02:49:59.3035360Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-10-02T02:49:59.3128600Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 175.8 MB/s  0:00:00
+2026-10-02T02:49:59.3166288Z Downloading pyparsing-3.3.3-py3-none-any.whl (126 kB)
+2026-10-02T02:49:59.3223972Z Downloading pypdfium2-5.13.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.7 MB)
+2026-10-02T02:49:59.3366671Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.7/3.7 MB 292.1 MB/s  0:00:00
+2026-10-02T02:49:59.3403850Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-10-02T02:49:59.3459862Z Downloading rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (371 kB)
+2026-10-02T02:49:59.3522217Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-10-02T02:49:59.3578873Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-10-02T02:49:59.3634063Z Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+2026-10-02T02:49:59.3692468Z Downloading cftime-1.6.6-cp311-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (1.7 MB)
+2026-10-02T02:49:59.3774432Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 245.1 MB/s  0:00:00
+2026-10-02T02:49:59.3816337Z Downloading numexpr-2.14.2-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (443 kB)
+2026-10-02T02:49:59.3888234Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-10-02T02:49:59.8212949Z Installing collected packages: uv, urllib3, typing-extensions, six, rpds-py, pyyaml, pypdfium2, pypdf, pyparsing, pygments, pycparser, pluggy, Pillow, packaging, numpy, kiwisolver, jmespath, iniconfig, fonttools, execnet, cycler, charset-normalizer, certifi, attrs, scipy, referencing, rdkit, python-dateutil, pytest, numexpr, contourpy, cftime, cffi, biopython, pytest-xdist, pymbar, netCDF4, matplotlib, jsonschema-specifications, cryptography, botocore, s3transfer, pdfminer.six, jsonschema, pdfplumber, boto3
+2026-10-02T02:50:13.3041423Z 
+2026-10-02T02:50:13.3067473Z Successfully installed Pillow-12.3.0 attrs-26.1.0 biopython-1.88 boto3-1.43.107 botocore-1.43.107 certifi-2026.7.22 cffi-2.1.1 cftime-1.6.6 charset-normalizer-3.5.2 contourpy-1.3.3 cryptography-50.0.2 cycler-0.12.1 execnet-2.1.2 fonttools-4.66.1 iniconfig-2.3.0 jmespath-1.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kiwisolver-1.5.1 matplotlib-3.11.2 netCDF4-1.7.4 numexpr-2.14.2 numpy-2.4.6 packaging-26.3 pdfminer.six-20260107 pdfplumber-0.11.10 pluggy-1.6.0 pycparser-3.0 pygments-2.21.0 pymbar-4.0.3 pyparsing-3.3.3 pypdf-6.19.0 pypdfium2-5.13.0 pytest-9.1.1 pytest-xdist-3.8.0 python-dateutil-2.9.0.post0 pyyaml-6.0.3 rdkit-2026.3.6 referencing-0.37.0 rpds-py-2026.6.3 s3transfer-0.19.2 scipy-1.17.1 six-1.17.0 typing-extensions-4.16.0 urllib3-2.8.0 uv-0.12.22
+2026-10-02T02:50:13.5192342Z ##[group]Run ./scripts/preflight.sh
+2026-10-02T02:50:13.5192778Z [36;1m./scripts/preflight.sh[0m
+2026-10-02T02:50:13.5254855Z shell: /usr/bin/bash -e {0}
+2026-10-02T02:50:13.5255257Z env:
+2026-10-02T02:50:13.5255829Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:50:13.5256472Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T02:50:13.5257083Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:50:13.5257569Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:50:13.5258087Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:50:13.5258639Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T02:50:13.5259088Z ##[endgroup]
+2026-10-02T02:50:13.5492781Z dev-setup: core.hooksPath -> .githooks (both push guards armed)
+2026-10-02T02:50:23.3453501Z dev-setup: a system binary the artifact chain needs is missing: ghostscript libreoffice-writer
+2026-10-02T02:50:23.3454991Z dev-setup: installing.
+2026-10-02T02:50:23.3456253Z == system python3 (systems_check.py, the linters and the node-free gates run here) ==
+2026-10-02T02:50:26.0047099Z == the pytest tool venv (every test import resolves here, NOT in the system interpreter) ==
+2026-10-02T02:50:26.2671397Z Resolved 45 packages in 214ms
+2026-10-02T02:50:26.2908278Z Downloading kiwisolver (1.4MiB)
+2026-10-02T02:50:26.2979668Z Downloading botocore (15.3MiB)
+2026-10-02T02:50:26.2980743Z Downloading scipy (33.7MiB)
+2026-10-02T02:50:26.2983396Z Downloading matplotlib (9.4MiB)
+2026-10-02T02:50:26.2985324Z Downloading pygments (1.2MiB)
+2026-10-02T02:50:26.2989852Z Downloading pdfminer-six (6.3MiB)
+2026-10-02T02:50:26.2990834Z Downloading fonttools (5.2MiB)
+2026-10-02T02:50:26.2993571Z Downloading pillow (6.6MiB)
+2026-10-02T02:50:26.2996233Z Downloading cryptography (4.5MiB)
+2026-10-02T02:50:26.3008410Z Downloading pypdfium2 (3.6MiB)
+2026-10-02T02:50:26.3012248Z Downloading numpy (16.1MiB)
+2026-10-02T02:50:26.3014460Z Downloading netcdf4 (9.9MiB)
+2026-10-02T02:50:26.3050722Z Downloading cftime (1.6MiB)
+2026-10-02T02:50:26.3054311Z Downloading biopython (3.1MiB)
+2026-10-02T02:50:26.3122773Z Downloading rdkit (36.4MiB)
+2026-10-02T02:50:26.4341443Z  Downloaded kiwisolver
+2026-10-02T02:50:26.4527970Z  Downloaded cftime
+2026-10-02T02:50:26.4572183Z  Downloaded pygments
+2026-10-02T02:50:26.5419810Z  Downloaded biopython
+2026-10-02T02:50:26.5420575Z  Downloaded pypdfium2
+2026-10-02T02:50:26.5796162Z  Downloaded cryptography
+2026-10-02T02:50:26.6189535Z  Downloaded fonttools
+2026-10-02T02:50:26.6271957Z  Downloaded pdfminer-six
+2026-10-02T02:50:26.6297654Z  Downloaded pillow
+2026-10-02T02:50:26.7006109Z  Downloaded matplotlib
+2026-10-02T02:50:26.7066418Z  Downloaded netcdf4
+2026-10-02T02:50:26.7754542Z  Downloaded numpy
+2026-10-02T02:50:26.7987429Z  Downloaded botocore
+2026-10-02T02:50:26.9616040Z  Downloaded scipy
+2026-10-02T02:50:26.9879650Z  Downloaded rdkit
+2026-10-02T02:50:26.9881700Z Prepared 45 packages in 719ms
+2026-10-02T02:50:27.0820626Z Installed 45 packages in 93ms
+2026-10-02T02:50:27.0821155Z  + attrs==26.1.0
+2026-10-02T02:50:27.0821538Z  + biopython==1.88
+2026-10-02T02:50:27.0821913Z  + boto3==1.43.107
+2026-10-02T02:50:27.0822416Z  + botocore==1.43.107
+2026-10-02T02:50:27.0822804Z  + certifi==2026.7.22
+2026-10-02T02:50:27.0823185Z  + cffi==2.1.1
+2026-10-02T02:50:27.0823539Z  + cftime==1.6.6
+2026-10-02T02:50:27.0826518Z  + charset-normalizer==3.5.2
+2026-10-02T02:50:27.0826967Z  + contourpy==1.3.3
+2026-10-02T02:50:27.0827339Z  + cryptography==50.0.2
+2026-10-02T02:50:27.0827720Z  + cycler==0.12.1
+2026-10-02T02:50:27.0828067Z  + execnet==2.1.2
+2026-10-02T02:50:27.0828412Z  + fonttools==4.66.1
+2026-10-02T02:50:27.0828772Z  + iniconfig==2.3.0
+2026-10-02T02:50:27.0829127Z  + jmespath==1.1.0
+2026-10-02T02:50:27.0829494Z  + jsonschema==4.26.0
+2026-10-02T02:50:27.0829906Z  + jsonschema-specifications==2025.9.1
+2026-10-02T02:50:27.0830390Z  + kiwisolver==1.5.1
+2026-10-02T02:50:27.0830781Z  + matplotlib==3.11.2
+2026-10-02T02:50:27.0831440Z  + netcdf4==1.7.4
+2026-10-02T02:50:27.0831799Z  + numexpr==2.14.2
+2026-10-02T02:50:27.0832141Z  + numpy==2.4.6
+2026-10-02T02:50:27.0832480Z  + packaging==26.3
+2026-10-02T02:50:27.0832842Z  + pdfminer-six==20260107
+2026-10-02T02:50:27.0833237Z  + pdfplumber==0.11.10
+2026-10-02T02:50:27.0833606Z  + pillow==12.3.0
+2026-10-02T02:50:27.0833968Z  + pluggy==1.6.0
+2026-10-02T02:50:27.0834342Z  + pycparser==3.0
+2026-10-02T02:50:27.0834704Z  + pygments==2.21.0
+2026-10-02T02:50:27.0835052Z  + pymbar==4.0.3
+2026-10-02T02:50:27.0835392Z  + pyparsing==3.3.3
+2026-10-02T02:50:27.0836040Z  + pypdf==6.19.0
+2026-10-02T02:50:27.0836394Z  + pypdfium2==5.13.0
+2026-10-02T02:50:27.0836762Z  + pytest==9.1.1
+2026-10-02T02:50:27.0837107Z  + pytest-xdist==3.8.0
+2026-10-02T02:50:27.0837495Z  + python-dateutil==2.9.0.post0
+2026-10-02T02:50:27.0837927Z  + pyyaml==6.0.3
+2026-10-02T02:50:27.0838138Z  + rdkit==2026.3.6
+2026-10-02T02:50:27.0838352Z  + referencing==0.37.0
+2026-10-02T02:50:27.0838572Z  + rpds-py==2026.6.3
+2026-10-02T02:50:27.0838789Z  + s3transfer==0.19.2
+2026-10-02T02:50:27.0839001Z  + scipy==1.17.1
+2026-10-02T02:50:27.0839368Z  + six==1.17.0
+2026-10-02T02:50:27.0839687Z  + typing-extensions==4.16.0
+2026-10-02T02:50:27.0840063Z  + urllib3==2.8.0
+2026-10-02T02:50:27.0850546Z Installed 2 executables: py.test, pytest
+2026-10-02T02:50:28.4798394Z 
+2026-10-02T02:50:28.4799241Z == ghostscript (figures/svg_to_print_formats.py: EPS + CMYK TIFF; no other offline path) ==
+2026-10-02T02:50:35.8057534Z    installed: 10.02.1
+2026-10-02T02:50:35.8058116Z 
+2026-10-02T02:50:35.8058675Z == libreoffice-writer (build_submission_docx.py / build_submission_parts.py: the .docx chain) ==
+2026-10-02T02:50:55.7143125Z    installed: the Writer filters are present; .docx builds locally
+2026-10-02T02:50:55.7143696Z 
+2026-10-02T02:50:55.7144537Z == git hooks (core.hooksPath armed above the --if-needed exit; both push guards run) ==
+2026-10-02T02:50:55.7161975Z    OK: .githooks
+2026-10-02T02:50:55.7162228Z 
+2026-10-02T02:50:55.7163020Z DEV SETUP OK — ./scripts/preflight.sh should now measure the repository rather than the sandbox.
+2026-10-02T02:50:55.8489142Z -- interpreter --
+2026-10-02T02:50:55.8489828Z    pytest: python3 -m pytest (sees the repository's dependencies)
+2026-10-02T02:50:55.8666307Z    OK   every probed package imports
+2026-10-02T02:50:56.0904351Z == lint_consistency ==
+2026-10-02T02:50:58.5036260Z lint_consistency: 0 ERROR across 29 target file(s)
+2026-10-02T02:50:58.5097699Z    OK
+2026-10-02T02:50:58.5098224Z == systems model (invariants, pointers, view drift) ==
+2026-10-02T02:51:08.9159417Z    OK
+2026-10-02T02:51:08.9175264Z == EMC systems map (disputed identities, claim artifacts, view drift) ==
+2026-10-02T02:51:10.5002668Z    OK
+2026-10-02T02:51:10.5003437Z == claim strength (R1-R5: selectivity, efficacy, safety, window, readiness) ==
+2026-10-02T02:51:13.1207755Z    OK
+2026-10-02T02:51:13.1208508Z == changed prose (a qualifier dropped by an edit) ==
+2026-10-02T02:51:13.1503699Z lint_changed_prose: 0 changed passage(s) over the working tree
+2026-10-02T02:51:13.1504094Z    OK
+2026-10-02T02:51:13.1542343Z == citation provenance and publication type (every prose identifier traces to a fetch or to the ledger; every claim of TYPE agrees with PubMed) ==
+2026-10-02T02:52:02.0780267Z lint_citations: 1206 prose identifier(s), 106 unanchored, 239 in ledger (known_absent_upstream=1, unverified_at_baseline=143, verified=95)
+2026-10-02T02:52:02.0785268Z lint_citation_types: ADVISORY (exit code unaffected) research/modalities/nr4a3-druggability-reconciliation.md:69 cites a paper PubMed types as a Retracted Publication — [PubMed: 40646688 Orphan nuclear receptor transcription factors as drug target (Transcription 2025) types=['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication'] doi=https://doi.org/10.1080/21541264.2025.2521766]
+2026-10-02T02:52:02.0789209Z lint_citation_types: 26 type claim(s) checked against 13 cached record(s), 0 error(s), 1 retraction advisory(ies)
+2026-10-02T02:52:02.0793440Z lint_citation_types: RETRACTION (advisory, exit code unaffected) DOI 10.1080/21541264.2025.2521766 is cited in research/autonomy/sprint-2026-09-01/S27-RETRACTIONS.md, research/manuscripts/degrader/nr4a3-degrader-paper.md, research/modalities/nr4a3-druggability-reconciliation.md and PubMed types it ['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 40646688 Orphan nuclear receptor transcription factors as drug target (Transcription 2025) doi=https://doi.org/10.1080/21541264.2025.2521766]
+2026-10-02T02:52:02.0798818Z lint_citation_types: RETRACTION (advisory, exit code unaffected) DOI 10.1155/2022/2896049 is cited in research/autonomy/sprint-2026-09-01/S27-RETRACTIONS.md, research/manuscripts/no-wet-lab-publication-archetypes.md and PubMed types it ['Journal Article', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 36062197 Network Pharmacology, Molecular Docking, and Experimental Va (Oxid Med Cell Longev 2022) doi=https://doi.org/10.1155/2022/2896049]
+2026-10-02T02:52:02.0803304Z lint_citation_types: RETRACTION (advisory, exit code unaffected) PMCID PMC12263127 is cited in research/autonomy/sprint-2026-09-01/S27-RETRACTIONS.md, research/manuscripts/degrader/nr4a3-degrader-paper.md, research/modalities/nr4a3-druggability-reconciliation.md and PubMed types it ['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 40646688 Orphan nuclear receptor transcription factors as drug target (Transcription 2025) doi=https://doi.org/10.1080/21541264.2025.2521766]
+2026-10-02T02:52:02.0813281Z lint_citation_types: RETRACTION (advisory, exit code unaffected) PMCID PMC9428684 is cited in research/autonomy/sprint-2026-09-01/S27-RETRACTIONS.md, research/manuscripts/no-wet-lab-publication-archetypes.md and PubMed types it ['Journal Article', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 36062197 Network Pharmacology, Molecular Docking, and Experimental Va (Oxid Med Cell Longev 2022) doi=https://doi.org/10.1155/2022/2896049]
+2026-10-02T02:52:02.0818769Z lint_citation_types: RETRACTION (advisory, exit code unaffected) PMID 36062197 is cited in research/manuscripts/no-wet-lab-publication-archetypes.md and PubMed types it ['Journal Article', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 36062197 Network Pharmacology, Molecular Docking, and Experimental Va (Oxid Med Cell Longev 2022) doi=https://doi.org/10.1155/2022/2896049]
+2026-10-02T02:52:02.0822838Z lint_citation_types: RETRACTION (advisory, exit code unaffected) PMID 40646688 is cited in research/manuscripts/degrader/nr4a3-degrader-paper.md, research/modalities/nr4a3-druggability-reconciliation.md and PubMed types it ['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 40646688 Orphan nuclear receptor transcription factors as drug target (Transcription 2025) doi=https://doi.org/10.1080/21541264.2025.2521766]
+2026-10-02T02:52:02.0826135Z lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.00077 in research/method-watch-preprint-pipeline.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0828162Z lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.00365 in research/method-watch-preprint-pipeline.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0830230Z lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.01357 in research/IDEAS.md, research/method-watch-preprint-pipeline.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0832302Z lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.04170 in research/IDEAS.md, research/method-watch-preprint-pipeline.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0834386Z lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.04432 in research/IDEAS.md, research/method-watch-preprint-pipeline.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0836763Z lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.04564 in research/IDEAS.md, research/method-watch-preprint-pipeline.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0838668Z lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.06366 in research/IDEAS.md, research/method-watch-preprint-pipeline.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0840753Z lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.10922 in research/IDEAS.md, research/method-watch-preprint-pipeline.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0843029Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1001/jamaoncol.2019.6584 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0844920Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1002/cam4.2991 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0847036Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1002/cncr.28728 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0849143Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1002/cncr.32084 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0851244Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1002/gcc.20478 in research/modalities/fus-ddit3-prefix-comparison.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0853573Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1007/s00428-023-03606-6 in research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0856084Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1007/s12032-017-1030-2 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0858378Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1016/j.jbc.2022.102434 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0861150Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1016/j.modpat.2024.100464 in research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md, research/autonomy/atlas-sample-organ-2026-09-06/report.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0863541Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1021/acs.jcim.6c01824 in research/method-watch.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0865832Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1038/bjc.2016.214 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0868019Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1038/nature09472 in research/autonomy/cysteine-source-qualification-20260919/NOTE.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0869967Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1054/modi00100099 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0872023Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1093/ajcp/aqw162.013 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0873890Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1093/jscr/rjaa503 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0876150Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1101/2025.07.21.665972 in research/autonomy/cofactor-source-read-20260919/VERDICT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0878563Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1126/science.aal3321 in research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0880895Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1136/jitc-2024-SITC2024.0170 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0882814Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1155/2019/3158590 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0884682Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1155/2020/2684746 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0887745Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1158/1078-0432.CCR-25-3740 in research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md, research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0890551Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1158/1078-0432.ccr-21-3656 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0892685Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1158/1541-7786.MCR-26-0310 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0894665Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1158/2767-9764.CRC-26-0142 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0896835Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1186/s13014-022-02166-4 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0898756Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1186/s13569-020-00150-8 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0902884Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1634/theoncologist.2016-0064 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0904990Z lint_citation_types: NOT SWEPT (advisory) DOI 10.1634/theoncologist.2017-0344 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0908721Z lint_citation_types: NOT SWEPT (advisory) DOI 10.21203/rs.3.rs-10959636/v1 in research/manuscripts/surface-targets/emc-tissue-rna-prioritization-cover-letter.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization-si.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md, research/release-candidates/PUB-SURFACE-TARGETS/2026-09-09-cancer-genetics/independent-review/report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0911800Z lint_citation_types: NOT SWEPT (advisory) DOI 10.21203/rs.3.rs-1898999/v1 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0913724Z lint_citation_types: NOT SWEPT (advisory) DOI 10.2147/CMAR.S253201 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0916514Z lint_citation_types: NOT SWEPT (advisory) DOI 10.32388/VL3LJR.2 in research/manuscripts/aso/fusion-junction-aso-cover-letter.md, research/release-candidates/PUB-ASO/2026-09-04/submission/cover-letter.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0919276Z lint_citation_types: NOT SWEPT (advisory) DOI 10.3390/cancers13051053 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0921234Z lint_citation_types: NOT SWEPT (advisory) DOI 10.5114/jcb.2022.115161 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0923125Z lint_citation_types: NOT SWEPT (advisory) DOI 10.52768/2379-1039/2159 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0926044Z lint_citation_types: NOT SWEPT (advisory) DOI 10.5281/zenodo.17866629 in research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md, research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0928548Z lint_citation_types: NOT SWEPT (advisory) DOI 10.5603/ocp.108816 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0930300Z lint_citation_types: NOT SWEPT (advisory) DOI 10.64898/2026.02.07.704601 in research/method-watch.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0932056Z lint_citation_types: NOT SWEPT (advisory) DOI 10.7759/cureus.432 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0934211Z lint_citation_types: NOT SWEPT (advisory) GEO GSM600928 in research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0936462Z lint_citation_types: NOT SWEPT (advisory) GEO GSM600935 in research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0938321Z lint_citation_types: NOT SWEPT (advisory) GEO GSM600937 in research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0940157Z lint_citation_types: NOT SWEPT (advisory) GEO GSM600938 in research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0942168Z lint_citation_types: NOT SWEPT (advisory) GEO GSM600940 in research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0944316Z lint_citation_types: NOT SWEPT (advisory) GEO GSM600957 in research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0947194Z lint_citation_types: NOT SWEPT (advisory) GEO GSM600963 in research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0949623Z lint_citation_types: NOT SWEPT (advisory) GEO GSM89883 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0951750Z lint_citation_types: NOT SWEPT (advisory) GEO GSM89924 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0953850Z lint_citation_types: NOT SWEPT (advisory) GEO GSM91381 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0956234Z lint_citation_types: NOT SWEPT (advisory) GEO GSM91397 in research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0958470Z lint_citation_types: NOT SWEPT (advisory) GEO GSM91405 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md, research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0960756Z lint_citation_types: NOT SWEPT (advisory) GEO GSM98495 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0963038Z lint_citation_types: NOT SWEPT (advisory) GEO GSM98499 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0964961Z lint_citation_types: NOT SWEPT (advisory) GEO GSM98510 in research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0967138Z lint_citation_types: NOT SWEPT (advisory) GEO GSM98513 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0969109Z lint_citation_types: NOT SWEPT (advisory) NCT NCT00642941 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0970931Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC12660641 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0973108Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13133608 in research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md, research/autonomy/atlas-hofvander-validation-2026-09-06/result.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0975184Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13361612 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0977178Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13367449 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0978915Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13371081 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0980633Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13371367 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0982355Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13375461 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0984086Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13417341 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0985940Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13476259 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0987662Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13477581 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0989384Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13502255 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0991288Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13521186 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0993042Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13523640 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0994787Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13555175 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0996841Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13557715 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.0998668Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13565411 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1000517Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13567386 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1002317Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13573717 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1004024Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13575427 in research/IDEAS.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1005925Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13576945 in research/IDEAS.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1007789Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13577264 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1009689Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13577702 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1011557Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13580205 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1013350Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13580551 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1015017Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13583061 in research/IDEAS.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1017145Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC13594704 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1019439Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC4985356 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1021721Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC6618088 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1023786Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC8451045 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1026172Z lint_citation_types: NOT SWEPT (advisory) PMCID PMC9365353 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1028261Z lint_citation_types: NOT SWEPT (advisory) PMID 13042781 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1030344Z lint_citation_types: NOT SWEPT (advisory) PMID 16199517 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1032589Z lint_citation_types: NOT SWEPT (advisory) PMID 17182697 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1034744Z lint_citation_types: NOT SWEPT (advisory) PMID 17302560 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1037063Z lint_citation_types: NOT SWEPT (advisory) PMID 17303618 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1039354Z lint_citation_types: NOT SWEPT (advisory) PMID 17647282 in research/autonomy/evidence-fus-ddit3-2026-09-05/README.md, research/modalities/fus-ddit3-prefix-comparison.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1041432Z lint_citation_types: NOT SWEPT (advisory) PMID 18676850 in research/autonomy/sprint-2026-09-01/S55-TWO-BLIND-ROUTES.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1044120Z lint_citation_types: NOT SWEPT (advisory) PMID 19847166 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1048355Z lint_citation_types: NOT SWEPT (advisory) PMID 20048385 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1050654Z lint_citation_types: NOT SWEPT (advisory) PMID 20287819 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1053109Z lint_citation_types: NOT SWEPT (advisory) PMID 20610611 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1055533Z lint_citation_types: NOT SWEPT (advisory) PMID 20818875 in research/manuscripts/emc-mortality-mechanisms-paper.md, research/manuscripts/emc-mortality-mechanisms.md, systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1058201Z lint_citation_types: NOT SWEPT (advisory) PMID 21044043 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1060288Z lint_citation_types: NOT SWEPT (advisory) PMID 21085121 in research/autonomy/cysteine-source-qualification-20260919/NOTE.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1062372Z lint_citation_types: NOT SWEPT (advisory) PMID 22638577 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1064321Z lint_citation_types: NOT SWEPT (advisory) PMID 23115670 in systems/views/L2-rt-treatment-harm.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1066690Z lint_citation_types: NOT SWEPT (advisory) PMID 23323831 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1068763Z lint_citation_types: NOT SWEPT (advisory) PMID 26434451 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1070540Z lint_citation_types: NOT SWEPT (advisory) PMID 26869290 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1072565Z lint_citation_types: NOT SWEPT (advisory) PMID 27124452 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1074813Z lint_citation_types: NOT SWEPT (advisory) PMID 30400809 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1077005Z lint_citation_types: NOT SWEPT (advisory) PMID 30511879 in systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1078659Z lint_citation_types: NOT SWEPT (advisory) PMID 30786186 in systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1080452Z lint_citation_types: NOT SWEPT (advisory) PMID 31417269 in systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1082417Z lint_citation_types: NOT SWEPT (advisory) PMID 32026945 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1084800Z lint_citation_types: NOT SWEPT (advisory) PMID 32953543 in research/manuscripts/emc-mortality-mechanisms-paper.md, research/manuscripts/emc-mortality-mechanisms.md, systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1087222Z lint_citation_types: NOT SWEPT (advisory) PMID 37119813 in research/autonomy/cysteine-source-qualification-20260919/NOTE.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1089211Z lint_citation_types: NOT SWEPT (advisory) PMID 37477762 in research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/ultra-review/report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1091475Z lint_citation_types: NOT SWEPT (advisory) PMID 37781179 in research/manuscripts/emc-mortality-mechanisms-paper.md, research/manuscripts/emc-mortality-mechanisms.md, systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1094341Z lint_citation_types: NOT SWEPT (advisory) PMID 38447752 in research/autonomy/atlas-sample-organ-2026-09-06/report.md, research/autonomy/portfolio-2026-09-05/recommendation.md, research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/ultra-review/report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1097325Z lint_citation_types: NOT SWEPT (advisory) PMID 38558247 in research/manuscripts/emc-mortality-mechanisms-paper.md, research/manuscripts/emc-mortality-mechanisms.md, systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1099390Z lint_citation_types: NOT SWEPT (advisory) PMID 41799218 in systems/views/L2-rt-vte-prophylaxis.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+2026-10-02T02:52:02.1101130Z lint_citation_types: retraction sweep (2026-09-01) — 1206 prose identifier(s): 842 checked against PubMed, 6 retracted, 238 outside PubMed's reach (arXiv/NCT/GEO/preprint, meeting-abstract, dataset and PDB DOIs — UNKNOWN, not clean), 126 NOT SWEPT.
+2026-10-02T02:52:02.1102078Z    OK
+2026-10-02T02:52:02.1102379Z == manuscript prose style (journal register, not repository register) ==
+2026-10-02T02:52:02.4822624Z    OK
+2026-10-02T02:52:02.4823501Z == readability screen (ADVISORY: where to look, not whether the prose is good) ==
+2026-10-02T02:52:02.8126830Z    document                                             sent  mean  p90  max  >60w  FKGL  caution/1kw
+2026-10-02T02:52:02.8127771Z    response-endpoint-indolent-tumours.md                 320  18.8   35   53     0  11.4         12.3
+2026-10-02T02:52:02.8128464Z    emc-mtap-prmt5-hypothesis.md                          273  21.7   38   58     0  12.5         12.7
+2026-10-02T02:52:02.8129131Z    emc-mtap-prmt5-hypothesis-SI.md                        88  22.8   38  134     1  11.9         10.0
+2026-10-02T02:52:02.8130241Z    emc-atr-collaborator-package.md                       356  20.6   41   57     0  11.8         11.2
+2026-10-02T02:52:02.8131074Z    repurposing-hypotheses.md                             265  20.7   37   64     1  14.7          8.2
+2026-10-02T02:52:02.8131785Z    emc-surface-target-landscape.md                       304  20.9   38   59     0  13.3          8.2
+2026-10-02T02:52:02.8132441Z    emc-surface-target-landscape-si.md                    160  18.3   35   49     0  12.2         12.3
+2026-10-02T02:52:02.8133170Z    fusion-junction-aso-supplementary-information.md       98  22.6   45  103     3  12.0          7.7
+2026-10-02T02:52:02.8133909Z    fusion-junction-aso-journal-article.md                181  24.4   44   54     0  13.1          9.7
+2026-10-02T02:52:02.8134601Z    fusion-junction-aso-journal-tables.md                  13  22.6   38   47     0  12.7         10.2
+2026-10-02T02:52:02.8135308Z    fusion-junction-aso-journal-references.md              79  14.9   25   54     0  10.9          0.9
+2026-10-02T02:52:02.8136383Z    emc-vaccine-development-path.md                       742  23.8   43   87     3  12.9         11.6
+2026-10-02T02:52:02.8137031Z    emc-trial-reachability.md                             116  22.2   40   51     0  12.2         12.8
+2026-10-02T02:52:02.8137483Z    
+2026-10-02T02:52:02.8138313Z    ⚠ This is a SCREEN. It says where to look. Whether the prose is good is decided by reading it — see the `scientific-writing` skill.
+2026-10-02T02:52:02.8139086Z == parser guard (every registered parser can still find its input) ==
+2026-10-02T02:52:02.8462982Z    OK
+2026-10-02T02:52:02.8463610Z == validate (EMC clinical registry evidence contract) ==
+2026-10-02T02:52:03.0607361Z    OK
+2026-10-02T02:52:03.0608020Z == generated deposit artifacts reproduce from their generators ==
+2026-10-02T02:52:28.3301410Z    OK   submission tables
+2026-10-02T02:52:28.3357184Z    OK   claim coverage census
+2026-10-02T02:52:28.3412679Z    OK   submission references
+2026-10-02T02:52:28.3468514Z    OK   submission metrics
+2026-10-02T02:52:28.3523707Z    OK   canonical sequence file
+2026-10-02T02:52:28.3579312Z    OK   journal article tables
+2026-10-02T02:52:28.3636593Z    OK   offtarget duplex energy
+2026-10-02T02:52:28.3692343Z    OK   submission packet
+2026-10-02T02:52:28.3748003Z    OK   vaccine-path manuscript tables
+2026-10-02T02:52:28.3803793Z    OK   archive manifest
+2026-10-02T02:52:28.3859593Z    OK   declared deposit drift
+2026-10-02T02:52:28.3914375Z    OK   condensate CALVADOS findings
+2026-10-02T02:52:28.3969576Z    OK   ATR HRD sarcoma series
+2026-10-02T02:52:28.4025260Z    OK   single-slot artifact identity
+2026-10-02T02:52:28.4081452Z    OK   instrument census
+2026-10-02T02:52:28.4136969Z    OK   reopening-trigger registry join
+2026-10-02T02:52:28.4192146Z    OK   literature citation debt
+2026-10-02T02:52:28.4248493Z    OK   news-match queue
+2026-10-02T02:52:28.4272350Z == cycle receipts record the fan-out width the cap is checked against ==
+2026-10-02T02:52:28.4678542Z       pre-schema (< CYC-0023), width not readable by the cap check, grandfathered: CYC-0000-BOOTSTRAP ((no width recorded)), CYC-0001 ((no width recorded)), CYC-0002 ((no width recorded)), CYC-0003 ((no width recorded)), CYC-0005 ((no width recorded)), CYC-0007 ((no width recorded)), CYC-0009 ((no width recorded)), CYC-0011 (concurrent_max/dispatched), CYC-0012 (concurrent_max/dispatched), CYC-0013 (concurrent_max/dispatched), CYC-0014 (concurrent_max/dispatched), CYC-0015 ((no width recorded)), CYC-0016 (concurrent_max/dispatched), CYC-0018 (dispatched), CYC-0019 (concurrent_max/dispatched), CYC-0020 (launched), CYC-0021 (launched), CYC-0022 (launched)
+2026-10-02T02:52:28.4682772Z       107 governed receipt(s), 0 failure(s), 0 unreadable
+2026-10-02T02:52:28.4683319Z    OK
+2026-10-02T02:52:28.4689261Z == pytest (pure-logic suites) == SKIPPED -- PREFLIGHT_TESTS=1 runs them; tests.yml runs all
+2026-10-02T02:52:28.4690355Z    four directories in full on every push and is the authority (trimcrae, 2026-09-02).
+2026-10-02T02:52:28.4692019Z == unverified-output residue in the documents that go out (model meta-comments, placeholders) ==
+2026-10-02T02:52:29.3833674Z    lint_submission_residue: 38 outgoing document(s), 5 finding(s), 5 baselined, 0 new, 0 stale baseline row(s)
+2026-10-02T02:52:29.3836092Z    lint_submission_residue: hallucinated references are gate 6's trigger and remain PARTIAL — 5 named gaps in UNCOVERED_BY_LINT_CITATIONS.
+2026-10-02T02:52:29.3837407Z    OK
+2026-10-02T02:52:29.3838139Z == the cycle contract names every receipt field the receipt-schema gate requires ==
+2026-10-02T02:52:29.4273134Z       required by the gate, and named by the contract: `route_advanced`, `subagents`, `subagents.max_concurrent`, `ccr_session_id`, `ended_utc`
+2026-10-02T02:52:29.4274790Z       5 required field path(s), 6 key constant(s), 7743 chars of contract read, 0 disagreement(s)
+2026-10-02T02:52:29.4275926Z    OK
+2026-10-02T02:52:29.4276688Z == what each test tier costs, against the budget somebody set for it ==
+2026-10-02T02:52:31.4200628Z    ok    commit-loop             1492/1500  test function(s) in 108 file(s)
+2026-10-02T02:52:31.4201708Z    ok    modalities              7259/7500  test function(s) in 436 file(s)
+2026-10-02T02:52:31.4202683Z    ok    paper-guards             988/1000  test function(s) in 114 file(s)
+2026-10-02T02:52:31.4271029Z == every route's derived ledger id is frozen, not counted ==
+2026-10-02T02:52:31.4915287Z    83 route→id bindings, frozen and agreeing with the ledger
+2026-10-02T02:52:31.4916329Z    OK
+2026-10-02T02:52:31.5169573Z PINNED_SHA=006016cf6d2e9a4f9391509fc709c871964e6a6d
+2026-10-02T02:52:31.5171640Z 
+2026-10-02T02:52:31.5172103Z PREFLIGHT OK (fast gates only (doc + artifact linters))
+2026-10-02T02:52:31.5172949Z              ⛔ NO TEST SUITE THIS RUN DID NOT NAME ABOVE HAS PASSED. tests.yml runs all
+2026-10-02T02:52:31.5173728Z              four directories in full on every push, with the real dependencies, and is
+2026-10-02T02:52:31.5174414Z              the authority for anything not listed.
+2026-10-02T02:52:31.5175550Z              PREFLIGHT_TESTS=1 adds the manuscripts suite and the pure-logic ones,
+2026-10-02T02:52:31.5176590Z              PREFLIGHT_MODALITIES=1 the modalities suite,
+2026-10-02T02:52:31.5177543Z              PREFLIGHT_FULL=1 everything — the only tier publish_bar clause 2 accepts.
+2026-10-02T02:52:31.6698869Z ##[group]Run git status --short
+2026-10-02T02:52:31.6699208Z [36;1mgit status --short[0m
+2026-10-02T02:52:31.6699477Z [36;1mgit diff --exit-code[0m
+2026-10-02T02:52:31.6762991Z shell: /usr/bin/bash -e {0}
+2026-10-02T02:52:31.6763255Z env:
+2026-10-02T02:52:31.6763542Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:52:31.6764019Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-02T02:52:31.6764476Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:52:31.6764879Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:52:31.6765283Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-02T02:52:31.6766006Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-02T02:52:31.6766368Z ##[endgroup]
+2026-10-02T02:52:31.7270693Z Post job cleanup.
+2026-10-02T02:52:31.8516760Z (node:5475) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-02T02:52:31.8517665Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-02T02:52:31.8722565Z Post job cleanup.
+2026-10-02T02:52:31.9698706Z [command]/usr/bin/git version
+2026-10-02T02:52:31.9746651Z git version 2.55.0
+2026-10-02T02:52:31.9791182Z Temporarily overriding HOME='/home/runner/work/_temp/6ebce2cd-e029-47e1-bad1-23129774e5a7' before making global git config changes
+2026-10-02T02:52:31.9792302Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-02T02:52:31.9797744Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rare-cancers/Rare-cancers
+2026-10-02T02:52:31.9840018Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-02T02:52:31.9879879Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-02T02:52:32.0156683Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-02T02:52:32.0196131Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-02T02:52:32.0470727Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-02T02:52:32.0511937Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-02T02:52:32.0920237Z Cleaning up orphan processes
+2026-10-02T02:52:32.1214606Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/download-artifact@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

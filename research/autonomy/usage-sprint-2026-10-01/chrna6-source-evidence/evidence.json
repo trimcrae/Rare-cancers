@@ -1,0 +1,2894 @@
+{
+  "acquisition": {
+    "bytes": 20240336,
+    "completed_utc": "2026-10-02T00:38:35.745361+00:00",
+    "etag": null,
+    "final_url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE24nnn/GSE24369/soft/GSE24369_family.soft.gz",
+    "last_modified": "Fri, 03 Jul 2026 11:58:52 GMT",
+    "requested_url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE24nnn/GSE24369/soft/GSE24369_family.soft.gz",
+    "sha256": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+    "started_utc": "2026-10-02T00:38:34.422999+00:00"
+  },
+  "authorship": "AI-generated source projection; exact acquired source lines retained",
+  "historical_arms": {
+    "GSM600928": "comparator",
+    "GSM600929": "comparator",
+    "GSM600930": "comparator",
+    "GSM600931": "comparator",
+    "GSM600932": "comparator",
+    "GSM600933": "comparator",
+    "GSM600934": "EMC",
+    "GSM600935": "EMC",
+    "GSM600936": "EMC",
+    "GSM600937": "EMC",
+    "GSM600938": "EMC",
+    "GSM600939": "EMC",
+    "GSM600940": "comparator",
+    "GSM600941": "comparator",
+    "GSM600942": "comparator",
+    "GSM600943": "comparator",
+    "GSM600944": "comparator",
+    "GSM600945": "comparator",
+    "GSM600946": "comparator",
+    "GSM600947": "comparator",
+    "GSM600948": "comparator",
+    "GSM600949": "comparator",
+    "GSM600950": "comparator",
+    "GSM600951": "comparator",
+    "GSM600952": "comparator",
+    "GSM600953": "comparator",
+    "GSM600954": "comparator",
+    "GSM600955": "comparator",
+    "GSM600956": "comparator",
+    "GSM600957": "comparator",
+    "GSM600958": "comparator",
+    "GSM600959": "comparator",
+    "GSM600960": "comparator",
+    "GSM600961": "comparator",
+    "GSM600962": "comparator",
+    "GSM600963": "excluded_from_cached_contrast",
+    "GSM600964": "excluded_from_cached_contrast",
+    "GSM600965": "excluded_from_cached_contrast",
+    "GSM600966": "excluded_from_cached_contrast",
+    "GSM600967": "excluded_from_cached_contrast",
+    "GSM600968": "excluded_from_cached_contrast",
+    "GSM600969": "excluded_from_cached_contrast"
+  },
+  "independence": "unresolved; no discovery-study specimen crosswalk",
+  "input_sha256": {
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-manifest.json": "41def87dde52663a73ea09a3b52924843d5d20103c7f0523bc03ae842426e0ae",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/array-values.json": "33ce40f615cb7db706565c559cfafebcd57b5b9d84f30c4af7a6502f03faed9c",
+    "research/modalities/expression-validation-readiness.json": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12"
+  },
+  "limitations": [
+    "Deposited RMA log2 probe-set summaries, not individual physical-oligonucleotide intensities.",
+    "GSM identifiers do not establish independent patients or specimens.",
+    "Seven historical contrast exclusions remain excluded despite retaining their source values.",
+    "No classifier, hypothesis test, CISH threshold, clinical validation or therapeutic inference.",
+    "The 2026-09-05 six-input readiness audit is historical; September6 cache already supplies these values.",
+    "This excerpt complements inaccessible source bundle paths; it is not a complete portable source bundle."
+  ],
+  "ownership_check": {
+    "entries": 415,
+    "ledger_sha256": "b1ae7744d034cd0a8f4f0324a390e8e670a6c8963b4d5efd37d3456d53f4c7f3",
+    "live_owners": []
+  },
+  "question": "Do authoritative GPL6244 CHRNA6 annotations and all 42 GEO values/processing records match the existing source-pinned cache?",
+  "schema": "chrna6-source-evidence/1",
+  "source_comparison": {
+    "metadata_fields_compared": 252,
+    "method": "direct float equality and exact metadata lists; no statistical analysis",
+    "mismatches": 0,
+    "numeric_tolerance": 0,
+    "values_compared": 42
+  },
+  "source_projection": {
+    "CHRNA6_annotation": [
+      {
+        "all_assigned_symbols": [
+          "CHRNA6"
+        ],
+        "fields": {
+          "GB_LIST": "NM_001199279,NM_004198,AK298798,BC014456,U62435",
+          "ID": "8150550",
+          "RANGE_GB": "NC_000008.10",
+          "RANGE_START": "42607763",
+          "RANGE_STOP": "42623712",
+          "RANGE_STRAND": "-",
+          "SPOT_ID": "chr8:42607763-42623712",
+          "category": "main",
+          "gene_assignment": "NM_001199279 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// NM_004198 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// ENST00000276410 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// ENST00000530869 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// ENST00000533810 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// ENST00000534622 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// AK298798 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// BC014456 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// U62435 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// ENST00000529467 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973",
+          "mrna_assignment": "NM_001199279 // RefSeq // Homo sapiens cholinergic receptor, nicotinic, alpha 6 (neuronal) (CHRNA6), transcript variant 2, mRNA. // chr8 // 100 // 87 // 27 // 27 // 0 /// NM_004198 // RefSeq // Homo sapiens cholinergic receptor, nicotinic, alpha 6 (neuronal) (CHRNA6), transcript variant 1, mRNA. // chr8 // 100 // 100 // 31 // 31 // 0 /// ENST00000276410 // ENSEMBL // ensembl_havana_transcript:known chromosome:GRCh38:8:42752620:42768786:-1 gene:ENSG00000147434 gene_biotype:protein_coding transcript_biotype:protein_coding // chr8 // 100 // 100 // 31 // 31 // 0 /// ENST00000530869 // ENSEMBL // havana:known chromosome:GRCh38:8:42756940:42768632:-1 gene:ENSG00000147434 gene_biotype:protein_coding transcript_biotype:processed_transcript // chr8 // 100 // 61 // 19 // 19 // 0 /// ENST00000533810 // ENSEMBL // havana:putative chromosome:GRCh38:8:42756629:42796392:-1 gene:ENSG00000147434 gene_biotype:protein_coding transcript_biotype:protein_coding // chr8 // 100 // 45 // 14 // 14 // 0 /// ENST00000534622 // ENSEMBL // ensembl_havana_transcript:novel chromosome:GRCh38:8:42752927:42768610:-1 gene:ENSG00000147434 gene_biotype:protein_coding transcript_biotype:protein_coding // chr8 // 96 // 81 // 24 // 25 // 0 /// AK298798 // GenBank // Homo sapiens cDNA FLJ51722 complete cds, highly similar to Neuronal acetylcholine receptor protein subunit alpha-6 precursor. // chr8 // 96 // 81 // 24 // 25 // 0 /// BC014456 // GenBank // Homo sapiens cholinergic receptor, nicotinic, alpha 6, mRNA (cDNA clone MGC:23050 IMAGE:4862198), complete cds. // chr8 // 100 // 90 // 28 // 28 // 0 /// U62435 // GenBank // Human nicotinic acetylcholine receptor alpha6 subunit precursor, mRNA, complete cds. // chr8 // 100 // 87 // 27 // 27 // 0 /// ENST00000529467 // ENSEMBL // havana:known chromosome:GRCh38:8:42764973:42768648:-1 gene:ENSG00000147434 gene_biotype:protein_coding transcript_biotype:retained_intron // chr8 // 35 // 35 // 11 // 31 // 1 /// NONHSAT126313 // NONCODE // Non-coding transcript identified by NONCODE: Exonic // chr8 // 100 // 61 // 19 // 19 // 0 /// GENSCAN00000032098 // ENSEMBL // cdna:genscan chromosome:GRCh38:8:42755747:42814391:-1 transcript_biotype:protein_coding // chr8 // 39 // 39 // 12 // 31 // 1 /// NONHSAT126314 // NONCODE // Non-coding transcript identified by NONCODE: Exonic // chr8 // 35 // 35 // 11 // 31 // 1",
+          "seqname": "chr8",
+          "total_probes": "31"
+        },
+        "line": 25772,
+        "probe_id": "8150550",
+        "text": "8150550\tNM_001199279,NM_004198,AK298798,BC014456,U62435\tchr8:42607763-42623712\tchr8\tNC_000008.10\t-\t42607763\t42623712\t31\tNM_001199279 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// NM_004198 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// ENST00000276410 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// ENST00000530869 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// ENST00000533810 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// ENST00000534622 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// AK298798 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// BC014456 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// U62435 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973 /// ENST00000529467 // CHRNA6 // cholinergic receptor, nicotinic, alpha 6 (neuronal) // 8p11.21 // 8973\tNM_001199279 // RefSeq // Homo sapiens cholinergic receptor, nicotinic, alpha 6 (neuronal) (CHRNA6), transcript variant 2, mRNA. // chr8 // 100 // 87 // 27 // 27 // 0 /// NM_004198 // RefSeq // Homo sapiens cholinergic receptor, nicotinic, alpha 6 (neuronal) (CHRNA6), transcript variant 1, mRNA. // chr8 // 100 // 100 // 31 // 31 // 0 /// ENST00000276410 // ENSEMBL // ensembl_havana_transcript:known chromosome:GRCh38:8:42752620:42768786:-1 gene:ENSG00000147434 gene_biotype:protein_coding transcript_biotype:protein_coding // chr8 // 100 // 100 // 31 // 31 // 0 /// ENST00000530869 // ENSEMBL // havana:known chromosome:GRCh38:8:42756940:42768632:-1 gene:ENSG00000147434 gene_biotype:protein_coding transcript_biotype:processed_transcript // chr8 // 100 // 61 // 19 // 19 // 0 /// ENST00000533810 // ENSEMBL // havana:putative chromosome:GRCh38:8:42756629:42796392:-1 gene:ENSG00000147434 gene_biotype:protein_coding transcript_biotype:protein_coding // chr8 // 100 // 45 // 14 // 14 // 0 /// ENST00000534622 // ENSEMBL // ensembl_havana_transcript:novel chromosome:GRCh38:8:42752927:42768610:-1 gene:ENSG00000147434 gene_biotype:protein_coding transcript_biotype:protein_coding // chr8 // 96 // 81 // 24 // 25 // 0 /// AK298798 // GenBank // Homo sapiens cDNA FLJ51722 complete cds, highly similar to Neuronal acetylcholine receptor protein subunit alpha-6 precursor. // chr8 // 96 // 81 // 24 // 25 // 0 /// BC014456 // GenBank // Homo sapiens cholinergic receptor, nicotinic, alpha 6, mRNA (cDNA clone MGC:23050 IMAGE:4862198), complete cds. // chr8 // 100 // 90 // 28 // 28 // 0 /// U62435 // GenBank // Human nicotinic acetylcholine receptor alpha6 subunit precursor, mRNA, complete cds. // chr8 // 100 // 87 // 27 // 27 // 0 /// ENST00000529467 // ENSEMBL // havana:known chromosome:GRCh38:8:42764973:42768648:-1 gene:ENSG00000147434 gene_biotype:protein_coding transcript_biotype:retained_intron // chr8 // 35 // 35 // 11 // 31 // 1 /// NONHSAT126313 // NONCODE // Non-coding transcript identified by NONCODE: Exonic // chr8 // 100 // 61 // 19 // 19 // 0 /// GENSCAN00000032098 // ENSEMBL // cdna:genscan chromosome:GRCh38:8:42755747:42814391:-1 transcript_biotype:protein_coding // chr8 // 39 // 39 // 12 // 31 // 1 /// NONHSAT126314 // NONCODE // Non-coding transcript identified by NONCODE: Exonic // chr8 // 35 // 35 // 11 // 31 // 1\tmain"
+      }
+    ],
+    "platform": "GPL6244",
+    "platform_header": {
+      "line": 149,
+      "text": "ID\tGB_LIST\tSPOT_ID\tseqname\tRANGE_GB\tRANGE_STRAND\tRANGE_START\tRANGE_STOP\ttotal_probes\tgene_assignment\tmrna_assignment\tcategory"
+    },
+    "platform_table_rows": 33297,
+    "samples": {
+      "GSM600928": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Desmoid fibromatosis tumor"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Desmoid fibromatosis 1"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 33449,
+            "text": "!Sample_title = Desmoid fibromatosis 1"
+          },
+          {
+            "line": 33456,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 33459,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 33460,
+            "text": "!Sample_characteristics_ch1 = tissue: Desmoid fibromatosis tumor"
+          },
+          {
+            "line": 33468,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 33469,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 33484,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 33486,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 58823,
+            "text": "8150550\t4.641335",
+            "token": "4.641335",
+            "value": 4.641335
+          }
+        }
+      },
+      "GSM600929": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Desmoid fibromatosis tumor"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Desmoid fibromatosis 2"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 61948,
+            "text": "!Sample_title = Desmoid fibromatosis 2"
+          },
+          {
+            "line": 61955,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 61958,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 61959,
+            "text": "!Sample_characteristics_ch1 = tissue: Desmoid fibromatosis tumor"
+          },
+          {
+            "line": 61967,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 61968,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 61983,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 61985,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 87322,
+            "text": "8150550\t4.116776",
+            "token": "4.116776",
+            "value": 4.116776
+          }
+        }
+      },
+      "GSM600930": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Desmoid fibromatosis tumor"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Desmoid fibromatosis 3"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 90447,
+            "text": "!Sample_title = Desmoid fibromatosis 3"
+          },
+          {
+            "line": 90454,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 90457,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 90458,
+            "text": "!Sample_characteristics_ch1 = tissue: Desmoid fibromatosis tumor"
+          },
+          {
+            "line": 90466,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 90467,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 90482,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 90484,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 115821,
+            "text": "8150550\t4.528815",
+            "token": "4.528815",
+            "value": 4.528815
+          }
+        }
+      },
+      "GSM600931": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Desmoid fibromatosis tumor"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Desmoid fibromatosis 4"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 118946,
+            "text": "!Sample_title = Desmoid fibromatosis 4"
+          },
+          {
+            "line": 118953,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 118956,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 118957,
+            "text": "!Sample_characteristics_ch1 = tissue: Desmoid fibromatosis tumor"
+          },
+          {
+            "line": 118965,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 118966,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 118981,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 118983,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 144320,
+            "text": "8150550\t4.649869",
+            "token": "4.649869",
+            "value": 4.649869
+          }
+        }
+      },
+      "GSM600932": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Desmoid fibromatosis tumor"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Desmoid fibromatosis 5"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 147445,
+            "text": "!Sample_title = Desmoid fibromatosis 5"
+          },
+          {
+            "line": 147452,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 147455,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 147456,
+            "text": "!Sample_characteristics_ch1 = tissue: Desmoid fibromatosis tumor"
+          },
+          {
+            "line": 147464,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 147465,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 147480,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 147482,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 172819,
+            "text": "8150550\t4.730268",
+            "token": "4.730268",
+            "value": 4.730268
+          }
+        }
+      },
+      "GSM600933": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Desmoid fibromatosis tumor"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Desmoid fibromatosis 6"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 175944,
+            "text": "!Sample_title = Desmoid fibromatosis 6"
+          },
+          {
+            "line": 175951,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 175954,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 175955,
+            "text": "!Sample_characteristics_ch1 = tissue: Desmoid fibromatosis tumor"
+          },
+          {
+            "line": 175963,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 175964,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 175979,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 175981,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 201318,
+            "text": "8150550\t6.167798",
+            "token": "6.167798",
+            "value": 6.167798
+          }
+        }
+      },
+      "GSM600934": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Extraskeletal myxoid chondrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Extraskeletal myxoid chondrosarcoma 1"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 204443,
+            "text": "!Sample_title = Extraskeletal myxoid chondrosarcoma 1"
+          },
+          {
+            "line": 204450,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 204453,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 204454,
+            "text": "!Sample_characteristics_ch1 = tissue: Extraskeletal myxoid chondrosarcoma"
+          },
+          {
+            "line": 204462,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 204463,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 204477,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 204479,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 229816,
+            "text": "8150550\t11.98337",
+            "token": "11.98337",
+            "value": 11.98337
+          }
+        }
+      },
+      "GSM600935": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Extraskeletal myxoid chondrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Extraskeletal myxoid chondrosarcoma 2"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 232941,
+            "text": "!Sample_title = Extraskeletal myxoid chondrosarcoma 2"
+          },
+          {
+            "line": 232948,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 232951,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 232952,
+            "text": "!Sample_characteristics_ch1 = tissue: Extraskeletal myxoid chondrosarcoma"
+          },
+          {
+            "line": 232960,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 232961,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 232975,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 232977,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 258314,
+            "text": "8150550\t12.02802",
+            "token": "12.02802",
+            "value": 12.02802
+          }
+        }
+      },
+      "GSM600936": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Extraskeletal myxoid chondrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Extraskeletal myxoid chondrosarcoma 3"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 261439,
+            "text": "!Sample_title = Extraskeletal myxoid chondrosarcoma 3"
+          },
+          {
+            "line": 261446,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 261449,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 261450,
+            "text": "!Sample_characteristics_ch1 = tissue: Extraskeletal myxoid chondrosarcoma"
+          },
+          {
+            "line": 261458,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 261459,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 261473,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 261475,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 286812,
+            "text": "8150550\t10.2222",
+            "token": "10.2222",
+            "value": 10.2222
+          }
+        }
+      },
+      "GSM600937": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Extraskeletal myxoid chondrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Extraskeletal myxoid chondrosarcoma 4"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 289937,
+            "text": "!Sample_title = Extraskeletal myxoid chondrosarcoma 4"
+          },
+          {
+            "line": 289944,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 289947,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 289948,
+            "text": "!Sample_characteristics_ch1 = tissue: Extraskeletal myxoid chondrosarcoma"
+          },
+          {
+            "line": 289956,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 289957,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 289971,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 289973,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 315310,
+            "text": "8150550\t11.55677",
+            "token": "11.55677",
+            "value": 11.55677
+          }
+        }
+      },
+      "GSM600938": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Extraskeletal myxoid chondrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Extraskeletal myxoid chondrosarcoma 5"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 318435,
+            "text": "!Sample_title = Extraskeletal myxoid chondrosarcoma 5"
+          },
+          {
+            "line": 318442,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 318445,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 318446,
+            "text": "!Sample_characteristics_ch1 = tissue: Extraskeletal myxoid chondrosarcoma"
+          },
+          {
+            "line": 318454,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 318455,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 318469,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 318471,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 343808,
+            "text": "8150550\t9.971699",
+            "token": "9.971699",
+            "value": 9.971699
+          }
+        }
+      },
+      "GSM600939": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Extraskeletal myxoid chondrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Extraskeletal myxoid chondrosarcoma 6"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 346933,
+            "text": "!Sample_title = Extraskeletal myxoid chondrosarcoma 6"
+          },
+          {
+            "line": 346940,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 346943,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 346944,
+            "text": "!Sample_characteristics_ch1 = tissue: Extraskeletal myxoid chondrosarcoma"
+          },
+          {
+            "line": 346952,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 346953,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 346967,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 346969,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 372306,
+            "text": "8150550\t11.53107",
+            "token": "11.53107",
+            "value": 11.53107
+          }
+        }
+      },
+      "GSM600940": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 1"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 375431,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 1"
+          },
+          {
+            "line": 375438,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 375441,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 375442,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 375450,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 375451,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 375466,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 375468,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 400805,
+            "text": "8150550\t4.271021",
+            "token": "4.271021",
+            "value": 4.271021
+          }
+        }
+      },
+      "GSM600941": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 2"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 403930,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 2"
+          },
+          {
+            "line": 403937,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 403940,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 403941,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 403949,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 403950,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 403965,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 403967,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 429304,
+            "text": "8150550\t4.181048",
+            "token": "4.181048",
+            "value": 4.181048
+          }
+        }
+      },
+      "GSM600942": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 3"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 432429,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 3"
+          },
+          {
+            "line": 432436,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 432439,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 432440,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 432448,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 432449,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 432464,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 432466,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 457803,
+            "text": "8150550\t4.185371",
+            "token": "4.185371",
+            "value": 4.185371
+          }
+        }
+      },
+      "GSM600943": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 4"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 460928,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 4"
+          },
+          {
+            "line": 460935,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 460938,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 460939,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 460947,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 460948,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 460963,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 460965,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 486302,
+            "text": "8150550\t4.22287",
+            "token": "4.22287",
+            "value": 4.22287
+          }
+        }
+      },
+      "GSM600944": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 5"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 489427,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 5"
+          },
+          {
+            "line": 489434,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 489437,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 489438,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 489446,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 489447,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 489462,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 489464,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 514801,
+            "text": "8150550\t4.709259",
+            "token": "4.709259",
+            "value": 4.709259
+          }
+        }
+      },
+      "GSM600945": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 6"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 517926,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 6"
+          },
+          {
+            "line": 517933,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 517936,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 517937,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 517945,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 517946,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 517961,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 517963,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 543300,
+            "text": "8150550\t4.119349",
+            "token": "4.119349",
+            "value": 4.119349
+          }
+        }
+      },
+      "GSM600946": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 7"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 546425,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 7"
+          },
+          {
+            "line": 546432,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 546435,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 546436,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 546444,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 546445,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 546460,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 546462,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 571799,
+            "text": "8150550\t4.637743",
+            "token": "4.637743",
+            "value": 4.637743
+          }
+        }
+      },
+      "GSM600947": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 8"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 574924,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 8"
+          },
+          {
+            "line": 574931,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 574934,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 574935,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 574943,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 574944,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 574959,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 574961,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 600298,
+            "text": "8150550\t4.067217",
+            "token": "4.067217",
+            "value": 4.067217
+          }
+        }
+      },
+      "GSM600948": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 9"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 603423,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 9"
+          },
+          {
+            "line": 603430,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 603433,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 603434,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 603442,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 603443,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 603458,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 603460,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 628797,
+            "text": "8150550\t4.469115",
+            "token": "4.469115",
+            "value": 4.469115
+          }
+        }
+      },
+      "GSM600949": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 10"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 631922,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 10"
+          },
+          {
+            "line": 631929,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 631932,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 631933,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 631941,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 631942,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 631957,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 631959,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 657296,
+            "text": "8150550\t4.533403",
+            "token": "4.533403",
+            "value": 4.533403
+          }
+        }
+      },
+      "GSM600950": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 11"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 660421,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 11"
+          },
+          {
+            "line": 660428,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 660431,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 660432,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 660440,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 660441,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 660456,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 660458,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 685795,
+            "text": "8150550\t4.424653",
+            "token": "4.424653",
+            "value": 4.424653
+          }
+        }
+      },
+      "GSM600951": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 12"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 688920,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 12"
+          },
+          {
+            "line": 688927,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 688930,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 688931,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 688939,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 688940,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 688955,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 688957,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 714294,
+            "text": "8150550\t4.827028",
+            "token": "4.827028",
+            "value": 4.827028
+          }
+        }
+      },
+      "GSM600952": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 13"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 717419,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 13"
+          },
+          {
+            "line": 717426,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 717429,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 717430,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 717438,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 717439,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 717454,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 717456,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 742793,
+            "text": "8150550\t4.632009",
+            "token": "4.632009",
+            "value": 4.632009
+          }
+        }
+      },
+      "GSM600953": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 14"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 745918,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 14"
+          },
+          {
+            "line": 745925,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 745928,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 745929,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 745937,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 745938,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 745953,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 745955,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 771292,
+            "text": "8150550\t4.243881",
+            "token": "4.243881",
+            "value": 4.243881
+          }
+        }
+      },
+      "GSM600954": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 15"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 774417,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 15"
+          },
+          {
+            "line": 774424,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 774427,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 774428,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 774436,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 774437,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 774452,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 774454,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 799791,
+            "text": "8150550\t4.641086",
+            "token": "4.641086",
+            "value": 4.641086
+          }
+        }
+      },
+      "GSM600955": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 16"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 802916,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 16"
+          },
+          {
+            "line": 802923,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 802926,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 802927,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 802935,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 802936,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 802951,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 802953,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 828290,
+            "text": "8150550\t4.245036",
+            "token": "4.245036",
+            "value": 4.245036
+          }
+        }
+      },
+      "GSM600956": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Low-grade fibromyxoid sarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Low-grade fibromyxoid sarcoma 17"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 831415,
+            "text": "!Sample_title = Low-grade fibromyxoid sarcoma 17"
+          },
+          {
+            "line": 831422,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 831425,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 831426,
+            "text": "!Sample_characteristics_ch1 = tissue: Low-grade fibromyxoid sarcoma"
+          },
+          {
+            "line": 831434,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 831435,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 831450,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 831452,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 856789,
+            "text": "8150550\t4.330398",
+            "token": "4.330398",
+            "value": 4.330398
+          }
+        }
+      },
+      "GSM600957": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Myxofibrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Myxofibrosarcoma 1"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 859914,
+            "text": "!Sample_title = Myxofibrosarcoma 1"
+          },
+          {
+            "line": 859921,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 859924,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 859925,
+            "text": "!Sample_characteristics_ch1 = tissue: Myxofibrosarcoma"
+          },
+          {
+            "line": 859933,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 859934,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 859949,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 859951,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 885288,
+            "text": "8150550\t4.73563",
+            "token": "4.73563",
+            "value": 4.73563
+          }
+        }
+      },
+      "GSM600958": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Myxofibrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Myxofibrosarcoma 2"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 888413,
+            "text": "!Sample_title = Myxofibrosarcoma 2"
+          },
+          {
+            "line": 888420,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 888423,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 888424,
+            "text": "!Sample_characteristics_ch1 = tissue: Myxofibrosarcoma"
+          },
+          {
+            "line": 888432,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 888433,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 888448,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 888450,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 913787,
+            "text": "8150550\t4.296546",
+            "token": "4.296546",
+            "value": 4.296546
+          }
+        }
+      },
+      "GSM600959": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Myxofibrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Myxofibrosarcoma 3"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 916912,
+            "text": "!Sample_title = Myxofibrosarcoma 3"
+          },
+          {
+            "line": 916919,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 916922,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 916923,
+            "text": "!Sample_characteristics_ch1 = tissue: Myxofibrosarcoma"
+          },
+          {
+            "line": 916931,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 916932,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 916947,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 916949,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 942286,
+            "text": "8150550\t4.05132",
+            "token": "4.05132",
+            "value": 4.05132
+          }
+        }
+      },
+      "GSM600960": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Myxofibrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Myxofibrosarcoma 4"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 945411,
+            "text": "!Sample_title = Myxofibrosarcoma 4"
+          },
+          {
+            "line": 945418,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 945421,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 945422,
+            "text": "!Sample_characteristics_ch1 = tissue: Myxofibrosarcoma"
+          },
+          {
+            "line": 945430,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 945431,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 945446,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 945448,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 970785,
+            "text": "8150550\t4.649869",
+            "token": "4.649869",
+            "value": 4.649869
+          }
+        }
+      },
+      "GSM600961": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Myxofibrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Myxofibrosarcoma 5"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 973910,
+            "text": "!Sample_title = Myxofibrosarcoma 5"
+          },
+          {
+            "line": 973917,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 973920,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 973921,
+            "text": "!Sample_characteristics_ch1 = tissue: Myxofibrosarcoma"
+          },
+          {
+            "line": 973929,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 973930,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 973945,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 973947,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 999284,
+            "text": "8150550\t5.213865",
+            "token": "5.213865",
+            "value": 5.213865
+          }
+        }
+      },
+      "GSM600962": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Myxofibrosarcoma"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Myxofibrosarcoma 6"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 1002409,
+            "text": "!Sample_title = Myxofibrosarcoma 6"
+          },
+          {
+            "line": 1002416,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 1002419,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 1002420,
+            "text": "!Sample_characteristics_ch1 = tissue: Myxofibrosarcoma"
+          },
+          {
+            "line": 1002428,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 1002429,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 1002444,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 1002446,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 1027783,
+            "text": "8150550\t4.282724",
+            "token": "4.282724",
+            "value": 4.282724
+          }
+        }
+      },
+      "GSM600963": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Solitary fibrous tumor"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Solitary fibrous tumor 1"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 1030908,
+            "text": "!Sample_title = Solitary fibrous tumor 1"
+          },
+          {
+            "line": 1030915,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 1030918,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 1030919,
+            "text": "!Sample_characteristics_ch1 = tissue: Solitary fibrous tumor"
+          },
+          {
+            "line": 1030927,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 1030928,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 1030943,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 1030945,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 1056282,
+            "text": "8150550\t4.914383",
+            "token": "4.914383",
+            "value": 4.914383
+          }
+        }
+      },
+      "GSM600964": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Solitary fibrous tumor"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Solitary fibrous tumor 2"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 1059407,
+            "text": "!Sample_title = Solitary fibrous tumor 2"
+          },
+          {
+            "line": 1059414,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 1059417,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 1059418,
+            "text": "!Sample_characteristics_ch1 = tissue: Solitary fibrous tumor"
+          },
+          {
+            "line": 1059426,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 1059427,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 1059442,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 1059444,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 1084781,
+            "text": "8150550\t4.94576",
+            "token": "4.94576",
+            "value": 4.94576
+          }
+        }
+      },
+      "GSM600965": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Solitary fibrous tumor"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Solitary fibrous tumor 3"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 1087906,
+            "text": "!Sample_title = Solitary fibrous tumor 3"
+          },
+          {
+            "line": 1087913,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 1087916,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 1087917,
+            "text": "!Sample_characteristics_ch1 = tissue: Solitary fibrous tumor"
+          },
+          {
+            "line": 1087925,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 1087926,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 1087941,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 1087943,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 1113280,
+            "text": "8150550\t5.439681",
+            "token": "5.439681",
+            "value": 5.439681
+          }
+        }
+      },
+      "GSM600966": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Solitary fibrous tumor"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Solitary fibrous tumor 4"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 1116405,
+            "text": "!Sample_title = Solitary fibrous tumor 4"
+          },
+          {
+            "line": 1116412,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 1116415,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 1116416,
+            "text": "!Sample_characteristics_ch1 = tissue: Solitary fibrous tumor"
+          },
+          {
+            "line": 1116424,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 1116425,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 1116440,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 1116442,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 1141779,
+            "text": "8150550\t4.129526",
+            "token": "4.129526",
+            "value": 4.129526
+          }
+        }
+      },
+      "GSM600967": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: tumor biopsy",
+            "tissue: Solitary fibrous tumor"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Solitary fibrous tumor 5"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 1144904,
+            "text": "!Sample_title = Solitary fibrous tumor 5"
+          },
+          {
+            "line": 1144911,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 1144914,
+            "text": "!Sample_characteristics_ch1 = sample type: tumor biopsy"
+          },
+          {
+            "line": 1144915,
+            "text": "!Sample_characteristics_ch1 = tissue: Solitary fibrous tumor"
+          },
+          {
+            "line": 1144923,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 1144924,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 1144939,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 1144941,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 1170278,
+            "text": "8150550\t4.747736",
+            "token": "4.747736",
+            "value": 4.747736
+          }
+        }
+      },
+      "GSM600968": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: pooled RNA",
+            "tissue: Skeletal muscle"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Skeletal muscle pooled RNA 1"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 1173403,
+            "text": "!Sample_title = Skeletal muscle pooled RNA 1"
+          },
+          {
+            "line": 1173410,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 1173413,
+            "text": "!Sample_characteristics_ch1 = sample type: pooled RNA"
+          },
+          {
+            "line": 1173414,
+            "text": "!Sample_characteristics_ch1 = tissue: Skeletal muscle"
+          },
+          {
+            "line": 1173422,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 1173423,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 1173436,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 1173438,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 1198775,
+            "text": "8150550\t4.968279",
+            "token": "4.968279",
+            "value": 4.968279
+          }
+        }
+      },
+      "GSM600969": {
+        "metadata": {
+          "VALUE_definition": [
+            "RMA log2 signal"
+          ],
+          "characteristics_ch1": [
+            "sample type: pooled RNA",
+            "tissue: Skeletal muscle"
+          ],
+          "platform": [
+            "GPL6244"
+          ],
+          "processing": [
+            "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          ],
+          "source_ch1": [
+            "soft tissue"
+          ],
+          "title": [
+            "Skeletal muscle pooled RNA 2"
+          ]
+        },
+        "metadata_lines": [
+          {
+            "line": 1201900,
+            "text": "!Sample_title = Skeletal muscle pooled RNA 2"
+          },
+          {
+            "line": 1201907,
+            "text": "!Sample_source_name_ch1 = soft tissue"
+          },
+          {
+            "line": 1201910,
+            "text": "!Sample_characteristics_ch1 = sample type: pooled RNA"
+          },
+          {
+            "line": 1201911,
+            "text": "!Sample_characteristics_ch1 = tissue: Skeletal muscle"
+          },
+          {
+            "line": 1201919,
+            "text": "!Sample_data_processing = Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+          },
+          {
+            "line": 1201920,
+            "text": "!Sample_platform_id = GPL6244"
+          },
+          {
+            "line": 1201933,
+            "text": "#VALUE = RMA log2 signal"
+          }
+        ],
+        "table_complete": true,
+        "table_header": {
+          "line": 1201935,
+          "text": "ID_REF\tVALUE"
+        },
+        "values": {
+          "8150550": {
+            "line": 1227272,
+            "text": "8150550\t4.308265",
+            "token": "4.308265",
+            "value": 4.308265
+          }
+        }
+      }
+    },
+    "source_line_count": 1230395
+  },
+  "source_revision": "88920dd07bcce6f75d9c36917f5a6700a412726f",
+  "stop_condition": "One finite source acquisition and exact comparison; stop on source change, gap or mismatch. No expression statistics."
+}

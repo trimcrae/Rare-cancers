@@ -1,0 +1,153 @@
+name: Completed usage sprint integration CPU checks
+on:
+  push:
+    branches:
+      - codex/usage-sprint-2026-10-01-integrate-completed
+    paths:
+      - .github/workflows/usage-sprint-integrate-completed.yml
+      - .github/workflows/tests.yml
+      - research/autonomy/usage-sprint-2026-10-01/integrate-completed/check_integration.py
+      - research/autonomy/usage-sprint-2026-10-01/integrate-completed/integration-plan.json
+      - research/autonomy/usage-sprint-2026-10-01/integrate-completed/handoff.md
+      - research/autonomy/tests/test_ci_terminal_verdict.py
+      - research/autonomy/tests/test_the_loop_notices_it_is_not_learning.py
+      - research/autonomy/await_ci.py
+      - research/autonomy/learning_rate.py
+      - research/autonomy/amendments.jsonl
+      - research/modalities/aso_independent_verification.py
+      - research/modalities/tests/test_aso_independent_verification_integrity.py
+      - scripts/trigger_scan.py
+      - research/IDEAS.md
+      - research/method-watch-trigger-scan.md
+permissions:
+  contents: read
+concurrency:
+  group: usage-sprint-integrate-completed-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  combined-offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Read immutable tested revision history
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git -c protocol.version=2 fetch --no-tags --unshallow --no-recurse-submodules origin "$GITHUB_SHA"
+          test "$(git rev-parse --is-shallow-repository)" = "false"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Exact source revision and interpreter
+        run: |
+          git rev-parse HEAD
+          git rev-parse HEAD^{tree}
+          python3 --version
+      - name: Record bounded checkpoint scope
+        id: phase
+        run: |
+          python3 -c 'import json; print("scope="+json.load(open("research/autonomy/usage-sprint-2026-10-01/integrate-completed/integration-plan.json"))["validation_scope"])' >> "$GITHUB_OUTPUT"
+      - name: Exact ancestry, protected main bytes and original assertion bodies
+        run: python3 research/autonomy/usage-sprint-2026-10-01/integrate-completed/check_integration.py
+      - name: Install existing normal preflight dependencies
+        timeout-minutes: 5
+        run: >-
+          python3 -m pip install
+          uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
+          pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+      - name: Offline reporters and unchanged budget guards
+        if: ${{ steps.phase.outputs.scope == 'full_combination' }}
+        run: |
+          python3 -m unittest discover -s research/autonomy/tests -p test_ci_terminal_verdict.py -v
+          python3 -m pytest research/autonomy/tests/test_the_loop_notices_it_is_not_learning.py research/autonomy/tests/test_an_error_body_is_the_diagnosis.py scripts/tests/test_a_tier_budget_is_a_decision_somebody_took.py -v -s --tb=short -p no:cacheprovider
+          python3 -m py_compile research/autonomy/await_ci.py research/autonomy/learning_rate.py research/autonomy/tests/test_ci_terminal_verdict.py research/autonomy/usage-sprint-2026-10-01/integrate-completed/check_integration.py
+      - name: Existing source integrity tests and committed evidence offline only
+        if: ${{ steps.phase.outputs.scope == 'full_combination' }}
+        run: |
+          python3 research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/test_acquire.py -v
+          python3 research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/acquire.py --check research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/evidence.json
+          python3 research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/test_acquire.py -v
+          python3 research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/acquire.py --check research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/evidence.json
+          python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/test_acquire.py -v
+          python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/acquire.py --check research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/evidence.json
+      - name: Changed verifier and frame regressions with unchanged science
+        if: ${{ steps.phase.outputs.scope == 'full_combination' }}
+        run: |
+          python3 -m pytest research/modalities/tests/test_aso_independent_verification.py research/modalities/tests/test_aso_independent_verification_integrity.py -q --durations=10
+          python3 research/modalities/aso_independent_verification.py --check
+          python3 research/autonomy/usage-sprint-2026-10-01/frame-census/aso_frame_candidate_census.py --check
+          python3 -m pytest research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py::test_a_declared_drift_states_the_size_it_actually_has research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py::test_the_drift_figure_is_not_satisfied_by_a_digit_pair_inside_a_sha -q
+          python3 research/manuscripts/aso_archive_manifest.py --check-archive
+          python3 research/manuscripts/aso_deposit_drift.py --check
+      - name: Existing amendment guard and append-only log checks
+        if: ${{ steps.phase.outputs.scope == 'full_combination' }}
+        run: |
+          python3 -c 'import json; print(json.dumps({"cycle_id":"USAGE-SPRINT-2026-10-01-INTEGRATE-COMPLETED","blocked_by":[]}))' > "$RUNNER_TEMP/integration-amendment-receipt.json"
+          python3 research/autonomy/amendment_guard.py --receipt "$RUNNER_TEMP/integration-amendment-receipt.json" --diff-from ee84a76beb7c51004eca05cad09cf9612bb0e959 --json
+          python3 research/autonomy/amendment_guard.py --check-log
+      - name: Unchanged budget and systems diagnostics
+        if: ${{ steps.phase.outputs.scope == 'full_combination' }}
+        run: |
+          python3 scripts/tier_budget.py --check
+          python3 systems/systems_check.py --check
+      - name: Changed pure formatter regressions
+        if: ${{ steps.phase.outputs.scope == 'catalogue_render_repair' }}
+        run: |
+          python3 -m pytest research/modalities/tests/test_trigger_board_filter.py -v -s --tb=short -p no:cacheprovider
+      - name: Unchanged native citation gate
+        if: ${{ steps.phase.outputs.scope == 'citation_diagnostic_prose_repair' }}
+        run: python3 research/manuscripts/lint_citations.py
+      - name: Exact historical systems failure witness without source acquisition
+        if: ${{ steps.phase.outputs.scope == 'citation_diagnostic_prose_repair' }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import subprocess
+          import sys
+          import tempfile
+          revision = "605f772977c87a4f1140ac8b4c595aaddd67e79f"
+          expected = "[K1]  research/autonomy/usage-sprint-2026-10-01/integrate-completed/handoff.md links to 'validation-receipt.json', which does not exist"
+          root = Path.cwd()
+          with tempfile.TemporaryDirectory(prefix="rare-systems-witness-", dir=os.environ["RUNNER_TEMP"]) as temporary:
+              checkout = Path(temporary) / "checkout"
+              subprocess.run(["git", "worktree", "add", "--detach", str(checkout), revision], check=True)
+              try:
+                  result = subprocess.run(
+                      [sys.executable, str(checkout / "systems/systems_check.py"), "--check", "--json"],
+                      cwd=checkout, capture_output=True, text=True)
+                  print("HISTORICAL_SYSTEMS_STDOUT_BEGIN")
+                  print(result.stdout, end="")
+                  print("HISTORICAL_SYSTEMS_STDOUT_END")
+                  if result.stderr:
+                      print(result.stderr, end="", file=sys.stderr)
+                  findings = json.loads(result.stdout)
+                  assert result.returncode == 1, result.returncode
+                  assert findings["errors"] == [expected], findings["errors"]
+                  print("HISTORICAL_SYSTEMS_WITNESS_OK exact605f exit1; exactly one native K1 missing future receipt; no other errors")
+              finally:
+                  subprocess.run(["git", "worktree", "remove", str(checkout)], cwd=root, check=True)
+          PY
+      - name: Unchanged native systems check with visible diagnostics
+        run: python3 systems/systems_check.py --check
+      - name: Existing native OS prerequisites with visible bounded package setup
+        timeout-minutes: 5
+        run: |
+          sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 install -y ghostscript libreoffice-writer
+          command -v gs
+          gs --version
+          test -f /usr/lib/libreoffice/share/registry/writer.xcd
+          soffice --version
+      - name: Normal preflight default FAST scope
+        timeout-minutes: 10
+        run: ./scripts/preflight.sh
+      - name: Tracked source remained clean
+        if: ${{ !cancelled() }}
+        run: |
+          git status --short
+          git diff --exit-code

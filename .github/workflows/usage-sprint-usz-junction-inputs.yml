@@ -1,0 +1,55 @@
+name: USZ junction input operational checkpoint
+on:
+  push:
+    branches:
+      - codex/usage-sprint-2026-10-01-usz-junction-inputs
+    paths:
+      - .github/workflows/usage-sprint-usz-junction-inputs.yml
+      - research/autonomy/usage-sprint-2026-10-01/usz-junction-inputs/input-fingerprints.json
+permissions:
+  contents: read
+concurrency:
+  group: usage-sprint-usz-junction-inputs-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  operational:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Exact revision and unchanged model-record binding
+        run: |
+          git rev-parse HEAD
+          python3 --version
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          record = json.loads(Path("research/autonomy/usage-sprint-2026-10-01/usz-junction-inputs/input-fingerprints.json").read_text())
+          pin = record["model_evidence"]
+          raw = Path(pin["path"]).read_bytes()
+          blob = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+          assert blob == pin["current_blob"] == pin["known_previous_blob"], pin["path"]
+          assert len(raw) == pin["bytes"]
+          print("UNCHANGED_MODEL_RECORD", pin["path"], blob, len(raw))
+          print("OPERATIONAL_SOURCE_BINDING_OK; no new scientific test suite executed")
+          PY
+      - name: Install normal preflight dependencies
+        timeout-minutes: 5
+        run: >-
+          python3 -m pip install
+          uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
+          pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+      - name: Normal preflight (default fast scope)
+        timeout-minutes: 10
+        run: ./scripts/preflight.sh
+      - name: Tracked source unchanged by operational checks
+        if: ${{ !cancelled() }}
+        run: |
+          git status --short
+          git diff --exit-code

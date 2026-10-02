@@ -776,7 +776,8 @@ PROMISES = [
                         "deliberate-corruption tests that show the comparison can fail."),
         "patterns": ["research/modalities/aso_independent_verification.py",
                      "research/modalities/aso-independent-verification.json",
-                     "research/modalities/tests/test_aso_independent_verification.py"],
+                     "research/modalities/tests/test_aso_independent_verification.py",
+                     "research/modalities/tests/test_aso_independent_verification_integrity.py"],
     },
     {
         "id": "deposited_documents",

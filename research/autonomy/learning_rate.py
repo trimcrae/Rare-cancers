@@ -100,11 +100,15 @@ def closures(versions=None, since=None, repo: str = stuck_clock.REPO) -> list[tu
     return out
 
 
-def report(repo: str = stuck_clock.REPO, hours: float | None = None, state_path=None) -> dict:
+def report(repo: str = stuck_clock.REPO, hours: float | None = None, state_path=None,
+           now: datetime.datetime | None = None) -> dict:
     h = window_hours(state_path=state_path) if hours is None else hours
     versions = stuck_clock.ledger_versions(repo)
     shallow = stuck_clock.is_shallow(repo)
-    now = versions[-1].when if versions else datetime.datetime.now(datetime.timezone.utc)
+    now = now if now is not None else datetime.datetime.now(datetime.timezone.utc)
+    if now.tzinfo is None or now.utcoffset() is None:
+        raise ValueError("observation time must have a defined UTC offset")
+    now = now.astimezone(datetime.timezone.utc)
     since = now - datetime.timedelta(hours=h)
     # ⛔ SHALLOW CENSORS ONLY WHAT IT ACTUALLY HIDES. The first version reachable in a shallow clone
     # is the horizon; if it PREDATES the window, the window is fully readable and calling it censored
@@ -119,6 +123,9 @@ def report(repo: str = stuck_clock.REPO, hours: float | None = None, state_path=
     self_share = (by_route.get(SELF_ROUTE, 0) / total) if total else 0.0
     return {
         "window_hours": h,
+        "observed_utc": now.isoformat(),
+        "window_start_utc": since.isoformat(),
+        "latest_ledger_utc": versions[-1].when.isoformat() if versions else None,
         "closures": total,
         "by_route": dict(by_route),
         "distinct_routes": len(by_route),

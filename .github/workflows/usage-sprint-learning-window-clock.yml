@@ -1,0 +1,56 @@
+name: Learning-window observation clock offline repair
+on:
+  push:
+    branches:
+      - codex/usage-sprint-2026-10-01-learning-window-clock
+    paths:
+      - .github/workflows/usage-sprint-learning-window-clock.yml
+      - research/autonomy/learning_rate.py
+      - research/autonomy/tests/test_the_loop_notices_it_is_not_learning.py
+      - research/autonomy/usage-sprint-2026-10-01/learning-window-clock/handoff.md
+permissions:
+  contents: read
+concurrency:
+  group: usage-sprint-learning-window-clock-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 8
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Exact revision and interpreter
+        run: |
+          git rev-parse HEAD
+          python3 --version
+      - name: Install existing normal preflight dependencies
+        timeout-minutes: 5
+        run: >-
+          python3 -m pip install
+          uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
+          pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+      - name: Pinned original witness and actual offline production learning-window regressions
+        run: |
+          python3 -m pytest research/autonomy/tests/test_the_loop_notices_it_is_not_learning.py -v -s --tb=short -p no:cacheprovider
+          python3 -m py_compile research/autonomy/learning_rate.py research/autonomy/tests/test_the_loop_notices_it_is_not_learning.py
+      - name: Existing amendment declaration and append-only log checks
+        run: |
+          python3 -c 'import json; print(json.dumps({"cycle_id": "USAGE-SPRINT-2026-10-01-LEARNING-WINDOW-CLOCK", "blocked_by": []}))' > "$RUNNER_TEMP/learning-window-amendment.json"
+          python3 research/autonomy/amendment_guard.py --receipt "$RUNNER_TEMP/learning-window-amendment.json" --diff-from b9b420ec4073a2b28489521c7a7d6f827f90d90a --json
+          python3 research/autonomy/amendment_guard.py --check-log
+      - name: Systems model diagnostic (unchanged checker)
+        run: python3 systems/systems_check.py --check
+      - name: Normal preflight (default FAST scope)
+        timeout-minutes: 10
+        run: ./scripts/preflight.sh
+      - name: Tracked source unchanged by checks
+        if: ${{ !cancelled() }}
+        run: |
+          git status --short
+          git diff --exit-code

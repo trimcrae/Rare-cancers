@@ -431,12 +431,22 @@ def _cite_into_line(trg: dict) -> str:
             + ", ".join(f"`{d}`" for d in dests) + ". ")
 
 
+def _catalogue_title_link(hit: dict, *, italic: bool = False) -> str:
+    """Quote an ungraded catalogue title as a link label, preserving its literal text."""
+    title = hit.get("title", "")
+    for char in ("\\", "[", "]", "*", "_", "`"):
+        title = title.replace(char, "\\" + char)
+    if italic:
+        title = f"*{title}*"
+    return f"[{title}]({hit.get('url', '')})"
+
+
 def ideas_bullet(trg: dict, hit: dict, today: str) -> str:
     return (
         f"- **{today} — trigger `{trg['id']}` matched: {trg['title']}.** "
         f"⚠ **Unvalidated lead — machine-matched on the trigger's own queries, not read and not graded.** "
         f"**Would reopen:** {_reopens_line(trg)}. "
-        f"Hit: *{hit['title']}* ({hit['venue']}, {hit['date']}, {hit['id']}) {hit['url']} . "
+        f"Hit: {_catalogue_title_link(hit, italic=True)} ({hit['venue']}, {hit['date']}, {hit['id']}) . "
         f"If it holds: {trg.get('on_fire', 'check the trigger row.')} "
         f"{_cite_into_line(trg)}"
         f"Trigger definition + queries: [`research/method-watch-triggers.json`](./method-watch-triggers.json)."
@@ -722,8 +732,8 @@ def write_board(cfg: dict, ledger: dict, run: dict, per_trigger: dict) -> None:
             L.append("- **most recent matches** (unvalidated, newest first):")
             for h in recent:
                 flag = " 🆕" if h.get("first_seen") == run["date"] else ""
-                L.append(f"  - {h.get('date', '?')} — {h.get('title', '')} ({h.get('venue', '')}, "
-                         f"{h.get('id', '')}){flag} {h.get('url', '')}")
+                L.append(f"  - {h.get('date', '?')} — {_catalogue_title_link(h)} ({h.get('venue', '')}, "
+                         f"{h.get('id', '')}){flag}")
         else:
             L.append("- **no matches recorded**")
         if stale:

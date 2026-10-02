@@ -485,7 +485,7 @@ can maintain, and CLAUDE.md §1 already says so: *a total is DERIVED, never type
 
 <!-- BEGIN GENERATED deposit-drift · aso_deposit_drift.py · DO NOT EDIT BY HAND -->
 
-⛔ **34 deposited paths differ** from the published record: **29 changed, 5 added, 0 removed** against its own manifest at `4fd4698daec0`.
+⛔ **36 deposited paths differ** from the published record: **30 changed, 6 added, 0 removed** against its own manifest at `4fd4698daec0`.
 
 <details><summary>every deposited path that differs</summary>
 
@@ -512,6 +512,7 @@ can maintain, and CLAUDE.md §1 already says so: *a total is DERIVED, never type
 * `research/manuscripts/pinned-figures.json`
 * `research/manuscripts/submission-metrics.json`
 * `research/manuscripts/submission_packet.py`
+* `research/modalities/aso_independent_verification.py`
 * `research/modalities/aso_insilico.py`
 * `research/modalities/emc-atr-vulnerability.json`
 * `research/modalities/emc-model-junction-evidence.json`
@@ -523,6 +524,7 @@ can maintain, and CLAUDE.md §1 already says so: *a total is DERIVED, never type
 * `+ research/manuscripts/aso/cbc-20260910/manuscript.md`
 * `+ research/manuscripts/aso/cbc-20260910/manuscript.pdf`
 * `+ research/manuscripts/citation_scan_cache.py`
+* `+ research/modalities/tests/test_aso_independent_verification_integrity.py`
 
 </details>
 

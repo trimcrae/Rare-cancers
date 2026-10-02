@@ -1,0 +1,58 @@
+{
+  "schema": "emc-chrna6-crosswalk-source-findings/1",
+  "ai_authorship": "Codex AI assistant; independent LLM evidence and prose review performed by coordinator; not human scientific validation",
+  "evidence_file": "evidence.json",
+  "evidence_sha256": "bda7d71678705ba84f82381dba49a3d47eacbfa4fb9cea4552def0e837919ffb",
+  "study": {
+    "pmid": "38447752",
+    "doi": "10.1016/j.modpat.2024.100464"
+  },
+  "observations": [
+    {
+      "source_key": "europe_pmc",
+      "source_sha256": "fc5da76000aff1c0b5d92a6a3224e3b8748849036d441d6b0950eb6b045defd0",
+      "json_pointer": "/resultList/result/0/abstractText",
+      "verbatim_substring": "we analyzed genome-wide gene expression microarray data to identify candidate biomarkers based on differential expression in EMC in comparison with other mesenchymal neoplasms.",
+      "meaning": "Indexed primary abstract describes gene-expression microarray discovery, without identifying the datasets or providing a patient/specimen crosswalk in this span."
+    },
+    {
+      "source_key": "europe_pmc",
+      "source_sha256": "fc5da76000aff1c0b5d92a6a3224e3b8748849036d441d6b0950eb6b045defd0",
+      "json_pointer": "/resultList/result/0/fullTextUrlList/fullTextUrl/0",
+      "verbatim_value": {
+        "availability": "Subscription required",
+        "availabilityCode": "S",
+        "documentStyle": "doi",
+        "site": "DOI",
+        "url": "https://doi.org/10.1016/j.modpat.2024.100464"
+      },
+      "meaning": "The observed indexed full-text locator is labelled Subscription required. This is availability metadata observed at acquisition, not proof of global/full-text or supplement absence."
+    },
+    {
+      "source_key": "publisher_landing",
+      "source_sha256": "9f51b8e66e56c34426368f5a2e935b5e2aa5795ef7fec0b457bbf4c966de3496",
+      "verbatim_substring": "<title>Redirecting</title>",
+      "meaning": "The 200 response is a publisher redirect page, not acquired article methods or a supplement."
+    },
+    {
+      "source_key": "publisher_landing",
+      "source_sha256": "9f51b8e66e56c34426368f5a2e935b5e2aa5795ef7fec0b457bbf4c966de3496",
+      "verbatim_substring": "<meta name=\"tdm-reservation\" content=\"1\" />",
+      "meaning": "The source page declares a text/data mining reservation. No script, text-mining API, access bypass or further publisher fetch was attempted."
+    }
+  ],
+  "adjudication": {
+    "crosswalk_status": "not_established",
+    "independent_validation": "not_established",
+    "patient_overlap": "unknown",
+    "reason": "No reviewed specimen/patient crosswalk binds the CHRNA6 discovery/validation study to the existing GEO cohort. Accessible abstract or link metadata alone cannot adjudicate reuse.",
+    "specimen_overlap": "unknown"
+  },
+  "missing_inputs": [
+    "An authoritative discovery dataset/sample roster for the CHRNA6 paper, including whether and which GSE24369/GSM600934–GSM600939 records contributed.",
+    "A specimen/patient mapping between discovery, CISH validation and the existing GEO/other comparator cohorts, or explicit source-backed bounds on reuse.",
+    "Accessible primary methods/supplement bytes that can support these mappings; an indexed abstract or HTTP 200 redirect page does not supply them."
+  ],
+  "stop_result": "Bounded public-source cycle complete; required crosswalk not obtained. Unknown overlap does not mean none, and crosswalk not obtained does not mean unpublished.",
+  "next_action": "Do not repeat unchanged source endpoints. Reopen the overlap route only if a distinct authorized accessible primary methods/supplement or crosswalk becomes available; otherwise select a different existing bounded evidence question without an independent-validation claim."
+}

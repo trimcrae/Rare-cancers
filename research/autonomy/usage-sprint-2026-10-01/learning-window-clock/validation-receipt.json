@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "task": "learning-window-clock",
+  "authorship": {
+    "author": "Codex (AI)",
+    "independent_review": "Separate AI reviewer and root; no human-review claim",
+    "scientific_header_status": "Original assertions preserved, not newly verified or endorsed"
+  },
+  "repository": "trimcrae/Rare-cancers",
+  "branch": "codex/usage-sprint-2026-10-01-learning-window-clock",
+  "base_commit": "b9b420ec4073a2b28489521c7a7d6f827f90d90a",
+  "integration": {
+    "pr": false,
+    "main_merge": false,
+    "publication": false,
+    "final_closure": "Documentation/original-log only [skip ci]; exact final-head inventory separate from settled source CI"
+  },
+  "defect": {
+    "native_original_blob": "f6b73790809e82f7058639e7b94a9d6842b054fc",
+    "bytes": 9124,
+    "sha256": "b538b04569e06b0eefd6a5d225a7f86ea430a20191188f12b58eb154f4ac1bc1",
+    "trigger": "Old unchanged synthetic history with one prior closure; report clock incorrectly anchored to latest edit",
+    "actual_pinned_original_result": "1 closure / LEARNING",
+    "actual_repaired_result": "0 closures / NOT-LEARNING at observation clock"
+  },
+  "repair": {
+    "summary": "Sample observation UTC once independently of ledger edits; expose observed_utc/window_start_utc/latest_ledger_utc",
+    "explicit_clock_trust": "Caller supplied; aware offset normalized to UTC; naive/undefined offset refused; not authenticated time",
+    "preserved": "Original 12 test bodies, historical header bytes, transition/classification/threshold/shallow/cadence/CLI mapping; all prior amendment bytes and guards"
+  },
+  "tested": {
+    "commit": "f5f39ba46555f8afbaa741862667623b39677a52",
+    "tree": "9b8b0772c2ec88886ae80e089e756cff93028ed3",
+    "source_pins": [
+      {
+        "path": "research/autonomy/learning_rate.py",
+        "git_blob": "6a5ef18f13addb110aa04185a8b4d41c101dc724",
+        "bytes": 9514,
+        "sha256": "6417c5372e090b22259e21b4fb4a314d93470b887d6b3f91a9ee92cf996fe68c"
+      },
+      {
+        "path": "research/autonomy/tests/test_the_loop_notices_it_is_not_learning.py",
+        "git_blob": "1fedbdba83d67c31e5e89074fd4b77bc6a04590a",
+        "bytes": 13448,
+        "sha256": "9ee1698009e4da742e88874cdb4cce516d9437c9c948b38e7540760c9ca44c72"
+      },
+      {
+        "path": "research/autonomy/amendments.jsonl",
+        "git_blob": "37909d5ac3da166a68b7fc411ccaa55855bb898d",
+        "bytes": 721307,
+        "sha256": "2cd78ffab330a53179fd301833d25d2c8f3ef3fce556c97a832cdcba6d294381"
+      },
+      {
+        "path": ".github/workflows/usage-sprint-learning-window-clock.yml",
+        "git_blob": "eda2c91d354bd8280293e79edd9057bb4c22d9f9",
+        "bytes": 2508,
+        "sha256": "321b48eb0e864064d16b5d2ac17b0d754a7eccd900e66488890370639bf6c417"
+      }
+    ],
+    "run": {
+      "id": 37009554894,
+      "job_id": 110845744408,
+      "event": "push",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/37009554894/job/110845744408",
+      "created_utc": "2026-10-02T12:54:33Z",
+      "updated_utc": "2026-10-02T12:57:38Z"
+    },
+    "environment": {
+      "python": "3.11.16",
+      "pytest": "9.1.1",
+      "runner": "ubuntu-latest"
+    },
+    "actual_checks": {
+      "pytest": {
+        "passed_items": 16,
+        "original_items": 12,
+        "new_behavior_families": 4,
+        "reported_seconds": 0.07,
+        "command": "python3 -m pytest research/autonomy/tests/test_the_loop_notices_it_is_not_learning.py -v -s --tb=short -p no:cacheprovider",
+        "scope": "Real production report/CLI with synthetic mocked history/time; pinned-original Git bytes and false-current witness"
+      },
+      "syntax": "passed py_compile of reporter and test",
+      "amendment_guard": {
+        "governed_paths": 1,
+        "verdict": "DECLARED",
+        "amendment_records": 349,
+        "log_check": "OK",
+        "cycle_id": "USAGE-SPRINT-2026-10-01-LEARNING-WINDOW-CLOCK"
+      },
+      "systems_check": {
+        "errors": 0,
+        "warnings": 90,
+        "info": 7
+      },
+      "normal_default_fast": {
+        "result": "PREFLIGHT OK",
+        "exact_pinned_sha": "f5f39ba46555f8afbaa741862667623b39677a52",
+        "scope": "fast gates only (doc + artifact linters)",
+        "commit_loop_budget": {
+          "count": 1496,
+          "ceiling": 1500,
+          "files": 108
+        },
+        "pure_logic_scientific_suites": "SKIPPED; no full scientific/publication proof"
+      },
+      "tracked_status": "Clean; git diff --exit-code passed"
+    },
+    "original_log": {
+      "path": "research/autonomy/usage-sprint-2026-10-01/learning-window-clock/settled-ci.log",
+      "bytes": 121470,
+      "sha256": "5134e80962b8db6b1b069d5445295fc30371ff154e9f9411cace0d40ae62cae1"
+    }
+  },
+  "initial_failure": {
+    "commit": "cee8d4d2e48fe8ba3ee7a4ad967edbb42b17af50",
+    "run_id": 37009014212,
+    "job_id": 110843998646,
+    "status": "completed",
+    "conclusion": "failure",
+    "passed": "16 targeted pytest items (0.09 s), pinned-original witness, syntax, declaration/log349, clean diff",
+    "failed": "Direct systems checker: five native frontmatter errors in our new handoff",
+    "fast": "SKIPPED",
+    "classification": "Our metadata packaging defect, not baseline/environment",
+    "repair_checkpoint": "f5f39ba46555f8afbaa741862667623b39677a52",
+    "repair_scope": "Handoff native schema metadata + exact handoff workflow path trigger + retained original initial log; reporter/tests/declaration unchanged",
+    "original_log": {
+      "path": "research/autonomy/usage-sprint-2026-10-01/learning-window-clock/initial-ci.log",
+      "git_blob": "036d97a77079e962c98dfb51d11b03b3e49bdd6b",
+      "bytes": 64839,
+      "sha256": "eef49e0138ca914b14590f47d4dab34462aff964216ef8357d3fa43908c0cb80"
+    }
+  },
+  "reviews": {
+    "source_method_amendment": "Root and separate reviewer cleared bc3fac/cee8d4d proposals; metadata correction f5f39",
+    "actual_ci": "Separate reviewer independently observed exact run/jobs/log and matched original log bytes/SHA; root review before final closure",
+    "receipt_gate": "Final immutable documentation diff reviewed before branch advance"
+  },
+  "limitations": [
+    "Synthetic fixtures; no current ledger/scientific learning/live health result",
+    "Preliminary V8 source adapters are not Python/browser tests",
+    "Skipped pure-logic/full scientific suites have not passed",
+    "No new scientific source acquisition, rescreen, inference/API/GPU/paid job",
+    "No PR/main merge/publication/outreach/notification/fleet/queue/review-seat/enforcer change"
+  ],
+  "next_bounded_action": "Coordinator review of branch/compare; only a distinct demonstrated defect or changed qualifying input may reopen work; stop completed clock route"
+}

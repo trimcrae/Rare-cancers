@@ -1,0 +1,54 @@
+name: CI terminal verdict offline repair
+on:
+  push:
+    branches:
+      - codex/usage-sprint-2026-10-01-ci-terminal-verdict
+    paths:
+      - .github/workflows/usage-sprint-ci-terminal-verdict.yml
+      - research/autonomy/await_ci.py
+      - research/autonomy/tests/test_ci_terminal_verdict.py
+permissions:
+  contents: read
+concurrency:
+  group: usage-sprint-ci-terminal-verdict-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 8
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Exact revision and interpreter
+        run: |
+          git rev-parse HEAD
+          python3 --version
+      - name: Pinned original witness and repaired offline verdict behavior
+        run: |
+          python3 -m unittest discover -s research/autonomy/tests -p test_ci_terminal_verdict.py -v
+          python3 -m py_compile research/autonomy/await_ci.py research/autonomy/tests/test_ci_terminal_verdict.py
+      - name: Install existing normal preflight dependencies
+        timeout-minutes: 5
+        run: >-
+          python3 -m pip install
+          uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
+          pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+      - name: Existing offline HTTP diagnosis regressions
+        run: >-
+          python3 -m pytest research/autonomy/tests/test_an_error_body_is_the_diagnosis.py
+          -v --tb=short -p no:cacheprovider
+      - name: Systems model diagnostic (unchanged checker)
+        run: python3 systems/systems_check.py --check
+      - name: Normal preflight (default FAST scope)
+        timeout-minutes: 10
+        run: ./scripts/preflight.sh
+      - name: Tracked source unchanged by checks
+        if: ${{ !cancelled() }}
+        run: |
+          git status --short
+          git diff --exit-code

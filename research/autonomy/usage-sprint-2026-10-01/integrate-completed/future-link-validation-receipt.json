@@ -1,0 +1,70 @@
+{
+  "schema": "usage-sprint-future-link-checkpoint/1",
+  "date": "2026-10-02",
+  "status": "cancelled_job_time_limit_after_slow_all_refs_history_fetch",
+  "tested_revision": "9fb0fa1dd4f84d4199609187aeb79c8001616b79",
+  "tested_tree": "aac75425fa165f8fb40ec72cbc4714b2141f2b95",
+  "actual_run": {
+    "id": 37064300989,
+    "job_id": 111028161629,
+    "event": "push",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "cancelled",
+    "job_start_utc": "2026-10-02T21:01:37Z",
+    "job_end_utc": "2026-10-02T21:21:48Z",
+    "job_elapsed_seconds": 1211,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/37064300989"
+  },
+  "checkout_observation": {
+    "step_start_utc": "2026-10-02T21:01:39Z",
+    "step_end_utc": "2026-10-02T21:20:23Z",
+    "step_seconds": 1124,
+    "command": "git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*",
+    "fetch_start_utc": "2026-10-02T21:01:39.4022866Z",
+    "fetch_response_utc": "2026-10-02T21:20:21.0992020Z",
+    "fetch_seconds_rounded": 1122,
+    "retry_or_fatal_printed": false,
+    "scope": "Actual all-refs fetch delay consumed most of unchanged20-minute bound; no unsupported network cause asserted."
+  },
+  "executed_checks": {
+    "source_and_main_preservation": "passed:72 source pins/8406 unrelated main blobs+modes/nine ordered source merges/all terminal original AST bodies/14 scenarios/six append declarations/historical originals/tissue+USZ Git bindings",
+    "formatter_type_handoff_links_and_three_original_logs": "passed",
+    "direct_native_citation": "passed:26 type claims/13 cached records/0errors/1retraction advisory",
+    "exact_historical_systems_witness": {
+      "revision": "605f772977c87a4f1140ac8b4c595aaddd67e79f",
+      "native_command": "python3 systems/systems_check.py --check --json",
+      "observed_exit": 1,
+      "observed_errors": [
+        "[K1]  research/autonomy/usage-sprint-2026-10-01/integrate-completed/handoff.md links to 'validation-receipt.json', which does not exist"
+      ],
+      "observed_warnings": 90,
+      "observed_info": 7,
+      "strict_singleton_witness_marker": "printed",
+      "full_native_stdout": "retained between markers in original job log",
+      "job_step_conclusion": "cancelled",
+      "cleanup": "unconfirmed because job cancellation arrived after strict assertion output",
+      "current_tree_status": "not checked after cancellation"
+    },
+    "current_native_systems": "skipped",
+    "normal_default_fast": "skipped",
+    "final_tracked_status": "skipped"
+  },
+  "reused_prior_passes": {
+    "initial_combined_scoped_passes": 181,
+    "initial_overall_verdict": "failure",
+    "formatter_pytest_passes": 6,
+    "formatter_overall_verdict": "failure",
+    "unchanged_scoped_suites": "All skipped in this run. No duplicate science/source/acquisition tests."
+  },
+  "repair_scope": "Read only full history of immutable tested GITHUB_SHA after depth-one checkout, avoiding unrelated branches/tags. Same availability recipe in native pytest job. Preserve20-minute integration bound, all gates/test bodies/thresholds; no manual redispatch.",
+  "original_job_log": {
+    "path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/future-link-ci-original.log",
+    "git_blob": "3bba01641a3bf484043935acb22397e3e049de36",
+    "utf8_bytes": 173542,
+    "sha256": "4fe32b78a49065a04dff1e3307deda8b9e0c9ae27aabe10eebbd0a5685f0cadd"
+  },
+  "independent_review": "Root/peer exact pre-push9fb0/aac754 clear; cancelled result and strict native witness independently corroborated. No green overall or current-FAST claim.",
+  "main_disposition": "Not merged; root alone proceeds after actual current systems/FAST success and final receipt review.",
+  "not_run": "No new source metadata or scientific acquisition, live scan, kernel/audit, publication suite, GPU/API/paid job,outreach or PR."
+}
