@@ -1,26 +1,34 @@
 {
-  "schema": "partner-unpooled-intervals/1",
+  "schema": "partner-unpooled-intervals/2",
   "rows": [
     {
-      "label": "Agaram primary TAF15 disease death",
+      "label": "Agaram secondary-source reconstruction TAF15 disease death",
       "x": 3,
       "n": 7,
-      "provenance": "primary",
+      "provenance": "secondary-source reconstruction; primary Table 1 not independently verified",
       "wilson95": {
         "p": 0.42857142857142855,
         "lower": 0.15821985525146975,
         "upper": 0.7495416354723428
+      },
+      "historicalSourceDescription": {
+        "label": "Agaram primary TAF15 disease death",
+        "provenance": "primary"
       }
     },
     {
-      "label": "Agaram primary EWSR1 disease death",
+      "label": "Agaram secondary-source reconstruction EWSR1 disease death",
       "x": 1,
       "n": 16,
-      "provenance": "primary",
+      "provenance": "secondary-source reconstruction; primary Table 1 not independently verified",
       "wilson95": {
         "p": 0.0625,
         "lower": 0.01111934476464252,
         "upper": 0.28328737570298945
+      },
+      "historicalSourceDescription": {
+        "label": "Agaram primary EWSR1 disease death",
+        "provenance": "primary"
       }
     },
     {
@@ -98,6 +106,13 @@
     "Unequal follow-up; proportions are not time-anchored survival.",
     "No pooling, adjusted prognosis or partner-by-treatment effect.",
     "4/19 is non-TAF15, not verified EWSR1.",
-    "Huang source counts were not independently reread from primary PDF."
-  ]
+    "Huang source counts were not independently reread from primary PDF.",
+    "Agaram 3/7 and 1/16 inputs remain secondary-source reconstructions; an exact ordinary-provider audit did not recover a verified primary Table 1. Arithmetic validity does not upgrade their provenance."
+  ],
+  "provenanceCorrection": {
+    "asOf": "2026-10-02",
+    "supersedesBlob": "d15c16f20c2eecb65b5ada8e15e2b1dad33b08ad",
+    "numericalOutputsChanged": false,
+    "sourceAudit": "../deep-analysis/results/Agaram-exact-final-public-patient-table-access.json"
+  }
 }
