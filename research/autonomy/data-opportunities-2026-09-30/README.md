@@ -1,52 +1,29 @@
-# Public measured-data research campaign
+# Measured-data opportunity campaign: completed 45-option analysis
 
-**Outcome:** 24 primary agent assignments evaluated 33 registered backlog endpoints plus 12 additional questions/leads. Four journal-style drafts are saved, and two protocol documents specify four future experimental-data analyses. All six analysis wrappers reproduced their saved outputs from hash-verified public inputs.
+This branch records a full source-qualified analysis pass after the initial shortlist proved too shallow. All 45 original options are preserved and mapped to 22 shared source/question groups. Eight focused article/letter candidates, one optional consolidated resource, two existing-paper extensions and supporting source notes are written. Related endpoints share contributions; there is no four-paper cap and no claim that 45 options imply 45 independent papers.
 
-The strongest immediate new draft is the registry response-unit methods report. The most promising next experimental-data projects are methylation validation across suppliers/chips, UPS/MFS spatial organization beyond abundance, and RNA-to-protein transfer in held-out sarcoma models. They fit the idea of reusing experiments already performed, but their core analyses remain prospective. No new EMC protein or treatment-response discovery has yet emerged.
+Start with the [ranked publication candidates](RANKING.md), the [complete 45-option status](ALL45-EXECUTED-STATUS.md), and the [eighteen-file manuscript index](MANUSCRIPT-INDEX.md). The [machine-readable analysis ledger](all45-executed-analysis-ledger.json) and [current catalogue](candidate-catalogue.json) retain completed analyses, source limits, group priorities, artifact bindings and original endpoint identities.
 
-## Read the package
+The strongest concrete contributions are a full-export Foundation sample-identity defect and a class-preserving oncology response-extraction correction. Other manuscripts address grouped methylation validation/score transport, normal-HLA donor coverage, serial-biopsy measurement availability, structure/ranking methods, protein-transfer support and printed survival-table constraints. None establishes a new EMC biological mechanism or treatment-response discovery comparable to the existing submitted CSPG4 paper.
 
-1. [Ranking and complete ordering](RANKING.md):  contribution/readiness separated, 44 action ranks plus the existing CSPG4 benchmark.
-2. [Publication assessment](editorial-readiness.md): why each draft may contribute, duplication risks, tentative venue scope and unfinished conditions.
-3. [Source inventory](SOURCES.md): 23 source families, with actual retrieval/inspection distinguished from access leads.
-4. [All 33 backlog endpoints](backlog-assessment.md) and [45-candidate catalogue](candidate-catalogue.json).
-5. [Assignment/execution ledger](execution-ledger.md): 24 primary assignments in four waves, additional methods/integration work and actual execution limits.
+## Work actually completed
 
-The submitted CSPG4 work remains the existing benchmark. ASO ranks 29 under this measured-data criterion. Closed surgical-margin/classification routes remain closed.
+- Full primary/derivative genomic reconciliation: all 3,771 rearrangement rows; all 75 original EMC profiles and 76 rearrangement annotations; source-qualified call-context comparisons.
+- Complete registry producer/source audit: 552 parent tables and 575 class–group rows, including all 38 literal adjudications and the 27 corrections affecting 14 tables/eight trials.
+- Methylation grouped/equal-budget model fits and all 428 external comparisons/120 fusion-selected cases; all 28 paired-IDAT sources and all 66 supporting locus fits/198 rows.
+- RNA/protein/dependency transfer and cross-assay support; 704-specimen RNA source with 644 eligible/nine EMCs; all 32 released ATAC marker panels; complete normal-HLA donor-depth and peptide-search diagnostics.
+- Actual published imaging across all 50 files/450 fixed tiles, all 42 RMS count libraries, all 15 publisher workbooks/93 sheets, all 588 subtype/lineage tests, and complete pediatric composition uncertainty. Corrected null and assay-confounded results are retained.
+- All 221 Iwata screen measurements/24 IC50 values, actual released curve labels/full public Figure 4 caption, all forty Bangerter ordinal drug summaries and complete label-candidate comparisons; genotypic/STR and selected-validation qualifications retained.
+- Published ASO duplex/cellular/expression/chemistry controls, all printed clinical records and curve-concordance sensitivities, all 84 IMMUNOSARC1 summary rows and all 24 fixed PeerJ clinical-label diagnostics.
 
-## Journal-style drafts
+The repository retains 89 durable result/source JSONs in [deep-analysis/results/](deep-analysis/results/) and the executable helpers in [deep-analysis/](deep-analysis/). These include historical checkpoints; the count is not a count of independent studies. Numeric source values, source hashes, derived measurements and pins are durable. Large binary assets remain in GitHub execution artifacts with thirty-day retention, so reproducibility after expiry may require reacquiring their exact pinned public sources.
 
-- [Registry response units and denominators — short report](drafts/registry-response-unit-short-report.md).
-- [Patient-linked serial-biopsy availability — correspondence](drafts/immunosarc-availability-correspondence.md).
-- [Archived query-dependent EMC result findability — correspondence](drafts/registry-search-correspondence.md).
-- [Fusion partner: prognosis versus treatment prediction — revised correspondence](drafts/fusion-partner-revised-correspondence.md).
+## Completion and publication boundaries
 
-The search letter refocuses the existing reachability contribution; the partner letter repairs its existing counterpart. These are four drafts, not four entirely new independent discoveries. No journal acceptance probability or submission readiness is claimed.
+No identified runnable scientific action remains within the campaign's acquired/source-qualified question scope. Specific missing data are recorded per option: raw drug replicates/continuous AUC, chemical/formulation identities, clinical event/censor records, controlled-access pediatric raw data and authenticated EMC functional measurements. These are evidence limits rather than analyses abandoned at a feasibility check. New qualified sources can reopen questions; the campaign does not claim an exhaustive global search or all conceivable analyses.
 
-## Future experimental work
+[Final validation](validation-summary.json), [current review receipts](reviews/final-executed-review-receipts.json) and the [final deliverable manifest](final-executed-artifact-manifest.json) identify what was checked. Publication priority is an internal expert assessment, not journal acceptance probability. Venue scope/format checks, exhaustive novelty proof, rendered submission packets and full repository publication gates remain outstanding. No submission, external outreach, PR, merge or shared queue change was performed.
 
-- [Methylation metadata findings and classifier-validation protocol](protocols/methylation-validation-protocol.md).
-- [Spatial, proteomics and external candidate-gene-set protocols](protocols/experimental-data-protocols.md).
+## Initial-screen history
 
-Methylation feasibility counts are completed; no raw-array QC or classifier was run. Spatial inputs and proteomics coverage remain unresolved. The external candidate set failed its original size-matched null on both source platforms; that prior negative is retained. Inaccessible or insufficient data receive explicit stop/defer dispositions rather than invented Results.
-
-## Verification and replay
-
-Six independent reviewers checked exact source/claims and actual prose. Material corrections and focused addenda are retained in [review index](reviews/review-receipts.json). Current reviewed drafts/protocols have no unresolved material blocker within that bounded scope. Coordinator transcriptions are explicitly distinguished from verbatim original reports.
-
-[Public retrieval receipt](results/source-retrieval-receipt.json) records the primary workbook/literature and full HLA-source hashes. [CLI replay receipt](results/cli-replay-receipt.json) records successful [run 36802122941](https://github.com/trimcrae/Rare-cancers/actions/runs/36802122941), job 110178546732. Six Node CLI outputs match saved semantic JSON. The separately appended methylation primaryReconciliation annex is outside that CLI replay; it was independently checked against the primary workbook.
-
-For the same finite replay from a checkout with Python 3 and Node:
-
-```sh
-python3 research/autonomy/data-opportunities-2026-09-30/analysis/public_source_retrieval.py
-python3 research/autonomy/data-opportunities-2026-09-30/analysis/replay_analyses.py
-```
-
-The first command obtains public hash-verified LFS inputs; the second obtains nine pinned inputs and replays six wrappers. Raw sources are held in ephemeral campaign-inputs/ and campaign-output/ rather than redistributed in this package. The branch-specific CPU workflow is bounded to 20 minutes and uses no added dependencies, GPU or paid service. It is not repository preflight or publication-gate approval.
-
-## Repository scope
-
-Branch: codex/data-opportunities-2026-09-30. Base: af7211708205b5189d8c537c1ce2a23aa4bea076. All campaign changes are confined to this directory and its dedicated GitHub workflow. Existing manuscripts, preregistrations, publication graph and shared queue were not replaced. The branch does not incorporate later main changes.
-
-No PR, merge, external outreach or journal submission occurred. Novelty review was finite and connector-limited; current venue instructions, rendered packets and normal/full publication checks remain unfinished. See [campaign contract](campaign-contract.json), [validation summary](validation-summary.json) and [artifact manifest](artifact-manifest.json).
+The [initial catalogue](candidate-catalogue-initial-screen-history.json) preserves the earlier 45-entry assessment. Existing SOURCES.md, editorial-readiness.md, backlog-assessment.md, execution-ledger.md, artifact-manifest.json, protocols/, analysis/results pilots and the old reviews/review-receipts.json are initial-stage records. Their four-draft/prospective statuses and old blob-bound passes are superseded by this README, RANKING, the all45 ledger/status, manuscript index and current validation. The [old validation snapshot](validation-summary-initial-screen-history.json) is retained separately. Historical documents do not attest to the expanded current package.
