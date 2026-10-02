@@ -2,12 +2,12 @@
 id: DOC-CHECKPOINT05-REGISTRY-BLIND-ORACLE-METHOD
 title: Frozen blind source-context oracle review method
 kind: memo
-status: immutable
+status: frozen
 date: "2026-10-02"
 last_verified: "2026-10-02"
 purpose: Document independent-of-predictions screening and source-label extraction before classifier evaluation.
 scope: All 68 returned outcomes in the ten-study registry date slice.
-audience: [maintainers, external reviewers]
+audience: [maintainers, reviewers]
 ---
 
 The separate LLM reviewer read only the amendment, acquisition receipt, and exact acquired API response. Classifier code, predictions, and historical 575 outcome texts were not inspected. The receipt exposes baseline study identifiers but not their labels. No web, UI, browser automation, new checkout, runtime, or large artifact was used.
