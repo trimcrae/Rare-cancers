@@ -176,7 +176,7 @@
     {
       "issue": "Readiness fingerprint was computed dynamically, allowing coherent annotation substitution on unchanged GSM roster",
       "repair": "Freeze exact readiness SHA256 in PINS alongside unchanged expression inputs/results",
-      "regression": "test_corrupt_frozen_input_pin_refused with changed descriptor in a real copied readiness input"
+      "regression": "test_same_roster_changed_readiness_is_not_a_new_accepted_input"
     }
   ],
   "code_bindings": {
