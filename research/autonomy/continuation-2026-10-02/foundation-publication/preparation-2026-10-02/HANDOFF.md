@@ -34,7 +34,7 @@ daily watch, paused sprint and methylation branch are not written by this task.
 Original scientific/editorial reviews and three-page visual QA remain valid for their exact hashes.
 The venue copy has a 169-word abstract, author-year references, expanded HGNC name, source-attributed table
 caption and explicit event-order limitation. It has not acquired a new scientific result.
-Focused review and current document QA/normal validation results are recorded separately at closure.
+Focused initial review and repair verification passed (`review/focused-final.json`). All six new rendered pages were inspected; complete text and all Markdown links matched (`validation/render-final/qa.json`). The four-page journal render is QA only; the two-page supplement PDF is an outgoing file. The normal/default validation receipt is sealed at closure.
 The original independent primary extraction from run 37035103326 is reused, not repeated.
 
 The package integrity verifier checked 15 packaged files, four primary archive members and 14 HGNC
@@ -53,9 +53,12 @@ outside the proposed publisher-exclusive article licence. Primary-source attribu
 HGNC CC0 and original Apache 2.0 code terms are retained. This resolves the documented venue-policy
 mismatch for preparation, not all possible third-party rights or the future agreement itself.
 
-The applicable protocol differs between the local checkout and continuation revision. Existing reports
-document requested ultra configuration, not independently attested serving telemetry. No retrospective
-certification is asserted. Reconcile the applicable policy before a future readiness declaration.
+The current remote operating protocol at `5bc02d3cf6ad5b2af9541149c2bb0eae470feafc` matches the
+continuation revision and requires a hash-bound independent LLM editorial review. That requirement is
+covered by the focused review and render bindings here. The older local checkout contains different
+ultra wording; it is recorded as protocol drift, not an extra gate for this continuation. Existing and
+new review configuration is reported without inventing unavailable backend serving telemetry. The
+FULL enforcer is unchanged. Future publication must bind its actual outgoing files and candidate revision.
 
 Author items remain city/country, final approval, current exclusive-submission/publication status, and
 applicable ethics/consent declarations. Funding and competing interests reuse standing declarations.
@@ -70,4 +73,9 @@ objects are used; remote render/normal jobs have their own storage guards leavin
 Daily 06:00–10:00 America/New_York restriction applies to every worker and rendering job.
 The September 12 early release has expired. No UI or browser automation is required for this task.
 
-Final revision, review hashes, validation receipts and running-job status are sealed at closure.
+The reproduction ZIP and its README are frozen at `c29f301be3c90c9355b04501ff4ae43ab2199c67`;
+the final Word sources were rendered at `27aa920f4678bc16bd0b0ad7d9250f3923f8dc55` in
+run `37077144440`. The ZIP SHA-256 is
+`01d7a8ea7d92ae1a6d1c79d33c7b89d8b31a68453f9b82ad095de3234b53b98f`.
+The final revision, normal receipt and running-job status are sealed in `closure.json`.
+No merge to main or cleanup of any existing checkout was performed; this branch remains the owned handoff.
