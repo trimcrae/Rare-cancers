@@ -1,0 +1,44 @@
+name: Foundation correspondence document render
+on:
+  push:
+    branches: [codex/foundation-correspondence-prep-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/render-token.json]
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - name: Verify time and storage budgets
+        run: |
+          python3 - <<'PY'
+          import datetime,zoneinfo,shutil
+          now=datetime.datetime.now(zoneinfo.ZoneInfo('America/New_York'))
+          assert not 6 <= now.hour < 10, 'Daily computer-use/render restriction'
+          free=shutil.disk_usage('.').free
+          assert free >= 14*1024**3
+          print(f'Free={free}; sparse input+renderer allowance4GiB; reserve10GiB')
+          PY
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout: research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/
+      - name: Install cloud document renderer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install --no-install-recommends -y libreoffice-writer poppler-utils fonts-liberation > /tmp/install-renderer.log 2>&1
+          python3 -m pip install --no-cache-dir pdf2image Pillow pypdf > /tmp/install-python.log 2>&1
+      - name: Render exact Word files and capture PDF text
+        run: python3 research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/render_cloud.py
+      - name: Upload render evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: foundation-render-${{ github.sha }}
+          retention-days: 7
+          path: |
+            /tmp/foundation-render/
+            /tmp/install-renderer.log
+            /tmp/install-python.log
