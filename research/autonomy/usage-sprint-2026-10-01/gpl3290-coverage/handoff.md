@@ -80,9 +80,20 @@ independent binary ZIP download. This is independent LLM review; human scientifi
 was not performed. The evidence's pending-review field records its generation-time status;
 the final operational receipt records completed review.
 
-Settled 40-case committed-evidence validation and default FAST preflight remain pending at
-this checkpoint. Full scientific and full publication suites, expression statistics,
-CISH reanalysis and model inference were not run.
+[Settled run 36957765667](https://github.com/trimcrae/Rare-cancers/actions/runs/36957765667),
+job 110684454869, completed successfully on tested source
+96dd4f815e449b42062f84eb2138fdd9460acfea: 40 actual Python 3.11.16 cases,
+committed-refusal offline validation, normal FAST preflight and clean tracked diff passed.
+The original artifact download, refusal generation and artifact upload steps were skipped;
+no public source acquisition step exists. The original settled log is retained in
+[settled-validation-original.log](settled-validation-original.log), 102,325 UTF-8 bytes,
+SHA256 8a9393ccd8597899278e0cc58d36d501ce8f05b8091d42dab5e2f67e5c24e2e1.
+The coordinator independently observed these exact-source results and original log.
+Full scientific and full publication suites, expression statistics, CISH reanalysis and
+model inference were not run. Exact commits, original log bindings and review scope are in
+[validation-receipt.json](validation-receipt.json). This bounded task is complete;
+ownership returns to the coordinator, with no task job still running. The final checkpoint
+adds only handoff/receipt/log files after that tested source.
 
 Base main is c784796fc7b510cb2de3c611b05d3cc035dec9e8. Fresh ledger blob
 79983403fd38d9ec5be3533bcf91b3af36c2657b has 415 entries and no non-null owners; the legacy
@@ -92,11 +103,23 @@ preregistrations, seven prior exclusions, unresolved specimen overlap, existing 
 results/review seats, queues, paid fleet and no-GPU/publication enforcers are preserved.
 No PR, main merge, publication, GPU/API dispatch, separately billed compute or outreach occurs.
 
-Stop this route on the unchanged source fingerprints and policy. Its next bounded scientific
-step requires an authorized authoritative GPL3290 clone-to-transcript annotation and primary
-channel/reference-pool/processing evidence, with exact sample bindings. Until those inputs
-are available, choose a different unowned evidence route under the operating protocol; do
-not retry this source, fit a classifier, pool incompatible measurements or claim independence.
+Stop this route on the unchanged source fingerprints and policy. Reopening GPL3290 requires
+authoritative clone-to-transcript annotation and primary channel/reference-pool/processing
+evidence, with exact sample bindings. Do not retry this source, fit a classifier, pool
+incompatible measurements or claim independence.
+
+The next prioritized bounded task is an EMC ASO supporting-evidence join audit, separate
+from these stopped expression routes. First inspect current ownership, completed receipts
+and input fingerprints for the two named reagents' deep500 mature-transcript hit lists and
+aso-offtarget-tissue-expression inputs/output. Proceed only for a changed input or a
+demonstrated join/completeness defect. Independently bind hybridisable gap-paired records to
+native locus labels and the exact tissue-source inputs, preserving compound CA5BP1-CA5B,
+LOC and unreadable states, plus complete-versus-censored hit-list provenance. Stop with no
+change when matching verified output already exists. No network rescreen, new expression
+kernel, tissue hazard ranking, clinical or safety claim is authorized by that next-task note.
+The current independent verifier explicitly leaves the exhaustive transcript, pre-mRNA and
+genome scans untouched; this proposes a focused supporting-evidence question, not another
+paper review. The next task has not started.
 
 AI authorship: Codex AI assistant. Model/effort IDs and subscription usage are not exposed.
 No attached shell or managed cloud environment was available; execution used hosted CPU

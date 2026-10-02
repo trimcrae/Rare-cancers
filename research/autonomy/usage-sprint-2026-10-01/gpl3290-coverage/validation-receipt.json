@@ -1,0 +1,307 @@
+{
+  "schema": "emc-usage-sprint-validation/1",
+  "date": "2026-10-02",
+  "task": "GPL3290 CHRNA6 coverage and two-colour reference compatibility evidence audit",
+  "status": "completed_with_explicit_missing_input_gap",
+  "repository": "trimcrae/Rare-cancers",
+  "branch": "codex/usage-sprint-2026-10-01-gpl3290-coverage",
+  "base_commit": "c784796fc7b510cb2de3c611b05d3cc035dec9e8",
+  "tested_source_commit": "96dd4f815e449b42062f84eb2138fdd9460acfea",
+  "ai_authorship": "Codex AI assistant; independent LLM review by coordinating /root agent",
+  "model_identifier": null,
+  "reasoning_effort": null,
+  "subscription_usage": null,
+  "execution_environment": {
+    "attached_shell": false,
+    "managed_cloud_environment": false,
+    "hosted_cpu": "GitHub Actions ubuntu-latest",
+    "python": "3.11.16",
+    "gpu_used": false,
+    "model_api_used": false
+  },
+  "ownership": {
+    "source_ledger_blob": "79983403fd38d9ec5be3533bcf91b3af36c2657b",
+    "entries": 415,
+    "non_null_owners": 0,
+    "legacy_driver": "disabled",
+    "isolated_branch_is_not_remote_legacy_claim": true,
+    "returned_to": "coordinating /root agent",
+    "next_task_started": false
+  },
+  "question": "Do authoritative GPL3290 annotation and primary channel/reference/processing metadata support CHRNA6 coverage and a compatible two-colour contrast for the 16 cached GSE4303 GSMs?",
+  "stop_condition": "One approved official family-SOFT cycle. Honor robots refusal without dataset GET or retry, recover only its existing artifact, preserve unknown states, validate offline, then stop.",
+  "source_plan_commit": "bdd2608c61d1d9e5c4317ba74febbfa2f9cf2403",
+  "inputs": [
+    {
+      "path": "research/modalities/emc-expression-panels-inputs.json",
+      "git_blob": "bad4129521364e480597e5aac7737e6f849b5d34",
+      "bytes": 7825041,
+      "sha256": "6a4f778a3102b970f629906cf33357e97729a9d62ce9add20df709738cf1f3a8",
+      "check": "frozen pin passed"
+    },
+    {
+      "path": "research/modalities/emc-expression-panels.json",
+      "git_blob": "9d14ab4c9cdc86053e58d8c50d36e2eee5f1c70e",
+      "bytes": 13253561,
+      "sha256": "123bd05a9f9f5d08a362df3bd51cdbb72c241b49712123aaf5c5ea914f336bd9",
+      "check": "frozen pin passed"
+    },
+    {
+      "path": "research/modalities/expression-validation-readiness.json",
+      "git_blob": "47f26b85b44683d577e0ca6881ea29afc54d0bbd",
+      "bytes": 814341,
+      "sha256": "0031e1353963be81a459b571126c136581085bd70584bc7f860429865aa9eb12",
+      "check": "frozen pin passed; independently read and hashed by root"
+    },
+    {
+      "path": "research/modalities/accession-symbol-cache.json",
+      "git_blob": "9543189ad990b601f7c9a5b89658194a21b9b5a5",
+      "role": "Read-only source-grouped context; no mapping bridge or assay-coverage claim"
+    }
+  ],
+  "attempted_source": {
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE4nnn/GSE4303/soft/GSE4303_family.soft.gz",
+    "robots_url": "https://ftp.ncbi.nlm.nih.gov/robots.txt",
+    "user_agent": "EMCResearchSourceAudit/1.0",
+    "robots_http_status": 200,
+    "robots_response_headers": "not retained by original failed source step",
+    "dataset_get_performed": false,
+    "no_retry": true,
+    "no_alternate_user_agent": true,
+    "no_mirror": true,
+    "status": "blocked_by_robots"
+  },
+  "original_refusal": {
+    "commit": "bdd2608c61d1d9e5c4317ba74febbfa2f9cf2403",
+    "run_id": 36956839577,
+    "job_id": 110681574472,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36956839577",
+    "conclusion": "failure",
+    "run_started_utc": "2026-10-02T02:42:08Z",
+    "run_updated_utc": "2026-10-02T02:42:28Z",
+    "tests": {
+      "passed": 25
+    },
+    "failure": "Robots policy refuses source acquisition",
+    "offline_check": "skipped",
+    "normal_fast_preflight": "skipped",
+    "log": {
+      "path": "acquisition-refused-original.log",
+      "git_blob": "f75ba48da7f6405bb6f5a61e547f273bf21a2115",
+      "utf8_bytes": 28447,
+      "sha256": "694f866dabf64aa7f80c6355af8f31e153e45309387a80b4e3d7f0ac3a072a1b",
+      "hash_verified_by": "root original-job-log acquisition"
+    }
+  },
+  "original_artifact": {
+    "id": 11206600090,
+    "name": "gpl3290-coverage-bdd2608c61d1d9e5c4317ba74febbfa2f9cf2403",
+    "zip_bytes": 162,
+    "digest": "sha256:a3a02bc43ea4cd4b0e01d9aafe00fd5345dac1920605d20b302182f925a38c0b",
+    "robots": {
+      "path": "robots.txt",
+      "git_blob": "1f53798bb4fe33c86020be7f10c44f29486fd190",
+      "utf8_bytes": 26,
+      "sha256": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1",
+      "raw_utf8": "User-agent: *\nDisallow: /\n"
+    }
+  },
+  "artifact_only_recovery": {
+    "commit": "006016cf6d2e9a4f9391509fc709c871964e6a6d",
+    "run_id": 36957406599,
+    "job_id": 110683353814,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36957406599",
+    "conclusion": "success",
+    "tests": {
+      "passed": 38
+    },
+    "original_artifact_download": "passed",
+    "public_source_get": "not performed",
+    "offline_check": "passed",
+    "normal_fast_preflight": "passed (document and artifact linters only)",
+    "tracked_diff": "clean",
+    "log": {
+      "path": "artifact-recovery-original.log",
+      "git_blob": "18e279089746e3116416d280186bfe2b46b250f1",
+      "utf8_bytes": 124923,
+      "sha256": "9576b6476e5dd17deae1abe08d8d24ee2d55b94e03d149c17dba878a23f7d9fa",
+      "hash_verified_by": "root original-job-log acquisition"
+    }
+  },
+  "preserved_evidence": {
+    "path": "evidence.json",
+    "git_blob": "a4bc4bfe4fd6b7ccd5b529616d6ef100467d4892",
+    "utf8_bytes": 8522,
+    "sha256": "1b3298db804976b4f7cfac4f50ebcb6ca4680a5ed57e9670de57e4280cc77dc2",
+    "byte_identical_to_original_recovery_stdout": true,
+    "raw_review_field": "generation-time pending status preserved unchanged; operational completed review recorded here",
+    "source_receipt": null,
+    "projection": null
+  },
+  "cached_descriptor_observations": {
+    "source_kind": "Historical pinned cache, not new authoritative sample-channel evidence",
+    "records": 16,
+    "groups": [
+      {
+        "class": "DFSP",
+        "native_descriptor": "CRH",
+        "n": 3
+      },
+      {
+        "class": "EMC",
+        "native_descriptor": "CRH-mRNA",
+        "n": 10
+      },
+      {
+        "class": "GIST",
+        "native_descriptor": "UHR",
+        "n": 3
+      }
+    ],
+    "biological_pool_identity_from_descriptor_strings": "not established"
+  },
+  "scientific_adjudication": {
+    "CHRNA6_coverage": "unknown",
+    "common_reference_pool": "unknown",
+    "expression_statistics": "not_run",
+    "independent_validation": "unknown",
+    "processing_compatibility": "unknown"
+  },
+  "demonstrated_repairs": [
+    {
+      "issue": "A coherently substituted refusing robots body and hash could retain original run/artifact identity",
+      "repair": "Pin exact recovered 26-byte robots body SHA256 and count, replay unchanged URL/user agent; reject coherent different refusing policy",
+      "regression": "test_coherent_different_refusing_policy_cannot_replace_original"
+    },
+    {
+      "issue": "Readiness fingerprint was computed dynamically, allowing coherent annotation substitution on unchanged GSM roster",
+      "repair": "Freeze exact readiness SHA256 in PINS alongside unchanged expression inputs/results",
+      "regression": "test_corrupt_frozen_input_pin_refused with changed descriptor in a real copied readiness input"
+    }
+  ],
+  "code_bindings": {
+    "acquire_py": "e7c809fc8dc5311d312ca926a4ff19c59012f41c",
+    "test_acquire_py": "ddf212d14624cb2c1383aada6f6081a706a43ef8",
+    "workflow": "0c34d77bb2c900104458fcc1b48ad6c2e93e5ae8",
+    "automatic_public_acquisition": "disabled permanently for this completed cycle"
+  },
+  "settled_validation": {
+    "commit": "96dd4f815e449b42062f84eb2138fdd9460acfea",
+    "run_id": 36957765667,
+    "job_id": 110684454869,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36957765667",
+    "status": "completed",
+    "conclusion": "success",
+    "run_started_utc": "2026-10-02T02:54:21Z",
+    "run_updated_utc": "2026-10-02T02:57:08Z",
+    "job_seconds": 160,
+    "test_command": "python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/test_acquire.py -v",
+    "tests": {
+      "passed": 40,
+      "reported_seconds": 0.038,
+      "scope": "Meaningful synthetic platform/sample/channel/source-cohort, original refusal replay, exact artifact identity, coherent policy/readiness substitution, false scientific-state and disabled acquisition regressions"
+    },
+    "offline_check": {
+      "status": "passed",
+      "stdout": "OFFLINE_CHECK_OK cached_samples=16 robots=refused dataset_get=False scientific_states=unknown"
+    },
+    "original_artifact_download": "skipped",
+    "refusal_generation": "skipped",
+    "artifact_upload": "skipped",
+    "public_source_acquisition": "no workflow step",
+    "normal_preflight": {
+      "command": "./scripts/preflight.sh",
+      "status": "passed",
+      "scope": "fast gates only (doc + artifact linters)",
+      "full_scientific_suite": "not run",
+      "full_publication_preflight": "not run",
+      "seconds": 122
+    },
+    "tracked_status": "clean",
+    "tracked_diff": "clean",
+    "log": {
+      "path": "settled-validation-original.log",
+      "git_blob": "5cc65cb126012a73d63cbda4d2a29d0b750ccad3",
+      "utf8_bytes": 102325,
+      "sha256": "8a9393ccd8597899278e0cc58d36d501ce8f05b8091d42dab5e2f67e5c24e2e1",
+      "hash_verified_by": "root original-job-log acquisition"
+    }
+  },
+  "independent_review": {
+    "reviewer": "coordinating /root independent LLM agent",
+    "status": "source/method/evidence/code/CI and reader-facing prose cleared",
+    "artifact_bindings": {
+      "evidence_git_blob": "a4bc4bfe4fd6b7ccd5b529616d6ef100467d4892",
+      "robots_git_blob": "1f53798bb4fe33c86020be7f10c44f29486fd190",
+      "acquire_py": "e7c809fc8dc5311d312ca926a4ff19c59012f41c",
+      "test_acquire_py": "ddf212d14624cb2c1383aada6f6081a706a43ef8",
+      "handoff_git_blob": "b5a3ba1b981c2363289248df539be8bd913ce8b9"
+    },
+    "coverage": [
+      "Original source plan and intentional robots failure",
+      "Managed Actions artifact extraction and byte-identical preserved evidence",
+      "Independent raw cache read/hash and all 16 GSM/title/class/annotation matches",
+      "Unknown versus absent coverage and reference/processing incompatibility boundaries",
+      "Exact raw robots and readiness pins plus coherent substitution fixtures",
+      "Actual final 40-case/offline/FAST/clean-tree CI and original settled log"
+    ],
+    "independent_binary_zip_download": false,
+    "human_scientific_validation": false,
+    "readable_prose": {
+      "status": "completed by independent LLM reader",
+      "handoff_git_blob": "b5a3ba1b981c2363289248df539be8bd913ce8b9",
+      "coverage": [
+        "Question",
+        "Approach",
+        "Finding",
+        "Limitations",
+        "Next bounded task"
+      ],
+      "finding": "Clear without scientific or independence inflation; actual CI and original log bindings match root observations"
+    }
+  },
+  "preserved": {
+    "frozen_and_deposited_aso_assets": true,
+    "scientific_outputs": true,
+    "preregistrations": true,
+    "seven_previous_exclusions": true,
+    "unresolved_specimen_overlap_and_independence": true,
+    "review_seats": true,
+    "paid_fleet_shared_queues_and_owners": true,
+    "no_gpu_2026_09_02_and_enforcers": true,
+    "publication_enforcers": true
+  },
+  "not_performed": [
+    "Dataset GET",
+    "Source retry or mirror",
+    "EST/clone-to-gene remapping",
+    "Expression kernels or classifiers",
+    "Tissue hazard ranking or clinical/safety validation",
+    "New paper review round",
+    "GPU/model API/paid compute",
+    "Outreach",
+    "PR/main merge/publication",
+    "Full scientific/publication preflight"
+  ],
+  "remaining_blockers": [
+    "Authoritative complete GPL3290 CHRNA6 probe assignment unavailable",
+    "Primary channel/reference-pool composition and processing compatibility unavailable",
+    "Discovery-study specimen overlap and independent-validation status remain unknown"
+  ],
+  "next_bounded_task": {
+    "topic": "EMC ASO supporting-evidence joins for the two named gapmers",
+    "entry_conditions": "Fresh ownership and completed-output/input fingerprints; proceed only for changed input or demonstrated join/completeness defect",
+    "evidence": "Existing deep500 mature-transcript hits, native locus labels and exact aso-offtarget-tissue-expression inputs/output, retaining compound CA5BP1-CA5B, LOC/unreadable states and complete/censored provenance",
+    "stop_condition": "No change if matching verified output exists; otherwise one bounded independent join audit and a precise outcome, without network rescreen or expression kernel",
+    "started": false
+  },
+  "final_checkpoint_scope": "Only handoff/receipt/original settled log changes after exact tested source",
+  "limitations": [
+    "Robots response headers were not retained in the original failed job",
+    "Cached descriptions cannot bind channel roles or establish common/different biological pools",
+    "Root independently reconstructed the managed artifact extraction output/log, without a second binary ZIP download",
+    "Default FAST is not the full scientific or publication suite",
+    "Independent LLM review is not human scientific validation",
+    "Task model/effort identifiers, exact overall elapsed time and subscription use are not exposed"
+  ]
+}
