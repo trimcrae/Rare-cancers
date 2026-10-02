@@ -1,7 +1,7 @@
 {
   "schema": "usage-sprint-completed-integration-plan/1",
   "date": "2026-10-02",
-  "status": "catalogue_render_repair_pending_cpu_validation",
+  "status": "diagnostic_prose_repair_pending_cpu_validation",
   "repository": "trimcrae/Rare-cancers",
   "branch": "codex/usage-sprint-2026-10-01-integrate-completed",
   "base_revision": "ee84a76beb7c51004eca05cad09cf9612bb0e959",
@@ -619,7 +619,9 @@
     "research/autonomy/usage-sprint-2026-10-01/integrate-completed/initial-combined-validation-receipt.json",
     "scripts/trigger_scan.py",
     "research/IDEAS.md",
-    "research/method-watch-trigger-scan.md"
+    "research/method-watch-trigger-scan.md",
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/catalogue-render-ci-original.log",
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/catalogue-render-validation-receipt.json"
   ],
   "conflicts": [],
   "overlap": "Frame-census is descendant of exact aso-verifier head; retain its upgraded verifier/test/manifest bytes and every original source ancestor/log.",
@@ -674,7 +676,7 @@
   },
   "preservation": "Every main blob identity/mode outside source delta and exact integration paths unchanged; frozen/deposited assets, review seats, preregistrations, queue/owners/fleet and publication/GPU enforcers preserved.",
   "checks": "Pending actual branch-only hosted CPU offline regressions, committed-evidence validators, verifier/frame/archive/drift coherence, Git identity/ancestry, amendment/budget, systems checker and default FAST. No source acquisition/scientific kernel/full publication verification.",
-  "validation_scope": "catalogue_render_repair",
+  "validation_scope": "citation_diagnostic_prose_repair",
   "controlled_catalogue_rendering": {
     "classification": "Unvalidated title catalogue rendering; article types remain unverified. SOURCE_NOT_ACQUIRED and availability NOT_ASSESSED are not upgraded.",
     "trigger_id": "TRG-NR4A3-DIRECT-MATTER",
@@ -737,5 +739,30 @@
     "log_sha256": "a80fe2b4eab126412a00c27a675b0ed350dbbfaf5a38093312a4c6717b64412f",
     "receipt_path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/initial-combined-validation-receipt.json",
     "reused_passes": "Exact ecff reporter/source/verifier/frame/archive/drift/budget/amendment/systems scoped checks passed within overall failed run; changed repair checkpoint does not rerun unchanged suites."
+  },
+  "catalogue_render_ci": {
+    "revision": "68cd52e6caebd6152f7c0662a04816b8c1409892",
+    "tree": "9f47aafdb676871b6e091687d63e0ebf1354fee7",
+    "id": 37061887346,
+    "job_id": 111020238666,
+    "event": "push",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "job_start_utc": "2026-10-02T20:38:36Z",
+    "job_end_utc": "2026-10-02T20:41:01Z",
+    "job_elapsed_seconds": 145,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/37061887346",
+    "log_path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/catalogue-render-ci-original.log",
+    "log_blob": "c20214565d925f04595897dff9c6bf072ac77b02",
+    "log_bytes": 148283,
+    "log_sha256": "c2b5e222b80373071e489970c35d94836e66c0157825b2f12770c0422b36572a",
+    "receipt_path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/catalogue-render-validation-receipt.json",
+    "reused_passes": "Exact preservation/formatter/native controls and six formatter tests passed within overall failed run; original reporter/source/verifier checks skipped."
+  },
+  "diagnostic_prose_control": {
+    "original_quote": "\"A case report\" next to PMC13598529. The original transcript contains both errors; diagnostic",
+    "corrected_quote": "PMCID PMC13598529, whose literal\ncatalogue title has the suffix \"A case report\".",
+    "reason": "Observed handoff diagnostic binding; name PMCID before literal title suffix; current handoff must contain no native type claims."
   }
 }

@@ -46,8 +46,8 @@ job to twenty minutes.
 
 The initial combined run [37059089849](https://github.com/trimcrae/Rare-cancers/actions/runs/37059089849)
 at ecff95dec0508332738f1a72488e612abec0749f **FAILED**. Its observed native annotations name
-IDEAS.md:656 and method-watch-trigger-scan.md:347, where the literal catalogue title ends in
-"A case report" next to PMC13598529. The original transcript contains both errors; diagnostic
+IDEAS.md:656 and method-watch-trigger-scan.md:347. Both concern PMCID PMC13598529, whose literal
+catalogue title has the suffix "A case report". The original transcript contains both errors; diagnostic
 output was not suppressed. [The original failed log](initial-combined-ci-original.log) and
 [initial receipt](initial-combined-validation-receipt.json) preserve that verdict and exact bytes.
 
@@ -60,19 +60,32 @@ are unchanged by this repair and those results are reused, not claimed as new ex
 Independent review found that these two unvalidated catalogue rows quote a machine-matched title,
 rather than assert an acquired NLM publication type. The narrow repair serializes each literal
 title as an escaped Markdown link label using the existing source URL. Only the pure title
-formatter and the exact two current rows change. Every title, ID, date, venue, URL, warning and
-scientific qualification stays render-equivalent. The raw ledger, native citation guard/cache,
+formatter and the exact two current rows change. Every literal title, ID, date, venue, warning and
+scientific qualification is unchanged; the same URL now links the literal title. The raw ledger, native citation guard/cache,
 protected scientific assets and the watch record body stay unchanged. This is **not PubMed type
 verification**: SOURCE_NOT_ACQUIRED and availability NOT_ASSESSED are not upgraded. No paper,
 metadata or source was newly acquired, and no live scan or general board regeneration is run.
 
-Changed-revision CPU validation is pending at this checkpoint. It executes exact main/source
-preservation and normal ancestry checks, terminal body and amendment checks, pure one-hit temporary
-formatting controls, old/new native parser controls and explicit classification refusal, six
-existing formatter regressions, the unchanged direct citation gate, normal default FAST and clean
+The next checkpoint at 68cd52e6caebd6152f7c0662a04816b8c1409892,
+[run37061887346](https://github.com/trimcrae/Rare-cancers/actions/runs/37061887346), also **FAILED**:
+the new diagnostic prose at handoff line50 was itself parsed as an unsupported classification.
+The exact preservation/formatter/native controls passed and six formatter regressions passed in
+0.22s. The direct citation gate failed; FAST was skipped and the tracked tree stayed clean.
+[Its original log](catalogue-render-ci-original.log) and
+[receipt](catalogue-render-validation-receipt.json) preserve the actual failed verdict.
+
+This prose repair puts the identifier before the quoted suffix and adds native parser controls
+over both the original diagnostic sentence and the current handoff. It changes no formatter,
+scientific evidence, catalogue row, native guard or cache. The already-passed six formatter cases
+are reused at exact unchanged code; the new bounded prose checkpoint skips that suite too.
+
+Changed-revision CPU validation is pending at this preparation checkpoint. It executes exact
+main/source preservation and normal ancestry checks, terminal body and amendment checks, pure one-hit temporary
+formatting controls, old/new native parser controls and explicit classification refusal, current-handoff classification controls,
+the unchanged direct citation gate, normal default FAST and clean
 tracked status. The original failed log is checked for exact bytes/hash and both observed
-annotations. The original unchanged reporter/source/verifier suites are skipped in this bounded
-checkpoint; native post-merge CPU CI must run the current full suite once.
+annotations. The original unchanged reporter/source/verifier suites and the passed formatter suite are skipped
+in this bounded checkpoint; native post-merge CPU CI must run the current full suite once.
 
 Completed source CI/scientific reviews remain historical evidence at their exact revisions.
 Source acquisitions, expression or other scientific kernels, historical tissue/USZ audits, full
@@ -80,5 +93,6 @@ scientific/publication suites and publication readiness are not newly executed o
 No public-source GET, inference/API/GPU/paid job, publication, outreach or PR is performed. This
 integration starts no second scientific task. Model/effort IDs and task-specific subscription
 usage are not exposed. AI authorship and independent AI review are distinct from human scientific
-validation. The next action is exact-object independent review, one actual changed CPU run,
-durable settled original-log receipt and root's main integration.
+validation. This handoff records the preparation checkpoints. The [final validation receipt](validation-receipt.json)
+will record the latest settled disposition when committed. Root alone performs main integration
+after actual CPU success and final independent receipt review.

@@ -97,6 +97,15 @@ def check_catalogue_rendering(plan):
             assert len(found) == 1 and found[0][2:5] == ("case report", "PMCID", hit["id"]), found
             errors, _ = classifier.evaluate(found, records, index)
             assert len(errors) == 1 and errors[0][0] == "MISSING", errors
+            diagnostic = plan["diagnostic_prose_control"]
+            (temp / "old-diagnostic.md").write_text(diagnostic["original_quote"] + "\n")
+            found = classifier.claims(["old-diagnostic.md"], root=str(temp))
+            assert len(found) == 1 and found[0][2:5] == ("case report", "PMCID", hit["id"]), found
+            errors, _ = classifier.evaluate(found, records, index)
+            assert len(errors) == 1 and errors[0][0] == "MISSING", errors
+            handoff_path = "research/autonomy/usage-sprint-2026-10-01/integrate-completed/handoff.md"
+            assert diagnostic["corrected_quote"] in (ROOT / handoff_path).read_text()
+            assert classifier.claims([handoff_path], root=str(ROOT)) == [], "Handoff diagnostic became a type claim"
             special = dict(hit, title=r"A [catalogue] \ path *literal* _term_: A case report",
                            url="https://example.invalid/catalogue")
             escaped = formatter._catalogue_title_link(special)
@@ -115,11 +124,18 @@ def check_catalogue_rendering(plan):
     assert b"TYPE CLAIM WITH NO CACHED METADATA" in original_log
     print("CATALOGUE_RENDERING_OK exact two rows and pure formatter; all literal metadata/warnings retained")
     print("NATIVE_TYPE_CONTROLS_OK old title shapes fail MISSING; linked titles excluded; explicit classification still fails MISSING")
+    second = plan["catalogue_render_ci"]
+    second_log = (ROOT / second["log_path"]).read_bytes()
+    assert len(second_log) == second["log_bytes"] and blob(second_log) == second["log_blob"]
+    assert hashlib.sha256(second_log).hexdigest() == second["log_sha256"]
+    assert b"handoff.md:50 TYPE CLAIM WITH NO CACHED METADATA" in second_log
+    print("HANDOFF_TYPE_CONTROL_OK original diagnostic fails MISSING; current full handoff contains no native type claim")
+    print("CATALOGUE_FAILED_LOG_OK second original failed transcript/verdict preserved")
     print("INITIAL_FAILED_LOG_OK original observed two annotations and exact bytes/hash preserved")
 
 def main():
     plan = json.loads(Path(__file__).with_name("integration-plan.json").read_text())
-    assert plan["validation_scope"] == "catalogue_render_repair", plan["validation_scope"]
+    assert plan["validation_scope"] in {"catalogue_render_repair", "citation_diagnostic_prose_repair"}, plan["validation_scope"]
     base, current = tree(plan["base_revision"]), tree("HEAD")
     expected = {r["path"]: (r["mode"], r["type"], r["sha"]) for r in plan["expected_source_delta"]}
     assert len(expected) == plan["source_path_count"] == 72

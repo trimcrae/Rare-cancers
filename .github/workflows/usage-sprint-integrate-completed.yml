@@ -8,6 +8,7 @@ on:
       - .github/workflows/tests.yml
       - research/autonomy/usage-sprint-2026-10-01/integrate-completed/check_integration.py
       - research/autonomy/usage-sprint-2026-10-01/integrate-completed/integration-plan.json
+      - research/autonomy/usage-sprint-2026-10-01/integrate-completed/handoff.md
       - research/autonomy/tests/test_ci_terminal_verdict.py
       - research/autonomy/tests/test_the_loop_notices_it_is_not_learning.py
       - research/autonomy/await_ci.py
@@ -87,11 +88,12 @@ jobs:
         run: |
           python3 scripts/tier_budget.py --check
           python3 systems/systems_check.py --check
-      - name: Changed pure formatter regressions and unchanged native citation gate
+      - name: Changed pure formatter regressions
         if: ${{ steps.phase.outputs.scope == 'catalogue_render_repair' }}
         run: |
           python3 -m pytest research/modalities/tests/test_trigger_board_filter.py -v -s --tb=short -p no:cacheprovider
-          python3 research/manuscripts/lint_citations.py
+      - name: Unchanged native citation gate
+        run: python3 research/manuscripts/lint_citations.py
       - name: Normal preflight default FAST scope
         timeout-minutes: 10
         run: ./scripts/preflight.sh
