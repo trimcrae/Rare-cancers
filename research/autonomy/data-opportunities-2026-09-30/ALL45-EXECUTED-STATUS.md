@@ -188,7 +188,7 @@ RNA/protein fits using 717 development and 61 sarcoma model families; eleven eli
 
 **Options:** PUB-IPD-SURVIVAL. **Disposition:** Focused manuscript candidate.
 
-All eleven printed anthracycline PFS records transcribed with three surgery censorings; KM/RMST/leave-one-out calculated. Complete curve/table/risk-set concordance audit, explicit alternative curve-compatible records and 4,096 hypothetical timing/tie variants. All eight mixed EMC/MCS trabectedin records retained with subtype/censor units; 173 numerical checks independently reconciled.
+All eleven printed anthracycline PFS records transcribed with three surgery censorings; KM/RMST/leave-one-out calculated. Complete curve/table/risk-set concordance audit, explicit alternative curve-compatible records and 4,096 hypothetical timing/tie variants. All eight mixed EMC/MCS trabectedin/BSC series records (five treated and three BSC) retained with subtype/censor units; 173 numerical checks independently reconciled.
 
 **Contribution assessment:** Small methods correspondence showing added constraints from printed tables; narrower and less novel than leading candidates.
 
@@ -242,7 +242,7 @@ Twelve measured duplexes nested in two ASOs, cellular measurements, all 39 workb
 
 **Options:** PUB-MTAP-PRMT5. **Disposition:** Supporting source appendix.
 
-All ten EMC/nine 450K+one EPIC and eighteen normal reference profiles acquired as 56 unique-hash IDATs. Thirty-eight standard/reference fits plus 28 pinned author-BAF fits completed; all 198 author locus summaries reproduced. 439,031 probes/15,136 bins, sixteen MTAP/five CDKN2A/three CDKN2B probes. Full 2019 primary copy-number prior art retrieved.
+All ten EMC/nine 450K+one EPIC and eighteen normal reference profiles acquired as 56 unique-hash IDATs. Thirty-eight standard/reference fits plus 28 pinned author-BAF fits completed; all 198 locus summaries across the 66 standard/reference and author-sensitivity fits reproduced. 439,031 probes/15,136 bins, sixteen MTAP/five CDKN2A/three CDKN2B probes. Full 2019 primary copy-number prior art retrieved.
 
 **Contribution assessment:** Complete supporting locus audit; no standalone new MTAP/PRMT5 vulnerability paper.
 
@@ -350,7 +350,7 @@ Original Foundation EMC records independently restored: 75 profiles, 63 EWSR1/12
 
 **Options:** PUB-LOCOREGIONAL, PUB-MORTALITY-MECHANISM. **Disposition:** Existing manuscript support.
 
-Primary clinical totals/supplements acquired and arithmetic checked, preserving separate 171/163 cohort denominators. Identified SABR and HDR single-patient reports checked at patient/lesion units; printed anthracycline/trabectedin work linked to separate full IPD-concordance analysis.
+Primary clinical totals/supplements acquired and arithmetic checked. The full mortality cohort has 171 patients; published terminal-status groups represent 163 of those patients (134 operated localized and 29 metastatic at diagnosis), excluding eight localized non-operated patients. Identified SABR and HDR single-patient reports checked at patient/lesion units; printed anthracycline/trabectedin work linked to the separate full IPD-concordance analysis.
 
 **Contribution assessment:** Source qualification supports existing clinical writing; not a new treatment-effect or mortality-mechanism article.
 
