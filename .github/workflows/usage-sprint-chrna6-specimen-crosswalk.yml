@@ -1,0 +1,66 @@
+name: CHRNA6 specimen crosswalk evidence sprint
+on:
+  push:
+    branches:
+      - codex/usage-sprint-2026-10-01-chrna6-specimen-crosswalk
+    paths:
+      - .github/workflows/usage-sprint-chrna6-specimen-crosswalk.yml
+      - research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/acquire.py
+      - research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/test_acquire.py
+      - research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/evidence.json
+permissions:
+  contents: read
+concurrency:
+  group: usage-sprint-chrna6-specimen-crosswalk-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  source-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Record exact revision
+        run: |
+          git rev-parse HEAD
+          python3 --version
+      - name: Synthetic source-integrity tests
+        run: python3 research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/test_acquire.py -v
+      - name: One bounded public-source cycle
+        if: ${{ hashFiles('research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/evidence.json') == '' }}
+        timeout-minutes: 4
+        run: python3 research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/acquire.py --acquire --output .cache/chrna6-specimen-crosswalk/evidence.json
+      - name: Validate committed or newly acquired evidence offline
+        run: |
+          EVIDENCE_PATH=research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/evidence.json
+          if [ ! -f "$EVIDENCE_PATH" ]; then
+            EVIDENCE_PATH=.cache/chrna6-specimen-crosswalk/evidence.json
+          fi
+          python3 research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/acquire.py --check "$EVIDENCE_PATH"
+      - name: Retain finite source artifact
+        if: ${{ always() && hashFiles('research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/evidence.json') == '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: chrna6-specimen-crosswalk-${{ github.sha }}
+          path: .cache/chrna6-specimen-crosswalk/
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: Install normal preflight dependencies
+        timeout-minutes: 5
+        run: >-
+          python3 -m pip install
+          uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
+          pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+      - name: Normal preflight (default fast scope)
+        timeout-minutes: 10
+        run: ./scripts/preflight.sh
+      - name: Tracked source files unchanged by checks
+        if: ${{ !cancelled() }}
+        run: |
+          git status --short
+          git diff --exit-code
