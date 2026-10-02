@@ -17,6 +17,14 @@ _backfilled: "true"
 
 This isolated branch extends the frozen cloud portfolio at `da49c4e836533253825587f83656675dac4c913b`. Reviewed scientific prose bodies and the accepted ASO catalogue are preserved. Document metadata was added with explicit original-body bindings. The campaign contract records selection, ownership, scope, storage and usage constraints.
 
+## Current priority: measured-data reanalysis
+
+The user's October2 correction prioritizes papers using completed experimental or clinical measurements, as in the submitted CSPG4 letter. [Paper selection and exact gaps](empirical-priorities.json) supersede an ASO-first reading of this campaign. The existing eight focused candidates are distinct from eighteen prose artifacts; they include methods and data-quality contributions, not eighteen discoveries.
+
+Checkpoint03 adds the [primary methylation identity audit](methylation-identity/findings.md), the passing [registry outcome-family companion](registry-family-companion/FINDINGS.md), and the frozen [protein histology/support question](protein-lineage/PLAN.md). Methylation primary authors reported distinct reference/validation patients; the new986-array cross-accession audit finds no exact-array reuse but cannot independently establish different-array patient separation. Registry conformance passed14tests and575savedunits. Protein implementation and independent static review are complete; cloud empirical execution is pending.
+
+The bounded [ASO primary-source integration](aso-primary-sources/source-to-claim.md) is closed. The historical190-design journal file is not the latest outgoing package: the accepted September30brief at `da7fab35440a74ea1c46c4ab197cead793333711` already uses215designs and remains unchanged. Its acceptance does not clear the new transcriptome science for publication.
+
 ## Deliverables
 
 - `foundation/`: hash-bound reversible Sample_Id correction prototype, full-export historical evidence, and an unsent maintainer report draft. Identifies a public export defect; does not establish its origin in the publication or its deployment in the live portal.

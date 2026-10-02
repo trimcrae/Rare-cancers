@@ -1,0 +1,52 @@
+name: EMC protein histology support follow-up
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/protein-lineage-token.json]
+permissions:
+  contents: read
+jobs:
+  protein-lineage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check bounded cloud storage
+        run: |
+          python3 - <<'PY'
+          import shutil
+          assert shutil.disk_usage(".").free > 12*1024**3
+          PY
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: |
+            research/autonomy/continuation-2026-10-02/protein-lineage
+            research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/protein-RNA-final-matched-measurements.json
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Install bounded scientific runtime
+        run: python3 -m pip install --no-cache-dir numpy==2.2.6 pandas==2.2.3
+      - name: Test and execute new frozen descriptive question
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/protein-lineage"
+          mkdir -p "$out"
+          code="$GITHUB_WORKSPACE/research/autonomy/continuation-2026-10-02/protein-lineage"
+          matched="$GITHUB_WORKSPACE/research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/protein-RNA-final-matched-measurements.json"
+          cd "$code"
+          python3 -m unittest -v test_protein_lineage.py 2>&1 | tee "$out/tests.log"
+          timeout 300s python3 protein_lineage.py --matched "$matched" --matrix "$RUNNER_TEMP/protein8498.txt" --out "$out/results" 2>&1 | tee "$out/analysis.log"
+          python3 - "$out" <<'PY'
+          import hashlib,json,os,pathlib,platform,shutil,sys,numpy,pandas
+          p=pathlib.Path(sys.argv[1])
+          files=[{"name":str(f.relative_to(p)),"bytes":f.stat().st_size,"sha256":hashlib.sha256(f.read_bytes()).hexdigest()} for f in sorted((p/"results").glob("*"))]
+          receipt={"revision":os.environ["GITHUB_SHA"],"run_id":os.environ["GITHUB_RUN_ID"],"python":platform.python_version(),"numpy":numpy.__version__,"pandas":pandas.__version__,"files":files,"free_bytes_after":shutil.disk_usage(".").free}
+          (p/"execution.json").write_text(json.dumps(receipt,indent=2)+"\n")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: protein-lineage-followup
+          path: ${{ runner.temp }}/protein-lineage/
+          retention-days: 30

@@ -1,0 +1,67 @@
+{
+  "schema": "scoped-static-review/1",
+  "date": "2026-10-02",
+  "reviewer": "foundation_contribution",
+  "disposition": "no_blocking_findings",
+  "scope": "Finite static code, synthetic-test and plan review only. No empirical input downloads, fits, source-data replays, or test execution.",
+  "files": {
+    "PLAN.md": {
+      "bytes": 8264,
+      "sha256": "830371900165c14c3152d52c5f3eaccfd70bf8acbf77ea59d2ed6b7c07164553"
+    },
+    "feasibility-receipt.json": {
+      "bytes": 3364,
+      "sha256": "cc7abb28905726e5ec20675728046525defce9cf9360a0b768d7b862f5447479"
+    },
+    "README.md": {
+      "bytes": 3591,
+      "sha256": "761792d3429ff6d9ae7d57eb0b426cae8482ca0895a16a4450fc34de7b033701"
+    },
+    "protein_lineage.py": {
+      "bytes": 10139,
+      "sha256": "a9049b0a18f3d1d9713e0be82b24aa6552ca396d394c9ef359a0a62b55956a05"
+    },
+    "test_protein_lineage.py": {
+      "bytes": 2298,
+      "sha256": "6bef0d19e84ae7400fbdbd086aa4f04a211dc287011e35e42d5c18bf013c9526"
+    }
+  },
+  "independently_read_producer": {
+    "url": "https://github.com/trimcrae/Rare-cancers/blob/da49c4e836533253825587f83656675dac4c913b/research/autonomy/data-opportunities-2026-09-30/deep-analysis/protein_overlap_actual.py",
+    "gitBlobSHA": "a6d8416c90bdb08b7fe62b95ed34181245db1b62",
+    "retrieval": "GitHub connector; plaintext read during this review"
+  },
+  "checks": [
+    {
+      "topic": "Source and mapping",
+      "finding": "Matrix SHA and Figshare file ID agree with inspected producer. CSPG4 Q6UVK1 and L1CAM P32004, exact token splitting on semicolon/pipe, SIDM orientation heuristic, semicolon model normalization, columnwise duplicate-model means before accession means, and family aggregation agree. Selecting two accession sets before columnwise means does not change those means. Matched source SHA/size agree with feasibility receipt; the empirical matched file was not fetched or independently hashed here."
+    },
+    {
+      "topic": "Fixed original and added support",
+      "finding": "Presence of original protein determines support status; RNA and 8498 availability determine inclusion in correlations. This is equivalent to producer original dropna on all three and added original-missing plus RNA/8498 dropna. No sign-driven or observed-correlation selection. Hash-pinned metadata fixes the 61 families; accepted four pooled n/rho mismatches fail before output creation."
+    },
+    {
+      "topic": "Complete cell grid and missingness",
+      "finding": "Two genes x two supports x six metadata-defined histologies emits all24 cells, including zero/sparse cells. Availability counts and support-status counts are distinguished from paired n. n<3 and sample-SD<1e-12 rules reproduce producer handling. Missing values are not imputed."
+    },
+    {
+      "topic": "Exact covariance decomposition",
+      "finding": "Average-tie ranks are computed once across each complete pooled support subset. Within terms use stratum population covariance weighted n_g/N; between terms use stratum global-rank mean deviations with the same weights. Both divide by identical pooled population rank standard deviations. This is the total covariance identity and sums to the Pearson correlation of average ranks, hence pooled Spearman. Singleton within terms are exactly zero; within-cell Spearman separately uses local ranks as intended."
+    },
+    {
+      "topic": "Synthetic tests",
+      "finding": "Eight tests inspected, not run. Hand-specified tied-rank rho5/6 and opposing-component rho19/35 are arithmetically correct. Tests cover sparse, empty, constant, singleton, all-singleton, one-stratum and invalid pairs. They do not test empirical joins or constitute biological validation."
+    },
+    {
+      "topic": "Cloud bounds",
+      "finding": "94,222,540-byte fetch cap and hash verification, >10GiB plus twice matrix size disk requirement before fetch, 295-second hard watchdog and documented outer300-second timeout are explicit. Full TSV parsing remains cloud-only. Timeout must remain a failed run; no empirical completion or performance guarantee is claimed."
+    }
+  ],
+  "blocking_findings": [],
+  "limitations": [
+    "Static review does not establish source availability, actual pooled comparator passage, or synthetic test passage.",
+    "Full TSV memory consumption and cloud runtime were not measured.",
+    "This is post hoc descriptive analysis; covariance decomposition does not identify a causal filtering mechanism, treatment effect, or EMC-specific biology."
+  ],
+  "recommended_next_action": "Run the eight synthetic tests in the bounded cloud lane, then execute the frozen analysis once. Stop on a source pin, cohort, accepted pooled comparator, decomposition identity, or timeout failure; preserve all24 cells and four decompositions on success."
+}
