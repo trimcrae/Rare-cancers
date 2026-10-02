@@ -1,0 +1,71 @@
+{
+  "schema": "final-executed-campaign-closing-control-review/1",
+  "asOf": "2026-10-02",
+  "reviewer": "/root/final_portfolio_review",
+  "recordType": "Coordinator transcription of the actual current independent closing review; not a verbatim original or publication approval.",
+  "status": "pass",
+  "controlBindings": [
+    {
+      "path": "reviews/final-executed-review-receipts.json",
+      "blob": "8ea629f87653d41d9ff4f2daebf327c74b5ddfbf"
+    },
+    {
+      "path": "validation-summary.json",
+      "blob": "978ae6e49c1de28295533cfef1991c5a69857c56"
+    },
+    {
+      "path": "final-executed-artifact-manifest.json",
+      "blob": "1ea656b79ea34b2b6f2ee11afac465fd7c0dcce0"
+    }
+  ],
+  "coreBindings": [
+    {
+      "path": "all45-executed-analysis-ledger.json",
+      "blob": "482fd38633ba0ba5ff236ea51b0f9068708056f2"
+    },
+    {
+      "path": "candidate-catalogue.json",
+      "blob": "03939e080d1215944b6339276047088156e41850"
+    },
+    {
+      "path": "ALL45-EXECUTED-STATUS.md",
+      "blob": "1d627e950cbed88fe7c4bcc6857dd3cc8319f82b"
+    },
+    {
+      "path": "RANKING.md",
+      "blob": "82eedde497b043f8b4647df20795980be6a501ab"
+    },
+    {
+      "path": "MANUSCRIPT-INDEX.md",
+      "blob": "002f578d77a96c0bf62e8a18f2db1f2eae7fed71"
+    },
+    {
+      "path": "README.md",
+      "blob": "77739fb1581134a9df74f57b1030d3b63b404305"
+    }
+  ],
+  "independentChecks": [
+    "Full final control bodies read; portfolio status and six core document hashes match the actual independent PASS.",
+    "All 45 original IDs and assessments preserved; 22 groups cover each ID once, including user closures and campaign-only records.",
+    "Eight focused manuscript ranks, one optional resource, two existing-paper extensions and all supporting roles correctly distinguished.",
+    "All eighteen current manuscript Git blobs match full-body review assignments and the manuscript index.",
+    "All 123 manifest entries are unique and match live/read Git blobs: eighteen drafts, 89 results and sixteen controls/history/provenance records.",
+    "All 242 local Markdown link occurrences/109 unique targets resolve after the manifest is staged; status anchors and 71 unique ledger result pins match.",
+    "All four final ledger source-unit repairs verified: 198 locus rows across all 66 fits, eight trabectedin/BSC series records, full171/represented163 within-cohort distinction, number-free result-file scope.",
+    "Current branch head ad497a9ded6ce746ab3d5b341980fc09ea45d4f7 compared to campaign base: 270 changed paths, no unexpected changes outside the campaign and two dedicated workflows."
+  ],
+  "repositoryScope": {
+    "baseCommit": "af7211708205b5189d8c537c1ce2a23aa4bea076",
+    "reviewedHeadBeforeClosingRecord": "ad497a9ded6ce746ab3d5b341980fc09ea45d4f7",
+    "changedPaths": 270,
+    "unexpectedPaths": [],
+    "subsequentExpectedWrite": "reviews/final-control-review.json only; root checks final scope after persistence."
+  },
+  "unresolvedMaterialCoreOrControlBlockers": [],
+  "scopeLimits": [
+    "Completion concerns identified acquired/source-qualified questions, not all possible future analyses or an exhaustive global source search.",
+    "Scientific/readability review does not certify journal format, exhaustive novelty, rendered submission packets or full publication gates.",
+    "Manifest is a selected deliverable inventory, not a whole-repository SHA256 audit; its own hash and this later closing record are intentionally excluded."
+  ],
+  "submissionOrOutreachPerformed": false
+}
