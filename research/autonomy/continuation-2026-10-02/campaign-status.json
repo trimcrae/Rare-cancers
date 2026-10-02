@@ -1,6 +1,6 @@
 {
   "schema": "emc-continuation-checkpoint/1",
-  "as_of_utc": "2026-10-02T18:05:00Z",
+  "as_of_utc": "2026-10-02T18:17:16Z",
   "branch": "codex/emc-continuation-2026-10-02",
   "scientific_baseline": "da49c4e836533253825587f83656675dac4c913b",
   "original_run": {
@@ -20,8 +20,20 @@
     }
   },
   "normal_preflight": {
-    "status": "pending checkpoint05 settled integration",
-    "scope": "normal/default preflight; not FULL"
+    "status": "passed",
+    "revision": "fad6b14adc62f0af6cea5bcb990cf360670e3c74",
+    "run_id": "37045847249",
+    "scope": "normal/default preflight; not FULL",
+    "exit_code": 0,
+    "forced_stop": null,
+    "elapsed_seconds": 144.029411974,
+    "free_bytes_after": 89319763968,
+    "receipt_path": "validation/checkpoint-05-final/emc-default-preflight.exit",
+    "log_path": "validation/checkpoint-05-final/emc-default-preflight.log",
+    "initial_failed_run": 37045205858,
+    "initial_failed_revision": "f81a5576c3c0b2987e40c69a712e4fe81a1c89f4",
+    "repair": "Four review-document status/audience metadata fields normalized with exact original copies preserved; scientific bodies unchanged.",
+    "not_run": "Optional pure-logic and modality suites, FULL publication gates and submission-readiness review. Focused tests and independent source/result checks recorded separately."
   },
   "figure": "generated from committed hashed data, static visual inspection passed; figures/ has original manifest and subsequent QA",
   "publication": "No submission, outreach, PR, main merge or publication-readiness assertion",
@@ -48,11 +60,12 @@
   },
   "local_storage": {
     "policy": "No new local checkout or bulk reference corpus; cloud CPU execution.",
-    "free_GiB_last_measured": 8.592,
-    "incident": "One partial-clone size query unexpectedly initiated lazy fetch and auto-pack; the owned command was stopped. Fetched objects are unknown and preserved."
+    "free_GiB_last_measured": 8.562,
+    "incident": "One partial-clone size query unexpectedly initiated lazy fetch and auto-pack; the owned command was stopped. Fetched objects are unknown and preserved.",
+    "measured_utc": "2026-10-02T18:17:16.4260593Z"
   },
   "main_checked": "e32f3b45d7fc8de594926094fa8c443af57a78b4",
-  "integration": "isolated branch; current main and accepted manuscripts not modified",
+  "integration": "Isolated branch; scientific tree validated at fad6b14adc62f0af6cea5bcb990cf360670e3c74. Final seal changes only receipts/status/index; no main merge or accepted publication changes.",
   "next_computations": {
     "status": "completed; both jobs passed",
     "run_id": 37017553101,
@@ -94,9 +107,9 @@
   "ownership": {
     "coordinator": "/root sole branch/shared-state writer",
     "finite_worker_tasks": "All checkpoint05 finite acquisition, source annotation, blind oracle, code and result/prose reviews complete; outputs integrated with exact receipts.",
-    "cloud_jobs": "All checkpoint05 scientific jobs terminal; normal settled preflight to be dispatched with this integration.",
+    "cloud_jobs": "All checkpoint05 scientific jobs and normal preflight terminal. Independent main Reopening-trigger scan37045829648 active at closure; not touched.",
     "local_checkouts_created": 0,
-    "active_future_work": "Hourly empirical-priority campaign through2026-10-03T20:14:24Z; no legacy scheduler restarted.",
+    "active_future_work": "Hourly empirical-priority campaign through2026-10-03T20:14:24Z. No finite worker or computation job remains running from checkpoint05.",
     "preservation": "Accepted publication files, original evidence, unrelated main changes, local working changes and prior failed attempts preserved.",
     "next_owner": "/root at next campaign wake; no finite worker owns unfinished scientific output."
   },
@@ -248,7 +261,7 @@
     "not_run": "FULL publication gates and optional pure-logic/modality suites; focused serial tests, independent arithmetic and Foundation source checks recorded separately."
   },
   "checkpoint_05": {
-    "status": "science complete; normal preflight pending",
+    "status": "completed",
     "contract": "checkpoint-05-contract.json",
     "foundation": {
       "hgnc_supported_events": 12,
@@ -298,6 +311,8 @@
       "independent_container_hashes": 442,
       "oracle": "Frozen before predictions; original plus two pre-prediction mechanical amendments, no semantic changes.",
       "limitation": "Small capped date-ordered snapshot; abstention coverage defects exposed; no classifier retuning or population accuracy claim. Full exported rows saved but not independently re-compared by reviewer."
-    }
+    },
+    "validated_revision": "fad6b14adc62f0af6cea5bcb990cf360670e3c74",
+    "completed_utc": "2026-10-02T18:17:16Z"
   }
 }
