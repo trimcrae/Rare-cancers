@@ -1,0 +1,234 @@
+{
+  "schema": "emc-focused-export-verification/1",
+  "paper_id": "PUB-FOUNDATION-IDENTITY",
+  "reviewed_at": "2026-10-02T20:06:17+00:00",
+  "review_kind": "independent_llm_editorial_focused_export_verification",
+  "decision": "pass",
+  "independent_readability_continued_approval": true,
+  "new_scientific_review": false,
+  "unresolved_blockers": [],
+  "reviewer": {
+    "agent_id": "/root/foundation_final_ultra",
+    "runtime_configuration": "Follow-up inherited the original explicitly requested ultra configuration; model argument previously omitted/inherited from root.",
+    "served_model": null,
+    "served_effort": null,
+    "telemetry_status": "not available / not attested",
+    "writer": false
+  },
+  "writer_ids": [
+    "/root/cloud_portfolio_review",
+    "/root"
+  ],
+  "blinding": "Author identity and evidence visible; no author-blinding claim. Same reviewer performs the limited export follow-up to their own original independent nonwriter review.",
+  "artifacts": [
+    {
+      "path": "research/manuscripts/foundation/source-identity-correspondence.md",
+      "sha256": "7b6c459e21f7d6951d244dbab1939b93c2fd2a1b119dc33a6e6cbba714516bf3",
+      "sections_reviewed": [
+        "Author/affiliation change",
+        "Introduction/Correspondence heading split",
+        "Complete reader-facing source text by exact comparison with previously approved source"
+      ]
+    },
+    {
+      "path": "research/manuscripts/foundation/source-identity-correspondence-preprint.pdf",
+      "local_path": "C:/Users/mcrae/.codex/private/emc-continuation-20261002/checkpoint07-foundation-root/Foundation-source-identity-correspondence.pdf",
+      "sha256": "8639db0e68c23392f1c7b04dbdedb6003df30224a8c9e9ef6b6ed6ff5f632c40",
+      "bytes": 129717,
+      "pages": 3,
+      "sections_reviewed": [
+        "Complete extracted reader-facing prose",
+        "All four table headers and twelve data cells",
+        "All seven references",
+        "All14 source link destinations",
+        "All scientific limitations",
+        "Build stamp and Not peer reviewed footers"
+      ]
+    }
+  ],
+  "prior_approved_source_sha256": "006ab3c2ebea1b7ce5633727b7466de07030f138e2b7688c3de44a423c1b8442",
+  "report": {
+    "path": "focused-export-report.txt",
+    "sha256": "a36abcb33cc2935ec595bfe9457a4d2f7392b64497ab82e2a163f47231741588"
+  },
+  "source_change_checks": {
+    "previous_source_retrieved_at_revision": "f1591332009703113930b041d263f97718f18670",
+    "previous_source_git_blob_sha": "a1de2c708cdb3aefe5307b55e864f92a71f17941",
+    "prior_exact_sha256_reproduced": true,
+    "only_changes": "Affiliation line; first Correspondence heading renamed Introduction; Correspondence heading inserted after unchanged opening paragraph.",
+    "exact_expected_transformation_matches_new_source": true,
+    "all_scientific_words_numbers_citations_and_limits_unchanged": true,
+    "affiliation_primary_evidence": {
+      "repository": "trimcrae/Rare-cancers",
+      "revision": "da7fab35440a74ea1c46c4ab197cead793333711",
+      "path": "research/release-candidates/PUB-ASO/2026-09-30-letter-package/manuscript.md",
+      "git_blob_sha": "d56d5426f0805913b0f52a841a73229d829c1f94",
+      "observed_affiliation": "Independent researcher, unaffiliated.",
+      "author": "Tristan D. McRae"
+    },
+    "affiliation_supported": true
+  },
+  "reader_explanation": {
+    "question": "Does the public rearrangement export preserve the original study workbook's sample identities?",
+    "approach": "Compare every rearrangement row in two hash-pinned files, keeping source order and recording sample identifiers, worksheet positions and gene pairs; use a separate primary-workbook extraction and quantify one explicitly defined EMC-ID join. Investigate gene-name differences separately.",
+    "main_finding": "All 3,771 export numeric suffixes follow event position plus three. Of these event records, 3,770 disagree with their original identifiers; the records represent 3,182 source IDs. Selecting with 75 original EMC IDs retrieves 28 events from other source samples and none of the 76 EMC events. The offline recovery restores primary identifiers while retaining every non-ID export field.",
+    "main_limitations": "The result concerns frozen file linkage and source-order recovery. It does not validate assays, diagnoses, expressed fusions, germline/somatic origin, a live portal or downstream harm. Both extractors share xlrd. Three gene-text discrepancies remain unresolved; HGNC support for twelve others is current nomenclature evidence, not biological or source-era validation.",
+    "next_step": "Reconcile the reproducible mapping with the data maintainers and verify any resulting corrected export. Preserve the identity-only derivative's limits."
+  },
+  "checks": {
+    "reader_facing_text_reviewed": true,
+    "abstract_understandable": true,
+    "terms_explained": true,
+    "narrative_followable": true,
+    "scientific_meaning_preserved": true,
+    "limitations_preserved": true
+  },
+  "actual_export_checks": {
+    "schema": "foundation-focused-export-checks/1",
+    "prior_source_sha256": "006ab3c2ebea1b7ce5633727b7466de07030f138e2b7688c3de44a423c1b8442",
+    "source_sha256": "7b6c459e21f7d6951d244dbab1939b93c2fd2a1b119dc33a6e6cbba714516bf3",
+    "pdf_sha256": "8639db0e68c23392f1c7b04dbdedb6003df30224a8c9e9ef6b6ed6ff5f632c40",
+    "pdf_bytes": 129717,
+    "supplied_text_sha256": "ea1de707fd2c52456f313d73fc872a8ce127f6bee3242dad5ed005ac07d0d57a",
+    "source_changes_exactly_expected_affiliation_and_headings": true,
+    "extractor": "pypdf 6.10.0, existing bundled Python",
+    "pages": 3,
+    "normalized_complete_source_pdf_text_equal": true,
+    "normalization": "Remove Markdown/YAML presentation, retain link labels and all visible text, flatten table separators; remove only whitespace, renderer build stamp/footer/page numbers and duplicate standalone Table 1 label from PDF. No sentence or scientific-text deletion.",
+    "unexpected_text_differences": [],
+    "independently_extracted_vs_supplied_text_equal_after_whitespace": true,
+    "table_checks": [
+      {
+        "cells": [
+          "Rearrangement ordinal",
+          "Original sample ID",
+          "Export sample ID",
+          "Ordered gene pair"
+        ],
+        "present_in_order": true
+      },
+      {
+        "cells": [
+          "25",
+          "49",
+          "sarcoma_msk_2022-28",
+          "EWSR1 / NR4A3"
+        ],
+        "present_in_order": true
+      },
+      {
+        "cells": [
+          "112",
+          "245",
+          "sarcoma_msk_2022-115",
+          "EWSR1 / NR4A3"
+        ],
+        "present_in_order": true
+      },
+      {
+        "cells": [
+          "113",
+          "245",
+          "sarcoma_msk_2022-116",
+          "NR4A3 / SASH1"
+        ],
+        "present_in_order": true
+      }
+    ],
+    "references": [
+      {
+        "number": 1,
+        "visible_text_matches": true
+      },
+      {
+        "number": 2,
+        "visible_text_matches": true
+      },
+      {
+        "number": 3,
+        "visible_text_matches": true
+      },
+      {
+        "number": 4,
+        "visible_text_matches": true
+      },
+      {
+        "number": 5,
+        "visible_text_matches": true
+      },
+      {
+        "number": 6,
+        "visible_text_matches": true
+      },
+      {
+        "number": 7,
+        "visible_text_matches": true
+      }
+    ],
+    "source_link_count": 14,
+    "source_link_targets_all_present_as_pdf_annotations": true,
+    "missing_pdf_link_targets": [],
+    "pdf_link_annotation_count": 16,
+    "renderer_added_build_stamps": [
+      "Version of 2026-10-02 · preprint · built from bcdc028"
+    ],
+    "renderer_added_footers": [
+      "Not peer reviewed. 1",
+      "Not peer reviewed. 2",
+      "Not peer reviewed. 3"
+    ],
+    "retired_ASO_footer_absent": true,
+    "original_report_sha256": "53e377e766770859e0be05be7ce3695d0b6ea928ced7cc238835e7118457064f",
+    "original_review_json_sha256": "3cace4ffa52751f16dc1de0860fdac2d176acf8147aeb6e5daf63838ef93162a",
+    "visual_inspection_performed": false
+  },
+  "execution": {
+    "extractor": "pypdf 6.10.0 from existing bundled Python",
+    "science_rerun": false,
+    "UI_or_headless_browser": false,
+    "local_rendering": false,
+    "visual_inspection_by_this_reviewer": false,
+    "visual_inspection_owner": "/root",
+    "runtime_download": false,
+    "checkout_created": false,
+    "source_edits_by_reviewer": false
+  },
+  "cloud_render_provenance": {
+    "run": "37057572954",
+    "revision": "bcdc028104d55302de7a2927c6240d42c39689bf",
+    "status": "success reported by coordinator; not separately queried in this follow-up",
+    "extracted_build_stamp": "Version of 2026-10-02 · preprint · built from bcdc028"
+  },
+  "preserved_original_reports": [
+    {
+      "path": "review.md",
+      "sha256": "53e377e766770859e0be05be7ce3695d0b6ea928ced7cc238835e7118457064f",
+      "unchanged": true
+    },
+    {
+      "path": "review.json",
+      "sha256": "3cace4ffa52751f16dc1de0860fdac2d176acf8147aeb6e5daf63838ef93162a",
+      "unchanged": true
+    }
+  ],
+  "supporting_artifacts": [
+    {
+      "path": "focused_export_check.py",
+      "sha256": "0b10e17635b5b96544eda951b28725c630eb2d9cca1f7e7566d44740d7b2b51b"
+    },
+    {
+      "path": "focused-export-checks.json",
+      "sha256": "d4b2b4767ee2496efd1ab88eca4050a18da5d4308231dabfbacf049c0cb075fe"
+    }
+  ],
+  "scope_limit": "Focused metadata/heading and complete PDF-source text verification; original scientific review remains unchanged. No visual, venue, publication-authority or author-approval claim.",
+  "reviewed_commit": "e72dff329dd2d61f99dc8ad73d62dfee56d68306",
+  "package_binding": {
+    "revision": "e72dff329dd2d61f99dc8ad73d62dfee56d68306",
+    "files_fetched_at_exact_revision": true,
+    "local_git_blob_hashes_match_repository": true,
+    "source_git_blob_sha": "6baeacd67059923a73d72644920d8263c550799b",
+    "pdf_git_blob_sha": "5d1d17c8820da5ded496268fd3d2d3c09b32f07b",
+    "method": "GitHub fetch_file at exact package pin plus independent local Git object hash calculation over reviewed bytes. Local SHA-256 values are recorded above."
+  }
+}

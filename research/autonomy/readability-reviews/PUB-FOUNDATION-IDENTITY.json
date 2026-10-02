@@ -2,7 +2,7 @@
   "schema": "emc-llm-readability-review/1",
   "paper_id": "PUB-FOUNDATION-IDENTITY",
   "review_kind": "independent_llm_editorial",
-  "reviewed_at": "2026-10-02T19:44:23+00:00",
+  "reviewed_at": "2026-10-02T20:06:17+00:00",
   "reviewer": {
     "agent_id": "/root/foundation_final_ultra",
     "model": "Model argument omitted; inherited root configuration. Served model identity is unverified.",
@@ -42,16 +42,17 @@
     "next_step": "Reconcile the reproducible mapping with the data maintainers and verify any resulting corrected export. Preserve the identity-only derivative's limits."
   },
   "report": {
-    "path": "research/autonomy/continuation-2026-10-02/foundation-publication/review/independent-ultra-report.txt",
-    "sha256": "53e377e766770859e0be05be7ce3695d0b6ea928ced7cc238835e7118457064f"
+    "path": "research/autonomy/continuation-2026-10-02/foundation-publication/review/focused-export-report.txt",
+    "sha256": "a36abcb33cc2935ec595bfe9457a4d2f7392b64497ab82e2a163f47231741588"
   },
   "artifacts": [
     {
       "path": "research/manuscripts/foundation/source-identity-correspondence.md",
-      "sha256": "006ab3c2ebea1b7ce5633727b7466de07030f138e2b7688c3de44a423c1b8442",
+      "sha256": "7b6c459e21f7d6951d244dbab1939b93c2fd2a1b119dc33a6e6cbba714516bf3",
       "sections_reviewed": [
         "YAML scope metadata",
         "Title, author, running title and keywords",
+        "Affiliation; Introduction/Correspondence heading split",
         "Abstract",
         "Correspondence",
         "Table 1, caption and interpretive note",
@@ -62,7 +63,22 @@
         "Competing interests",
         "References"
       ]
+    },
+    {
+      "path": "research/manuscripts/foundation/source-identity-correspondence-preprint.pdf",
+      "sha256": "8639db0e68c23392f1c7b04dbdedb6003df30224a8c9e9ef6b6ed6ff5f632c40",
+      "sections_reviewed": [
+        "Every page: complete title/identity/abstract/body/table and captions/declarations/references; all14 hyperlink destinations; exact complete visible-text comparison. Visual QA separate root report."
+      ]
     }
   ],
-  "release_boundary": "Source scientific/prose review passed; rendered export comparison and actual full technical gates remain required; no authority to submit."
+  "release_boundary": "Source/prose and complete rendered-text equivalence verified; root visual inspection separately passed. Technical publication clauses and venue-specific readiness still require actual outcomes; no permission to submit.",
+  "review_chain": {
+    "original_report": "research/autonomy/continuation-2026-10-02/foundation-publication/review/independent-ultra-report.txt",
+    "original_report_sha256": "53e377e766770859e0be05be7ce3695d0b6ea928ced7cc238835e7118457064f",
+    "focused_report": {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-publication/review/focused-export-report.txt",
+      "sha256": "a36abcb33cc2935ec595bfe9457a4d2f7392b64497ab82e2a163f47231741588"
+    }
+  }
 }
