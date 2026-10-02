@@ -30,7 +30,7 @@ jobs:
           python3 - <<'PY'
           import subprocess,shutil,time,sys
           assert shutil.disk_usage(".").free >= 14*1024**3
-          packages="uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi".split()
+          packages="uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema>=4.18 biopython pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi referencing".split()
           p=subprocess.Popen([sys.executable,"-m","pip","install","--no-cache-dir",*packages])
           start=time.monotonic()
           while p.poll() is None:
@@ -41,9 +41,6 @@ jobs:
           assert p.returncode == 0
           assert shutil.disk_usage(".").free >= 10*1024**3
           PY
-      - name: Generate source-bound research figure
-        run: |
-          python3 research/autonomy/continuation-2026-10-02/build_aso_figure.py --source research/autonomy/continuation-2026-10-02/results/aso-transcriptome.json --out /tmp/emc-aso-figures
       - name: Normal repository preflight
         timeout-minutes: 12
         run: |
@@ -72,6 +69,13 @@ jobs:
           print("EMC_NORMAL_PREFLIGHT_RECEIPT "+json.dumps(receipt))
           sys.exit(code)
           PY
+      - name: Retain detailed diagnostics after a failed gate
+        if: failure()
+        run: |
+          set +e
+          python3 systems/systems_check.py --check > /tmp/emc-check-systems.log 2>&1
+          python3 research/manuscripts/emc_systems_map_check.py --check > /tmp/emc-check-map.log 2>&1
+          exit 0
       - name: Ensure checks did not change tracked source
         if: ${{ !cancelled() }}
         run: git diff --exit-code
@@ -85,4 +89,4 @@ jobs:
           path: |
             /tmp/emc-default-preflight.log
             /tmp/emc-default-preflight.exit
-            /tmp/emc-aso-figures/*
+            /tmp/emc-check-*.log

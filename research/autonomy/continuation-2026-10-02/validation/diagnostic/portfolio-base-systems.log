@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/runner/work/Rare-cancers/Rare-cancers/systems/systems_check.py", line 4649, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/Rare-cancers/Rare-cancers/systems/systems_check.py", line 4625, in main
+    run_checks(g, f)
+  File "/home/runner/work/Rare-cancers/Rare-cancers/systems/systems_check.py", line 2501, in run_checks
+    check_schemas(g, f)
+  File "/home/runner/work/Rare-cancers/Rare-cancers/systems/systems_check.py", line 494, in check_schemas
+    mv = SchemaSet(SCHEMA)
+         ^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Rare-cancers/Rare-cancers/systems/systems_check.py", line 176, in __init__
+    from referencing import Registry, Resource
+ModuleNotFoundError: No module named 'referencing'

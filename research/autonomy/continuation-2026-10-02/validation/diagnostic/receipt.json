@@ -1,0 +1,46 @@
+[
+  {
+    "case": "candidate",
+    "revision": "ae833c7016045108ee9fc46e9ae2178f3f1138cd",
+    "command": [
+      "python3",
+      "systems/systems_check.py",
+      "--check"
+    ],
+    "exit_code": 1,
+    "log": "candidate-systems.log"
+  },
+  {
+    "case": "candidate",
+    "revision": "ae833c7016045108ee9fc46e9ae2178f3f1138cd",
+    "command": [
+      "python3",
+      "research/manuscripts/emc_systems_map_check.py",
+      "--check"
+    ],
+    "exit_code": 1,
+    "log": "candidate-map.log"
+  },
+  {
+    "case": "portfolio-base",
+    "revision": "da49c4e836533253825587f83656675dac4c913b",
+    "command": [
+      "python3",
+      "systems/systems_check.py",
+      "--check"
+    ],
+    "exit_code": 1,
+    "log": "portfolio-base-systems.log"
+  },
+  {
+    "case": "portfolio-base",
+    "revision": "da49c4e836533253825587f83656675dac4c913b",
+    "command": [
+      "python3",
+      "research/manuscripts/emc_systems_map_check.py",
+      "--check"
+    ],
+    "exit_code": 1,
+    "log": "portfolio-base-map.log"
+  }
+]

@@ -26,6 +26,8 @@ joins. The remaining 35 designs span seven junctions: 25 designs from five
 deposited-sequence matches, five from one coordinate-based reference reconstruction,
 and five from one construct-description reconstruction. These evidence classes do
 not denote numbers of patients or experimentally tested ASOs.
+The 215 design records contain 201 distinct target 16-mers; the 19 exact-positive
+targets are all distinct sequences.
 
 We retained the archived normal-parent reference FASTA and added the GENCODE 50
 ALL transcript FASTA.[2,3] The archived corpus contains 85 records, 354763 bases and
@@ -39,7 +41,9 @@ genes, people or tissues.
 The targets, antisense reverse complements and ranking rule were unchanged. For each
 design, the scanner records the longest perfect contiguous run containing the
 complete six-base core and searches full-target Hamming distances through three
-mismatches. The union combines the archived reference with the expanded transcript
+mismatches. For the proposed 5-LNA/6-DNA/5-LNA architecture, the core occupies target
+positions 6–11 (one-based). The descriptor is evaluated over complete, unambiguous
+16-base transcript-oriented windows. The union combines the archived reference with the expanded transcript
 corpus. A censored search result above three is retained as a bound rather than
 assigned a fictitious distance; archived exact distances supply an upper bound.
 Primary selection minimizes the maximum complete-core run; the secondary rule

@@ -1889,6 +1889,116 @@
           "use": "September 12 literature catalogue, source retrieval or historical-model subgroup review.",
           "classification": "unaffected",
           "why_unaffected": "Records published material and/or measured values for the historically labelled model with explicit molecular-identity limits. No EMC-specific dependency, biomarker or clinical-efficacy inference is grounded on this line. Bibliographic discovery and the transcription of source numbers remain valid regardless of its eventual tumour classification."
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/ALL45-EXECUTED-STATUS.md",
+          "use": "Executed protein-transfer route limits.",
+          "classification": "unaffected",
+          "why_unaffected": "The only mention is the route limitation stating no authenticated EMC benchmark and unresolved identity; it supplies no EMC-specific measurement.",
+          "correction_marker": "H-EMC-SS identity unresolved."
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/RANKING.md",
+          "use": "Rank-7 protein-transfer route limitations.",
+          "classification": "unaffected",
+          "why_unaffected": "The row explicitly denies an authenticated EMC benchmark and calls identity unresolved; route ranking is not grounded in this line as EMC.",
+          "correction_marker": "H-EMC-SS identity unresolved."
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/SOURCES.md",
+          "use": "S14 historical Beird measurements and published identity caveat.",
+          "classification": "unaffected",
+          "why_unaffected": "The row permits correctly labelled model analysis but excludes the line from EMC validation, distinguishes an EWSR1-negative test from exclusion of all fusions, and makes no confirmed NR4A3-EMC inference.",
+          "correction_marker": "Exclude from EMC validation"
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/all45-executed-analysis-ledger.json",
+          "use": "Protein-transfer execution evidenceLimits field.",
+          "classification": "unaffected",
+          "why_unaffected": "The mention records unresolved identity and absence of an authenticated EMC benchmark as an analysis limit, not biological evidence from the line.",
+          "correction_marker": "H-EMC-SS identity unresolved."
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/candidate-catalogue.json",
+          "use": "Seven candidate evidenceLimits fields pointing to the same protein-transfer route.",
+          "classification": "unaffected",
+          "why_unaffected": "Each named use repeats the unresolved-identity limitation; these are catalogue descriptions of a restriction, not seven independent measurements or EMC-model claims.",
+          "correction_marker": "H-EMC-SS identity unresolved."
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/genomic_state_controls_actual.py",
+          "use": "Normalized-name exclusion from nominalSarcoma grouping at line 71.",
+          "classification": "unaffected",
+          "why_unaffected": "HEMCSS is explicitly assigned nominalSarcoma=False alongside SW982. The module states no EMC validation and computes general cancer-cell genomic-state controls; it does not claim this exclusion establishes the line's actual disease identity.",
+          "correction_marker": "no EMC validation"
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/multiomics_actual.py",
+          "use": "Disputed-label identification and exclusion from primary test and development.",
+          "classification": "unaffected",
+          "why_unaffected": "Normalized HEMCSS name, Broad ID and subtype identify disputed rows; primary=sarcoma&~disputed, and disputed families are withheld from training. The isSarcoma bookkeeping flag is not an authentication verdict.",
+          "correction_marker": "sarcoma excluding unresolved EMC-labelled models"
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/Bangerter-complete40-drug-primary-and-actual-figure-source-final.json",
+          "use": "Fetched source history in fullPrimaryBodyText and drugScreenParagraphs[0,8].",
+          "classification": "unaffected",
+          "why_unaffected": "The aliases occur in reproduced historical source text noting unavailable molecular characterization of the older line. The extracted experimental screen concerns USZ20-EMC1/USZ22-EMC2; retaining what the source said does not authenticate the older reagent."
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/clinical-and-ASO-primary-supplements.json",
+          "use": "Fetched source paragraph result/sources/1/matchedPrimaryParagraphs/72.",
+          "classification": "unaffected",
+          "why_unaffected": "The only alias is in a source-authored future-work suggestion naming an available model. This fetch record preserves that suggestion for provenance; it neither executes that experiment nor establishes the named model as authenticated EMC."
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/protein-RNA-final-matched-measurements.json",
+          "use": "Matched-measurement metadata row 321 (SIDM00535), preserving identity-audit flags.",
+          "classification": "unaffected",
+          "why_unaffected": "The inspected row has isTraining=false, primarySarcomaTest=false and disputedEMCLabel=true, with relatedGroup BROAD:ACH-001519. The source labels and raw measurements remain for audit, not confirmed EMC inference; isSarcoma=true is bookkeeping for holding the disputed family out.",
+          "correction_marker": "disputedEMCLabel"
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/protein-RNA-matched-measurements.json",
+          "use": "Matched-measurement metadata row 321 (SIDM00535), preserving identity-audit flags.",
+          "classification": "unaffected",
+          "why_unaffected": "The inspected row has isTraining=false, primarySarcomaTest=false and disputedEMCLabel=true, with relatedGroup BROAD:ACH-001519. The source labels and raw measurements remain for audit, not confirmed EMC inference; isSarcoma=true is bookkeeping for holding the disputed family out.",
+          "correction_marker": "disputedEMCLabel"
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/protein-drug-CRISPR-actual.json",
+          "use": "Explicit disputedEMCModelsExcludedPrimary row 2 (SIDM00535).",
+          "classification": "unaffected",
+          "why_unaffected": "The inspected row has isTraining=false, primarySarcomaTest=false and disputedEMCLabel=true, with relatedGroup BROAD:ACH-001519. The source labels and raw measurements remain for audit, not confirmed EMC inference; isSarcoma=true is bookkeeping for holding the disputed family out.",
+          "correction_marker": "disputedEMCLabel"
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/protein-drug-CRISPR-final-actual.json",
+          "use": "Explicit disputedEMCModelsExcludedPrimary row 0 (SIDM00535).",
+          "classification": "unaffected",
+          "why_unaffected": "The inspected row has isTraining=false, primarySarcomaTest=false and disputedEMCLabel=true, with relatedGroup BROAD:ACH-001519. The source labels and raw measurements remain for audit, not confirmed EMC inference; isSarcoma=true is bookkeeping for holding the disputed family out.",
+          "correction_marker": "disputedEMCLabel"
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/drafts/authentic-EMC-screen-source-appendix.md",
+          "use": "Opening contrast between molecularly characterized published models and the unresolved atlas line.",
+          "classification": "unaffected",
+          "why_unaffected": "The draft explicitly says the unresolved line cannot supply the authentic-model measurements summarized subsequently; its source replay is not an assay on that line.",
+          "correction_marker": "unresolved H-EMC-SS identity"
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/drafts/sarcoma-antigen-protein-transfer-short-report.md",
+          "use": "Methods identity-audit and exclusion disclosure.",
+          "classification": "unaffected",
+          "why_unaffected": "The draft excludes unresolved EMC-labelled identities from the primary analysis and retains this line only in the identity audit; it explicitly says no independently verified EMC model was available.",
+          "correction_marker": "rather than treated as molecularly confirmed EMC"
+        },
+        {
+          "file": "research/autonomy/data-opportunities-2026-09-30/protocols/experimental-data-protocols.md",
+          "use": "Prospective identity restriction in experimental-data protocol.",
+          "classification": "unaffected",
+          "why_unaffected": "The protocol requires identity reconciliation and explicitly prohibits using this unresolved line to validate EMC; it does not claim that planned retrieval or assays were executed.",
+          "correction_marker": "H-EMC-SS has unresolved disease identity and cannot validate EMC"
         }
       ],
       "distinct_from": [
@@ -5922,3 +6032,4 @@
     }
   }
 }
+
