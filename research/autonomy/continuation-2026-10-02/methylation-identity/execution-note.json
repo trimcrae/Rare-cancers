@@ -1,0 +1,20 @@
+{
+  "schema": "methylation-metadata-execution-note/1",
+  "source": "worker execution history and follow-up report",
+  "runtime": "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+  "versions_checked_after_analysis": {
+    "python": "3.12.14",
+    "openpyxl": "3.1.5",
+    "probe_exit_code": 0
+  },
+  "initial_command": "python.exe -X utf8 compare_metadata.py",
+  "initial_tool_exit_code": 0,
+  "initial_tool_chunk": "3cc644",
+  "final_command": "python.exe -X utf8 compare_metadata.py | Out-Null",
+  "final_tool_chunk": "0ae970",
+  "final_whole_powershell_call_exit_code": 0,
+  "final_python_exit_code_separately_captured": false,
+  "final_stdout": "Intentionally suppressed; no separate raw execution log retained",
+  "scope": "After the first executed metadata audit, fixed SHA pins and crosswalk output were added; the final script emitted preserved crosswalk/results. Independent review inspected primary fields and join logic. No model fits or loss replay.",
+  "caution": "Current runtime versions were inspected after execution; not contemporaneously logged. Do not claim a retained raw log or separately captured final Python exit code."
+}

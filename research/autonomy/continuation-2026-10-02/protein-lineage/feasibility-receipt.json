@@ -1,0 +1,77 @@
+{
+  "schema": "protein-lineage-followup-feasibility/1",
+  "revision": "da49c4e836533253825587f83656675dac4c913b",
+  "question": "Does the original-versus-additionally-quantified CSPG4/L1CAM RNA–protein contrast persist within reported histology, or is its pooled rank covariance dominated by between-lineage composition?",
+  "status": "untested_in_inspected_producers; public_inputs_sufficient_after_scoped_cloud_value_extraction; compact_results_alone_insufficient",
+  "inspected": [
+    {
+      "path": "drafts/sarcoma-antigen-protein-transfer-short-report.md",
+      "gitBlobSHA": "241dd34c31be63e81a396349ffab6a41fa527081"
+    },
+    {
+      "path": "deep-analysis/protein_overlap_actual.py",
+      "gitBlobSHA": "a6d8416c90bdb08b7fe62b95ed34181245db1b62"
+    },
+    {
+      "path": "deep-analysis/finite_protein_cross_assay.py",
+      "gitBlobSHA": "444ea7a157e669ac6fe67bf20e3e504db6a0f8a8"
+    },
+    {
+      "path": "deep-analysis/results/protein-three-antigens-assay-overlap-final.json",
+      "gitBlobSHA": "2bb6264b6ff28445f76ea353de7e53e2e57b48de"
+    },
+    {
+      "path": "deep-analysis/results/protein-less-filtered-and-Broad-assays-actual.json",
+      "gitBlobSHA": "5efea4bc4fc1479b15af712610fc116a6498ba47"
+    },
+    {
+      "path": "deep-analysis/results/protein-RNA-final-matched-measurements.json",
+      "gitBlobSHA": "16dedd561b96cff1ca72213b51a6915dea8cbf18",
+      "bytes": 2926326,
+      "producerInputSHA256": "46deef9526068591a76c62bda6c20fa26ca95969f666769850eb626306f63f24"
+    }
+  ],
+  "savedFields": {
+    "metadata": [
+      "model_id",
+      "relatedGroup",
+      "Cancer_type",
+      "primarySarcomaTest"
+    ],
+    "rna": "rna[index][CSPG4,L1CAM]",
+    "originalProtein": "protein[index][CSPG4,L1CAM]",
+    "primaryFamilies": 61,
+    "missingCompactField": "Per-model/family protein8498 numerical values; original-versus-added lineage membership cannot be reconstructed from aggregate correlations."
+  },
+  "additionalSource": {
+    "url": "https://ndownloader.figshare.com/files/34411172",
+    "name": "ProCan-DepMapSanger_protein_matrix_8498_averaged.txt",
+    "bytes": 94222540,
+    "sha256": "5e7adf7e8217e5a02389c299dce1266e74c7a3b786b8c177e56d12402fe783ac",
+    "accessionColumns": {
+      "CSPG4": "Q6UVK1",
+      "L1CAM": "P32004"
+    }
+  },
+  "existingCloudArtifact": {
+    "id": 11184670046,
+    "name": "emc-protein-identical-model-three-gene-overlap-36905457130",
+    "bytes": 44166685,
+    "sha256": "704e0ca7645294b8b6dbd15237e8ff74c93cfb52c233ab8d59f519b4c48efb36",
+    "expired": false,
+    "expiresUTC": "2026-10-31T18:16:24Z",
+    "contentsVerified": false,
+    "note": "Inventory only. Upload workflow includes campaign-output/**/*.txt; source cache reuse is plausible but ZIP members were not inspected or downloaded."
+  },
+  "testedElsewhereNotThisQuestion": [
+    "Histology-stratified bootstrap of pooled correlations",
+    "Per-lineage RNA-to-Broad-protein rank associations",
+    "Histology/measured-growth adjustments of drug/CRISPR target–outcome associations"
+  ],
+  "scopeLimits": [
+    "No new associations calculated in preparation",
+    "Post hoc descriptive follow-up; no significance-test selection after seeing support cells",
+    "No proof of causal filtering effect or biological mechanism from covariance decomposition",
+    "No surface accessibility or EMC-specific inference"
+  ]
+}

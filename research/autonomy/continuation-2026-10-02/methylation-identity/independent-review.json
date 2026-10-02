@@ -1,0 +1,68 @@
+{
+  "review_date": "2026-10-02",
+  "reviewer": "foundation_contribution",
+  "disposition": "no_blocking_findings_in_scoped_review",
+  "scope": "Static review of source capture and exact-array join, bounded direct source-field checks, primary XML statements and proposed identity wording. No fitting, full join replay, or audit of historical classifier results.",
+  "reviewed_sha256": {
+    "audit_identity.py": "b391d0c67f17e0d84d784352f89cb0f8ae5464023f7d05cddb6836baf76d7dc9",
+    "compare_metadata.py": "53f505967ea740409c1fcd5d734b64b6f3dbb0aee812962045c21ae270d534ec",
+    "findings.md": "e948bee3f60893b988e6213e9238ae9b2eeda29f8c2264f33e4cd32db9029427",
+    "identity-results.json": "46fd6881f9425a4dc80a6efcdec7d9c5eee340bc56a103a95ea65c55a7c225bc",
+    "41467_2020_20603_MOESM4_ESM.xlsx": "85a148285ef1812d6ca8d68c839a2d64f73cebb6f8ebfa95844e3d85b5c03bb9",
+    "41467_2020_20603_MOESM6_ESM.xlsx": "605dd1ba7af9845e53f5db51c11b8d7e36b0076ade3dd5ba97edccbdf32ceb36",
+    "E-MTAB-9875.sdrf.txt": "c6ffc854493f95d3b1c70bc18e0862abf269ea889e7ca2db153d435c80adc216",
+    "koelsche.xml": "5f2202198ac42b5d4abe0341e8b0e5a33147fd76a82568418b7ecb24d08bd47a",
+    "lyskjaer.xml": "31c0987584ecc056960d5e4e6800efd3de8858598769240bb432f1f8b0077ba5",
+    "profile-array-crosswalk.tsv": "003aef8100bf8f110b413f01c3dd3ec64c71ec3402409f878f023ba4df5bc41e"
+  },
+  "checks": [
+    {
+      "check": "Workbook row selection and IDAT schema",
+      "result": "pass",
+      "evidence": "Direct read-only inspection found exactly 1077 nonempty reference rows and 428 nonempty validation rows. All first-column labels have the selected cohort prefix; no nonempty source records are silently omitted. Every IDAT is already an exact digit-chip_RddCdd basename."
+    },
+    {
+      "check": "SDRF source fields",
+      "result": "pass",
+      "evidence": "1972 data rows each have 27 columns. Source Name and Characteristics[individual] are nonempty throughout; 986 distinct individual labels. Joined fields have unique column names."
+    },
+    {
+      "check": "Array-join logic",
+      "result": "pass_static",
+      "evidence": "Complete basename regular expression removes only the Grn/Red channel suffix; chip and physical array-position identity are preserved. Code requires exactly two channel rows per array, one of each channel, and consistent individual label. Direct set comparisons implement the stated exact-IDAT overlap estimand."
+    },
+    {
+      "check": "Reported join output",
+      "result": "consistent_with_code_and_sources",
+      "evidence": "identity-results.json reports 1077 reference, 428 validation, 1972 SDRF channel rows, 986 arrays and 986 accession-local individual labels; all three exact-array intersections are zero. This review did not rerun the completed intersection calculation."
+    },
+    {
+      "check": "Authors patient-independence assertion",
+      "result": "pass",
+      "evidence": "Read Koelsche primary XML Methods: All samples of the reference and validation set are from individual/different patients. Proposed wording explicitly preserves this author assertion while stating the limits of an independent public patient-key audit."
+    },
+    {
+      "check": "Deposited versus analyzed denominator",
+      "result": "pass",
+      "evidence": "Read Lyskjær primary XML Methods/Results: 986 deposited/uploaded profiles, three tumor profiles excluded for QC, and 983 in the performance analysis. Findings preserve this distinction; 986 is used for metadata identities only."
+    },
+    {
+      "check": "Cross-study inference",
+      "result": "pass",
+      "evidence": "Proposed correction does not infer different patients across studies from distinct array IDs or accession-local labels. It explicitly leaves different-array specimens from a shared patient unexcluded."
+    }
+  ],
+  "nonblocking_observations": [
+    {
+      "topic": "Duplicate unused SDRF headers",
+      "detail": "Raw SDRF has Protocol REF five times and Term Source REF twice. csv.DictReader collapses these repeated names, so emtab_fields is not a lossless representation of all 27 header positions. None is used for identity joins. Optional wording: identity-results.json records available distinct field names; retain raw SDRF as the complete schema."
+    }
+  ],
+  "limits": [
+    "118 retained fusion-compatible profiles and three discordances are explicitly inherited frozen evidence, not checked here.",
+    "No patient-level independence across studies is independently established.",
+    "No methylation measurements, predictions, classifier fitting, or diagnostic adjudication were reanalyzed.",
+    "Source files were inspected from captured private evidence; no fresh network retrieval was performed for this review."
+  ],
+  "recommended_disposition": "Integrate the scoped source correction and metadata receipt. Preserve the author-reported patient statement, the array-only scope, and 986 deposited versus 983 analyzed distinction. No blocking code or scientific wording change required."
+}

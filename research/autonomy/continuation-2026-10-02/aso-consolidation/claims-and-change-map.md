@@ -4,9 +4,9 @@ title: Source and change map for the consolidated ASO manuscript draft
 kind: memo
 status: live
 level: cross-cutting
-purpose: Specify how each materially changed manuscript claim is supported and how the older outgoing package differs from the consolidated draft.
+purpose: Specify how each materially changed manuscript claim is supported and how the historical journal article differs from the consolidated draft.
 scope: >
-  Integration map for manuscript-draft.md against the pinned outgoing journal
+  Integration map for manuscript-draft.md against the pinned historical journal
   article, accepted catalogue and continuation report. Source inspection only;
   not a full paper review or outgoing-artifact rebuild. Complete exact-witness recovery was integrated after its passing cloud receipt;
   the independent ultra review remains pending.
@@ -19,7 +19,7 @@ last_verified: "2026-10-02"
 
 `manuscript-draft.md` is a complete replacement narrative draft, not an edit to the accepted article or public archive. It retains the original project's design–reference comparison–experimental falsification structure while making the source-qualified catalogue and reference expansion the quantitative center. It deliberately leaves the historical 190-design analyses in their frozen archive instead of copying a large, separately scoped methods/results block into a paper centered on 215 designs. No source tables, controls, deposited records or generated outgoing documents have been altered.
 
-The starting outgoing source is `research/manuscripts/aso/fusion-junction-aso-journal-article.md` at `dece8fd886f554641a6c32276b00731af0d05438`. Its frontmatter identifies it as the journal-submission form. The larger `fusion-junction-aso-research-article.md` and working record were not independently reviewed. Current PDF/DOCX build correspondence, submission status and public journal acceptance were not verified. “Accepted catalogue” means the frozen research catalogue supplied for this task, not journal acceptance.
+The historical journal-article comparator is `research/manuscripts/aso/fusion-junction-aso-journal-article.md` at `dece8fd886f554641a6c32276b00731af0d05438`. Its frontmatter identifies it as the journal-submission form. The larger `fusion-junction-aso-research-article.md` and working record were not independently reviewed. The current accepted concise package is candidate `da7fab35440a74ea1c46c4ab197cead793333711`, branch `codex/aso-concise-20260927`, at `research/release-candidates/PUB-ASO/2026-09-30-letter-package`; it already covers 215 designs. Its acceptance receipts were checked at checkpoint03. This continuation does not modify that package or inherit its review clearance for the new transcriptome science. “Accepted catalogue” means the frozen research catalogue supplied for this task, not journal acceptance.
 
 ## Claim and change map
 
@@ -55,13 +55,15 @@ The starting outgoing source is `research/manuscripts/aso/fusion-junction-aso-jo
 
 ## Material status differences to resolve at integration
 
-1. The outgoing journal manuscript still carries the earlier190design narrative and oldmodel interpretation. It is not source-equivalent to the September30catalogue or October2report. Preserve those frozen originals and integrate only into a clearly identified revised package.
+1. The historical journal-article comparator carries the earlier190design narrative. The actual accepted September30brief already covers215designs. Neither is replaced by this expanded working draft; the October2transcriptome findings remain a separate scientific change requiring their own manuscript integration.
 2. The old archive DOI names the September1published515-file archive. Newcatalogue/continuation inclusion in that DOI has not been established and must not be implied by an unchanged blanket data-availability statement.
 3. The manuscript draft reads an actual committed passing union-certificate receipt. It does not independently rerun that computation, and the focused static certificate review is not the required independent ultra manuscript pass.
 4. Root incorporated the successful uncapped134witness/GENCODEv50biotype recovery after reviewing its summary, exact tables and receipt. Six recovered occurrences involve three transcripts; snapshot comparison remains limited to60IDs. Source headers provide all63frozen biotypes.
-5. The author has already recorded self-funding, no external funding and no competing financial interests; these known declarations are retained without requesting reconfirmation. The Claude-only AI disclosure requires a factual update to include this Codex-assisted continuation. No unperformed reference audit or independent ultra review is implied.
+5. The author has recorded: “This research received no funding” and “The author declares no competing interests.” These standing declarations are retained without a self-funding inference. The Claude-only AI disclosure requires a factual update to include this Codex-assisted continuation. No unperformed reference audit or independent ultra review is implied.
 6. This task did not classify or add unrelated cell-line aliases. No material test-article identity was upgraded: USZ20remains reference reconstruction, USZ22unresolved, and the historical annotation-error designs remain excluded from215target counts.
 
 ## Deliverable limits
 
 Only small private text files were created. Accepted repository files and public deposits remain untouched. The next relevant checks are integration-specific source verification of materially new prose, outgoing package/citation generation and the required independent ultra review of the resulting manuscript. This memo neither requests publication nor claims those checks occurred.
+
+Checkpoint03 closes the bounded primary-source integration in [source-to-claim](../aso-primary-sources/source-to-claim.md). The campaign now prioritizes empirical portfolio reanalysis under the user's latest instruction. No outgoing package rebuild is queued solely because this historical comparison exists.
