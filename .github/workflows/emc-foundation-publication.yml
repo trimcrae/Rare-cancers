@@ -26,7 +26,7 @@ jobs:
           PY
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          fetch-depth: 8
+          fetch-depth: 16
           persist-credentials: false
       - name: Prepare dependencies and execute bounded phase
         run: python3 research/autonomy/continuation-2026-10-02/foundation-publication-check.py
