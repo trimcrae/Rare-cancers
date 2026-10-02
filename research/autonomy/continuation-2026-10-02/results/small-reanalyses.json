@@ -1,0 +1,119 @@
+{
+  "schema": "small-reanalyses-replay/1",
+  "status": "passed",
+  "results": {
+    "foundation": {
+      "output_sha256": "2c910856e5e483c3774af5d0192b6118536f368aade8f05960bb123014a20184",
+      "receipt_sha256": "04e359056f7f7867e39d07cc914affedad6d7d8fd60bc0ccfa77cb0c51829cda",
+      "event_count": 3771,
+      "changed_sample_id_rows": 3770,
+      "negative_controls": {
+        "modified-export": "refused-by-input-hash-guard",
+        "truncated-mapping": "refused-by-input-hash-guard",
+        "already-corrected-export": "refused-by-input-hash-guard",
+        "existing-output-directory": "refused-without-changing-output"
+      },
+      "emc_join": {
+        "selector": "75 primary EMC source IDs with sarcoma_msk_2022- prefix",
+        "source_profiles": 75,
+        "true_source_events": 76,
+        "events_selected_before_correction": 28,
+        "selected_events_originating_in_EMC": 0,
+        "selected_events_originating_outside_EMC": 28,
+        "source_profiles_outside_export_suffix_range": 47
+      }
+    },
+    "registry": {
+      "syntheticChecks": 7,
+      "frozenCaseIds": [
+        "class-scope",
+        "outcome-local-group-id",
+        "qualified-remission",
+        "qualified-sd"
+      ]
+    },
+    "methylation": {
+      "profiles": 120,
+      "classes": 12,
+      "metrics": {
+        "raw": {
+          "NLL": {
+            "equal_class": 1.074287121322385,
+            "profile_weighted": 0.43886850867822524
+          },
+          "Brier": {
+            "equal_class": 0.2365079526109961,
+            "profile_weighted": 0.1123216666666667
+          }
+        },
+        "reference_temperature": {
+          "NLL": {
+            "equal_class": 1.8437918075204676,
+            "profile_weighted": 0.43592424136705044
+          },
+          "Brier": {
+            "equal_class": 0.1932622473046851,
+            "profile_weighted": 0.03751010299478826
+          }
+        }
+      },
+      "transformed_total_NLL": 52.31090896404605,
+      "zero_vote_case_fraction_total_NLL": 0.787274719226375,
+      "three_discordant_cases_fraction_total_NLL": 0.9845830919609587,
+      "result_sha256": "d51fe3bf2b5ea172787ebd6348e34fbbd5f89e327dc8152b341b5eba4b7de37e"
+    }
+  },
+  "downloads": [
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/da49c4e836533253825587f83656675dac4c913b/research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/Foundation-complete-rearrangement-source-mapping.json",
+      "bytes": 1679613,
+      "sha256": "341f64562039230c581aefb7f03d7da4769969a79290217962216f3d7e567a5e",
+      "path": "foundation-inputs/mapping.json"
+    },
+    {
+      "url": "https://media.githubusercontent.com/media/cBioPortal/datahub/dca75cb3f32b82d54a6f78bf0a6323e5b975aca1/public/sarcoma_msk_2022/data_sv.txt",
+      "bytes": 180393,
+      "sha256": "d9fc3fc8073104c3f364825972921f271b5e8793eefcf71331c3cff7d3882701",
+      "path": "foundation-inputs/data_sv.txt"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt",
+      "bytes": 19791788,
+      "sha256": "5906bd2818d5413a8fae68d38ad02892b617079c9eaa459ee85d4ef6621774ed",
+      "path": "registry/inputs/ctg_results_bor_1999_2009.txt"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt",
+      "bytes": 24086484,
+      "sha256": "0ec2f68e35bfc142405d942c83688653efb256e7627a3e4a8c301384f06ebcc6",
+      "path": "registry/inputs/ctg_results_bor_2010_2013.txt"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/da49c4e836533253825587f83656675dac4c913b/research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/methylation-hallmark-fusion-score-transport-final.json",
+      "bytes": 28903,
+      "sha256": "cbac90fa027c620f0b395d6a80365a4da0ab14d28c2410e9fc69318c83344aba",
+      "path": "methylation-inputs/methylation-hallmark-fusion-score-transport-final.json"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/da49c4e836533253825587f83656675dac4c913b/research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/methylation-hallmark-fusion-selected-cases-final.json",
+      "bytes": 2797,
+      "sha256": "1f8103cd8ee0366ee2097e21e5b043aa3d4eb58d8720121a2001e1a9b7876b39",
+      "path": "methylation-inputs/methylation-hallmark-fusion-selected-cases-final.json"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/da49c4e836533253825587f83656675dac4c913b/research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/methylation-corrected-full-support-actual.json",
+      "bytes": 525104,
+      "sha256": "e375e1f7b390c4a8bdb4be83e6d3e0cb5fc37c3bdec387215ae86b5daf153fbf",
+      "path": "methylation-inputs/methylation-corrected-full-support-actual.json"
+    }
+  ],
+  "limitations": [
+    "Frozen source replay, not clinical validation or publication clearance.",
+    "Foundation mapping is derived evidence; primary workbook not re-extracted.",
+    "Registry conformance cases do not re-estimate the full 552/575 corpus.",
+    "Methylation uses fixed saved predictions; no new fitting or patients."
+  ],
+  "download_budget_bytes": 46295082,
+  "stage": "complete",
+  "elapsed_seconds": 2.997
+}

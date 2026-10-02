@@ -1,0 +1,61 @@
+name: EMC independent confirmation 2026-10-02
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/verification-token.json]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  independent:
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [aso, foundation]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check storage budget
+        run: python3 -c 'import shutil; assert shutil.disk_usage(".").free >= 12*1024**3'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /research/autonomy/continuation-2026-10-02/
+      - name: Restore frozen source-run evidence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 37009409052
+          name: emc-continuation-${{ matrix.lane == 'aso' && 'aso-transcriptome' || 'small-reanalyses' }}-37009409052
+          path: research/autonomy/continuation-2026-10-02/verification-artifacts/${{ matrix.lane == 'aso' && 'aso' || 'small' }}
+      - name: Install small legacy-workbook reader
+        if: matrix.lane == 'foundation'
+        run: python3 -m pip install --no-cache-dir xlrd==2.0.2
+      - name: Execute independent confirmation
+        env:
+          LANE: ${{ matrix.lane }}
+          PYTHONDONTWRITEBYTECODE: 1
+        run: |
+          python3 - <<'PY'
+          import os,pathlib,subprocess,sys,json,hashlib
+          here=pathlib.Path("research/autonomy/continuation-2026-10-02").resolve()
+          script=here/("verify_transcriptome.py" if os.environ["LANE"]=="aso" else "run_primary_check.py")
+          rc=subprocess.run([sys.executable,str(script)],cwd=here,timeout=1500).returncode
+          receipt={"commit":os.environ["GITHUB_SHA"],"run_id":os.environ["GITHUB_RUN_ID"],"lane":os.environ["LANE"],"script_sha256":hashlib.sha256(script.read_bytes()).hexdigest(),"returncode":rc}
+          (here/"independent-execution-receipt.json").write_text(json.dumps(receipt,indent=2)+"\n")
+          print("EMC_INDEPENDENT_EXECUTION "+json.dumps(receipt))
+          sys.exit(rc)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: emc-independent-${{ matrix.lane }}-${{ github.run_id }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            research/autonomy/continuation-2026-10-02/verification-output/*.json
+            research/autonomy/continuation-2026-10-02/verification-output/*.tsv
+            research/autonomy/continuation-2026-10-02/primary-check-output/result.json
+            research/autonomy/continuation-2026-10-02/independent-execution-receipt.json
