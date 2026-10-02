@@ -1,11 +1,13 @@
 ---
 id: DOC-FOUNDATION-PREP-HANDOFF
 title: Foundation correspondence preparation handoff
-kind: report
-status: draft
+kind: memo
+status: live
 audience: [maintainers, external reviewers]
 date: 2026-10-02
 last_verified: 2026-10-02
+purpose: Record the prepared correspondence, verification and publication boundary.
+scope: Task-specific Foundation source-identity correspondence preparation and handoff.
 ---
 
 # Foundation correspondence preparation

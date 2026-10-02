@@ -1,11 +1,13 @@
 ---
 id: DOC-FOUNDATION-PREP-ONLINE-RESOURCE
 title: Foundation source identity reproducibility guide
-kind: report
-status: draft
+kind: memo
+status: live
 audience: [maintainers, external reviewers]
 date: 2026-10-02
 last_verified: 2026-10-02
+purpose: Describe reproducibility, source provenance and separate data licensing.
+scope: Online Resource 1 for the fixed-file Foundation source-identity correspondence.
 ---
 
 # Reproducibility guide
@@ -28,9 +30,9 @@ The machine-readable source-archive.json contains every member's exact byte coun
 
 ## Reproduction
 
-The [companion reproducibility.zip](https://github.com/trimcrae/Rare-cancers/blob/c29f301be3c90c9355b04501ff4ae43ab2199c67/research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/reproducibility.zip) supplies the unmodified input archive, recovery code, independent-check code, saved primary-confirmation output, gene-annotation summary and licence notices. Unpack it into a new directory. Run verify_package.py to verify the manifest and archived member hashes using Python 3.9 or later; this check does not redo the science.
+The [companion reproducibility.zip](https://github.com/trimcrae/Rare-cancers/blob/d187c779f9f528a657048a13e849fe8d4834c666/research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/reproducibility.zip) supplies the unmodified input archive, recovery code, independent-check code, saved primary-confirmation output, gene-annotation summary and licence notices. Unpack it into a new directory. Run verify_package.py to verify the manifest and archived member hashes using Python 3.9 or later; this check does not redo the science.
 
-The optional [offline reproduction commands in README.txt](https://github.com/trimcrae/Rare-cancers/blob/c29f301be3c90c9355b04501ff4ae43ab2199c67/research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/README-reproduction.txt) restore the source IDs from the archived mapping and compare the output hash. Repeating the independent primary-workbook extraction uses xlrd 2.0.1, the version recorded in the historical run, and only the archived workbook. Neither command requests a live portal or a new primary download. These commands are for readers; the validated extraction from run 37035103326 is reused here.
+The optional [offline reproduction commands in README.txt](https://github.com/trimcrae/Rare-cancers/blob/d187c779f9f528a657048a13e849fe8d4834c666/research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/README-reproduction.txt) restore the source IDs from the archived mapping and compare the output hash. Repeating the independent primary-workbook extraction uses xlrd 2.0.1, the version recorded in the historical run, and only the archived workbook. Neither command requests a live portal or a new primary download. These commands are for readers; the validated extraction from run 37035103326 is reused here.
 
 ## Existing result and annotation records
 

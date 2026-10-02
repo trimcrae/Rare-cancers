@@ -2,10 +2,12 @@
 id: DOC-FOUNDATION-PREP-HG-MANUSCRIPT
 title: Foundation sarcoma correspondence for Human Genetics
 kind: manuscript
-status: draft
+status: live
 audience: [maintainers, external reviewers]
 date: 2026-10-02
 last_verified: 2026-10-02
+purpose: Provide an editable correspondence for the Human Genetics subscription route.
+scope: Correction of source identifiers in the pinned Foundation sarcoma derivative export.
 ---
 
 # A row-ordinal sample-ID transformation in a public sarcoma rearrangement export
@@ -76,7 +78,7 @@ Yoo S, et al. (2021) A community effort to identify and correct mislabeled sampl
 
 ### Data and code availability
 
-The primary workbook is Supplementary Data 1 of Gounder et al. (2022). The analyzed Datahub export is fixed at the snapshot in cBioPortal Datahub (2026). Exact input bytes, the complete mapping and identity-corrected export are preserved in [primary-inputs.zip](https://github.com/trimcrae/Rare-cancers/blob/5d2f2e2116f43c0bb56a46120902a1332f27720b/research/autonomy/continuation-2026-10-02/foundation-publication/primary-inputs.zip), with member hashes and attribution in [source-archive.json](https://github.com/trimcrae/Rare-cancers/blob/5d2f2e2116f43c0bb56a46120902a1332f27720b/research/autonomy/continuation-2026-10-02/foundation-publication/source-archive.json). Recovery code, independent confirmation and gene-text evidence are versioned in McRae (2026). Online Resource 1 describes the files, offline reproduction and limitations. The [reproducibility package](https://github.com/trimcrae/Rare-cancers/blob/c29f301be3c90c9355b04501ff4ae43ab2199c67/research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/reproducibility.zip) and [offline instructions](https://github.com/trimcrae/Rare-cancers/blob/c29f301be3c90c9355b04501ff4ae43ab2199c67/research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/README-reproduction.txt) preserve these inputs and scripts with separate source licences. The proposed derivative preserves non-ID fields; no importer compatibility, maintainer approval or corrected live deployment is claimed.
+The primary workbook is Supplementary Data 1 of Gounder et al. (2022). The analyzed Datahub export is fixed at the snapshot in cBioPortal Datahub (2026). Exact input bytes, the complete mapping and identity-corrected export are preserved in [primary-inputs.zip](https://github.com/trimcrae/Rare-cancers/blob/5d2f2e2116f43c0bb56a46120902a1332f27720b/research/autonomy/continuation-2026-10-02/foundation-publication/primary-inputs.zip), with member hashes and attribution in [source-archive.json](https://github.com/trimcrae/Rare-cancers/blob/5d2f2e2116f43c0bb56a46120902a1332f27720b/research/autonomy/continuation-2026-10-02/foundation-publication/source-archive.json). Recovery code, independent confirmation and gene-text evidence are versioned in McRae (2026). Online Resource 1 describes the files, offline reproduction and limitations. The [reproducibility package](https://github.com/trimcrae/Rare-cancers/blob/d187c779f9f528a657048a13e849fe8d4834c666/research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/reproducibility.zip) and [offline instructions](https://github.com/trimcrae/Rare-cancers/blob/d187c779f9f528a657048a13e849fe8d4834c666/research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/README-reproduction.txt) preserve these inputs and scripts with separate source licences. The proposed derivative preserves non-ID fields; no importer compatibility, maintainer approval or corrected live deployment is claimed.
 
 ### Source licences
 

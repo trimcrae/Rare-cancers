@@ -1,4 +1,4 @@
-"""Finite remote rendering with daily-window and10GiB headroom guards."""
+"""Render with standard LibreOffice and Poppler commands; no bundled skill code."""
 import datetime,hashlib,json,os,pathlib,shutil,signal,subprocess,time,zoneinfo
 from pypdf import PdfReader
 from guarded_process import allowed,run
@@ -9,10 +9,16 @@ record={'revision':os.environ['GITHUB_SHA'],'run_id':os.environ['GITHUB_RUN_ID']
 try:
     for name in ['human-genetics-correspondence','online-resource-1']:
         assert allowed(),'Daily restriction';assert shutil.disk_usage('.').free>10.5*1024**3
-        dest=OUT/name
-        cmd=['python3',str(HERE/'tools'/'render_docx.py'),str(HERE/(name+'.docx')),'--output_dir',str(dest),'--emit_pdf','--dpi','120']
+        dest=OUT/name;dest.mkdir()
+        profile=OUT/(name+'-lo-profile')
+        cmd=['libreoffice','-env:UserInstallation='+profile.as_uri(),'--headless','--convert-to','pdf','--outdir',str(dest),str(HERE/(name+'.docx'))]
         run(cmd,OUT/(name+'.log'),240)
-        pdf=dest/(name+'.pdf');reader=PdfReader(pdf)
+        pdf=dest/(name+'.pdf');assert pdf.is_file()
+        run(['pdftoppm','-r','120','-png',str(pdf),str(dest/'page')],OUT/(name+'-images.log'),120)
+        if profile.exists():
+            assert profile.resolve().parent==OUT.resolve()
+            shutil.rmtree(profile)
+        reader=PdfReader(pdf)
         text='\n'.join(page.extract_text() for page in reader.pages)
         (dest/'rendered-text.txt').write_text(text,encoding='utf-8')
         record['documents'].append({'name':name,'docx_sha256':sha(HERE/(name+'.docx')),'pdf_sha256':sha(pdf),'pages':len(reader.pages),'page_images':[{'file':p.name,'sha256':sha(p)} for p in sorted(dest.glob('page-*.png'))]})
