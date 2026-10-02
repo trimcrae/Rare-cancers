@@ -1,0 +1,744 @@
+{
+  "schema": "emc-aso-tissue-join-audit/1",
+  "date": "2026-10-02",
+  "status": "complete_no_scientific_change",
+  "ai_authorship": "Codex AI assistant; root independent review pending",
+  "repository": "trimcrae/Rare-cancers",
+  "base_commit": "c784796fc7b510cb2de3c611b05d3cc035dec9e8",
+  "question": "Do the two named gapmers' currently admitted records retain their native locus identities and exact cached tissue-source bindings?",
+  "entry_outcome": "No changed inputs and no current join/completeness discrepancy. Matching verified output exists; stop without new verifier, scientific mutation, kernel or rescreen.",
+  "prior_verification": {
+    "receipt_path": "research/release-candidates/PUB-ASO/2026-09-04/submission/repository-verification/full-preflight-receipt.json",
+    "receipt_git_blob": "c783a56fc1ae4e9b59df1fa5f37910f1d41971a2",
+    "source_commit": "3dc59c67654a4dfc5a6d0b842f12a732e6aeda89",
+    "run_id": 33933547339,
+    "job_id": 101216922197,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33933547339",
+    "status": "Historical original full pass reused; not executed anew in this task",
+    "scope": "Historical receipt reports FULL preflight and original broad-suite summaries; no new per-case execution claim",
+    "original_log_sha256": "4db8a8f6ff641cf2f64c47184b5a870faed12c0815295820a1253bfc2844b4da"
+  },
+  "exact_historical_current_bindings": [
+    {
+      "path": "research/modalities/junction-aso-offtarget-e12n3-deep500-b1.json",
+      "historical_blob": "e3e3801c6c839be74cdbaec8c225582d0f93e9c9",
+      "current_blob": "e3e3801c6c839be74cdbaec8c225582d0f93e9c9",
+      "matched": true
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e6n3-deep500-b1.json",
+      "historical_blob": "02cdb69861b3cf3b9e0a41f704df4d6319c261c6",
+      "current_blob": "02cdb69861b3cf3b9e0a41f704df4d6319c261c6",
+      "matched": true
+    },
+    {
+      "path": "research/modalities/aso-offtarget-tissue-expression-inputs.json",
+      "historical_blob": "b336731a9c6a502a6d812f29d0e2bf35c4a4ef64",
+      "current_blob": "b336731a9c6a502a6d812f29d0e2bf35c4a4ef64",
+      "matched": true
+    },
+    {
+      "path": "research/modalities/aso-offtarget-tissue-expression.json",
+      "historical_blob": "c41b0525d20ab2948a5847d2f3f1db805658d90c",
+      "current_blob": "c41b0525d20ab2948a5847d2f3f1db805658d90c",
+      "matched": true
+    },
+    {
+      "path": "research/modalities/aso_offtarget_tissue_expression.py",
+      "historical_blob": "ee1396716e96ccc35929d2f808abb68e5a7f20f0",
+      "current_blob": "ee1396716e96ccc35929d2f808abb68e5a7f20f0",
+      "matched": true
+    },
+    {
+      "path": "research/modalities/tests/test_aso_offtarget_tissue_expression.py",
+      "historical_blob": "745087d97293c7203c924bf58671903f0f1b64ff",
+      "current_blob": "745087d97293c7203c924bf58671903f0f1b64ff",
+      "matched": true
+    }
+  ],
+  "cache_identity": {
+    "input_git_blob": "b336731a9c6a502a6d812f29d0e2bf35c4a4ef64",
+    "output_git_blob": "c41b0525d20ab2948a5847d2f3f1db805658d90c",
+    "gtex_source": "GTEx v8 gene-level median TPM",
+    "gtex_release": "GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm",
+    "gtex_unit": "median TPM across that tissue's donors",
+    "gtex_original_url": "https://storage.googleapis.com/adult-gtex/bulk-gex/v8/rna-seq/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",
+    "gtex_status": "read",
+    "source_kind": "Existing committed processed medians only; no raw-expression acquisition or new estimation",
+    "native_locus_parser_path": "research/modalities/junction_aso_locus_collapse.py",
+    "native_locus_parser_git_blob": "00f486d4672040adddf715c345a67554673bd8c0"
+  },
+  "screens": [
+    {
+      "path": "research/modalities/junction-aso-offtarget-e12n3-deep500-b1.json",
+      "git_blob": "e3e3801c6c839be74cdbaec8c225582d0f93e9c9",
+      "junction_label": "EWSR1_e12__NR4A3_e3",
+      "sequence": "GGGCATATCATCAAAC",
+      "legacy_blast_rid": "7W03YWBN016",
+      "oligo_pointer": "/oligos/0",
+      "stored_near_match_records": 189,
+      "reported_near_match_records": 189,
+      "stored_list_state": "complete relative to the screen's reported stored-list count",
+      "global_blast_database_exhaustiveness": "not independently established by this audit",
+      "stored_class_read": "true_cleavage_risk (legacy heuristic label; not measured cleavage)",
+      "admitted_records": 123,
+      "minus_strand_admitted": 0,
+      "nonzero_gap_mismatches_admitted": 0,
+      "native_locus_groups": [
+        {
+          "native_locus": "ANKS1B",
+          "record_indices_in_offtargets": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            46,
+            48,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            67,
+            69,
+            71,
+            72,
+            73,
+            74,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154
+          ],
+          "cached_input_locus_pointer": "/loci/1",
+          "cached_output_locus_pointer": "/per_locus/1",
+          "exact_sequence_association_present_in_input": true,
+          "exact_sequence_association_present_in_output": true
+        },
+        {
+          "native_locus": "ZNF667",
+          "record_indices_in_offtargets": [
+            12,
+            13,
+            44,
+            64,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128
+          ],
+          "cached_input_locus_pointer": "/loci/5",
+          "cached_output_locus_pointer": "/per_locus/5",
+          "exact_sequence_association_present_in_input": true,
+          "exact_sequence_association_present_in_output": true
+        },
+        {
+          "native_locus": "CHST5",
+          "record_indices_in_offtargets": [
+            45
+          ],
+          "cached_input_locus_pointer": "/loci/38",
+          "cached_output_locus_pointer": "/per_locus/38",
+          "exact_sequence_association_present_in_input": true,
+          "exact_sequence_association_present_in_output": true
+        },
+        {
+          "native_locus": "GMCL1",
+          "record_indices_in_offtargets": [
+            47,
+            65,
+            66,
+            68,
+            109,
+            130,
+            131,
+            132,
+            133
+          ],
+          "cached_input_locus_pointer": "/loci/15",
+          "cached_output_locus_pointer": "/per_locus/15",
+          "exact_sequence_association_present_in_input": true,
+          "exact_sequence_association_present_in_output": true
+        },
+        {
+          "native_locus": "LOC105370997",
+          "record_indices_in_offtargets": [
+            52,
+            53,
+            54,
+            55
+          ],
+          "cached_input_locus_pointer": "/loci/24",
+          "cached_output_locus_pointer": "/per_locus/24",
+          "exact_sequence_association_present_in_input": true,
+          "exact_sequence_association_present_in_output": true
+        },
+        {
+          "native_locus": "LOC105374140",
+          "record_indices_in_offtargets": [
+            177,
+            178,
+            179,
+            180,
+            182
+          ],
+          "cached_input_locus_pointer": "/loci/21",
+          "cached_output_locus_pointer": "/per_locus/21",
+          "exact_sequence_association_present_in_input": true,
+          "exact_sequence_association_present_in_output": true
+        }
+      ],
+      "native_symbols_resolved_by": "Independent V8 defline parenthetical projection, compared with pinned shared native-parser grammar; compound symbols retained intact"
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e6n3-deep500-b1.json",
+      "git_blob": "02cdb69861b3cf3b9e0a41f704df4d6319c261c6",
+      "junction_label": "TAF15_e6__NR4A3_e3",
+      "sequence": "GGGCATATCTTGTGTG",
+      "legacy_blast_rid": "7W0F8E93016",
+      "oligo_pointer": "/oligos/0",
+      "stored_near_match_records": 62,
+      "reported_near_match_records": 62,
+      "stored_list_state": "complete relative to the screen's reported stored-list count",
+      "global_blast_database_exhaustiveness": "not independently established by this audit",
+      "stored_class_read": "true_cleavage_risk (legacy heuristic label; not measured cleavage)",
+      "admitted_records": 8,
+      "minus_strand_admitted": 0,
+      "nonzero_gap_mismatches_admitted": 0,
+      "native_locus_groups": [
+        {
+          "native_locus": "CA5B",
+          "record_indices_in_offtargets": [
+            12
+          ],
+          "cached_input_locus_pointer": "/loci/29",
+          "cached_output_locus_pointer": "/per_locus/29",
+          "exact_sequence_association_present_in_input": true,
+          "exact_sequence_association_present_in_output": true
+        },
+        {
+          "native_locus": "CA5BP1-CA5B",
+          "record_indices_in_offtargets": [
+            26
+          ],
+          "cached_input_locus_pointer": "/loci/30",
+          "cached_output_locus_pointer": "/per_locus/30",
+          "exact_sequence_association_present_in_input": true,
+          "exact_sequence_association_present_in_output": true
+        },
+        {
+          "native_locus": "ZFPM2",
+          "record_indices_in_offtargets": [
+            38,
+            39,
+            50,
+            51
+          ],
+          "cached_input_locus_pointer": "/loci/13",
+          "cached_output_locus_pointer": "/per_locus/13",
+          "exact_sequence_association_present_in_input": true,
+          "exact_sequence_association_present_in_output": true
+        },
+        {
+          "native_locus": "NRP1",
+          "record_indices_in_offtargets": [
+            53
+          ],
+          "cached_input_locus_pointer": "/loci/22",
+          "cached_output_locus_pointer": "/per_locus/22",
+          "exact_sequence_association_present_in_input": true,
+          "exact_sequence_association_present_in_output": true
+        },
+        {
+          "native_locus": "LOC124907518",
+          "record_indices_in_offtargets": [
+            59
+          ],
+          "cached_input_locus_pointer": "/loci/43",
+          "cached_output_locus_pointer": "/per_locus/43",
+          "exact_sequence_association_present_in_input": true,
+          "exact_sequence_association_present_in_output": true
+        }
+      ],
+      "native_symbols_resolved_by": "Independent V8 defline parenthetical projection, compared with pinned shared native-parser grammar; compound symbols retained intact"
+    }
+  ],
+  "cached_tissue_bindings": [
+    {
+      "locus": "ANKS1B",
+      "ncbi_gene_id": "56899",
+      "ncbi_name": "ANKS1B",
+      "source_gtEx_model_count": 1,
+      "exposure_readable": true,
+      "reason": null,
+      "tier": "carried from existing output; not recalculated: BELOW_DETECTION_IN_EXPOSURE_ORGANS",
+      "models": [
+        {
+          "gencode_id": "ENSG00000185046.18",
+          "source_symbol": "ANKS1B",
+          "bindings": [
+            {
+              "tissue": "Liver",
+              "column_0based": 35,
+              "cached_median_tpm": 0.0346283,
+              "recorded_median_tpm": 0.0346283
+            },
+            {
+              "tissue": "Kidney - Cortex",
+              "column_0based": 33,
+              "cached_median_tpm": 0.462038,
+              "recorded_median_tpm": 0.462038
+            },
+            {
+              "tissue": "Kidney - Medulla",
+              "column_0based": 34,
+              "cached_median_tpm": 0.276909,
+              "recorded_median_tpm": 0.276909
+            }
+          ]
+        }
+      ],
+      "exact_named_sequence_associations": [
+        "GGGCATATCATCAAAC"
+      ],
+      "input_gtex_pointer": "/arm_a_gtex/rows/ANKS1B",
+      "input_ncbi_pointer": "/arm_c_ncbi_gene/genes/ANKS1B",
+      "output_pointer": "/per_locus/1"
+    },
+    {
+      "locus": "CA5B",
+      "ncbi_gene_id": "11238",
+      "ncbi_name": "CA5B",
+      "source_gtEx_model_count": 1,
+      "exposure_readable": true,
+      "reason": null,
+      "tier": "carried from existing output; not recalculated: LOW_IN_EXPOSURE_ORGANS",
+      "models": [
+        {
+          "gencode_id": "ENSG00000169239.12",
+          "source_symbol": "CA5B",
+          "bindings": [
+            {
+              "tissue": "Liver",
+              "column_0based": 35,
+              "cached_median_tpm": 0.661929,
+              "recorded_median_tpm": 0.661929
+            },
+            {
+              "tissue": "Kidney - Cortex",
+              "column_0based": 33,
+              "cached_median_tpm": 1.57418,
+              "recorded_median_tpm": 1.57418
+            },
+            {
+              "tissue": "Kidney - Medulla",
+              "column_0based": 34,
+              "cached_median_tpm": 1.96363,
+              "recorded_median_tpm": 1.96363
+            }
+          ]
+        }
+      ],
+      "exact_named_sequence_associations": [
+        "GGGCATATCTTGTGTG"
+      ],
+      "input_gtex_pointer": "/arm_a_gtex/rows/CA5B",
+      "input_ncbi_pointer": "/arm_c_ncbi_gene/genes/CA5B",
+      "output_pointer": "/per_locus/29"
+    },
+    {
+      "locus": "CA5BP1-CA5B",
+      "ncbi_gene_id": "114004397",
+      "ncbi_name": "CA5BP1-CA5B",
+      "source_gtEx_model_count": 0,
+      "exposure_readable": false,
+      "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+      "tier": "carried from existing output; not recalculated: NOT_MEASURED",
+      "models": [],
+      "exact_named_sequence_associations": [
+        "GGGCATATCTTGTGTG"
+      ],
+      "input_gtex_pointer": null,
+      "input_ncbi_pointer": "/arm_c_ncbi_gene/genes/CA5BP1-CA5B",
+      "output_pointer": "/per_locus/30"
+    },
+    {
+      "locus": "CHST5",
+      "ncbi_gene_id": "23563",
+      "ncbi_name": "CHST5",
+      "source_gtEx_model_count": 1,
+      "exposure_readable": true,
+      "reason": null,
+      "tier": "carried from existing output; not recalculated: BELOW_DETECTION_IN_EXPOSURE_ORGANS",
+      "models": [
+        {
+          "gencode_id": "ENSG00000135702.14",
+          "source_symbol": "CHST5",
+          "bindings": [
+            {
+              "tissue": "Liver",
+              "column_0based": 35,
+              "cached_median_tpm": 0.0716532,
+              "recorded_median_tpm": 0.0716532
+            },
+            {
+              "tissue": "Kidney - Cortex",
+              "column_0based": 33,
+              "cached_median_tpm": 0.349771,
+              "recorded_median_tpm": 0.349771
+            },
+            {
+              "tissue": "Kidney - Medulla",
+              "column_0based": 34,
+              "cached_median_tpm": 0.77725,
+              "recorded_median_tpm": 0.77725
+            }
+          ]
+        }
+      ],
+      "exact_named_sequence_associations": [
+        "GGGCATATCATCAAAC"
+      ],
+      "input_gtex_pointer": "/arm_a_gtex/rows/CHST5",
+      "input_ncbi_pointer": "/arm_c_ncbi_gene/genes/CHST5",
+      "output_pointer": "/per_locus/38"
+    },
+    {
+      "locus": "GMCL1",
+      "ncbi_gene_id": "64395",
+      "ncbi_name": "GMCL1",
+      "source_gtEx_model_count": 1,
+      "exposure_readable": true,
+      "reason": null,
+      "tier": "carried from existing output; not recalculated: LOW_IN_EXPOSURE_ORGANS",
+      "models": [
+        {
+          "gencode_id": "ENSG00000087338.4",
+          "source_symbol": "GMCL1",
+          "bindings": [
+            {
+              "tissue": "Liver",
+              "column_0based": 35,
+              "cached_median_tpm": 4.51723,
+              "recorded_median_tpm": 4.51723
+            },
+            {
+              "tissue": "Kidney - Cortex",
+              "column_0based": 33,
+              "cached_median_tpm": 4.98156,
+              "recorded_median_tpm": 4.98156
+            },
+            {
+              "tissue": "Kidney - Medulla",
+              "column_0based": 34,
+              "cached_median_tpm": 6.72472,
+              "recorded_median_tpm": 6.72472
+            }
+          ]
+        }
+      ],
+      "exact_named_sequence_associations": [
+        "GGGCATATCATCAAAC"
+      ],
+      "input_gtex_pointer": "/arm_a_gtex/rows/GMCL1",
+      "input_ncbi_pointer": "/arm_c_ncbi_gene/genes/GMCL1",
+      "output_pointer": "/per_locus/15"
+    },
+    {
+      "locus": "LOC105370997",
+      "ncbi_gene_id": "105370997",
+      "ncbi_name": "LOC105370997",
+      "source_gtEx_model_count": 0,
+      "exposure_readable": false,
+      "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+      "tier": "carried from existing output; not recalculated: NOT_MEASURABLE_UNCHARACTERISED",
+      "models": [],
+      "exact_named_sequence_associations": [
+        "GGGCATATCATCAAAC"
+      ],
+      "input_gtex_pointer": null,
+      "input_ncbi_pointer": "/arm_c_ncbi_gene/genes/LOC105370997",
+      "output_pointer": "/per_locus/24"
+    },
+    {
+      "locus": "LOC105374140",
+      "ncbi_gene_id": "105374140",
+      "ncbi_name": "LOC105374140",
+      "source_gtEx_model_count": 0,
+      "exposure_readable": false,
+      "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+      "tier": "carried from existing output; not recalculated: NOT_MEASURABLE_UNCHARACTERISED",
+      "models": [],
+      "exact_named_sequence_associations": [
+        "GGGCATATCATCAAAC"
+      ],
+      "input_gtex_pointer": null,
+      "input_ncbi_pointer": "/arm_c_ncbi_gene/genes/LOC105374140",
+      "output_pointer": "/per_locus/21"
+    },
+    {
+      "locus": "LOC124907518",
+      "ncbi_gene_id": "124907518",
+      "ncbi_name": "LOC124907518",
+      "source_gtEx_model_count": 0,
+      "exposure_readable": false,
+      "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+      "tier": "carried from existing output; not recalculated: NOT_MEASURABLE_UNCHARACTERISED",
+      "models": [],
+      "exact_named_sequence_associations": [
+        "GGGCATATCTTGTGTG"
+      ],
+      "input_gtex_pointer": null,
+      "input_ncbi_pointer": "/arm_c_ncbi_gene/genes/LOC124907518",
+      "output_pointer": "/per_locus/43"
+    },
+    {
+      "locus": "NRP1",
+      "ncbi_gene_id": "8829",
+      "ncbi_name": "NRP1",
+      "source_gtEx_model_count": 1,
+      "exposure_readable": true,
+      "reason": null,
+      "tier": "carried from existing output; not recalculated: EXPRESSED_IN_AN_EXPOSURE_ORGAN",
+      "models": [
+        {
+          "gencode_id": "ENSG00000099250.17",
+          "source_symbol": "NRP1",
+          "bindings": [
+            {
+              "tissue": "Liver",
+              "column_0based": 35,
+              "cached_median_tpm": 6.61972,
+              "recorded_median_tpm": 6.61972
+            },
+            {
+              "tissue": "Kidney - Cortex",
+              "column_0based": 33,
+              "cached_median_tpm": 16.8686,
+              "recorded_median_tpm": 16.8686
+            },
+            {
+              "tissue": "Kidney - Medulla",
+              "column_0based": 34,
+              "cached_median_tpm": 17.8143,
+              "recorded_median_tpm": 17.8143
+            }
+          ]
+        }
+      ],
+      "exact_named_sequence_associations": [
+        "GGGCATATCTTGTGTG"
+      ],
+      "input_gtex_pointer": "/arm_a_gtex/rows/NRP1",
+      "input_ncbi_pointer": "/arm_c_ncbi_gene/genes/NRP1",
+      "output_pointer": "/per_locus/22"
+    },
+    {
+      "locus": "ZFPM2",
+      "ncbi_gene_id": "23414",
+      "ncbi_name": "ZFPM2",
+      "source_gtEx_model_count": 1,
+      "exposure_readable": true,
+      "reason": null,
+      "tier": "carried from existing output; not recalculated: BELOW_DETECTION_IN_EXPOSURE_ORGANS",
+      "models": [
+        {
+          "gencode_id": "ENSG00000169946.13",
+          "source_symbol": "ZFPM2",
+          "bindings": [
+            {
+              "tissue": "Liver",
+              "column_0based": 35,
+              "cached_median_tpm": 0.644009,
+              "recorded_median_tpm": 0.644009
+            },
+            {
+              "tissue": "Kidney - Cortex",
+              "column_0based": 33,
+              "cached_median_tpm": 0.550288,
+              "recorded_median_tpm": 0.550288
+            },
+            {
+              "tissue": "Kidney - Medulla",
+              "column_0based": 34,
+              "cached_median_tpm": 0.402817,
+              "recorded_median_tpm": 0.402817
+            }
+          ]
+        }
+      ],
+      "exact_named_sequence_associations": [
+        "GGGCATATCTTGTGTG"
+      ],
+      "input_gtex_pointer": "/arm_a_gtex/rows/ZFPM2",
+      "input_ncbi_pointer": "/arm_c_ncbi_gene/genes/ZFPM2",
+      "output_pointer": "/per_locus/13"
+    },
+    {
+      "locus": "ZNF667",
+      "ncbi_gene_id": "63934",
+      "ncbi_name": "ZNF667",
+      "source_gtEx_model_count": 1,
+      "exposure_readable": true,
+      "reason": null,
+      "tier": "carried from existing output; not recalculated: LOW_IN_EXPOSURE_ORGANS",
+      "models": [
+        {
+          "gencode_id": "ENSG00000198046.11",
+          "source_symbol": "ZNF667",
+          "bindings": [
+            {
+              "tissue": "Liver",
+              "column_0based": 35,
+              "cached_median_tpm": 0.312814,
+              "recorded_median_tpm": 0.312814
+            },
+            {
+              "tissue": "Kidney - Cortex",
+              "column_0based": 33,
+              "cached_median_tpm": 1.62683,
+              "recorded_median_tpm": 1.62683
+            },
+            {
+              "tissue": "Kidney - Medulla",
+              "column_0based": 34,
+              "cached_median_tpm": 2.57697,
+              "recorded_median_tpm": 2.57697
+            }
+          ]
+        }
+      ],
+      "exact_named_sequence_associations": [
+        "GGGCATATCATCAAAC"
+      ],
+      "input_gtex_pointer": "/arm_a_gtex/rows/ZNF667",
+      "input_ncbi_pointer": "/arm_c_ncbi_gene/genes/ZNF667",
+      "output_pointer": "/per_locus/5"
+    }
+  ],
+  "direct_binding_results": {
+    "admitted_record_occurrences": 131,
+    "native_loci": 11,
+    "source_identity_differences": 0,
+    "minus_strand_admission_differences": 0,
+    "stored_gap_mismatch_differences": 0,
+    "native_locus_association_differences": 0,
+    "cached_native_ncbi_identity_differences": 0,
+    "existing_model_tissue_value_bindings": 21,
+    "cached_model_tissue_value_differences": 0,
+    "exposure_readable_native_loci": 7,
+    "unreadable_native_loci": [
+      "CA5BP1-CA5B",
+      "LOC105370997",
+      "LOC105374140",
+      "LOC124907518"
+    ],
+    "note": "Counts refer to these two sequence records only. The existing full tissue artifact covers a broader multi-register/multi-seam panel; its aggregate counts were not replaced or interpreted as two-molecule counts."
+  },
+  "actual_current_execution": {
+    "runtime": "V8 tool-orchestration isolate; no attached shell",
+    "performed": "Read-only independent source-field/defline/group and direct cached median-binding comparisons",
+    "python_tests": "not executed anew; historical matching full receipt reused",
+    "existing_test_function_count": 25,
+    "expression_kernel": "not run",
+    "alignment_or_gap_heuristic_rescoring": "not run",
+    "source_rescreen_or_public_acquisition": "not run",
+    "normal_fast_preflight": "pending committed operational checkpoint"
+  },
+  "limitations": [
+    "Stored lists match reported near-match counts; this alone does not certify all BLAST database retrieval/search sensitivity",
+    "Legacy risk labels are stored heuristic classifications, not measured RNase-H activity",
+    "Existing cached GTEx medians describe genes and normal tissues, not EMC treatment effect or reagent hazard",
+    "Missing cached models remain unreadable and are not zero expression or safety",
+    "Native compound CA5BP1-CA5B is distinct from CA5B and remains unreadable in the retrieved GTEx cache",
+    "No independent clinical/safety/efficacy or specimen-validation claim is made"
+  ],
+  "independent_review": {
+    "status": "pending root source/method/prose check",
+    "reviewer": "coordinating /root agent"
+  },
+  "ownership": {
+    "ledger_git_blob": "79983403fd38d9ec5be3533bcf91b3af36c2657b",
+    "entries": 415,
+    "non_null_owners": 0,
+    "legacy_driver": "disabled",
+    "not_legacy_remote_claim": true
+  },
+  "next_step": "Reopen only for changed pinned source/input or an independently demonstrated current join/completeness defect. This finite audit starts no second task; coordinator selects the next separate protocol priority.",
+  "preserved": "All scientific generators/results, frozen/deposited paper, preregistrations, seven exclusions, unknown overlap/independence, review seats, queue/fleet owners, categorical no-GPU instruction and publication enforcers remain unchanged."
+}
