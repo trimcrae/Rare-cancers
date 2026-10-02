@@ -1,3 +1,5 @@
+> Historical initial-screen record. Its shortlist/prospective status is superseded by the [executed 45-option ledger](ALL45-EXECUTED-STATUS.md), [current ranking](RANKING.md), [manuscript index](MANUSCRIPT-INDEX.md) and [final validation](validation-summary.json). Earlier numerical/provenance labels must be read in their original scope; current source qualifications and exact draft bindings are in the final package.
+
 # Publication contribution and editorial readiness
 
 This is an author-review package. Internal contribution judgments and exact-draft reviews are not journal acceptance estimates or submission clearance. The research question must survive a focused prior-art check, and a candidate venue's current article type and eligibility must be verified before tailoring.
