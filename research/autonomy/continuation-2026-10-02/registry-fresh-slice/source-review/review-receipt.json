@@ -1,0 +1,99 @@
+{
+  "schema": "independent-actual-metadata-frame-review/1",
+  "status": "passed",
+  "completedUTC": "2026-10-02T21:37:34.924490+00:00",
+  "owner": "/root/registry_exposure_audit",
+  "archiveSHA256": "7c6ffad5d0807abcf344b4de1c9a837eaab324f12ea087c63890dc6d6204e99e",
+  "receiptSHA256": "69fa7a16e5178315df8080b396482537f28bc7bf1bbe657308963bcc5e3cf47c",
+  "scriptSHA256": "4b2929e5b4f063e2b7b017e75871609ed6c41becc3c26f7b3c764e8b58ac7ffb",
+  "executionRevision": "ab765336689e46f3dce7870824315545ca6c6c91",
+  "runId": "37067615876",
+  "pages": [
+    {
+      "index": 0,
+      "records": 10,
+      "bytes": 15503,
+      "sha256": "3742b9a44e98d8685f75c883618cb4a7c919a2702b01b6739fa372fd310f8e25",
+      "minDate": "2026-09-01",
+      "maxDate": "2026-09-02"
+    },
+    {
+      "index": 1,
+      "records": 10,
+      "bytes": 14894,
+      "sha256": "da9a8e3d19843f3615163c55b65549b6d56409fbbbd13dc61c260d64f4b66473",
+      "minDate": "2026-09-02",
+      "maxDate": "2026-09-04"
+    },
+    {
+      "index": 2,
+      "records": 10,
+      "bytes": 16055,
+      "sha256": "9bc9a08e22f849027c5bc8af8d15cea11590d55686bd3d9ee815d1194ded95a0",
+      "minDate": "2026-09-04",
+      "maxDate": "2026-09-10"
+    }
+  ],
+  "recordsValidated": 30,
+  "rawBytes": 46452,
+  "exclusions": 148,
+  "excludedObserved": 10,
+  "candidates": 20,
+  "selected": [
+    {
+      "nctId": "NCT01261728",
+      "date": "2026-09-02"
+    },
+    {
+      "nctId": "NCT03179917",
+      "date": "2026-09-02"
+    },
+    {
+      "nctId": "NCT03502785",
+      "date": "2026-09-02"
+    },
+    {
+      "nctId": "NCT05237960",
+      "date": "2026-09-02"
+    },
+    {
+      "nctId": "NCT05968846",
+      "date": "2026-09-02"
+    },
+    {
+      "nctId": "NCT03674567",
+      "date": "2026-09-03"
+    },
+    {
+      "nctId": "NCT04246177",
+      "date": "2026-09-03"
+    },
+    {
+      "nctId": "NCT05081882",
+      "date": "2026-09-03"
+    },
+    {
+      "nctId": "NCT05599360",
+      "date": "2026-09-03"
+    },
+    {
+      "nctId": "NCT03386513",
+      "date": "2026-09-04"
+    }
+  ],
+  "cutoffDate": "2026-09-04",
+  "cutoffTieObservedCount": 7,
+  "laterDateEvidence": "2026-09-08",
+  "allFetchedRecordsValidated": true,
+  "metadataProjectionsMatch": true,
+  "noOutcomeModulesInActualSource": true,
+  "noHTTPCallsByReviewer": true,
+  "classifierInvocations": 0,
+  "scope": "Actual archived raw pages independently parsed and selections recomputed; no production acquisition or selection code imported/executed. Source receipt compared to raw bytes, exact archived freeze and exclusions.",
+  "limitations": [
+    "Observed acquisition-time metadata frame, not atomic database snapshot; undetected insertion/update drift and global completeness cannot be certified.",
+    "148-ID disjointness is against the frozen documented exclusion ledger, not all historical retrievals or model training.",
+    "Archive and timestamp consistency does not independently authenticate server origin or historical commit time.",
+    "No outcomes acquired or examined; no semantic evaluation or classifier accuracy claim."
+  ]
+}

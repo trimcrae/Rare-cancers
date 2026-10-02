@@ -1,0 +1,38 @@
+{
+  "revision": "ab765336689e46f3dce7870824315545ca6c6c91",
+  "run_id": "37067615876",
+  "python": "3.12.3",
+  "scope": "Metadata acquisition only; no outcomes, oracle or classifier invocation",
+  "started_utc": "2026-10-02T21:34:28.992505+00:00",
+  "steps": [
+    {
+      "name": "selection-verification",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/runner/work/_temp/registry-fresh-metadata/synthetic/checkpoint08-registry-selection-review/verify_independent.py"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "seconds": 1.0160945370000007
+    },
+    {
+      "name": "metadata",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-fresh-slice/acquisition/acquire_metadata.py",
+        "--output-dir",
+        "/home/runner/work/_temp/registry-fresh-metadata/source",
+        "--exclusion-file",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-fresh-slice/exposure/exclusion-ledger.json"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "seconds": 0.5649882830000053
+    }
+  ],
+  "free_bytes": 92399996928,
+  "status": "completed",
+  "finished_utc": "2026-10-02T21:34:30.575834+00:00"
+}
