@@ -23,4 +23,22 @@ class WrapperTests(unittest.TestCase):
         assigned=prediction_view({'status':'assigned','criteriaVersion':'1.1','mentions':[{'explicitAssessmentContext':True,'baseName':'RECIST','modifier':'modified'}]})
         self.assertEqual(assigned,{'status':'assigned','family':'RECIST','version':'1.1','modifier':'modified'})
 
+    def test_absent_leaf_distinct_from_present_null(self):
+        document={'outcome':{'presentNull':None}}
+        verify_oracle_evidence({'pointer':'/outcome/absent','value':None,'sourceFieldPresent':False},document)
+        verify_oracle_evidence({'pointer':'/outcome/presentNull','value':None},document)
+        verify_oracle_evidence({'pointer':'/outcome/presentNull','value':None,'sourceFieldPresent':True},document)
+        with self.assertRaises(KeyError):
+            verify_oracle_evidence({'pointer':'/outcome/absent','value':None},document)
+
+    def test_invalid_absence_assertions_fail(self):
+        document={'outcome':{'presentNull':None,'presentValue':3}}
+        for name in ('presentNull','presentValue'):
+            with self.assertRaises(ValueError):
+                verify_oracle_evidence({'pointer':'/outcome/'+name,'value':None,'sourceFieldPresent':False},document)
+        with self.assertRaises(KeyError):
+            verify_oracle_evidence({'pointer':'/missingParent/leaf','value':None,'sourceFieldPresent':False},document)
+        with self.assertRaises(ValueError):
+            verify_oracle_evidence({'pointer':'/outcome/absent','value':1,'sourceFieldPresent':False},document)
+
 if __name__=='__main__': unittest.main()

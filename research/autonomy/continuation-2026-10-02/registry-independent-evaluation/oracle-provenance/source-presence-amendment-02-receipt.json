@@ -1,0 +1,55 @@
+{
+  "schema": "blind-oracle-mechanical-amendment-receipt/1",
+  "createdUTC": "2026-10-02T17:47:55.286283+00:00",
+  "inputs": [
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint05-registry\\api-response.json",
+      "sha256": "d20367d3d14f99716b20309ee8bed1cebe4b6a1270077fc0ac234a4cc5b91fa6",
+      "bytes": 235396
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint05-registry-oracle\\oracle.json",
+      "sha256": "302ba913bdebe23f312f7cdb674b34af79ed4b7a4b8c0b57f3695c8794e6af6e",
+      "bytes": 131860
+    },
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint05-registry-oracle\\offset-amendment-01.json",
+      "sha256": "8977179a2c54afefa75e05e8a1fba87fa965526dd36998b6609833a67109bcb3",
+      "bytes": 684
+    }
+  ],
+  "outputs": [
+    {
+      "path": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint05-registry-oracle\\source-presence-amendment-02.json",
+      "sha256": "086d974d984f56ebb1690aa05f245b5db39ecac4e96b038b40ab3a2737e010a1",
+      "bytes": 2080
+    }
+  ],
+  "audit": {
+    "evidenceObjectsChecked": 200,
+    "additionalSourceReferencesChecked": 82,
+    "missingLeafEvidenceObjects": 2,
+    "missingParentPointers": 0,
+    "presentNullEvidenceObjects": [],
+    "literalAndValueMismatchesAfterPriorOffsetAmendment": 0,
+    "affectedPointers": [
+      {
+        "oracleEvidenceObjectPointer": "/outcomes/60/sourceContext/populationDescription",
+        "sourcePointer": "/studies/8/resultsSection/outcomeMeasuresModule/outcomeMeasures/0/populationDescription",
+        "sourceParentExists": true,
+        "sourceLeafExists": false,
+        "oracleValueIsNullPlaceholder": true
+      },
+      {
+        "oracleEvidenceObjectPointer": "/outcomes/60/sourceContext/dispersionType",
+        "sourcePointer": "/studies/8/resultsSection/outcomeMeasuresModule/outcomeMeasures/0/dispersionType",
+        "sourceParentExists": true,
+        "sourceLeafExists": false,
+        "oracleValueIsNullPlaceholder": true
+      }
+    ],
+    "classifiersReadOrExecuted": false
+  },
+  "originalOracleUnchanged": true,
+  "priorOffsetAmendmentUnchanged": true
+}

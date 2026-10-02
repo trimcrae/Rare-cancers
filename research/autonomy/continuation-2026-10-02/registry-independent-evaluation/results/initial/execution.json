@@ -1,0 +1,42 @@
+{
+  "revision": "d27ceef675072b384e99a1eacc6061e1f6a665ac",
+  "run_id": "37042765466",
+  "python": "3.12.3",
+  "steps": [
+    {
+      "name": "tests",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "-v",
+        "test_wrapper.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.08993777399999203
+    },
+    {
+      "name": "evaluation",
+      "command": [
+        "python3",
+        "evaluate.py",
+        "--source",
+        "/home/runner/work/_temp/registry-independent/inputs/api-response.json",
+        "--oracle",
+        "/home/runner/work/_temp/registry-independent/inputs/oracle.json",
+        "--offset-amendment",
+        "/home/runner/work/_temp/registry-independent/inputs/offset-amendment-01.json",
+        "--oracle-sha256",
+        "302ba913bdebe23f312f7cdb674b34af79ed4b7a4b8c0b57f3695c8794e6af6e",
+        "--extractor",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry/registry_literal_extractor.py",
+        "--companion",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-family-companion/family_companion.py",
+        "--out",
+        "/home/runner/work/_temp/registry-independent/results"
+      ],
+      "exit_code": 1,
+      "seconds": 0.19904813900001272
+    }
+  ]
+}

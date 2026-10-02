@@ -1,0 +1,48 @@
+{
+  "schema": "blind-oracle-source-presence-amendment/1",
+  "createdUTC": "2026-10-02T17:47:55.286283+00:00",
+  "originalOracleSHA256": "302ba913bdebe23f312f7cdb674b34af79ed4b7a4b8c0b57f3695c8794e6af6e",
+  "priorAmendmentSHA256": "8977179a2c54afefa75e05e8a1fba87fa965526dd36998b6609833a67109bcb3",
+  "sourceSHA256": "d20367d3d14f99716b20309ee8bed1cebe4b6a1270077fc0ac234a4cc5b91fa6",
+  "reason": "Pre-prediction binding audit distinguishes absent optional source fields from actual null fields. Original values were null placeholders; only explicit absence metadata is added. All semantic labels and reasons remain unchanged.",
+  "changes": [
+    {
+      "operation": "add",
+      "oraclePointer": "/outcomes/60/sourceContext/populationDescription/sourceFieldPresent",
+      "oldAbsent": true,
+      "new": false
+    },
+    {
+      "operation": "add",
+      "oraclePointer": "/outcomes/60/sourceContext/dispersionType/sourceFieldPresent",
+      "oldAbsent": true,
+      "new": false
+    }
+  ],
+  "semanticLabelsChanged": false,
+  "audit": {
+    "evidenceObjectsChecked": 200,
+    "additionalSourceReferencesChecked": 82,
+    "missingLeafEvidenceObjects": 2,
+    "missingParentPointers": 0,
+    "presentNullEvidenceObjects": [],
+    "literalAndValueMismatchesAfterPriorOffsetAmendment": 0,
+    "affectedPointers": [
+      {
+        "oracleEvidenceObjectPointer": "/outcomes/60/sourceContext/populationDescription",
+        "sourcePointer": "/studies/8/resultsSection/outcomeMeasuresModule/outcomeMeasures/0/populationDescription",
+        "sourceParentExists": true,
+        "sourceLeafExists": false,
+        "oracleValueIsNullPlaceholder": true
+      },
+      {
+        "oracleEvidenceObjectPointer": "/outcomes/60/sourceContext/dispersionType",
+        "sourcePointer": "/studies/8/resultsSection/outcomeMeasuresModule/outcomeMeasures/0/dispersionType",
+        "sourceParentExists": true,
+        "sourceLeafExists": false,
+        "oracleValueIsNullPlaceholder": true
+      }
+    ],
+    "classifiersReadOrExecuted": false
+  }
+}

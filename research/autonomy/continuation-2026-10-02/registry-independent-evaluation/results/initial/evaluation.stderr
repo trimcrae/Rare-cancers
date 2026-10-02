@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-independent-evaluation/evaluate.py", line 173, in <module>
+    evaluate(p.parse_args())
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-independent-evaluation/evaluate.py", line 108, in evaluate
+    verify_oracle_evidence(item, document)
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-independent-evaluation/evaluate.py", line 52, in verify_oracle_evidence
+    for child in value.values(): verify_oracle_evidence(child, document)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-independent-evaluation/evaluate.py", line 52, in verify_oracle_evidence
+    for child in value.values(): verify_oracle_evidence(child, document)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-independent-evaluation/evaluate.py", line 46, in verify_oracle_evidence
+    actual = pointer(document, value['pointer'])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/registry-independent-evaluation/literal_audit.py", line 16, in pointer
+    value = value[int(token)] if isinstance(value, list) else value[token]
+                                                              ~~~~~^^^^^^^
+KeyError: 'populationDescription'

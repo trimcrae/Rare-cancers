@@ -45,7 +45,7 @@ jobs:
               (base/"execution.json").write_text(json.dumps(receipt,indent=2)+"\n")
               if r.returncode:raise SystemExit(r.returncode)
           run("tests",["python3","-m","unittest","-v","test_wrapper.py"])
-          run("evaluation",["python3","evaluate.py","--source",str(inputs/"api-response.json"),"--oracle",str(inputs/"oracle.json"),"--offset-amendment",str(inputs/"offset-amendment-01.json"),"--oracle-sha256","302ba913bdebe23f312f7cdb674b34af79ed4b7a4b8c0b57f3695c8794e6af6e","--extractor",str(code.parent/"registry"/"registry_literal_extractor.py"),"--companion",str(code.parent/"registry-family-companion"/"family_companion.py"),"--out",str(base/"results")])
+          run("evaluation",["python3","evaluate.py","--source",str(inputs/"api-response.json"),"--oracle",str(inputs/"oracle.json"),"--offset-amendment",str(inputs/"offset-amendment-01.json"),"--presence-amendment",str(code/"source-presence-amendment-02.json"),"--oracle-sha256","302ba913bdebe23f312f7cdb674b34af79ed4b7a4b8c0b57f3695c8794e6af6e","--extractor",str(code.parent/"registry"/"registry_literal_extractor.py"),"--companion",str(code.parent/"registry-family-companion"/"family_companion.py"),"--out",str(base/"results")])
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
