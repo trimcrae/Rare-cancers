@@ -53,7 +53,7 @@ AI assistance was used for analysis-code preparation, evidence organization, man
 
 Class agreement remained high across partitions, but Brier scores were more sensitive to partition design (Table 1). With the original training sizes, the supplier-minus-sample Brier difference was 0.0803 (descriptive interval 0.0454–0.1162). After matching class-specific training budgets, it was 0.0211 (0.0084–0.0367). The matched chip-minus-sample difference was 0.0102 (0.0011–0.0193). Thus the supplier comparison depended substantially on training support in this fixed subsampling realization. Matching changed training composition and feature selection as well as class counts; it does not isolate an effect of sample number alone. The remaining difference cannot isolate a technical batch effect from biological or referral differences.
 
-Table 1. Fixed evaluation panel: 658 profiles in 23 classes. Agreement is with source class labels; Brier score uses the class-sum convention. Values are descriptive point estimates. Source: Online Resource 2, table-1.csv and its linked frozen grouped result.
+Table 1. Fixed evaluation panel: 658 profiles in 23 classes. Agreement is with source class labels; Brier score uses the class-sum convention. Values are descriptive point estimates. Source: Online Resource 2, expected-tables/table-1.csv and its linked frozen grouped result.
 
 | Training support | Partition | Agreement (%) | Brier score |
 |---|---|---:|---:|
@@ -72,7 +72,7 @@ The fitted temperature was 0.3115. Across all 428 validation profiles, our maxim
 
 In the fusion-compatible subset, both algorithms agreed with the compatible label in 117 of 120 profiles (97.5%). Their threshold behavior differed (Table 2). The transformation increased assignments from 44 to 115 and included one discordant prediction. These are concordance and assignment counts, not independent diagnostic-accuracy estimates.
 
-Table 2. Threshold assignments among 120 profiles with explicit fusion-compatible labels. Each method uses a numerical threshold of 0.9 on its own score scale. Source: Online Resource 2, table-2.csv and its linked frozen fusion result.
+Table 2. Threshold assignments among 120 profiles with explicit fusion-compatible labels. Each method uses a numerical threshold of 0.9 on its own score scale. Source: Online Resource 2, expected-tables/table-2.csv and its linked frozen fusion result.
 
 | Scores | Assigned profiles | Assigned concordant | Assigned discordant |
 |---|---:|---:|---:|
