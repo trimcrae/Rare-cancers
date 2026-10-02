@@ -1,0 +1,87 @@
+{
+  "submission_ready": false,
+  "candidate_revision": "2f5b52308fb2578b5de8de4239959906d4f486a0",
+  "article_format": "Virchows Archiv Original Article, subscription route; editorial fit remains a judgment",
+  "completed": [
+    {
+      "item": "Original independent scientific ultra review and two resolved findings",
+      "evidence": [
+        "focused-package-review.json",
+        "recovered-ultra-configuration.json"
+      ],
+      "limit": "Review applies to retained original science; focused editorial/package bridge is not a new whole-paper review"
+    },
+    {
+      "item": "Frozen archive integrity and reproducibility",
+      "evidence": [
+        "../tables/verification.json",
+        "../online-resource-2.zip"
+      ],
+      "limit": "66 inputs, table export and fixed-loss reaggregation; no forest refit or new external prediction"
+    },
+    {
+      "item": "Current official venue requirements, references and source licenses",
+      "evidence": [
+        "../venue-requirements.md",
+        "../citation-source-checks.json"
+      ],
+      "limit": "Instructions checked 2026-10-02; metadata and declarations incomplete"
+    },
+    {
+      "item": "Editable documents and PDF supplement built and fully inspected",
+      "evidence": [
+        "final-render-receipt.json",
+        "final-visual-review.json"
+      ],
+      "limit": "Author edits will need focused revalidation"
+    },
+    {
+      "item": "Normal/default repository preflight",
+      "evidence": [
+        "final-preflight/emc-default-preflight.exit",
+        "final-preflight/emc-default-preflight.log",
+        "final-actions-run.json"
+      ],
+      "limit": "Fast document/artifact linters only at candidate revision; pytest explicitly skipped, not FULL"
+    }
+  ],
+  "pending": [
+    {
+      "item": "Author information and declarations",
+      "owner": "author",
+      "details": "Affiliation or unaffiliated location; correspondence email; optional ORCID; final author list/contributions; applicable ethics/consent determination; final approval; exclusivity/prior dissemination confirmation"
+    },
+    {
+      "item": "Canonical publication integration",
+      "owner": "authorized integration writer after venue/author decisions",
+      "details": "Declare manuscript, supplement and code deliverables with actual renderer and endpoint in the canonical publication system; bind valid reviews/readability to exact candidate hashes. This preparation branch has not modified shared graph or campaign state."
+    },
+    {
+      "item": "Applicable final publication gates",
+      "owner": "authorized integration checkpoint",
+      "details": "scripts/preflight.sh with PREFLIGHT_FULL=1 and actual publish_bar evaluation for the settled registered candidate; not automatically run in this task. The current normal tier does not satisfy preflight_full_green."
+    }
+  ],
+  "publish_bar_clauses_inspected": [
+    "hardening_converged",
+    "preflight_full_green",
+    "claim_ceiling_honoured",
+    "identifiers_resolvable",
+    "endpoint_declared",
+    "readable_enough_to_review",
+    "independent_adversarial_seat",
+    "deliverable_is_buildable"
+  ],
+  "publish_bar_executed": false,
+  "scientific_limitations_retained": [
+    "Fixed training subsample; conditional bootstrap intervals",
+    "Epsilon-sensitive log-loss direction",
+    "Profile versus equal-class weighting disagreement",
+    "Selected, non-blinded author annotations; no pre-inspection freeze claim",
+    "External820-versus821 denominator unresolved",
+    "Array separation does not establish patient independence",
+    "No external-cohort prediction, EMC sensitivity estimate or clinical validation"
+  ],
+  "running": [],
+  "submission_or_outreach": false
+}
