@@ -2,10 +2,10 @@ Foundation source-identity correction — offline reproducibility
 
 This package reuses fixed evidence from trimcrae/Rare-cancers revision
 5d2f2e2116f43c0bb56a46120902a1332f27720b. No primary extraction was repeated
-for publication preparation. Original primary confirmation: run37035103326,
-revision83e0fb5348fe41b1747970d6346c6f3b19a3b5ea, passed.
+for publication preparation. Original primary confirmation: run 37035103326,
+revision 83e0fb5348fe41b1747970d6346c6f3b19a3b5ea, passed.
 
-Start in the extracted package directory, using Python3.9 or newer:
+Start in the extracted package directory, using Python 3.9 or newer:
     python verify_package.py
 
 This checks the outer package manifest and all original archive members. It
@@ -19,7 +19,7 @@ Use a new scratch directory; these commands must not overwrite previous output.
 
 Expected recovered TSV SHA-256:
 2c910856e5e483c3774af5d0192b6118536f368aade8f05960bb123014a20184
-The recovery uses Python's standard library. Non-ID fields and all564 literal
+The recovery uses Python's standard library. Non-ID fields and all 564 literal
 N/A tokens must be preserved. The mapping assumes retained event order.
 
 An optional independent workbook check requires xlrd==2.0.2, in addition to Python:

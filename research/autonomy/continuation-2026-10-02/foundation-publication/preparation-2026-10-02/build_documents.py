@@ -32,6 +32,9 @@ def build(name):
     sec.top_margin=sec.bottom_margin=Inches(0.8);sec.left_margin=sec.right_margin=Inches(0.8)
     for style in ['Normal','Title','Heading 1','Heading 2','Heading 3']:
         s=doc.styles[style];s.font.name='Times New Roman';s.font.color.rgb=RGBColor(0,0,0)
+        fonts=s.element.get_or_add_rPr().find(qn('w:rFonts'))
+        for attr in ['asciiTheme','hAnsiTheme','eastAsiaTheme','cstheme','csTheme']:
+            fonts.attrib.pop(qn('w:'+attr),None)
         s.font.size=Pt(11)
         s.paragraph_format.space_after=Pt(6)
         s.paragraph_format.line_spacing=1.08
@@ -41,7 +44,10 @@ def build(name):
         doc.styles[heading].paragraph_format.space_before=Pt(9)
         doc.styles[heading].paragraph_format.keep_with_next=True
     footer=sec.footer.paragraphs[0];footer.alignment=WD_ALIGN_PARAGRAPH.CENTER
-    run=footer.add_run();fld=OxmlElement('w:fldSimple');fld.set(qn('w:instr'),'PAGE');run._r.append(fld)
+    fld=OxmlElement('w:fldSimple');fld.set(qn('w:instr'),'PAGE');footer._p.append(fld)
+    # The bundled default template can carry a blue title rule: remove inherited borders.
+    for border in list(doc.styles.element.xpath('.//w:pBdr')):
+        border.getparent().remove(border)
     lines=md.splitlines();i=0;plain=[]
     while i<len(lines):
         line=lines[i].strip();i+=1
@@ -75,6 +81,7 @@ def build(name):
             else:p=doc.add_paragraph();text=line
             inline(p,text)
             if line.startswith('**Table'):p.paragraph_format.keep_with_next=True
+            if name=='online-resource-1' and text=='Licences and attribution':p.paragraph_format.page_break_before=True
             plain.append(re.sub(r'\[([^\]]+)\]\([^)]+\)',r'\1',text).replace('**','').replace('`',''))
     doc.core_properties.author='Tristan D. McRae'
     doc.core_properties.title=plain[0]

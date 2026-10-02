@@ -34,7 +34,7 @@ The optional offline reproduction commands in README.txt restore the source IDs 
 
 ## Existing result and annotation records
 
-The independent check confirmed 3, 771 source mappings and 3, 771 corrected identifiers, 3, 770 original-ID disagreements, 7,494 clinical profiles and 3,182 distinct source identifiers among rearrangement events. The source EMC group has 75 profiles and 76 events; selecting with its original identifiers in the faulty export returns 28 events from other source records and zero source EMC events.
+The independent check confirmed 3,771 source mappings and 3,771 corrected identifiers, 3,770 original-ID disagreements, 7,494 clinical profiles and 3,182 distinct source identifiers among rearrangement events. The source EMC group has 75 profiles and 76 events; selecting with its original identifiers in the faulty export returns 28 events from other source records and zero source EMC events.
 
 Fifteen literal gene-pair differences are retained separately. Current HGNC alias/previous-symbol evidence supports 12 events. Two date-formatted spreadsheet cells do not establish intended genes; AKAP2/PALM2AKAP2 remains a distinct-record issue. No gene annotation is silently repaired.
 
