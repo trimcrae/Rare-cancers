@@ -33,7 +33,7 @@
       "requirement": "Journal publication authority is refused by this enforcer. User separately prohibits submission,posting,outreach and public-record modifications."
     }
   ],
-  "normal_validation": "Pending single normal/default run on this settled package commit; no FULL/modalities flags.",
+  "normal_validation": "Pending bounded retry after schema metadata repair; initial failed run and cleanup-triggered cancellation preserved. Default only, no FULL or modalities execution flags.",
   "protocol_drift": {
     "local_main_revision": "3d550114538a1545e1eab03e1a93f69566da47de",
     "local_rule": "September5 actual-model/ultra execution evidence required before submission readiness.",
@@ -52,6 +52,7 @@
     "Review actual subscription agreement and third-party carve-outs before signing"
   ],
   "publication_permission": "No submission,preprint posting,outreach,PR or public-record correction permitted by this task.",
-  "focused_review": "review/focused-final.json: pass; all three package findings resolved; baseline science reused.",
-  "artifact_qa": "validation/render-final/qa.json: all four journal QA pages and both supplement pages inspected; complete visible text and links verified."
+  "focused_review": "review/focused-final.json and review/transport-final.json: pass, exact visible content preserved with new immutable URLs; metadata schema independently verified.",
+  "artifact_qa": "validation/render-final/qa.json: all four journal QA pages and both supplement pages inspected; complete text and links verified at run37078989634.",
+  "renderer_distribution": "Bundled helper mistakenly copied into six preparation commits; removed from reachable task-branch history and replaced with independent LibreOffice/Poppler invocation. Server-side retention of unreferenced objects/caches is not certified; see review/renderer-distribution-remediation.json."
 }

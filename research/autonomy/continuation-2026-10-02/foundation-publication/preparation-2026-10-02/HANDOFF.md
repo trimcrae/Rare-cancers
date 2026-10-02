@@ -36,7 +36,7 @@ daily watch, paused sprint and methylation branch are not written by this task.
 Original scientific/editorial reviews and three-page visual QA remain valid for their exact hashes.
 The venue copy has a 169-word abstract, author-year references, expanded HGNC name, source-attributed table
 caption and explicit event-order limitation. It has not acquired a new scientific result.
-Focused initial review and repair verification passed (`review/focused-final.json`). All six new rendered pages were inspected; complete text and all Markdown links matched (`validation/render-final/qa.json`). The four-page journal render is QA only; the two-page supplement PDF is an outgoing file. The normal/default validation receipt is sealed at closure.
+Focused initial review, repair verification and final URL/transport review passed (`review/focused-final.json`, `review/transport-final.json`). All six new rendered pages were inspected; complete text and all Markdown links matched (`validation/render-final/qa.json`). The four-page journal render is QA only; the two-page supplement PDF is an outgoing file. The normal/default validation receipt is sealed at closure.
 The original independent primary extraction from run 37035103326 is reused, not repeated.
 
 The package integrity verifier checked 15 packaged files, four primary archive members and 14 HGNC
@@ -50,7 +50,7 @@ in `../full-initial/`. No passing FULL receipt exists and no automatic retry is 
 The actual enforcer requires unscoped FULL evidence against the candidate revision; a default or
 paper-specific check cannot replace it. No gate was weakened, result relabeled or submission made.
 
-Human Genetics accepts separately licensed third-party repository data. The ODbL database remains
+Human Genetics does not prescribe licences for external repository data in its guidelines. The ODbL database remains
 outside the proposed publisher-exclusive article licence. Primary-source attribution/CC BY exceptions,
 HGNC CC0 and original Apache 2.0 code terms are retained. This resolves the documented venue-policy
 mismatch for preparation, not all possible third-party rights or the future agreement itself.
@@ -75,9 +75,26 @@ objects are used; remote render/normal jobs have their own storage guards leavin
 Daily 06:00–10:00 America/New_York restriction applies to every worker and rendering job.
 The September 12 early release has expired. No UI or browser automation is required for this task.
 
-The reproduction ZIP and its README are frozen at `c29f301be3c90c9355b04501ff4ae43ab2199c67`;
-the final Word sources were rendered at `27aa920f4678bc16bd0b0ad7d9250f3923f8dc55` in
-run `37077144440`. The ZIP SHA-256 is
+The reproduction ZIP and its README are frozen at `d187c779f9f528a657048a13e849fe8d4834c666`;
+the final Word sources were rendered at `ffb048d079cd8bf8f18bac4040dbdcb5f1d71709` in
+run `37078989634`. The ZIP SHA-256 is
 `01d7a8ea7d92ae1a6d1c79d33c7b89d8b31a68453f9b82ad095de3234b53b98f`.
 The final revision, normal receipt and running-job status are sealed in `closure.json`.
 No merge to main or cleanup of any existing checkout was performed; this branch remains the owned handoff.
+
+## Rendering-tool licence remediation
+
+A bundled OpenAI rendering helper was mistakenly copied into six task-created commits. Its licence
+prohibits redistribution. It and its copied notices were removed from all six commits on this task
+branch; the verified continuation base, paper, input archives and failed receipts were preserved.
+`review/renderer-distribution-remediation.json` records the exact old-to-clean revision mapping.
+An independent reviewer verified that each rewritten tree differs only by the three removed helper
+paths. Future rendering uses independently written standard LibreOffice/Poppler commands.
+The revised links point to the clean archive revision and were independently fetched and verified.
+
+Removal from reachable branch history does not certify deletion from GitHub unreferenced objects,
+caches or historical runner storage. Any required provider-side expungement remains unresolved;
+no support outreach was authorized or performed. The current outgoing files and data package do not
+contain the restricted helper. The history rewrite triggered an old render that failed for the
+removed helper and a redundant default check that was cancelled; both are preserved in validation
+and neither is represented as passing. No FULL/modalities retry occurred.
