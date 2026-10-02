@@ -147,9 +147,11 @@ class Integrity(unittest.TestCase):
             with self.assertRaises(m.CycleDeadline):
                 m.robots(m.METADATA["europe_pmc"])
     def test_deadline_not_swallowed_by_source_handler(self):
-        with patch.object(m, "robots", side_effect=m.CycleDeadline("synthetic timeout")):
-            with self.assertRaises(m.CycleDeadline):
-                m.acquire_source("europe_pmc", m.METADATA["europe_pmc"])
+        allowed = {"url": "https://www.ebi.ac.uk/robots.txt", "decision": "allow_missing_robots", "http_status": 404}
+        with patch.object(m, "robots", return_value=allowed):
+            with patch.object(m, "request", side_effect=m.CycleDeadline("synthetic timeout")):
+                with self.assertRaises(m.CycleDeadline):
+                    m.acquire_source("europe_pmc", m.METADATA["europe_pmc"])
     def test_scope_escalation_refused(self):
         self.r["scope"] = "independent clinical validation"
         self.bad()

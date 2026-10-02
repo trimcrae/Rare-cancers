@@ -43,7 +43,14 @@ One source cycle acquired three text records on 2026-10-02 from 01:35:58 to 01:3
 Europe PMC 8,256 bytes (SHA256 fc5da76000aff1c0b5d92a6a3224e3b8748849036d441d6b0950eb6b045defd0); Crossref 14,975 bytes
 (f558c48c50182f9c9140ffb992c15f3ae73ef6192b9ef1fc8e062986b03dc072); and publisher redirect HTML 2,645 bytes
 (9f51b8e66e56c34426368f5a2e935b5e2aa5795ef7fec0b457bbf4c966de3496). Robots were checked; Crossref's robots endpoint returned 404,
-and the other two allowed the requested paths. No source was retried. The committed evidence
+and the other two allowed the requested paths. No source was retried. The original cycle completed in about 2.2 seconds under the original
+soft 180-second alarm and four-minute workflow hard stop. The original alarm raised an ordinary
+TimeoutError that an error handler could catch; it was not a hard process deadline. Independent
+review identified this distinction and a robots-decision replay omission. The repaired tooling
+uses a BaseException deadline that propagates through both error handlers, binds each robots
+receipt to its requested source origin, and replays the acquired 200 policy. These changes are
+validated offline; they do not retroactively describe the original acquisition's enforcement.
+The committed evidence
 prevents future reacquisition by this workflow. Its output has 41,711 UTF-8 bytes, SHA256
 bda7d71678705ba84f82381dba49a3d47eacbfa4fb9cea4552def0e837919ffb.
 
