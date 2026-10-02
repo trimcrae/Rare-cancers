@@ -93,5 +93,5 @@ retry old failed supplements, infer junction sequence from exon labels, design n
 model owners or edit protected manuscripts. This next task is recorded only; it has not started.
 
 AI authorship: Codex AI assistant. Independent LLM review is distinct from human scientific
-validation. No attached shell or managed runtime was available; model/effort IDs and subscription
-usage are not exposed.
+validation. No attached shell or local cloud runtime was available; operational checks ran on GitHub Actions.
+Model/effort IDs and subscription usage are not exposed.
