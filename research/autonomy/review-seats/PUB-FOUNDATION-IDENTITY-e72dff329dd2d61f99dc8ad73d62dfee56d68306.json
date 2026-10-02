@@ -1,0 +1,53 @@
+{
+  "schema": "emc-review-seat/1",
+  "paper": "PUB-FOUNDATION-IDENTITY",
+  "reviewed_commit": "e72dff329dd2d61f99dc8ad73d62dfee56d68306",
+  "document_sha256": "7b6c459e21f7d6951d244dbab1939b93c2fd2a1b119dc33a6e6cbba714516bf3",
+  "blind": true,
+  "blinding_scope": {
+    "canonical_manuscript_read": true,
+    "primary_records_code_and_execution_receipts_read": true,
+    "author_identity_visible_in_manuscript": true,
+    "prior_verdicts_or_review_reports_read": false,
+    "authoring_ledgers_source_maps_or_writer_intermediates_read": false,
+    "parent_history_received": false,
+    "note": "Read operating protocol and paper-hardening skill at the manuscript pin. Directory listings exposed review filenames, but no review contents were opened. Original Datahub file history was consulted only as primary evidence for the manuscript's explicit chronology claim."
+  },
+  "status": "closed",
+  "verdict": "supported",
+  "central_claim": "For the specifically hashed workbook and Datahub structural-variation export, pairing every RE workbook row with the corresponding export row in retained order gives 3,771 export suffixes equal to RE ordinal plus three and 3,770 source-ID discordances. This positional mapping reconstructs source sample multiplicities, and the defined join using the 75 source EMC IDs selects 28 export events with no positional source-EMC overlap, while missing all 76 source EMC events. The claim is about fixed-file linkage, not assay validity, unique biological event identification, deployed portal behavior, or downstream clinical effects.",
+  "blockers": [],
+  "p1s": [],
+  "p2s": [
+    {
+      "id": "P2-ORDER",
+      "classification": "Nonblocking methods clarification",
+      "artifact_and_claim": "Canonical manuscript, Correspondence: 'The second extraction confirmed every original ID, worksheet row and gene pair in the complete mapping' and 'every recovered ID matched the primary workbook.'",
+      "evidence": "foundation_primary_workbook_check.py independently re-extracts workbook rows, then uses zip(events, mapping, original, corrected). That verifies the workbook side and positional reconstruction, but does not independently establish export-event identity or producer order provenance. Literal mapping records contain repeated export gene pairs: for example EWSR1/FLI1 at ordinals 2 and 4 originates from different source IDs 6 and 14. A review-only grouping found 265 repeated pair groups covering 2,448 records; these are ambiguity diagnostics, not new manuscript results.",
+      "consequence": "A reader could overread 'complete mapping' as a unique content-based event reconciliation. Identical gene pairs cannot exclude invisible permutations within repeated groups. The manuscript already states retained source order and limits the derivative to curator reconciliation, so this is not a demonstrated error or a submission blocker.",
+      "smallest_optional_correction": "Add a short qualifier that reconstruction assumes preservation of event order and repeated gene pairs cannot independently establish individual export-event identity. Do not add another whole-paper review or new numerical study."
+    }
+  ],
+  "reviewer": "/root/foundation_blind_seat",
+  "actual_reviewer_count": 1,
+  "coverage": [
+    "hostile central-claim assessment",
+    "statistics and denominators",
+    "methods and reproducibility",
+    "citations",
+    "internal consistency"
+  ],
+  "runtime_configuration": {
+    "task_name": "foundation_blind_seat",
+    "fork_turns": "none",
+    "reasoning_effort": "ultra",
+    "model": "omitted; inherit parent",
+    "actual_service_telemetry": "not exposed"
+  },
+  "source_report": {
+    "path": "research/autonomy/continuation-2026-10-02/foundation-publication/review/blind-review.json",
+    "sha256": "a3b4659d9dfe6d8af4ad5f738d573c965971d23f7a15c19b724b9552cab8db6d"
+  },
+  "scope": "One independent blind nonwriter reviewer. Scientific source/deliverable hashes match package; complete PDF text/visualQA are independent separate records. No publication authority.",
+  "p2_disposition": "Retain nonblocking P2-ORDER visibly. The paper already describes retained-source-order comparison; the central claim is approved only within that positional scope. Do not interpret it as unique content-based event identity. Optional sentence can be considered at author proof; not a new computation or mandatory review loop."
+}

@@ -1,0 +1,104 @@
+{
+  "schema": "bounded-blind-publication-review/1",
+  "reviewer": {
+    "seat": "foundation_blind_seat",
+    "actual_reviewer_count": 1,
+    "coverage": ["hostile central-claim assessment", "statistics and denominators", "methods and reproducibility", "citations", "internal consistency"],
+    "model": "Inherited parent Codex model; exact model and service telemetry not exposed to this reviewer",
+    "reasoning_effort_requested": "ultra",
+    "runtime_effort_telemetry": "unavailable",
+    "subagents": 0,
+    "review_date": "2026-10-02",
+    "bounded_elapsed_minutes_approximate": 8
+  },
+  "blinding": {
+    "canonical_manuscript_read": true,
+    "primary_records_code_and_execution_receipts_read": true,
+    "author_identity_visible_in_manuscript": true,
+    "prior_verdicts_or_review_reports_read": false,
+    "authoring_ledgers_source_maps_or_writer_intermediates_read": false,
+    "parent_history_received": false,
+    "note": "Read operating protocol and paper-hardening skill at the manuscript pin. Directory listings exposed review filenames, but no review contents were opened. Original Datahub file history was consulted only as primary evidence for the manuscript's explicit chronology claim."
+  },
+  "artifacts": {
+    "repository": "trimcrae/Rare-cancers",
+    "scientific_source_revision": "bcdc028104d55302de7a2927c6240d42c39689bf",
+    "final_package_revision": "e72dff329dd2d61f99dc8ad73d62dfee56d68306",
+    "manuscript_path": "research/manuscripts/foundation/source-identity-correspondence.md",
+    "manuscript_sha256": "7b6c459e21f7d6951d244dbab1939b93c2fd2a1b119dc33a6e6cbba714516bf3",
+    "manuscript_git_blob_at_both_revisions": "6baeacd67059923a73d72644920d8263c550799b",
+    "pdf_path": "research/manuscripts/foundation/source-identity-correspondence-preprint.pdf",
+    "pdf_sha256": "8639db0e68c23392f1c7b04dbdedb6003df30224a8c9e9ef6b6ed6ff5f632c40",
+    "pdf_scope": "Verified local PDF hash, final package directory metadata, source build-stamp binding, and beginning of extracted PDF text. This is not a full visual/layout or complete PDF-text correspondence review."
+  },
+  "tested_central_claim": "For the specifically hashed workbook and Datahub structural-variation export, pairing every RE workbook row with the corresponding export row in retained order gives 3,771 export suffixes equal to RE ordinal plus three and 3,770 source-ID discordances. This positional mapping reconstructs source sample multiplicities, and the defined join using the 75 source EMC IDs selects 28 export events with no positional source-EMC overlap, while missing all 76 source EMC events. The claim is about fixed-file linkage, not assay validity, unique biological event identification, deployed portal behavior, or downstream clinical effects.",
+  "verdict": "SUPPORTED within the stated fixed-file, retained-order scope",
+  "submission_blockers": [],
+  "P1_findings": [],
+  "P2_findings": [
+    {
+      "id": "P2-ORDER",
+      "classification": "Nonblocking methods clarification",
+      "artifact_and_claim": "Canonical manuscript, Correspondence: 'The second extraction confirmed every original ID, worksheet row and gene pair in the complete mapping' and 'every recovered ID matched the primary workbook.'",
+      "evidence": "foundation_primary_workbook_check.py independently re-extracts workbook rows, then uses zip(events, mapping, original, corrected). That verifies the workbook side and positional reconstruction, but does not independently establish export-event identity or producer order provenance. Literal mapping records contain repeated export gene pairs: for example EWSR1/FLI1 at ordinals 2 and 4 originates from different source IDs 6 and 14. A review-only grouping found 265 repeated pair groups covering 2,448 records; these are ambiguity diagnostics, not new manuscript results.",
+      "consequence": "A reader could overread 'complete mapping' as a unique content-based event reconciliation. Identical gene pairs cannot exclude invisible permutations within repeated groups. The manuscript already states retained source order and limits the derivative to curator reconciliation, so this is not a demonstrated error or a submission blocker.",
+      "smallest_optional_correction": "Add a short qualifier that reconstruction assumes preservation of event order and repeated gene pairs cannot independently establish individual export-event identity. Do not add another whole-paper review or new numerical study."
+    }
+  ],
+  "independent_fixed_record_audit": {
+    "method": "Read the pinned mapping records and exact Git-LFS media export in memory, recompute literal comparison and join arithmetic with a separate PowerShell loop, and verify both SHA-256 values. No new XLS extraction, numerical science rerun, fitting, or biological analysis was performed.",
+    "mapping_sha256": "341f64562039230c581aefb7f03d7da4769969a79290217962216f3d7e567a5e",
+    "export_sha256": "d9fc3fc8073104c3f364825972921f271b5e8793eefcf71331c3cff7d3882701",
+    "mapping_records": 3771,
+    "export_records": 3771,
+    "ordinal_plus_three_violations": 0,
+    "export_mapping_gene_pair_violations": 0,
+    "source_ID_discordances": 3770,
+    "coincident_ID": {"REordinal": 1, "sourceID": "4", "exportSampleID": "sarcoma_msk_2022-4"},
+    "distinct_source_IDs": 3182,
+    "ordered_gene_pair_agreements_after_N_A_normalization": 3756,
+    "literal_gene_pair_differences": 15,
+    "export_N_A_tokens": 564,
+    "source_EMC_IDs": 75,
+    "source_EMC_events": 76,
+    "discordant_source_EMC_events": 76,
+    "selected_export_events": 28,
+    "selected_events_originating_in_source_EMC_by_positional_map": 0,
+    "source_EMC_IDs_above_3774": 47,
+    "clinical_namespace_control": "Pinned Datahub clinical sample table has 7,494 profiles and exactly the same 75 EMC IDs as the primary-derived map. Sample 49 and 245 are EMC; exported targets 28, 115 and 116 have different labels. This refutes a simple harmless alternate-ID-namespace explanation for the sentinels and EMC selector.",
+    "clinical_table_sha256": "ca98900d145c39e74b49f0f2a75d7f339e4e5afc283053bbf67685bb3f5cf83a",
+    "discarded_diagnostic_attempt": "An initial raw.githubusercontent.com export request returned a Git-LFS pointer, and a reserved PowerShell variable caused an invalid partial diagnostic. Those outputs were discarded. The successful audit used media.githubusercontent.com, enforced 3,771 input rows, and matched the manuscript's export hash."
+  },
+  "methods_and_execution_assessment": {
+    "primary_workbook_receipt": "Committed primary-independent-check.stdout reports all 3,771 source IDs, physical rows and gene pairs matching, all recovered IDs matching, and non-ID fields/multiplicities preserved. Its source workbook hash is 88c1a0bab7509ffe3bcff955b89f3d60ddb58a68311cd4c56ca4b0c78506b475.",
+    "actual_execution": "GitHub Actions run 37035103326 was independently queried and is completed/success at 83e0fb5348fe41b1747970d6346c6f3b19a3b5ea. Committed execution.json records both byte retrieval and primary checker with exit code zero, Python 3.12.3, exact input sizes and hashes. The checker blob at the executed revision equals the reviewed supporting-evidence revision: a169d329c80852be10174893af9f54334a2c018d.",
+    "controls": [
+      "Pinned hashes, workbook signature, exact dimensions/headers and all-event coverage guard against wrong inputs or partial comparison.",
+      "The independent checker derives its EMC ID set directly from primary clinical final_diagnosis, not from the original map's perEMC summary.",
+      "ID correction has exact input allowlists and preserves all non-ID fields and source multiplicities; the independent checker verifies these properties against primary extraction.",
+      "Sentinels cover a single event and multiple events from one sample; the sole coincident ID supplies a useful exception rather than an overstated all-IDs claim.",
+      "Independent extraction is code-path independence, not parser independence: both use xlrd. This is accurately disclosed."
+    ],
+    "statistics": "A complete comparison of two frozen files is a finite census. The denominator for ID discordance is 3,771 event rows, not 7,494 profiles or 3,182 independently confirmed people. EMC denominators are 75 source profiles, 76 source events, and 28 selected export events. Nine distinct nomenclature pairs, 13 changed slots and 12 supported events are different units. No inferential p-value, confidence interval, general population error rate, or patient-level efficacy inference is justified or needed."
+  },
+  "annotation_chronology_and_citations": {
+    "gene_annotations": "Read the exact HGNC response archive in memory and verified archive SHA-256 f5a98962f771a4cee5ee05d4e2699af48408dd0f2e17c71c1947558535d75376. Its current Approved records contain all nine stated previous-symbol relations; the 15 event records yield 12 fully nomenclature-supported events and 13 changed supported slots. AKAP2 (HGNC:372) and PALM2AKAP2 (HGNC:33529) remain distinct Approved records without an exact relevant previous-symbol/alias match. Current metadata is not source-era proof.",
+    "date_cells": "Read the two-cell probe code and execution output. The hashed workbook cells have xlrd date ctype, d-mmm format and datemode zero, yielding 2022-03-01 and 2022-09-08. These establish date encodings only; intended genes remain unresolved as the manuscript says.",
+    "chronology": "The actual February revision 6ad0f9e0a93b2814a9e3514bfea17a63f4a7ca7e is dated 2024-02-07; its media export contains 3,771 rows and zero ordinal-plus-three violations. PR 2027 merged on 2024-06-05. This supports pre-release presence without identifying the causal operation or deployment date.",
+    "primary_article": "The article's official Europe PMC full-text XML explicitly describes lack of matched normal control DNA and possible germline inclusion, supporting the limitation. Its CC BY 4.0 license with third-party exceptions matches the manuscript. Reference 1 metadata and 7,494-profile study context are supported.",
+    "context_references": "Primary-source records for Yoo et al. (PMC8134945) and Abeysooriya et al. (PMC8357140) support only the modest contextual statement that sample misannotation and gene-name corruption are established problems; they do not independently validate this case.",
+    "datahub_license": "The exact pinned Datahub README specifies ODbL for data, consistent with preserving that license on adapted datasets. No contrary relabeling was observed."
+  },
+  "evidence_pins": [
+    "https://github.com/trimcrae/Rare-cancers/blob/da49c4e836533253825587f83656675dac4c913b/research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/Foundation-complete-rearrangement-source-mapping.json",
+    "https://github.com/trimcrae/Rare-cancers/tree/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-primary-aws",
+    "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/foundation_primary_workbook_check.py",
+    "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/foundation_identity_recovery.py",
+    "https://github.com/trimcrae/Rare-cancers/tree/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-gene-annotation",
+    "https://github.com/cBioPortal/datahub/tree/dca75cb3f32b82d54a6f78bf0a6323e5b975aca1/public/sarcoma_msk_2022",
+    "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9200814/fullTextXML",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC8134945/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC8357140/"
+  ],
+  "limitations_and_disposition": "No measured assay data, expressed fusions, clinical diagnoses, somatic status, importer compatibility, deployment or downstream consequences were validated. The finite artifact scope and unchanged non-ID fields are material limits, not solved scientific questions. No current unsupported central claim or numerical contradiction was found. One optional order-assumption clarification is appropriate; another broad review or numerical science rerun is not warranted by this review. This scientific verdict is not publication authorization or a substitute for artifact, readability and venue checks. No background work remains running."
+}
