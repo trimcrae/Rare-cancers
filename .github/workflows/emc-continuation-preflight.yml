@@ -1,0 +1,88 @@
+name: EMC continuation normal preflight
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/preflight-token.json]
+permissions:
+  contents: read
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      UV_NO_CACHE: 1
+    steps:
+      - name: Budget complete validation checkout and dependencies
+        run: |
+          python3 - <<'PY'
+          import shutil
+          free=shutil.disk_usage(".").free
+          assert free >= 42*1024**3
+          print(f"Free={free} bytes; validation checkout estimate8GiB, dependency/setup allowance24GiB, reserve10GiB")
+          PY
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Install normal fast-gate dependencies with storage guard
+        timeout-minutes: 6
+        run: |
+          python3 - <<'PY'
+          import subprocess,shutil,time,sys
+          assert shutil.disk_usage(".").free >= 14*1024**3
+          packages="uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi".split()
+          p=subprocess.Popen([sys.executable,"-m","pip","install","--no-cache-dir",*packages])
+          start=time.monotonic()
+          while p.poll() is None:
+              if shutil.disk_usage(".").free < 10.5*1024**3 or time.monotonic()-start > 300:
+                  p.terminate(); p.wait(timeout=15)
+                  raise RuntimeError("Dependency storage/time budget exceeded")
+              time.sleep(1)
+          assert p.returncode == 0
+          assert shutil.disk_usage(".").free >= 10*1024**3
+          PY
+      - name: Generate source-bound research figure
+        run: |
+          python3 research/autonomy/continuation-2026-10-02/build_aso_figure.py --source research/autonomy/continuation-2026-10-02/results/aso-transcriptome.json --out /tmp/emc-aso-figures
+      - name: Normal repository preflight
+        timeout-minutes: 12
+        run: |
+          python3 - <<'PY'
+          import os,pathlib,signal,subprocess,shutil,time,sys,json
+          log=pathlib.Path("/tmp/emc-default-preflight.log")
+          start=time.monotonic()
+          with log.open("w") as out:
+              p=subprocess.Popen(["bash","scripts/preflight.sh"],stdout=out,stderr=subprocess.STDOUT,start_new_session=True)
+              forced=None
+              while p.poll() is None:
+                  if shutil.disk_usage(".").free < 10.5*1024**3:
+                      forced="storage reserve"; break
+                  if time.monotonic()-start > 690:
+                      forced="time budget"; break
+                  time.sleep(1)
+              if forced:
+                  os.killpg(p.pid,signal.SIGTERM)
+                  try: p.wait(timeout=10)
+                  except subprocess.TimeoutExpired:
+                      os.killpg(p.pid,signal.SIGKILL); p.wait()
+          code=124 if forced else p.returncode
+          print(log.read_text())
+          receipt={"revision":os.environ["GITHUB_SHA"],"run_id":os.environ["GITHUB_RUN_ID"],"scope":"normal/default preflight; not FULL","exit_code":code,"forced_stop":forced,"elapsed_seconds":time.monotonic()-start,"free_bytes_after":shutil.disk_usage(".").free}
+          pathlib.Path("/tmp/emc-default-preflight.exit").write_text(json.dumps(receipt,indent=2)+"\n")
+          print("EMC_NORMAL_PREFLIGHT_RECEIPT "+json.dumps(receipt))
+          sys.exit(code)
+          PY
+      - name: Ensure checks did not change tracked source
+        if: ${{ !cancelled() }}
+        run: git diff --exit-code
+      - name: Preserve exact default-scope log
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: emc-default-preflight-${{ github.sha }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/emc-default-preflight.log
+            /tmp/emc-default-preflight.exit
+            /tmp/emc-aso-figures/*
