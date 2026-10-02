@@ -1,0 +1,42 @@
+name: EMC deposited historical HLA search FASTA
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/hla-historical-token.json]
+permissions:
+  contents: read
+jobs:
+  historical-fasta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Reserve scoped cloud storage
+        run: python3 -c 'import shutil; assert shutil.disk_usage(".").free > 12*1024**3'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: research/autonomy/continuation-2026-10-02/hla-historical-search
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Stream the one pinned deposited FASTA
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,platform,subprocess,time
+          out=pathlib.Path(os.environ["RUNNER_TEMP"])/"hla-historical";out.mkdir()
+          script=pathlib.Path("research/autonomy/continuation-2026-10-02/hla-historical-search/scan_historical_fasta.py")
+          start=time.monotonic()
+          try:
+              r=subprocess.run(["python3",str(script),"--output",str(out/"historical-fasta-scan.json")],capture_output=True,text=True,timeout=240)
+              (out/"scan.stdout").write_text(r.stdout);(out/"scan.stderr").write_text(r.stderr)
+              receipt={"exit_code":r.returncode}
+          except subprocess.TimeoutExpired as e:
+              receipt={"exit_code":124,"error":"Bounded scan timed out after240s"}
+          receipt.update(revision=os.environ["GITHUB_SHA"],run_id=os.environ["GITHUB_RUN_ID"],python=platform.python_version(),script_sha256=hashlib.sha256(script.read_bytes()).hexdigest(),seconds=time.monotonic()-start,scope="New exact-substring scan of deposited historical canonical target/decoy FASTA; earlier processed-peptide analyses not repeated; six local short-pattern oracle tests reused")
+          (out/"execution.json").write_text(json.dumps(receipt,indent=2)+"\n")
+          raise SystemExit(receipt["exit_code"])
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: hla-historical-search
+          path: ${{ runner.temp }}/hla-historical/
+          retention-days: 30

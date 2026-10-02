@@ -24,7 +24,7 @@ def main():
             xf=book.xf_list[cell.xf_index]
             fmt=book.format_map[xf.format_key]
             record={'sourceExcelRow':excelrow,'column_zero_based':2,'sourceID':sid,'gene':gene,'alteration_type':'RE',
-                    'raw_value':cell.value,'xlrd_ctype':cell.ctype,'xlrd_type_name':{xlrd.XL_CELL_NUMBER: "number", xlrd.XL_CELL_DATE: "date"}.get(cell.ctype, "other"),
+                    'raw_value':cell.value,'xlrd_ctype':cell.ctype,'xlrd_type_name':xlrd.biffh.cellname[cell.ctype],
                     'xf_index':cell.xf_index,'format_key':xf.format_key,'format_string':fmt.format_str,
                     'format_type':fmt.type,'datemode':book.datemode}
             if cell.ctype==xlrd.XL_CELL_DATE:

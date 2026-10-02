@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/foundation-gene-annotation/probe_source_cells.py", line 38, in <module>
+    if __name__=='__main__': main()
+                             ^^^^^^
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/foundation-gene-annotation/probe_source_cells.py", line 27, in main
+    'raw_value':cell.value,'xlrd_ctype':cell.ctype,'xlrd_type_name':xlrd.biffh.cellname[cell.ctype],
+                                                                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'xlrd.biffh' has no attribute 'cellname'
