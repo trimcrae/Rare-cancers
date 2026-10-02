@@ -1,4 +1,4 @@
-"""Behavioral corruption checks for the independent mature-parent verifier.
+"""Behavioral corruption checks for the independent frame and mature-parent verifier.
 
 All scientific inputs remain the committed acquisition. Temporary copies are deliberately corrupted
 to prove that changed row sets, attributions, classifications and aggregates produce DISAGREES.
@@ -161,3 +161,61 @@ def test_check_requires_both_artifact_freshness_and_agreement(
     monkeypatch.setattr(verifier, "run", lambda: result)
     assert verifier.main(["--check"]) == expected_code
     assert path.read_text(encoding="utf-8") == contents
+
+
+@pytest.fixture
+def frame_atlas(tmp_path, monkeypatch):
+    original = json.loads(Path(verifier.ATLAS).read_text(encoding="utf-8"))
+    path = tmp_path / "atlas.json"
+    monkeypatch.setattr(verifier, "ATLAS", str(path))
+
+    def run_with(record):
+        path.write_text(json.dumps(record), encoding="utf-8")
+        return verifier.run()
+
+    return original, run_with
+
+
+@pytest.mark.parametrize(("change", "problem"), [
+    ("duplicate", "duplicate atlas graded pair"),
+    ("shadowed_duplicate", "duplicate atlas graded pair"),
+    ("missing", "pair set differs"),
+    ("extra", "pair set differs"),
+    ("wrong_count", "grade_counts disagrees"),
+    ("missing_count", "grade_counts disagrees"),
+    ("extra_zero_count", "grade_counts disagrees"),
+    ("fractional_count", "non-negative integer counts"),
+])
+def test_frame_row_multiplicity_and_aggregates_are_checked(frame_atlas, change, problem):
+    atlas, run_with = frame_atlas
+    if change == "duplicate":
+        atlas["graded_pairs"].append(copy.deepcopy(atlas["graded_pairs"][0]))
+    elif change == "shadowed_duplicate":
+        duplicate = copy.deepcopy(atlas["graded_pairs"][0])
+        duplicate["donor_coding_nt_through_cut"] += 1
+        # The original dict comprehension discarded this corrupted earlier row.
+        atlas["graded_pairs"].insert(0, duplicate)
+    elif change == "missing":
+        atlas["graded_pairs"].pop()
+    elif change == "extra":
+        extra = copy.deepcopy(atlas["graded_pairs"][0])
+        extra["junction_label"] = "SYNTHETIC_EXTRA_NOT_IN_DECLARED_ENUMERATION"
+        atlas["graded_pairs"].append(extra)
+    elif change == "wrong_count":
+        atlas["grade_counts"]["EMITTABLE"] += 1
+    elif change == "missing_count":
+        del atlas["grade_counts"]["EMITTABLE"]
+    elif change == "extra_zero_count":
+        atlas["grade_counts"]["INVENTED_UNUSED_GRADE"] = 0
+    elif change == "fractional_count":
+        atlas["grade_counts"]["EMITTABLE"] = float(atlas["grade_counts"]["EMITTABLE"])
+    result = run_with(atlas)
+    assert result["verdict"] == "DISAGREES"
+    assert any(problem in item for item in result["problems"]), result["problems"]
+
+
+def test_frame_row_order_is_not_scientific_evidence(frame_atlas):
+    atlas, run_with = frame_atlas
+    atlas["graded_pairs"].reverse()
+    expected = json.loads(Path(verifier.OUT).read_text(encoding="utf-8"))
+    assert run_with(atlas) == expected
