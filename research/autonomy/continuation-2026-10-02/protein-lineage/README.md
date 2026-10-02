@@ -11,7 +11,7 @@ date: "2026-10-02"
 last_verified: "2026-10-02"
 ---
 
-PLAN.md is unchanged. This implementation is pending cloud execution; no empirical results are claimed. Run from this directory with installed numpy/pandas:
+PLAN.md is unchanged. This implementation passed the cloud execution at `24ffe1f43b123d5822f318311e9e488d68850ede`, run37029842078/job110913618388. All eight synthetic tests and all four accepted pooled comparisons passed. New descriptive results, unsupported cells and precise limits are in FINDINGS.md. Run from this directory with installed numpy/pandas:
 
 ```sh
 python -m unittest -v test_protein_lineage.py

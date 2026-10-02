@@ -1,6 +1,6 @@
 {
   "schema": "emc-continuation-checkpoint/1",
-  "as_of_utc": "2026-10-02T15:51:00Z",
+  "as_of_utc": "2026-10-02T15:58:00Z",
   "branch": "codex/emc-continuation-2026-10-02",
   "scientific_baseline": "da49c4e836533253825587f83656675dac4c913b",
   "original_run": {
@@ -15,19 +15,23 @@
     "foundation": "failed: primary extraction subprocess timed out after 240 seconds; no success receipt"
   },
   "normal_preflight": {
-    "status": "passed",
-    "revision": "4020de62bef6cc43c005a18f5477ac478f3c5ccf",
-    "run_id": "37023702227",
-    "scope": "normal/default preflight; not FULL",
-    "exit_code": 0,
-    "forced_stop": null,
-    "elapsed_seconds": 161.02900648899998,
-    "free_bytes_after": 89323216896,
-    "receipt_path": "validation/checkpoint-02-final/emc-default-preflight.exit",
-    "log_path": "validation/checkpoint-02-final/emc-default-preflight.log",
-    "initial_failed_run": 37022943432,
-    "repair": "Actual PFRED metadata and DOI/reference separation",
-    "not_run": "Full publication gates and optional pure-logic/modality suites; targeted scientific tests and recovery are separately recorded."
+    "status": "pending current settled checkpoint",
+    "previous_pass": {
+      "status": "passed",
+      "revision": "4020de62bef6cc43c005a18f5477ac478f3c5ccf",
+      "run_id": "37023702227",
+      "scope": "normal/default preflight; not FULL",
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 161.02900648899998,
+      "free_bytes_after": 89323216896,
+      "receipt_path": "validation/checkpoint-02-final/emc-default-preflight.exit",
+      "log_path": "validation/checkpoint-02-final/emc-default-preflight.log",
+      "initial_failed_run": 37022943432,
+      "repair": "Actual PFRED metadata and DOI/reference separation",
+      "not_run": "Full publication gates and optional pure-logic/modality suites; targeted scientific tests and recovery are separately recorded."
+    },
+    "scope": "normal/default preflight; not FULL"
   },
   "figure": "generated from committed hashed data, static visual inspection passed; figures/ has original manifest and subsequent QA",
   "publication": "No submission, outreach, PR, main merge or publication-readiness assertion",
@@ -39,7 +43,7 @@
   },
   "next_work": [
     "Prioritize empirical measured-data reanalysis under the user's October2 correction; see empirical-priorities.json.",
-    "Execute the frozen two-antigen within/between-histology diagnostic if its new scoped inputs pass code review and source checks. Do not refit accepted models.",
+    "The fixed two-antigen support/histology question is complete. Use the new compact122row measurements for justified follow-up; do not download the matrix or refit accepted models again without a new question or defect. Most within-histology comparisons remain sparse.",
     "For methylation, keep array-level evidence separate from author-reported patient independence; a common cross-study patient key and adjudicated/taxonomy-reconciled labels remain missing.",
     "For registry generalization, an independently selected adjudicated corpus is needed; the575-unit transfer is not held-out accuracy validation.",
     "For Foundation, reopen primary extraction only for a newly accessible hash-matched source. Preserve unchanged timeout disposition.",
@@ -52,7 +56,7 @@
   },
   "local_storage": {
     "policy": "No new local checkout or bulk reference corpus; cloud CPU execution.",
-    "free_GiB_last_measured": 9.06,
+    "free_GiB_last_measured": 8.63,
     "incident": "One partial-clone size query unexpectedly initiated lazy fetch and auto-pack; the owned command was stopped. Fetched objects are unknown and preserved."
   },
   "main_checked": "893024973f82dc34134cdb13eebb439736b78378",
@@ -97,8 +101,8 @@
   },
   "ownership": {
     "coordinator": "/root sole branch writer",
-    "finite_worker_tasks": "Methylation and source-integration workers completed; protein implementation and focused review awaiting root execution. Root is sole branch writer.",
-    "cloud_jobs": "Registry companion passed; protein follow-up not yet dispatched.",
+    "finite_worker_tasks": "All checkpoint03 scientific implementation, source review and independent verification workers completed; coherent outputs integrated by root.",
+    "cloud_jobs": "Registry and protein jobs completed successfully. One settled normal preflight being dispatched.",
     "local_checkouts_created": 0,
     "active_future_work": "Hourly empirical-priority continuation through2026-10-03T20:14:24Z",
     "preservation": "Accepted publication files, original evidence, other branches and local changes preserved",
@@ -142,7 +146,7 @@
     "completed_utc": "2026-10-02T15:03:00Z"
   },
   "checkpoint_03": {
-    "status": "scientific outputs integrated; new protein analysis preparing",
+    "status": "Scientific checkpoint complete; normal preflight pending",
     "contract": "checkpoint-03-contract.json",
     "priority_correction": "empirical-priorities.json",
     "methylation_identity": "methylation-identity/findings.md",
@@ -158,7 +162,22 @@
       "reviewed_cases_agree": 27,
       "accepted_vectors_unchanged": 510
     },
-    "protein": "protein-lineage/PLAN.md; frozen descriptive follow-up, not yet executed",
+    "protein": {
+      "run_id": 37029842078,
+      "job_id": 110913618388,
+      "revision": "24ffe1f43b123d5822f318311e9e488d68850ede",
+      "status": "success",
+      "synthetic_tests": 8,
+      "primary_families": 61,
+      "compact_measurement_rows": 122,
+      "fixed_cells": 24,
+      "pooled_decompositions": 4,
+      "independent_exact_fraction_check": "passed all4 decompositions/24cells from saved measurements; source mapping not independently re-extracted",
+      "supported_both_subset_comparisons": 4,
+      "observed_sign_reversals": 2,
+      "scope": "Sparse post hoc descriptive findings, not causal inference or EMC validation",
+      "result_sha256": "bfbd5bee8d88053565af54f7f0dea225cb55fed71f688cb4b6cab6f922bc0dbb"
+    },
     "aso": "Bounded primary-source integration completed. Current Sept30 brief distinguished from historical190-design comparator."
   }
 }
