@@ -15,6 +15,9 @@ on:
       - research/autonomy/amendments.jsonl
       - research/modalities/aso_independent_verification.py
       - research/modalities/tests/test_aso_independent_verification_integrity.py
+      - scripts/trigger_scan.py
+      - research/IDEAS.md
+      - research/method-watch-trigger-scan.md
 permissions:
   contents: read
 concurrency:
@@ -37,6 +40,10 @@ jobs:
           git rev-parse HEAD
           git rev-parse HEAD^{tree}
           python3 --version
+      - name: Record bounded checkpoint scope
+        id: phase
+        run: |
+          python3 -c 'import json; print("scope="+json.load(open("research/autonomy/usage-sprint-2026-10-01/integrate-completed/integration-plan.json"))["validation_scope"])' >> "$GITHUB_OUTPUT"
       - name: Exact ancestry, protected main bytes and original assertion bodies
         run: python3 research/autonomy/usage-sprint-2026-10-01/integrate-completed/check_integration.py
       - name: Install existing normal preflight dependencies
@@ -46,11 +53,13 @@ jobs:
           uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
           pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
       - name: Offline reporters and unchanged budget guards
+        if: ${{ steps.phase.outputs.scope == 'full_combination' }}
         run: |
           python3 -m unittest discover -s research/autonomy/tests -p test_ci_terminal_verdict.py -v
           python3 -m pytest research/autonomy/tests/test_the_loop_notices_it_is_not_learning.py research/autonomy/tests/test_an_error_body_is_the_diagnosis.py scripts/tests/test_a_tier_budget_is_a_decision_somebody_took.py -v -s --tb=short -p no:cacheprovider
           python3 -m py_compile research/autonomy/await_ci.py research/autonomy/learning_rate.py research/autonomy/tests/test_ci_terminal_verdict.py research/autonomy/usage-sprint-2026-10-01/integrate-completed/check_integration.py
       - name: Existing source integrity tests and committed evidence offline only
+        if: ${{ steps.phase.outputs.scope == 'full_combination' }}
         run: |
           python3 research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/test_acquire.py -v
           python3 research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/acquire.py --check research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/evidence.json
@@ -59,6 +68,7 @@ jobs:
           python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/test_acquire.py -v
           python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/acquire.py --check research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/evidence.json
       - name: Changed verifier and frame regressions with unchanged science
+        if: ${{ steps.phase.outputs.scope == 'full_combination' }}
         run: |
           python3 -m pytest research/modalities/tests/test_aso_independent_verification.py research/modalities/tests/test_aso_independent_verification_integrity.py -q --durations=10
           python3 research/modalities/aso_independent_verification.py --check
@@ -67,14 +77,21 @@ jobs:
           python3 research/manuscripts/aso_archive_manifest.py --check-archive
           python3 research/manuscripts/aso_deposit_drift.py --check
       - name: Existing amendment guard and append-only log checks
+        if: ${{ steps.phase.outputs.scope == 'full_combination' }}
         run: |
           python3 -c 'import json; print(json.dumps({"cycle_id":"USAGE-SPRINT-2026-10-01-INTEGRATE-COMPLETED","blocked_by":[]}))' > "$RUNNER_TEMP/integration-amendment-receipt.json"
           python3 research/autonomy/amendment_guard.py --receipt "$RUNNER_TEMP/integration-amendment-receipt.json" --diff-from ee84a76beb7c51004eca05cad09cf9612bb0e959 --json
           python3 research/autonomy/amendment_guard.py --check-log
       - name: Unchanged budget and systems diagnostics
+        if: ${{ steps.phase.outputs.scope == 'full_combination' }}
         run: |
           python3 scripts/tier_budget.py --check
           python3 systems/systems_check.py --check
+      - name: Changed pure formatter regressions and unchanged native citation gate
+        if: ${{ steps.phase.outputs.scope == 'catalogue_render_repair' }}
+        run: |
+          python3 -m pytest research/modalities/tests/test_trigger_board_filter.py -v -s --tb=short -p no:cacheprovider
+          python3 research/manuscripts/lint_citations.py
       - name: Normal preflight default FAST scope
         timeout-minutes: 10
         run: ./scripts/preflight.sh

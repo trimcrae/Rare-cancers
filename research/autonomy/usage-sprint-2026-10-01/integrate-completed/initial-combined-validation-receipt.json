@@ -1,0 +1,313 @@
+{
+  "schema": "usage-sprint-completed-integration-validation/1",
+  "date": "2026-10-02",
+  "status": "initial_combined_cpu_failed",
+  "repository": "trimcrae/Rare-cancers",
+  "branch": "codex/usage-sprint-2026-10-01-integrate-completed",
+  "base_revision": "ee84a76beb7c51004eca05cad09cf9612bb0e959",
+  "tested_revision": "ecff95dec0508332738f1a72488e612abec0749f",
+  "tested_tree": "f974813c84bfb1ecc0715b1e4a767a5a48ce35b8",
+  "source_heads_and_historical_ci": [
+    {
+      "route": "aso-verifier",
+      "head": "c93daca9947c3f16e41e309a302d6279a7b47fa5",
+      "merge_base": "b88d623f6ed72fcc1e873d8416cfa81dcadb4e77",
+      "merge_commit": "42bd0408ab928d74a570da66d5f41575d0ef1139",
+      "merge_parents": [
+        "ee84a76beb7c51004eca05cad09cf9612bb0e959",
+        "c93daca9947c3f16e41e309a302d6279a7b47fa5"
+      ],
+      "source_ci": {
+        "tested_revision": "a88d6916b09ea72f4a13e5e389252aa5ecb18d06",
+        "run_id": 36939159934,
+        "job_id": 110626365220,
+        "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36939159934",
+        "scope": "Completed exact-source validation reused; combined execution recorded separately"
+      },
+      "handoff": "research/autonomy/usage-sprint-2026-10-01/aso-verifier-handoff.md"
+    },
+    {
+      "route": "frame-census",
+      "head": "f5e4b2b142478a4c2756afefb21f330110223f11",
+      "merge_base": "b88d623f6ed72fcc1e873d8416cfa81dcadb4e77",
+      "merge_commit": "74bf4e5eb4c97b57207dc1cfadef4bbd9c3173f1",
+      "merge_parents": [
+        "42bd0408ab928d74a570da66d5f41575d0ef1139",
+        "f5e4b2b142478a4c2756afefb21f330110223f11"
+      ],
+      "source_ci": {
+        "tested_revision": "c9aa07680cff61d0f7561934258d410f9082c0e4",
+        "run_id": 36942362454,
+        "job_id": 110636583482,
+        "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36942362454",
+        "scope": "Completed exact-source validation reused; combined execution recorded separately"
+      },
+      "handoff": "research/autonomy/usage-sprint-2026-10-01/frame-census/handoff.md"
+    },
+    {
+      "route": "chrna6-source-evidence",
+      "head": "8028d8c608c81b593539828cd6c4b266f9953b44",
+      "merge_base": "7f0971a331272695dcfe4b2a7fac554185b398d9",
+      "merge_commit": "4ab200c849fe04376b32632ce049b8a73cd53229",
+      "merge_parents": [
+        "74bf4e5eb4c97b57207dc1cfadef4bbd9c3173f1",
+        "8028d8c608c81b593539828cd6c4b266f9953b44"
+      ],
+      "source_ci": {
+        "tested_revision": "e7ce6eac2eddd741a6b79f44cff46b7305bc2f72",
+        "run_id": 36947531796,
+        "job_id": 110652916128,
+        "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36947531796",
+        "scope": "Completed exact-source validation reused; combined execution recorded separately"
+      },
+      "handoff": "research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/handoff.md"
+    },
+    {
+      "route": "chrna6-specimen-crosswalk",
+      "head": "aefe3480d9f7f98a932c524a2d424e9e36cc4bee",
+      "merge_base": "7f0971a331272695dcfe4b2a7fac554185b398d9",
+      "merge_commit": "a9118fa7b4207159bcede4046573fa8990f9027c",
+      "merge_parents": [
+        "4ab200c849fe04376b32632ce049b8a73cd53229",
+        "aefe3480d9f7f98a932c524a2d424e9e36cc4bee"
+      ],
+      "source_ci": {
+        "tested_revision": "9bfd7112bf76f184d632e4d72fea3fa95f5e9d34",
+        "run_id": 36952479957,
+        "job_id": 110668444392,
+        "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36952479957",
+        "scope": "Completed exact-source validation reused; combined execution recorded separately"
+      },
+      "handoff": "research/autonomy/usage-sprint-2026-10-01/chrna6-specimen-crosswalk/handoff.md"
+    },
+    {
+      "route": "gpl3290-coverage",
+      "head": "bd9856440ccac028f55fd621bc4affddd29debd2",
+      "merge_base": "c784796fc7b510cb2de3c611b05d3cc035dec9e8",
+      "merge_commit": "d8ff9950d81f314e9b46a288d79920018e495763",
+      "merge_parents": [
+        "a9118fa7b4207159bcede4046573fa8990f9027c",
+        "bd9856440ccac028f55fd621bc4affddd29debd2"
+      ],
+      "source_ci": {
+        "tested_revision": "96dd4f815e449b42062f84eb2138fdd9460acfea",
+        "run_id": 36957765667,
+        "job_id": 110684454869,
+        "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36957765667",
+        "scope": "Completed exact-source validation reused; combined execution recorded separately"
+      },
+      "handoff": "research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/handoff.md"
+    },
+    {
+      "route": "aso-tissue-join",
+      "head": "b4d16a0330e1990edffe25b22ec076326b92a87f",
+      "merge_base": "c784796fc7b510cb2de3c611b05d3cc035dec9e8",
+      "merge_commit": "9ed1b6659eaf1402ca7a2ec36e5e9b4d2c495acb",
+      "merge_parents": [
+        "d8ff9950d81f314e9b46a288d79920018e495763",
+        "b4d16a0330e1990edffe25b22ec076326b92a87f"
+      ],
+      "source_ci": {
+        "tested_revision": "faf2ee8f9f196b04352bb9f5d0c61353186d8b5e",
+        "run_id": 36961724473,
+        "job_id": 110696664568,
+        "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36961724473",
+        "scope": "Completed exact-source validation reused; combined execution recorded separately"
+      },
+      "handoff": "research/autonomy/usage-sprint-2026-10-01/aso-tissue-join/handoff.md"
+    },
+    {
+      "route": "usz-junction-inputs",
+      "head": "247a3d2f539e50b2b046e9d93237b60c2e787da1",
+      "merge_base": "0a587508867813adf25cb711dd227ade08f5506f",
+      "merge_commit": "fda438812ad8ccca37e6725795a09af69d863b92",
+      "merge_parents": [
+        "9ed1b6659eaf1402ca7a2ec36e5e9b4d2c495acb",
+        "247a3d2f539e50b2b046e9d93237b60c2e787da1"
+      ],
+      "source_ci": {
+        "tested_revision": "f214677a52f455196f109d57e7c44cd2baadfb31",
+        "run_id": 36970277195,
+        "job_id": 110722611924,
+        "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36970277195",
+        "scope": "Completed exact-source validation reused; combined execution recorded separately"
+      },
+      "handoff": "research/autonomy/usage-sprint-2026-10-01/usz-junction-inputs/handoff.md"
+    },
+    {
+      "route": "ci-terminal-verdict",
+      "head": "5c9e3d92ead63365f8dc33a0e94730eb441beddd",
+      "merge_base": "184e6aff659180492f4df94ed46a222849ab1b7c",
+      "merge_commit": "a5682309821e3bd0b9e22e07b4bab23ef950addd",
+      "merge_parents": [
+        "fda438812ad8ccca37e6725795a09af69d863b92",
+        "5c9e3d92ead63365f8dc33a0e94730eb441beddd"
+      ],
+      "source_ci": {
+        "tested_revision": "a8dc6075be2dc782954d10982b43cea554a4c3a0",
+        "run_id": 37001860371,
+        "job_id": 110821137756,
+        "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/37001860371",
+        "scope": "Completed exact-source validation reused; combined execution recorded separately"
+      },
+      "handoff": "research/autonomy/usage-sprint-2026-10-01/ci-terminal-verdict/handoff.md"
+    },
+    {
+      "route": "learning-window-clock",
+      "head": "7c38606630554c0d303698f6651c76a226d76717",
+      "merge_base": "b9b420ec4073a2b28489521c7a7d6f827f90d90a",
+      "merge_commit": "7f5310638440ae26a830defded274294f46206f4",
+      "merge_parents": [
+        "a5682309821e3bd0b9e22e07b4bab23ef950addd",
+        "7c38606630554c0d303698f6651c76a226d76717"
+      ],
+      "source_ci": {
+        "tested_revision": "f5f39ba46555f8afbaa741862667623b39677a52",
+        "run_id": 37009554894,
+        "job_id": 110845744408,
+        "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/37009554894",
+        "scope": "Completed exact-source validation reused; combined execution recorded separately"
+      },
+      "handoff": "research/autonomy/usage-sprint-2026-10-01/learning-window-clock/handoff.md"
+    }
+  ],
+  "normal_ancestry": "All nine exact heads linked by nine actual ordered two-parent commits; executed check and independent static review",
+  "actual_run": {
+    "id": 37059089849,
+    "job_id": 111010950739,
+    "event": "push",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/37059089849",
+    "job_start_utc": "2026-10-02T20:12:39Z",
+    "job_end_utc": "2026-10-02T20:16:52Z",
+    "job_elapsed_seconds": 253,
+    "python": "CPython 3.11.16"
+  },
+  "executed_checks": {
+    "identities_and_ancestry": {
+      "result": "passed",
+      "source_paths": 72,
+      "unrelated_main_entries_preserved": 8409,
+      "source_ancestors": 9,
+      "merge_parent_count": 2,
+      "terminal_original_ast_bodies": 8,
+      "terminal_grouped_methods": 4,
+      "retained_scenario_markers": 14,
+      "amendment_append_records": 6,
+      "historical_originals_accessible": true
+    },
+    "terminal_unittest": {
+      "passed_methods": 4,
+      "seconds": 0.01,
+      "scenario_families": 14,
+      "scope": "Real production poll with mocked API/time; original false-green witness retained"
+    },
+    "operational_pytest": {
+      "passed": 38,
+      "seconds": 4.42,
+      "scope": "16 learning-window items,15 HTTP error items,7 unchanged budget guard items; one warning retained"
+    },
+    "committed_source_integrity_unittest": [
+      {
+        "route": "chrna6-source-evidence",
+        "passed": 19,
+        "seconds": 0.003
+      },
+      {
+        "route": "chrna6-specimen-crosswalk",
+        "passed": 32,
+        "seconds": 0.005
+      },
+      {
+        "route": "gpl3290-coverage",
+        "passed": 40,
+        "seconds": 0.054
+      }
+    ],
+    "committed_evidence_offline_validators": "all three passed; no acquisition/recovery command present in integration workflow",
+    "changed_verifier_regressions": {
+      "passed": 46,
+      "seconds": 9.65
+    },
+    "drift_behavior_regressions": {
+      "passed": 2,
+      "seconds": 0.07
+    },
+    "verifier_frame_archive_drift_checks": "passed; tracked scientific outputs preserved",
+    "amendment_guard_and_log": "passed",
+    "commit_loop_budget": {
+      "result": "passed",
+      "test_functions": 1500,
+      "ceiling": 1500,
+      "files": 109
+    },
+    "systems_check": {
+      "result": "passed",
+      "objects": 620,
+      "collections": 15,
+      "errors": 0,
+      "warnings": 90,
+      "info": 7
+    },
+    "normal_default_fast": {
+      "result": "failed",
+      "exit_code": 1,
+      "sole_failed_gate": "research/manuscripts/lint_citations.py -> native publication-type cache missing PMCID PMC13598529 for two unchanged main prose files",
+      "all_other_fast_gates": "passed",
+      "no_full_publication_claim": true
+    },
+    "tracked_status_and_diff": {
+      "result": "passed",
+      "status": "empty",
+      "git_diff_exit": 0
+    }
+  },
+  "failure_evidence": {
+    "native_annotations": [
+      {
+        "path": "research/IDEAS.md",
+        "line": 656,
+        "message": "TYPE CLAIM WITH NO CACHED METADATA: PMCID PMC13598529, case report"
+      },
+      {
+        "path": "research/method-watch-trigger-scan.md",
+        "line": 347,
+        "message": "TYPE CLAIM WITH NO CACHED METADATA: PMCID PMC13598529, case report"
+      }
+    ],
+    "cache_path": "research/manuscripts/citation-article-types.json",
+    "cache_blob": "b54902587205b46fbe7bc8a170e75af06b940786",
+    "retained_trigger_hit_blob": "546f66d74bee0432e578943ecf7d916ddfd018b3",
+    "retained_trigger_hit_scope": "Title/date/venue/PMCID/URL only; no exact PMID/DOI/article_types. No title-based inference or gate weakening.",
+    "baseline_attribution": "Both prose files/cache were unchanged pinned main bytes in ecff. Their machine-matched title text caused the observed native errors. Main baseline preflight was not executed anew.",
+    "diagnosis": "Native ##[error] lines exist in original transcript; initial suppressed-diagnosis inference corrected. No additional diagnostic run."
+  },
+  "original_job_log": {
+    "path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/initial-combined-ci-original.log",
+    "git_blob": "ff06bc4646be11b7cc821aa64f7bd68abccc762c",
+    "utf8_bytes": 213837,
+    "sha256": "a80fe2b4eab126412a00c27a675b0ed350dbbfaf5a38093312a4c6717b64412f"
+  },
+  "independent_pre_push_review": {
+    "reviewer": "Separate AI agent /root/rare_integration_review and its independent repair/source readers; root corroboration separate",
+    "revision": "ecff95dec0508332738f1a72488e612abec0749f",
+    "result": "clear before branch push",
+    "coverage": "All source tree identities, actual merge chain, all14 scenario bodies/41 assertions/8subTests, prior721307 amendment bytes+six valid records, checkout-only repair, CPU workflow event/scope/permissions/timeouts and handoff limitations"
+  },
+  "actual_review": "Root independently observed completed failure and original log bytes/hash; independent combined-review agent examining runtime/failure",
+  "explicitly_not_executed": {
+    "public_source_acquisition": "Not present in integration workflow and not run",
+    "gpl_artifact_recovery": "Not present and not run",
+    "historical_tissue_and_usz_scientific_audits": "Reused original exact scientific validation; only Git identities checked anew",
+    "expression_kernels_or_rescreen": "Not run",
+    "full_scientific_and_full_pure_logic_suites": "Skipped by normal default FAST; targeted named regressions above executed",
+    "publication_full_preflight": "Not run",
+    "GPU_API_paid_compute": "Not run",
+    "publication_outreach_PR": "Not performed"
+  },
+  "preservation": "Initial ecff preserved every unrelated main blob/mode and protected asset/enforcer; the separately reviewed later repair changes only the pure formatter and exact two catalogue rows.",
+  "endpoint": "Original initial failure is retained. Independently authorized narrow catalogue-title serialization repair is pending separate changed-revision validation; no type inference, cache modification, live scan or scientific acquisition.",
+  "runtime": "Hosted CPU execution; no local shell/Python; model/effort identifiers/task-specific subscription usage unobserved."
+}

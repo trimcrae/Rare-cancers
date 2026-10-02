@@ -1,7 +1,7 @@
 {
   "schema": "usage-sprint-completed-integration-plan/1",
   "date": "2026-10-02",
-  "status": "pending_combined_cpu_validation",
+  "status": "catalogue_render_repair_pending_cpu_validation",
   "repository": "trimcrae/Rare-cancers",
   "branch": "codex/usage-sprint-2026-10-01-integrate-completed",
   "base_revision": "ee84a76beb7c51004eca05cad09cf9612bb0e959",
@@ -614,7 +614,12 @@
     "research/autonomy/usage-sprint-2026-10-01/integrate-completed/validation-receipt.json",
     "research/autonomy/usage-sprint-2026-10-01/integrate-completed/combined-ci-original.log",
     ".github/workflows/usage-sprint-integrate-completed.yml",
-    ".github/workflows/tests.yml"
+    ".github/workflows/tests.yml",
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/initial-combined-ci-original.log",
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/initial-combined-validation-receipt.json",
+    "scripts/trigger_scan.py",
+    "research/IDEAS.md",
+    "research/method-watch-trigger-scan.md"
   ],
   "conflicts": [],
   "overlap": "Frame-census is descendant of exact aso-verifier head; retain its upgraded verifier/test/manifest bytes and every original source ancestor/log.",
@@ -668,5 +673,69 @@
     "legacy_driver": "disabled"
   },
   "preservation": "Every main blob identity/mode outside source delta and exact integration paths unchanged; frozen/deposited assets, review seats, preregistrations, queue/owners/fleet and publication/GPU enforcers preserved.",
-  "checks": "Pending actual branch-only hosted CPU offline regressions, committed-evidence validators, verifier/frame/archive/drift coherence, Git identity/ancestry, amendment/budget, systems checker and default FAST. No source acquisition/scientific kernel/full publication verification."
+  "checks": "Pending actual branch-only hosted CPU offline regressions, committed-evidence validators, verifier/frame/archive/drift coherence, Git identity/ancestry, amendment/budget, systems checker and default FAST. No source acquisition/scientific kernel/full publication verification.",
+  "validation_scope": "catalogue_render_repair",
+  "controlled_catalogue_rendering": {
+    "classification": "Unvalidated title catalogue rendering; article types remain unverified. SOURCE_NOT_ACQUIRED and availability NOT_ASSESSED are not upgraded.",
+    "trigger_id": "TRG-NR4A3-DIRECT-MATTER",
+    "hit_id": "PMC13598529",
+    "raw_hit_blob": "546f66d74bee0432e578943ecf7d916ddfd018b3",
+    "cache_blob": "b54902587205b46fbe7bc8a170e75af06b940786",
+    "patches": [
+      {
+        "path": "scripts/trigger_scan.py",
+        "original_blob": "6b8177772358f87629e86208d60899b918268a57",
+        "patched_blob": "7f0ef5a747c5a46d44bcf83fe518f63651dd0023",
+        "replacements": [
+          {
+            "before": "def ideas_bullet(trg: dict, hit: dict, today: str) -> str:\n",
+            "after": "def _catalogue_title_link(hit: dict, *, italic: bool = False) -> str:\n    \"\"\"Quote an ungraded catalogue title as a link label, preserving its literal text.\"\"\"\n    title = hit.get(\"title\", \"\")\n    for char in (\"\\\\\", \"[\", \"]\", \"*\", \"_\", \"`\"):\n        title = title.replace(char, \"\\\\\" + char)\n    if italic:\n        title = f\"*{title}*\"\n    return f\"[{title}]({hit.get('url', '')})\"\n\n\ndef ideas_bullet(trg: dict, hit: dict, today: str) -> str:\n"
+          },
+          {
+            "before": "        f\"Hit: *{hit['title']}* ({hit['venue']}, {hit['date']}, {hit['id']}) {hit['url']} . \"\n",
+            "after": "        f\"Hit: {_catalogue_title_link(hit, italic=True)} ({hit['venue']}, {hit['date']}, {hit['id']}) . \"\n"
+          },
+          {
+            "before": "                L.append(f\"  - {h.get('date', '?')} — {h.get('title', '')} ({h.get('venue', '')}, \"\n                         f\"{h.get('id', '')}){flag} {h.get('url', '')}\")\n",
+            "after": "                L.append(f\"  - {h.get('date', '?')} — {_catalogue_title_link(h)} ({h.get('venue', '')}, \"\n                         f\"{h.get('id', '')}){flag}\")\n"
+          }
+        ]
+      },
+      {
+        "path": "research/IDEAS.md",
+        "original_blob": "1b69dbf3dcdc56ad11c917611d80d1eb1a8faf0d",
+        "patched_blob": "b1528baf7b3c99a414ef997bc221fc3cc06b0e94",
+        "replacements": [
+          {
+            "before": "- **2026-10-02 — trigger `TRG-NR4A3-DIRECT-MATTER` matched: Any direct chemical or biological matter against NR4A3 or the EWSR1::NR4A3 fusion.** ⚠ **Unvalidated lead — machine-matched on the trigger's own queries, not read and not graded.** **Would reopen:** roadmap `R4` · routes `RT-DEGRADER`, `RT-MONOVALENT`, `RT-COVALENT-PROBE`, `RT-TCIP` · blockers `BLK-R4-BINDS`. Hit: *Radiological and multidisciplinary management of extraskeletal myxoid chondrosarcoma: A case report* (Radiol Case Rep, 2026-09-15, PMC13598529) https://europepmc.org/article/PMC/PMC13598529 . If it holds: Fold into the relevant route memo IMMEDIATELY and re-check R4. Verify the compound is against NR4A3 rather than a family-wide pan-NR4A tool before crediting it. **Owed to (once read and graded, record the outcome in `research/literature/citation-debt.json`):** `research/manuscripts/emc-systems-map.json`. Trigger definition + queries: [`research/method-watch-triggers.json`](./method-watch-triggers.json).\n",
+            "after": "- **2026-10-02 — trigger `TRG-NR4A3-DIRECT-MATTER` matched: Any direct chemical or biological matter against NR4A3 or the EWSR1::NR4A3 fusion.** ⚠ **Unvalidated lead — machine-matched on the trigger's own queries, not read and not graded.** **Would reopen:** roadmap `R4` · routes `RT-DEGRADER`, `RT-MONOVALENT`, `RT-COVALENT-PROBE`, `RT-TCIP` · blockers `BLK-R4-BINDS`. Hit: [*Radiological and multidisciplinary management of extraskeletal myxoid chondrosarcoma: A case report*](https://europepmc.org/article/PMC/PMC13598529) (Radiol Case Rep, 2026-09-15, PMC13598529) . If it holds: Fold into the relevant route memo IMMEDIATELY and re-check R4. Verify the compound is against NR4A3 rather than a family-wide pan-NR4A tool before crediting it. **Owed to (once read and graded, record the outcome in `research/literature/citation-debt.json`):** `research/manuscripts/emc-systems-map.json`. Trigger definition + queries: [`research/method-watch-triggers.json`](./method-watch-triggers.json).\n"
+          }
+        ]
+      },
+      {
+        "path": "research/method-watch-trigger-scan.md",
+        "original_blob": "2b475ef3b4a70c6c4fc8b14a0e47b78abab4b934",
+        "patched_blob": "52a58df99c83a1d22cf0b53104a7fa59d4b98a5e",
+        "replacements": [
+          {
+            "before": "  - 2026-09-15 — Radiological and multidisciplinary management of extraskeletal myxoid chondrosarcoma: A case report (Radiol Case Rep, PMC13598529) 🆕 https://europepmc.org/article/PMC/PMC13598529\n",
+            "after": "  - 2026-09-15 — [Radiological and multidisciplinary management of extraskeletal myxoid chondrosarcoma: A case report](https://europepmc.org/article/PMC/PMC13598529) (Radiol Case Rep, PMC13598529) 🆕\n"
+          }
+        ]
+      }
+    ]
+  },
+  "initial_combined_ci": {
+    "revision": "ecff95dec0508332738f1a72488e612abec0749f",
+    "tree": "f974813c84bfb1ecc0715b1e4a767a5a48ce35b8",
+    "run_id": 37059089849,
+    "job_id": 111010950739,
+    "conclusion": "failure",
+    "log_path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/initial-combined-ci-original.log",
+    "log_blob": "ff06bc4646be11b7cc821aa64f7bd68abccc762c",
+    "log_bytes": 213837,
+    "log_sha256": "a80fe2b4eab126412a00c27a675b0ed350dbbfaf5a38093312a4c6717b64412f",
+    "receipt_path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/initial-combined-validation-receipt.json",
+    "reused_passes": "Exact ecff reporter/source/verifier/frame/archive/drift/budget/amendment/systems scoped checks passed within overall failed run; changed repair checkpoint does not rerun unchanged suites."
+  }
 }
