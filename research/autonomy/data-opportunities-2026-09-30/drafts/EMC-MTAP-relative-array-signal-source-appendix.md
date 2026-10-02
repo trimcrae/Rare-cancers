@@ -30,7 +30,7 @@ The observed MTAP signals do not supply a strong-loss lead in these ten profiles
 
 The original Foundation reported-call table also lacks a specimen-specific negative-callability manifest for these genes. Its absence of reported MTAP calls therefore cannot substitute for a negative genotype. Raw-array analysis addresses a different source question and should remain separate from the repaired Foundation sample identities.
 
-Koelsche et al. already included ten EMC comparators in their 2019 Ewing-like-sarcoma methylation study and used the author conumee fork [1]. The 2021 sarcoma-classifier publication also reported a largely flat EMC copy-number landscape [2]. Exact profile overlap with the 2019 comparator set was not resolved, so this analysis is not claimed as an independent clinical cohort or a novel flat-genome discovery.
+Koelsche et al. already performed methylation-array copy-number assessment in their 2019 Ewing-like-sarcoma study using the author conumee fork [1]. The 2021 sarcoma-classifier publication also reported a largely flat EMC copy-number landscape [2]. Exact profile overlap with the 2019 comparator set was not resolved, so this analysis is not claimed as an independent clinical cohort or a novel flat-genome discovery.
 
 ## Reproducibility
 
