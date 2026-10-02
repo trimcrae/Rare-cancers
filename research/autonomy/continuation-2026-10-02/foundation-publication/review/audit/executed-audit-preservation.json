@@ -1,0 +1,91 @@
+{
+  "schema": "blind-review-executed-command-preservation/1",
+  "scope": "Preservation of already executed review-only audits; no computation or HTTP request rerun during preservation",
+  "reviewer_count": 1,
+  "origin": "Commands copied from the actual tools.exec_command cmd strings visible in this reviewer's current conversation history. A terminal newline was added when storing each ps1. These are not proposed replacement scripts or claims of new execution.",
+  "output_provenance": "JSON outputs are faithful structured transcriptions of the visible prior tool results, reserialized with normalized whitespace. They are not newly generated process stdout or original byte-for-byte log files.",
+  "original_runtime": {
+    "shell": "PowerShell (environment default)",
+    "workdir": "C:/Projects/EMC-Research",
+    "dates": "2026-10-02",
+    "exact_start_timestamps": "Not emitted by the individual audit calls; only sentinel command's Get-Date output is retained"
+  },
+  "successful_audits": [
+    {
+      "command": "successful-mapping-export-audit.ps1",
+      "output": "successful-mapping-export-output.json",
+      "tool_chunk_id": "ea030e",
+      "exit_code": 0,
+      "wall_time_seconds": 2.067141,
+      "actual_executed": true
+    },
+    {
+      "command": "successful-clinical-sentinels-history-artifact-audit.ps1",
+      "output": "successful-clinical-sentinels-history-artifact-output.json",
+      "tool_chunk_id": "05fef7",
+      "exit_code": 0,
+      "wall_time_seconds": 2.3460136,
+      "actual_executed": true,
+      "note": "Complete original command retained, including history/media, PDF hash and Get-Date reads that followed the clinical sentinels."
+    },
+    {
+      "command": "successful-clinical-namespace-audit.ps1",
+      "output": "successful-clinical-namespace-output.json",
+      "tool_chunk_id": "aaac14",
+      "exit_code": 0,
+      "wall_time_seconds": 4.1548281,
+      "actual_executed": true
+    }
+  ],
+  "failed_attempt": {
+    "command": "failed-initial-diagnostic-NOT-EVIDENCE.ps1",
+    "bounded_record": "failed-initial-diagnostic-NOT-EVIDENCE.json",
+    "tool_chunk_id": "6ceea9",
+    "exit_code": 0,
+    "wall_time_seconds": 2.5023899,
+    "actual_executed": true,
+    "scientifically_valid": false,
+    "reason": "Raw GitHub URL supplied a Git-LFS pointer, parsed into two pseudo-records; assignment to read-only PowerShell $true failed. Shell exit zero was not scientific success. All numerical output from this attempt was discarded."
+  },
+  "sources": [
+    {
+      "name": "complete_mapping",
+      "repository": "trimcrae/Rare-cancers",
+      "revision": "da49c4e836533253825587f83656675dac4c913b",
+      "path": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/Foundation-complete-rearrangement-source-mapping.json",
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/da49c4e836533253825587f83656675dac4c913b/research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/Foundation-complete-rearrangement-source-mapping.json",
+      "observed_sha256": "341f64562039230c581aefb7f03d7da4769969a79290217962216f3d7e567a5e",
+      "hash_tool_chunk": "ea030e"
+    },
+    {
+      "name": "analyzed_structural_variation_export",
+      "repository": "cBioPortal/datahub",
+      "revision": "dca75cb3f32b82d54a6f78bf0a6323e5b975aca1",
+      "path": "public/sarcoma_msk_2022/data_sv.txt",
+      "url": "https://media.githubusercontent.com/media/cBioPortal/datahub/dca75cb3f32b82d54a6f78bf0a6323e5b975aca1/public/sarcoma_msk_2022/data_sv.txt",
+      "observed_sha256": "d9fc3fc8073104c3f364825972921f271b5e8793eefcf71331c3cff7d3882701",
+      "hash_tool_chunk": "ea030e"
+    },
+    {
+      "name": "clinical_sample_table",
+      "repository": "cBioPortal/datahub",
+      "revision": "dca75cb3f32b82d54a6f78bf0a6323e5b975aca1",
+      "path": "public/sarcoma_msk_2022/data_clinical_sample.txt",
+      "url": "https://media.githubusercontent.com/media/cBioPortal/datahub/dca75cb3f32b82d54a6f78bf0a6323e5b975aca1/public/sarcoma_msk_2022/data_clinical_sample.txt",
+      "observed_sha256": "ca98900d145c39e74b49f0f2a75d7f339e4e5afc283053bbf67685bb3f5cf83a",
+      "hash_tool_chunk": "aaac14"
+    },
+    {
+      "name": "February_2024_structural_variation_export",
+      "repository": "cBioPortal/datahub",
+      "revision": "6ad0f9e0a93b2814a9e3514bfea17a63f4a7ca7e",
+      "path": "public/sarcoma_msk_2022/data_sv.txt",
+      "url": "https://media.githubusercontent.com/media/cBioPortal/datahub/6ad0f9e0a93b2814a9e3514bfea17a63f4a7ca7e/public/sarcoma_msk_2022/data_sv.txt",
+      "observed_sha256": "00d055161e509c37fe92878a33084d702012a18405a3a094dca8b13e54993f9a",
+      "hash_tool_chunk": "05fef7"
+    }
+  ],
+  "hash_method": "The actual successful scripts hash UTF-8 bytes re-encoded from decoded Invoke-WebRequest Content (handling byte[] explicitly where shown). Mapping and export hashes matched the already pinned input digests. No assertion of a new binary transport-byte receipt is made for this review-only audit.",
+  "source_storage": "Source responses were held in memory during the original calls, not retained as input files. Precise retrieval URLs, pins and observed hashes are preserved here.",
+  "unchanged_report": "blind-review.json; original report SHA256 a3b4659d9dfe6d8af4ad5f738d573c965971d23f7a15c19b724b9552cab8db6d"
+}
