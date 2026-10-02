@@ -3,6 +3,8 @@ import copy
 import importlib.util
 from pathlib import Path
 import unittest
+import sys
+import tempfile
 from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location("audit", Path(__file__).with_name("acquire.py"))
@@ -131,6 +133,66 @@ class CohortIntegrity(unittest.TestCase):
     def test_source_redirect_refused(self):
         with self.assertRaises(ValueError):
             m.NoRedirect().redirect_request(None, None, None, None, None, "https://example.org")
+
+
+class RefusalIntegrity(unittest.TestCase):
+    def setUp(self):
+        self.cached = [{"gsm": sid, "cached_title": title, "cached_class": ("EMC" if sid == "GSM1" else "DFSP"),
+          "cached_annotation": title + " | CRH-mRNA",
+          "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"}
+          for sid, title in EXPECTED.items()]
+        self.arms = {r["gsm"]: r["cached_class"] for r in self.cached}
+        self.pins = {"synthetic-input": "fixture"}
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "robots.txt"
+            path.write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")
+            self.r = m.record_refusal(path, EXPECTED, self.arms, self.pins, self.cached)
+    def bad(self):
+        with self.assertRaises((ValueError, KeyError, TypeError)):
+            m.validate_refusal(self.r, EXPECTED, self.arms, self.pins, self.cached)
+    def test_original_refusal_replay(self):
+        m.validate_refusal(self.r, EXPECTED, self.arms, self.pins, self.cached)
+    def test_decision_flip_refused(self):
+        self.r["robots"]["decision"] = "allow"
+        self.bad()
+    def test_coherent_allow_policy_cannot_be_terminal_refusal(self):
+        raw = "User-agent: *\nDisallow: /unrelated\n"
+        self.r["robots"].update(raw_utf8=raw, bytes=len(raw.encode()), sha256=m.sha(raw.encode()))
+        self.bad()
+    def test_source_url_change_refused(self):
+        self.r["attempted_source_url"] += "?retry=1"
+        self.bad()
+    def test_user_agent_change_refused(self):
+        self.r["user_agent"] = "alternate-agent"
+        self.bad()
+    def test_original_artifact_change_refused(self):
+        self.r["original_refusal"] = dict(self.r["original_refusal"], artifact_id=1)
+        self.bad()
+    def test_fake_dataset_receipt_refused(self):
+        self.r["source_receipt"] = {"http_status": 200}
+        self.bad()
+    def test_fake_annotation_projection_refused(self):
+        self.r["projection"] = {"platform": "GPL3290"}
+        self.bad()
+    def test_coverage_absence_claim_refused(self):
+        self.r["adjudication"] = dict(self.r["adjudication"], CHRNA6_coverage="absent")
+        self.bad()
+    def test_common_pool_claim_refused(self):
+        self.r["adjudication"] = dict(self.r["adjudication"], common_reference_pool="identical")
+        self.bad()
+    def test_changed_cache_descriptor_refused(self):
+        self.r["cache_observations"] = copy.deepcopy(self.cached)
+        self.r["cache_observations"][0]["cached_annotation"] = "UHR"
+        self.bad()
+    def test_corrupt_frozen_input_pin_refused(self):
+        self.r["input_sha256"] = {"synthetic-input": "different"}
+        self.bad()
+    def test_automatic_acquisition_is_disabled_even_without_evidence(self):
+        with patch.object(sys, "argv", ["audit", "--acquire", "--output", "not-written"]):
+            with patch.object(m, "request") as request:
+                with self.assertRaisesRegex(ValueError, "permanently disabled"):
+                    m.main()
+                request.assert_not_called()
 
 if __name__ == "__main__":
     unittest.main()

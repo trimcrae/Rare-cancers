@@ -10,6 +10,7 @@ on:
       - research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/evidence.json
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: usage-sprint-gpl3290-coverage-${{ github.ref }}
   cancel-in-progress: false
@@ -31,10 +32,18 @@ jobs:
           python3 --version
       - name: Synthetic source-cohort and channel tests
         run: python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/test_acquire.py -v
-      - name: One bounded official-source cycle
+      - name: Recover only the original refused robots artifact
         if: ${{ hashFiles('research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/evidence.json') == '' }}
-        timeout-minutes: 4
-        run: python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/acquire.py --acquire --output .cache/gpl3290-coverage/evidence.json
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: 11206600090
+          run-id: 36956839577
+          github-token: ${{ github.token }}
+          path: .cache/gpl3290-coverage/original-robots/
+          merge-multiple: true
+      - name: Preserve original robots refusal offline
+        if: ${{ hashFiles('research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/evidence.json') == '' }}
+        run: python3 research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/acquire.py --record-refusal .cache/gpl3290-coverage/original-robots/robots.txt --output .cache/gpl3290-coverage/evidence.json
       - name: Validate committed or newly acquired evidence offline
         run: |
           EVIDENCE_PATH=research/autonomy/usage-sprint-2026-10-01/gpl3290-coverage/evidence.json

@@ -307,14 +307,94 @@ def acquire(cache, expected, arms, pins):
     validate(out, expected, arms, pins)
     return out
 
+
+ORIGINAL_REFUSAL = {
+ "run_id": 36956839577, "job_id": 110681574472,
+ "source_commit": "bdd2608c61d1d9e5c4317ba74febbfa2f9cf2403",
+ "artifact_id": 11206600090,
+ "artifact_digest": "sha256:a3a02bc43ea4cd4b0e01d9aafe00fd5345dac1920605d20b302182f925a38c0b",
+}
+UNKNOWN = {"CHRNA6_coverage": "unknown", "common_reference_pool": "unknown",
+ "processing_compatibility": "unknown", "independent_validation": "unknown",
+ "expression_statistics": "not_run"}
+
+def cached_observations():
+    ready = json.loads((ROOT / "research/modalities/expression-validation-readiness.json").read_text())
+    rows = ready["cohorts"]["GSE4303"]["sample_records"]
+    return [{"gsm": r["sample_id"]["value"], "cached_title": r["title"]["value"],
+       "cached_class": r["class"]["value"], "cached_annotation": r["annotation"]["value"],
+       "source_kind": "historical cache/readiness; not newly acquired primary channel metadata"}
+       for r in rows]
+
+def cached_descriptor_groups(rows):
+    groups = collections.defaultdict(list)
+    for row in rows:
+        tokens = sorted(set(t for t in row["cached_annotation"].split(" | ") if t in DESCRIPTORS))
+        for token in tokens:
+            groups[token].append(row["gsm"])
+    return [{"native_descriptor": k, "cached_sample_ids": sorted(v)}
+       for k, v in sorted(groups.items())]
+
+def validate_refusal(record, expected, arms, pins, cached):
+    fail(record["schema"] == "emc-gpl3290-coverage/1" and record["status"] == "blocked_by_robots",
+         "Wrong terminal refusal record")
+    fail(record["original_refusal"] == ORIGINAL_REFUSAL, "Original run/job/artifact binding mismatch")
+    fail(record["input_sha256"] == pins and record["cached_arm_by_gsm"] == arms,
+         "Current frozen input binding mismatch")
+    fail(record["attempted_source_url"] == URL and record["user_agent"] == UA, "Source URL/user-agent changed")
+    fail(record["dataset_get_performed"] is False and record["source_receipt"] is None
+         and record["projection"] is None, "Refusal cannot carry acquired dataset evidence")
+    r = record["robots"]
+    fail(r["requested_url"] == ROBOTS_URL and r["http_status"] == 200 and r["decision"] == "refuse",
+         "Wrong observed robots status/origin/decision")
+    raw = r["raw_utf8"].encode("utf-8")
+    fail(len(raw) == r["bytes"] and sha(raw) == r["sha256"], "Robots raw hash/byte binding mismatch")
+    parser = urllib.robotparser.RobotFileParser()
+    parser.parse(r["raw_utf8"].splitlines())
+    fail(not parser.can_fetch(UA, URL), "Exact original policy does not refuse unchanged request")
+    fail(record["cache_observations"] == cached and
+         {r["gsm"]: r["cached_title"] for r in cached} == expected and
+         {r["gsm"]: r["cached_class"] for r in cached} == arms, "Cached descriptor provenance mismatch")
+    fail(record["cached_descriptor_groups"] == cached_descriptor_groups(cached),
+         "Cached descriptor groups mismatch")
+    fail(record["adjudication"] == UNKNOWN, "Unsupported coverage/reference/independence conclusion")
+
+def record_refusal(path, expected, arms, pins, cached):
+    raw = Path(path).read_bytes()
+    out = {"schema": "emc-gpl3290-coverage/1", "status": "blocked_by_robots",
+      "ai_authorship": "Codex AI assistant; independent LLM review pending",
+      "original_refusal": ORIGINAL_REFUSAL, "attempted_source_url": URL, "user_agent": UA,
+      "dataset_get_performed": False, "source_receipt": None, "projection": None,
+      "robots": {"requested_url": ROBOTS_URL, "http_status": 200, "decision": "refuse",
+        "raw_utf8": raw.decode("utf-8"), "bytes": len(raw), "sha256": sha(raw),
+        "response_headers": "not retained by original failed source step"},
+      "input_sha256": pins, "cached_arm_by_gsm": arms, "cache_observations": cached,
+      "cached_descriptor_groups": cached_descriptor_groups(cached), "adjudication": UNKNOWN,
+      "limitations": "Only the original robots body was recovered from its existing GitHub artifact. No new platform annotation or primary sample/channel metadata was acquired. Cache descriptors cannot establish pool composition, channel roles, processing compatibility or CHRNA6 assay coverage."}
+    validate_refusal(out, expected, arms, pins, cached)
+    return out
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--acquire", action="store_true")
     p.add_argument("--check")
     p.add_argument("--output")
+    p.add_argument("--record-refusal")
     args = p.parse_args()
+    fail(not args.acquire, "This source cycle stopped on robots refusal; automatic acquisition is permanently disabled")
     expected, arms, pins = frozen_inputs()
-    if args.acquire:
+    if args.record_refusal:
+        fail(args.output is not None, "Output path required")
+        out = record_refusal(args.record_refusal, expected, arms, pins, cached_observations())
+        text = json.dumps(out, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
+        target = Path(args.output)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(text, encoding="utf-8", newline="")
+        print("SOURCE_EVIDENCE_BEGIN")
+        print(text, end="")
+        print("SOURCE_EVIDENCE_END")
+        print(f"EVIDENCE_SHA256={sha(text.encode())} BYTES={len(text.encode())}")
+    elif args.acquire:
         fail(not (HERE / "evidence.json").exists(), "Evidence already committed; no source repetition")
         fail(args.output is not None, "Output path required")
         socket.setdefaulttimeout(12)
@@ -330,8 +410,8 @@ def main():
         print(f"EVIDENCE_SHA256={sha(text.encode())} BYTES={len(text.encode())}")
     elif args.check:
         out = json.loads(Path(args.check).read_text(encoding="utf-8"))
-        validate(out, expected, arms, pins)
-        print(f"OFFLINE_CHECK_OK samples={len(expected)} annotation_rows={out['projection']['platform_table_rows']} no_expression_values=True")
+        validate_refusal(out, expected, arms, pins, cached_observations())
+        print(f"OFFLINE_CHECK_OK cached_samples={len(expected)} robots=refused dataset_get=False scientific_states=unknown")
     else:
         p.error("Choose --acquire or --check")
 
