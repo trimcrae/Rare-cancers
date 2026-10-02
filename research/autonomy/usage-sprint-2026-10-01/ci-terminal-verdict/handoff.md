@@ -5,61 +5,86 @@ kind: memo
 status: live
 date: 2026-10-02
 last_verified: 2026-10-02
-purpose: Preserve one operational CI reporting repair and its bounded validation.
+purpose: Preserve a verified operational CI reporter repair and its bounded validation.
 scope: Offline CI reporter behavior only; no scientific or publication verdict.
 audience: [maintainers, autonomous research agents]
 ---
 
-# Question and stop
+# Completed result
 
-At base `184e6aff659180492f4df94ed46a222849ab1b7c`,
-`research/autonomy/await_ci.py` reports terminal cancelled/skipped
-or unrecognized conclusions as neither pass nor fail, then falls through to
-GREEN and exit 0. Can that reporting path preserve UNKNOWN while keeping
-existing success/neutral, red precedence, minimum inventory and finite waiting
-behavior?
+Terminal cancelled/skipped or unrecognized CI conclusions now return exit 2
+with UNKNOWN. Previously the reporter printed “not evidence of green”, then
+fell through to GREEN and exit 0. Existing success/neutral classification,
+RED precedence, minimum inventory and finite waiting behavior are unchanged.
 
-The independently inspected original Git blob is
-`121bb8798debff50e207a14e50aa5aae162f3d0e`.
-The repair returns exit 2 with UNKNOWN for terminal nonverdict conclusions.
-It does not change workflow conclusions, GitHub Actions policy, publication
-acceptance, the shared HTTP describer, scientific checks or any scheduler.
+The exact pinned original at base
+`184e6aff659180492f4df94ed46a222849ab1b7c`, native Git blob
+`121bb8798debff50e207a14e50aa5aae162f3d0e`, actually reproduced the
+cancelled-to-GREEN/exit-0 defect in the offline Python test. API responses and
+time were mocked; this was not a live GitHub-health measurement.
 
-# Validation status
+This is AI-authored work by Codex. A separate AI reviewer and root checked
+source/methods; the separate reviewer also inspected actual settled CI and
+byte-matched the original logs. No human review or new primary biomedical
+source verification is claimed.
 
-This is an AI-authored source/method checkpoint by Codex. Source inspection is
-distinct from executed Python. Initial exact-source CI 37000543323 at
-f957a685941d23c28b07fa974502c2fc9c939f6e passed its 14 offline unittest
-methods, syntax and 15 inherited HTTP pytest tests, with clean tracked diff.
-Normal FAST failed both systems-model and test-function-budget gates, so the
-run is FAILED. Our handoff used a status outside the native schema; our test
-packaging put the commit-loop tier at 1506/1500. These are our repair/metadata
-failures, not baseline environment failures. The original 103252-byte log is
-retained for the final receipt. Its SHA256 is
-92fa06435416ef2ede5b0ad8561b76346da453ba5c2e1956ce5f00d82df5573d.
+# Actual exact-source validation
 
-The updated checkpoint corrects the handoff status and groups all original
-scenario/assertion bodies into eight natural behavioral families. It changes
-no budget ceiling or guard. A direct unchanged systems-checker diagnostic is
-included before normal FAST to expose any additional failure. Settled checks
-have not yet run at this checkpoint; exact-source CI success remains PENDING.
+Tested revision: `a8dc6075be2dc782954d10982b43cea554a4c3a0`.
+Tested tree: `f2b0e3c1aaafa157f28334080e1a49ba52389565`.
 
-The planned settled checks are eight offline unittest methods (including an
-exact pinned-original cancelled false-green witness), existing offline HTTP
-diagnosis pytest cases, syntax compilation, normal default FAST and clean
-tracked diff. API responses and time are mocked for poll behavior; no live
-provider/source request or scientific rescreen is required. Normal FAST is
-not full publication verification.
+[CI 37001860371](https://github.com/trimcrae/Rare-cancers/actions/runs/37001860371),
+job `110821137756`, completed SUCCESS on that exact checkout with
+CPython 3.11.16:
+
+- Eight offline unittest methods passed (0.007 s), retaining all fourteen
+  original scenario/assertion bodies in natural behavioral families.
+- Fifteen inherited offline HTTP pytest tests passed (0.08 s); syntax passed.
+- The unchanged systems checker passed with 0 errors and 90 retained warnings.
+- Normal default FAST passed its document/artifact gates, with the existing
+  commit-loop tier at 1500/1500 test functions; tracked diff remained clean.
+
+The full scientific and pure-logic pytest suites were explicitly skipped by
+default FAST. No `PREFLIGHT_FULL` publication verification was performed.
+See [validation-receipt.json](validation-receipt.json) and the
+[original settled transcript](final-ci.log), 122695 UTF-8 bytes, SHA256
+`01101a0a7db73a96aefd1e131135bdbc1d8b6f7a26c2314e526ca2d920ea9572`.
+
+# Initial failure and narrow repair
+
+Initial exact-source CI `37000543323`, job `110816998065`, at
+`f957a685941d23c28b07fa974502c2fc9c939f6e` passed its fourteen unittest
+methods, syntax, fifteen inherited HTTP tests and clean diff. Overall it
+FAILED normal FAST at both systems-model and test-function-budget gates.
+
+Our test packaging raised the tier to 1506/1500. We grouped the same assertion
+bodies into eight natural families without changing any ceiling or guard.
+Our new handoff used `status: draft`, outside the native schema, and now uses
+`live` with truthful validation state. The original systems diagnostic was
+suppressed, so this schema mismatch supports an inference about that failure;
+no original D2/D11 trace is claimed. Direct unchanged systems diagnostics and
+normal FAST passed after correction. These were our repair/metadata failures,
+not baseline environment failures.
+
+The [original failed transcript](initial-ci.log) is 103252 UTF-8 bytes, SHA256
+`92fa06435416ef2ede5b0ad8561b76346da453ba5c2e1956ce5f00d82df5573d`.
+It remains FAILED; the passing settled run does not relabel it.
 
 # Preservation and endpoint
 
 The frozen EMC ASO NAT submission package remains first priority and awaits
-author action. All scientific inputs/results, deposited assets, review seats,
+author action. Scientific inputs/results, deposited assets, review seats,
 preregistrations, shared queues, paid fleet, categorical no-GPU posture and
-publication enforcers remain unchanged. This task creates no PR, main merge,
-publication, outreach, model inference/API or paid compute job.
+publication enforcers are unchanged. No PR, main merge, publication, outreach,
+new source acquisition, scientific rescreen/kernel, inference/API or paid
+compute job occurred.
 
-Stop after one independent review/repair batch and exact settled CI receipt.
-Record actual failures as repair/configuration failures when appropriate;
-never substitute a cancelled or skipped run for green evidence. No new
-scientific or scheduler task is queued by this handoff.
+Runtime/test/workflow bytes remain exactly those reviewed and tested; the
+final handoff/JSON/original-log commit adds documentation evidence only.
+Mocks establish reporter behavior, not completeness of live GitHub inventory
+or a new CI acceptance policy.
+
+Stop this completed route unless distinct changed input or an independently
+demonstrated useful defect appears. Do not repeat an unchanged audit/check
+cycle to consume usage. No new task, worker, source cycle, job or monitor is
+queued by this handoff; ownership returns to the coordinator.
