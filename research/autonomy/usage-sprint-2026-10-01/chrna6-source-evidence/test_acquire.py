@@ -16,6 +16,7 @@ def source():
         "p1\tNM_synthetic // CHRNA6 // synthetic fixture // 8973\n",
         "!platform_table_end\n", "^SAMPLE = GSM_SYNTHETIC\n",
         "!Sample_platform_id = GPL6244\n",
+        "!Sample_title = synthetic sample\n",
         "!Sample_data_processing = synthetic fixture preprocessing\n",
         "#VALUE = RMA log2 signal\n", "!sample_table_begin\n",
         "ID_REF\tVALUE\n", "p1\t4.25\n", "!sample_table_end\n",
@@ -101,7 +102,7 @@ class SourceIntegrity(unittest.TestCase):
         manifest = {"gene_to_probe": {"CHRNA6": "p1"}}
         with self.assertRaisesRegex(ValueError, "source/cache mismatch"):
             acquire.compare(p, manifest, {"GSM_SYNTHETIC": 9.0}, {
-                "GSM_SYNTHETIC": {"title": "", "characteristics_ch1": [], "source_ch1": [],
+                "GSM_SYNTHETIC": {"title": "synthetic sample", "characteristics_ch1": [], "source_ch1": [],
                                   "source_ch2": [], "processing": ["synthetic fixture preprocessing"],
                                   "VALUE_definition": ["RMA log2 signal"]}
             })
@@ -112,6 +113,29 @@ class SourceIntegrity(unittest.TestCase):
         p = self.parse(s)
         with self.assertRaisesRegex(ValueError, "ambiguous gene assignment"):
             acquire.compare(p, {"gene_to_probe": {"CHRNA6": "p1"}}, {}, {})
+
+
+    def test_coherent_wrong_sample_platform_rejected_offline(self):
+        p = self.parse(source())
+        row = p["samples"]["GSM_SYNTHETIC"]
+        row["metadata"]["platform"] = ["GPL3290"]
+        for line in row["metadata_lines"]:
+            if line["text"].startswith("!Sample_platform_id"):
+                line["text"] = "!Sample_platform_id = GPL3290"
+        with self.assertRaisesRegex(ValueError, "wrong projected sample platform"):
+            acquire.check_projection(p)
+
+    def test_wrong_top_level_platform_rejected_offline(self):
+        p = self.parse(source())
+        p["platform"] = "GPL3290"
+        with self.assertRaisesRegex(ValueError, "wrong projected platform"):
+            acquire.check_projection(p)
+
+    def test_incomplete_projected_table_rejected_offline(self):
+        p = self.parse(source())
+        p["samples"]["GSM_SYNTHETIC"]["table_complete"] = False
+        with self.assertRaisesRegex(ValueError, "incomplete projected sample table"):
+            acquire.check_projection(p)
 
 
 if __name__ == "__main__":

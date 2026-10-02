@@ -5,7 +5,9 @@ on:
       - codex/usage-sprint-2026-10-01-chrna6-source-evidence
     paths:
       - .github/workflows/usage-sprint-chrna6-source-evidence.yml
-      - research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/**
+      - research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/acquire.py
+      - research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/test_acquire.py
+      - research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/evidence.json
 permissions:
   contents: read
 concurrency:
@@ -30,16 +32,20 @@ jobs:
       - name: Synthetic source-integrity tests
         run: python3 research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/test_acquire.py -v
       - name: One bounded official-source acquisition and comparison
+        if: ${{ hashFiles('research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/evidence.json') == '' }}
         timeout-minutes: 6
         run: >-
           python3 research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/acquire.py
           --acquire --output .cache/chrna6-source-evidence/evidence.json
-      - name: Validate acquired evidence offline
-        run: >-
-          python3 research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/acquire.py
-          --check .cache/chrna6-source-evidence/evidence.json
+      - name: Validate committed or newly acquired evidence offline
+        run: |
+          EVIDENCE_PATH=research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/evidence.json
+          if [ ! -f "$EVIDENCE_PATH" ]; then
+            EVIDENCE_PATH=.cache/chrna6-source-evidence/evidence.json
+          fi
+          python3 research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/acquire.py --check "$EVIDENCE_PATH"
       - name: Retain finite source artifact
-        if: ${{ always() }}
+        if: ${{ always() && hashFiles('research/autonomy/usage-sprint-2026-10-01/chrna6-source-evidence/evidence.json') == '' }}
         uses: actions/upload-artifact@v4
         with:
           name: chrna6-source-evidence-${{ github.sha }}

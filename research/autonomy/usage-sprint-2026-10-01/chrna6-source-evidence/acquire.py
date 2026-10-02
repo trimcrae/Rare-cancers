@@ -247,6 +247,7 @@ def bounded_lines(path):
 
 def check_projection(projection):
     """Bind parsed fields to the retained source text without trusting redundant fields."""
+    fail(projection["platform"] == "GPL6244", "wrong projected platform")
     h = projection["platform_header"]["text"].split("\t")
     fail(len(h) == len(set(h)), "duplicate annotation header")
     ids = []
@@ -271,6 +272,9 @@ def check_projection(projection):
             fail(key in METADATA, "unexpected projected metadata")
             meta[METADATA[key]].append(value)
         fail(dict(meta) == row["metadata"], "metadata text/fields disagree: " + sid)
+        fail(row["metadata"].get("platform") == ["GPL6244"],
+             "wrong projected sample platform: " + sid)
+        fail(row["table_complete"] is True, "incomplete projected sample table: " + sid)
         header = row["table_header"]["text"].split("\t")
         fail(len(header) == len(set(header)) and "ID_REF" in header and "VALUE" in header,
              "invalid projected value header")
@@ -290,6 +294,8 @@ def check(evidence_path):
     fail(evidence["schema"] == "chrna6-source-evidence/1", "wrong evidence schema")
     fail(evidence["input_sha256"] == hashes, "changed committed inputs")
     fail(evidence["acquisition"]["sha256"] == EXPECTED_GZIP_SHA256, "changed primary pin")
+    fail(evidence["acquisition"]["bytes"] == manifest["source_files"]["GSE24369.soft.gz"]["bytes"],
+         "changed primary source byte count")
     projection = evidence["source_projection"]
     check_projection(projection)
     fail(set(projection["samples"]) == set(roster), "changed projected sample roster")
