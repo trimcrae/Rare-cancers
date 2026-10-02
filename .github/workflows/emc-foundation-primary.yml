@@ -1,0 +1,44 @@
+name: EMC Foundation official primary source confirmation
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/foundation-primary-token.json]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  foundation-primary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check cloud storage
+        run: python3 -c 'import shutil; assert shutil.disk_usage(".").free > 12*1024**3'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: |
+            research/autonomy/continuation-2026-10-02/foundation-primary-aws
+            research/autonomy/continuation-2026-10-02/foundation
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: emc-continuation-small-reanalyses-37009409052
+          run-id: 37009409052
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/accepted-small
+      - name: Install XLS reader
+        run: python3 -m pip install --no-cache-dir xlrd==2.0.1
+      - name: One bounded primary retrieval and independent extraction
+        run: timeout 330s python3 research/autonomy/continuation-2026-10-02/foundation-primary-aws/run_cloud.py "$RUNNER_TEMP/foundation-primary-results" "$RUNNER_TEMP/accepted-small"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: foundation-primary-results
+          path: ${{ runner.temp }}/foundation-primary-results/
+          retention-days: 30
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: foundation-primary-inputs
+          path: ${{ runner.temp }}/foundation-primary-inputs/
+          retention-days: 30
