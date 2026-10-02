@@ -17,7 +17,8 @@ the wake.
     python3 research/autonomy/await_ci.py --sha $(git rev-parse HEAD) > ci.log 2>&1; echo "EXIT=$?" >> ci.log
 
 ⚠ AND IT WRITES A VERDICT, NOT A PING. Exit 0 = every run concluded successfully. Exit 1 = something
-concluded red. Exit 2 = the deadline passed with runs still going, which is NOT a pass — an absent
+concluded red. Exit 2 = no green verdict: runs are cancelled/skipped/unknown, or the deadline
+passed with runs still going. An absent
 reading is not a reading of absence (CLAUDE.md §4), and a poller that times out silently is the
 "green board built from missing data" this repository has already paid for.
 
@@ -239,6 +240,9 @@ def poll(repo: str, sha: str, deadline_s: int, interval_s: int, token: str | Non
                 print(f"[await-ci] ◻ {len(other)} run(s) neither passed nor failed "
                       f"({sorted({str(r.get('conclusion')) for r in other})}). A cancelled run "
                       "measured nothing; it is not evidence of green.", flush=True)
+                print(f"[await-ci] ◻ CI is UNKNOWN on {sha[:8]} — no all-green verdict.",
+                      flush=True)
+                return 2
             print(f"[await-ci] ✅ CI decided GREEN on {sha[:8]}", flush=True)
             return 0
 

@@ -1,0 +1,162 @@
+{
+  "schema": "usage-sprint-ci-terminal-verdict-validation/1",
+  "task": "Bounded operational terminal CI verdict repair",
+  "authorship": {
+    "writer": "Codex AI assistant",
+    "independent_reviewer": "separate Codex AI agent /root/pipeline_quality_review",
+    "human_review_claimed": false,
+    "exact_model_identifier": "UNOBSERVED",
+    "effort": "inherited",
+    "subscription_usage": "UNOBSERVED"
+  },
+  "repository": "trimcrae/Rare-cancers",
+  "branch": "codex/usage-sprint-2026-10-01-ci-terminal-verdict",
+  "base_revision": "184e6aff659180492f4df94ed46a222849ab1b7c",
+  "tested_revision": "a8dc6075be2dc782954d10982b43cea554a4c3a0",
+  "tested_tree": "f2b0e3c1aaafa157f28334080e1a49ba52389565",
+  "source_binding": {
+    "path": "research/autonomy/await_ci.py",
+    "original_git_blob": "121bb8798debff50e207a14e50aa5aae162f3d0e",
+    "bytes": 19470,
+    "sha256": "0977f0cddd2d10364b6efa61bed1bb557cde19180b8fb5d09a01115b68a53fa2",
+    "verification": "Actual offline Python baseline loads exact committed original via git show and matches its native Git blob. No new primary biomedical source acquired."
+  },
+  "tested_blobs": [
+    {
+      "path": "research/autonomy/await_ci.py",
+      "blob": "0601de0bb5aa62fbc060834f0e9fd47a5d02864a",
+      "bytes": 19656,
+      "sha256": "20725c4d6c88bde694afcf22916f025d7d2429cffb85e033edeec324e9d08e56"
+    },
+    {
+      "path": "research/autonomy/tests/test_ci_terminal_verdict.py",
+      "blob": "0f399ef34c5af8b36d5f0732528c4d33785176ae",
+      "bytes": 9452,
+      "sha256": "c1b6669e05eb4a7ef0a42ac517d6fb05c05e2d7acc496282a9fca62647728194"
+    },
+    {
+      "path": ".github/workflows/usage-sprint-ci-terminal-verdict.yml",
+      "blob": "c5e567ad75bae9b3b8a7028d4db59fba229005b5",
+      "bytes": 2011,
+      "sha256": "cc22d724c918fdc219f39e835017a8b9ecffde6d336d45c5ea00e9f3f41522d3"
+    }
+  ],
+  "completed_CI": {
+    "run_id": 37001860371,
+    "job_id": 110821137756,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/37001860371",
+    "event": "push",
+    "run_attempt": 1,
+    "head_sha": "a8dc6075be2dc782954d10982b43cea554a4c3a0",
+    "status": "completed",
+    "conclusion": "success",
+    "interpreter": "CPython 3.11.16",
+    "checkout_sha": "a8dc6075be2dc782954d10982b43cea554a4c3a0",
+    "original_log": {
+      "path": "research/autonomy/usage-sprint-2026-10-01/ci-terminal-verdict/final-ci.log",
+      "bytes": 122695,
+      "sha256": "01101a0a7db73a96aefd1e131135bdbc1d8b6f7a26c2314e526ca2d920ea9572"
+    }
+  },
+  "actual_checks": [
+    {
+      "command": "python3 -m unittest discover -s research/autonomy/tests -p test_ci_terminal_verdict.py -v",
+      "result": "passed",
+      "test_methods": 8,
+      "reported_seconds": 0.007,
+      "scope": "All fourteen original scenario/assertion bodies retained in eight natural behavioral families; table controls use real production poll with synthetic API responses and finite mocked time."
+    },
+    {
+      "command": "python3 -m py_compile research/autonomy/await_ci.py research/autonomy/tests/test_ci_terminal_verdict.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 -m pytest research/autonomy/tests/test_an_error_body_is_the_diagnosis.py -v --tb=short -p no:cacheprovider",
+      "result": "passed",
+      "tests": 15,
+      "reported_seconds": 0.08,
+      "scope": "Inherited offline HTTP/error diagnosis; mocked reads, no HTTP acquisition."
+    },
+    {
+      "command": "python3 systems/systems_check.py --check",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 90,
+      "infos": 7,
+      "scope": "Unchanged checker; nonblocking warnings retained."
+    },
+    {
+      "command": "./scripts/preflight.sh",
+      "result": "passed",
+      "scope": "Normal default FAST doc/artifact gates only",
+      "commit_loop_test_function_count": 1500,
+      "unchanged_budget": 1500,
+      "elapsed_seconds_from_workflow_group_to_OK": 139.516,
+      "elapsed_measurement": "Calculated from retained UTC log timestamps, not a native preflight duration counter."
+    },
+    {
+      "command": "git status --short; git diff --exit-code",
+      "result": "passed",
+      "scope": "No tracked source changes caused by actual checks."
+    }
+  ],
+  "explicitly_not_executed": [
+    "Full scientific pytest suites",
+    "Full pure-logic pytest suite",
+    "PREFLIGHT_FULL publication verification",
+    "Live GitHub API polling by await_ci",
+    "GPU/model inference/API/paid compute",
+    "Scientific source acquisition, rescreen or kernel rerun"
+  ],
+  "initial_failed_validation": {
+    "revision": "f957a685941d23c28b07fa974502c2fc9c939f6e",
+    "run_id": 37000543323,
+    "job_id": 110816998065,
+    "status": "completed",
+    "conclusion": "failure",
+    "actual_passes": [
+      "14 unittest methods (0.012s), including pinned-original false-green witness",
+      "syntax compilation",
+      "15 inherited offline HTTP pytest tests (0.08s)",
+      "clean tracked diff"
+    ],
+    "failed_gates": [
+      "systems-model gate: original cause suppressed by preflight",
+      "commit-loop test-function budget: 1506/1500"
+    ],
+    "attribution": "Repair-induced test packaging and native handoff metadata defects, not baseline environment failures. The handoff's draft status violates the native schema; this supports inference about the suppressed original systems failure. No original D2/D11 diagnostic was retained. The corrected direct diagnostic and normal FAST passed.",
+    "base_test_function_count": "1492 inferred from initial count minus fourteen added functions; not executed baseline census",
+    "original_log": {
+      "path": "research/autonomy/usage-sprint-2026-10-01/ci-terminal-verdict/initial-ci.log",
+      "bytes": 103252,
+      "sha256": "92fa06435416ef2ede5b0ad8561b76346da453ba5c2e1956ce5f00d82df5573d"
+    }
+  },
+  "repair_scope": {
+    "production": "Terminal other conclusions print UNKNOWN and return2; existing neutral-green policy, RED precedence, inventory minimum, clock/deadline and shared HTTP describer unchanged.",
+    "test_packaging": "All original bodies retained unedited in eight natural families; no ceiling or guard changed.",
+    "handoff": "Uses native live status with honest validation state.",
+    "workflow": "Branch-only CPU check plus unchanged read-only systems diagnostic. No scheduler/GPU/publication policy change."
+  },
+  "reviews": {
+    "initial_source_method": "clear on f957a685941d23c28b07fa974502c2fc9c939f6e by independent agent and root",
+    "repair_source_method": "clear on a8dc6075be2dc782954d10982b43cea554a4c3a0 by independent agent and root",
+    "actual_CI": "Independent agent cleared exact settled run/job/full original transcript and scope; root receipt verification is separate."
+  },
+  "preservation": {
+    "main_merge": false,
+    "new_PR": false,
+    "publication": false,
+    "scientific_assets_changed": false,
+    "publication_or_GPU_enforcers_changed": false,
+    "shared_queues_or_fleet_changed": false,
+    "review_seats_or_preregistrations_changed": false,
+    "scientific_claim": "NONE"
+  },
+  "limitations": [
+    "Mocked API/time controls validate reporter logic, not live GitHub inventory completeness or future status policy.",
+    "Current neutral-green classification is preserved; this task does not establish a new CI acceptance policy.",
+    "Final handoff/log/JSON additions are documentation evidence; tested runtime/test/workflow blobs remain pinned to exact settled CI revision."
+  ],
+  "endpoint": "Stop this completed reporter route unless distinct changed input or an independently demonstrated useful defect appears. Do not repeat validation or a source audit to consume usage. No new task/worker/job/monitor is queued."
+}
