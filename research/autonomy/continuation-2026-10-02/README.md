@@ -17,6 +17,8 @@ _backfilled: "true"
 
 This isolated branch extends the frozen cloud portfolio at `da49c4e836533253825587f83656675dac4c913b`. Reviewed scientific prose bodies and the accepted ASO catalogue are preserved. Document metadata was added with explicit original-body bindings. The campaign contract records selection, ownership, scope, storage and usage constraints.
 
+Latest checkpoint: Foundation correspondence and PDF reviewed; full publication checks are active. A coherent methylation methods draft has passed independent contribution review and focused repairs. See checkpoint07 below and `campaign-status.json` for live ownership.
+
 ## Current priority: measured-data reanalysis
 
 The user's October2 correction prioritizes papers using completed experimental or clinical measurements, as in the submitted CSPG4 letter. [Paper selection and exact gaps](empirical-priorities.json) supersede an ASO-first reading of this campaign. The existing eight focused candidates are distinct from eighteen prose artifacts; they include methods and data-quality contributions, not eighteen discoveries.
@@ -104,3 +106,16 @@ The separate [registry v2 repair](registry-family-v2/RESULTS.md) passed cloud ru
 Checkpoint06 source/code/result/prose reviews are bounded to the named artifacts. [Normal preflight passed](https://github.com/trimcrae/Rare-cancers/actions/runs/37052738144) at97bd3a0e2310f69cc0cd772b4a30cd6652ca738c after two document-kind metadata repairs and a saved citation-identity receipt. Exact preflight originals, failed and passing logs are preserved under validation/checkpoint-06-initial and validation/checkpoint-06-final. A previously downloaded HTML listing was archived and a scratch replay layout added so the original audit inputs are reconstructible. Scientific bodies and results remain unchanged. The passing scope is fast document/artifact gates; optional full suites and submission readiness are not claimed.
 
 All checkpoint06 finite workers and scientific jobs are complete. The final seal changes validation logs/status/index/ownership only. The existing hourly campaign remains active through the specified reset. Main remainsee84a76beb7c51004eca05cad09cf9612bb0e959; no main merge or accepted publication changes occurred. Weekly usage is84%used/16%remaining, with ordinary usage allowed. Exact next questions are recorded in campaign-status.json.
+
+
+## Checkpoint07 manuscript completion and publication checks
+
+The new [Foundation correspondence](../../../manuscripts/foundation/source-identity-correspondence.md) and its three-page PDF are frozen at package revision `e72dff329dd2d61f99dc8ad73d62dfee56d68306`. Scientific/prose review, independent blind evidence review, complete PDF text comparison and visual inspection are recorded under `foundation-publication/`. The blind review reports zero blockers, zero P1 findings and one optional P2 clarification about retained event order. Repeated gene pairs cannot independently identify individual export events. The exact primary-input archive is now durable in the branch, closing its prior expiry risk; original source licenses remain distinct.
+
+Actual unscoped [FULL preflight](https://github.com/trimcrae/Rare-cancers/actions/runs/37058750900) is running at candidate `8be64d3be6a4e37c7e0d7529ac38828919f4964e`. No passing result or technical publication clearance is claimed while it runs. Root owns result integration and the subsequent exact-candidate publish-bar evaluation. Venue cost/licensing compatibility and journal authorization remain separate. Accepted ASO files and author-held versions remain untouched.
+
+The [methylation working manuscript](methylation-publication/working-manuscript.md) combines the matched-training-support result with score-coverage, equal-class-loss and zero-vote sensitivities. An independent reviewer explicitly configured at ultra supports a modest, dataset-specific empirical methods report. Two reporting/package findings were repaired and independently verified: unestablished selection timing and explicit quota/subsampling/temperature methods. Original drafts, reviews and exact code/source bindings remain preserved. No numerical result changed, no model was refitted, and no new biological or clinical-validation claim is made. Final publication format, artifact-bound editorial evidence and actual publication gates remain outstanding.
+
+The [registry next-slice proposal](registry-next-slice/proposed-plan.txt) identifies a defensible new comparison without reusing the nine seen cases. It requires cutoff-date tie completion and148 documented trial exclusions, plus an audit of other known exposure IDs before freezing. No new registry outcomes, oracle or predictions exist for this proposal. It is not yet a preregistered or executed study.
+
+Checkpoint07 normal preflight is requested on the settled integration tree. Exact eventual outcomes and active ownership will be recorded in campaign-status.json. All finite worker tasks are complete; root retains the active cloud-check integration. No main merge, PR, submission or outreach occurred.

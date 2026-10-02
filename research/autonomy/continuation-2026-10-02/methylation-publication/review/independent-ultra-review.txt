@@ -1,0 +1,69 @@
+# Independent manuscript/contribution review
+
+Reviewed artifact: `checkpoint07-methylation-writer/manuscript-repaired.md`, SHA256 `befcb29c0b22db7f4948ff8e4c67116926f1f414e57241502bcaeba3aba7e0a7` (15,648 bytes).
+Review date: 2026-10-02. Requested effort: ultra. Model parameter: omitted/inherited. Serving model and effort telemetry: unknown.
+Reviewer role: finite independent manuscript/contribution review; root alone owns branch integration.
+
+## Decision
+
+The measured findings support a coherent **short empirical methods report**, with modest, dataset-specific scientific merit. The contribution is the joint empirical demonstration that (a) a supplier/sample loss contrast changes after class-specific training support is matched and (b) score sharpening changes threshold assignments while the apparent loss benefit depends on weighting and the input-floor convention. These two experiments share a defensible question about which comparisons sustain an apparent robustness conclusion. They do not demonstrate a statistical interaction between the experiments, a general methylation mechanism, or a new diagnostic method.
+
+**P1: none demonstrated. P2: two small reporting/package corrections below.** This is support for the bounded scientific claim, not a submission-readiness decision. The exact private draft has not passed the full publication protocol in this review. No additional fit, cohort download, or broad scientific rerun is needed to resolve these findings.
+
+## Findings
+
+### P2-1 — Source ledger overstates prespecification
+
+- Artifact: original `claim-source-ledger.md`, SHA256 `70ab55186a78fadfef03b7238ecb35f5be9377cf8dbf5b8973830f6c604f3394`, line 44.
+- Exact claim: “Mapping frozen before external prediction inspection”.
+- Evidence: the reviewed manuscript, line 37, correctly says the inspected records do not establish this timing. The saved result and replay code contain a self-reported `rule_freeze` string, which is not independent chronological evidence. I did not establish earlier freezing.
+- Consequence: manuscript and accompanying evidence map give inconsistent accounts of selection protection. A reader could incorrectly infer prospective annotation-subset specification from the ledger.
+- Minimum correction: replace only the ledger qualification with the manuscript's explicit timing uncertainty; preserve that the mapping is fixed for this analysis. No change to the 120-profile arithmetic is implied.
+- Classification: P2 source-package correction before integrating the outward-facing evidence map; not a new defect in the already-qualified manuscript claim.
+
+### P2-2 — Specify what was matched and what temperature fitting minimized
+
+- Artifact: reviewed manuscript, Methods lines 31 and 35.
+- Evidence: `methylation_full_geo.py` at `da49c4e836533253825587f83656675dac4c913b`, lines 141–150, sets each class quota to its minimum available training count across every scheme/fold, then makes one deterministic within-class draw per scheme/fold. `methylation_transfer.py`, lines 27–30 and 73, uses fivefold stratified splits (grouped by supplier/chip where applicable) with seed 2601001. `methylation_final_replay.py`, lines 63–70, minimizes reference OOF negative log likelihood over T in [0.05, 10], refitting the temperature for each epsilon.
+- Consequence: “shared quotas” and “fitted a temperature” leave consequential procedural choices implicit. Matching changes training composition and feature selection as well as class counts; it is not a decomposition that identifies how much of the gap is caused by sample number alone.
+- Minimum correction: add two short Methods sentences specifying the minimum-across-folds quota and one deterministic subsample, plus reference-OOF NLL minimization and per-epsilon fitting. Give the fixed split seed and code path in Methods or a linked supplement. Describe the observed attenuation as a result in this fixed subsampling realization.
+- Classification: P2 reporting/reproducibility clarification. The code and saved results support the analysis; do not rerun it merely to make the prose complete.
+
+## What the evidence supports
+
+1. The grouped result is real in the saved outputs: supplier-minus-sample Brier difference 0.0803227204 becomes 0.0210599544 on the same 658 evaluation profiles. Table 1's six rounded agreement/loss values and the stated conditional bootstrap intervals match. The change combines lower supplier loss (-0.0342294833) with higher sample loss (+0.0250332827). “Training support matters in this fixed comparison” is supported. “Matching corrects a technical batch effect” or a general 74% causal explanation would not be.
+2. A positive temperature preserves each profile's class order. The reported 57 to 311 assignments among all 428 profiles, and 44 to 115 among the 120 fusion-compatible profiles, match the saved results. The one newly above-threshold discordance (sample 262, COL1A1::PDGFB-compatible DFSP predicted ASPS) is explicitly retained. This is an informative empirical score/threshold tradeoff; the numerical 0.9 cutoffs do not share a probability meaning across methods.
+3. Focused reaggregation of the 12 saved class means independently reproduces NLL 1.0742871213 to 1.8437918075 and Brier 0.2365079526 to 0.1932622473, together with the profile-weighted summaries. Four classes contribute 91/120 profiles and three are singletons. Equal-class weighting is a different estimand, not a remedy that makes rare-class inference precise.
+4. The epsilon sensitivities match the result object. With a true-class zero vote, unregularized log loss is infinite; a finite input floor is therefore part of the score definition. The manuscript appropriately does not advertise the tiny main-epsilon NLL reduction as a stable benefit. Its gain in Brier score can coexist with much worse loss for a few discordant profiles.
+5. The identity and denominator work establishes useful scope boundaries. Primary Koelsche text explicitly reports different patients; the saved array audit supports no exact array overlap. Primary Lyskjær text supports the 820/163 represented/unrepresented distinction and diagnostic review after classifier findings. Saved audit objects record 986 deposited, three source-native failures, 983 retained, six revision flags, and the unresolved 821-versus-820 table discrepancy. These are not external-cohort predictions, a twelve-class eligibility mapping, or proof of cross-study patient independence. I did not independently re-extract all workbook cells in this review.
+
+## Alternative explanations and statistical limits
+
+- Supplier, DNA preparation, histology/referral selection, platform, and biological case mix remain entangled. The provenance-only model shows predictability of source labels; it cannot identify technical causation.
+- One fixed split/subsample and fitted prediction set do not estimate stability across retraining, alternative seeds, hospitals, or future patients. The cluster bootstrap is honestly described as conditional; it does not repair overlapping-training-set dependence or unmeasured patient linkage.
+- The common panel excludes unsupported classes, including EMC. The fusion subset is selected, author-annotated, not blinded or representative of all sarcoma, and may reflect morphology- or classifier-prompted workup. Neither agreement with the published classifier nor selected fusion concordance is independent diagnostic accuracy.
+- One DFSP discordance dominates transformed NLL; singleton/small classes strongly affect equal-class weighting. This limits generalization but does not erase the observed sensitivity. There is no need to discard the failure or manufacture positive biology.
+- The same findings should not be presented as novelty of temperature scaling or of external validation. The defensible novelty is the specific public-data empirical audit and its reusable evidence. A first-in-literature claim was not assessed and is not needed.
+
+## Reader-facing contribution
+
+The paper asks why the same tumor-methylation data can look more dependable under one evaluation choice than another. It holds evaluation profiles fixed while changing training support, then studies how sharpening confidence scores changes acceptance and loss summaries. It finds that apparent gains depend on both the comparison and the weighting, and preserves a confidently discordant case. The next useful scientific step would be a separately specified transport study with adequate diagnostic and patient linkage, but that is not required to report this completed bounded experiment.
+
+The external denominator audit is supporting provenance. If space is tight, its detailed case IDs and spreadsheet coordinates can move to the supplement while retaining the unresolved denominator discrepancy in the main text. This is optional presentation advice, not an acceptance condition.
+
+## Readiness and finite next action
+
+I inspected the operating protocol and the actual `research/autonomy/publish_bar.py` acceptance structure. This review does not establish exact-candidate hardening coverage, FULL preflight, endpoint/identifier/authority clearance, an artifact-bound independent readability receipt, or a buildable final deliverable. The successful preserved reaggregation cloud run is execution evidence, not a substitute for those gates.
+
+Root can apply one reporting repair batch and perform focused verification of the changed lines and ledger only. Do not reopen the whole manuscript or repeat successful scientific computations for unchanged claims. The scientific conclusion remains: worthwhile as a concise descriptive methods reanalysis; no new biology, clinical calibration, EMC sensitivity, or submission permission is established.
+
+## Review scope and independence
+
+I read the exact manuscript and source ledger, pinned result objects, focused model/replay code, contribution and metadata evidence, primary XML passages, the operating protocol and gate code. I did not read other reviewers' reports or prior manuscript verdicts. The older computation receipt included execution details and unrelated project summaries; it was not used as a scientific verdict. No model fits, raw-data downloads, workbook re-extraction, UI/browser automation, builds, paid APIs, Git operations, repository writes, submissions, or outreach were performed. All new files are confined to the assigned private review directory. Detailed checks and immutable source identifiers are in `receipt.json`.
+
+## Focused working-ledger repair verification
+
+After the original review was recorded, root supplied `claim-source-ledger-repaired.txt`, SHA256 `8ac404d937c3ef933e90a0605b4c4abc76655c49fa0ab32d04cf47f4baed611b` (10,401 bytes). I verified this digest and compared its lines with the preserved original. Exactly two lines were replaced: the coordinator/context paragraph and the fusion-subset qualification. The qualification now states that the inspected records do not establish a freeze before prediction inspection. All other source and numeric mapping lines are unchanged.
+
+**P2-1 is resolved in the repaired working ledger.** The original finding remains valid for the preserved original. The manuscript and original ledger hashes remain unchanged. This was a focused content check; the coordinator's integration-history wording was not independently checked. P2-2 remains a small Methods reporting correction. Current status: zero P1; one resolved P2 and one open P2; scientific contribution supported at the stated scope; publication gates unassessed and no submission readiness asserted.
+

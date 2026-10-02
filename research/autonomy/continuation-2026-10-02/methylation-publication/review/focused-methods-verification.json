@@ -1,0 +1,188 @@
+{
+  "schema": "emc-focused-methods-verification/1",
+  "reviewer": "methylation_manuscript_ultra",
+  "date": "2026-10-02",
+  "started_at_utc": "2026-10-02T20:38:04Z",
+  "checked_at_utc": "2026-10-02T20:38:48Z",
+  "requested_effort": "ultra",
+  "model_parameter": "omitted/inherited",
+  "serving_model_telemetry": "unknown",
+  "serving_effort_telemetry": "unknown",
+  "scope": "Focused verification of P2-2 repair only. Changed prose and exact code dependencies checked; no whole-paper rereview, refits, reaggregation, or new novelty assessment.",
+  "original_manuscript": {
+    "path": "C:/Users/mcrae/.codex/private/emc-continuation-20261002/checkpoint07-methylation-writer/manuscript-repaired.md",
+    "sha256": "befcb29c0b22db7f4948ff8e4c67116926f1f414e57241502bcaeba3aba7e0a7",
+    "bytes": 15648,
+    "unchanged": true
+  },
+  "repaired_manuscript": {
+    "path": "C:/Users/mcrae/.codex/private/emc-continuation-20261002/checkpoint07-methylation-writer/manuscript-methods-repaired.md",
+    "sha256": "7e249932cb12aa4eaa85cd130c76099c2cfb1a0edb7cd31065d31ac4c19cd028",
+    "bytes": 16379,
+    "expected_digest_matched": true
+  },
+  "diff_check": {
+    "method": "PowerShell ordinal line comparison and manual inspection of four replaced paragraphs",
+    "original_lines": 107,
+    "repaired_lines": 107,
+    "changed_lines": [
+      31,
+      35,
+      43,
+      98
+    ],
+    "unchanged_numerical_result_claims": true,
+    "detail": "Only split/quota methods, temperature-fitting methods, fixed-subsample interpretation, and code-path declaration changed. The Results paragraph at line 43 retains all original numerical estimates and intervals."
+  },
+  "code_repository": "trimcrae/Rare-cancers",
+  "code_revision": "da49c4e836533253825587f83656675dac4c913b",
+  "code_directory": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/",
+  "code_sources": [
+    {
+      "file": "methylation_transfer.py",
+      "git_blob_sha": "9a397a4d910799f2b39f21715ec22c1b742081ea",
+      "access": "Reused previously fetched pinned GitHub file; relevant lines re-inspected",
+      "lines_checked": [
+        14,
+        27,
+        28,
+        29,
+        30,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75
+      ]
+    },
+    {
+      "file": "methylation_full_geo.py",
+      "git_blob_sha": "ed8c9eafd0af89f003debc7ccb0902461f9bec5f",
+      "access": "Reused previously fetched pinned GitHub file; relevant lines re-inspected",
+      "line_ranges_checked": [
+        [
+          44,
+          56
+        ],
+        [
+          125,
+          150
+        ],
+        [
+          159,
+          160
+        ],
+        [
+          191,
+          197
+        ]
+      ]
+    },
+    {
+      "file": "methylation_external_metrics.py",
+      "git_blob_sha": "bea12af249042db07a5cdee468372b0b16e46172",
+      "access": "Fresh scoped GitHub fetch at exact revision",
+      "line_ranges_checked": [
+        [
+          16,
+          31
+        ],
+        [
+          42,
+          43
+        ]
+      ]
+    },
+    {
+      "file": "methylation_final_replay.py",
+      "git_blob_sha": "e589addff9ea43dc824f9b42fac0f29692b88946",
+      "access": "Reused previously fetched pinned GitHub file; relevant lines re-inspected",
+      "line_ranges_checked": [
+        [
+          56,
+          70
+        ]
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "claim": "Seed 2601001 for metadata-defined fivefold sample/supplier/chip partitions",
+      "status": "pass",
+      "evidence": "methylation_transfer.py lines 14, 27-30; methylation_full_geo.py lines 51-53. The sample split is stratified; supplier/chip splits are stratified group splits."
+    },
+    {
+      "claim": "Each class quota is its minimum available training count across all partitions and folds",
+      "status": "pass",
+      "evidence": "methylation_full_geo.py line 141 takes the minimum over every split in every scheme for each eligible class."
+    },
+    {
+      "claim": "One deterministic within-class subsample per partition and fold; evaluation profiles fixed",
+      "status": "pass",
+      "evidence": "methylation_full_geo.py lines 143-150 use default_rng(SEED+k), one permutation per class, and reuse b; line 192 checks unchanged classes/evaluation indices."
+    },
+    {
+      "claim": "Temperature minimizes reference OOF negative log likelihood with T bounds 0.05-10",
+      "status": "pass",
+      "evidence": "methylation_external_metrics.py lines 17, 26-29 use reference_OOF_votes and the mean logsumexp-minus-target-logit objective, optimizing log(T) over log(0.05)-log(10)."
+    },
+    {
+      "claim": "Temperature is refit for each epsilon",
+      "status": "pass",
+      "evidence": "methylation_final_replay.py lines 57-68 repeats reference-only optimization inside the epsilon loop [1e-4,1e-6,1e-8]."
+    },
+    {
+      "claim": "Matching changes training composition/feature selection as well as counts; the effect is specific to the fixed subsampling realization",
+      "status": "pass",
+      "evidence": "methylation_full_geo.py lines 125-150 and 191 plus methylation_transfer.py lines 68-74 show selection and forest fitting repeated on chosen training profiles. The revised text appropriately avoids a sample-number-only causal attribution."
+    },
+    {
+      "claim": "Four named code paths implement the described grouped analysis, fitting, and sensitivities",
+      "status": "pass",
+      "evidence": "All four files exist at the stated revision and their inspected functions match the stated roles."
+    }
+  ],
+  "finding_disposition": {
+    "finding": "P2-2",
+    "status": "resolved",
+    "conclusion": "The repair accurately supplies the missing procedure and limitation details without changing numerical scientific claims.",
+    "new_P1": 0,
+    "new_P2": 0,
+    "whole_manuscript_review_reopened": false,
+    "prior_P2_1": "Previously resolved in the working ledger bound to SHA256 8ac404d937c3ef933e90a0605b4c4abc76655c49fa0ab32d04cf47f4baed611b; not re-reviewed here.",
+    "publication_readiness": "Not assessed or asserted; this focused repair verification is not a full protocol gate."
+  },
+  "preserved_prior_review_files": [
+    {
+      "path": "review.md",
+      "sha256": "f7c0aadd09e00e88894e80ece2809c45a7fe0635b105709031df2fa232f9dbc5",
+      "unchanged": true
+    },
+    {
+      "path": "receipt.json",
+      "sha256": "a6e17e023499dbc92303974df3b24488d2752bb6dc60ffe88d26e6e99a90c29a",
+      "unchanged": true
+    }
+  ],
+  "execution": {
+    "quiet_file_and_scoped_GitHub_API_only": true,
+    "model_fits": 0,
+    "scientific_reaggregations": 0,
+    "UI_screenshots_browser_automation_headless_tests": 0,
+    "local_builds": 0,
+    "checkouts": 0,
+    "large_artifacts": 0,
+    "runtime_downloads": 0,
+    "local_git": 0,
+    "branch_mutations": 0,
+    "paid_API_GPU_credit_spend": 0,
+    "standing_restriction": "No UI/screenshots/browser/headless/intensive builds 06:00-10:00 America/New_York; dated September 12 exception expired."
+  },
+  "files_created": [
+    "focused-methods-verification.json"
+  ],
+  "next_action": "Root may integrate the methods repair with this bound focused receipt. No further whole-paper review or repeated fit is requested for these unchanged scientific results."
+}

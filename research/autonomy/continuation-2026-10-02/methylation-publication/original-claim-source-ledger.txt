@@ -1,6 +1,6 @@
 # Claim and source ledger
 
-Working ledger updated by the coordinator on 2 October 2026 to remove an unsupported timing assertion; the writer's exact original is preserved separately as original-claim-source-ledger.txt. All original writer repository reads used `trimcrae/Rare-cancers` at `e72dff329dd2d61f99dc8ad73d62dfee56d68306`. The writer changed no remote files or shared branch state; the coordinator subsequently integrated the draft and this ledger on the isolated continuation branch. The original September 30 correspondence and October 2 revised correspondence remain intact.
+Private writing checkpoint, 2 October 2026. All repository reads used `trimcrae/Rare-cancers` at `e72dff329dd2d61f99dc8ad73d62dfee56d68306`. No remote files or shared branch state were changed. The original September 30 correspondence and October 2 revised correspondence remain intact.
 
 ## Central claim and intended format
 
@@ -41,7 +41,7 @@ Repository browser links use `https://github.com/trimcrae/Rare-cancers/blob/e72d
 | Supplier gap 0.0803 (0.0454–0.1162) becomes 0.0211 (0.0084–0.0367); matched chip gap 0.0102 (0.0011–0.0193) | G: `paired_brier_comparisons`, `equal_budget_paired_brier_comparisons` | Descriptive 95% percentile intervals, 1,000 cluster draws, 26 suppliers/286 chips; no refitting uncertainty or causal effect |
 | Provenance-only agreement 61.4%, prevalence 9.0%, supplier-held-out 9.4% | G: `common.sample.provenance`, `common.sample.training_prevalence`, `common.supplier.provenance` | Source case mix is predictive; technical causation not established |
 | Temperature 0.3115; all-428 comparator agreement 358; assignment 57→311, transformed concordant 297 | E: `temperature`, `algorithm_agreement_all_QC_pass` | Reference-only fit; algorithm comparator, not diagnostic truth |
-| 120 profiles/12 classes; 117 concordant; published/raw/transformed assignments 113/44/115, discordant 0/0/1 | F: `fusion_subset`, `molecular_annotation_concordance` | Deterministic annotation-based mapping; inspected records do not establish a freeze before prediction inspection; selected author-reported molecular annotations |
+| 120 profiles/12 classes; 117 concordant; published/raw/transformed assignments 113/44/115, discordant 0/0/1 | F: `fusion_subset`, `molecular_annotation_concordance` | Mapping frozen before external prediction inspection; selected author-reported molecular annotations |
 | NLL 0.4389→0.4359; Brier 0.1123→0.0375 | F: `molecular_annotation_concordance.raw` and `reference_temperature` | Profile weighting, epsilon 10^-6; raw Brier uses original votes |
 | Equal-class NLL 1.0743→1.8438; Brier 0.2365→0.1933; 91/120 in four classes, three singleton classes | W: executed arithmetic and manuscript-ready addition; F: `fusion_subset.class_support` | Post hoc descriptive reaggregation; changes estimand; no new fit or interval |
 | Epsilon-dependent NLL direction; coverage/discordance unchanged | F: `zero_vote_smoothing_sensitivity` | Input floor, normalization, no output clipping; not additive smoothing |
