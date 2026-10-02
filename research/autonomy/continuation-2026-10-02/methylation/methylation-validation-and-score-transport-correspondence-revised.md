@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-METHYLATION-METHYLATION-VALIDATION-AND-SCORE-TRANSPORT-CORRESPONDENCE-REVISED"
+title: "Grouped validation and score transport in a public sarcoma methylation dataset"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Grouped validation and score transport in a public sarcoma methylation dataset."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","external reviewers"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Grouped validation and score transport in a public sarcoma methylation dataset
 
 > Working revision, 2 October 2026. Incorporates the bounded source review and fixed-prediction reaggregation, reproduced by the successful [cloud replay](https://github.com/trimcrae/Rare-cancers/actions/runs/37009409052) at `b066a7e7bcffe4892c78f2d9462cc70b4d14945b`. This is computational verification, not an ultra submission review or publication clearance. The frozen source manuscript remains unchanged.

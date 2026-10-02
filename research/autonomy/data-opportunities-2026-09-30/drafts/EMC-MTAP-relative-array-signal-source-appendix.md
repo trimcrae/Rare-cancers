@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-EMC-MTAP-RELATIVE-ARRAY-SIGNAL-SOURCE-APPENDIX"
+title: "Relative 9p21 array signals in ten published EMC profiles"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Relative 9p21 array signals in ten published EMC profiles."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Relative 9p21 array signals in ten published EMC profiles
 
 This supplementary analysis asks a limited genomic question: do published EMC methylation-array intensities provide an obvious relative signal of MTAP loss? It does not establish absolute copy number, protein loss or drug dependence. The source's original copy-number landscape was already reported; this locus-focused reuse is supporting evidence rather than a first EMC copy-number study.

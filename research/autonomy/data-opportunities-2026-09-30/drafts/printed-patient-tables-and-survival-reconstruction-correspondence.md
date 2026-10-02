@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-PRINTED-PATIENT-TABLES-AND-SURVIVAL-RECONSTRUCTION-CORRESPONDENCE"
+title: "Printed patient tables provide an additional check on reconstructed survival in ultra-rare cancer"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Printed patient tables provide an additional check on reconstructed survival in ultra-rare cancer."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Printed patient tables provide an additional check on reconstructed survival in ultra-rare cancer
 
 Published Kaplan–Meier figures can be valuable sources when individual records are unavailable. Their reconstruction also depends on time calibration, censor allocation and source consistency. We examined two published small sarcoma series that provide printed patient-level endpoints, asking whether those tables add information beyond matching a plotted curve. This is a source-concordance analysis; it does not estimate comparative treatment efficacy.

@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-INDUCED-PROXIMITY-CONTACT-AND-RANKING-SHORT-REPORT"
+title: "Native structures expose sensitivity to contact definitions and sampling units in induced-proximity design"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Native structures expose sensitivity to contact definitions and sampling units in induced-proximity design."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Native structures expose sensitivity to contact definitions and sampling units in induced-proximity design
 
 ## Abstract

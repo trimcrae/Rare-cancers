@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-MANUSCRIPT-INDEX"
+title: "Manuscript index: completed measured-data campaign"
+level: "cross-cutting"
+kind: "index"
+status: "live"
+canonical_for: []
+purpose: "Index and scope of Manuscript index: completed measured-data campaign."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Manuscript index: completed measured-data campaign
 
 All eighteen files contain written prose and are bound to exact reviewed Git blobs in the [final review receipts](reviews/final-executed-review-receipts.json). Their roles differ: eight focused candidates, one optional resource, two existing-paper extensions, five supporting source appendices, one existing letter revision and one historical merged companion. Eighteen files do not mean eighteen independent discoveries or submission-ready papers.

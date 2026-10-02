@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-REGISTRY-README"
+title: "Registry response extraction conformance cases"
+level: "cross-cutting"
+kind: "index"
+status: "live"
+canonical_for: []
+purpose: "Index and scope of Registry response extraction conformance cases."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Registry response extraction conformance cases
 
 This package demonstrates literal extraction behavior using known ClinicalTrials.gov

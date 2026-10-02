@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-REVIEWS-REGISTRY-SEARCH-INDEPENDENT-REVIEW"
+title: "Retained independent review: PUB-STRATEGY-ARCH-2026-09-30"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for Retained independent review: PUB-STRATEGY-ARCH-2026-09-30."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Retained independent review: PUB-STRATEGY-ARCH-2026-09-30
 
 This is a coordinator transcription of the completed independent review messages, preserving their judgment and execution scope. It is not a verbatim copy of the reviewer's longer original report. Draft review does not establish publication eligibility or repository-gate approval.

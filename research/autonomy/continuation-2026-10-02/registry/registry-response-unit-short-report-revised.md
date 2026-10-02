@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-REGISTRY-REGISTRY-RESPONSE-UNIT-SHORT-REPORT-REVISED"
+title: "Preserving categories, classes and denominators in automated oncology response extraction"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Preserving categories, classes and denominators in automated oncology response extraction."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","external reviewers"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Preserving categories, classes and denominators in automated oncology response extraction
 
 ## Abstract

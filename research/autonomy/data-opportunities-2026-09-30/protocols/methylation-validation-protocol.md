@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-PROTOCOLS-METHYLATION-VALIDATION-PROTOCOL"
+title: "Validation across suppliers and array chips in public sarcoma methylation data"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for Validation across suppliers and array chips in public sarcoma methylation data."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Validation across suppliers and array chips in public sarcoma methylation data
 
 **Completed metadata feasibility audit and prospective classifier protocol. Classifier results pending.**

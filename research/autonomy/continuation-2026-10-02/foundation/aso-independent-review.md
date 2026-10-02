@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-FOUNDATION-ASO-INDEPENDENT-REVIEW"
+title: "ASO transcriptome extension: independent focused review"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for ASO transcriptome extension: independent focused review."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # ASO transcriptome extension: independent focused review
 
 Date: 2026-10-02. Seat: foundation_contribution. Routine independent code review;

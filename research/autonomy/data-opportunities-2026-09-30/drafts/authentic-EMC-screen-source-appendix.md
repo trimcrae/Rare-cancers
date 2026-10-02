@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-AUTHENTIC-EMC-SCREEN-SOURCE-APPENDIX"
+title: "Supplementary note: Authentication, endpoint support and genotypic limits of published EMC drug screens"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Supplementary note: Authentication, endpoint support and genotypic limits of published EMC drug screens."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Supplementary note: Authentication, endpoint support and genotypic limits of published EMC drug screens
 
 Published EMC models provide direct experimental measurements that cannot be supplied by the unresolved H-EMC-SS identity in a general proteomic atlas. Their value for secondary analysis nevertheless depends on preserving model identity, assay endpoints and the number of independent tumors.

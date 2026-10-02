@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-README"
+title: "EMC continuation — 2 October 2026"
+level: "cross-cutting"
+kind: "index"
+status: "live"
+canonical_for: []
+purpose: "Index and scope of EMC continuation — 2 October 2026."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # EMC continuation — 2 October 2026
 
 This isolated branch extends the frozen cloud portfolio at `da49c4e836533253825587f83656675dac4c913b`. Original manuscripts and accepted ASO catalogue remain frozen. The campaign contract records selection, ownership, scope, storage and usage constraints.

@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-PROTOCOLS-EXPERIMENTAL-DATA-PROTOCOLS"
+title: "Three protocols for new analyses of measured public data"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for Three protocols for new analyses of measured public data."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Three protocols for new analyses of measured public data
 
 These protocols address biological or measurement questions that existing experiments could answer. None of the three analyses has been executed in this campaign. The [candidate catalogue](../candidate-catalogue.json) and [ranking](../RANKING.md) distinguish completed drafts from these future opportunities. All 33 registered backlog endpoints are assessed in [backlog-assessment.md](../backlog-assessment.md); this is a metadata assessment, not a full source reread of every manuscript.

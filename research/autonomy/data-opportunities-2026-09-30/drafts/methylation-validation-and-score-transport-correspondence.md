@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-METHYLATION-VALIDATION-AND-SCORE-TRANSPORT-CORRESPONDENCE"
+title: "Grouped validation and score transport in a public sarcoma methylation dataset"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Grouped validation and score transport in a public sarcoma methylation dataset."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Grouped validation and score transport in a public sarcoma methylation dataset
 
 Dear Editor,

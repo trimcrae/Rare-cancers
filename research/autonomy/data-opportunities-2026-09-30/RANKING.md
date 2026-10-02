@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-RANKING"
+title: "Publication ranking after executed measured-data analysis"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for Publication ranking after executed measured-data analysis."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Publication ranking after executed measured-data analysis
 
 The initial four-draft selection was premature. It is superseded by completed analyses across all 45 options and eighteen written artifacts. Eight distinct focused article/letter candidates emerge, of varying strength, plus one optional consolidated resource. This is an assessment of contributions, not a promise that all will be accepted or a quota on the number of papers.

@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-REVIEWS-PORTFOLIO-INDEPENDENT-REVIEW"
+title: "Retained independent portfolio and protocol review"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for Retained independent portfolio and protocol review."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Retained independent portfolio and protocol review
 
 Coordinator transcription of completed independent review and focused verification. Reviewer /root/review_portfolio was separate from writers /root/write_future_protocols and /root. Configured identity was GPT-6 Codex; served model unobservable. Evidence consists of read-only blob retrievals, inventory/hash checks and exact diffs. No external novelty searches or GitHub writes.

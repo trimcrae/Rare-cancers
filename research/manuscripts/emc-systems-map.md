@@ -742,4 +742,3 @@ Each of these is a genuine disagreement in the record that this registry could n
 - It is not complete over the whole repo. Its scope is the EMC treatment-route portfolio plus the objects, evidence, instruments and artifacts those routes rest on.
 - Where the record genuinely conflicts and the registry cannot resolve it from what is committed, the conflict is logged in `open_conflicts` rather than decided.
 
-

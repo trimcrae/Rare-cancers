@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-PEERJ-EMC-SOURCE-QUALIFIED-REUSE-DIAGNOSTIC-APPENDIX"
+title: "Source-qualified reuse of the published EMC expression export"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Source-qualified reuse of the published EMC expression export."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Source-qualified reuse of the published EMC expression export
 
 ## Abstract

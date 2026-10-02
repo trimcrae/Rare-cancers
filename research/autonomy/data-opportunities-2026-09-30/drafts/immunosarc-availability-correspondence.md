@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-IMMUNOSARC-AVAILABILITY-CORRESPONDENCE"
+title: "Patient-linked measured assay availability in a serial-biopsy sarcoma trial"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Patient-linked measured assay availability in a serial-biopsy sarcoma trial."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Patient-linked measured assay availability in a serial-biopsy sarcoma trial
 
 Serial-biopsy studies can report similar aggregate assay counts while supporting different patient-level comparisons. The public clinical, molecular and supplementary data from the sarcoma immunotherapy study NCT03282344 permit an additional analysis: which patients contribute published measurements to each assay at each timepoint, and what clinical outcomes describe those subsets?[1] We linked these sources and recovered numerical CD8 and PD-1 immunohistochemistry (IHC) values. The analysis concerns the composition of measured subsets, rather than treatment efficacy or biomarker validation. The linked exports provide no separately verified EMC-specific subset and concern NCT03282344, distinct from IMMUNOSARC1.

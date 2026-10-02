@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-FIGURES-README"
+title: "Reference-corpus sensitivity figure"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for Reference-corpus sensitivity figure."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Reference-corpus sensitivity figure
 
 ![Reference-corpus sensitivity](aso-corpus-gap-sensitivity.png)

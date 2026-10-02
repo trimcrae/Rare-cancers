@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-FOUNDATION-SOURCE-IDENTITY-CORRESPONDENCE"
+title: "A row-ordinal sample-ID transformation in a public sarcoma rearrangement export"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: A row-ordinal sample-ID transformation in a public sarcoma rearrangement export."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # A row-ordinal sample-ID transformation in a public sarcoma rearrangement export
 
 Public genomic datasets can preserve an alteration's genes while changing the identity of the sample to which it is assigned. We found such a transformation when comparing the primary supplementary workbook of a 7,494-profile sarcoma study with the corresponding cBioPortal Datahub structural-variant export.[1,2] The mismatch affects the linkage of rearrangement records to clinical samples, including extraskeletal myxoid chondrosarcoma (EMC). It does not demonstrate an error in the primary assay or a change in any diagnosis.

@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-README"
+title: "Measured-data opportunity campaign: completed 45-option analysis"
+level: "cross-cutting"
+kind: "index"
+status: "live"
+canonical_for: []
+purpose: "Index and scope of Measured-data opportunity campaign: completed 45-option analysis."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Measured-data opportunity campaign: completed 45-option analysis
 
 This branch records a full source-qualified analysis pass after the initial shortlist proved too shallow. All 45 original options are preserved and mapped to 22 shared source/question groups. Eight focused article/letter candidates, one optional consolidated resource, two existing-paper extensions and supporting source notes are written. Related endpoints share contributions; there is no four-paper cap and no claim that 45 options imply 45 independent papers.

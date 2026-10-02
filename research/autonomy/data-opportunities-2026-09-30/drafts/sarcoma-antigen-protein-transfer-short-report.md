@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-SARCOMA-ANTIGEN-PROTEIN-TRANSFER-SHORT-REPORT"
+title: "Quantification support and sarcoma transfer of RNA-based antigen protein estimates"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Quantification support and sarcoma transfer of RNA-based antigen protein estimates."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Quantification support and sarcoma transfer of RNA-based antigen protein estimates
 
 ## Abstract

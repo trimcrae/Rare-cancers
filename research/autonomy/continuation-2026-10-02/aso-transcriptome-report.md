@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-ASO-TRANSCRIPTOME-REPORT"
+title: "Reference-transcript coverage changes sequence-based ranking of NR4A3 fusion-junction ASO designs"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Reference-transcript coverage changes sequence-based ranking of NR4A3 fusion-junction ASO designs."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","external reviewers"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Reference-transcript coverage changes sequence-based ranking of NR4A3 fusion-junction ASO designs
 
 ## Abstract

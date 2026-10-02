@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-FOUNDATION-PRIMARY-SOURCE-AVAILABILITY"
+title: "Foundation primary-source availability: bounded attempt closed"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for Foundation primary-source availability: bounded attempt closed."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Foundation primary-source availability: bounded attempt closed
 
 Recorded 2 October 2026. The new independent primary-workbook check is

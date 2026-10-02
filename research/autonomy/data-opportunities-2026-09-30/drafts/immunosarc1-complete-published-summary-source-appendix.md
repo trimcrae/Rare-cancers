@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-IMMUNOSARC1-COMPLETE-PUBLISHED-SUMMARY-SOURCE-APPENDIX"
+title: "Qualification of the published IMMUNOSARC1 gene summary"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Qualification of the published IMMUNOSARC1 gene summary."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Qualification of the published IMMUNOSARC1 gene summary
 
 The identified IMMUNOSARC1 source provides a published gene-level summary rather than an independently reusable patient-by-gene matrix for this analysis. We parsed the complete table, preserving every printed row, source region, direction and stated adjusted value. The source contains 84 unique genes: 70 rows labelled DOWN and 14 labelled UP in the printed contrast. An earlier campaign filename referring to 184 is superseded and must not be treated as a data count.

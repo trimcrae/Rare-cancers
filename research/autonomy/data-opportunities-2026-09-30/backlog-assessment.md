@@ -1,3 +1,19 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-BACKLOG-ASSESSMENT"
+title: "Assessment of all 33 registered backlog endpoints"
+level: "cross-cutting"
+kind: "historical"
+status: "historical"
+canonical_for: []
+purpose: "Preserve the initial campaign record: Assessment of all 33 registered backlog endpoints."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+history_only: "true"
+---
+
 > Historical initial-screen record. Its shortlist/prospective status is superseded by the [executed 45-option ledger](ALL45-EXECUTED-STATUS.md), [current ranking](RANKING.md), [manuscript index](MANUSCRIPT-INDEX.md) and [final validation](validation-summary.json). Earlier numerical/provenance labels must be read in their original scope; current source qualifications and exact draft bindings are in the final package.
 
 # Assessment of all 33 registered backlog endpoints

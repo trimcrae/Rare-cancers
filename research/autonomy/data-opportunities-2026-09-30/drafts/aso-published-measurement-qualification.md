@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-ASO-PUBLISHED-MEASUREMENT-QUALIFICATION"
+title: "Published measurements qualify contiguous-run scoring of junction-gapmer designs"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Published measurements qualify contiguous-run scoring of junction-gapmer designs."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Published measurements qualify contiguous-run scoring of junction-gapmer designs
 
 ## Abstract

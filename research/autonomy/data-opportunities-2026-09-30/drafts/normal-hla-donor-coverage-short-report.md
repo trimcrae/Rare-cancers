@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-NORMAL-HLA-DONOR-COVERAGE-SHORT-REPORT"
+title: "Donor coverage changes the interpretation of peptide nondetection in a benign HLA atlas"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Donor coverage changes the interpretation of peptide nondetection in a benign HLA atlas."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Donor coverage changes the interpretation of peptide nondetection in a benign HLA atlas
 
 ## Abstract

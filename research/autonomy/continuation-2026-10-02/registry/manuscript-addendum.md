@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-REGISTRY-MANUSCRIPT-ADDENDUM"
+title: "Proposed manuscript additions and integration notes"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for Proposed manuscript additions and integration notes."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Proposed manuscript additions and integration notes
 
 These edits concern the draft at

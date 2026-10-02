@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-ANNOTATION-EVIDENCE"
+title: "Annotation evidence for the two deposited-sequence exact matches"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for Annotation evidence for the two deposited-sequence exact matches."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Annotation evidence for the two deposited-sequence exact matches
 
 Checked 2026-10-02 using small primary-resource API responses only. This is an

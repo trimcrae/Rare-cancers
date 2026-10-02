@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-METHYLATION-ASOCODE-METHODREVIEW"
+title: "Independent ASO scanner source inspection"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for Independent ASO scanner source inspection."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Independent ASO scanner source inspection
 
 Date: 2026-10-02. Read-only inspection of `C:/Users/mcrae/.codex/private/emc-continuation-20261002/scan_transcriptome.cpp`. No compilation, execution, edits, screenshots or UI operations were performed by this worker.

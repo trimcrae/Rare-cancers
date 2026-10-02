@@ -1,3 +1,18 @@
+---
+id: "DOC-CONTINUATION-2026-10-02-CITATIONS-INHERITED-REPAIR-NOTES"
+title: "Inherited citation provenance — 2026-10-02"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for Inherited citation provenance — 2026-10-02."
+scope: "October 2 continuation; limited to the named sources, computations and review scope recorded in the body. No submission clearance."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-10-02"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Inherited citation provenance — 2026-10-02
 
 All 14 requested identifiers have actual successful identity-matching metadata responses in `primary-metadata.json`: seven DOIs, five PMIDs, one PMCID and one GEO accession. The receipt stores UTC retrieval timestamps, original response byte lengths and SHA256 digests, exact request/final URLs, and selected returned metadata. Digests cover response bytes before parsing; complete responses are not retained. Bibliographic identity verification does not establish correctness of the scientific claims citing these sources.

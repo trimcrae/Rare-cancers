@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-EXTERNAL-EXPRESSION-PROGRAM-NARROWING-SHORT-REPORT"
+title: "An external tissue RNA test narrows a proposed NR4A3 expression program"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: An external tissue RNA test narrows a proposed NR4A3 expression program."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # An external tissue RNA test narrows a proposed NR4A3 expression program
 
 ## Abstract

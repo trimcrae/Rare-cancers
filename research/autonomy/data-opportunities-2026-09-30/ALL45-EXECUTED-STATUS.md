@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-ALL45-EXECUTED-STATUS"
+title: "All 45 options: executed analysis and publication disposition"
+level: "cross-cutting"
+kind: "memo"
+status: "live"
+canonical_for: []
+purpose: "Record the scoped evidence and reasoning for All 45 options: executed analysis and publication disposition."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","autonomous research agents"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # All 45 options: executed analysis and publication disposition
 
 As of 2 October 2026. This replaces the initial shortlist-only assessment. All original IDs are preserved in the [machine-readable ledger](all45-executed-analysis-ledger.json) and [current catalogue](candidate-catalogue.json); the [initial catalogue](candidate-catalogue-initial-screen-history.json) preserves the earlier judgments.

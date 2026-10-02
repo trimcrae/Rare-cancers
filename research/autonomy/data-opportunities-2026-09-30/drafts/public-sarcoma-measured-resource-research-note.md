@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-PUBLIC-SARCOMA-MEASURED-RESOURCE-RESEARCH-NOTE"
+title: "An auditable resource for public sarcoma imaging and RNA reanalysis"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: An auditable resource for public sarcoma imaging and RNA reanalysis."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # An auditable resource for public sarcoma imaging and RNA reanalysis
 
 ## Abstract

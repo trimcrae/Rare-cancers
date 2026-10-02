@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-FUSION-PARTNER-REVISED-CORRESPONDENCE"
+title: "Fusion partner in extraskeletal myxoid chondrosarcoma: separating prognosis from treatment prediction"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Fusion partner in extraskeletal myxoid chondrosarcoma: separating prognosis from treatment prediction."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Fusion partner in extraskeletal myxoid chondrosarcoma: separating prognosis from treatment prediction
 
 Whether the gene fused to NR4A3, termed its fusion partner, predicts outcome in extraskeletal myxoid chondrosarcoma (EMC) is a different question from whether it predicts benefit from a treatment. Fusion-partner associations with morphology or survival cannot establish partner-specific drug sensitivity. We conduct a targeted audit of selected published cohorts, distinguishing primary-source findings from secondary-source reconstructions. This audit is not a systematic review.

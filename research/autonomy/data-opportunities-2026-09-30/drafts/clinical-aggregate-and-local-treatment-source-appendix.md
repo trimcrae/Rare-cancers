@@ -1,3 +1,18 @@
+---
+id: "DOC-DATA-OPPORTUNITIES-2026-09-30-DRAFTS-CLINICAL-AGGREGATE-AND-LOCAL-TREATMENT-SOURCE-APPENDIX"
+title: "Clinical aggregate endpoints and local-treatment units: source qualification"
+level: "L3"
+kind: "manuscript"
+status: "live"
+canonical_for: []
+purpose: "Working research draft: Clinical aggregate endpoints and local-treatment units: source qualification."
+scope: "September 30 measured-data campaign; retain the source qualifications, execution boundaries and historical status stated in the body."
+audience: ["maintainers","external reviewers"]
+date: "2026-09-30"
+last_verified: "unverified"
+_backfilled: "true"
+---
+
 # Clinical aggregate endpoints and local-treatment units: source qualification
 
 This supporting note covers the locoregional-treatment and mortality-mechanism routes. The completed source calculations do not supply comparative treatment efficacy or a new cause-of-death mechanism.
