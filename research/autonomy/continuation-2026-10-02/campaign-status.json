@@ -1,6 +1,6 @@
 {
   "schema": "emc-continuation-checkpoint/1",
-  "as_of_utc": "2026-10-02T15:58:00Z",
+  "as_of_utc": "2026-10-02T16:11:00Z",
   "branch": "codex/emc-continuation-2026-10-02",
   "scientific_baseline": "da49c4e836533253825587f83656675dac4c913b",
   "original_run": {
@@ -15,23 +15,20 @@
     "foundation": "failed: primary extraction subprocess timed out after 240 seconds; no success receipt"
   },
   "normal_preflight": {
-    "status": "pending current settled checkpoint",
-    "previous_pass": {
-      "status": "passed",
-      "revision": "4020de62bef6cc43c005a18f5477ac478f3c5ccf",
-      "run_id": "37023702227",
-      "scope": "normal/default preflight; not FULL",
-      "exit_code": 0,
-      "forced_stop": null,
-      "elapsed_seconds": 161.02900648899998,
-      "free_bytes_after": 89323216896,
-      "receipt_path": "validation/checkpoint-02-final/emc-default-preflight.exit",
-      "log_path": "validation/checkpoint-02-final/emc-default-preflight.log",
-      "initial_failed_run": 37022943432,
-      "repair": "Actual PFRED metadata and DOI/reference separation",
-      "not_run": "Full publication gates and optional pure-logic/modality suites; targeted scientific tests and recovery are separately recorded."
-    },
-    "scope": "normal/default preflight; not FULL"
+    "status": "passed",
+    "revision": "c3dfcbfdaabb165b17cfbb386e528143a6c90d2f",
+    "run_id": "37031572697",
+    "scope": "normal/default preflight; not FULL",
+    "exit_code": 0,
+    "forced_stop": null,
+    "elapsed_seconds": 158.029559183,
+    "free_bytes_after": 89322012672,
+    "receipt_path": "validation/checkpoint-03-final/emc-default-preflight.exit",
+    "log_path": "validation/checkpoint-03-final/emc-default-preflight.log",
+    "initial_failed_run": 37030840629,
+    "initial_failed_revision": "5c5befbaeddf833b6ee9a185aaf10f81948634fa",
+    "repair": "Unique document identifier for source-intake draft; scientific body unchanged",
+    "not_run": "Full publication gates and optional pure-logic/modality suites. Focused registry/protein tests and independent result checks recorded separately."
   },
   "figure": "generated from committed hashed data, static visual inspection passed; figures/ has original manifest and subsequent QA",
   "publication": "No submission, outreach, PR, main merge or publication-readiness assertion",
@@ -59,7 +56,7 @@
     "free_GiB_last_measured": 8.63,
     "incident": "One partial-clone size query unexpectedly initiated lazy fetch and auto-pack; the owned command was stopped. Fetched objects are unknown and preserved."
   },
-  "main_checked": "893024973f82dc34134cdb13eebb439736b78378",
+  "main_checked": "60202f659075078496f0a4550258695f31dfb1d7",
   "integration": "isolated branch; current main and accepted manuscripts not modified",
   "next_computations": {
     "status": "completed; both jobs passed",
@@ -101,35 +98,36 @@
   },
   "ownership": {
     "coordinator": "/root sole branch writer",
-    "finite_worker_tasks": "All checkpoint03 scientific implementation, source review and independent verification workers completed; coherent outputs integrated by root.",
-    "cloud_jobs": "Registry and protein jobs completed successfully. One settled normal preflight being dispatched.",
+    "finite_worker_tasks": "All checkpoint03 workers completed; source intake, implementation, independent code/source review and new result verification integrated.",
+    "cloud_jobs": "All checkpoint03 jobs completed. Registry37028182181 and protein37029842078 passed. Initial normal preflight37030840629 failed only duplicate document id; metadata repaired and37031572697 passed.",
     "local_checkouts_created": 0,
-    "active_future_work": "Hourly empirical-priority continuation through2026-10-03T20:14:24Z",
+    "active_future_work": "Hourly empirical-priority campaign through2026-10-03T20:14:24Z; no finite analysis worker/job remains running from this checkpoint.",
     "preservation": "Accepted publication files, original evidence, other branches and local changes preserved",
     "other_jobs": "Two historical queuedmain workflows fromAugust observed; not touched",
-    "worker_receipts": "methylation-identity/receipt.json, independent-review.json and execution-note.json; aso-primary-sources/integration-receipt.json; registry-family-companion/results/execution.json."
+    "worker_receipts": "methylation-identity/receipt.json, independent-review.json and execution-note.json; aso-primary-sources/integration-receipt.json; registry-family-companion/results/execution.json.",
+    "next_owner": "/root at next campaign wake; select a distinct justified empirical question from empirical-priorities.json and current source gaps, with new input or question recorded before execution."
   },
   "usage_at_checkpoint": {
-    "weekly_used_percent": 75,
-    "weekly_remaining_percent": 25,
-    "resets_utc": "2026-10-03T20:14:24Z",
-    "ordinary_usage_allowed": true
+    "ordinary_usage_allowed": true,
+    "weekly_used_percent": 76,
+    "weekly_remaining_percent": 24,
+    "resets_at": 1791058464,
+    "resets_utc": "2026-10-03T20:14:24Z"
   },
   "previous_normal_preflight": {
     "status": "passed",
-    "revision": "01ab77f2fc841679d919f78f73d324e06cb03d3b",
-    "run_id": "37018865988",
+    "revision": "4020de62bef6cc43c005a18f5477ac478f3c5ccf",
+    "run_id": "37023702227",
     "scope": "normal/default preflight; not FULL",
     "exit_code": 0,
-    "elapsed_seconds": 112.01962267599998,
-    "receipt_path": "validation/final-preflight/emc-default-preflight.exit",
-    "log_path": "validation/final-preflight/emc-default-preflight.log",
-    "earlier_passed_checkpoint": "dfffc4dad698e719cb4936973d17485e8131cee3",
-    "earlier_failed_runs": [
-      37012909121,
-      37015439955
-    ],
-    "not_run": "Full publication gate and optional full pure-logic/modality suites. Scientific targeted tests and cloud replays are separately recorded."
+    "forced_stop": null,
+    "elapsed_seconds": 161.02900648899998,
+    "free_bytes_after": 89323216896,
+    "receipt_path": "validation/checkpoint-02-final/emc-default-preflight.exit",
+    "log_path": "validation/checkpoint-02-final/emc-default-preflight.log",
+    "initial_failed_run": 37022943432,
+    "repair": "Actual PFRED metadata and DOI/reference separation",
+    "not_run": "Full publication gates and optional pure-logic/modality suites; targeted scientific tests and recovery are separately recorded."
   },
   "checkpoint_02": {
     "contract": "checkpoint-02-contract.json",
@@ -146,10 +144,19 @@
     "completed_utc": "2026-10-02T15:03:00Z"
   },
   "checkpoint_03": {
-    "status": "Scientific checkpoint complete; normal preflight pending",
+    "status": "completed",
     "contract": "checkpoint-03-contract.json",
     "priority_correction": "empirical-priorities.json",
-    "methylation_identity": "methylation-identity/findings.md",
+    "methylation_identity": {
+      "reference_profiles": 1077,
+      "validation_profiles": 428,
+      "external_arrays": 986,
+      "external_array_overlap_with_either": 0,
+      "crosswalk_rows": 2491,
+      "primary_source_assertion": "Authors explicitly reported distinct reference/validation patients; no cross-study shared patient key independently available",
+      "review": "Independent source-field and join-logic review passed",
+      "limits": "Zero exact-array reuse is not different-array patient independence;986deposited versus983analyzed preserved"
+    },
     "registry_family": {
       "run_id": 37028182181,
       "job_id": 110908038099,
@@ -178,6 +185,16 @@
       "scope": "Sparse post hoc descriptive findings, not causal inference or EMC validation",
       "result_sha256": "bfbd5bee8d88053565af54f7f0dea225cb55fed71f688cb4b6cab6f922bc0dbb"
     },
-    "aso": "Bounded primary-source integration completed. Current Sept30 brief distinguished from historical190-design comparator."
+    "aso": "Bounded primary-source integration completed. Current Sept30 brief distinguished from historical190-design comparator.",
+    "validated_revision": "c3dfcbfdaabb165b17cfbb386e528143a6c90d2f",
+    "completed_utc": "2026-10-02T16:11:00Z"
+  },
+  "main_movement": {
+    "previous": "893024973f82dc34134cdb13eebb439736b78378",
+    "current": "60202f659075078496f0a4550258695f31dfb1d7",
+    "commit": "ternary watch: retire the entries of legs that have landed (watchdog)",
+    "source_tree_unchanged": true,
+    "tree": "0882a9e81b52089ca669c503853b48384cdcbbb0",
+    "branch_merge_performed": false
   }
 }

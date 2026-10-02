@@ -1,0 +1,386 @@
+dev-setup: core.hooksPath -> .githooks (both push guards armed)
+dev-setup: a system binary the artifact chain needs is missing: ghostscript libreoffice-writer
+dev-setup: installing.
+== system python3 (systems_check.py, the linters and the node-free gates run here) ==
+== the pytest tool venv (every test import resolves here, NOT in the system interpreter) ==
+Resolved 45 packages in 211ms
+Downloading numpy (15.9MiB)
+Downloading netcdf4 (9.7MiB)
+Downloading matplotlib (9.4MiB)
+Downloading pillow (6.6MiB)
+Downloading scipy (33.7MiB)
+Downloading cryptography (4.5MiB)
+Downloading pygments (1.2MiB)
+Downloading pdfminer-six (6.3MiB)
+Downloading pypdfium2 (3.6MiB)
+Downloading cftime (1.6MiB)
+Downloading kiwisolver (1.4MiB)
+Downloading botocore (15.3MiB)
+Downloading fonttools (5.1MiB)
+Downloading rdkit (36.3MiB)
+Downloading biopython (3.1MiB)
+ Downloaded kiwisolver
+ Downloaded pygments
+ Downloaded cftime
+ Downloaded biopython
+ Downloaded pypdfium2
+ Downloaded cryptography
+ Downloaded fonttools
+ Downloaded pdfminer-six
+ Downloaded pillow
+ Downloaded netcdf4
+ Downloaded matplotlib
+ Downloaded numpy
+ Downloaded botocore
+ Downloaded scipy
+ Downloaded rdkit
+Prepared 45 packages in 721ms
+Installed 45 packages in 98ms
+ + attrs==26.1.0
+ + biopython==1.88
+ + boto3==1.43.107
+ + botocore==1.43.107
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + cftime==1.6.6
+ + charset-normalizer==3.5.2
+ + contourpy==1.4.0
+ + cryptography==50.0.2
+ + cycler==0.12.1
+ + execnet==2.1.2
+ + fonttools==4.66.1
+ + iniconfig==2.3.0
+ + jmespath==1.1.0
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + kiwisolver==1.5.1
+ + matplotlib==3.11.2
+ + netcdf4==1.7.4
+ + numexpr==2.14.2
+ + numpy==2.5.3
+ + packaging==26.3
+ + pdfminer-six==20260107
+ + pdfplumber==0.11.10
+ + pillow==12.3.0
+ + pluggy==1.6.0
+ + pycparser==3.0
+ + pygments==2.21.0
+ + pymbar==4.0.3
+ + pyparsing==3.3.3
+ + pypdf==6.19.0
+ + pypdfium2==5.13.0
+ + pytest==9.1.1
+ + pytest-xdist==3.8.0
+ + python-dateutil==2.9.0.post0
+ + pyyaml==6.0.3
+ + rdkit==2026.3.6
+ + referencing==0.37.0
+ + rpds-py==2026.6.3
+ + s3transfer==0.19.2
+ + scipy==1.18.1
+ + six==1.17.0
+ + typing-extensions==4.16.0
+ + urllib3==2.8.0
+Installed 2 executables: py.test, pytest
+
+== /usr/bin/python3 (preflight RUNS THE SUITES here — see _preflight_python) ==
+
+== ghostscript (figures/svg_to_print_formats.py: EPS + CMYK TIFF; no other offline path) ==
+   installed: 10.02.1
+
+== libreoffice-writer (build_submission_docx.py / build_submission_parts.py: the .docx chain) ==
+   installed: the Writer filters are present; .docx builds locally
+
+== git hooks (core.hooksPath armed above the --if-needed exit; both push guards run) ==
+   OK: .githooks
+
+DEV SETUP OK — ./scripts/preflight.sh should now measure the repository rather than the sandbox.
+-- interpreter --
+   pytest: python3 -m pytest (sees the repository's dependencies)
+   OK   every probed package imports
+== lint_consistency ==
+lint_consistency: 0 ERROR across 29 target file(s)
+   OK
+== systems model (invariants, pointers, view drift) ==
+   OK
+== EMC systems map (disputed identities, claim artifacts, view drift) ==
+   OK
+== claim strength (R1-R5: selectivity, efficacy, safety, window, readiness) ==
+   OK
+== changed prose (a qualifier dropped by an edit) ==
+lint_changed_prose: 0 changed passage(s) over the working tree
+   OK
+== citation provenance and publication type (every prose identifier traces to a fetch or to the ledger; every claim of TYPE agrees with PubMed) ==
+lint_citations: 1269 prose identifier(s), 106 unanchored, 239 in ledger (known_absent_upstream=1, unverified_at_baseline=143, verified=95)
+lint_citation_types: ADVISORY (exit code unaffected) research/modalities/nr4a3-druggability-reconciliation.md:69 cites a paper PubMed types as a Retracted Publication — [PubMed: 40646688 Orphan nuclear receptor transcription factors as drug target (Transcription 2025) types=['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication'] doi=https://doi.org/10.1080/21541264.2025.2521766]
+lint_citation_types: 26 type claim(s) checked against 13 cached record(s), 0 error(s), 1 retraction advisory(ies)
+lint_citation_types: RETRACTION (advisory, exit code unaffected) DOI 10.1080/21541264.2025.2521766 is cited in research/autonomy/sprint-2026-09-01/S27-RETRACTIONS.md, research/manuscripts/degrader/nr4a3-degrader-paper.md, research/modalities/nr4a3-druggability-reconciliation.md and PubMed types it ['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 40646688 Orphan nuclear receptor transcription factors as drug target (Transcription 2025) doi=https://doi.org/10.1080/21541264.2025.2521766]
+lint_citation_types: RETRACTION (advisory, exit code unaffected) DOI 10.1155/2022/2896049 is cited in research/autonomy/sprint-2026-09-01/S27-RETRACTIONS.md, research/manuscripts/no-wet-lab-publication-archetypes.md and PubMed types it ['Journal Article', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 36062197 Network Pharmacology, Molecular Docking, and Experimental Va (Oxid Med Cell Longev 2022) doi=https://doi.org/10.1155/2022/2896049]
+lint_citation_types: RETRACTION (advisory, exit code unaffected) PMCID PMC12263127 is cited in research/autonomy/sprint-2026-09-01/S27-RETRACTIONS.md, research/manuscripts/degrader/nr4a3-degrader-paper.md, research/modalities/nr4a3-druggability-reconciliation.md and PubMed types it ['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 40646688 Orphan nuclear receptor transcription factors as drug target (Transcription 2025) doi=https://doi.org/10.1080/21541264.2025.2521766]
+lint_citation_types: RETRACTION (advisory, exit code unaffected) PMCID PMC9428684 is cited in research/autonomy/sprint-2026-09-01/S27-RETRACTIONS.md, research/manuscripts/no-wet-lab-publication-archetypes.md and PubMed types it ['Journal Article', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 36062197 Network Pharmacology, Molecular Docking, and Experimental Va (Oxid Med Cell Longev 2022) doi=https://doi.org/10.1155/2022/2896049]
+lint_citation_types: RETRACTION (advisory, exit code unaffected) PMID 36062197 is cited in research/manuscripts/no-wet-lab-publication-archetypes.md and PubMed types it ['Journal Article', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 36062197 Network Pharmacology, Molecular Docking, and Experimental Va (Oxid Med Cell Longev 2022) doi=https://doi.org/10.1155/2022/2896049]
+lint_citation_types: RETRACTION (advisory, exit code unaffected) PMID 40646688 is cited in research/manuscripts/degrader/nr4a3-degrader-paper.md, research/modalities/nr4a3-druggability-reconciliation.md and PubMed types it ['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication']; ACKNOWLEDGED — see the `acknowledged` row for this file in research/manuscripts/citation-retraction-sweep.json — [PubMed: 40646688 Orphan nuclear receptor transcription factors as drug target (Transcription 2025) doi=https://doi.org/10.1080/21541264.2025.2521766]
+lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.00077 in research/method-watch-preprint-pipeline.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.00365 in research/method-watch-preprint-pipeline.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.01357 in research/IDEAS.md, research/method-watch-preprint-pipeline.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.04170 in research/IDEAS.md, research/method-watch-preprint-pipeline.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.04432 in research/IDEAS.md, research/method-watch-preprint-pipeline.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.04564 in research/IDEAS.md, research/method-watch-preprint-pipeline.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.06366 in research/IDEAS.md, research/method-watch-preprint-pipeline.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) ARXIV 2609.10922 in research/IDEAS.md, research/method-watch-preprint-pipeline.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1001/jamaoncol.2019.6584 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1002/aisy.202500778 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/protocols/methylation-validation-protocol.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1002/cam4.2991 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1002/cjp2.215 in research/autonomy/continuation-2026-10-02/methylation/methylation-validation-and-score-transport-correspondence-revised.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1002/cncr.28728 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/drafts/registry-search-correspondence.md, research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1002/cncr.32084 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1002/gcc.20478 in research/modalities/fus-ddit3-prefix-comparison.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1007/s00204-015-1632-4 in research/autonomy/continuation-2026-10-02/foundation/history-addendum.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1007/s00262-025-04123-y in research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/drafts/public-sarcoma-measured-resource-research-note.md, research/autonomy/data-opportunities-2026-09-30/protocols/experimental-data-protocols.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1007/s00428-023-03606-6 in research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md, research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1007/s00432-019-02895-2 in research/autonomy/data-opportunities-2026-09-30/drafts/EMC-MTAP-relative-array-signal-source-appendix.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1007/s00432-026-06494-w in research/autonomy/continuation-2026-10-02/methylation/manuscript-addendum.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1007/s12032-017-1030-2 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1016/j.ccell.2026.03.003 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1016/j.devcel.2022.04.003 in research/autonomy/data-opportunities-2026-09-30/drafts/public-sarcoma-measured-resource-research-note.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1016/j.jbc.2022.102434 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1016/j.jclinepi.2018.08.023 in research/autonomy/continuation-2026-10-02/registry/manuscript-addendum.md, research/autonomy/continuation-2026-10-02/registry/registry-response-unit-short-report-revised.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1016/j.modpat.2024.100464 in research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md, research/autonomy/atlas-sample-organ-2026-09-06/report.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1016/j.omtn.2017.11.004 in research/autonomy/data-opportunities-2026-09-30/drafts/aso-published-measurement-qualification.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1016/j.patter.2021.100245 in research/autonomy/continuation-2026-10-02/foundation/foundation-source-identity-correspondence-revised.md, research/autonomy/continuation-2026-10-02/foundation/history-addendum.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1021/acs.jcim.6c01824 in research/method-watch.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1038/bjc.2016.214 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1038/nature09472 in research/autonomy/cysteine-source-qualification-20260919/NOTE.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1038/s41467-020-20603-4 in research/autonomy/continuation-2026-10-02/methylation-identity/findings.md, research/autonomy/continuation-2026-10-02/methylation/methylation-validation-and-score-transport-correspondence-revised.md, research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/drafts/EMC-MTAP-relative-array-signal-source-appendix.md, research/autonomy/data-opportunities-2026-09-30/drafts/methylation-validation-and-score-transport-correspondence.md, research/autonomy/data-opportunities-2026-09-30/protocols/methylation-validation-protocol.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1038/s41467-022-30496-0 in research/autonomy/continuation-2026-10-02/foundation/foundation-source-identity-correspondence-revised.md, research/autonomy/continuation-2026-10-02/foundation/foundation_maintainer_report_DRAFT.md, research/autonomy/data-opportunities-2026-09-30/drafts/foundation-source-identity-correspondence.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1038/s41467-022-30874-8 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/drafts/immunosarc-availability-correspondence.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1038/s41467-023-43714-0 in research/autonomy/data-opportunities-2026-09-30/drafts/aso-published-measurement-qualification.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1038/s41467-025-61272-5 in research/autonomy/data-opportunities-2026-09-30/drafts/induced-proximity-contact-and-ranking-short-report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1038/s41597-023-02869-7 in research/autonomy/continuation-2026-10-02/registry/registry-response-unit-short-report-revised.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1054/modi00100099 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1089/nat.2013.0436 in research/autonomy/data-opportunities-2026-09-30/drafts/aso-published-measurement-qualification.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1093/ajcp/aqw162.013 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1093/jscr/rjaa503 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1093/nar/gkv1210 in research/autonomy/data-opportunities-2026-09-30/drafts/aso-published-measurement-qualification.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1093/nar/gkv857 in research/autonomy/data-opportunities-2026-09-30/drafts/aso-published-measurement-qualification.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1097/PAS.0000000000002138 in research/autonomy/continuation-2026-10-02/methylation/methylation-validation-and-score-transport-correspondence-revised.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1101/2025.06.30.25330543 in research/autonomy/continuation-2026-10-02/methylation/manuscript-addendum.md, research/autonomy/continuation-2026-10-02/methylation/methylation-validation-and-score-transport-correspondence-revised.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1101/2025.07.21.665972 in research/autonomy/cofactor-source-read-20260919/VERDICT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1126/science.aal3321 in research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1136/jitc-2020-002071 in research/autonomy/data-opportunities-2026-09-30/drafts/normal-hla-donor-coverage-short-report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1136/jitc-2024-SITC2024.0170 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1155/2019/3158590 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1155/2020/2684746 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1158/1078-0432.CCR-25-3740 in research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md, research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md, research/autonomy/data-opportunities-2026-09-30/drafts/external-expression-program-narrowing-short-report.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1158/1078-0432.ccr-21-3656 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1158/1535-7163.MCT-21-0089 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1158/1541-7786.MCR-26-0310 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1158/2767-9764.CRC-26-0142 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1186/s13014-022-02166-4 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1186/s13569-020-00150-8 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1371/journal.pcbi.1008984 in research/autonomy/continuation-2026-10-02/foundation/foundation-source-identity-correspondence-revised.md, research/autonomy/continuation-2026-10-02/foundation/history-addendum.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1371/journal.pone.0101752 in research/autonomy/continuation-2026-10-02/aso-consolidation/manuscript-draft.md, research/autonomy/continuation-2026-10-02/aso-primary-sources/manuscript-primary-integrated.md, research/autonomy/continuation-2026-10-02/aso-primary-sources/source-to-claim.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1371/journal.pone.0161879 in research/autonomy/data-opportunities-2026-09-30/drafts/induced-proximity-contact-and-ranking-short-report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1371/journal.pone.0238753 in research/autonomy/continuation-2026-10-02/aso-consolidation/manuscript-draft.md, research/autonomy/continuation-2026-10-02/aso-primary-sources/manuscript-primary-integrated.md, research/autonomy/continuation-2026-10-02/aso-primary-sources/source-to-claim.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1634/theoncologist.2016-0064 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.1634/theoncologist.2017-0344 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.21203/rs.3.rs-10374394/v1 in research/autonomy/continuation-2026-10-02/citations-inherited/repair-notes.md, research/autonomy/data-opportunities-2026-09-30/drafts/public-sarcoma-measured-resource-research-note.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.21203/rs.3.rs-10959636/v1 in research/manuscripts/surface-targets/emc-tissue-rna-prioritization-cover-letter.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization-si.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md, research/release-candidates/PUB-SURFACE-TARGETS/2026-09-09-cancer-genetics/independent-review/report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.21203/rs.3.rs-1898999/v1 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.2147/CMAR.S253201 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.32388/VL3LJR.2 in research/manuscripts/aso/fusion-junction-aso-cover-letter.md, research/release-candidates/PUB-ASO/2026-09-04/submission/cover-letter.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.3390/cancers13051053 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.5114/jcb.2022.115161 in research/autonomy/data-opportunities-2026-09-30/drafts/clinical-aggregate-and-local-treatment-source-appendix.md, research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.52768/2379-1039/2159 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.5281/zenodo.17866629 in research/autonomy/atlas-hofvander-validation-2026-09-06/draft/manuscript.md, research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md, research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/drafts/external-expression-program-narrowing-short-report.md, research/autonomy/data-opportunities-2026-09-30/protocols/experimental-data-protocols.md, research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.5603/ocp.108816 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.6019/PXD019643 in research/autonomy/continuation-2026-10-02/citations-inherited/repair-notes.md, research/autonomy/data-opportunities-2026-09-30/SOURCES.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.64898/2026.02.07.704601 in research/method-watch.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) DOI 10.7759/cureus.432 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSE174376 in research/autonomy/data-opportunities-2026-09-30/drafts/public-sarcoma-measured-resource-research-note.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSE285944 in research/autonomy/continuation-2026-10-02/citations-inherited/repair-notes.md, research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/protocols/experimental-data-protocols.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM600928 in research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM600935 in research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM600937 in research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM600938 in research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM600940 in research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM600957 in research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM600963 in research/autonomy/atlas-hofvander-validation-2026-09-06/amendment-replication-2026-09-06.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM89883 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM89924 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM91381 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM91397 in research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM91405 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md, research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM98495 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM98499 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM98510 in research/modalities/surface-address-sensitivity.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) GEO GSM98513 in research/manuscripts/mtap-prmt5/emc-mtap-prmt5-decline-review-statistics-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) NCT NCT00642941 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/drafts/registry-search-correspondence.md, research/autonomy/data-opportunities-2026-09-30/reviews/registry-search-independent-review.md, research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) NCT NCT00654238 in research/autonomy/continuation-2026-10-02/registry/manuscript-addendum.md, research/autonomy/continuation-2026-10-02/registry/registry-response-unit-short-report-revised.md, research/autonomy/data-opportunities-2026-09-30/drafts/registry-response-unit-short-report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) NCT NCT00942162 in research/autonomy/continuation-2026-10-02/registry/manuscript-addendum.md, research/autonomy/continuation-2026-10-02/registry/registry-response-unit-short-report-revised.md, research/autonomy/data-opportunities-2026-09-30/drafts/registry-response-unit-short-report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) NCT NCT01403948 in research/autonomy/continuation-2026-10-02/registry/registry-response-unit-short-report-revised.md, research/autonomy/data-opportunities-2026-09-30/drafts/registry-response-unit-short-report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) NCT NCT01876446 in research/autonomy/continuation-2026-10-02/registry-full-replay/result-memo.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) NCT NCT02263508 in research/autonomy/continuation-2026-10-02/registry-full-replay/result-memo.md, research/autonomy/continuation-2026-10-02/registry-immune-policy/all-27-units.md, research/autonomy/continuation-2026-10-02/registry-immune-policy/taxonomy-proposal.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) NCT NCT02626000 in research/autonomy/continuation-2026-10-02/registry-full-replay/result-memo.md, research/autonomy/continuation-2026-10-02/registry-immune-policy/all-27-units.md, research/autonomy/continuation-2026-10-02/registry-immune-policy/taxonomy-proposal.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) NCT NCT02829723 in research/autonomy/continuation-2026-10-02/registry-full-replay/result-memo.md, research/autonomy/continuation-2026-10-02/registry-immune-policy/all-27-units.md, research/autonomy/continuation-2026-10-02/registry-immune-policy/taxonomy-proposal.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) NCT NCT03282344 in research/autonomy/continuation-2026-10-02/citations-inherited/repair-notes.md, research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/drafts/immunosarc-availability-correspondence.md, research/autonomy/data-opportunities-2026-09-30/drafts/immunosarc1-complete-published-summary-source-appendix.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) NCT NCT04268277 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/reviews/registry-response-unit-independent-review.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) NCT NCT05323656 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/reviews/registry-response-unit-independent-review.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC10842611 in research/autonomy/continuation-2026-10-02/methylation/manuscript-addendum.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC12660641 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13111610 in research/autonomy/data-opportunities-2026-09-30/drafts/public-sarcoma-measured-resource-research-note.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13133608 in research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md, research/autonomy/atlas-hofvander-validation-2026-09-06/result.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13361612 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13367449 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13371081 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13371367 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13374579 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13375461 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13417341 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13476259 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13477581 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13502255 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13521186 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13523640 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13555175 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13557715 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13565411 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13567386 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13573717 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13575427 in research/IDEAS.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13576945 in research/IDEAS.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13577264 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13577702 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13580205 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13580551 in research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13583061 in research/IDEAS.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC13594704 in research/IDEAS.md, research/method-watch-trigger-scan.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC4114480 in research/autonomy/continuation-2026-10-02/aso-consolidation/manuscript-draft.md, research/autonomy/continuation-2026-10-02/aso-primary-sources/manuscript-primary-integrated.md, research/autonomy/continuation-2026-10-02/aso-primary-sources/source-to-claim.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC4946242 in research/autonomy/data-opportunities-2026-09-30/drafts/printed-patient-tables-and-survival-reconstruction-correspondence.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC4985356 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC5648544 in research/autonomy/continuation-2026-10-02/registry-immune-policy/taxonomy-proposal.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC6618088 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC6915909 in research/autonomy/continuation-2026-10-02/aso-consolidation/manuscript-draft.md, research/autonomy/continuation-2026-10-02/aso-primary-sources/manuscript-primary-integrated.md, research/autonomy/continuation-2026-10-02/aso-primary-sources/source-to-claim.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC7674086 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC7822268 in research/autonomy/continuation-2026-10-02/aso-primary-sources/source-to-claim.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC8054196 in research/autonomy/continuation-2026-10-02/citations-inherited/repair-notes.md, research/autonomy/data-opportunities-2026-09-30/drafts/normal-hla-donor-coverage-short-report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC8185366 in research/autonomy/continuation-2026-10-02/methylation-identity/findings.md, research/autonomy/continuation-2026-10-02/methylation/manuscript-addendum.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC8451045 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC9200814 in research/autonomy/continuation-2026-10-02/foundation/foundation-primary-source-plan.md, research/autonomy/continuation-2026-10-02/foundation/primary-source-availability.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC9365353 in research/manuscripts/surface-targets/emc-surface-target-landscape-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMCID PMC9387775 in research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/drafts/sarcoma-antigen-protein-transfer-short-report.md, research/autonomy/data-opportunities-2026-09-30/protocols/experimental-data-protocols.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 13042781 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 16199517 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 17182697 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 17302560 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 17303618 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 17647282 in research/autonomy/evidence-fus-ddit3-2026-09-05/README.md, research/modalities/fus-ddit3-prefix-comparison.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 18676850 in research/autonomy/sprint-2026-09-01/S55-TWO-BLIND-ROUTES.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 19847166 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 20048385 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 20287819 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 20610611 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 20818875 in research/manuscripts/emc-mortality-mechanisms-paper.md, research/manuscripts/emc-mortality-mechanisms.md, systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 21044043 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 21085121 in research/autonomy/cysteine-source-qualification-20260919/NOTE.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 22638577 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 23115670 in systems/views/L2-rt-treatment-harm.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 23323831 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 26434451 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 26869290 in research/literature/emc-census-2026-09-12/REPORT.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 27124452 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 30400809 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 30511879 in systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 30786186 in systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 31417269 in systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 32026945 in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 32953543 in research/manuscripts/emc-mortality-mechanisms-paper.md, research/manuscripts/emc-mortality-mechanisms.md, systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 33858848 in research/autonomy/continuation-2026-10-02/citations-inherited/repair-notes.md, research/autonomy/data-opportunities-2026-09-30/SOURCES.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 34036290 in research/autonomy/continuation-2026-10-02/foundation/history-addendum.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 35705558 in research/autonomy/continuation-2026-10-02/citations-inherited/repair-notes.md, research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/drafts/foundation-source-identity-correspondence.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 35710741 in research/autonomy/continuation-2026-10-02/citations-inherited/repair-notes.md, research/autonomy/data-opportunities-2026-09-30/drafts/immunosarc-availability-correspondence.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 35839778 in research/autonomy/continuation-2026-10-02/citations-inherited/repair-notes.md, research/autonomy/data-opportunities-2026-09-30/SOURCES.md, research/autonomy/data-opportunities-2026-09-30/protocols/experimental-data-protocols.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 37119813 in research/autonomy/cysteine-source-qualification-20260919/NOTE.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 37477762 in research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/ultra-review/report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 37781179 in research/manuscripts/emc-mortality-mechanisms-paper.md, research/manuscripts/emc-mortality-mechanisms.md, systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 38447752 in research/autonomy/atlas-sample-organ-2026-09-06/report.md, research/autonomy/portfolio-2026-09-05/recommendation.md, research/release-candidates/PUB-SURFACE-TARGETS/2026-09-06/ultra-review/report.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 38558247 in research/manuscripts/emc-mortality-mechanisms-paper.md, research/manuscripts/emc-mortality-mechanisms.md, systems/views/L5-evidence-base.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 40601026 in research/autonomy/continuation-2026-10-02/citations-inherited/repair-notes.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 41349541 in research/autonomy/continuation-2026-10-02/methylation/manuscript-addendum.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 41799218 in systems/views/L2-rt-vte-prophylaxis.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: NOT SWEPT (advisory) PMID 41895280 in research/autonomy/continuation-2026-10-02/citations-inherited/repair-notes.md, research/autonomy/data-opportunities-2026-09-30/SOURCES.md has no row in research/manuscripts/citation-retraction-sweep.json — its retraction status is UNKNOWN, which is not the same as clean.
+lint_citation_types: retraction sweep (2026-09-01) — 1269 prose identifier(s): 842 checked against PubMed, 6 retracted, 238 outside PubMed's reach (arXiv/NCT/GEO/preprint, meeting-abstract, dataset and PDB DOIs — UNKNOWN, not clean), 189 NOT SWEPT.
+   OK
+== manuscript prose style (journal register, not repository register) ==
+   OK
+== readability screen (ADVISORY: where to look, not whether the prose is good) ==
+   document                                             sent  mean  p90  max  >60w  FKGL  caution/1kw
+   response-endpoint-indolent-tumours.md                 320  18.8   35   53     0  11.4         12.3
+   emc-mtap-prmt5-hypothesis.md                          273  21.7   38   58     0  12.5         12.7
+   emc-mtap-prmt5-hypothesis-SI.md                        88  22.8   38  134     1  11.9         10.0
+   emc-atr-collaborator-package.md                       356  20.6   41   57     0  11.8         11.2
+   repurposing-hypotheses.md                             265  20.7   37   64     1  14.7          8.2
+   emc-surface-target-landscape.md                       304  20.9   38   59     0  13.3          8.2
+   emc-surface-target-landscape-si.md                    160  18.3   35   49     0  12.2         12.3
+   fusion-junction-aso-supplementary-information.md       98  22.6   45  103     3  12.0          7.7
+   fusion-junction-aso-journal-article.md                181  24.4   44   54     0  13.1          9.7
+   fusion-junction-aso-journal-tables.md                  13  22.6   38   47     0  12.7         10.2
+   fusion-junction-aso-journal-references.md              79  14.9   25   54     0  10.9          0.9
+   emc-vaccine-development-path.md                       742  23.8   43   87     3  12.9         11.6
+   emc-trial-reachability.md                             116  22.2   40   51     0  12.2         12.8
+   
+   ⚠ This is a SCREEN. It says where to look. Whether the prose is good is decided by reading it — see the `scientific-writing` skill.
+== parser guard (every registered parser can still find its input) ==
+   OK
+== validate (EMC clinical registry evidence contract) ==
+   OK
+== generated deposit artifacts reproduce from their generators ==
+   OK   submission tables
+   OK   claim coverage census
+   OK   submission references
+   OK   submission metrics
+   OK   canonical sequence file
+   OK   journal article tables
+   OK   offtarget duplex energy
+   OK   submission packet
+   OK   vaccine-path manuscript tables
+   OK   archive manifest
+   OK   declared deposit drift
+   OK   condensate CALVADOS findings
+   OK   ATR HRD sarcoma series
+   OK   single-slot artifact identity
+   OK   instrument census
+   OK   reopening-trigger registry join
+   OK   literature citation debt
+   OK   news-match queue
+== cycle receipts record the fan-out width the cap is checked against ==
+      pre-schema (< CYC-0023), width not readable by the cap check, grandfathered: CYC-0000-BOOTSTRAP ((no width recorded)), CYC-0001 ((no width recorded)), CYC-0002 ((no width recorded)), CYC-0003 ((no width recorded)), CYC-0005 ((no width recorded)), CYC-0007 ((no width recorded)), CYC-0009 ((no width recorded)), CYC-0011 (concurrent_max/dispatched), CYC-0012 (concurrent_max/dispatched), CYC-0013 (concurrent_max/dispatched), CYC-0014 (concurrent_max/dispatched), CYC-0015 ((no width recorded)), CYC-0016 (concurrent_max/dispatched), CYC-0018 (dispatched), CYC-0019 (concurrent_max/dispatched), CYC-0020 (launched), CYC-0021 (launched), CYC-0022 (launched)
+      107 governed receipt(s), 0 failure(s), 0 unreadable
+   OK
+== pytest (pure-logic suites) == SKIPPED -- PREFLIGHT_TESTS=1 runs them; tests.yml runs all
+   four directories in full on every push and is the authority (trimcrae, 2026-09-02).
+== unverified-output residue in the documents that go out (model meta-comments, placeholders) ==
+   lint_submission_residue: 38 outgoing document(s), 5 finding(s), 5 baselined, 0 new, 0 stale baseline row(s)
+   lint_submission_residue: hallucinated references are gate 6's trigger and remain PARTIAL — 5 named gaps in UNCOVERED_BY_LINT_CITATIONS.
+   OK
+== the cycle contract names every receipt field the receipt-schema gate requires ==
+      required by the gate, and named by the contract: `route_advanced`, `subagents`, `subagents.max_concurrent`, `ccr_session_id`, `ended_utc`
+      5 required field path(s), 6 key constant(s), 7743 chars of contract read, 0 disagreement(s)
+   OK
+== what each test tier costs, against the budget somebody set for it ==
+<unknown>:2: SyntaxWarning: invalid escape sequence '\d'
+   ok    commit-loop             1492/1500  test function(s) in 108 file(s)
+   ok    modalities              7259/7500  test function(s) in 436 file(s)
+   ok    paper-guards             988/1000  test function(s) in 114 file(s)
+== every route's derived ledger id is frozen, not counted ==
+   83 route→id bindings, frozen and agreeing with the ledger
+   OK
+PINNED_SHA=c3dfcbfdaabb165b17cfbb386e528143a6c90d2f
+
+PREFLIGHT OK (fast gates only (doc + artifact linters))
+             ⛔ NO TEST SUITE THIS RUN DID NOT NAME ABOVE HAS PASSED. tests.yml runs all
+             four directories in full on every push, with the real dependencies, and is
+             the authority for anything not listed.
+             PREFLIGHT_TESTS=1 adds the manuscripts suite and the pure-logic ones,
+             PREFLIGHT_MODALITIES=1 the modalities suite,
+             PREFLIGHT_FULL=1 everything — the only tier publish_bar clause 2 accepts.
