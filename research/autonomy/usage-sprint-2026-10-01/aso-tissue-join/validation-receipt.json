@@ -1,0 +1,199 @@
+{
+  "schema": "emc-usage-sprint-validation/1",
+  "date": "2026-10-02",
+  "task": "Named EMC ASO supporting-evidence join audit",
+  "status": "completed_no_scientific_change",
+  "repository": "trimcrae/Rare-cancers",
+  "branch": "codex/usage-sprint-2026-10-01-aso-tissue-join",
+  "base_commit": "c784796fc7b510cb2de3c611b05d3cc035dec9e8",
+  "tested_operational_checkpoint": "faf2ee8f9f196b04352bb9f5d0c61353186d8b5e",
+  "ai_authorship": "Codex AI assistant; independently reviewed by coordinating /root LLM agent",
+  "model_identifier": null,
+  "reasoning_effort": null,
+  "subscription_usage": null,
+  "entry_decision": {
+    "changed_input": false,
+    "current_join_or_stored_list_defect_found": false,
+    "matching_historical_verified_output": true,
+    "stop_condition_met": true,
+    "new_verifier_created": false,
+    "new_mutation_dispatch": false,
+    "second_task_started": false
+  },
+  "evidence": {
+    "path": "audit-evidence.json",
+    "git_blob": "2fd6546d591b8941f441d06974bb9fd0a0d05fc2",
+    "utf8_bytes": 26096,
+    "generation_time_pending_fields_preserved": true,
+    "final_status": "Independent source/method/prose review and settled operational CI complete; no active pending worker",
+    "source_record_occurrences": 131,
+    "native_loci": 11,
+    "direct_cached_tissue_value_bindings": 21,
+    "differences": 0,
+    "unreadable_loci": [
+      "CA5BP1-CA5B",
+      "LOC105370997",
+      "LOC105374140",
+      "LOC124907518"
+    ],
+    "claims": "Stored legacy screening classifications and cached gene/tissue bindings; no measured cleavage, hazard, clinical efficacy, safety or therapeutic-window inference"
+  },
+  "historical_validation_reused": {
+    "source_commit": "3dc59c67654a4dfc5a6d0b842f12a732e6aeda89",
+    "original_full_receipt_path": "research/release-candidates/PUB-ASO/2026-09-04/submission/repository-verification/full-preflight-receipt.json",
+    "original_full_receipt_git_blob": "c783a56fc1ae4e9b59df1fa5f37910f1d41971a2",
+    "run_id": 33933547339,
+    "job_id": 101216922197,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33933547339",
+    "original_log_sha256": "4db8a8f6ff641cf2f64c47184b5a870faed12c0815295820a1253bfc2844b4da",
+    "scope": "Historical full preflight reports broad scientific suites on exact unchanged source; reused, not executed anew",
+    "existing_tissue_test_functions": 25,
+    "existing_function_count_verified_by": "Source inspection by worker and independent root; not a new per-case execution result",
+    "six_current_historical_bindings": [
+      {
+        "path": "research/modalities/junction-aso-offtarget-e12n3-deep500-b1.json",
+        "historical_blob": "e3e3801c6c839be74cdbaec8c225582d0f93e9c9",
+        "current_blob": "e3e3801c6c839be74cdbaec8c225582d0f93e9c9",
+        "matched": true
+      },
+      {
+        "path": "research/modalities/junction-aso-offtarget-taf15e6n3-deep500-b1.json",
+        "historical_blob": "02cdb69861b3cf3b9e0a41f704df4d6319c261c6",
+        "current_blob": "02cdb69861b3cf3b9e0a41f704df4d6319c261c6",
+        "matched": true
+      },
+      {
+        "path": "research/modalities/aso-offtarget-tissue-expression-inputs.json",
+        "historical_blob": "b336731a9c6a502a6d812f29d0e2bf35c4a4ef64",
+        "current_blob": "b336731a9c6a502a6d812f29d0e2bf35c4a4ef64",
+        "matched": true
+      },
+      {
+        "path": "research/modalities/aso-offtarget-tissue-expression.json",
+        "historical_blob": "c41b0525d20ab2948a5847d2f3f1db805658d90c",
+        "current_blob": "c41b0525d20ab2948a5847d2f3f1db805658d90c",
+        "matched": true
+      },
+      {
+        "path": "research/modalities/aso_offtarget_tissue_expression.py",
+        "historical_blob": "ee1396716e96ccc35929d2f808abb68e5a7f20f0",
+        "current_blob": "ee1396716e96ccc35929d2f808abb68e5a7f20f0",
+        "matched": true
+      },
+      {
+        "path": "research/modalities/tests/test_aso_offtarget_tissue_expression.py",
+        "historical_blob": "745087d97293c7203c924bf58671903f0f1b64ff",
+        "current_blob": "745087d97293c7203c924bf58671903f0f1b64ff",
+        "matched": true
+      }
+    ]
+  },
+  "new_read_only_comparison": {
+    "environment": "V8 orchestration isolate",
+    "method": "Independent native-defline grouping and direct existing input/output field comparisons; no expression estimation or alignment/heuristic rescoring",
+    "worker_result": "131 stored admitted indices, 11 native-locus/sequence associations and NCBI identities, 21 cached model/tissue bindings; zero differences",
+    "independent_root_result": "All worker bindings independently matched, including exact unreadable reasons and GTEx 54-tissue header/native indices"
+  },
+  "actual_operational_validation": {
+    "source_commit": "faf2ee8f9f196b04352bb9f5d0c61353186d8b5e",
+    "run_id": 36961724473,
+    "job_id": 110696664568,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/36961724473",
+    "status": "completed",
+    "conclusion": "success",
+    "environment": "GitHub Actions ubuntu-latest, CPython 3.11.16, CPU only",
+    "run_started_utc": "2026-10-02T03:47:46Z",
+    "run_updated_utc": "2026-10-02T03:51:29Z",
+    "job_started_utc": "2026-10-02T03:47:52Z",
+    "job_completed_utc": "2026-10-02T03:51:29Z",
+    "job_seconds": 217,
+    "six_source_git_blob_bindings": "passed; computed from unchanged local checkout bytes",
+    "source_binding_stdout": "OPERATIONAL_SOURCE_BINDINGS_OK six unchanged pinned blobs; historical scientific tests reused, not run anew",
+    "normal_preflight": {
+      "command": "./scripts/preflight.sh",
+      "status": "passed",
+      "scope": "fast gates only (doc + artifact linters)",
+      "seconds": 164,
+      "scientific_test_suites": "explicitly skipped; historical matching validation reused",
+      "full_publication_preflight": "not executed"
+    },
+    "tracked_status": "clean",
+    "tracked_diff": "clean",
+    "original_log": {
+      "path": "operational-validation-original.log",
+      "git_blob": "30698e42675d09372e7795898b9861b1d25129ec",
+      "utf8_bytes": 97137,
+      "sha256": "587f9971865815bbb986acae3cd0a981417162c0112833ea9408502598f775e2",
+      "hash_and_bytes_verified_by": "Independent root original-job-log acquisition; matched worker-stored Git blob byte-for-byte"
+    }
+  },
+  "independent_review": {
+    "reviewer": "coordinating /root independent LLM agent",
+    "status": "cleared source/method/evidence/code-free scope/actual operational CI/prose",
+    "evidence_git_blob": "2fd6546d591b8941f441d06974bb9fd0a0d05fc2",
+    "original_reviewed_handoff_git_blob": "420f3a6e3df41735ae9b1fe8a1cb34fad77283be",
+    "workflow_git_blob": "ac12b41788628e5c0990e48e582b9a59ebd8527b",
+    "source_verification": [
+      "All six current and historical source/tree blob identities and original full receipt",
+      "All 131 admitted stored hit indices and their plus-strand/zero stored-gap-mismatch fields",
+      "All 11 native locus joins and exact sequence associations, preserving compound and LOC identities",
+      "All 11 cached NCBI identities",
+      "All 21 existing model/tissue values and exact unreadable states",
+      "GTEx source/read/release/unit metadata and 54-column header; indices33/34/35",
+      "Exact settled six-binding/default FAST/clean-diff job and original log"
+    ],
+    "reader_facing_prose": {
+      "coverage": [
+        "Question",
+        "Approach",
+        "Finding",
+        "Limitations",
+        "Next step"
+      ],
+      "finding": "Clear no-change endpoint without scientific/clinical/safety inflation; independent prose review performed at original handoff blob"
+    },
+    "post_review_footer_changes": "Only completed operational execution/review facts replace pending text; evidence/source unchanged",
+    "human_scientific_validation": false
+  },
+  "ownership": {
+    "ledger_git_blob": "79983403fd38d9ec5be3533bcf91b3af36c2657b",
+    "entries": 415,
+    "non_null_owners": 0,
+    "legacy_driver": "disabled",
+    "branch_not_legacy_remote_claim": true,
+    "returned_to": "coordinating /root agent",
+    "pending_task_jobs": 0
+  },
+  "preserved": [
+    "Six pinned scientific source/output/instrument/test files",
+    "All other scientific generators/results",
+    "Frozen and deposited ASO paper/assets",
+    "Preregistrations and scientific review seats",
+    "Seven prior exclusions and unresolved specimen overlap/independence",
+    "Queue/fleet owners and paid compute posture",
+    "Categorical no-GPU2026-09-02 instruction and enforcers",
+    "Publication permissions and enforcers"
+  ],
+  "not_performed": [
+    "New scientific unit/full-suite execution",
+    "New verifier or diagnostic mutation job",
+    "Source acquisition, BLAST rescreen or expression kernel",
+    "Alignment or gap-heuristic rescoring",
+    "Classifier, tissue hazard ranking, clinical/safety/efficacy validation",
+    "Broad paper review",
+    "GPU/model API/separately billed compute",
+    "Outreach, PR, main merge or publication",
+    "A second audit"
+  ],
+  "limitations": [
+    "Historical and current scientific source fingerprints match; that supports reuse rather than a new validation claim",
+    "Stored-list count completeness does not prove global BLAST search sensitivity or exhaustive database retrieval",
+    "Legacy true_cleavage_risk labels are heuristic classifications, not measured RNase-H activity",
+    "Existing normal-tissue cached medians establish no reagent hazard or therapeutic effect",
+    "Four absent cached gene models remain unreadable; no biological absence or safety inference",
+    "LLM independent review is not human scientific validation",
+    "Full task elapsed time, model/effort identifiers and subscription usage are not exposed"
+  ],
+  "next_bounded_action": "Reopen only after fresh ownership/input check demonstrates a changed pinned source or a current join/completeness defect. No second audit starts from this no-change endpoint; coordinator selects any next distinct protocol priority.",
+  "final_checkpoint_scope": "Only handoff, this operational receipt and original operational log change after the exact settled checkpoint; scientific inputs, audit-evidence JSON and workflow remain identical."
+}

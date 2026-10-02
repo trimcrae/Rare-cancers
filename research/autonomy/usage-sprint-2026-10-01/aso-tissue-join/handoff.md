@@ -53,10 +53,18 @@ Its receipt is preserved at
 `research/release-candidates/PUB-ASO/2026-09-04/submission/repository-verification/full-preflight-receipt.json`,
 Git blob c783a56fc1ae4e9b59df1fa5f37910f1d41971a2.
 
-Normal FAST and operational source-binding checks are pending at this committed checkpoint.
-Root independent source/method/prose review is pending. Final operational receipts will identify
-their actual exact revision, scope and original log; neither a skipped suite nor a historical
-receipt will be relabelled as a new execution.
+[Run 36961724473](https://github.com/trimcrae/Rare-cancers/actions/runs/36961724473),
+job 110696664568, completed successfully at faf2ee8f9f196b04352bb9f5d0c61353186d8b5e.
+Six operational Git blob bindings passed on CPython 3.11.16; normal preflight exited 0 with
+PREFLIGHT OK (fast gates only (doc + artifact linters)); tracked status and diff stayed clean.
+FAST took 164 seconds and the job took 217 seconds. No scientific suite was executed anew.
+The original transcript and [validation-receipt.json](validation-receipt.json) bind exact
+execution and review. Root independently checked the six current/historical source identities,
+all 131 admitted indices and 11 native locus joins, the 21 cached tissue bindings and unreadable
+states, then reviewed the question, method, finding, limitations and next step in this memo.
+The evidence JSON retains its generation-time pending fields unchanged; completed review and
+operational CI are recorded in the final receipt. No worker or job remains pending.
+Only this operational footer, receipt and original log changed after the tested checkpoint.
 
 Fresh base main is c784796fc7b510cb2de3c611b05d3cc035dec9e8. Ledger
 79983403fd38d9ec5be3533bcf91b3af36c2657b was freshly read: 415 entries, no non-null owners.
