@@ -1,0 +1,87 @@
+test_assessment_and_earlier_study_history_still_abstains (test_historical_repair.HistoricalRepairTests.test_assessment_and_earlier_study_history_still_abstains) ... ok
+test_population_and_comparator_history_is_not_assessment_history (test_historical_repair.HistoricalRepairTests.test_population_and_comparator_history_is_not_assessment_history) ... 
+  test_population_and_comparator_history_is_not_assessment_history (test_historical_repair.HistoricalRepairTests.test_population_and_comparator_history_is_not_assessment_history) (text='Response assessed using RECIST1.1 in previously treated patients.') ... FAIL
+  test_population_and_comparator_history_is_not_assessment_history (test_historical_repair.HistoricalRepairTests.test_population_and_comparator_history_is_not_assessment_history) (text='Response assessed using RECIST 1.1 in previously treated patients.') ... FAIL
+  test_population_and_comparator_history_is_not_assessment_history (test_historical_repair.HistoricalRepairTests.test_population_and_comparator_history_is_not_assessment_history) (text='Previously treated patients have response assessed using RECIST 1.1.') ... FAIL
+  test_population_and_comparator_history_is_not_assessment_history (test_historical_repair.HistoricalRepairTests.test_population_and_comparator_history_is_not_assessment_history) (text='Response assessed using RECIST 1.1 against historical controls.') ... FAIL
+  test_population_and_comparator_history_is_not_assessment_history (test_historical_repair.HistoricalRepairTests.test_population_and_comparator_history_is_not_assessment_history) (text='Response assessed using RECIST 1.1 in formerly treated patients.') ... FAIL
+
+======================================================================
+FAIL: test_population_and_comparator_history_is_not_assessment_history (test_historical_repair.HistoricalRepairTests.test_population_and_comparator_history_is_not_assessment_history) (text='Response assessed using RECIST1.1 in previously treated patients.')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mcrae\.codex\private\emc-continuation-20261002\checkpoint06-registry-repair\test_historical_repair.py", line 16, in test_population_and_comparator_history_is_not_assessment_history
+    self.assertEqual((result["status"], result["familyName"], result["criteriaVersion"]),
+AssertionError: Tuples differ: ('ambiguous', None, None) != ('assigned', 'RECIST', '1.1')
+
+First differing element 0:
+'ambiguous'
+'assigned'
+
+- ('ambiguous', None, None)
++ ('assigned', 'RECIST', '1.1')
+
+======================================================================
+FAIL: test_population_and_comparator_history_is_not_assessment_history (test_historical_repair.HistoricalRepairTests.test_population_and_comparator_history_is_not_assessment_history) (text='Response assessed using RECIST 1.1 in previously treated patients.')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mcrae\.codex\private\emc-continuation-20261002\checkpoint06-registry-repair\test_historical_repair.py", line 16, in test_population_and_comparator_history_is_not_assessment_history
+    self.assertEqual((result["status"], result["familyName"], result["criteriaVersion"]),
+AssertionError: Tuples differ: ('ambiguous', None, None) != ('assigned', 'RECIST', '1.1')
+
+First differing element 0:
+'ambiguous'
+'assigned'
+
+- ('ambiguous', None, None)
++ ('assigned', 'RECIST', '1.1')
+
+======================================================================
+FAIL: test_population_and_comparator_history_is_not_assessment_history (test_historical_repair.HistoricalRepairTests.test_population_and_comparator_history_is_not_assessment_history) (text='Previously treated patients have response assessed using RECIST 1.1.')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mcrae\.codex\private\emc-continuation-20261002\checkpoint06-registry-repair\test_historical_repair.py", line 16, in test_population_and_comparator_history_is_not_assessment_history
+    self.assertEqual((result["status"], result["familyName"], result["criteriaVersion"]),
+AssertionError: Tuples differ: ('ambiguous', None, None) != ('assigned', 'RECIST', '1.1')
+
+First differing element 0:
+'ambiguous'
+'assigned'
+
+- ('ambiguous', None, None)
++ ('assigned', 'RECIST', '1.1')
+
+======================================================================
+FAIL: test_population_and_comparator_history_is_not_assessment_history (test_historical_repair.HistoricalRepairTests.test_population_and_comparator_history_is_not_assessment_history) (text='Response assessed using RECIST 1.1 against historical controls.')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mcrae\.codex\private\emc-continuation-20261002\checkpoint06-registry-repair\test_historical_repair.py", line 16, in test_population_and_comparator_history_is_not_assessment_history
+    self.assertEqual((result["status"], result["familyName"], result["criteriaVersion"]),
+AssertionError: Tuples differ: ('ambiguous', None, None) != ('assigned', 'RECIST', '1.1')
+
+First differing element 0:
+'ambiguous'
+'assigned'
+
+- ('ambiguous', None, None)
++ ('assigned', 'RECIST', '1.1')
+
+======================================================================
+FAIL: test_population_and_comparator_history_is_not_assessment_history (test_historical_repair.HistoricalRepairTests.test_population_and_comparator_history_is_not_assessment_history) (text='Response assessed using RECIST 1.1 in formerly treated patients.')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mcrae\.codex\private\emc-continuation-20261002\checkpoint06-registry-repair\test_historical_repair.py", line 16, in test_population_and_comparator_history_is_not_assessment_history
+    self.assertEqual((result["status"], result["familyName"], result["criteriaVersion"]),
+AssertionError: Tuples differ: ('ambiguous', None, None) != ('assigned', 'RECIST', '1.1')
+
+First differing element 0:
+'ambiguous'
+'assigned'
+
+- ('ambiguous', None, None)
++ ('assigned', 'RECIST', '1.1')
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.004s
+
+FAILED (failures=5)

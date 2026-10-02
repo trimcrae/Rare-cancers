@@ -1,0 +1,57 @@
+{
+  "id": "DOC-CHECKPOINT06-REGISTRY-V2-HISTORY-REPAIR-RECEIPT",
+  "status": "immutable",
+  "audience": [
+    "external reviewers"
+  ],
+  "completedAtUtc": "2026-10-02T18:45:20.202Z",
+  "reason": "Independent review F1 showed introduced ambiguity for population/comparator history.",
+  "initialCodeSHA256": "b4d739ae4412f4003192f0bb9aadb4d2e3ece7f2bed67cb5e8f1934821f7c0c0",
+  "reviewSHA256": "94f938a45d12bca6f5b055ec39f013a36d6e0675309ffe11825bbb866c277e12",
+  "files": {
+    "companion_v2.py": "8becca0c0143cf5384d12c5db6467df00b85ff10f00d1dc8c014eed743e50f1a",
+    "history-repair-after.log": "f0846012aaed007c37cd5507dd3cd21ef7bb7b00dc11d88de52c07cff37612ab",
+    "history-repair-before.log": "d5aa9f0d93c9fe399b08251ed94a9b30ed6de545fc834248d29bddf687e4a015",
+    "history-repair-freeze.json": "b3845b559898fd8c2f0d9723e7c5952ca545b3ee53b558c34852c54d3ab13728",
+    "test_historical_repair.py": "a1a8c23c7b09ad189f39f30f01a543a2feaecc51b8b42fb5fecaba8c4288bb11"
+  },
+  "initialEvidencePreserved": [
+    "companion_v2.py.initial.txt",
+    "receipt.json.initial.txt",
+    "freeze-plan.json.initial.txt",
+    "synthetic-test.log.initial.txt",
+    "FINDINGS.md.initial.txt",
+    "code-review.initial.txt"
+  ],
+  "preservation": "Byte copies checked by SHA256 before edits; original receipt and scope freeze also remain at original names.",
+  "freezeTiming": "Paired synthetic expectations written before pre-repair test and code edit.",
+  "before": {
+    "command": "python -Xutf8 -B -m unittest -v test_historical_repair",
+    "exitCode": 1,
+    "tests": 2,
+    "failedSubtests": 5,
+    "seconds": 0.004
+  },
+  "after": {
+    "command": "python -Xutf8 -B -m unittest -v test_companion_v2 test_v1_contract_on_v2 test_historical_repair",
+    "exitCode": 0,
+    "tests": 22,
+    "seconds": 0.012
+  },
+  "actualPython": "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+  "repairBatches": 1,
+  "changes": "Only HISTORICAL regex definition changed: require bounded assessment/study-use phrases; no WHO grammar or other functions changed.",
+  "sourceReplay": false,
+  "independentOracleRead": false,
+  "limits": [
+    "Finite temporal grammar; not arbitrary discourse interpretation.",
+    "Original 2/9 source result unchanged.",
+    "Class/aggregate role gap remains.",
+    "No new generalization, accuracy or readiness claim."
+  ],
+  "elapsedMinutesApprox": 4,
+  "model": "inherited parent model identifier not exposed",
+  "effort": "medium requested",
+  "usage": "unavailable"
+}
+

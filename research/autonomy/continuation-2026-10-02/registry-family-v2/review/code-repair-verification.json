@@ -1,0 +1,168 @@
+{
+  "id": "DOC-CHECKPOINT06-REGISTRY-V2-CODE-REPAIR-VERIFICATION",
+  "status": "live",
+  "audience": [
+    "external reviewers"
+  ],
+  "verifiedUtc": "2026-10-02T18:47:33.694875+00:00",
+  "scope": "Focused F1 repair verification only, no whole-code review, suite rerun, source-case/corpus read or ontology expansion.",
+  "result": "PASS: F1 resolved for exact independently established counterexamples; historical assessment abstention retained.",
+  "initialCodeSHA256": "b4d739ae4412f4003192f0bb9aadb4d2e3ece7f2bed67cb5e8f1934821f7c0c0",
+  "repairedCodeSHA256": "8becca0c0143cf5384d12c5db6467df00b85ff10f00d1dc8c014eed743e50f1a",
+  "receiptSHA256": "2ebfb7476516ec19ecee6d5241aa857e06e564db0e1acd7e6403ea382785247f",
+  "receiptFileHashesVerified": {
+    "companion_v2.py": "8becca0c0143cf5384d12c5db6467df00b85ff10f00d1dc8c014eed743e50f1a",
+    "history-repair-after.log": "f0846012aaed007c37cd5507dd3cd21ef7bb7b00dc11d88de52c07cff37612ab",
+    "history-repair-before.log": "d5aa9f0d93c9fe399b08251ed94a9b30ed6de545fc834248d29bddf687e4a015",
+    "history-repair-freeze.json": "b3845b559898fd8c2f0d9723e7c5952ca545b3ee53b558c34852c54d3ab13728",
+    "test_historical_repair.py": "a1a8c23c7b09ad189f39f30f01a543a2feaecc51b8b42fb5fecaba8c4288bb11"
+  },
+  "astChangedAssignments": [
+    "HISTORICAL"
+  ],
+  "textDiff": "--- initial\n+++ repaired\n@@ -23,8 +23,14 @@\n     r\"(?:(?:response\\s+|evaluation\\s+)?criteria\\s*)?\\(?\\s*\"\n     r\"(?:version\\s*|v\\.?\\s*)?(?P<number>\\d+(?:\\.\\d+)*)(?![\\w.]?\\w)\", re.I)\n WHO_CRITERIA = re.compile(r\"^\\s*\\)?\\s*(?:response\\s+|evaluation\\s+)?criteria\\b\", re.I)\n-HISTORICAL = re.compile(r\"\\b(?:historically|historical|previously|formerly|\"\n-    r\"prior\\s+(?:study|studies)|earlier\\s+(?:study|studies))\\b\", re.I)\n+# History must modify assessment or study use, not patients or comparator controls.\n+# This finite grammar deliberately does not resolve arbitrary temporal discourse.\n+HISTORICAL = re.compile(\n+    r\"\\b(?:historically|previously|formerly)\\s+\"\n+    r\"(?:assessed|evaluated|used|applied|defined)\\b\"\n+    r\"|\\bhistorical\\s+(?:assessment|evaluation|criteria)\\b\"\n+    r\"|\\b(?:prior|earlier)\\s+(?:study|studies)\\s+\"\n+    r\"(?:using|used|assessed|evaluated|applied)\\b\", re.I)\n USE = re.compile(r\"\\b(using|per|according\\s+to|based\\s+on|assess\\w*|evaluat\\w*|defined\\s+by)\\b\", re.I)\n NEGATIVE = re.compile(r\"\\b(?:not\\s+(?:using\\s+|per\\s+)?|rather\\s+than\\s+|instead\\s+of\\s+)$\", re.I)\n ROLE_NAMES = {\"complete response\": \"CR\", \"complete remission\": \"CR\",\n@@ -243,4 +249,3 @@\n \n if __name__ == \"__main__\":\n     main()\n-\n",
+  "probes": [
+    {
+      "description": "Response assessed using RECIST1.1 in previously treated patients.",
+      "expected": [
+        "assigned",
+        "RECIST",
+        "1.1"
+      ],
+      "actual": [
+        "assigned",
+        "RECIST",
+        "1.1"
+      ],
+      "passed": true
+    },
+    {
+      "description": "Response assessed using RECIST 1.1 in previously treated patients.",
+      "expected": [
+        "assigned",
+        "RECIST",
+        "1.1"
+      ],
+      "actual": [
+        "assigned",
+        "RECIST",
+        "1.1"
+      ],
+      "passed": true
+    },
+    {
+      "description": "Previously treated patients have response assessed using RECIST 1.1.",
+      "expected": [
+        "assigned",
+        "RECIST",
+        "1.1"
+      ],
+      "actual": [
+        "assigned",
+        "RECIST",
+        "1.1"
+      ],
+      "passed": true
+    },
+    {
+      "description": "Response was previously assessed using RECIST 1.1.",
+      "expected": [
+        "ambiguous",
+        null,
+        null
+      ],
+      "actual": [
+        "ambiguous",
+        null,
+        null
+      ],
+      "passed": true
+    },
+    {
+      "description": "Response was historically assessed using RECIST 1.0.",
+      "expected": [
+        "ambiguous",
+        null,
+        null
+      ],
+      "actual": [
+        "ambiguous",
+        null,
+        null
+      ],
+      "passed": true
+    },
+    {
+      "description": "Response assessed using RECIST 1.1 against historical controls.",
+      "expected": [
+        "assigned",
+        "RECIST",
+        "1.1"
+      ],
+      "actual": [
+        "assigned",
+        "RECIST",
+        "1.1"
+      ],
+      "passed": true
+    },
+    {
+      "description": "Response assessed using WHO tumor response criteria.",
+      "expected": [
+        "unknown",
+        null,
+        null
+      ],
+      "actual": [
+        "unknown",
+        null,
+        null
+      ],
+      "passed": true
+    },
+    {
+      "description": "Response assessed using WHO criteria.",
+      "expected": [
+        "assigned",
+        "WHO",
+        null
+      ],
+      "actual": [
+        "assigned",
+        "WHO",
+        null
+      ],
+      "passed": true
+    },
+    {
+      "description": "Response assessed using RECIST 1.1.",
+      "expected": [
+        "assigned",
+        "RECIST",
+        "1.1"
+      ],
+      "actual": [
+        "assigned",
+        "RECIST",
+        "1.1"
+      ],
+      "passed": true
+    }
+  ],
+  "checks": [
+    "Initial preserved code matches initial reviewed digest.",
+    "Repaired code and receipt match coordinator-specified digests.",
+    "All five files bound by history repair receipt match SHA256.",
+    "AST comparison: only HISTORICAL assignment changed; all function ASTs and other assignments unchanged.",
+    "Text diff adds bounded-history explanatory comments and changes only HISTORICAL regex definition.",
+    "All nine original independent probes evaluated only against repaired code; observed output equals explicit expected output."
+  ],
+  "limitations": [
+    "WHO tumor response criteria remains unknown: documented finite-grammar limitation F2, no expansion requested.",
+    "Category/class-role, literal preservation, denominator handling and all functions unchanged from reviewed initial v2.",
+    "Finite temporal grammar does not establish arbitrary discourse interpretation or extraction accuracy.",
+    "No new clinical corpus result or generalization claim.",
+    "Worker logs/tests were hash-verified, not independently rerun; frozen chronology is receipt provenance, not inferred from hash alone."
+  ],
+  "necessaryFurtherCorrection": null
+}

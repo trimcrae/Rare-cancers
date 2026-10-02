@@ -1,0 +1,61 @@
+name: EMC registry v2 bounded seen-case regression
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/registry-v2-token.json]
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Reserve cloud storage
+        run: python3 -c 'import shutil; assert shutil.disk_usage(".").free > 12*1024**3'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: |
+            research/autonomy/continuation-2026-10-02/registry-family-v2
+            research/autonomy/continuation-2026-10-02/registry-family-companion
+            research/autonomy/continuation-2026-10-02/registry-full-replay/results
+            research/autonomy/continuation-2026-10-02/registry-independent-evaluation
+            research/autonomy/continuation-2026-10-02/registry
+          fetch-depth: 1
+          persist-credentials: false
+      - name: New independent synthetic cases and source-pinned seen-case regression
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,platform,subprocess,time,zipfile
+          code=pathlib.Path("research/autonomy/continuation-2026-10-02/registry-family-v2").resolve()
+          base=pathlib.Path(os.environ["RUNNER_TEMP"])/"registry-v2";base.mkdir()
+          baseline=base/"v1";baseline.mkdir()
+          archive=code.parent/"registry-independent-evaluation"/"results"/"full-execution.zip"
+          raw=archive.read_bytes()
+          if len(raw)!=195130 or hashlib.sha256(raw).hexdigest()!="22eaffc454f25baf22b507e1de7cdd530e99e18cd24e1d60727543863b846a02":raise ValueError("Pinned v1 artifact mismatch")
+          needed=["inputs/api-response.json","inputs/oracle.json","inputs/offset-amendment-01.json","results/literal-extraction.json","results/family-companions.json","results/outcome-comparisons.json"]
+          with zipfile.ZipFile(archive) as z:
+              if len(z.namelist())!=len(set(z.namelist())):raise ValueError("Duplicate archive entries")
+              for name in needed:
+                  entry=z.getinfo(name)
+                  if entry.file_size>8*1024**2:raise ValueError("Member cap")
+                  path=baseline/name;path.parent.mkdir(exist_ok=True);path.write_bytes(z.read(name))
+          receipt={"revision":os.environ["GITHUB_SHA"],"run_id":os.environ["GITHUB_RUN_ID"],"python":platform.python_version(),"steps":[],"scope":"Changed-code seen-case regression. Original2/9 independent result preserved. No new generalization evaluation."}
+          def run(name,cmd):
+              start=time.monotonic()
+              r=subprocess.run(cmd,cwd=code,capture_output=True,text=True,timeout=150)
+              (base/(name+".stdout")).write_text(r.stdout);(base/(name+".stderr")).write_text(r.stderr)
+              receipt["steps"].append({"name":name,"command":cmd,"exit_code":r.returncode,"seconds":time.monotonic()-start})
+              (base/"execution.json").write_text(json.dumps(receipt,indent=2)+"\n")
+              if r.returncode:raise SystemExit(r.returncode)
+          run("payload-tests",["python3","-B","-m","unittest","-v","test_payload_audit.py"])
+          run("independent-synthetic",["python3","-B","run_independent_synthetic.py","--code",str(code/"companion_v2.py"),"--oracle",str(code/"independent-synthetic-oracle.json"),"--out",str(base/"independent-synthetic.json")])
+          run("seen-regression",["python3","-B","replay_seen.py","--source",str(baseline/"inputs"/"api-response.json"),"--oracle",str(baseline/"inputs"/"oracle.json"),"--offset-amendment",str(baseline/"inputs"/"offset-amendment-01.json"),"--presence-amendment",str(code.parent/"registry-independent-evaluation"/"source-presence-amendment-02.json"),"--oracle-sha256","302ba913bdebe23f312f7cdb674b34af79ed4b7a4b8c0b57f3695c8794e6af6e","--extractor",str(code.parent/"registry"/"registry_literal_extractor.py"),"--companion",str(code/"companion_v2.py"),"--out",str(base/"seen-regression")])
+          run("actual-payload-audit",["python3","-B","compare_actual_payloads.py","--source",str(baseline/"inputs"/"api-response.json"),"--v1",str(baseline/"results"),"--v2",str(base/"seen-regression"),"--out",str(base/"actual-payload-audit.json")])
+          run("known575",["python3","-B","companion_v2.py","--zip",str(code.parent/"registry-full-replay"/"results"/"full-replay-output.zip"),"--manifest",str(code.parent/"registry-family-companion"/"inputs.json"),"--reviewed",str(code.parent/"registry-family-companion"/"reviewed-27.json"),"--out",str(base/"known575")])
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: registry-v2-regression
+          path: ${{ runner.temp }}/registry-v2/
+          retention-days: 30

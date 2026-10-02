@@ -1,0 +1,51 @@
+{
+  "id": "DOC-CHECKPOINT06-REGISTRY-V2-RECEIPT",
+  "status": "immutable",
+  "audience": [
+    "maintainers",
+    "external reviewers"
+  ],
+  "schema": "registry-companion-repair-receipt/1",
+  "completedAtUtc": "2026-10-02T18:39:00.079Z",
+  "baseRevision": "5fd0416de98158880d49689cda0861c3baa0a3a1",
+  "model": "inherited parent model; exact model identifier unavailable to worker",
+  "effort": "medium requested by coordinator",
+  "elapsedMinutesApprox": 7,
+  "usage": "not exposed",
+  "files": {
+    "companion_v2.py": "b4d739ae4412f4003192f0bb9aadb4d2e3ece7f2bed67cb5e8f1934821f7c0c0",
+    "freeze-plan.json": "87ec608e9507983f074c32195fb3b9ce843b9853c126ef4f119c4544a2ff05c7",
+    "test_companion_v2.py": "83d2a3b06582371a175daa3271b1c8bc34d28957a21fba00b9f61d8235f23a41",
+    "test_v1_contract_on_v2.py": "61ac5daf52e48a74296e59576473df0a90578299ad5114f3ad23d03774ad21ff"
+  },
+  "freezeTiming": "Test files and scope plan written before v2 implementation and synthetic execution; no source replay by worker.",
+  "attempts": [
+    {
+      "command": "python -B -m unittest -v test_companion_v2 test_v1_contract_on_v2",
+      "exitCode": 1,
+      "result": "Python was not found; default executable is Microsoft Store alias. No tests executed; no installer launched."
+    },
+    {
+      "command": "C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -B -m unittest -v test_companion_v2 test_v1_contract_on_v2",
+      "exitCode": 0,
+      "result": "20 tests passed in 0.018s; six new grouped behavior contracts plus fourteen existing v1 synthetic tests imported against v2."
+    }
+  ],
+  "repairIterations": 0,
+  "sourceReplay": false,
+  "acceptedV1Modified": false,
+  "priorIndependentJointAgreement": {
+    "numerator": 2,
+    "denominator": 9,
+    "preserved": true
+  },
+  "scopeLimit": "Class-title/aggregate category role gap explicitly remains; synthetic passing is not independent corpus validation.",
+  "storage": {
+    "freeBytesBeforeWrites": 9191768064,
+    "noCheckout": true,
+    "noRuntimeInstall": true,
+    "outputBudgetBytes": 100000
+  },
+  "nextAction": "Root integrates privately prepared artifacts, executes one frozen changed-code cloud replay, labels any result seen-case regression only."
+}
+

@@ -1,0 +1,205 @@
+{
+  "id": "DOC-CHECKPOINT06-REGISTRY-V2-CODE-REVIEW",
+  "status": "live",
+  "audience": [
+    "external reviewers"
+  ],
+  "reviewedUtc": "2026-10-02T18:42:15.470627+00:00",
+  "scope": "Independent <=6-minute frozen code review and nine exact synthetic context probes; no clinical source/corpus access and no suite rerun",
+  "baseRevision": "5fd0416de98158880d49689cda0861c3baa0a3a1",
+  "v1GitBlob": "f7b1d257106c255fe86d20c5fde17166431792e8",
+  "v1ContentSHA256": "24a41605057aa266fe57bd4cd2c2986c1d4530f88d7238fcf8acd5eb4bc004d1",
+  "reviewedHashes": {
+    "companion_v2.py": "b4d739ae4412f4003192f0bb9aadb4d2e3ece7f2bed67cb5e8f1934821f7c0c0",
+    "freeze-plan.json": "87ec608e9507983f074c32195fb3b9ce843b9853c126ef4f119c4544a2ff05c7",
+    "test_companion_v2.py": "83d2a3b06582371a175daa3271b1c8bc34d28957a21fba00b9f61d8235f23a41",
+    "test_v1_contract_on_v2.py": "61ac5daf52e48a74296e59576473df0a90578299ad5114f3ad23d03774ad21ff"
+  },
+  "receiptHashesVerified": true,
+  "astUnchangedFunctions": [
+    "require",
+    "canonical",
+    "digest",
+    "sentence_at",
+    "lexical_role",
+    "integer",
+    "accompany",
+    "main"
+  ],
+  "astChangedFunctions": [
+    "classify_context"
+  ],
+  "probes": [
+    {
+      "description": "Response assessed using RECIST1.1 in previously treated patients.",
+      "v1": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      },
+      "v2": {
+        "status": "ambiguous",
+        "familyName": null,
+        "criteriaVersion": null
+      },
+      "v2HistoricalFlags": [
+        true
+      ]
+    },
+    {
+      "description": "Response assessed using RECIST 1.1 in previously treated patients.",
+      "v1": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      },
+      "v2": {
+        "status": "ambiguous",
+        "familyName": null,
+        "criteriaVersion": null
+      },
+      "v2HistoricalFlags": [
+        true
+      ]
+    },
+    {
+      "description": "Previously treated patients have response assessed using RECIST 1.1.",
+      "v1": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      },
+      "v2": {
+        "status": "ambiguous",
+        "familyName": null,
+        "criteriaVersion": null
+      },
+      "v2HistoricalFlags": [
+        true
+      ]
+    },
+    {
+      "description": "Response was previously assessed using RECIST 1.1.",
+      "v1": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      },
+      "v2": {
+        "status": "ambiguous",
+        "familyName": null,
+        "criteriaVersion": null
+      },
+      "v2HistoricalFlags": [
+        true
+      ]
+    },
+    {
+      "description": "Response was historically assessed using RECIST 1.0.",
+      "v1": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.0"
+      },
+      "v2": {
+        "status": "ambiguous",
+        "familyName": null,
+        "criteriaVersion": null
+      },
+      "v2HistoricalFlags": [
+        true
+      ]
+    },
+    {
+      "description": "Response assessed using RECIST 1.1 against historical controls.",
+      "v1": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      },
+      "v2": {
+        "status": "ambiguous",
+        "familyName": null,
+        "criteriaVersion": null
+      },
+      "v2HistoricalFlags": [
+        true
+      ]
+    },
+    {
+      "description": "Response assessed using WHO tumor response criteria.",
+      "v1": {
+        "status": "assigned",
+        "familyName": "WHO",
+        "criteriaVersion": null
+      },
+      "v2": {
+        "status": "unknown",
+        "familyName": null,
+        "criteriaVersion": null
+      },
+      "v2HistoricalFlags": []
+    },
+    {
+      "description": "Response assessed using WHO criteria.",
+      "v1": {
+        "status": "assigned",
+        "familyName": "WHO",
+        "criteriaVersion": null
+      },
+      "v2": {
+        "status": "assigned",
+        "familyName": "WHO",
+        "criteriaVersion": null
+      },
+      "v2HistoricalFlags": [
+        false
+      ]
+    },
+    {
+      "description": "Response assessed using RECIST 1.1.",
+      "v1": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      },
+      "v2": {
+        "status": "assigned",
+        "familyName": "RECIST",
+        "criteriaVersion": "1.1"
+      },
+      "v2HistoricalFlags": [
+        false
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "classification": "Concrete introduced context regression; repair before clinical replay",
+      "artifact": "companion_v2.py classify_context historicalContext assignment and HISTORICAL regex",
+      "evidence": "Current RECIST1.1 assessment in previously treated patients is assigned RECIST/1.1 by v1 but ambiguous/unassigned by v2 solely because previously matches anywhere in the sentence. The same happens with spacing in RECIST 1.1 and when previously treated patients begins the sentence. Historical controls causes the same conflation.",
+      "consequence": "The newly introduced historical detector confuses population/comparator history with history of assessment, withholding a current explicit family and version. Accepted source literals are retained, so this is abstention/coverage regression rather than source corruption or false positive clinical inference.",
+      "smallestCorrection": "Replace sentence-wide historical-token use with a bounded predicate for history of the assessment, or narrowly exclude demonstrated population/comparator modifiers (previously treated patients; historical controls) while retaining actual historical-assessment cues. Add a paired synthetic contract for current assessment in previously treated patients versus previously/historically assessed using RECIST. Freeze the correction and expected outputs before replay. Do not remove historical abstention wholesale.",
+      "required": "Repair this demonstrated regression or explicitly reject the intended current-context behavior; do not describe it merely as unspecified grammar coverage."
+    }
+  ],
+  "scopeLimits": [
+    {
+      "topic": "WHO grammar",
+      "disposition": "Documented finite-grammar limitation, no required expansion",
+      "detail": "WHO tumor response criteria is rejected whereas WHO criteria is assigned. The frozen contract explicitly limits WHO to an adjoining fixed criteria phrase; this omitted grammar alone does not warrant broader ontology or open-ended grammar expansion."
+    },
+    {
+      "topic": "role paths",
+      "disposition": "Preserved exactly",
+      "detail": "AST comparison shows lexical_role, integer, accompany and all other functions except classify_context unchanged. Category/class behavior, confirmation state rules, denominator handling and literal preservation remain v1 paths; family assignment changes can intentionally gate downstream familyRole."
+    },
+    {
+      "topic": "validation",
+      "disposition": "Bounded code review only",
+      "detail": "Verified receipt hashes; read tests and log; did not rerun either suite, inspect independent synthetic oracle/source cases, or execute clinical corpus. Nine synthetic probes are exact counterexamples, not accuracy or generalization estimates."
+    }
+  ],
+  "result": "One bounded repair needed before replay; no requested category/class-role changes"
+}

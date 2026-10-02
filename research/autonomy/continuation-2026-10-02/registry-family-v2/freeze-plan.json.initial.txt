@@ -1,0 +1,30 @@
+{
+  "id": "DOC-CHECKPOINT06-REGISTRY-V2-FREEZE",
+  "status": "immutable",
+  "date": "2026-10-02",
+  "audience": [
+    "maintainers",
+    "external reviewers"
+  ],
+  "schema": "registry-companion-repair-freeze/1",
+  "frozenAtUtc": "2026-10-02T18:31:26.560Z",
+  "baseRevision": "5fd0416de98158880d49689cda0861c3baa0a3a1",
+  "question": "Do bounded lexical/context repairs satisfy synthetic contracts without changing accepted-row or category-role semantics?",
+  "scope": [
+    "WHO requires exact uppercase acronym or full organization name plus adjoining criteria phrase; pronouns do not create family mentions.",
+    "Add explicit full RECIST name (singular/plural Tumor/Tumour) and iwCLL.",
+    "Version suffix may cross parentheses and fixed criteria/response criteria/evaluation criteria words only.",
+    "Retain conservative negation, multiple-family/version ambiguity; historical assessment mentions abstain.",
+    "Copy accepted v1 into separate v2; preserve accepted literals and category/class role behavior."
+  ],
+  "excluded": [
+    "No class/category role harmonization.",
+    "No changes to accepted v1 or previous 2/9 result.",
+    "No source-case execution or retuning by worker.",
+    "No clinical efficacy, accuracy, readiness or generalization claim."
+  ],
+  "tests": "test_companion_v2.py plus unchanged v1 synthetic contract imported against v2",
+  "next": "Coordinator may run one changed-code seen-case regression in cloud; another prospectively frozen slice and blind oracle needed for generalization.",
+  "outputBudgetBytes": 100000
+}
+
