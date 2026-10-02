@@ -1,0 +1,71 @@
+name: EMC continuation evidence 2026-10-02
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths:
+      - research/autonomy/continuation-2026-10-02/run-token.json
+permissions:
+  contents: read
+concurrency:
+  group: emc-continuation-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  bounded-analysis:
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [aso-transcriptome, small-reanalyses]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check storage before scoped checkout
+        run: |
+          python3 - <<'PY'
+          import shutil
+          free=shutil.disk_usage(".").free
+          assert free >= 12*1024**3, f"Insufficient cloud headroom: {free}"
+          print(f"Free bytes before sparse checkout: {free}; source/output budget <=1GiB; reserve10GiB")
+          PY
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /research/autonomy/continuation-2026-10-02/
+      - name: Execute frozen bounded analysis
+        env:
+          LANE: ${{ matrix.lane }}
+          OMP_NUM_THREADS: 2
+          OPENBLAS_NUM_THREADS: 2
+          PYTHONDONTWRITEBYTECODE: 1
+        run: |
+          python3 - <<'PY'
+          import os,pathlib,subprocess,json,hashlib,time,sys
+          here=pathlib.Path("research/autonomy/continuation-2026-10-02").resolve()
+          script=here/("run_transcriptome.py" if os.environ["LANE"]=="aso-transcriptome" else "run_small_reanalyses.py")
+          started=time.time()
+          try:
+              rc=subprocess.run([sys.executable,str(script)],cwd=here,timeout=3300).returncode
+          except subprocess.TimeoutExpired:
+              rc=124
+          receipt={"lane":os.environ["LANE"],"commit":os.environ["GITHUB_SHA"],"run_id":os.environ["GITHUB_RUN_ID"],"script_sha256":hashlib.sha256(script.read_bytes()).hexdigest(),"returncode":rc,"elapsed_seconds":time.time()-started}
+          (here/"execution-receipt.json").write_text(json.dumps(receipt,indent=2)+"\n")
+          print("EMC_EXECUTION_RECEIPT "+json.dumps(receipt))
+          sys.exit(rc)
+          PY
+      - name: Preserve derived evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: emc-continuation-${{ matrix.lane }}-${{ github.run_id }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            research/autonomy/continuation-2026-10-02/output/*.json
+            research/autonomy/continuation-2026-10-02/output/*.tsv
+            research/autonomy/continuation-2026-10-02/outputs-small/summary.json
+            research/autonomy/continuation-2026-10-02/outputs-small/foundation/*.json
+            research/autonomy/continuation-2026-10-02/outputs-small/foundation/*.tsv
+            research/autonomy/continuation-2026-10-02/outputs-small/registry/result.json
+            research/autonomy/continuation-2026-10-02/outputs-small/methylation-result.json
+            research/autonomy/continuation-2026-10-02/execution-receipt.json

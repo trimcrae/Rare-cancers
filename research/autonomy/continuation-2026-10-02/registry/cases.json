@@ -1,0 +1,138 @@
+{
+  "schema": "registry-conformance-cases/1",
+  "purpose": "Known-source development cases; not held-out clinical validation",
+  "cases": [
+    {
+      "id": "class-scope",
+      "nctId": "NCT00654238",
+      "checks": [
+        {
+          "outcomeIndex": 0,
+          "classIndex": 0,
+          "groupId": "OG000",
+          "cells": [
+            0,
+            16,
+            22,
+            1
+          ],
+          "participantDenominator": 44,
+          "denominatorScope": "class",
+          "retainedLabel": "Not Evaluable for Response"
+        },
+        {
+          "outcomeIndex": 0,
+          "classIndex": 1,
+          "groupId": "OG000",
+          "cells": [
+            0,
+            2,
+            1,
+            1
+          ],
+          "participantDenominator": 6,
+          "denominatorScope": "class",
+          "retainedLabel": "Not Evaluable for Response"
+        },
+        {
+          "outcomeIndex": 0,
+          "classIndex": 2,
+          "groupId": "OG000",
+          "cells": [
+            0,
+            1,
+            2,
+            0
+          ],
+          "participantDenominator": 3,
+          "denominatorScope": "class",
+          "retainedLabel": "Not Evaluable for Response"
+        },
+        {
+          "outcomeIndex": 0,
+          "classIndex": 3,
+          "groupId": "OG000",
+          "cells": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "participantDenominator": 2,
+          "denominatorScope": "class",
+          "retainedLabel": "Not Evaluable for Response"
+        }
+      ]
+    },
+    {
+      "id": "qualified-sd",
+      "nctId": "NCT00942162",
+      "checks": [
+        {
+          "outcomeIndex": 7,
+          "classIndex": 0,
+          "groupId": "OG000",
+          "cells": [
+            0,
+            3,
+            11,
+            51
+          ],
+          "participantDenominator": 71,
+          "denominatorScope": "outcome",
+          "retainedLabel": "SD/ PR"
+        }
+      ]
+    },
+    {
+      "id": "qualified-remission",
+      "nctId": "NCT01403948",
+      "checks": [
+        {
+          "outcomeIndex": 3,
+          "classIndex": 0,
+          "groupId": "OG005",
+          "cells": [
+            1,
+            0,
+            3,
+            3
+          ],
+          "participantDenominator": 7,
+          "denominatorScope": "outcome",
+          "retainedLabel": "Complete remission unconfirmed"
+        },
+        {
+          "outcomeIndex": 4,
+          "classIndex": 0,
+          "groupId": "OG005",
+          "cells": [
+            1,
+            0,
+            1,
+            5
+          ],
+          "participantDenominator": 7,
+          "denominatorScope": "outcome",
+          "retainedLabel": "Complete remission unconfirmed"
+        }
+      ]
+    },
+    {
+      "id": "outcome-local-group-id",
+      "nctId": "NCT00942162",
+      "identityChecks": [
+        {
+          "outcomeIndex": 7,
+          "groupId": "OG000",
+          "groupTitle": "GSK2132231A GS+ Group"
+        },
+        {
+          "outcomeIndex": 8,
+          "groupId": "OG000",
+          "groupTitle": "Overall Study Group"
+        }
+      ]
+    }
+  ]
+}

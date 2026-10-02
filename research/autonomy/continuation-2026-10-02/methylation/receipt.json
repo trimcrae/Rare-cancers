@@ -1,0 +1,54 @@
+{
+  "schema": "private-research-intake/1",
+  "date": "2026-10-02",
+  "worker": "methylation_contribution",
+  "source_repository": "trimcrae/Rare-cancers",
+  "source_revision": "da49c4e836533253825587f83656675dac4c913b",
+  "intake_only": true,
+  "repository_files_changed": false,
+  "actual_execution": {
+    "language": "JavaScript",
+    "environment": "functions.exec in-memory calculations",
+    "operations": ["Arithmetic mean of 12 preserved per-class NLL/Brier values", "Negative logs of three preserved target probabilities", "Contribution fractions of preserved total NLL", "Grouped panel membership inspection", "Mathematical temperature-ordering illustration, not measured data"],
+    "new_fits": 0,
+    "new_exclusions": 0,
+    "new_threshold_searches": 0
+  },
+  "reaggregation_py": {
+    "status": "authored, pending replay",
+    "executed_in_worker_session": false,
+    "requires": "Python standard library; default Git repository containing frozen revision or --source-dir with the three exact frozen files",
+    "source_verification": "Both input modes enforce pinned SHA256 and byte size before JSON parsing; exact raw pinned GitHub sources hashed in memory using .NET SHA256 on 2026-10-02",
+    "writes": "stdout only"
+  },
+  "pinned_inputs": {
+    "methylation-hallmark-fusion-score-transport-final.json": {"bytes": 28903, "sha256": "cbac90fa027c620f0b395d6a80365a4da0ab14d28c2410e9fc69318c83344aba"},
+    "methylation-hallmark-fusion-selected-cases-final.json": {"bytes": 2797, "sha256": "1f8103cd8ee0366ee2097e21e5b043aa3d4eb58d8720121a2001e1a9b7876b39"},
+    "methylation-corrected-full-support-actual.json": {"bytes": 525104, "sha256": "e375e1f7b390c4a8bdb4be83e6d3e0cb5fc37c3bdec387215ae86b5daf153fbf"}
+  },
+  "expected_results": {
+    "macro_raw_NLL": 1.0742871213223848,
+    "macro_transformed_NLL": 1.8437918075204678,
+    "macro_raw_Brier": 0.2365079526109961,
+    "macro_transformed_Brier": 0.19326224730468514,
+    "transformed_total_NLL": 52.31090896404606,
+    "zero_vote_case_fraction": 0.7872747192263749,
+    "three_discordant_case_fraction": 0.9845830919609586,
+    "EMCS_in_grouped_panel": false
+  },
+  "ASO_review": {
+    "scope": "source inspection only, no compiler or execution",
+    "confirmed_finding": "unchecked output stream failures after opening",
+    "disposition": "coordinator reports explicit flush and state checks patched; not independently re-inspected",
+    "withdrawn": "empty-string operator[] concern",
+    "independent_oracle_status": "not executed by this worker"
+  },
+  "cross_artifact_review": {
+    "scope": "Read-only source and prose inspection; no execution",
+    "foundation": "No new concrete scientific defect found in identity recovery code, history addendum or draft maintainer report. Scope remains identity-only; no deployment or downstream-publication consequences inferred.",
+    "registry": "No new concrete scientific defect found in literal extractor, conformance code or manuscript addendum. Runner must enforce complete expected real-case IDs because real_checks intentionally skips absent studies.",
+    "execution_claim": "No Foundation or registry checks were executed by this worker"
+  },
+  "limitations": ["Post hoc descriptive reweighting, no inferred uncertainty", "No independently verified patient-level separation", "Correct sarcoma version-of-record identity remains unresolved", "No UI, local builds, jobs or large downloads"],
+  "files": ["reaggregation.py", "manuscript-addendum.md", "ASOcode-methodreview.md", "receipt.json", "sources.json"]
+}

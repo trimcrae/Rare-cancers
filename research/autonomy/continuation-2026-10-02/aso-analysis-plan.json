@@ -1,0 +1,66 @@
+{
+  "schema": "aso-transcriptome-analysis-plan/1",
+  "date": "2026-10-02",
+  "status": "Frozen before new-corpus execution; exploratory extension, not a preregistration",
+  "question": "Does expansion from 85 archived normal-parent transcripts to GENCODE50 mature transcripts change sequence-risk descriptors and split-choice rankings for the frozen 215-design/43-junction catalogue?",
+  "source_catalogue": {
+    "revision": "a916dab2979e27f930b417243f021b6c2b2ca371",
+    "design_blob": "ee3b2300ab06851780789f0ea2f990231fb61270",
+    "parent_fasta_blob": "5a978cdb1f345f72abd68bab29c983a52c34e5cf",
+    "designs": 215,
+    "annotation_error_controls": 5
+  },
+  "new_source": {
+    "provider": "GENCODE",
+    "release": 50,
+    "assembly": "GRCh38.p14",
+    "url": "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_50/gencode.v50.transcripts.fa.gz",
+    "bytes": 183554921,
+    "provider_md5": "4d5bd41b247480e12c0b370490f52ddd",
+    "sha256": "Measured at execution; provider MD5 verified before scan"
+  },
+  "methods": {
+    "orientation": "Search target RNA 5'-3' (DNA alphabet), the reverse complement of each 16nt ASO; no reverse-complement scan of mature transcript records",
+    "architecture": "Proposed 5LNA-6DNA-5LNA; full DNA gap at zero-based target positions 5:11",
+    "primary": "Exact maximum contiguous perfect tract that includes all six core bases in any complete unambiguous 16nt window; zero means no complete-core match",
+    "secondary": "Minimum full-16nt Hamming distance across all complete unambiguous windows, exact at distance0..3; otherwise report null and lower bound4 Union intervals also use frozen archived exact distances as upper bounds: archived4 plus all new>=4 proves exact4; archived5 plus all new>=4 yields[4,5].",
+    "ranking": "Within each five-split junction, minimize primary maximum, then maximize minimum Hamming. Resolve final co-winners if all primary intervals are exact, the primary winner is unique, or one candidate's lower bound exceeds every rival's upper bound; otherwise retain unresolved status.",
+    "strata": [
+      "85 archived normal-parent records",
+      "GENCODE records with exact gene symbol in EWSR1,TAF15,TCF12,FUS,TFG,NR4A3,PGR",
+      "All other GENCODE records"
+    ],
+    "union": "Retain archived parent transcripts and all GENCODE records. Do not subtract normal-parent or exact matches.",
+    "duplicates": "Keep transcript aliases, patch/haplotype records and repeated windows. Counts denote record-window occurrences; extrema and per-junction choices are not sample estimates.",
+    "ambiguity": "Uppercase and U->T; skip windows containing any other base; never join FASTA records",
+    "witnesses": "First20 witnesses in input-record and coordinate order for each best metric and stratum; total count and gene set uncapped"
+  },
+  "endpoints": [
+    "Design count with increased primary maximum",
+    "Design count with smaller minimum Hamming",
+    "Exact full-length normal-transcript matches",
+    "Primary and final choice changes for43 target junctions",
+    "Separate controls and evidence-class summaries"
+  ],
+  "acceptance": [
+    "Independent exhaustive-window oracle checks extrema, counts, witnesses, boundaries and input failures",
+    "Reproduce all220 archived gap values and bounded Hamming values before fetching new corpus",
+    "Verify fixed source hashes and provider byte count/MD5",
+    "Require union monotonicity, complete design coverage and no censored value relabeled as exact",
+    "Independently inspect changed choices and source witnesses before manuscript claims"
+  ],
+  "resources": {
+    "cloud_cpu_only": true,
+    "max_source_bytes": 1073741824,
+    "minimum_free_bytes": 10737418240,
+    "initial_free_GiB": 11.25,
+    "job_timeout_minutes": 60,
+    "paid_GPU_or_API": false
+  },
+  "limits": [
+    "Mature reference annotation; not expression, pre-mRNA, genome-wide, variant-personalized or tissue-specific coverage",
+    "No cleavage, potency, delivery, accessibility or clinical safety conclusion",
+    "Post hoc corpus-extension sensitivity, no fitted cutoff or new target selection against outcomes"
+  ],
+  "stop": "Produce reproducible source receipts, full per-design descriptors, ranking differences and bounded witnesses; stop on hash, oracle, baseline, headroom or time failure."
+}

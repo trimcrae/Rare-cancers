@@ -1,0 +1,56 @@
+{
+  "schema": "registry-conformance-sources/1",
+  "sources": [
+    {
+      "name": "ctg_results_bor_1999_2009.txt",
+      "kind": "archived",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt",
+      "bytes": 19791788,
+      "sha256": "5906bd2818d5413a8fae68d38ad02892b617079c9eaa459ee85d4ef6621774ed",
+      "knownStudyIndices": {
+        "NCT00942162": 4,
+        "NCT00654238": 127
+      }
+    },
+    {
+      "name": "ctg_results_bor_2010_2013.txt",
+      "kind": "archived",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt",
+      "bytes": 24086484,
+      "sha256": "0ec2f68e35bfc142405d942c83688653efb256e7627a3e4a8c301384f06ebcc6",
+      "knownStudyIndices": {
+        "NCT01403948": 37
+      }
+    }
+  ],
+  "liveChecks": [
+    {
+      "nctId": "NCT00654238",
+      "url": "https://clinicaltrials.gov/api/v2/studies/NCT00654238",
+      "retrievedUtc": "2026-10-02T12:30:32.164042+00:00",
+      "sha256": "99d0372afbe3f555e07b139ef5fb5194a1bf8ca1c5ea29dee3ef94e7f0cd911d",
+      "bytes": 22594,
+      "lastUpdatePostDate": "2019-11-18"
+    },
+    {
+      "nctId": "NCT00942162",
+      "url": "https://clinicaltrials.gov/api/v2/studies/NCT00942162",
+      "retrievedUtc": "2026-10-02T12:30:32.357163+00:00",
+      "sha256": "88b1f703e600f6c7b9e1334a719ec6daad497871adeb586f8169c2c3fe3a369f",
+      "bytes": 133956,
+      "lastUpdatePostDate": "2020-12-08"
+    },
+    {
+      "nctId": "NCT01403948",
+      "url": "https://clinicaltrials.gov/api/v2/studies/NCT01403948",
+      "retrievedUtc": "2026-10-02T12:30:32.594953+00:00",
+      "sha256": "0c4d09f1395fde8e25333594a650102e3eaf519796ecd299383daf395d2a3d16",
+      "bytes": 262276,
+      "lastUpdatePostDate": "2020-08-11"
+    }
+  ],
+  "liveCaptureLimitation": "Original HTTP response bytes were hashed and consumed in memory, not persisted. Live receipts are corroboration, not archived reproducibility inputs.",
+  "hashScope": "Archived and liveChecks hashes are original bytes. Earlier exploratory PowerShell receipts were UTF-8 re-encodings of response text, not byte-identical raw HTTP captures, and are not used here."
+}
