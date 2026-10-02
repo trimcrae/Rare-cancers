@@ -1,0 +1,12 @@
+{
+  "reviewer":"/root/gate_review_audit",
+  "scope":"Read-only static comparison; no execution of termination paths",
+  "normal_jobs_sha256_lf_normalized":"1ef219ef3c83c7d897c6b61e6011c7f2542c1e7f00e11a9621ed977a4ca346c4",
+  "normal_scope":"Entire jobs section matches inherited normal workflow; only name,branch and token change.NoFULL/modalities flags.",
+  "initial_revision":"796074842f3300e86cc6f9f6fcc11e79dc3b5b28",
+  "boundary_check":"Changes confined to task preparation directory and two task workflows.No inherited workflow matches branch/paths.No sprint/watch/shared state modification.",
+  "initial_findings":["Installer lacks running storage/time guard","Renderer needs early daily-window shutdown and process-group KILL fallback"],
+  "focused_verification":"Both findings resolved by static inspection: shared finite runner for installation/rendering,10.5GiB headroom,0.5s checks,30-second pre06 buffer,groupTERM thenKILL and reap.",
+  "diagnostic_followup":"Accepted: preserve /tmp/install-update.log in artifact.",
+  "prior_run":"37075989347 passed; no actual storage/cutoff breach recorded. Initial receipt retained; no claim repaired termination paths executed."
+}

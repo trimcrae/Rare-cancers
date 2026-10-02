@@ -96,11 +96,11 @@ The author declares no competing interests.
 
 ### Author contribution
 
-Tristan D. McRae directed the research and is the sole named author. The AI assistance is disclosed above; final author approval of this submission version remains to be recorded.
+Tristan D. McRae directed the research and is the sole named author. The AI assistance is disclosed above.
 
 ### Ethics and consent
 
-This work compares public, previously released source tables and repository exports. No participants were recruited and no new specimens or measurements were collected. No new ethics approval, exemption or consent determination is claimed. The author must complete any applicable journal declarations before submission.
+This work compares public, previously released source tables and repository exports. No participants were recruited and no new specimens or measurements were collected. No new ethics approval, exemption or consent determination is claimed.
 
 ### Supplementary information
 

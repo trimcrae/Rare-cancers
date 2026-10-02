@@ -16,13 +16,15 @@ OPTIONAL READER REPRODUCTION
 Use a new scratch directory; these commands must not overwrite previous output.
     python -m zipfile -e primary-inputs.zip inputs
     python foundation_identity_recovery.py --export inputs/data_sv.txt --mapping inputs/mapping.json --out-dir recovered
+    python -c "import hashlib,pathlib; assert hashlib.sha256(pathlib.Path('recovered/data_sv.identity_corrected.tsv').read_bytes()).hexdigest() == '2c910856e5e483c3774af5d0192b6118536f368aade8f05960bb123014a20184'"
 
 Expected recovered TSV SHA-256:
 2c910856e5e483c3774af5d0192b6118536f368aade8f05960bb123014a20184
 The recovery uses Python's standard library. Non-ID fields and all 564 literal
 N/A tokens must be preserved. The mapping assumes retained event order.
 
-An optional independent workbook check requires xlrd==2.0.2, in addition to Python:
+An optional independent workbook check uses xlrd==2.0.1, the version recorded by
+the historical run, in addition to Python:
     python foundation_primary_workbook_check.py --workbook inputs/primary.xls --mapping inputs/mapping.json --export inputs/data_sv.txt --corrected recovered/data_sv.identity_corrected.tsv
 
 The workbook command uses archived bytes, not --fetch-primary. Expected saved

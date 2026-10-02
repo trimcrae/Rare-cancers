@@ -30,7 +30,7 @@ The machine-readable source-archive.json contains every member's exact byte coun
 
 The companion reproducibility.zip supplies the unmodified input archive, recovery code, independent-check code, saved primary-confirmation output, gene-annotation summary and licence notices. Unpack it into a new directory. Run verify_package.py to verify the manifest and archived member hashes using Python 3.9 or later; this check does not redo the science.
 
-The optional offline reproduction commands in README.txt restore the source IDs from the archived mapping and compare the output hash. Repeating the independent primary-workbook extraction additionally requires xlrd 2.0.2 and uses only the archived workbook. Neither command requests a live portal or a new primary download. These commands are for readers; the validated extraction from run 37035103326 is reused here.
+The optional offline reproduction commands in README.txt restore the source IDs from the archived mapping and compare the output hash. Repeating the independent primary-workbook extraction uses xlrd 2.0.1, the version recorded in the historical run, and only the archived workbook. Neither command requests a live portal or a new primary download. These commands are for readers; the validated extraction from run 37035103326 is reused here.
 
 ## Existing result and annotation records
 
