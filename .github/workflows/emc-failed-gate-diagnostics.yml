@@ -1,0 +1,51 @@
+name: EMC failed-gate diagnostics
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/diagnostic-token.json]
+permissions:
+  contents: read
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      UV_NO_CACHE: 1
+    steps:
+      - name: Budget cloud checkout
+        run: python3 -c 'import shutil; assert shutil.disk_usage(".").free >= 42*1024**3'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Reproduce normal gate environment
+        run: |
+          python3 -m pip install --no-cache-dir uv pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib netCDF4 cffi
+          ./scripts/dev-setup.sh --if-needed
+          python3 -c 'import shutil; assert shutil.disk_usage(".").free >= 10*1024**3'
+      - name: Capture candidate and inherited-base failures
+        run: |
+          python3 - <<'PY'
+          import subprocess,json,pathlib,os,shutil
+          out=pathlib.Path("/tmp/emc-diagnostics");out.mkdir()
+          cases=[("candidate",os.environ["GITHUB_SHA"]),("portfolio-base","da49c4e836533253825587f83656675dac4c913b")]
+          receipts=[]
+          for name,ref in cases:
+              if name!="candidate":
+                  assert shutil.disk_usage(".").free>=14*1024**3
+                  subprocess.run(["git","fetch","--depth=1","origin",ref],check=True)
+                  subprocess.run(["git","checkout","--detach",ref],check=True)
+              for label,cmd in [("systems",["python3","systems/systems_check.py","--check"]),("map",["python3","research/manuscripts/emc_systems_map_check.py","--check"])]:
+                  p=subprocess.run(cmd,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=180)
+                  (out/f"{name}-{label}.log").write_text(p.stdout)
+                  print(name,label,"exit",p.returncode)
+                  print("\n".join([x for x in p.stdout.splitlines() if any(t in x for t in ("ERROR","Traceback","ModuleNotFound","ImportError","Error:"))][-35:]))
+                  receipts.append(dict(case=name,revision=ref,command=cmd,exit_code=p.returncode,log=f"{name}-{label}.log"))
+          (out/"receipt.json").write_text(json.dumps(receipts,indent=2)+"\n")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: emc-failed-gate-diagnostics
+          retention-days: 30
+          path: /tmp/emc-diagnostics/*
