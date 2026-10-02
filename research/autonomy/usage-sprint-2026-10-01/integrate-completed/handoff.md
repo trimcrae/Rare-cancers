@@ -33,7 +33,8 @@ methods; existing subtests, line locations and family labels still identify fail
 Existing ceilings and guards are unchanged.
 
 Static integration review found that a fresh depth-one main checkout would lack both historical
-witness objects. Only the existing tests.yml pytest-job checkout adds fetch-depth:0; job triggers,
+witness objects. Only the existing tests.yml pytest job gains immutable tested-revision history:
+a depth-one checkout followed by a no-tags unshallow fetch of exact GITHUB_SHA. Job triggers,
 all gates and test commands are unchanged. Full Git history is repository provenance retrieval,
 not acquisition of a scientific source.
 
@@ -79,13 +80,18 @@ over both the original diagnostic sentence and the current handoff. It changes n
 scientific evidence, catalogue row, native guard or cache. The already-passed six formatter cases
 are reused at exact unchanged code; the new bounded prose checkpoint skips that suite too.
 
-Changed-revision CPU validation is pending at this preparation checkpoint. It executes exact
-main/source preservation and normal ancestry checks, terminal body and amendment checks, pure one-hit temporary
-formatting controls, old/new native parser controls and explicit classification refusal, current-handoff classification controls,
-the unchanged direct citation gate, normal default FAST and clean
-tracked status. The original failed log is checked for exact bytes/hash and both observed
-annotations. The original unchanged reporter/source/verifier suites and the passed formatter suite are skipped
-in this bounded checkpoint; native post-merge CPU CI must run the current full suite once.
+CPU validation is pending for this immutable-history retrieval checkpoint. Fresh checks cover
+the exact tested HEAD's full unshallowed history, all source ancestors and original witness objects,
+main/source preservation, terminal body and amendment preservation, pure temporary formatting,
+native parser/handoff/link controls, and all four original transcript identities. The observed
+historical systems witness is parsed from the cancelled fourth run's retained stdout; its cleanup
+and unrun current checks are not claimed as successful.
+
+This checkpoint executes the unchanged direct current systems check, normal default FAST
+(which includes the native citation guard), and clean tracked status. The earlier standalone
+citation passes and strict historical systems witness are reused. The original 181 scoped cases
+and six passed formatter cases are skipped at unchanged code/evidence. Native post-merge CPU CI
+must run the current full suite once.
 
 Completed source CI/scientific reviews remain historical evidence at their exact revisions.
 Source acquisitions, expression or other scientific kernels, historical tissue/USZ audits, full

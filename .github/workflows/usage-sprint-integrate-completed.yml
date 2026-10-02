@@ -31,8 +31,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           persist-credentials: false
+      - name: Read immutable tested revision history
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git -c protocol.version=2 fetch --no-tags --unshallow --no-recurse-submodules origin "$GITHUB_SHA"
+          test "$(git rev-parse --is-shallow-repository)" = "false"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -93,8 +98,10 @@ jobs:
         run: |
           python3 -m pytest research/modalities/tests/test_trigger_board_filter.py -v -s --tb=short -p no:cacheprovider
       - name: Unchanged native citation gate
+        if: ${{ steps.phase.outputs.scope == 'citation_diagnostic_prose_repair' }}
         run: python3 research/manuscripts/lint_citations.py
       - name: Exact historical systems failure witness without source acquisition
+        if: ${{ steps.phase.outputs.scope == 'citation_diagnostic_prose_repair' }}
         run: |
           python3 - <<'PY'
           import json

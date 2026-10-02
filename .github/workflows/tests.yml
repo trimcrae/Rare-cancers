@@ -432,7 +432,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+      - name: Read immutable tested revision history
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git -c protocol.version=2 fetch --no-tags --unshallow --no-recurse-submodules origin "$GITHUB_SHA"
+          test "$(git rev-parse --is-shallow-repository)" = "false"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"

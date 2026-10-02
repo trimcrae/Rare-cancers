@@ -143,14 +143,25 @@ def check_catalogue_rendering(plan):
     assert len(third_log) == third["log_bytes"] and blob(third_log) == third["log_blob"]
     assert hashlib.sha256(third_log).hexdigest() == third["log_sha256"]
     assert b"FAILED -- rerun 'python3 systems/systems_check.py --check' to see why" in third_log
+    fourth = plan["future_link_ci"]
+    fourth_log = (ROOT / fourth["log_path"]).read_bytes()
+    assert len(fourth_log) == fourth["log_bytes"] and blob(fourth_log) == fourth["log_blob"]
+    assert hashlib.sha256(fourth_log).hexdigest() == fourth["log_sha256"]
+    lines = fourth_log.decode().splitlines()
+    start = next(i for i, line in enumerate(lines) if line.endswith("Z HISTORICAL_SYSTEMS_STDOUT_BEGIN"))
+    end = next(i for i, line in enumerate(lines) if i > start and line.endswith("Z HISTORICAL_SYSTEMS_STDOUT_END"))
+    native = json.loads("\n".join(line.split("Z ", 1)[1] for line in lines[start + 1:end]))
+    assert native["errors"] == fourth["witness_expected_errors"] and len(native["warns"]) == 90 and len(native["infos"]) == 7
+    assert any(line.endswith("Z HISTORICAL_SYSTEMS_WITNESS_OK exact605f exit1; exactly one native K1 missing future receipt; no other errors") for line in lines)
+    print("CANCELLED_FOURTH_LOG_OK retained timeout; observed singleton native K1 witness reused; cleanup/current FAST unclaimed")
     print("HANDOFF_LINKS_OK actual relative targets exist; planned future receipt is named without a premature link")
-    print("PROSE_FAILED_LOG_OK third original generic systems failure preserved; precise K1 cause is static review")
+    print("PROSE_FAILED_LOG_OK third original trace retains only generic systems failure; separate fourth native witness proves exact K1")
     print("CATALOGUE_FAILED_LOG_OK second original failed transcript/verdict preserved")
     print("INITIAL_FAILED_LOG_OK original observed two annotations and exact bytes/hash preserved")
 
 def main():
     plan = json.loads(Path(__file__).with_name("integration-plan.json").read_text())
-    assert plan["validation_scope"] in {"catalogue_render_repair", "citation_diagnostic_prose_repair"}, plan["validation_scope"]
+    assert plan["validation_scope"] in {"catalogue_render_repair", "citation_diagnostic_prose_repair", "immutable_history_retrieval"}, plan["validation_scope"]
     base, current = tree(plan["base_revision"]), tree("HEAD")
     expected = {r["path"]: (r["mode"], r["type"], r["sha"]) for r in plan["expected_source_delta"]}
     assert len(expected) == plan["source_path_count"] == 72
@@ -165,6 +176,10 @@ def main():
         subprocess.run(["git", "merge-base", "--is-ancestor", source["head"], "HEAD"], cwd=ROOT, check=True)
         assert git("show", "-s", "--format=%P", source["merge_commit"]).decode().split() == source["merge_parents"]
     assert len(plan["sources"]) == 9
+    assert git("rev-parse", "--is-shallow-repository").decode().strip() == "false"
+    assert git("rev-parse", "HEAD").decode().strip() == __import__("os").environ["GITHUB_SHA"]
+    for original_base in ("184e6aff659180492f4df94ed46a222849ab1b7c", "b9b420ec4073a2b28489521c7a7d6f827f90d90a"):
+        subprocess.run(["git", "merge-base", "--is-ancestor", original_base, "HEAD"], cwd=ROOT, check=True)
     adj = plan["controlled_adjustments"]
     original = git("show", adj["terminal_original_blob"])
     grouped = (ROOT / "research/autonomy/tests/test_ci_terminal_verdict.py").read_bytes()
@@ -184,8 +199,9 @@ def main():
     assert all(r["cycle_id"] == plan["cycle_id"] and r["self_serving_check"] for r in appended)
     ci = adj["main_ci_history"]
     ci_old, ci_new = git("show", ci["original_blob"]), (ROOT / ci["path"]).read_bytes()
-    anchor = b"  pytest:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n"
-    assert ci_new == ci_old.replace(anchor, anchor + b"        with:\n          fetch-depth: 0\n")
+    anchor = ci["anchor"].encode()
+    assert ci_old.count(anchor) == 1
+    assert ci_new == ci_old.replace(anchor, ci["replacement"].encode())
     assert blob(ci_new) == ci["patched_blob"]
     assert blob(git("show", "184e6aff659180492f4df94ed46a222849ab1b7c:research/autonomy/await_ci.py")) == "121bb8798debff50e207a14e50aa5aae162f3d0e"
     assert len(git("show", "f6b73790809e82f7058639e7b94a9d6842b054fc")) == 9124
@@ -201,8 +217,9 @@ def main():
     print("INTEGRATION_IDENTITIES_OK 72 source paths;", len(untouched), "main entries preserved; nine source ancestors/two-parent merges")
     print("TERMINAL_GROUPING_OK eight original AST bodies/four meaningful families; fourteen scenario markers")
     print("AMENDMENT_APPEND_OK six declarations; every prior source log byte preserved")
-    print("MAIN_CI_HISTORY_OK exact pytest checkout-only diff; both historical witnesses available")
+    print("MAIN_CI_HISTORY_OK exact pytest immutable-ref history repair; both original base/witness objects available")
     print("REUSED_SCIENCE_BINDINGS_OK six tissue inputs and USZ model; historical audits not rerun")
+    print("IMMUTABLE_HEAD_HISTORY_OK full exact tested ancestry; no unrelated branch/tag refs requested")
     print("HEAD", git("rev-parse", "HEAD").decode().strip())
     return 0
 if __name__ == "__main__":

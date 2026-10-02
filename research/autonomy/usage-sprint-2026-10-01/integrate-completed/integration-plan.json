@@ -1,7 +1,7 @@
 {
   "schema": "usage-sprint-completed-integration-plan/1",
   "date": "2026-10-02",
-  "status": "future_link_repair_pending_cpu_validation",
+  "status": "immutable_history_retrieval_pending_cpu_validation",
   "repository": "trimcrae/Rare-cancers",
   "branch": "codex/usage-sprint-2026-10-01-integrate-completed",
   "base_revision": "ee84a76beb7c51004eca05cad09cf9612bb0e959",
@@ -623,7 +623,9 @@
     "research/autonomy/usage-sprint-2026-10-01/integrate-completed/catalogue-render-ci-original.log",
     "research/autonomy/usage-sprint-2026-10-01/integrate-completed/catalogue-render-validation-receipt.json",
     "research/autonomy/usage-sprint-2026-10-01/integrate-completed/diagnostic-prose-ci-original.log",
-    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/diagnostic-prose-validation-receipt.json"
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/diagnostic-prose-validation-receipt.json",
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/future-link-ci-original.log",
+    "research/autonomy/usage-sprint-2026-10-01/integrate-completed/future-link-validation-receipt.json"
   ],
   "conflicts": [],
   "overlap": "Frame-census is descendant of exact aso-verifier head; retain its upgraded verifier/test/manifest bytes and every original source ancestor/log.",
@@ -666,8 +668,10 @@
     "main_ci_history": {
       "path": ".github/workflows/tests.yml",
       "original_blob": "06dc57c0543d60f332a3a3a2de8d88249209e314",
-      "patched_blob": "fec5393ad11863afcabaebfec0290513df4a9bb8",
-      "scope": "Only pytest-job checkout fetch-depth:0, preserving all triggers/gates/tests; required for both historical original witnesses in main CI."
+      "patched_blob": "83840b1de432c736fa8c2cdb6fa72e79f1daf1ba",
+      "scope": "Only pytest checkout-depth1 plus read-only immutable GITHUB_SHA no-tags unshallow step; all original triggers/jobs/gates/test steps unchanged.",
+      "anchor": "  pytest:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n",
+      "replacement": "  pytest:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 1\n      - name: Read immutable tested revision history\n        run: |\n          test \"$(git rev-parse HEAD)\" = \"$GITHUB_SHA\"\n          git -c protocol.version=2 fetch --no-tags --unshallow --no-recurse-submodules origin \"$GITHUB_SHA\"\n          test \"$(git rev-parse --is-shallow-repository)\" = \"false\"\n"
     }
   },
   "ownership": {
@@ -678,7 +682,7 @@
   },
   "preservation": "Every main blob identity/mode outside source delta and exact integration paths unchanged; frozen/deposited assets, review seats, preregistrations, queue/owners/fleet and publication/GPU enforcers preserved.",
   "checks": "Pending actual branch-only hosted CPU offline regressions, committed-evidence validators, verifier/frame/archive/drift coherence, Git identity/ancestry, amendment/budget, systems checker and default FAST. No source acquisition/scientific kernel/full publication verification.",
-  "validation_scope": "citation_diagnostic_prose_repair",
+  "validation_scope": "immutable_history_retrieval",
   "controlled_catalogue_rendering": {
     "classification": "Unvalidated title catalogue rendering; article types remain unverified. SOURCE_NOT_ACQUIRED and availability NOT_ASSESSED are not upgraded.",
     "trigger_id": "TRG-NR4A3-DIRECT-MATTER",
@@ -797,6 +801,42 @@
     "command": "python3 systems/systems_check.py --check --json",
     "expected_exit": 1,
     "expected_only_error": "[K1]  research/autonomy/usage-sprint-2026-10-01/integrate-completed/handoff.md links to 'validation-receipt.json', which does not exist",
-    "scope": "Temporary detached exact Git worktree; unchanged native systems checker only; full stdout retained; current tree untouched; cleanup required. Actual witness pending."
+    "scope": "Temporary detached exact Git worktree; unchanged native systems checker only; full stdout retained; current tree untouched; cleanup required. Actual witness pending.",
+    "actual_scope": "Reused observed native singleton K1/exit1 stdout proof in overall cancelled fourth run; cleanup unconfirmed; no duplicate historical checker execution in current phase."
+  },
+  "future_link_ci": {
+    "revision": "9fb0fa1dd4f84d4199609187aeb79c8001616b79",
+    "tree": "aac75425fa165f8fb40ec72cbc4714b2141f2b95",
+    "id": 37064300989,
+    "job_id": 111028161629,
+    "event": "push",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "cancelled",
+    "job_start_utc": "2026-10-02T21:01:37Z",
+    "job_end_utc": "2026-10-02T21:21:48Z",
+    "job_elapsed_seconds": 1211,
+    "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/37064300989",
+    "log_path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/future-link-ci-original.log",
+    "log_blob": "3bba01641a3bf484043935acb22397e3e049de36",
+    "log_bytes": 173542,
+    "log_sha256": "4fe32b78a49065a04dff1e3307deda8b9e0c9ae27aabe10eebbd0a5685f0cadd",
+    "receipt_path": "research/autonomy/usage-sprint-2026-10-01/integrate-completed/future-link-validation-receipt.json",
+    "witness_expected_errors": [
+      "[K1]  research/autonomy/usage-sprint-2026-10-01/integrate-completed/handoff.md links to 'validation-receipt.json', which does not exist"
+    ]
+  },
+  "history_retrieval": {
+    "checkout_depth": 1,
+    "fetch_ref": "$GITHUB_SHA",
+    "fetch_arguments": [
+      "--no-tags",
+      "--unshallow",
+      "--no-recurse-submodules"
+    ],
+    "full_tested_head_ancestry_required": true,
+    "shallow_repository_after_fetch": false,
+    "unrelated_refs_or_tags": "not requested",
+    "integration_timeout_minutes": 20
   }
 }
