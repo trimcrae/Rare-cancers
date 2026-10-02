@@ -1,3 +1,5 @@
+> Historical initial-screen record. Its shortlist/prospective status is superseded by the [executed 45-option ledger](ALL45-EXECUTED-STATUS.md), [current ranking](RANKING.md), [manuscript index](MANUSCRIPT-INDEX.md) and [final validation](validation-summary.json). Earlier numerical/provenance labels must be read in their original scope; current source qualifications and exact draft bindings are in the final package.
+
 # Assignment and execution ledger
 
 As of 1 October 2026. These counts describe assignments, not simultaneous workers, independent discoveries or publishable papers.
