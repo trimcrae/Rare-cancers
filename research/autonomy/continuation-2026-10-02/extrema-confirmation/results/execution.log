@@ -1,0 +1,20 @@
+/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/extrema-confirmation/extrema_certificate.cpp: In lambda function:
+/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/extrema-confirmation/extrema_certificate.cpp:81:3: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   81 |   if(l.empty())return;if(l[0]=='>'){process();header=l.substr(1);seq.clear();}
+      |   ^~
+/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/extrema-confirmation/extrema_certificate.cpp:81:23: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   81 |   if(l.empty())return;if(l[0]=='>'){process();header=l.substr(1);seq.clear();}
+      |                       ^~
+/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/extrema-confirmation/extrema_certificate.cpp: In function ‘int main(int, char**)’:
+/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/extrema-confirmation/extrema_certificate.cpp:84:2: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   84 |  if(!pending.empty())consume(pending);int err=0;const char*msg=gzerror(file,&err);string detail=msg?msg:"";
+      |  ^~
+/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/extrema-confirmation/extrema_certificate.cpp:84:39: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   84 |  if(!pending.empty())consume(pending);int err=0;const char*msg=gzerror(file,&err);string detail=msg?msg:"";
+      |                                       ^~~
+..............
+----------------------------------------------------------------------
+Ran 14 tests in 0.240s
+
+OK
+{"status": "passed", "union_designs": 220, "output": "/home/runner/work/Rare-cancers/Rare-cancers/outputs-followup-extrema/analysis/extrema-confirmation.json"}

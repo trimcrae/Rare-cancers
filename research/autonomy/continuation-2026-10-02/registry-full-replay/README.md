@@ -5,13 +5,15 @@ level: cross-cutting
 kind: memo
 status: live
 purpose: Describe the executable comparison of conservative literal extraction with the frozen registry reconciliation.
-scope: Same selected 552 parent tables and 575 historical class-group units; preparation and cloud invocation, with no replay result claimed.
+scope: Same selected 552 parent tables and 575 historical class-group units; frozen replay method and separately linked executed findings.
 audience: [maintainers, autonomous research agents, external reviewers]
 date: "2026-10-02"
 last_verified: unverified
 ---
 
-# Known full-corpus transfer replay — prepared, not executed
+# Known full-corpus transfer replay
+
+Executed status: [run 37017553101](https://github.com/trimcrae/Rare-cancers/actions/runs/37017553101/job/110872050056) passed at `e4e41e8cc93e66c2a576ec8a6f6f4acba5c5d496`. See [result memo](result-memo.md), [summary](results/summary.json) and [complete compressed output](results/full-replay-output.zip). The frozen method below remains distinct from those findings.
 
 Question: does applying the conservative reusable literal extractor to the same archived source outcomes change retained class/group units, four-cell qualification or eligible participant denominators relative to the frozen 575-row normalization? This is a transfer check on the known development corpus, not held-out validation, a registry error-rate study or retrieval-recall measurement.
 
@@ -50,4 +52,4 @@ Expected reasons for genuine differences are explicit policy changes: the old no
 - `generic-literal-rows.json`: complete new row representations.
 - `generic-literal-outcomes.json`: complete selected outcome objects, preserving context.
 
-A zero exit means source identity, matched literal fidelity and coverage checks completed; it does not mean the two normalization policies are clinically equivalent. Qualification changes are findings, not automatically test failures. Review the explicit differences before adding any manuscript count. Existing historical correction counts remain unchanged until a separately labelled replay result is reviewed. No execution result is claimed in this package.
+A zero exit means source identity, matched literal fidelity and coverage checks completed; it does not mean the two normalization policies are clinically equivalent. Qualification changes are findings, not automatically test failures. Review the explicit differences before adding any manuscript count. Existing historical correction counts remain unchanged until a separately labelled replay result is reviewed. The prepared method was frozen at the executed revision; the subsequent result is recorded separately.

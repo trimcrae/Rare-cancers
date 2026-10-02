@@ -13,9 +13,13 @@ last_verified: unverified
 
 # Independent union-extrema certificate — prepared 2026-10-02
 
-This is a retrospective verification plan, not a preregistration. Frontmatter remains unverified while compilation and execution are pending.
+This is a retrospective verification plan, not a preregistration. The method below records preparation before execution; the subsequent result is linked separately.
 
-## Scope and present status
+## Executed status
+
+[Cloud run 37017553101](https://github.com/trimcrae/Rare-cancers/actions/runs/37017553101/job/110872050719) passed at `e4e41e8cc93e66c2a576ec8a6f6f4acba5c5d496`: all 14 synthetic tests and all 220 union minima/maxima certificates. The [result](results/extrema-confirmation.json), exact certificate tables and execution log are retained. No individual-stratum nonzero-extrema certification is claimed.
+
+## Scope at preparation
 
 Prepared code and synthetic tests; **no compilation, synthetic execution, or full-corpus execution has occurred in this seat**. Quiet Python syntax inspection only is permitted locally. Root must review and cloud-execute before using a pass claim. This specifically closes a named gap in the earlier exact-census/witness verification: its checked witnesses establish attainability but do not prove global nonzero Hamming minimality or complete-core-tract maximality.
 

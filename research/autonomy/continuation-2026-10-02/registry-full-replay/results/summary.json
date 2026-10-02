@@ -1,0 +1,199 @@
+{
+  "schema": "registry-known-full-corpus-transfer/1",
+  "status": "completed",
+  "scope": "Same selected known corpus; not held-out validation, registry error rate, clinical ORR or a new retrieval cohort",
+  "manifestSHA256": "ecaad6be81c5053c4e204f74cd645039be92feb850a893da5b73d33b4aa7ccbe",
+  "inputReceipts": [
+    {
+      "role": "reconciliation",
+      "name": "registry-complete-matches-actual.json",
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/6514d5c0399453d5cbd38c3989ba632dfd336d88/research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/registry-complete-matches-actual.json",
+      "revision": "6514d5c0399453d5cbd38c3989ba632dfd336d88",
+      "bytes": 1570084,
+      "sha256": "35cd63754567517cfd50691a519e495f484a58636963ef728f29b2d3ff521b48",
+      "verified": true
+    },
+    {
+      "role": "normalization",
+      "name": "registry-complete575-class-preserving-normalization-final.json",
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/6514d5c0399453d5cbd38c3989ba632dfd336d88/research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/registry-complete575-class-preserving-normalization-final.json",
+      "revision": "6514d5c0399453d5cbd38c3989ba632dfd336d88",
+      "bytes": 1728462,
+      "sha256": "da3485b76c984db714fc20f3bc0e82b1c07b06cb792b980f82927d3917891851",
+      "verified": true
+    },
+    {
+      "role": "extractor",
+      "name": "registry_literal_extractor.py",
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/6514d5c0399453d5cbd38c3989ba632dfd336d88/research/autonomy/continuation-2026-10-02/registry/registry_literal_extractor.py",
+      "revision": "6514d5c0399453d5cbd38c3989ba632dfd336d88",
+      "bytes": 9486,
+      "sha256": "c9ea1a864b0c5a16eebd7a41f5dc1575395fcf3d6f6affb00f1b2a68695af154",
+      "verified": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/af7211708205b5189d8c537c1ce2a23aa4bea076/research/manuscripts/endpoint/endpoint-corpus-inputs.json",
+      "bytes": 935150,
+      "sha256": "f63766a596cdb6978a2e7d8dbbdfc0c8119a50306a18ea6746316916ae040fa8",
+      "role": "compact-input",
+      "name": "endpoint-corpus-inputs.json",
+      "revision": "af7211708205b5189d8c537c1ce2a23aa4bea076",
+      "verified": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_1999_2009.txt",
+      "bytes": 19791788,
+      "sha256": "5906bd2818d5413a8fae68d38ad02892b617079c9eaa459ee85d4ef6621774ed",
+      "role": "raw",
+      "name": "ctg_results_bor_1999_2009.txt",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "verified": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt",
+      "bytes": 24086484,
+      "sha256": "0ec2f68e35bfc142405d942c83688653efb256e7627a3e4a8c301384f06ebcc6",
+      "role": "raw",
+      "name": "ctg_results_bor_2010_2013.txt",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "verified": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt",
+      "bytes": 39952608,
+      "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+      "role": "raw",
+      "name": "ctg_results_bor_2014_2017.txt",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "verified": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_2018_2021.txt",
+      "bytes": 27677089,
+      "sha256": "1cf4a94667694b46aaaec6794dc0944ded83a05683deb01fda333f32e93bc27c",
+      "role": "raw",
+      "name": "ctg_results_bor_2018_2021.txt",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "verified": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_2022_2026.txt",
+      "bytes": 2727777,
+      "sha256": "41c65bc97be1bbf3e298fa7a634531b4507be2135badc0d3001563b6fdfac5bf",
+      "role": "raw",
+      "name": "ctg_results_bor_2022_2026.txt",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "verified": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_placebo_onc_1999_2009.txt",
+      "bytes": 11083852,
+      "sha256": "4815be8670406d170bf0dd0a27ef6030be2dfa484c2a108ab20583fe1d448efa",
+      "role": "raw",
+      "name": "ctg_placebo_onc_1999_2009.txt",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "verified": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_placebo_onc_2010_2013.txt",
+      "bytes": 9490801,
+      "sha256": "f05751dae55e6f01f388f1b96b7fd5abd3dd961e7c4348a7745415d9db11d3e5",
+      "role": "raw",
+      "name": "ctg_placebo_onc_2010_2013.txt",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "verified": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_placebo_onc_2014_2017.txt",
+      "bytes": 11483177,
+      "sha256": "1af8a10b38a37f69b1cc55b45ad2c36399f05112905354e7280b5d00c536ca29",
+      "role": "raw",
+      "name": "ctg_placebo_onc_2014_2017.txt",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "verified": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_placebo_onc_2018_2021.txt",
+      "bytes": 9288567,
+      "sha256": "732e717fc389c62493a4dcf74a8d01541bf2ede2ef01bba17f251a457d502869",
+      "role": "raw",
+      "name": "ctg_placebo_onc_2018_2021.txt",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "verified": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_placebo_onc_2022_2026.txt",
+      "bytes": 499540,
+      "sha256": "7cb62e90df4ff012b65720271b5c1a66073647e1cc14f571305640d9480c2b48",
+      "role": "raw",
+      "name": "ctg_placebo_onc_2022_2026.txt",
+      "revision": "216bd1b5fb25a56b90ef3cc2373e1fe68322708f",
+      "verified": true
+    }
+  ],
+  "rawStudyCounts": [
+    {
+      "source": "ctg_results_bor_1999_2009.txt",
+      "studies": 694
+    },
+    {
+      "source": "ctg_results_bor_2010_2013.txt",
+      "studies": 612
+    },
+    {
+      "source": "ctg_results_bor_2014_2017.txt",
+      "studies": 820
+    },
+    {
+      "source": "ctg_results_bor_2018_2021.txt",
+      "studies": 631
+    },
+    {
+      "source": "ctg_results_bor_2022_2026.txt",
+      "studies": 94
+    },
+    {
+      "source": "ctg_placebo_onc_1999_2009.txt",
+      "studies": 528
+    },
+    {
+      "source": "ctg_placebo_onc_2010_2013.txt",
+      "studies": 383
+    },
+    {
+      "source": "ctg_placebo_onc_2014_2017.txt",
+      "studies": 383
+    },
+    {
+      "source": "ctg_placebo_onc_2018_2021.txt",
+      "studies": 239
+    },
+    {
+      "source": "ctg_placebo_onc_2022_2026.txt",
+      "studies": 30
+    }
+  ],
+  "historicalParents": 552,
+  "historicalUnits": 575,
+  "genericUnits": 575,
+  "matchedUnits": 575,
+  "oldOnlyUnits": 0,
+  "newOnlyUnits": 0,
+  "oldQualified": 537,
+  "newQualifiedAllRetainedUnits": 510,
+  "qualificationTransitions": {
+    "True->True": 510,
+    "False->False": 38,
+    "True->False": 27
+  },
+  "matchedChangeCounts": {
+    "countVectorChanged": 27,
+    "denominatorValueChanged": 0,
+    "denominatorScopeChanged": 0,
+    "aliasAssignmentsChanged": 29
+  },
+  "matchedExplicitCountSemantics": 575,
+  "physicalOccurrences": 564,
+  "fidelityErrors": [],
+  "seconds": 30.152783639000006
+}

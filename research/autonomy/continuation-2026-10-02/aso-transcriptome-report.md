@@ -29,8 +29,9 @@ became disjoint from their archived sets. One deposited-sequence example affecte
 archived final selection. These results qualify sequence uniqueness and ranking
 stability under reference expansion. They do not establish biological off-target
 activity, clinical risk or improved efficacy. An independent whole-corpus exact-match
-census confirmed all 440 design-stratum counts; nonzero extrema were not independently
-recensused.
+census confirmed all 440 design-stratum counts. A subsequent independent certificate
+scan confirmed all 220 union Hamming minima and complete-core maxima, including the
+five controls; individual-stratum nonzero extrema remain outside that confirmation.
 
 ## Question and methods
 
@@ -73,8 +74,16 @@ orientation, and found no disagreement. A separate Aho-Corasick implementation t
 scanned all 670670 records and 1470018861 unambiguous windows, confirming all 440
 design-stratum exact-match counts.[7] It directly verified 7339 original witnesses
 and 128 independent exact-match coordinates, requiring coverage of all 880 original
-metric groups with the first min(20,count) witnesses. These checks validate exact
-counts and sampled coordinates/scores, not global nonzero Hamming minima or gap maxima.
+metric groups with the first min(20,count) witnesses. These first checks validate
+exact counts and sampled coordinates/scores. A subsequent independent literal-pattern
+certificate scan challenged all 220 reported union Hamming minima and complete-core
+maxima against both pinned corpora.[9] It enumerated every Hamming pattern through the
+claimed radius (0–2), requiring attainment and excluding closer matches. For a gap
+maximum g, it required an aligned complete-core tract of length g and excluded every
+eligible tract of length g+1. Complete unambiguous 16-base windows remained required.
+All 14 synthetic tests and all 220 union certificates passed. This verifier shares
+Hamming-neighborhood mathematics with the discovery code but uses literal patterns
+and an automaton instead of the original two-bit representation and hash lookup.
 
 ## Results
 
@@ -133,9 +142,14 @@ not demonstrate that replacement choices are clinically better.
 
 The catalogue is dominated by hypothetical joins; its 35 other designs have varied
 sequence-support evidence and are not 35 validated therapeutic candidates.
-Independent verification now supports the full exact-match census and checked
-witnesses. Nonzero Hamming minima and global gap maxima retain the original
-oracle/baseline and direct-witness support, without a second exhaustive census.
+Independent verification now supports the full exact-match census, checked witnesses,
+and every union Hamming minimum and complete-core maximum. Individual-stratum
+nonzero extrema, their censored bounds and nonzero nearest-occurrence counts were
+not independently certified by the union verifier.
+Current Ensembl release 116 annotations resolved all 60 saved distinct witness
+transcripts with matching versions.[10] The saved list covers 128 of 134 exact
+design-record-window occurrences; six omitted occurrences remain unclassified by
+biotype. These annotations do not independently freeze release-50 biotype labels.
 No publication-readiness or clinical-validation conclusion follows from this report.
 
 ## Reproducibility and sources
@@ -160,3 +174,6 @@ The three input SHA256 values are:
 6. [NCBI ANKRD11P1 record](https://www.ncbi.nlm.nih.gov/gene/100287912): HGNC:54737; ENSG00000234429. Gene-identity resources accessed October 2, 2026.
 7. [Independent exact-census and witness verification](https://github.com/trimcrae/Rare-cancers/actions/runs/37011070408/job/110850663697).
 8. Ensembl [RBBP8-AS1 transcript annotation](https://rest.ensembl.org/lookup/id/ENST00000795030?expand=1;content-type=application/json) and [cDNA](https://rest.ensembl.org/sequence/id/ENST00000795030?type=cdna;content-type=application/json); [ANKRD11P1 transcript annotation](https://rest.ensembl.org/lookup/id/ENST00000378334?expand=1;content-type=application/json) and [cDNA](https://rest.ensembl.org/sequence/id/ENST00000378334?type=cdna;content-type=application/json). Accessed October 2, 2026.
+
+9. [Independent union-extrema certificate execution](https://github.com/trimcrae/Rare-cancers/actions/runs/37017553101/job/110872050719), revision e4e41e8cc93e66c2a576ec8a6f6f4acba5c5d496; [result and certificates](extrema-confirmation/results/extrema-confirmation.json).
+10. [Exact-match annotation and coverage](exact-match-annotation/findings.md), including saved API responses, release record and target/transcript tables.
