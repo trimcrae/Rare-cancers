@@ -1,0 +1,72 @@
+# Independent final review: Foundation export correspondence
+
+Decision: **pass for scientific claims and reader-facing prose on the final source hash below**. No unresolved scientific submission blockers, P1 findings, or P2 findings remain. One P2 license-scope wording finding was corrected in the single repair batch and independently checked. This review is not publication clearance, a venue-fit decision, importer certification, rendered-PDF inspection, or author approval.
+
+## Identity and independence
+
+- Reviewer: `/root/foundation_final_ultra`, one independent LLM reviewer covering hostile/adversarial, statistical, methods/results, citation, consistency and prose lenses. These are coverage areas, not six independent reviewers.
+- Actual spawn request, as reported by the coordinator in this review conversation: `task_name=foundation_final_ultra`, `fork_turns=none`, `reasoning_effort=ultra`, model omitted/inherited from root. The reviewer context supplies no served-model or served-effort telemetry. Ultra was explicitly requested; serving telemetry remains unverified. No separately billed API was used.
+- Writers: `/root/cloud_portfolio_review` wrote the initial prose; `/root` added metadata, source-license and AI-assistance text and applied the bounded repair. This reviewer did not write or edit the manuscript.
+- Blinding: no other final-manuscript review reports or verdicts were provided. Author identity, writer claim ledger and source map were visible. Existing primary-computation and gene-probe review receipts were read as provenance. The review is independent but neither author-blind nor evidence-blind.
+- Scope: complete outgoing manuscript, including title/author/running title/keywords, abstract, correspondence, table and caption, data/code availability, source licenses, AI assistance, funding, competing interests and references. Ledger and source map are internal evidence, not an outgoing supplement.
+
+## Exact artifact binding
+
+Final reviewed canonical candidate: `research/manuscripts/foundation/source-identity-correspondence.md`, supplied locally at `C:/Users/mcrae/.codex/private/emc-continuation-20261002/checkpoint07-foundation-root/source-identity-correspondence.md`.
+
+SHA-256: `006ab3c2ebea1b7ce5633727b7466de07030f138e2b7688c3de44a423c1b8442`.
+
+The initial frozen writer manuscript was fully read at SHA-256 `f5274e492ddbf88b89832dcb7851f1e0fb28a5be3bfc60ecee750d5ba049279c`. The first canonical copy, including added declarations, was read at `8136369dccbf63a4b32ed0e692ab7dd7f84bc80e1cb13e6b99fd9d85c79ece65`. The final focused comparison verified the license repair, plain ordinal definition and direct mapping/proof links; the remaining scientific body was unchanged from the fully reviewed version.
+
+Internal ledger SHA-256: `a5f74671b240d28bd408c68e85f2ba59fb0a20baa12ac19975ae79265743a32e`. Internal source map SHA-256: `f9282817b13b0fa8f7dbeecfc707497c4c580210e6330cddbfa63e87d66c368a`.
+
+## Independent plain-language account
+
+**Question.** Does a public cancer-data export still attach each reported rearrangement to the sample named in the original study workbook?
+
+**Approach.** The authors compared every rearrangement row in the two fixed files, keeping the workbook's order and tracking its sample ID, worksheet row and two gene names. They then checked the mapping with a separate program reading the original workbook. They also tested what happens when someone uses the original identifiers to retrieve records for one sarcoma subtype. Gene-name differences were investigated separately.
+
+**Main finding.** The export identifiers follow event position plus three instead of the original sample identifiers. Of 3,771 event records, 3,770 carry a different identifier; the original records belong to 3,182 source IDs. Two events from one source sample can therefore appear to come from two export samples. Searching this export with the 75 original EMC IDs retrieves 28 events from other source samples and misses all 76 events belonging to the EMC group. A recovery resource restores the workbook identifiers while preserving the export's other fields.
+
+**Main limitations.** This is evidence about the relationship between fixed data files. It does not verify the original diagnoses, biological fusions, germline/somatic origin, a live website, patient outcomes or downstream papers. Both extraction programs use the same reader family. The recovery follows the demonstrated source-order correspondence, not a recovered original curation script. Three gene-text discrepancies remain unresolved, and the other twelve have current naming support rather than independent biological validation.
+
+**Next step.** Give maintainers the reproducible mapping for reconciliation and verify any resulting corrected export. Do not treat the offline derivative as an already approved or deployed replacement.
+
+## Checks and results
+
+| Area | Independent result |
+|---|---|
+| Core mapping | Retrieved the complete committed mapping, not merely the writer summary. Recounted 3,771 records, exact consecutive one-based ordinals, 3,771 suffixes equal to ordinal + 3, 3,770 literal source-ID discordances and 3,182 unique source IDs. |
+| Table 1 | Checked ordinals 25, 112 and 113 against concrete mapping records and direct-primary sentinel output: source IDs 49/245/245, suffixes 28/115/116 and the stated ordered gene pairs all agree. Subtracting three yields an event ordinal, not a source ID. |
+| EMC denominator and join | Recounted the 75-ID source set and its 76 events. All 76 IDs differ. The specified prefix-and-select operation chooses 28 records, none originating in the source EMC set, and overlaps none of the true EMC event ordinals. Exactly 47 source IDs exceed 3,774; none falls below the minimum suffix of 4. |
+| Statistics | These are complete counts within fixed files, not estimates of population prevalence or independent-patient replication. No significance test, confidence interval or power calculation is needed for the deterministic file comparison. Event/profile/source-ID units are distinguished. |
+| Independent extraction | Read `foundation_primary_workbook_check.py`, the cloud wrapper, actual execution receipt and returned stdout. The checker reads the primary sheets directly, validates headers/hash/dimensions, compares ordinal/physical row/ID/gene pair for every event, verifies the corrected IDs against the primary workbook, checks all non-ID fields and compares source multiplicity counters. It does not import the recovery program or first extractor. The successful recorded subprocesses exited zero. Shared xlrd 2.0.1 dependence is explicitly disclosed. |
+| Recovery | Read the recovery code and receipts. Hash guards bind mapping/export, concrete row records rather than erroneous historical ordinal-summary flags drive recovery, IDs alone change, and original non-ID fields including all 564 N/A tokens remain. The primary checker separately verifies the resulting source multiplicities and every corrected ID. No importer or deployment claim is made. |
+| Gene discrepancy counts | Concrete mapping records give 3,756 ordered agreements under the stated missing-token convention and 15 differences. Annotation records give 12 fully nomenclature-supported events, nine distinct previous-symbol pairs, and 13 changed slots. Event 871 changes two slots, explaining why supported slots exceed supported events. |
+| HGNC primary evidence | Fetched the saved 10,107-byte source-response ZIP through GitHub, verified SHA-256 `f5a98962f771a4cee5ee05d4e2699af48408dd0f2e17c71c1947558535d75376` and all 14 member hashes in memory. All nine previous-symbol pairs occur in the saved approved records. AKAP2 and PALM2AKAP2 have different HGNC IDs; no exact previous-symbol or alias match makes AKAP2 a synonym for PALM2AKAP2. |
+| Date cells | Read the fixed two-cell probe and actual returned output. Workbook hash, worksheet, row/column and ID/gene/RE sentinels are guarded. Returned date type 3, d-mmm format and datemode 0 support the two dates stated. The manuscript correctly does not infer the intended gene from the dates. |
+| History | The committed history evidence and independently fetched GitHub commit/PR metadata support February 2024, June 2024 release merge and December 2024 migration dates. The February LFS pointer agrees with the recorded historical payload hash. Historical payload comparison itself was reused from preserved evidence, not rerun. The wording does not equate commit or merge date with portal deployment. |
+| Citations | References 1, 5 and 6 match the named primary publications; the Nature article's indexed primary text supports 7,494 profiles, 3,771 rearrangements, absent matched normal DNA and detection agnostic to germline/somatic origin. HGNC documentation explains the named fields; saved responses provide the actual gene evidence. References 2, 3 and 7 pin datasets, history and reproducibility evidence. The final reference 7 directly links the exact mapping and proof files. |
+| Declarations | Funding and competing-interest text match the pinned author declaration. The author name matches that declaration. AI assistance describes assistance and separate review without claiming author approval, ethics exemption or a biological experiment. Final licensing language is confined to observed notices and applicable reuse terms. |
+
+The machine-readable `artifact-checks.json` retains the independently recounted values, HGNC member hashes and a source manifest with exact Git blob hashes/revisions. No fresh workbook retrieval, primary extraction, source-science computation, cloud dispatch, browser automation, screenshot or rendering was performed. Existing successful science was reviewed rather than repeated.
+
+## Readability and meaning preservation
+
+All six requested checks pass: reader-facing text reviewed; abstract understandable; necessary terms sufficiently explained; narrative followable; scientific meaning preserved; limitations preserved. The revised abstract spells out ordinal as position counted from one. It says what broke, how it was tested, what a concrete query loses and what remains unknown. The body follows a coherent sequence from file comparison to examples, join consequence, separate annotation question, history and recovery limits. The table anchors the otherwise abstract identifier problem.
+
+The words sample, profile, event and identifier retain distinct scopes. The EMC paragraph explains the actual selection operation rather than relying on unexplained database jargon. The phrase current HGNC previous-symbol support is immediately qualified as nomenclature correspondence, and dates are explicitly denied the power to identify the intended genes. Reader comprehension is based on the substantive account above, not sentence-length metrics.
+
+Compared with the prior pinned draft, the old unverified-primary-extraction statement was replaced only after an actually successful primary extraction. Omitting the 63/12 partner split and separate 43-row short-variant control narrows this correspondence; it does not convert either into a negative or positive clinical claim. Functional-fusion, source-label, missing-token, shared-parser, somatic-origin, unresolved-annotation, original-assay, live-portal and downstream-impact limits survive. No scientific qualification was removed by the final wording repair.
+
+## Single bounded finding batch and verification
+
+**P2-F1, resolved: source-license scope.** The first canonical candidate said that the original article and its supplementary material were all under CC BY and that source/adapted licenses were retained. The [publisher's primary notice](https://www.nature.com/articles/s41467-022-30496-0) specifies CC BY 4.0 with third-party credit-line exceptions; it does not certify an unseen release package. The [pinned Datahub README](https://github.com/cBioPortal/datahub/blob/dca75cb3f32b82d54a6f78bf0a6323e5b975aca1/README.md#license) specifies ODbL reuse conditions. Minimum repair was to state those observed notices and terms without unconditionally licensing all supplemental material or asserting package compliance. Final hash `006ab3...` applies that repair, including the pinned README link. Resolved.
+
+Two nonblocking suggestions were accepted in the same batch: explain the ordinal in the abstract and link directly to the exact mapping/proof files. Focused verification found both correct and no changed scientific claim. No further full review is requested for unchanged science.
+
+## Practical limits of this pass
+
+The source mapping proves the file-order relationship under the described comparison; it does not recover the original transformation operation or independently distinguish provenance of otherwise identical export gene-pair rows. The manuscript's source-order methods and restriction to this frozen derivative are appropriate to that evidence. The independent primary extractor increases confidence in source extraction, not independence of the file-format parser or original assays.
+
+Publication-package requirements, durable archive selection, rendered output, venue suitability and actual author approval remain the coordinator's separate work. None is silently marked satisfied by this manuscript review. A later substantive text change must receive focused review against its new hash.

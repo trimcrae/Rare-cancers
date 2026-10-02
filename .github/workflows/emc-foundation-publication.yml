@@ -1,0 +1,40 @@
+name: Foundation publication preparation and full checks
+on:
+  push:
+    branches: [codex/emc-continuation-2026-10-02]
+    paths: [research/autonomy/continuation-2026-10-02/foundation-publication-token.json]
+permissions:
+  contents: read
+concurrency:
+  group: foundation-publication-${{ github.sha }}
+  cancel-in-progress: false
+jobs:
+  checkpoint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 85
+    env:
+      UV_NO_CACHE: 1
+      PIP_NO_CACHE_DIR: 1
+    steps:
+      - name: Budget full checkout and dependencies
+        run: |
+          python3 - <<'PY'
+          import shutil
+          free = shutil.disk_usage('.').free
+          assert free >= 42*1024**3, free
+          print('Budget: checkout8GiB, dependencies24GiB, reserve10GiB; free', free)
+          PY
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Prepare dependencies and execute bounded phase
+        run: python3 research/autonomy/continuation-2026-10-02/foundation-publication-check.py
+      - name: Preserve outputs without writing any branch
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: foundation-publication-${{ github.sha }}
+          retention-days: 30
+          if-no-files-found: error
+          path: /tmp/foundation-publication/

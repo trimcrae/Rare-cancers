@@ -9467,5 +9467,81 @@
       "No EMC series records any host factor, so every prevalence and every effect here is transferred from another population and none is a measurement in this disease.",
       "Nothing in this route asserts efficacy, safety, a therapeutic window or clinical readiness, and nothing in it is advice for any individual patient."
     ]
+  },
+  {
+    "id": "RT-FOUNDATION-IDENTITY",
+    "title": "Recover source identity in a derivative sarcoma rearrangement export",
+    "display_name": "Foundation export source-identity correction",
+    "level": "L2",
+    "kind": "route",
+    "purpose": "Can the pinned derivative rearrangement records be reattached to their published source identifiers without altering other export fields?",
+    "strategy": "ST-DISSEMINATION",
+    "publication": {
+      "endpoint": "PUB-FOUNDATION-IDENTITY",
+      "role": "primary",
+      "contribution": "The correspondence's complete event-to-source mapping, primary-workbook verification, literal gene-field discrepancies and explicit EMC profile join."
+    },
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "active",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-10-02"
+    },
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/foundation/source-identity-correspondence.md"
+      }
+    },
+    "rationale": "The published workbook retains source identifiers independently of the derivative export; reconciling those keys can establish an export-identity defect without treating source labels as clinical adjudication.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-FOUNDATION-PRIMARY-IDENTITY-REVIEW",
+        "what_it_supports": "Primary-workbook extraction confirms every corrected mapping and preserves the event multiplicities and non-ID export fields under the stated missing-value convention.",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether upstream maintainers will adopt this correction, and whether other exports share the same transformation, remain unknown and outside the pinned-release claim."
+    ],
+    "required_validation": [
+      {
+        "what": "Complete final artifact-bound scientific and editorial review and publication-package verification of the narrow correspondence.",
+        "feasible_today": true
+      }
+    ],
+    "readiness": {
+      "attainable_today": "reproducible_workflow",
+      "missing": [
+        "Final frozen canonical manuscript, registered rendering and actual publication-gate receipts."
+      ],
+      "why_not_higher": "Primary correction evidence exists; the outgoing correspondence and its final independent review and publication package are not yet complete."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The primary-source identity check is complete; finalize the existing narrow account without expanding its scientific scope.",
+      "cost_trend": "flat"
+    },
+    "blockers_inherited": [],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "artifacts": [
+      "ART-FOUNDATION-PRIMARY-IDENTITY-REVIEW"
+    ],
+    "limitations": [
+      "A source-profile identifier is not independent clinical adjudication or proof of patient uniqueness.",
+      "The correction concerns one pinned derivative export; it does not establish primary assay validity, clinical function or deployment by the provider.",
+      "Literal gene-field differences remain disclosed; source-identity recovery does not prove gene-symbol equivalence."
+    ],
+    "next": {
+      "best_next_action": "Freeze the canonical correspondence and register its final outgoing prose before the bounded independent publication review.",
+      "cost": "$0"
+    },
+    "recommends_compute": false
   }
 ]

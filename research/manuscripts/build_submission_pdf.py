@@ -81,6 +81,25 @@ _FULL_WIDTH_TABLE_CAPTIONS = ()
 
 
 PAPERS = {
+    # Proposed single entry inside research/manuscripts/build_submission_pdf.py PAPERS.
+    # This fragment does not assert a successful build or outgoing-file approval.
+    "foundation-identity": {
+        "manuscript": "foundation/source-identity-correspondence.md",
+        "tables": None,
+        "references": None,
+        "stamp_sources": ("foundation/source-identity-correspondence.md",),
+        "figures": {},
+        "running_head": False,
+        "footer_text": "Not peer reviewed.",
+        "layout": {"is_outgoing_file": True},
+        "journal": {
+            "article_type": "Correspondence",
+            "section": "",
+            "preprint_note": "Research correspondence; not peer reviewed.",
+        },
+        "out": "foundation/source-identity-correspondence.pdf",
+    },
+    
     # Readable preview only. The deposited DOCX/PDF are byte-identical Word exports.
     'aso-cbc': {'manuscript': 'aso/cbc-20260910/manuscript.md', 'tables': None, 'references': None, 'stamp_sources': ['aso/cbc-20260910/manuscript.md', 'aso/fusion-junction-aso-sequences.csv'], 'inline_images': True, 'figures': {}, 'journal': {'article_type': 'Original Research Article', 'section': '', 'preprint_note': 'Journal presentation preview; not peer reviewed.'}, 'out': 'aso/cbc-20260910/manuscript-preview.pdf', 'deposited_out': 'aso/cbc-20260910/manuscript.pdf'},
     'atr-cancer-genetics': {'manuscript': 'dependency/cancer-genetics-20260910/manuscript.md', 'tables': None, 'references': None, 'stamp_sources': ['dependency/cancer-genetics-20260910/manuscript.md'], 'inline_images': True, 'figures': {}, 'journal': {'article_type': 'Original Research Article', 'section': '', 'preprint_note': 'Journal presentation preview; not peer reviewed.'}, 'out': 'dependency/cancer-genetics-20260910/manuscript-preview.pdf', 'deposited_out': 'dependency/cancer-genetics-20260910/manuscript.pdf'},

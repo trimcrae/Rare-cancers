@@ -1,0 +1,499 @@
+{
+  "schema": "foundation-final-review-artifact-checks/1",
+  "reviewer": "/root/foundation_final_ultra",
+  "scope": "Recount committed mapping/annotation records and verify saved HGNC source archive; no fresh workbook extraction or science rerun.",
+  "mapping_and_annotation_checks": {
+    "mapping": {
+      "keys": [
+        "schema",
+        "sources",
+        "errors",
+        "limits",
+        "workbookSHA256",
+        "REmapping",
+        "perEMC",
+        "geneTypeCalls",
+        "partnerSummary",
+        "exploratoryFourContrastFamily",
+        "sourceAssayLimitation",
+        "shortVariantIdentityControl"
+      ],
+      "rows": 3771,
+      "orderedOrdinals": true,
+      "plus3": 3771,
+      "discordant": 3770,
+      "sourceIds": 3182,
+      "emcIds": 75,
+      "emcEvents": 76,
+      "emcIdDiscordances": 76,
+      "selected": 28,
+      "selectedFromEmc": 0,
+      "retainedTrueEventOrdinals": 0,
+      "emcIDsAbove3774": 47,
+      "emcIDsBelow4": 0,
+      "examples": [
+        {
+          "REordinal": 25,
+          "sourceID": "49",
+          "sourceExcelRow": 204,
+          "exportSampleID": "sarcoma_msk_2022-28",
+          "sourceGenePair": [
+            "EWSR1",
+            "NR4A3"
+          ],
+          "exportGenePair": [
+            "EWSR1",
+            "NR4A3"
+          ],
+          "orderedMatch": true,
+          "ordinalIDMatch": false
+        },
+        {
+          "REordinal": 112,
+          "sourceID": "245",
+          "sourceExcelRow": 896,
+          "exportSampleID": "sarcoma_msk_2022-115",
+          "sourceGenePair": [
+            "EWSR1",
+            "NR4A3"
+          ],
+          "exportGenePair": [
+            "EWSR1",
+            "NR4A3"
+          ],
+          "orderedMatch": true,
+          "ordinalIDMatch": false
+        },
+        {
+          "REordinal": 113,
+          "sourceID": "245",
+          "sourceExcelRow": 898,
+          "exportSampleID": "sarcoma_msk_2022-116",
+          "sourceGenePair": [
+            "NR4A3",
+            "SASH1"
+          ],
+          "exportGenePair": [
+            "NR4A3",
+            "SASH1"
+          ],
+          "orderedMatch": true,
+          "ordinalIDMatch": false
+        }
+      ]
+    },
+    "gene": {
+      "events": 15,
+      "supportedEvents": 12,
+      "supportedUniquePairs": 9,
+      "supportedChangedSlots": 13
+    }
+  },
+  "hgnc_source_archive_checks": {
+    "archive_hash": true,
+    "archive_bytes": true,
+    "all14_member_hashes": true,
+    "all9_prev_symbol_pairs": true,
+    "AKAP2_distinct": true,
+    "PALM2AKAP2_no_AKAP2_prev_alias": true
+  },
+  "hgnc_archive_members": {
+    "entries": [
+      {
+        "name": "_info.json",
+        "bytes": 1128,
+        "sha256": "67f164351d916f9487a666a819ddf9c13250c55ca7cfc9791498e770e8d08208",
+        "docs": []
+      },
+      {
+        "name": "ABTB3.json",
+        "bytes": 1180,
+        "sha256": "94aebde6fcea0355ec7bf57e12a8686c7173e617f53883de3a2ae1888a897da4",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:23844",
+            "symbol": "ABTB3",
+            "status": "Approved",
+            "prev_symbol": [
+              "BTBD11"
+            ],
+            "alias_symbol": [
+              "FLJ33957",
+              "ABTB2B"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AKAP2.json",
+        "bytes": 823,
+        "sha256": "1ce6aaa425976eb9c4275f5c0740c254721e9a56b796c8771b8f0c806712c4a7",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:372",
+            "symbol": "AKAP2",
+            "status": "Approved",
+            "prev_symbol": [
+              "PRKA2"
+            ],
+            "alias_symbol": [
+              "AKAP-KL",
+              "KIAA0920",
+              "DKFZp564L0716",
+              "MISP2"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BLTP2.json",
+        "bytes": 1237,
+        "sha256": "2564b10a3dc2c361a8b732ae81db602f929bb27265f4724b4a7b684467b7fc76",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:28960",
+            "symbol": "BLTP2",
+            "status": "Approved",
+            "prev_symbol": [
+              "KIAA0100"
+            ],
+            "alias_symbol": [
+              "DKFZp686M0843",
+              "MGC111488",
+              "BCOX1",
+              "CT101",
+              "BCOX",
+              "FMP27",
+              "Hob"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BMAL1.json",
+        "bytes": 1324,
+        "sha256": "34bf5dc4e2da0b614b1e8c0b8dcfc28205c1ce52a165daf41422c54a0361f82e",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:701",
+            "symbol": "BMAL1",
+            "status": "Approved",
+            "prev_symbol": [
+              "ARNTL"
+            ],
+            "alias_symbol": [
+              "MOP3",
+              "JAP3",
+              "PASD3",
+              "bHLHe5",
+              "ARNTL1"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "C22orf46P.json",
+        "bytes": 1198,
+        "sha256": "7861cd593475781ef1bdd118795dd8493556e89c8e8fd7da6e35bf6a180954f0",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:26294",
+            "symbol": "C22orf46P",
+            "status": "Approved",
+            "prev_symbol": [
+              "C22orf46"
+            ],
+            "alias_symbol": [
+              "TAAP1",
+              "FLJ23584",
+              "CTA-216E10.6"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CENPU.json",
+        "bytes": 1147,
+        "sha256": "0c4e0c34ef4b41aa013df5c838466ed5ef6ba9f7ba382546d88b25aec16098c2",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:21348",
+            "symbol": "CENPU",
+            "status": "Approved",
+            "prev_symbol": [
+              "MLF1IP"
+            ],
+            "alias_symbol": [
+              "CENP-U",
+              "KLIP1",
+              "CENP-50",
+              "PBIP1"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CILK1.json",
+        "bytes": 1275,
+        "sha256": "f84f55efd3d99d5612382c966124c17c1ddb54cf0c3e08885d9545ffeefb2b46",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:21219",
+            "symbol": "CILK1",
+            "status": "Approved",
+            "prev_symbol": [
+              "ICK"
+            ],
+            "alias_symbol": [
+              "MRK",
+              "LCK2",
+              "KIAA0936",
+              "MGC46090"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ERCC6L2-AS1.json",
+        "bytes": 1001,
+        "sha256": "f79c793f6ae4b3979128ed3c90c2a5349582af35c42a45ce7e64420d716f2fe6",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:27858",
+            "symbol": "ERCC6L2-AS1",
+            "status": "Approved",
+            "prev_symbol": [
+              "C9orf130",
+              "LINC00476"
+            ],
+            "alias_symbol": null
+          }
+        ]
+      },
+      {
+        "name": "H1-3.json",
+        "bytes": 1165,
+        "sha256": "476a253102b853a59d797efed4aa2aab02f0f88ddcd0fa5de9e51c2e54024ecb",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:4717",
+            "symbol": "H1-3",
+            "status": "Approved",
+            "prev_symbol": [
+              "H1F3",
+              "HIST1H1D"
+            ],
+            "alias_symbol": [
+              "H1.3",
+              "H1d",
+              "H1s-2"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MARCHF1.json",
+        "bytes": 1308,
+        "sha256": "cd9f3480887cbfb6d663c28b5a4ee2981148fbf796d5a5a6e6c6727e78f259d9",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:26077",
+            "symbol": "MARCHF1",
+            "status": "Approved",
+            "prev_symbol": [
+              "MARCH1"
+            ],
+            "alias_symbol": [
+              "FLJ20668",
+              "MARCH-I",
+              "RNF171"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "PALM2AKAP2.json",
+        "bytes": 1072,
+        "sha256": "49b0bad3a5233ef7955d828f7c7ea4543152a795ecc9dbf23bf21b22c225c895",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:33529",
+            "symbol": "PALM2AKAP2",
+            "status": "Approved",
+            "prev_symbol": [
+              "PALM2-AKAP2"
+            ],
+            "alias_symbol": null
+          }
+        ]
+      },
+      {
+        "name": "SEPTIN8.json",
+        "bytes": 1025,
+        "sha256": "6005e9d34bf80d2d9625d6aa3ba639779c1b6b221f6abf64c339fc2e943d21bb",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:16511",
+            "symbol": "SEPTIN8",
+            "status": "Approved",
+            "prev_symbol": [
+              "SEPT8"
+            ],
+            "alias_symbol": [
+              "KIAA0202",
+              "SEP2",
+              "Septin-8"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SLC26A10P.json",
+        "bytes": 1022,
+        "sha256": "de6c65b71846a4e0f47c45463d0b3a3d98431c57180acf262e26d41bf2df72b5",
+        "docs": [
+          {
+            "hgnc_id": "HGNC:14470",
+            "symbol": "SLC26A10P",
+            "status": "Approved",
+            "prev_symbol": [
+              "SLC26A10"
+            ],
+            "alias_symbol": null
+          }
+        ]
+      }
+    ],
+    "archive_sha256": "f5a98962f771a4cee5ee05d4e2699af48408dd0f2e17c71c1947558535d75376",
+    "archive_bytes": 10107
+  },
+  "sources": [
+    {
+      "path": "research/autonomy/OPERATING_PROTOCOL.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "a482b7e024ae63c96aff3c3c0ee11032703d5666",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/OPERATING_PROTOCOL.md"
+    },
+    {
+      "path": ".claude/skills/paper-hardening/SKILL.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "8818c1e784c3a0f1b0a6600f107b2a0fa3711525",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/.claude/skills/paper-hardening/SKILL.md"
+    },
+    {
+      "path": ".claude/skills/scientific-writing/SKILL.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "a23566b6c2b97d6733dd8535fabd5e12393abf27",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/.claude/skills/scientific-writing/SKILL.md"
+    },
+    {
+      "path": "research/autonomy/readability-reviews/README.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "ec65a355c028396bb015ade15b81d27f8f24f175",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/readability-reviews/README.md"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/primary-independent-check.stdout",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "67a37fa342391fff324fd3889daf56aeab2ef024",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/primary-independent-check.stdout"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation/foundation_primary_workbook_check.py",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "a169d329c80852be10174893af9f54334a2c018d",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/foundation_primary_workbook_check.py"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation/foundation_identity_recovery.py",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "1bdeaa4bb6d09d84a5153dc6f14fa714e1abe969",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/foundation_identity_recovery.py"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation/foundation_recovery_check.json",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "979dc805912d507af40183f826d5cce5b4f4deeb",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/foundation_recovery_check.json"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/execution.json",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "2059ee5e289a7f3663ebb102f345ad54d50f1980",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/execution.json"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/primary-byte-receipt.stdout",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "c5779df57bb9aec2f632b8ff789d92cdc27869ff",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-primary-aws/results/primary-byte-receipt.stdout"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-gene-annotation/annotation.json",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "17937ab01a2818a1c93e8c4b028be1d798793b2f",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-gene-annotation/annotation.json"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-gene-annotation/probe_source_cells.py",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "87015d031a2e3c359b29d12bae9c11f438e29ff2",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-gene-annotation/probe_source_cells.py"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-gene-annotation/results/probe.stdout",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "aa4379566661edca2bd7eeb22dda1b3d70ab8c8e",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-gene-annotation/results/probe.stdout"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-gene-annotation/classify_hgnc.py",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "a262a6a0ff8e6d23eb07cb90b1a9d4a339fea74c",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation-gene-annotation/classify_hgnc.py"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation/history-addendum.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "93182757f615402117b7396b77efcad118c7d8a4",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/history-addendum.md"
+    },
+    {
+      "path": "research/autonomy/author-declarations.json",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "bf484434ea38f2d82f1ee5129633a5a9808e1e1c",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/author-declarations.json"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation/foundation-source-identity-correspondence-revised.md",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "2bc8cdf2f19aaa5a56ca7e94a441e75be516d495",
+      "url": "https://github.com/trimcrae/Rare-cancers/blob/2ef13e753e3a666015e6942bc644964ae31a6c94/research/autonomy/continuation-2026-10-02/foundation/foundation-source-identity-correspondence-revised.md"
+    },
+    {
+      "path": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/Foundation-complete-rearrangement-source-mapping.json",
+      "revision": "da49c4e836533253825587f83656675dac4c913b",
+      "git_blob_sha": "e3e5c16a6a080da66ebd00f013a39fa743953e22",
+      "sha256_recorded_in_primary_execution": "341f64562039230c581aefb7f03d7da4769969a79290217962216f3d7e567a5e",
+      "retrieval": "GitHub git/blobs endpoint; full text retrieved after contents/raw helper size failures"
+    },
+    {
+      "path": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/Foundation-complete-ID-proof-and-current-source.json",
+      "revision": "da49c4e836533253825587f83656675dac4c913b",
+      "git_blob_sha": "b3fa80e536f42f59acdab17e23580fb8c82cbe56"
+    },
+    {
+      "repository": "cBioPortal/datahub",
+      "path": "README.md",
+      "revision": "dca75cb3f32b82d54a6f78bf0a6323e5b975aca1",
+      "git_blob_sha": "31f4866cc2b6e6272f5f318cd4d2edfb4f6bb06c"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-gene-annotation/hgnc-source-records.zip",
+      "revision": "2ef13e753e3a666015e6942bc644964ae31a6c94",
+      "git_blob_sha": "10465806ce045d208969344a7bd46064ede15f12",
+      "sha256_verified": "f5a98962f771a4cee5ee05d4e2699af48408dd0f2e17c71c1947558535d75376",
+      "bytes": 10107
+    }
+  ]
+}

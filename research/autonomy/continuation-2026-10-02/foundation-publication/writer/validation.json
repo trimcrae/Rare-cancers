@@ -1,0 +1,211 @@
+{
+  "schema": "checkpoint07-foundation-writer-validation/1",
+  "readability": {
+    "path": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint07-foundation-writer\\foundation-correspondence.md",
+    "sentences": 77,
+    "words": 1089,
+    "mean_len": 14.1,
+    "median_len": 14,
+    "p90_len": 22,
+    "max_len": 38,
+    "over_ceiling": 0,
+    "pct_over_40": 0.0,
+    "flesch_reading_ease": 28.7,
+    "flesch_kincaid_grade": 12.8,
+    "caution_markers": 13,
+    "caution_per_1000w": 11.9,
+    "worst": [
+      {
+        "line": 41,
+        "words": 38,
+        "text": "The complete mapping, recovery code, independent primary-source comparison, history and gene-annotation evidence are available in the versioned research reposit"
+      },
+      {
+        "line": 29,
+        "words": 36,
+        "text": "Current HGNC previous-symbol records support 12 of these events, involving nine distinct textual symbol pairs and 13 changed gene slots.[4,7] This supports pres"
+      },
+      {
+        "line": 9,
+        "words": 32,
+        "text": "We identified this problem in the cBioPortal Datahub rearrangement export associated with a 7,494-profile sarcoma study.[1,2] We compared the export with the st"
+      },
+      {
+        "line": 33,
+        "words": 30,
+        "text": "The affected export remained in the repository snapshot checked on 2 October 2026.[2] These observations neither identify the operation that created the transfo"
+      },
+      {
+        "line": 33,
+        "words": 29,
+        "text": "The identity transformation was already present in an inspected February 2024 file revision, before the release pull request merged in June 2024.[3] It predates"
+      },
+      {
+        "line": 37,
+        "words": 28,
+        "text": "Sample misannotation and gene-name corruption are established data-quality problems.[5,6] This report documents a specific deterministic transformation, its com"
+      },
+      {
+        "line": 5,
+        "words": 25,
+        "text": "Selecting export records using the 75 original extraskeletal myxoid chondrosarcoma identifiers retrieved 28 events originating outside that source group and non"
+      },
+      {
+        "line": 5,
+        "words": 22,
+        "text": "In every export row, the numeric sample-ID suffix equaled the rearrangement's row ordinal plus three; 3,770 identifiers differed from their source identifiers."
+      },
+      {
+        "line": 5,
+        "words": 21,
+        "text": "The reproducible mapping provides a basis for curator correction, but no corrected deployment or effect on downstream studies has been established."
+      },
+      {
+        "line": 11,
+        "words": 21,
+        "text": "For each event, we recorded the original sample ID, physical worksheet row, rearrangement ordinal, exported sample ID and ordered gene pair."
+      }
+    ]
+  },
+  "baseline_readability": {
+    "path": "C:\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint07-foundation-writer\\baseline-reference.md",
+    "sentences": 55,
+    "words": 854,
+    "mean_len": 15.5,
+    "median_len": 15,
+    "p90_len": 26,
+    "max_len": 46,
+    "over_ceiling": 0,
+    "pct_over_40": 3.6,
+    "flesch_reading_ease": 21.8,
+    "flesch_kincaid_grade": 14.1,
+    "caution_markers": 10,
+    "caution_per_1000w": 11.7,
+    "worst": [
+      {
+        "line": 18,
+        "words": 46,
+        "text": "We found such a transformation between the primary supplementary workbook of a 7,494-profile sarcoma study and the corresponding cBioPortal Datahub structural-v"
+      },
+      {
+        "line": 42,
+        "words": 42,
+        "text": "Repository history places the ordinal relationship in a file revision dated 7 February 2024, before the public-release pull request was merged in June 2024.[3] "
+      },
+      {
+        "line": 38,
+        "words": 30,
+        "text": "A defined join using the 75 original EMC IDs with the export's study prefix retrieved 28 events, all originating outside the EMC source set, and none of its 76 "
+      },
+      {
+        "line": 42,
+        "words": 30,
+        "text": "On 2 October 2026, Datahub HEAD, dated 28 September 2026, still referenced the affected object.[2] This establishes persistence in that repository snapshot, not"
+      },
+      {
+        "line": 50,
+        "words": 28,
+        "text": "The accompanying recovery prototype, replay receipt, history addendum and primary-source availability record distinguish completed mapping-based checks from the"
+      },
+      {
+        "line": 44,
+        "words": 26,
+        "text": "A CLI replay preserved all 3,771 events, original sample multiplicities, and every non-ID export field, including the two events from source 245; four negative "
+      },
+      {
+        "line": 46,
+        "words": 24,
+        "text": "Sample misannotation and gene-name corruption are established data-quality problems.[4,5] Our bounded prior-art search does not support a claim to first detecti"
+      },
+      {
+        "line": 24,
+        "words": 23,
+        "text": "Ordered gene pairs agreed in 3,756 rows after explicitly treating export N/A values as absent partners, represented as empty strings in the mapping."
+      },
+      {
+        "line": 40,
+        "words": 22,
+        "text": "The primary material lacked matched normals and was agnostic to germline versus somatic origin; export Somatic labels do not establish that distinction."
+      },
+      {
+        "line": 24,
+        "words": 20,
+        "text": "The other 15 rows included numeric source entries 44621 and 44812 and other symbol differences; biological equivalence was not assumed."
+      }
+    ]
+  },
+  "claim_findings": [
+    {
+      "file": "..\\..\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint07-foundation-writer\\foundation-correspondence.md",
+      "line": 5,
+      "rule": "R4-confirms",
+      "severity": "WARN",
+      "match": "confirmed",
+      "message": "reserve confirm/establish/validate for results with a committed primary artifact; otherwise say concordant / consistent with",
+      "source": "roadmap language discipline",
+      "context": "An independent extraction of the original workbook confirmed the complete mapping and an identity-only recovery."
+    },
+    {
+      "file": "..\\..\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint07-foundation-writer\\foundation-correspondence.md",
+      "line": 13,
+      "rule": "R4-confirms",
+      "severity": "WARN",
+      "match": "confirmed",
+      "message": "reserve confirm/establish/validate for results with a committed primary artifact; otherwise say concordant / consistent with",
+      "source": "roadmap language discipline",
+      "context": "The second extraction confirmed every original ID, worksheet row and gene pair in the complete mapping."
+    },
+    {
+      "file": "..\\..\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint07-foundation-writer\\foundation-correspondence.md",
+      "line": 13,
+      "rule": "R4-confirms",
+      "severity": "WARN",
+      "match": "confirmed",
+      "message": "reserve confirm/establish/validate for results with a committed primary artifact; otherwise say concordant / consistent with",
+      "source": "roadmap language discipline",
+      "context": "It also confirmed that every recovered ID matched the primary workbook."
+    },
+    {
+      "file": "..\\..\\Users\\mcrae\\.codex\\private\\emc-continuation-20261002\\checkpoint07-foundation-writer\\foundation-correspondence.md",
+      "line": 31,
+      "rule": "R4-confirms",
+      "severity": "WARN",
+      "match": "confirmed",
+      "message": "reserve confirm/establish/validate for results with a committed primary artifact; otherwise say concordant / consistent with",
+      "source": "roadmap language discipline",
+      "context": "inspection confirmed that both are stored as dates with a day-month display format."
+    }
+  ],
+  "citation_number_check": {
+    "cited": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "listed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "equal": true
+  },
+  "abstract_words_whitespace": 139,
+  "nominalization_screen": [],
+  "limits": [
+    "Writer diagnostics, not independent review or publication clearance.",
+    "No new scientific computations.",
+    "Citation numbering is not full citation-content validation; the claim ledger supplies the manual source audit."
+  ],
+  "script_sha256": {
+    "research\\manuscripts\\lint_readability.py": "ec00c8c9894d8b22f01ec691a7b6e0cbc883d50f6baab8061b968edc23921438",
+    "research\\manuscripts\\lint_claims.py": "c3edfe99ebd25faa614926cd1b197dce7abf77bb8cbce6d3a9a9fc30afaba792"
+  }
+}
