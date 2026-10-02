@@ -77,4 +77,6 @@ The new [serial-biopsy analysis](serial-biopsy-concordance/findings.md) asks whe
 
 The [registry sampling attempt](registry-independent/ORDER-DIAGNOSTIC.md) acquired no new outcomes. The server explicitly rejects sorting by NCT identifier. A frozen amended ordering and tie policy is needed before another selection request; no classifier predictions or accuracy claim were produced.
 
-Normal preflight for checkpoint04 is pending. Earlier passes do not cover these new files. Accepted publication files and the daily orchestration watch remain untouched.
+[Normal preflight passed](https://github.com/trimcrae/Rare-cancers/actions/runs/37036644830) at `e0d203766b6e034f8354a83bfc844c6bccec1a85` after repair of three document identifier prefixes. Exact executed originals were retained and verified byte-for-byte; a focused reviewer wording clarification was also integrated. Both failed and passing logs are preserved under validation/checkpoint-04-initial and validation/checkpoint-04-final. This covers fast document/artifact gates; optional full suites and submission readiness are not claimed. Accepted publication files and the daily orchestration watch remain untouched.
+
+All checkpoint04 finite workers and cloud jobs are complete. The final seal adds validation receipts, status and remaining-work records only. Current main remains60202f659075078496f0a4550258695f31dfb1d7; no main merge occurred. Weekly usage is78% used/22% remaining with ordinary usage allowed at closure.
