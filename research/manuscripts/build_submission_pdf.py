@@ -90,7 +90,8 @@ PAPERS = {
         "stamp_sources": ("foundation/source-identity-correspondence.md",),
         "figures": {},
         "running_head": False,
-        "footer_text": "Not peer reviewed.",
+        "handling_footer": "Not peer reviewed.",
+        "manuscript_css": "h2 { margin-top: 1.0em; } p { margin-top: 0.45em; margin-bottom: 0.45em; }",
         "layout": {"is_outgoing_file": True},
         "journal": {
             "article_type": "Correspondence",
@@ -2289,6 +2290,8 @@ def wrap_manuscript(front_title, body_html, front_block="", paper=None, house_st
     if front_block:
         body_html = re.sub(r"(</h1>)", r"\1" + front_block, body_html, count=1)
     css = MANUSCRIPT_CSS
+    # Per-paper presentation overrides preserve every other registered paper.
+    css += (paper or {}).get("manuscript_css", "")
     if (paper or {}).get("inline_images"):
         css = css + RASTER_IMAGE_CSS + RASTER_IMAGE_CSS_MANUSCRIPT
     if house_style and ((paper or {}).get("layout") or {}).get("nat_submission"):
@@ -2590,6 +2593,8 @@ def handling_footers(paper):
     paper that has a canonical orderable file; when there is none the two lengths are the same
     string, and `print_pdf` skips the second render rather than grafting a page onto itself.
     """
+    if paper.get("handling_footer"):
+        return paper["handling_footer"], paper["handling_footer"]
     orderable = order_from(paper)
     if not orderable:
         return FOOTER_SHORT, FOOTER_SHORT
