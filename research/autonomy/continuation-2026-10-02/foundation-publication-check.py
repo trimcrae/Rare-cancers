@@ -16,7 +16,7 @@ OUT = Path('/tmp/foundation-publication')
 OUT.mkdir(exist_ok=True)
 TOKEN = ROOT / 'research/autonomy/continuation-2026-10-02/foundation-publication-token.json'
 MODE = json.loads(TOKEN.read_text())['mode']
-assert MODE in {'prepare', 'render', 'full', 'evaluate'}
+assert MODE in {'prepare', 'render', 'coverage', 'archive', 'full', 'evaluate'}
 SHA = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
 RECEIPT = {'revision': SHA, 'run_id': os.environ['GITHUB_RUN_ID'], 'mode': MODE, 'steps': []}
 
@@ -98,6 +98,16 @@ try:
                    'Path('+repr(str(OUT/'rendered-text.txt'))+').write_text("\\n\\n".join(p.extract_text() for p in pages)); '
                    'print("PDF_PAGES="+str(len(pages)))')
         assert run('extract-rendered-text', [sys.executable, '-c', extract], 90) == 0
+    elif MODE == 'coverage':
+        assert run('refresh-claim-coverage', [sys.executable, 'research/manuscripts/claim_coverage.py', '--write']) == 0
+        keep('research/manuscripts/claim-coverage.json')
+        assert run('check-claim-coverage', [sys.executable, 'research/manuscripts/claim_coverage.py', '--check']) == 0
+    elif MODE == 'archive':
+        # Requires the coverage output to have been integrated in a prior real commit.
+        assert subprocess.check_output(['git', 'status', '--porcelain'], text=True).strip() == ''
+        assert run('refresh-archive-manifest', [sys.executable, 'research/manuscripts/aso_archive_manifest.py']) == 0
+        keep('research/manuscripts/aso/fusion-junction-aso-archive-manifest.json')
+        assert run('check-archive-manifest', [sys.executable, 'research/manuscripts/aso_archive_manifest.py', '--check-archive']) == 0
     elif MODE == 'full':
         assert run('development-dependencies', ['bash', 'scripts/dev-setup.sh', '--if-needed'], 900, guarded=True) == 0
         assert subprocess.check_output(['git', 'status', '--porcelain'], text=True).strip() == ''

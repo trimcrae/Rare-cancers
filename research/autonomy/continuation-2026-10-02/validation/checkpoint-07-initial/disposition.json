@@ -1,0 +1,15 @@
+{
+  "status": "failed preserved",
+  "run_id": 37062325447,
+  "revision": "f7d7ae054d6974834f56df437a1abec5981cc309",
+  "artifact_id": 11250977544,
+  "zip_sha256": "ad5e5c95da07aec6411fe51e00c49c430118462800dee1d0ea2ce78a6c0590f4",
+  "failures": [
+    "README relative link one parent too high",
+    "New registered Foundation paper absent from generated claim coverage",
+    "Dependent archive manifest stale"
+  ],
+  "other_gates": "Remaining normal fast gates passed; optional pure-logic suites skipped, not passed.",
+  "repair": "Fix link; execute actual coverage generator, commit output; execute archive generator from that clean revision, integrate manifest. No science result or acceptance criterion changed.",
+  "old_full": "37058750900 remains active on8be64 candidate; known generated-artifact defect means it cannot yet supply a green publication receipt. Preserve terminal outcome; no duplicate FULL dispatched."
+}
