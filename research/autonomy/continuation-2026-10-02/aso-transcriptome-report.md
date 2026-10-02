@@ -108,8 +108,8 @@ HGNC and NCBI support the gene identities.[5,6] Current Ensembl records annotate
 RBBP8-AS1 transcript ENST00000795030.1 as lncRNA and ANKRD11P1 transcript
 ENST00000378334.3 as processed_pseudogene.[8] Separate cDNA retrieval confirmed the
 respective targets at transcript positions 346–361 and 3420–3435 (one-based).
-Versions match the frozen witnesses; live annotation release equivalence was not
-established. Expression, accessibility and susceptibility to ASO action remain unknown.
+The later complete recovery confirms the transcript biotypes directly from the
+frozen GENCODE50 headers.[11] Whole-release annotation equivalence is not asserted. Expression, accessibility and susceptibility to ASO action remain unknown.
 The 22 RBBP8-AS1 occurrences must not be interpreted as 22 distinct off-target genes.
 
 For TCF12_e5__NR4A3_e3, archived primary donor offsets were [9,10] and the final
@@ -146,10 +146,15 @@ Independent verification now supports the full exact-match census, checked witne
 and every union Hamming minimum and complete-core maximum. Individual-stratum
 nonzero extrema, their censored bounds and nonzero nearest-occurrence counts were
 not independently certified by the union verifier.
-Current Ensembl release 116 annotations resolved all 60 saved distinct witness
-transcripts with matching versions.[10] The saved list covers 128 of 134 exact
-design-record-window occurrences; six omitted occurrences remain unclassified by
-biotype. These annotations do not independently freeze release-50 biotype labels.
+A subsequent uncapped recovery captured all 134 exact design-record-window
+occurrences in 63 distinct versioned transcripts and 12 gene IDs.[11] It reproduced
+all 128 saved witnesses and accepted per-design counts. The six additional
+occurrences involve two RBBP8-AS1 lncRNA transcripts and four overlapping placements
+in one protein-coding ZNF215 transcript. All transcript biotypes are now bound to
+the pinned GENCODE50 FASTA headers. The earlier Ensembl116 snapshot covers 60 of the
+63 transcripts and agrees for version, gene stable ID, biotype and length; the
+other three have no comparison in that saved snapshot. This establishes complete
+annotation coverage of the accepted exact-hit set, not expression or ASO activity.
 No publication-readiness or clinical-validation conclusion follows from this report.
 
 ## Reproducibility and sources
@@ -177,3 +182,5 @@ The three input SHA256 values are:
 
 9. [Independent union-extrema certificate execution](https://github.com/trimcrae/Rare-cancers/actions/runs/37017553101/job/110872050719), revision e4e41e8cc93e66c2a576ec8a6f6f4acba5c5d496; [result and certificates](extrema-confirmation/results/extrema-confirmation.json).
 10. [Exact-match annotation and coverage](exact-match-annotation/findings.md), including saved API responses, release record and target/transcript tables.
+
+11. [Complete exact-hit recovery and frozen annotation](exact-match-complete/findings.md); [successful execution](https://github.com/trimcrae/Rare-cancers/actions/runs/37021819798/job/110886519492), code revision 909b1491786a7985e82a8880fe84a09cfb01c6da.

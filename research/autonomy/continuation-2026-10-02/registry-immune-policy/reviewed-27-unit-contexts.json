@@ -1,0 +1,2846 @@
+{
+  "schema": "registry-immune-context-review/1",
+  "scope": "27 known-corpus qualification reductions; descriptive reviewed proposal, not implementation of a general family extractor",
+  "acceptedArtifactID": 11231565922,
+  "acceptedZIP_SHA256": "57d104bd9f9e101c82c0ecf90e50837b084eafd165a0d12bb8faaecf3fed0deb",
+  "contexts": [
+    {
+      "contextId": "NCT02263508:23358f19fa24ada7d034d5855b3435e8f08569df37dd4eebe72f9ab21bda5d2e",
+      "nctId": "NCT02263508",
+      "outcomeJSONSha256": "23358f19fa24ada7d034d5855b3435e8f08569df37dd4eebe72f9ab21bda5d2e",
+      "titleLiteral": "Phase 3: Best Overall Response Assessed Using Modified irRC-RECIST",
+      "descriptionLiteral": "BOR is defined as the best overall visit response in the following order: iCR, iPR, stable disease per modified irRC-RECIST (iSD), iPD, or UE per modified irRC-RECIST (iUE), evaluated by BICR.\n\niCR: Disappearance of all lesions confirmed by consecutive assessment ≥ 4 weeks from the date first documented. Reduction of any pathological lymph node to \\<10 mm.\n\niPR: Decrease in tumor burden ≥ 30% relative to baseline confirmed ≥ 4 weeks after first documentation.\n\niPD: Increase in tumor burden ≥ 20 % and at least 5 mm absolute increase relative to nadir confirmed ≥ 4 weeks from initial detection.\n\niSD: Neither sufficient shrinkage to qualify for iCR or iPR nor sufficient increase to qualify for iPD and ≥ 84 days from randomization.\n\nMissing: No postbaseline assessment, or assessments after start of first subsequent anticancer therapy, including complete or partial removal/reduction of any target lesion which contained melanoma on pathology evaluation or pathology results were unknown.",
+      "timeFrameLiteral": "Tumor assessments were performed every 12 weeks after initiation of treatment until confirmed PD or start of new anticancer treatment; median (range) time on follow-up was 30.6 (0.6, 53.0) months and 31.4 (0.3, 52.5) months in each group, respectively.",
+      "populationDescriptionLiteral": "All participants randomized in Phase 3",
+      "paramTypeLiteral": "COUNT_OF_PARTICIPANTS",
+      "unitOfMeasureLiteral": "Participants",
+      "familyNameLiteral": "modified irRC-RECIST",
+      "familyEvidenceStatus": "explicitly_named_in_outcome_context",
+      "assessmentReader": "BICR",
+      "confirmationContextSummary": "Confirmed iCR/iPR/iPD at consecutive assessment at least 4 weeks later; iSD at least 84 days from randomization.",
+      "criteriaVersion": null,
+      "implementationEquivalence": "not_established",
+      "unresolved": "Outcome provides tumor-burden thresholds but no versioned assessment charter; retain the trial-specific modification.",
+      "sourceURL": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt",
+      "sourceRawSHA256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1"
+    },
+    {
+      "contextId": "NCT02626000:b4c5335458849e93eac49d66ee56648755bddc0e2d93bae4a5a5bbe807f445a5",
+      "nctId": "NCT02626000",
+      "outcomeJSONSha256": "b4c5335458849e93eac49d66ee56648755bddc0e2d93bae4a5a5bbe807f445a5",
+      "titleLiteral": "Best Overall Confirmed Response",
+      "descriptionLiteral": "Best overall visit response of iCR, iPR, stable disease (iSD), progressive disease (iPD) or unevaluable (iUE) based on investigator assessment using irRECIST.\n\niCR: Disappearance of all lesions (whether measurable or not and whether baseline or new). Any pathological lymph nodes (target or non-target) must have reduction in short axis to \\<10 mm.\n\niPR: Decrease in tumor size ≥ 30% relative to baseline. iPD: Increase in tumor size ≥ 20% and at least 5 mm absolute increase compared to nadir or qualitative worsening of non-target lesions or a new lesion.\n\niSD: Neither sufficient shrinkage to qualify for iCR or iPR nor sufficient increase to qualify for iPD.\n\niUE: Any baseline lesion which was not assessed or was unable to be evaluated leading to an inability to determine the status of that particular tumor.\n\nNot Done: Radiographic imaging was not performed to evaluate the response. iCR, iPR, and iPD required confirmation by a consecutive assessment at least 4 weeks after first documentation.",
+      "timeFrameLiteral": "Up to the primary analysis data cutoff date of 02 November 2017; median (minimum, maximum) time on follow-up was 14.36 (1.4, 67.0) weeks.",
+      "populationDescriptionLiteral": "The efficacy analysis set included all enrolled participants who received at least 1 dose of talimogene laherparepvec or pembrolizumab, excluding participants with locoregionally advanced disease with a recurrence \\< 3 months after prior platinum-containing curatively intended multimodal therapy.",
+      "paramTypeLiteral": "COUNT_OF_PARTICIPANTS",
+      "unitOfMeasureLiteral": "Participants",
+      "familyNameLiteral": "irRECIST",
+      "familyEvidenceStatus": "explicitly_named_in_outcome_context",
+      "assessmentReader": "investigator",
+      "confirmationContextSummary": "Confirmed iCR/iPR/iPD at consecutive assessment at least 4 weeks after first documentation.",
+      "criteriaVersion": null,
+      "implementationEquivalence": "not_established",
+      "unresolved": "No versioned criteria document is identified in this outcome. Do not equate irRECIST with standardized iRECIST or infer iUPD/iCPD.",
+      "sourceURL": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt",
+      "sourceRawSHA256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1"
+    },
+    {
+      "contextId": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "nctId": "NCT02829723",
+      "outcomeJSONSha256": "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "titleLiteral": "Phase I: Best Overall Response (BOR) With Confirmation Per irRC",
+      "descriptionLiteral": "BOR is defined as the best response recorded from the start of the study treatment until disease progression/recurrence, based on local investigator assessment per irRC. However, any assessments taken more than 30 days after the last dose of study therapy were not included in the best overall response derivation.\n\nComplete Response (CR) and Partial response (PR) had to be confirmed by a new assessment after at least 4 weeks. Additionally, for irRC, progressive disease had to be confirmed.",
+      "timeFrameLiteral": "From start of treatment until disease progression, assessed up to 3.1 years for BLZ945 single agent and 4.1 years for BLZ945 in combination with PDR001",
+      "populationDescriptionLiteral": "All patients from Phase I with solid tumors (excluding glioblastoma and lymphoma) who received at least one dose of BLZ945 or PDR001. Patients were analyzed according to the planned treatment.",
+      "paramTypeLiteral": "COUNT_OF_PARTICIPANTS",
+      "unitOfMeasureLiteral": "Participants",
+      "familyNameLiteral": "irRC",
+      "familyEvidenceStatus": "explicitly_named_in_outcome_context",
+      "assessmentReader": "local investigator",
+      "confirmationContextSummary": "CR/PR confirmation at least 4 weeks later; progression also requires confirmation; assessments more than 30 days after last dose excluded.",
+      "criteriaVersion": null,
+      "implementationEquivalence": "not_established",
+      "unresolved": "Outcome names irRC but does not provide dimension, numeric response thresholds or a versioned criteria citation. No textbook thresholds imported.",
+      "sourceURL": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/216bd1b5fb25a56b90ef3cc2373e1fe68322708f/literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt",
+      "sourceRawSHA256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1"
+    }
+  ],
+  "units": [
+    {
+      "unit": [
+        "NCT02263508",
+        "23358f19fa24ada7d034d5855b3435e8f08569df37dd4eebe72f9ab21bda5d2e",
+        0,
+        "OG000"
+      ],
+      "contextRef": "NCT02263508:23358f19fa24ada7d034d5855b3435e8f08569df37dd4eebe72f9ab21bda5d2e",
+      "groupLiteral": {
+        "id": "OG000",
+        "title": "Phase 3: Placebo + Pembrolizumab",
+        "description": "Participants received up to 4 mL placebo to talimogene laherparepvec by intralesional injection on day 1 of week 0. Subsequent doses of placebo (up to 4 mL) began 3 weeks after the first dose and were administered every 2 weeks until the fifth injection (week 9), and then synchronously with pembrolizumab thereafter every 3 weeks until disappearance of injectable lesions, complete response per modified Immune-related Response Criteria simulating Response Evaluation Criteria in Solid Tumors (irRC-RECIST) (iCR), confirmed iPD per modified irRC-RECIST, intolerance of study treatment, 24 months from the date of the first dose of placebo, or end of study, whichever occurred first. Participants also received 200 mg pembrolizumab administered intravenously every 3 weeks starting on day 1 of week 0, until confirmed iPD per modified irRC-RECIST, treatment intolerance, 24 months from the first dose, or end of study, whichever occurred first."
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/219/resultsSection/outcomeMeasuresModule/outcomeMeasures/19/classes/0",
+          "groupId": "OG000",
+          "lastUpdatePostDateStruct": null
+        },
+        {
+          "source": "ctg_placebo_onc_2014_2017.txt",
+          "sha256": "1af8a10b38a37f69b1cc55b45ad2c36399f05112905354e7280b5d00c536ca29",
+          "pointer": "/studies/117/resultsSection/outcomeMeasuresModule/outcomeMeasures/19/classes/0",
+          "groupId": "OG000",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "modified irRC-RECIST",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Complete response (iCR)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "28"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Partial response (iPR)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "110"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Stable disease (iSD)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "57"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Progressive disease (iPD)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "56"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Unevaluable (iUE)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "69"
+          }
+        },
+        {
+          "categoryIndex": 5,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Missing",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "26"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete response (iCR)",
+          "valueLiteral": "28",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial response (iPR)",
+          "valueLiteral": "110",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable disease (iSD)",
+          "valueLiteral": "57",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive disease (iPD)",
+          "valueLiteral": "56",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 346,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02263508",
+        "23358f19fa24ada7d034d5855b3435e8f08569df37dd4eebe72f9ab21bda5d2e",
+        0,
+        "OG001"
+      ],
+      "contextRef": "NCT02263508:23358f19fa24ada7d034d5855b3435e8f08569df37dd4eebe72f9ab21bda5d2e",
+      "groupLiteral": {
+        "id": "OG001",
+        "title": "Phase 3: Talimogene Laherparepvec + Pembrolizumab",
+        "description": "Participants received talimogene laherparepvec at an initial dose of up to 4 mL 10⁶ PFU/mL by intralesional injection on day 1. Subsequent doses of talimogene laherparepvec at 10⁸ PFU/mL (up to 4 mL) began 3 weeks after the first dose and were administered every 2 weeks until the fifth injection of talimogene laherparepvec (week 9), and then synchronously with pembrolizumab thereafter every 3 weeks until disappearance of injectable lesions, iCR, confirmed iPD per modified irRC-RECIST, intolerance of study treatment, 24 months from the date of the first dose of talimogene laherparepvec, or end of study, whichever occurred first. Participants also received 200 mg pembrolizumab administered intravenously every 3 weeks starting on day 1 of week 0, until confirmed iPD per modified irRC-RECIST, treatment intolerance, 24 months from the first dose, or end of study, whichever occurred first."
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/219/resultsSection/outcomeMeasuresModule/outcomeMeasures/19/classes/0",
+          "groupId": "OG001",
+          "lastUpdatePostDateStruct": null
+        },
+        {
+          "source": "ctg_placebo_onc_2014_2017.txt",
+          "sha256": "1af8a10b38a37f69b1cc55b45ad2c36399f05112905354e7280b5d00c536ca29",
+          "pointer": "/studies/117/resultsSection/outcomeMeasuresModule/outcomeMeasures/19/classes/0",
+          "groupId": "OG001",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "modified irRC-RECIST",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 1,
+          "categoryTitleLiteral": "Complete response (iCR)",
+          "measurementLiteral": {
+            "groupId": "OG001",
+            "value": "50"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 1,
+          "categoryTitleLiteral": "Partial response (iPR)",
+          "measurementLiteral": {
+            "groupId": "OG001",
+            "value": "120"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 1,
+          "categoryTitleLiteral": "Stable disease (iSD)",
+          "measurementLiteral": {
+            "groupId": "OG001",
+            "value": "51"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 1,
+          "categoryTitleLiteral": "Progressive disease (iPD)",
+          "measurementLiteral": {
+            "groupId": "OG001",
+            "value": "65"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 1,
+          "categoryTitleLiteral": "Unevaluable (iUE)",
+          "measurementLiteral": {
+            "groupId": "OG001",
+            "value": "30"
+          }
+        },
+        {
+          "categoryIndex": 5,
+          "measurementIndex": 1,
+          "categoryTitleLiteral": "Missing",
+          "measurementLiteral": {
+            "groupId": "OG001",
+            "value": "30"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete response (iCR)",
+          "valueLiteral": "50",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial response (iPR)",
+          "valueLiteral": "120",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable disease (iSD)",
+          "valueLiteral": "51",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive disease (iPD)",
+          "valueLiteral": "65",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 346,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02626000",
+        "b4c5335458849e93eac49d66ee56648755bddc0e2d93bae4a5a5bbe807f445a5",
+        0,
+        "OG000"
+      ],
+      "contextRef": "NCT02626000:b4c5335458849e93eac49d66ee56648755bddc0e2d93bae4a5a5bbe807f445a5",
+      "groupLiteral": {
+        "id": "OG000",
+        "title": "Talimogene Laherparepvec + Pembrolizumab",
+        "description": "Talimogene laherparepvec was administered by intralesional injection into injectable cutaneous, subcutaneous, and nodal lesions at an initial dose of 10⁶ plaque-forming units (PFU) per mL on day 1 followed by a dose of 10⁸ PFU/mL every 3 weeks (Q3W) thereafter. Pembrolizumab was administered by intravenous infusion at a dose of 200 mg Q3W.\n\nParticipants were treated until complete response, no injectable lesions, confirmed disease progression, intolerance of study treatment, 24 months from the date of the first dose of talimogene laherparepvec, or end of study, whichever occurred first."
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/466/resultsSection/outcomeMeasuresModule/outcomeMeasures/3/classes/0",
+          "groupId": "OG000",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRECIST",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Complete Response (iCR)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Partial Response (iPR)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Stable Disease (iSD)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "10"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Progressive Disease (iPD)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "4"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Unevaluable (iUE)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "6"
+          }
+        },
+        {
+          "categoryIndex": 5,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Not Done",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "9"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (iCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (iPR)",
+          "valueLiteral": "3",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (iSD)",
+          "valueLiteral": "10",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (iPD)",
+          "valueLiteral": "4",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 32,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG000"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG000",
+        "title": "Phase I: BLZ945 150 mg 7d on/7d Off QD",
+        "description": "BLZ945 150 mg once per day administered for 7 days and suspended for 7 days"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG000",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "1"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 0,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG000",
+            "value": "1"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "3",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "1",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 5,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG001"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG001",
+        "title": "Phase I: BLZ945 300 mg 7d on/7d Off QD",
+        "description": "BLZ945 300 mg once per day administered for 7 days and suspended for 7 days"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG001",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 1,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG001",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 1,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG001",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 1,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG001",
+            "value": "1"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 1,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG001",
+            "value": "6"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 1,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG001",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "1",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "6",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 7,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG002"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG002",
+        "title": "Phase I: BLZ945 300 mg Q1W QD",
+        "description": "BLZ945 300 mg once per day once weekly"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG002",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 2,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG002",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 2,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG002",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 2,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG002",
+            "value": "1"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 2,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG002",
+            "value": "4"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 2,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG002",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "1",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "4",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 5,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG003"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG003",
+        "title": "Phase I: BLZ945 450 mg Q1W QD",
+        "description": "BLZ945 450 mg once per day once weekly"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG003",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 3,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG003",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 3,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG003",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 3,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG003",
+            "value": "4"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 3,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG003",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 3,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG003",
+            "value": "2"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "4",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "0",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 6,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG004"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG004",
+        "title": "Phase I: BLZ945 600 mg Q1W QD",
+        "description": "BLZ945 600 mg once per day once weekly"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG004",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 4,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG004",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 4,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG004",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 4,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG004",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 4,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG004",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 4,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG004",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "0",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "3",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 3,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG005"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG005",
+        "title": "Phase I: BLZ945 1000 mg Q1W QD",
+        "description": "BLZ945 1000 mg once per day once weekly"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG005",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 5,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG005",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 5,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG005",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 5,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG005",
+            "value": "2"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 5,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG005",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 5,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG005",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "2",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "3",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 5,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG006"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG006",
+        "title": "Phase I: BLZ945 1600 mg Q1W QD",
+        "description": "BLZ945 1600 mg once per day once weekly"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG006",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 6,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG006",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 6,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG006",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 6,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG006",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 6,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG006",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 6,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG006",
+            "value": "2"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "0",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "3",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 5,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG007"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG007",
+        "title": "Phase I: BLZ945 300 mg 4d on/10d Off QD",
+        "description": "BLZ945 300 mg once per day administered for 4 days and suspended for 10 days"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG007",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 7,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG007",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 7,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG007",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 7,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG007",
+            "value": "4"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 7,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG007",
+            "value": "4"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 7,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG007",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "4",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "4",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 8,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG008"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG008",
+        "title": "Phase I: BLZ945 600 mg 4d on/10d Off QD",
+        "description": "BLZ945 600 mg once per day administered for 4 days and suspended for 10 days"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG008",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 8,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG008",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 8,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG008",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 8,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG008",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 8,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG008",
+            "value": "4"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 8,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG008",
+            "value": "1"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "3",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "4",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 8,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG009"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG009",
+        "title": "Phase I: BLZ945 800 mg 4d on/10d Off QD",
+        "description": "BLZ945 800 mg once per day administered for 4 days and suspended for 10 days"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG009",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 9,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG009",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 9,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG009",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 9,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG009",
+            "value": "2"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 9,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG009",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 9,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG009",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "2",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "3",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 5,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG010"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG010",
+        "title": "Phase I: BLZ945 1200 mg 4d on/10d Off QD",
+        "description": "BLZ945 1200 mg once per day administered for 4 days and suspended for 10 days"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG010",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 10,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG010",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 10,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG010",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 10,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG010",
+            "value": "2"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 10,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG010",
+            "value": "4"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 10,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG010",
+            "value": "1"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "2",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "4",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 7,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG012"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG012",
+        "title": "Phase I: BLZ945 600 mg Q1W BID",
+        "description": "BLZ945 600 mg twice per day once weekly"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG012",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 11,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG012",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 11,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG012",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 11,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG012",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 11,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG012",
+            "value": "1"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 11,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG012",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "0",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "1",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 1,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG013"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG013",
+        "title": "Phase I: BLZ945 600 mg 4d on/10d Off BID",
+        "description": "BLZ945 600 mg twice per day administered for 4 days and suspended for 10 days"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG013",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 12,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG013",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 12,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG013",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 12,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG013",
+            "value": "1"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 12,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG013",
+            "value": "2"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 12,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG013",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "1",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "2",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 3,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG014"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG014",
+        "title": "Phase I: BLZ945 150 mg Q1W QD + PDR001 400 mg Q4W",
+        "description": "BLZ945 150 mg once per day once weekly in combination with PDR001 400 mg every 4 weeks"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG014",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 13,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG014",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 13,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG014",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 13,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG014",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 13,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG014",
+            "value": "1"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 13,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG014",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "3",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "1",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 4,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG015"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG015",
+        "title": "Phase I: BLZ945 300 mg Q1W QD + PDR001 400 mg Q4W",
+        "description": "BLZ945 300 mg once per day once weekly in combination with PDR001 400 mg every 4 weeks"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG015",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 14,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG015",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 14,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG015",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 14,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG015",
+            "value": "2"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 14,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG015",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 14,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG015",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "2",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "3",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 5,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG016"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG016",
+        "title": "Phase I: BLZ945 600 mg Q1W QD + PDR001 400 mg Q4W",
+        "description": "BLZ945 600 mg once per day once weekly in combination with PDR001 400 mg every 4 weeks"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG016",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 15,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG016",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 15,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG016",
+            "value": "1"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 15,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG016",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 15,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG016",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 15,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG016",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "1",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "3",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "3",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 7,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG017"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG017",
+        "title": "Phase I: BLZ945 1000 mg Q1W QD + PDR001 400 mg Q4W",
+        "description": "BLZ945 1000 mg once per day once weekly in combination with PDR001 400 mg every 4 weeks"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG017",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 16,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG017",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 16,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG017",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 16,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG017",
+            "value": "1"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 16,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG017",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 16,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG017",
+            "value": "1"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "1",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "3",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 5,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG018"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG018",
+        "title": "Phase I: BLZ945 1400 mg Q1W QD + PDR001 400 mg Q4W",
+        "description": "BLZ945 1400 mg once per day once weekly in combination with PDR001 400 mg every 4 weeks"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG018",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 17,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG018",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 17,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG018",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 17,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG018",
+            "value": "2"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 17,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG018",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 17,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG018",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "2",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "3",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 5,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG019"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG019",
+        "title": "Phase I: BLZ945 300 mg 4d on/10d Off QD + PDR001 400 mg Q4W",
+        "description": "BLZ945 300 mg once per day administered for 4 days and suspended for 10 days in combination with PDR001 400 mg every 4 weeks"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG019",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 18,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG019",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 18,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG019",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 18,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG019",
+            "value": "2"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 18,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG019",
+            "value": "1"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 18,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG019",
+            "value": "1"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "2",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "1",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 4,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG020"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG020",
+        "title": "Phase I: BLZ945 450 mg 4d on/10d Off QD + PDR001 400 mg Q4W",
+        "description": "BLZ945 450 mg once per day administered for 4 days and suspended for 10 days in combination with PDR001 400 mg every 4 weeks"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG020",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 19,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG020",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 19,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG020",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 19,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG020",
+            "value": "2"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 19,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG020",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 19,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG020",
+            "value": "1"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "2",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "3",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 6,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG021"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG021",
+        "title": "Phase I: BLZ945 700 mg 4d on/10d Off QD + PDR001 400 mg Q4W",
+        "description": "BLZ945 700 mg once per day administered for 4 days and suspended for 10 days in combination with PDR001 400 mg every 4 weeks"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG021",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 20,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG021",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 20,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG021",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 20,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG021",
+            "value": "4"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 20,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG021",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 20,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG021",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "4",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "0",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 4,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG022"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG022",
+        "title": "Phase I: BLZ945 1200 mg 4d on/10d Off QD + PDR001 400 mg Q4W",
+        "description": "BLZ945 1200 mg once per day administered for 4 days and suspended for 10 days in combination with PDR001 400 mg every 4 weeks"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG022",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 21,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG022",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 21,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG022",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 21,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG022",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 21,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG022",
+            "value": "2"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 21,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG022",
+            "value": "1"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "0",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "2",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 3,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG023"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG023",
+        "title": "Phase I: BLZ945 600 mg Q1W BID + PDR001 400 mg Q4W",
+        "description": "BLZ945 600 mg twice per day once weekly in combination with PDR001 400 mg every 4 weeks"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG023",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 22,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG023",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 22,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG023",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 22,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG023",
+            "value": "2"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 22,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG023",
+            "value": "3"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 22,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG023",
+            "value": "1"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "2",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "3",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 6,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    },
+    {
+      "unit": [
+        "NCT02829723",
+        "23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+        0,
+        "OG024"
+      ],
+      "contextRef": "NCT02829723:23bb1c426316e630b5477871f425083e3ef95d038fd475f99d41280956ede6bc",
+      "groupLiteral": {
+        "id": "OG024",
+        "title": "Phase I: BLZ945 800 mg Q1W BID + PDR001 400 mg Q4W",
+        "description": "BLZ945 800 mg twice per day once weekly in combination with PDR001 400 mg every 4 weeks"
+      },
+      "classIndex": 0,
+      "classFieldsLiteral": {},
+      "sourceCoordinates": [
+        {
+          "source": "ctg_results_bor_2014_2017.txt",
+          "sha256": "d5a460a9f9a703cbfb05aaeeef2e0b620bfbf288ec7a0c90316907d8f5b42ef1",
+          "pointer": "/studies/601/resultsSection/outcomeMeasuresModule/outcomeMeasures/14/classes/0",
+          "groupId": "OG024",
+          "lastUpdatePostDateStruct": null
+        }
+      ],
+      "familyNameLiteral": "irRC",
+      "familyAssignment": "source-explicit; version/implementation equivalence unresolved",
+      "literalCategories": [
+        {
+          "categoryIndex": 0,
+          "measurementIndex": 23,
+          "categoryTitleLiteral": "Complete Response (irCR)",
+          "measurementLiteral": {
+            "groupId": "OG024",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 1,
+          "measurementIndex": 23,
+          "categoryTitleLiteral": "Partial Response (irPR)",
+          "measurementLiteral": {
+            "groupId": "OG024",
+            "value": "0"
+          }
+        },
+        {
+          "categoryIndex": 2,
+          "measurementIndex": 23,
+          "categoryTitleLiteral": "Stable Disease (irSD)",
+          "measurementLiteral": {
+            "groupId": "OG024",
+            "value": "1"
+          }
+        },
+        {
+          "categoryIndex": 3,
+          "measurementIndex": 23,
+          "categoryTitleLiteral": "Progressive Disease (irPD)",
+          "measurementLiteral": {
+            "groupId": "OG024",
+            "value": "2"
+          }
+        },
+        {
+          "categoryIndex": 4,
+          "measurementIndex": 23,
+          "categoryTitleLiteral": "Unknown",
+          "measurementLiteral": {
+            "groupId": "OG024",
+            "value": "0"
+          }
+        }
+      ],
+      "proposedWithinFamilyCategoryMap": {
+        "CR": {
+          "labelLiteral": "Complete Response (irCR)",
+          "valueLiteral": "0",
+          "categoryIndex": 0
+        },
+        "PR": {
+          "labelLiteral": "Partial Response (irPR)",
+          "valueLiteral": "0",
+          "categoryIndex": 1
+        },
+        "SD": {
+          "labelLiteral": "Stable Disease (irSD)",
+          "valueLiteral": "1",
+          "categoryIndex": 2
+        },
+        "PD": {
+          "labelLiteral": "Progressive Disease (irPD)",
+          "valueLiteral": "2",
+          "categoryIndex": 3
+        }
+      },
+      "participantDenominator": 3,
+      "denominatorScope": "outcome",
+      "unqualifiedFourCells": null,
+      "crossOutcomePoolingAllowed": false,
+      "scopeConsequence": "Retain four source-labelled category cells in this named, outcome-scoped family; no ordinary-RECIST conversion or response fraction."
+    }
+  ],
+  "contextualCounterexampleToSuffixOnlyTaxonomy": [
+    {
+      "nctId": "NCT02263508",
+      "outcomeJSONSha256": "a2441202422b3ba54b0e46c63340cb041607398a1816f7caad751be54247b739",
+      "titleLiteral": "Phase 1b: Best Overall Response (BOR)",
+      "descriptionLiteral": "Best overall response is defined as the best overall visit response in the following order: CR, PR, stable disease (SD), progressive disease (PD), or unevaluable (UE), based on investigator assessment using the modified irRC up to the start of any subsequent anti-cancer therapy.\n\nCR was defined as the disappearance of all lesions; PR was defined as a decrease in tumor area ≥ 50% relative to baseline; PD was defined as an increase in tumor area ≥ 25% relative to nadir; and SD was defined as any outcome not meeting the criteria for response or PD with ≥ 77 days elapsed after enrollment. Responses and PD must have been confirmed by a second, consecutive assessment at least 4 weeks apart."
+    }
+  ]
+}
