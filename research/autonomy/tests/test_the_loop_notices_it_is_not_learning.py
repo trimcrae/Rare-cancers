@@ -143,3 +143,149 @@ def test_the_window_is_derived_from_the_governor_not_typed():
     import inspect
     src = inspect.getsource(L.window_hours)
     assert "cycle_interval_hours" in src
+
+
+# Observation time is distinct from the last event in the history being observed.
+def _observed_history(monkeypatch, versions, *, shallow=False):
+    monkeypatch.setattr(stuck_clock, "ledger_versions", lambda *a, **k: versions)
+    monkeypatch.setattr(stuck_clock, "is_shallow", lambda *a, **k: shallow)
+
+
+def _observation_clock(monkeypatch, observed):
+    real_datetime = datetime.datetime
+    calls = []
+
+    class Clock(real_datetime):
+        @classmethod
+        def now(cls, tz=None):
+            calls.append(tz)
+            assert tz is datetime.timezone.utc
+            return observed
+
+    monkeypatch.setattr(L.datetime, "datetime", Clock)
+    return calls
+
+
+def test_observation_ages_unchanged_history_with_a_pinned_original_witness(monkeypatch):
+    """An old closure cannot remain current merely because no ledger edit followed it."""
+    import hashlib
+    import subprocess
+    import types
+
+    baseline_blob = "f6b73790809e82f7058639e7b94a9d6842b054fc"
+    result = subprocess.run(
+        ["git", "-C", stuck_clock.REPO, "show", baseline_blob],
+        capture_output=True, check=True,
+    )
+    assert len(result.stdout) == 9124
+    assert hashlib.sha256(result.stdout).hexdigest() == (
+        "b538b04569e06b0eefd6a5d225a7f86ea430a20191188f12b58eb154f4ac1bc1"
+    )
+    original = types.ModuleType("learning_rate_pinned_original")
+    original.__file__ = L.__file__
+    exec(compile(result.stdout, "<pinned-original-learning-rate>", "exec"), original.__dict__)
+
+    versions = [_v(0, {"A": _row("queued")}), _v(1, {"A": _row("done")})]
+    observed = T0 + datetime.timedelta(days=35)
+    _observed_history(monkeypatch, versions)
+    calls = _observation_clock(monkeypatch, observed)
+    before = original.report(hours=16)
+    assert before["closures"] == 1 and before["verdict"][0] == "LEARNING"
+    assert calls == [], "the original improperly avoided sampling the observation clock"
+    after = L.report(hours=16)
+    assert after["closures"] == 0 and after["verdict"][0] == "NOT-LEARNING"
+    assert calls == [datetime.timezone.utc]
+    assert after["observed_utc"] == observed.isoformat()
+    assert after["window_start_utc"] == (observed - datetime.timedelta(hours=16)).isoformat()
+    assert after["latest_ledger_utc"] == versions[-1].when.isoformat()
+    print("PINNED ORIGINAL: old unchanged history -> 1 closure / LEARNING; "
+          "REPAIRED: same history at the observation clock -> 0 / NOT-LEARNING")
+
+    event = versions[-1].when
+    for elapsed, count in ((0, 1), (15, 1), (16, 1), (16 + 1 / 3600, 0)):
+        at = event + datetime.timedelta(hours=elapsed)
+        rep = L.report(hours=16, now=at)
+        assert rep["closures"] == count
+        assert rep["verdict"][0] == ("LEARNING" if count else "NOT-LEARNING")
+        assert rep["observed_utc"] == at.isoformat()
+    assert calls == [datetime.timezone.utc], "explicit observation time sampled an extra clock"
+
+
+def test_empty_and_current_histories_sample_one_utc_observation(monkeypatch):
+    observed = T0 + datetime.timedelta(hours=10)
+    calls = _observation_clock(monkeypatch, observed)
+    _observed_history(monkeypatch, [])
+    empty = L.report(hours=16)
+    assert empty["closures"] == 0 and empty["verdict"][0] == "NOT-LEARNING"
+    assert empty["latest_ledger_utc"] is None
+    assert empty["observed_utc"] == observed.isoformat()
+    assert calls == [datetime.timezone.utc]
+
+    current = [_v(0, {"A": _row("queued")}), _v(9, {"A": _row("done")})]
+    _observed_history(monkeypatch, current)
+    rep = L.report(hours=16)
+    assert rep["closures"] == 1 and rep["verdict"][0] == "LEARNING"
+    assert rep["latest_ledger_utc"] == current[-1].when.isoformat()
+    assert calls == [datetime.timezone.utc, datetime.timezone.utc]
+
+    offset = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+    normalized = L.report(hours=16, now=observed.astimezone(offset))
+    assert normalized == rep, "the same instant in another offset changed the window or UTC receipt"
+    assert normalized["observed_utc"] == observed.isoformat()
+    assert normalized["window_start_utc"] == (
+        observed - datetime.timedelta(hours=16)
+    ).isoformat()
+
+    class UndefinedOffset(datetime.tzinfo):
+        def utcoffset(self, dt):
+            return None
+
+    for invalid in (observed.replace(tzinfo=None), observed.replace(tzinfo=UndefinedOffset())):
+        with pytest.raises(ValueError, match="defined UTC offset"):
+            L.report(hours=16, now=invalid)
+    assert calls == [datetime.timezone.utc, datetime.timezone.utc]
+
+
+def test_shallow_censoring_uses_the_observation_window_boundary(monkeypatch):
+    observed = T0 + datetime.timedelta(hours=20)
+    since = observed - datetime.timedelta(hours=16)
+    for horizon, censored in (
+        (since - datetime.timedelta(seconds=1), False),
+        (since, False),
+        (since + datetime.timedelta(seconds=1), True),
+    ):
+        versions = [
+            stuck_clock.Version(sha="before", when=horizon, rows={"A": _row("queued")}),
+            stuck_clock.Version(sha="after", when=observed, rows={"A": _row("done")}),
+        ]
+        _observed_history(monkeypatch, versions, shallow=True)
+        rep = L.report(hours=16, now=observed)
+        assert rep["closures"] == 1
+        assert rep["horizon_inside_window"] is censored
+        assert rep["verdict"][0] == ("CENSORED" if censored else "LEARNING")
+    _observed_history(monkeypatch, [], shallow=True)
+    assert L.report(hours=16, now=observed)["verdict"][0] == "CENSORED"
+
+
+def test_cli_preserves_portfolio_and_check_exit_mapping_at_observation_time(monkeypatch, capsys):
+    import json
+
+    observed = T0 + datetime.timedelta(hours=10)
+    _observation_clock(monkeypatch, observed)
+    scenarios = (
+        ([], False, "NOT-LEARNING", 1),
+        (["RT-ASO"], False, "LEARNING", 0),
+        (["RT-AUTONOMY"], False, "SELF-MAINTAINING", 1),
+        (["RT-AUTONOMY"] * 3 + ["RT-ASO"], False, "CONCENTRATED", 0),
+        (["RT-ASO", "RT-ATR"], False, "LEARNING", 0),
+        (["RT-ASO"], True, "CENSORED", 0),
+    )
+    for routes, shallow, code, exit_code in scenarios:
+        before = {str(i): _row("queued", route) for i, route in enumerate(routes)}
+        after = {str(i): _row("done", route) for i, route in enumerate(routes)}
+        versions = [_v(0 if not shallow else 9, before), _v(10, after)] if routes else []
+        _observed_history(monkeypatch, versions, shallow=shallow)
+        assert L.main(["--hours", "16", "--check", "--json"]) == exit_code
+        rep = json.loads(capsys.readouterr().out)
+        assert rep["verdict"][0] == code
+        assert rep["observed_utc"] == observed.isoformat()
