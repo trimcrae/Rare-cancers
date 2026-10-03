@@ -1,0 +1,146 @@
+{
+  "revision": "f1591332009703113930b041d263f97718f18670",
+  "run_id": "37056533514",
+  "mode": "prepare",
+  "steps": [
+    {
+      "name": "base-dependencies",
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "pip",
+        "install",
+        "--no-cache-dir",
+        "pyyaml",
+        "jsonschema>=4.18",
+        "referencing",
+        "pypdf",
+        "pdfplumber",
+        "uv"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 7.001612751000003,
+      "log_sha256": "ae02cc6a3089fe151a5a6e57b9ddcb2be3eee72a3b00d49252a8f06db12dd4c2"
+    },
+    {
+      "name": "extend-derived-ids",
+      "command": [
+        "/usr/bin/python3",
+        "research/autonomy/derived_ids.py",
+        "--extend"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 1.000944093000001,
+      "log_sha256": "79832e35f935e4da5ee7de59b7adcca75b90a056193de43ccc0818dae20f7b97"
+    },
+    {
+      "name": "derive-views",
+      "command": [
+        "/usr/bin/python3",
+        "systems/systems_check.py",
+        "--write-views"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 1.0009406349999992,
+      "log_sha256": "070541b40e73f458580fbf46064f34d4b7fc621ebde760251c7f24a81aa28393"
+    },
+    {
+      "name": "check-systems",
+      "command": [
+        "/usr/bin/python3",
+        "systems/systems_check.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 12.002355477999998,
+      "log_sha256": "f3acc9112d49fc47fe4d6d2a3338e594cececdaa2753a053542d03c446718857"
+    },
+    {
+      "name": "check-derived-ids",
+      "command": [
+        "/usr/bin/python3",
+        "research/autonomy/derived_ids.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 1.000900791999996,
+      "log_sha256": "8445ca5617f4f9d5d90c6db2dbab8aa006e65a92654b3650b6fe42841c73e3b5"
+    },
+    {
+      "name": "render-manuscript",
+      "command": [
+        "/usr/bin/python3",
+        "research/manuscripts/build_submission_pdf.py",
+        "--paper",
+        "foundation-identity",
+        "--style",
+        "preprint"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 13.002831571000002,
+      "log_sha256": "7da35325e30c37f6ac0b343e70f7eaa1e55d69454d9a51f76b5ee2925e0760aa"
+    }
+  ],
+  "exception": "ModuleNotFoundError: No module named 'pypdf'",
+  "exit_code": 1,
+  "finished_utc": "2026-10-02T19:49:38.163531+00:00",
+  "free_bytes_after": 91401322496,
+  "files": [
+    {
+      "path": "files/research/autonomy/derived-ledger-ids.json",
+      "bytes": 4873,
+      "sha256": "42a3e219bac1613b0aded1efcf71c5e9f3aa4dcf53cf8ee8430b626551d35ab9"
+    },
+    {
+      "path": "files/research/manuscripts/foundation/source-identity-correspondence-preprint.build-stamp.json",
+      "bytes": 449,
+      "sha256": "8e391a87c854ae03239901b43e7e3b1a04290242d7d9355a440e1cfe182ed1c3"
+    },
+    {
+      "path": "files/research/manuscripts/foundation/source-identity-correspondence-preprint.pdf",
+      "bytes": 130410,
+      "sha256": "1a0bcb09fe76926b86c5ffc87ebb9ef62d388c98f7803ca052c142d67b9fe1e4"
+    },
+    {
+      "path": "files/systems/views/L0-ecosystem.md",
+      "bytes": 15685,
+      "sha256": "4b435c3ea6da742b84e1adf36d6b4782ad745f063c020b81445d2782cbd12da8"
+    },
+    {
+      "path": "files/systems/views/L1-st-dissemination.md",
+      "bytes": 4808,
+      "sha256": "ae36790985b303c526d0e5e6781969aa1c7dc80bb25377495405a4f0b11c52c2"
+    },
+    {
+      "path": "files/systems/views/L2-rt-foundation-identity.md",
+      "bytes": 4904,
+      "sha256": "160090b98632188aaa6559c9f143ba0ea6f5637954674227869e5bf4871cb352"
+    },
+    {
+      "path": "files/systems/views/L3-publications.md",
+      "bytes": 96367,
+      "sha256": "700a4661fc227b8a1b3e7a72fc4e97a4ffa7e8a4b152b9b8d1e6949f7f00910b"
+    },
+    {
+      "path": "files/systems/views/L5-evidence-base.md",
+      "bytes": 33950,
+      "sha256": "ecf694d9732ab7049d9b2e190a54c4a473527b82a644df9420b58b95c88c5c79"
+    },
+    {
+      "path": "files/systems/views/paper-strength.md",
+      "bytes": 17736,
+      "sha256": "1ed3e6af015eabc1656520daaae45528562bc27cbc40ab96a6206fedf9a3201a"
+    },
+    {
+      "path": "files/systems/views/readiness.md",
+      "bytes": 15463,
+      "sha256": "4ec519ebbbdd68c49193b68b882616d6370876a21b25f1a8cdb8e044b2603b7a"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "schema": "foundation-focused-export-checks/1",
+  "prior_source_sha256": "006ab3c2ebea1b7ce5633727b7466de07030f138e2b7688c3de44a423c1b8442",
+  "source_sha256": "7b6c459e21f7d6951d244dbab1939b93c2fd2a1b119dc33a6e6cbba714516bf3",
+  "pdf_sha256": "8639db0e68c23392f1c7b04dbdedb6003df30224a8c9e9ef6b6ed6ff5f632c40",
+  "pdf_bytes": 129717,
+  "supplied_text_sha256": "ea1de707fd2c52456f313d73fc872a8ce127f6bee3242dad5ed005ac07d0d57a",
+  "source_changes_exactly_expected_affiliation_and_headings": true,
+  "extractor": "pypdf 6.10.0, existing bundled Python",
+  "pages": 3,
+  "normalized_complete_source_pdf_text_equal": true,
+  "normalization": "Remove Markdown/YAML presentation, retain link labels and all visible text, flatten table separators; remove only whitespace, renderer build stamp/footer/page numbers and duplicate standalone Table 1 label from PDF. No sentence or scientific-text deletion.",
+  "unexpected_text_differences": [],
+  "independently_extracted_vs_supplied_text_equal_after_whitespace": true,
+  "table_checks": [
+    {
+      "cells": [
+        "Rearrangement ordinal",
+        "Original sample ID",
+        "Export sample ID",
+        "Ordered gene pair"
+      ],
+      "present_in_order": true
+    },
+    {
+      "cells": [
+        "25",
+        "49",
+        "sarcoma_msk_2022-28",
+        "EWSR1 / NR4A3"
+      ],
+      "present_in_order": true
+    },
+    {
+      "cells": [
+        "112",
+        "245",
+        "sarcoma_msk_2022-115",
+        "EWSR1 / NR4A3"
+      ],
+      "present_in_order": true
+    },
+    {
+      "cells": [
+        "113",
+        "245",
+        "sarcoma_msk_2022-116",
+        "NR4A3 / SASH1"
+      ],
+      "present_in_order": true
+    }
+  ],
+  "references": [
+    {
+      "number": 1,
+      "visible_text_matches": true
+    },
+    {
+      "number": 2,
+      "visible_text_matches": true
+    },
+    {
+      "number": 3,
+      "visible_text_matches": true
+    },
+    {
+      "number": 4,
+      "visible_text_matches": true
+    },
+    {
+      "number": 5,
+      "visible_text_matches": true
+    },
+    {
+      "number": 6,
+      "visible_text_matches": true
+    },
+    {
+      "number": 7,
+      "visible_text_matches": true
+    }
+  ],
+  "source_link_count": 14,
+  "source_link_targets_all_present_as_pdf_annotations": true,
+  "missing_pdf_link_targets": [],
+  "pdf_link_annotation_count": 16,
+  "renderer_added_build_stamps": [
+    "Version of 2026-10-02 \u00b7 preprint \u00b7 built from bcdc028"
+  ],
+  "renderer_added_footers": [
+    "Not peer reviewed. 1",
+    "Not peer reviewed. 2",
+    "Not peer reviewed. 3"
+  ],
+  "retired_ASO_footer_absent": true,
+  "original_report_sha256": "53e377e766770859e0be05be7ce3695d0b6ea928ced7cc238835e7118457064f",
+  "original_review_json_sha256": "3cace4ffa52751f16dc1de0860fdac2d176acf8147aeb6e5daf63838ef93162a",
+  "visual_inspection_performed": false
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "foundation-primary-independent-static-review/1",
+  "date": "2026-10-02",
+  "revision": "83e0fb5348fe41b1747970d6346c6f3b19a3b5ea",
+  "scope": "Ordinary research validation; static source inspection only, pending root cloud receipt. No corpus execution or source download by reviewer.",
+  "sourceRoot": "research/autonomy/continuation-2026-10-02/",
+  "files": [
+    {"path": "foundation-primary-aws/run_cloud.py", "gitBlobSHA1": "70f89702f216415629929396020d946595191956"},
+    {"path": "foundation-primary-aws/fetch_primary_aws.py", "gitBlobSHA1": "79856cf40c93cb73f78cb77aead7f47061a71af6"},
+    {"path": "foundation/foundation_primary_workbook_check.py", "gitBlobSHA1": "a169d329c80852be10174893af9f54334a2c018d"}
+  ],
+  "blockingDefectsFound": [],
+  "checks": [
+    {"topic": "Primary byte identity", "finding": "AWS fetch requires HTTP200, exact Content-Length and actual bytes4812800, frozen SHA256 and MD5, and renames the exclusive partial file only after verification. Independent checker repeats exact workbook length/SHA256 and OLE signature verification."},
+    {"topic": "Other input identity", "finding": "Wrapper pins mapping1679613bytes, original export180393bytes and exactly one historical corrected artifact180952bytes to explicit SHA256. Checker independently repeats all three SHA256 checks. All source URLs use frozen revisions or the explicitly identified PMC object."},
+    {"topic": "Independent extraction", "finding": "Checker imports neither original extraction helper nor correction prototype. It reads primary XLS clinical and variant sheets directly, checks physical dimensions and complete headers, builds clinical IDs and RE events independently, and compares ordinal/Excel row/source ID/gene pair for all3771 events to the mapping. It uses the same xlrd reader family, so this is independent code-path verification rather than independent file-format implementation."},
+    {"topic": "Corrected identity coverage", "finding": "All3771 corrected IDs must equal the primary source ID with the documented prefix; all non-ID export fields must remain literal-equal; complete source-event multiplicity counters must match. Primary clinical IDs are unique canonical integers within1..7494 and total7494, and RE source IDs must join to that set."},
+    {"topic": "Failure propagation", "finding": "Child nonzero exit fails wrapper; child timeouts raise and set execution receipt failed; checker catches exceptions and exits1. Wrapper only sets passed after parsing checker JSON and observing status passed. Primary download partials are removed on ordinary exceptions. Hard watchdog termination can leave a partial, which a subsequent fetch refuses to overwrite."},
+    {"topic": "Output interpretation", "finding": "Passed does not mean original export gene strings equal all source gene strings. Differences are explicitly accumulated and reported, with numeric primary cells and N/A counts. Missing-token/whitespace comparison conventions are explicit. Passed verifies corrected identity and preservation of export fields; it does not repair or validate gene aliases, clinical diagnoses or biological conclusions."}
+  ],
+  "nonblockingLimits": [
+    "The cloud wrapper has per-child limits100s and180s; the primary fetch has its own90s watchdog. Its two small mapping/export HTTP reads use40s socket timeouts but no whole-wrapper wall-clock timer. Thus an overall workflow timeout is needed for a strict end-to-end bound; socket inactivity timeout alone is not a total elapsed-time cap.",
+    "Output directory may preexist and inputs directory is shared under its parent. A retained primary.xls prevents another fetch and fails the run; unique fresh workflow paths are preferable. This does not create false passed status on the inspected control flow.",
+    "A subprocess timeout does not save that subprocess's partial stdout/stderr or append its step record, although the outer receipt records failed with TimeoutExpired. This limits failure diagnostics rather than acceptance correctness.",
+    "No separate negative-control execution or workbook-parser validation was performed by this reviewer. Frozen hashes and strict comparisons constrain the actual accepted inputs.",
+    "The result is source-bound identity reconciliation, not new assay measurements, validation of diagnosis/somatic origin/function, or confirmation of portal deployment."
+  ],
+  "pendingResultReview": {
+    "status": "awaiting_root_receipt",
+    "required": ["Actual execution revision/run/job and status", "Verified primary byte receipt", "Checker counts and literal gene-pair differences", "Execution input hashes and step exit codes"]
+  }
+}

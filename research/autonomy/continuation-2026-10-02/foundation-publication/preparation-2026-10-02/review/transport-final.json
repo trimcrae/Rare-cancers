@@ -1,0 +1,25 @@
+{
+  "schema": "foundation-focused-transport-review/1",
+  "utc": "2026-10-02T23:46:15.456705+00:00",
+  "reviewer": "/root/focused_package_review",
+  "configured_model": "gpt-6-astra",
+  "configured_effort": "ultra",
+  "backend_serving_telemetry": "not exposed; no independent claim",
+  "status": "pass",
+  "hashes": {
+    "human-genetics-correspondence.md": "8c1f95c3bac57705dea2692bdf0ad8340a97624fef247da9d4ed0ab2c38aa3fe",
+    "human-genetics-correspondence.docx": "eff0e3d735425b24e7617a8382f786ffd82e055883912ca8f05c592d6b3a13b0",
+    "online-resource-1.md": "e3721cd791dc88a9d8b957b01759a7320f94682643061c11a84c9278cef6afdc",
+    "online-resource-1.docx": "b1e914fa5051f9094d7529e133d3ec335fdb23290e827e67397b167b07d33747",
+    "reproducibility.zip": "01d7a8ea7d92ae1a6d1c79d33c7b89d8b31a68453f9b82ad095de3234b53b98f",
+    "README-reproduction.txt": "acd423c2e793d065335c5e0366fc570f0900057109dd17250de9195a13cd9da0"
+  },
+  "findings": [
+    "Restoring prior metadata and URL revision exactly reproduces both prior reviewed source hashes.",
+    "Exactly two URL revision replacements per document; no other body changes.",
+    "Both DOCX visible texts match current Markdown; all 16 manuscript and 2 supplement links preserved; no stale targets.",
+    "ZIP and README independently fetched at d187c779f9f528a657048a13e849fe8d4834c666 exactly match local and prior reviewed hashes.",
+    "Reader clarity and scientific meaning unchanged."
+  ],
+  "scope": "Finite focused metadata/link/transport review; no scientific rerun, writing, rendering or UI. Root performs visual QA."
+}
