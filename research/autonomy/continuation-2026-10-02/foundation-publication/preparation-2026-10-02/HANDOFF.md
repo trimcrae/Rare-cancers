@@ -112,3 +112,7 @@ Three original render ZIPs were integrity-verified against every extracted file 
 Automatic approval review blocked deletion of their disposable extractions with only “blocked by
 policy” as its reason. The extractions and verified original ZIPs were retained; no deletion workaround
 was attempted. No local checkout/runtime or unrelated filesystem content was removed.
+
+## Main integration checkpoint
+
+The Foundation-only candidate `3b5759ecc2ae86fb80df6b10d9106e75d2151ac9` passed normal/default preflight in run 37083509274. The current reader PDF preserves the exact inspected four-page render. The final integration commit adds only this handoff and validation receipts after that check. Full/modalities CI was intentionally not rerun; no submission clearance is claimed. The complete preparation branch and original evidence remain preserved.

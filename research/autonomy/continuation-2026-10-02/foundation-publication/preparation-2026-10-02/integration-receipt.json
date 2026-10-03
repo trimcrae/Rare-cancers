@@ -1,0 +1,50 @@
+{
+  "schema": "foundation-main-integration/1",
+  "utc": "2026-10-03T00:50:48.863373+00:00",
+  "source_revision": "2cd8fa21112b7c445dcf5e00e2dcbc08948cf0ce",
+  "integration_candidate": "3b5759ecc2ae86fb80df6b10d9106e75d2151ac9",
+  "main_base": "eb21a56c68130578a4ced1bcc9d3f8b89859a687",
+  "main_checked_before_merge": "7698d7efc2073ff897a2c3b45738e88bd24b921d",
+  "scope": "Foundation-only package integration; no unrelated continuation/methylation/ASO/shared campaign changes.",
+  "default_validation": {
+    "revision": "3b5759ecc2ae86fb80df6b10d9106e75d2151ac9",
+    "run_id": "37083509274",
+    "scope": "normal/default preflight; not FULL",
+    "exit_code": 0,
+    "forced_stop": null,
+    "elapsed_seconds": 144.025113401,
+    "free_bytes_after": 89365528576
+  },
+  "log_sha256": "d19c2c3db7849c4ec9d53ee01534c0f3ea9aa951448054e86f6622a63f729f43",
+  "independent_review": {
+    "status": "pass",
+    "revision": "3b5759ecc2ae86fb80df6b10d9106e75d2151ac9",
+    "reviewer": "/root/gate_review_audit",
+    "utc": "2026-10-03T00:43:02.670179+00:00",
+    "scope": "Static audit only; no tests/jobs/writes.",
+    "initial_scope_review_revision": "7f99dbfaab17703ed0f65285e0a4f7d05c9d9596",
+    "repair_verification": [
+      "All four imported records exactly equal source records1,4,8,9.",
+      "Eight changed paths contain only citation evidence/repair receipt, failed-run artifacts and retry token.",
+      "All manuscript/DOCX/PDF/ZIP bytes unchanged from initially reviewed integration candidate."
+    ],
+    "initial_scope_findings": [
+      "All204 paths are additions; no main path overwritten/deleted and no unrelated path included.",
+      "Excluded ASO review has no incoming Markdown links; no missing relative Markdown targets.",
+      "Manuscript, DOCX, supplement PDF, ZIP, code/evidence preserve source blob identities; only declared handoff/manifest changes.",
+      "New78342-byte reader PDF SHA256 a11c40ee4696d902f927aed3979b94c14c9a0a9ddeea84024c0eb823daeae9ba matches manifest and prior review.",
+      "Default workflow scope unchanged; adds only daily-window/start-time guard."
+    ]
+  },
+  "reader_pdf": {
+    "path": "research/autonomy/continuation-2026-10-02/foundation-publication/preparation-2026-10-02/human-genetics-correspondence.pdf",
+    "sha256": "a11c40ee4696d902f927aed3979b94c14c9a0a9ddeea84024c0eb823daeae9ba",
+    "pages": 4,
+    "same_previously_reviewed_render": true
+  },
+  "main_ci": "Explicit [skip ci] on the main integration preserves the user prohibition on unrelated broad/modalities reruns. Existing workflow rules and publication gates are unchanged. No skipped suite is represented as passing.",
+  "submission_ready": false,
+  "legacy_full_failure_preserved": 37058750900,
+  "publication_actions": [],
+  "local_checkout": "Unmodified; remote Git tree integration avoids a new checkout on low-space C."
+}
