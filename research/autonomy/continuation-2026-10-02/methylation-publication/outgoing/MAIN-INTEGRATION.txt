@@ -20,8 +20,10 @@ earlier preparation checkpoint and its then-unmerged status; this addendum super
 integration-status statements. The scientific review and publication-readiness qualifications
 remain unchanged. This merge is a draft integration, not journal submission or clearance.
 
-The settled integration candidate receives the normal/default repository preflight. Its
-exact run/revision/log will be preserved under validation/main-integration/. Pytest, FULL and
+The settled integration candidate passed the normal/default repository preflight.
+Candidate: 3fe7d10dcebac065d4cf6bcb9c8ab26561391f0f.
+Run: 37082929325; https://github.com/trimcrae/Rare-cancers/actions/runs/37082929325.
+Exact log and exit receipt are preserved under validation/main-integration/. Pytest, FULL and
 the broad modalities suite are not requested. The main integration commit uses [skip ci] to
 honor the standing prohibition on automatically rerunning broad suites; it does not represent
 a FULL-gate pass. No acceptance rule or existing shared workflow is changed.
@@ -31,3 +33,8 @@ moves, retain all competing changes and reconcile before pushing. The final loca
 receipt will bind the actual main commit and remote verification; the containing main commit
 identifies the integrated files. No PR, submission, posting, outreach or scheduler change.
 Author metadata/declarations and final publication registration/FULL gates remain outstanding.
+
+Execution note: an inherited render job unintentionally remained in the candidate workflow
+because of line-ending handling and ran once on isolated CI. That repeat output was not used.
+The existing inspected PDF remains unchanged. The redundant render job is removed from the
+integrated workflow; the passing preflight job is unchanged.
