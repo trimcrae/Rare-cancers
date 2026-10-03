@@ -1,0 +1,40 @@
+{
+  "schema":"foundation-focused-package-review/1",
+  "reviewer":"/root/focused_package_review",
+  "tool_configuration":{"model":"gpt-6-astra","reasoning_effort":"ultra","fork_turns":"none"},
+  "backend_telemetry":"Unavailable; not independently attested. Tool configuration is recorded without inventing service telemetry.",
+  "independence":"Read-only nonwriter. No science rerun,rendering,UI,files or branch writes.",
+  "decision":"Scientific content passes; package link and dependency-version repairs require focused verification. Not submission clearance.",
+  "findings":[
+    {"id":"PKG-LINK","class":"submission-package dependency","finding":"New reproducibility ZIP/README lack immutable outgoing link; baseline links predate the package.","disposition":"Accepted; freeze repaired bundle then link outgoing files to its exact commit."},
+    {"id":"XLRD-VERSION","class":"maintenance","finding":"Guide names2.0.2 but historical primary result records2.0.1.","disposition":"Accepted; pin historical2.0.1 without rerun."},
+    {"id":"SPACING","class":"editorial","finding":"Thousand-separator spacing and run/version labels need ordinary spaces.","disposition":"Accepted; repair only presentation."}
+  ],
+  "reader_explanation":{
+    "question":"Does the export preserve primary-workbook sample identity?",
+    "approach":"Compare all rearrangements in pinned files by retained event order,confirm through a separate extraction code path,and inspect one EMC-ID join.",
+    "finding":"3,771 suffixes follow ordinal+3;3,770 disagree with source IDs.The75-profile EMC selector retrieves28 outside-group events and none of its76 source events.",
+    "limitations":"Event order is assumed,repeated pairs are not unique event identity,both extractors use xlrd,three gene discrepancies remain unresolved,and biology/diagnoses/somatic origin/live deployment/downstream effects were not established.",
+    "next_step":"Curator reconciliation and verification of any resulting export following author/publication clearance."
+  },
+  "abstract":{"words":169,"clear":true,"scientific_meaning_preserved":true},
+  "independent_checks":{"package_files":"15/15","primary_members":"4/4","hgnc_members":"14/14","inside_outside_manifest":"equal","commands":"Match script arguments; recovery refuses existing output directory","docx_markdown_text":"Both equal after presentation/whitespace normalization","manuscript_hyperlinks":"All11 Markdown destinations present","canonical_source_pdf":"Hashes match","visual_layout":"Not assessed by this reviewer"},
+  "input_sha256":{
+    "human-genetics-correspondence.md":"42afd22d75d73015473f13694212a110e1c54b74f2677ba05591f621c3241c5b",
+    "online-resource-1.md":"c7336eb488e30a44921813ad510d107d7e22a40de80de0f16416e07ec1480ba8",
+    "cover-letter.txt":"80a08e7bf06121a15c8ca9d49952b3d916ceb6e92c9cf626c69448fc22719af9",
+    "LICENSES.txt":"d72780300dc5a5443b3f867a2aee99ac3d3055f9b84cffc82ada51ded858f584",
+    "README-reproduction.txt":"e65db328c0206eb6eaf78d5f8c56efad1cb2ce6a27e61321a99438491bd5001e",
+    "verify_package.py":"8f7e60c701c519519d50ffb46690d0a7a60668905fe1b018c2195ef13d9c3ccc",
+    "content-change-record.json":"6e74e4233a77f808e5a53012d5bc9d0dbb660e9a5503fdf369a0adc15da3b619",
+    "document-build.json":"03d3235735d78ca04da26dd82951343b31c3734886026b3505b0a7ed5e5f612e",
+    "venue-and-licensing.json":"606c0e4541c14539f8886aa00823eba97bec26b72e75e6cc159776150f586b7f",
+    "readiness-and-gates.json":"281cf3c454666fed28e1bce001422704dff942a5f5329e75c4b1221104b3b877",
+    "package-validation.json":"d880fc654cf1f04a2920ee99c872a98db29f7ba95cbe812154dd3d7e1045448a",
+    "reproducibility-manifest.json":"b9dcff702e322bc5b069867de8be66ac7ed0eda7e0b96705161bc65e0ad05e8d",
+    "reproducibility.zip":"e0c902ecd51d3915d8918cca00a2067788ab8584be5856e8d2ea607e1e10bab0",
+    "human-genetics-correspondence.docx":"253a71bfeff779b5d20a33a5922d1c2f7520b8093ff3b69916aecc729ec7b63a",
+    "online-resource-1.docx":"f56d2ecf2cfce9dc9e6d6265c02bc23cfe3ae9b6e609d2e360338276f92bb575"
+  },
+  "remaining_submission_dependencies":["city/country","truthful applicable declarations","author approval and status","actual licensing agreement","publication gates","final visual QA"]
+}

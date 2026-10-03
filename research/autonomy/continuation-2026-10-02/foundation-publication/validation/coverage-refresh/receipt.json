@@ -1,0 +1,61 @@
+{
+  "revision": "2437d070e46305ea1a9bcc2e3b87d4b59a38e4d9",
+  "run_id": "37063167907",
+  "mode": "coverage",
+  "steps": [
+    {
+      "name": "base-dependencies",
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "pip",
+        "install",
+        "--no-cache-dir",
+        "pyyaml",
+        "jsonschema>=4.18",
+        "referencing",
+        "pypdf",
+        "pdfplumber",
+        "uv"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 5.001298779999956,
+      "log_sha256": "43978d60346c52b296fac9188cf106a5018eb81d3108d79f9845904850078c8e"
+    },
+    {
+      "name": "refresh-claim-coverage",
+      "command": [
+        "/usr/bin/python3",
+        "research/manuscripts/claim_coverage.py",
+        "--write"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 2.001149585999997,
+      "log_sha256": "2c3ccbc77c529b7955ac77c2b8af0c762dec2fc627384b94668c5708d44b6229"
+    },
+    {
+      "name": "check-claim-coverage",
+      "command": [
+        "/usr/bin/python3",
+        "research/manuscripts/claim_coverage.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 2.000944664999963,
+      "log_sha256": "0019737c69546a969594719b430ac0398bb8782aaac15b314cb0a01e1485d239"
+    }
+  ],
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T20:51:15.169480+00:00",
+  "free_bytes_after": 91401211904,
+  "files": [
+    {
+      "path": "files/research/manuscripts/claim-coverage.json",
+      "bytes": 10962,
+      "sha256": "b79e4a2b93fe920ce8c1bcc55953facb96882d9c5f6232496d2fc96fc9bcd2fe"
+    }
+  ]
+}

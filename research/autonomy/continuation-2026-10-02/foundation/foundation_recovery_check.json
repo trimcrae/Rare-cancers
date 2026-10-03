@@ -1,0 +1,83 @@
+{
+  "schema": "foundation-recovery-prototype-check/1",
+  "checked_date": "2026-10-02",
+  "execution_scope": "Python standard-library correction core and negative controls executed in memory; no output files written",
+  "evidence_ref": "da49c4e836533253825587f83656675dac4c913b",
+  "mapping": {
+    "url": "https://raw.githubusercontent.com/trimcrae/Rare-cancers/da49c4e836533253825587f83656675dac4c913b/research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/Foundation-complete-rearrangement-source-mapping.json",
+    "sha256": "341f64562039230c581aefb7f03d7da4769969a79290217962216f3d7e567a5e",
+    "bytes": 1679613,
+    "records_path": "result.REmapping.mapping",
+    "complete_records": 3771,
+    "workbook_sha256": "88c1a0bab7509ffe3bcff955b89f3d60ddb58a68311cd4c56ca4b0c78506b475",
+    "ignored_historical_fields": [
+      "ordinalIDMatch",
+      "ordinalIDMatches",
+      "allRowsExactlyPreserveSourceREOrderWithOrdinalExportID",
+      "mismatches"
+    ]
+  },
+  "export": {
+    "url": "https://media.githubusercontent.com/media/cBioPortal/datahub/dca75cb3f32b82d54a6f78bf0a6323e5b975aca1/public/sarcoma_msk_2022/data_sv.txt",
+    "sha256": "d9fc3fc8073104c3f364825972921f271b5e8793eefcf71331c3cff7d3882701",
+    "bytes": 180393
+  },
+  "observed_output": {
+    "sha256": "2c910856e5e483c3774af5d0192b6118536f368aade8f05960bb123014a20184",
+    "bytes": 180952,
+    "event_count": 3771,
+    "distinct_original_source_ids": 3182,
+    "changed_sample_id_rows": 3770,
+    "non_identity_fields_unchanged": true,
+    "source_event_multiplicities_preserved": true,
+    "source_49_events": 1,
+    "source_245_events": 2,
+    "roundtrip_TSV_rows": 3771,
+    "NA_tokens_compared_as_empty": 564,
+    "NA_tokens_retained_in_output": true
+  },
+  "join_impact": {
+    "selector": "75 original EMC source IDs, each prefixed sarcoma_msk_2022-",
+    "original_EMC_profiles": 75,
+    "original_EMC_events": 76,
+    "selected_export_events": 28,
+    "selected_events_from_EMC_sources": 0,
+    "selected_events_from_other_sources": 28,
+    "EMC_source_ids_outside_export_suffix_range": 47,
+    "interpretation": "Deterministic frozen-table join consequence; not a live portal query or measured downstream-publication impact"
+  },
+  "negative_controls": {
+    "export_with_appended_space": "refused by SHA256 guard",
+    "mapping_missing_last_byte": "refused by SHA256 guard",
+    "already_corrected_export": "refused by SHA256 guard"
+  },
+  "repository_provenance": {
+    "earliest_discovered_file_commit": "6ad0f9e0a93b2814a9e3514bfea17a63f4a7ca7e",
+    "earliest_discovered_file_commit_date": "2024-02-07T17:13:51Z",
+    "earliest_LFS_sha256": "00d055161e509c37fe92878a33084d702012a18405a3a094dca8b13e54993f9a",
+    "earliest_LFS_bytes": 184160,
+    "earliest_payload_verified_at_equivalent_PR_head": "bea7fb1a5fae55236173965a337e9bcd7e1424c3",
+    "earliest_payload_ordinal_suffix_matches": 3771,
+    "earliest_prefix": "Sarcoma_msk_2022-",
+    "initial_mainline_file_commit": "b04d967a8c6436e2c5208c4e1ab9a508302aae0f",
+    "initial_mainline_file_commit_date": "2024-05-02T21:23:47Z",
+    "mainline_release_LFS_sha256": "c1226c70a50e45e8c7edad6ee95740843216cd1e6dd64e363a09fa7d67ffd14e",
+    "mainline_release_LFS_bytes": 180387,
+    "release_PR": "https://github.com/cBioPortal/datahub/pull/2027",
+    "release_PR_merged_at": "2024-06-05T21:33:05Z",
+    "gene_migration_commit": "45dcc57fb4007480207102cf48645c08c0c378ec",
+    "gene_migration_commit_date": "2024-12-26T20:05:54Z",
+    "May_release_to_current_changed_IDs": 0,
+    "May_release_to_current_changed_gene_rows": 7,
+    "current_HEAD": "dca75cb3f32b82d54a6f78bf0a6323e5b975aca1",
+    "current_HEAD_commit_date": "2026-09-28T16:00:37Z",
+    "curation_issue": "https://github.com/cBioPortal/datahub/issues/1937"
+  },
+  "not_performed": [
+    "Fresh extraction of the primary supplementary workbook",
+    "CLI filesystem output or overwrite-guard execution",
+    "cBioPortal importer validation or live portal query",
+    "Validation of gene-symbol equivalence or somatic origin",
+    "Upstream correction, issue posting, outreach or submission"
+  ]
+}

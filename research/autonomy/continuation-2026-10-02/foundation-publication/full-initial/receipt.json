@@ -1,0 +1,36 @@
+{
+  "schema": "foundation-full-diagnostic/1",
+  "completedUTC": "2026-10-02T21:14:42Z",
+  "owner": "/root/registry_exposure_audit",
+  "integrationOwner": "/root",
+  "revision": "8be64d3be6a4e37c7e0d7529ac38828919f4964e",
+  "runId": "37058750900",
+  "sources": [
+    {
+      "path": "scripts/preflight.sh",
+      "blob": "e76ae4b5fe5ee2589a8718befe3da944f18dd202"
+    },
+    {
+      "path": "research/modalities/tests/conftest.py",
+      "blob": "6d3a4d06a1eceb34fe1d1b1ae6e912c740e9a715"
+    },
+    {
+      "path": "research/autonomy/continuation-2026-10-02/foundation-publication-check.py",
+      "blob": "23e80749bfbf1182309a89732ecbff9fcb95a255"
+    }
+  ],
+  "archive": "C:/Users/mcrae/.codex/private/emc-continuation-20261002/checkpoint07-foundation-root/full-initial.zip",
+  "preflightLogSHA256": "51a9cf859a68dbe423ccf8b89eded725cb2607da14f211237638981534f07614",
+  "finding": "temporary pytest output not archived before outer process-group budget termination",
+  "rootCauseOfRuntime": "unknown",
+  "recommendation": "one instrumented remote FULL retry at unchanged 3600s cap; preserve owned pytest temp output and fault stacks, then stop or act on specific evidence",
+  "executedTests": 0,
+  "branchWrites": 0,
+  "uiOperations": 0,
+  "effortCorrection": {
+    "originalFilesPreserved": true,
+    "effort": "medium requested by coordinator",
+    "model": "override omitted; inherited actual runtime identifier unavailable"
+  },
+  "status": "finite_diagnosis_complete"
+}

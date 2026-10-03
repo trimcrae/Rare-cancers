@@ -1,0 +1,37 @@
+{
+  "schema":"foundation-focused-package-review/1",
+  "reviewer":"/root/focused_package_review",
+  "tool_configuration":{"model":"gpt-6-astra","reasoning_effort":"ultra","fork_turns":"none"},
+  "backend_telemetry":"Unavailable; not independently attested.",
+  "scope":"Focused verification of accepted repairs; reused baseline science review. Read-only nonwriter,no science rerun,rendering,UI,file or branch writes.",
+  "decision":"pass",
+  "unresolved_package_findings":[],
+  "not_submission_clearance":true,
+  "dispositions":{
+    "PKG-LINK":"Both documents link to ZIP and README at c29f301be3c90c9355b04501ff4ae43ab2199c67. Independently fetched remote bytes match reviewed files.",
+    "XLRD-VERSION":"Historical2.0.1 matches saved primary output. Added output-hash assertion uses established corrected-file hash; no rerun.",
+    "SPACING":"Reader-facing spacing defects repaired.",
+    "AUTHOR-BOUNDARY":"Removed internal approval instructions and city placeholders without inventing approval or ethics determination; pending requirements remain in handoff/cover."
+  },
+  "reader_clarity":{"abstract_words":169,"clear":true,"scientific_meaning_preserved":true,"question_approach_finding_limits_next_step_understandable":true},
+  "checks":{"package_files":"15/15","primary_members":"4/4","hgnc_members":"14/14","docx_text":"Both match Markdown after presentation/whitespace normalization","manuscript_markdown_links":16,"supplement_markdown_links":2,"visual_qa":"Separate root review required"},
+  "input_sha256":{
+    "human-genetics-correspondence.md":"8f6083c8c952f67648ac1b44322c51d0a9408b01765aec22a934858a94a549c2",
+    "online-resource-1.md":"6957dbf5d781d90bbb6eb0db542a153f3627c89349cf94cde6d75084584e36b6",
+    "human-genetics-correspondence.docx":"d1a79fba478a5f046efde6593045562a182881eef38554d1d12127756b910833",
+    "online-resource-1.docx":"baedc184387e32a17ba83b96c5500958a2647f20acfbf294506da41288c15c43",
+    "reproducibility.zip":"01d7a8ea7d92ae1a6d1c79d33c7b89d8b31a68453f9b82ad095de3234b53b98f",
+    "README-reproduction.txt":"acd423c2e793d065335c5e0366fc570f0900057109dd17250de9195a13cd9da0",
+    "reproducibility-manifest.json":"09e041cb9376dbaec149942a62e624ab070b32daa20de326a26979e9a719bb12",
+    "cover-letter.txt":"9241b682b62c6082a82620807712e8b6e32afa40ae9d0f0786bf49ee2a68e46d",
+    "LICENSES.txt":"d72780300dc5a5443b3f867a2aee99ac3d3055f9b84cffc82ada51ded858f584",
+    "verify_package.py":"8f7e60c701c519519d50ffb46690d0a7a60668905fe1b018c2195ef13d9c3ccc",
+    "content-change-record.json":"31e7d071f3cfc2feace60b62bdedb9db823b4329b7dd5bab6b95f970eab3737a",
+    "document-build.json":"ae38e2b77bdb84531fef94d7ef3213f989e908036003e2845bf3165ef1096d2c",
+    "venue-and-licensing.json":"606c0e4541c14539f8886aa00823eba97bec26b72e75e6cc159776150f586b7f",
+    "readiness-and-gates.json":"7d7ef8a4e4d1b080a1b14d2c49c5f54ef3651dc5a2ba945fe5c437223d1894c8",
+    "package-validation.json":"312676af98b34fe0ccb285d8b46d25d8d3e9b138087b4b42843a6f5161a2cd8c",
+    "HANDOFF.md":"fab94f5ea3b96e7c2d13b77a0e3356d75c35eeca05e9acde72d5d4a06ac2b3b3"
+  },
+  "subsequent_administrative_changes":"Normal/closure receipts and policy-audit disposition may be appended by root; these do not change reviewed outgoing content."
+}

@@ -1,0 +1,61 @@
+{
+  "revision": "83e0fb5348fe41b1747970d6346c6f3b19a3b5ea",
+  "run_id": "37035103326",
+  "python": "3.12.3",
+  "started_unix": 1790959012.861623,
+  "steps": [
+    {
+      "name": "primary-byte-receipt",
+      "command": [
+        "/usr/bin/python3",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/foundation-primary-aws/fetch_primary_aws.py",
+        "--out",
+        "/home/runner/work/_temp/foundation-primary-inputs/primary.xls"
+      ],
+      "exit_code": 0,
+      "seconds": 1.251266219999998
+    },
+    {
+      "name": "primary-independent-check",
+      "command": [
+        "/usr/bin/python3",
+        "/home/runner/work/Rare-cancers/Rare-cancers/research/autonomy/continuation-2026-10-02/foundation/foundation_primary_workbook_check.py",
+        "--workbook",
+        "/home/runner/work/_temp/foundation-primary-inputs/primary.xls",
+        "--mapping",
+        "/home/runner/work/_temp/foundation-primary-inputs/mapping.json",
+        "--export",
+        "/home/runner/work/_temp/foundation-primary-inputs/data_sv.txt",
+        "--corrected",
+        "/home/runner/work/_temp/foundation-primary-inputs/data_sv.identity_corrected.tsv"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5349507179999975
+    }
+  ],
+  "status": "passed",
+  "finished_unix": 1790959015.305887,
+  "inputs": [
+    {
+      "name": "data_sv.identity_corrected.tsv",
+      "bytes": 180952,
+      "sha256": "2c910856e5e483c3774af5d0192b6118536f368aade8f05960bb123014a20184"
+    },
+    {
+      "name": "data_sv.txt",
+      "bytes": 180393,
+      "sha256": "d9fc3fc8073104c3f364825972921f271b5e8793eefcf71331c3cff7d3882701"
+    },
+    {
+      "name": "mapping.json",
+      "bytes": 1679613,
+      "sha256": "341f64562039230c581aefb7f03d7da4769969a79290217962216f3d7e567a5e"
+    },
+    {
+      "name": "primary.xls",
+      "bytes": 4812800,
+      "sha256": "88c1a0bab7509ffe3bcff955b89f3d60ddb58a68311cd4c56ca4b0c78506b475"
+    }
+  ],
+  "free_bytes_after": 92384321536
+}

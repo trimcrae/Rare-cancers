@@ -1,0 +1,78 @@
+{
+  "schema": "foundation-two-cell-result-review/1",
+  "utc": "2026-10-02T17:41:58.513476+00:00",
+  "status": "passed_with_limits",
+  "checks": {
+    "recorded_run_and_revision": true,
+    "success_exit_empty_stderr": true,
+    "executed_code_hash_matches_reviewed_bytes": true,
+    "elapsed_below_60_seconds": true,
+    "workbook_hash_pinned": true,
+    "exact_two_cells": true,
+    "status_passed": true,
+    "8570_sentinels": true,
+    "8570_date_encoding": true,
+    "8570_encoded_date_arithmetic": true,
+    "20794_sentinels": true,
+    "20794_date_encoding": true,
+    "20794_encoded_date_arithmetic": true
+  },
+  "codeReview": {
+    "codeSHA256": "c368df98378c9410a7d4bd85cac5e9e0cf163b2ce46fc290bc5c43c32795a21d",
+    "identityGuard": "Exact workbook byte length 4812800 and SHA256 checked before parsing.",
+    "scopeGuard": "Fixed worksheet; exact first four headers; fixed two row numbers converted to zero-based indices and partner column 2; exact ID/gene/raw-value/RE sentinels checked before interpreting formats.",
+    "constants": "Type display uses exported xlrd.XL_CELL_NUMBER and xlrd.XL_CELL_DATE; date conversion executes only for XL_CELL_DATE. No unsupported xlrd.biffh.cellname lookup remains.",
+    "resourceRelease": "Workbook resources released in finally.",
+    "bounds": "Fixed two-cell result loop; source XLS is parsed with formatting_info=True but full identity extraction is not repeated. No explicit timeout inside probe; supplied execution duration is approximately 0.50 seconds."
+  },
+  "observations": [
+    {
+      "sourceExcelRow": 8570,
+      "column_zero_based": 2,
+      "sourceID": 2290,
+      "gene": "NOD1",
+      "alteration_type": "RE",
+      "raw_value": 44621.0,
+      "xlrd_ctype": 3,
+      "xlrd_type_name": "date",
+      "xf_index": 64,
+      "format_key": 16,
+      "format_string": "d-mmm",
+      "format_type": 1,
+      "datemode": 0,
+      "date_encoding_only": "2022-03-01T00:00:00"
+    },
+    {
+      "sourceExcelRow": 20794,
+      "column_zero_based": 2,
+      "sourceID": 5458,
+      "gene": "HDAC4",
+      "alteration_type": "RE",
+      "raw_value": 44812.0,
+      "xlrd_ctype": 3,
+      "xlrd_type_name": "date",
+      "xf_index": 64,
+      "format_key": 16,
+      "format_string": "d-mmm",
+      "format_type": 1,
+      "datemode": 0,
+      "date_encoding_only": "2022-09-08T00:00:00"
+    }
+  ],
+  "interpretation": "Observed XLS date encoding only: both partner cells are reported xlrd date type 3, d-mmm format, datemode 0, representing 2022-03-01 and 2022-09-08. This does not prove intended MARCHF1/SEPTIN8 or any other gene. Original numeric-source discrepancy classifications remain unresolved.",
+  "provenance": {
+    "runId": "37041943656",
+    "revision": "9918aa902d96128adcc86009174645d0300f59f4",
+    "oldFailureRunPreservedByRoot": "37041128464",
+    "cloudResultsWrapperSHA256": "ac2388339747679db546bca362062a5e64d28c8b47a9eb777bf1dcdcd642022d",
+    "artifactHashReportedInWrapper": "68b4f68acbc50d151ff7704a4af8e4d82b5fd341b37c9e84372b22cf121e587a",
+    "artifactBytesReportedInWrapper": 1026
+  },
+  "limits": [
+    "No probe rerun, network access, or workbook reread performed.",
+    "Underlying 1026-byte artifact bytes are not in the 1872-byte JSON wrapper; reported artifact hash cannot independently be recomputed from wrapper alone. Embedded execution and stdout contents were validated as provided.",
+    "Historical failed-run preservation is reported by root, not independently queried.",
+    "No patient/gene interpretation or correction of export follows from encoded dates.",
+    "Initial independent HGNC review files remain unchanged."
+  ]
+}

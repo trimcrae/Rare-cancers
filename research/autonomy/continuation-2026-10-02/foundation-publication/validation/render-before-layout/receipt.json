@@ -1,0 +1,69 @@
+{
+  "revision": "cc382b416c73b25071262a39457066eb003486c9",
+  "run_id": "37057118866",
+  "mode": "render",
+  "steps": [
+    {
+      "name": "base-dependencies",
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "pip",
+        "install",
+        "--no-cache-dir",
+        "pyyaml",
+        "jsonschema>=4.18",
+        "referencing",
+        "pypdf",
+        "pdfplumber",
+        "uv"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 5.0013316140000015,
+      "log_sha256": "df24375df21746058dca9a3f6e1d893d990eb1bc33f6c6c7b67201bd57a01737"
+    },
+    {
+      "name": "render-manuscript",
+      "command": [
+        "/usr/bin/python3",
+        "research/manuscripts/build_submission_pdf.py",
+        "--paper",
+        "foundation-identity",
+        "--style",
+        "preprint"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 18.004123801,
+      "log_sha256": "b9e9ccd27c823764a32fbd9ffb936c47115dfde2e79ff25539fc1edbed215baa"
+    },
+    {
+      "name": "extract-rendered-text",
+      "command": [
+        "/usr/bin/python3",
+        "-c",
+        "from pathlib import Path; from pypdf import PdfReader; pages=PdfReader('/home/runner/work/Rare-cancers/Rare-cancers/research/manuscripts/foundation/source-identity-correspondence-preprint.pdf').pages; Path('/tmp/foundation-publication/rendered-text.txt').write_text(\"\\n\\n\".join(p.extract_text() for p in pages)); print(\"PDF_PAGES=\"+str(len(pages)))"
+      ],
+      "exit_code": 0,
+      "forced_stop": null,
+      "elapsed_seconds": 1.000779111,
+      "log_sha256": "9ee7fbcbbf455a68e389560223539aa07e622065e0598d23a1b0aca29af0e286"
+    }
+  ],
+  "exit_code": 0,
+  "finished_utc": "2026-10-02T19:54:53.595823+00:00",
+  "free_bytes_after": 91401482240,
+  "files": [
+    {
+      "path": "files/research/manuscripts/foundation/source-identity-correspondence-preprint.build-stamp.json",
+      "bytes": 449,
+      "sha256": "980f64e768238f22c70ed4c045bc6c00705e9675ec2bad0f69b616bc4223d6f2"
+    },
+    {
+      "path": "files/research/manuscripts/foundation/source-identity-correspondence-preprint.pdf",
+      "bytes": 131011,
+      "sha256": "9e31fc7fa8d193753c6b8e838c0afe4071463b400d52e2bb7cc0ec43500d0af4"
+    }
+  ]
+}
