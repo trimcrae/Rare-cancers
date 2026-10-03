@@ -1,0 +1,148 @@
+{
+  "schema": "methylation-fixed-loss-reaggregation/1",
+  "sources": {
+    "fusion": {
+      "repository": "trimcrae/Rare-cancers",
+      "revision": "da49c4e836533253825587f83656675dac4c913b",
+      "path": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/methylation-hallmark-fusion-score-transport-final.json",
+      "sha256": "cbac90fa027c620f0b395d6a80365a4da0ab14d28c2410e9fc69318c83344aba",
+      "bytes": 28903,
+      "input_mode": "directory"
+    },
+    "cases": {
+      "repository": "trimcrae/Rare-cancers",
+      "revision": "da49c4e836533253825587f83656675dac4c913b",
+      "path": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/methylation-hallmark-fusion-selected-cases-final.json",
+      "sha256": "1f8103cd8ee0366ee2097e21e5b043aa3d4eb58d8720121a2001e1a9b7876b39",
+      "bytes": 2797,
+      "input_mode": "directory"
+    },
+    "grouped": {
+      "repository": "trimcrae/Rare-cancers",
+      "revision": "da49c4e836533253825587f83656675dac4c913b",
+      "path": "research/autonomy/data-opportunities-2026-09-30/deep-analysis/results/methylation-corrected-full-support-actual.json",
+      "sha256": "e375e1f7b390c4a8bdb4be83e6d3e0cb5fc37c3bdec387215ae86b5daf153fbf",
+      "bytes": 525104,
+      "input_mode": "directory"
+    }
+  },
+  "status": "executed assertions passed",
+  "input_epsilon": 1e-06,
+  "analysis": "post hoc descriptive reweighting of fixed saved predictions",
+  "profiles": 120,
+  "classes": 12,
+  "metrics": {
+    "raw": {
+      "NLL": {
+        "equal_class": 1.074287121322385,
+        "profile_weighted": 0.43886850867822524
+      },
+      "Brier": {
+        "equal_class": 0.2365079526109961,
+        "profile_weighted": 0.1123216666666667
+      }
+    },
+    "reference_temperature": {
+      "NLL": {
+        "equal_class": 1.8437918075204676,
+        "profile_weighted": 0.43592424136705044
+      },
+      "Brier": {
+        "equal_class": 0.1932622473046851,
+        "profile_weighted": 0.03751010299478826
+      }
+    }
+  },
+  "case_losses": [
+    {
+      "ID": "VALIDATION_SAMPLE 262",
+      "target_probability": 1.3014454179193741e-18,
+      "NLL": 41.18305616714582
+    },
+    {
+      "ID": "VALIDATION_SAMPLE 405",
+      "target_probability": 0.0007428550708774916,
+      "NLL": 7.205009591657335
+    },
+    {
+      "ID": "VALIDATION_SAMPLE 417",
+      "target_probability": 0.044317717766572555,
+      "NLL": 3.1163707323055325
+    }
+  ],
+  "transformed_total_NLL": 52.31090896404605,
+  "zero_vote_case_fraction_total_NLL": 0.787274719226375,
+  "three_discordant_cases_fraction_total_NLL": 0.9845830919609587,
+  "remaining_117_mean_transformed_NLL": 0.006892927119122718,
+  "existing_original_score_below_0_9_stratum": {
+    "published_original_classifier": {
+      "n": 7,
+      "concordant": 4,
+      "concordance_fraction": 0.5714285714285714,
+      "macro_class_concordance": 0.4,
+      "score_0.9_assigned": 0,
+      "coverage": 0,
+      "assigned_concordant": 0,
+      "assigned_concordance_fraction": null
+    },
+    "raw": {
+      "n": 7,
+      "concordant": 4,
+      "concordance_fraction": 0.5714285714285714,
+      "macro_class_concordance": 0.4,
+      "score_0.9_assigned": 0,
+      "coverage": 0,
+      "assigned_concordant": 0,
+      "assigned_concordance_fraction": null,
+      "Brier_fusion_compatible_label": 0.5520714285714287,
+      "NLL_fusion_compatible_label_input_smoothed": 3.2510634604397297
+    },
+    "reference_temperature": {
+      "n": 7,
+      "concordant": 4,
+      "concordance_fraction": 0.5714285714285714,
+      "macro_class_concordance": 0.4,
+      "score_0.9_assigned": 5,
+      "coverage": 0.7142857142857143,
+      "assigned_concordant": 4,
+      "assigned_concordance_fraction": 0.8,
+      "Brier_fusion_compatible_label": 0.6285940180085888,
+      "NLL_fusion_compatible_label_input_smoothed": 7.359025978889228
+    }
+  },
+  "grouped_panel": {
+    "classes": [
+      "AS",
+      "ASPS",
+      "CHORD",
+      "CSA-IDH-A",
+      "DFSP",
+      "DSRCT",
+      "ES",
+      "ESS-LG",
+      "EWS",
+      "FDY",
+      "GIST",
+      "LMS",
+      "MLS",
+      "MPNST",
+      "OS-HG",
+      "RMS-ALV",
+      "RMS-EMB",
+      "SARC-RMS-like",
+      "SBRCT-CIC",
+      "SFT",
+      "SYSA",
+      "USARC",
+      "WDLS-DDLS"
+    ],
+    "profiles": 658
+  },
+  "limits": [
+    "No new fits, exclusions, thresholds or outcome searches.",
+    "Equal-class and profile-weighted losses target different case mixtures.",
+    "Three classes have one profile each; no uncertainty interval inferred.",
+    "Case contributions explain total loss; cases remain in every summary.",
+    "Loss improvement alone does not establish clinical calibration."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "finite-manuscript-repair-verification/1",
+  "date": "2026-10-02",
+  "scope": "Focused verification of the two chronology-language repairs; no scientific rereview or submission-readiness determination",
+  "artifact": "C:/Users/mcrae/.codex/private/emc-continuation-20261002/checkpoint07-methylation-writer/manuscript-repaired.md",
+  "sha256": "befcb29c0b22db7f4948ff8e4c67116926f1f414e57241502bcaeba3aba7e0a7",
+  "status": "pass",
+  "checks": {
+    "expected_sha256_matches": true,
+    "body_matches_only_two_requested_replacements_after_line_end_normalization_and_terminal_whitespace_trim": true,
+    "additional_body_difference": "One extra terminal newline only",
+    "grouped_partition_timing_replaced_with_deterministic_metadata_fixed_seed_and_unchanged_reuse_description": true,
+    "fusion_before_inspection_assertion_removed_and_evidence_limit_explicit": true,
+    "numerical_scientific_claims_unchanged": true,
+    "other_changes": "Repository front matter added/replaced; not independently schema-validated in this focused claim check"
+  },
+  "finding_disposition": "The one substantive chronology-claim issue is resolved by accurately limiting the assertion to what the inspected records establish.",
+  "original_review_preserved": {
+    "path": "C:/Users/mcrae/.codex/private/emc-continuation-20261002/checkpoint07-methylation-review/review.md",
+    "sha256": "0622eb1d161cf6961a4088cef1dc58c28436b69ce1bf3dc7d07d5e745dbd99da",
+    "modified": false
+  },
+  "execution_metadata_clarification": {
+    "source": "Coordinator-provided actual spawn metadata, correcting the original review's statement that both model and effort were inherited",
+    "fork_turns": "none",
+    "reasoning_effort_requested": "medium",
+    "model_parameter": "omitted; inherited model",
+    "service_telemetry": "unknown",
+    "ultra_review_claim": false
+  },
+  "activity": "Quiet read-only file comparison and creation of this small receipt; no repository edit, checkout, runtime, UI or science rerun"
+}

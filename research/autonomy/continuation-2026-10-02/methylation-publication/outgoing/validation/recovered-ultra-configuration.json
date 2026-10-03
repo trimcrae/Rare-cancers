@@ -1,0 +1,40 @@
+{
+  "recovered_at": "2026-10-02",
+  "scope": "Sanitized direct session runtime configuration records for the existing independent review; no new review was run",
+  "session_file": "rollout-2026-10-02T16-25-52-01a0fe4b-7318-72e0-8287-5f8964539e2d.jsonl",
+  "session_id": "01a0fe4b-7318-72e0-8287-5f8964539e2d",
+  "reviewer": "/root/methylation_manuscript_ultra",
+  "session_metadata_record_sha256": "c69b4c534004344496a71a7394cf3e2831914937e434be5b23bdca285f6d7e93",
+  "turn_configuration_records": [
+    {
+      "line": 8,
+      "timestamp": "2026-10-02T20:25:54.856Z",
+      "record_type": "turn_context",
+      "record_sha256": "1aa9fd6125905c2ffdd748ce9bca9e026529cbc658e8a5e7035585ca2374cca1",
+      "model": "gpt-6-astra",
+      "effort": "ultra"
+    },
+    {
+      "line": 189,
+      "timestamp": "2026-10-02T20:37:43.041Z",
+      "record_type": "turn_context",
+      "record_sha256": "ca1cd9329bd03f183cbeeef214f771d50cb12507e113b49d771efa04331833a8",
+      "model": "gpt-6-astra",
+      "effort": "ultra"
+    }
+  ],
+  "digest_binding_record": {
+    "line": 213,
+    "timestamp": "2026-10-02T20:40:03.287Z",
+    "record_sha256": "9589e1d7f1ef6ab377decffcd671c256d00d47eb22312274b67f898a6e265696",
+    "final_manuscript_sha256_present": "7e249932cb12aa4eaa85cd130c76099c2cfb1a0edb7cd31065d31ac4c19cd028"
+  },
+  "retained_review_receipt": {
+    "revision": "5d2f2e2116f43c0bb56a46120902a1332f27720b",
+    "path": "research/autonomy/continuation-2026-10-02/methylation-publication/review/independent-ultra-receipt.json",
+    "sha256": "a6e17e023499dbc92303974df3b24488d2752bb6dc60ffe88d26e6e99a90c29a"
+  },
+  "conclusion": "Actual review and focused verification turn contexts record model gpt-6-astra and effort ultra. This recovers the configuration evidence omitted from the initial receipt.",
+  "backend_serving_telemetry": "not independently available; configuration is not a claim about hidden serving telemetry",
+  "privacy": "Only identity, timestamps, configuration and record digests retained; no unrelated session content exported"
+}
