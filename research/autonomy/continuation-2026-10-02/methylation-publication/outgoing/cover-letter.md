@@ -16,7 +16,7 @@ related: []
 
 Dear Editors,
 
-Please consider “Training support and score weighting alter conclusions in a public sarcoma methylation reanalysis” as an Original Article in Virchows Archiv, using the subscription publication route.
+Please consider “Interpreting confidence scores in a public sarcoma methylation dataset” as an Original Article in Virchows Archiv, using the subscription publication route.
 
 This empirical methods reanalysis examines how evaluation choices affect confidence in sarcoma methylation assignments. Using released measurements and a separate fixed model, matching class-specific training support substantially attenuated a supplier-versus-sample Brier-score gap. Reference-fitted score sharpening increased high-threshold assignments but did not consistently improve log loss across class weighting and zero-vote conventions. A recorded discordant profile became an above-threshold assignment.
 
