@@ -1,0 +1,40 @@
+Methylation draft integration addendum — 2026-10-02
+
+The author explicitly requested main-branch integration and a PDF to read.
+The source package branch is codex/methylation-publication-2026-10-02 at b6511e160c3c2d639c1d0038d6fe32fd012d0b0c.
+The integration branch is codex/methylation-main-integration-2026-10-02, based on main eb21a56c68130578a4ced1bcc9d3f8b89859a687.
+The source branch inherited unrelated campaign history, so integration copies only the
+methylation-publication directory, including original manuscript/review records, plus this
+task's finite normal-preflight workflow. It does not import Foundation or shared campaign state.
+The source branch and its original evidence remain preserved. The disposable tracked Python
+bytecode cache was omitted; no source code or scientific evidence was removed.
+
+manuscript.pdf is the existing five-page, visually inspected draft. Its SHA256 is
+cd3605322df83a5a79cdf77591d0f14689202eb90b5dfb72659f6c6e0637f141 (78,432 bytes).
+The prior final-render-receipt.json and final-visual-review.json bind this exact PDF and DOCX.
+The source manuscript, DOCX, original review records, reproducibility ZIP and all tables are
+unchanged. The manifest now includes the reading PDF. No new rendering or analysis was needed.
+
+HANDOFF.txt, ownership-and-scope.json and validation/final-state-inspection.json record the
+earlier preparation checkpoint and its then-unmerged status; this addendum supersedes those
+integration-status statements. The scientific review and publication-readiness qualifications
+remain unchanged. This merge is a draft integration, not journal submission or clearance.
+
+The settled integration candidate passed the normal/default repository preflight.
+Candidate: 3fe7d10dcebac065d4cf6bcb9c8ab26561391f0f.
+Run: 37082929325; https://github.com/trimcrae/Rare-cancers/actions/runs/37082929325.
+Exact log and exit receipt are preserved under validation/main-integration/. Pytest, FULL and
+the broad modalities suite are not requested. The main integration commit uses [skip ci] to
+honor the standing prohibition on automatically rerunning broad suites; it does not represent
+a FULL-gate pass. No acceptance rule or existing shared workflow is changed.
+
+The main update must be a normal non-force fast-forward from the observed main base. If main
+moves, retain all competing changes and reconcile before pushing. The final local integration
+receipt will bind the actual main commit and remote verification; the containing main commit
+identifies the integrated files. No PR, submission, posting, outreach or scheduler change.
+Author metadata/declarations and final publication registration/FULL gates remain outstanding.
+
+Execution note: an inherited render job unintentionally remained in the candidate workflow
+because of line-ending handling and ran once on isolated CI. That repeat output was not used.
+The existing inspected PDF remains unchanged. The redundant render job is removed from the
+integrated workflow; the passing preflight job is unchanged.

@@ -1,0 +1,66 @@
+{
+  "reviewer": "independent read-only collaboration agent /root/repro_audit",
+  "scope": "focused editorial changes, supplement implementation precision, preservation and reproduction package; not whole-paper ultra review",
+  "date": "2026-10-02",
+  "hashes": {
+    "manuscript.md": "01d44a0a4a0781d52f123446e76f369eb092f7c5ddb07d3971a57a8df399d79f",
+    "online-resource-1.md": "1b45b0da4b9e354222103913abeb32b3d14af2c51d0ab4a4e2b16e859171d8c2",
+    "online-resource-2.zip": "e87addcafcf12c4280668a2e27cb9417b034b5fe73ee30aaa0b03c5d7590e70d",
+    "build_documents.py": "c51dd454d087f4162c0fd4d2db0fbf2348b816a53dae4278181f23b51438af76",
+    "citation-source-checks.json": "18c154d6b32dcaa991ba28a01ca2e7c9fc28fbcc7267969707d9252243df2b90",
+    "artifact-recovery.json": "b68dfa33f9c3064fabebd33f833158b796c9578c29ad5a8e88d2915e0e0d32d7"
+  },
+  "original_working_manuscript_sha256": "7e249932cb12aa4eaa85cd130c76099c2cfb1a0edb7cd31065d31ac4c19cd028",
+  "findings": [
+    {
+      "issue": "Bootstrap sum wording",
+      "resolution": "sum of paired loss differences; verified against original code"
+    },
+    {
+      "issue": "Annotation heuristic specificity",
+      "resolution": "Literal case-insensitive patterns including original word boundaries; exact final source comparison passed"
+    },
+    {
+      "issue": "Main table archive paths",
+      "resolution": "expected-tables/table-1.csv and table-2.csv; independently verified"
+    }
+  ],
+  "disposition": "zero outstanding scoped findings",
+  "checks": [
+    "All 66 input manifest entries independently matched hashes/sizes",
+    "All 5 original analysis scripts byte-identical to source revision da49c4e836533253825587f83656675dac4c913b",
+    "Saved-vote replay paths present with distinct results.json subdirectories",
+    "Main scientific numbers and consequential limitations preserved",
+    "Main tables and paired contrasts match frozen summaries",
+    "Citation metadata/print-date and license corrections verified"
+  ],
+  "reviewer_visual_inspection": false,
+  "reviewer_new_science": false,
+  "existing_scientific_review": {
+    "sources": [
+      {
+        "path": "research/autonomy/continuation-2026-10-02/methylation-publication/review/independent-ultra-receipt.json",
+        "revision": "5d2f2e2116f43c0bb56a46120902a1332f27720b",
+        "sha256": "a6e17e023499dbc92303974df3b24488d2752bb6dc60ffe88d26e6e99a90c29a"
+      },
+      {
+        "path": "research/autonomy/continuation-2026-10-02/methylation-publication/review/focused-methods-verification.json",
+        "revision": "5d2f2e2116f43c0bb56a46120902a1332f27720b",
+        "sha256": "b8f6ccd21b6ebee2c89cb16ee4dcdbe25fd29548508aca7c5f0e456c5a722480"
+      },
+      {
+        "path": "research/autonomy/continuation-2026-10-02/methylation-publication/review/independent-ultra-review.txt",
+        "revision": "5d2f2e2116f43c0bb56a46120902a1332f27720b",
+        "sha256": "f7c0aadd09e00e88894e80ece2809c45a7fe0635b105709031df2fa232f9dbc5"
+      }
+    ],
+    "requested_effort": "ultra",
+    "model_parameter": "omitted/inherited",
+    "serving_model_telemetry": "unknown",
+    "serving_effort_telemetry": "unknown",
+    "two_prior_reporting_findings": "resolved in retained original receipts",
+    "reuse": "unchanged science; no new whole-paper pass commissioned",
+    "configuration_addendum": "recovered-ultra-configuration.json records actual turn contexts model gpt-6-astra, effort ultra for the independent review and focused verification. Original receipt and unknown backend telemetry are preserved."
+  },
+  "submission_clearance": false
+}
