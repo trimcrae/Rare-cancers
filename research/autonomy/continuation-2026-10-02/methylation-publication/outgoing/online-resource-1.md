@@ -14,7 +14,7 @@ related: []
 
 # Online Resource 1
 
-Training support and score weighting alter conclusions in a public sarcoma methylation reanalysis
+Interpreting confidence scores in a public sarcoma methylation dataset
 
 Tristan D. McRae
 

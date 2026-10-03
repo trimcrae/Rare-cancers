@@ -1,0 +1,26 @@
+{
+  "before_revision": "a050850f6dadb8135991d184041dbbe218a03d05",
+  "before_sha256": "01d44a0a4a0781d52f123446e76f369eb092f7c5ddb07d3971a57a8df399d79f",
+  "initial_rewrite_sha256": "59cbc72867e440b488d5cc9508729d1e7e74c040b3cb1c753454efca72681f82",
+  "final_rewrite_sha256": "0c40edc2d64de19413402584a4219e30ec9fe87ae2f62262db226e5884698317",
+  "reviewer": "independent read-only agent /root/repro_audit",
+  "scope": "Editorial claim preservation and focused repair verification; no new whole-paper ultra review",
+  "findings": [
+    {
+      "issue": "Raw-score definition incorrectly described hard-vote fractions",
+      "resolution": "Raw scores averaged the class probabilities returned by individual trees, matching predict_proba",
+      "verified": true
+    }
+  ],
+  "preserved": [
+    "Numerical results and comparators",
+    "Fixed subsample and conditional uncertainty",
+    "Epsilon sensitivity and class weighting",
+    "Uncertain mapping chronology and annotation reference standard",
+    "Patient-independence and external820/821 limitations"
+  ],
+  "external_details": "Detailed QC identifiers, diagnosis flags, cell addresses and source-native mapping restrictions remain in unchanged supplement methods; main Discussion retains consequence and unresolved discrepancy",
+  "table_check": "All24 numerical tokens in13 rows retained in unchanged order; descriptive Table2 labels now consistently use scores/rescaled scores",
+  "disposition": "zero remaining focused findings",
+  "new_analyses": 0
+}
