@@ -12,18 +12,18 @@ last_verified: 2026-10-04
 
 # EMC discovery campaign: authoritative cloud handoff
 
-Checkpoint: 2026-10-04. Read this before the five historical round packets. This is a scientific discovery campaign, not manuscript production or infrastructure maintenance.
+Checkpoint: 2026-10-04. Read this before the historical round packets. This is a scientific discovery campaign, not manuscript production or infrastructure maintenance. The round 6 addendum below supersedes the R1–R5 pending-source descriptions where it reports an actual later evaluation.
 
 ## Current conclusion
 
-**No new publication-worthy EMC finding survived rounds 1–5. The search is not exhausted.** No full manuscript was drafted or promoted. TMEM266's standalone paper remains shelved; earlier favorable assessments and rankings are historical. Work stopped for this checkpoint at the user's request for a fresh cloud continuation prompt.
+**No new publication-worthy EMC finding survived rounds 1–6. The search is not exhausted.** No full manuscript was drafted or promoted. TMEM266's standalone paper remains shelved; earlier favorable assessments and rankings are historical. The original R1–R5 checkpoint stopped for the user's fresh cloud continuation prompt; R6 subsequently evaluated three further scoped questions.
 
 The five round packets preserve actual analyses, original hypotheses, negative/inconclusive evidence, source coverage, independent challenges and decisions. A successful retrieval, source inventory, technically correct computation or repaired provenance is not itself a disease discovery. Do not reread every source or rerun verified analyses just to demonstrate diligence.
 
 ## Read order and supersession
 
 1. Repository `AGENTS.md` and `research/autonomy/OPERATING_PROTOCOL.md`, especially parallel discovery, scientific reassessment, complete public-EMC coverage and checkpoint integration.
-2. This handoff, `CONTINUE-IN-CLOUD.txt`, `PORTABLE-INVENTORY.json`, and the five round reports/handoffs.
+2. This handoff, `CONTINUE-IN-CLOUD.txt`, `PORTABLE-INVENTORY.json`, the R6 addendum and the six round reports/handoffs.
 3. Claim-specific results, coverage records, scripts and final independent reviews for a proposed follow-up. Use later evaluated dispositions instead of earlier to-do lists.
 
 Round paths under `research/autonomy/`:
@@ -33,6 +33,7 @@ Round paths under `research/autonomy/`:
 - `fresh-discovery-2026-10-04-round3/`
 - `fresh-discovery-2026-10-04-round4/`
 - `fresh-discovery-2026-10-04-round5/`
+- `fresh-discovery-2026-10-04-round6/`
 
 Historical snapshots are immutable evidence, not current status. In particular R3 `LATEST-HANDOFF.txt` still says workers are running; the later R3 report, integrations and ownership resolution supersede it. R3's report calls small-RNA review provisional, but `small_rna_review_final/` and its later integration contain the final review. R3/R4 final-state snapshots predate their completed ownership restorations. R5 `LIVE-HANDOFF.txt` predates the final frozen packets; use R5 `REPORT.txt`, `HANDOFF.txt`, `FINAL-STATE.json` and integration receipts. Historical no-commit statements describe their original checkpoints; use actual Git ancestry and the current integration receipt for present status.
 
@@ -104,3 +105,15 @@ Do not bypass platform content-access restrictions by moving the interrupted FAP
 No paid resources, outreach, manuscript submission/publication, external scientific-record changes or PR are authorized. The user's latest instruction explicitly authorizes documenting findings and integrating coherent validated checkpoints to `main` as work proceeds. Fetch current remote state, preserve concurrent commits, use normal repository gates, push without force and verify the remote SHA. Do not equate a local file or commit with merged/pushed work. Evidence integration is not scientific publication clearance.
 
 The latest integration receipt and actual Git ancestry are authoritative for commit/push status. Earlier records preserve their truthful as-at state. Continue toward useful empirical EMC knowledge; do not manufacture a result or declare every possible angle covered.
+
+## Round 6 addendum — source-gated follow-up, 2026-10-04
+
+R6 assessed three distinct questions in parallel and independently challenged each. Its authoritative compact decision and primary-source links are in `../fresh-discovery-2026-10-04-round6/HANDOFF.txt`; detailed source/condition statuses and scripts are in each lane. All three standalone proposals were shelved at the source and scientific-value gate. **There is no surviving demonstrated new EMC biological or clinical finding, and there is no global public-evidence exhaustion claim.**
+
+The R5 clinical pending list above is now partly superseded: R6 evaluated Naeimi2023's 43-patient primary table (two generic sarcomas at three FAPI times), Hirmas2024's explicit sarcoma exclusion, Mei2023's six-page paper (ten generic sarcomas, with teaching/test material still unacquired), and all 76 rows in Ma2026's supplementary liver tables. Hirmas2023 remains only abstract-level for 131 generic sarcomas, and individual subtype/scan mapping remains unavailable. R6 found a Fudan institution/ethics/recruitment-period match between Ma2026 and Gu2022, so independent donor counts cannot be asserted. Other R5 named clinical sources remain at their earlier documented statuses; the R6 packet is not a blanket clinical coverage completion certificate.
+
+The spatial lane found no newly authenticated EMC single-cell or spatial observation suitable for a disease pilot. Ngo2025's cell-resolved samples are epithelioid sarcoma while EMC appears in bulk comparison; BO-112 GSE313859 donors 010/011/012 lack individual histology, and a separate GSE279852 has shared numeric patient labels without a proved donor crosswalk. CASSIS, scTumor inherited specimens, Luthria's fresh technical specimen and CellSARCTx retain explicit identity/access gaps. The lead's independent `SPATIAL-INDEPENDENT-CHALLENGE.json` preserves the donor-identity caution.
+
+The regulatory lane established that GSE11185/GDS3481 are the same engineered 293-cell experiment, not independent EMC evidence. Historical EMC SIX3/NOR1 reports are discordant; the inspected 2004 abstract does not establish protein assay level. An independent reviewer caught that unsupported inference and the correction is retained in `AMENDMENT-01.txt`. No endogenous EMC perturbation/binding/output comparison or new dependency was demonstrated.
+
+All three R6 workers froze and reported terminal processes; exact local integration, ownership restoration and verified ZIP recovery receipts are in the R6 packet. `PORTABLE-INVENTORY.json` inside R6 distinguishes Git-exported analytical records from cached original source payloads, which remain in verified local recovery and are not present in a fresh cloud checkout. R6 Git commit/push status must be read from actual ancestry after the checkpoint integration; this addendum alone is not proof of a push. Reopen a lane only upon the concrete evidence condition in its R6 result, after fresh prior-art and complete relevant public EMC coverage review.

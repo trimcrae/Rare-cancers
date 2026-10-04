@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-04T21:54:50.765768+00:00",
+  "question": "Can a separately indexed BO-112 single-cell GEO series supply patient 010/011/012 subtype identities or demonstrate donor overlap for the frozen R6 cell-resolved eligibility gate?",
+  "trigger": "The worker correctly left GSE313859 patients010/011/012 histology unresolved. Its broad GEO candidate file separately lists GSE279852 with BO112 patient-numbered samples and a three-subtype series description; shared labels are not proof of the same donor.",
+  "source_sha256": "2b64149c211732787f55195647b558ae3a8adb42372ee669bb5cd00fc6caa6c5",
+  "primary_accessions": [
+    "GSE279852",
+    "GSE313859"
+  ],
+  "prespecified_decisive_checks": [
+    "Compare original GEO series titles, dates, institutions, linked publications and BioSample accession IDs.",
+    "Extract all patient-numbered titles and any source-published individual diagnosis fields across both series.",
+    "Require a primary source explicit crosswalk or identical BioSample/patient-study identifiers to call donor identity; numerical label alone is insufficient.",
+    "If no crosswalk, retain all donor subtype gaps and potential overlap as unresolved."
+  ],
+  "stop": "One bounded official GEO/primary-source metadata check using no more than4MiB retained lead files; no expression values, broad download, blocked-content alternate routes or EMC biology inference.",
+  "scientific_meaning": "Eligibility/independence challenge only. Even confirmed non-EMC identities would not be a novel EMC biological finding."
+}

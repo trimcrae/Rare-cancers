@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-04",
+  "reviewer": "lead, independent of spatial_omics worker",
+  "frozen_packet": {
+    "manifest_sha256": "56d4c74b0bc704b2181dfa9b37a7e516cb49fba7f411e0b7bd9b6a1826ea5333",
+    "results_sha256": "e4b92dc648fc8bea89516cedb70eb049f625980432af182cb30174d8358cf1a8",
+    "coverage_sha256": "883d6b14c757e8f7cd98f218b457e28eb3b839071ce673fc276d816016022eaa",
+    "plan_sha256": "f78f8f9ca62d4c6aa480ae90018b65f95c41ca357e6817a425f286f89c020a89"
+  },
+  "challenge": "I checked whether a separate BO-112 GEO series could authenticate the unresolved GSE313859 donors or expose cross-series donor reuse. GSE279852 has BO112-numbered patients 004, 010 and 011 in common numerically with GSE313859, but its published series-level three-subtype summary and numerical labels do not establish identical people or transfer subtype diagnoses. The individual histology of GSE313859 patients 010, 011 and 012 remains unresolved. The prospective check and exact source hashes are in LEAD-BO112-CROSSWALK-PLAN.json and LEAD-BO112-CROSSWALK.json.",
+  "other_omission_checks": [
+    "The frozen worker packet explicitly distinguishes eight epithelioid-sarcoma single-cell specimens and four epithelioid-sarcoma spatial specimens from Ngo's EMC bulk comparator; no cell-resolved EMC claim is borrowed from bulk RNA.",
+    "GSE313859 library, donor and time-point counts are not conflated; patient 004 spatial samples have original myxofibrosarcoma BioSample identity, while 010/011/012 remain pending.",
+    "CASSIS expanded donor roster, scTumor inherited roster, Luthria fresh technical sample and CellSARCTx primary abstract remain source/identity gaps. They are not scored as negative EMC evidence.",
+    "The previous Subramanian atlas evaluation is SHA-bound and reused. No repeated analysis was needed for unchanged source metadata."
+  ],
+  "validity": "The source-gate decision is supported: no newly authenticated cell-resolved EMC observation qualified for a numerical biological pilot. This does not prove that no public EMC cell-resolved measurement exists.",
+  "scientific_value": "No new EMC tumor or microenvironment state was measured. The bounded source classification is useful for preventing misattribution but does not justify a standalone disease paper.",
+  "decision": "SHELVE this standalone candidate; keep identity/access gaps visible. Reopen only with authentic EMC specimen and condition labels, relevant direct measurement, donor independence and a consequential comparison; then refresh complete public EMC coverage and independent challenge.",
+  "review_scope_limit": "Lead independently challenged eligibility and omissions, not every retained raw-byte receipt or every possible public atlas. No manuscript claim was advanced."
+}

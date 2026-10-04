@@ -1129,6 +1129,42 @@
       ],
       "read_by": [
         {
+          "file": "research/autonomy/fresh-discovery-2026-10-04-round6/nr4a3_regulatory/COVERAGE.txt",
+          "use": "R6 source coverage names H-EMC-SS solely as an identity-uncertain model, with no EMC result grounded on it",
+          "classification": "unaffected",
+          "why_unaffected": "The text explicitly retains its identity uncertainty and does not accept the line as an authenticated EMC model or infer an EMC phenotype from it."
+        },
+        {
+          "file": "research/autonomy/fresh-discovery-2026-10-04-round6/nr4a3_regulatory/PLAN.txt",
+          "use": "Prospective search alias accompanied by an explicit identity caution",
+          "classification": "unaffected",
+          "why_unaffected": "A search target is not a model-authentication or disease claim; the plan requires actual EMC authentication before analysis."
+        },
+        {
+          "file": "research/autonomy/fresh-discovery-2026-10-04-round6/nr4a3_regulatory/fetch_gate.py",
+          "use": "Europe PMC retrieval query includes the disputed line name to discover records about it",
+          "classification": "unaffected",
+          "why_unaffected": "The code performs retrieval only; it does not treat the line as an EMC observation."
+        },
+        {
+          "file": "research/autonomy/fresh-discovery-2026-10-04-round6/nr4a3_regulatory/model-query-title-screen.json",
+          "use": "Original paper title returned by a model-record title screen",
+          "classification": "unaffected",
+          "why_unaffected": "A source title is retained as provenance and is not adopted as validated cell-line identity or an EMC result."
+        },
+        {
+          "file": "research/autonomy/fresh-discovery-2026-10-04-round6/nr4a3_regulatory/queries.json",
+          "use": "Stored search query containing the disputed model name",
+          "classification": "unaffected",
+          "why_unaffected": "The query seeks relevant literature; it does not establish identity or read a phenotype."
+        },
+        {
+          "file": "research/autonomy/fresh-discovery-2026-10-04-round6/nr4a3_regulatory/retrieval.json",
+          "use": "Exact retrieval URL and response receipt for the model-name search",
+          "classification": "unaffected",
+          "why_unaffected": "The receipt documents access and source bytes only; no EMC claim is grounded on this model."
+        },
+        {
           "file": "research/manuscripts/surface-targets/emc-surface-target-landscape.md",
           "use": "PREPRINT. Title/abstract framing, §2.2 class definition, §3.1 + Table 1, §3.5, §6, §7",
           "classification": "invalidated",

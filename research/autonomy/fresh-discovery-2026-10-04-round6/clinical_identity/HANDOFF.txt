@@ -1,0 +1,23 @@
+R6 CLINICAL IDENTITY — durable handoff, 2026-10-04
+
+Decision: SHELVE standalone imaging proposal after the five-source identity gate. No surviving new disease finding and no qualified numerical EMC pilot. Do not convert this into an absence paper or a source-inventory paper. No full manuscript was drafted.
+
+Read PLAN.json, RESULTS.txt, COVERAGE.json and eligibility-results.json first. The source gate was frozen before any new source-specific EMC outcome values; no authenticated EMC values were identified. The original frozen plan remains unchanged.
+
+Remaining questions: the131 generic sarcomas in Hirmas2023, two in Naeimi2023 and ten in Mei2023 require individual identities and scan mapping. Mei's written guide, four teaching cases and test case were not recovered. Liver2026 S1:4 pleomorphic sarcoma remains unconfirmed; the source's11-sarcoma grouping is inconsistent with ten mesenchymal-labelled rows unless its neuroendocrine row is counted. Do not resolve that source discrepancy by assumption. Hirmas2024 explicitly excludes sarcoma and is unsuitable for this analyzed EMC question. Every other unchanged R5 coverage gap remains open.
+
+Donor overlap: Essen reports cannot be added as independent cohorts. Heidelberg source overlap is unresolved. Liver2026 and Gu2022 share Fudan Shanghai Cancer Center, IRB2004216-25 and overlapping May2020 recruitment periods. The unchanged Gu source was read solely to verify this overlap, with its source hash preserved.
+
+Reopen only after a public, authenticated EMC-to-scan/lesion mapping exposes actual measurements or independently verified detection outcomes that answer a useful question beyond the original study. Resolve relevant public observations, protocol/treatment timing and donor overlap, then conduct independent challenge before advancement. No credible distinct EMC-specific next analysis with already-authenticated measured inputs arose from these inspected sources. Incidental broader-study titles are pending identity routes, not promising demonstrated opportunities.
+
+Executed: fetch_sources.py; fetch_primary.py; inspect_primary.py; fetch_details.py; extract_details.py; fetch_supplement_links.py; inspect_routes.py; fetch_hirmas_pdf.py; evaluate_eligibility.py. Small PowerShell/Python read-only inspections supplied source-link and overlap checks. Dated web search receipts retain primary indexed text where original-byte retrieval failed. The attempted ordinary publisher403/EPMC500 and PMC CAPTCHA are recorded; no CAPTCHA interaction, login, paid request or external write occurred. No platform-denied earlier tissue/glycan/WGS/HLA-review content was read or retried.
+
+Reproduce offline from this directory using an installed Python with pypdf:
+  python evaluate_eligibility.py
+Optional unchanged R5 overlap source:
+  python evaluate_eligibility.py --gu-source PATH/TO/gu2022.xml
+The calculation prints PASS for the76 individual liver rows,14 timepoint categories, zero authenticated EMC and no numeric pilot. Source bytes and SHA256 are retained. Original web indexed-text snapshots are not falsely labelled original XML/PDF.
+
+Worker owns only this lane. Prior R1–R5 packets and shared graph/queue were not edited. No Git commit, push, PR, manuscript submission, outreach or external scientific record write was performed. Git receipt and final manifest/freeze supply exact local status. All process handles started by this lane completed; no owned process remains running at freeze. Minimum10GiB disk floor was checked before retrieval; retained lane cap16MiB was respected.
+
+Independent review: reciprocal current-R6 read-only challenge with functional_models. The NR4A3 regulatory review is scoped to current permitted result/metadata files; it does not represent a review of denied content. Any corrections and final hash receipts are preserved separately.

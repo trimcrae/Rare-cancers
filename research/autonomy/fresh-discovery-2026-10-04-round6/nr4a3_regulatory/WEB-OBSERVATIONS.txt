@@ -1,0 +1,23 @@
+Primary web/source-reader observations, 2026-10-04; no UI/browser automation.
+
+Exact primary URLs inspected beyond retained API receipts:
+https://pmc.ncbi.nlm.nih.gov/articles/PMC13105821/
+  Initial primary main text available; engineered 293T context and published
+  NR4A3-fusion chromatin effects evaluated. Later find/open returned CAPTCHA.
+  No bypass/retry through another full-text route after CAPTCHA. No local source
+  bytes saved from first tool result, so no invented local source SHA256.
+https://www.sciencedirect.com/science/article/abs/pii/S016546080300503X
+  Primary 2004 SIX3/NOR1 abstract and metadata evaluated via indexed primary page.
+  Retained independent exact-DOI EPMC abstract is the reproducible source receipt.
+https://pubmed.ncbi.nlm.nih.gov/12543801/
+  Primary 2003 abstract/metadata retained through EPMC query core records.
+
+Queries included exact SIX3 paper title, NR4A3 chromatin/knockdown fusion aliases,
+TFG-TEC chromatin and authentic model names. Main API query strings, complete
+responses, date/status/hash are in queries.json, retrieval.json and geo-retrieval.
+A guessed AACR modern article path failed; that is not a correct-URL availability
+assessment. No login, CAPTCHA, paywall or platform-restriction workaround.
+
+This record reports observed primary-page text, not a downloaded full-text corpus.
+Selection/assay judgments are in COVERAGE; metadata return counts are not scientific
+evaluation counts. No expression or chromatin signal matrix was analyzed.
