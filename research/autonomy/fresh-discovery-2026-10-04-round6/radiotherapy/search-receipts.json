@@ -1,0 +1,66 @@
+{
+  "queries": {
+    "rt_search.json": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extraosseous myxoid chondrosarcoma\") AND (radiotherapy OR radiation OR margins OR surgery)",
+    "aliases_search.json": "(\"myxoid chondrosarcoma of soft parts\" OR \"NR4A3\") AND (radiotherapy OR \"local recurrence\")",
+    "broader_search.json": "\"myxoid chondrosarcoma\" AND (\"soft tissue sarcoma\" OR \"soft-tissue sarcoma\") AND (radiotherapy OR radiation OR \"local control\")",
+    "series_search.json": "\"extraskeletal myxoid chondrosarcoma\" AND (Bishop OR Gusho OR Brodsky OR Kawaguchi OR Saleh OR Meis-Kindblom OR McGrory)",
+    "recent_search.json": "\"extraskeletal myxoid chondrosarcoma\" AND FIRST_PDATE:[2024-01-01 TO 2026-10-04]"
+  },
+  "receipts": [
+    {
+      "key": "rt_search.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22extraskeletal+myxoid+chondrosarcoma%22+OR+%22extraosseous+myxoid+chondrosarcoma%22%29+AND+%28radiotherapy+OR+radiation+OR+margins+OR+surgery%29&format=json&resultType=core&pageSize=1000",
+      "utc": "2026-10-04T21:49:51.045508+00:00",
+      "status": 200,
+      "bytes": 5714619,
+      "sha256": "3de9f729d7cee95d6a0322595ae77163688f71f820610ad2abacd90b3987730e",
+      "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22extraskeletal+myxoid+chondrosarcoma%22+OR+%22extraosseous+myxoid+chondrosarcoma%22%29+AND+%28radiotherapy+OR+radiation+OR+margins+OR+surgery%29&format=json&resultType=core&pageSize=1000",
+      "content_type": "application/json;charset=UTF-8",
+      "cache": "/workspace/emc-r6-radiotherapy/source-cache/rt_search.json"
+    },
+    {
+      "key": "aliases_search.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22myxoid+chondrosarcoma+of+soft+parts%22+OR+%22NR4A3%22%29+AND+%28radiotherapy+OR+%22local+recurrence%22%29&format=json&resultType=core&pageSize=1000",
+      "utc": "2026-10-04T21:49:51.046405+00:00",
+      "status": 200,
+      "bytes": 3859123,
+      "sha256": "0c301a46e660425bd75e653619c068fca84fafdfd0253a45a3ed11e48d82c325",
+      "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22myxoid+chondrosarcoma+of+soft+parts%22+OR+%22NR4A3%22%29+AND+%28radiotherapy+OR+%22local+recurrence%22%29&format=json&resultType=core&pageSize=1000",
+      "content_type": "application/json;charset=UTF-8",
+      "cache": "/workspace/emc-r6-radiotherapy/source-cache/aliases_search.json"
+    },
+    {
+      "key": "broader_search.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22myxoid+chondrosarcoma%22+AND+%28%22soft+tissue+sarcoma%22+OR+%22soft-tissue+sarcoma%22%29+AND+%28radiotherapy+OR+radiation+OR+%22local+control%22%29&format=json&resultType=core&pageSize=1000",
+      "utc": "2026-10-04T21:49:51.046969+00:00",
+      "status": 200,
+      "bytes": 2776130,
+      "sha256": "35979434edfd16756505b69471cced6ab7942272fadbaee7466d754c433b75b7",
+      "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22myxoid+chondrosarcoma%22+AND+%28%22soft+tissue+sarcoma%22+OR+%22soft-tissue+sarcoma%22%29+AND+%28radiotherapy+OR+radiation+OR+%22local+control%22%29&format=json&resultType=core&pageSize=1000",
+      "content_type": "application/json;charset=UTF-8",
+      "cache": "/workspace/emc-r6-radiotherapy/source-cache/broader_search.json"
+    },
+    {
+      "key": "series_search.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22extraskeletal+myxoid+chondrosarcoma%22+AND+%28Bishop+OR+Gusho+OR+Brodsky+OR+Kawaguchi+OR+Saleh+OR+Meis-Kindblom+OR+McGrory%29&format=json&resultType=core&pageSize=1000",
+      "utc": "2026-10-04T21:49:51.047496+00:00",
+      "status": 200,
+      "bytes": 542376,
+      "sha256": "9a8a1cc8c780f090cbafeccac893e99f1c3c155bf1f8d1295bd1d5e82b4249ee",
+      "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22extraskeletal+myxoid+chondrosarcoma%22+AND+%28Bishop+OR+Gusho+OR+Brodsky+OR+Kawaguchi+OR+Saleh+OR+Meis-Kindblom+OR+McGrory%29&format=json&resultType=core&pageSize=1000",
+      "content_type": "application/json;charset=UTF-8",
+      "cache": "/workspace/emc-r6-radiotherapy/source-cache/series_search.json"
+    },
+    {
+      "key": "recent_search.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22extraskeletal+myxoid+chondrosarcoma%22+AND+FIRST_PDATE%3A%5B2024-01-01+TO+2026-10-04%5D&format=json&resultType=core&pageSize=1000",
+      "utc": "2026-10-04T21:49:51.048958+00:00",
+      "status": 200,
+      "bytes": 1543294,
+      "sha256": "fcdb68524b678993a98ece7a69cc26773e77082cc6d48a26e5d30c2c26ad9cfb",
+      "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22extraskeletal+myxoid+chondrosarcoma%22+AND+FIRST_PDATE%3A%5B2024-01-01+TO+2026-10-04%5D&format=json&resultType=core&pageSize=1000",
+      "content_type": "application/json;charset=UTF-8",
+      "cache": "/workspace/emc-r6-radiotherapy/source-cache/recent_search.json"
+    }
+  ]
+}

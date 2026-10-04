@@ -1,0 +1,274 @@
+{
+  "utc": "2026-10-04T22:09:14.300450+00:00",
+  "analysis_scope": "descriptive complete-row measurement gate, not a treatment effect analysis",
+  "fice2022": {
+    "source": "Fice2022 DOI10.1177/20363613221079754 PMC8891938",
+    "source_sha256": "85d1a233e91feef6283cbcba28482f20371fae791a4a6093dcdc3263e8f7009f",
+    "all_rows_evaluated": 15,
+    "table_surgery_Y_rows": 13,
+    "table_surgery_N_rows": 2,
+    "narrative_surgery_counts": {
+      "operated": 12,
+      "not_operated": 3,
+      "margin_linkage": "unresolved versus table13/2; no individually assigned negative margins"
+    },
+    "eligible_rows": 10,
+    "excluded": {
+      "3": "no surgical resection",
+      "5": "metastatic at presentation",
+      "7": "locally recurrent at presentation",
+      "8": "metastatic at presentation",
+      "9": "no surgical resection"
+    },
+    "groups": {
+      "RT": {
+        "cases": [
+          "2",
+          "4",
+          "11",
+          "12",
+          "13",
+          "14"
+        ],
+        "n": 6,
+        "printed_subsequent_local_recurrence_cases": [],
+        "printed_no_local_recurrence_cases": [
+          "2",
+          "4",
+          "12",
+          "13",
+          "14"
+        ],
+        "unknown_local_recurrence_cases": [
+          "11"
+        ],
+        "followup_range_months": [
+          21.0,
+          117.0
+        ]
+      },
+      "no_RT": {
+        "cases": [
+          "1",
+          "6",
+          "10",
+          "15"
+        ],
+        "n": 4,
+        "printed_subsequent_local_recurrence_cases": [
+          "10"
+        ],
+        "printed_no_local_recurrence_cases": [
+          "1",
+          "6",
+          "15"
+        ],
+        "unknown_local_recurrence_cases": [],
+        "followup_range_months": [
+          7.0,
+          286.0
+        ]
+      }
+    },
+    "narrative_quote": "Nine of twelve (75%) patients who underwent wide local excision also received neo- or adjuvant radiation therapy. Eight of nine (88.9%) patients who received radiation therapy remained disease free without local or distant disease recurrence. Only one patient (11.1%) experienced local recurrence or metastatic progression ( Table 2 ). This involved four separate episodes of local recurrence, each achieving negative margin resection, and one instance of metastatic disease to the lungs requiring a metastasectomy. Time to original local recurrence was 11 years and the patient has been disease free for the past 4 years ( Table 2 ).",
+    "interpretation": "Table2 case10 has no RT and subsequent local recurrence; source narrative places the sole subsequent recurrence in RT group. Case11 outcome blank. Individual first-event times/treatment dates and narrative-table crosswalk unresolved. No KM, effect estimate or efficacy inference justified."
+  },
+  "spalek2022": {
+    "source": "Spalek2022 DOI10.1177/17588359211070646 PMC8848098",
+    "raw_zip_sha256": "72bc6647cdd8c9c3349c3f597163b0206d59a7d9af59c78763b0123fc01f6203",
+    "main_table_EMC_patient_count": 2,
+    "sheets": [
+      {
+        "file": "sj-xlsx-13-tam-10.1177_17588359211070646.xlsx",
+        "sha256": "ebad7e4e9d145ab676e14dbfa0368ede67480a7fcc7700afff4e7fc86faf13e6",
+        "sheet": "Sheet 1",
+        "rows": 49,
+        "title": "Supplementary Table S5. Exploratory analysis of differences between subgroups based on indication for stereotactic radiotherapy"
+      },
+      {
+        "file": "sj-xlsx-9-tam-10.1177_17588359211070646.xlsx",
+        "sha256": "e6852f2b18fa605767ee51022751ae2b27321cd70bd566740c00b80990868545",
+        "sheet": "Chemotherapy during SRT",
+        "rows": 12,
+        "title": "Supplementary Table S1. Used chemotherapy regimens"
+      },
+      {
+        "file": "sj-xlsx-9-tam-10.1177_17588359211070646.xlsx",
+        "sha256": "e6852f2b18fa605767ee51022751ae2b27321cd70bd566740c00b80990868545",
+        "sheet": "Chemotherapy 3m pre-SRT",
+        "rows": 4,
+        "title": "Supplementary Table S1. Used chemotherapy regimens"
+      },
+      {
+        "file": "sj-xlsx-9-tam-10.1177_17588359211070646.xlsx",
+        "sha256": "e6852f2b18fa605767ee51022751ae2b27321cd70bd566740c00b80990868545",
+        "sheet": "Chemohterapy 3m post-SRT",
+        "rows": 6,
+        "title": "Supplementary Table S1. Used chemotherapy regimens"
+      },
+      {
+        "file": "sj-xlsx-11-tam-10.1177_17588359211070646.xlsx",
+        "sha256": "74a3b012dd437db1f3ea4746dee963ceae2c79b33239869381f9bd3483d8267e",
+        "sheet": "Sheet 1",
+        "rows": 22,
+        "title": "Supplementary Table S3. Patients who experienced local progression after stereotactic radiotherapy"
+      }
+    ],
+    "EMC_named_rows": [],
+    "local_failure_roster": [
+      {
+        "published_number": 1,
+        "histology": "Malignant peripheral nerve sheath tumor",
+        "indication": "local recurrence",
+        "site": "Head and neck",
+        "best_response": "PD"
+      },
+      {
+        "published_number": 2,
+        "histology": "Osteosarcoma",
+        "indication": "oligometastases",
+        "site": "Spine",
+        "best_response": "SD"
+      },
+      {
+        "published_number": 3,
+        "histology": "Leiomyosarcoma",
+        "indication": "oligometastases",
+        "site": "Other",
+        "best_response": "SD"
+      },
+      {
+        "published_number": 4,
+        "histology": "Malignant peripheral nerve sheath tumor",
+        "indication": "postoperative (R2 surgery)",
+        "site": "Spine",
+        "best_response": "SD"
+      },
+      {
+        "published_number": 5,
+        "histology": "Chondrosarcoma",
+        "indication": "oligometastases",
+        "site": "Lungs",
+        "best_response": "PD"
+      },
+      {
+        "published_number": 6,
+        "histology": "Osteosarcoma",
+        "indication": "local recurrence",
+        "site": "Head and neck",
+        "best_response": "PD"
+      },
+      {
+        "published_number": 7,
+        "histology": "Liposarcoma",
+        "indication": "oligometastases",
+        "site": "Spine",
+        "best_response": "PD"
+      },
+      {
+        "published_number": 8,
+        "histology": "Epithelioid hemangioendothelioma",
+        "indication": "oligometastases",
+        "site": "Non-spinal bones",
+        "best_response": "SD"
+      },
+      {
+        "published_number": 9,
+        "histology": "Leiomyosarcoma",
+        "indication": "oligoprogression",
+        "site": "Liver",
+        "best_response": "PD"
+      },
+      {
+        "published_number": 10,
+        "histology": "Alveolar soft part sarcoma",
+        "indication": "oligoprogression",
+        "site": "Liver",
+        "best_response": "PD"
+      },
+      {
+        "published_number": 11,
+        "histology": "Leiomyosarcoma",
+        "indication": "unresectable primary",
+        "site": "Abdominal cavity",
+        "best_response": "SD"
+      },
+      {
+        "published_number": 12,
+        "histology": "Osteosarcoma",
+        "indication": "local recurrence",
+        "site": "Head and neck",
+        "best_response": "SD"
+      },
+      {
+        "published_number": 13,
+        "histology": "Chondrosarcoma",
+        "indication": "local recurrence",
+        "site": "Head and neck",
+        "best_response": "PD"
+      },
+      {
+        "published_number": 14,
+        "histology": "Solitary fibrous tumor",
+        "indication": "oligometastases",
+        "site": "Non-spinal bones",
+        "best_response": "SD"
+      },
+      {
+        "published_number": 14,
+        "histology": "Solitary fibrous tumor",
+        "indication": "oligometastases",
+        "site": "Non-spinal bones",
+        "best_response": "PD"
+      },
+      {
+        "published_number": 14,
+        "histology": "Solitary fibrous tumor",
+        "indication": "oligoprogression",
+        "site": "Spine",
+        "best_response": "PD"
+      },
+      {
+        "published_number": 14,
+        "histology": "Solitary fibrous tumor",
+        "indication": "oligoprogression",
+        "site": "Non-spinal bones",
+        "best_response": "PD"
+      },
+      {
+        "published_number": 14,
+        "histology": "Solitary fibrous tumor",
+        "indication": "oligoprogression",
+        "site": "Spine",
+        "best_response": "PD"
+      },
+      {
+        "published_number": 15,
+        "histology": "Undifferentiated pleomorphic sarcoma",
+        "indication": "oligometastases",
+        "site": "Lungs",
+        "best_response": "PD"
+      }
+    ],
+    "interpretation": "MainTable1 authenticates two EMC donors. All supplied XLSX sheets were evaluated; TableS3 exposes local-progressing SRT records, with no EMC-labelled failure. Supplements do not release the two EMC patient/lesion/treatment/follow-up crosswalks. Absence from failure roster cannot estimate EMC control duration or efficacy; all repeated lesions remain donor-dependent."
+  },
+  "palliative2010": {
+    "source": "Palliative RT2010 PMC2834957",
+    "source_sha256": "7693aa1c9a384ed099279fb22e73e53b22c2b0764d10cc346cc012feb7248f79",
+    "all_table_rows_inspected": 17,
+    "eligible_generic_histology_row": {
+      "Pt": "4",
+      "Age": "71",
+      "Sex": "M",
+      "Site": "Pelvis",
+      "Pathology": "Myxoid Chondrosarcoma",
+      "Indication of Treatment": "Palliation",
+      "DDD": "13",
+      "TTLP": "266",
+      "TTDP": ""
+    },
+    "time_units": "days",
+    "interpretation": "Generic histology identity unresolved;266 is local-progression time and distant-progression cell is blank. Advanced palliative context, no primary surgical-margin comparator."
+  },
+  "dependency_openpyxl_version": "3.1.5"
+}

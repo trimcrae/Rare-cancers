@@ -1,0 +1,19 @@
+4 October 2026, independent review correction before freeze
+
+Diagnostic worker independently read intact Fice primary XML and confirmed the
+case10 RT/recurrence disagreement and case11 empty local-recurrence cell. It also
+found a further inconsistency I had missed: Table2 has13 surgery-Y and2 surgery-N
+rows (nonsurgical cases3 and9), whereas narrative says12 operated/3not operated.
+
+AMENDMENT-01 repeated the narrative nonsurgical count and must not be used to
+assign individual negative-margin status. Preserve it as originally written.
+The corrected audit follows the actual table: exclude two table-nonsurgical
+patients, two metastatic-at-presentation patients and one recurrent-at-presentation
+patient, leaving the same ten eligible table rows. All15 rows remain retained.
+
+Do not attach the statement 'all12 operations had negative margins' to each of
+the13 table surgery-Y rows. Their individual margin linkage is unresolved.
+analyze_measurement_gate.py and its TSV/result output now record that fact and
+the narrative/table12/3 versus13/2 discrepancy explicitly. This further defeats
+an authenticated margin-stratified treatment analysis; it does not establish
+anything about RT efficacy or overturn the entire published clinical series.

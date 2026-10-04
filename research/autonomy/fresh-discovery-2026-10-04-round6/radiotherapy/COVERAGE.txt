@@ -1,0 +1,253 @@
+Dated RT/local-control coverage: 4 October 2026. No manuscript is advancing.
+The search is not exhausted. This packet preserves a useful-data/value pilot,
+not a systematic-review or causal-effect claim.
+
+Scope frozen in PLAN.md: public individual EMC treatment, presentation, surgical
+margin, local-event and observation histories that might permit a useful new
+comparison beyond original authors. Positive selected RT responses also bear on
+any attempt to mistake this shelving decision for radioresistance. Every released
+eligible row/condition within an evaluated source was inspected. Patient identity,
+microscopic margins, final follow-up and event times remain separate variables.
+
+Discovery: EuropePMC queries in search-receipts.json returned all first-page hits:
+822 RT/margin/surgery;514 historical/gene aliases;391 broader sarcoma/RT;82 named
+series;202 recent EMC. All were below the1000-result limit. Their union contained
+1,338 metadata hits, including citation-only/differential-diagnosis hits. The
+compact discovery-catalog.json is an inventory, not1,338 completed evaluations.
+Primary citation trails, actual supplements, existing clinical census and R2
+clinical records were also inspected. Search aliases include extraskeletal,
+extraosseous, myxoid chondrosarcoma of soft parts, NR4A3 and named clinical authors.
+
+Source statuses apply only to specified measurements. A source with evaluated
+printed aggregates can also have unavailable individual crosswalks; a preview,
+abstract, citation or download is not full patient-level evaluation. Source hashes
+and cache/portable distinctions are in SOURCE-HASHES.json. No pooling was done.
+
+EVALUATED — original primary measurements
+
+Bishop2019 DOI10.1097/COC.0000000000000590, PMC7771031:
+All41 localized patients' published Tables1–2 and full author manuscript evaluated.
+33 combined surgery/RT and8 surgery alone;35 negative and6positive/uncertain margins;
+5 local failures. Four failures followed surgery alone; the combined-treatment
+failure was at143months, beyond10years. Original authors already fit a model with
+margin,size,prior treatment and therapy; surgery-alone HR12.7,95%CI1.4–115.3.
+This removes novelty from simply adjusting for margins/presentation. Only5events
+and no joint individual RT×margin×presentation×event/censoring crosswalk prevent
+an independent added-value analysis. Clock starts at completion of local therapy.
+MDACC1990–2016 can overlap earlier Saleh and broader USSC cohorts; exact donor
+overlap unverified. EPMC XML500/PMCchallenge were real retrieval failures; NCBI
+BioC subsequently supplied the actual author manuscript. Receipt and exact hash
+in extra-source-receipts.json; whole primary remains cache-only.
+
+Fice2022 DOI10.1177/20363613221079754, PMC8891938:
+All15Table2 rows, footnotes, Table1 and narrative evaluated. Table2 has13surgery-Y
+and2surgery-N rows, whereas prose says12operations/3nonoperations. Case10 says
+surgeryY/preRT N/adjuvantRT N/localrecurrenceY/metastasisY; prose describes the sole
+later recurrence as in an irradiated patient. Case11's local-recurrence cell is
+empty. Do not impute it as N or assign all13 operated-table rows the narrative's
+12 negative margins. Individual margin linkage remains unresolved.
+The table-based primary localized surgery subset contains ten cases: exclude
+nonsurgical3/9, initial metastasis5/8 and initial local recurrence7. RTcases2/4/
+11/12/13/14 include five printed N local outcomes and one blank; noRTcases1/6/10/15
+include one printedY and threeN. Follow-up ranges21–117 versus7–286months. Narrative
+reports an11year event without a reliable table/treatment crosswalk. No effect,
+Kaplan–Meier estimate or efficacy conclusion was computed. Complete rows/script
+and audit are portable. Rush1992–2019; possible USSC overlap unverified. The
+independent reader found the13/2 versus12/3 discrepancy before freeze; see dated
+AMENDMENT-02, which corrects the preserved original amendment.
+
+Spalek2022 DOI10.1177/17588359211070646, PMC8848098:
+MainTable1 explicitly contains2EMC donors among141patients/233SRT procedures.
+All3provided XLSX files/all5sheets and2DOCX files inspected. TableS3 lists19 local-
+progressing treatment records from15published patient numbers; all19retained in
+measurement-gate-results.json. No failure is explicitly EMC-labelled. Two are
+generic chondrosarcoma, whose exact EMC/bone subtype linkage is not released;
+do not silently call them authenticated EMC or fully resolved non-EMC. No EMC
+named row occurs in any of the XLSX supplements. The2EMC donor IDs, conditions,
+treatment/follow-up durations and individual outcomes remain unavailable in the
+released data. This does not yield an EMC local-control rate, control duration or
+an adjusted primary-treatment comparison. Warsaw2010–2019; repeat lesions/SRTs
+are donor-dependent. Supplements/primary originals cache-only; small relevant
+roster and exact hashes are committed.
+
+Neri2025 DOI10.1159/000547333, PMC12503512:
+All5tables/full primary evaluated;2EMC among62unplanned-excision patients. No
+per-EMC RT/margin/event/follow-up crosswalk. Article says all generated/analyzed
+data are included; the printed aggregate is demonstrably unsuitable for the new
+individual comparison. Japan1994–2023 potentially overlaps Japanese series.
+
+Hemmelmann2021 DOI10.3390/cancers13205244, PMC8534061:
+All3tables and full primary evaluated. One generic myxoid-chondrosarcoma occurs
+within14other sarcomas/136patients; no individual treatment/outcome linkage or
+NR4A3 confirmation. EMC identity and conditions unresolved. Erlangen2000–2016.
+Underlying data are upon reasonable request; no request/outreach was made.
+
+Rao2022 DOI10.1002/cam4.4428, PMC8704179:
+Full primary/all5tables and actual supplemental DOCX evaluated. Non-neoadjuvant-
+RT 'other' group includes generic myxoid chondrosarcoma, without individual count/
+IDs/conditions; no authentic EMC RT crosswalk. Supplemental DOCX contains only
+histologic exemplar labels, not patient data. Direct PMC DOCX URL returned an
+HTML recaptcha challenge; ordinary EPMC supplementaryFiles subsequently returned
+the real archive. No browser/challenge-solving or bypass occurred. Duke1998–2015;
+USSC overlap unresolved. These aggregates are unsuitable for the new comparison.
+
+Palliative RT2010 DOI10.1155/2010/927972, PMC2834957:
+All17Table1rows evaluated. Patient4 is71M/pelvis/generic 'Myxoid Chondrosarcoma',
+palliative treatment duration13days, printed local-progression time266days,
+blank distant-progression time. Direct XMLcell inspection corrected a flattened-
+table column error before final freeze; seeAMENDMENT-03. EMC identity unresolved.
+No primary surgery/margin comparison, and final follow-up is not
+an event time. Other table cases are retained as identity checks, not EMC controls.
+
+Locally recurrent shoulder2020 DOI10.1186/s13569-020-00150-8, PMC7731621:
+One47M author-labelled EMC donor/all conditions evaluated. Initial R1 excision
+without RT, later35×15mm recurrence,50Gy/25fractions then16×6mm MRI lesion, wide
+resection without viable tumor,24months without relapse. Already original authors'
+published complete pathological response. One selected salvage donor, no control;
+possible Italian cohort overlap unverified. Does not establish general efficacy.
+
+HDR brachytherapy2022 DOI10.5114/jcb.2022.115161, PMC9044308:
+All3metastatic conditions/one87F NR4A3-positive donor evaluated: inguinal/breast/
+popliteal, each30Gy/2fractions, published treated-site control at41/36/36months.
+These are dependent lesions, already published authors' result, and primary
+presentation was metastatic. Not an independent margin-adjusted primary contrast.
+Table1 D90 uses Gy; narrative D90percent typo is retained as a limitation.
+
+SABR2025 DOI10.1159/000548238, PMC12659415:
+One39F author-labelled EMC donor and all8metastatic irradiated conditions plus
+primary treatment/local relapse evaluated: primary60Gy/25fractions+surgery2019
+followed by localrelapse2020;2metastatic lesions40Gy/5fractions2023;5newlesions
+35–40Gy/5fractions2024;1newlesion40Gy/5fractions2025. First7postSABR lesions have
+published complete/major responses; final2025course has no subsequent response
+measurement released. Primary failure and later positive lesions both retained.
+No NR4A3 assay printed; original2019 diagnosis was undifferentiated epitheliomorphic
+sarcoma, later author's EMC diagnosis retained without reclassification. Prior
+chemotherapy,sequential lesions and unequal follow-up; Genoa single donor. Does
+not support a primary margin-adjusted treatment comparison or general efficacy.
+
+VERIFIED EVALUATION REUSED — R2 sources, exact hashes in SOURCE-HASHES.json
+
+Drilon2008 DOI10.1002/cncr.23978: all73curative-intent aggregate outcomes/printed
+tables. Surgery51/RT22; localrecurrence18/51 versus9/22. Only43margin-known cases
+summarized:2/24R0,3/12R1,5/7R2. No joint RT/margin/event/censor crosswalk. Authors
+already acknowledge aggressive-disease RTselection. ClockWLE. MSK/RoyalMarsden
+1975–2006; later MSK cohorts may overlap.
+
+Chiusole2020 DOI10.3389/fonc.2020.00828: all59patients/fourtable measurements.
+49curative-intent;26R0with2localrecurrences and12R1with5. The23RT interventions
+must not be counted as23independent primary-RT patients;17locoregional-treated
+patients underwent1–17interventions each. Padova/GustaveRoussy1980–2018. No joint
+individual comparison; possible clinical/genomic overlap unverified.
+
+Paioli2021 DOI10.1245/s10434-020-08737-7: all67molecularly-confirmed aggregate
+patients;23RT/44surgery-only;51R0/16R1;13recurrent/14prior inadequate surgery/
+40untreated. Printed RT5/10yearLRFS93/93% versus82/62%,p=.17. No individualjoint
+crosswalk; full methods preview gap retained. Three ISGcenters1989–2016; earlier
+69caseJCO likely overlap, not independent.
+
+Masunaga2025 DOI10.1186/s13018-025-06245-6: all134localized operated patients
+within171registrypatients;24perioperativeRT/110noRT;104R0/30R1orR2. Published LRHR
+forRT .50 (95%CI .11–2.25), and marginHR4.76 (1.72–13.15). Authors already state
+indication bias and low-event/typeII-error limitations. Non-significance is not
+RTineffectiveness. Japan2002–2022; other Japanese cohorts/cases can overlap.
+
+Oliveira2000 DOI10.1038/modpathol.3880161: all23patientrows inspected; all primary
+treatments/local histories retained. WLE is not a microscopic-negative-margin
+measurement. Three baseline-metastatic rows remain identified. The verified
+Mayo distant-landmark analysis was not repeated. Fifteen known McGrory overlap.
+
+Turkish surgical2022 DOI10.55730/1300-0144.5422, PMC10387953: all13individualrows/
+3tables. Printed12negative/1positive margins,6RT,5ever localrecurrences. No local
+event times; follow-up Table1 and Table2 conflict. Suitable for reported histories,
+not a safe adjusted time-to-local-event model. Ankara2006–2018; no known overlap.
+
+Hu2018 DOI10.1186/s13569-018-0108-8, PMC6280406:
+R6challenge independently evaluated both irradiated lesions/oneEWSR1–NR4A3donor.
+Pelvic17.4×13.4cm/SUV3.6→11.8×9.2/SUV2.8; inguinal15.1×6.9/SUV3.3→12.1×4.6/SUV2.7
+approximately4months after45Gy/18fractions while continuing pazopanib. Positive
+published measurements, systemic-treatment confounding, one donor; no causal
+or new independent treatment result. Exact primary SHA256 and completecondition
+table in R6challenge/measurement-gate-results.json, keyRT_lesion_measurements.
+
+DEMONSTRABLY UNSUITABLE MEASUREMENT
+
+Kemmerer2018 DOI10.1097/COC.0000000000000341, Wagner2020 DOI10.1158/1055-9965.EPI-
+20-0447, Brown2022 DOI10.1016/j.ctarc.2022.100530: published primary abstracts
+evaluated. CSS/OS, not subsequent local recurrence or microscopic-margin/RT
+crosswalk. Their favorable/null treatment associations cannot substitute for
+local control. All SEER cohorts overlap substantially; no independent pooling.
+
+Older-age RT2015 DOI10.1016/j.jss.2015.06.020, PMC4789295: full BioC tables of
+15,380SEERSTS include generic myxoid-chondrosarcoma0.8% and histologyOS/DSSHRs.
+No local-event/margin crosswalk; rounded0.8% does not yield a real donor count.
+Historical coding identity unresolved. SEER1990–2011 overlaps later registry work.
+
+Septiani2026 DOI10.1016/j.radcr.2026.08.027, PMC13598529: allpublished conditions
+ofone43M author-labelled EMC donor evaluated. Wide excision/prosthesis,one-week
+postoperative imaging; RTunreported. Explicit no long-term follow-up limitation.
+Unreported RT is unknown, not noRT; no local-control measurement/NR4A3 assay.
+
+PMC13518623: erroneous accession selected in an early broader-source batch.
+Primary article is CLIP2::MET glioneuronal tumor, not EMC clinicalRT; it does
+not count toward EMC disease coverage. Preserved source, no scientific inference.
+
+UNAVAILABLE EVIDENCE
+
+Proton pelvic2023 DOI10.1136/bcr-2022-250218, PMC9890794: authentic source metadata
+only. EPMCXML500; NCBIBioCHTTP200 is an explicit 'No result can be found' error,
+not fulltext. Individual conditions not evaluated. No negative inference.
+
+PENDING ACCESSIBLE ANALYSIS / SOURCE AUTHENTICATION — preserved explicit gaps
+
+The following are not completed individual RT/margin/local-outcome evaluations.
+They block any promotion of a general claim, but shelving may stop further work.
+
+- Gusho2022 USSC60, DOI10.1002/jso.27062: primary abstract evaluated; all-cohort
+  RT/worseRFS association disappears in primary subset and authors explicitly
+  describe recurrent-disease confounding. Wiley403; full tables/crosswalk pending.
+- Brodsky2023 Michigan44, DOI10.1097/COC.0000000000000988: abstract evaluated;
+  RT/margin directional associations already printed. DOIHTTP402PaymentRequired;
+  no paid access. Full tables/patient crosswalk pending or inaccessible via route.
+- Meis-Kindblom1999 n117, DOI10.1097/00000478-199906000-00002: abstract and Bishop
+  citation trail evaluated; publisherHTML200 is not complete case-table evaluation.
+- Saleh1992 MDACC10, DOI10.1002/1097-0142(19921215)70:12<2827::AID-CNCR2820701217>
+  3.0.CO;2-V: abstract evaluated; original RT/margin/event rows unevaluated. Possible
+  MDACC overlap with Bishop, not independent until exact mapping.
+- Kawaguchi2003 Japan42, DOI10.1002/cncr.11162: abstract evaluated, wide-excision
+  benefit already conclusion. Wiley403; individualtables/crosswalk remain a gap.
+- McGrory2001 Mayo16, DOI10.1097/00003086-200101000-00025: abstract/known15Mayo
+  overlap reused; individual RT/local-event mapping not newly evaluated.
+- Ogura2012 n23, DOI10.1007/s00402-012-1557-9: R2abstract/tables reused. ThreeR1+
+  RTwithoutlocalrecurrence already reported. Fullmethods/time origin/crosswalk gap.
+- Chinese2026 n16, DOI10.3760/cma.j.cn112151-20251129-00787: primaryabstract
+  reports14followup/7localrecurrences/2distant; fullpatienttreatmentrows not evaluated.
+- Spanish2023 p53/Ki67 n31, DOI10.1007/s00428-022-03453-x: abstract marginprognosis
+  evaluated; individualRT/local-event table not evaluated. IHC project not reopened.
+- PeerJ2026 TempOSeq12, DOI10.7717/peerj.21497: R2H1FX evaluation/decision reused;
+  no RT/local-event crosswalk analyzed and no RNA project reopened here.
+- Minami2020 n35, DOI10.21873/anticanres.14039: R2abstractreused; fullpublisher403,
+  RT/local-control definitions/individual observations remain unevaluated.
+- Czarnecka2026 JCO37, DOI10.1200/JCO.2026.44.16_suppl.e23561: R2indexedabstract
+  reused; individual treatment/event crosswalk not released in evaluated abstract.
+- China2016 clinical40: originalR2coverage lead only; exact citation and patient
+  measurement authenticity unresolved, not a verified cohort input.
+- Filannino2018 metastaticRT+trabectedin, DOI10.4172/clinical-practice.1000433:
+  source identified from SABR2025 primary citation trail, primary conditions pending.
+- Lung irradiation1998, DOI10.2169/internalmedicine.37.625: metadata/citation
+  only, actual case conditions pending.
+- Additional radiotherapy case reports and broader sarcoma studies present in
+  discovery-catalog.json still require relevance screening, source authentication
+  and all eligible EMC condition evaluation. No implied convenient-source closure.
+
+Cross-source overlap is unresolved for MDACC/USSC, Mayo (15known duplicate cases),
+Italian referral/molecular cohorts, Japanese institutions/national registry,
+Warsaw longitudinal cohorts and overlapping SEER periods. No pool, meta-analysis
+or count of all sources as independent patients was performed. No technical
+replicates or multiple lesions were called independent donors.
+
+Reason for shelving is lack of added scientific value plus unsuitable/missing/
+inconsistent measurements. It is not evidence that RT is ineffective. Specific
+reopening requires an independent, authenticated individual primary-localized
+cohort with margin/presentation/treatment/event/observation linkage and a question
+that changes beliefs beyond already published adjusted associations and selection
+confounding. Public suitable pending data must be finished before any promotion.

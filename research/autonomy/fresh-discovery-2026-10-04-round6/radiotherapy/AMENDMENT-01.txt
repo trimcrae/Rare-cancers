@@ -1,0 +1,36 @@
+4 October 2026, after primary source inspection
+
+Timestamp correction: PLAN.md's initial 21:51 UTC label was an estimated task
+clock, not a clock-tool observation. The file was written before retrieve.py and
+before any new network source results. The clock-tool observation at 21:51:39 UTC
+occurred later, after retrieval. Preserve the original label; do not treat it as
+an exact execution receipt. Retrieval receipts carry actual runtime UTC.
+
+The primary Bishop2019 author manuscript already adjusts the RT/local recurrence
+association for surgical margin, tumor size and prior treatment. Therefore such
+adjustment alone is no longer a possible new contribution. It has only five local
+failures and no published individual treatment/margin/event/censoring crosswalk.
+
+Fice2022 Table2 permits a complete 15-row suitability check. Its Table2 and
+narrative disagree on treatment of the sole subsequent locally recurrent patient;
+case11's local-recurrence cell is genuinely blank, not an N. Before any further
+calculation, use the printed Table2 fields as observations, preserve blanks and
+the discordant narrative, and avoid imputing treatment or outcomes. Exclude from
+the primary localized-surgery comparison the three nonsurgical patients, two
+patients metastatic at presentation and the one patient locally recurrent at
+presentation. Margin is cohort-level negative for all12 operated patients, not
+an individually measured width or independently recoverable margin field.
+
+Perform only a descriptive completeness/common-observation-support audit across
+all15 rows: all exclusion reasons, RT schedule/type, eligible group sizes, known
+and missing local outcomes, follow-up range and availability of first-event times.
+No new hypothesis test, RT effect estimate or invented censor/event times. This
+is a prospective specification of the audit after inspecting source results,
+not a preregistered independent clinical validation. Unreported case11 outcome
+must remain unknown. The late recurrence is described at11years in narrative;
+RT recipients' shorter follow-up cannot be interpreted as its prevention.
+
+The most useful remaining pilot action is to inspect primary supplementary and
+broader sarcoma sources for authenticated EMC rows rather than produce a weak
+RT-versus-no-RT p-value on this tiny, inconsistent cohort. If no new worthwhile
+comparison emerges, shelve this standalone route and preserve incomplete coverage.

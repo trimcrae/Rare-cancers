@@ -1,0 +1,91 @@
+{
+  "utc": "2026-10-04T22:07:51.043783+00:00",
+  "status": "RT packet frozen before independent diagnostic challenge",
+  "base_revision": "887c7d7c110460f2b987a756397f407461ee66f6",
+  "decision": "Shelve standalone RT/local-control route; no new useful finding, not RT inefficacy. Search not exhausted.",
+  "files": {
+    "AMENDMENT-02-independent-source-check.txt": {
+      "bytes": 1248,
+      "sha256": "3327a2af72e37e9db58068d701624cab897083707f8ca52f26cc0f9b30379126"
+    },
+    "SOURCE-HASHES.json": {
+      "bytes": 20108,
+      "sha256": "bb58738b62c18571932e2600adcaa5cb14069aaf06d90775de74da58506627a7"
+    },
+    "measurement-gate-results.json": {
+      "bytes": 8857,
+      "sha256": "e3faaf8f44792367bf0b52b06b239d226046872d42b5aaceccc5c534368eb275"
+    },
+    "xml-receipts.json": {
+      "bytes": 2440,
+      "sha256": "e5e67d33214c2ff223af6d566f0c6f5cf90e8dd6946063587a71b03e5b00b236"
+    },
+    "AMENDMENT-01.txt": {
+      "bytes": 2430,
+      "sha256": "95e51cb02eacfdc0f1a05b1882ff05de9498e338e1e9a44aba099147a4a46430"
+    },
+    "search-receipts.json": {
+      "bytes": 5066,
+      "sha256": "56ccee403ecb224f5fe953495106a2a63d2ce3d5d4f686c03ef6dc135d41fa11"
+    },
+    "analyze_measurement_gate.py": {
+      "bytes": 7294,
+      "sha256": "eb964ab6efaa7f06bba124177510ffc699db4fb18ea75d0af98965d1845efdb8"
+    },
+    "broader-supplement-receipts.json": {
+      "bytes": 1617,
+      "sha256": "aa417b54df7ad79963776a4d68fbfd3d6e2ba87214a084cc934262a3ef33518a"
+    },
+    "COVERAGE.txt": {
+      "bytes": 16878,
+      "sha256": "c60efdb2360f86629ed4119efb3974a212b630292ea070399547d83c38e026af"
+    },
+    "retrieve.py": {
+      "bytes": 5079,
+      "sha256": "b0455ecffc9ea67fd888b181c0ea6a6aec30b998850eaab7e3132b274cd1f34d"
+    },
+    "extra-source-receipts.json": {
+      "bytes": 1406,
+      "sha256": "d46592a6f4f11bc9eac5a323fa0d5d5260dff6d174a4d9cf32a1de14e2231846"
+    },
+    "followup-source-receipts.json": {
+      "bytes": 1493,
+      "sha256": "6004484707e62ab0212f86f2be6560814c8e28742120a50562f294de27697c78"
+    },
+    "PLAN.md": {
+      "bytes": 4642,
+      "sha256": "3dfe8ace16ea208c22567dc1c5bd645e3305aeb99f8e78cf87623c5d456dabb6"
+    },
+    "supplement-receipts.json": {
+      "bytes": 540,
+      "sha256": "5941b42b74820f5c2c5e1632e3860c76e96f216824d623d4bd5f206249611bae"
+    },
+    "RESULTS.txt": {
+      "bytes": 4476,
+      "sha256": "57d756948cde59a9fda4fa8235aeade20a76a621c942c4a5723eab900e69baf5"
+    },
+    "discovery-catalog.json": {
+      "bytes": 403481,
+      "sha256": "4cd918475ac87ce7ea1e8076edadf71fa34ccb6b9c66410cf7e037603315186f"
+    },
+    "fice2022-all15-patient-measurements.tsv": {
+      "bytes": 2763,
+      "sha256": "eb8f2d0148d627030f8cd9a9c45d6bf396598606723075d761f5bc71c0922b77"
+    },
+    "primary-series-citations.json": {
+      "bytes": 4170,
+      "sha256": "e01a5c9737f92c42b5f08398acddb0d226037d05bbe118b7fc3ff3f3fabfdd31"
+    }
+  },
+  "validation": [
+    "Executed analyze_measurement_gate.py against intact primary XML and all XLSX sheets",
+    "15 Fice rows/270 raw fields retained;10 table-based primary localized operated rows",
+    "Independent diagnostic worker source check verified corrected13/2 surgery counts,unknown margin linkage,case10RT/narrative disagreement andcase11 blank",
+    "All19 Spalek local-failure records/15unique printed patient numbers evaluated;2EMC donor crosswalk unavailable",
+    "No clinical effect estimates,event-time imputation,synthetic patient reconstruction,clinical registry mutations or publication"
+  ],
+  "cache_bytes": 34424402,
+  "free_bytes": 27658457088,
+  "worker_owned_running_processes": false,
+  "integration": "Lead owns integration/push; no shared state changed."
+}

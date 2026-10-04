@@ -1,0 +1,15 @@
+4 October 2026, before final freeze
+
+A final primary XMLcell check corrected an error in my first written coverage of
+PMC2834957. Its flattened table text omitted emptycells. Actual case4 cells are:
+4 |71|M|Pelvis|Myxoid Chondrosarcoma|Palliation|13|266|empty.
+Headers end DDD|TTLP|TTDP, so266days is time to LOCAL progression, not distant
+progression; the distant cell is blank. The current coverage is corrected and
+analyze_measurement_gate.py now retains this exact row/header check. The earlier
+misinterpretation was my flattened-table read, not a source measurement error.
+
+This selected advanced generic-myxoidhistology patient provides a published local
+progression condition after palliative RT. EMC identity remains unresolved. It
+does not supply primary-treatment margins/comparators, establish RTineffectiveness
+or rescue the shelved comparison. Favorable selected cases and this progression
+observation are both preserved within their actual measurement scope.
