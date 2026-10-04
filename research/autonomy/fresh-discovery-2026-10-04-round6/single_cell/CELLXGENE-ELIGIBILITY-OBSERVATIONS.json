@@ -1,0 +1,93 @@
+{
+  "collections_screened": 396,
+  "screen_regex": "sarcoma|chondrosarcoma|extraskeletal|NR4A3",
+  "limitations": "Metadata search does not authenticate or exclude all generic tumor donors. It is not a cell-level biological evaluation.",
+  "matching_collections": [
+    {
+      "collection_id": "67d26b1d-2b78-4489-ac5e-0f33909a76cb",
+      "name": "A convergent cell state of lethal disease in rhabdomyosarcoma",
+      "description": "Our dataset contains single-cell and single-nuclei data for two cohorts for children with rhabdomyosarcoma (RMS) and other sarcomas, as well as single-cell data for two fusion-negative tumouroid models that were induced with the PAX3:FOXO1 fusion. For our first cohort, we sequenced 23 tumours (19 RMS and 4 Ewings), including 4 FP-ARMS, 1 FN-ARMS, and 13 FN-ERMS (2 harbouring MYOD1 mutations). In our second \u201cextension cohort\u201d we applied single-nuclei sequencing to 26 RMS, 2 Osteosarcoma, 1 Desmoplastic small round cell and 1 isolated Myofibroma tumour. Not all samples contained malignant cells. Finally, we applied single-cell sequencing to two fusion-negative RMS tumouroid models (RMS000OYW  & RMS444) - both control and with PAX3:FOXO1 overexpression.",
+      "doi": "10.1158/0008-5472.CAN-25-4403",
+      "datasets": [
+        {
+          "dataset_id": "e95b508e-0275-4b12-82c6-0cda7ee89bf9",
+          "assay": [
+            {
+              "label": "10x multiome",
+              "ontology_term_id": "EFO:0030059"
+            }
+          ],
+          "disease": [
+            {
+              "label": "desmoplastic small round cell tumor",
+              "ontology_term_id": "MONDO:0019373"
+            },
+            {
+              "label": "myofibroma",
+              "ontology_term_id": "MONDO:0006312"
+            },
+            {
+              "label": "osteosarcoma",
+              "ontology_term_id": "MONDO:0009807"
+            },
+            {
+              "label": "rhabdomyosarcoma",
+              "ontology_term_id": "MONDO:0005212"
+            }
+          ],
+          "suspension_type": [
+            "nucleus"
+          ]
+        },
+        {
+          "dataset_id": "b1d02f53-187f-4a40-80e3-d3c0646b7752",
+          "assay": [
+            {
+              "label": "10x 5' transcription profiling",
+              "ontology_term_id": "EFO:0030004"
+            }
+          ],
+          "disease": [
+            {
+              "label": "rhabdomyosarcoma",
+              "ontology_term_id": "MONDO:0005212"
+            }
+          ],
+          "suspension_type": [
+            "cell"
+          ]
+        },
+        {
+          "dataset_id": "1cb09bb9-bb9d-4264-870d-c1cab521f697",
+          "assay": [
+            {
+              "label": "10x 3' v2",
+              "ontology_term_id": "EFO:0009899"
+            },
+            {
+              "label": "10x 3' v3",
+              "ontology_term_id": "EFO:0009922"
+            },
+            {
+              "label": "10x 5' transcription profiling",
+              "ontology_term_id": "EFO:0030004"
+            }
+          ],
+          "disease": [
+            {
+              "label": "Ewing sarcoma",
+              "ontology_term_id": "MONDO:0012817"
+            },
+            {
+              "label": "rhabdomyosarcoma",
+              "ontology_term_id": "MONDO:0005212"
+            }
+          ],
+          "suspension_type": [
+            "cell"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+EMC malignant-cell heterogeneity source/value pilot, 4 October 2026
+
+Decision: shelve the standalone paper. No new publication-worthy finding survives
+this lane. The search is not exhausted. No authenticated EMC malignant-cell or
+spatial measurement was analyzed, so neither a positive nor a negative molecular
+result was established.
+
+The frozen question asked whether cell-level measurements distinguish malignant
+axon/neuroendocrine differentiation from proliferative states beyond bulk-tissue
+admixture and existing fusion/axon-guidance prior art. The evaluated public
+measurements did not pass authentication for this question. A correct source
+inventory, exclusion or annotation repair is not an EMC biological discovery.
+
+Actual new source work
+All 424 library metadata records from ten selected series were inspected, with one
+transient 502 followed by a successful, retained retry. These are libraries and
+conditions, not 424 independent patients. No expression matrix or raw sequencing
+library was downloaded and no specimen was chosen because of a favorable value.
+
+The scTumor preprint's complete 36-primary-type source roster was recovered from
+its actual supplemental PDF. It contains named sarcoma/mesenchymal categories
+DSRCT, MPNST, osteosarcoma, rhabdomyosarcoma, synovial sarcoma, GCTB and TGCT,
+with no EMC or unspecified sarcoma class. GSE319327's one newly deposited sample
+is retroperitoneal LMS. GEO's 494 samples/135,441 cells and the retrieved version2
+preprint's 499 samples/135,424 cells are retained as a version discrepancy, without
+pooling totals or treating cells as donors. Its generic cell-line source panels
+remain a separate incomplete model-identity check.
+
+All 59 GSE319124 libraries report RMS/EWS/OST/NBL disease labels. Two entries have
+discordant title prefixes and disease fields; both source labels are retained in
+ANNOTATION-CONFLICTS.json. All 277 GSE318841 sibling libraries were evaluated:
+RMS150, NBL53, EWS31, OST17, WT14 and RBL12. Each released measurement is a single
+RSEM gene-count vector at library level. GSE330883 is explicitly methylation,
+not cell-level transcriptomics. These sources do not close the study's headline
+352 single-cell/single-nucleus experiments or every donor/condition crosswalk.
+
+GSE200529's entire 26-library roster is OS/ES/DSRCT; its two generic MDA-SA98 titles
+have explicit OS cell-type fields. GSE184118's entire 11-library roster identifies
+conventional central/peripheral or dedifferentiated chondrosarcoma and other
+cartilaginous controls, rather than EMC. Later chondrosarcoma reanalyses reuse
+that cohort. GSE243381's 21 libraries include RNA, TCR and lpWGS measurements of
+the primary paper's five UPS and three intimal-sarcoma specimens, with six donor
+IDs and repeated X/Y donors. GSE336655 measures immune cells in JJ012 xenografts.
+The 2025 tumor-cluster study confines its scRNA experiments to SS/RMS; the 2025
+TLS study's external single-cell and spatial experiments concern HNSCC/NPC.
+
+BO-112 is an important unfinished source, not a non-EMC blanket exclusion.
+All 26 current libraries from GSE279852, GSE313859 and GSE313858 were inspected.
+Twenty conditions map to source-labelled MFS/LPS/UPS directly or by explicit
+overlapping BO112 patient codes. Patient004 is MFS and contributes all four
+spatial timepoints as well as overlapping single-cell specimens. Patient010/011
+are UPS in the older deposit. These reused donors cannot be pooled as independent.
+Six libraries across four donors remain unresolved: Patient012 baseline/surgery,
+Radiation-only001 CD45-negative/positive sorts, and Radiation-only002/003 surgery.
+All six conditions remain pending accessible identity analysis; there is no silent
+CD45-positive exclusion. The paired sorts are technical conditions of one donor.
+
+The BO-112 primary full XML returned500; BioC returned an ERROR response despite
+HTTP200. The real Figshare TableS2 aggregate roster and TableS10 individual outcomes
+were recovered, but neither crosswalks those remaining individual histologies.
+The aggregate UPS/spindle category is not independent NR4A3 authentication.
+Accessible processed measurements plus unresolved identity remain visible gaps;
+no source absence, negative EMC biology or full coverage claim follows.
+
+Reused decisions
+R3 already evaluated GSE213065/GSE212527/GSE212526 (87/7/4 metadata records and
+22 supplement sheets), finding no EMC-labelled cohort. R2 already authenticated
+Ngo2025's scRNA/spatial measurements as epithelioid sarcoma, with EMC only in an
+external bulk panel. Their unchanged verified exclusions were reused. Previously
+shelved bulk-expression and TMEM266 papers were not reopened. MUG-EMCS was not
+assumed to be EMC.
+
+Remaining source gaps and reopening
+Resolve all six BO-112 library identities, the complete pediatric 352-experiment
+crosswalk, the scTumor cell-line panel identities and the recent 89-specimen
+pediatric-sarcoma preprint's full donor roster before considering corresponding
+measurements eligible or excluded. These are staged unfinished eligibility work,
+not established promising EMC biological findings. Other generic atlas donors
+may remain unrecognized by disease metadata. Initial broad full-text queries
+were capped at 1,000 results; their incomplete pagination is recorded. Tighter
+title/abstract queries and repository checks improve coverage but do not prove
+that no undiscovered public EMC dataset exists.
+
+Reopening needs an authenticated processed cohort with malignant identity,
+donor/specimen/condition links and at least two independent EMC donors, allowing
+controls for cell cycle, stress and stromal contamination. It must answer a useful
+question beyond established fusion biology. Complete public-EMC coverage and an
+independent value/omission challenge precede any manuscript promotion.
+
+Reproducibility and portability
+PLAN.md preserves the original question and stop rule. Retrieval scripts and
+receipts preserve dates, exact public URLs/queries, original byte counts and SHA256.
+GSM-ELIGIBILITY-OBSERVATIONS.json and ADDITIONAL-GSM-ELIGIBILITY-OBSERVATIONS.json
+preserve every inspected library; the separate retry record preserves the original
+failure. finalize_packet.py regenerates derived observation tables and the decision
+from cache-only inputs, using existing dependencies. validate_packet.py checks
+source hashes, library/condition arithmetic, the entire RSEM sibling and actual
+input signatures. This is source/eligibility verification, not independent
+reproduction of malignant biology. Raw original API responses, papers, catalogs
+and their broad search-result copies are ignored local cache, not Git evidence.
+Missing caches in another session require the exact receipt/URL recovery and
+version comparison; a manifest alone is not reproduction.
+
+Ownership/restrictions
+Writer owns only this packet in /workspace/emc-r6-single_cell. The integrating
+lead owns shared status, gates and verified pushes. No paid/GPU resource, outreach,
+publication/submission, external-record edit, PR, UI or browser automation was used.
+Interrupted FAP-tissue/glycan/structural-genomics/HLA-review scientific tasks were
+excluded from this lane. All work was quiet file/API activity. No owned process
+remains running. Exact storage and verification are in VALIDATION.json/MANIFEST.json.
+Local files or a scoped commit do not establish verified remote integration.

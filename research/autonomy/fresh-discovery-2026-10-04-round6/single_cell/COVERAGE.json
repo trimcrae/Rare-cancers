@@ -1,0 +1,95 @@
+{
+  "utc": "2026-10-04T22:12:31.671474+00:00",
+  "claim": "Reproducible malignant differentiation/proliferative heterogeneity in authenticated EMC cells/spots",
+  "sources": [
+    {
+      "source": "GSE213065/GSE212527/GSE212526;Subramanian2024",
+      "status": "verified evaluation reused",
+      "finding": "Prior R3 checked87/7/4metadata records and22supplement sheets; no authenticated EMC. Gene NR4A3 in a table is not identity.",
+      "location": "research/autonomy/fresh-discovery-2026-10-04-round3/immune/RESULTS.md;COVERAGE.md"
+    },
+    {
+      "source": "Ngo2025 DOI10.1002/cac2.70077",
+      "status": "verified evaluation reused",
+      "finding": "All single-cell/spatial specimens are epithelioid sarcoma; EMC appears only in external bulk panel.",
+      "location": "research/autonomy/fresh-discovery-2026-10-04-round2/regulatory/RESULTS.txt;protein-spatial-eligibility.json"
+    },
+    {
+      "source": "scTumor2026 DOI10.64898/2026.02.14.705396v2;GSE319327",
+      "status": "demonstrably unsuitable measurement",
+      "finding": "Full36primarytype roster inspected; no EMC or generic sarcoma type. One new deposited sample is LMS. Cell-line table provenance remains a separate incomplete check.",
+      "location": "SCTUMOR-ROSTER-OBSERVATIONS.json;SCTUMOR-TABLE1-EXTRACT.txt"
+    },
+    {
+      "source": "GSE319124",
+      "status": "demonstrably unsuitable measurement",
+      "finding": "All59libraries examined, with one successful transient retry. Labels RMS23/EWS9/OST6/NBL21; two title/disease conflicts retained. No authenticated EMC library. The study headline352sc/sn experiments is not closed by this subseries.",
+      "location": "GSM-ELIGIBILITY-OBSERVATIONS.json;GSM9511154-RETRY-OBSERVATION.json;ANNOTATION-CONFLICTS.json"
+    },
+    {
+      "source": "GSE318841",
+      "status": "demonstrably unsuitable measurement",
+      "finding": "All277libraries examined. Six reported cell types: RMS150/NBL53/EWS31/OST17/WT14/RBL12. Every released measurement is a library-level RSEM gene vector; no cell-specific observation in this sibling.",
+      "location": "ADDITIONAL-GSM-ELIGIBILITY-OBSERVATIONS.json;PEDIATRIC-SIBLING-ASSAY-OBSERVATIONS.json"
+    },
+    {
+      "source": "GSE330883",
+      "status": "demonstrably unsuitable measurement",
+      "finding": "Series explicitly methylation profiling by genome tiling array,220libraries. Not a single-cell/spatial transcriptomic measurement; no expression values inspected.",
+      "location": "sources/GSE330883.json;SCTUMOR-PEDIATRIC-FOLLOWUP-RECEIPTS.json"
+    },
+    {
+      "source": "GSE200529",
+      "status": "demonstrably unsuitable measurement",
+      "finding": "All26libraries inspected: OS/ES/DSRCT; both MDA-SA98 entries explicitly OS. Warm/cold/nuclei and replicate conditions retained; no authenticated EMC. Later linkedPMIDs do not change the current roster.",
+      "location": "GSM-ELIGIBILITY-OBSERVATIONS.json"
+    },
+    {
+      "source": "GSE184118;2024primaryand2026reanalyses",
+      "status": "demonstrably unsuitable measurement",
+      "finding": "All11libraries inspected: conventional central/peripheral CS,dedifferentiatedCS,enchondroma,chondroblasticOS,fetal femur. Reanalyses reuse this cohort, not newEMC donors.",
+      "location": "GSM-ELIGIBILITY-OBSERVATIONS.json;CANDIDATE-RECEIPTS.json"
+    },
+    {
+      "source": "GSE243381;archival2024 DOI10.1158/1078-0432.CCR-23-2976",
+      "status": "demonstrably unsuitable measurement",
+      "finding": "All21current libraries inspected across RNA,TCR,lpWGS. Primary describes5UPS/3INS specimens;6source patientIDs include pairedX/Y. NoEMC. Libraries/paired specimens are not independent donors.",
+      "location": "GSM-ELIGIBILITY-OBSERVATIONS.json;CANDIDATE-RECEIPTS.json"
+    },
+    {
+      "source": "GSE336655",
+      "status": "demonstrably unsuitable measurement",
+      "finding": "All3libraries are immune cells from JJ012-derived CS xenografts, not malignant authenticEMC.",
+      "location": "GSM-ELIGIBILITY-OBSERVATIONS.json"
+    },
+    {
+      "source": "2025PTC DOI10.1016/j.xcrm.2025.101990;PRJCA024849",
+      "status": "demonstrably unsuitable measurement",
+      "finding": "Primary limits scRNA experiments toSS andRMS; broader cultured histologies do not imply EMC scRNA data.",
+      "location": "PRIMARY-ELIGIBILITY-EXTRACTS.json"
+    },
+    {
+      "source": "2025TLS DOI10.1038/s41419-025-08376-4",
+      "status": "demonstrably unsuitable measurement",
+      "finding": "Its STS measurements are bulknCounter/IHC; single-cell externalOMIX009480 is HNSCC and spatialGSE289272 is NPC. GSE213065 reuse adds noEMC cells.",
+      "location": "PRIMARY-ELIGIBILITY-EXTRACTS.json"
+    },
+    {
+      "source": "GSE279852/GSE313858/GSE313859;BO1122026",
+      "status": "pending accessible analysis",
+      "finding": "All26libraryconditions examined.20source-mappedconditions are MFS/LPS/UPS;6libraries/4donors remain unresolved eligibility despite accessible processed measurements. Three donor codes overlap sources; spatial4timepoints one donor.",
+      "location": "BO112-COVERAGE-BY-CONDITION.json;BO112-PUBLISHED-ROSTER-OBSERVATIONS.json"
+    },
+    {
+      "source": "Remaining pediatric352sc/snexperiment crosswalk;scTumor cell-line sourcesPRJCA021248/GSE157220;new pediatric89samplepreprint DOI10.21203/rs.3.rs-10374394/v1",
+      "status": "pending accessible analysis",
+      "finding": "Complete sc/sn source/donor crosswalk or model authentication not completed within pilot. Do not infer their exclusion from the inspected named subseries or other tumors.",
+      "location": "SEARCH-RECEIPTS.json;FOLLOWUP-SEARCH-RECEIPTS.json;PEDIATRIC-FAMILY-RECEIPTS.json"
+    }
+  ],
+  "search_limits": "Dated bounded search, not universal exhaustion. Initial broad full-text query pages stopped at1000, with unreturned hits preserved as incomplete; tighter title/abstract searches complete within returned counts. Repository metadata/ontology coverage does not exclude generic or misclassified tumors.",
+  "eligible_authenticated_EMC_biological_observations": 0,
+  "actual_library_metadata_evaluated": 424,
+  "promotion_blocked": true,
+  "biological_negative_established": false
+}

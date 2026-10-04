@@ -1,0 +1,1154 @@
+{
+  "rows": [
+    {
+      "accession": "GSM9376744",
+      "source_sha256": "7680fcf24969162b18b95b04c2745e8a6423f33ace898d8a760f4da869f7d554",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-004_baseline-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: baseline",
+        "sorted population: live cell tumor digest",
+        "patient: Patient 004",
+        "treatment: Cohort -2 (preoperative RT, BO-112, resection)",
+        "batch: 1"
+      ],
+      "description": [
+        "Library name: BO112-SARC-004_baseline",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829687",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457911"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376745",
+      "source_sha256": "fcf8c9379a64d5c49288dcf162a057fd944a2753c48b016a14f6713747ebaae9",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-004_surgery-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: surgery",
+        "sorted population: live cell tumor digest",
+        "patient: Patient 004",
+        "treatment: Cohort -2 (preoperative RT, BO-112, resection)",
+        "batch: 2"
+      ],
+      "description": [
+        "Library name: BO112-SARC-004_surgery",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829688",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457912"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376746",
+      "source_sha256": "9e6adf7cb45028d34478a856ce5a09f2574a3f8226d54f7600a4c1d7673f1920",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-010_baseline-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: baseline",
+        "sorted population: live cell tumor digest",
+        "patient: Patient 010",
+        "treatment: Cohort -2 (preoperative RT, BO-112, resection)",
+        "batch: 3"
+      ],
+      "description": [
+        "Library name: BO112-SARC-010_baseline",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829689",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457915"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376747",
+      "source_sha256": "33f3404f5a9cc4ad0911dc7535317aacdccd699dfb19ca4974f268a986abeb9a",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-010_surgery-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: surgery",
+        "sorted population: live cell tumor digest",
+        "patient: Patient 010",
+        "treatment: Cohort -2 (preoperative RT, BO-112, resection)",
+        "batch: 4"
+      ],
+      "description": [
+        "Library name: BO112-SARC-010_surgery",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829690",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457916"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376748",
+      "source_sha256": "ffdf9b89db98bd8aee2edf11008eda038a625d0f03f16adc7bf77fcdff9fd214",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-011_baseline-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: baseline",
+        "sorted population: live cell tumor digest",
+        "patient: Patient 011",
+        "treatment: Cohort -2 (preoperative RT, BO-112, resection)",
+        "batch: 5"
+      ],
+      "description": [
+        "Library name: BO112-SARC-011_baseline",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829691",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457917"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376749",
+      "source_sha256": "77b5f19527063031a891504e47709baca3bceac6f34ffe5496225280b59d24ab",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-011_surgery-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: surgery",
+        "sorted population: live cell tumor digest",
+        "patient: Patient 011",
+        "treatment: Cohort -2 (preoperative RT, BO-112, resection)",
+        "batch: 6"
+      ],
+      "description": [
+        "Library name: BO112-SARC-011_surgery",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829692",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457918"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376750",
+      "source_sha256": "72297e6e33fa115f4d8f5524583c9cb7c47d14a651a717d0afb82136b3b000b4",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-012_Baseline-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: baseline",
+        "sorted population: live cell tumor digest",
+        "patient: Patient 012",
+        "treatment: Cohort -2 (preoperative RT, BO-112, resection)",
+        "batch: 7"
+      ],
+      "description": [
+        "Library name: BO112-SARC-012_Baseline",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829693",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457919"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "pending accessible analysis",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Processed single-cell measurements exist; individual EMC eligibility is unresolved, not an EMC biological negative.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376751",
+      "source_sha256": "fdc9e273a81b3f6058971be5acb684a0fba8973b8d58ded6d002ac72ebd84324",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-012_surgery-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: surgery",
+        "sorted population: live cell tumor digest",
+        "patient: Patient 012",
+        "treatment: Cohort -2 (preoperative RT, BO-112, resection)",
+        "batch: 8"
+      ],
+      "description": [
+        "Library name: BO112-SARC-012_surgery",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829694",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457920"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "pending accessible analysis",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Processed single-cell measurements exist; individual EMC eligibility is unresolved, not an EMC biological negative.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376752",
+      "source_sha256": "d353d7e7b6c8e01b877c9787672b6df59e8882e66f67de4d0bf0e68f2cc16e80",
+      "source_status": 200,
+      "title": [
+        "RT-001_190612_CD45neg-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: surgery",
+        "sorted population: live CD45 negative cell tumor digest",
+        "patient: Radiation only-001",
+        "treatment: pre-operative RT, resection",
+        "batch: 9"
+      ],
+      "description": [
+        "Library name: RT-001_190612_CD45neg",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829695",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457921"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "pending accessible analysis",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Processed single-cell measurements exist; individual EMC eligibility is unresolved, not an EMC biological negative.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376753",
+      "source_sha256": "7fd9cfd5cd8e44465084a096ef34f59f8dcaf884fe47b50db8ea9c510d7f8281",
+      "source_status": 200,
+      "title": [
+        "RT-001_190612_CD45pos-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: surgery",
+        "sorted population: live CD45 positive cell tumor digest",
+        "patient: Radiation only-001",
+        "treatment: pre-operative RT, resection",
+        "batch: 9"
+      ],
+      "description": [
+        "Library name: RT-001_190612_CD45pos",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829696",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457922"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "pending accessible analysis",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Processed single-cell measurements exist; individual EMC eligibility is unresolved, not an EMC biological negative.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376754",
+      "source_sha256": "b037282ec9f109bd648048283052a5c1dcda99970568eee1206c4d6cba0e37c4",
+      "source_status": 200,
+      "title": [
+        "RT-002_200226_tumor-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: surgery",
+        "sorted population: live cell tumor digest",
+        "patient: Radiation only-002",
+        "treatment: pre-operative RT, resection",
+        "batch: 10"
+      ],
+      "description": [
+        "Library name: RT-002_200226_tumor",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829697",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457913"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "pending accessible analysis",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Processed single-cell measurements exist; individual EMC eligibility is unresolved, not an EMC biological negative.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376755",
+      "source_sha256": "f9d782c981436a2a62c0f9d959cff36ec23083be1679a27c876b4171bc1bca82",
+      "source_status": 200,
+      "title": [
+        "RT-003_200122_tumor-1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "timepoint: surgery",
+        "sorted population: live cell tumor digest",
+        "patient: Radiation only-003",
+        "treatment: pre-operative RT, resection",
+        "batch: 11"
+      ],
+      "description": [
+        "Library name: RT-003_200122_tumor",
+        "10X Genomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tumor samples were minced and up to 1 gram of tumor was placed in a GentleMACS C tube with RPMI, Collagenase D (1mg/mL), and DNase I (0.3mg/mL) and dissociated using a GentleMACS Octo Dissociator for 1hr at 37C. Cells were washed and filtered through a 100-micron strainer to obtain a single cell suspension. Cells were treated with RBC lysis buffer (BD) for 5 mins at room temperature. Live cells were isolated using a magnetic column based live cell isolation kit. For one tumor (RT-001), CD45+ and CD45- cells were further isolated using an antibody based magnetic isolation.",
+        "Single cell gene expression libraries were created using Chromium Next GEM Single Cell 3' (v3.1 Chemistry) (10x Genomics), Chromium Next GEM Chip G Single Cell Kit (10x Genomics), and Single Index Kit T Set A (10x Genomics) according to the manufacturer\u2019s instructions. Briefly, cells were loaded to target 10,000 cells to form GEMs and barcode individual cells. GEMs were then cleaned cDNA and libraries were also created according to manufacturer\u2019s instructions. Library quality was assessed using 4200 TapeStation System and D1000 ScreenTape (both from Agilent) and Qubit 2.0 (Invitrogen) for concentration and size distribution. Samples were sequenced using NextSeq500 (Illumina) with 75 PE reads.  Samples were demultiplexed with Cell Ranger mkfastq (10x Genomics)."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53829698",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31457914"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "pending accessible analysis",
+      "data_processing": [
+        "The demultiplexing, barcoded processing, gene counting and aggregation were made using the 10x genomics cellranger-7.0.1.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz files"
+      ],
+      "reason": "Processed single-cell measurements exist; individual EMC eligibility is unresolved, not an EMC biological negative.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376740",
+      "source_sha256": "08023f8c73e337b92b20ece75d567afd556faff81912df1bd2ced0caeddc3a96",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-004_baseline_T1"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "patient: Patient 004",
+        "timepoint: T1",
+        "cohort: Cohort -2",
+        "treatment: None",
+        "batch: 1"
+      ],
+      "description": [
+        "Library name: BO112-SARC-004_baseline_T1",
+        "10X Genomics FFPE spatial transcriptomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tissues were formalin fixed and paraffin embedded.",
+        "Spatial transcriptomic profiling was performed using the 10x Genomics Visium HD platform on four FFPE longitudinal tumor specimens from a single patient."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53912815",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31455233"
+      ],
+      "library_strategy": [
+        "OTHER"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Regions of interest were selected based on H&E quality and IHC data on immune cell infiltration from adjacent sections. RNA quality was confirmed by DV200 assessment prior to processing.",
+        "Two specimens were placed per Visium HD slide (6.5 \u00d7 6.5 mm capture area), and libraries were prepared according to the manufacturer\u2019s protocol (Visium HD CytAssist Spatial GEX 6.5 mm workflow; 10x Genomics).",
+        "Libraries underwent Qubit fluorometric quantification and TapeStation fragment analysis and were sequenced on an Illumina NovaSeq (PE50), generating ~550M reads per sample.",
+        "FASTQ files were processed using Space Ranger (v4.0.1) with alignment to the GRCh38-2020-A reference and quantification using the Visium Human Transcriptome Probe Set v2.0.",
+        "CytAssist alignment images were registered to corresponding brightfield H&E images using the supplied JSON files with manual refinement using loupe Browser 9. Resulting feature matrices and spatial metadata were used for downstream analysis.",
+        "All four specimens were imported into Seurat, and one baseline sample with low transcript capture was excluded. Cells expressing <50 unique genes were removed.",
+        "Remaining cells were normalized using SCTransform with cell area (total 2-\u00b5m bins per cell) regressed as a technical covariate.",
+        "Cell clustering (resolution 0.8) and differential expression analysis enabled manual cell-type annotation.",
+        "Tumor cell identity was confirmed via inferCNV using immune cells as reference.",
+        "Putative T\u2013myeloid doublets were subclustered (resolution 0.3) and reannotated. Final annotated cell maps were exported for spatial visualization in Loupe Browser.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz: list of spatial barcodes",
+        "Supplementary files format and content: features.tsv.gz: list of gene IDs",
+        "Supplementary files format and content: matrix.mtx.gz: gene expression count data in Matrix Market Exchange Format",
+        "Supplementary files format and content: aligned fudicials.jpg: aligned fiducials of the tissue image",
+        "Supplementary files format and content: detected tissue image.jpg: image of tissue and spots",
+        "Supplementary files format and content: scalefactors json.json: scalefactors in jason format",
+        "Supplementary files format and content: tissue hires image.png: hi-res image of tissue",
+        "Supplementary files format and content: tissue lowres image.png: low-res image of tissue",
+        "Supplementary files format and content: cell_segmentations.geojson: per-cell polygon coordinates representing segmentation boundaries.",
+        "Supplementary files format and content: filtered_feature_bc_matrix.h5: HDF5 format count matrix following Space Ranger / spaceranger-compatible processing.",
+        "Library strategy: Spatial Transcriptomics"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376741",
+      "source_sha256": "432442b8c847bab4f5e45cfae38f8e1ed581c1d0c02ef15d5659c01b2fbedf23",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-004_pre-RT_T2"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "patient: Patient 004",
+        "timepoint: T2",
+        "cohort: Cohort -2",
+        "treatment: BO-112 (1 dose)",
+        "batch: 1"
+      ],
+      "description": [
+        "Library name: BO112-SARC-004_pre-RT_T2",
+        "10X Genomics FFPE spatial transcriptomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tissues were formalin fixed and paraffin embedded.",
+        "Spatial transcriptomic profiling was performed using the 10x Genomics Visium HD platform on four FFPE longitudinal tumor specimens from a single patient."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53912816",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31455234"
+      ],
+      "library_strategy": [
+        "OTHER"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Regions of interest were selected based on H&E quality and IHC data on immune cell infiltration from adjacent sections. RNA quality was confirmed by DV200 assessment prior to processing.",
+        "Two specimens were placed per Visium HD slide (6.5 \u00d7 6.5 mm capture area), and libraries were prepared according to the manufacturer\u2019s protocol (Visium HD CytAssist Spatial GEX 6.5 mm workflow; 10x Genomics).",
+        "Libraries underwent Qubit fluorometric quantification and TapeStation fragment analysis and were sequenced on an Illumina NovaSeq (PE50), generating ~550M reads per sample.",
+        "FASTQ files were processed using Space Ranger (v4.0.1) with alignment to the GRCh38-2020-A reference and quantification using the Visium Human Transcriptome Probe Set v2.0.",
+        "CytAssist alignment images were registered to corresponding brightfield H&E images using the supplied JSON files with manual refinement using loupe Browser 9. Resulting feature matrices and spatial metadata were used for downstream analysis.",
+        "All four specimens were imported into Seurat, and one baseline sample with low transcript capture was excluded. Cells expressing <50 unique genes were removed.",
+        "Remaining cells were normalized using SCTransform with cell area (total 2-\u00b5m bins per cell) regressed as a technical covariate.",
+        "Cell clustering (resolution 0.8) and differential expression analysis enabled manual cell-type annotation.",
+        "Tumor cell identity was confirmed via inferCNV using immune cells as reference.",
+        "Putative T\u2013myeloid doublets were subclustered (resolution 0.3) and reannotated. Final annotated cell maps were exported for spatial visualization in Loupe Browser.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz: list of spatial barcodes",
+        "Supplementary files format and content: features.tsv.gz: list of gene IDs",
+        "Supplementary files format and content: matrix.mtx.gz: gene expression count data in Matrix Market Exchange Format",
+        "Supplementary files format and content: aligned fudicials.jpg: aligned fiducials of the tissue image",
+        "Supplementary files format and content: detected tissue image.jpg: image of tissue and spots",
+        "Supplementary files format and content: scalefactors json.json: scalefactors in jason format",
+        "Supplementary files format and content: tissue hires image.png: hi-res image of tissue",
+        "Supplementary files format and content: tissue lowres image.png: low-res image of tissue",
+        "Supplementary files format and content: cell_segmentations.geojson: per-cell polygon coordinates representing segmentation boundaries.",
+        "Supplementary files format and content: filtered_feature_bc_matrix.h5: HDF5 format count matrix following Space Ranger / spaceranger-compatible processing.",
+        "Library strategy: Spatial Transcriptomics"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376742",
+      "source_sha256": "4bbee0117ab24127b3911f58f805632f8213e1f519bfab7b4cd24b0ce2fd6ab4",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-004_post-RT_T3"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "patient: Patient 004",
+        "timepoint: T3",
+        "cohort: Cohort -2",
+        "treatment: Radiation (6 Gy x 5), BO-112 (2 doses)",
+        "batch: 1"
+      ],
+      "description": [
+        "Library name: BO112-SARC-004_post-RT_T3",
+        "10X Genomics FFPE spatial transcriptomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tissues were formalin fixed and paraffin embedded.",
+        "Spatial transcriptomic profiling was performed using the 10x Genomics Visium HD platform on four FFPE longitudinal tumor specimens from a single patient."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53912817",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31455235"
+      ],
+      "library_strategy": [
+        "OTHER"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Regions of interest were selected based on H&E quality and IHC data on immune cell infiltration from adjacent sections. RNA quality was confirmed by DV200 assessment prior to processing.",
+        "Two specimens were placed per Visium HD slide (6.5 \u00d7 6.5 mm capture area), and libraries were prepared according to the manufacturer\u2019s protocol (Visium HD CytAssist Spatial GEX 6.5 mm workflow; 10x Genomics).",
+        "Libraries underwent Qubit fluorometric quantification and TapeStation fragment analysis and were sequenced on an Illumina NovaSeq (PE50), generating ~550M reads per sample.",
+        "FASTQ files were processed using Space Ranger (v4.0.1) with alignment to the GRCh38-2020-A reference and quantification using the Visium Human Transcriptome Probe Set v2.0.",
+        "CytAssist alignment images were registered to corresponding brightfield H&E images using the supplied JSON files with manual refinement using loupe Browser 9. Resulting feature matrices and spatial metadata were used for downstream analysis.",
+        "All four specimens were imported into Seurat, and one baseline sample with low transcript capture was excluded. Cells expressing <50 unique genes were removed.",
+        "Remaining cells were normalized using SCTransform with cell area (total 2-\u00b5m bins per cell) regressed as a technical covariate.",
+        "Cell clustering (resolution 0.8) and differential expression analysis enabled manual cell-type annotation.",
+        "Tumor cell identity was confirmed via inferCNV using immune cells as reference.",
+        "Putative T\u2013myeloid doublets were subclustered (resolution 0.3) and reannotated. Final annotated cell maps were exported for spatial visualization in Loupe Browser.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz: list of spatial barcodes",
+        "Supplementary files format and content: features.tsv.gz: list of gene IDs",
+        "Supplementary files format and content: matrix.mtx.gz: gene expression count data in Matrix Market Exchange Format",
+        "Supplementary files format and content: aligned fudicials.jpg: aligned fiducials of the tissue image",
+        "Supplementary files format and content: detected tissue image.jpg: image of tissue and spots",
+        "Supplementary files format and content: scalefactors json.json: scalefactors in jason format",
+        "Supplementary files format and content: tissue hires image.png: hi-res image of tissue",
+        "Supplementary files format and content: tissue lowres image.png: low-res image of tissue",
+        "Supplementary files format and content: cell_segmentations.geojson: per-cell polygon coordinates representing segmentation boundaries.",
+        "Supplementary files format and content: filtered_feature_bc_matrix.h5: HDF5 format count matrix following Space Ranger / spaceranger-compatible processing.",
+        "Library strategy: Spatial Transcriptomics"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM9376743",
+      "source_sha256": "8a521181113f9aa49d9db351de3007bfc3d71e66c41800624d7dd5203169c0d5",
+      "source_status": 200,
+      "title": [
+        "BO112-SARC-004_surgery_T4"
+      ],
+      "source_name_ch1": [
+        "Tumor"
+      ],
+      "characteristics_ch1": [
+        "tissue: Tumor",
+        "patient: Patient 004",
+        "timepoint: T4",
+        "cohort: Cohort -2",
+        "treatment: Radiation (6 Gy x 5), BO-112 (3 doses)",
+        "batch: 1"
+      ],
+      "description": [
+        "Library name: BO112-SARC-004_surgery_T4",
+        "10X Genomics FFPE spatial transcriptomics"
+      ],
+      "extract_protocol_ch1": [
+        "Tissues were formalin fixed and paraffin embedded.",
+        "Spatial transcriptomic profiling was performed using the 10x Genomics Visium HD platform on four FFPE longitudinal tumor specimens from a single patient."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN53912818",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX31455236"
+      ],
+      "library_strategy": [
+        "OTHER"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Regions of interest were selected based on H&E quality and IHC data on immune cell infiltration from adjacent sections. RNA quality was confirmed by DV200 assessment prior to processing.",
+        "Two specimens were placed per Visium HD slide (6.5 \u00d7 6.5 mm capture area), and libraries were prepared according to the manufacturer\u2019s protocol (Visium HD CytAssist Spatial GEX 6.5 mm workflow; 10x Genomics).",
+        "Libraries underwent Qubit fluorometric quantification and TapeStation fragment analysis and were sequenced on an Illumina NovaSeq (PE50), generating ~550M reads per sample.",
+        "FASTQ files were processed using Space Ranger (v4.0.1) with alignment to the GRCh38-2020-A reference and quantification using the Visium Human Transcriptome Probe Set v2.0.",
+        "CytAssist alignment images were registered to corresponding brightfield H&E images using the supplied JSON files with manual refinement using loupe Browser 9. Resulting feature matrices and spatial metadata were used for downstream analysis.",
+        "All four specimens were imported into Seurat, and one baseline sample with low transcript capture was excluded. Cells expressing <50 unique genes were removed.",
+        "Remaining cells were normalized using SCTransform with cell area (total 2-\u00b5m bins per cell) regressed as a technical covariate.",
+        "Cell clustering (resolution 0.8) and differential expression analysis enabled manual cell-type annotation.",
+        "Tumor cell identity was confirmed via inferCNV using immune cells as reference.",
+        "Putative T\u2013myeloid doublets were subclustered (resolution 0.3) and reannotated. Final annotated cell maps were exported for spatial visualization in Loupe Browser.",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: barcodes.tsv.gz: list of spatial barcodes",
+        "Supplementary files format and content: features.tsv.gz: list of gene IDs",
+        "Supplementary files format and content: matrix.mtx.gz: gene expression count data in Matrix Market Exchange Format",
+        "Supplementary files format and content: aligned fudicials.jpg: aligned fiducials of the tissue image",
+        "Supplementary files format and content: detected tissue image.jpg: image of tissue and spots",
+        "Supplementary files format and content: scalefactors json.json: scalefactors in jason format",
+        "Supplementary files format and content: tissue hires image.png: hi-res image of tissue",
+        "Supplementary files format and content: tissue lowres image.png: low-res image of tissue",
+        "Supplementary files format and content: cell_segmentations.geojson: per-cell polygon coordinates representing segmentation boundaries.",
+        "Supplementary files format and content: filtered_feature_bc_matrix.h5: HDF5 format count matrix following Space Ranger / spaceranger-compatible processing.",
+        "Library strategy: Spatial Transcriptomics"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "GSE279852 shared BO112004:MFS;010/011:UPS; source-version/cohort crosswalk still required before pooling"
+    },
+    {
+      "accession": "GSM8581957",
+      "source_sha256": "99db4abe8d09c1866945fa24c6964ee11c16519964f9811efc7683332c49e65f",
+      "source_status": 200,
+      "title": [
+        "scRNA-seq of human soft tissue sarcoma sample - BO112-004-baseline"
+      ],
+      "source_name_ch1": [
+        "myxofibrosarcoma"
+      ],
+      "characteristics_ch1": [
+        "tissue: myxofibrosarcoma",
+        "cell line: tissue",
+        "cell type: tumor"
+      ],
+      "description": [],
+      "extract_protocol_ch1": [
+        "The samples were dissociated using collagenase D (100mg/mL) and DNase I (100mg/mL) using a 100 m cell strainer. Then, after digestion, RBC lysis was performed by adding 1mL of BD lysing buffer (BD Biosciences) and incubating for 5 mins. Cells were counted using a Countess II cell counter (Thermo Scientific).",
+        "Libraries were constructed using the Chromium 3\u2019 Gene Expression Solution v3.1 (10x Genomics) per the manufacturer\u2019s instructions."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN44337894",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX26419368"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Sample demultiplexing, read alignment, and generation of feature-barcode matrices were performed using CellRanger v6.0.0 (10x Genomics).",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: Raw feature barcode matrix for downstream analysis"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "Direct sample-level tissue field"
+    },
+    {
+      "accession": "GSM8581958",
+      "source_sha256": "57d154b017c2f1f2daf771068c76ccaf3d9c26bd6da933645d10c07e13b13824",
+      "source_status": 200,
+      "title": [
+        "scRNA-seq of human soft tissue sarcoma sample - BO112-007-baseline"
+      ],
+      "source_name_ch1": [
+        "liposarcoma"
+      ],
+      "characteristics_ch1": [
+        "tissue: liposarcoma",
+        "cell line: tissue",
+        "cell type: tumor"
+      ],
+      "description": [],
+      "extract_protocol_ch1": [
+        "The samples were dissociated using collagenase D (100mg/mL) and DNase I (100mg/mL) using a 100 m cell strainer. Then, after digestion, RBC lysis was performed by adding 1mL of BD lysing buffer (BD Biosciences) and incubating for 5 mins. Cells were counted using a Countess II cell counter (Thermo Scientific).",
+        "Libraries were constructed using the Chromium 3\u2019 Gene Expression Solution v3.1 (10x Genomics) per the manufacturer\u2019s instructions."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN44337895",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX26419369"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Sample demultiplexing, read alignment, and generation of feature-barcode matrices were performed using CellRanger v6.0.0 (10x Genomics).",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: Raw feature barcode matrix for downstream analysis"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "Direct sample-level tissue field"
+    },
+    {
+      "accession": "GSM8581959",
+      "source_sha256": "13e56ff87448918a90d1edb297ffe611a03c6a2ca02e6747e54199599d6f9775",
+      "source_status": 200,
+      "title": [
+        "scRNA-seq of human soft tissue sarcoma sample - BO112-009-baseline"
+      ],
+      "source_name_ch1": [
+        "liposarcoma"
+      ],
+      "characteristics_ch1": [
+        "tissue: liposarcoma",
+        "cell line: tissue",
+        "cell type: tumor"
+      ],
+      "description": [],
+      "extract_protocol_ch1": [
+        "The samples were dissociated using collagenase D (100mg/mL) and DNase I (100mg/mL) using a 100 m cell strainer. Then, after digestion, RBC lysis was performed by adding 1mL of BD lysing buffer (BD Biosciences) and incubating for 5 mins. Cells were counted using a Countess II cell counter (Thermo Scientific).",
+        "Libraries were constructed using the Chromium 3\u2019 Gene Expression Solution v3.1 (10x Genomics) per the manufacturer\u2019s instructions."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN44337896",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX26419370"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Sample demultiplexing, read alignment, and generation of feature-barcode matrices were performed using CellRanger v6.0.0 (10x Genomics).",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: Raw feature barcode matrix for downstream analysis"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "Direct sample-level tissue field"
+    },
+    {
+      "accession": "GSM8581960",
+      "source_sha256": "caf9763c17f8842e6c7988fcb1e1f069bb85775f9d05bf2d204e1db242332864",
+      "source_status": 200,
+      "title": [
+        "scRNA-seq of human soft tissue sarcoma sample - BO112-009-surgery"
+      ],
+      "source_name_ch1": [
+        "liposarcoma"
+      ],
+      "characteristics_ch1": [
+        "tissue: liposarcoma",
+        "cell line: tissue",
+        "cell type: tumor"
+      ],
+      "description": [],
+      "extract_protocol_ch1": [
+        "The samples were dissociated using collagenase D (100mg/mL) and DNase I (100mg/mL) using a 100 m cell strainer. Then, after digestion, RBC lysis was performed by adding 1mL of BD lysing buffer (BD Biosciences) and incubating for 5 mins. Cells were counted using a Countess II cell counter (Thermo Scientific).",
+        "Libraries were constructed using the Chromium 3\u2019 Gene Expression Solution v3.1 (10x Genomics) per the manufacturer\u2019s instructions."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN44337897",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX26419371"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Sample demultiplexing, read alignment, and generation of feature-barcode matrices were performed using CellRanger v6.0.0 (10x Genomics).",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: Raw feature barcode matrix for downstream analysis"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "Direct sample-level tissue field"
+    },
+    {
+      "accession": "GSM8581961",
+      "source_sha256": "efca39d32c1b4d056daa34454b75e476335255f3625eeefc4143fc7ef17a6870",
+      "source_status": 200,
+      "title": [
+        "scRNA-seq of human soft tissue sarcoma sample - BO112-010-baseline"
+      ],
+      "source_name_ch1": [
+        "undifferentiated pleomorphic sarcoma"
+      ],
+      "characteristics_ch1": [
+        "tissue: undifferentiated pleomorphic sarcoma",
+        "cell line: tissue",
+        "cell type: tumor"
+      ],
+      "description": [],
+      "extract_protocol_ch1": [
+        "The samples were dissociated using collagenase D (100mg/mL) and DNase I (100mg/mL) using a 100 m cell strainer. Then, after digestion, RBC lysis was performed by adding 1mL of BD lysing buffer (BD Biosciences) and incubating for 5 mins. Cells were counted using a Countess II cell counter (Thermo Scientific).",
+        "Libraries were constructed using the Chromium 3\u2019 Gene Expression Solution v3.1 (10x Genomics) per the manufacturer\u2019s instructions."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN44337898",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX26419372"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Sample demultiplexing, read alignment, and generation of feature-barcode matrices were performed using CellRanger v6.0.0 (10x Genomics).",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: Raw feature barcode matrix for downstream analysis"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "Direct sample-level tissue field"
+    },
+    {
+      "accession": "GSM8581962",
+      "source_sha256": "f28d04632d43f8b62a0bfb8a8c53ac3e7ddcd481f3c2fcb9bd010a798977c2ee",
+      "source_status": 200,
+      "title": [
+        "scRNA-seq of human soft tissue sarcoma sample - BO112-011-baseline"
+      ],
+      "source_name_ch1": [
+        "undifferentiated pleomorphic sarcoma"
+      ],
+      "characteristics_ch1": [
+        "tissue: undifferentiated pleomorphic sarcoma",
+        "cell line: tissue",
+        "cell type: tumor"
+      ],
+      "description": [],
+      "extract_protocol_ch1": [
+        "The samples were dissociated using collagenase D (100mg/mL) and DNase I (100mg/mL) using a 100 m cell strainer. Then, after digestion, RBC lysis was performed by adding 1mL of BD lysing buffer (BD Biosciences) and incubating for 5 mins. Cells were counted using a Countess II cell counter (Thermo Scientific).",
+        "Libraries were constructed using the Chromium 3\u2019 Gene Expression Solution v3.1 (10x Genomics) per the manufacturer\u2019s instructions."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN44337899",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX26419373"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Sample demultiplexing, read alignment, and generation of feature-barcode matrices were performed using CellRanger v6.0.0 (10x Genomics).",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: Raw feature barcode matrix for downstream analysis"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "Direct sample-level tissue field"
+    },
+    {
+      "accession": "GSM8581963",
+      "source_sha256": "3a5e91b53acd209ee30c6a53079eb844b606e2c159054e63f17c63c2cc951d24",
+      "source_status": 200,
+      "title": [
+        "scRNA-seq of human soft tissue sarcoma sample - BO112-013-baseline"
+      ],
+      "source_name_ch1": [
+        "undifferentiated pleomorphic sarcoma"
+      ],
+      "characteristics_ch1": [
+        "tissue: undifferentiated pleomorphic sarcoma",
+        "cell line: tissue",
+        "cell type: tumor"
+      ],
+      "description": [],
+      "extract_protocol_ch1": [
+        "The samples were dissociated using collagenase D (100mg/mL) and DNase I (100mg/mL) using a 100 m cell strainer. Then, after digestion, RBC lysis was performed by adding 1mL of BD lysing buffer (BD Biosciences) and incubating for 5 mins. Cells were counted using a Countess II cell counter (Thermo Scientific).",
+        "Libraries were constructed using the Chromium 3\u2019 Gene Expression Solution v3.1 (10x Genomics) per the manufacturer\u2019s instructions."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN44337900",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX26419374"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Sample demultiplexing, read alignment, and generation of feature-barcode matrices were performed using CellRanger v6.0.0 (10x Genomics).",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: Raw feature barcode matrix for downstream analysis"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "Direct sample-level tissue field"
+    },
+    {
+      "accession": "GSM8581964",
+      "source_sha256": "ff71e7e8381e008a1d01c51fe0e984f0029cd2a091da69d23fd3b01fc9ce0167",
+      "source_status": 200,
+      "title": [
+        "scRNA-seq of human soft tissue sarcoma sample - BO112-015-baseline"
+      ],
+      "source_name_ch1": [
+        "undifferentiated pleomorphic sarcoma"
+      ],
+      "characteristics_ch1": [
+        "tissue: undifferentiated pleomorphic sarcoma",
+        "cell line: tissue",
+        "cell type: tumor"
+      ],
+      "description": [],
+      "extract_protocol_ch1": [
+        "The samples were dissociated using collagenase D (100mg/mL) and DNase I (100mg/mL) using a 100 m cell strainer. Then, after digestion, RBC lysis was performed by adding 1mL of BD lysing buffer (BD Biosciences) and incubating for 5 mins. Cells were counted using a Countess II cell counter (Thermo Scientific).",
+        "Libraries were constructed using the Chromium 3\u2019 Gene Expression Solution v3.1 (10x Genomics) per the manufacturer\u2019s instructions."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN44337901",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX26419375"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Sample demultiplexing, read alignment, and generation of feature-barcode matrices were performed using CellRanger v6.0.0 (10x Genomics).",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: Raw feature barcode matrix for downstream analysis"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "Direct sample-level tissue field"
+    },
+    {
+      "accession": "GSM8581965",
+      "source_sha256": "84861c93e9c234102bc9ac87750aaf57d13e771e57d0f6905ff571bd69ffc9fc",
+      "source_status": 200,
+      "title": [
+        "scRNA-seq of human soft tissue sarcoma sample - BO112-016-surgery"
+      ],
+      "source_name_ch1": [
+        "liposarcoma"
+      ],
+      "characteristics_ch1": [
+        "tissue: liposarcoma",
+        "cell line: tissue",
+        "cell type: tumor"
+      ],
+      "description": [],
+      "extract_protocol_ch1": [
+        "The samples were dissociated using collagenase D (100mg/mL) and DNase I (100mg/mL) using a 100 m cell strainer. Then, after digestion, RBC lysis was performed by adding 1mL of BD lysing buffer (BD Biosciences) and incubating for 5 mins. Cells were counted using a Countess II cell counter (Thermo Scientific).",
+        "Libraries were constructed using the Chromium 3\u2019 Gene Expression Solution v3.1 (10x Genomics) per the manufacturer\u2019s instructions."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN44337902",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX26419376"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Sample demultiplexing, read alignment, and generation of feature-barcode matrices were performed using CellRanger v6.0.0 (10x Genomics).",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: Raw feature barcode matrix for downstream analysis"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "Direct sample-level tissue field"
+    },
+    {
+      "accession": "GSM8581966",
+      "source_sha256": "816638f00e65916614e661e4c949579a83c75f65af7aa43243101f4177f9e591",
+      "source_status": 200,
+      "title": [
+        "scRNA-seq of human soft tissue sarcoma sample - BO112-017-baseline"
+      ],
+      "source_name_ch1": [
+        "undifferentiated pleomorphic sarcoma"
+      ],
+      "characteristics_ch1": [
+        "tissue: undifferentiated pleomorphic sarcoma",
+        "cell line: tissue",
+        "cell type: tumor"
+      ],
+      "description": [],
+      "extract_protocol_ch1": [
+        "The samples were dissociated using collagenase D (100mg/mL) and DNase I (100mg/mL) using a 100 m cell strainer. Then, after digestion, RBC lysis was performed by adding 1mL of BD lysing buffer (BD Biosciences) and incubating for 5 mins. Cells were counted using a Countess II cell counter (Thermo Scientific).",
+        "Libraries were constructed using the Chromium 3\u2019 Gene Expression Solution v3.1 (10x Genomics) per the manufacturer\u2019s instructions."
+      ],
+      "supplementary_file": [],
+      "relation": [
+        "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN44337903",
+        "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX26419377"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ],
+      "status": "demonstrably unsuitable measurement",
+      "data_processing": [
+        "Sample demultiplexing, read alignment, and generation of feature-barcode matrices were performed using CellRanger v6.0.0 (10x Genomics).",
+        "Assembly: GRCh38",
+        "Supplementary files format and content: Raw feature barcode matrix for downstream analysis"
+      ],
+      "reason": "Source labels or explicit overlapping patient code identify MFS/LPS/UPS, not EMC.",
+      "mapping_basis": "Direct sample-level tissue field"
+    }
+  ],
+  "unresolved_libraries": [
+    "GSM9376750",
+    "GSM9376751",
+    "GSM9376752",
+    "GSM9376753",
+    "GSM9376754",
+    "GSM9376755"
+  ],
+  "unresolved_donors": [
+    "Patient012",
+    "Radiation-only001",
+    "Radiation-only002",
+    "Radiation-only003"
+  ],
+  "overlap": "004/010/011 are reused across313859 and279852; spatial313858T1-T4 belongs to004. RT001CD45neg/pos are two technical sorts of one donor.",
+  "not_independent_validation": true
+}
