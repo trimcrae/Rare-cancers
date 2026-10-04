@@ -60,7 +60,7 @@ observations = {
       'negative_total':3,'EWSR1_rearranged_negative':2,'EWSR1_unrearranged_negative':1,
       'cellular_variant_negative':1,
       'conditions':[{'case_id':None,'condition':'One negative resection previously acid-decalcified.'},
-                    {'case_id':None,'condition':'A different negative case: repeat on preoperative biopsy focally positive.'}],
+                    {'case_id':None,'condition':'A different negative case: repeat on preoperative biopsy demonstrated focal INSM1 reactivity. Extent/intensity are not supplied in that passage, so crossing the >=5% moderate/strong positivity threshold remains unresolved.'}],
       'crosswalk':'Individual IDs and a molecular/morphology/handling crosswalk are unavailable in the main PDF; none was invented.'},
    'other_conditions':'Three needle biopsy specimens positive; not counted as independent new donors or biopsy superiority.',
    'synaptophysin':{'any_signal_positive':13,'tested':31,'at_least5percent_positive_reported_percent':26},
@@ -152,5 +152,6 @@ write('DECISION.json',{'date':datetime.now(timezone.utc).isoformat(),'decision':
  'value':'Already published in primary studies; aggregate heterogeneity does not resolve assay, spectrum, handling or overlap differences.',
  'reopening':coverage['reopening'],'pending_evidence_blocks_promotion':True,'no_universal_exhaustion_claim':True,
  'running_processes':[],'raw_budget_bytes':raw_bytes,'storage_free_bytes':shutil.disk_usage(ROOT).free,
- 'independent_review':'Requested from the radiotherapy worker after their RT freeze; the lead owns final integration.'})
+ 'independent_review':'Completed independent source, value and coverage check by the radiotherapy worker, including focused verification of the biopsy-reactivity wording; not human scientific validation.',
+ 'independent_review_reference':'research/autonomy/fresh-discovery-2026-10-04-round6/radiotherapy/DIAGNOSTIC-INDEPENDENT-CHECK.json'})
 print('Extraction arithmetic/source hashes verified;raw+duplicatebytes',raw_bytes)
