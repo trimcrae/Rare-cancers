@@ -16,14 +16,14 @@ Checkpoint: 2026-10-04. Read this before the historical round packets. This is a
 
 ## Current conclusion
 
-**No new publication-worthy EMC finding survived rounds 1–6. The search is not exhausted.** No full manuscript was drafted or promoted. TMEM266's standalone paper remains shelved; earlier favorable assessments and rankings are historical. The original R1–R5 checkpoint stopped for the user's fresh cloud continuation prompt; R6 subsequently evaluated three further scoped questions.
+**No new publication-worthy EMC finding survived rounds 1–7. The search is not exhausted.** No full manuscript was drafted or promoted. TMEM266's standalone paper remains shelved; earlier favorable assessments and rankings are historical. The original R1–R5 checkpoint stopped for the user's fresh cloud continuation prompt; R6 and R7 subsequently evaluated distinct further scoped questions.
 
 The five round packets preserve actual analyses, original hypotheses, negative/inconclusive evidence, source coverage, independent challenges and decisions. A successful retrieval, source inventory, technically correct computation or repaired provenance is not itself a disease discovery. Do not reread every source or rerun verified analyses just to demonstrate diligence.
 
 ## Read order and supersession
 
 1. Repository `AGENTS.md` and `research/autonomy/OPERATING_PROTOCOL.md`, especially parallel discovery, scientific reassessment, complete public-EMC coverage and checkpoint integration.
-2. This handoff, `CONTINUE-IN-CLOUD.txt`, `PORTABLE-INVENTORY.json`, the R6 addendum and the six round reports/handoffs.
+2. This handoff, `CONTINUE-IN-CLOUD.txt`, `PORTABLE-INVENTORY.json`, the R6–R7 addenda and the seven round reports/handoffs.
 3. Claim-specific results, coverage records, scripts and final independent reviews for a proposed follow-up. Use later evaluated dispositions instead of earlier to-do lists.
 
 Round paths under `research/autonomy/`:
@@ -34,6 +34,7 @@ Round paths under `research/autonomy/`:
 - `fresh-discovery-2026-10-04-round4/`
 - `fresh-discovery-2026-10-04-round5/`
 - `fresh-discovery-2026-10-04-round6/`
+- `fresh-discovery-2026-10-04-round7/`
 
 Historical snapshots are immutable evidence, not current status. In particular R3 `LATEST-HANDOFF.txt` still says workers are running; the later R3 report, integrations and ownership resolution supersede it. R3's report calls small-RNA review provisional, but `small_rna_review_final/` and its later integration contain the final review. R3/R4 final-state snapshots predate their completed ownership restorations. R5 `LIVE-HANDOFF.txt` predates the final frozen packets; use R5 `REPORT.txt`, `HANDOFF.txt`, `FINAL-STATE.json` and integration receipts. Historical no-commit statements describe their original checkpoints; use actual Git ancestry and the current integration receipt for present status.
 
@@ -117,3 +118,15 @@ The spatial lane found no newly authenticated EMC single-cell or spatial observa
 The regulatory lane established that GSE11185/GDS3481 are the same engineered 293-cell experiment, not independent EMC evidence. Historical EMC SIX3/NOR1 reports are discordant; the inspected 2004 abstract does not establish protein assay level. An independent reviewer caught that unsupported inference and the correction is retained in `AMENDMENT-01.txt`. No endogenous EMC perturbation/binding/output comparison or new dependency was demonstrated.
 
 All three R6 workers froze and reported terminal processes; exact local integration, ownership restoration and verified ZIP recovery receipts are in the R6 packet. `PORTABLE-INVENTORY.json` inside R6 distinguishes Git-exported analytical records from cached original source payloads, which remain in verified local recovery and are not present in a fresh cloud checkout. R6 Git commit/push status must be read from actual ancestry after the checkpoint integration; this addendum alone is not proof of a push. Reopen a lane only upon the concrete evidence condition in its R6 result, after fresh prior-art and complete relevant public EMC coverage review.
+
+## Round 7 addendum — clinical linkage, fusion RNA and functional models, 2026-10-04
+
+The compact R7 scientific decision, supporting original sources and reopening conditions are in `../fresh-discovery-2026-10-04-round7/HANDOFF.txt`; exact specimen/condition evaluations, scripts, source hashes and independent reviews are in its three lane directories. All three scoped standalone proposals were shelved. **No new EMC disease finding was demonstrated, and no global public-data exhaustion claim is warranted.**
+
+The clinical lane found already-published individual EWSR1::NR4A3 treatment courses, including an unfavorable temozolomide add-on case, but no individual EWSR1-versus-TAF15 treatment-outcome crosswalk. The anthracycline series has 11 NR4A3 cases but only aggregate EWS status; Davis MO-1582 has contradictory pazopanib dates across original table/supplement. Suspected 2012/2014 sunitinib donor overlap is not a proven case crosswalk. The independent reviewer retained all 11 anthracycline rows and this material discordance; no pooled response or new fusion-specific treatment claim was made.
+
+The fusion-RNA lane recovered all 14 EMC-labelled records in Racanelli2020, including cases outside its consecutive 55–65 block; the lead independently reparsed the original XML and verified the same set. Brenca's two tumor-detected TAF15 acceptors and Filion's native NR4A3 delta-C observation are prior art. The new panel study has only one TAF15 record, and no donor-resolved native/fusion abundance comparison was measured. Brenca raw aliases/frozen counterparts, processed panel calls and broader RNA remain explicit pending evidence if a valuable new hypothesis is later established.
+
+The functional lane evaluated Bohner2022's one author-labelled EMC tissue donor with published 5-ALA fluorescence, not a controlled photodynamic treatment outcome; spontaneous CAM graft regression and absent case-linked control/dose results prevent vulnerability inference. H-EMC-SS/HEMCSS drug-screen results remain positive published measurements in an identity-disputed model, and INBRX's treated PDXs are conventional chondrosarcoma. Several broader model/organoid rosters remain identity-pending. An independent reviewer checked the original EMC row, regression caveat and model distinctions.
+
+R7 workers froze and reported no live owned process. The lead hash-integrated their packets in the existing sparse worktree, verified a local recovery ZIP, and restored the prior coordinator without deleting worker evidence. R7 `PORTABLE-INVENTORY.json` lists Git-exported analysis versus cache-only original source bytes; a fresh cloud checkout does not inherit local recovery files. Actual `main` ancestry and remote SHA, not this addendum's text, establish push status. No manuscript or external record was changed.
