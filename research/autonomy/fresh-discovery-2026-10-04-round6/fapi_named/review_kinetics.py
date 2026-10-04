@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+"""Independent arithmetic/hash check of exact owner-frozen clinical kinetic packet."""
+from pathlib import Path
+import argparse,json,math,hashlib,datetime
+cli=argparse.ArgumentParser();cli.add_argument('--owner-root',type=Path,required=True);a=cli.parse_args()
+P=Path(__file__).resolve().parent;owner=a.owner_root/'research/autonomy/fresh-discovery-2026-10-04-round6/challenge'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+freeze_bytes=(owner/'PILOT-FREEZE.json').read_bytes();freeze=json.loads(freeze_bytes)
+for row in freeze['files']:assert sha(owner/row['path'])==row['sha256'],row['path']
+results=json.loads((owner/'measurement-gate-results.json').read_text());script=(owner/'analyze_measurement_gate.py').read_text()
+assert 'comparable_series'not in json.dumps(results) and 'selected_for_descriptive_arithmetic'in script
+checks=[];series=[x for x in results['primary_measurements']if x['selected_for_descriptive_arithmetic']]
+for start,end,reported in zip(series,series[1:],results['primary_changes']):
+ value=100*(end['diameter_cm']-start['diameter_cm'])/start['diameter_cm'];assert math.isclose(value,reported['diameter_percent_change'],abs_tol=1e-10)
+ checks.append({'comparison':[start['date'],end['date']],'independent_percent_change':value})
+assert math.isclose((18-15.8)/12,results['primary_changes'][-1]['linear_diameter_change_cm_per_month'],abs_tol=1e-12)
+assert math.isclose(math.log(18/15.8)/12,results['primary_changes'][-1]['log_diameter_change_per_month'],abs_tol=1e-12)
+for row in results['RT_lesion_measurements']:
+ dims=[100*(end-start)/start for start,end in zip(row['before_cm'],row['after_cm'])];suv=100*(row['after_suv']-row['before_suv'])/row['before_suv']
+ assert all(math.isclose(x,y,abs_tol=1e-10)for x,y in zip(dims,row['diameter_percent_changes']))and math.isclose(suv,row['SUV_percent_change'],abs_tol=1e-10)
+ checks.append({'RT_lesion':row['source_lesion'],'independent_dimension_percent_changes':dims,'independent_SUV_percent_change':suv,'independent_donor_n':1})
+assert (2017-2013)*12+7-8==results['Elsayed2018_serial_source']['untreated_pulmonary_window_months']
+port=json.loads((owner/'SOURCE-PORTABILITY.json').read_text());source_hashes=[]
+for row in port['sources']:
+ if row['file']in ['regression2025.xml','massive2018.xml','bsc2016.xml','longterm2020.xml','elsayed2018.xml']:
+  source=a.owner_root/row['location_relative_to_worktree'];assert sha(source)==row['sha256'];source_hashes.append(row)
+assert (owner/'PILOT-FREEZE.json').read_bytes()==freeze_bytes,'Owner freeze changed during review'
+review={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'reviewer':'Independent fapi_named worker','status':'Completed independent source/arithmetic/interpretation review after one minimal repair','frozen_owner_packet_sha256':hashlib.sha256(freeze_bytes).hexdigest(),'reviewed_artifacts':freeze['files'],'independent_arithmetic':checks,'source_files_verified':source_hashes,'source_identity_conditions':[{'source':'Carroll2025','finding':'NR4A3-rearranged primary EMC confirmed; presumed lung nodules not biopsied. 15.8→18cm is primary CT/imaging trajectory, not untreated pulmonary measurements. No further systemic therapy by source, prior sunitinib/atezolizumab/trabectedin and subsequent debulking prevent mechanism attribution.'},{'source':'Paoluzzi2018','finding':'EWSR1–NR4A3 EMC confirmed; both specified irradiated pelvic/inguinal lesions belong to one donor on ongoing pazopanib. Four diameter changes and two SUV changes match source; neither RT causality nor generalized therapeutic benefit supported.'},{'source':'Morioka2016','finding':'Tables1/2: all2 EMCS participants1/2 received trabectedin; all3 BSC participants6/7/8 have MCS. No randomized untreated EMC comparator in this subanalysis.'},{'source':'Brown2020','finding':'All3 observation donors inspected; authorEMC/EWSR1-FISH but NR4A3 partner not specified. Follow-up50/70/126months descriptive. No numerical longitudinal lung series; third patient had palliative amputation and died of colon cancer, so not3 wholly untreated donors nor proof of EMC-specific survival.'},{'source':'Elsayed2018','finding':'Resected primary/lung consistent authorEMC, no molecular result; pulmonary watchful figure window August2013→July2017=47months, not8years untreated pulmonary growth. Figures qualitative without authenticated longitudinal lesion dimensions.'}],'repair_verified':{'issue':'comparable_series=true implied validated acquisition comparability across2016/2017MRI and2018CT/2019unspecified imaging that source did not establish','correction':'Flag renamed selected_for_descriptive_arithmetic. Every interval and final primary interval explicitly preserve unverified modality/protocol/segmentation comparability. Arithmetic unchanged.','actual_verification':'Read revised script/results and verified exact hashes; recomputed all reported change formulas independently from source-authenticated inputs.'},'validity':'Limited arithmetic and source disease/condition attribution supported; no rate from pulmonary images, RECIST, volume doubling, untreated lung comparator or attributable efficacy established.','value':'Published indolence/regression/treated-lesion observations are prior art; recomputing them and correcting our own gate add no new EMC discovery. Shelving endorsed.','coverage':'Five inspected primary source conditions checked; owner retains inaccessible Kinoshita2015 and pending anti-Hu details. Review does not establish universal literature exhaustion or complete disease-claim coverage.','decision':'Shelve standalone paper; no interpretation-changing correction remains in reviewed arithmetic scope. Reopen only on owner-recorded independent, authenticated case-linked serial measurements during documented untreated intervals with worthwhile comparator/mechanistic value.'}
+(P/'KINETICS-INDEPENDENT-REVIEW-FINAL.json').write_text(json.dumps(review,indent=2,ensure_ascii=False)+'\n')
+print('independent arithmetic/source hashes/repaired scope labels verified; shelving endorsed')

@@ -1,0 +1,54 @@
+{
+  "analysis_utc": "2026-10-04T22:05:40.353653+00:00",
+  "question": "Four named clinical FAPI sources",
+  "decision": "Shelve the standalone EMC paired FAPI/FDG paper",
+  "surviving_demonstrated_new_EMC_findings": [],
+  "authenticated_EMC_donors": 0,
+  "computed_EMC_ratios": 0,
+  "computed_p_values": 0,
+  "recovered_named_supplements": [
+    "Kessler2022 SupplementalData and4original clinical reader workbooks",
+    "Lanzafame2024 SupplementalData",
+    "Pabst2025 original appendix"
+  ],
+  "sources": [
+    {
+      "name": "Kessler2022",
+      "status": "evaluated",
+      "roster_donors": 47,
+      "unresolved": "UndifferentiatedSTS6 andbone2 cannot be molecularly/subtype reclassified;47 clinical donorIDs now inspected but no identity/date/individual-lesion crosswalk. Table6 is aggregate regions, not individual observations.",
+      "gate": "main range−30 to+7days and no therapy change; unknown patient-specific interval cannot pass<=28days",
+      "overlap": "Same NCT04571086/Essen cohort as later Lanzafame; exact overlap not released. R6 broader owner evaluates Hirmas explicit reused47."
+    },
+    {
+      "name": "Lanzafame2024",
+      "status": "evaluated",
+      "roster_donors": 200,
+      "unresolved": "OtherSTS41/bone15 expanded. GenericCHS17, spindle-cell bone5/STS7, fibrosarcoma4/fibromyxosarcoma2 andG-NET1 remain unresolved. Source diagnostic subtype categories are not donor identities.",
+      "gate": "all186 FAPI46 pairedFDG within4wk by main; individual therapy and same-lesion crosswalk unavailable",
+      "overlap": "Same ongoing Essen NCT04571086; Methods October2019–2022 vs Results October2020–2022 is source inconsistency, no claim of independent cohorts."
+    },
+    {
+      "name": "Pabst2025",
+      "status": "evaluated",
+      "cohort_total_donors": 155,
+      "sarcoma_roster_donors": 28,
+      "unresolved": "18STS/5bone/1GIST/3Other/1Unknown. Fibromyxoid1/CHS2/other generic labels unresolved. Same-participant fibromyxoid false-negative primary/softtissue-metastasis conditions and generic myxoidrenal/unknownorigin adverse conditions inspected; cannot be treated as EMC. Complete macro155 andOther11 roster accounted; organ/cancer labels, Unknownprimary3/Myxoidrenal1 remain explicit unresolved identities.",
+      "gate": "No authenticated EMC individual scan chronology/SUV lesion crosswalk; individual data request-only by R5 reused main.",
+      "overlap": "R5 main permits NCT04571086 co-enrolment; public appendix supplies no exact donor crosswalk."
+    },
+    {
+      "name": "Kratochwil2019",
+      "status": "evaluated",
+      "roster_donors": 80,
+      "unresolved": "Public full article recovered; generic sarcoma group has no supplied detailed histology/donor roster. Detailed EMC identity evidence unavailable in inspected release, not negative uptake.",
+      "gate": "FAPI04 main provides no EMC same-lesionFDG paired comparison",
+      "overlap": "R5 verified Koerber statement:4previously reported donors, exact crosswalk unavailable."
+    }
+  ],
+  "novelty_value": "Broad sarcoma uptake/aggregate accuracy were already primary published findings. Recovering missing supplements improves evidence reuse, not a new disease discovery. No established EMC imaging claim is challenged by an absence of authenticated entries.",
+  "coverage_gap_consequence": "No universal EMC exclusion or exhaustive public-evidence claim. Generic labels/withheld crosswalks and other relevant sources prevent clinical phenotype/population inference and promotion.",
+  "reopening_condition": "A permitted public identity-to-scan crosswalk authenticating EMC with suitable independent donor/lesion measurements, <=28-day/no-intervening-therapy chronology and verification. Then evaluate every eligible EMC condition, overlap/contrary findings and prior art before justified analysis.",
+  "restrictions": "No tissue FAP analysis, blocked lane takeover, paid work/outreach/publication/browser UI/GPU or shared state/push. TMEM266 shelved.",
+  "portable_inputs": "All recovered papers/full extracts/workbooks remain ignored raw-cache. SOURCE-EXCERPTS and derived audits are committed with access hashes. Raw sources recoverable through recorded public URLs if permitted; prior Windows caches remain absent."
+}
