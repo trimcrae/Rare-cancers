@@ -1,0 +1,99 @@
+{
+  "reference": {
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=NM_152335.3,XM_005254160.3&rettype=gb&retmode=xml",
+    "bytes": 52281,
+    "sha256": "4620e11b005089dfd8fcd81779c6d964595549c74dbd38c260c4af3d8b749ea8"
+  },
+  "events": [
+    {
+      "event": "alternative_skip106",
+      "reference": "XM_005254160.3",
+      "seam0": 476,
+      "anchor": "AGAGAGCAGCCGTGTGGCAGTTTCCAGCGCATTCCAGTTT"
+    },
+    {
+      "event": "canonical_inclusion_boundary",
+      "reference": "NM_152335.3",
+      "seam0": 404,
+      "anchor": "AGAGAGCAGCCGTGTGGCAGGTATTTTTGCTCAGTGCAAG"
+    },
+    {
+      "event": "canonical_exon4_exon5",
+      "reference": "NM_152335.3",
+      "seam0": 510,
+      "anchor": "AGATATAAAGCTTCTCCAGTTTTCCAGCGCATTCCAGTTT"
+    },
+    {
+      "event": "downstream_exon10_exon11",
+      "reference": "NM_152335.3",
+      "seam0": 1149,
+      "anchor": "TTACAATGGGCCCAGCAGTGACAGCGGTGTCCCAGAGCCA"
+    }
+  ],
+  "mates": [
+    {
+      "mate": 1,
+      "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR228/002/SRR22852802/SRR22852802_1.fastq.gz",
+      "status": 206,
+      "content_range": "bytes 0-14999999/1500041229",
+      "compressed_prefix_bytes": 15000000,
+      "prefix_sha256": "bb8f6c870aec138b31ffc1d920b12a3aa96212102992a8eb414bd62f0335a1cc",
+      "decompressed_bytes": 81820422,
+      "complete_records": 308649,
+      "read_length_counts": {
+        "100": 308649
+      },
+      "incomplete_tail_lines": 1,
+      "incomplete_tail_bytes": 64,
+      "matches": []
+    },
+    {
+      "mate": 2,
+      "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR228/002/SRR22852802/SRR22852802_2.fastq.gz",
+      "status": 206,
+      "content_range": "bytes 0-14999999/1558129613",
+      "compressed_prefix_bytes": 15000000,
+      "prefix_sha256": "b97e2a3effc17e266f92cd48d12d8304f688b0ac6a4a3748161599c4c2c6336c",
+      "decompressed_bytes": 79255741,
+      "complete_records": 298967,
+      "read_length_counts": {
+        "100": 298967
+      },
+      "incomplete_tail_lines": 3,
+      "incomplete_tail_bytes": 12,
+      "matches": []
+    }
+  ],
+  "total_complete_records": 607616,
+  "summary": [
+    {
+      "event": "alternative_skip106",
+      "matched_records": 0,
+      "qualifying_Q20_records": 0,
+      "fragments": 0,
+      "oriented_starts": []
+    },
+    {
+      "event": "canonical_inclusion_boundary",
+      "matched_records": 0,
+      "qualifying_Q20_records": 0,
+      "fragments": 0,
+      "oriented_starts": []
+    },
+    {
+      "event": "canonical_exon4_exon5",
+      "matched_records": 0,
+      "qualifying_Q20_records": 0,
+      "fragments": 0,
+      "oriented_starts": []
+    },
+    {
+      "event": "downstream_exon10_exon11",
+      "matched_records": 0,
+      "qualifying_Q20_records": 0,
+      "fragments": 0,
+      "oriented_starts": []
+    }
+  ],
+  "scope": "fixed compressed prefixes; no absence, isoform ratio or full-length inference"
+}

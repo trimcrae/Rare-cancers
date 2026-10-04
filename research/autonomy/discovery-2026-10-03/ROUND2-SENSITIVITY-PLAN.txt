@@ -1,0 +1,15 @@
+2026-10-03, after21discoveryhits and16arrayallocationpass recorded.
+Exploratory interpretation checks, not additional independent confirmation:
+1.All21nominated genes, all eligible Hofvander histologies with >=5samples,
+report gene-wise medians, EMC-vs-histology A and same-year A (or missing if
+no common years). Do not redefine hitlist or claim broad specificity from
+selected three discovery comparisons. This is the original dataset.
+2.All16replicated genes, exact RNA discovery comparisons: leave eachEMC out,
+leave each sequencingyear out, conditional stratified patient bootstrap
+2000replicates/seed20261003, medianTPM and A/matchedA. Keep n when unmatched.
+3.Explore correlations of all16genes with PTPRC,LST1,FCER1G,AIF1 (immune),
+COL1A1,COL1A2,DCN (matrix/fibroblast), PECAM1,VWF (endothelium) in nineEMC.
+Report all coefficients and no causal/tumorlocalization inference; n9 and
+bulk mixture limit this check and cannot establish independence of stroma.
+4.Any model/RNA newcohort requires identity/provenance gate and separate
+pre-value plan. Sourcepaper's own results supersede first-report claims.

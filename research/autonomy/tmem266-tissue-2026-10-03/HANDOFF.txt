@@ -1,0 +1,46 @@
+TMEM266 tissue follow-up handoff
+Owner: primary/root; workers read-only. Started evening3October2026NY.
+
+Read RESULTS.txt for evidence and limits. The strongest new result is
+published FFPE EMC tissue RNA signal with an authenticated official probe
+targeting a TMEM266 splice junction. The junction is not canonical-isoform
+exclusive. A source-authenticated patient-derived EMC culture has weak RNA
+coverage in4downstream union-exon regions, with zero contribution from the
+identified antisense-overlapping exon. Independent arithmetic checks passed.
+An explicit deposited FISH crosswalk also places TMEM266 measurements in
+the eight EWSR1-rearranged specimens; see fish-sensitivity-results.json.
+
+Unfinished questions
+- Which cells in an intact EMC tumor express this RNA?
+- Does EMC produce full-length protein-coding TMEM266 RNA and membrane protein?
+- How much tissue signal comes from malignant cells versus muscle/stroma?
+- Which isoforms account for downstream RNA, and how variable are they?
+- Exact FFPE assay batch/manifest revision and patient overlap across older
+datasets remain unresolved. No data values establish a therapeutic window.
+  Deposited cohort dates/origin fields also need reconciliation to the paper;
+  no guessed clinical join was used.
+Localization plus upstream coding-region/protein measurements would resolve
+these questions. No experimental/outreach/publishing step is authorized.
+
+Replay
+Use existing bundledPython plus repository.cache/python-deps; no installs.
+Set PYTHONDONTWRITEBYTECODE=1. All scripts resolve their own directory.
+For offline tissue arithmetic: peerj_tmem266.py, independent_peerj_verify.py.
+For public-source replay: probe_specificity.py, cultured_emc_recount.py,
+culture_identity_audit.py, culture_exon_coverage.py, independent_exon_verify.py,
+isoform_context.py. The latter consumes previous coverage/annotation outputs.
+fish_sensitivity.py reproduces the explicit BioSample/FISH identity join.
+The culture gene-sum file is~6MB and manifest2.48MB, read in memory only.
+Custom BigWig queries are range-bounded; do not download entireBigWigs/FASTQs.
+API-response metadata/hash order can vary; compare biological payloads and
+record any primary-source changes rather than silently overwriting evidence.
+Old broad discovery evidence remains in ../discovery-2026-10-03/ unchanged.
+
+Ownership/storage
+No new checkout, runtime, raw-read download, manuscript, PR or external change.
+All new files are confined here; original error.log and old run are preserved.
+Initial free space10,664,366,080bytes was below10GiB; no large disk additions
+were permitted. Exact supplementary workbook1.42MB is the largest artifact.
+New output budget2MB; no redundant worktree exists to retire for this task.
+No processes are intentionally left running; see COMPLETION.json for final
+gate, manifest preservation, storage and worker-status receipt.

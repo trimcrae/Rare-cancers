@@ -1,0 +1,118 @@
+EMC scientific discovery fan-out: current handoff, 2026-10-03
+Coordinator/root is sole writer. Earlier HANDOFF.txt/MANIFEST.json are the
+round1 historical checkpoint with no survivor; this file covers continued work.
+No manuscript, clinical recommendation, public record change, commit or push.
+
+SURVIVING CANDIDATE (unranked; one qualifies)
+TMEM266: A new analysis found unusually high TMEM266 tissue RNA in 9 EMC samples,
+with complete separation from 35 of 36 adequately sampled tumor histologies,
+and concordant enrichment in a separate 6-EMC array assay cohort.
+This warrants testing where the transcript resides within EMC tissue; its
+strongest limitation is unresolved cell oforigin, because normal-muscle pools
+also show substantial signal, with no tumor-cell protein or diagnostic utility
+demonstrated and no established cross-cohort patient independence.
+
+WHY THIS MEETS THE REQUESTED NARROW RESEARCH-LEAD BAR
+Question: which specific membrane-associated transcripts show reproducible
+EMC tissue enrichment that merits a localization experiment?
+Prior knowledge: EMC has neural/neuroendocrine expression, established CHRNA6
+and NR4A3 assays, and other known markers. No direct TMEM266 EMC result was
+found under its aliases. Filion2009 usedU133A without an annotated TMEM266
+probe; the earlier general neural phenotype does not establish this result.
+Addition: a particular large, persistent tissue-RNA contrast, preserved across
+assay platforms and broader tumor comparisons; not a list treated as findings.
+Support: frozen UniProt universe;2694readable genes;9EMC/14MLPS/13LGFMS/18SS;
+intersection-unionp=max3one-sidedtests,BH across2694.21met allocation; all21
+tested in original array assay;16passed its weaker directional allocation.
+TMEM266 discoveryBHq=.0096055661; median28.88TPM(range6.73–56.82), allprimary
+and same-year A=1. Shared-year comparisons contain only3EMC each,4uniqueEMC.
+A is the probability an observed randomEMC value exceeds a comparator, with
+half credit for ties; it is NOT prospective classifier performance.
+Post-discovery context:579comparator samples across36histologies with>=5cases;
+35A=1;OFMT8A=.958333. This reuses discovery data, not36replications.
+Array6EMC:LGFMS17A=.921569;MFS6A=.916667;SFT5A=.900;desmoid6A=1.
+One unique cluster7985066,C15orf27→TMEM266; its30oligonucleotides are not30
+independent observations or proof of the full-length membrane isoform.
+Array LGFMS one-sidedp=.000633996,BHq=.00133139 across21nominations;
+descriptive95%bootstrapAinterval=.764706–1 (selection not incorporated).
+Why useful: prioritize RNA-ISH colocalization with fusion-confirmed tumor cells,
+entrappedmuscle andOFMT controls before protein assays. No improved diagnosis
+over CHRNA6/NR4A3, functional voltage sensing, dependency, therapy benefit or
+normal-tissue safety has been shown. This is a new empirical lead, not a paper
+readiness decision or a reason to recommend treatment.
+
+LIMITATIONS AND INDEPENDENT CHALLENGES
+Three workers independently reviewed priorart/utility/confounding, with two
+separate raw-data checks. Clinical reviewer replayed all2694discoveryrows and
+21nominations/20arrayclusters; zero numerical/mapping discrepancies. Root
+saved and ran the independent script. Measurements reviewer re-parsed TMEM266
+originalRNA and all42array values, verified NCBI gene mapping and found the
+normalmuscle challenge. Genomics reviewer checked sourceplatformcoverage.
+Known historical overlap removed; both assays involve Lund and no patient
+crosswalk exists. Counts9and6 are assay cohort counts, NOT15provenindividuals.
+Specimen-number suffixes are not verified collection dates. Removing5241-06
+preserves primaryA=1 but cannot resolve independence. No count from reusedPCR.
+AllEMC single deletions/yeardeletions preserve TMEM266 primaryA=1; conditional
+bootstrap intervals[1,1] are degenerate because observed values separate,
+not proof populationA=1. All gene/marker/case values are available in outputs.
+Array normalmusclepools7.828433/8.021240log2;EMCmedian8.0212065,3/6EMCbelowboth.
+RNA muscle controls:ACTA1rho.283,CKM.568,MYH1−.033,MYH2.293,MYH7.416;
+fixed rankcomposite.326. These9sample correlations cannot exclude admixture.
+Normalbrain/muscle expression is also known experimentally; no global tumor
+specificity. GeneRNA and arraycluster signals do not prove intact protein.
+
+PROMISING BUT UNFINISHED
+GPR68 bulkRNA enrichment survives the two assay comparisons, but broader
+specificity is poor (benignfibroushistiocytoma higher) and stromal origin is
+plausible (COL1A1/COL1A2rho.617/.700). OldU133Asupplement novelty unresolved.
+Useful pending question: cell-localized receptor and pH response, not inferred
+acidicmicroenvironment, active signaling or a therapeutic target.
+CIVO microdosing includes oneEMC but quantitative response/control data were
+not recovered; no new drug-response result. GSE179720 mentions7EMC but their
+deposited sample measurements could not be authenticated. Caris33caseabstract
+recovered, yet no patient-leveltable supports an additional finding.
+
+REJECTED / NOT PROMOTED
+Round1 antigen-processing pilot failed frozen effectcriteria; PLAGL1 overlaps
+published and localprioranalyses;5patientCT contrast is inconclusive.
+Known CHRNA6/CDH10/CORIN/GRIA3/HTR4 findings are not discoveries here.
+HCN4/SCN3B/SLC2A4 fail arrayallocation;PCDH20unmapped;CORINknownandfails.
+Other replicatedgenes remain unpromoted screening observations, not independent
+leads:ABHD2,ADGRB3,ANO4,ATP1B1,CHRM3,DPP4,MARCHF1,PLPPR4,RAMP1,TLR4.
+Freshprotein/model/pathology sources mostly lackedEMC-resolved measurements or
+already reported the proposed conclusion. See ROUND2-SOURCE-AUDIT.txt for
+primarysources, exactgates and corrections; no failed hypothesis is a paper.
+
+REPRODUCE (from C:/Projects/EMC-Research)
+Use existing nativePython with PYTHONPATH=.cache/python-deps and
+PYTHONDONTWRITEBYTECODE=1. No installation needed.
+Discovery:round2_surface_discovery.py
+Replication:round2_surface_replication.py
+Sensitivity/context:round2_surface_context.py
+Arrayuncertainty:round2_array_uncertainty.py
+Muscleconfound:round2_muscle_controls.py
+Independentreplay:round2_independent_verify.py
+Priorartcoverage:round2_prior_art_coverage.py (small public network retrieval)
+Carisabstract:round2_caris_source.py (public read-only retrievalPOST)
+Plans and sourcegeneuniverse were saved before new respectivevalues; later
+context/muscle checks are explicitly exploratory and have separate plans.
+Input/output SHA256s bind source matrices, manifests, mapping and code.
+No original evidence or prior drafts overwritten; no graph/registry changes.
+
+OWNERSHIP / FINAL CHECKPOINT
+Three subagents used concurrently for distinct scouts and independent review.
+All workers read-only/inmemory;rootwrites only this taskfolder dueC:free<10GiB.
+No new worktree/runtime/largeartifact; no existing checkout retired or touched.
+Daily06–10America/New_York noUI restriction explicitly passed on everyresume;
+all work used quiet files/APIs and no browser/nativeUI was launched.
+Priorroundnormalpreflightpassed; secondroundnormalgate result will be recorded
+in round2-normal-preflight-receipt.json. Scope is normalrepositorygates, not
+scientific validation/publication clearance. Current manifest finalizes hashes.
+Final tumoroid source gate: AlShihabi2024 cohort has no authenticated EMC;
+generic bone chondrosarcoma cannot substitute. No target values were examined.
+All three workers have completed and report no owned processes running.
+The second normal repository preflight passed (exit 0, 93.36 seconds).
+Independent scientific replay also passed; these are distinct checks.
+Nothing remains running. COMPLETION.json and MANIFEST-CURRENT.json record
+the final status, file hashes, preserved earlier checkpoint and remaining
+scientific questions. No new checkouts require retirement.

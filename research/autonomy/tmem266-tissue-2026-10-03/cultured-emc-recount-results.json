@@ -1,0 +1,457 @@
+{
+  "source_doi": "10.1186/s12864-016-3161-9",
+  "sample": "GSM2113301 / V1-34 / SRX1703825 / SAMN04851121",
+  "biological_samples": 1,
+  "technical_runs": [
+    "SRR3380704",
+    "SRR3380705"
+  ],
+  "gene_features": 63856,
+  "project_run_columns": 58,
+  "receipts": [
+    {
+      "url": "https://duffel.rail.bio/recount3/human/annotations/gene_sums/human.gene_sums.G026.gtf.gz",
+      "bytes": 1842619,
+      "sha256": "2d1bdff8d91e08f1291fd47850d9d61cfa6768cc3a4cb8516775a873b007d0f6"
+    },
+    {
+      "url": "https://duffel.rail.bio/recount3/human/data_sources/sra/gene_sums/67/SRP073267/sra.gene_sums.SRP073267.G026.gz",
+      "bytes": 5956011,
+      "sha256": "a72ac3d6e8cc133166c57553e9000023954f2fe20ec71ce2179a1410f9722958"
+    },
+    {
+      "url": "https://duffel.rail.bio/recount3/human/data_sources/sra/metadata/67/SRP073267/sra.recount_qc.SRP073267.MD.gz",
+      "bytes": 14602,
+      "sha256": "ea2412a192e1f6311f89c5e445961abc63305e68f07b7746000dd5c5c4f86369"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/LieberInstitute/recount3/master/R/transform_counts.R",
+      "bytes": 14287,
+      "sha256": "1ca4f878571d624e879449dea34ba629b7912b7b5a0dcce061987eda3e2bbc3a"
+    }
+  ],
+  "genes": {
+    "ACTA1": {
+      "gene_id": "ENSG00000143632.14",
+      "annotation": {
+        "name": "ACTA1",
+        "gtf": "chr1\tHAVANA\tgene\t229431245\t229434098\t1495\t-\t.\tgene_id \"ENSG00000143632.14\"; gene_type \"protein_coding\"; gene_name \"ACTA1\"; level 2; havana_gene \"OTTHUMG00000038006.3\";"
+      },
+      "runs": {
+        "SRR3380704": {
+          "coverage_bp_sum": 553,
+          "auc_all_reads_all_bases": 4010619836.0,
+          "coverage_scaled_to_40M_AUC": 5.515356953418309
+        },
+        "SRR3380705": {
+          "coverage_bp_sum": 149,
+          "auc_all_reads_all_bases": 4149109043.0,
+          "coverage_scaled_to_40M_AUC": 1.4364529681511193
+        }
+      }
+    },
+    "VIM": {
+      "gene_id": "ENSG00000026025.15",
+      "annotation": {
+        "name": "VIM",
+        "gtf": "chr10\tHAVANA\tgene\t17228259\t17237593\t5158\t+\t.\tgene_id \"ENSG00000026025.15\"; gene_type \"protein_coding\"; gene_name \"VIM\"; level 2; havana_gene \"OTTHUMG00000017744.5\";"
+      },
+      "runs": {
+        "SRR3380704": {
+          "coverage_bp_sum": 12495994,
+          "auc_all_reads_all_bases": 4010619836.0,
+          "coverage_scaled_to_40M_AUC": 124629.05496884896
+        },
+        "SRR3380705": {
+          "coverage_bp_sum": 12981195,
+          "auc_all_reads_all_bases": 4149109043.0,
+          "coverage_scaled_to_40M_AUC": 125146.81938186892
+        }
+      }
+    },
+    "RPLP0": {
+      "gene_id": "ENSG00000089157.15",
+      "annotation": {
+        "name": "RPLP0",
+        "gtf": "chr12\tHAVANA\tgene\t120196686\t120201235\t4001\t-\t.\tgene_id \"ENSG00000089157.15\"; gene_type \"protein_coding\"; gene_name \"RPLP0\"; level 1; havana_gene \"OTTHUMG00000169317.9\";"
+      },
+      "runs": {
+        "SRR3380704": {
+          "coverage_bp_sum": 2706174,
+          "auc_all_reads_all_bases": 4010619836.0,
+          "coverage_scaled_to_40M_AUC": 26990.08243772123
+        },
+        "SRR3380705": {
+          "coverage_bp_sum": 2768110,
+          "auc_all_reads_all_bases": 4149109043.0,
+          "coverage_scaled_to_40M_AUC": 26686.307554824125
+        }
+      }
+    },
+    "MYH7": {
+      "gene_id": "ENSG00000092054.12",
+      "annotation": {
+        "name": "MYH7",
+        "gtf": "chr14\tHAVANA\tgene\t23412738\t23435718\t6087\t-\t.\tgene_id \"ENSG00000092054.12\"; gene_type \"protein_coding\"; gene_name \"MYH7\"; level 2; tag \"ncRNA_host\"; havana_gene \"OTTHUMG00000028755.4\";"
+      },
+      "runs": {
+        "SRR3380704": {
+          "coverage_bp_sum": 0,
+          "auc_all_reads_all_bases": 4010619836.0,
+          "coverage_scaled_to_40M_AUC": 0.0
+        },
+        "SRR3380705": {
+          "coverage_bp_sum": 0,
+          "auc_all_reads_all_bases": 4149109043.0,
+          "coverage_scaled_to_40M_AUC": 0.0
+        }
+      }
+    },
+    "TMEM266": {
+      "gene_id": "ENSG00000169758.12",
+      "annotation": {
+        "name": "TMEM266",
+        "gtf": "chr15\tHAVANA\tgene\t76059837\t76229121\t5265\t+\t.\tgene_id \"ENSG00000169758.12\"; gene_type \"protein_coding\"; gene_name \"TMEM266\"; level 1; havana_gene \"OTTHUMG00000142918.6\";"
+      },
+      "runs": {
+        "SRR3380704": {
+          "coverage_bp_sum": 1333,
+          "auc_all_reads_all_bases": 4010619836.0,
+          "coverage_scaled_to_40M_AUC": 13.29470310833021
+        },
+        "SRR3380705": {
+          "coverage_bp_sum": 1694,
+          "auc_all_reads_all_bases": 4149109043.0,
+          "coverage_scaled_to_40M_AUC": 16.331216966765073
+        }
+      }
+    },
+    "MYH1": {
+      "gene_id": "ENSG00000109061.9",
+      "annotation": {
+        "name": "MYH1",
+        "gtf": "chr17\tHAVANA\tgene\t10492307\t10518543\t6024\t-\t.\tgene_id \"ENSG00000109061.9\"; gene_type \"protein_coding\"; gene_name \"MYH1\"; level 2; havana_gene \"OTTHUMG00000130362.2\";"
+      },
+      "runs": {
+        "SRR3380704": {
+          "coverage_bp_sum": 269089,
+          "auc_all_reads_all_bases": 4010619836.0,
+          "coverage_scaled_to_40M_AUC": 2683.7647147167804
+        },
+        "SRR3380705": {
+          "coverage_bp_sum": 282742,
+          "auc_all_reads_all_bases": 4149109043.0,
+          "coverage_scaled_to_40M_AUC": 2725.809296113985
+        }
+      }
+    },
+    "MYH2": {
+      "gene_id": "ENSG00000125414.18",
+      "annotation": {
+        "name": "MYH2",
+        "gtf": "chr17\tHAVANA\tgene\t10521148\t10549957\t6623\t-\t.\tgene_id \"ENSG00000125414.18\"; gene_type \"protein_coding\"; gene_name \"MYH2\"; level 1; havana_gene \"OTTHUMG00000130363.55\";"
+      },
+      "runs": {
+        "SRR3380704": {
+          "coverage_bp_sum": 12526,
+          "auc_all_reads_all_bases": 4010619836.0,
+          "coverage_scaled_to_40M_AUC": 124.928320431316
+        },
+        "SRR3380705": {
+          "coverage_bp_sum": 9927,
+          "auc_all_reads_all_bases": 4149109043.0,
+          "coverage_scaled_to_40M_AUC": 95.70247392507491
+        }
+      }
+    },
+    "CKM": {
+      "gene_id": "ENSG00000104879.4",
+      "annotation": {
+        "name": "CKM",
+        "gtf": "chr19\tHAVANA\tgene\t45306414\t45322977\t1657\t-\t.\tgene_id \"ENSG00000104879.4\"; gene_type \"protein_coding\"; gene_name \"CKM\"; level 2; havana_gene \"OTTHUMG00000181782.1\";"
+      },
+      "runs": {
+        "SRR3380704": {
+          "coverage_bp_sum": 284,
+          "auc_all_reads_all_bases": 4010619836.0,
+          "coverage_scaled_to_40M_AUC": 2.8324798820448462
+        },
+        "SRR3380705": {
+          "coverage_bp_sum": 120,
+          "auc_all_reads_all_bases": 4149109043.0,
+          "coverage_scaled_to_40M_AUC": 1.1568748736787537
+        }
+      }
+    },
+    "ACTB": {
+      "gene_id": "ENSG00000075624.13",
+      "annotation": {
+        "name": "ACTB",
+        "gtf": "chr7\tHAVANA\tgene\t5527151\t5563784\t3256\t-\t.\tgene_id \"ENSG00000075624.13\"; gene_type \"protein_coding\"; gene_name \"ACTB\"; level 2; havana_gene \"OTTHUMG00000023268.7\";"
+      },
+      "runs": {
+        "SRR3380704": {
+          "coverage_bp_sum": 18105939,
+          "auc_all_reads_all_bases": 4010619836.0,
+          "coverage_scaled_to_40M_AUC": 180579.95761630696
+        },
+        "SRR3380705": {
+          "coverage_bp_sum": 18744034,
+          "auc_all_reads_all_bases": 4149109043.0,
+          "coverage_scaled_to_40M_AUC": 180704.18304983556
+        }
+      }
+    },
+    "NR4A3": {
+      "gene_id": "ENSG00000119508.17",
+      "annotation": {
+        "name": "NR4A3",
+        "gtf": "chr9\tHAVANA\tgene\t99821855\t99866891\t6314\t+\t.\tgene_id \"ENSG00000119508.17\"; gene_type \"protein_coding\"; gene_name \"NR4A3\"; level 2; havana_gene \"OTTHUMG00000021030.2\";"
+      },
+      "runs": {
+        "SRR3380704": {
+          "coverage_bp_sum": 117308,
+          "auc_all_reads_all_bases": 4010619836.0,
+          "coverage_scaled_to_40M_AUC": 1169.9737676159043
+        },
+        "SRR3380705": {
+          "coverage_bp_sum": 122444,
+          "auc_all_reads_all_bases": 4149109043.0,
+          "coverage_scaled_to_40M_AUC": 1180.436558606011
+        }
+      }
+    }
+  },
+  "qc_selected_runs": {
+    "SRR3380704": {
+      "rail_id": "571431",
+      "external_id": "SRR3380704",
+      "study": "SRP073267",
+      "aligned_reads%.chrm": "2.21",
+      "aligned_reads%.chrx": "2.41",
+      "aligned_reads%.chry": "0.06",
+      "bc_auc.all_reads_all_bases": "4010619836",
+      "bc_auc.all_reads_annotated_bases": "5424229783",
+      "bc_auc.unique_reads_all_bases": "3798291885",
+      "bc_auc.unique_reads_annotated_bases": "5260555664",
+      "bc_auc.all_%": "135.25",
+      "bc_auc.unique_%": "138.5",
+      "bc_frag.count": "24426342",
+      "bc_frag.kallisto_count": "22471846",
+      "bc_frag.kallisto_mean_length": "195.283",
+      "bc_frag.mean_length": "745.241",
+      "bc_frag.mode_length": "146",
+      "bc_frag.mode_length_count": "223433",
+      "exon_fc.all_%": "85.29",
+      "exon_fc.unique_%": "90.15",
+      "exon_fc_count_all.total": "29714189",
+      "exon_fc_count_all.assigned": "20832429",
+      "exon_fc_count_unique.total": "29714189",
+      "exon_fc_count_unique.assigned": "20832429",
+      "gene_fc.all_%": "83.16",
+      "gene_fc.unique_%": "85.63",
+      "gene_fc_count_all.total": "29714189",
+      "gene_fc_count_all.assigned": "20312064",
+      "gene_fc_count_unique.total": "29714189",
+      "gene_fc_count_unique.assigned": "19787500",
+      "intron_sum": "177667196",
+      "intron_sum_%": "4.43",
+      "star.%_of_chimeric_reads": "1.03",
+      "star.%_of_chimeric_reads2": "0",
+      "star.%_of_reads_mapped_to_multiple_loci": "5.30",
+      "star.%_of_reads_mapped_to_multiple_loci2": "0",
+      "star.%_of_reads_mapped_to_too_many_loci": "0.04",
+      "star.%_of_reads_mapped_to_too_many_loci2": "0",
+      "star.%_of_reads_unmapped:_other": "0.02",
+      "star.%_of_reads_unmapped:_other2": "0",
+      "star.%_of_reads_unmapped:_too_many_mismatches": "0.00",
+      "star.%_of_reads_unmapped:_too_many_mismatches2": "0",
+      "star.%_of_reads_unmapped:_too_short": "1.64",
+      "star.%_of_reads_unmapped:_too_short2": "0",
+      "star.all_mapped_reads": "24426342",
+      "star.all_mapped_reads2": "0",
+      "star.average_input_read_length": "202",
+      "star.average_input_read_length2": "0",
+      "star.average_mapped_length": "200.25",
+      "star.average_mapped_length2": "0",
+      "star.deletion_average_length": "1.76",
+      "star.deletion_average_length2": "0",
+      "star.deletion_rate_per_base": "0.01",
+      "star.deletion_rate_per_base2": "0",
+      "star.insertion_average_length": "1.61",
+      "star.insertion_average_length2": "0",
+      "star.insertion_rate_per_base": "0.01",
+      "star.insertion_rate_per_base2": "0",
+      "star.mapping_speed,_million_of_reads_per_hour": "140.89",
+      "star.mapping_speed,_million_of_reads_per_hour2": "0",
+      "star.mismatch_rate_per_base,_%": "0.20",
+      "star.mismatch_rate_per_base,_%2": "0",
+      "star.number_of_chimeric_reads": "256569",
+      "star.number_of_chimeric_reads2": "0",
+      "star.number_of_input_reads": "24851321",
+      "star.number_of_input_reads2": "0",
+      "star.number_of_reads_mapped_to_multiple_loci": "1317390",
+      "star.number_of_reads_mapped_to_multiple_loci2": "0",
+      "star.number_of_reads_mapped_to_too_many_loci": "11001",
+      "star.number_of_reads_mapped_to_too_many_loci2": "0",
+      "star.number_of_reads_unmapped:_other": "5677",
+      "star.number_of_reads_unmapped:_other2": "0",
+      "star.number_of_reads_unmapped:_too_many_mismatches": "0",
+      "star.number_of_reads_unmapped:_too_many_mismatches2": "0",
+      "star.number_of_reads_unmapped:_too_short": "408301",
+      "star.number_of_reads_unmapped:_too_short2": "0",
+      "star.number_of_splices:_at/ac": "4696",
+      "star.number_of_splices:_at/ac2": "0",
+      "star.number_of_splices:_annotated_(sjdb)": "0",
+      "star.number_of_splices:_annotated_(sjdb)2": "0",
+      "star.number_of_splices:_gc/ag": "71838",
+      "star.number_of_splices:_gc/ag2": "0",
+      "star.number_of_splices:_gt/ag": "12251917",
+      "star.number_of_splices:_gt/ag2": "0",
+      "star.number_of_splices:_non-canonical": "20852",
+      "star.number_of_splices:_non-canonical2": "0",
+      "star.number_of_splices:_total": "12349303",
+      "star.number_of_splices:_total2": "0",
+      "star.uniquely_mapped_reads_%": "92.99",
+      "star.uniquely_mapped_reads_%2": "0",
+      "star.uniquely_mapped_reads_number": "23108952",
+      "star.uniquely_mapped_reads_number2": "0",
+      "junction_count": "218143",
+      "junction_coverage": "10954578",
+      "junction_avg_coverage": "50.217417015444",
+      "star.number_of_input_reads_both": "24851321.0",
+      "star.all_mapped_reads_both": "24426342.0",
+      "star.number_of_chimeric_reads_both": "256569.0",
+      "star.number_of_reads_mapped_to_multiple_loci_both": "1317390.0",
+      "star.number_of_reads_mapped_to_too_many_loci_both": "11001.0",
+      "star.number_of_reads_unmapped:_other_both": "5677.0",
+      "star.number_of_reads_unmapped:_too_many_mismatches_both": "0.0",
+      "star.number_of_reads_unmapped:_too_short_both": "408301.0",
+      "star.uniquely_mapped_reads_number_both": "23108952.0",
+      "star.%_mapped_reads_both": "98.3",
+      "star.%_chimeric_reads_both": "1.0",
+      "star.%_reads_mapped_to_multiple_loci_both": "5.3",
+      "star.%_reads_mapped_to_too_many_loci_both": "0.0",
+      "star.%_reads_unmapped:_other_both": "0.0",
+      "star.%_reads_unmapped:_too_many_mismatches_both": "0.0",
+      "star.%_reads_unmapped:_too_short_both": "1.6",
+      "star.uniquely_mapped_reads_%_both": "93.0"
+    },
+    "SRR3380705": {
+      "rail_id": "1142872",
+      "external_id": "SRR3380705",
+      "study": "SRP073267",
+      "aligned_reads%.chrm": "2.22",
+      "aligned_reads%.chrx": "2.41",
+      "aligned_reads%.chry": "0.06",
+      "bc_auc.all_reads_all_bases": "4149109043",
+      "bc_auc.all_reads_annotated_bases": "5611254611",
+      "bc_auc.unique_reads_all_bases": "3929679672",
+      "bc_auc.unique_reads_annotated_bases": "5442187158",
+      "bc_auc.all_%": "135.24",
+      "bc_auc.unique_%": "138.49",
+      "bc_frag.count": "25257537",
+      "bc_frag.kallisto_count": "23231840",
+      "bc_frag.kallisto_mean_length": "195.422",
+      "bc_frag.mean_length": "748.305",
+      "bc_frag.mode_length": "146",
+      "bc_frag.mode_length_count": "230232",
+      "exon_fc.all_%": "85.29",
+      "exon_fc.unique_%": "90.15",
+      "exon_fc_count_all.total": "30719799",
+      "exon_fc_count_all.assigned": "21543327",
+      "exon_fc_count_unique.total": "30719799",
+      "exon_fc_count_unique.assigned": "21543327",
+      "gene_fc.all_%": "83.17",
+      "gene_fc.unique_%": "85.64",
+      "gene_fc_count_all.total": "30719799",
+      "gene_fc_count_all.assigned": "21005514",
+      "gene_fc_count_unique.total": "30719799",
+      "gene_fc_count_unique.assigned": "20464519",
+      "intron_sum": "183614774",
+      "intron_sum_%": "4.43",
+      "star.%_of_chimeric_reads": "1.03",
+      "star.%_of_chimeric_reads2": "0",
+      "star.%_of_reads_mapped_to_multiple_loci": "5.30",
+      "star.%_of_reads_mapped_to_multiple_loci2": "0",
+      "star.%_of_reads_mapped_to_too_many_loci": "0.04",
+      "star.%_of_reads_mapped_to_too_many_loci2": "0",
+      "star.%_of_reads_unmapped:_other": "0.02",
+      "star.%_of_reads_unmapped:_other2": "0",
+      "star.%_of_reads_unmapped:_too_many_mismatches": "0.00",
+      "star.%_of_reads_unmapped:_too_many_mismatches2": "0",
+      "star.%_of_reads_unmapped:_too_short": "1.63",
+      "star.%_of_reads_unmapped:_too_short2": "0",
+      "star.all_mapped_reads": "25257537",
+      "star.all_mapped_reads2": "0",
+      "star.average_input_read_length": "202",
+      "star.average_input_read_length2": "0",
+      "star.average_mapped_length": "200.26",
+      "star.average_mapped_length2": "0",
+      "star.deletion_average_length": "1.76",
+      "star.deletion_average_length2": "0",
+      "star.deletion_rate_per_base": "0.01",
+      "star.deletion_rate_per_base2": "0",
+      "star.insertion_average_length": "1.60",
+      "star.insertion_average_length2": "0",
+      "star.insertion_rate_per_base": "0.01",
+      "star.insertion_rate_per_base2": "0",
+      "star.mapping_speed,_million_of_reads_per_hour": "311.45",
+      "star.mapping_speed,_million_of_reads_per_hour2": "0",
+      "star.mismatch_rate_per_base,_%": "0.20",
+      "star.mismatch_rate_per_base,_%2": "0",
+      "star.number_of_chimeric_reads": "264248",
+      "star.number_of_chimeric_reads2": "0",
+      "star.number_of_input_reads": "25694821",
+      "star.number_of_input_reads2": "0",
+      "star.number_of_reads_mapped_to_multiple_loci": "1360564",
+      "star.number_of_reads_mapped_to_multiple_loci2": "0",
+      "star.number_of_reads_mapped_to_too_many_loci": "11451",
+      "star.number_of_reads_mapped_to_too_many_loci2": "0",
+      "star.number_of_reads_unmapped:_other": "5999",
+      "star.number_of_reads_unmapped:_other2": "0",
+      "star.number_of_reads_unmapped:_too_many_mismatches": "0",
+      "star.number_of_reads_unmapped:_too_many_mismatches2": "0",
+      "star.number_of_reads_unmapped:_too_short": "419834",
+      "star.number_of_reads_unmapped:_too_short2": "0",
+      "star.number_of_splices:_at/ac": "4942",
+      "star.number_of_splices:_at/ac2": "0",
+      "star.number_of_splices:_annotated_(sjdb)": "0",
+      "star.number_of_splices:_annotated_(sjdb)2": "0",
+      "star.number_of_splices:_gc/ag": "74346",
+      "star.number_of_splices:_gc/ag2": "0",
+      "star.number_of_splices:_gt/ag": "12663983",
+      "star.number_of_splices:_gt/ag2": "0",
+      "star.number_of_splices:_non-canonical": "21158",
+      "star.number_of_splices:_non-canonical2": "0",
+      "star.number_of_splices:_total": "12764429",
+      "star.number_of_splices:_total2": "0",
+      "star.uniquely_mapped_reads_%": "93.00",
+      "star.uniquely_mapped_reads_%2": "0",
+      "star.uniquely_mapped_reads_number": "23896973",
+      "star.uniquely_mapped_reads_number2": "0",
+      "junction_count": "220474",
+      "junction_coverage": "11325196",
+      "junction_avg_coverage": "51.367490044178",
+      "star.number_of_input_reads_both": "25694821.0",
+      "star.all_mapped_reads_both": "25257537.0",
+      "star.number_of_chimeric_reads_both": "264248.0",
+      "star.number_of_reads_mapped_to_multiple_loci_both": "1360564.0",
+      "star.number_of_reads_mapped_to_too_many_loci_both": "11451.0",
+      "star.number_of_reads_unmapped:_other_both": "5999.0",
+      "star.number_of_reads_unmapped:_too_many_mismatches_both": "0.0",
+      "star.number_of_reads_unmapped:_too_short_both": "419834.0",
+      "star.uniquely_mapped_reads_number_both": "23896973.0",
+      "star.%_mapped_reads_both": "98.3",
+      "star.%_chimeric_reads_both": "1.0",
+      "star.%_reads_mapped_to_multiple_loci_both": "5.3",
+      "star.%_reads_mapped_to_too_many_loci_both": "0.0",
+      "star.%_reads_unmapped:_other_both": "0.0",
+      "star.%_reads_unmapped:_too_many_mismatches_both": "0.0",
+      "star.%_reads_unmapped:_too_short_both": "1.6",
+      "star.uniquely_mapped_reads_%_both": "93.0"
+    }
+  },
+  "normalization": "gene coverage * 40000000 / bc_auc.all_reads_all_bases; a coverage scaling, not TPM, integer reads or transcript molecules. Do not directly compare with original tissue TPM or FFPE log2CPM.",
+  "scope": "Low assigned coverage in a published EMC-derived EWSR1::NR4A3-positive culture. No locus breadth, full-length transcript, modern STR identity, purity, protein or intact-tumor cell localization established. Both runs are technical observations of one sample. MYH1/MYH2 signals prevent declaring muscle-program absence."
+}

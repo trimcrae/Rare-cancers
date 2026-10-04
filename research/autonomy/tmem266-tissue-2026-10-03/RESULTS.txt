@@ -1,0 +1,165 @@
+TMEM266 within published EMC tissue: targeted follow-up
+3 October 2026 America/New_York / 4 October UTC
+
+Answer
+Yes, there is published tissue-level evidence for TMEM266-targeted RNA in
+pathology-reviewed EMC FFPE areas, in addition to the earlier bulk datasets.
+The official assay probe exactly matches a spliced TMEM266 region. We have
+not located that RNA in morphologically identified malignant cells or
+established an intact protein-coding transcript or surface protein.
+
+Demonstrated finding (two-sentence candidate)
+A new analysis of the published 12-specimen EMC FFPE expression table found
+TMEM266-targeted RNA signal, and sequence verification shows that the matching
+manufacturer v2.0 probe spans the TMEM266 exon 10-11 splice junction outside
+the identified antisense-overlap region. This strengthens the tissue RNA
+lead, but the scraped tissue areas contain unspecified cell mixtures and
+the measured junction is shared by coding and alternative transcripts.
+
+What was actually measured
+PeerJ2026 DOI10.7717/peerj.21497 / PMID42465974 / PMC13374579 used pathology-
+reviewed FFPE sections and scraped areas of interest for TempO-Seq Human
+WholeTranscriptome2.0. No malignant-cell fraction is supplied. Institutions
+include Siriraj and Columbia. EWSR1 break-apart FISH was positive in eight
+and negative in four; do not describe all12 as fusion-confirmed EMC.
+TMEM266 appears once at Excel row2996 of Supplement9, sheet
+EMC_Gene-expression_Log2CPM, with the following original values:
+Si01 2.788209069; Si02 6.475678671; Si05 6.769372093; Si09 2.671602470;
+Si10 3.978364287; Si14 7.087465532; Si15 3.957181298; Si16 -0.375771871;
+Si17 7.137613804; Si19 7.222901149; Si20 1.126677564; Si22 7.655052144.
+Median5.227021479, range-0.375771871 to7.655052144 on the authors' Log2CPM
+scale. Ten are above their sample's bottom quartile; this is a descriptive
+rank, NOT a detection threshold or10/12 positive tumors. Twelve numerical
+values do not establish twelve biologically positive tumors. The repeated
+export value0.010026459 is not an authenticated assay limit of detection.
+Eight fixed control genes are absent from this filtered export, not proven
+biologically absent. All controls, values and ranks are retained in JSON.
+
+Identity sensitivity: an explicit deposited BioSample crosswalk links all
+12 Si identifiers to FISH_1 results and reconciles exactly eight EWSR1+
+and four EWSR1- cases. Positive: Si05, Si09, Si10, Si14, Si15, Si17, Si19,
+Si20; median TMEM266 Log2CPM 5.373868190, range 1.126677564-7.222901149.
+Negative: Si01, Si02, Si16, Si22; median 4.631943870, range
+-0.375771871-7.655052144. Thus the targeted RNA measurements are also
+present in the explicitly rearranged subset; no detection threshold,
+significance test, fusion-partner or between-group biological claim follows.
+The records are SAMN53073757-SAMN53073768, linked by PRJNA1357027.
+Deposited collection years (1997-2020) differ from the article's cohort
+dates (2008-2018); other provenance fields also do not fully reconcile.
+These discrepancies are preserved rather than used to infer cohort origin.
+https://www.ebi.ac.uk/ena/browser/api/xml/SAMN53073759
+fish_sensitivity.py and its JSON preserve the explicit join and receipts.
+
+Manufacturer target authentication
+Official source:
+https://www.biospyder.com/temposeq-manifests
+https://www.biospyder.com/s/190620HumanWholeTranscriptome20Manifest.xlsx
+The workbook contains one exact TMEM266 row19836, probeTMEM266_14670,
+Entrez123591, ENSG00000169758, listed transcriptENST00000388942.
+Probe: GTGGTGACCATACACACAGCTGGCTCTGGGACACCGCTGTCACTGCTGGG (50nt).
+Its reverse complement exactly equals the joined hg38 intervals
+chr15:[76202254,76202264) + [76203740,76203780), respectively the final10nt
+of canonical exon10 and first40nt of exon11. Coordinates here are 0-based,
+half-open; the literal manufacturer span15:76202255-76203780:- is consistent
+with 1-based inclusive boundaries and antisense probe orientation.
+This target is distinct from shared antisense exon[76175558,76175674).
+The exact assay batch/manifest revision is unreported, so matching the named
+v2.0 assay to this official v2.0 design remains a qualification. Exact design
+matching does not replace an assay-specificity experiment or exclude every
+possible genomic off-target. It supports the interpretation of a spliced
+TMEM266 region in tissue, not direct sequencing of an entire endogenous RNA.
+
+The same junction occurs in GENCODEv26 canonical ENST00000388942.7 and
+alternative ENST00000484722.5, ENST00000561302.5 and ENST00000558249.1.
+Current Ensembl annotation also retains this ambiguity and adds further
+models. Do not interpret the manufacturer's single transcript identifier as
+isoform-specific detection. isoform-context-results.json records every
+queried model and its junction compatibility, with versioned coordinates.
+
+Independent supporting analysis: one patient-derived culture
+Davila2016 DOI10.1186/s12864-016-3161-9, source cultureV1-34 / GSM2113301,
+is labelled EMC in source TableS4 and EWSR1-NR4A3 in TableS6. Original
+methods describe patient-derived residual-tumor cultures; this is source-
+authenticated provenance, not a fresh STR/culture-purity validation.
+SRR3380704 and SRR3380705 are technical runs of ONE biological sample.
+recount3 G026 assigns1333 and1694 aligned-base coverage sums to TMEM266.
+The documented AUC scaling gives13.294703 and16.331217 at target library
+size40million. These values are not observed molecules, integer read counts,
+TPM, CPM or directly comparable to the tissue platforms.
+
+Full-resolution BigWig range queries reproduced both gene sums exactly:
+chr15 union interval       SRR3380704  SRR3380705  (coverage sums)
+[76191468,76192157)           358         487
+[76202201,76202264)           113          63
+[76203740,76204963)           279         573
+[76228775,76229121)           583         571
+All other11 union intervals have zero coverage, including the116bp shared
+antisense exon. Thus this particular antisense-overlap explanation does not
+account for the culture signal. Each complete range query transferred less
+than24KB; no entire BigWig or raw sequencing file was downloaded.
+
+These are four UNION-exon regions, not four canonical exons. In canonical
+ENST00000388942.7/.9, exons1-8 have zero coverage in both runs, exon9 has0/83,
+exon10 has113/63 and exon11 has279/573. The upstream extension of union
+interval12 is compatible with a retained-intron transcript; the distal last
+interval is an alternative terminal exon absent from the canonical model.
+The sparse downstream signal strengthens TMEM266-locus attribution but
+cannot phase exons into a complete RNA, establish mapping uniqueness or
+infer a particular alternative isoform. Full coding RNA remains unproven,
+not disproved. Do not call alternative-isoform predominance or an NMD
+discovery. Culture coverage does not localize RNA in intact patient tissue.
+
+Supporting context and rejected overinterpretations
+1. Restricting the prior Hofvander dataset to explicitly deep-thigh specimens
+   leaves4EMCs(11.01-28.88TPM), all above4LGFMS and5MLPS comparators. A
+   superficial upper-arm EMC has32.20TPM. This weakens a simple anatomical-
+   site explanation; it does not exclude microscopic muscle admixture.
+   ASCATpurity is unavailable for all9EMCs. Existing normal-muscle array
+   values overlap EMC, so tumor-specific expression is not established.
+2. All8 engineered fusion-fibroblast libraries have TMEM266-assigned counts
+   (14-109;1.03-9.01CPM within this matrix). These are engineered tBJ/ER
+   fibroblasts, not patient EMC; without a fusion-negative control no fusion-
+   induction claim is possible. This does not answer tissue localization.
+3. Brenca2019 described tumor-rich RNA samples (>70%tumor nuclei), but its
+   accessible selected-gene supplementary tables do not include TMEM266.
+   Their missing row is not a negative measurement. No complete processed
+   patient table was recovered under bounded public access.
+4. No qualifying public EMC single-cell/spatial/RNA-ISH/microdissected
+   TMEM266 measurement was found in the inspected sources. The epithelioid
+   sarcoma and CIVO spatial studies were different histologies; pediatric
+   atlas access/EMC identity could not be established. This is a bounded
+   search result, not proof that no such material exists anywhere.
+5. The original FFPE paper's limited multiplex imaging did not assay TMEM266;
+   it cannot localize this target. H&E is not a TMEM266 RNA measurement.
+6. Previous Lund datasets have unresolved patient overlap. Do not pool their
+   sample counts as independent patients or claim all cohorts fully independent.
+
+Why this changes the next investigation
+The lead now has a specific tissue RNA target region and model-locus support,
+making localization in EMC cells worth testing. A discriminating next
+measurement would pair TMEM266 RNA localization with EMC pathology/fusion
+identity and muscle/stromal controls, and separately test upstream coding
+regions plus protein. A junction-only assay cannot answer whether a surface
+target is made. No wet-lab, outreach or publication action was undertaken.
+
+Reproducibility and sources
+peerj_tmem266.py + exact peerj-source-s009.xlsx: tissue extraction/ranks.
+independent_peerj_verify.py: independent openpyxl/SciPy verification passed.
+probe_specificity.py: official manifest and exact reference-junction match.
+cultured_emc_recount.py: source gene sums and documented scaling.
+culture_identity_audit.py: primary source/GEO/ENA identity crosswalk.
+culture_exon_coverage.py: bounded full-resolution coverage query.
+independent_exon_verify.py: independent NumPy per-base replay passed.
+isoform_context.py: versioned transcript compatibility, not abundance.
+anatomical_sensitivity.py and engineered_fibroblast_pilot.py: context only.
+fish_sensitivity.py: explicit deposited sample/FISH identity sensitivity.
+All selected outputs/receipts are adjacent; no platform values were pooled.
+https://pmc.ncbi.nlm.nih.gov/articles/PMC13374579/
+https://doi.org/10.7717/peerj.21497
+https://pmc.ncbi.nlm.nih.gov/articles/PMC5072325/
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2113301
+https://research.libd.org/recount3/articles/recount3-quickstart.html
+https://doi.org/10.1158/1078-0432.CCR-25-3740
+https://doi.org/10.3389/fgene.2024.1440994
+https://doi.org/10.1002/path.5284
+https://doi.org/10.1002/path.5737

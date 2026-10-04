@@ -1,0 +1,133 @@
+Scientific discovery fan-out, 2026-10-03, second round
+This extends source-audit.txt; earlier negative pilots are preserved.
+All sources are public/read-only. No outreach, purchases or public edits.
+
+SURVIVING NARROW LEAD: TMEM266 / C15orf27 / HVRP1 / FLJ38190
+Hofvander original RNA matrix and clinical TableS1:
+https://doi.org/10.5281/zenodo.17866629
+Original article/local XML: atlas-hofvander-source-2026-09-06/hofvander2026.xml
+https://doi.org/10.1158/1078-0432.CCR-25-3740
+Separate original assay series, Moller/Hornick/Mertens2011, PMID21536545:
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369
+Local original SOFT and GPL6244 annotation, not an inferred gene matrix.
+Each artifact carries its input SHA256; independent verifier re-read both.
+Normal-muscle pools GSM600968/969 are deliberately retained as context.
+
+Primary prior art/biological boundary:
+Filion2009 https://doi.org/10.1002/path.2445
+https://pmc.ncbi.nlm.nih.gov/articles/PMC4429309/
+Table1 already reports CDH10,CORIN,GRIA3,HTR4; neural EMC differentiation
+is established. No claim that finding more neural transcripts itself is new.
+Methods specify U133A,22215 probes. Official annotation retrieved:
+https://ftp.ncbi.nlm.nih.gov/geo/platforms/GPLnnn/GPL96/annot/GPL96.annot.gz
+4522748bytes SHA25688e0b22362bac779eb220b3b185c80faa6510a92b9358eaad159a561ab4351c4
+No TMEM266,C15orf27,FLJ38190,123591,NM_152335,1552400_a_at matches.
+Only1552400_a_at on local GPL570 mapping. Replayed by root in
+round2_prior_art_coverage.py; receipt round2-prior-art-coverage.json.
+Unavailable full383-probe supplement remains a novelty limitation for other
+genes; it cannot provide a currently annotated TMEM266 measurement on U133A.
+Exact/synonym EMC queries found no direct prior TMEM266 report; absence of a
+retrieved hit is not proof of first-ever publication. Prior campaign reference
+5d2f2e2116 includes TMEM266 only in a GLS2 random-gene-null pool, not as a result.
+
+Kim2014 https://doi.org/10.1371/journal.pone.0105926
+Human tissue qPCR finds predominantly cerebellum, lower skeletal-muscle,
+thyroid/cortex expression. Rat/mouse localization and heterologous assays are
+not EMC measurements; do not transfer protein localization to EMC.
+Papp2019 https://doi.org/10.7554/eLife.42372
+Voltage sensing/Zn modulation in heterologous systems is not evidence of
+ion conduction, EMC dependency, or a therapeutic target/window.
+
+COHORT INDEPENDENCE AUDIT
+Hofvander source:704patients,644eligible after documented exclusions;
+nineEMC retained,3known historical overlaps excluded and1localrecurrence.
+GSE24369:6EMC array specimens; both studies involve Lund investigators.
+No public patient crosswalk found. Specimen suffixes are not verified dates;
+do NOT assert8cases post2010 or15independent patients. Removing5241-06 is a
+heuristic sensitivity only, and preserves TMEM266/GPR68 main separations.
+2011supplement recovered in-memory from public Figshare:
+https://ndownloader.figshare.com/files/39893895 (article22442952)
+24589593bytes SHA256da56a8ed5ac75a5bae517cd9fff99975d3122de4acb94650abe2b615d42d2704
+13pages,noEMCclinicalcrosswalk. Array/PCR use sameRNA, except2extraPCR-onlyEMC;
+this is not another independent validation cohort. Nothing large saved.
+
+PROMISING BUT UNFINISHED GPR68
+Replicated high bulkRNA vs selected sarcomas; broader context is NOT globally
+specific (benign fibrous histiocytoma higher; A=.222). Correlation with COL1A1
+and COL1A2 is .617/.700 in9EMC, compatible with a stromal explanation.
+Lupp2019 https://doi.org/10.3390/ijms20215261
+https://pmc.ncbi.nlm.nih.gov/articles/PMC6862545/
+Validated-antibody study:0/14other sarcomas, NOEMC included. Immune/vascular
+expression and pH-dependent localization prevent equating RNA with surface
+protein. XML142822bytes SHA2568b479da92c63ecdb5331ec258c891e651b34d9dcd67d4d7be5c70b3c6b8dc826.
+Wiley2018 https://doi.org/10.1096/fj.201700834R
+Pancreatic fibroblast pH signaling is a competing cellular explanation, not
+an EMC acid-response measurement. GPR68 present on olderU133A; unavailable
+Filionfullsupplement means its old-expression-list novelty is unresolved.
+
+OTHER EXPRESSION DISPOSITIONS
+ABHD2 replicates but insufficient distinct biological contribution established;
+no progesterone-signaling or inhibitor benefit claim. Primary mechanism
+challenge: https://doi.org/10.1093/humrep/deag085 ; opposite inhibition logic
+in ovarian cells: https://doi.org/10.18632/oncotarget.9951 .
+CHRNA6,CDH10,GRIA3,HTR4 are known EMC markers/expression findings.
+CORIN is known and fails array allocation. HCN4,SCN3B,SLC2A4 fail allocation.
+PCDH20 has no eligible mapped cluster. PLPPR4,RAMP1,ADGRB3,ANO4,ATP1B1,
+CHRM3,DPP4 remain screen observations without a sufficiently established
+separate novel useful contribution. TLR4/MARCHF1 have unresolved immune origin.
+All21 nominated genes, including every failure, are in replication.json.
+FOLR1 outliers already Davis2017: https://doi.org/10.18632/oncotarget.15568 ;
+fiveRNA-evaluable metastatic cases/two outliers, not measured protein.
+It fails the broad frozen screen; no post-hoc rescue.
+
+FRESH PUBLIC SOURCES THAT DID NOT YIELD A NEW FINDING
+Caris2026 https://doi.org/10.1016/j.labinv.2025.104344
+PublicUSCAP33caseabstract fully recovered; root replay saved abstract/receipt.
+13/25SGA;9/12nonEWS vs4/13EWS is ORIGINAL authors' finding. No patient table
+or per-gene tested denominators; independence fromMSK/Foundation unresolved.
+See round2_caris_source.py; rawJSON19694bytes
+SHA256fe771823407b6b66501c42fcd8415c6e8c997b048bc40db552c77666e70f101b.
+
+Zullow2022 MolecularCell, https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE179720
+Paper mentions7pathology-confirmedEMCRNA;138depositedGSM/ENA PRJNA744758runs
+do not identify thoseEMC specimens. NoEMC chromatin experiment authenticated.
+No large raw download, and no inference from MLPS/FUS::DDIT3 to EMC.
+
+CIVO2020 https://doi.org/10.1158/1078-0432.CCR-20-0614
+Patient4=28yearoldmanEMCafterneoadjuvantradiation.9publicsupplements located;
+drug/device tables aggregate; radiationexamples notEMC. No recovered EMC
+quantitative radial/apoptosis table with vehicle, viabletissue and delivery
+controls. Figure2M categorical response inaccessible in checked routes.
+No claim of resistance from missing data; no technical-replicate pseudo-n.
+
+Pathology2026 https://doi.org/10.1111/his.70131 ,2025solidvariant
+https://doi.org/10.1016/j.humpath.2025.105719 : novel fusion/morphology claims
+already originalauthors'. No recovered new patient-level contrast supported.
+SMARCB1 https://pmc.ncbi.nlm.nih.gov/articles/PMC4226650/ already describes
+7fusion-confirmedEMC with reduced/lost staining,2FISHcopies; selectedseries
+does not estimate prevalence. Reject simplistic loss/fusion mutualexclusivity.
+INSM1 https://doi.org/10.1038/modpathol.2017.189 already tests associations.
+Chinese16case2026 PMID41644428 aggregateonly; no publicpatienttable recovered.
+
+Protein studies checked:2025ADC PMC12528890 noEMC;2026B7H3 PMC13251000
+chondrosarcomas conventional, noEMC;2024B7H3 PMC11523878 noEMC;
+TROP2 PMC9393818 noEMC-resolved category;Endo180 PMC9890142 noEMC;
+LRRC15 PMC7140027 cannot identifyEMC inOther48;TLS2026 PMC13255587 includes
+EMCinOther39 but supplement aggregated;panTRK PMC7817523 2/2EMC staining
+is already explicit. Gijsels2026 https://doi.org/10.1002/ctm2.70722 noEMC
+in29cultures/19patients. PXD061872/061813 pairedproteome cohorts noEMC.
+MUG-EMCS nomenclature may mean mesenchymal chondrosarcoma, not authenticated
+extraskeletal myxoid chondrosarcoma; no substitution permitted.
+
+Searches are bounded; unavailable material means unresolved, not absent biology.
+
+Final bounded follow-up:AlShihabi2024sarcomaorganoids
+https://doi.org/10.1016/j.stem.2024.08.010
+Public primaryPDF:
+https://air.unipr.it/retrieve/ac2298a4-674a-4904-9dc6-818374499ff1/PIIS1934590924002960.pdf
+Figures1/2histology/RNA subset show no authenticatedEMC.13chondrosarcoma
+specimens/12patients described as bone tumors cannot substitute forEMC.
+Synapse processedRNA table syn64333318 exists; metadata syn61894657 and
+syn61894699 queries403. No selectedgene values examined, no modelvalidation
+claim. XML237201bytes SHA256195782f496805a048f50133b273f67b274c960fa67ba00ab1b7e05c4ff8b1210.
+Worker stopped after bounded identitygate; no owned processes remain.

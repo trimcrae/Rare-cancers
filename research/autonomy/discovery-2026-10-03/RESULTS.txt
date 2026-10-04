@@ -1,0 +1,90 @@
+Fresh EMC discovery fan-out — 3 October 2026
+
+One candidate survived. This is an empirical research lead, not a validated
+diagnostic test, a drug target, or a manuscript ready for publication.
+
+Demonstrated finding
+
+TMEM266 RNA was unusually high in the EMC tissue samples: all nine RNA-seq
+samples exceeded every sample in 35 of 36 sufficiently represented tumor
+groups, and a separate six-EMC array series reproduced higher expression
+against all four tumor comparison groups.
+This makes TMEM266 worth locating within EMC tissue, but the strongest
+limitation is that bulk RNA cannot distinguish tumor cells from entrapped
+normal tissue, and normal-muscle controls also expressed this transcript.
+
+What was added
+
+The analysis identifies a specific, reproducible EMC tissue association that
+was not found in the primary literature checked. EMC's broader neural
+expression program was already known; this result does not claim otherwise.
+The useful next measurement is RNA in situ hybridization in fusion-confirmed
+EMC, alongside normal muscle and ossifying fibromyxoid tumor controls, to
+determine whether the transcript is actually in the tumor cells.
+
+The analysis started with a fixed UniProt membrane-gene universe, tested
+2,694 readable genes, and froze the 21 qualifying genes before examining
+their array results. Sixteen passed the array allocation rule, but most did
+not establish a sufficiently novel, useful contribution to survive review.
+
+TMEM266's median was 28.88 TPM, with a range of 6.73–56.82 across nine EMC
+samples. It passed the discovery multiplicity correction (q=0.0096).
+In the array series, the probability that an EMC specimen had a higher value
+than a comparator was 0.92 against low-grade fibromyxoid sarcoma, 0.92 against
+myxofibrosarcoma, 0.90 against solitary fibrous tumor, and 1.00 against desmoid.
+These are observed expression contrasts, not validated classifier accuracy.
+
+Important limits
+
+- The 36-group comparison is exploratory context within the discovery data.
+- Both source studies involve Lund investigators; their patient overlap is
+  unresolved. Nine and six are assay-cohort counts, not 15 proven individuals.
+- Two pooled normal-muscle array controls were near the EMC median. Muscle
+  marker correlations cannot exclude contamination or establish cell origin.
+- RNA measurements do not establish full-length membrane protein, function,
+  dependency, treatment benefit, or added value over existing EMC markers.
+- Small cohorts leave uncertainty: the descriptive array interval for the
+  low-grade fibromyxoid comparison was approximately 0.76–1.00.
+
+Promising but unfinished
+
+GPR68 also showed replicated RNA enrichment against the selected sarcomas,
+but broader tumor comparisons and collagen correlations raise a substantial
+stromal explanation; older supplementary-table novelty remains unresolved.
+The CIVO study includes one EMC patient, but usable patient-specific drug
+response measurements and controls were not recovered. A newer GEO paper
+mentions seven EMC samples whose deposited measurements could not be found.
+These are not demonstrated functional findings.
+
+Rejected or not promoted
+
+The antigen-processing pilot failed its fixed effect criteria; PLAGL1 did
+not add enough beyond existing work; the small CT comparison was inconclusive.
+Several expression hits were already published, four failed the array rule,
+and one lacked an eligible array mapping. Other statistically replicated
+genes lacked a sufficiently established novel biological contribution.
+New clinical, protein, and genomic sources mostly repeated their authors'
+findings or lacked EMC-resolved measurements needed for a new analysis.
+
+Verification and handoff
+
+Three parallel workers conducted source discovery and independent challenges.
+An independent implementation reproduced all 2,694 discovery rows and the
+21 nominated array-gene analyses without discrepancies; a second reviewer
+separately verified the TMEM266 values, mapping, and normal-muscle caveat.
+The prior-art reviewer checked official platform annotations: the influential
+Filion study's U133A platform did not have an annotated TMEM266 measurement.
+This narrows a specific prior-art concern; it does not prove exhaustive novelty.
+
+All plans, original-input hashes, scripts, outputs, source audits, and
+independent checks are in this directory. Start with HANDOFF-CURRENT.txt;
+ROUND2-SOURCE-AUDIT.txt provides primary links and the rejected source gates.
+Completion status and remaining processes are recorded in COMPLETION.json.
+
+Primary sources
+
+Hofvander RNA data: https://doi.org/10.5281/zenodo.17866629
+Original arrays: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369
+Earlier EMC expression study: https://doi.org/10.1002/path.2445
+Normal tissue TMEM266 biology: https://doi.org/10.1371/journal.pone.0105926
+TMEM266 functional experiments: https://doi.org/10.7554/eLife.42372

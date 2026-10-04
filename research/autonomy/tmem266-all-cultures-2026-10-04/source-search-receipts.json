@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-04",
+  "scope": "Worker read-only retrieval receipts; API indexes and web page hashes may change. No hit is not global absence.",
+  "replay_script": "replay_source_searches.py",
+  "USZ22": {
+    "GSE221532": {"url":"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE221532&targ=self&form=text&view=full","bytes":4006,"sha256":"e89ee7c1963beee4ccb6e448b912e5d723797068ec5e9c08b9ba42da2b146286","samples":10,"EMC_GSM":"GSM6883080"},
+    "GSM6883080": {"url":"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM6883080&targ=self&form=text&view=full","bytes":2409,"sha256":"fbcf128da3b973f35538b407d235ace1a1e25024609d68f8f9cac7e69bab895b","title":"USZ-22_EMC2","source_name":"sarcoma tumor","extraction":"RNA from patient-derived sarcoma cell models","treatment":"no treatment","BioSample":"SAMN32353266","experiment":"SRX18811760","run":"SRR22852802"},
+    "all10_GSM_metadata":{"url":"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE221532&targ=gsm&form=text&view=full","bytes":24072,"sha256":"71f01cf80b6db0024c63c3a8770a3fc7ec9b3be8932127adc520ab254056894b","ordered_titles":["NMFH-1","USZ-21_UPS1","USZ-21_MFS2","PM197","OH931","USZ-21_CIC1","USZ-20_REA1","USZ-21_LG1","USZ-22_EMC2","USZ-20_SFT1"]},
+    "primary2023":{"url":"https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10086583/fullTextXML","bytes":246128,"sha256":"f7ab34c0ab6537519694e7d1214146ce7e5a27c71f1f06ac5343e08cd2b19dce","doi":"10.15252/emmm.202216863"},
+    "Bangerter":{"url":"https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9813045/fullTextXML","bytes":69800,"sha256":"2998de01bf31d3b3793dd300b7856545168b40e569fbee4f200e53c394a0a657","doi":"10.1007/s13577-022-00818-x"},
+    "ENA":{"url":"https://www.ebi.ac.uk/ena/portal/api/filereport?accession=SRX18811760&result=read_run&fields=run_accession,experiment_accession,sample_accession,study_accession,scientific_name,sample_title,experiment_title,library_name,library_strategy,library_source,library_selection,library_layout,fastq_ftp,fastq_md5,fastq_bytes&format=json","bytes":727,"sha256":"fcdf13fe128da73938533d22f2ebb0f3eb5c432e818d4fc548ec728962121c52","full_file_MD5s_not_verified_by_prefix":["d6573855cc1d60fb011531d21905ce18","e9c083d268798fd8c5ecef98b99117b9"]},
+    "original_GEO_counts":{"url":"https://ftp.ncbi.nlm.nih.gov/geo/series/GSE221nnn/GSE221532/suppl/GSE221532_201222_raw_counts.tsv.gz","advertised_bytes":651838,"outcome":"Not recovered: HTTP200 with empty body on primary path to both lead and worker; standard alternate public routes failed. No expression-negative inference."},
+    "publisher_sources":{"base":"https://media.springernature.com/original/springer-static/esm/art%3A10.15252%2Femmm.202216863/MediaObjects/44321_2023_BFEMMM202216863_","figure5_zip":"MOESM10_ESM.zip","figure5_zip_bytes":156562,"figure5_zip_sha256":"0a9f33ceb7b9ee17c48436fe7655c2d514d1272b5deebe977c0f0c728f4ffdd0","Fig5D_genes":["FANCB","EME1","BRCA1","BLM","FANCI","RAD51","BRCA2","XRCC2","RAD54L"],"expanded_zip":"MOESM3_ESM.zip","expanded_zip_total_bytes":29055039,"range":"bytes=28675192-28963818","range_bytes":288627,"range_sha256":"1486169ad94d77e7ecab4953b519241d000f55ce14d3e40b365b393f1d01ff22","nested_zip":"FigEV4.zip","nested_CRC32":1865623973,"member":"FigEV4/FigEV4D.xls","member_bytes":475136,"member_sha256":"5fa7d78b1a0f42c4fc9e99b67ec1d32f5754aac9d1391e630da1435bb5c1f0f4","gene_rows":2898,"columns":["baseMean","log2FoldChange","lfcSE","stat","pvalue","padj","symbol"],"target_matches":0,"interpretation":"Selected differential-expression table, not complete expression coverage; missing is not zero"}
+  },
+  "Zurich_GDS_search":{"count":4,"ids":["200299349","200221532","309037837","306883080"],"bytes":905,"sha256":"4d416900ad0f17c39ae45c814be50afb636a10fb44a7e6fb3b44830af27c9200"},
+  "NCC":{
+    "primary_figure2":{"url":"https://link.springer.com/article/10.1007/s13577-025-01250-7/figures/2","bytes":202725,"sha256":"5de79201525455f2750e4b327913d73e5617744a82ac69bb925cf3d33715a298","finding":"Sanger EWSR1::NR4A3 in passage10 culture and matched original tumor"},
+    "epmc":{"hits":1,"bytes":986,"sha256":"807e77dd99ede8d4f369bcd16e80599c8c50f303f2f607fd98c39c302f6a2b1d"},
+    "cellosaurus":{"hits":0,"bytes":371,"sha256":"08241de2e9028c7bdde2067cf3a3b5efc80e66dbd65995806b0a6309b56a34eb"},
+    "gds":{"hits":0,"bytes":916,"sha256":"e89bfa4f6ec07252dc492b0275ccfb1e89ac11a8393fdad22ef80b3f7b887e30"},
+    "sra_biosample_each":{"hits":0,"bytes":382,"sha256":"13698c3515994f22dfb14df4a9765cebc702ca660b0f1fe0cb6914bc97cda53a"},
+    "bioproject":{"hits":0,"bytes":908,"sha256":"ef5509a210e6f2e62bde4dd190d596743139ec3ff6666fee7a399c2de7159a3a"},
+    "ena":{"hits":0,"bytes":5,"sha256":"2ba33ca0557f1bb5b7ba88d67f9d0093c7185a36ec51fe2b7bd9372d3e001d6d"},
+    "biostudies":{"hits":0,"bytes":305,"sha256":"f240805996f46ca85ca65e69ffd386aa1ca0776bbb05060affddd233fc4f43d0"},
+    "pride":{"hits":0,"bytes":3,"sha256":"5984eac0c5c6d947241e29dd5671b81a1546cedf77e08d38438ac47029969afa"}
+  },
+  "jPOST":{
+    "replay":"Anonymous FTP LIST ftp.jpostdb.org /<accession>; no spectra downloaded. Cross-link via https://proteomecentral.proteomexchange.org/cgi/GetDataset?ID=<PXD>.",
+    "reused_acquisitions":[
+      {"source":"JPST003636/PXD061329","matches":"JPST003669/PXD061813","raw_name":"69_Kondo_1_46B_38_cell_200ng_FusionIT.raw","bytes":1901882626},
+      {"source":"JPST003646/PXD061339","matches":"JPST003669/PXD061813","raw_name":"87_Kondo_10_334_TT_200ng_FusionIT.raw","bytes":1932420034},
+      {"source":"JPST003657/PXD061355","matches":"JPST003705/PXD061874","raw_name":"SCC112_tumor_QEp.raw","bytes":1586636979}
+    ],
+    "qualification":"Names and sizes match; raw checksums were not verified. Corresponding published9/31 cohorts have no EMC;35-line cohort also screened.",
+    "unresolved":{"accession":"JPST003635/PXD061328","listing_bytes":408,"listing_sha256":"3510cac7175334a9db4453ef12c086777adb9a0b27b697b7ff2587f10651cc57","file":"ftp://ftp.jpostdb.org/JPST003635/bc11744c5f05901d___292_Kondo_23_340_22_200ng_FusionIT.mgf.export.F001457.csv","prefix_bytes":65536,"prefix_sha256":"aeea8bf4d40b5c2e4ac0b0c01a27b93941bdfe52efbbb55b398120c59aa0ff0a","outcome":"No culture name or diagnosis in metadata/header; projectAPI403. Cannot identify as EMC or exclude globally."},
+    "nine_line_paper":{"url":"https://www.jstage.jst.go.jp/article/jpdm/7/0/7_2025.0005/_pdf","bytes":460575,"sha256":"873866fedf0e1fb45db59d5e7d5b258ccc2e7f0d584b69ed317ccfd200079c73","models":["DDLPS3","DDLPS4","DDLPS5","DDLPS6","MFS3","MRT1","OS1-X2","SS4","ssRMS2"]}
+  },
+  "catalogue_check":{
+    "Cellosaurus_query":"https://api.cellosaurus.org/search/cell-line?q=%22Extraskeletal+myxoid+chondrosarcoma%22&format=json&rows=100","bytes":70510,"sha256":"f76755f805cae69bc8a22f27420d4679c77355e61f58e54281602796b5303fe7","models":["USZ20-EMC1","USZ22-EMC2","H-EMC-SS"],
+    "Kondo2026_doi":"10.1007/s13577-026-01409-w","supplement_base":"https://media.springernature.com/original/springer-static/esm/art%3A10.1007%2Fs13577-026-01409-w/MediaObjects/13577_2026_1409_MOESM",
+    "S1":{"suffix":"1_ESM.xlsx","bytes":14398,"sha256":"4ffef604dda352033f9c3f85a61da65c394b6341b8b6b4b52e7ce4ef9b1161ee","EMC_total":3},
+    "S3":{"suffix":"3_ESM.xlsx","bytes":30840,"sha256":"4167d65d387051e93869d9b3ab289771b97339c88682083b10e4be158e861f4b","row91":"H-EMC-SS/CVCL1238/ECACC94042258","row138":"same line repeated, not additional model"}
+  },
+  "earlier_remote_BLAST":{"RID":"C4DCYTNP014","latest_worker_check":"WAITING during Oct4 culture audit","response_bytes":24914,"sha256":"924d7218b8a8ab6afe826f30c3268d4f27be89a8d890a9bfed603b2a5e2a0aa0","scope":"Prior genomic specificity job; no local polling remains. No negative inference."}
+}

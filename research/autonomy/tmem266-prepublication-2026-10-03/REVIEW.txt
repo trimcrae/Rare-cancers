@@ -1,0 +1,77 @@
+Bounded independent review record
+
+Three read-only workers were used concurrently: emc_clinical for prior art,
+utility and citations; emc_genomics for sample/sequence/isoform claims and
+independent raw extraction; emc_measurements for original probe recovery,
+raw-array pilot and statistical-method verification. The lead was sole writer.
+Inherited session models/efforts were not overridden; exact execution model
+and effort are not supplied in the worker receipts. No ultra review is claimed.
+
+Original reviewed manuscript digests
+DRAFT.md 613693271ec9a021be31301d179a4267660c2cd3ca0a88aabc2d5b04a1ab22fe
+SUPPLEMENT.md b12cdcd8eeb7aff3523c6a3efcbb854962a0209d05aa9cc12d41021d4984b360
+
+Clinical/novelty review
+After the upstream-region result, the reviewer judged a narrow exploratory
+comparative-RNA letter worthwhile. Core contribution is the disease-associated
+measurement, not a source/probe audit. Strongest limits are normal-muscle
+overlap, unresolved cell origin, incomplete prior-screen candidate coverage,
+post-discovery selection and unresolved Lund cohort overlap. The draft avoids
+protein, full-length RNA, function, therapy, diagnostic validation and first-
+discovery claims. Further computational polishing cannot resolve localization.
+One required citation repair: reference6 placeholder replaced with DavilaJI
+et al., Impact of RNA degradation on fusion detection by RNA-seq. BMCGenomics
+2016;17:814, DOI10.1186/s12864-016-3161-9. Publisher/PubMed/Crossref checked.
+No other concrete unsupported disease/clinical claim found in assigned scope.
+
+Genomics review
+Array quantities, currentCDS boundary, mixed probes, exon10-11 target,
+sharedisoform caveat, culture1333/1694 coverage and11-case identity sensitivity
+match retained evidence. No concrete blocker; no new wet-lab/clinical validation.
+Independent2CEL parser matched28raw values,12region means,2Intensityhashes;
+four composite differences <=1.11e-16. Flag datasets outside that source replay.
+See independent-raw-verification.json for scope and digest.
+
+Measurements review
+Full root replay summary,13region and30probe statistics match original worker
+run exactly. All25finite denominators1102500,0nonfinite,11outlier/0mask target
+flags retained. Group assignment, equal-region weighting, GCcontrols, bootstrap,
+muscle overlap and post-selection qualifications correct.
+One small method clarification: array allocation explicitly requires median
+EMC-comparator difference>0 and A>.5 for allfourhistologies, plus LGFMSA>=.8.
+Verified against round2_surface_replication.py:58; now stated in Supplement.
+
+One batched repair and focused independent verification
+Lead fixed citation and methodcriterion, included the audited11/750outlier
+count and stated that assembled optional probe-recovery source was syntax-
+checked, not rerun end-to-end. No measurement, grouping or primary method changed.
+Clinical reviewer independently verified all changed lines and dependencies,
+including saved flag counts and AST syntax, and returned PASS.
+Final reviewed hashes:
+DRAFT.md e03e0e227b4687d441abbb385016a26bcd63673c180d8231263e371a9f1bc37c
+SUPPLEMENT.md 96cfc645915660c20eb9956b739fd192a92c674271e94f14c38fe2737a972ce6
+
+Root offline arithmetic/preservation verification
+verify_packet.py recalculates100statisticblocks and bothbootstrapintervals
+from saved selected values without network. It verifies750target values,
+13local manuscript links, Python syntax and90files across earlier manifests.
+The original worker's recovery steps were executed; the assembled optional
+recovery script is not relabeled as an end-to-end executed replay.
+
+All workers report no owned process running and no file writes. Bounded
+review completed; no additional full review is scheduled. The operating
+protocol requires independent ultra review of frozen outgoing files before
+submission; this working-draft review does not meet or replace that step.
+
+Subsequent repository metadata repairs, no scientific-body edits
+Normal gate required frontmatter on bothMarkdownfiles and a durable source
+anchor for the Kawai citation. Added complete draft metadata and actual
+Crossref response/receipt. finalize_receipt.py removes only frontmatter and
+verifies byte identity with the reviewed final scientific-body hashes above.
+Three consumer registrations for the rejected disputed model remain a shared-
+registry integration task; the exact patch is prepared without taking over
+another coordinator's ownership. The normal repository gate is not passed.
+Frontmatter uses the schema's active 'live' status, not a publication status;
+the visible manuscript is explicitly a working draft. A targeted systems
+recheck after metadata repair passed with0errors. The remaining map check
+requires the three prepared consumer registrations, not a new science review.

@@ -1,0 +1,69 @@
+Additional source gates, 4 October 2026
+Read-only worker emc_measurements; no target measurements inspected in these
+cohorts because no authenticated EMC sample was established. These are source
+access/identity results, not negative TMEM266 biological experiments.
+
+Burns 2023, PMC10310735 / PXD036226
+https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10310735/fullTextXML
+210655 bytes SHA256 be1f25ffd36ed29692a23cf12e0b2ccd652578e74568096a5fd7938a5f3a8e5a
+321 primary tumors, exhaustive11-subtype list LMS/UPS/SS/DDLPS/AS/EPS/RT/
+ASPS/DSRCT/CCS/DES, no EMC. Rejected as EMC protein validation.
+
+CellSARCTx primary study metadata
+https://scanact.stanford.edu/
+https://jitc.bmj.com/content/12/Suppl_2/A376
+32 samples in SS/LMS/UPS/MFS/WDLPS-DDLPS; no EMC. Primary web metadata resolves
+the prior abstract-access uncertainty. No EMC cell-localization inference.
+
+Tang 2024, PMC10869728 / PXD047297
+https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10869728/fullTextXML
+313542 bytes SHA256 7c77d2df63cf87fee15631f9ca057588b258771d66fae6bed7dd0c32f84c80e3
+https://www.nature.com/articles/s41467-024-45306-y
+Publisher reports retraction6August2026. No named EMC;8otherFS not authenticated.
+Excluded; no results used as validation.
+
+ProCan2025 PMC12409279 / PXD056810
+https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12409279/fullTextXML
+179975 bytes SHA256 ab71fcc82f40960318d38e9c082a1850a3eeab45d6433d173d8ff9bb42b1d632
+https://ndownloader.figshare.com/files/57656334
+TableS1 DOCX28577bytes SHA2567030eb7ef7dd84edb8a284be4d78884dfd6afe02222d1bc692c2dd16834b0b53
+Publiccohort1=766tumors/638patients/45subtypes. PrivateISKScohortc11=
+205tumors/180patients/20subtypes, no individual diagnoses recovered.
+https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD056810/files
+117418bytes SHA25666a78fda86d703ed52e3b99cf5ed8376486b4d6e25734ce6e98e969e2c9139aa
+Publicworkbook79,537,129bytes; metadata-only ZIP ranges total94314bytes.
+Complete sharedStrings10474 entries contain no extraskeletal/chondrosarcoma/
+myxoid/NR4A3 or exactEMC. Named sarcomas and genericSarcoma/Softtissuenos
+cannot establish EMC membership. No intensities read, no entiredownload.
+Reproduction: procan_metadata.py fixes authenticatedcentraldirectoryoffsets;
+not a claim that miscoded/unspecified samples cannot include EMC.
+
+Connolly ANZSA2021 poster
+https://www.sarcoma.org.au/web/public/media/Elizabeth%20Connolly%20-%20ANZSA21%20poster%282%29.pdf
+1398760bytes SHA2562faefeb5c8ebf31976d25a84fa3cf277e8172565f7fa77c3f1d397c7f00fb165
+No individual EMC identity; proteinIDs withheld forIP. Not targetvalidation.
+
+Pulmonary snRNA PMC12753329
+https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12753329/fullTextXML
+188727bytes SHA25632fa7fafc20439400ae0b0207ccc75ccf3bace34e99ebf55e4b895749057eca0
+20pulmonarysarcomatoidcarcinomas+7primarypulmonarysarcomas; exact7subtypes
+and usable publicsnRNAaccession not recovered. BulkPSCGSE110205 not EMC.
+
+Earlier targeted additionalgates thisturn
+Bangerter10.1007/s13577-022-00818-x PMC9813045 XML69800bytes
+SHA2562998de01bf31d3b3793dd300b7856545168b40e569fbee4f200e53c394a0a657
+AuthenticatedEMCcultures, targetedfusion/methylation/drugdata, notTMEMprotein.
+Luthria10.1158/1078-0432.CCR-23-2976 PMC11443197 XML129282bytes
+SHA256cac87b9edd8de0f5be14e71545b75fa7e7d0ddb7b9ad674dbca32867bb260566
+5UPS+3intimalsarcomas, noEMC. CASSISgrant10106430370patients13subtypes,
+no authenticatedEMCsample or targetdata recovered from reporting/results.
+PRIDEcorrect endpoint /ws/archive/v3/search/projects?keyword=:
+extraskeletal2unrelatedprojects; NCC-EMC1-C1zero; chondrosarcoma7noneauthEMC.
+The initial /projects?keyword endpoint ignoredkeyword and is NOT a validnegative.
+
+Literature/full-transcript scope
+No authenticated EMC directRNA/long-read transcript source recovered in the
+bounded freshsearch. Nanoporemethylation paperPMC10453223 concernsDNA and
+cannot resolve RNA isoforms. Brenca patient/run identity, controlled-access
+Hofvanderrawreads and complete Dulken candidate-list gaps remain unresolved.
+This is not a proof of global literature absence or first discovery.

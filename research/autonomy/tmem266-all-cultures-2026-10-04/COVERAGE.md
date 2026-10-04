@@ -1,0 +1,60 @@
+---
+id: DOC-TMEM266-ALL-CULTURES-20261004
+title: TMEM266 coverage across published EMC cultures
+level: L3
+kind: memo
+status: live
+purpose: Account for every named culture recovered in the public literature and assay the usable public measurements.
+scope: Bounded public-source census and exploratory RNA reanalysis, not an exhaustive history of all EMC preparations.
+audience: [maintainers, collaborators, external reviewers]
+date: 2026-10-04
+last_verified: 2026-10-04
+---
+
+# TMEM266 across published EMC cultures
+
+The search recovered six named EMC-labelled cultures. Three fusion-supported cultures have usable RNA measurements, two have no recovered public target measurement, and one has disputed identity and is reported separately. These are not six established independent patient-derived cell lines: V1-34 is labelled a culture, historical transient cultures also exist, and USZ23 donor independence from other Zurich models remains unresolved.
+
+## Every named candidate
+
+| Culture and source | Identity and independence | Actual TMEM266 result | Interpretation and strongest limit |
+|---|---|---|---|
+| **V1-34**, [GSM2113301](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2113301), SRX1703825, SAMN04851121 | GEO explicitly says cell culture and EMC; source reports EWSR1–NR4A3. SRR3380704/05 are technical runs of one experiment, not two cultures. Long-term establishment is not demonstrated. | Earlier recount analysis: downstream regional coverage in both runs. New ARCHS4 extraction: **30 rounded estimated gene counts**, **0.735393 CPM of reported matrix counts**. | Sparse TMEM266-associated RNA signal; new processing reuses the same material. It does not demonstrate a full-length coding transcript. |
+| **USZ20-EMC1**, CVCL_C6MX, [Bangerter et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC9813045/) | Female donor with recurrent knee tumor; EWSR1–NR4A3, matched tumor/culture STR and methylation. Distinct donor from USZ22. | **No usable public expression measurement recovered.** Original molecular/drug assays do not measure TMEM266; study data are request-only. | Unknown, not negative. A culture's existence is not a public transcript measurement. |
+| **USZ22-EMC2 / USZ-22_EMC2**, CVCL_C6MY, [GSM6883080](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM6883080), SRX18811760, SRR22852802 | Male diagnostic thigh-biopsy donor; matched identity and TAF15–NR4A3. [Planas-Paz et al. 2023](https://pmc.ncbi.nlm.nih.gov/articles/PMC10086583/) and extraction metadata identify an untreated patient-derived culture despite the generic GEO source field “sarcoma tumor.” | New ARCHS4 extraction: **5 rounded estimated gene counts**, **0.174046 CPM of reported matrix counts**. A fixed raw-read pilot found zero of four exact splice anchors among 607,616 complete read records. | A very small nonzero assignment, not robust transcript validation. Pseudoalignment uncertainty is unquantified; the limited zero-hit pilot cannot establish absence. |
+| **USZ-23_EMC3 / USZ23_EMC3**, [GSM9037837](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM9037837), GSE299349 | Source-labelled culture with prior native EWSR1–NR4A3 read support. No authenticated patient crosswalk establishes independence from USZ20. | Previously independently retrieved transcript estimates sum to **133.517226 TPM**; one paired fragment supports an annotated alternative splice boundary. | Useful model for transcript-resolution experiments. Shared sequence and predicted transcript models prevent inference of a predominant protein or complete molecule; its absence from the current ARCHS4 export is not zero expression. |
+| **NCC-EMC1-C1**, [Iwata et al. 2025](https://doi.org/10.1007/s13577-025-01250-7) | [Figure 2](https://link.springer.com/article/10.1007/s13577-025-01250-7/figures/2) authenticates EWSR1::NR4A3 by Sanger sequencing in passage-10 culture and matched tumor; supplemental STR comparison uses passage 20. | **No authenticated public RNA/protein measurement recovered.** Data availability is upon reasonable request; no outreach was performed. | Unknown, not negative. Exact-name repository searches do not exclude a deposit under an undocumented alias. |
+| **H-EMC-SS / HEMC-SS / HEMCSS**, CVCL_1238, ACH-001519, ECACC94042258, RCB0508 | Historical EMC label; [Gartrell et al. 2021](https://pmc.ncbi.nlm.nih.gov/articles/PMC8571037/) reports no detected EWSR1 translocation. This does not exclude every NR4A3 partner or prove misdiagnosis. | New public DepMap 26Q1 value: **0.2191530317 log2(TPM+1)**, algebraically **0.1640500027 TPM**. | Disputed-identity comparison only. It cannot support or refute a disease-wide EMC claim. |
+
+The numerical scales above differ and must not be pooled, ranked or converted into cross-study fold changes. No positivity percentage is reported. No culture result establishes malignant-cell localization in intact tissue, protein expression, dependency, a therapeutic window or fusion-partner regulation.
+
+## What was newly demonstrated
+
+- The authenticated USZ22 culture library has a very small TMEM266 assignment in an independent public processing resource: five rounded estimated counts. This closes a missing culture-measurement row, but the result is too small and uncertain to establish robust expression or an EMC subtype difference.
+- The disputed H-EMC-SS model has a low public RNA expression estimate, recovered with an explicit model-ID join. It belongs in the coverage supplement so it is not silently omitted; its uncertain disease identity prevents using it as an EMC biological replicate.
+
+V1-34's ARCHS4 estimate corroborates existing sparse regional evidence from the same sample; it is not a new patient or independent biological validation. The earlier substantial USZ23 estimate remains the clearest culture-level reason to pursue transcript-resolution experiments. The principal manuscript contribution remains the comparative tissue RNA association described in the preserved earlier packet.
+
+## Historical and engineered preparations
+
+[Stenman 1995](https://doi.org/10.1002/ijc.2910620407) described three unnamed cultured EMC tumors. [Gustafson 1999](https://doi.org/10.1007/s004280050437) used short-term fine-needle-aspirate cultures from four cases. [Sjögren 2003](https://pmc.ncbi.nlm.nih.gov/articles/PMC1868116/) reports four newly established cultures, three thawed previously reported cultures and an additional metastatic cytogenetic preparation; the overlaps do not permit an independent culture/patient count. Its tissue microarrays are not authenticated culture measurements. [Salawu 2016](https://pmc.ncbi.nlm.nih.gov/articles/PMC5117779/) reports one EMC culture that senesced around passage 5, outside the seven established lines. None yielded a specimen-qualified public TMEM266 culture measurement in this search.
+
+The tBJ/ER E-N, T-N, T-N*, NR4A3 and vector arms are engineered fibroblasts, as identified in [Brenca 2019](https://pmc.ncbi.nlm.nih.gov/articles/PMC6766969/). Existing TMEM266 counts in eight deposited fusion-expressing preparations are preserved in the earlier packet, but neither these nor fusion-transfected CFK2/mesenchymal cells add patient-derived EMC cultures. The earlier engineered comparison lacks an authenticated fusion-negative expression control and cannot establish induction. A CAM tissue graft is also not an additional culture.
+
+## Measurement and search methods
+
+The lead and three read-only workers divided primary model/alias census, Zurich cultures and Japanese cultures/public protein sources. The [prospective plan](PLAN.txt) fixes targets, comparison boundaries and bounded fallback rules. We revisited the earlier September 30 and October 2 work at Git revision `5d2f2e2116`; those analyses had already covered model characterization and drug screens, but did not provide the present TMEM266 culture estimates. Cellosaurus and the actual supplements of [Kondo 2026](https://doi.org/10.1007/s13577-026-01409-w) list only three EMC entries; known V1-34, USZ23 and NCC1 show why a registry-only census is insufficient.
+
+The official [ARCHS4 API](https://archs4.org/help) returned V1-34 and USZ22 for a fixed request also including USZ23. We retained the 359,106-byte source ZIP, SHA256 `f0bcd17e0c56ec038ea47ee14b7b57700333b46790d2cfb18a555cbf70ea4446`; its matrix has 67,186 rows. TMEM266 occurs once; 2,359 other symbols are duplicated. Column sums over all reported rows are 40,794,510 and 28,727,977; the derived CPM denominator is explicitly the matrix sum. The [resource documentation](https://archs4.org/download) specifies rounded Kallisto estimated counts. These are neither literal observed read counts nor TPM. No biological confidence interval or Poisson interval is justified by one library and rounded assignment estimates; sampling, annotation and pseudoalignment uncertainties remain unquantified. The API reported a service update of 30 September 2026 but did not supply a pinned matrix release identifier; the retained subset and hash fix the actual analysis input.
+
+An independent worker re-parsed the archive without the lead's extraction code, verified every value was a nonnegative integer, checked target uniqueness, recalculated the sums and CPM, and confirmed the sample identities. A second worker independently reconciled USZ22's primary study, GEO, ENA and model-characterization paper. Reproduce offline with [extract_archs4.py](extract_archs4.py); live retrieval is documented in [retrieve_archs4.py](retrieve_archs4.py). [archs4-results.json](archs4-results.json) preserves controls and provenance. V1-34's complete 29-sample series census is in [davila-census.json](davila-census.json); only one sample has exact EMC histology.
+
+The official DepMap Breadbox subset API supplied the public 26Q1 short-read dataset and model metadata. [disputed_model_expression.py](disputed_model_expression.py) and [disputed-model-expression.json](disputed-model-expression.json) retain dataset UUID, request, source hashes, model join and same-source controls; root independently replayed the worker extraction. No threshold or diagnosis was inferred from expression.
+
+USZ22's original 651,838-byte GEO matrix was listed but could not be recovered through tested standard public routes. Publisher Figure 5 source data cover nine HR genes; the recovered Figure EV4 selected differential-expression table covers 2,898 gene rows and does not include the fixed TMEM266 identifiers. Neither is complete TMEM266 expression coverage. Before raw inspection, four exact 40-nt splice anchors and 15 MB compressed per mate were fixed. The lead independently reproduced the worker's prefix hashes and 607,616 complete records with zero matches; [usz22_prefix.py](usz22_prefix.py) and [usz22-prefix-replay.json](usz22-prefix-replay.json) retain the limited procedure and result. Unequal mate prefixes and absence of gene-level normalization further prevent absence or abundance inference from this pilot.
+
+## Unfinished questions and rejected interpretations
+
+USZ20 and NCC1 expression, the USZ23 donor crosswalk, and historical culture aliases remain unavailable. The Japanese search covered GEO/SRA/BioSample/BioProject, ENA, BioStudies/ArrayExpress, PRIDE and jPOST; [source-search-receipts.json](source-search-receipts.json) preserves exact routes. Three generic jPOST projects match non-EMC cohort acquisition filenames and sizes, not checked raw-file hashes. JPST003635/PXD061328 remains an unidentified sarcoma deposit; its internal code cannot be assigned to EMC. No candidate NCC-EMC2/3 primary source was found, which is not proof no such model exists.
+
+We rejected a universal culture-expression claim, fusion-partner comparison, culture positivity percentage, exact-read interpretation of the ARCHS4 counts, protein inference from RNA, and use of the disputed line as a confirmed EMC replicate. The unverified FANTOM promoter route is excluded. No new full manuscript was built around the trace USZ22 assignment: it is a completeness and limitation result within the existing tissue study.

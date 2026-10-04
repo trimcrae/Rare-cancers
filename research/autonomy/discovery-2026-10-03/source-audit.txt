@@ -1,0 +1,131 @@
+Fresh source and prior-art audit -- 3 October 2026
+
+Completed work reviewed (read-only local Git objects):
+5d2f2e2116:research/autonomy/data-opportunities-2026-09-30/
+  ALL45-EXECUTED-STATUS.md, README.md and worker-specific evidence
+5d2f2e2116:research/autonomy/continuation-2026-10-02/
+  README.md and worker-specific findings/status
+3a4c857c38:research/manuscripts/surface-targets/emc-tissue-rna-prioritization.md
+Main working checkout predates these. Their absence locally does not mean
+the analyses were unperformed. Existing ranks/manuscripts were not adopted.
+
+CSPG4 reference findings actually read:
+Nine overlap-reduced primary EMC; equal-comparator A=.89454 marginal and
+.81111 year-matched. Each matched comparator has three EMC, union four.
+GSE24369 EMC versus LGFMS A=1; Hofvander .96581/.93333.
+Deleting 2019 reverses matched composite to .43333; DFSP A=.46667.
+No protein localization/accessibility, cell-specific attribution or efficacy.
+CHRNA6 is already validated by RNA CISH, not a new finding. Independent PRAME
+IHC five negative EMC further limits extrapolation from tissue RNA.
+
+Fresh sources searched beyond previously used repository cohorts:
+
+1. Trautmann OncoDNA user-group presentation, 2026:
+https://ugm.oncodna.com/wp-content/uploads/2025/12/Marcel-Trautmann-CGP-identifies-potential-theraputic-targets-in-extra-skeletal-myoid-chonrosarcoma.pdf
+Worker read PDF in memory: 76 FFPE available, 69 DNA-profiled, 61 RNA-panel;
+48% pathogenic/likely pathogenic variants is already a reported summary.
+No patient-call table or reusable gene-level measurements exposed. Coordinator
+visually inspected the embedded page8 cohort panel and page9 after the worker
+flagged their raster content: page8 shows sex, age, tumor size, tumor content,
+assay coverage and sequencing QC; page9 is a platform advertisement, not an
+EMC variant table. Page7 and10 methods/conclusions were text-inspected.
+PDF SHA256 73e3445ca6c27f9d87da2af650c739cafd9706544a7974a067f2f6cb00310161;
+21633931 bytes fetched in memory, no local full PDF saved. A 154466-byte
+render of page8 is retained as source-inspection evidence (no new figure).
+Potential future question: secondary alteration spectrum and fusion/phenotype
+relationships in independent EMC specimens. Cohort independence and identities
+must be established before combination with Foundation or other cohorts.
+Disposition: promising measurement cohort, unfinished access/identity, no result.
+
+2. Rosenbaum et al 2026, CCR-25-3419:
+https://pmc.ncbi.nlm.nih.gov/articles/PMC13014529/
+One EMC in TME summary, not an EMC population. RNA is controlled dbGaP
+phs003284; GSE213065 is a distinct Stanford replication cohort, not a public
+substitute for the same EMC measurements. No new finding.
+
+3. Ngo et al 2025:
+https://pmc.ncbi.nlm.nih.gov/articles/PMC12728484/
+Single-cell/spatial assays are epithelioid sarcoma. EMC is in an external
+1,041-tumor bulk reference panel privately supplied by Centre Leon Berard.
+Public GitHub scripts do not expose that matrix; deposited access uses EGA.
+Supplement read in memory:
+https://pmc-oa-opendata.s3.amazonaws.com/PMC12728484.1/CAC2-45-1760-s001.pdf
+3274429 bytes; SHA256 2ae6bcfcf9a03f032d33ac5f7728be5c92456f9c0a921d01cbf9aae2382a0dd9
+Disposition: no new accessible EMC cellular measurements. No cross-cancer
+substitution for EMC evidence.
+
+4. Osei-Hwedieh et al 2023, JCI Insight:
+https://insight.jci.org/articles/view/170324
+https://df6sxcketz7bb.cloudfront.net/manuscripts/170000/170324/jci.insight.170324.sd.pdf
+EMC patient101 (inguinal) has no prior chemotherapy and prior radiotherapy
+862 days before collection. HLA entries are allele assignments, not protein
+abundance. Flow plot dots lack patient labels and pool broad histologies;
+the EMC value cannot be assigned. Underlying data upon request; no outreach.
+Disposition: no usable patient-resolved HLA/protein validation.
+
+5. Dancsok et al 2020 macrophage/CD47/SIRPalpha IHC:
+https://pmc.ncbi.nlm.nih.gov/articles/PMC7153829/
+Six EMC specimens (four clinical records); public supplements contain
+histology aggregates/figures, not individual EMC measurement tables.
+Supplement fetched and parsed in memory:
+https://pmc-oa-opendata.s3.amazonaws.com/PMC7153829.1/koni-09-01-1747340-s001.zip
+1153457 bytes; SHA256 29466de3b13cffc327d6c0de25ea274c6fabe7350124ddf42ce8c3f67a8e149d
+Disposition: published summaries do not constitute new analysis.
+
+6. Ashburner MRI series, 44 EMC:
+https://doi.org/10.1007/s00256-025-05050-w
+Solid enhancement/metastasis association already published; public statement
+says patient data unavailable. No independent new contrast executed.
+
+7. IMMUNOSARC II EMC prospective abstract:
+https://doi.org/10.1200/JCO.2025.43.16_suppl.11513
+Published n24, 2/22 RECIST partial responses. No linked patient-level
+molecular measurements supporting a new response-biomarker analysis.
+The distinct CCR-24-1782 correlative source was already explored in prior
+campaign and lacks a verified EMC subset; did not rerun it.
+
+8. Kapoor et al 2014 imaging:
+https://pmc.ncbi.nlm.nih.gov/articles/PMC4110079/
+https://doi.org/10.2478/raon-2014-0005
+New exploratory paired CT calculation actually run; see ct-results.json.
+Five patients fail to support a new site-specific biological conclusion.
+
+9. HSPA8-NR4A2 EMC case, PMID41315062:
+https://pubmed.ncbi.nlm.nih.gov/41315062/
+The unusual fusion is already the primary case finding; reproducing sequence
+compatibility would not add empirical disease knowledge.
+
+Prior art constraining antigen-processing RNA pilot:
+Indio2018 https://doi.org/10.1200/JCO.2018.36.15_suppl.11561
+12 untreated EMC, 7 EWSR1/5 TAF15, macrophage-rich inferred infiltration;
+HLA-ABC among IHC assays in n3, no HLA-specific abstract result. Likely
+Brenca overlap remains unresolved; do not count as independent replication.
+Ogata2022 https://doi.org/10.1111/1759-7714.14613
+https://pmc.ncbi.nlm.nih.gov/articles/PMC9527174/
+One pleural metastasis has tumor HLA-I staining despite sparse CD8 and
+macrophage-rich stroma. Simple HLA detectability is not novel.
+PeerJ2026 https://pmc.ncbi.nlm.nih.gov/articles/PMC13374579/
+Already addresses EMC immune/prognostic heterogeneity; prior campaign
+reviewed its public TempO-Seq values and clinical-label limitations.
+MLPS/SS interferon trial https://pmc.ncbi.nlm.nih.gov/articles/PMC6677581/
+Low MHC and interferon responses are known in comparator histologies.
+
+PLAGL1 prior art:
+Poulin/Labelle2005 PMID16112421, https://doi.org/10.1016/j.canlet.2004.12.007
+Includes fusion-transfected CFK2 versus parental cells, not only cultured
+chondrocytes versus tumors. Tissue comparisons cannot refute fusion effects.
+Sarcoma PLAGL1 variability/methylation: https://pmc.ncbi.nlm.nih.gov/articles/PMC3829972/
+New tissue ordering alone must not be presented as new imprinting biology.
+Independent review also found the PLAGL1/GSE24369 comparison already in
+research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md
+(table around line545: d=-.169, P=.431). The new cohort calculation is a
+limited extension; the reused array arm is not a fresh discovery.
+
+Clarification on 2013 PLAGL1 paper: it measured LMS/undifferentiated sarcoma,
+not the exact EMC comparisons here. It found broad expression variation but
+no significant median difference between those two histologies, with
+site-specific CpG associations; mean methylation did not explain expression.
+
+Search is bounded, not an exhaustive claim that no public opportunity exists.
+Source identifiers, sample identities and assay availability were checked;
+absence of retrieved data is not evidence of biological absence.

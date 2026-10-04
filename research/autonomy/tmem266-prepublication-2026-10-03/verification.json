@@ -1,0 +1,45 @@
+{
+  "utc": "2026-10-04T03:09:19.190708+00:00",
+  "status": "pass",
+  "raw_arrays": 25,
+  "target_values": 750,
+  "statistic_blocks_recomputed": 100,
+  "bootstrap_intervals_recomputed": {
+    "upstream": [
+      0.8823529411764706,
+      1.0
+    ],
+    "strict_current_CDS": [
+      0.8235294117647058,
+      1.0
+    ]
+  },
+  "target_flags": {
+    "mask": 0,
+    "outlier": 11
+  },
+  "previous_packets_unchanged": {
+    "discovery-2026-10-03": {
+      "files_verified": 52,
+      "manifest_sha256": "36eac7fe60f8b1d1ccc93cd040c749dbb208155d8daaf51fdd16ec52de596c72"
+    },
+    "tmem266-tissue-2026-10-03": {
+      "files_verified": 38,
+      "manifest_sha256": "a5528a348181b3e796692f627744fed12d11201ee923f7bf66c5e2a313fcba03"
+    }
+  },
+  "python_syntax_checked": [
+    "finalize_receipt.py",
+    "identity_sensitivity.py",
+    "probe_sequence_verify.py",
+    "raw_array_pilot.py",
+    "recover_probe_map.py",
+    "run_preflight.py",
+    "verify_packet.py"
+  ],
+  "local_manuscript_links_verified": 13,
+  "network_bytes": 0,
+  "limitations": "Offline selected-output arithmetic is distinct from independent raw-CEL verification and biological validation",
+  "draft_sha256": "ee89992f385477c40799aeadfeba929098a3b9484f0e540c1dab865354ac8c9f",
+  "supplement_sha256": "11ca3a0516ee1b7b15a387fe16b00c4b442ca4ebb2d1cdfdc79715e97e266b72"
+}

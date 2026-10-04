@@ -1,0 +1,647 @@
+{
+  "schema": "TMEM266-published-FFPE/1",
+  "question": "Is a TMEM266-targeted transcript signal represented in published pathologist-reviewed scraped FFPE EMC tissue?",
+  "source_sha256": "20165fd3ff09ec2d5a24b3c20b78515f42a3309119f248ed055c7484deb45e75",
+  "plan_sha256": "b9d03844709b4ca4ad5faee7eea32a9b8d8ce8fe0e020a6aaf8a463ab0a0ca8e",
+  "script_sha256": "7fe3fecd72ea99d16352737a5e9964e5ef9541c4c2e5ee5cc0481f88a911c234",
+  "source_doi": "10.7717/peerj.21497",
+  "matrix_dimensions": [
+    9500,
+    12
+  ],
+  "literal_specimen_ids": [
+    "Si01",
+    "Si02",
+    "Si05",
+    "Si09",
+    "Si10",
+    "Si14",
+    "Si15",
+    "Si16",
+    "Si17",
+    "Si19",
+    "Si20",
+    "Si22"
+  ],
+  "target_alias_matches": [
+    [
+      "TMEM266",
+      2994
+    ]
+  ],
+  "missing_or_ambiguous_controls": [
+    "ACTA1",
+    "CKM",
+    "MYH2",
+    "MYH7",
+    "PTPRC",
+    "LST1",
+    "PECAM1",
+    "DCN"
+  ],
+  "genes": {
+    "NR4A3": {
+      "source_symbol": "NR4A3",
+      "excel_row": 1833,
+      "specimens": {
+        "Si01": {
+          "published_log2CPM": 7.266470041,
+          "within_sample_midrank_fraction": 0.890421052631579,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si02": {
+          "published_log2CPM": 2.773645777,
+          "within_sample_midrank_fraction": 0.38073684210526315,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si05": {
+          "published_log2CPM": 7.167896671,
+          "within_sample_midrank_fraction": 0.8147368421052632,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si09": {
+          "published_log2CPM": 7.99029911,
+          "within_sample_midrank_fraction": 0.9204210526315789,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si10": {
+          "published_log2CPM": 2.675254429,
+          "within_sample_midrank_fraction": 0.30905263157894736,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si14": {
+          "published_log2CPM": 4.95418828,
+          "within_sample_midrank_fraction": 0.5050526315789474,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si15": {
+          "published_log2CPM": 6.775908391,
+          "within_sample_midrank_fraction": 0.8107368421052632,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si16": {
+          "published_log2CPM": -0.163159847,
+          "within_sample_midrank_fraction": 0.03610526315789474,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": true
+        },
+        "Si17": {
+          "published_log2CPM": 5.461920842,
+          "within_sample_midrank_fraction": 0.613578947368421,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si19": {
+          "published_log2CPM": 5.745467767,
+          "within_sample_midrank_fraction": 0.6489473684210526,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si20": {
+          "published_log2CPM": 6.572763393,
+          "within_sample_midrank_fraction": 0.7825263157894737,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si22": {
+          "published_log2CPM": 5.073637051,
+          "within_sample_midrank_fraction": 0.5412631578947369,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        }
+      },
+      "median_published_log2CPM": 5.603694304499999,
+      "range_published_log2CPM": [
+        -0.163159847,
+        7.99029911
+      ]
+    },
+    "CHRNA6": {
+      "source_symbol": "CHRNA6",
+      "excel_row": 3508,
+      "specimens": {
+        "Si01": {
+          "published_log2CPM": 6.292916889,
+          "within_sample_midrank_fraction": 0.7743157894736842,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si02": {
+          "published_log2CPM": 7.680483185,
+          "within_sample_midrank_fraction": 0.9197894736842105,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si05": {
+          "published_log2CPM": 9.111932004,
+          "within_sample_midrank_fraction": 0.9782105263157894,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si09": {
+          "published_log2CPM": 7.503932508,
+          "within_sample_midrank_fraction": 0.8690526315789474,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si10": {
+          "published_log2CPM": 4.602596634,
+          "within_sample_midrank_fraction": 0.5737894736842105,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si14": {
+          "published_log2CPM": 9.043151478,
+          "within_sample_midrank_fraction": 0.974,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si15": {
+          "published_log2CPM": 10.29431174,
+          "within_sample_midrank_fraction": 0.9938947368421053,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si16": {
+          "published_log2CPM": 0.542443022,
+          "within_sample_midrank_fraction": 0.08252631578947368,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": true
+        },
+        "Si17": {
+          "published_log2CPM": 3.947861263,
+          "within_sample_midrank_fraction": 0.3097894736842105,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si19": {
+          "published_log2CPM": 2.151779152,
+          "within_sample_midrank_fraction": 0.2251578947368421,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": true
+        },
+        "Si20": {
+          "published_log2CPM": 9.799534398,
+          "within_sample_midrank_fraction": 0.9909473684210526,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si22": {
+          "published_log2CPM": 4.643574071,
+          "within_sample_midrank_fraction": 0.45557894736842103,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        }
+      },
+      "median_published_log2CPM": 6.8984246984999995,
+      "range_published_log2CPM": [
+        0.542443022,
+        10.29431174
+      ]
+    },
+    "MYH1": {
+      "source_symbol": "MYH1",
+      "excel_row": 8807,
+      "specimens": {
+        "Si01": {
+          "published_log2CPM": 7.677278854,
+          "within_sample_midrank_fraction": 0.9245263157894736,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si02": {
+          "published_log2CPM": 3.385649049,
+          "within_sample_midrank_fraction": 0.43136842105263157,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si05": {
+          "published_log2CPM": 3.829951053,
+          "within_sample_midrank_fraction": 0.5112631578947369,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si09": {
+          "published_log2CPM": 7.732395569,
+          "within_sample_midrank_fraction": 0.8950526315789473,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si10": {
+          "published_log2CPM": 11.17038869,
+          "within_sample_midrank_fraction": 0.9985263157894737,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si14": {
+          "published_log2CPM": 8.02777285,
+          "within_sample_midrank_fraction": 0.9266315789473685,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si15": {
+          "published_log2CPM": 8.275581849,
+          "within_sample_midrank_fraction": 0.9409473684210526,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si16": {
+          "published_log2CPM": -0.462234346,
+          "within_sample_midrank_fraction": 0.009789473684210527,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": true
+        },
+        "Si17": {
+          "published_log2CPM": 8.49969789,
+          "within_sample_midrank_fraction": 0.9522105263157895,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si19": {
+          "published_log2CPM": 7.756610037,
+          "within_sample_midrank_fraction": 0.9101052631578948,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si20": {
+          "published_log2CPM": -0.170688939,
+          "within_sample_midrank_fraction": 0.009263157894736843,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": true
+        },
+        "Si22": {
+          "published_log2CPM": 2.253031885,
+          "within_sample_midrank_fraction": 0.09631578947368422,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": true
+        }
+      },
+      "median_published_log2CPM": 7.7048372115,
+      "range_published_log2CPM": [
+        -0.462234346,
+        11.17038869
+      ]
+    },
+    "VWF": {
+      "source_symbol": "VWF",
+      "excel_row": 516,
+      "specimens": {
+        "Si01": {
+          "published_log2CPM": 7.98922739,
+          "within_sample_midrank_fraction": 0.9455789473684211,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si02": {
+          "published_log2CPM": 4.825289048,
+          "within_sample_midrank_fraction": 0.5611578947368421,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si05": {
+          "published_log2CPM": 6.889261099,
+          "within_sample_midrank_fraction": 0.7678947368421053,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si09": {
+          "published_log2CPM": 8.128375538,
+          "within_sample_midrank_fraction": 0.9329473684210526,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si10": {
+          "published_log2CPM": 7.332854483,
+          "within_sample_midrank_fraction": 0.8496842105263158,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si14": {
+          "published_log2CPM": 7.399819595,
+          "within_sample_midrank_fraction": 0.8769473684210526,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si15": {
+          "published_log2CPM": 6.53828778,
+          "within_sample_midrank_fraction": 0.7803157894736842,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si16": {
+          "published_log2CPM": 8.837005092,
+          "within_sample_midrank_fraction": 0.9656842105263158,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si17": {
+          "published_log2CPM": 5.010156449,
+          "within_sample_midrank_fraction": 0.5253684210526316,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si19": {
+          "published_log2CPM": 7.918078605,
+          "within_sample_midrank_fraction": 0.9232631578947369,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si20": {
+          "published_log2CPM": 6.208716014,
+          "within_sample_midrank_fraction": 0.7351578947368421,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si22": {
+          "published_log2CPM": 7.075098052,
+          "within_sample_midrank_fraction": 0.8466315789473684,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        }
+      },
+      "median_published_log2CPM": 7.2039762675,
+      "range_published_log2CPM": [
+        4.825289048,
+        8.837005092
+      ]
+    },
+    "COL1A1": {
+      "source_symbol": "COL1A1",
+      "excel_row": 710,
+      "specimens": {
+        "Si01": {
+          "published_log2CPM": 11.39289233,
+          "within_sample_midrank_fraction": 0.9991578947368421,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si02": {
+          "published_log2CPM": 8.511972951,
+          "within_sample_midrank_fraction": 0.9641052631578947,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si05": {
+          "published_log2CPM": 10.02392374,
+          "within_sample_midrank_fraction": 0.994,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si09": {
+          "published_log2CPM": 9.939380017,
+          "within_sample_midrank_fraction": 0.9931578947368421,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si10": {
+          "published_log2CPM": 11.19965624,
+          "within_sample_midrank_fraction": 0.9986315789473684,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si14": {
+          "published_log2CPM": 9.136143889,
+          "within_sample_midrank_fraction": 0.9758947368421053,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si15": {
+          "published_log2CPM": 7.084720429,
+          "within_sample_midrank_fraction": 0.8433684210526315,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si16": {
+          "published_log2CPM": 11.85738584,
+          "within_sample_midrank_fraction": 0.9994736842105263,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si17": {
+          "published_log2CPM": 10.31828963,
+          "within_sample_midrank_fraction": 0.9956842105263158,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si19": {
+          "published_log2CPM": 10.91313873,
+          "within_sample_midrank_fraction": 0.9982105263157894,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si20": {
+          "published_log2CPM": 8.094511974,
+          "within_sample_midrank_fraction": 0.932,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si22": {
+          "published_log2CPM": 9.128453167,
+          "within_sample_midrank_fraction": 0.9770526315789474,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        }
+      },
+      "median_published_log2CPM": 9.9816518785,
+      "range_published_log2CPM": [
+        7.084720429,
+        11.85738584
+      ]
+    },
+    "COL1A2": {
+      "source_symbol": "COL1A2",
+      "excel_row": 5253,
+      "specimens": {
+        "Si01": {
+          "published_log2CPM": 8.706236241,
+          "within_sample_midrank_fraction": 0.9751578947368421,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si02": {
+          "published_log2CPM": 4.240038827,
+          "within_sample_midrank_fraction": 0.4957894736842105,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si05": {
+          "published_log2CPM": 5.201708172,
+          "within_sample_midrank_fraction": 0.5907368421052631,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si09": {
+          "published_log2CPM": 6.039119935,
+          "within_sample_midrank_fraction": 0.7021052631578948,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si10": {
+          "published_log2CPM": 9.845801031,
+          "within_sample_midrank_fraction": 0.9931578947368421,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si14": {
+          "published_log2CPM": 5.572155389,
+          "within_sample_midrank_fraction": 0.6317894736842106,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si15": {
+          "published_log2CPM": 4.77665006,
+          "within_sample_midrank_fraction": 0.48147368421052633,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si16": {
+          "published_log2CPM": 9.246508442,
+          "within_sample_midrank_fraction": 0.9766315789473684,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si17": {
+          "published_log2CPM": 7.015175446,
+          "within_sample_midrank_fraction": 0.838421052631579,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si19": {
+          "published_log2CPM": 8.448234722,
+          "within_sample_midrank_fraction": 0.9572631578947368,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si20": {
+          "published_log2CPM": 5.154070398,
+          "within_sample_midrank_fraction": 0.5429473684210526,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si22": {
+          "published_log2CPM": 6.849575854,
+          "within_sample_midrank_fraction": 0.8203157894736842,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        }
+      },
+      "median_published_log2CPM": 6.4443478945,
+      "range_published_log2CPM": [
+        4.240038827,
+        9.845801031
+      ]
+    },
+    "TMEM266": {
+      "source_symbol": "TMEM266",
+      "excel_row": 2996,
+      "specimens": {
+        "Si01": {
+          "published_log2CPM": 2.788209069,
+          "within_sample_midrank_fraction": 0.32589473684210524,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si02": {
+          "published_log2CPM": 6.475678671,
+          "within_sample_midrank_fraction": 0.7953684210526316,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si05": {
+          "published_log2CPM": 6.769372093,
+          "within_sample_midrank_fraction": 0.7501052631578947,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si09": {
+          "published_log2CPM": 2.67160247,
+          "within_sample_midrank_fraction": 0.32494736842105265,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si10": {
+          "published_log2CPM": 3.978364287,
+          "within_sample_midrank_fraction": 0.5147368421052632,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si14": {
+          "published_log2CPM": 7.087465532,
+          "within_sample_midrank_fraction": 0.8473684210526315,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si15": {
+          "published_log2CPM": 3.957181298,
+          "within_sample_midrank_fraction": 0.3317894736842105,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si16": {
+          "published_log2CPM": -0.375771871,
+          "within_sample_midrank_fraction": 0.01831578947368421,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": true
+        },
+        "Si17": {
+          "published_log2CPM": 7.137613804,
+          "within_sample_midrank_fraction": 0.8505263157894737,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si19": {
+          "published_log2CPM": 7.222901149,
+          "within_sample_midrank_fraction": 0.8607368421052631,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        },
+        "Si20": {
+          "published_log2CPM": 1.126677564,
+          "within_sample_midrank_fraction": 0.036526315789473685,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": true
+        },
+        "Si22": {
+          "published_log2CPM": 7.655052144,
+          "within_sample_midrank_fraction": 0.8977894736842106,
+          "equals_repeated_export_value": false,
+          "at_or_below_bottom_quartile": false
+        }
+      },
+      "median_published_log2CPM": 5.227021479,
+      "range_published_log2CPM": [
+        -0.375771871,
+        7.655052144
+      ]
+    }
+  },
+  "sample_lower_quartiles": {
+    "Si01": 1.96030039275,
+    "Si02": 1.6539711587500001,
+    "Si05": 2.2274322235,
+    "Si09": 2.28276739825,
+    "Si10": 2.3432364685,
+    "Si14": 3.65023498425,
+    "Si15": 3.18912794525,
+    "Si16": 3.49200153075,
+    "Si17": 3.5743721962499997,
+    "Si19": 3.1924560335,
+    "Si20": 3.68603430225,
+    "Si22": 3.50925180775
+  },
+  "interpretation_limits": [
+    "Source is log2CPM processed export; no authenticated detection threshold or raw probe counts here.",
+    "Scraped area of interest is not single-cell localization or quantified tumor purity.",
+    "No comparison to other diseases in this table; gene ranks are descriptive, not cross-gene transcript concentration.",
+    "Missing export row is not biological absence.",
+    "Repeated export value .010026459 is not automatically a limit of detection.",
+    "Neither full-length transcript nor surface protein is demonstrated."
+  ]
+}

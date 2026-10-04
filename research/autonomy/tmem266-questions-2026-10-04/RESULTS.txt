@@ -1,0 +1,133 @@
+TMEM266 remaining-question investigation — 4 October 2026
+
+The additional investigations justify revising the exploratory EMC RNA letter.
+They do not support a protein-target, dependency or diagnostic-performance paper.
+The earlier evidence packets and draft remain unchanged.
+
+Demonstrated additions — unranked
+
+• Published USZ-23_EMC3 data contain TMEM266 transcript estimates summing to
+  133.52 TPM in an EMC-derived cell preparation with EWSR1–NR4A3 sequence support.
+  This supplies a concrete model for transcript experiments, but does not establish
+  complete RNA, protein, dependency or expression in patient tumor cells.
+
+• A fixed raw-read search recovered one paired fragment across an annotated
+  alternative TMEM266 splice boundary in that cell preparation.
+  This adds local sequence evidence relevant to transcript identity, but one
+  fragment cannot identify a complete or predominant isoform.
+
+• Historical FFPE checkpoints retain the exact TMEM266 detector sequence in
+  five consistently identified libraries and one with the known Si22 conflict.
+  This corroborates the assay target in published tissue, but these amplified
+  detector products do not sequence native RNA or establish tumor positivity.
+
+• Actual CEL headers resolve all six EMC specimen identifiers and reveal
+  complete separation of EMC and LGFMS scan dates.
+  This clarifies cohort overlap and weakens the array comparison's biological
+  interpretation because scan batch and histology cannot be separated.
+
+Include the model evidence, cohort clarification and batch limitation in the
+main text; retain the one-fragment observation and detector counts principally
+in the supplement. These are additions to one integrated RNA study, not four
+proposed papers. The last item corrects interpretation rather than establishing
+an independent biological discovery.
+
+Supporting sources and reproducible locations
+
+USZ culture:
+  https://doi.org/10.1016/j.canlet.2026.218300
+  https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM9037837
+  usz_quant.py; usz-worker-quant.json; usz-reference-models.json.
+  Two workers independently downloaded identical quantification files; the
+  coordinator's first quantification attempt received HTTP403, recorded honestly.
+  Prior fusion evidence: ../emc-sequence-discovery-2026-09-23/DECISION.md and
+  its evidence archive; retained records independently recounted here.
+
+Alternative boundary:
+  SRR33903995, fragment SRR33903995.239812.
+  usz_prefix.py; usz-prefix-replay.json; verify_splice_reads.py;
+  splice-read-verification.json; blast-observed_RNA.json.
+  Fixed 15 MB compressed prefix per mate, 565,700 complete read records; both
+  matching reads represent one fragment. Mate 1 matches 151/151 reference bases,
+  mate 2 matches 150/151; the mismatch lies outside the exact Q40 splice anchor.
+  Zero canonical-anchor matches do not establish absence or an isoform ratio.
+
+FFPE assay sequence:
+  https://doi.org/10.7717/peerj.21497
+  https://www.biospyder.com/s/190620HumanWholeTranscriptome20Manifest.xlsx
+  exact_probe_counts.py; exact-probe-counts.json.
+  Existing complete-run checkpoint, no new raw FFPE download. Positive counts
+  have deterministic lossy bounds; six unretained entries remain censored.
+
+Cohort, batch and molecular annotations:
+  https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369
+  Primary Hofvander S3/S4 links and hashes are in cohort-context.json.
+  cel_headers.py; array_robustness.py; cohort_context.py and corresponding JSON.
+  No array identifier matches the retained nine RNA-sequenced specimens;
+  undocumented patient aliases still prevent asserting 15 independent patients.
+  One source-labelled EMC has verified FUS::NR4A2, seven have directly linked
+  NR4A3 annotations, and one lacks a specimen-level S3 entry. The seven-case
+  sensitivity preserves separation inherited from the nine, not new validation.
+
+Other completed checks and publication decisions
+
+• CHRNA6 already separates EMC from all four examined comparator groups in
+  these reused data. TMEM266 overlaps OFMT; no diagnostic increment was
+  demonstrated. Keep this context and all individual measurements.
+
+• A fixed five-gene mature-muscle contrast is positive in all 40 tumor arrays,
+  not specifically EMC. It cannot exclude entrapped muscle or estimate purity;
+  preserve it only as a limited supplementary source-confounding check.
+
+• Removing flagged probes and subtracting fixed GC controls preserve the
+  upstream signal direction. Neither resolves complete scan-date confounding;
+  these are technical sensitivities, not independent validation.
+
+• All 30 array probes also match a predicted transcript with a different coding
+  annotation. A signal in a canonical coding region does not identify a protein
+  product, and quantifier allocation does not prove isoform predominance.
+
+• RNA BLAST supports intended transcript compatibility and identifies the
+  already segregated antisense-sharing probes. Hit caps and partial matches
+  prevent an exhaustive specificity claim; the genomic search remained queued
+  at the bounded stopping point, so it is unresolved rather than negative.
+
+Promising but unfinished biological questions
+
+Which cells in fusion-confirmed patient tissue express TMEM266? No usable new
+public EMC spatial, RNA-ISH or single-cell measurement resolved this; upstream
+and downstream localization with muscle/stromal controls remains necessary.
+
+Which complete RNAs and proteins are produced? The local alternative boundary
+cannot phase the full molecule, and shared probes cannot establish translation.
+Transcript-resolved sequencing and protein measurement remain distinct needs.
+
+Does TMEM266 have a functional role or useful diagnostic increment? No dependency
+or clinical experiment establishes either, and the present CHRNA6 comparison
+shows no added diagnostic value.
+
+Rejected or unavailable routes
+
+Explicit subtype lists in Burns proteomics and CellSARCTx contain no EMC.
+ProCan public metadata contains generic sarcoma labels but no authenticated EMC;
+its separate ISKS cohort remains private. The pulmonary single-nucleus study
+lacks usable subtype identities/accession, and a retracted proteomics study was
+excluded. These outcomes are source-access findings, not negative TMEM266 biology.
+
+DNA methylation cannot answer RNA isoform questions. Brenca patient/run mapping,
+controlled-access Hofvander raw reads and the complete earlier CHRNA6 candidate
+list remain unresolved. No identities were guessed and no first-discovery claim
+is made. See source-gates.txt and the reproduced ProCan metadata gate.
+
+Publication judgment and handoff
+
+DRAFT.md and SUPPLEMENT.md now incorporate the worthwhile additions and limits.
+The central result remains a comparative tissue-RNA association; lack of malignant
+cell localization and array batch confounding are major limitations. The new
+culture provides a specific experimental route for resolving transcript identity.
+
+Independent focused reviews are retained in REVIEW.txt. Full author review,
+portable public data/code packaging, the required pre-submission ultra review,
+and unresolved repository integration checks remain release work. Nothing was
+submitted, published, purchased or communicated externally; HANDOFF.txt records
+the exact local and remote process status.

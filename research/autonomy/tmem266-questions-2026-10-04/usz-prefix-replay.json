@@ -1,0 +1,119 @@
+{
+  "reference": {
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=NM_152335.3,XM_005254160.3&rettype=gb&retmode=xml",
+    "bytes": 52281,
+    "sha256": "4620e11b005089dfd8fcd81779c6d964595549c74dbd38c260c4af3d8b749ea8"
+  },
+  "events": [
+    {
+      "event": "alternative_skip106",
+      "reference": "XM_005254160.3",
+      "seam0": 476,
+      "anchor": "AGAGAGCAGCCGTGTGGCAGTTTCCAGCGCATTCCAGTTT"
+    },
+    {
+      "event": "canonical_inclusion_boundary",
+      "reference": "NM_152335.3",
+      "seam0": 404,
+      "anchor": "AGAGAGCAGCCGTGTGGCAGGTATTTTTGCTCAGTGCAAG"
+    },
+    {
+      "event": "canonical_exon4_exon5",
+      "reference": "NM_152335.3",
+      "seam0": 510,
+      "anchor": "AGATATAAAGCTTCTCCAGTTTTCCAGCGCATTCCAGTTT"
+    }
+  ],
+  "mates": [
+    {
+      "mate": 1,
+      "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR339/095/SRR33903995/SRR33903995_1.fastq.gz",
+      "status": 206,
+      "content_range": "bytes 0-14999999/1471025007",
+      "compressed_prefix_bytes": 15000000,
+      "prefix_sha256": "b6a27bbffa64c3d4aace89b50897ffae5dc222ee142b6819e0d7b3515544d888",
+      "decompressed_bytes": 104852907,
+      "complete_records": 284838,
+      "read_length_counts": {
+        "151": 284838
+      },
+      "incomplete_tail_lines": 1,
+      "incomplete_tail_bytes": 133,
+      "matches": [
+        {
+          "event": "alternative_skip106",
+          "mate": 1,
+          "record_index1": 239812,
+          "read_id": "SRR33903995.239812 LH00289:264:22VCTCLT3:7:1110:19240:28910/1",
+          "fragment_id": "SRR33903995.239812",
+          "orientation": "+",
+          "anchor_start_in_oriented_read0": 92,
+          "oriented_read_start_in_reference0": 364,
+          "minimum_anchor_Phred": 40,
+          "qualifies_Q20": true,
+          "read_sequence": "CGATCTCTCCACGGCGGGCTCGCAGCTCCTGTCAAATCTGGACGAAGATTACCAAAGAGAAGGGTCTAACTGGCTGAAGCCGTGCTGTGGGAAGAGAGCAGCCGTGTGGCAGTTTCCAGCGCATTCCAGTTTGCTGGCGTGATTCACTGGA",
+          "read_quality": "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
+        }
+      ]
+    },
+    {
+      "mate": 2,
+      "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR339/095/SRR33903995/SRR33903995_2.fastq.gz",
+      "status": 206,
+      "content_range": "bytes 0-14999999/1492531906",
+      "compressed_prefix_bytes": 15000000,
+      "prefix_sha256": "1d4f2fe87115c3ac32d19d8a0e538efc4f58e15b5ac824bbc4c223080d8d7e17",
+      "decompressed_bytes": 103386407,
+      "complete_records": 280862,
+      "read_length_counts": {
+        "151": 280862
+      },
+      "incomplete_tail_lines": 1,
+      "incomplete_tail_bytes": 68,
+      "matches": [
+        {
+          "event": "alternative_skip106",
+          "mate": 2,
+          "record_index1": 239812,
+          "read_id": "SRR33903995.239812 LH00289:264:22VCTCLT3:7:1110:19240:28910/2",
+          "fragment_id": "SRR33903995.239812",
+          "orientation": "-",
+          "anchor_start_in_oriented_read0": 2,
+          "oriented_read_start_in_reference0": 454,
+          "minimum_anchor_Phred": 40,
+          "qualifies_Q20": true,
+          "read_sequence": "CTATTTTGTTTTCGATGTAATCCCAGATCCCAAGCACCACAGTCCGTAGAACAGTCTCTGAGAAGAACACGGACAGAATGACCAGGCTGATCCAGTGAATCACGCCAGCAAACTGGAATGCGCTGGAAACTGCCACACGGCTGCTCTCTTC",
+          "read_quality": "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
+        }
+      ]
+    }
+  ],
+  "total_complete_records": 565700,
+  "summary": [
+    {
+      "event": "alternative_skip106",
+      "matched_records": 2,
+      "qualifying_Q20_records": 2,
+      "fragments": 1,
+      "oriented_starts": [
+        364,
+        454
+      ]
+    },
+    {
+      "event": "canonical_inclusion_boundary",
+      "matched_records": 0,
+      "qualifying_Q20_records": 0,
+      "fragments": 0,
+      "oriented_starts": []
+    },
+    {
+      "event": "canonical_exon4_exon5",
+      "matched_records": 0,
+      "qualifying_Q20_records": 0,
+      "fragments": 0,
+      "oriented_starts": []
+    }
+  ],
+  "scope": "fixed compressed prefixes; no absence, isoform ratio or full-length inference"
+}
