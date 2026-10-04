@@ -1,0 +1,43 @@
+{
+  "utc": "2026-10-04T21:38:56.614398+00:00",
+  "question": "Do the five named pending clinical FAPI cohorts contain authenticated EMC scans with same-patient FAPI/FDG or independently verified lesion observations capable of a new useful disease inference?",
+  "prior_art": "R5 reviewed broad clinical FAPI studies, but no authentic EMC scan comparison survived identity; broad sarcoma uptake and paired-FDG differences are already published. R5 was shelved with explicit pending cohorts, not an absence claim. These five sources were identified but not evaluated then.",
+  "sources": [
+    "ThreeTimePointFAPI46 PMC11927082",
+    "Hirmas2023 JNM64:711-716",
+    "Hirmas2024 JNM65:372-378",
+    "InternationalFAPIInterobserver2023 JNM64:1043",
+    "liverMetastases2026 DOI10.1007/s44178-026-00295-4"
+  ],
+  "identity_rules": [
+    "Inspect all published histologic categories/individual sarcoma rows and relevant conditions; no convenience EMC selection.",
+    "Keep author-labelled EMC distinct from molecular confirmation. Generic chondrosarcoma, sarcomaNOS or unspecified spindle/myxoid labels remain unresolved; do not relabel them EMC or silently exclude.",
+    "Record study dates, sites, trial IDs and explicit prior inclusion; Essen cohorts may overlap and repeated scans/lesions are not independent donors.",
+    "Clinical FAPI uptake cannot be inferred from FAP IHC, transcriptomics or non-EMC cohorts."
+  ],
+  "conditional_pilot": {
+    "contrast": "For verified identical lesion and donor, log2(FAPI SUVmax / FDG SUVmax); report all individual pairs and per-donor median rather than lesion-level independent tests.",
+    "primary_eligibility": "Paired scan interval<=28days, no intervening tumor-directed therapy; record tracer/scanner/uptake times. Unknown chronology or incomparable metrics descriptive only.",
+    "secondary": "FAPI-only lesions require independent pathological or stated longitudinal verification; uptake/scarring alone is not verified detection.",
+    "uncertainty": "No sparse asymptotic tests, no population claim from isolated published illustrations; no pooling FAPI04/46/74 as calibrated equivalents.",
+    "conditions": "Keep all positive/negative/treated scan conditions; no numeric extraction from an unlabeled plot without a demonstrable case crosswalk.",
+    "pre_analysis_state": "No new source-specific EMC outcome values inspected."
+  },
+  "alternative_explanations": [
+    "Generic histology or wrong disease identity",
+    "Cohort duplication",
+    "Protocol and therapy timing",
+    "Benign reactive uptake and verification bias",
+    "Original authors already established the useful result"
+  ],
+  "decisive_stop": "If no authenticated EMC measurement exists in the evaluated releases, stop numerical analysis and retain exact access/identity gaps. If a case exists but adds only a published isolated illustration, shelve absent a worthwhile independent contrast. No inventory or failed invented hypothesis qualifies as new disease knowledge.",
+  "followthrough": "Investigate every material contradictory eligible EMC condition before advancement; all relevant public EMC evidence and independent challenge required. No manuscript before validity and value pass.",
+  "read_reused": {
+    "R5coverage_sha256": "6eba80d91d327e086bd69421c4b31337158a773bef9bca2b472da3e5f723f791",
+    "R5pilot_sha256": "a39f7623afe066eced08176ebdf81edc2a115fd776ab4a66560221919691612c"
+  },
+  "constraints": "Only this R6 lane writable; 16MiB retained and >=10GiB free; quiet file/public API work. No UI/browser/headless/screenshots 06:00–10:00 America/New_York, DST aware, Sept12 exception expired. No paid/login/outreach/CAPTCHA/repeated unchanged403; no retries/takeover of platform-denied tissue/glycan/WGS/HLA-review. No commit/push/shared mutations.",
+  "free_before": 11023704064,
+  "base_worker_head": "373a430957178c1ce76cab89b3ae21b337cb3fc0",
+  "lead_R6_base": "44608387d5cc0d9542fbc4b4f86f9c749a910e8c"
+}

@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-04",
+  "scope": "Five specifically assigned pending clinical FAPI cohorts; no all-public-EMC absence or completeness claim",
+  "claim_advanced": false,
+  "decision": "SHELVE standalone paper from this bounded lane",
+  "sources": [
+    {
+      "source": "ThreeTimePointFAPI46 / Naeimi2023",
+      "doi": "10.2967/jnumed.122.264941",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11927082/",
+      "status": "evaluated primary indexed main article; generic identities unresolved; original XML/PDF unavailable through attempted routes",
+      "actual_evaluation": "All14 Table1 labels sum43; two sarcoma labels; all three timepoints10min/1hour/3hours and main figures/captions considered. No subtype/individual scan crosswalk; example patients are not sarcoma.",
+      "files": ["primary-identity-search.json", "timepoint-title-metadata.json", "eligibility-results.json"],
+      "conditions": "Every patient has three repeated FAPI46 scans; no case-linked FDG comparison in main article.",
+      "gap": "Both generic sarcoma patients remain unauthenticated; no original accessible supplemental patient roster located in bounded pass. Heidelberg S016/2018 donor overlap with earlier Heidelberg reports unresolved. EPMC hasSuppl=N is not evidence that no supplement exists."
+    },
+    {
+      "source": "Hirmas2023",
+      "doi": "10.2967/jnumed.122.264689",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/36581374/",
+      "status": "actual primary abstract evaluated; main and supplements unavailable through attempted routes; individual case evaluation incomplete",
+      "actual_evaluation": "324 total;131 sarcoma;237 FDG pairs overall; Oct2018–Oct2021 Essen registry. Broad sarcoma averages do not identify EMC.",
+      "files": ["hirmas2023-metadata.json", "hirmas2023-openalex.json", "hirmas-pdf-receipt.json", "primary-fetch-receipts.json"],
+      "gap": "All131 sarcoma subtypes/IDs and every relevant condition require original roster/crosswalk. Main and observed PDF returned403; no continuing retries. OpenAlex source-location metadata provides no independent public repository copy. Potential Kessler47/Lanzafame200/Pabst overlap prevents donor summation."
+    },
+    {
+      "source": "Hirmas2024",
+      "doi": "10.2967/jnumed.123.266652",
+      "url": "https://jnm.snmjournals.org/content/65/3/372",
+      "status": "evaluated original primary Methods; demonstrably unsuitable analyzed cohort for EMC",
+      "actual_evaluation": "Sarcoma explicitly excluded because separately reported. Cohort115, pairedFDG103; this exclusion resolves eligibility independently of missing individual numeric tables.",
+      "files": ["hirmas2024-exclusion-web.json", "hirmas2024-metadata.json", "eligibility-results.json"],
+      "gap": "Separate referenced sarcoma reports remain separate coverage gaps; exclusion from this analysis is not absence from the Essen registry. Primary indexed source text evaluated; original-byte main request403."
+    },
+    {
+      "source": "InternationalFAPIInterobserver2023 / Mei2023",
+      "doi": "10.2967/jnumed.122.265245",
+      "url": "https://cris.unibo.it/retrieve/db118c27-9b88-4be9-b185-eb4d99266f13/1043.full.pdf",
+      "status": "all six original main PDF pages evaluated; all ten sarcoma identities unresolved; described supplementary cases pending access/evaluation",
+      "actual_evaluation": "All broad entity categories account for50. Ten generic sarcomas, nine with diagnosticCT. Fifteen readers and repeated readings are not donors; FAPI46 uptake10–48min. No individual subtype crosswalk or EMC values.",
+      "files": ["interobserver2023.pdf", "interobserver-pages.json", "interobserver-pdf-links.json", "eligibility-results.json"],
+      "gap": "Written guide SDF1, four teaching cases SDF2 and one test case were described, not acquired or evaluated. No assumption these are independent/extra donors or non-EMC. Publisher main403 prevented source-linked retrieval in bounded pass. Essen/Bologna dates and overlap with registry unresolved."
+    },
+    {
+      "source": "liverMetastases2026 / Ma2026",
+      "doi": "10.1007/s44178-026-00295-4",
+      "url": "https://link.springer.com/article/10.1007/s44178-026-00295-4",
+      "status": "evaluated all76 individual rows and all main Table1 histologies; one generic pleomorphic diagnosis unresolved; no EMC-labelled row",
+      "actual_evaluation": "S1=61 patients with173 metastatic liver lesions; S2=15 patients with16 nonmetastatic liver lesions. All76 histology labels and paired scan detection counts retained. Female59 S1:4 pleomorphic sarcoma lacks EMC authentication. Reported11-sarcoma grouping has ten mesenchymal-labelled rows/32lesions plus neuroendocrine1/5 arithmetic correspondence, not a verified recoding.",
+      "files": ["liver2026.html", "liver2026-table1.html", "liver2026-supp.docx", "liver-extracted.json", "eligibility-results.json"],
+      "conditions": "FAPI04 and FDG within one week; new diagnoses or last treatment>=3months. Benign/malignant liver conditions and unfavourable FAPI counts preserved. Individual dates/protocol and lesion verification crosswalk absent.",
+      "gap": "Generic pleomorphic case identity, reported sarcoma grouping and donor crosswalk to Gu2022 remain unresolved. Fudan IRB2004216-25 and May2020–April2023 recruitment overlap Gu2022May2020–May2021. Published18F-FDG uptake contributes to some reference-standard definitions; no independent validation claim."
+    }
+  ],
+  "verified_reuse": [
+    {"source":"R5fapi_imaging/COVERAGE.json","sha256":"6eba80d91d327e086bd69421c4b31337158a773bef9bca2b472da3e5f723f791","purpose":"Prior evaluated and pending clinical sources remain unchanged; this file updates only five assigned entries."},
+    {"source":"Gu2022 original XML retained in functional R5 independent_challenge","sha256":"5529103dd806780784cb5c9b2b23714f330316d68b031a2f5d788642da66016f","purpose":"Prior all45 identity evaluation reused. Institution, dates and IRB rechecked directly solely to identify possible overlap with new liver study."}
+  ],
+  "staged_other_sources": "All other R5 gaps remain visible in the unchanged R5 coverage. Incidental current search identified JNM2025 abstract66:supplement1:252150 (18 metastaticSTS, seven subtype groups incompletely named), and April/September2026 source-linked comparison/PET-MRI leads. They are not evaluated EMC observations and are not silently counted negative; this five-source lane advances no claim.",
+  "independent_review": "Requested compact read-only eligibility/value check from functional_models; record receipt separately before freeze if delivered.",
+  "restricted_scopes": "No takeover/retry of earlier platform-denied FAP tissue, glycan, structural-genomic or HLA-review content. Their interrupted status remains unchanged."
+}

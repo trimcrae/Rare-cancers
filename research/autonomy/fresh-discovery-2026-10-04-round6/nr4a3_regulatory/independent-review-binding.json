@@ -1,0 +1,44 @@
+{
+  "utc": "2026-10-04T21:56:27.459551+00:00",
+  "source_path": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round6\\clinical_identity\\independent-regulatory-review.json",
+  "source_sha256": "1d43745f9889b074b933383ffa61363140cafa1eb8dd9cbdf92200f9405bdc8c",
+  "review": {
+    "utc": "2026-10-04T21:55:42.701477+00:00",
+    "reviewer": "genomic_clinical",
+    "scope": "Read-only material eligibility/value check of current permitted R6 files; no new retrieval, no denied content, no full historical methods or PROD-ATAC supplement review",
+    "reviewed_final_sha256": {
+      "RESULTS.txt": "0732a443190c329fd761eadb57168db2e1becc599c9c394ef1f822a491e5f739",
+      "COVERAGE.txt": "dcfdc68d8ba1fbe8c960444a835f9bfd8ae5165c3b34d6a487effe40ea50100f",
+      "evaluation.json": "9719024f35cb201c423eaf85825f8f29ff7d699eaf29f660b44c2483cf15424d",
+      "geo-four-condition-evaluation.json": "015da8bb1f273d96a75327231d8748126c24d2c4831d9bcef2a369f37fa936d1",
+      "geo-fusion-summary.xml": "042ce9562a196675f5cae13686dba2f17e4dc4950783c8dc2d4a4edd766b42b1",
+      "selected-primary-metadata.json": "3cca45cff4c1697a6a00ed29ae2e03411704414ef62f4107d627e4f6fa643b60",
+      "six3-contrary2004.json": "bb0117e776d7ba649db8ceb66cd07599e416fce1b705dd3f36b5c702893de082",
+      "AMENDMENT-01.txt": "3aec42fe5ed0c2b32311b767e307ddd5ad2f9fe4854019031de478a21c2d6a58"
+    },
+    "direct_checks": {
+      "same_four_GSMs_between_GSE_GDS": true,
+      "all_engineered_293_conditions": true,
+      "four_unique_conditions": {
+        "GSM281777": "293-tet-On-EWS/NOR1 without doxycycline",
+        "GSM281775": "293-tet-On-NOR1 without doxycycline",
+        "GSM281778": "293-tet-On-EWS/NOR1 with doxycycline",
+        "GSM281776": "293-tet-On-NOR1 with doxycycline"
+      },
+      "Laflamme2003_tumor_assay_abstract_explicit_RTPCR": true,
+      "2004_abstract_fourteen_fusionpositive_no_native_NOR1_SIX3_expression": true,
+      "nineteen_reported_cases_two_coexpression_fourteen_negative_three_unspecified": "Abstract supports these counts but not every case/assay mapping."
+    },
+    "material_correction": "Initial draft called the 2004 result protein and framed discordance with2003 as RNA-versus-protein. Retained primary abstract does not establish this assay distinction; MeSH or protein title wording alone cannot establish measurement. Worker corrected to source-reported expression with assay level unresolved; AMENDMENT-01 preserves the reason.",
+    "correction_status": "Accepted and applied in reviewed corrected result/coverage/evaluation; full method evidence remains unavailable/unexamined.",
+    "decision": "Agree with scoped SHELVE: new numerical endogenous EMC perturbation/binding/output comparison not established. No absence, dependency or new SIX3 biological claim is supported.",
+    "limitations": [
+      "This is not independent full-source coverage of every searched record.",
+      "GEO accessions duplicate one experiment, not biological replication.",
+      "Historical cases and assay discordance cannot be pooled or resolved from abstract labels.",
+      "No numerical pilot should be created merely to re-demonstrate published heterologous results."
+    ],
+    "reopening": "An actual authentic EMC perturbation/control/output mapping that answers a new useful question, with every relevant public condition and independent challenge."
+  },
+  "verified_all_reviewed_hashes_match": true
+}
