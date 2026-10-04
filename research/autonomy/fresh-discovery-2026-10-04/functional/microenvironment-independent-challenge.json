@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-04",
+  "reviewer": "functional_models",
+  "manifest_sha256": "0dcceee852b5ceec2807641b1c55b3f57e33ffa7687b584d4d4a3806d6752da0",
+  "manifest_probe_rows": 22537,
+  "lengths": {
+    "50": 22537
+  },
+  "forward_duplicate_sequence_count": 0,
+  "forward_or_reverse_ambiguous_sequences": 0,
+  "unique_sample_aliases": 12,
+  "unique_biosamples": 12,
+  "unique_runs": 12,
+  "all12_receipt_IDs_match": true,
+  "observed_read_lengths": [
+    "50"
+  ],
+  "range_full_exact_match": [
+    0.0662,
+    0.6918
+  ],
+  "prespecified_gene_probes": {
+    "MS4A1": [
+      "MS4A1_14568"
+    ],
+    "CD79A": [
+      "CD79A_87745"
+    ],
+    "CD79B": [
+      "CD79B_90964"
+    ],
+    "CD37": [
+      "CD37_21072"
+    ],
+    "PTPRC": [
+      "PTPRC_5605"
+    ],
+    "CD3D": [
+      "CD3D_1127"
+    ],
+    "CD3E": [
+      "CD3E_16113"
+    ],
+    "CD3G": [
+      "CD3G_13642"
+    ],
+    "LST1": [
+      "LST1_25001",
+      "LST1_27466",
+      "LST1_28495"
+    ],
+    "AIF1": [
+      "AIF1_16224",
+      "AIF1_26812"
+    ],
+    "FCER1G": [
+      "FCER1G_11058"
+    ],
+    "PXN": [
+      "PXN_5642"
+    ],
+    "H1FX": [
+      "H1FX_22053"
+    ],
+    "TYMS": [
+      "TYMS_21327"
+    ]
+  },
+  "judgment": [
+    "Independent openpyxl parsing by actual columns supports full50nt manifest extraction; no missing-column shift seen.",
+    "Both exact forward and reverse-complement50nt matches are tested; first10000read receipts all50nt. Prefix is not unbiased whole-library QC.",
+    "Ambiguous reference sequence matches are excluded explicitly, not assigned arbitrarily.",
+    "Processed9500gene matrix absence does not mean absence from22537probe assay or absent EMC expression.",
+    "75% is prespecified workflow allocation criterion, not validated assay-invalidity threshold.",
+    "Phred/complexity QC, mismatch-aware validated alignment and processed-count concordance remain unperformed; these are method gaps, not negative biology.",
+    "Distinct runs/biosamples are not proof of patient independence or a clinical risk/outcome crosswalk.",
+    "No additional mapping justified solely to rescue a weak biological contrast; all12 suitable accessible raw libraries remain pending, blocking manuscript promotion."
+  ]
+}

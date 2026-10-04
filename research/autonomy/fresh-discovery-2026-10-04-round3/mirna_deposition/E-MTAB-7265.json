@@ -1,0 +1,5514 @@
+{
+  "accno" : "E-MTAB-7265",
+  "attributes" : [ {
+    "name" : "Title",
+    "value" : "High-throughput sequencing of miRNA of cartilage tumors"
+  }, {
+    "name" : "ReleaseDate",
+    "value" : "2019-07-19"
+  }, {
+    "name" : "RootPath",
+    "value" : "E-MTAB-7265"
+  }, {
+    "name" : "AttachTo",
+    "value" : "ArrayExpress"
+  } ],
+  "section" : {
+    "accno" : "s-E-MTAB-7265",
+    "type" : "Study",
+    "attributes" : [ {
+      "name" : "Title",
+      "value" : "High-throughput sequencing of miRNA of cartilage tumors"
+    }, {
+      "name" : "Study type",
+      "value" : "microRNA profiling by high throughput sequencing",
+      "valqual" : [ {
+        "name" : "Ontology",
+        "value" : "EFO"
+      }, {
+        "name" : "TermId",
+        "value" : "EFO_0002896"
+      } ]
+    }, {
+      "name" : "Organism",
+      "value" : "Homo sapiens"
+    }, {
+      "name" : "Description",
+      "value" : "In this study, a series of 102 cartilage tumors was used to uncover the molecular diversity of chondrosarcomas through the profiling of mRNA, miRNA, DNA methylation, DNA copy number aberrations and point mutations. An integrated classification using multiple molecular dimensions revealed three major molecular features unraveling the diversity in clinical outcome of chondrosarcoma: a high mitotic state, regional 14q32 loss of expression and IDH mutations leading to genome-wide hypermethylation. These three robust and simple molecular features classify chondrosarcoma in subtypes with superior clinical value as compared to the current grading system."
+    } ],
+    "links" : [ [ {
+      "url" : "E-MTAB-7263",
+      "attributes" : [ {
+        "name" : "Type",
+        "value" : "Biostudies"
+      } ]
+    } ], [ {
+      "url" : "ERP111275",
+      "attributes" : [ {
+        "name" : "Type",
+        "value" : "ENA"
+      } ]
+    } ] ],
+    "subsections" : [ [ {
+      "accno" : "P-MTAB-79346",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-79346"
+      }, {
+        "name" : "Type",
+        "value" : "nucleic acid library construction protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0004184"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "libraries are performed according to previously established protocols [Vigneault, F. et al. High-throughput multiplex sequencing of miRNA. Curr Protoc Hum Genet Chapter 11, Unit 11.12.1–10 (2012).]"
+      }, {
+        "name" : "Hardware"
+      } ]
+    }, {
+      "accno" : "P-MTAB-79347",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-79347"
+      }, {
+        "name" : "Type",
+        "value" : "nucleic acid sequencing protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0004170"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "the sequencing platform generates the sequencing images, the data are analyzed in three steps: image analysis, base calling and bcl conversion. CASAVA demultiplexes multiplexed samples during the bcl conversion step. Convert *bcl files into compressed FASTQ files. To do some quality control checks on raw sequence data, fastqc software is used. Finally, the script \\\\\"Trim_adapter\\\\\", provides by mirExpress software, handles the sequence file which contain adpter or not according the input of adaptor sequence. The sequence adpator was trimmed on sequence data."
+      }, {
+        "name" : "Hardware",
+        "value" : "Illumina HiSeq 2000"
+      } ]
+    }, {
+      "accno" : "P-MTAB-79344",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-79344"
+      }, {
+        "name" : "Type",
+        "value" : "sample collection protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0005518"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "Frozen cartilage tumors were collected from multiple french centres."
+      }, {
+        "name" : "Hardware"
+      } ]
+    }, {
+      "accno" : "P-MTAB-79345",
+      "type" : "Protocols",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "P-MTAB-79345"
+      }, {
+        "name" : "Type",
+        "value" : "nucleic acid extraction protocol",
+        "valqual" : [ {
+          "name" : "Ontology",
+          "value" : "EFO"
+        }, {
+          "name" : "TermId",
+          "value" : "EFO_0002944"
+        } ]
+      }, {
+        "name" : "Description",
+        "value" : "Total RNAs are purified with miRNeasy kit which allows the selection of the small RNA fraction less than 100b"
+      }, {
+        "name" : "Hardware"
+      } ]
+    } ], {
+      "type" : "Author",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "Elarouci Nabila"
+      }, {
+        "name" : "Email",
+        "value" : "contact-cit@ligue-cancer.net"
+      }, {
+        "name" : "Role",
+        "value" : "submitter"
+      }, {
+        "name" : "affiliation",
+        "value" : "o1",
+        "reference" : true
+      } ]
+    }, {
+      "accno" : "o1",
+      "type" : "Organization",
+      "attributes" : [ {
+        "name" : "Name",
+        "value" : "Cartes d’Identité des Tumeurs  LIGUE CONTRE LE CANCER"
+      }, {
+        "name" : "Address",
+        "value" : "Siège de la Fédération 14 rue Corvisart - 75013 PARIS"
+      } ]
+    }, {
+      "accno" : "s-samples-factors-E-MTAB-7265",
+      "type" : "Samples",
+      "attributes" : [ {
+        "name" : "Sample count",
+        "value" : "102"
+      }, {
+        "name" : "Experimental Factors",
+        "value" : "tumor grading",
+        "valqual" : [ {
+          "name" : "TermName",
+          "value" : "tumor grading"
+        } ]
+      } ],
+      "subsections" : [ {
+        "accno" : "exp_factor-E-MTAB-7265",
+        "type" : "Experimental Factors",
+        "attributes" : [ {
+          "name" : "Tumor grading",
+          "value" : "G1"
+        }, {
+          "name" : "Tumor grading",
+          "value" : "G3"
+        }, {
+          "name" : "Tumor grading",
+          "value" : "N/A"
+        }, {
+          "name" : "Tumor grading",
+          "value" : "dedifferentiated"
+        }, {
+          "name" : "Tumor grading",
+          "value" : "benign"
+        }, {
+          "name" : "Tumor grading",
+          "value" : "G2"
+        } ],
+        "subsections" : [ [ {
+          "accno" : "factors_0",
+          "type" : "Factors Table",
+          "attributes" : [ {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "39",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769493,ERS2769505,ERS2769507,ERS2769510,ERS2769514,ERS2769515,ERS2769518,ERS2769520,ERS2769521,ERS2769526,ERS2769533,ERS2769538,ERS2769545,ERS2769546,ERS2769547,ERS2769549,ERS2769550,ERS2769551,ERS2769552,ERS2769555,ERS2769556,ERS2769560,ERS2769561,ERS2769562,ERS2769566,ERS2769567,ERS2769569,ERS2769572,ERS2769573,ERS2769574,ERS2769576,ERS2769580,ERS2769582,ERS2769584,ERS2769586,ERS2769587,ERS2769589,ERS2769590,ERS2769592"
+            } ]
+          } ]
+        }, {
+          "accno" : "factors_1",
+          "type" : "Factors Table",
+          "attributes" : [ {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "17",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769494,ERS2769496,ERS2769500,ERS2769509,ERS2769511,ERS2769522,ERS2769523,ERS2769537,ERS2769539,ERS2769540,ERS2769541,ERS2769557,ERS2769559,ERS2769564,ERS2769568,ERS2769575,ERS2769578"
+            } ]
+          } ]
+        }, {
+          "accno" : "factors_2",
+          "type" : "Factors Table",
+          "attributes" : [ {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "17",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769495,ERS2769502,ERS2769512,ERS2769513,ERS2769528,ERS2769529,ERS2769530,ERS2769532,ERS2769548,ERS2769553,ERS2769570,ERS2769571,ERS2769577,ERS2769585,ERS2769591,ERS2769593,ERS2769594"
+            } ]
+          } ]
+        }, {
+          "accno" : "factors_3",
+          "type" : "Factors Table",
+          "attributes" : [ {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "16",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769497,ERS2769501,ERS2769503,ERS2769504,ERS2769506,ERS2769508,ERS2769519,ERS2769525,ERS2769527,ERS2769536,ERS2769542,ERS2769544,ERS2769554,ERS2769558,ERS2769565,ERS2769581"
+            } ]
+          } ]
+        }, {
+          "accno" : "factors_4",
+          "type" : "Factors Table",
+          "attributes" : [ {
+            "name" : "tumor grading",
+            "value" : "benign"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "8",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769498,ERS2769499,ERS2769516,ERS2769524,ERS2769543,ERS2769563,ERS2769579,ERS2769588"
+            } ]
+          } ]
+        }, {
+          "accno" : "factors_5",
+          "type" : "Factors Table",
+          "attributes" : [ {
+            "name" : "tumor grading",
+            "value" : "N/A"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "5",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769517,ERS2769531,ERS2769534,ERS2769535,ERS2769583"
+            } ]
+          } ]
+        } ] ]
+      }, {
+        "accno" : "source_chars-E-MTAB-7265",
+        "type" : "Source Characteristics",
+        "attributes" : [ {
+          "name" : "Organism",
+          "value" : "Homo sapiens"
+        }, {
+          "name" : "Disease",
+          "value" : "chondrosarcoma"
+        }, {
+          "name" : "Mirna.subtypes",
+          "value" : "Mir1"
+        }, {
+          "name" : "Mirna.subtypes",
+          "value" : "Mir3"
+        }, {
+          "name" : "Mirna.subtypes",
+          "value" : "Mir4"
+        }, {
+          "name" : "Mirna.subtypes",
+          "value" : "Mir2"
+        }, {
+          "name" : "Mir.simplifiedsubtypes",
+          "value" : "mir14q32High"
+        }, {
+          "name" : "Mir.simplifiedsubtypes",
+          "value" : "mir14q32Low"
+        }, {
+          "name" : "Mom.subtypes",
+          "value" : "C5"
+        }, {
+          "name" : "Mom.subtypes",
+          "value" : "C4"
+        }, {
+          "name" : "Mom.subtypes",
+          "value" : "C2"
+        }, {
+          "name" : "Mom.subtypes",
+          "value" : "C1"
+        }, {
+          "name" : "Mom.subtypes",
+          "value" : "C3"
+        }, {
+          "name" : "Mom.subtypes",
+          "value" : "C6"
+        }, {
+          "name" : "Idh1.aamut",
+          "value" : "R132C,V71D"
+        }, {
+          "name" : "Idh1.aamut",
+          "value" : "R132H"
+        }, {
+          "name" : "Idh1.aamut",
+          "value" : "N/A"
+        }, {
+          "name" : "Idh1.aamut",
+          "value" : "R132L,R132C"
+        }, {
+          "name" : "Idh1.aamut",
+          "value" : "R132S"
+        }, {
+          "name" : "Idh1.aamut",
+          "value" : "R132C"
+        }, {
+          "name" : "Idh1.aamut",
+          "value" : "R132G"
+        }, {
+          "name" : "Idh1.aamut",
+          "value" : "R132L"
+        }, {
+          "name" : "Idh1.aamut",
+          "value" : "V71D"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,410574247"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "N/A"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,17781257"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,082153582"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,03234714"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,164693446"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,251725969"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,287635715"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,349802372"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,32549767"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,31820252"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,340492735"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,279749478"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,365203762"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "0,274615197"
+        }, {
+          "name" : "Idh1.freq",
+          "value" : "... 15 other values"
+        }, {
+          "name" : "Idh2.aamut",
+          "value" : "N/A"
+        }, {
+          "name" : "Idh2.aamut",
+          "value" : "R172T"
+        }, {
+          "name" : "Idh2.aamut",
+          "value" : "R172G"
+        }, {
+          "name" : "Idh2.aamut",
+          "value" : "R172S"
+        }, {
+          "name" : "Idh2.aamut",
+          "value" : "R172W"
+        }, {
+          "name" : "Idh2.aamut",
+          "value" : "R172M"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,319649699"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,368508655"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,174451859"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,154203057"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,440977444"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "N/A"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,398120963"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,443828017"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,455723542"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,340550767"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,363098302"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,22814668"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,2671875"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,292351454"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "0,253321779"
+        }, {
+          "name" : "Idh2.freq",
+          "value" : "... 5 other values"
+        }, {
+          "name" : "Col2a1",
+          "value" : "N/A"
+        }, {
+          "name" : "Col2a1",
+          "value" : "frameshift insertion;frameshift deletion"
+        }, {
+          "name" : "Col2a1",
+          "value" : "frameshift insertion"
+        }, {
+          "name" : "Col2a1",
+          "value" : "stopgain"
+        }, {
+          "name" : "Col2a1",
+          "value" : "nonsynonymous SNV;frameshift insertion;frameshift deletion"
+        }, {
+          "name" : "Col2a1",
+          "value" : "frameshift deletion"
+        }, {
+          "name" : "Tp53",
+          "value" : "nonsynonymous SNV"
+        }, {
+          "name" : "Tp53",
+          "value" : "frameshift deletion"
+        }, {
+          "name" : "Tp53",
+          "value" : "N/A"
+        }, {
+          "name" : "Cdkn2a.copynumber",
+          "value" : "-1"
+        }, {
+          "name" : "Cdkn2a.copynumber",
+          "value" : "1"
+        }, {
+          "name" : "Cdkn2a.copynumber",
+          "value" : "0"
+        }, {
+          "name" : "Cdkn2a.copynumber",
+          "value" : "N/A"
+        }, {
+          "name" : "Cdkn2a.copynumber",
+          "value" : "-2"
+        }, {
+          "name" : "Overall survival",
+          "value" : "1 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "90 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "94 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "89 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "62 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "26 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "69 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "57 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "23 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "27 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "28 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "106 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "3 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "72 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "179 month"
+        }, {
+          "name" : "Overall survival",
+          "value" : "... 45 other values"
+        }, {
+          "name" : "Event death",
+          "value" : "1"
+        }, {
+          "name" : "Event death",
+          "value" : "0"
+        }, {
+          "name" : "Event death",
+          "value" : "N/A"
+        }, {
+          "name" : "Tumor grading",
+          "value" : "G1"
+        }, {
+          "name" : "Tumor grading",
+          "value" : "G3"
+        }, {
+          "name" : "Tumor grading",
+          "value" : "N/A"
+        }, {
+          "name" : "Tumor grading",
+          "value" : "dedifferentiated"
+        }, {
+          "name" : "Tumor grading",
+          "value" : "benign"
+        }, {
+          "name" : "Tumor grading",
+          "value" : "G2"
+        }, {
+          "name" : "Patientid",
+          "value" : "NY008"
+        }, {
+          "name" : "Patientid",
+          "value" : "LY038"
+        }, {
+          "name" : "Patientid",
+          "value" : "LY011,LY012,LY026"
+        }, {
+          "name" : "Patientid",
+          "value" : "... 99 other values"
+        } ],
+        "subsections" : [ [ {
+          "accno" : "source_0",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172G"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,398120963"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-2"
+          }, {
+            "name" : "overall survival",
+            "value" : "41 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769493"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_1",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "N/A"
+          }, {
+            "name" : "overall survival",
+            "value" : "1 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769494"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_2",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,274615197"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift deletion"
+          }, {
+            "name" : "tp53",
+            "value" : "frameshift deletion"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "126 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769495"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_3",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "96 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769496"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_4",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C6"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172W"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,2671875"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "10 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769497"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_5",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "N/A"
+          }, {
+            "name" : "overall survival",
+            "value" : "N/A month"
+          }, {
+            "name" : "event death",
+            "value" : "N/A"
+          }, {
+            "name" : "tumor grading",
+            "value" : "benign"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769498"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_6",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "20 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "benign"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769499"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_7",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift insertion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "1 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769500"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_8",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C6"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "3 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769501"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_9",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "80 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769502"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_10",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C6"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "7 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769503"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_11",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "77 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769504"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_12",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "26 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769505"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_13",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172M"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,02576393"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "9 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769506"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_14",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172G"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,253321779"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "38 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769507"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_15",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C6"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172S"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,292351454"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53",
+            "value" : "nonsynonymous SNV"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "1"
+          }, {
+            "name" : "overall survival",
+            "value" : "1 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769508"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_16",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "78 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769509"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_17",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "86 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769510"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_18",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "N/A"
+          }, {
+            "name" : "overall survival",
+            "value" : "89 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769511"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_19",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172S"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,443828017"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-2"
+          }, {
+            "name" : "overall survival",
+            "value" : "72 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769512"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_20",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "0 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769513"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_21",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "80 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769514"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_22",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132L"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,046527494"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift deletion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "95 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769515"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_23",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "N/A"
+          }, {
+            "name" : "overall survival",
+            "value" : "23 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "benign"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769516"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_24",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "N/A"
+          }, {
+            "name" : "overall survival",
+            "value" : "N/A month"
+          }, {
+            "name" : "event death",
+            "value" : "N/A"
+          }, {
+            "name" : "tumor grading",
+            "value" : "N/A"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769517"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_25",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172S"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,22814668"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift insertion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "27 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769518"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_26",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C6"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172T"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,319649699"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "7 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769519"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_27",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,317768595"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "127 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769520"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_28",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "62 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769521"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_29",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "28 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769522"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_30",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,351568198"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "90 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769523"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_31",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "20 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "benign"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769524"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_32",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "15 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769525"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_33",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,232454275"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "19 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769526"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_34",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C6"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "6 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769527"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_35",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132L,R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,17781257"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "66 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769528"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_36",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,389835809"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "69 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769529"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_37",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172G"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,394915861"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift insertion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "7 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769530"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_38",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "N/A month"
+          }, {
+            "name" : "event death",
+            "value" : "N/A"
+          }, {
+            "name" : "tumor grading",
+            "value" : "N/A"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769531"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_39",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53",
+            "value" : "nonsynonymous SNV"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "29 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769532"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_40",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,340492735"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53",
+            "value" : "nonsynonymous SNV"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "140 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769533"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_41",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "72 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "N/A"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769534"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_42",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "N/A month"
+          }, {
+            "name" : "event death",
+            "value" : "N/A"
+          }, {
+            "name" : "tumor grading",
+            "value" : "N/A"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769535"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_43",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172S"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,368508655"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-2"
+          }, {
+            "name" : "overall survival",
+            "value" : "N/A month"
+          }, {
+            "name" : "event death",
+            "value" : "N/A"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769536"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_44",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "74 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769537"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_45",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C,V71D"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,350787132"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift deletion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "43 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769538"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_46",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "41 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769539"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_47",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "26 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769540"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_48",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "54 month"
+          }, {
+            "name" : "event death",
+            "value" : "N/A"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769541"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_49",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C6"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172S"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,170545916"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53",
+            "value" : "nonsynonymous SNV"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "7 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769542"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_50",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "28 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "benign"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769543"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_51",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "29 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769544"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_52",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "97 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769545"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_53",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132S"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,262742835"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "118 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769546"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_54",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,322774928"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "80 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769547"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_55",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,365203762"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "15 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769548"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_56",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "42 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769549"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_57",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "106 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769550"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_58",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132L"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,404178674"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "82 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769551"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_59",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "45 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769552"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_60",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132L"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,164693446"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift deletion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "57 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769553"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_61",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C6"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "5 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769554"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_62",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "16 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769555"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_63",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,287522604"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift deletion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "86 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769556"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_64",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "V71D"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,03234714"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "179 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769557"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_65",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172S"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,455723542"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "24 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769558"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_66",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "44 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769559"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_67",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,082153582"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "94 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769560"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_68",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "83 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769561"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_69",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172S"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,363098302"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "72 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769562"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_70",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "81 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "benign"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769563"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_71",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "0 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769564"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_72",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172T"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,340550767"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift insertion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-2"
+          }, {
+            "name" : "overall survival",
+            "value" : "8 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769565"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_73",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "33 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769566"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_74",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "62 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769567"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_75",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,32549767"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1",
+            "value" : "stopgain"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "38 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769568"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_76",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172S"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,174451859"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift deletion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "N/A month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769569"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_77",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,410574247"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1",
+            "value" : "nonsynonymous SNV;frameshift insertion;frameshift deletion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "64 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769570"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_78",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132G"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,347970174"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-2"
+          }, {
+            "name" : "overall survival",
+            "value" : "7 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769571"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_79",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "N/A month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769572"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_80",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C6"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-2"
+          }, {
+            "name" : "overall survival",
+            "value" : "N/A month"
+          }, {
+            "name" : "event death",
+            "value" : "N/A"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769573"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_81",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,31820252"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "51 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769574"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_82",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "58 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769575"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_83",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,287635715"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift insertion;frameshift deletion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "6 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769576"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_84",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "20 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769577"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_85",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "N/A"
+          }, {
+            "name" : "overall survival",
+            "value" : "96 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G1"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769578"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_86",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "0 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "benign"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769579"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_87",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "N/A month"
+          }, {
+            "name" : "event death",
+            "value" : "N/A"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769580"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_88",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C6"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172S"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,154203057"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "12 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "dedifferentiated"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769581"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_89",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132G"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,279749478"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53",
+            "value" : "nonsynonymous SNV"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "90 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769582"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_90",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "N/A"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "N/A"
+          }, {
+            "name" : "col2a1",
+            "value" : "N/A"
+          }, {
+            "name" : "tp53",
+            "value" : "N/A"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "N/A"
+          }, {
+            "name" : "overall survival",
+            "value" : "N/A month"
+          }, {
+            "name" : "event death",
+            "value" : "N/A"
+          }, {
+            "name" : "tumor grading",
+            "value" : "N/A"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769583"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_91",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C4"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132H"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,323382"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "36 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769584"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_92",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,460441201"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53",
+            "value" : "nonsynonymous SNV"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "89 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769585"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_93",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,36169714"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "3 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769586"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_94",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift insertion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-2"
+          }, {
+            "name" : "overall survival",
+            "value" : "17 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769587"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_95",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172S"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,028878049"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "26 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "benign"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769588"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_96",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir2"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132G"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,349802372"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "51 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769589"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_97",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C1"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "1"
+          }, {
+            "name" : "overall survival",
+            "value" : "44 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769590"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_98",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C5"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut",
+            "value" : "R172S"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0,440977444"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-2"
+          }, {
+            "name" : "overall survival",
+            "value" : "17 month"
+          }, {
+            "name" : "event death",
+            "value" : "N/A"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769591"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_99",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir3"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C2"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "104 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G2"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769592"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_100",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir4"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32Low"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C6"
+          }, {
+            "name" : "idh1.aamut",
+            "value" : "R132C"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0,251725969"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1",
+            "value" : "frameshift insertion"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "-1"
+          }, {
+            "name" : "overall survival",
+            "value" : "19 month"
+          }, {
+            "name" : "event death",
+            "value" : "1"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769593"
+            } ]
+          } ]
+        }, {
+          "accno" : "source_101",
+          "type" : "Characteristics Table",
+          "attributes" : [ {
+            "name" : "mirna.subtypes",
+            "value" : "Mir1"
+          }, {
+            "name" : "mir.simplifiedsubtypes",
+            "value" : "mir14q32High"
+          }, {
+            "name" : "mom.subtypes",
+            "value" : "C3"
+          }, {
+            "name" : "idh1.aamut"
+          }, {
+            "name" : "idh1.freq",
+            "value" : "0"
+          }, {
+            "name" : "idh2.aamut"
+          }, {
+            "name" : "idh2.freq",
+            "value" : "0"
+          }, {
+            "name" : "col2a1"
+          }, {
+            "name" : "tp53"
+          }, {
+            "name" : "cdkn2a.copynumber",
+            "value" : "0"
+          }, {
+            "name" : "overall survival",
+            "value" : "80 month"
+          }, {
+            "name" : "event death",
+            "value" : "0"
+          }, {
+            "name" : "tumor grading",
+            "value" : "G3"
+          }, {
+            "name" : "No. of Samples",
+            "value" : "1",
+            "valqual" : [ {
+              "name" : "url",
+              "value" : "https://www.ebi.ac.uk/ena/browser/view/ERS2769594"
+            } ]
+          } ]
+        } ] ]
+      } ]
+    }, {
+      "accno" : "s-assays-data-E-MTAB-7265",
+      "type" : "Assays and Data",
+      "attributes" : [ {
+        "name" : "Assay count",
+        "value" : "102"
+      }, {
+        "name" : "Technology",
+        "value" : "Sequencing assay"
+      }, {
+        "name" : "Assay by Molecule",
+        "value" : "RNA assay"
+      } ],
+      "subsections" : [ {
+        "accno" : "mt-E-MTAB-7265",
+        "type" : "MAGE-TAB Files",
+        "files" : [ [ {
+          "path" : "E-MTAB-7265.idf.txt",
+          "size" : 3867,
+          "attributes" : [ {
+            "name" : "Type",
+            "value" : "IDF File"
+          }, {
+            "name" : "Format",
+            "value" : "tab-delimited text"
+          }, {
+            "name" : "Description",
+            "value" : "Investigation Design Format (IDF)"
+          } ],
+          "type" : "file"
+        }, {
+          "path" : "E-MTAB-7265.sdrf.txt",
+          "size" : 53462,
+          "attributes" : [ {
+            "name" : "Type",
+            "value" : "SDRF File"
+          }, {
+            "name" : "Format",
+            "value" : "tab-delimited text"
+          }, {
+            "name" : "Description",
+            "value" : "Sample and Data Relationship Format (SDRF)"
+          } ],
+          "type" : "file"
+        } ] ]
+      } ]
+    }, {
+      "accno" : "score-E-MTAB-7265",
+      "type" : "MINSEQE Score",
+      "attributes" : [ {
+        "name" : "Exp. Design",
+        "value" : "-"
+      }, {
+        "name" : "Variables",
+        "value" : "*"
+      }, {
+        "name" : "Raw",
+        "value" : "*"
+      }, {
+        "name" : "Protocols",
+        "value" : "*"
+      }, {
+        "name" : "Processed",
+        "value" : "-"
+      } ]
+    } ]
+  },
+  "type" : "submission"
+}

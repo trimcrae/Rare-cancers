@@ -1,0 +1,94 @@
+{
+  "accession" : "PXD054790",
+  "title" : "The Pan-Cancer Proteome Atlas, a mass spectrometry-based landscape for understanding tumor biology and discovering biomarkers and therapeutic targets",
+  "additionalAttributes" : [ ],
+  "projectDescription" : "Next-generation quantitative proteomics based on data-independent acquisition mass spectrometry (DIA-MS) enables large-scale sample profiling, a necessity for (pre)clinical studies with heterogeneous samples. To date, most cancer protein profiling studies have focussed on a single cancer type. Here we report on The PanCancer Proteome Atlas (TPCPA) project, a multi-laboratory cancer proteome profiling effort based on DIA-MS. We generated a pan-cancer proteome landscape consisting of 1129 samples including 999 primary cancers representing 22 cancer types, to better understand cancer biology and to identify core and cancer type-enriched molecular therapeutic targets and biomarkers.",
+  "sampleProcessingProtocol" : "Sample processing  Jimenez lab - Tissues were cut on a cryo-microtome (fresh frozen) or a microtome (FFPE) in 10 μm sections and were lysed in reducing NuPAGE LDS sample buffer, sonicated in a Branson cup-type digital sonifier, centrifuged, and heated for 5 minutes at 95°C. FFPE sections were first deparaffinated prior to lysis. Equal volumes of lysate were loaded on a 12.5% acrylamide/bis-acrylamide gel (10-20 μg). Electrophoresis was performed for 20 minutes at 100 V to let the proteins run just into the running gel. Gels were fixed for 15 minutes in 50% ethanol containing 3% phosphoric acid and stained with Coomassie Brilliant Blue G-250 in 34% methanol and 3% phosphoric acid. Proteins were in-gel reduced and alkylated with 10 mM DTT and 54 mM iodoacetamide, respectively. Subsequently, each sample was cut into 1 mm3 cubes. Proteins were digested with sequencing-grade modified trypsin (6.25 ng/ml) overnight and extracted from the gel, once with 1% formic acid and twice with 5% formic acid in 50% acetonitrile (ACN). Peptide extracts were pooled and concentrated in a vacuum centrifuge, desalted on an OASIS HLB cartridge (30 mg), dried in a vacuum centrifuge and dissolved in 20 µl loading solvent (4% ACN + 0.5% TFA) containing 2 injection equivalents HRM iRT peptides (Biognosys) for retention time calibration. Five microliters of desalted tryptic digest were injected per sample into the LC-MS/MS system.  HeLa tryptic digests were included as external standards in most measurement batches for quality control across TPCPA data acquisitions.  Guo lab - FFPE samples were punched from paraffin blocks of tissues and briefly pretreated. Pretreatment steps included recording sample weight, dewaxing, gradient rehydration, rehydration, and acidic hydrolysis. Fresh frozen samples were pretreated by washing. A pressure cycling technology (PCT)-assisted workflow, including lysis, reduction, alkylation, and digestion, was used after sample reprocessing as described previously30. Peripheral blood with red blood cell depletion was prepared and fractionated as described by Zhu et al.22 After tryptic digestion, peptides were desalted and dried30, and dissolved in 2% acetonitrile/0.1% formic acid. The concentration was measured at A280 using a NanoDrop spectrophotometer and then adjusted to 0.25 μg/μL. The extent of missed cleavages of samples was evaluated by data-dependent acquisition-MS before data acquisition by DIA-MS.  DIA LC-MS/MS  Jimenez lab - Peptides were separated using an Ultimate 3000 nanoLC-MS/MS system (Thermo Fisher Scientific) equipped with a 50 cm × 75 μm ID Acclaim Pepmap (C18, 1.9 μm, 120 Å) column. After injection, peptides were trapped at 3 μl/min on a 10 mm × 75 μm ID Acclaim Pepmap trap (C18, 3 μm, 120 Å) at 2% buffer B (buffer A: 0.1% formic acid, buffer B: 80% ACN, 0.1% formic acid) and separated at 300 nl/min in a 1040% buffer B gradient in 110 min (140 min inject-to-inject) at 35°C. Eluting peptides were ionized at a potential of +2 kV into a Q Exactive HF mass spectrometer (Thermo Fisher Scientific). Intact masses were measured in an m/z 350-1400 window at resolution 120.000 (for m/z 200) in the Orbitrap using an AGC target value of 3E6 charges and a maxIT of 60 ms. For MSMS, 24 variable-size non-overlapping DIA segments were acquired at resolution 30,000 (AGC target 3E6 and auto injection time). The DIA-MS method starting at 350 m/z included one window of 35 m/z, 20 windows of 25 m/z, 2 windows of 60 m/z and one window of 418 m/z, which ended at 1400 m/z. Normalized collision energy was set at 28. MSMS spectra were recorded in centroid mode with a default charge state of 3+ and a first mass of 200 m/z.  Guo lab - Peptides from FFPE and fresh frozen samples were separated using an Ultimate 3000 nanoLC system (Thermo Fisher Scientific) at 300 nL/min, as described previously. Peptides from digested red blood cell-depleted peripheral blood were fractionated and separated as described elsewhere. Eluted peptides were ionized into a Q-Exactive HF mass spectrometer (Thermo Fisher Scientific) or a Q Exactive HF-X hybrid Quadrupole-Orbitrap (Thermo Fisher Scientific). A full MS scan was acquired by analyzing 3901010 m/z at resolution 60,000 (at m/z 200) in the Orbitrap using an AGC target value of 3E6 charges and maximum injection time of 80 or 100 ms. After the full MS scan, 24 MS/MS scans were acquired.",
+  "dataProcessingProtocol" : "DIA data was searched using DIA-NN 1.8 and the DPHL v.2 pan-cancer spectral library. The data was filtered to an FDR of 0.01 at the protein, peptide and fragment group level (default DIA-NN settings). Label-free quantitation was performed using the iq package which uses the MaxLFQ algorithm. The complete data matrix before filtering included 1236 samples (cancer, normal and non-tumor adjacent tissues, adenoma tissues, benign tissues and HeLa control standards) and 15,312 protein groups. The final TPCPA data matrix was filtered for primary cancer samples only and a data presence of minimally 30% per cancer type. This means that for each cancer type, all proteins reported should be present in at least 3 out of 10 samples for that cancer type (tissue-wide filtering) as opposed to filtering for ≥ 30% data presence across all samples (table-wide filtering. Additionally, we filtered for a minimum number of 2000 identified proteins per sample and minimally 5 cancer samples per cancer type, resulting in a TPCPA data matrix of 999 primary cancer samples.",
+  "projectTags" : [ ],
+  "keywords" : [ "Pan-cancer proteome", "Dia-ms", "Single shot", "Mass spectrometry-based proteomics" ],
+  "doi" : "",
+  "submissionType" : "PARTIAL",
+  "license" : "Creative Commons Public Domain (CC0)",
+  "submissionDate" : "2024-08-12",
+  "publicationDate" : "2025-05-30",
+  "submitters" : [ {
+    "title" : "Dr",
+    "firstName" : "Thang",
+    "lastName" : "Pham",
+    "identifier" : "2613915",
+    "affiliation" : "Amsterdam UMC",
+    "email" : "t.pham@amsterdamumc.nl",
+    "country" : "Netherlands",
+    "orcid" : "0000-0003-0333-2492",
+    "name" : "Thang Pham",
+    "id" : "2613915"
+  } ],
+  "labPIs" : [ {
+    "title" : "Dr",
+    "firstName" : "Connie",
+    "lastName" : "Jimenez",
+    "identifier" : "2983152",
+    "affiliation" : "Amsterdam UMC, Vrije Universiteit Amsterdam, Medical Oncology, Cancer Center Amsterdam, OncoProteomics Laboratory, Amsterdam, Netherlands",
+    "email" : "c.jimenez@amsterdamumc.nl",
+    "country" : "",
+    "orcid" : "",
+    "name" : "Connie Jimenez",
+    "id" : "2983152"
+  } ],
+  "instruments" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "MS",
+    "accession" : "MS:1002523",
+    "name" : "Q Exactive HF"
+  } ],
+  "softwares" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "MS",
+    "accession" : "MS:1003253",
+    "name" : "DIA-NN"
+  } ],
+  "experimentTypes" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "PRIDE",
+    "accession" : "PRIDE:0000450",
+    "name" : "Data-independent acquisition"
+  } ],
+  "quantificationMethods" : [ ],
+  "countries" : [ "Netherlands" ],
+  "sampleAttributes" : [ {
+    "@type" : "Tuple",
+    "key" : {
+      "cvLabel" : "EFO",
+      "accession" : "OBI:0100026",
+      "name" : "organism"
+    },
+    "value" : [ {
+      "cvLabel" : "NEWT",
+      "accession" : "NEWT:9606",
+      "name" : "Homo sapiens (Human)"
+    } ]
+  } ],
+  "organisms" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "NEWT",
+    "accession" : "NEWT:9606",
+    "name" : "Homo sapiens (human)"
+  } ],
+  "organismParts" : [ ],
+  "diseases" : [ ],
+  "references" : [ {
+    "pubmedID" : 0,
+    "doi" : "10.1016/J.CCELL.2025.05.003"
+  } ],
+  "identifiedPTMStrings" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "MOD",
+    "accession" : "MOD:00397",
+    "name" : "iodoacetamide derivatized residue"
+  } ],
+  "totalFileDownloads" : 115747,
+  "botCount" : 24534,
+  "hubCount" : 90812,
+  "organicCount" : 401
+}

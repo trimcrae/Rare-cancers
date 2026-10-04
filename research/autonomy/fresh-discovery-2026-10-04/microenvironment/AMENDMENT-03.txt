@@ -1,0 +1,24 @@
+2026-10-04 16:20 UTC: raw-data follow-through, before missing-marker counts.
+Correction to shorthand 'assay absence': missing genes are absent from released processed
+matrix, NOT established absent from TempO-Seq assay or tumor. Source says whole-transcriptome
+HWT2.0, 22537 probes/19683 genes; zero/duplicate/low genes filtered then 9909 retained, while
+downloaded S9 actually9500 gene rows. No negative biological inference from missing rows.
+Source PRJNA1357027 has12 public FASTQ runs matching all12 Si sample names. Compressed total
+~2.7GB, so retain no FASTQ; stream and save only complete-count tables and exact receipts.
+Official BioSpyder archived HWT2.0 manifest (190620HumanWholeTranscriptome20Manifest.xlsx,
+2.48MB) contains50nt probe sequences, symbols, IDs and coordinates. First10000 Si01 reads
+are all50nt. This was an implementation-format gate, not any EMC marker estimate.
+Plan: exact full50nt unique-probe counting across ALL reads of ALL12 relevant EMC libraries;
+explicit forward/reverse mapping and unassigned/ambiguous counts. No genome alignment or
+unearned inference from sequencing/PCR counts to molecules. If exact match<75% in method
+gate, investigate before full run. PCR/sequencing errors can reduce exact counts; compare
+samples' assigned fractions, library-size-normalized scores and per-probe consistency.
+Per-gene score sum of its unique probe counts; also mean-per-probe alternative to avoid
+interpreting gene probe number as biological expression difference. Within-gene effects
+do not change under fixed probe-number scaling. Normalize CPM by all unique-assigned probes,
+log2(CPM+0.5); fixed B/T/myeloid/PTPRC panels as original amendment. B-minus-PTPRC relative
+score removes library normalization asymptotically but is not cell fraction.
+Risk group/patient outcome remains unresolved: no prognostic conclusion from reconstructed
+groups. A useful result requires independent support and all relevant public EMC evaluation.
+Budget additional <=20MB stored, initial full12 pass <=20min; no extra runtime or large disk
+artifact. C free measured11908362240 bytes (>10GiB) before source/output generation.

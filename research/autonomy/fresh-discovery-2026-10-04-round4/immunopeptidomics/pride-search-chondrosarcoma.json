@@ -1,0 +1,334 @@
+[ {
+  "accession" : "PXD061172",
+  "title" : "Arylsulfatase L (ARSL) Controls Glycosaminoglycan Sulfation During Skeletal Development",
+  "projectDescription" : "Proteoglycans are essential components of the cartilage extracellular matrix (ECM), with glycosaminoglycan (GAG) chains playing a crucial role in skeletal development. This study identifies a previously unknown substrate of arylsulfatase L (ARSL) a Golgi-localized enzyme. To investigate ARSL’s physiological substrate, the study utilized the TurboID proximity labeling approach. TurboID, a biotin ligase, biotinylates interacting proteins, allowing their isolation via streptavidin beads and identification through mass spectrometry (MS). We generated RCS (Rat chondrosarcoma) cells overexpressing FLAG-TurboID-Arsl, confirming its Golgi localization. MS analysis revealed 129 significantly enriched proteins in ARSL-labeled samples, with gene ontology (GO) analysis highlighting extracellular matrix organization. Among these proteins, Acan, a precursor of Aggrecan—rich in sulfated GAGs—was identified as a key ARSL interactor, reinforcing the enzyme’s role in ECM regulation and skeletal development.",
+  "dataProcessingProtocol" : "For mass spectrometry, all acquired raw files were processed using MaxQuant (1.6.2.10) and the implemented Andromeda search engine. For protein assignment, spectra were correlated with the UniProt Homo Sapiens including a list of common contaminants. Searches were performed with tryptic specifications and default settings for mass tolerances for MS and MS/MS spectra. Carbamidomethyl at cysteine residues was set as a fixed modification, while oxidations at methionine and acetylation at the N-terminus were defined as variable modifications. The minimal peptide length was set to seven amino acids, and the false discovery rate for proteins and peptide-spectrum matches to 1%. The match-between-run feature with a time window of 0.7 min was used. For further analysis, the Perseus software was used and first filtered for contaminants and reverse entries as well as proteins that were only identified by a modified peptide. For full proteomes and IP-interactomes, the LFQ Ratios were logarithmized, grouped and filtered for min. valid number (min. 3 in at least one group). Missing values have been replaced by random numbers that are drawn from a normal distribution. Finally, the intensities were normalized by subtracting the median intensity of each sample. Significantly regulated proteins between conditions were determined by student t-test using FDR < 0.05 as threshold.",
+  "sampleProcessingProtocol" : "For full proteomes, 30g of cell lysate was precipitated overnight in cold acetone and peptides purified using the iST Kit (Preomics) following the company instructions.    Instruments for LC MS/MS analysis consisted of a NanoLC 1200 coupled via a nano-electrospray ionization source to the quadrupole-based Q Exactive HF benchtop mass spectrometer (Michalski et al., 2011). Peptide separation was carried out according to their hydrophobicity on a home-made chromatographic column, 75m ID, 8Um tip, bed packed with Reprosil-PUR, C18-AQ, 1.9m particle size, 120 Angstrom pore size, using a binary buffer system consisting of solution A: 0.1% formic acid and B: 80% acetonitrile, 0.1% formic acid. Runs of 120 min after loading were used for proteome samples, with a constant flow rate of 300nl/min. After sample loading, run start at 5% buffer B for 5min, followed by a series of linear gradients, from 5% to 30% B in 90min, then a 10 min step to reach 50% and a 5 min step to reach 95%. This last step was maintained for 10 min. Q Exactive HF settings: MS spectra were acquired using 3E6 as an AGC target, a maximal injection time of 20ms and a 120,000 resolution at 200m/z. The mass spectrometer operated in a data-dependent Top20 mode with sub sequent acquisition of higher-energy collisional dissociation (HCD) fragmentation MS/MS spectra of the top 20 most intense peaks. Resolution, for MS/MS spectra, was set to 15,000 at 200m/z, AGC target to 1E5, max injection time to 20ms and the isolation window to 1.6Th. The intensity threshold was set at 2.0 E4 and Dynamic exclusion at 30 seconds.",
+  "projectTags" : [ ],
+  "keywords" : [ "Arsl", "Glycosaminoglycan", "Skeletal" ],
+  "doi" : "",
+  "otherOmicsLinks" : [ "geo:GSE301703" ],
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2026-06-14",
+  "updatedDate" : "2025-02-25",
+  "submissionDate" : "2025-02-25",
+  "downloadCount" : 0,
+  "avgDownloadsPerFile" : 0.0,
+  "percentile" : 0,
+  "submitters" : [ "Marianna Maddaluno" ],
+  "labPIs" : [ "Carmine Settembre" ],
+  "affiliations" : [ "TIGEM" ],
+  "instruments" : [ "Q Exactive HF" ],
+  "softwares" : [ "MaxQuant" ],
+  "quantificationMethods" : [ "Relative quantification" ],
+  "sampleAttributes" : [ "cell culture", "Rattus norvegicus (Rat)", "permanent cell line cell" ],
+  "organisms" : [ "Rattus norvegicus (rat)" ],
+  "organismsPart" : [ "Cell culture", "Permanent cell line cell" ],
+  "diseases" : [ ],
+  "references" : [ "Maddaluno M, De Leonibus C, Del Prete E, Salierno FG, Intartaglia D, Carrella D, Conte I, Volpi N, Settembre C. Arylsulfatase L is a Golgi chondroitin sulfatase regulating skeletal development. J Biol Chem. 2026 302(6):113111--pubMed:42103217--doi: 10.1016/j.jbc.2026.113111" ],
+  "experimentTypes" : [ "Top-down proteomics" ],
+  "projectFileNames" : [ "2020-02-03_GDT_MM_RCSTurboID_RCSTURBO_4.raw", "PXD061172_community_annotated.sdrf.tsv", "2020-02-03_GDT_MM_RCSTurboID_RCSTURBO_B_1.raw", "2020-02-03_GDT_MM_RCSTurboID_RCSTURBO_B_2.raw", "txt.zip", "2020-02-03_GDT_MM_RCSTurboID_RCSTURBO_B_4.raw", "2020-02-03_GDT_MM_RCSTurboID_RCSTURBO_1.raw", "2020-02-03_GDT_MM_RCSTurboID_RCSTURBO_B_3.raw", "2020-02-03_GDT_MM_RCSTurboID_RCSTURBO_3.raw", "2020-02-03_GDT_MM_RCSTurboID_RCSTURBO_2.raw" ],
+  "highlights" : {
+    "projectDescription" : [ "We generated RCS (Rat <em>chondrosarcoma</em>) cells overexpressing FLAG-TurboID-Arsl, confirming its Golgi localization." ]
+  }
+}, {
+  "accession" : "PXD049959",
+  "title" : "The penetrant chordoid glioma PRKCA mutation is a gain-of-function kinase inactivation eliciting early onset chondrosarcoma in mice",
+  "projectDescription" : "A highly penetrant heterozygous mutation in PRKCA was found recently in chordoid glioma. To establish whether this mutant of PKC was a driver of tumour formation or maintenance in vivo, knock-in mice were generated. The constitutive, heterozygous expression of the Prkca D463H mutant in mice provoked the development of bilateral hindlimb chondrosarcomas and early neonatal mortality. The lack of activity of the D463H mutant was not the trigger of the phenotype as heterozygous knock-in of the related inactivating mutation D463N produced offspring indistinguishable from parental strains. Moreover, this surprising distinction between D463H and D463N mutations did not reflect a selective lack of dominance for the D463N mutation over the wild type (WT) allele since homozygous expression of this mutation was phenotypically WT. In cell culture, the D463H mutant expression, localisation and downregulation behaviours closely mimicked that of the WT, with the D463N mutant displaying some subtle differences. Biochemically, both the D463H and D463N mutants were shown to be inactive, although based on thermal shift assays the D463N mutant had reduced ATP affinity compared to WT or D463H proteins. Using induced transcriptional changes as a functional readout, altered mRNA expression indicates that the D463H acts as a dominant gain-of-function PKC mutant, despite a complete lack of intrinsic kinase activity; transcriptional changes induced by the D463N mutant were distinct from both the WT and D463H mutant. These findings suggest a model in which there is a non-catalytic effector function of PKC which it is presumed operates through protein-protein interactions, as evidenced here by TurboID proximity labelling. The penetrant selection of the specific inactivating D463H mutation in chordoid glioma and the distinction with the D463N mutation indicates that this is conformationally sensitive. The properties characterised suggest this is driven by ATP binding and by inference, in this tissue context, the catalytic activity of this kinase acts as an autoregulatory negative feedback control.",
+  "dataProcessingProtocol" : "Data processing was performed by the MaxQuant bioinformatics suite using the LFQ algorithm and “match between runs” option. The Homo sapiens protein database was searched. Further data analysis and presentation were performed with the Perseus software",
+  "sampleProcessingProtocol" : "U87MG cells were plated at 500, 000 cells / well on a 6-well plate. The following day the cells were transfected with 2µg / well of Myc-PKCα WT or D463H or D463N mutants. On day 4, the cells were lysed in 250 µl / well of lysis buffer containing 20mM Tris pH 8.0, 130mM NaCl, 1% triton X-100, 1mM DTT, 10mM NaF with protease and phosphatase inhibitors (ROCHE). 3 wells were used per condition. The immunoprecipitation was performed using Myc-trap (Chromotech). After 3 washes with lysis buffer without inhibitors, the beads were recovered in 50µl of LDS 2X for total IP detection. The proteins were separated after a short run by SDS-PAGE on a 10 % Bis-Tris gel. The gel was stained with Coomassie blue, and the bands were cut and processed for mass spectrometry. Proteins were digested with trypsin, and peptides extracted according to the protocols established by the Proteomics STP lab at the Francis Crick Institute. Peptides were separated on a 50 cm, 75um I.D. EasySpray column over a 120 min gradient and eluted directly into an Orbitrap Fusion Lumos mass spectrometer. Xcalibur software was used to control the data acquisition. The instrument ran in Data Dependent Top Speed mode with cycle time of 3 s. The most abundant peptides with charge states 2-4 were selected for MS/MS.",
+  "projectTags" : [ ],
+  "keywords" : [ "Human", "Glioma cell line", "Pkc alpha" ],
+  "doi" : "",
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2025-05-29",
+  "updatedDate" : "2024-02-20",
+  "submissionDate" : "2024-02-20",
+  "downloadCount" : 288,
+  "avgDownloadsPerFile" : 20.571428,
+  "botCount" : 105,
+  "hubCount" : 183,
+  "organicCount" : 0,
+  "percentile" : 10,
+  "yearlyDownloads" : [ {
+    "year" : "2025",
+    "count" : 130
+  }, {
+    "year" : "2026",
+    "count" : 158
+  } ],
+  "submitters" : [ "VERONIQUE CALLEJA" ],
+  "labPIs" : [ "Peter Parker" ],
+  "affiliations" : [ "Emeritus Group Leader Protein Phosphorylation Laboratory The Francis Crick Institute 1 Midland Road London NW1 1AT" ],
+  "instruments" : [ "Orbitrap Fusion Lumos" ],
+  "softwares" : [ "MaxQuant" ],
+  "quantificationMethods" : [ "label free sample" ],
+  "sampleAttributes" : [ "cell culture", "Homo sapiens (Human)", "epithelial cell" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Cell culture", "Epithelial cell" ],
+  "diseases" : [ ],
+  "references" : [ "null--pubMed:0--doi: 10.1101/2025.05.28.656646" ],
+  "experimentTypes" : [ "Data-dependent acquisition" ],
+  "projectFileNames" : [ "PPH9315A4RW4-40-571020.raw", "PPH9315_experimentalDesignTemplate.txt", "PPH9315A2RW2-40-571011.raw", "PPH9315A3RW4-40-571005.raw", "PPH9315A2RW4-40-571001.raw", "PPH9315A3RW3-40-571004.raw", "PPH9315A3RW2-40-571002.raw", "PPH9315A1RW2-40-570999.raw", "PPH9315A2RW3-40-571012.raw", "PPH9315A4RW2-40-571018.raw", "PPH9315A1RW4-40-571009.raw", "PPH9315A1RW3-40-571006.raw", "PPH9315_txt.zip", "PPH9315A4RW3-40-571019.raw" ],
+  "highlights" : {
+    "projectDescription" : [ "The constitutive, heterozygous expression of the Prkca D463H mutant in mice provoked the development of bilateral hindlimb <em>chondrosarcomas</em> and early neonatal mortality." ],
+    "title" : [ "The penetrant chordoid glioma PRKCA mutation is a gain-of-function kinase inactivation eliciting early onset <em>chondrosarcoma</em> in mice" ]
+  }
+}, {
+  "accession" : "PXD042358",
+  "title" : "Identification of membrane proteins regulated by ADAM15 by SUSPECS proteomics",
+  "projectDescription" : "ADAM15 is a member of the disintegrin-metalloproteinase family of sheddases, which plays a role in several biological processes including cartilage homeostasis. In contrast with well-characterized ADAMs, such as the canonical sheddases ADAM17 and ADAM10, little is known about substrates of ADAM15 or how the enzyme exerts its biological functions. Herein, we used “surface-spanning enrichment with click-sugars (SUSPECS)” proteomics to identify ADAM15 substrates and/or proteins regulated by the proteinase at the cell surface of chondrocyte-like cells. Silencing of ADAM15 by siRNAs significantly altered membrane levels of 13 proteins, all previously not known to be regulated by ADAM15. We used orthogonal techniques to validate ADAM15 effects on 3 of these proteins which have known roles in cartilage homeostasis. This confirmed that ADAM15-silencing increased cell surface levels of the programmed cell death 1 ligand 2 (PDCD1LG2) and reduced cell surface levels of vasorin and the sulfate transporter SLC26A2 through an unknown post-translational mechanism. The increase of PDCD1LG2 by ADAM15 knockdown, a single-pass type I transmembrane protein, suggested it could be a proteinase substrate. However, shed PDCD1LG2 could not be detected even by a data-independent acquisition mass spectrometry, a highly sensitive method for identification and quantification of proteins in complex protein samples, suggesting that ADAM15 regulates PDCD1LG2 membrane levels by a mechanism different from ectodomain shedding.",
+  "dataProcessingProtocol" : "The data were analysed by the software DIA-NN (version 1.8.1) by using a predicted library generated from in silico digested human Uniprot reference database involving cuts at K* and R*, two missed cleavage allowed, minimal peptide length set a 6, which consisted of 20923 proteins, 31382 protein groups, 6894911 precursors in 2140232 elution groups. The false discovery rate for peptide and protein identification was set at 0.01%. Label-free quantification (LFQ) was used for proteins quantification.",
+  "sampleProcessingProtocol" : "Conditioned media from HTB94 ADAM15KD and NTC were collected and subjected to FASP protocol. Briefly, proteins were reduced by the addition of 1 M Dithiothreitol (DTT, Thermo Fischer Scientific) in 100 mM Tris/HCl, 8 M urea pH 8.5 for 30 min at 37 °C. Proteins were then alkylated in 50 mM iodoacetamide (IAA, Thermo Fischer Scientific) for 5 min at room temperature and washed twice in 100 mM Tris/HCl, 8 M urea pH 8.0 at 14,000× g for 30 min. Proteins were digested with 0,2 μg LysC (Promega, Madison, United States) in 25 mM Tris/HCl, 2 M urea pH 8.0 overnight and with 0,1 μg trypsin (Promega) in 50 mM ammonium bicarbonate for 4 h. Resulting peptides were desalted by stop-and-go extraction (STAGE) on reverse phase C18 (Supelco Analytical Products, part of Sigma-Aldrich, Bellefonte, US), and eluted in 40 μL of 60% acetonitrile in 0.1% formic acid. Then, volume was reduced in a SpeedVac (Thermo Fisher Scientific) and the peptides resuspended in 20 μL of 0.1% formic acid. Peptide concentration was measured by a NanoDrop microvolume spectrophotometer (Thermo Fischer Scientific) and 1 μg peptides were applied to LC-MS/MS analysis. To achieve high sensitivity, a nanoLC system (Vanquish Neo UHPLC  – part of Thermo Scientific) using an Acclaim PEPMap C18 column (25cm × 75 µm ID, Thermo Scientific, Waltham) was coupled online to an Exploris 480 mass spectrometer (Thermo Fischer Scientific). Peptides were separated using a 130 minutes binary gradient of water and acetonitrile containing 0.1% formic acid. Data-independent acquisition (DIA) was performed using a MS1 full scan followed by 60 sequential DIA windows with an overlap of 1m/z and window placement optimization option enabled. Full scans were acquired with 120000 resolution, automatic gain control (AGC) of 3x106, and maximum injection time of 50ms. Afterwards, 60 isolation windows were scanned with a resolution of 30000, an AGC of 8x105 and maximum injection time was set as auto to achieve the optimal cycle time. Collision induced dissociation fragmentation was induced with 30% of the normalized HCD collision energy.",
+  "projectTags" : [ ],
+  "keywords" : [ "Metalloproteases", "Adams", "Chondrocytes", "Proteomics", "Adam15", "Osteoarthritis", "Mass spectrometry-lc-ms/ms", "Specs" ],
+  "doi" : "",
+  "otherOmicsLinks" : [ "pride.project:PXD042402" ],
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2023-06-13",
+  "updatedDate" : "2023-05-19",
+  "submissionDate" : "2023-05-19",
+  "downloadCount" : 795,
+  "avgDownloadsPerFile" : 79.5,
+  "percentile" : 29,
+  "yearlyDownloads" : [ {
+    "year" : "2023",
+    "count" : 70
+  }, {
+    "year" : "2024",
+    "count" : 116
+  }, {
+    "year" : "2025",
+    "count" : 578
+  }, {
+    "year" : "2026",
+    "count" : 31
+  } ],
+  "submitters" : [ "Matteo Calligaris" ],
+  "labPIs" : [ "Simone Dario Scilabra" ],
+  "affiliations" : [ "Fondazione Ri.MED" ],
+  "instruments" : [ "Orbitrap Exploris 480" ],
+  "softwares" : [ "DIA-NN" ],
+  "quantificationMethods" : [ "Label free" ],
+  "sampleAttributes" : [ "fibroblast", "bone chondrosarcoma", "Homo sapiens (Human)" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Fibroblast" ],
+  "diseases" : [ "Bone chondrosarcoma" ],
+  "references" : [ "null--pubMed:0--doi: 10.3389/FMOLB.2023.1162504" ],
+  "experimentTypes" : [ "SWATH MS" ],
+  "projectFileNames" : [ "report.tsv", "HTB94_A15KD_3.raw", "report.pg_matrix.tsv", "library.tsv", "HTB94_A15KD_2.raw", "library.predicted.speclib", "HTB94_CT_2.raw", "HTB94_A15KD_1.raw", "HTB94_CT_1.raw", "HTB94_CT_3.raw" ],
+  "highlights" : {
+    "diseases" : [ "Bone <em>chondrosarcoma</em>" ],
+    "sampleAttributes" : [ "bone <em>chondrosarcoma</em>" ]
+  }
+}, {
+  "accession" : "PXD025187",
+  "title" : "Proteomic analysis of bystander effects induced by irradiated chondrosarcoma cells",
+  "projectDescription" : "To understand the cellular response of bystander cells, we performed a 2D gel-based proteomic study of the chondrocyte receiving the conditioned medium of low dose irradiated chondrosarcoma cells. The proteomic analysis of the bystander chondrocytes highlighted 20 proteins spots that were significantly modified at low dose, implicating several cellular mechanisms, such as oxidative stress responses, cellular motility and exosomes pathways. Several of these candidates and cellular mechanisms were confirmed by functional analysis, such as 8-oxodG quantification, western blot and wound-healing migration tests.",
+  "dataProcessingProtocol" : "Mass spectrometry data was processed using the Proteome Discoverer software (Version 1.4.0.288, Thermo Fisher Scientific, Bremen, Germany) and the search engine employed in local was Mascot (version.2.4, Matrix Science, http://www.matrixscience.com).",
+  "sampleProcessingProtocol" : "Proteins were extracted from TC-28/Ac cells (dry pellet)in sample buffer containing 7 M urea, 2M thiourea, 4% CHAPS, 0.05% Triton X100, 65 mM DTT, 40mM spermine, protease and phosphatase inhibitor cocktails. This suspension was centrifuged at 28000 rpm for 60 min, supernatants were collected and the protein content was estimated using the Bradford method [19]. Proteins were then precipitated using the 2D clean-up kit (GE Healthcare) and the pellet was solubilized with TUC solution (7M urea, 2M thiourea, 4% CHAPS) and quantified with the 2D quant kit (GE Healthcare). Proteins were resolved by 2D gel. Images from stained gels were analysed using the Samespots software v4.5 (Non-linear Dynamics, UK), and varaint proteins were analyzed by a Qexactive plus mass spectrometer.",
+  "projectTags" : [ ],
+  "keywords" : [ "Chondrosarcoma", "Bystander signalling", "Proteomic analysis", "Secretome" ],
+  "doi" : "",
+  "otherOmicsLinks" : [ "pride.project:PXD024953", "px:PXD024953" ],
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2021-09-10",
+  "updatedDate" : "2021-04-06",
+  "submissionDate" : "2021-04-06",
+  "downloadCount" : 1870,
+  "avgDownloadsPerFile" : 34.62963,
+  "percentile" : 55,
+  "yearlyDownloads" : [ {
+    "year" : "2022",
+    "count" : 20
+  }, {
+    "year" : "2023",
+    "count" : 96
+  }, {
+    "year" : "2024",
+    "count" : 13
+  }, {
+    "year" : "2025",
+    "count" : 1651
+  }, {
+    "year" : "2026",
+    "count" : 90
+  } ],
+  "submitters" : [ "sonia hem" ],
+  "labPIs" : [ "Chevalier Francois" ],
+  "affiliations" : [ "UMR6252 CIMAP, team « Applications in Radiobiology with Accelerated Ions”, CEA - CNRS - ENSICAEN - Université de Caen Normandie, Caen, France." ],
+  "instruments" : [ "Q Exactive Plus" ],
+  "softwares" : [ "Mascot", "Proteome Discoverer" ],
+  "quantificationMethods" : [ ],
+  "sampleAttributes" : [ "chondrocyte", "cell culture", "Homo sapiens (Human)" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Cell culture", "Chondrocyte" ],
+  "diseases" : [ ],
+  "references" : [ "Tudor M, Gilbert A, Lepleux C, Temelie M, Hem S, Armengaud J, Brotin E, Haghdoost S, Savu D, Chevalier F. A Proteomic Study Suggests Stress Granules as New Potential Actors in Radiation-Induced Bystander Effects. Int J Mol Sci. 2021 22(15)--pubMed:34360718--doi: 10.3390/ijms22157957" ],
+  "experimentTypes" : [ "Shotgun proteomics", "Gel-based experiment" ],
+  "projectFileNames" : [ "F011361.dat", "F011327.mgf", "F011361.mgf", "F011319.dat", "F011193.dat", "PF_180613_Chevalier_123.raw", "F011327.dat", "F011319.mgf", "PF_180613_Chevalier_077.raw", "F011283.dat", "F011193.mgf", "F011329.mgf", "F011363.dat", "PF_180613_Chevalier_097.raw", "F011316.mgf", "PF_180613_Chevalier_085.raw", "PF_180613_Chevalier_121.raw", "F011283.mgf", "F011363.mgf", "PF_180613_Chevalier_128.raw", "F011329.dat", "PF_180613_Chevalier_134.raw", "F011381.mgf", "F011381.dat", "F011316.dat", "PF_180613_Chevalier_116.raw", "F011357.mgf", "F011276.mgf", "PF_180613_Chevalier_145.raw", "F011331.mgf", "F011315.dat", "PF_180613_Chevalier_091.raw", "F011358.dat", "PF_180613_Chevalier_065.raw", "PF_180613_Chevalier_039.raw", "F011226.dat", "F011226.mgf", "F011358.mgf", "F011276.dat", "F011315.mgf", "F011357.dat", "PF_180613_Chevalier_127.raw", "F011331.dat", "PF_180613_Chevalier_016.raw", "PF_180613_Chevalier_113.raw", "F011398.mgf", "PF_180613_Chevalier_126.raw", "PF_180613_Chevalier_093.raw", "F011324.mgf", "F011356.dat", "F011324.dat", "F011356.mgf", "PF_180613_Chevalier_138.raw", "F011398.dat" ],
+  "highlights" : {
+    "keywords" : [ "<em>Chondrosarcoma</em>" ],
+    "projectDescription" : [ "To understand the cellular response of bystander cells, we performed a 2D gel-based proteomic study of the chondrocyte receiving the conditioned medium of low dose irradiated <em>chondrosarcoma</em> cells." ],
+    "title" : [ "Proteomic analysis of bystander effects induced by irradiated <em>chondrosarcoma</em> cells" ]
+  }
+}, {
+  "accession" : "PXD024953",
+  "title" : "Proteomic analysis of exoproteomes of human cells upon bystander effects induced by irradiated chondrosarcoma cells",
+  "projectDescription" : "Next-generation proteomics of proteins from the medium of human cells in culture after incubation with the medium from irradiated chondrosarcoma cells.",
+  "dataProcessingProtocol" : "MS/MS spectra were analyzed by MASCOT, the results were then parsed with IRMA, spectral counts were then compared.",
+  "sampleProcessingProtocol" : "Proteins from the incubation medium were collected by acid precipitation and centrifugation. Protein samples were loaded on a SDS-PAGE gel for a short electrophoretic migration, excised from a single polyacrylamide band, digested by trypsin, and the resulting peptides were analyzed by  Q-Exactive HF tandem mass spectrometry.",
+  "projectTags" : [ ],
+  "keywords" : [ "Human cell line", "Chondrocyte", "Exoproteome", "Proteomics", "Secretome", "By-stander effects", "Cancer" ],
+  "doi" : "10.6019/PXD024953",
+  "otherOmicsLinks" : [ "px:PXD025187", "pride.project:PXD025187" ],
+  "submissionType" : "COMPLETE",
+  "publicationDate" : "2021-09-10",
+  "updatedDate" : "2021-03-23",
+  "submissionDate" : "2021-03-23",
+  "downloadCount" : 5388,
+  "avgDownloadsPerFile" : 55.54639,
+  "percentile" : 80,
+  "yearlyDownloads" : [ {
+    "year" : "2022",
+    "count" : 186
+  }, {
+    "year" : "2023",
+    "count" : 90
+  }, {
+    "year" : "2024",
+    "count" : 698
+  }, {
+    "year" : "2025",
+    "count" : 3475
+  }, {
+    "year" : "2026",
+    "count" : 939
+  } ],
+  "submitters" : [ "Jean ARMENGAUD" ],
+  "labPIs" : [ "Jean ARMENGAUD" ],
+  "affiliations" : [ "CEA-Marcoule, ProGénoMIX platform, DRF-Li2D, 30207 Bagnols-sur-Cèze, France" ],
+  "instruments" : [ "Q Exactive HF" ],
+  "softwares" : [ "Mascot" ],
+  "quantificationMethods" : [ "Spectrum counting" ],
+  "sampleAttributes" : [ "chondrocyte", "cell culture", "Homo sapiens (Human)" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Cell culture", "Chondrocyte" ],
+  "diseases" : [ ],
+  "references" : [ "Tudor M, Gilbert A, Lepleux C, Temelie M, Hem S, Armengaud J, Brotin E, Haghdoost S, Savu D, Chevalier F. A Proteomic Study Suggests Stress Granules as New Potential Actors in Radiation-Induced Bystander Effects. Int J Mol Sci. 2021 22(15)--pubMed:34360718--doi: 10.3390/ijms22157957" ],
+  "experimentTypes" : [ "Shotgun proteomics" ],
+  "projectFileNames" : [ "Q23036_MS18-029__3__SW_0-1Gy-x10_c2.raw", "F211011.dat", "F211035_p0.05.mzid.gz", "F211054.dat", "Q23037_MS18-029__4__SW_0-1Gy-x5_a1.mgf", "Q23033_MS18-029__3__SW_0-1Gy-x10_a2.mgf", "Q23034_MS18-029__3__SW_0-1Gy-x10_b2.raw", "Q23028_MS18-029__2__SW_0Gy-x5_b1.mgf", "Q23025_MS18-029__1__SW_0Gy-x10_c2.raw", "Q23041_MS18-029__4__SW_0-1Gy-x5_c1.raw", "F211064.dat", "F211002_p0.05.mzid.gz", "Q23027_MS18-029__2__SW_0Gy-x5_a2.mgf", "Q23036_MS18-029__3__SW_0-1Gy-x10_c2.mgf", "F211070.dat", "Q23030_MS18-029__2__SW_0Gy-x5_c1.raw", "Q23028_MS18-029__2__SW_0Gy-x5_b1.raw", "Q23024_MS18-029__1__SW_0Gy-x10_c1.raw", "F211066.dat", "Q23025_MS18-029__1__SW_0Gy-x10_c2.mgf", "Q23041_MS18-029__4__SW_0-1Gy-x5_c1.mgf", "Q23032_MS18-029__3__SW_0-1Gy-x10_a1.raw", "Q23027_MS18-029__2__SW_0Gy-x5_a2.raw", "F211004_p0.05.mzid.gz", "F211025_p0.05.mzid.gz", "F211054_p0.05.mzid.gz", "F211033_p0.05.mzid.gz", "F211060.dat", "Q23024_MS18-029__1__SW_0Gy-x10_c1.mgf", "Q23032_MS18-029__3__SW_0-1Gy-x10_a1.mgf", "Q23026_MS18-029__2__SW_0Gy-x5_a1.mgf", "Q23038_MS18-029__4__SW_0-1Gy-x5_a2.raw", "F211060_p0.05.mzid.gz", "F211068_p0.05.mzid.gz", "F211058.dat", "Q23084_MS18-029__3__SW_0-1Gy-x10_b1.mgf", "F211002.dat", "F211062.dat", "Q23084_MS18-029__3__SW_0-1Gy-x10_b1.raw", "F211011_p0.05.mzid.gz", "Q23033_MS18-029__3__SW_0-1Gy-x10_a2.raw", "Q23021_MS18-029__1__SW_0Gy-x10_a2.raw", "F211064_p0.05.mzid.gz", "F211006_p0.05.mzid.gz", "F211027_p0.05.mzid.gz", "F211022_p0.05.mzid.gz", "F211004.dat", "F211039.dat", "Q23026_MS18-029__2__SW_0Gy-x5_a1.raw", "Q23035_MS18-029__3__SW_0-1Gy-x10_c1.raw", "F211037.dat", "Q23021_MS18-029__1__SW_0Gy-x10_a2.mgf", "Q23038_MS18-029__4__SW_0-1Gy-x5_a2.mgf", "Q23042_MS18-029__4__SW_0-1Gy-x5_c2.mgf", "Q23020_MS18-029__1__SW_0Gy-x10_a1.raw", "F211031_p0.05.mzid.gz", "F211029.dat", "F211022.dat", "F211006.dat", "F211035.dat", "Q23022_MS18-029__1__SW_0Gy-x10_b1.mgf", "Q23022_MS18-029__1__SW_0Gy-x10_b1.raw", "F211062_p0.05.mzid.gz", "Q23040_MS18-029__4__SW_0-1Gy-x5_b2.raw", "F211066_p0.05.mzid.gz", "F211087_p0.05.mzid.gz", "Q23042_MS18-029__4__SW_0-1Gy-x5_c2.raw", "F211039_p0.05.mzid.gz", "Q23020_MS18-029__1__SW_0Gy-x10_a1.mgf", "F211025.dat", "F211033.dat", "Q23039_MS18-029__4__SW_0-1Gy-x5_b1.raw", "Q23023_MS18-029__1__SW_0Gy-x10_b2.mgf", "F211029_p0.05.mzid.gz", "Q23029_MS18-029__2__SW_0Gy-x5_b2.mgf", "Q23030_MS18-029__2__SW_0Gy-x5_c1.mgf", "Q23023_MS18-029__1__SW_0Gy-x10_b2.raw", "F211016.dat", "F211042.dat", "Q23040_MS18-029__4__SW_0-1Gy-x5_b2.mgf", "SWT-B3_070218.fasta", "F211068.dat", "Q23029_MS18-029__2__SW_0Gy-x5_b2.raw", "F211031.dat", "F211042_p0.05.mzid.gz", "Q23031_MS18-029__2__SW_0Gy-x5_c2.mgf", "F211087.dat", "Q23039_MS18-029__4__SW_0-1Gy-x5_b1.mgf", "Q23037_MS18-029__4__SW_0-1Gy-x5_a1.raw", "F211016_p0.05.mzid.gz", "F211058_p0.05.mzid.gz", "F211037_p0.05.mzid.gz", "F211070_p0.05.mzid.gz", "Q23031_MS18-029__2__SW_0Gy-x5_c2.raw", "F211027.dat", "Q23034_MS18-029__3__SW_0-1Gy-x10_b2.mgf", "Q23035_MS18-029__3__SW_0-1Gy-x10_c1.mgf" ],
+  "highlights" : {
+    "projectDescription" : [ "Next-generation proteomics of proteins from the medium of human cells in culture after incubation with the medium from irradiated <em>chondrosarcoma</em> cells." ],
+    "title" : [ "Proteomic analysis of exoproteomes of human cells upon bystander effects induced by irradiated <em>chondrosarcoma</em> cells" ]
+  }
+}, {
+  "accession" : "PXD012985",
+  "title" : "Translational regulation contributes to the secretory response of chondrocytic cells following exposure to Interleukin-1B",
+  "projectDescription" : "Chondrocytes undergo changes to their protein translational capacity during osteoarthritis progression, but a study of how disease-relevant signals affect chondrocyte protein translation at the transcriptome level has not previously been performed. In this study we describe how the inflammatory cytokine IL-1B rapidly affects protein translation in the chondrosarcoma cell line SW1353. Using ribosome profiling we demonstrate that IL-1B induced altered translation of inflammatory-associated transcripts through differential translation and the use of multiple open reading frames. Proteomic analysis of the cellular layer and the conditioned media of these cells identified that proteins which were differentially translated were most readily detected in the secretome. We have produced combined ribosome profiling and proteomic datasets which provide a valuable resource in understanding the processes that are occuring during cytokine stimulation of chondrocytic cells.",
+  "dataProcessingProtocol" : "For secretome analysis, media was collected and subjected to in-solution trypsin digestion and LC-MS/MS was performed using an Ultimate 3000 RSLC Nano system coupled to a QExtractive mass spectrophotometer. Label-free relative quantification software PEAKS was used to analyse RAW data files for identifications with Mascot. For the cell layer, protein lysates were digested with trypsin and mass spectrometry was performed using an Ultimate 3000 RSLC Nano system coupled to a QExtractive mass spectrometer. Proteins were considered significantly changed using a -10logP score >20 (equivalent to a P value of <0.01), a fold change >2 and at least 3 unique peptides. For ribosome profiling, samples were prepared accoriding to instructions from the ARTseq Ribosome Profiling Kit (Mammalian). Successfully amplified PCR libraries were quantified using a Qubit dsDNA High Sensitivity Kit and a Bioanalyser DNA High Sensitivity Kit. The size selected pooled library was assessed by bioanalyser and subsequently by qPCR using the Illumina Library Quantification Kit on a Roche Light Cycler LC480II. FASTQ files were uploaded to the RiboGalaxy server where adapter and ribosomeal RNA sequences were removed. riboSeqR was used via RiboGalaxy to align remaning reads to the human genome (GRCh38) before performing differential translation analysis.",
+  "sampleProcessingProtocol" : "SW1353 were treated for 24 hours with and without IL-1B. Media was then harvested for secretome analysis and the cell layer was harvested for proteomic analysis. SW1353 were also treated for 3 hours with and without IL-1B. Cells were then harvested for ribosome profiling analysis.",
+  "projectTags" : [ "Biomedical" ],
+  "keywords" : [ "Human", "Secretion", "Interleukin-1b", "Chondrocytes", "Inflammation", "Ribosome profiling" ],
+  "doi" : "10.6019/PXD012985",
+  "otherOmicsLinks" : [ "pride.project:PXD011740" ],
+  "submissionType" : "COMPLETE",
+  "publicationDate" : "2019-07-11",
+  "updatedDate" : "2019-03-05",
+  "submissionDate" : "2019-03-05",
+  "downloadCount" : 3759,
+  "avgDownloadsPerFile" : 62.65,
+  "percentile" : 73,
+  "yearlyDownloads" : [ {
+    "year" : "2021",
+    "count" : 16
+  }, {
+    "year" : "2022",
+    "count" : 681
+  }, {
+    "year" : "2023",
+    "count" : 94
+  }, {
+    "year" : "2024",
+    "count" : 330
+  }, {
+    "year" : "2025",
+    "count" : 2117
+  }, {
+    "year" : "2026",
+    "count" : 521
+  } ],
+  "submitters" : [ "Ben McDermott" ],
+  "labPIs" : [ "Dr Simon Tew" ],
+  "affiliations" : [ "Comparative Musculoskeletal Sciences Research Group Department of Musculoskeletal Biology Institute of Ageing and Chronic Disease University of Liverpool" ],
+  "instruments" : [ "Q Exactive" ],
+  "softwares" : [ "Mascot" ],
+  "quantificationMethods" : [ "Peptide counting" ],
+  "sampleAttributes" : [ "fibroblast", "cell culture", "Homo sapiens (Human)", "disease free" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Cell culture", "Fibroblast" ],
+  "diseases" : [ "Disease free" ],
+  "references" : [ "McDermott BT, Peffers MJ, McDonagh B, Tew SR. Translational regulation contributes to the secretory response of chondrocytic cells following exposure to Interleukin-1β. J Biol Chem. 2019--pubMed:31300557--doi: 10.1074/jbc.ra118.006865" ],
+  "experimentTypes" : [ "Shotgun proteomics" ],
+  "projectFileNames" : [ "sample4sec.raw", "sample5sec.raw", "sample5sec.mzid.gz", "sample2.raw", "sample3.pride.mztab.gz", "sample3.raw", "sample1sec.mgf", "sample4sec.pride.mgf.gz", "sample4sec.pride.mztab.gz", "sample3sec.mgf", "sample2sec.mgf", "sample1.mgf", "sample4.raw", "sample4.pride.mgf.gz", "sample3.mzid.gz", "sample5.pride.mgf.gz", "sample6.pride.mgf.gz", "sample6.pride.mztab.gz", "sample5sec.mgf", "sample1sec.pride.mgf.gz", "sample5.mzid.gz", "sample3sec.pride.mgf.gz", "sample6.mgf", "sample6sec.pride.mgf.gz", "sample6sec.pride.mztab.gz", "sample5.pride.mztab.gz", "sample5.raw", "sample1sec.raw", "sample6sec.mzid.gz", "sample5sec.pride.mztab.gz", "sample3sec.raw", "sample1.mzid.gz", "sample2sec.pride.mgf.gz", "sample4.pride.mztab.gz", "sample1sec.mzid.gz", "sample6.raw", "sample4.mgf", "sample1sec.pride.mztab.gz", "sample6.mzid.gz", "sample4sec.mzid.gz", "sample2.pride.mztab.gz", "sample5.mgf", "sample3.pride.mgf.gz", "sample6sec.mgf", "sample2.mzid.gz", "sample3sec.pride.mztab.gz", "sample2.pride.mgf.gz", "sample4sec.mgf", "sample1.pride.mgf.gz", "sample3sec.mzid.gz", "sample1.pride.mztab.gz", "sample2.mgf", "sample4.mzid.gz", "sample3.mgf", "sample2sec.mzid.gz", "sample2sec.pride.mztab.gz", "sample1.raw", "sample6sec.raw", "sample5sec.pride.mgf.gz", "sample2sec.raw" ],
+  "highlights" : {
+    "projectDescription" : [ "In this study we describe how the inflammatory cytokine IL-1B rapidly affects protein translation in the <em>chondrosarcoma</em> cell line SW1353." ]
+  }
+}, {
+  "accession" : "PXD005551",
+  "title" : "Rho-kinase inhibitor Y-27632 and hypoxia synergistically enhance chondrocytic phenotype and change the S100 protein profile in human chondrosarcoma cells",
+  "projectDescription" : "Different kinds of cell-based therapies and tissue engineering applications need in vitro cultured differentiated chondrocytes. However, articular chondrocytes are slowly dividing cells, which in culture tend to lose their cell type-specific phenotype and ability to produce structurally and functionally correct cartilage tissue. Here we show that Y-27632 treatment at hypoxia enhances efficiently chondrocyte-specific extracellular matrix production on chondrocytic cells.  The effects of the long-term Y-27632 exposure to human chondrosarcoma 2/8 cell phenotype maintenance and extracellular matrix production were studied at normoxia and at 5% low oxygen atmosphere. The Y-27632 treatment at normoxia induced ACAN and COL2A1 gene up-regulation and minor increase of sulfated glycosaminoglycans (sGAGs), while type II collagen expression was not significantly up-regulated. The most efficient expression of ACAN and COL2A1 was achieved when the Y-27632 treatment was performed at hypoxia. The production of sGAGs increased by 65.8%, and the ELISA analysis revealed over 6 times up-regulation on type II collagen expression. The Y-27632 induced up-regulation of S100-A1 and S100-B proteins, and also affected the expression of several other S100 protein family members, such as S100-A4, S100-A6, S100-A13 and S100-A16. The up-regulation of S100-A1 and S100-B proteins is suggested to enhance the chondrocytic phenotype of the cells.",
+  "dataProcessingProtocol" : "Raw data where imported into PrognesisQI (Nonlinear Dynamics), HDMSe spectras where searched against the curated H.sapiens subset from Uniprot. Quantitated proteins where then imported into Ingenuity Pathway Analysis (QIAGEN Bioinformatics).",
+  "sampleProcessingProtocol" : "Proteins where extracted in 1% Sodium deoxycholate, tryptically deigested and cleand up on Oasis HLB cartrigdes (Waters).",
+  "projectTags" : [ "Biomedical" ],
+  "keywords" : [ "Human", "Lc/ms", "Chondrosarcoma" ],
+  "doi" : "",
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2017-06-22",
+  "updatedDate" : "2016-12-16",
+  "submissionDate" : "2016-12-12",
+  "downloadCount" : 1476,
+  "avgDownloadsPerFile" : 86.82353,
+  "botCount" : 727,
+  "hubCount" : 723,
+  "organicCount" : 26,
+  "percentile" : 48,
+  "yearlyDownloads" : [ {
+    "year" : "2021",
+    "count" : 14
+  }, {
+    "year" : "2022",
+    "count" : 6
+  }, {
+    "year" : "2023",
+    "count" : 108
+  }, {
+    "year" : "2024",
+    "count" : 61
+  }, {
+    "year" : "2025",
+    "count" : 1063
+  }, {
+    "year" : "2026",
+    "count" : 224
+  } ],
+  "submitters" : [ "Joakim Bygdell" ],
+  "labPIs" : [ "Mikko Lammi" ],
+  "affiliations" : [ "Departement of Integrative Medical Biology, Umeå University, SWEDEN" ],
+  "instruments" : [ "SYNAPT G2-Si" ],
+  "softwares" : [ ],
+  "quantificationMethods" : [ "MS1 intensity based label-free quantification method" ],
+  "sampleAttributes" : [ "chondrocyte", "cell culture", "Homo sapiens (Human)" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Cell culture", "Chondrocyte" ],
+  "diseases" : [ ],
+  "references" : [ "Piltti J, Bygdell J, Fernández-Echevarría C, Marcellino D, Lammi MJ. Rho-kinase inhibitor Y-27632 and hypoxia synergistically enhance chondrocytic phenotype and modify S100 protein profiles in human chondrosarcoma cells. Sci Rep. 2017 Jun 16;7(1):3708--pubMed:28623370--doi: 10.1038/s41598-017-03958-5" ],
+  "experimentTypes" : [ "HDMSE" ],
+  "projectFileNames" : [ "Protein_list_20O2.csv", "PP0010_170min_5.raw.tgz", "Peptide_list_5O2.csv", "Peptide_list_20O2.csv", "PP0010_170min_6.raw.tgz", "PP0010_170min_3.raw.tgz", "PP0010_170min_2.raw.tgz", "Protein_list_5O2.csv", "PP0010_170min_1.raw.tgz", "PXD005551_community_annotated.sdrf.tsv", "PP0010_170min_7.raw.tgz", "PP0010_170min_9.raw.tgz", "PP0010_170min_11.raw.tgz", "PP0010_170min_8.raw.tgz", "PP0010_170min_12.raw.tgz", "PP0010_170min_10.raw.tgz", "PP0010_170min_4.raw.tgz" ],
+  "highlights" : {
+    "projectDescription" : [ "The effects of the long-term Y-27632 exposure to human <em>chondrosarcoma</em> 2/8 cell phenotype maintenance and extracellular matrix production were studied at normoxia and at 5% low oxygen atmosphere." ],
+    "references" : [ "Rho-kinase inhibitor Y-27632 and hypoxia synergistically enhance chondrocytic phenotype and modify S100 protein profiles in human <em>chondrosarcoma</em> cells." ],
+    "keywords" : [ "<em>Chondrosarcoma</em>" ],
+    "title" : [ "Rho-kinase inhibitor Y-27632 and hypoxia synergistically enhance chondrocytic phenotype and change the S100 protein profile in human <em>chondrosarcoma</em> cells" ]
+  }
+} ]

@@ -1,0 +1,35 @@
+2026-10-04 ROUND 2 — GENOMICS HANDOFF
+
+Decision: shelve the standalone secondary-genotype/TSC2 paper. No demonstrated new finding clears the publication bar. This ends this worker's bounded round, not the active discovery campaign and not public-evidence exploration as a whole.
+
+Read RESULTS.txt first, COVERAGE.txt second. The strongest candidate had two reported TSC2 events in TAF15-fused Foundation profiles, but the original figure already published their frequency, one is an exon-sensitive ClinVar VUS, partner enrichment fails exploratory multiplicity correction, and no matched genotype-response evidence was found. Preserve the countervailing BostonGene three combined TSC1/2 EVENTS: these prevent an absence claim but cannot establish three TSC2-deficient patients. Caris already reported recurrent PTEN/ERCC2 deletions and FBXW7 mutations beyond TP53.
+
+Reopening requires a materially new observation: exact authentic-EMC genotype and donor information resolving GENIE/BostonGene/Caris cases, a matched TSC2 loss and functional or clinical response measurement, or another independently useful phenotype supported by sufficient metadata. Merely retrieving more already published mutations, tightening a title, or adding caveats is insufficient. Foundation tissue labels alone cannot substitute for disease stage or treatment timing. Do not revive TMEM266.
+
+Outstanding coverage remains explicit, especially GENIE case-level access, the distinct Japanese cam4.71098 cohort, UCL paired radiotherapy measurements and case mapping, full rare NR4A2 case methods, recent Qin/Guo cases, and GTC sample-report provenance. Staged accessible sources block promotion. No argument that a corpus-size or resource exception permits omission is made.
+
+Reproducible computations actually run
+- analyze_foundation.py: all original Foundation profile/event rows, full EMC secondary-gene matrix.
+- analyze_tsc2_followup.py: exploratory partner tests for every observed secondary gene, fixed KEGG pathway union, exact TSC2 cases.
+- extract_genie_supplements.py: every sheet/row of all three actual AACR supplements.
+- extract_davis.py: all published DOCX tables, retaining somatic versus germline and technical replication.
+- analyze_crosscohort.py: unchanged MSK all-gene data reuse with pinned source hashes plus Davis candidate calls.
+- query_all_sv.py: all223 public cBio SV profiles, NR4A3 gene8013, twenty profiles per batch and three concurrent requests.
+- query_legacy_fusions.py: all320 mutation profiles from studies without SV profiles, same gene, preserving all737 records.
+- extract_additional_supplements.py: complete Zou/He published table extraction; read-like rows remain in original workbook but compact derived output avoids duplicate raw-read storage.
+- parse_current_sources.py: Japanese all small-variant rows/panels and BostonGene text. The Boston poster is a read-only sibling input with exact hash in COVERAGE.
+- final_scoped_analysis.py: exact original Figure2A/5B EMC values, every OrigiMed eligible profile, all six Japanese EMC small-variant rows, source interpretation summary.
+- verify_sources.py: PASS; every extracted Foundation event independently located at its saved original Excel row; 105 latest successful download receipts match retained bytes and hashes; none reached the20MB read cap.
+
+fetch_sources.py was used for public read-only requests. All exact URLs, API request bodies, UTC timestamps, byte counts and hashes are in source-receipts.jsonl, including failed attempts. No browser, app, headless test, rendering or UI operation was launched by this worker. No owned process remains running.
+
+Offline execution uses the already installed Python executable:
+C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe
+with PYTHONPATH=C:/Projects/EMC-Research/.cache/python-deps, PYTHONDONTWRITEBYTECODE=1, PYTHONIOENCODING=utf-8. The retained 96KB xlrd wheel supplies the missing read-only XLS reader without installation. No runtime directory was modified. Run extraction scripts before final_scoped_analysis.py, then verify_sources.py; query scripts would refresh remote evidence and should use a new dated packet rather than overwrite this freeze.
+
+Source notation: Foundation 'SV' means short variant in its table; cBio 'STRUCTURAL_VARIANT' is a separate measurement class. Do not conflate them. Published unknown or empty values are never recoded as assay-negative.
+
+Ownership and Git
+Only research/autonomy/fresh-discovery-2026-10-04-round2/genomics was written in this worker's isolated worktree. Round1 files and the primary checkout were read-only. Worker HEAD remains373a430957178c1ce76cab89b3ae21b337cb3fc0. All round2 packet files are uncommitted local additions. No commit, merge, push or PR was performed. Root alone owns integration and shared coordination state; this is not a merged or published result.
+
+The final MANIFEST.json records exact owned file hashes/bytes (excluding itself), total payload bytes, free disk and HEAD. Root should reconcile these files and preserve all source receipts at integration. This worker is stopped after this handoff; there are no scheduled follow-ups or background downloads.

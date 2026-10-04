@@ -1,0 +1,176 @@
+Coverage record, 4 October 2026, regulatory/mTOR follow-up
+Status refers to actual scope evaluated; no complete field-exhaustion claim.
+
+EVALUATED
+Filion2009 PMC4429309/DOI10.1002/path.2445: original fulltext, study methods,
+three EMC microarray tumors, PPARG protein7, NDRG2 staining9, SGK1 isoformqPCR3,
+engineeredCFK2 reporter/NR4A3 isoform comparisons. Findings already published;
+expression/protein and engineered direct binding are not native EMC dependence.
+Files filion2009.html, -source-evaluation.json. Individual quantitative reanalysis
+not done because proposed expression-program question lost novelty before analysis.
+
+Brenca2019 PMC6766969/DOI10.1002/path.5284: fullXML methods/results;12 tissues
+(7EWSR1,5TAF15), engineered tBJ/ER expression and SEMA3C ChAPqPCR. Authors' existing
+fusion-partner axon-guidance conclusion; engineered cells not authenticEMC models.
+Files brenca2019.xml/.excerpts.txt. No independent new perturbation source recovered.
+
+Zullow2022 PMC9465545/DOI10.1016/j.molcel.2022.03.019: fresh fulltext and validS1;
+all11 EMC specimen rowsOther27–37, IDsEMC001–011; actual counts/purity/treatment
+in zullow-eligibility-summary.json; source SHA20fea1f564252e2ded7317c58868bf289aa9a7026c98dbe6fe512bebb53a2548.
+Published7RNA samples lack assignment to these11. No silent choice ofseven.
+
+Myoepithelial2025 PMC11949712/DOI10.1007/s00428-024-03977-4: all30 Table1 rows
+(29patients;cases1/2samepatient), allpotentialEMC19/21/30 evaluated. Only21 has
+TAF15::NR4A3 and concordant methylation. Other two unresolved. Individual methylation
+values not reanalyzed, no novel regulator inferred. Files myoepithelial2025.xml,
+-allcase-eligibility.json; includes rawTable1cells and cautious classification.
+
+Bangerter2022 PMC9813045/DOI10.1007/s13577-022-00818-x: fresh fullXML patient,
+FoundationHEME/model methods and mutation-table context. USZ20 late2020 amputation,
+USZ22 diagnostic68-year-old male leftthigh; USZ22 collection date not specified.
+Source-likely variants KMT2C/MLL3 and KDM5C reported; absentTSC2 row not negativecall.
+Files bangerter2022.xml/-mtor-eligibility.json. Source misannotation of loci in
+narrative not adopted; variant-only table requires gene-level coverage confirmation.
+
+VERIFIED EVALUATION REUSED
+Zullow September6 full138GSM+138ENA-run metadata, primary22RNA crosswalk,
+McBride2018 fulltext/GSE108028/EGA and SRP052896 source-chain. Hashes recorded in
+zullow-eligibility-summary.json. No additional public EMC identifier discovered;
+this is reused metadata evaluation, not RNA measurement evaluation. ValidS1newly
+recovered changes prior unavailable-metadata status, not missingexpression status.
+
+Iwata2025 DOI10.1007/s13577-025-01250-7: immutable prior completeS5/S6 extraction,
+all221screen means/SD and24IC50 values, independently source-replayed in earlier
+campaign. This round's complete label review identifies2rapalogs and zeroIC50
+followups. Exact CAS/formulations and rows83/201 retained, no crossassay pooling.
+Source hashes and all221labels in mtor-model-evaluation.json; full recovered
+values in round1 reused-Iwata-complete221-screen-and24-IC50-literal-measurements-final.json.
+
+Bangerter all40 ordinal source categories and model validations, round1 packet:
+all40screen labels are USZ20; USZ22 follows carfilzomib/doxo/venetoclax validations.
+No mTOR compound in these measurements; unsuitability for mTOR question is based
+on actual compound inventory, not a study title or weak response assumption.
+
+Planas-Paz2023/2026 and2025Mendeley deposit: round1 comprehensive EMC DDR-condition
+analysis reused. All8 source2025drug labels evaluated for mTOR eligibility, none.
+Finalversion/donor-crosswalk/unlabelled-assay gaps remain as documented in round1.
+Do not count cellmeasurements, cultureconditions or repeated papers as newdonors.
+
+UNAVAILABLE / UNRESOLVED ELIGIBILITY
+Zullow7EMC sample-linked RNA values: fullGEO/ENA/sourcechain lacks identitymapping.
+PublicGSE179720 is not usable7EMC merely because paper says so. Metadata of all11
+candidates recovered; individual original RNA measurements remain unavailable.
+Myoepithelial2025 newEMC21 array: studyreferences GSE140686 classifier data; no
+separate newcase deposit identified in inspected XML. Not a negative methylation
+measurement or justification to substitute othercancers.
+Merimsky2008 PMID18827568/DOI10.1097/CAD.0b013e328312c0e5: abstract evaluated;
+fulltext DOI403, EPMC noPMC/noauthor manuscript. EMC eligibility and genotype
+unresolved. Incorrect guessedissueURL returned another article, explicitly excluded.
+Quek2011 PMID21177764/DOI10.1158/1078-0432.CCR-10-2621: abstract and publisher-indexed
+myxoid-chondrosarcoma mention evaluated; directpage andDOI403. NoPMC manuscript.
+Individual diagnosis, number, treatment outcome, genotype remain inaccessible.
+IND206 DOI10.1200/jco.2015.33.15_suppl.2594/NCT01396408: primaryabstract namesone
+EMC response onSUNItinib, not evidence of an EMCtemsirolimus response. Registry
+hasResultsfalse, no individual EMC mTOR outcome. Never use umbrella conclusions
+to attribute the EMC response to both drugs.
+
+PENDING ACCESSIBLE ANALYSIS / PROMOTION BLOCKERS
+GSE140686 methylation and its EMC reference specimens: actual methylationvalues
+not evaluated for a newregulatory claim, so any future claim requiring them would
+need complete eligible specimens and overlap reconciliation. Reuse by laterZFTA,
+VGLL ormyoepithelial studies is not new independentEMC cohorts.
+Iwata main screening dose/exposure/technicalreplicate hierarchy not recovered;
+sourcevalues are evaluated but cannotbe generalized as resistance.
+BroadmTOR sarcoma trials, including temsirolimus/cixutumumab2013 PMC3766955, have
+chondrosarcoma labels whose complete subtype eligibility remains unevaluated;
+EPMCfullXML500/PMCchallenge on this pass. Do not classify all chondrosarcoma asEMC.
+These incomplete sources block diseasewide clinicalmTOR claims. Stop is justified
+by shelving a weakclaim, not by relabelling unresolved evidence as excluded.
+
+DEMONSTRABLY UNSUITABLE
+GenericFET/EWSR1, Ewing, cardiac/immuneNR4A3, and salivaryAcCCNR4A3 mechanisms are
+not EMC perturbation evidence. Zullow celllineChIP/ATAC perturbations areMLS/
+engineered comparison, not authenticEMC. Prior H-EMC-SS/FU-DDLS-1 identity limitations
+remain; no mTORmechanistic finding attributed to EMC from disputedlines here.
+Actual wrongCellosaurus retrieval CVCL_E2B4 was HAP1LIG4 knockout, explicitly
+excluded and retained as failedlookupreceipt, not biologicalevidence.
+
+DISCOVERY TRAILS AND LIMITS
+This pass searched primarydisease aliases extraskeletal myxoidchondrosarcoma,
+EMC/EMCS/ESMCS, NR4A3/TEC/CHN/NOR1, EWSR1/TAF15, authenticmodel labels USZ20/22/23
+andNCC-EMC1-C1 with perturbation/knockdown/chromatin/ATAC/ChIP/methylation/splicing
+and regulatory terms. It traced Filion/Brenca/Zullow citations, publicGEO/ENA,
+recentmethylationstudies and originalsupplements. ExactmTOR query log retained
+in search-record.json; primaryabstract/registryretrieval receipts record access.
+No new authenticgenomewideEMC perturbation/chromatin source identified in this
+bounded pass. This does not prove absence anywhere. No fieldwide absenceclaim
+or manuscript promotion. Independent omission/value challenge delegated togenomics.
+
+FINAL SOURCE EXTENSION — evaluated 4 October 2026
+Reproducible source audit: evaluate_protein_sources.py -> protein-spatial-eligibility.json.
+Retrieval URLs/bytes/SHA in protein-scout-retrievals.json, final-source-retrievals.json
+and final-supplement-retrievals.json. Source retrieval alone is not biological analysis.
+
+EVALUATED / DEMONSTRABLY UNSUITABLE FOR AUTHENTIC EMC BIOLOGY
+Burns2023 DOI10.1038/s41467-023-39486-2, fullXML + SupplementaryData1: all11
+histologies/n sum to321 with no residual Other group or EMC. Actual aggregate
+eligibility evaluation, not a claim of specimen-level molecular reauthentication.
+Sarquarium2024 DOI10.1038/s44320-023-00004-7, fullXML+DatasetEV1: all17 model
+culture/genetic labels inspected. A204,G401,HS729,HT1080,KHOS-240S,KHOS-NP,MES-SA,
+RD,RD-ES,SK-ES-1,SK-LMS-1,SW1353,SW684,SW872,SW982,SYO-1,VA-ES-BJ. No authentic
+EMC. SW1353 is not a substitute for EMC; shared KHOS origin is not2donors.
+Tang2024 DOI10.1038/s41467-024-45306-y: all272 clinical rows inspected, including
+all8 otherFS. Seven specific labels:4adult fibrosarcoma,2inflammatory myofibroblastic
+tumor,1low-grade myofibroblastoma. SS-5 specific histologyNA remains unresolved.
+SS-81 has shifted source columns but identifiable synovial labels; retained intact.
+No protein/phosphoprotein values read for a biological comparison. Complete source
+workbook retained24,908,570bytes within75MBbudget; amendment precedes values.
+Ngo2025 DOI10.1002/cac2.70077: EMC mention is bulk external expression context;
+the spatial/single-cell experiment is epithelioid sarcoma. No new EMC spatial result.
+PRIDE extraskeletal search returns2calciprotein-particle projects, not EMC;
+NR4A3 search returnsempty. These keyword results do not exclude hidden EMC samples.
+
+VERIFIED PRIOR EVALUATION REUSED / FRESH PRIMARY ABSTRACT CHECK
+Noguchi paired-proteomics2025 DOIs10.14889/jpdm.2025.0007(35pairs,PXD061872) and
+10.14889/jpdm.2025.0006(31pairs,PXD061874): primary model lists do not include
+NCC-EMC1-C1. Prior repository exclusion reused after checking original lists.
+Older audit accessionPXD061813 must not silently replace current sourcePXD061874.
+Willems2010 DOI10.1002/path.2771 imagingMS concerns MFS/MLPS, not EMC. No new values.
+Previously excluded ADC/protein panels and Gijsels2026 ct m2.70722 not rerun.
+
+EVALUATED SOURCE WITH UNAVAILABLE EMC-SPECIFIC MEASUREMENTS
+H19 DOI10.1002/cam4.71305, fullXML/4clinical tables/source creator resource:
+two TMA sets name EMC, but final Others26/150 are not separable into EMC cases.
+No public per-EMC score/outcome/denominator or TMA-overlap crosswalk recovered.
+No supplementary-material inXML; data availability onlyCCLE, not newTMA values.
+MUG-EMCS qPCR not eligible as authentic EMC without NR4A3 authentication; primary
+model-creator resource https://www.medunigraz.at/en/team-beate-rinner explicitly
+describes mesenchymal chondrosarcoma, contrary to H19 article's myxoid label.
+No authenticated EMC Gapmer perturbation measured. No H19 absence/dependency claim.
+ProCan2021 primary poster(ANZSA,Connolly): title205 versus methods203samples/178patients,
+>30histologies. Raregroups<5 removed from displays; chondrosarcoma unsubtyped.
+All available postertext evaluated, no individual EMC values/labels recovered.
+No disease absence conclusion; potential EMC specimens remain unidentified.
+
+PENDING ACCESSIBLE ELIGIBILITY / STAGED GAP, NOT EXCLUSION
+PanAtlas2025 PXD054790 DOI10.1016/j.ccell.2025.05.003: metadata evaluated,
+999primary tumors22cancers1129total samples. Individualsoft-tissue histology
+manifest not evaluated. Publisher page403 inthispass; publicrepository remains
+potentialroute. CPTAC-SAR88patientimagingcollection is another sample-identity
+lead with no protein measurement or exactEMC crosswalk evaluated here. These
+block any complete-public-proteomics claim, which is not advanced.
+GSE140686 methylation, possible newmyoepithelial case21array, GSE179720 actual7EMC
+RNA crosswalk, incomplete mTORclinical conditions and olderEMC arrays remain as
+above. No suitable accessible source is relabelled unsuitable for resource reasons.
+
+INDEPENDENT H1FX CHALLENGE
+review_h1fx.py/h1fx-independent-challenge.json bind exact leadplan,amendment,
+analysis,result,primaryGEOlabels and PeerJXML. RawH1FX values re-extracted from
+TPMmatrix and originalSOFT and17 contrasts independentlychecked. Scope/value
+stop is not completeclaimcoverage: olderarrays suchasGSE4303 and actual intended
+19-case cartilaginous-comparison source remain pending/unresolved. No additional
+sourceprocessing needed to shelve, but reopening must carry these gaps forward.
+
+Independent genomic worker reports new BostonGene TSC1/2 events; see its final
+round2 source receipt for alleles/units limitations. This lane evaluated the
+model bridge, not every genetic lesion. Do not infer lack of other mTOR lesions.

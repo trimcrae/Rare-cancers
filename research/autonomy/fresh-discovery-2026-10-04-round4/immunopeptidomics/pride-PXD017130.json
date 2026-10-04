@@ -1,0 +1,96 @@
+{
+  "accession" : "PXD017130",
+  "title" : "Immuno-Transcriptomic Profiling Identifies Actionable Alterations in Pediatric Solid Malignancies",
+  "additionalAttributes" : [ ],
+  "projectDescription" : "Immuno-Transcriptomic Profiling Identifies Actionable Alterations in Pediatric Solid Malignancies",
+  "sampleProcessingProtocol" : "Purified HLA-associated peptides were sequenced by tandem mass spectrometry (MS) using an Orbitrap Q-Exactive HF mass spectrometer (Thermo Scientific, Waltham, MA). Briefly, peptides were separated on a reverse phase C18 Nano column (75µm ´ 250mm, 2 µm particle) using a 90-minute effective gradient with 4-35% phase B (0.1% formic acid in acetonitrile) on an Ultimate 3000 Nano liquid chromatography (Thermo Scientific, Waltham, MA). Data dependent acquisition mode was used to profile the HLA peptidome. MS full scan range was 375-1650 m/z at resolution 120,000, and the top 15 most abundant peaks with assigned charge state 1-4 were selected for MS/MS fragmentation using high collision dissociation(HCD) at resolution 30,000 and maximum injection time was 200 milliseconds, isolation window was 1.4 m/z, and dynamic exclusion was set to 20 seconds.",
+  "dataProcessingProtocol" : "The peptide sequence alignment was mapped by PEKAS studio (Version 8.5, Bioinformatics Solutions Inc.) using UniProtKB human proteome sequence database (released on Feb 7th 2017). In the PEAKS searching engine, no enzyme digestion (for natural peptides), the Orbi-Orbi HCD fragmentation, no variable modification, and de novo sequencing (library free search) were selected. The precursor mass tolerance was 15ppm and fragment ion tolerance was 0.5Da. The false discovery rate (FDR) was estimated by decoy-fusion database and was set to 5%. Selected peptides tandem mass spectrum was visualized and manually inspected to assure the data quality.",
+  "projectTags" : [ ],
+  "keywords" : [ "Immunology; transcriptome; pediatric;  malignancies" ],
+  "doi" : "",
+  "submissionType" : "PARTIAL",
+  "license" : "Creative Commons Public Domain (CC0)",
+  "submissionDate" : "2020-01-15",
+  "publicationDate" : "2021-12-07",
+  "submitters" : [ {
+    "title" : "Dr",
+    "firstName" : "Yue Andy",
+    "lastName" : "Qi",
+    "identifier" : "123900179",
+    "affiliation" : "Center for Alzheimer’s Disease and Related Dementias (CARD)/NIH",
+    "email" : "andy.qi@nih.gov",
+    "country" : "United States",
+    "orcid" : "0000-0003-1914-8710",
+    "name" : "Yue Andy Qi",
+    "id" : "123900179"
+  } ],
+  "labPIs" : [ {
+    "title" : "Dr",
+    "firstName" : "Javed Khan,",
+    "lastName" : "M.D.",
+    "identifier" : "176160100",
+    "affiliation" : "Genetics Branch, Center for Cancer Research, National Cancer Institute, Bethesda, MD 20892, USA",
+    "email" : "khanjav@mail.nih.gov",
+    "country" : "",
+    "orcid" : "",
+    "name" : "Javed Khan, M.D.",
+    "id" : "176160100"
+  } ],
+  "instruments" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "MS",
+    "accession" : "MS:1001911",
+    "name" : "Q Exactive"
+  } ],
+  "softwares" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "MS",
+    "accession" : "MS:1001583",
+    "name" : "MaxQuant"
+  } ],
+  "experimentTypes" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "PRIDE",
+    "accession" : "PRIDE:0000429",
+    "name" : "Shotgun proteomics"
+  } ],
+  "quantificationMethods" : [ ],
+  "countries" : [ "United States" ],
+  "sampleAttributes" : [ {
+    "@type" : "Tuple",
+    "key" : {
+      "cvLabel" : "EFO",
+      "accession" : "OBI:0100026",
+      "name" : "organism"
+    },
+    "value" : [ {
+      "cvLabel" : "NEWT",
+      "accession" : "NEWT:9606",
+      "name" : "Homo sapiens (Human)"
+    } ]
+  } ],
+  "organisms" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "NEWT",
+    "accession" : "NEWT:9606",
+    "name" : "Homo sapiens (human)"
+  } ],
+  "organismParts" : [ ],
+  "diseases" : [ ],
+  "references" : [ {
+    "referenceLine" : "Brohl AS, Sindiri S, Wei JS, Milewski D, Chou HC, Song YK, Wen X, Kumar J, Reardon HV, Mudunuri US, Collins JR, Nagaraj S, Gangalapudi V, Tyagi M, Zhu YJ, Masih KE, Yohe ME, Shern JF, Qi Y, Guha U, Catchpoole D, Orentas RJ, Kuznetsov IB, Llosa NJ, Ligon JA, Turpin BK, Leino DG, Iwata S, Andrulis IL, Wunder JS, Toledo SRC, Meltzer PS, Lau C, Teicher BA, Magnan H, Ladanyi M, Khan J. Immuno-transcriptomic profiling of extracranial pediatric solid malignancies. Cell Rep. 2021 37(8):110047",
+    "pubmedID" : 34818552,
+    "doi" : "10.1016/j.celrep.2021.110047"
+  } ],
+  "identifiedPTMStrings" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "PRIDE",
+    "accession" : "PRIDE:0000398",
+    "name" : "No PTMs are included in the dataset"
+  } ],
+  "totalFileDownloads" : 1496,
+  "botCount" : 524,
+  "hubCount" : 964,
+  "organicCount" : 8,
+  "otherOmicsLinks" : [ "dbgap:phs000768", "dbgap:phs001052", "dbgap:phs001928", "dbgap:phs000466", "dbgap:phs000467", "dbgap:phs000720", "dbgap:phs000468" ]
+}

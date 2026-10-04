@@ -1,0 +1,96 @@
+{
+  "decision": "shelve_standalone_paper",
+  "new_surviving_disease_finding": null,
+  "samples": 15,
+  "patients": 13,
+  "repeat_patients": {
+    "P-0005607": [
+      "P-0005607-T01-IM5",
+      "P-0005607-T02-IM6"
+    ],
+    "P-0011067": [
+      "P-0011067-T01-IM5",
+      "P-0011067-T03-IM6"
+    ]
+  },
+  "nr4a3_endpoint_supported_samples": 7,
+  "nr4a3_event_or_endpoint_supported_samples": 8,
+  "nr4a3_event_or_endpoint_supported_patients": 8,
+  "endpoint_annotation_discordance": [
+    "P-0054159-T01-IM6"
+  ],
+  "all_mutation_rows": 11,
+  "all_gene_mutation_donor_counts": {
+    "ARID1A": 1,
+    "GRIN2A": 1,
+    "KMT2D": 1,
+    "NTRK1": 1,
+    "NUP93": 1,
+    "PIK3C3": 1,
+    "PRKN": 1,
+    "SMAD2": 1,
+    "TERT": 1,
+    "TP53": 1
+  },
+  "selected_genes": [
+    "TP53",
+    "RB1",
+    "CDKN2A",
+    "CDKN2B",
+    "CDK4",
+    "CCND1",
+    "MDM2"
+  ],
+  "selected_patients": [
+    "P-0011067",
+    "P-0054159"
+  ],
+  "selected_patient_fraction_descriptive": 0.15384615384615385,
+  "selected_patient_wilson95_descriptive": [
+    0.043258178358081184,
+    0.4223463101948254
+  ],
+  "selected_genes_panel_coverage_all_samples": true,
+  "qc_pass_samples": 12,
+  "qc_fail_samples": [
+    "P-0005607-T02-IM6",
+    "P-0053910-T01-IM6",
+    "P-0054159-T01-IM6"
+  ],
+  "wgd_true_qc_pass_samples": [
+    "P-0000718-T01-IM3",
+    "P-0000857-T01-IM3"
+  ],
+  "wgd_true_with_nr4a3_release_support": [],
+  "fga_qc_pass_range": [
+    0.0,
+    0.4435
+  ],
+  "all_tmb_range": [
+    0.0,
+    1.75542998379738
+  ],
+  "historical_msk2022_patients": 11,
+  "overlapping_patients": [
+    "P-0000379",
+    "P-0000718",
+    "P-0000857",
+    "P-0001129",
+    "P-0001482",
+    "P-0004306",
+    "P-0005607",
+    "P-0006159",
+    "P-0011067",
+    "P-0035763"
+  ],
+  "current_not_historical_patients": [
+    "P-0053910",
+    "P-0054159",
+    "P-0056135"
+  ],
+  "historical_not_current_patients": [
+    "P-0022485"
+  ],
+  "union_release_patients": 14,
+  "comparison_note": "No independence inferred from new release. No survival or FGA effect test due two cell-cycle donors, no repeated new gene, and only one QC-pass affected donor. Confidence interval is descriptive ascertainment-conditioned, not EMC population prevalence. No new claim advanced."
+}

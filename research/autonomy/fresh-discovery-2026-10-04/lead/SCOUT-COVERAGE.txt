@@ -1,0 +1,89 @@
+Lead discovery/coverage record — 2026-10-04
+This is a dated bounded search, not an assertion that all public EMC has been found.
+No claim below is advanced as a novel disease finding. Worker claim-specific coverage
+records give eligible specimens/conditions and actual measurements.
+
+Searches (web primary discovery plus local historical results)
+extraskeletal myxoid chondrosarcoma + 2025/2026 genomics/methylation/proteomics;
+EMC + HLA + loss; EMC + single-cell; EMC + circulating DNA; EMC + pembrolizumab;
+EMC + nivolumab; exact NCC-EMC1-C1 + proteomic; JPST003635; 35/31/9 sarcoma
+patient-derived cell-line proteomes. Disease/model aliases and NR4A3/CHN/TEC
+genomic event-text discovery were independently used by the genomic worker.
+
+1. MSK-IMPACT 50K 2026, PMID41895280
+Primary: https://pubmed.ncbi.nlm.nih.gov/41895280/
+Release: https://www.cbioportal.org/study/summary?id=msk_impact_50k_2026
+Status: evaluated current scoped response, then prior evaluation identified/reused.
+All15 EMC-labelled specimens/13patient IDs included; six HLA allele fields each.
+Four samples from four patients have all six literal Unchanged calls; eleven have
+no reported HLA LOH call. Zero demonstrated LOH is not universal retention.
+The exact same15/13/four-call source was already evaluated in September30 packet,
+ALL45-EXECUTED-STATUS normal-HLA-donor-coverage. The release is not a new cohort.
+Reproduction: analyze_hla.py reads genomic worker's scoped source files and records
+input SHA256s in hla-results.json. No HLA-expression/presentation/prevalence claim.
+No non-EMC comparator sampling is needed after redundancy and sparse-coverage stop.
+
+2. Primary35-,31-,9-pair sarcoma proteomics reports
+https://doi.org/10.14889/jpdm.2025.0007 (JPST003702/PXD061872)
+https://doi.org/10.14889/jpdm.2025.0006 (JPST003705/PXD061874)
+https://doi.org/10.14889/jpdm.2025.0005 (JPST003669/PXD061813)
+Status: demonstrably unsuitable for an EMC-specific protein result: complete named
+sample lists in each primary report lack EMC. NCC-dCS1 is dedifferentiated bone
+chondrosarcoma, not EMC. No protein values inspected or raw archives downloaded.
+These are separate methods/acquisition sets with overlapping models, not75 unique
+donors. They cannot supply an authenticated NCC-EMC1 protein measurement.
+
+3. JPST003635/PXD061328
+https://proteomecentral.proteomexchange.org/cgi/GetDataset?ID=PXD061328
+https://storage.jpostdb.org/JPST003635/
+https://repository.jpostdb.org/entry/JPST003635
+Status: unavailable evidence for EMC identity, not a negative protein measurement.
+Public metadata calls it patient-derived sarcoma proteomics without an authenticated
+EMC sample crosswalk. Public file292_Kondo_23_340_22_200ng_FusionIT and related search
+output do not identify a disease/model. The repository entry exposes a generic shell
+through this access route. Whole1–2GB raw archives not fetched: identity is unresolved,
+and no large download is necessary to establish that gap. Earlier all-culture audit
+already records the unresolved accession; no new EMC eligibility was established.
+
+4. Chuenchom2026 PeerJ21497 / PRJNA1357027
+https://doi.org/10.7717/peerj.21497
+https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/fullTextXML
+Status: main published claims/methods evaluated; raw biological comparison pending.
+Whole article retained as peerj-primary.xml. The paper already reports no B-lineage
+association survives36-comparison FDR; its two mIF specimens do not show a B-cell
+density difference. These are prior findings, not our discovery. Algorithm outputs
+reuse the same12inputs, not six independent cohorts;10ROIs per specimen are not10
+patients. The published clinical groups and fitted risk groups are different labels.
+Only8/12are EWSR1-FISH positive; this is not NR4A3-specific authentication of all12.
+Patient-level risk/outcome mapping must be authenticated before a clinical claim.
+The microenvironment packet records prespecified marker sufficiency, raw source
+inclusion, measurement checks, actual pilot output and remaining accessible analyses.
+
+5. Liquid-biopsy source screen (not advanced; no new patient-level discovery)
+https://pmc.ncbi.nlm.nih.gov/articles/PMC7761870/
+The single source-labelled EMC, M2, has a printed MEAF6-PHF1 structural variant.
+Status: evaluated published identity limitation; cannot treat this as evidence of
+NR4A3-fusion ctDNA detection in authenticated EMC or unilaterally rediagnose the case.
+https://pmc.ncbi.nlm.nih.gov/articles/PMC7349923/
+Status: pending full EMC-specific evaluation; broader circulating-nucleic-acid cohort
+identified, no biological claim drawn. Counts/assays/timepoints require source join.
+https://doi.org/10.1200/JCO.2025.43.16_suppl.e23559
+https://www.asco.org/abstracts-presentations/251429/
+Status: evaluated published single-case table for eligibility/novelty. The EMC row
+already reports a preoperative ctDNA value0.92 and no postoperative measurement.
+It supplies neither a new finding by this campaign nor an observed clearance result.
+Molecular identity, full longitudinal data and a complete cohort census would be
+needed before advancing a new EMC liquid-biopsy interpretation. Route not promoted.
+
+6. Additional fresh clinical primary records supplied to genomic challenger
+Qin2026 PMID41644428, DOI10.3760/cma.j.cn112151-20251129-00787 (16cases);
+Guo2026 DOI10.1007/s12672-026-05818-z (2cases);
+2026Histopathology series with ACTB::NR4A3; see genomic COVERAGE for actual access.
+Status: primary source leads with evaluation status in worker coverage, not treated
+as independent new measurements here. No inferred fusion-prognosis relationship.
+
+Decision
+Shelve HLA and proteomics standalone ideas; no novel disease result established.
+Keep raw immune-composition question explicitly pending until valid measurements
+and applicable clinical labels support it. No TMEM266 reopening. Complete accessible
+EMC evidence evaluation remains a prerequisite for any future promoted claim.

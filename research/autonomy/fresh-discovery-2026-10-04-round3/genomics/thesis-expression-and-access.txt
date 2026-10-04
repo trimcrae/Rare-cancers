@@ -1,0 +1,429 @@
+PAGE13
+ 
+13 
+ 
+Table of figures 
+ 
+Figure 1.1. A timeline of the history of radiotherapy ................................ .............. 42 
+Figure 2.1. Consort diagram of patient inclusion and sample quality control 
+flowchart ................................ ................................ ................................ ............... 70 
+Figure 2.2. Overview of the London Sarcoma Service patient cohort, clinical 
+features, and sequencing data availability ................................ ............................. 72 
+Figure 2.3. Histological assessment of tumour samples ................................ ........ 75 
+Figure 3.1. Distribution of Tumour Mutational Burden by sarcoma subtype. .......... 92 
+Figure 3.2 Oncoplot of somatic mutations in known cancer genes. ....................... 95 
+Figure 3.3. Comparison of the frequency of SNVs and indels in pre- and post-
+radiotherapy sarcoma samples. ................................ ................................ .......... 110 
+Figure 3.4. Comparison of the frequency of SNVs and indels pre- and post-
+radiotherapy across different histological subtypes. ................................ ............ 111 
+Figure 3.5. Comparison of the frequency of SNVs and indels in paired pre- and 
+post-radiotherapy sarcoma samples. ................................ ................................ .. 113 
+Figure 3.6. Comparison of Deletion-to-Insertion and Indel-to-SNV Ratios ........... 116 
+Figure 3.7 Timeline of treatment and disease progression for patient 58 ............ 117 
+Figure 3.8. Temporal evolution of somatic mutations in patient 58’s sarcoma 
+specimens across treatment stages. ................................ ................................ ... 119 
+Figure 3.9 Comparison of copy number alteration metrics in pre- and post-
+radiotherapy samples ................................ ................................ .......................... 125 
+Figure 3.10. Comparison of copy number alteration metrics in pre- and post-
+radiotherapy myxofibrosarcoma samples ................................ ............................ 128 
+Figure 3.11. Comparison of copy number alteration metrics in paired pre- and post-
+radiotherapy samples. ................................ ................................ ......................... 130 
+Figure 3.12. Distribution of SBS mutational signatures across pre-radiotherapy, 
+post-radiotherapy, recurrence, and metastasis samples in WES data. ................ 133 
+Figure 3.13. Distribution of SBS mutational signatures across pre-radiotherapy, 
+post-radiotherapy, and metastasis samples in WGS data. ................................ .. 134 
+Figure 3.14. Distribution of SBS mutational signatures across sarcoma subtypes.
+ ................................ ................................ ................................ ............................ 136 
+
+PAGE16
+ 
+16 
+ 
+List of tables... 
+ 
+Table 1. Soft tissue sarcomas subtypes included in this study ..............................  21 
+Table 2. FNCLCC grading system................................ ................................ ......... 50 
+Table 3.1. High pathogenicity missense mutations................................ ................ 98 
+Table 3.2. Moderate pathogenicity missense mutations ................................ ........ 99 
+Table 3.3. COSMIC cancer genes mutated in multiple patients across cohort. ... 103 
+Table 3.4. COSMIC cancer genes mutated in each sarcoma subtype ................ 105 
+Table 4.1 Clinical characteristics of all patient samples ................................ ....... 166 
+Table 4.2. Clinical characteristics of paired patient samples ...............................  167 
+Table 4.3. Numbers of differentially expressed genes following radiotherapy broken 
+down by histological subtype. ................................ ................................ .............. 181 
+Table 4.4. Differentially expressed genes following radiotherapy that are shared 
+between multiple soft tissue sarcoma subtypes. ................................ ................. 184 
+Table 5.1. Summary of histological subtypes and disease progression status in 
+post-radiotherapy cohort. ................................ ................................ .................... 212 
+Table 5.2. Performance metrics of the Random Forest progression prediction 
+model ................................ ................................ ................................ .................. 231 
+ 
+
+PAGE72
+Chapter 5. Results 
+ 
+72 
+ 
+ 
+Figure 2.2. Overview of the London Sarcoma Service patient cohort, clinical 
+features, and sequencing data availability 
+The heatmap summarises clinical metadata and sequencing data availability for 61 
+patients in the study. The Patient metadata panel shows histological subtype, 
+radiotherapy (RTx) response status, tumour site, and sex. Histological subtypes 
+include: MFS (myxofibrosarcoma), mLPS (myxoid liposarcoma), SS (synovial 
+sarcoma), pLPS (pleomorphic liposarcoma), SpCS (spindle cell sarcoma), UPS 
+(undifferentiated pleomorphic sarcoma), ddLPS (dedifferentiated liposarcoma), 
+pLMS (pleomorphic leiomyosarcoma), EMC (extraskeletal myxoid 
+chondrosarcoma), ASPS (alveolar soft part sarcoma), CCS (clear cell sarcoma), 
+MLS (myxoid liposarcoma), MMT (malignant myoepithelial tumour), and MPNST 
+(malignant peripheral nerve sheath tumour). RTx response status is categorised 
+as: Responder, Progressor – recurrence, and Progressor – died of disease. 
+Tumour site is recorded as arm, leg, or trunk; sex as female (F) or male (M). 
+The DNA sequencing panel shows availability of whole exome sequencing (WES), 
+whole genome sequencing (WGS), and NanoSeq data across the following time 
+points: pre-RTx, post-RTx, recurrence, and metastasis. The RNA sequencing 
+
+
+PAGE73
+Chapter 5. Results 
+ 
+73 
+ 
+panel shows RNA-seq data availability at pre-RTx, post-RTx, multi-region post-
+RTx, recurrence, and metastasis. Green shading indicates available data, grey 
+shading indicates missing data. 
+  
+
+PAGE184
+Chapter 5. Results 
+ 
+184 
+ 
+Table 4.4. Differentially expressed genes following radiotherapy  that are shared 
+between multiple soft tissue sarcoma subtypes. 
+ 
+
+
+PAGE185
+Chapter 5. Results 
+ 
+185 
+ 
+Differential gene expression analysis identified 24 genes with shared transcriptional 
+changes across multiple sarcoma subtypes following radiotherapy. These genes 
+were selected based on their differential expression in at least three subtypes, 
+suggesting a common transcriptional response to treatment. The heatmap in Figure 
+4.9 illustrates these expression changes, highlighting patterns of radiotherapy -
+induced gene regulation across sarcoma subtypes. 
+ 
+Several genes exhibit consistently increased expression post-radiotherapy, including 
+SERPINE1, RGS1, MT1X, FGF7, IFIT3, CRK, F13A1, CCN1, and PDK4. In contrast, 
+ANO5, LOXHD1, NOTCH4, DMD, SOX18, HBA1, HBA2, and HBB show consistent 
+decreases in expression across multiple subtypes. 
+ 
+Interestingly, some genes display varied expression changes depending on the 
+subtype, suggesting subtype -specific responses. These genes include CASQ1, 
+PRSS12, JPH1, MYOM3, TAGLN, and ZBTB16. 
+ 
+These findings suggest that while certain genes exhibit a common response to 
+radiotherapy across sarcoma subtypes, others demonstrate subtype -specific 
+expression patterns, highlighting the complexity of sarcoma transcriptomic 
+responses to treatment. 
+
+PAGE187
+Chapter 5. Results 
+ 
+187 
+ 
+4.5.2 Summary 
+This section examined gene expression changes following radiotherapy across 
+various sarcoma subtypes. By analysing paired pre- and post-radiotherapy samples, 
+I aimed to control for inter -patient variability and achieve more reliable results. 
+Differential gene expression analysis on 40 paired samples from 13 sarcoma 
+subtypes identi fied 140 significantly altered genes post -radiotherapy, with the 
+majority (107) showing upregulation. 
+ 
+Subtype-specific analyses revealed considerable variability, with most differentially 
+expressed genes being unique to individual subtypes. However, a subset of genes 
+was consistently altered across multiple subtypes. For instance, SERPINE1 
+displayed a consistent increase in expression, while the haemoglobin genes HBA1, 
+HBA2, and HBB consistently decreased across subtypes. Other genes, such as 
+CASQ1, exhibited subtype -specific responses, being upregulated in two subtypes 
+but downregulated in another. These f indings highlight both shared and subtype -
+specific mechanisms in response to radiotherapy. 
+  
+
+PAGE194
+Chapter 5. Results 
+ 
+194 
+ 
+4.8 PROGENy analysis 
+To investigate the impact of radiotherapy on the molecular pathways in soft tissue 
+sarcomas, I used the PROGENy (Pathway RespOnsive GENes) R package 
+(Schubert, Klinger et al. 2018). PROGENy is designed to infer pathway activity from 
+bulk gene expression data. Unlike GSEA analysis (see section 4.5) which is 
+designed to determine whether a predefined set of genes show a statistically 
+significant differences between two biological stat es, PROGENy is designed to 
+predict the activity of signalling pathways based on the expression of their 
+downstream target genes, reportedly offering a more direct measure of pathway 
+dynamics.  
+ 
+The development of PROGENy involved compiling a comprehensive list of pathway-
+responsive genes from experimental data, allowing the method to provide a more 
+accurate and functional interpretation of pathway dynamics based on observed gene 
+expression profiles. This data was curated from a variety of experimental platforms, 
+including 581 perturbation experiments where specific pathways were activated or 
+inhibited. The authors also used microarray gene expression and drug sensitivity 
+data from the Cancer Cell Line Encyclopedia (CCLE), Gene expression data from 
+The Cancer Genome Atlas (TCGA) and the Gene Expression Omnibus (GEO). 
+ 
+From these sources they derived pathway-specific signatures for 14 major signalling 
+pathways (Androgen, EGFR, Estrogen, MAPK, Hypoxia, JAK -STAT, NF -kB, p53, 
+PI3K, TGF-β, TNFα, TRAIL (apoptosis), VEGF, and Wnt.). These signatures are sets 
+of genes that cons istently respond to pathway activation or inhibition. These 
+signatures are then used to score new gene expression data, providing an estimate 
+of pathway activity. The scores are continuous values that reflect the level of pathway 
+activity. Positive scores indicate higher pathway activity, while negative scores 
+suggest reduced activity.  
+ 
+A comparison of pre- and post -radiotherapy pathway activity scores is shown in 
+Figure 4.13. I performed paired t -tests to compare the pathway activity scores 
+between matched pre- and post -radiotherapy samples. Notably, the Androgen 
+(P<0.0001), JAK-STAT (P = 0.0001), NF-kB (P = 0.005), p53 (P < 0.0001), and TNFα 
+
+PAGE262
+Reference List 
+ 
+262 
+ 
+6.2.4 Genes with variable expression patterns following radiotherapy 
+While the genes discussed above highlight shared transcriptional responses across 
+sarcoma subtypes, the results of this study  (Figure 4.9) also revealed genes with 
+variable expression patterns depending on the subtype.  CASQ1 and TAGLN for 
+example exhibited subtype specific expression patterns and are discussed below.   
+ 
+6.2.4.1 Calsequestrin 1 (CASQ1) and calcium signalling in radiotherapy 
+response 
+Calsequestrin 1 (CASQ1) is a calcium -binding protein primarily located in the 
+sarcoplasmic reticulum of skeletal muscles, where it plays a critical role in calcium 
+homeostasis by buffering calcium ions and modulating their release during muscle 
+contraction. CASQ1 interacts with proteins such as triadin, junctin, and ryanodine 
+receptors to regulate calcium release channels and maintain efficient excitation -
+contraction coupling. It also directly influences store-operated calcium entry (SOCE) 
+by interacting with STIM1 to regulate calcium influx under conditions of sarcoplasmic 
+reticulum depletion (Rossi, Gamberucci et al. 2021). In this study, CASQ1 expression 
+was found to increase in myxoid liposarcoma (MLS) and myxofibrosarcoma (MFS) 
+but decrease in extraskeletal myxoid chondrosarcoma (EMC) following radiotherapy. 
+These changes in expression suggest that CASQ1 may play a role in the cellular 
+response to radiotherapy, potentially through its established function in regulating 
+intracellular calcium levels. Calcium signalling is critical for various cellular processes, 
+including proliferation, apoptosis, and stres s responses (Patergnani, Danese et al. 
+2020), and the observed differential expression of CASQ1 may reflect subtype -
+specific differences in how these sarcomas manage calcium homeostasis under the 
+stress of radiotherapy. 
+ 
+Additional differentially expressed genes in post -radiotherapy samples further 
+highlight the role of calcium signalling in these sarcoma subtypes. For example, 
+CACNA1E (Phan, Wang et al. 2017), a voltage-gated calcium channel subunit, and 
+CACNA2D1, a calcium channel auxiliary subunit, were differentially expressed in 
+MLS, EMC, and synovial sarcoma (SS) ( Table 4.4). These genes are essential for 
+calcium entry into cells and are involved in numerous calcium-dependent processes, 
+
+PAGE263
+Reference List 
+ 
+263 
+ 
+including signalling cascades that regulate cell survival and apoptosis. Similarly, 
+RYR1 and RYR2, which encode ryanodine receptors responsible for calcium release 
+from the sarcoplasmic reticulum (Wang, Yu et al. 2022), were differentially expressed 
+in sarcoma subtypes such as MLS, EMC, spindle cell sarcoma (SpCS), and 
+pleomorphic liposarcoma (pLPS) (Table 4.4). These receptors are key regulators of 
+intracellular calcium homeostasis, and their dysregulation has been linked to altered 
+calcium signalling, genomic instability, and impaired apoptotic pathways, which may 
+contribute to subtype-specific responses to r adiotherapy-induced stress (Wang, Yu 
+et al. 2022). 
+ 
+Further evidence for the role of calcium signalling in radiotherapy responses comes 
+from a study on undifferentiated pleomorphic sarcomas (UPS) (Blomain, Soudi et al. 
+2025). Blomain et al. demonstrated that radiotherapy imposes significant selective 
+pressures on tumour subclones, leading to dynamic changes in their abundance. 
+Specifically, subclones that contracted —meaning their prevalence significantly 
+decreased—were enriched for mutations in calcium signalling pathways, suggesting 
+that disruptions in calcium homeostasis may render these subclones more 
+radiosensitive. These findings provide a compelling link between calcium signalling 
+and the cellular mechanisms that determi ne radiotherapy outcomes. Mutations in 
+genes involved in calcium transport, storage, and signalling likely impair the ability of 
+tumour cells to buffer radiotherapy-induced calcium stress, ultimately leading to their 
+elimination. 
+ 
+Blomain et al . also identified significant upregulation of calcium ATPase genes, 
+including ATP2A1, ATP2A3, ATP2B1, and ATP2B2, in post -radiotherapy samples. 
+Similarly, they also observed the increased expression of CACNA1 and RYR-related 
+genes that I have seen in the LSS cohort. These genes overall play critical roles in 
+exporting calcium ions from the cytoplasm and maintaining intracellular calcium 
+balance. Their upregulation likely reflects a mechanism to mitigate the increased 
+calcium flux and cellular stress caused by radiotherapy. Functional experiments 
+further demonstrated that inhibiting plasma membrane calcium ATPases using 
+Caloxin 2A1 sensitised sarcoma cell lines to radiotherapy.  
+ 
+
+PAGE264
+Reference List 
+ 
+264 
+ 
+Taken together, these findings emphasise the role of calcium signalling, including 
+the function of CASQ1, in mediating cellular responses to radiotherapy. The 
+differential expression of CASQ1, CACNA1E, CACNA2D1, RYR1, and RYR2, 
+combined with the enrichment of calcium signalling mutations in radiotherapy -
+sensitive subclones, highlights how sarcoma subtypes adapt to the unique stress 
+conditions imposed by radiotherapy. These findings suggest that targeting calcium 
+signalling pathways, either through modulatio n of calcium transport or inhibition of 
+adaptive responses, could enhance radiosensitivity and improve therapeutic 
+outcomes. 
+ 
+6.2.4.2 Transgelin (TAGLN) and vascular remodelling  
+TAGLN (transgelin), also known as SM22α, is a cytoskeletal protein predominantly 
+involved in actin filament stabilisation, with emerging roles in angiogenesis and 
+endothelial cell dynamics. In this study, TAGLN was found to be upregulated in 
+myxoid liposarcoma (MLS) but downregulated in extraskeletal myxoid 
+chondrosarcoma (EMC) and pleomorphic leiomyosarcoma (pLMS) following 
+radiotherapy. Such differential expression suggests that TAGLN may contribute to 
+the varying vascular responses across sarcoma subtype s under radiotherapy -
+induced stress. 
+ 
+TAGLN plays a critical role in endothelial cell elongation, a key process in 
+angiogenesis. Under angiogenic stimuli such as VEGF, TAGLN expression supports 
+endothelial sprouting and vessel morphogenesis. Conversely, its disruption 
+enhances angiogenic behaviours like excessive cord -like structure formation, 
+indicating that TAGLN can act as a regulator of endothelial elongation depending on 
+the cellular context (Tsuji-Tamura, Morino-Koga et al. 2021).  
+ 
+Radiotherapy-induced vascular remodelling involves complex processes, including 
+changes in angiogenesis, immune infiltration, and extracellular matrix (ECM) 
+composition (Ahmed, Malachowska  et al.  2025) (see section 6.2.2.3). The 
+downregulation of TAGLN in EMC and pLMS may reflect a shift towards greater 
+endothelial plasticity, facilitating angiogenic remodelling and vessel sprouting in 
+
+PAGE265
+Reference List 
+ 
+265 
+ 
+response to vascular damage. In contrast, its upregulation in MLS could indicate an 
+effort to stabilise endothelial structures and counteract radiotherapy-induced stress. 
+The biology behind the unique “chicken -wire” vascular pattern commonly observed 
+in MLS may also influence its reliance on TAGLN to maintain vascular integrity post-
+radiotherapy. 
+ 
+ 
+Radiotherapy has been shown to induce significant vascular damage, including 
+endothelial cell death, reduced perfusion, and increased tumour hypoxia. High-dose 
+radiation can lead to endothelial apoptosis, impairing vascular support and 
+contributing to tumo ur control  (Park, Griffin  et al.  2012). However, the extent of 
+vascular damage varies across tumour types, with some restoring perfusion through 
+angiogenesis while others experience vascular collapse. TAGLN’s differential 
+expression may mirror these processes, with MLS favouring stabilisation 
+mechanisms through increased TAGLN, while EMC and pLMS adapt by employing 
+alternative angiogenic pathways that are less dependent on TAGLN. 
+ 
+These findings are consistent with evidence suggesting that radiotherapy -induced 
+tissue regeneration involves molecular pathways such as Wnt and p53 signalling, 
+which regulate cytoskeletal and vascular dynamics (Ahmed, Malachowska  et al.  
+2025). TAGLN-mediated cytoskeletal remodelling may interact with these pathways, 
+influencing how tumour microenvironments respond to radiotherapy. The differential 
+expression of TAGLN across sarcoma subtypes stresses the role of tumour-specific 
+vascular remodelling in determining radiotherapy outcomes. 
+ 
+ 
+6.2.4.3 Summary 
+The limited overlap of differentially expressed genes across sarcoma subtypes, as 
+shown in the Upset plot (Figure 4.8) demonstrates the complexity and heterogeneity 
+of transcriptomic responses to radiotherapy. While certain subtypes, such as MFS 
+and MLS, exhibit the greatest gene overlap, their overall transcriptional responses 
+remain largely distinct, highlighting the necessity for therapeutic approaches tailored 
+
+PAGE266
+Reference List 
+ 
+266 
+ 
+to each subtype's unique biology. This complexity is further illustrated by the 
+coexistence of shared vulnerabilities  — such as the consistent suppression of 
+haemoglobin-related genes and the upregulation of tissue remodelling pathways like 
+F13A1 — and unique adaptations, including subtype -specific alterations in calcium 
+signalling and cytoskeletal dynamics. 
+ 
+Future research should prioritise functional studies to unravel the roles of these 
+genes in mediating radiotherapy outcomes. Investigating whether shared pathways, 
+such as F13A1 -mediated ECM remodelling, can be targeted to enhance treatment 
+efficacy or whe ther subtype -specific adaptations, such as CASQ1 -driven calcium 
+signalling, provide exploitable vulnerabilities will be key to advancing precision 
+medicine for sarcomas. Additionally, integrating spatial and single-cell transcriptomic 
+techniques will be cr itical for mapping the cellular origins of these changes and 
+understanding their interactions with the tumour microenvironment.  
+ 
+ 
+6.2.5 Pathway enrichment analysis highlights immune activation post-
+radiotherapy 
+The findings from this study strongly suggest that radiotherapy stimulates immune 
+activation, a phenomenon well -documented in the literature (Deloch, Derer  et al. 
+2016, Rückert, Flohr et al. 2021). Radiotherapy not only induces direct DNA damage 
+to tumour cells but also initiates secondary effects that modify the tumour 
+microenvironment, thereby promoting immunogenic cell death (ICD). ICD is 
+characterised by the release of damage -associated molecul ar patterns (DAMPs) 
+such as calreticulin, HMGB1, and ATP, which enhance the recruitment and activation 
+of antigen-presenting cells (APCs) like dendritic cells. This process facilitates T -cell 
+priming and subsequent systemic anti-tumour immune responses. 
+ 
+One of the most intriguing immune-mediated effects of radiotherapy is the abscopal 
+effect, where irradiation of a local tumour site results in tumour regression at distant, 
+untreated sites. This phenomenon is believed to occur due to radiation -induced 
+immune activation, which enhances systemic anti -tumour immunity . Although the 
+
+PAGE292
+Reference List 
+ 
+292 
+ 
+Su, Y.-H., Y.-Z. Wu, D. K. Ann, J. L.-Y. Chen and C.-Y. Kuo (2023). "Obesity promotes 
+radioresistance through SERPINE1-mediated aggressiveness and DNA repair of triple-
+negative breast cancer." Cell Death & Disease 14(1): 53. 
+Sun, C., A. Chu, R. Song, S. Liu, T. Chai, X. Wang and Z. Liu (2023). "PARP inhibitors 
+combined with radiotherapy: are we ready?" Frontiers in Pharmacology 14: 1234973. 
+TCGA, T. (2017). "Comprehensive and Integrated Genomic Characterization of Adult 
+Soft Tissue Sarcomas." Cell 171(4): 950-965.e928. 
+The Gene Ontology Consortium (2018). "The Gene Ontology Resource: 20 years and 
+still GOing strong." Nucleic Acids Research 47(D1): D330-D338. 
+Thway, K. (2019). Well-differentiated liposarcoma and dedifferentiated liposarcoma: an 
+updated review. Seminars in diagnostic pathology, Elsevier. 
+Thway, K., J. Wang, T. Mubako and C. Fisher (2014). "Histopathological diagnostic 
+discrepancies in soft tissue tumours referred to a specialist centre: reassessment in the 
+era of ancillary molecular diagnosis." Sarcoma 2014(1): 686902. 
+Tibshirani, R. (2018). "Regression Shrinkage and Selection Via the Lasso." Journal of 
+the Royal Statistical Society: Series B (Methodological) 58(1): 267-288. 
+Tjalma, W., T. Van Waes, L. Van den Eeden and J. Bogers (2005). "Role of human 
+papillomavirus in the carcinogenesis of squamous cell carcinoma and adenocarcinoma 
+of the cervix." Best practice & research Clinical obstetrics & gynaecology 19(4): 469-
+483. 
+Trojani, M., G. Contesso, J. M. Coindre, J. Rouesse, N. B. Bui, A. de Mascarel, . . . C. 
+Lagarde (1984). "Soft-tissue sarcomas of adults; study of pathological prognostic 
+variables and definition of a histopathological grading system." Int J Cancer 33(1): 37-
+42. 
+Tromp, J., L. M. Boerman, I. E. Sama, S. Maass, J. H. Maduro, Y. M. Hummel, . . . P. 
+van der Meer (2020). "Long-term survivors of early breast cancer treated with 
+chemotherapy are characterized by a pro-inflammatory biomarker profile compared to 
+matched controls." Eur J Heart Fail 22(7): 1239-1246. 
+Tsuji-Tamura, K., S. Morino-Koga, S. Suzuki and M. Ogawa (2021). "The canonical 
+smooth muscle cell marker TAGLN is present in endothelial cells and is involved in 
+angiogenesis." Journal of cell science 134(15): jcs254920. 
+Turc-Carel, C., P. Dal Cin, J. Limon, F. Li and A. A. Sandberg (1986). "Translocation X; 
+18 in synovial sarcoma." Cancer Genetics and Cytogenetics 23(1): 93-93. 
+Van Loo, P., S. H. Nordgard, O. C. Lingjærde, H. G. Russnes, I. H. Rye, W. Sun, . . . B. 
+Naume (2010). "Allele-specific copy number analysis of tumors." Proceedings of the 
+National Academy of Sciences 107(39): 16910-16915. 
+Van Loo, P., S. H. Nordgard, O. C. Lingjærde, H. G. Russnes, I. H. Rye, W. Sun, . . . V. 
+N. Kristensen (2010). "Allele-specific copy number analysis of tumors." Proc Natl Acad 
+Sci U S A 107(39): 16910-16915. 

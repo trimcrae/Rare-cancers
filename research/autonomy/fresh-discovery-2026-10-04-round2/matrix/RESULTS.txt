@@ -1,0 +1,35 @@
+Matrix biosynthesis pilot — 2026-10-04
+
+LEAD DECISION: SHELVE THE STANDALONE PAPER.
+No manuscript or disease-level mechanistic claim is advanced. The independent clinical worker reproduced the source extraction and calculations in 594 checks, including all 396 RNA contrasts, and separately recommended shelving for scientific value. Its receipt is ../clinical/matrix-independent-challenge.json with reproduction script ../clinical/review_matrix.py. This is a completed bounded pilot, not evidence that all matrix biology has been exhausted.
+
+Question and contribution sought
+The frozen PLAN asked whether EMC has an unreported, coherent glycosaminoglycan biosynthetic RNA program distinct from other myxoid sarcomas and retained in authentic cultures. Chondroitin-rich extracellular matrix and high versican were already established; their rediscovery would not change what an EMC researcher believes. A reproducible enzyme-level change could have suggested a specific biochemical experiment, but RNA alone cannot establish glycan composition, activity, cellular localization, dependency or a therapeutic opportunity.
+
+Actual analysis
+The 44-enzyme panel was fixed from KEGG hsa00532 and hsa00534 plus HAS1/2/3 and FAM20B before reading expression values. Fifteen proteoglycan-core genes and twenty composition controls brought the extracted panel to 79 genes. All source values, metadata, chosen contrasts, five candidate allocations and remaining 39 enzyme results are retained. The primary contrast used nine EMC primary specimens with the existing nonoverlap labels, against 14 myxoid liposarcomas, 13 low-grade fibromyxoid sarcomas and 60 primary myxofibrosarcomas. All twelve primary EMC specimens and all thirteen EMC specimens are mandatory sensitivity analyses, not silently omitted observations. These labels do not establish independence from older cohorts.
+
+Five enzymes met the prospective RNA pilot allocation rule: DSEL, DSE, CHSY3 and HAS2 were lower; HS3ST5 was higher. The primary EMC median HS3ST5 was 2.93 TPM versus 0.01, 0.03 and 0.04 TPM in the three comparator groups, respectively. Its effect direction persisted in the all-EMC sensitivities. DSE's same-year comparison against myxoid liposarcoma attenuated to A=0.5, demonstrating a material comparator/batch limitation. Allocation was an exploratory screen, not independent validation.
+
+Before examining array expression, AMENDMENT-01 fixed annotation and validation choices. Original Entrez IDs separate HS3ST5 from the historically ambiguous HS3ST6 synonym and CHSY3 from CHPF2. All six EMC array specimens and both available myxoid comparators were included. None of the five allocated genes met the frozen second-assay rule: BH q was 0.386905 for DSEL and DSE, 0.075758 for HS3ST5, 0.162338 for CHSY3 and 0.811535 for HAS2. HS3ST5 retained favorable tumor-comparator ordering (A=0.931 against LGFMS and 0.917 against MFS), but normal-muscle pools were higher than EMC (A=0.25). Failure of this prospective allocation criterion is not proof of absent biology or of false individual effects.
+
+The published twelve-specimen PeerJ matrix and both available ARCHS4 authentic-culture libraries were evaluated for every panel gene available. PeerJ HS3ST5 was heterogeneous; DSEL/HAS2 were absent from its filtered export, not proven biologically absent. V1-34 and USZ22 differed strongly: HS3ST5 reported-count CPM was 2.0836 and 0; HAS2 was 184.78 and 0.06962. There is one library per culture here, no matched tissue-culture comparison and no proven independent donor series. CPM is not TPM. Duplicate DSEL source rows were preserved separately, not added or cherry-picked. These measurements do not support a common tumor-cell program.
+
+Why shelve
+Validity: the RNA contrasts are reproducible descriptive observations, with retained favorable and unfavorable measurements. Value: no coherent new EMC mechanism or independently supported consequential enzyme program was demonstrated beyond known matrix phenotype. Sparse comparison groups, unresolved cohort overlap, normal-tissue context and culture discordance prevent rescuing a paper by choosing the most favorable single gene. No hypothesis invented here is treated as an important published claim falsified by the null pilot.
+
+Coverage and reopening
+Coverage is incomplete, explicitly preserved in COVERAGE.json. In particular, USZ23 transcript mapping, older public EMC tumor arrays and full raw PeerJ quantification have not been evaluated for this claim; these remain pending accessible analyses, not unsuitable or negative measurements. With the candidate shelved, further work is not required to promote it, because no promotion is proposed. Reopening would require new evidence of a specific, useful biochemical or cell-localized EMC program, with correctly mapped measurements and all relevant accessible EMC evidence evaluated. A smaller q value alone would not establish usefulness.
+
+Reproduction
+Run analyze_matrix.py then validate_matrix.py using the existing installed Python, numpy/scipy/openpyxl and the pinned repository inputs. PLAN.json, AMENDMENT-01-array.json, pathway-source-receipts.json and alias-receipts.json preserve prospective choices and source identities. tissue-results.json and validation-results.json retain inputs' hashes, all eligible source measurements and calculations. enzyme-summary.tsv is a compact view, not the evidence boundary.
+
+Primary prior art
+https://doi.org/10.1038/modpathol.3800036 — fourteen specimens, generally nonchondrocytic matrix phenotype with exceptions.
+https://pubmed.ncbi.nlm.nih.gov/18315599/ — comparative myxoid-tumor glycosaminoglycan histochemistry already reports EMC chondroitin-4/6-sulfate predominance.
+https://pmc.ncbi.nlm.nih.gov/articles/PMC4429309/ — original EMC expression and protein study, including known CSPG2/versican signal.
+https://pubmed.ncbi.nlm.nih.gov/3522393/ — nine-case historical glycosaminoglycan study.
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369 — original array series; original platform annotation retained in the referenced source archive.
+https://doi.org/10.7717/peerj.21497 — twelve processed EMC TempO-Seq specimens; no prognostic inference made here.
+Independent interpretation note
+The normal-muscle observation limits any broad tumor-specificity interpretation; it does not refute the narrower comparison between measured myxoid sarcoma histologies. No such broad specificity claim is made. The review confirms numerical reproduction, not independent donor authentication or new experimental validation.

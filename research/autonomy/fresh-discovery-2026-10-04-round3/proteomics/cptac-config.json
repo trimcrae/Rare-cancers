@@ -1,0 +1,209 @@
+{
+  "HOME_URL":"https://wiki.cancerimagingarchive.net/display/Public/CPTAC+Imaging+Proteomics",
+  "TITLE": "TCIA CPTAC Pathology Portal",
+  "HEIGHT_OF_VIS_HEADER": 30,
+  "MARGIN_OF_VIS": [10, 10],
+  "UNIT_OF_GRID_VIEW": [224,200],
+  "MARGIN_OF_GRID_VIEW": [10, 10],
+  "DATA_RESOURCE_URL":"https://pathdb.cancerimagingarchive.net/system/files/collectionmetadata/202407/cptac_metadata_07-09-2024.csv",
+  "DATA_FORMAT":"csv",
+  "VISUALIZATION_VIEW_CONFIGURATION": [
+    {
+      "id":"cptac_data_table",
+      "title": "CPTAC Data Table",
+      "description": "Showing CPTAC Metadata",
+      "chartType": "VIS_DATA_TABLE",
+      "fields":[
+        {
+          "dataKey":"Case_ID",
+          "label":"Case_ID"
+        },{
+          "dataKey":"Specimen_ID",
+          "label":"Specimen_ID"
+        },{
+          "dataKey":"Slide_ID",
+          "label":"Slide_ID",
+          "link":{
+            "url":"https://pathdb.cancerimagingarchive.net/caMicroscope/apps/mini/viewer.html?mode=pathdb&slideid=",
+            "field":"Pathology"
+          }
+        },{
+          "dataKey":"Embedding_Medium",
+          "label":"Embedding Medium"
+        },{
+          "dataKey":"Radiology",
+          "label":"Radiology",
+          "link":{
+            "url":"https://nbia.cancerimagingarchive.net/nbia-search/?PatientCriteria=",
+            "field":"Radiology"
+          }
+        },{
+          "dataKey":"Genomics",
+          "label":"Genomics",
+          "link":{
+            "url":"",
+            "field":"GDC_Link"
+          }
+        },{
+          "dataKey":"Proteomics",
+          "label":"Proteomics",
+          "link":{
+            "url":"",
+            "field":"PDC_Link"
+          }
+        },{
+          "dataKey":"Tumor",
+          "label":"Tumor"
+        },{
+          "dataKey":"Disease_Type",
+          "label":"Disease Type"
+        },{
+          "dataKey":"Topographic_Site",
+          "label":"Topographic Site"
+        },{
+          "dataKey":"Specimen_Type",
+          "label":"Specimen Type"
+        },{
+          "dataKey":"Weight",
+          "label":"Weight"
+        },{
+          "dataKey":"Tumor_Site",
+          "label":"Tumor Site"
+        },{
+          "dataKey":"Tumor_Histological_Type",
+          "label":"Tumor Histological Type"
+        },{
+          "dataKey":"Tumor_Segment_Acceptable",
+          "label":"Tumor Segment Acceptable"
+        },{
+          "dataKey":"Percent_Tumor_Nuclei",
+          "label":"Percent Tumor Nuclei"
+        },{
+          "dataKey":"Percent_Total_Cellularity",
+          "label":"Percent Total Cellularity"
+        },{
+          "dataKey":"Percent_Necrosis",
+          "label":"Percent Necrosis"
+        },{
+          "dataKey":"Normal_Segment_Free_of_Tumor",
+          "label":"Normal Segment Free of Tumor"
+        },{
+          "dataKey":"Gender",
+          "label":"Gender"
+        },{
+          "dataKey":"Age",
+          "label":"Age"
+        },{
+          "dataKey":"Ethnicity",
+          "label":"Ethnicity"
+        },{
+          "dataKey":"Race",
+          "label":"Race"
+        },{
+          "dataKey":"Vital_Status",
+          "label":"Vital Status"
+        }],
+      "size": [9, 2],
+      "priority": 70
+    },
+    {
+      "id": "Tumor",
+      "title": "Tumor",
+      "description": "Showing the type of collection in Tumor",
+      "chartType": "HORIZONTAL_BAR_CHART",
+      "fields":{"y":"Tumor"},
+      "size": [2, 2],
+      "priority": 50
+    },
+    {
+      "id": "HasRadiology",
+      "title": "Has Radiology",
+      "description": "Showing if case containes radiology data",
+      "chartType": "HORIZONTAL_BAR_CHART",
+      "fields":{"y":"HasRadiology"},
+      "size": [2, 2],
+      "priority": 50
+    },
+    {
+      "id": "Genomics_Available",
+      "title": "Has Genomics",
+      "description": "Showing if case containes genomic data",
+      "chartType": "HORIZONTAL_BAR_CHART",
+      "fields":{"y":"Genomics_Available"},
+      "size": [2, 2],
+      "priority": 50
+    },
+    {
+      "id": "Proteomics_Available",
+      "title": "Has Proteomics",
+      "description": "Showing if case containes proteomic data",
+      "chartType": "HORIZONTAL_BAR_CHART",
+      "fields":{"y":"Proteomics_Available"},
+      "size": [2, 2],
+      "priority": 50
+    },
+    {
+      "id": "Topographic_Site",
+      "title": "Topographic Site",
+      "description": "Showing the location of cancer type",
+      "chartType": "HORIZONTAL_BAR_CHART",
+      "fields":{"y":"Topographic_Site"},
+      "size": [2, 2],
+      "priority": 50
+    },
+    {
+      "id": "Race",
+      "title": "Race",
+      "description": "Showing the type in Race",
+      "chartType": "HORIZONTAL_BAR_CHART",
+      "fields":{"y":"Race"},
+      "size": [2, 2],
+      "priority": 50
+    },
+    {
+      "id": "Ethnicity",
+      "title": "Ethnicity",
+      "description": "Showing the type in Ethnicity",
+      "chartType": "HORIZONTAL_BAR_CHART",
+      "fields":{"y":"Ethnicity"},
+      "size": [2, 2],
+      "priority": 50
+    },
+    {
+      "id": "Gender",
+      "title": "Gender",
+      "description": "Showing the type in Gender",
+      "chartType": "HORIZONTAL_BAR_CHART",
+      "fields":{"y":"Gender"},
+      "size": [2, 2],
+      "priority": 50
+    },
+    {
+      "id": "Embedding_Medium",
+      "title": "Embedding Medium",
+      "description": "Showing the medium fixing type",
+      "chartType": "HORIZONTAL_BAR_CHART",
+      "fields":{"y":"Embedding_Medium"},
+      "size": [2, 2],
+      "priority": 50
+    },
+    {
+      "id": "Disease_Type",
+      "title": "Disease Type",
+      "description": "Showing the type of cancer disease",
+      "chartType": "HORIZONTAL_BAR_CHART",
+      "fields":{"y":"Disease_Type"},
+      "size": [2, 2],
+      "priority": 50
+    },
+    {
+      "id": "Vital_Status",
+      "title": "Vital Status",
+      "description": "Vital Status of case",
+      "chartType": "HORIZONTAL_BAR_CHART",
+      "fields":{"y":"Vital_Status"},
+      "size": [2, 2],
+      "priority": 50
+    }
+  ]
+}

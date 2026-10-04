@@ -1,0 +1,205 @@
+{
+  "utc": "2026-10-04T19:19:15.637283+00:00",
+  "scope": "published observation evaluation; no inferential pooling or new biomarker claim",
+  "tables": {
+    "localized2020": [
+      {
+        "id": "ijms-21-04483-t001",
+        "rows": [
+          [
+            "3",
+            "63.1/M",
+            "ExMC (unknown)",
+            "588",
+            "Rad (Adj)",
+            "No",
+            "NED",
+            "Yes",
+            "1 (4).",
+            "ddPCR (1)",
+            "No (0)",
+            "/"
+          ]
+        ]
+      },
+      {
+        "id": "ijms-21-04483-t003",
+        "rows": [
+          [
+            "3",
+            "VWDE",
+            "7:12384078",
+            "-",
+            "T>C",
+            "Cys1302Arg",
+            "42%",
+            "D",
+            "N"
+          ]
+        ]
+      }
+    ],
+    "eastley2018": [
+      {
+        "id": "T1",
+        "rows": [
+          [
+            "4",
+            "M",
+            "86",
+            "Soft Tissue Chondrosarcoma",
+            "3",
+            "9.0",
+            "44",
+            "PD",
+            "Y",
+            "n/a",
+            "03/10/2013",
+            "14/09/2015"
+          ],
+          [
+            "8",
+            "F",
+            "72",
+            "Extra-skeletal myxoid chondrosarcoma",
+            "2",
+            "40.6",
+            "97",
+            "PD",
+            "N",
+            "n/a",
+            "",
+            ""
+          ]
+        ]
+      }
+    ],
+    "structural2020": [
+      {
+        "id": "cancers-12-03627-t001",
+        "rows": [
+          [
+            "M2",
+            "M",
+            "65",
+            "Extraskeletal myxoid chondrosarcoma",
+            "MEAF6-PHF1",
+            "11/2018",
+            "Chest wall",
+            "Lung",
+            "Radiotherapy",
+            "3 months"
+          ]
+        ]
+      }
+    ],
+    "dr62012": [
+      {
+        "id": "pone-0036525-t002",
+        "rows": [
+          [
+            "Extraskeletal myxoid chondrosarcoma",
+            "2",
+            "1"
+          ]
+        ]
+      }
+    ],
+    "heinhuis2020": [
+      {
+        "id": "cancers-12-01372-t002",
+        "rows": [
+          [
+            "Extraskeletal chondrosarcoma",
+            "1",
+            "1",
+            "0"
+          ]
+        ]
+      }
+    ]
+  },
+  "source_hashes": {
+    "localized2020.xml": "3dc9648cd22ba292ba5341cdc5731779690ca1ee123703f09b48f8db9b3d886e",
+    "eastley2018.xml": "5b9dca6514ff51421d393a6100a4548315fcfab93bde70e6ca26171e51961bf5",
+    "structural2020.xml": "12b879fe11fc98b8712d3d46f8ce06ca7953cc528dfdda45bf8cec15c977bec8",
+    "dr62012.xml": "bd43c6627b72af9347cccf70f127d11dd156fe162d9b18c99464694aade7332a",
+    "heinhuis2020.xml": "b005edbe53cb47066d913d702b38aebe9620fe76c8aeb177c6462cc407566fa6"
+  },
+  "localized_case3_descriptive": {
+    "cfDNA_ng_ml_intraoperative": 15,
+    "cfDNA_ng_ml_first_postoperative": 7.8,
+    "absolute_change_ng_ml": -7.2,
+    "relative_change_percent": -48.0,
+    "ddPCR_donors": 1,
+    "ddPCR_timepoints": {
+      "intraoperative": 1,
+      "postoperative": 4
+    },
+    "reported_detected_timepoints": 0,
+    "followup_months": 30.1,
+    "recurrence": "No",
+    "tumor_volume_cm3": 588,
+    "target": "VWDE Cys1302Arg",
+    "tumor_VAF_percent": 42,
+    "interpretation": "Total cfDNA change is not ctDNA clearance; nondetection in one NED donor cannot estimate recurrence sensitivity or shedding."
+  },
+  "known_linkage_failures": {
+    "eastley2018_donor8": "No matched tumor in donor8, so no verified plasma target-positive opportunity.",
+    "M2": "Author-labelled EMC; MEAF6-PHF1 molecular conflict; no published NR4A3 co-fusion; preserve identity uncertainty. Thesis duplicates same donor.",
+    "Czachor_patient9": "Baseline0.92 with unspecified unit; no subsequent EMC blood observation.",
+    "DR6": "3 EMC in pooled17undifferentiated; no sample-ID linkage to serial41pairs/2thirdsamples.",
+    "Heinhuis": "2generic extraskeletal chondrosarcoma samples, training/evaluation only; no fusion/subtype crosswalk; plateletexpression not plasma tumorDNA.",
+    "AxiSTS": "One molecularly reclassifiedEMC; no patient ID linking to ACTG1/CRP/albumin results;8LMS discovery is notEMC."
+  },
+  "Asano_metadata": {
+    "GPL18941": {
+      "platform": "GPL18941",
+      "n": 42,
+      "histologies": {
+        "patient diagnosis: Breast Cancer": 30,
+        "patient diagnosis: Malignant bone and soft tissue tumor": 12
+      },
+      "hits": [],
+      "characteristics_fields": [
+        "tissue: Serum",
+        "patient diagnosis: Breast Cancer",
+        "gender: uncertain",
+        "tumor stage: uncertain",
+        "age: uncertain"
+      ]
+    },
+    "GPL21263": {
+      "n": 1370,
+      "diagnoses": {
+        "patient diagnosis: Colorectal Cancer": 30,
+        "patient diagnosis: Esophageal Cancer": 30,
+        "patient diagnosis: Gastric Cancer": 30,
+        "patient diagnosis: Glioma": 30,
+        "patient diagnosis: HCC": 30,
+        "patient diagnosis: Lung Cancer": 30,
+        "patient diagnosis: Pancreatic Cancer": 30,
+        "patient diagnosis: Intermediate bone and soft tissue tumor": 144,
+        "patient diagnosis: Malignant bone and soft tissue tumor": 402,
+        "patient diagnosis: Benign bone and soft tissue tumor": 339,
+        "patient diagnosis: Healthy": 275
+      },
+      "hits": [],
+      "fields": [
+        "tissue: Serum",
+        "patient diagnosis: Colorectal Cancer",
+        "gender: uncertain",
+        "tumor stage: uncertain",
+        "age: uncertain"
+      ]
+    }
+  },
+  "Asano_interpretation": "1412metadatarecords examined, no subtype labels; not evidence of zeroEMC. Expression not downloaded/analyzed because identities are unresolved.",
+  "verified_prior_reuse": {
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-microenvironment\\research\\autonomy\\fresh-discovery-2026-10-04-round3\\immune\\subramanian-table-eligibility.json": "6cde36c811be19c8d71569794f2e1997162b9132bb6592edf41d320d9bb5a25d",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-microenvironment\\research\\autonomy\\fresh-discovery-2026-10-04-round3\\immune\\gse213065.txt": "9b9b71ec288279d6cee36f9634860ca190d8afba1c12f3ef35027b6ac8b9cd75",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-microenvironment\\research\\autonomy\\fresh-discovery-2026-10-04-round3\\immune\\COVERAGE.md": "4986ee4d4d3a37ca8bd9cd70bf992caed4cfcc9ec16911f4fe200e0eaff6a8bc",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-microenvironment\\research\\autonomy\\fresh-discovery-2026-10-04-round3\\immune\\RESULTS.md": "54807bb30814112f89a577d937382e77ef9f3058c19285e2440acd6132dbb8a5"
+  },
+  "decision": "SHELVE standalone contribution; no new useful EMC shedding/monitoring finding demonstrated. Pending eligibility/linkage remains visible."
+}

@@ -1,0 +1,14 @@
+2026-10-04 16:09 UTC, before panel values.
+Source clarification: immune contrasts use n6/6 LASSO-Cox-derived low/high risk, NOT directly
+the clinical good/poor prognosis division. Public DataS1 has only12column log2CPM matrix,
+no clinical labels/outcomes or risk scores. Main source specifies standardized gene expression
+with weights PXN1.16,H1FX1.58,TYMS1.0, but no explicit cutoff beyond6/6 split.
+Use published coefficients applied to within-cohort z-scores and lowest6 vs highest6 solely
+as a reconstructed exploratory risk contrast; sample z-score ddof does not affect ordering.
+Record that patient-specific published group labels are unavailable, so this is not verified
+reproduction of Fig3C nor a clinical-prognosis test. Check raw-log scale formula ordering as
+prespecified ambiguity sensitivity; never select formulation for favorable findings.
+Before marker extraction also specify Spearman correlation of raw B panel against PTPRC,
+Tpanel and myeloid panel across all12 independent source specimens. This detects shared
+immune-content covariation without requiring risk labels; correlation is not cell identity.
+If <3 prespecified B genes measured, do not replace panel. Report source assay limitation.

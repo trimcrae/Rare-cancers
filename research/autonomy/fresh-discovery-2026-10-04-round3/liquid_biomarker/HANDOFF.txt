@@ -1,0 +1,25 @@
+2026-10-04. Liquid-biomarker lane: ready for integration after independent review.
+
+Decision: shelve the standalone paper. No new useful finding about EMC shedding or monitoring survives. RESULTS.txt distinguishes the published measurements from this campaign's authentication and descriptive calculation. COVERAGE.txt preserves every identified eligible or ambiguous source, including unresolved broader-study eligibility and inaccessible measurements. The campaign may continue elsewhere; this packet does not claim that discovery is exhausted.
+
+Reopening conditions
+
+1. Authentic patient-level EMC identities linked to serial tumor-specific blood measurements during measured changes in disease, with specimen timing, assay targets, DNA input, positive controls and sample-specific detection limits. A new isolated positive result is insufficient.
+2. The original McConnell M2 pathology or a reported NR4A3 co-fusion/reclassification, before treating its MEAF6-PHF1 plasma result as canonical EMC validation. Retain the author's diagnosis while this remains unresolved.
+3. The complete SICOT 2019 hyaluronic-acid case or a later Czachor patient 9 series with units and clinical linkage. These could enable a new question; their titles or baseline presence alone do not.
+4. An authentic histology/donor crosswalk for Asano serum miRNA, Heinhuis/Pastuszak platelets, DR6 serial sera or the Axi-STS reclassified EMC patient. Accessible values without that crosswalk cannot be assigned to EMC. Any proposed pilot must freeze a consequential question, controls and defeating result before examining new values.
+5. Resolve Tsoi's 'other' cases, full Bui trial eligibility and Anderson's complete table before advancing a claim that depends on complete coverage. These gaps do not justify a manuscript now.
+
+Reproducible work actually performed
+
+Scripts executed: fetch_sources.py, inspect_sources.py, fetch_followup.py, recover_supp.py, inspect_supp.py, fetch_broader.py, fetch_eligibility.py, fetch_rna_supp.py, fetch_final_sources.py, close_eligibility.py, asano_platform_metadata.py, asano_compact_metadata.py, remaining_public.py and evaluate_liquid.py. Original XML/DOCX/XLSX/PDF sources and retrieval receipts are retained. Some final public endpoint requests and source checks were run as inline Python/PowerShell; their original bytes and receipts are retained, and evaluate_liquid.py reproduces the scientific row extraction and arithmetic. Initial metadata/download bounds and HTTP errors remain recorded rather than being overwritten by later success. The failed generic GEO matrix path was resolved using the actual directory listing. Retained metadata hashes explicitly cover prefixes or selected metadata, not an unobserved complete expression file.
+
+The only new numerical calculation was the 48% decrease in already published total cfDNA for one donor; it is explicitly not new tumor biology. No inferential pooling, clinical sensitivity estimate, expression classifier test or invented patient linkage was performed. Main source rows and verified prior-analysis hashes are in evaluation.json. The failed assay-label brief was corrected in the dated amendment without altering the original hypothesis.
+
+Storage and ownership
+
+The original 10 MiB ceiling was increased to 15 MiB by the lead's STORAGE-AMENDMENT-02.json for bounded public follow-up. Use the manifest and freeze receipt for exact bytes and hashes. No source evidence was deleted to meet that limit. The worker wrote only this lane directory; prior packets are unchanged. No UI or browser automation was used, and the standing daily 06:00–10:00 America/New_York restriction remains in force for resumed work.
+
+Git and process status
+
+This worker made no commits, pushes, merges or pull requests. Worktree HEAD is recorded in freeze-receipt.json; this packet is local work pending the lead's integration. All owned retrieval/analysis commands completed. Nothing remains running for this lane. Independent challenge is owned by /root/functional_models in its round3/liquid_review directory; its review receipt will be bound separately by the lead without changing these scientific result files.

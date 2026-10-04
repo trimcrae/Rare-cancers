@@ -1,0 +1,84 @@
+{
+  "status": "PASS",
+  "input_hashes": {
+    "C:\\Projects\\EMC-Research\\research\\autonomy\\atlas-original-array-source-2026-09-06\\original-source-recovery.zip": "855cf60fd09b7206699f7b11053fafb39ceb93209b75ebeae59326cd2e0f66f4",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round3\\dlk1\\dlk1-old-probes.xml": "c0e5aacc2c14ef58f1e35292a75e46f29005d94cc1d7369327a1debdbacfb5f5",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round3\\dlk1\\dlk1-gene.xml": "d82ccf2f643306639181bc0eb94e7ab91552b2934450efd36014f8ff41c61df1",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round3\\dlk1\\USZ23-RefSeq.quant.sf.gz": "d49822e6ca79a18c186b00c4faa4087b8582bbb72c0be218fcea2e997565507f",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round3\\dlk1\\followup-results.json": "799b5958269934e3f49c9475252f0d2ab30305748a3c52dcc03d1e6a06a92373"
+  },
+  "GSE4303_values": {
+    "19963": {
+      "GSM98495": -4.358,
+      "GSM98496": -0.554,
+      "GSM98499": -1.594,
+      "GSM98503": -1.098,
+      "GSM98506": 3.783,
+      "GSM98509": -2.967,
+      "GSM98510": -0.377,
+      "GSM98511": -2.957,
+      "GSM98512": -0.142,
+      "GSM98513": -1.519
+    },
+    "21745": {
+      "GSM98495": -5.285,
+      "GSM98496": -0.433,
+      "GSM98499": null,
+      "GSM98503": -3.041,
+      "GSM98506": 4.045,
+      "GSM98509": null,
+      "GSM98510": null,
+      "GSM98511": -5.73,
+      "GSM98512": -0.053,
+      "GSM98513": -3.821
+    }
+  },
+  "GSE4303_summary": {
+    "19963": {
+      "n": 10,
+      "median": -1.3085,
+      "positive_ids": [
+        "GSM98506"
+      ]
+    },
+    "21745": {
+      "n": 7,
+      "median": -3.041,
+      "positive_ids": [
+        "GSM98506"
+      ]
+    }
+  },
+  "source_mapping": {
+    "gene": "DLK1",
+    "entrez": "8788",
+    "EST_definition": [
+      [
+        "W01204.1",
+        "za59b04.r1 Soares fetal liver spleen 1NFLS Homo sapiens cDNA clone IMAGE:296815 5' similar to gb:U15981 ADRENAL SPECIFIC 30 KD PROTEIN (HUMAN), mRNA sequence"
+      ],
+      [
+        "AA701996.1",
+        "zi70b09.s1 Soares_fetal_liver_spleen_1NFLS_S1 Homo sapiens cDNA clone IMAGE:436121 3' similar to gb:U15981 ADRENAL SPECIFIC 30 KD PROTEIN (HUMAN), mRNA sequence"
+      ]
+    ],
+    "bridge": "U15981 is included in Gene8788 source accessions; EST definitions describe similarity, not this reviewer establishing a unique sequence alignment."
+  },
+  "USZ23_matching_transcripts": [
+    {
+      "Name": "NM_001317172.2",
+      "Length": "4438",
+      "EffectiveLength": "4168.855",
+      "TPM": "0.000000",
+      "NumReads": "0.000"
+    },
+    {
+      "Name": "NM_003836.7",
+      "Length": "4657",
+      "EffectiveLength": "4387.855",
+      "TPM": "0.000000",
+      "NumReads": "0.000"
+    }
+  ],
+  "interpretation": "Both GSE4303 probe candidates have the same single positive specimen, preserved; 3 missing values on probe21745 remain missing. log2(tumor/CRH) cannot establish absolute DLK1 abundance, biological absence or membrane isoform. USZ23 zero transcript estimates are one culture/library, not disease-wide absence."
+}

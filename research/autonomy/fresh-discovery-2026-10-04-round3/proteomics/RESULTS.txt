@@ -1,0 +1,71 @@
+4 October 2026 — round 3 protein biology
+
+DECISION: SHELVE the proposed standalone protein-program paper. No new EMC
+biological finding was demonstrated. The bounded work established source
+eligibility and access limits; it does not establish a negative biological
+result or prove that public EMC protein measurements do not exist.
+
+PanAtlas2025 (DOI10.1016/j.ccell.2025.05.003; PXD054790)
+Evaluated every one of the1172 annotation rows, including43QC and1129nonQC,
+and all53sarcoma rows. None explicitly identifies EMC or an NR4A3/NR4A2 fusion.
+The124literal 'EMC Cohort' keyword hits are all labelled colorectal carcinoma;
+this cohort-name abbreviation is not an EMC disease diagnosis. Those exact
+rows and their disposition are preserved, not dropped by a keyword filter.
+The53labels comprise17osteosarcoma,12leiomyosarcoma,5pleomorphicRMS,
+3malignantfibroushistiocytoma,3solitaryfibroustumor, and the smaller classes
+enumerated exactly in panatlas-eligibility-evaluation.json. Nine generic rows
+remain unresolved: S1103,S1106,S1111,S1115,S1104,S1105,S1107,S1112,S1116.
+These include primary and metastatic records. Do not assume adjacent identifiers
+are independent donors or paired donors. No public pathology/fusion crosswalk
+was recovered from the deposited annotations; two identified institutional
+repository links and publisher supplement attempts returned403. OpenAlex marks
+repository copies OA, so this is access failure, not proof of paywall/absence.
+All1242PRIDEfile records were reviewed; protein-report and raw-spectrum files
+were not downloaded because no authenticated EMC could anchor a comparison.
+
+CPTAC-SAR imaging resource
+The actual linked official CSV contains305slide records mapping to88unique
+case IDs, with no case-level histology conflicts. Every row was evaluated,
+including3extraskeletalosteosarcoma slides fromC3N-03208, which are notEMC.
+No supplied diagnosis names EMC. All305Proteomics_Available fields say
+'In Progress' and every PDC_Link is blank. The public page's300slide summary
+differs from the305CSVrecords; all305were retained rather than silently dropped.
+Generic diagnoses cannot establish impossibility of an unrecognized EMC, but
+this released metadata does not identify an eligible EMC protein dataset.
+
+ProCanFDL2025 (DOI10.1158/2159-8290.CD-24-1488; PMC12409279; PXD056810)
+All1260individual publicCohort1 annotation rows were streamed from the processed
+workbook:1260unique specimen IDs,494Normal and766cancer records. The69sarcoma
+records are20liposarcoma,12osteosarcoma,4Ewing,18leiomyosarcoma,7synovial,
+4rhabdomyosarcoma and4fibrosarcoma. No explicitEMC/diagnosticfusion annotation
+occurs in any row. The extraction decodes shared and inline strings; the prior
+incomplete-row status after vocabulary inspection is now closed. Protein
+columns were parsed structurally and discarded, never screened for positives.
+79,748,672networkbytes were streamed; only compact metadata and receipts remain.
+The worksheet CRC32, full uncompressed SHA256, entry dimensions and all range
+hashes bind this extraction to the released file; no79MBartifact was retained.
+
+Original SupplementaryTable1 separately identifies privateISKScohort11:
+205samples/tumors from180patients,409runs and20subtypes. This is not the public
+Cohort1 release. Its rare-histology mapping remains unavailable; the old2021
+poster reports203samples/178patients and omits rare groups in displays, so
+overlap with the2025cohort is plausible but not authenticated. Do not sum them
+as independent. The whole-compendium labels 'Chondrosarcoma', 'Fibromyxoid
+Sarcoma', 'Other' and 'SarcomaNOS' do not identify EMC by themselves.
+
+Scientific value
+There is no authenticated EMC mass-proteomics contrast here to distinguish a
+tumor-cell program from tissue composition, platform effects or diagnosis.
+No protein-expression differences, dependency, drug sensitivity or clinical
+inference were estimated. A failed source gate is not a publishable challenge
+to an existing EMC biological claim. Older EMC immunohistochemistry and the
+previously evaluated targeted model measurements still exist; this packet
+does not describe those observations as absent or repeat them as discoveries.
+
+Reopen only with specimen-level authenticated EMC metadata linked to measured
+proteins (including a resolved generic case or publicISKSrelease), sufficient
+controls/assay information and a consequential question not already answered
+by the original investigators. Freeze that specific biological hypothesis
+before protein values, evaluate every eligible EMC condition and resolve
+donor/cohort overlap. Unresolved eligible accessible measurements block any
+manuscript advancement; no manuscript is proposed by this packet.

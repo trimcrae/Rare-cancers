@@ -1,0 +1,1643 @@
+{
+  "frozen_utc": "2026-10-04T19:25:16.443135+00:00",
+  "question": "Is appreciable DLK1 gene-level RNA reproducibly present in EMC tissue, and is its pattern consistent enough across assays and authentic models to motivate a specific direct isoform/protein-localization experiment?",
+  "prior_art_gate": "Searches found no explicit EMC DLK1 primary finding. Subramanian2005 full SAM list lacks searched DLK1 identifiers; this is not a negative measurement. Original reports already establish a neural/neuroendocrine expression phenotype in EMC, so that broad phenotype is not new. Filion supplementary tables and Sjogren source completeness remain visible coverage gaps; independence reviewer is searching broader DLK1 cohorts. Proceed with a bounded empirical pilot, not manuscript advancement.",
+  "gene": {
+    "symbol": "DLK1",
+    "entrez": "8788",
+    "aliases": [
+      "FA1",
+      "PREF1",
+      "Pref-1",
+      "preadipocyte factor 1",
+      "fetal antigen 1"
+    ]
+  },
+  "composition_context_genes": [
+    "COL1A1",
+    "ACTA2",
+    "PTPRC",
+    "DES",
+    "MYOD1",
+    "PAX7"
+  ],
+  "primary": {
+    "source": "Hofvander2026 retained TPM matrix",
+    "sample_ids": [
+      "104-92",
+      "11881-19",
+      "168-97",
+      "3371-22",
+      "3372-22",
+      "4716-22",
+      "4840-13",
+      "5149-18",
+      "5241-06",
+      "536-00",
+      "7931-19",
+      "8102-22"
+    ],
+    "n": 12,
+    "unit": "TPM",
+    "operational_abundance_gate": "At least 8/12 primary specimens >=10 TPM AND median >=10 TPM. These are prospective resource-allocation thresholds, not validated biological or target thresholds. A failed gate does not prove no expression.",
+    "independence": "12 specimen labels; patient_group equals sample_id in metadata, not a definitive external donor crosswalk. Do not pool across studies or count historical subset as independent."
+  },
+  "sensitivities": {
+    "historical_no_known_discovery_overlap_ids": [
+      "11881-19",
+      "3371-22",
+      "3372-22",
+      "4716-22",
+      "4840-13",
+      "5149-18",
+      "5241-06",
+      "7931-19",
+      "8102-22"
+    ],
+    "all13_ids": [
+      "104-92",
+      "11881-19",
+      "168-97",
+      "3371-22",
+      "3372-22",
+      "4716-22",
+      "4840-13",
+      "5081-14",
+      "5149-18",
+      "5241-06",
+      "536-00",
+      "7931-19",
+      "8102-22"
+    ],
+    "purpose": "Retain all eligible EMC measurements; historical 9 is a sensitivity, not a new independent cohort. Recurrent specimen 5081-14 shown separately."
+  },
+  "comparisons": {
+    "same_study_primary_ids_by_histology": {
+      "Myxoid liposarcoma": [
+        "1031-14",
+        "2087-93",
+        "2440-01",
+        "2492-91",
+        "2723-11",
+        "3276-03",
+        "351-96",
+        "3531-14",
+        "362-94",
+        "4876-16",
+        "610-14",
+        "6161-13",
+        "7084-14",
+        "7368-16"
+      ],
+      "Low-grade fibromyxoid sarcoma": [
+        "1076-04",
+        "1496-95",
+        "1731-00",
+        "1743-89",
+        "1838-04",
+        "2176-91",
+        "2433-02",
+        "2611-96",
+        "3252-04",
+        "3458-17",
+        "3490-00",
+        "6545-13",
+        "9562-17"
+      ],
+      "Myxofibrosarcoma": [
+        "101-11",
+        "11378-18",
+        "11834-22",
+        "1248-02",
+        "126-11",
+        "1347-93",
+        "1459-02",
+        "1618-90",
+        "1634-04",
+        "1659-94",
+        "1775-03",
+        "1784-05",
+        "1787-94",
+        "1812-02",
+        "1889-94",
+        "1998-91",
+        "211-99",
+        "2203-97",
+        "222-92",
+        "230-03",
+        "2308-01",
+        "2360-93",
+        "2566-11",
+        "2576-00",
+        "2615-08",
+        "270-10",
+        "274-90",
+        "2792-05",
+        "2856-94",
+        "3077-18",
+        "3079-02",
+        "3156-10",
+        "3161-95",
+        "317-93",
+        "3301-16",
+        "3339-93",
+        "3451-01",
+        "3645-15",
+        "3847-10",
+        "3961-02",
+        "4083-04",
+        "4127-15",
+        "4246-05",
+        "4448-05",
+        "4525-08",
+        "4-93",
+        "5061-18",
+        "5715-15",
+        "6063-16",
+        "631-91",
+        "6529-12",
+        "689-01",
+        "7016-16",
+        "7933-17",
+        "7965-19",
+        "8058-15",
+        "81-05",
+        "827-03",
+        "83-91",
+        "8422-14"
+      ],
+      "MPNST": [
+        "10136-17",
+        "1195-97",
+        "2146-18",
+        "2150-02",
+        "232-03",
+        "2367-90",
+        "3491-02",
+        "3511-18",
+        "3532-91",
+        "3666-20",
+        "3810-19",
+        "4052-19",
+        "4113-04",
+        "4318-10",
+        "4675-07",
+        "5552-17",
+        "650-90",
+        "753-92"
+      ],
+      "Rhabdomyosarcoma, embryonal": [
+        "2322-90",
+        "2748-21",
+        "3372-16",
+        "3651-03",
+        "442-14",
+        "4613-09",
+        "5702-19",
+        "6345-10",
+        "6360-14",
+        "775-01",
+        "807-15"
+      ],
+      "Rhabdomyosarcoma, alveolar": [
+        "1089-95",
+        "123-01",
+        "2114-04",
+        "2532-04",
+        "64-93",
+        "825-95",
+        "986-13"
+      ],
+      "Rhabdomyosarcoma, NOS": [
+        "3370-22"
+      ],
+      "Rhabdomyosarcoma, sclerosing": [
+        "4096-04",
+        "8486-18"
+      ],
+      "Lipoma": [
+        "1186-89",
+        "1596-99",
+        "1674-06",
+        "1684-17",
+        "2435-90",
+        "275-99",
+        "2816-91",
+        "2986-93",
+        "3306-90",
+        "469-06",
+        "522-89",
+        "5323-09",
+        "574-11",
+        "6045-09",
+        "612-05",
+        "6879-11",
+        "7052-18",
+        "7321-19",
+        "851-00",
+        "977-89"
+      ],
+      "Hibernoma": [
+        "1331-20",
+        "1771-00",
+        "2777-94",
+        "3000-93",
+        "325-00",
+        "3301-90",
+        "409-06",
+        "423-06",
+        "424-06",
+        "425-06",
+        "426-06",
+        "427-06",
+        "428-06",
+        "5689-08",
+        "6146-12",
+        "743-10"
+      ],
+      "Myxoma Class 1": [
+        "1879-92",
+        "3165-91",
+        "499-20",
+        "541-94",
+        "8751-16"
+      ],
+      "Myxoma Class 2": [
+        "11888-19",
+        "2062-95",
+        "2828-93",
+        "47-94"
+      ],
+      "Schwannoma": [
+        "10051-19",
+        "1744-03",
+        "2285-20",
+        "3168-18",
+        "3186-04",
+        "3521-97",
+        "3674-18",
+        "3675-18",
+        "3892-18",
+        "4101-00",
+        "434-94",
+        "8707-17",
+        "9328-17"
+      ],
+      "Lipoblastoma": [
+        "1263-00",
+        "2870-20",
+        "4194-07",
+        "5608-15",
+        "6163-16",
+        "6335-12",
+        "7352-18"
+      ]
+    },
+    "primary_histologies": [
+      "Myxoid liposarcoma",
+      "Low-grade fibromyxoid sarcoma",
+      "Myxofibrosarcoma"
+    ],
+    "context_histologies": [
+      "MPNST",
+      "Rhabdomyosarcoma, embryonal",
+      "Rhabdomyosarcoma, alveolar",
+      "Rhabdomyosarcoma, NOS",
+      "Rhabdomyosarcoma, sclerosing",
+      "Lipoma",
+      "Hibernoma",
+      "Myxoma Class 1",
+      "Myxoma Class 2",
+      "Schwannoma",
+      "Lipoblastoma"
+    ],
+    "metrics": [
+      "raw values, n, median, range",
+      "A=Pr(EMC>control)+0.5*Pr(tie), descriptive",
+      "2000 resample specimen bootstrap percentile95% intervals for primary median and A, seed41026",
+      "same-sequencing-year A where both groups exist",
+      "leave-one-EMC-out A range"
+    ],
+    "inference": "No confirmatory p-value threshold; one biologically chosen gene, several exploratory contrasts. Enrichment and disease exclusivity are not required for an appreciable RNA phenotype. Bootstrap reflects sampled specimens and cannot repair batch/confounding/overlap."
+  },
+  "cross_assay": {
+    "GSE24369": "All6 EMC, all available LGFMS17/MFS6/desmoid6/SFT5 and2 skeletal-muscle pools. Original RMA log2 signal. Map all unambiguous DLK1/Entrez8788 probes from GPL6244, retain each; median probes only as transparent summary. Direction/heterogeneity descriptive, donor overlap with Hofvander unresolved; no independent replication claim.",
+    "GSE4303": "All10 labelled EMC; audit every platform, probe and channel/reference before contrast. Do not compare different reference pools as common-scale ratios. All suitable accessible EMC values must be evaluated before any claim advancement.",
+    "PeerJ12": "All12 published filtered matrix; absence of DLK1 row is filtered absence, not zero. Raw TempOSeq gene measurement remains pending if absent.",
+    "GSE71119": "Verify source and every eligible EMC condition; metadata-only source pointer not treated as evaluation."
+  },
+  "models": {
+    "V1-34_GSM2113301": "One biological library, two technical SRA runs; archived ARCHS4 rounded estimated counts and CPM using all-row denominator.",
+    "USZ22_GSM6883080": "One authentic TAF15::NR4A3 culture; ARCHS4 CPM descriptive, not TPM.",
+    "USZ23_GSM9037837": "One original RefSeq Salmon quantification; DLK1 transcript mapping must be source-verified; sum mapped TPM, retain all mapped rows. Unknown donor independence from USZ20.",
+    "unavailable_authentic": "USZ20 and NCC-EMC1-C1 public expression not yet recovered; source-verified unavailability must remain visible.",
+    "uncertain_identity": "HEMC-SS is separate context, never proof of EMC expression or absence.",
+    "interpretation": "No formal across-model replicate test. Culture expression may support tumor-intrinsic plausibility but does not locate expression in original tissue. Culture absence prompts source/condition checks; cannot be explained away."
+  },
+  "defeaters": [
+    "Same useful DLK1 EMC finding already published",
+    "Weak or heterogeneous tissue abundance fails operational allocation; do not change threshold",
+    "Probe/reference ambiguity prevents claimed cross-assay result",
+    "Material contrary authentic tissue/model evidence unexplained",
+    "Composition dependence or normal-tissue signal prevents claimed tumor localization",
+    "No worthwhile new biological interpretation beyond an RNA nomination"
+  ],
+  "automatic_followup": "Audit adverse/probe/identity/condition evidence, source-linked published measurements, all eligible EMC and independent challenge. A technical pass is insufficient; explicitly reassess scientific value. Do not replace DLK1 with another gene. No manuscript while suitable accessible EMC remains pending.",
+  "limits": [
+    "RNA does not establish cell-surface or membrane isoform, protein abundance, dependency, therapeutic window or response.",
+    "Expression in other cancers alone does not defeat EMC phenotype value.",
+    "Known RMS/MPNST/normal progenitor expression and sarcoma RNA-protein discordance are material alternatives."
+  ],
+  "metadata_hashes": {
+    "C:\\Projects\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\metadata-manifest.json": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+    "C:\\Projects\\EMC-Research\\research\\autonomy\\atlas-hofvander-validation-2026-09-06\\replication-manifest.json": "41def87dde52663a73ea09a3b52924843d5d20103c7f0523bc03ae842426e0ae"
+  },
+  "all_emc_metadata": [
+    {
+      "sample_id": "104-92",
+      "source_label": "104-92_ESMCS",
+      "s1_row": 189,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2019",
+      "specimen_exception": "",
+      "prior_comment": "MDB 9736:3",
+      "known_overlap": "MDB 9736:3",
+      "source_group": "Hofvander2026",
+      "patient_group": "104-92",
+      "primary_lesion": true,
+      "eligible": false,
+      "role": "EMC",
+      "exclusion_reason": "known_EMC_discovery_overlap"
+    },
+    {
+      "sample_id": "11881-19",
+      "source_label": "11881-19_ESMCS",
+      "s1_row": 190,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2020",
+      "specimen_exception": "",
+      "prior_comment": "",
+      "known_overlap": "",
+      "source_group": "Hofvander2026",
+      "patient_group": "11881-19",
+      "primary_lesion": true,
+      "eligible": true,
+      "role": "EMC",
+      "exclusion_reason": ""
+    },
+    {
+      "sample_id": "168-97",
+      "source_label": "168-97_ESMCS",
+      "s1_row": 191,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2019",
+      "specimen_exception": "",
+      "prior_comment": "MDB 9736:4",
+      "known_overlap": "MDB 9736:4",
+      "source_group": "Hofvander2026",
+      "patient_group": "168-97",
+      "primary_lesion": true,
+      "eligible": false,
+      "role": "EMC",
+      "exclusion_reason": "known_EMC_discovery_overlap"
+    },
+    {
+      "sample_id": "3371-22",
+      "source_label": "3371-22_ESMCS",
+      "s1_row": 192,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2022",
+      "specimen_exception": "",
+      "prior_comment": "",
+      "known_overlap": "",
+      "source_group": "Hofvander2026",
+      "patient_group": "3371-22",
+      "primary_lesion": true,
+      "eligible": true,
+      "role": "EMC",
+      "exclusion_reason": ""
+    },
+    {
+      "sample_id": "3372-22",
+      "source_label": "3372-22_ESMCS",
+      "s1_row": 193,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2022",
+      "specimen_exception": "",
+      "prior_comment": "",
+      "known_overlap": "",
+      "source_group": "Hofvander2026",
+      "patient_group": "3372-22",
+      "primary_lesion": true,
+      "eligible": true,
+      "role": "EMC",
+      "exclusion_reason": ""
+    },
+    {
+      "sample_id": "4716-22",
+      "source_label": "4716-22_ESMCS",
+      "s1_row": 194,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2023",
+      "specimen_exception": "",
+      "prior_comment": "",
+      "known_overlap": "",
+      "source_group": "Hofvander2026",
+      "patient_group": "4716-22",
+      "primary_lesion": true,
+      "eligible": true,
+      "role": "EMC",
+      "exclusion_reason": ""
+    },
+    {
+      "sample_id": "4840-13",
+      "source_label": "4840-13_ESMCS",
+      "s1_row": 195,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2019",
+      "specimen_exception": "",
+      "prior_comment": "",
+      "known_overlap": "",
+      "source_group": "Hofvander2026",
+      "patient_group": "4840-13",
+      "primary_lesion": true,
+      "eligible": true,
+      "role": "EMC",
+      "exclusion_reason": ""
+    },
+    {
+      "sample_id": "5081-14",
+      "source_label": "5081-14_ESMCS",
+      "s1_row": 196,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2019",
+      "specimen_exception": "LR",
+      "prior_comment": "",
+      "known_overlap": "",
+      "source_group": "Hofvander2026",
+      "patient_group": "5081-14",
+      "primary_lesion": false,
+      "eligible": false,
+      "role": "EMC",
+      "exclusion_reason": "nonprimary_or_unspecified_exception"
+    },
+    {
+      "sample_id": "5149-18",
+      "source_label": "5149-18_ESMCS",
+      "s1_row": 197,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2021",
+      "specimen_exception": "",
+      "prior_comment": "",
+      "known_overlap": "",
+      "source_group": "Hofvander2026",
+      "patient_group": "5149-18",
+      "primary_lesion": true,
+      "eligible": true,
+      "role": "EMC",
+      "exclusion_reason": ""
+    },
+    {
+      "sample_id": "5241-06",
+      "source_label": "5241-06_ESMCS",
+      "s1_row": 198,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2019",
+      "specimen_exception": "",
+      "prior_comment": "",
+      "known_overlap": "",
+      "source_group": "Hofvander2026",
+      "patient_group": "5241-06",
+      "primary_lesion": true,
+      "eligible": true,
+      "role": "EMC",
+      "exclusion_reason": ""
+    },
+    {
+      "sample_id": "536-00",
+      "source_label": "536-00_ESMCS",
+      "s1_row": 199,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2019",
+      "specimen_exception": "",
+      "prior_comment": "MDB 9736:7",
+      "known_overlap": "MDB 9736:7",
+      "source_group": "Hofvander2026",
+      "patient_group": "536-00",
+      "primary_lesion": true,
+      "eligible": false,
+      "role": "EMC",
+      "exclusion_reason": "known_EMC_discovery_overlap"
+    },
+    {
+      "sample_id": "7931-19",
+      "source_label": "7931-19_ESMCS",
+      "s1_row": 200,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2023",
+      "specimen_exception": "",
+      "prior_comment": "",
+      "known_overlap": "",
+      "source_group": "Hofvander2026",
+      "patient_group": "7931-19",
+      "primary_lesion": true,
+      "eligible": true,
+      "role": "EMC",
+      "exclusion_reason": ""
+    },
+    {
+      "sample_id": "8102-22",
+      "source_label": "8102-22_ESMCS",
+      "s1_row": 201,
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "revised_diagnosis": "",
+      "deposited_diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "sequencing_year": "2023",
+      "specimen_exception": "",
+      "prior_comment": "",
+      "known_overlap": "",
+      "source_group": "Hofvander2026",
+      "patient_group": "8102-22",
+      "primary_lesion": true,
+      "eligible": true,
+      "role": "EMC",
+      "exclusion_reason": ""
+    }
+  ],
+  "array_metadata": [
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600928",
+      "platform": "GPL6244",
+      "title": "Desmoid fibromatosis 1",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Desmoid fibromatosis tumor"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600928",
+      "diagnosis": "Desmoid",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600929",
+      "platform": "GPL6244",
+      "title": "Desmoid fibromatosis 2",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Desmoid fibromatosis tumor"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600929",
+      "diagnosis": "Desmoid",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600930",
+      "platform": "GPL6244",
+      "title": "Desmoid fibromatosis 3",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Desmoid fibromatosis tumor"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600930",
+      "diagnosis": "Desmoid",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600931",
+      "platform": "GPL6244",
+      "title": "Desmoid fibromatosis 4",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Desmoid fibromatosis tumor"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600931",
+      "diagnosis": "Desmoid",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600932",
+      "platform": "GPL6244",
+      "title": "Desmoid fibromatosis 5",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Desmoid fibromatosis tumor"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600932",
+      "diagnosis": "Desmoid",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600933",
+      "platform": "GPL6244",
+      "title": "Desmoid fibromatosis 6",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Desmoid fibromatosis tumor"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600933",
+      "diagnosis": "Desmoid",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600934",
+      "platform": "GPL6244",
+      "title": "Extraskeletal myxoid chondrosarcoma 1",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Extraskeletal myxoid chondrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600934",
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600935",
+      "platform": "GPL6244",
+      "title": "Extraskeletal myxoid chondrosarcoma 2",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Extraskeletal myxoid chondrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600935",
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600936",
+      "platform": "GPL6244",
+      "title": "Extraskeletal myxoid chondrosarcoma 3",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Extraskeletal myxoid chondrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600936",
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600937",
+      "platform": "GPL6244",
+      "title": "Extraskeletal myxoid chondrosarcoma 4",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Extraskeletal myxoid chondrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600937",
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600938",
+      "platform": "GPL6244",
+      "title": "Extraskeletal myxoid chondrosarcoma 5",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Extraskeletal myxoid chondrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600938",
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600939",
+      "platform": "GPL6244",
+      "title": "Extraskeletal myxoid chondrosarcoma 6",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Extraskeletal myxoid chondrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600939",
+      "diagnosis": "Extraskeletal myxoid chondrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600940",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 1",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600940",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600941",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 2",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600941",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600942",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 3",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600942",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600943",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 4",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600943",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600944",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 5",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600944",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600945",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 6",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600945",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600946",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 7",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600946",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600947",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 8",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600947",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600948",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 9",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600948",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600949",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 10",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600949",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600950",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 11",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600950",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600951",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 12",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600951",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600952",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 13",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600952",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600953",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 14",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600953",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600954",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 15",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600954",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600955",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 16",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600955",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600956",
+      "platform": "GPL6244",
+      "title": "Low-grade fibromyxoid sarcoma 17",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Low-grade fibromyxoid sarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600956",
+      "diagnosis": "Low-grade fibromyxoid sarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600957",
+      "platform": "GPL6244",
+      "title": "Myxofibrosarcoma 1",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Myxofibrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600957",
+      "diagnosis": "Myxofibrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600958",
+      "platform": "GPL6244",
+      "title": "Myxofibrosarcoma 2",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Myxofibrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600958",
+      "diagnosis": "Myxofibrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600959",
+      "platform": "GPL6244",
+      "title": "Myxofibrosarcoma 3",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Myxofibrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600959",
+      "diagnosis": "Myxofibrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600960",
+      "platform": "GPL6244",
+      "title": "Myxofibrosarcoma 4",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Myxofibrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600960",
+      "diagnosis": "Myxofibrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600961",
+      "platform": "GPL6244",
+      "title": "Myxofibrosarcoma 5",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Myxofibrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600961",
+      "diagnosis": "Myxofibrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600962",
+      "platform": "GPL6244",
+      "title": "Myxofibrosarcoma 6",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Myxofibrosarcoma"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600962",
+      "diagnosis": "Myxofibrosarcoma",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600963",
+      "platform": "GPL6244",
+      "title": "Solitary fibrous tumor 1",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Solitary fibrous tumor"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600963",
+      "diagnosis": "Solitary fibrous tumor",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600964",
+      "platform": "GPL6244",
+      "title": "Solitary fibrous tumor 2",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Solitary fibrous tumor"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600964",
+      "diagnosis": "Solitary fibrous tumor",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600965",
+      "platform": "GPL6244",
+      "title": "Solitary fibrous tumor 3",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Solitary fibrous tumor"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600965",
+      "diagnosis": "Solitary fibrous tumor",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600966",
+      "platform": "GPL6244",
+      "title": "Solitary fibrous tumor 4",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Solitary fibrous tumor"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600966",
+      "diagnosis": "Solitary fibrous tumor",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600967",
+      "platform": "GPL6244",
+      "title": "Solitary fibrous tumor 5",
+      "characteristics_ch1": [
+        "sample type: tumor biopsy",
+        "tissue: Solitary fibrous tumor"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600967",
+      "diagnosis": "Solitary fibrous tumor",
+      "unit": "tumor_biopsy",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600968",
+      "platform": "GPL6244",
+      "title": "Skeletal muscle pooled RNA 1",
+      "characteristics_ch1": [
+        "sample type: pooled RNA",
+        "tissue: Skeletal muscle"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600968",
+      "diagnosis": "Skeletal muscle pools",
+      "unit": "pooled_normal_RNA",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    },
+    {
+      "gse": "GSE24369",
+      "gsm": "GSM600969",
+      "platform": "GPL6244",
+      "title": "Skeletal muscle pooled RNA 2",
+      "characteristics_ch1": [
+        "sample type: pooled RNA",
+        "tissue: Skeletal muscle"
+      ],
+      "source_ch1": [
+        "soft tissue"
+      ],
+      "source_ch2": [],
+      "processing": [
+        "Image analysis was perfomed using the GeneChip Operating Software (GCOS, Affymetrix). Background correction, normalization and probe summarization was done with the robust multichip average (RMA) algorithm implemented in the Expression Console software (Affymetrix)."
+      ],
+      "VALUE_definition": [
+        "RMA log2 signal"
+      ],
+      "sample_id": "GSM600969",
+      "diagnosis": "Skeletal muscle pools",
+      "unit": "pooled_normal_RNA",
+      "lesion_stage": "not established",
+      "patient_crosswalk": "not established"
+    }
+  ]
+}

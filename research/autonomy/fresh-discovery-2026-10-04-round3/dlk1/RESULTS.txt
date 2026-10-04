@@ -1,0 +1,35 @@
+DLK1 bounded discovery pilot — 2026-10-04
+
+DECISION: SHELVE the standalone DLK1 paper. No surviving publication-worthy EMC finding is advanced from this pilot. The failed hypothesis was ours, not an established important clinical claim; its failure is not proposed as a negative paper.
+
+The question was whether DLK1 gene-level RNA is appreciably and reproducibly present in EMC tissue, sufficiently to motivate direct isoform/protein-localization work. PLAN.json was frozen at 19:25:16 UTC before expression values, SHA256 3b517dba103da51bd022a19d628a62cef042a189219c317d2cee2f20ba6786d9. The original plan and hypothesis remain unchanged. Disease exclusivity was expressly not required. An operational allocation gate required >=10 TPM in at least 8/12 primary specimens and median >=10 TPM; these were prospective allocation rules, not validated biological or target thresholds.
+
+ACTUAL MEASUREMENTS
+
+Hofvander source: all 13 labelled EMC specimens were evaluated. The 12 primary specimens had median 0.18 TPM (range 0–265.67), with only two >=10 TPM; the frozen gate failed. The 2,000-resample specimen bootstrap median interval was 0.005–1.655 TPM, with known independence/batch limits. Adding the recurrent specimen (0.36 TPM) gives all-13 median 0.25 TPM. The historical nine-specimen subset is a sensitivity, not another cohort. Expression was much lower than primary myxoid liposarcoma and LGFMS in this source (A=.155 and .122); it was similar to MFS (A=.453). Same-year and leave-one-out checks are retained. These comparisons do not establish a diagnostic test or tumor-cell localization.
+
+The two high specimens are preserved, not discarded: 3372-22, 265.67 TPM; 5149-18, 101.37 TPM. Original Supplementary Table S1 labels both as EMC, fusion=yes, without revised diagnosis; distinct age/sex records support two different source patients. A metadata check after the pilot is recorded in high-specimen-original-metadata.json. No fusion-specific, outcome, or posthoc subgroup association was tested. Their low MYOD1/PAX7 and low DES do not support a simple mature/myogenic RNA explanation, but neither these markers nor bulk correlations locate DLK1 in tumor cells or exclude other composition effects. They remain positive observations within a heterogeneous, mostly low-expression set.
+
+GSE24369/GPL6244: every one of six EMC samples and all 36 other source samples were evaluated using the unambiguous DLK1 probe annotation. EMC median RMA log2 signal was 6.774948, versus 8.374044 in 17 LGFMS and 7.7706065 in two skeletal-muscle pools (A=.0196 and 0 respectively). RMA intensity is not a TPM abundance threshold. The study's donor overlap with the later Lund RNA cohort remains unresolved; it is assay corroboration, not proved independent-donor validation.
+
+GSE4303: all source metadata were inspected across seven platforms; all ten labelled EMC specimens occur on GPL3290. The two DLK1 candidate clones were mapped from original EST records through U15981, which is explicitly present in the current DLK1 Gene8788 record. Whole-genome probe sequence specificity was not newly validated. All 20 EMC probe entries were retained: 17 numerical and three missing. Probe 19963 has median -1.3085 log2(tumor/CRH), and probe 21745 has median -3.041 among seven measured specimens; GSM98506 is the single shared above-reference sample. These are relative to the CRH channel, NOT absolute expression or absence. Other reference pools were not pooled for a histology contrast.
+
+Cultures: the ARCHS4 rounded-count matrices give V1-34 two DLK1 estimated counts (0.0490262 CPM) and USZ22 zero. Denominators include all reported rows and technical runs do not become biological replicates. In USZ23's original Salmon file, both currently mapped DLK1 RefSeq transcripts (NM_003836.7 and NM_001317172.2) have zero estimated TPM/reads. The old index and all retired/older transcript identifiers were not exhaustively reconciled, so this is a result for the two mapped rows, not categorical gene absence. No independent model donor count is inferred by pooling USZ23 with USZ20.
+
+PeerJ12: DLK1 is absent from the published filtered matrix. This is neither zero expression nor absence from the underlying assay. Raw measurement remains a pending accessible analysis; it cannot be used as supporting negative evidence.
+
+PRIOR ART AND VALUE
+
+Subramanian2005 (DOI10.1002/path.1792) already established a neural/neuroendocrine expression pattern in EMC. Its original complete SAM-list workbook has no searched DLK1/FA1/PREF1/Entrez8788/RefSeq identifier, but a selected-list no-hit is not expression evidence. Filion2009 main text (PMC4429309) similarly has no DLK1 alias; its unrecovered original S1/S2 tables remain a limitation. Original DLK1 studies in RMS, other sarcoma lines and NF1-associated MPNST establish normal-progenitor context, nonexclusive cancer expression, isoform issues and RNA–protein discordance; none can substitute for EMC evidence. Primary source and unresolved coverage details are in COVERAGE.txt and the independent review packet.
+
+The primary measurement contradicts our proposed broadly appreciable RNA phenotype, rather than merely failing a significance threshold. Neither the older array nor the measured cultures supplies a coherent alternative pre-recorded worthwhile interpretation. Two high tissue observations do not justify a newly invented subtype paper. A target label, narrower wording or additional caveats would not repair scientific value. Expression in other cancers was not itself the reason for shelving.
+
+No DLK1 protein localization, membrane isoform, dependency, efficacy, clinical response or therapeutic window was measured here. No locus imprinting, mature-small-RNA or DLK1-DIO3 regulatory conclusion is drawn. Those are separate biological questions.
+
+REPRODUCIBILITY AND REVIEW
+
+analyze_retained.py produces retained-results.json from the unchanged source files and frozen plan. analyze_followup.py produces followup-results.json. evaluate_identity_priorart.py reconstructs the prior-art/identity decisions; source URLs, exact bytes and hashes are in receipts and result inputs. All raw gene values and unfavorable/inconclusive results are retained.
+
+Independent functional_models review separately reproduced the 12/13 tissue values, allocation gate, bootstrap, all 42 array samples, ARCHS4 denominators, all 20 GSE4303 probe entries, channel orientation and both mapped USZ23 rows. Reviewer agrees with scoped shelving. Review files reside read-only in the sibling functional worktree round3/dlk1_review; the final provenance receipt references them without copying whole sources.
+
+The public evidence record is incomplete in visible ways. No manuscript is advanced, no exhaustive-coverage assertion is made, and no new target was substituted for DLK1.

@@ -1,0 +1,186 @@
+{
+  "status": "pass",
+  "scope": "Offline reproduction of saved numerical outputs, source-cell arithmetic, syntax and JSON integrity. Not a scientific novelty or publication gate.",
+  "python_files_parsed": [
+    "functional\\analyze_ddr.py",
+    "functional\\analyze_mendeley.py",
+    "functional\\evaluate_ev5_auc.py",
+    "functional\\finalize_packet.py",
+    "functional\\inspect_ev5.py",
+    "functional\\inspect_mendeley.py",
+    "functional\\inspect_source_data.py",
+    "functional\\retrieve_2026_supplement.py",
+    "functional\\retrieve_sources.py",
+    "functional\\review_micro_mapping.py",
+    "functional\\verify_ddr.py",
+    "genomics\\analyze_pilot.py",
+    "genomics\\build_manifest.py",
+    "genomics\\challenge_functional_numbers.py",
+    "genomics\\challenge_functional_numbers_expanded.py",
+    "genomics\\challenge_mendeley.py",
+    "genomics\\compare_mendeley.py",
+    "genomics\\fetch_adversarial.py",
+    "genomics\\fetch_details.py",
+    "genomics\\fetch_overlap.py",
+    "genomics\\fetch_pilot.py",
+    "genomics\\inspect_values.py",
+    "lead\\analyze_hla.py",
+    "microenvironment\\bcell_pilot.py",
+    "microenvironment\\fetch_sources.py",
+    "microenvironment\\finalize_packet.py",
+    "microenvironment\\mapping_diagnostic.py",
+    "microenvironment\\raw_probe_count.py",
+    "run_preflight.py",
+    "verify_packet.py"
+  ],
+  "json_files_parsed": [
+    "BASELINE-REVIEW.json",
+    "CAMPAIGN.json",
+    "EVIDENCE-INTEGRATION.json",
+    "functional\\ddr-results.json",
+    "functional\\ev5-auc-evaluation.json",
+    "functional\\ev5-sheets.json",
+    "functional\\ev5-source-receipt.json",
+    "functional\\MANIFEST.json",
+    "functional\\mendeley-analysis.json",
+    "functional\\mendeley-files.json",
+    "functional\\mendeley-state.json",
+    "functional\\mendeley-workbook-cells.json",
+    "functional\\microenvironment-independent-challenge.json",
+    "functional\\planaspaz2023-fig5-sheets.json",
+    "functional\\planaspaz2026-access-followup.json",
+    "functional\\planaspaz2026-crossref.json",
+    "functional\\planaspaz2026-supplement-receipt.json",
+    "functional\\reused-authentic-EMC-two-model-genotype-supplements.json",
+    "functional\\reused-Bangerter-all40-measured-ordinal-and-complete-source-overlap-final.json",
+    "functional\\reused-Iwata-complete221-screen-and24-IC50-literal-measurements-final.json",
+    "functional\\source-receipts.json",
+    "functional\\verification.json",
+    "genomics\\all_nr4a3_alias_sv.json",
+    "genomics\\all_nr4a3_sv.json",
+    "genomics\\analysis_manifest.json",
+    "genomics\\clinical_attributes.json",
+    "genomics\\emc_and_nr4a3_cna.json",
+    "genomics\\emc_and_nr4a3_mutations.json",
+    "genomics\\emc_and_nr4a3_patient_clinical.json",
+    "genomics\\emc_and_nr4a3_sample_clinical.json",
+    "genomics\\emc_and_nr4a3_sv.json",
+    "genomics\\emc_label_records.json",
+    "genomics\\functional-numeric-challenge-expanded.json",
+    "genomics\\functional-numeric-challenge.json",
+    "genomics\\gene_panel_data_gistic.json",
+    "genomics\\gene_panel_data_mutations.json",
+    "genomics\\gene_panels.json",
+    "genomics\\historical_msk2022_emc_clinical.json",
+    "genomics\\historical_msk2022_emc_cna.json",
+    "genomics\\historical_msk2022_emc_labels.json",
+    "genomics\\historical_msk2022_emc_mutations.json",
+    "genomics\\historical_msk2022_emc_sv.json",
+    "genomics\\historical_msk2022_profiles.json",
+    "genomics\\historical_unique_current_lookup.json",
+    "genomics\\mendeley-crosscheck-receipt.json",
+    "genomics\\mendeley-independent-values.json",
+    "genomics\\packet-manifest.json",
+    "genomics\\primary_source_receipt.json",
+    "genomics\\profiles.json",
+    "genomics\\results.json",
+    "genomics\\retrieval_receipts.json",
+    "genomics\\study.json",
+    "lead\\atr-final-methods-access.json",
+    "lead\\hla-results.json",
+    "lead\\msk-clinical-attributes.json",
+    "microenvironment\\bcell-pilot-results.json",
+    "microenvironment\\context-receipts.json",
+    "microenvironment\\dancsok-supplement-extracted.json",
+    "microenvironment\\MANIFEST.json",
+    "microenvironment\\mapping-diagnostic-results.json",
+    "microenvironment\\raw-method-gate.json",
+    "microenvironment\\source-receipts.json",
+    "OWNERSHIP.json",
+    "VERIFICATION-FIRST-ATTEMPT.json",
+    "VERIFICATION-STORAGE.json"
+  ],
+  "checks": [
+    {
+      "script": "genomics\\analyze_pilot.py",
+      "exit_code": 0,
+      "outputs_identical": true,
+      "before": {
+        "genomics\\results.json": "2ca58c9807722c72fa4dc64f925eafc5e009f299416bd1bb25948fbc11fd2307",
+        "genomics\\all_emc_samples.csv": "2b6364310b6606f7ec3d60aebb75e4dc589fafc5535481355f863545701c1c4a",
+        "genomics\\analysis_manifest.json": "8561b438dc64013cbeff3711c9f20eb9b12a0cc3992a9ff7558c80261d4fa517"
+      },
+      "after": {
+        "genomics\\results.json": "2ca58c9807722c72fa4dc64f925eafc5e009f299416bd1bb25948fbc11fd2307",
+        "genomics\\all_emc_samples.csv": "2b6364310b6606f7ec3d60aebb75e4dc589fafc5535481355f863545701c1c4a",
+        "genomics\\analysis_manifest.json": "8561b438dc64013cbeff3711c9f20eb9b12a0cc3992a9ff7558c80261d4fa517"
+      }
+    },
+    {
+      "script": "lead\\analyze_hla.py",
+      "exit_code": 0,
+      "outputs_identical": true,
+      "before": {
+        "lead\\hla-results.json": "d9519d6087a3f7f0aad58e4e38d2b889eda4708e7c01b01946604b0a71d9d27a"
+      },
+      "after": {
+        "lead\\hla-results.json": "d9519d6087a3f7f0aad58e4e38d2b889eda4708e7c01b01946604b0a71d9d27a"
+      }
+    },
+    {
+      "script": "functional\\analyze_ddr.py",
+      "exit_code": 0,
+      "outputs_identical": true,
+      "before": {
+        "functional\\ddr-results.json": "b95058922ec728e1a47dc50f99bb534ae94b6b0098ac557c4c87acce01ccbfd9"
+      },
+      "after": {
+        "functional\\ddr-results.json": "b95058922ec728e1a47dc50f99bb534ae94b6b0098ac557c4c87acce01ccbfd9"
+      }
+    },
+    {
+      "script": "functional\\verify_ddr.py",
+      "exit_code": 0,
+      "outputs_identical": true,
+      "before": {
+        "functional\\verification.json": "a06350e914b07fb8b23635b99b117e18f583285930d7e6e05013f34a080e47ce"
+      },
+      "after": {
+        "functional\\verification.json": "a06350e914b07fb8b23635b99b117e18f583285930d7e6e05013f34a080e47ce"
+      }
+    },
+    {
+      "script": "functional\\analyze_mendeley.py",
+      "exit_code": 0,
+      "outputs_identical": true,
+      "before": {
+        "functional\\mendeley-analysis.json": "9d1030cf7b8a26327e7968a429a540611594c41284872daf5a501f18caaba085"
+      },
+      "after": {
+        "functional\\mendeley-analysis.json": "9d1030cf7b8a26327e7968a429a540611594c41284872daf5a501f18caaba085"
+      }
+    },
+    {
+      "script": "microenvironment\\bcell_pilot.py",
+      "exit_code": 0,
+      "outputs_identical": true,
+      "before": {
+        "microenvironment\\bcell-pilot-results.json": "ec7581c60fb8f81ffd0ee0a4cbbdff8f9e8ae55f3e4118b7d6f4dead2b3b2ed7"
+      },
+      "after": {
+        "microenvironment\\bcell-pilot-results.json": "ec7581c60fb8f81ffd0ee0a4cbbdff8f9e8ae55f3e4118b7d6f4dead2b3b2ed7"
+      }
+    },
+    {
+      "script": "functional/review_micro_mapping.py",
+      "exit_code": 0,
+      "outputs_identical": true,
+      "result_sha256": "460bba3b385b469a62e41d2398d1a657feaa8b55f6925bf3e448bcd512585453",
+      "scope": "All twelve diagnostic receipts and independent assay manifest parse; no raw streams."
+    }
+  ],
+  "network_retrieval_or_raw_library_streaming": false,
+  "wrapper_final_sha256": "e37708dd6ded55f54f243a3d8263411afeec81483ebc0abd16ac86e2099b41b9",
+  "wrapper_final_syntax": "pass",
+  "script_count": 7
+}

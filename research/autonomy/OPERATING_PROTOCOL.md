@@ -41,6 +41,52 @@ association, and experimental validation. No wet-lab claim can be established by
    conditions that affect the proposed action. Enforce real budget, access, ownership, and evidence
    constraints. A process fix must remove observed friction and report its measured effect.
 
+## Parallel discovery and lead coordination
+
+**User instruction, 2026-10-04:** scientific discovery campaigns should fan out across independent
+subagents instead of accumulating serial research and detailed tool output in the main thread.
+
+At the start of a campaign or a new evidence round, identify independent scientific questions,
+datasets, analytical approaches and challenges, then dispatch the maximum useful concurrency the
+current runtime supports. Keep one lead responsible for coordination and integration. State the
+actual slot limit and active assignments; do not assume that creating nested agents increases the
+runtime's capacity. Use additional waves when there are more credible questions than available
+slots. Do not manufacture tasks merely to occupy workers.
+
+Give each worker a distinct question, owned output path, relevant evidence and exclusions,
+bounded pilot, stopping rule and decision it could change. Delegate source retrieval, sample
+authentication, analysis and scientific challenge together where they form an independent task.
+Reassign a finished worker to a useful nonduplicative question or an independent challenge while
+credible opportunities remain; do not wait for every lane to finish before dispatching the next.
+Dependencies and shared mutations remain sequential under the coordinator.
+
+The lead should ordinarily coordinate, compare interpretations, resolve cross-lane follow-up and
+integrate evidence rather than repeat workers' searches or perform their independent analyses
+serially. A small lead-owned check is appropriate when it resolves an integration dependency or
+would cost more to delegate. Keep detailed searches, retrieval receipts, logs and intermediate
+tables in each worker's packet. Send concise decision-relevant updates, blockers and final
+evidence paths to the lead; summarize these for the user without copying whole logs into the main
+thread. Scientific uncertainty and coverage gaps must stay visible despite concise reporting.
+
+Before every dispatch or reassignment, reconcile ownership and pass the storage policy, daily
+computer-use restriction, scientific follow-through duty and mandatory public-EMC coverage rule.
+Use separate task-scoped sparse worktrees for writers, reuse existing suitable checkouts and
+verified analyses, and record actual concurrency and integration receipts. Parallel execution
+does not relax sample authentication, independence, review, publication or evidence requirements.
+
+
+## Durable discovery checkpoints
+
+**User instruction, 2026-10-04:** document findings and integrate coherent validated discovery
+checkpoints to `main` as work proceeds, so future sessions reuse established evidence instead of
+rediscovering it. Preserve original hypotheses, unfavorable/inconclusive results, coverage gaps,
+decisions and reopening conditions in a durable index linked to exact analyses and primary sources.
+The coordinator fetches current remote state, preserves concurrent work, runs applicable gates,
+integrates and pushes without force, then verifies and reports the exact remote commit. Local
+files, branches and commits are not proof of remote integration. Record cache-only inputs and
+portability gaps explicitly; do not publish credentials or bulky disposable downloads as evidence.
+This authorizes research checkpoint integration, not manuscript publication or external-record edits.
+
 ## Scientific follow-through and reassessment
 
 **User instruction, 2026-10-04:** follow-up and reevaluation of scientific value are automatic

@@ -1,0 +1,140 @@
+{
+  "source": "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round2\\genomics\\nottley2025-thesis.pdf",
+  "sha256": "984444e2330aa8048a90123a9f2a46a7deb38e039e28d5ef2d35b27ebc0567a9",
+  "source_url": "https://discovery.ucl.ac.uk/id/eprint/10214596/7/Nottley_10214596_Thesis.pdf",
+  "patients": [
+    {
+      "id": 9,
+      "fusion": "EWSR1::NR4A3",
+      "DNA_WES": [
+        "pre_RT"
+      ],
+      "RNA": [
+        "pre_RT",
+        "post_RT"
+      ],
+      "DNA_WGS": [],
+      "NanoSeq": [],
+      "sex": "male",
+      "site": "leg",
+      "outcome_label": "responder"
+    },
+    {
+      "id": 29,
+      "fusion": "TCF12::NR4A3",
+      "DNA_WES": [
+        "pre_RT"
+      ],
+      "RNA": [
+        "pre_RT",
+        "post_RT"
+      ],
+      "DNA_WGS": [],
+      "NanoSeq": [],
+      "sex": "male",
+      "site": "leg",
+      "outcome_label": "responder"
+    }
+  ],
+  "assay_map_source": "Figure2.2 p72; fusions p106; demographics Tables4.1/4.2 pp166-167",
+  "outcome_definition": "p71: no local recurrence or disease-related death during followup; not measured RT shrinkage",
+  "age_range": [
+    56,
+    63
+  ],
+  "age_to_ID_crosswalk": null,
+  "reported_cancer_gene_variants": {
+    "ETV6": 1,
+    "FBXW7": 1
+  },
+  "cancer_gene_variant_source": "Table3.4 p105; alleles, patient and condition crosswalk not supplied here",
+  "high_or_moderate_REVEL_tables_contain_EMC": false,
+  "REVEL_caveat": "Absence from Tables3.1/3.2 does not establish all variants benign or all mutation types evaluated.",
+  "reported_median_TMB_mut_per_Mb": 0.5,
+  "RNA_EMC_DE_genes": 94,
+  "RNA_EMC_unique_DE_genes": 50,
+  "RNA_EMC_shared_DE_genes": 44,
+  "shared_genes_table4_4": [
+    "ANO5",
+    "ASB2",
+    "CA3",
+    "CACNA2D1",
+    "CASQ1",
+    "CCN1",
+    "CDH5",
+    "CDKN1A",
+    "CLEC3B",
+    "CLIC5",
+    "COL4A3",
+    "CRK",
+    "DES",
+    "DMD",
+    "DUSP1",
+    "DYSF",
+    "FILIP1",
+    "FLNC",
+    "FLT1",
+    "HBA2",
+    "HBB",
+    "JPH1",
+    "KLF6",
+    "MDM2",
+    "MYH2",
+    "MYO18B",
+    "MYOM3",
+    "NR4A2",
+    "PADI2",
+    "PAPPA",
+    "PDK4",
+    "PER1",
+    "PLA2G4B",
+    "PRSS12",
+    "PTGDS",
+    "RYR3",
+    "S100A1",
+    "SCN4A",
+    "SNRPD1",
+    "SOX18",
+    "STAC3",
+    "SURF4",
+    "TAGLN",
+    "TYRP1"
+  ],
+  "Figure4_9_EMC_direction": {
+    "up": [
+      "CRK",
+      "CCN1",
+      "PDK4"
+    ],
+    "down": [
+      "CASQ1",
+      "PRSS12",
+      "ANO5",
+      "JPH1",
+      "MYOM3",
+      "TAGLN",
+      "DMD",
+      "SOX18",
+      "HBA2",
+      "HBB"
+    ],
+    "white_near_zero_or_below_display_threshold": [
+      "SERPINE1",
+      "RGS1",
+      "MT1X",
+      "FGF7",
+      "IFIT3",
+      "F13A1",
+      "LOXHD1",
+      "NOTCH4",
+      "WDR62",
+      "ZBTB16",
+      "HBA1"
+    ]
+  },
+  "figure_caveat": "These are already-published subtype contrasts from two paired donors, not individual donor changes. White denotes |log2FC|<1 per caption, not biological absence; no exact effect/uncertainty extracted from colours.",
+  "RNA_readout_limits": "No individual9/29 count or fold-change matrix/accession identified in full thesis or landing page. All-histology GSEA/xCell/PROGENy cannot be assigned to EMC. Biopsy versus postRT resection composition confounds interpretation.",
+  "gene_note": "Table4.4 includes CACNA2D1 in EMC; CACNA1E is SS/MLS there, so do not carry over discussion as an EMC differential gene.",
+  "paired_DNA_donors": 0,
+  "paired_RNA_donors": 2
+}

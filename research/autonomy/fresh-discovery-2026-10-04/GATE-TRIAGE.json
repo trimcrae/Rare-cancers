@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-04T16:36:45.248186+00:00",
+  "normal_gate_exit": 1,
+  "seconds": 162.328,
+  "tracked_files_changed_by_gate": false,
+  "failure_groups": [
+    {
+      "gate": "systems model",
+      "diagnosis": "38 links target files omitted from this temporary text-only sparse checkout; exact paths in systems-check-utf8.log. No full-context systems pass claimed."
+    },
+    {
+      "gate": "EMC systems map",
+      "diagnosis": "Three new packet references explicitly exclude a disputed model but are not registered in that object read_by metadata. Exact paths in emc-map-check-utf8.log. Existing registry left unchanged."
+    },
+    {
+      "gate": "generated deposit artifacts",
+      "diagnosis": "Submission packet and ASO archive inventory report stale under sparse context. Not regenerated because no manuscript/submission change is part of this discovery campaign."
+    }
+  ],
+  "diagnostic_environment_failure": "Initial direct diagnostic calls lacked PYTHONUTF8 and hit Windows cp1252 errors; corrected diagnostic calls supplied UTF8. Original logs preserved. Normal preflight itself used UTF8.",
+  "not_run": [
+    "PREFLIGHT_TESTS=1 pure-logic test suite",
+    "Full publication/scientific gate"
+  ],
+  "passed_scoped_validation": "Seven offline numerical/probe checks; saved biological outputs identical.",
+  "decision": "Preserve verified uncommitted research checkpoint. No new commit, push, main merge, gate weakening or unrelated manuscript/registry repair.",
+  "log_sha256": "c518c434a7f27fa7219d71a1d11d023af455e6983babd0d74273f65f65dd82d8"
+}

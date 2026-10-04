@@ -1,0 +1,90 @@
+Functional-model discovery pilot — 4 October 2026
+
+Decision: SHELVE THE STANDALONE DDR PAPER. No surviving new EMC finding.
+Observations below are original authors' public measurements reanalyzed here.
+They show compound, exposure and endpoint specificity; they do not establish
+an unpublished EMC vulnerability or blanket DDR resistance.
+
+2023 source evaluation
+Original Figure5 and expanded FigureEV5 numerical workbooks recovered. All
+eligible USZ-22_EMC2 curves evaluated:4day oxaliplatin/doxorubicin/trabectedin,
+8day olaparib/niraparib/adavosertib,12day the same inhibitors. All11same-assay
+models retained including UWB1.289 positive control:99curves/748source rows.
+USZ22 is source-authenticated TAF15::NR4A3, sourceHRDscore2, the same culture as
+Bangerter2022. Technical columns are not patients; unlabelled rows stay unlabelled.
+
+Selected source response means, one EMC model:
+Doxorubicin4day:23.69400 at10uM,35.20095 at1uM,56.69872 at0.1uM.
+Trabectedin4day:52.00481 at0.1uM; preceding unlabelled row has no assigned dose.
+Oxaliplatin4day:67.57365 at200uM,93.11509 at100uM.
+Olaparib8day:80.6274/88.8947/98.2498 at20/10/1uM;
+12day:83.04954/88.27718/101.33746 at the same concentrations.
+Niraparib8day:0.5144/65.3247/95.3253 at20/10/1uM;
+12day:0.17747/5.09361/90.47295 at the same concentrations.
+Adavosertib8day:3.6757/56.9031/77.8309 at20/10/1uM;
+12day:0.17442/47.72182/76.37952 at the same concentrations.
+All concentrations/replicates in ddr-results.json. Original figures already show
+these differences. No PARP-class vulnerability, repair defect, clinical window or
+causal time effect follows. EV5H-K combination panels measure REA1/LG1, not EMC;
+all four workbook names and original figure labels resolve reviewer eligibility.
+
+2025 numerical deposit and 2026 publication
+Final discovery refresh located Mendeley10.17632/3fy2pj3cr6.1,28May2025, with the
+2026paper's title/authors. Its description explicitly says Cell Reports Medicine
+submission. It is not assumed numerically identical to final Cancer Letters2026:
+panel numbers differ and final supplementary heatmap includes additional models.
+XLSX115056bytes verified SHA256:
+a3eec1dd81423727283939d394e3a51a8c404e2c377a840ba3ccb5946098ec5f.
+All26sheets screened; every explicitly identified EMC measurement evaluated:
+8dose curves/48dose points/144technical cells,8sourceAUCsummaries,5fiber-condition
+columns including separate controls,3pATR-positive-nuclei summaries,10signature
+counts. All comparators in those six eligible sheet sets were included:48curves/
+288points,48AUCsummaries,30fibercolumns,6pATRmodels and6transcriptmodels.
+
+Counterexample to blanket ATR resistance: USZ23 source response to berzosertib
+averages5.8473 at1uM and0.04968 at10uM versus100mean vehicle control. At1uM,
+camonsertib84.9385,ceralasertib122.9148,elimusertib84.3231,rabusertib126.6417,
+prexasertib115.6126,azenosertib175.1058,adavosertib89.9373 differ substantially.
+All technical ranges and doses remain in mendeley-analysis.json, including high
+dispersion/nonmonotonicity. No IC50 fit or drug-as-donor inference. AUC sourceN=13
+is retained as reported and is not13patients; its exact construction is unresolved.
+
+Fiber measurements also preclude an all-endpoint nonresponse claim. Sheet4D:
+EMC3mean fiber length29.8027DMSO versus16.3460camonsertib,150fibers/condition.
+Separate sheet4E-F:13.9520DMSO,13.8680rabusertib,15.8440adavosertib,150fibers each.
+The differing control baselines cannot be pooled across assays. Physical units,
+dose, exposure and replicate hierarchy remain unknown without methods. This is
+descriptive source evaluation, not proof of target engagement, dependency or a
+therapeutic window. No fiber-level p-value or donorCI was manufactured. pATR source
+summaries2.59/2.86/7.10 are retained; low/zero signature transcript counts do not
+measure a functional HR defect or knockout.
+
+The final2026ten-page supplement was fully inspected as text and rendered pages.
+SupplFig4C includesUSZ23 under all8ATR/CHK1/WEE1agents with the HRDlow group.
+Text alone misses the image-only EMC label. Its transformedAUC legend includes
+negative values; none were digitized. Qualitative heatmap clustering cannot erase
+the compound-specific positive numerical responses. Earlier missing numerical
+source gap is partly resolved by the2025deposit. Remaining gaps: final2026methods,
+deposit-to-final concordance, unlabelled sheets4I(caspase3)/5E(pCHK1) model identity,
+additional possible main-figure EMC conditions andUSZ23vsUSZ20donor independence.
+
+Other prior art and value
+Bangerter40drug/selected two-model combinations and Iwata221screen/24IC50 complete
+prior extractions retained from immutableGit5d2f2e2116, with fresh primary checks.
+Carfilzomib, combinations, brigatinib,panobinostat,romidepsin leads already published.
+No pooled potency/fusion-partner inference across incompatible methods. Gracilla2026
+full text and patentWO2024226662A2 broad embodiments supply no authenticated EMC
+experiment. DisputedHEMCSS/pan-cancer lines cannot substitute for EMC. No important
+existing EMC-specific claim was identified that these source measurements overturn.
+
+This evidence guardrail does not clear the user's new-disease-knowledge bar.
+Reopening requires compatible, authenticated independent EMC measurements or a
+consequential EMC-specific existing claim that complete evidence can challenge.
+Merely obtaining methods, replotting published curves or narrowing a title does
+not create novelty. No standalone manuscript should be drafted.
+
+Verification: analyze_ddr.py extracts2023data; verify_ddr.py independently parses
+rawOOXML and passes99curves/748points. analyze_mendeley.py extracts the2025deposit;
+independent genomic worker parsed rawOOXML for every EMC condition. Arithmetic
+and coverage checks do not establish scientific value. No external record changes,
+outreach, paid resource, manuscript or publication occurred.

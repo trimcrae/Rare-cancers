@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-04T17:56:48.810067+00:00",
+  "normal_preflight_exit_code": 1,
+  "seconds": 85.047,
+  "failed_sections": [
+    "systems model",
+    "EMC systems map",
+    "clinical registry validator",
+    "canonical ASO FASTA reproduction",
+    "submission packet reproduction",
+    "archive manifest reproduction"
+  ],
+  "execution_context": "Temporary sparse checkout of selected text extensions; original sparse scope restored afterward. No tracked changes remain.",
+  "known_scope_limits": [
+    "The selection omitted .mjs, including scripts/validate-registry.mjs. This execution cannot establish that the registry itself is invalid.",
+    "The selection omitted .fasta and binary artifacts. Missing canonical FASTA and artifact pointers can cause drift or missing-file failures.",
+    "Direct section diagnostics were not rerun in this round. Round-one diagnostics are historical evidence, not fresh counts or proof of identical causes.",
+    "Submission-packet and archive-manifest drift remain failed checks; their exact causes were not resolved in this round."
+  ],
+  "decision": "Do not commit. Preserve the failed gate and context; do not repair unrelated manuscript artifacts to force a green discovery checkpoint.",
+  "passed_scope": "The separate scientific checkpoint verifier passed 428 source-binding, integration, syntax, count and independent numerical-review checks.",
+  "not_run": "Full scientific/publication suites; optional pure-logic suites skipped by normal preflight default.",
+  "publication_clearance": false
+}

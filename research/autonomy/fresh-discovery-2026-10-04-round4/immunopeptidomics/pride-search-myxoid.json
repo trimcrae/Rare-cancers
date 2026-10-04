@@ -1,0 +1,232 @@
+[ {
+  "accession" : "PXD053403",
+  "title" : "GPX1 expression promotes stemness and aggressiveness in sarcomas",
+  "projectDescription" : "The sarcomagenic process initiates upon the tumoral transformation of mesenchymal stromal/stem cell (MSCs) or MSC-derived cell types. Experimental evidence also supports that sarcoma evolution is in part driven by the emergence of subpopulations of cancer stem cells (CSCs) after the accumulation of further epigenetic and/or genetic alterations. These CSCs are strongly associated with the evolution of tumors towards more aggressive behaviors. Therefore, the characterization of these subpopulations will contribute to develop more effective therapies against these tumors. With this aim, we used tandem mass spectrometry to the compare the proteome of adherent and CSC-enriched tumorsphere cultures in a tumor progression model of myxoid liposarcoma composed by three cell lines showing increasing aggressiveness after being serially transplanted in mice. In this analysis we found that the expression of the antioxidant enzyme GPX1 increased constantly during the CSC-enrichment process in all the cell lines of the model. Depletion of GPX1 resulted in decreased proliferation, tumorsphere-forming potential and migration capability in vitro and dramatically reduced tumor-formation ability in vivo. Conversely, GPX1 overexpression resulted in increased in vivo tumorigenicity. In agreement with this findings, GPX1 expression in sarcoma patients was associated to advanced tumor stages, more aggressive phenotypes, and a worse prognosis. A proteomic analysis showed that these functional effects were associated with a downregulation of interferon-mediated response, the IL6/JAK/STAT3 axis and the NFκB-mediated signaling in GPX1-silenced cells. Overall, these results suggest that this factor may be a functional marker of aggressive CSCs subpopulations in sarcoma with prognostic and therapeutic implications.",
+  "dataProcessingProtocol" : "The software package Proteome Discoverer 2.1 (Thermo) was used to process the data. The data from both experiments was combined. Two database search engines (SequestHT and Mascot) were used to search MS2 spectra against databases containing entries from human proteins (UniProt accessed on 20160401, 133803 entries) and common contaminants (cRAP). Fixed modifications were TMT tags on peptide N termini/lysine residues (+229.162932 Da) and carbamidomethylation of cysteine residues (+57.02146 Da) while variable modifications were N-terminal acetylation (+42.011 Da), methionine oxidation (+15.99492 Da) and serine, threonine, tyrosine phosphorylation (+79.966 Da). An MS2 spectra assignment false discovery rate (FDR) of less than 1% was achieved by applying the Percolator algorithm. For quantification using the MS3 spectra, a 20 ppm integration tolerance with the most confident centroid integration method was used. To account for differences in sample handling samples were normalized on the total peptide amount. Only MS3 spectra having a minimum average signal to noise (S/N) ratio of 20 were accepted for quantification.   Functional enrichment analysis (FEA) of the upregulated and downregulated (|Log2FC| ≥ 0.5) protein lists were done using the DAVID tool. The following annotation spaces from Gene Ontology (GO) were employed to find genes with annotated enriched terms: GOTERM_BP, and GOTERM_MF. Redundant GO terms were removed and only terms with p-value<0.001 were further used. Finally, terms related to the antioxidant function of GPX1 (terms containing any of the following keywords:  \"oxygen”, \"stress”, \"glutathione”, \"peroxide”, \"antioxidant”, “oxidoreductase”) were plotted.",
+  "sampleProcessingProtocol" : "Monolayer and first- and third-passage tumorsphere cultures were gently harvested without trypsinization, protein extracts were prepared using RIPA buffer. Following reduction, alkylation and trypsin digestion  of the proteins, peptides were labelled with TMT 10plex reagents. Two experiments were combined. In each experiment. TMT-labelled peptides were q combined at equal amounts and an aliquot of each mixture was fractionated by either OFFgel IEF on the basis of isoelectric point or by high pH reversed phase.  The Orbitrap Fusion Tribrid Mass Spectrometer coupled to an Easy-nLC 1000 (Thermo Scientific) was used to analyse fractionated and unfractionated the TMT labeled peptide mixtures. Two µL aliquots were analyzed by loading onto a NanoViper Acclaim pepmap 100 trap column (75 µm 20 mm with 3 µm beads) and desalting with 0.1% formic acid in water (solvent A) with 5 µL before separating on a NanoViper Acclaim pepmap RSLC C18 reverse-phase analytical column (50 µm 250 mm with 2 µm beads). Chromatographic separation was achieved at a flow rate of 0.300 µL/min over 240 min in seven linear steps. The eluting peptides were analyzed in data-dependent mode for both MS2 and MS3 methods. A MS survey scan of 400−1500 m/z was performed in the Orbitrap at a resolution of 120,000 and an AGC target of 4 × 105. The top speed mode was used to select ions for MS2 analysis, requiring charge state 2-7 and dynamic exclusion 40 s with a ±10 ppm window, and monoisotopic precursor selection. During the MS2 analyses, precursors were fragmented by both collision-induced dissociation (CID) at 35% collision energy and b HCD at 30% stepped at 10%. Both fragmentation methods were followed by IonTrap analyses using automatic m/z normal scan range, precursors were isolated in the quadrupole using a width of 1.2, accumulated to an AGC target of 1 × 104 or a maximum injection time of 50ms. The 10 most intense fragments in MS2 spectra were selected for MS3 analysis with the filters mass range 400-1200, precursor exclusion +/- 5 m/z, and TMT isobaric tag loss exclusion. MS3 analysis was performed in the Orbitrap at resolution 60000 from 100-500 m/z, precursors isolated using a 2 m/z isolation window, accumulated to an AGC target of 5 × 104 or a maximum injection time of 120 ms. The MS3 precursor population was isolated using the SPS waveform and then fragmented by HCD, with a normalized collision energy set to 65.",
+  "projectTags" : [ ],
+  "keywords" : [ "Oxidative stress", "Gpx1", "Sarcoma", "Proteomics", "Myxoid liposarcoma", "Cancer stem cells" ],
+  "doi" : "",
+  "otherOmicsLinks" : [ "pride.project:PXD052595" ],
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2025-10-19",
+  "updatedDate" : "2024-06-25",
+  "submissionDate" : "2024-06-25",
+  "downloadCount" : 333,
+  "avgDownloadsPerFile" : 7.2391305,
+  "percentile" : 12,
+  "yearlyDownloads" : [ {
+    "year" : "2025",
+    "count" : 111
+  }, {
+    "year" : "2026",
+    "count" : 222
+  } ],
+  "submitters" : [ "Marybeth Creskey" ],
+  "labPIs" : [ "Jessie Lavoie" ],
+  "affiliations" : [ "Health Canada" ],
+  "instruments" : [ "Orbitrap Fusion" ],
+  "softwares" : [ "Mascot", "Proteome Discoverer" ],
+  "quantificationMethods" : [ "TMT" ],
+  "sampleAttributes" : [ "Homo sapiens (Human)", "multipotent stem cell" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Multipotent stem cell" ],
+  "diseases" : [ ],
+  "references" : [ "Huergo C, Tornín J, Estupiñán O, Díez P, Gallego B, Gao J, Creskey M, Muradia G, González MV, Murillo D, Rey V, Martínez-Cruzado L, Menéndez ST, Rodríguez-Santamaría M, Blanco V, Quirós I, Sáinz RM, Rosu-Myles M, Lavoie JR, Rodríguez R. GPX1 expression promotes stemness and aggressiveness in myxoid liposarcomas. Int J Biol Sci. 2025 21(13):5609-5627--pubMed:41079930--doi: 10.7150/ijbs.105217" ],
+  "experimentTypes" : [ "Bottom-up proteomics" ],
+  "projectFileNames" : [ "20160621_Gauri_13_160627143806.raw", "20160621_Gauri_06.raw", "20160611_Gauri_01-01.msf", "20160621_Gauri_01.raw", "20160713_Gauri_01-02.msf", "20160621_Gauri_15.raw", "20160621_Gauri_19.raw", "20160621_Gauri_02.raw", "20160713_Gauri_01-01.msf", "20160714_Gauri_04.raw", "20160611_Gauri_01.msf", "20160621_Gauri_07.raw", "20160621_Gauri_22.raw", "20160621_Gauri_24.raw", "20160611_Gauri_02.raw", "20160713_Gauri_01-03.msf", "20160713_Gauri_03.raw", "20160621_Gauri_16.raw", "20160621_Gauri_03.raw", "20160621_Gauri_21.raw", "20160714_Gauri_03.raw", "20160621_Gauri_08.raw", "20160621_Gauri_23_160629155239.raw", "20160714_Gauri_07.raw", "20160713_Gauri_01.msf", "20160611_Gauri_01.raw", "20160621_Gauri_12.raw", "20160714_Gauri_02.raw", "20160713_Gauri_01-04.msf", "20160713_Gauri_02.raw", "20160621_Gauri_04.raw", "20160621_Gauri_17.raw", "20160621_Gauri_20.raw", "20160621_Gauri_09.raw", "20160714_Gauri_08.raw", "20160714_Gauri_06.raw", "20160714_Gauri_01.raw", "20160621_Gauri_05.raw", "20160621_Gauri_11.raw", "20160621_Gauri_18.raw", "20160713_Gauri_01.raw", "20160621_Gauri_14.raw", "20160611_Gauri_03.raw", "20160621_Gauri_10.raw", "20160714_Gauri_05.raw", "20160621_Gauri_23.raw" ],
+  "highlights" : {
+    "references" : [ "GPX1 expression promotes stemness and aggressiveness in <em>myxoid</em> liposarcomas. Int J Biol Sci. 2025 21(13):5609-5627--pubMed:41079930--doi: 10.7150/ijbs.105217" ],
+    "keywords" : [ "<em>Myxoid</em> liposarcoma" ],
+    "projectDescription" : [ "With this aim, we used tandem mass spectrometry to the compare the proteome of adherent and CSC-enriched tumorsphere cultures in a tumor progression model of <em>myxoid</em> liposarcoma composed by three cell lines" ]
+  }
+}, {
+  "accession" : "PXD052595",
+  "title" : "Proteomic charaterization of GPX1 depletion in sarcoma models",
+  "projectDescription" : "The sarcomagenic process initiates upon the tumoral transformation of mesenchymal stromal/stem cell (MSCs) or MSC-derived cell types. Experimental evidence also supports that sarcoma evolution is in part driven by the emergence of subpopulations of cancer stem cells (CSCs) after the accumulation of further epigenetic and/or genetic alterations. These CSCs are strongly associated with the evolution of tumors towards more aggressive behaviors. Therefore, the characterization of these subpopulations will contribute to develop more effective therapies against these tumors. With this aim, we used tandem mass spectrometry to the compare the proteome of adherent and CSC-enriched tumorsphere cultures in a tumor progression model of myxoid liposarcoma composed by three cell lines showing increasing aggressiveness after being serially transplanted in mice. In this analysis we found that the expression of the antioxidant enzyme GPX1 increased constantly during the CSC-enrichment process in all the cell lines of the model. Depletion of GPX1 resulted in decreased proliferation, tumorsphere-forming potential and migration capability in vitro and dramatically reduced tumor-formation ability in vivo. Conversely, GPX1 overexpression resulted in increased in vivo tumorigenicity. In agreement with this findings, GPX1 expression in sarcoma patients was associated to advanced tumor stages, more aggressive phenotypes, and a worse prognosis. A proteomic analysis showed that these functional effects were associated with a downregulation of interferon-mediated response, the IL6/JAK/STAT3 axis and the NFκB-mediated signaling in GPX1-silenced cells. Overall, these results suggest that this factor may be a functional marker of aggressive CSCs subpopulations in sarcoma with prognostic and therapeutic implications.",
+  "dataProcessingProtocol" : "The ZenoSWATH runs were processed with DIA-NN v1.8.1 software using the library-free workflow according to the instructions from the authors. Thus, an in silico-predicted spectral library was built using the SwissProt database of human proteins (42,332 entries, including isoforms) and applied for the analysis of the ZenoSWATH runs. The main parameters used in DIA-NN were: 0 missed cleavages; N-terminal Met excision and Cys carbamidomethylation as fixed modifications; 2 to 5 precursor charge range; 350 to 1,500 precursor m/z range; 200 to 1,800 fragment ion m/z range; match-between-runs enabled; neural network classifier: double-pass mode; quantification strategy: robust LC (high precision); and RT-dependent cross-run normalisation. Protein groups were identified and quantified using only proteotypic peptides, and 1% FDR was used for both protein groups and precursors.",
+  "sampleProcessingProtocol" : "Triplicated cultures of Sh-Control and ShGPX1-05 T-5H-FC#1 cells were harvested and processed for protein extraction. For each sample, 50 mg of protein was precipitated with 4 volumes of cold acetone and kept at -20 ⁰C for 2 h, followed by four pellet-washing steps with cold acetone. Samples were centrifuged at 20,000 g for 15 min, and the pellets were air-dried for 10 min and resuspended in RapiGest™ SF solution in 0.2% ammonium bicarbonate. Then, protein samples were incubated for 10 min at 40 ⁰C in agitation (400 rpm) followed by 5 cycles of sonication (90 sec ON/30 sec OFF) on ice. Once the sample solution became transparent, a total of 20 mg/sample was reduced with 5.5 mM DTT for 30 min at 60 ⁰C and alkylated with 12 mM iodoacetamide for 30 min at RT in the dark. Then, proteins were digested with trypsin/LysC (1:40 enzyme:protein ratio) overnight at 37 ⁰C. On the next day, digested samples were acidified with 0.5% TFA and incubated for 1 h at 37 ⁰C. Afterwards, peptide samples were centrifuged at 20,000 g for 10 min at 4 ⁰C and ACN was added to the supernatant, followed by two extra centrifugation steps (20,000 g for 10 min) to remove any debris. For each sample, 400 ng of digested proteins were loaded on Evotips (Evosep) and were analyzed in a hybrid Q-TOF mass spectrometer (ZenoTOF 7600, Sciex, MA/USA) coupled to an Evosep One (Evosep, Odense, Denmark) liquid chromatography system. The peptide digests were separated using the 30 samples per day Evosep program (44 min total run time) with water and ACN, both with 0.1% FA, as solvents A and B, respectively. Column temperature was set at 40 °C. An Optiflow electrospray ion source (Sciex) with a low-micro electrode was used for peptide ionization, applying a voltage of 4500 V and 100 °C. ZenoSWATH data-independent acquisition (DIA) was used as the MS method. This ZenoSWATH method consisted of cycles of one TOF MS scan (350 to 1250 m/z, 50 ms accumulation time) and 85 MS/MS of variable Q1 isolation windows (in the range 349.5 to 1247 m/z, acquired from 230 to 1400 m/z, 20 ms accumulation time, Zeno pulsing activated, dynamic collision energy). Data were acquired with the SciexOS software (Sciex). Automatic calibration at the TOF MS and MS/MS levels was performed after each sample with the X500 ESI Positive Calibration Solution (Sciex) using the calibrant delivery system of the mass spectrometer.",
+  "projectTags" : [ ],
+  "keywords" : [ "Human", "Cscs", "Gpx1", "Sarcoma" ],
+  "doi" : "",
+  "otherOmicsLinks" : [ "pride.project:PXD053403" ],
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2025-10-19",
+  "updatedDate" : "2024-05-27",
+  "submissionDate" : "2024-05-27",
+  "downloadCount" : 199,
+  "avgDownloadsPerFile" : 14.214286,
+  "percentile" : 8,
+  "yearlyDownloads" : [ {
+    "year" : "2025",
+    "count" : 131
+  }, {
+    "year" : "2026",
+    "count" : 68
+  } ],
+  "submitters" : [ "Borja Gallego" ],
+  "labPIs" : [ "René Rodríguez" ],
+  "affiliations" : [ "Sarcomas and Experimental Therapeutics group, Instituto de Investigación Sanitaria del Principado de Asturias (ISPA), Oviedo, Spain" ],
+  "instruments" : [ "ZenoTOF 7600" ],
+  "softwares" : [ "DIA-NN" ],
+  "quantificationMethods" : [ "SWATH MS" ],
+  "sampleAttributes" : [ "cell culture", "Homo sapiens (Human)", "mesenchymal cell", "myxoid liposarcoma" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Cell culture", "Mesenchymal cell" ],
+  "diseases" : [ "Myxoid liposarcoma" ],
+  "references" : [ "Huergo C, Tornín J, Estupiñán O, Díez P, Gallego B, Gao J, Creskey M, Muradia G, González MV, Murillo D, Rey V, Martínez-Cruzado L, Menéndez ST, Rodríguez-Santamaría M, Blanco V, Quirós I, Sáinz RM, Rosu-Myles M, Lavoie JR, Rodríguez R. GPX1 expression promotes stemness and aggressiveness in myxoid liposarcomas. Int J Biol Sci. 2025 21(13):5609-5627--pubMed:41079930--doi: 10.7150/ijbs.105217" ],
+  "experimentTypes" : [ "SWATH MS", "Data-independent acquisition" ],
+  "projectFileNames" : [ "Metadata.tsv", "20231207-09-2023042-06.wiff.scan", "20231207-14-2023042-02.wiff.scan", "20231207-10-2023042-01.wiff", "20231207-13-2023042-08.wiff.scan", "20231207-03-2023042-07.wiff", "20231207-21-2023042-03.wiff", "20231207-14-2023042-02.wiff", "20231207-03-2023042-07.wiff.scan", "20231207-13-2023042-08.wiff", "20231207-10-2023042-01.wiff.scan", "report.unique_genes_matrix.tsv", "20231207-09-2023042-06.wiff", "20231207-21-2023042-03.wiff.scan" ],
+  "highlights" : {
+    "projectDescription" : [ "With this aim, we used tandem mass spectrometry to the compare the proteome of adherent and CSC-enriched tumorsphere cultures in a tumor progression model of <em>myxoid</em> liposarcoma composed by three cell lines" ],
+    "diseases" : [ "<em>Myxoid</em> liposarcoma" ],
+    "references" : [ "GPX1 expression promotes stemness and aggressiveness in <em>myxoid</em> liposarcomas. Int J Biol Sci. 2025 21(13):5609-5627--pubMed:41079930--doi: 10.7150/ijbs.105217" ],
+    "sampleAttributes" : [ "<em>myxoid</em> liposarcoma" ]
+  }
+}, {
+  "accession" : "PXD047503",
+  "title" : "FET fusion oncoproteins enrich SWI/SNF complex subtypes and interaction partners",
+  "projectDescription" : "• Abstract: FET fusion oncoproteins, containing the N-terminal of a FET protein (FUS, EWSR1 and TAF15) together with a DNA-binding transcription factor partner, are characteristic for around 20 different sarcomas and leukemias, including myxoid liposarcoma (MLS) and Ewing sarcoma (EWS). FET oncoproteins interact with all three main subtypes of the SWI/SNF chromatin remodeling complexes cBAF, PBAF and GBAF, resulting in epigenetic changes and oncogenic gene expression patterns. We developed a comprehensive immunoprecipitation (IP) protocol followed by quantitative mass spectrometry (QMS) analysis using a global approach for relative quantification with chemical tandem mass tag (TMT) labels. We employed two immunoprecipitation strategies, by pulling down either all SWI/SNF complexes using BRG1 as a target or FET-FOP-bound SWI/SNF complexes using the fusion oncoproteins FUS-DDIT3 or EWSR1-FLI1 as a target. This approach allowed us to assess differences between SWI/SNF composition and interaction partners in MLS and EWS cells, as well as determine the composition and interactome of FET-FOP-bound SWI/SNF complexes.",
+  "dataProcessingProtocol" : "Data analysis was performed using Proteome Discoverer version 2.4 (Thermo Fisher Scientific). The raw file was matched against the Swissprot Homo Sapiens database (March 2020) using Mascot 2.5.1 (Matrix Science, London, United Kingdom) as a database search engine with peptide tolerance of 5 ppm and fragment ion tolerance of 0.6 Da. Tryptic peptides were accepted with one missed cleavage, mono-oxidation on methionine was set as a variable modification, methylthiolation on cysteine and TMTpro-reagent modification on lysine and peptide N-terminus were set as a fixed modification. Percolator was used for PSM (peptide spectrum match) validation with the strict false-discovery rate threshold of 1%. TMT Reporter ion intensities were quantified in MS3 spectra at 0.003 Da mass tolerance using the S/N values as abundances without normalization. Only the quantitative results for the unique peptide sequences with the minimum SPS (synchronous precursor selection) match % of 55 and the average S/N above 10 were used for the protein quantification.",
+  "sampleProcessingProtocol" : "Sample preparation: Immunoprecipitated samples were reduced with 100 mM DL-dithiothreitol (DTT) at 60°C for 30 min and then processed according to a modified version of the filter-aided sample preparation (FASP) method (Wiśniewski et al., 2009). Briefly, reduced samples were transferred onto Microcon-30kDa centrifugal filters (Merck), washed repeatedly with 50 mM triethylammonium bicarbonate (TEAB) and once with digestion buffer (0.5 % sodium deoxycholate (SDC), 50 mM triethylammonium bicarbonate, TEAB). The reduced cysteine side chains were alkylated with 10 mM methyl methanethiosulfonate (MMTS) in digestion buffer for 30 min at room temperature and the samples were then repeatedly washed with digestion buffer. Samples were digested with 0.3 µg trypsin (Pierce MS grade Trypsin, Thermo Fisher Scientific) at 37°C overnight followed by an additional portion of 0.3 µg trypsin and incubation for another 3 hours. The peptides were collected by centrifugation and isobaric labeling was performed using Tandem Mass Tag reagents (TMT-16plex, Thermo Fischer Scientific) according to the manufacturer’s instructions. The labelled samples were combined into one pooled sample, acetonitrile was evaporated using vacuum centrifugation and sodium deoxycholate (SDC) was removed by acidification with 10% trifluoroacetic acid (TFA). The sample was further purified using HiPPR Detergent Removal Spin Column (Thermo Fisher Scientific) and Pierce peptide desalting spin columns (Thermo Fisher Scientific) according to the manufacturer’s instructions. The combined TMT-labeled sample was fractionated into 40 fractions by basic reversed-phase chromatography (bRP-LC) using a Dionex Ultimate 3000 UPLC system (Thermo Fischer Scientific) Peptide were separated using an XBridge BEH C18 column (3.5 μm, 3.0x150 mm, Waters Corporation) and a linear gradient from 3% to 40% acetonitrile in 10 mM ammonium formate at pH 10.00 over 17 min followed by an increase to 90% acetonitrile over 5 min. The primary fractions were concatenated into 10 fractions, evaporated and reconstituted in 20 μl of 3% acetonitrile, 0.2% trifluoroacetic acid (TFA) for nLC-MS/MS analysis.  NanoLC-MS analysis and database matching: Samples were analyzed on an orbitrap Lumos Tribrid spectrometer interfaced with an Easy-nLC1200 nanoflow liquid chromatography system (both Thermo Fisher Scientific). Peptides were trapped on an Acclaim Pepmap 100 C18 trap column (100 μm x 2 cm, particle size 5 μm, Thermo Fischer Scientific) and separated on an in-house packed analytical column (75 μm x 35 cm, particle size 3 μm, Reprosil-Pur C18, Dr. Maisch) using a gradient from 3% to 80% ACN in 2% formic acid over 80 min. MS scans were performed at 120 000 resolution, m/z range 375-1500. MS/MS analysis was performed in a data-dependent mode, with top speed cycle of 3 seconds for the most intense multiple-charged precursor ions. Precursor ions were isolated in the quadrupole with a 0.7 m/z isolation window, with dynamic exclusion set to 10 ppm and duration of 45 seconds. Isolated precursor ions were subjected to collision induced dissociation (CID) at 30 collision energy with a maximum injection time of 50 ms. Produced MS2 fragment ions were detected in the ion trap followed by multinotch (simultaneous) isolation of the ten most abundant fragment ions for further fragmentation (MS3) by higher-energy collision dissociation (HCD) at 55% and detection in the Orbitrap at 50 000 resolutions, m/z range 100-500.",
+  "projectTags" : [ ],
+  "keywords" : [ "Ewing sarcoma", "Swi/snf chromatin remodeling complex", "Myxoid liposarcoma", "Quantitative mass spectrometry", "Fet fusion oncoproteins" ],
+  "doi" : "",
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2025-09-22",
+  "updatedDate" : "2023-12-04",
+  "submissionDate" : "2023-12-04",
+  "downloadCount" : 297,
+  "avgDownloadsPerFile" : 19.8,
+  "percentile" : 11,
+  "yearlyDownloads" : [ {
+    "year" : "2025",
+    "count" : 171
+  }, {
+    "year" : "2026",
+    "count" : 126
+  } ],
+  "submitters" : [ "Johannes Fuchs" ],
+  "labPIs" : [ "Anders Ståhlberg" ],
+  "affiliations" : [ "Sahlgrenska Center for Cancer Research Department of Laboratory Medicine Institute of Biomedicine Sahlgrenska Academy at University of Gothenburg Gothenburg, Sweden" ],
+  "instruments" : [ "Orbitrap Fusion Lumos" ],
+  "softwares" : [ "Mascot", "Proteome Discoverer" ],
+  "quantificationMethods" : [ "TMT" ],
+  "sampleAttributes" : [ "Homo sapiens (Human)", "acute leukemia" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ ],
+  "diseases" : [ "Acute leukemia" ],
+  "references" : [ "Lindén M, Andersson L, Albatrok H, Canfjorden V, Jonasson E, Grönqvist K, Sjövall D, Jaako P, Crescitelli R, Fagman H, Åman P, Ståhlberg A. FET fusion oncoproteins enrich SWI/SNF complex subtypes and interaction partners. Cell Mol Biol Lett. 2025 30(1):107--pubMed:40988026--doi: 10.1186/s11658-025-00792-w" ],
+  "experimentTypes" : [ "Shotgun proteomics", "Bottom-up proteomics" ],
+  "projectFileNames" : [ "Lumos_210702_22.raw", "Lumos_210702_19.raw", "Lumos_210702_13.raw", "4231_ProteinPSM_PullDown_NoNorm_1mc_SPS55_Lumos_210702_13to22.xlsx", "4231_PullDown_NoNorm_1mc_SPS55_Lumos_210702_13to22.pdResult", "4231_PullDown_Abundences_NoNorm_1mc_SPS55_Lumos_210702_13to22.xlsx", "Lumos_210702_17.raw", "4231_PullDown_NoNorm_1mc_SPS55_Lumos_210702_13to22.msf", "Lumos_210702_15.raw", "4231_ProteinPeptide_PullDown_NoNorm_1mc_SPS55_Lumos_210702_13to22.xlsx", "Lumos_210702_21.raw", "Lumos_210702_20.raw", "Lumos_210702_18.raw", "Lumos_210702_14.raw", "Lumos_210702_16.raw" ],
+  "highlights" : {
+    "keywords" : [ "<em>Myxoid</em> liposarcoma" ],
+    "projectDescription" : [ "containing the N-terminal of a FET protein (FUS, EWSR1 and TAF15) together with a DNA-binding transcription factor partner, are characteristic for around 20 different sarcomas and leukemias, including <em>myxoid</em>" ]
+  }
+}, {
+  "accession" : "PXD023792",
+  "title" : "Characterisation of a cell-free myxoid liposarcoma patient-derived xenograft scaffold model",
+  "projectDescription" : "Myxoid liposarcoma (MLS) is the second most common type of liposarcoma, and today few model systems to study the disease exists. To be able to model the disease in vitro, cell-free scaffolds from MLS patient-derived xenograft (PDX) models were generated. The MLS scaffolds were then used as a 3D growth platform for MLS cell lines to study the cancer microenvironments impact on cellular heterogeneity using RNA sequencing. Key components in the microenvironment have also been shown to influence the fraction of cellular subpopulations, such as cancer stem cells and migratory cells but also to promote aggressive features of cancers. Therefore, to better understand and characterize these scaffolds, protein analyses were performed and links between scaffold compositions and the induced gene expression profiles of the cells grown therein could be made. This model system provides a better insight to the composition of the cell-free cancer microenvironment in a rare disease, which can lead to identification of novel malignancy inducing properties in MLS.",
+  "dataProcessingProtocol" : "Sample TMT-tag info : ID Samples  TMT label TMT set 2876:11 PDX 1 128C 1 2876:12 PDX 2 129N 1 2876:13 PDX 3 128C 2 2876:14 PDX 4 128C 3 The fractions were analyzed on an Orbitrap Fusion Tribrid mass spectrometer interfaced with Easy-nLC 1200 liquid chromatography system (both Thermo Fisher Scientific). Peptides were trapped on an Acclaim Pepmap 100 C18 trap column (100 μm x 2 cm, particle size 5 μm, Thermo Fischer Scientific) and separated on an analytical column (75 μm x 30 cm, packed in-house with Reprosil-Pur C18, particle size 3 μm, Dr. Maisch, Ammerbuch, Germany) using a linear gradient from 5% to 35% B over 75 min followed by an increase to 100% B for 5 min, and 100% B for 10 min at a flow of 300 nL/min. Solvent A was 0.2% formic acid in water and solvent B was 80% acetonitrile, 0.2% formic acid. MS scans was performed at 120 000 resolution, m/z range 380-1380. The most abundant doubly or multiply charged precursors from the MS1 scans were isolated using the quadrupole with 0.7 m/z isolation window with a “top speed” cycle of 3 s and dynamic exclusion within 10 ppm during 45 seconds. The isolated precursors were fragmented by collision induced dissociation (CID) at 35% collision energy with the maximum injection time of 50 ms, and detected in the ion trap, followed by multinotch (simultaneous) isolation of the top 7 MS2 fragment ions, with m/z 400-1400, selected for fragmentation (MS3) by higher-energy collision dissociation (HCD) at 60% and detection in the Orbitrap at 50 000 resolution, m/z range 100-500. Proteomic Data Analysis  Identification and relative quantification was performed using Proteome Discoverer version 2.2 (Thermo Fisher Scientific). The database search was performed using the Mascot search engine v. 2.5.1 (Matrix Science, London, UK) against the Swiss-Prot Homo sapiens database (May 2018) with MS peptide tolerance of 5 ppm and fragment ion tolerance of 0.6 Da. Tryptic peptides were accepted with no missed cleavages. Methionine oxidation was set as a variable modification, cysteine methylthiolation, TMT-6 on lysine and peptide N-termini were set as fixed modifications. Percolator was used for PSM validation with the strict FDR threshold of 1%. Quantification was performed in Proteome Discoverer 2.2. TMT reporter ions were identified in the MS3 HCD spectra with 3 mmu mass tolerance, and the TMT reporter S/N values for each sample were normalized within Proteome Discoverer 2.2 on the total peptide amount. Only the unique identified peptides were taken into account for the relative quantification.",
+  "sampleProcessingProtocol" : "Cell-free patient-derived xenograft scaffolds were decellularised by detergent washing of myxoid liposarcoma patient-derived xenografts grown in BALB/c nude mice (Tactonic, Denmark) in accordance with EU directive 2010/63 (Regional animal ethics committee of Gothenburg approval 129-2016). The patient-derived xenograft scaffolds were cut into 2x2x2 mm cubes. Cell-free samples where thereafter mechanically homogenized in 200 µl storage buffer using scalpels before further trypsin homogenization. Cell pellets were homogenized using a FastPrep®-24 instrument (1.4 mm ceramic spheres, Matrix D (green); MP Biomedicals, OH, USA) for 4 repeated 40 seconds cycles at 6.5 m/s in 200 µl of the buffer containing 2% sodium dodecyl sulfate (SDS) and 50mM triethylammonium bicarbonate (TEAB). Samples were centrifuged at 14 800 rpm for 20 min at 8°C and the supernatants were transferred to clean tubes. The lysis tubes were washed with 100 µl of the lysis buffer, centrifuged at 14 800 rpm for 20 min at 8°C, the supernatants were combined with the corresponding lysates from the previous step, and the lysates were filtered through the Corning Costar Spin-X 0.45 cellulose acetate centrifuge tube filter (MilliporeSigma, St. Louis, MO, USA). Protein concentration in the combined lysates was determined using Pierce™ BCA Protein Assay Kit (Thermo Fischer Scientific, Waltham, MA, USA) and the Benchmark™ Plus microplate reader (Bio-Rad Laboratories, Hercules, CA, USA) with bovine serum albumin (BSA) solutions as standards. Tryptic digestion and Tandem Mass Tag (TMT) labeling Aliquots containing 20 µg of total protein were taken from each sample and reduced at 60°C for 30 min in the lysis buffer with DL-dithiothreitol (DTT) at 100 mM final concentration and incubated. The reduced samples were processed using the modified filter-aided sample preparation (FASP) method (Wisniewski JR et. al. Nat Methods. 2009 May;6(5):359-62). In short, reduced samples were diluted to 1000 µl by 8M urea, transferred onto Nanosep 30k Omega filters (Pall Corporation, Port Washington, NY, USA) and washed 2 times with 250 µl of 8M urea. Alkylation of the cysteine residues was performed using 10 mM methyl methanethiosulfonate (MMTS) diluted in digestion buffer (1% sodium deoxycholate (SDC), 50 mM TEAB) for 30 min at room temperature and the filters were then repeatedly washed with digestion buffer. Trypsin (Pierce Trypsin Protease, MS Grade, Thermo Fisher Scientific) in digestion buffer was added in a ratio of 1:100 relative to total protein mass and the samples were incubated at 37°C for 3h; another portion of trypsin (1:100) was added and incubated overnight. The peptides were collected by centrifugation and labelled using Tandem Mass Tag (TMT) reagents (Thermo Fischer Scientific) according to the manufacturer’s instructions. The labeled samples were combined into the respective pools, the pooled samples were concentrated using vacuum centrifugation and SDC was removed by acidification with 10% TFA and subsequent centrifugation.  The combined TMT-labeled samples were fractionated into 40 primary fractions by basic reversed-phase chromatography (bRP-LC) using a Dionex Ultimate 3000 UPLC system (Thermo Fischer Scientific). Peptide separations were performed using a reversed-phase XBridge BEH C18 column (3.5 μm, 3.0x150 mm, Waters Corporation) and a linear gradient from 3% to 40% solvent B over 17 min followed by an increase to 100% B over 5 min. Solvent A was 10 mM ammonium formate buffer at pH 10.00 and solvent B was 90% acetonitrile, 10% 10 mM ammonium formate at pH 10.00. The primary fractions were concatenated into final 20 fractions (1+21, 2+22, … 20+40), evaporated and reconstituted in 15μl of 3% acetonitrile, 0.2% formic acid for nanoflow LC-MS analysis",
+  "projectTags" : [ ],
+  "keywords" : [ "Human", "Fus-ddit3 expression and tumor microenvironment", "Cancer" ],
+  "doi" : "",
+  "otherOmicsLinks" : [ "geo:GSE230773", "geo:GSE191132" ],
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2024-05-08",
+  "updatedDate" : "2021-01-25",
+  "submissionDate" : "2021-01-25",
+  "downloadCount" : 3407,
+  "avgDownloadsPerFile" : 47.319443,
+  "botCount" : 1201,
+  "hubCount" : 2138,
+  "organicCount" : 68,
+  "percentile" : 71,
+  "yearlyDownloads" : [ {
+    "year" : "2024",
+    "count" : 217
+  }, {
+    "year" : "2025",
+    "count" : 2345
+  }, {
+    "year" : "2026",
+    "count" : 845
+  } ],
+  "submitters" : [ "Carina Sihlbom" ],
+  "labPIs" : [ "Carina Sihlbom" ],
+  "affiliations" : [ "Proteomics Core Facility, Sahlgrenska Academy, University of Gothenburg, Sweden" ],
+  "instruments" : [ "Orbitrap Fusion" ],
+  "softwares" : [ "Mascot", "Proteome Discoverer" ],
+  "quantificationMethods" : [ "TMT" ],
+  "sampleAttributes" : [ "Homo sapiens (Human)", "liposarcoma cell", "myxoid liposarcoma" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Liposarcoma cell" ],
+  "diseases" : [ "Myxoid liposarcoma" ],
+  "references" : [ "Ranji P, Jonasson E, Andersson L, Filges S, Luna Santamaría M, Vannas C, Dolatabadi S, Gustafsson A, Myklebost O, Håkansson J, Fagman H, Landberg G, Åman P, Ståhlberg A. Deciphering the role of FUS::DDIT3 expression and tumor microenvironment in myxoid liposarcoma development. J Transl Med. 2024 22(1):389--pubMed:38671504--doi: 10.1186/s12967-024-05211-w" ],
+  "experimentTypes" : [ "Shotgun proteomics" ],
+  "projectFileNames" : [ "Fusion_180514_101.raw", "Fusion_180514_77.raw", "Fusion_180514_51.raw", "Fusion_180514_42.raw", "Fusion_180514_94.raw", "Fusion_180514_69.raw", "Fusion_180514_85.raw", "Fusion_180514_50.raw", "Fusion_180514_78.raw", "Fusion_180514_35.raw", "Fusion_180514_33.raw", "Fusion_180514_95.raw", "Fusion_180514_52.raw", "Fusion_180514_59.raw", "Fusion_180514_68.raw", "Fusion_180514_43.raw", "Fusion_180514_86.raw", "Fusion_180514_60.raw", "Fusion_180514_100.raw", "Fusion_180514_34.raw", "Fusion_180514_45.raw", "Fusion_180514_58.raw", "Fusion_180514_91.raw", "Fusion_180514_44.raw", "Fusion_180514_87.raw", "Fusion_180514_89.raw", "Fusion_180514_61.raw", "Fusion_180514_74.raw", "Fusion_180514_76.raw", "Fusion_180514_57.raw", "Fusion_180514_93.raw", "Fusion_180514_92.raw", "Fusion_180514_80.raw", "Fusion_180514_62.raw", "Fusion_180514_75.raw", "Fusion_180514_32.raw", "Fusion_180514_88.raw", "Fusion_180514_64.raw", "Fusion_180514_39.raw", "Fusion_180514_81.raw", "Fusion_180514_56.raw", "Fusion_180514_55.raw", "Fusion_180514_98.raw", "Fusion_180514_63.raw", "Fusion_180514_72.raw", "Fusion_180514_48.raw", "Fusion_180514_46.raw", "Fusion_180514_65.raw", "Fusion_180514_90.raw", "Fusion_180514_82.raw", "2876_NONORM_3sets_0mc_SNquan_CorrFactOn_Fusion_180514_32_101.xlsx", "Fusion_180514_38.raw", "Fusion_180514_47.raw", "Fusion_180514_99.raw", "Fusion_180514_73.raw", "Fusion_180514_83.raw", "Fusion_180514_70.raw", "Fusion_180514_66.raw", "Fusion_180514_96.raw", "Fusion_180514_53.raw", "Fusion_180514_40.raw", "Fusion_180514_67.raw", "Fusion_180514_37.raw", "Fusion_180514_71.raw", "Fusion_180514_84.raw", "Fusion_180514_41.raw", "Fusion_180514_54.raw", "Fusion_180514_79.raw", "Fusion_180514_97.raw", "2876_3sets_0mc_Fusion_180514_32_101.msf", "Fusion_180514_36.raw", "Fusion_180514_49.raw" ],
+  "highlights" : {
+    "projectDescription" : [ "<em>Myxoid</em> liposarcoma (MLS) is the second most common type of liposarcoma, and today few model systems to study the disease exists." ],
+    "diseases" : [ "<em>Myxoid</em> liposarcoma" ],
+    "sampleProcessingProtocol" : [ "Cell-free patient-derived xenograft scaffolds were decellularised by detergent washing of <em>myxoid</em> liposarcoma patient-derived xenografts grown in BALB/c nude mice (Tactonic, Denmark) in accordance with" ],
+    "references" : [ "Deciphering the role of FUS::DDIT3 expression and tumor microenvironment in <em>myxoid</em> liposarcoma development. J Transl Med. 2024 22(1):389--pubMed:38671504--doi: 10.1186/s12967-024-05211-w" ],
+    "title" : [ "Characterisation of a cell-free <em>myxoid</em> liposarcoma patient-derived xenograft scaffold model" ],
+    "sampleAttributes" : [ "<em>myxoid</em> liposarcoma" ]
+  }
+}, {
+  "accession" : "PXD012680",
+  "title" : "Identification of FET-oncoprotein-interacting proteins by immunoprecipitation and mass spectrometry analysis in sarcoma cell lines",
+  "projectDescription" : "The FET family of fusion oncogenes carry one of the three genes, FUS, EWSR1 or TAF15, as 5’‑partners juxtaposed to one of many different DNA binding transcription factor genes as 3’‑partners. FET fusion oncogenes are pathognomonic for many types of sarcoma and leukemia, such as FUS-DDIT3 in myxoid liposarcoma (MLS) and EWSR1-FLI1 in Ewing sarcoma (EWS). We used recombinant FET N-terminal domains in a pulldown screen to find interaction partners to the FET proteins and identified components of the SWI/SNF complex. The ~2 MDa SWI/SNF chromatin remodeling complex utilizes energy from ATP hydrolysis to remodel nucleosomes and expose DNA. We used immunoprecipitation followed by mass spectrometry or western blot analysis to extensively characterize the interaction between FET fusion oncoproteins and the SWI/SNF complex.",
+  "dataProcessingProtocol" : "Database search was performed using Proteome Discoverer version 1.4 (Thermo Fisher Scientific) against the Human Swissprot Database version February 2019 [Study 1],May 2016 [Study 2], September 2016 [Study 3] and February 2017 [Study 4]. Mascot (2.3 or 2.5.1Matrix Science) was used as a search engine with precursor mass tolerance of 5 ppm and fragment mass tolerance of 500 mmu for the FT-ICR and the Orbitrap Fusion data, and 200 mmu for the Q Exactive HF data. Tryptic peptides were accepted with 1 missed cleavage, variable methionine oxidation and static cysteine propionamide modifications [Study 1],or zero to one missed cleavages and variable methionine oxidation, static cysteine methylthio modifications [Study 2, 3, 4]. The detected peptide confidence threshold in Proteome Discoverer was set to a significance level of Mascot95% [Study 1] or Mascot99% [Study 2, 3, 4] by searching against a reversed decoy database.",
+  "sampleProcessingProtocol" : "Sample Processing Protocol: The experiments are divided into three parts: 1. Project ID 874 [Study 1]: Mass spectrometry analysis of Coomassie gel pieces after pulldown with GST-tagged FET N-terminal domains. Gel pieces [Study 1] were destained with 25 mM NH4HCO3 in 50% CH3CN followed by 25 mM NH4HCO3 in 50% CH3OH. Gel pieces were dried and incubated with digestion buffer (50mM NH4HCO3 and 10 ng/μL trypsin) at 37°C overnight. Peptides were extracted with 50% CH3CN in 1% CH3COOH and dried. The peptides were reconstituted in 0.2% formic acid (FA) for analysis  2. Project IDs 2205, 2334 [Study 2]: Mass spectrometry analysis of formic acid eluates after anti-BRG1 immunoprecipitation in four different sarcoma cell lines. 3. Project ID 2459 [Study 3]:, 2714 [Study 4]: Mass spectrometry analysis of LDS eluates after immunoprecipitation with anti-DDIT3 in MLS 402‑91 and anti-FLI1 in EWS TC‑71. Formic acid eluates [Study 2] or LDS eluates [Study 3, Study 4] from the immunoprecipitation (IP) were digested with trypsin using the filter-aided sample preparation (FASP) method [REF: Wisniewski JR et. al. Nat Methods. 2009 May; 6(5):359-62).]. Briefly, samples were reduced with 100 mM dithiothreitol at 60°C for 30 min, transferred to 30 kDa MWCO Pall Nanosep centrifugal filters (Sigma-Aldrich), washed with 8M urea repeatedly and alkylated with 10 mM methyl methanethiosulfonate. Digestion was performed in 50 mM triethylammonium bicarbonate, 1% sodium deoxycholate (SDC) buffer at 37°C by addition of 0.30 µg Pierce MS grade Trypsin and incubated overnight. An additional portion of trypsin was added and incubated for another two hours. Peptides were collected by centrifugation and SDC was removed by acidification with 10% trifluoroacetic acid. Samples were desalted using PepClean C18 spin columns (Thermo Fisher Scientific) according to the manufacturers guidelines and dried down. Sample in Study 4 was processed thought HiPPR detergent removal spin column (Thermo Fisher Scientific) prior to C18 desalting. Samples were reconstituted in 3% ACN in 0.2% formic acid (FA).",
+  "projectTags" : [ "Biomedical" ],
+  "keywords" : [ "Lc-ms", "Ft icr", "Immunoprecipitation", "Sarcoma", "Orbitrap" ],
+  "doi" : "",
+  "otherOmicsLinks" : [ "geo:GSE125941" ],
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2019-03-13",
+  "updatedDate" : "2019-02-12",
+  "submissionDate" : "2019-02-12",
+  "downloadCount" : 1277,
+  "avgDownloadsPerFile" : 53.208332,
+  "botCount" : 532,
+  "hubCount" : 712,
+  "organicCount" : 33,
+  "percentile" : 44,
+  "yearlyDownloads" : [ {
+    "year" : "2021",
+    "count" : 14
+  }, {
+    "year" : "2022",
+    "count" : 32
+  }, {
+    "year" : "2023",
+    "count" : 78
+  }, {
+    "year" : "2024",
+    "count" : 16
+  }, {
+    "year" : "2025",
+    "count" : 988
+  }, {
+    "year" : "2026",
+    "count" : 149
+  } ],
+  "submitters" : [ "Sahlgrenska Academy Proteomics Core" ],
+  "labPIs" : [ "Malin Linden" ],
+  "affiliations" : [ "Sahlgrenska Academy, University of Gothenburg, Sweden" ],
+  "instruments" : [ "LTQ FT", "Orbitrap Fusion", "Q Exactive HF" ],
+  "softwares" : [ "Mascot", "Proteome Discoverer" ],
+  "quantificationMethods" : [ ],
+  "sampleAttributes" : [ "cell culture", "Homo sapiens (Human)" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Cell culture" ],
+  "diseases" : [ ],
+  "references" : [ "Lindén M, Thomsen C, Grundevik P, Jonasson E, Andersson D, Runnberg R, Dolatabadi S, Vannas C, Luna Santamarίa M, Fagman H, Ståhlberg A, Åman P. FET family fusion oncoproteins target the SWI/SNF chromatin remodeling complex. EMBO Rep. 2019--pubMed:30962207--doi: 10.15252/embr.201845766" ],
+  "experimentTypes" : [ "Affinity purification coupled with mass spectrometry proteomics", "Gel-based experiment" ],
+  "projectFileNames" : [ "EC_090204_FT09.RAW", "2334_2_EWSTC-71Fusion_160519_11.msf", "2714_Mascot99_1miss_Fusion_170926_34_protein_peptide_SENT.xlsx", "2334_3samples_Fusion_160519_08_11_14_Mascot99.xlsx", "Fusion_170926_34.raw", "Fusion_160519_14.raw", "2334_3_EWSIORCAR_Fusion_160519_14.msf", "874_band3_SPhuman_1mc_090204_FT5.msf", "2334_1_MLSAvoryFusion_160519_08.msf", "874_band5_SPhuman_1mc_090204_FT7.msf", "EC_090204_FT10.RAW", "2459_Mascot99_1miss_Fusion_161116_96_protein_peptide_SENT.xlsx", "Fusion_160519_11.raw", "874_band7_SPhuman_1mc_090204_FT9.msf", "874_band8_SPhuman_1mc_090204_FT10.msf", "EC_090204_FT05.RAW", "Fusion_161116_96.raw", "2459_IP_1miss_Fusion_161116_96.msf", "EC_090204_FT07.RAW", "Fusion_160519_08.raw", "874_95Mascot_SPHuman_1mc_peptides.xlsx", "2205_0miss_Perc_Fusion_151126_15.msf", "2714_DetRem_MMTS_SDOC_Tryp-1mc_decoy_5ppm_500mmu_Fusion_170926_34.msf", "Fusion_151126_15.raw" ],
+  "highlights" : {
+    "projectDescription" : [ "FET fusion oncogenes are pathognomonic for many types of sarcoma and leukemia, such as FUS-DDIT3 in <em>myxoid</em> liposarcoma (MLS) and EWSR1-FLI1 in Ewing sarcoma (EWS)." ]
+  }
+} ]

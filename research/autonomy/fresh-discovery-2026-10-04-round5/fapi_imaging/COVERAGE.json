@@ -1,0 +1,176 @@
+{
+  "date_utc": "2026-10-04T20:58:27.223505+00:00",
+  "scope": "Bounded clinical FAPI source gate; not exhaustive claim",
+  "status": "No claim advanced; every named pending/unavailable item remains blocking",
+  "sources": [
+    {
+      "source": "Koerber2021",
+      "doi": "10.1007/s00259-021-05374-4",
+      "status": "evaluated; one unresolved diagnosis",
+      "files": [
+        "koerber2021.xml",
+        "source-evaluation.json"
+      ],
+      "n": 15,
+      "gap": "SarcomaNOS1 has no molecular/subtype crosswalk. Table1 missesMFS1; Table2 resolves category count. Four overlap earlier report, IDs unknown."
+    },
+    {
+      "source": "Ferdinandus2022",
+      "doi": "10.1158/1078-0432.CCR-22-1432",
+      "status": "evaluated all21 original TS1 rows; two generic sarcomas unresolved",
+      "files": [
+        "ferdinandus2022.xml",
+        "ferdinandus2022-ts1.docx",
+        "ferdinandus2022-ts2.docx",
+        "ferdinandus2022-ts3.docx",
+        "ferdinandus2022-ts4.docx",
+        "supplement-evaluation.json"
+      ],
+      "n": 21,
+      "sarcoma_n": 16,
+      "gap": "Cases2fibrosarcoma/11spindle unknown; case10 conventionalCHS bymain. NoEMC-label. Nine previously reported, donor overlap withEssen notcrosswalked."
+    },
+    {
+      "source": "Novruzov2026",
+      "doi": "10.1186/s41824-026-00295-7",
+      "status": "evaluated all19mainclinical rows and entire1page supplement; all6STS subtype pending/unavailable in these releases",
+      "files": [
+        "novruzov2026.xml",
+        "novruzov2026-supp.pdf",
+        "source-evaluation.json"
+      ],
+      "n": 19,
+      "sarcoma_n": 6,
+      "ids": [
+        "STS-1",
+        "STS-2",
+        "STS-3",
+        "STS-4",
+        "STS-5",
+        "STS-6"
+      ],
+      "gap": "No histologic subtype, molecular identity or EMC values. Interim7PDAC overlap."
+    },
+    {
+      "source": "Pabst2025",
+      "doi": "10.1016/S1470-2045(25)00299-2",
+      "status": "mainarticle evaluated; originalappendix unavailable through attempted routes; individualdata request-only",
+      "files": [
+        "pabst2025.pdf",
+        "source-evaluation.json"
+      ],
+      "n": 155,
+      "sarcoma_n": 28,
+      "gap": "Appendixp5 gives missing subtype roster; 18STS10bone. Explicit possible co-enrolmentNCT04571086; no independentpool."
+    },
+    {
+      "source": "Kessler2022",
+      "doi": "10.2967/jnumed.121.262096",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8717183/",
+      "status": "primary indexedmain evaluated; supplement unavailable through attempted routes",
+      "n": 47,
+      "paired_FDG_n": 43,
+      "gap": "SupplementalTable1 allentities and Table6 individualregions notobtained. Main42.6%bone/57.4%STS cannot resolveEMC. EarlyPDF403; BioCfile is ERRORpage, notarticle."
+    },
+    {
+      "source": "Lanzafame2024",
+      "doi": "10.2967/jnumed.123.267248",
+      "url": "https://jnm.snmjournals.org/content/65/6/880",
+      "status": "primary indexedmain andmetadata evaluated; supplement unavailable through attempted routes",
+      "n": 200,
+      "paired_FDG_n": 186,
+      "gap": "SupplementalTable3 otherbone/STS exacttypes notobtained. PotentialKessler/Pabstoverlap; noEMC exclusion."
+    },
+    {
+      "source": "Wangdynamic2021",
+      "doi": "10.3389/fonc.2021.651005",
+      "status": "evaluated all6individualidentity rows; demonstrably unsuitable bylabels",
+      "files": [
+        "dynamic2021.xml",
+        "citation-trail-evaluation.json"
+      ],
+      "n": 6,
+      "gap": "NoEMC; 3lungCa/3no-tumor. No unrelateddosimetryanalysis."
+    },
+    {
+      "source": "FirstClinicalExperience2025",
+      "doi": "10.3390/diagnostics15020218",
+      "status": "evaluated all12diagnosis categories accountingfor48; demonstrably unsuitable bypublishedlabels",
+      "files": [
+        "experience2024.xml",
+        "second-order-evaluation.json"
+      ],
+      "n": 48,
+      "gap": "No sarcoma category. No additionalnumericEMCanalysis appropriate."
+    },
+    {
+      "source": "Gu2022",
+      "status": "independent primary XML identity evaluation reused; DOI andsourcehash in reviewerreceipt",
+      "n": 45,
+      "gap": "All45primaryindividualdiagnoses evaluated byfunctional; noEMCalias. Do not inferzeroEMCexpression.",
+      "citation": "Head-to-head evaluation of[18F]FDG and[68Ga]Ga-DOTA-FAPI-04PET/CT in recurrentsofttissuesarcoma (2022)"
+    },
+    {
+      "source": "Zhang2022",
+      "doi": "10.1016/j.ejrad.2022.110507",
+      "status": "independent originalpreprint table evaluated; finaltable unavailable",
+      "n": 20,
+      "gap": "SFT13,malignantSFT2,desmoid2,DFSP1,MFS1,highgradefibrosarcoma1. GenericFS1 identity remains a limitation to categoricalnoEMC claim."
+    },
+    {
+      "source": "Yang2022nasalCHS",
+      "doi": "10.1097/RLU.0000000000004023",
+      "pmid": "35025783",
+      "status": "independentabstract evaluated; fullpathology unavailable",
+      "n": 1,
+      "gap": "54M genericchondrosarcoma. Do notexcludeEMCbyanatomiclocation. PotentialinstitutionaloverlapLiu."
+    },
+    {
+      "source": "Liu2026",
+      "doi": "10.1093/bjr/tqag106",
+      "pmid": "42128000",
+      "status": "independentprimaryabstract/metadata evaluated; fullarticle403",
+      "n": 22,
+      "gap": "No individualhistologies;10IHC cannotbeassumedEMC. NoEMCeligibilityconclusion."
+    },
+    {
+      "source": "Kratochwil2019",
+      "doi": "10.2967/jnumed.119.227967",
+      "pmid": "30954939",
+      "status": "metadata/primarypublication verified; detailedhistology pending after attemptedS3notfound/PMCrecaptcha",
+      "n": 80,
+      "gap": "Broad28tumortypes include sarcoma; no retrievedsubtypecrosswalk. FourKoerberpatients previouslyreported."
+    },
+    {
+      "source": "ThreeTimePointFAPI46",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11927082/",
+      "status": "identified primaryclinical source, identityevaluation pending; S3attempt404",
+      "gap": "Two genericsarcomas amongbroadercohort; allscanconditions unassessedforEMC. Noabsenceclaim."
+    },
+    {
+      "source": "Hirmas2023",
+      "citation": "Fibroblast-activation protein PET and histopathology in a single-center database of324patients and21tumorentities. JNuclMed64:711\u2013716.",
+      "status": "staged directprimarycitation; not evaluated",
+      "gap": "PotentialEssenoverlap and sarcoma subtypes unknown. Citation only is not evaluation."
+    },
+    {
+      "source": "Hirmas2024",
+      "citation": "Diagnostic accuracy of68GaFAPI versus18FFDG PET inpatientswithvariousmalignancies. JNuclMed65:372\u2013378.",
+      "status": "staged directprimarycitation; not evaluated",
+      "gap": "PotentialEssenoverlap/EMCidentity unresolved."
+    },
+    {
+      "source": "InternationalFAPIInterobserver2023",
+      "url": "https://jnm.snmjournals.org/content/64/7/1043",
+      "status": "identified primaryclinical source; subtypeevaluation pending",
+      "gap": "50patients broadcohort withsarcoma; thisreview hasnotexaminedallhistologies."
+    },
+    {
+      "source": "liverMetastases2026",
+      "doi": "10.1007/s44178-026-00295-4",
+      "status": "identified freshprimaryclinical source; exactroster pending",
+      "gap": "IndexedfigurelabelshaveIDCS/MSFT/pleomorphic/synovial, notcompletecaseevaluation. CannotdeclareEMCabsent."
+    }
+  ],
+  "separate_interrupted_scope": "R5 tissue FAP worker stopped by platform content-access safety error; not taken over; no biological inference from interruption"
+}

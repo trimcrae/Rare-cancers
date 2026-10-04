@@ -1,0 +1,14 @@
+{
+  "status": "failed",
+  "reason": "The microenvironment script could not import scipy because the existing repository dependency path was not set. No installation required.",
+  "completed_before_failure": [
+    "genomics/analyze_pilot.py",
+    "lead/analyze_hla.py",
+    "functional/analyze_ddr.py",
+    "functional/verify_ddr.py",
+    "functional/analyze_mendeley.py"
+  ],
+  "failing_script": "microenvironment/bcell_pilot.py",
+  "scientific_outputs_changed": false,
+  "fix": "Set PYTHONPATH to existing C:/Projects/EMC-Research/.cache/python-deps in the root verification wrapper."
+}

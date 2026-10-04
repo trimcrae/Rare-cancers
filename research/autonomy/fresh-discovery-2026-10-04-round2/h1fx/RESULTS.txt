@@ -1,0 +1,28 @@
+Targeted H1FX follow-up — 2026-10-04
+
+DECISION: SHELVE THE STANDALONE BIOLOGICAL PAPER.
+The independent functional worker agrees. Preserve the serious external source-provenance finding, but do not call it a newly demonstrated mechanism or a publication-worthy EMC discovery. No outreach, correction submission or external scientific-record change was performed.
+
+What triggered this follow-up
+PeerJ21497 (doi:10.7717/peerj.21497) calls H1FX a lineage-specific feature and cites GSE6481 as 19 EMC versus 128 other chondrosarcomas. The original official GSE6481 record and every one of its 105 sample metadata records contain no EMC or chondrosarcoma histology: the nineteen-sample group is myxoid liposarcoma. Its actual categories are16synovial sarcoma,19myxoid liposarcoma,3lipoma,3well-differentiated liposarcoma,15dedifferentiated liposarcoma,15myxofibrosarcoma,6leiomyosarcoma,3MPNST,4fibrosarcoma and21malignant fibrous histiocytoma. The cited original study is PMID17464315. No relabelling is justified.
+
+The clinical worker independently recovered and inspected actual FigureS6. PanelB says GSE6481(n=147) but its x-axis labels say19EMC and59other chondrosarcomas, not128. Neither set matches the named series. No authenticated alternative nineteen-EMC source or public correction was identified in the bounded search. This demonstrates a provenance contradiction; it does not establish how the published plot was generated, whether another accession was intended, or author intent.
+
+Prospective empirical follow-up
+H1FX-FOLLOWUP-CONTRACT.json was written before relevant expression values. AMENDMENT-01 records why the fourth broad comparator is mixed primary nonEMC tissue, rather than an invented malignant-only selection. H1FX is the primary gene; PXN and TYMS remain companion context, with all three retained. The original GPL Entrez mapping uses H1FX8971, PXN5829, TYMS7298; the RNA source uses H1FX.
+
+All thirteen Lund EMC specimens were evaluated, retaining primary9/all12primary/all13 scopes. For primary9, median H1FX was82.05TPM versus148.38 in14myxoid liposarcomas (A=.190476; bootstrap95% .031746–.380952; BHq=.025947 across12planned RNA tests),92.39 in13LGFMS (A=.452991; q=.797791), and111.06 in60MFS (A=.311111; q=.105124). The mixed635primary nonEMC comparator median was82.17, A=.475066, with broad uncertainty; this is not proof of equivalence. Same-year results are heterogeneous and retain small group sizes. All source values and samples are saved.
+
+In the six original GSE24369 EMC arrays, H1FX was lower than17LGFMS (A=.147059; bootstrap95%0–.382598; BHq=.029600 across6planned myxoid-array comparisons) and numerically lower than6MFS (A=.25; q=.269481). All original comparator groups and both normal-muscle pools are retained separately. The cohorts are not pooled and donor independence is unproven.
+
+Why this does not clear the discovery bar
+The published FigureS6A already shows that H1FX is not generally higher than the pooled soft-tissue comparator. The paper's asserted discriminating contrast is with conventional/cartilaginous tumors; our myxoid-sarcoma comparisons do not directly test it. Thus the reanalysis supplies authentic measurement context and removes confidence in a named validation source, but it has not demonstrated a new lineage mechanism or falsified the exact biological comparison using authenticated cartilaginous controls. Failure to reject group differences does not establish equivalence, and none of these cohorts validates prognosis. Independent assessment separates this source correction from useful new EMC knowledge.
+
+Coverage and reopening
+Evaluated: all105original GSE6481 metadata records; all13LundEMC H1FX/PXN/TYMS measurements and plannedcomparators; all6GSE24369 EMC measurements and all available original groups; actual PeerJ FigureS6 and text. Reused: earlier PeerJ primary cohort limitations and source identity. Pending accessible: H1FX-specific evaluation of other eligible authentic EMC tissue cohorts, including GSE4303 and published processed PeerJ values if needed for an advanced tissue claim. Unavailable: public patient/probe crosswalk identifying the intended nineteen-EMC versus conventional-cartilage validation cohort. The exact original plotted data remain unknown; no absence or invented identity is inferred. These gaps block a broad biological claim. GSE6481 is demonstrably unsuitable as an EMC measurement source, not a pending EMC cohort.
+
+Reopening requires an authenticated, useful EMC biological contrast and complete relevant evidence evaluation, or newly public provenance that resolves the actual validation comparison. An accession mismatch alone does not satisfy this campaign's objective. The main discovery goal remains active.
+
+Reproduce: analyze_h1fx.py writes GSE6481-identity.json and expression-results.json. Source URLs, all sample metadata, input hashes, actual expression values, probe mapping, statistics and uncertainty are retained. Independent source review is in ../clinical/; independent scientific-value review is in ../regulatory/.
+
+Primary sources: https://doi.org/10.7717/peerj.21497 ; https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE6481 ; https://pubmed.ncbi.nlm.nih.gov/17464315/ ; https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369 ; https://doi.org/10.1158/1078-0432.CCR-25-3740 .

@@ -1,0 +1,563 @@
+[
+  {
+    "tag": "p",
+    "id": "Par8",
+    "text": "To systematically portray the proteomic landscape of STS, we collected formalin-fixed paraffin-embedded (FFPE) tissues from a cohort of 272 Chinese patients diagnosed with STS: 17 AS, 35 DDLPS, 5 ES, 52 LMS, 26 MFS, 11 MLPS, 6 MPNST, 8 otherFS, 15 RMS, 18 SS, 43 UPS, 36 WDLPS (Fig. 1A, B ). Among the 272 tumor samples, 91 matched tumor-adjacent tissues (NATs) were collected (\u201cMethods\u201d). One 4 \u03bcm trick slide from each FFPE block was sectioned and stained by hematoxylin and eosin (H&E) for histological evaluation. Specifically, each tumor/ tumor-adjacent sample was checked by three expert pathologists to confirm the sample quality according to the following criteria: For tumor samples: (1) pathologists evaluated and defined tumor area on the slices of FFPE specimens with tumor cell ratio (tumor purity) > 70%; (2) the histological subtypes of sarcoma were diagonalized by pathologists according to WHO classification of soft Tissue & Bone tumor 28 . For NAT samples: (1) pathologists evaluated and defined the tumor-adjacent areas on the slices of FFPE specimens with no observed tumor cells; (2) for different histological sarcoma subtypes, NATs were chosen based on tumor locations and the original lineages of tumors, according to WHO classification of soft Tissue & Bone tumor 28 . The specific NATs for different histological sarcomas were presented in Supplementary Data. 1 . The representative H&E-stained slices showed the regions of tumors with their paired NATs, which confirmed the NAT types for distinctive tumors, and also indicated over 70% of tumor cellular purities for tumor regions, and no tumor cells in NATs (Supplementary Fig. 2A ). We further estimated the tumor purities by ESTIMATE algorithm 29 . As a result, in concordant with the histologically evaluated tumor purity, the ESTIMATE algorithm calculated tumor purity ranged from 70 to 98% (median 78%) (\u201cMethods\u201d, Fig. 1D ). Survival analysis indicated that most STS histological subtypes couldn\u2019t be distinguished from each other by OS or disease-free survival (DFS) (Fig. 1C ). Clinical data of the cohort, including the gender, age at diagnosis, histological subtype, FNCLCC grade, survival time, etc. were summarized in Fig. 1B and Supplementary Data 1 . Fig. 1 Proteomic landscape of the soft tissue sarcoma cohort. A Schematic representation of the experimental design, including sample collection, sample pre-process, LC-MS/MS analysis, and data analysis. B Pie plots indicated clinical features of the STS cohort, including gender, age, tumor location, KI67 ratio, and STS histological subtypes. C Kaplan-Meier curves for OS (up) and DFS (down) of tumor patients stratified by the 12 histological subtypes (log-rank test). D Heatmap of enriched cancer hallmarks in STS histological subtypes. The significantly up-regulated hallmarks in some sarcoma histological subtypes are marked by black dotted box. E Boxplots indicated protein abundances of known markers of specific STS histological subtypes across 12 histological subtypes in our cohort. The biologically independent samples for each histological subtypes are as follows: AS ( n = 17), ES ( n = 5), WDLPS ( n = 36), MLPS ( n = 11), DDLPS ( n = 35), MFS ( n = 26), otherFS ( n = 8), MPNST ( n = 6), SS ( n = 18), UPS ( n = 43), RMS ( n = 15), LMS ( n = 52). The middle bar represents the median and the box represents the interquartile range. Bars extend to 1.5\u00d7 the interquartile range. Two-way analysis of variance (ANOVA) was used for statistical test. Source data are provided as Source Data files.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par9",
+    "text": "A mass spectrometry (MS)-based proteomic analysis was conducted for all 363 samples (tumors, n = 272; NATs, n = 91). A phosphoproteomic analysis was conducted for 138 samples (tumors, n = 114; NATs, n = 24) using a Fe-NTA phosphopeptides enrichment technology (\u201cMethods\u201d). Quality control was applied on both peptide and protein levels with less than 1% FDR. As a result, 10,118 proteins and 37,842 phosphosites were identified, with 5593 proteins and 6483 phosphosites per sample on average (\u201cMethods\u201d; Supplementary Fig. 1G , Supplementary Data 1 ). All samples passed the quality control and showed good consistency in terms of proteome and phosphoproteome quantification (Supplementary Fig. 1E, F ), exhibiting a typical unimodal (Gaussian or normal) distribution (dip statistical test). Among all phosphosites, 28,034 (74.1%) were serine (S), 8,762 (23.2%) were threonine (T) and 1,046 (2.7%) were tyrosine (Y), which was uniform with previous research (Supplementary Fig. 1H ) 30 , 31 . Principal component analysis (PCA) showed that there were no time-related batch effects (Supplementary Fig. 1I ). To surveil stability of the mass spectrometry, the HEK293 cell samples were utilized as the control samples (\u201cMethods\u201d). The correlations of these control samples were 0.83-0.95 and the median coefficient of variation (CV) was 0.14 (\u201cMethods\u201d, Supplementary Fig. 1A\u2013C ), which is comparable to previously published papers 32 , presenting the stability of the mass spectrometry across quality controls.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par10",
+    "text": "To elucidate proteomic molecular alterations upon STS tumorigenesis, we performed a comparative analysis between STS ( n = 272) and NAT ( n = 91) using proteomic and phosphoproteomic data. PCA analysis revealed a slight overlap between tumors and NATs (Supplementary Fig. 3A ). To further illustrate the separation of tumor samples and NATs, we then conducted unsupervised clustering. As a result, 2 clusters (cluster1: NAT-distance and cluster2: NAT-similar) were determined (\u201cMethods\u201d). We then calculated specificity and purity of the two clusters (\u201cMethods\u201d). As a result, in concordant with the PCA analysis, around 89% of the NATs were grouped into cluster1, and 56% of the tumors were grouped into cluster2. Forty-four percent of tumors were grouped with NATs, implying that these tumors might not show significantly diverse proteomic features compared to NATs (Supplementary Fig. 3B ). Since our cohort contained diverse histological types of sarcomas and NATs, we then hypothetically assumed that the overlap between tumors and NATs might be caused by the diverse tumor heterogeneity of different STS histological subtype. To verify this assumption, we separately conducted PCA analysis for each histological type of sarcomas. As a result, the tumors were perfectly separated with NATs in each histological type of sarcomas (Supplementary Fig. 3C ). These results confirmed that the overlap between tumors and NATs was probably caused by the tumor heterogeneity of diverse histological sarcomas, further revealed the value of research in deciphering the tumor heterogeneity of different histological sarcomas.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par11",
+    "text": "To illustrate the distinctive features of tumors and NATs, we conducted differential expression analysis, utilizing all control samples. It was identified that 1885 proteins and 2450 phosphosites were significantly overrepresented in tumor samples of STSs (Wilcoxon rank test, fold change >1.5; adjusted p value < 0.05). Gene Ontology (GO) enrichment analysis based on proteomic and phosphoproteomic data revealed that proteins of some classical oncogenic pathways were significantly elevated in STS, including RNA splicing, NF-kappaB signaling, JNK cascade, and cell growth. Meanwhile, the protein decreased in STS participated in ATP metabolic process, glycogen metabolic process, and actin filament organization were (Supplementary Fig. 4A ). Besides, the distinctive features of tumors and NATs were further confirmed by the comparison analysis of sarcoma and paired NAT in a patient-specific manner (Supplementary Fig. 4B ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par12",
+    "text": "Meanwhile, pair-wised comparative analysis between tumors and NATs among 12 histological sarcoma subtypes revealed besides the common features of sarcoma tumors, the different histological sarcoma tumors and their corresponding NATs showed specific features (Supplementary Data. 2 ). For instance, the pathways enriched in WDLPS included the VEGFA & VEGFR2 signaling pathway and HOXA1 target signaling pathway, whereas pathways enriched in its pair-wised NATs (lipid tissues) included organic acid catabolic process, carboxylic acid catabolic process, and ATP synthesis coupled electron transport. Meanwhile, the pathways enriched in RMS include MYC targets up, signaling by interleukins and DNA replication, while, pathways enriched in their pair-wised NATs (skeletal muscle tissues) were muscle system processing, muscle contraction, etc. Along with these findings, the pathways dominantly enriched in MPNST were MAPK cascade, P53 regulation pathway, and cell cycle, whereas pathways enriched in its pair-wised NATs (nerve tissues) were intermediate filament organization and collagen fibril organization.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par13",
+    "text": "To further illustrate the clinical relevance of our data, we referred to a published drug database ( https://www.cancerrxgene.org/ ) and identified ten proteins that showed high expression in STS and could be targeted by FDA-approval drugs, including ACLY, CDK4, PGD, and etc. (Supplementary Fig. 4C ). We filtered 1,169 phosphosites that showed higher phosphorylation level in STS (Supplementary Fig. 4D ). We further inferred kinase activities based on these phosphosites (\u201cMethods\u201d) and observed a total of 13 kinases had significantly increased activities in STS, including targets of approved inhibitors (CDK4 and CDK6) (Supplementary Fig. 4E ). Most of these kinases were cyclin-dependent kinases (CDK1, CDK2, etc.) and casein kinases (CSNK1A1, CSNK2A1, and CSNK2A2), which mainly participated in cell cycle regulation 33 , 34 . Survival analysis also revealed poor-prognosis-associated proteins/phosphoproteins were enriched in cell-cycle related pathways, including regulation of G2/M transition of mitotic cell cycle, mRNA catabolic process, DNA replication, and cell cycle G1/S phase transition (Supplementary Fig. 4F ), validating a relationship between the activity of cell cycle and adverse clinical outcome. We further constructed the kinase-substrate regulation network consisting of these kinases and important substrates of them, including RB1, AKT1, CTNNB1, STAT1, and JUN (Supplementary Fig. 4G ). Together, these results showed the elevation of cell proliferation, WNT signaling pathway, and NF-kappaB signaling, in STS, implying their role in tumorigenesis and might potentially be targeted for STS treatment.",
+    "links": [
+      {
+        "ext-link-type": "uri",
+        "{http://www.w3.org/1999/xlink}href": "https://www.cancerrxgene.org/"
+      }
+    ]
+  },
+  {
+    "tag": "p",
+    "id": "Par14",
+    "text": "To further unravel the difference of molecular features among STS histological subtypes, we performed single sample gene set enrichment analysis (ssGSEA) of cancer hallmarks based on proteomic data. The result indicated that the TGF\u03b2 signaling pathway were most enriched in AS than other histological subtypes. Fat-metabolism-related pathways, including adipogenesis and fatty acid metabolism, were dominantly enriched in WDLPS and MLPS, whereas, DDLPS had an enriched PI3K-Akt-mTOR signaling pathway (Fig. 1D , Supplementary Fig. 5A, B ). Meanwhile, the pathway, DNA repair process, was overrepresented in SS and RMS. We also verified the histological specific features of sarcomas by the comparing analysis of sarcoma and control tissue in a patient-specific manner (Supplementary Fig. 5A, B ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par15",
+    "text": "We also evaluated the expression of reported diagnostic markers across various subtypes, including CDK4 (a marker for WDLPS), CDKN2A (a marker for DDLPS), S100B (a marker for MPNST), TLE1 (a marker for SS), DES (a marker for LMS), and others 35 \u2013 40 (Fig. 1E , Supplementary Fig. 6A\u2013C ). Consistent with previous reports, CDK4 and CDKN2A showed opposite distribution tendencies in DDLPS and WDLPS: CDK4 was relatively higher in DDLPS and CDKN2A was relatively higher in WDLPS (Fig. 1E ). Combined with patients\u2019 prognosis, we found that patients with DDLPS showed poorer prognosis than patients with WDLPS. In consistent with this phenomenon, survival analysis revealed that CDK4 was negatively correlated with OS, whereas, CDKN2A was positively correlated with OS (Supplementary Fig. 6C ). We further validated this observation in TCGA sarcoma cohort 9 (Supplementary Fig. 6B ). The expression of S100B and TLE families was observed to be separately elevated in MPNST and SS, which was consistent with previous reports at transcriptome level (Fig. 1E , Supplementary Fig. 6A ). Besides the above reported diagnostic biomarkers, we identified a series of proteins that showed dominant expressions in different histological subtypes of STS and presented high sensitivities and specificities, such as PECAM1, ICAM2, and NOS3 in AS (Supplementary Fig. 7A, B , Supplementary Data 1 ). Immunohistochemistry (IHC) staining further validated the prognostic effects of some proteins, including PECAM1, CD36, and IGFBP6 (Supplementary Fig. 7C ). In sum, these results suggested that the panel of biomarker candidates could be used to assist diagnosis in supplement to other known biomarkers to distinguish different STS histological subtypes in clinic.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par16",
+    "text": "Histologic clustering is the gold standard for STS diagnosis, but the molecular similarity and diversity among subtypes are still unclear. To further investigate the intrinsic common features of STS histological subtypes, we employed hierarchical clustering on the 12 STS histological subtypes (\u201cMethods\u201d). As a result, 6 clusters (HC1 ~ HC6) were selected based on both silhouette coefficient and clinical relevance (Fig. 2 A, C , Supplementary Fig. 8A\u2013D ). HC1 contained AS and ES; HC2 included MLPS and WDLPS; HC3 consisted of MFS, DDLPS, otherFS, and MPNST; HC4 contained RMS and SS; HC5 was UPS and HC6 was LMS (Fig. 2A ). Survival analysis of these hierarchical clusters revealed that patients belonging to HC1 (AS and ES) had the poorest OS among all clusters. Meanwhile, patients belonging to HC2 (MLPS and WDLPS) had a significantly longer OS (Fig. 2B ). Fig. 2 Hierarchical clusters of STS histological subtypes. A Dendrogram of hierarchical clusters (HCs). B Kaplan-Meier curves for OS of tumor patients stratified by HCs (log-rank test). C The heatmap indicates differentially enriched pathways (up panel) and key proteins (down panel) in different HCs. Two-sided student\u2019s t test is used for detecting the enrichment of pathways and proteins. D The forest plot presents the prognosis-related proteins in HC1 and HC2. Multivariate Cox proportional hazard models is used for survival analysis. The dots represent the hazard ratio values and the bars represent the 95% confidence intervals. The survival information from all 272 sarcoma patients were used for calculating the hazard values. E The scatter plot describes the correlation between the SHC1 abundance and TGF\u03b2 signaling GSVA scores (left, n = 214) or the TGFB3 abundance (right, n = 170). F The effect of TGFB3 on the migration of ASM cells is confirmed by transwell assay. The bar plot indicates the migrated ASM cells under different treatments. G The flow chart and the volcano plot present the phosphosites both up-regulated in HC1 and significantly correlated with SHC. Pearson\u2019s correlation is used for associated analysis. H The scatter plot presents the positive correlation between the protein expression of PTK2 and SHC1 ( n = 170). I , J The transwell assay and bar plots indicate the migrated cell counts of ASM cells under different treatments. K The boxplot indicates the phosphorylation intensity of ADD2 S2 under different treatments (n = biological repeats per group). The middle bar represents the median and the box represents the interquartile range. Bars extend to 1.5\u00d7 the interquartile range. L Dose-response curves and IC50 values presents the different response effects to the SHC1 inhibitor in 6 cell lines. M The diagram displays the mechanism of SHC1-dependent cell migration. For ( F , I , J , L ), three biologically independent experiments were performed for each group. Data are presented as mean values \u00b1 SE. Unpaired two-side Student\u2019s t test was used for statistical test. For ( E , H ), the Pearson\u2019s correlation is used for associated analysis. The error band represents the 95% confidence interval of the regression line. Source data are provided as Source Data files.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "A Dendrogram of hierarchical clusters (HCs). B Kaplan-Meier curves for OS of tumor patients stratified by HCs (log-rank test). C The heatmap indicates differentially enriched pathways (up panel) and key proteins (down panel) in different HCs. Two-sided student\u2019s t test is used for detecting the enrichment of pathways and proteins. D The forest plot presents the prognosis-related proteins in HC1 and HC2. Multivariate Cox proportional hazard models is used for survival analysis. The dots represent the hazard ratio values and the bars represent the 95% confidence intervals. The survival information from all 272 sarcoma patients were used for calculating the hazard values. E The scatter plot describes the correlation between the SHC1 abundance and TGF\u03b2 signaling GSVA scores (left, n = 214) or the TGFB3 abundance (right, n = 170). F The effect of TGFB3 on the migration of ASM cells is confirmed by transwell assay. The bar plot indicates the migrated ASM cells under different treatments. G The flow chart and the volcano plot present the phosphosites both up-regulated in HC1 and significantly correlated with SHC. Pearson\u2019s correlation is used for associated analysis. H The scatter plot presents the positive correlation between the protein expression of PTK2 and SHC1 ( n = 170). I , J The transwell assay and bar plots indicate the migrated cell counts of ASM cells under different treatments. K The boxplot indicates the phosphorylation intensity of ADD2 S2 under different treatments (n = biological repeats per group). The middle bar represents the median and the box represents the interquartile range. Bars extend to 1.5\u00d7 the interquartile range. L Dose-response curves and IC50 values presents the different response effects to the SHC1 inhibitor in 6 cell lines. M The diagram displays the mechanism of SHC1-dependent cell migration. For ( F , I , J , L ), three biologically independent experiments were performed for each group. Data are presented as mean values \u00b1 SE. Unpaired two-side Student\u2019s t test was used for statistical test. For ( E , H ), the Pearson\u2019s correlation is used for associated analysis. The error band represents the 95% confidence interval of the regression line. Source data are provided as Source Data files.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par17",
+    "text": "Aimed at exploring the molecular features of each hierarchical cluster, we performed ssGSEA based on proteomic data (Fig. 2C ). Statistical results of ssGSEA indicated that pathways, including TGF\u03b2 signaling, integrin pathway, epithelial cell migration, and actin cytoskeleton reorganization, were dominantly enriched in HC1 (Fig. 2C , Supplementary Fig. 9A ). SHC1, PTK2, and PECAM1, which participated in these HC1-enriched pathways, are significantly correlated with poor prognosis (Supplementary Fig. 9B ). Pathways related to metabolism, including metabolism of vitamins & cofactors, PPAR\u03b1 pathway were dominantly enriched in HC2. Some proteins participating in the metabolism process, such as APOVA4 and ACADVL, are significantly correlated with good prognosis (Supplementary Fig. 9B ). HC3 had enriched transport-related pathways, including intra-Golgi traffic, membrane trafficking, and trafficking regulated by Rab and elevated relevant kinases including GAK and SCYL1. RNA process and metabolism pathways, such as tRNA processing, RNA degradation, and spliceosome, were observed with significant distribution tendency in HC4. HC5, uniquely consisting of UPS, was featured by immune-related pathways, including T cell receptor signaling pathway and Fc receptor signaling. Cell-cycle-related proteins (MCM7, MCM5, CDK2, PCNA, etc.) were enriched in HC6 (LMS).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par18",
+    "text": "Noticeably, we found that our hierarchical clustering divided the lipid sarcoma (WDLPS, MLPS, and DDLPS) into two clusters. Particularly, DDLPS were clustered together with fibrosarcomas (MFS and otherFS) and MPNST in HC3. WDLPS and MLPS were clustered into another cluster (HC2). Considering different differentiation levels of WDLPS, MLPS, and DDLPS, these findings revealed the difference of tumor differentiation within lipid sarcomas might lead to the diverse molecular features between DDLPS and WDLPS, further implying that the degree of tumor differentiation might serve as an important factor in determining the molecular features of sarcomas within lipid sarcomas. Because DDLPS is more metastatic and proliferative than WDLPS 35 , we compared the ratio of KI67-positive tumor cells in WDLPS and DDLPS. DDLPS showed an obviously higher ratio of KI67-positive tumor cells than WDLPS (Supplementary Fig. 9C ). Consistently, HC3 also presented the higher ratio of KI67-positive tumor cells than HC2, implying that HC3 was featured with the fast cell proliferation characteristics (Supplementary Fig. 9C ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par19",
+    "text": "GSVA analysis revealed that DDLPS (HC3) could be distinguished from WDLPS and MLPS (HC2) by elevated enrichments of Rab pathway (Fig. 2C , Supplementary Fig. 9D ). The elevated protein expression of Rab GTPases including RAB14, RAB5A, RAB2A, etc. in HC3 confirmed the increased Rab pathway in HC3 (Supplementary Fig. 9E ). Moreover, among the Rab GTPases that showed elevated expression in HC3, we observed that the protein abundance of RAB2A and RAB14 were significantly correlated with patients\u2019 prognosis (Supplementary Fig. 9F ). Previous researches have reported that Rab GTPases participate in cell autophagy and RAB2A has been proved to regulate the formation of autophagosome and autolysosome 41 \u2013 43 . As researches have indicated that the elevated autophagy might be associated with tumor proliferation 44 , we then hypothetically assumed that the elevated autophagy might lead to faster tumor cell proliferation in HC3.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par20",
+    "text": "Aim to confirm this assumption, we compared the autophagy pathway between HC2 and HC3, and found that both the autophagy pathway enrichment scores as well as autophagy markers (ATG5, ATG7, MTOR, WIPI1) showed elevation in HC3 than HC2 (Supplementary Fig. 9G, H ). Moreover, proliferation index of sarcoma is both correlated with protein expression of RAB2A and autophagy pathway GSVA enrichment scores (Supplementary Fig. 9I ). These findings illustrated that comparing to WDLPS and MLPS (HC2), DDLPS (HC3), showed fast tumor cell proliferation features, which might be caused by the RAB2A-associated autophagy process.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par22",
+    "text": "To investigate cluster-specific proteins which were correlated with survival outcomes, we focused on proteins highly expressed in HC1 or HC2 (the hierarchical clusters with the poorest and best OS). Pathways enriched in HC1/HC2 and associated proteins were then filtered out for further survival analysis. To be more specific, HC1-enriched proteins (student\u2019s t test, fold-change >1.5, adjusted p value <= 0.05) participating in TGF\u03b2 signaling, integrin pathway, epithelial cell migration, or actin cytoskeleton reorganization pathways, were selected. Meanwhile, HC2-enriched proteins (student\u2019s t test, fold-change >1.5, adjusted p value <= 0.05) participating in pathways correlated with metabolism (as shown in Fig. 2C ) were filtered out. The correlations between abundances of these filtered proteins and patients\u2019 OS were calculated using the Cox proportional hazard model (Supplementary Data 2 ). High expressions of SHC1, PTK2, and ITGB2 were significantly correlated with the poorer prognosis (Fig. 2D ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par23",
+    "text": "Among these proteins related to OS, SHC1 presented the highest hazard ratio, suggesting SHC1 could play an important role in survival outcomes. SHC1, as an adaptor protein, has been reported to be recruited and activated by growth factor signaling transduction and cascade, including TGF\u03b2 signaling 45 \u2013 47 . After activation, SHC1 could regulate diverse biological processes involved in cell growth and proliferation, cell migration, and angiogenesis 48 . Consistently, we found a significantly positive correlation between the protein abundance of SHC1 and the TGF\u03b2 signaling pathway enrichment score (Pearson\u2019s correlation, r = 0.15, p value = 0.028), suggesting an association between SHC1 and the TGF\u03b2 signaling in sarcoma (Fig. 2E ). We then investigated the expression of proteins participating in TGF\u03b2 signaling and found among the TGF\u03b2 families, TGF\u03b23 showed a statistically positive correlation with SHC1 (Pearson\u2019s correlation, r = 0.25, p value = 0.026), suggesting the potential association between TGF\u03b23 and SHC1, and implying they might cooperate to impact downstream signaling pathways (Fig. 2E ). To illustrate the downstream pathways which might be regulated by TG\u03b23 and SHC1 and led to poor prognosis of patients in HC1, we conducted correlation analysis and found there\u2019re significantly positive correlations between protein abundance of SHC1 and two HC1-enriched biological pathways, actin cytoskeleton reorganization (Pearson\u2019s correlation, r = 0.21 p value = 0.0049) and epithelial cells migration (Pearson\u2019s correlation, r = 0.22 p value = 0.0027) (Supplementary Fig. 10C ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par24",
+    "text": "These results promote us to further explore the potential relationship among SHC1, TGF\u03b2 and elevated tumor cell migrations of HC1 cluster, we utilized ASM cell line, the cell line of AS, to represent the HC1 cluster. We constructed the SHC1-overexpressed vector and transfected it into the ASM cell line (SHC1-OE-ASM). Meanwhile, we also utilized shRNA to knock down SHC1 in ASM (SHC1-KD-ASM). RT-PCR analysis confirmed the significantly elevated expression of SHC1 in SHC1-OE-ASM and significantly decreased expression of SHC1 in SHC1-KD-ASM (Supplementary Fig. 10A ). We then evaluated the cell migration rates using transwell assay. As a result, SHC1-OE-ASM showed increased cell migration ability, whereas SHC1-KD-ASM exhibited decreased cell migration ability (Supplementary Fig. 10B ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par26",
+    "text": "Published researches have indicated that SHC1 participates in various biological process, and might regulate downstream pathways through phosphorylation 45 , 49 , 50 . To this end, we investigated phosphoproteins and corresponding phosphosites which were enriched in HC1 and participated in SHC1-correlated pathways (Fig. 2G ). As a result, among the 7 phosphosites which had a significant positive correlation with SHC1 abundance, ADD2 Ser2 had the highest correlation with SHC1 (Pearson\u2019s correlation, r = 0.36, p value = 6.79e\u20135) (Fig. 2G ). ADD2 Ser2 presented high expression in HC1, independent of the protein abundance of ADD2 (Supplementary Fig. 10D, E ). ADD2 belongs to a family of membrane skeletal proteins involved in cell-cell adhesion, cell motility, and cell signaling 51 . Consistently, we found an obvious correlation between ADD2 Ser2 and ssGSEA enrichment scores of actin cytoskeleton reorganization or positive regulation of epithelial migration (Supplementary Fig. 10F ). Survival analysis also uncovered that the high phosphorylation level of ADD2 Ser2 was associated with poor prognosis (Supplementary Fig. 10G ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par27",
+    "text": "To elucidate the kinase that related to SHC1 and might regulate the phosphorylation of ADD2 at Ser2 in HC1, we referred to the public database (PhosphoSite [ https://www.phosphosite.org/homeAction.action ], Phos-pho.ELM [ http://phospho.elm.eu.org/dataset.html ], and PhosphoPOINT [ http://kinase.bioinformatics.tw/ ]) and conducted correlation analysis. As a result, among the kinases reported to regulate phosphorylation of ADD2, PTK2 was identified as the kinase showing the most significantly correlation with SHC1 and comparatively higher expression in HC1 cluster (Fig. 2H , Supplementary Fig. 10H ). To further investigate the role of PTK2 in impacting cell migration, SHC1-OE-ASM and OE-Ctrl-ASM cell lines were treated with PTK2 inhibitors and the cell migration was evaluated by transwell assay. As a result, inhibiting PTK2 could significantly decrease the cell migration rates increased by SHC1 overexpression (Fig. 2I ). Moreover, overexpression of PTK2 in SHC1-KD-ASM significantly increased cell migration which was inhibited by knocking down SHC1(Fig. 2J ). These results implied that PTK2 participated in cell migration driven by SHC1. We further performed comparative phosphoproteomic analysis between SHC1-OE-ASM treated with or without PTK2 inhibitor. As a result, the phosphorylation of proteins such as ADD2 Ser2, FGD4 Ser702 and EPB41 Ser542, which participate in actin cytoskeleton reorganization and epithelial cell migration, showed significant elevation in SHC1-OE-ASM and significant reduction in SHC1-OE-ASM treated with PTK2 inhibitor (Fig. 2K , Supplementary Fig. 10I ). These observations confirmed the role of PTK2 in phosphorylating ADD2 at Ser2 and elevating actin cytoskeleton reorganization pathways.",
+    "links": [
+      {
+        "ext-link-type": "uri",
+        "{http://www.w3.org/1999/xlink}href": "https://www.phosphosite.org/homeAction.action"
+      },
+      {
+        "ext-link-type": "uri",
+        "{http://www.w3.org/1999/xlink}href": "http://phospho.elm.eu.org/dataset.html"
+      },
+      {
+        "ext-link-type": "uri",
+        "{http://www.w3.org/1999/xlink}href": "http://kinase.bioinformatics.tw/"
+      }
+    ]
+  },
+  {
+    "tag": "p",
+    "id": "Par28",
+    "text": "To test the clinical relevance of SHC1 targeting for HC1 (AS and ES), we collected 6 different sarcoma cell lines, including 2 AS cell lines (ISO-HAS and ASM), 2 ES cell lines (VA-ES-BJ and SU-CCS-1), and 2 WDLPS cell lines (93T449 and SW-872). All six cell lines were cultured and treated with different degrees of carbamoylcholine (the inhibitor of SHC1). Then effects of carbamoylcholine on cell viability were measured. Compared with WDLPS cell lines, AS and ES cell lines were more sensitive to the SHC1 inhibitors with lower IC 50 values (median IC 50 : 19.41 \u03bcM [AS & ES] vs 42.08 \u03bcM [WDLPS]) (Fig. 2L , Supplementary Data 2 ), proving that SHC1 had a more effective impact on cell viability in AS and ES. In sum, after activated by TGFB3, SHC1 could recruit PTK to phosphorylate ADD2 Ser2 and other phosphosites participating actin cytoskeleton reorganization and epithelial cell migration, which is correlated with poor prognosis (Fig. 2M ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par29",
+    "text": "Besides hierarchical clustering based on proteomic data which had unraveled the relationships among STS histological subtypes, we further performed proteomic-based subtyping to characterize biological themes that cross histological boundaries and unite individual tumors of disparate histologies. Consensus clustering based on global proteomics data of 272 tumor samples identified three clusters (PC-Ra, PC-Cc, and PC-Sm) with distinct clinical outcomes, proliferation score, stroma score, and pathway enrichment (\u201cMethods\u201d, Fig. 3A ). Remarkably, the proteomic clusters significantly differed in OS (log-rank test, p value = 9.6e\u20133), in which PC-Ra and PC-Cc had a worse prognosis than PC-Sm (\u201cMethods\u201d, Fig. 3C ). To explore the potential clinical factors might impact the correlation between prognosis and proteomic clusters, we compared the baselines among the three clusters. As a result, there were no significant differences of basic clinical characteristics between the three proteomic clusters, including age, gender, postoperative treatment, and tumor location, implying that the proteomic cluster is an independent risk factor relevant with prognosis (Supplementary Data. 3 ). Fig. 3 Proteomics clusters of STSs. A The heatmap presents 3 proteomic clusters (PCs), 6 protein groups and enriched pathways in protein groups. Clinical and molecular features are also presented, including location, gender et al. B The Sankey diagram illustrates relationships between hierarchical clusters and proteomic clusters. C Kaplan-Meier curves for OS of proteomic subtypes (log-rank test). D The bar plot indicates the metastasis ratio of proteomic clusters. The number of patients with available metastasis information: PC-Ra (metastasis: 41, non-metastasis: 42), PC-Cc (metastasis: 22, non-metastasis: 73), PC-Sm (metastasis: 5, non-metastasis: 49). Fisher\u2019s exact test is used for statistical analysis. E Boxplots indicates GSVA scores of angiogenesis and KRAS-MAPK cascade among hierarchical clusters. The sample number for each group: HC1( n = 11), HC2( n = 9), HC3( n = 35), HC4( n = 12), HC5( n = 7), HC6( n = 12). The middle bar represents the median and the box represents the interquartile range. Bars extend to 1.5\u00d7 the interquartile range. Kruskal-Wallis\u2019s test is used for statistical analysis. F Scatter plot presents the proteins with different expression models in the four groups: metastasis, non-metastasis, PC-Ra-oHCs, and PC-Ra-HC1. The Wilcoxon rank test is used for statistical analysis. G IHC images of SHC1 and MAPK10, Scale bar = 100 \u03bcm. H The transwell experiments confirm the promotion of SHC1 on cell migration of ISOHAS cell line. Scale bar for images of the transwell experiments, 50 \u03bcm. I The volcano plot illustrated the phosphosites enriched in metastasis group and correlated with SHC1 or MAPK10. Th Pearson\u2019s correlation test is used for associated analysis. J The abundance\u2019s correlation between CSNK1G1 and SHC1 ( n = 72). K The correlation between CSNK1G1 abundance and phosphorylation level of CTNNB1 Ser552 ( n = 58). L The effect of the SHC1-CSNK1G1 axis on the migration of ISOHAS is confirmed by transwell assay. M The diagram illustrates two different mechanisms associated with metastasis in PC-Ra. For ( H , L ), three biological repeats are performed per group. The data is presented as mean value \u00b1 SE. The two-sided student\u2019s t test is used for statistical analysis. For ( J , K ), the error band represents the 95% confidence interval of the regression line. Pearson\u2019s correlation test is used for associated analysis. Source data are provided as Source Data files.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "A The heatmap presents 3 proteomic clusters (PCs), 6 protein groups and enriched pathways in protein groups. Clinical and molecular features are also presented, including location, gender et al. B The Sankey diagram illustrates relationships between hierarchical clusters and proteomic clusters. C Kaplan-Meier curves for OS of proteomic subtypes (log-rank test). D The bar plot indicates the metastasis ratio of proteomic clusters. The number of patients with available metastasis information: PC-Ra (metastasis: 41, non-metastasis: 42), PC-Cc (metastasis: 22, non-metastasis: 73), PC-Sm (metastasis: 5, non-metastasis: 49). Fisher\u2019s exact test is used for statistical analysis. E Boxplots indicates GSVA scores of angiogenesis and KRAS-MAPK cascade among hierarchical clusters. The sample number for each group: HC1( n = 11), HC2( n = 9), HC3( n = 35), HC4( n = 12), HC5( n = 7), HC6( n = 12). The middle bar represents the median and the box represents the interquartile range. Bars extend to 1.5\u00d7 the interquartile range. Kruskal-Wallis\u2019s test is used for statistical analysis. F Scatter plot presents the proteins with different expression models in the four groups: metastasis, non-metastasis, PC-Ra-oHCs, and PC-Ra-HC1. The Wilcoxon rank test is used for statistical analysis. G IHC images of SHC1 and MAPK10, Scale bar = 100 \u03bcm. H The transwell experiments confirm the promotion of SHC1 on cell migration of ISOHAS cell line. Scale bar for images of the transwell experiments, 50 \u03bcm. I The volcano plot illustrated the phosphosites enriched in metastasis group and correlated with SHC1 or MAPK10. Th Pearson\u2019s correlation test is used for associated analysis. J The abundance\u2019s correlation between CSNK1G1 and SHC1 ( n = 72). K The correlation between CSNK1G1 abundance and phosphorylation level of CTNNB1 Ser552 ( n = 58). L The effect of the SHC1-CSNK1G1 axis on the migration of ISOHAS is confirmed by transwell assay. M The diagram illustrates two different mechanisms associated with metastasis in PC-Ra. For ( H , L ), three biological repeats are performed per group. The data is presented as mean value \u00b1 SE. The two-sided student\u2019s t test is used for statistical analysis. For ( J , K ), the error band represents the 95% confidence interval of the regression line. Pearson\u2019s correlation test is used for associated analysis. Source data are provided as Source Data files.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par30",
+    "text": "To explore the diversity of proteomic characteristics and signaling pathways among proteomic clusters, we utilized consensus clustering based on 2757 proteins differently expressed among proteomic clusters (ANOVA analysis, adjusted p value <= 0.001, Supplementary Data 3 ) and identified 6 protein sets that illustrate different expression models of proteins among the three protein clusters (\u201cMethods\u201d, Fig. 3A ). PC-Ra had overrepresented RAS-MAPK cascade and angiogenesis, with a low-grade oxidation\u2212reduction process. PC-Cc were featured by high expression of proteins participating in cell-cycle-related pathways, including mRNA processing, DNA repair, cell population proliferation, and chromosome organization. Consistently, PC-Cc had the highest cell cycle score (PC-Ra:0.23, PC-Cc:0.29, PC-Sm:0.15; Kruskal-Wallis\u2019s test: p value < 2.2e\u201316) (Fig. 3A ). Meanwhile, PC-Cc had the down-regulated component process. PC-Sm had enriched extracellular matrix and lipid metabolism, with the highest stroma score (PC-Ra:255, PC-Cc: 93, PC-Sm: 494; Kruskal-Wallis\u2019s test: p value = 3.8e\u201310) (Fig. 3A ). Moreover, compared with PC-Ra and PC-Cc, PC-Sm had lower enrichment of proteins participating in the Wnt signaling pathway.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par31",
+    "text": "To assess the intersection of our proteomic clusters with histological subtypes, we compared subtypes assignment of 272 STS patients using each of the two classifiers. Intriguingly, the LMS histological subtype (HC6) was distributed orthogonally across our three proteomic clusters, implying that this subtype is not restricted to a distinctive proteomic feature (Fig. 3 A, B ). By conducting further integrative analysis of proteomic clusters and patients\u2019 clinical features, we found that patients belonging to PC-Ra had the highest metastasis ratio (49.4%) after the primary surgeries than PC-Cc and PC-Sm in the following 5 years (Fig. 3D ). Pathways enriched in PC-Ra included positive regulation of MAPK cascade (Kruskal-Wallis\u2019s test, p value = 8.5e\u20138), RAS protein signaling transduction ( p value = 7.9e\u201310), and sprouting angiogenesis ( p value = 1.2e\u201311). To further explore the mechanisms of metastasis in PC-Ra, we focused on the dominant pathways in PC-Ra. As a result, we observed higher ssGSEA enrichment scores of the three pathways, angiogenesis (Wilcoxon\u2019s test, p value = 3.4e\u20137), MAPK cascade ( p value = 5.2e\u20138), and RAS signaling transduction ( p value = 4.3e\u20135) (Supplementary Fig. 11B ) in patients with metastasis.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par32",
+    "text": "Histologically, PC-Ra contained all six hierarchical clusters, we then divided the PC-Ra according to HCs and evaluated the ssGSEA enrichment scores of these three metastasis-related pathways. As a result, HC1 (AS and ES) was distinguished from other HCs by the highest enrichment of angiogenesis (Kruskal-Wallis\u2019s test, p value = 2.4e\u20134) and the lowest enrichment of the RAS-MAPK cascade pathway ( p value = 0.017) in HC1 (Fig. 3E ). Thus, we hypothesized that the metastasis of patients in PC-Ra and HC1 (PC-Ra-HC1) might be mainly driven by angiogenesis, and the metastasis of patients in PC-Ra and other HCs (PC-Ra-oHCs) might be mainly driven by RAS-MAPK signaling pathway. Consistently, focusing on the proteins participating in these PC-Ra featured pathways, we analyzed different expression tendencies of them in two aspects (PC-Ra-HC1 vs PC-Ra-oHCs, metastasis vs non-metastasis) to explore key proteins related to metastasis (Fig. 3F ). We found the enrichment of SHC1 in metastasis samples of PC-Ra-HC1 (Student\u2019s t test: p value = 0.042) and MAPK10 in metastasis samples of PC-Ra-oHCs (Student\u2019s t test: p value = 2.1e\u20134) (Fig. 3F ). IHCs also validated the exclusively the high expression of SHC1 and MAPK10 separately in PC-Ra-HC1 and PC-Ra-oHCs (Fig. 3G ). To verify the promotion of SHC1 for metastasis in PC-Ra-HC1, we constructed SHC1-overexpressed ISOHAS cell lines (ISOHAS-SHC1-OE). As a result, the transwell migration assay showed increased migration ability of ISOHAS-SHC1-OE cell lines (Fig. 3H ). Focusing on the PC-Ra-HC1, since we have confirmed that as an adaptor protein, SHC1 could interact with PTK2 and phosphorylated ADD2 to elevate the actin cytoskeleton reorganization pathway in HC1, we then evaluated the expression of PTK2 and phosphorylation of ADD2 in HC1-PC-Ra. As a result, comparing to HC1-oPCs (HC1 samples which were grouped into other proteomic clusters), PTK2 and phosphorylation of ADD2 at S2 showed no significant elevation in HC1-PC-Ra (Supplementary Fig. 11C-D ), implying that PTK2 phosphorylated ADD at S2 might be the common features shared by both HC1-PC-Ra and HC1-oPCs, and SHC1 might cooperate with other kinases to promote metastasis of HC1-PC-Ra.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par33",
+    "text": "We then combined different expression and protein-phosphosite correlation analyses to find phosphosites might be downstream participators in phosphorylation signaling transduction of SHC1 or MAPK10 (Fig. 3I ). Noticeably, CTNNB1 Ser552 had a positive correlation with SHC1 (Pearson\u2019s correlation: r = 0.64, p value = 1.45e\u201314) and CTNNB1 Ser675 had a positive correlation with MAPK10 (Pearson\u2019s correlation: r = 0.65, p value = 5.87e\u201315) (Fig. 3I , Supplementary Data 3 ). Both phosphorylation of CTNNB1 Ser552 and Ser675 showed elevated expression in metastasis patients and have been proven to be related to the activation of CTNNB1 52 \u2013 55 (Supplementary Fig. 11E ). Functionally, CTNNB1 is one of the core proteins in the Wnt signaling pathway, whose activation has been reported to be related to metastasis, in gastric, colon, and breast cancer 56 \u2013 58 . To validate the correlation between SHC1 and CTNNB1 Ser552, we cultured patient-derived cancer cells (PDCs) from patients of PC-Ra with different expression levels of SHC1 (high-SHC1 group: n = 3, average SHC1 abundance = 9.81; control group: n = 3, average SHC1 abundance = 0.0028) and collected these PDCs to performed LC-MS based phosphoproteomic analysis (Supplementary Fig. 11F ). Among all phosphosites elevated in the high-SHC1 group, CTNNB1 Ser552 showed the most significant fold change of abundance between the high-SHC1 group and control group, verifying the potential association between SHC1 on CTNNB1 Ser552 (Supplementary Fig. 11G ). To identify the potential kinase that associated with SHC1, the phosphorylation of CTNNB1 at Ser552, and the tumor metastasis, we referred to the public database and performed further correlation analysis. As a result, among the public reported kinases of CTNNB1, CSNK1G1 showed the significantly positive correlation with both SHC1 and the phosphorylation of CTNNB1 at Ser552 (Fig. 3J\u2013K ). Consistently, the phosphorylation of CSNK1G1 also showed elevated expression level in PC-Ra (Supplementary Fig. 11H ). To further investigate the role of CSNK1G1 in impacting tumor metastasis, we utilized the constructed SHC1-OE-ISOHAS and Ctrl-OE-ISOHAS cells and treated them with the CSNK1G1 inhibitor. We then evaluated the cell migration by transwell assay. As a result, inhibiting CSNK1G1 could significantly decrease the cell migration rates increased by SHC1 (Fig. 3L ). These results implied that CSNK1G1 participates in tumor metastasis in PC-Ra-HC1 driven by SHC1. We further performed phosphoproteomic analysis between SHC1-OE-ISOHAS treated with or without the CSNK1G1 inhibitor. As a result, the phosphosites of proteins participating in angiogenesis, especially CTNNB1 Ser552, significantly decreased in SHC1-OE-ISOHAS treated with the CSNK1G1 inhibitor (Supplementary Fig. 11I ). These observations confirmed the role of CSNK1G1 in phosphorylating CTNNB1 at Ser552. The above results confirmed our assumption that SHC1 could lead to PC-Ra-HC1 tumor migration through phosphorylating CTNNB1 mediated by CSNK1G1.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par34",
+    "text": "Moreover, as for the impact of MAPK10 on the phosphorylation of CTNNB1 at Ser675. We constructed the MAPK10 overexpressed vector and transfected it into SW872 cell line (MAPK10-OE-SW872) which showed similar expression patterns with PC-Ra-oHCs. We then treated MAPK10-OE-SW872 cells and treated with or without MAPK10 inhibitor. We also conducted phosphoproteomic analysis, and observed the phosphorylation of proteins such MAPK13, CTNNB1 and MAPK14 which participate in MAPK signaling pathway, showed significantly elevated expression in MAPK10 overexpressed cells and downregulated in MAPK10 inhibitor treated cell lines (Supplementary Fig. 11J ). The above results confirmed our assumption that MAPK10 could lead to PC-Ra-oHCs tumor migration through phosphorylating CTNNB1 at Ser675. All the above observations implied that although both PC-Ra-HC1 and PC-Ra-oHCs showed elevated metastatic rates, they were mediated by diverse phosphorylation cascade, with SHC1 dominant in PC-Ra-HC1 and MAPK10 dominant in PC-Ra-oHCs, respectively (Fig. 3L ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par35",
+    "text": "Although both PC-Cc and PC-Ra were associated with poor prognosis, PC-Cc showed an elevated enrichment of the cell cycle pathway (Fig. 3A ). To further explore the relationships of prognosis and proteins involved in the cell cycle, we performed Cox proportional hazard model analysis (\u201cMethods\u201d) for cell-cycle related proteins and found APEX1 had the most significant correlation with prognosis (hazard ratio = 1.016, p value = 1.18e\u20133) (Fig. 4A , Supplementary Data 4 ). In addition, the prognostic value of APEX1 at the mRNA level was also verified in the TCGA sarcoma cohort (Supplementary Fig. 12A ) 9 . APEX1 is a key enzyme of the base excision repair (BER) pathway, the function of which is to repair DNA damage caused by oxidizing or alkylating agents 59 . Besides BER and DNA damage repair, APEX1 could also act as a redox coactivator of different transcription factors such as EGR1, p53, and NF-\u03baB 60 , 61 . It has been reported that APEX1 plays a key role in the progression of a variety of cancers, including gastric, colon, and hepatocellular carcinoma 62 \u2013 64 . To further explore whether APEX1 promotes poor prognosis through cell proliferation, we performed the correlation analysis and found a positive correlation between abundance of APEX1 and cell proliferation scores in PC-Cc (Pearson\u2019s correlation, r = 0.23, p value = 0.01) (Fig. 4B ). In concordantly, since KI67 is an indicator of cell proliferation, which has been universally used in pathological screening, we stratified samples into different groups based on KI67 ratios (no: 0%, low: 0\u201315%, median: 15\u201330%, high: >30%) and compared expression level of APEX1 in these groups. APEX1 showed a higher abundance in groups with more KI67 ratio (Kruskal\u2212Wallis\u2019s test, p value = 1.2e\u201305), confirming the positive correlation of APEX1 abundance and cell proliferation (Fig. 4B ). The positive correlation between the mRNA expression level of APEX1 and cell proliferation scores in two independent cohorts also confirmed the promotion of APEX1 for cell proliferation in LMS and UPS (the two dominant histological subtypes in PC-Cc) 65 , 66 (Supplementary Fig. 12B ). Moreover, to verify the promoting effect of APEX1 for cell proliferation in PC-Cc, we generated APEX1-overexpressed cell lines (RKN-APEX1 and SK-UT-1B-APEX1) utilizing two LMS cell lines (RKN and SK-UT-1B), since LMS was one of the dominant histological subtypes in PC-Cc (29.5%). The results showed that after the overexpression of APEX1, these two cell lines both showed higher cell proliferation rate (RKN: fold change = 2.35, p value = 2.56e-6; SK-UT-1B: fold change = 1.82, p value = 0.024), proving the promoting effect of APEX1 for cell proliferation in vitro (Fig. 4C ). Fig. 4 Characteristic proteins and the driver pathway of the PC-Cc. A The volcano plot illustrates prognosis-related proteins which are also enriched in PC-Cc. The Cox proportional hazards model is used for survival analysis. B The scatter plot illustrates the correlation between APEX1 abundance and cell proliferation ( n = 122 samples). The boxplot presents the correlation between APEX1 and Ki67 levels. C The plots illustrate the increased proliferation of RKN and SK-UT-1B cell lines after SHC1 overexpression ( n = 3 biological repeats per group). D The volcano plot illustrates proteins significantly associated with APEX1. The Pearson\u2019s correlation test is used for associated analysis. E Flow chart shows IP-MS steps of primary patient-derived cancer cells (PDCs) isolated from patients with different APEX1 expression. F The volcano plot shows up-regulated proteins in high-APEX1 PDCs group. The two-sided student\u2019s t test is used for the statistical comparison. G The plots illustrate the correlation between NPM1 abundance and cell proliferation. Data is presented as Fig. 4B. H The Kaplan-Meier curve illustrate the interacted impact of APEX1 and NPM1 on patient\u2019s overall survival times. Cox proportional hazards model is used for survival analysis. I The heatmap presents the enrichment of APEX1, NPM1 and NPM1 Ser125 in PC-Cc. Wilcoxon rank test is used for statistical analysis. J The scatter plot illustrates kinases both correlated with NPM1 Ser125 and enriched in PC-Cc. The Spearman\u2019s correlation is used for associated analysis and the two-sided student\u2019s t test is used for different expression analysis. K Proliferation rate of the RKN cell line is promoted by RIOK1 ( n = 4 biological repeats per group). L Boxplots reveal the influence of RIOK1on APEX1, Ki67 and NPM1 Ser125 in the RKN cell line ( n = 3 biological repeats per group). M Proliferation rate of the RKN cell line promoted by RIOK1 is associated with NPM1 Ser125 ( n = 4 biological repeats per group). N Boxplots reveal the impact of NPM1 Ser125 mutation on APEX1, Ki67 and NPM1 Ser125 in the RKN cell line ( n = 3 biological repeats per group). O The diagram illustrates the comprehensive mechanism of RIOK1, APEX1, and NPM1 in promoting cell proliferation. For scatter plots in ( B , G ), the Pearson\u2019s correlation is used for associated analysis. The error band represents the 95% confidence interval of the regression line. For boxplots in ( B , G , L , N ), the middle bar represents the median and the box represents the interquartile range. Bars extend to 1.5\u00d7 the interquartile range. Kruskal-Wallis\u2019s test is used for statistical analysis. For ( C , K , M ), data is presented as the mean value +/- SE. The two-sided student\u2019s t test is used for statistical analysis at the 5th day. Source data are provided as Source Data files.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "A The volcano plot illustrates prognosis-related proteins which are also enriched in PC-Cc. The Cox proportional hazards model is used for survival analysis. B The scatter plot illustrates the correlation between APEX1 abundance and cell proliferation ( n = 122 samples). The boxplot presents the correlation between APEX1 and Ki67 levels. C The plots illustrate the increased proliferation of RKN and SK-UT-1B cell lines after SHC1 overexpression ( n = 3 biological repeats per group). D The volcano plot illustrates proteins significantly associated with APEX1. The Pearson\u2019s correlation test is used for associated analysis. E Flow chart shows IP-MS steps of primary patient-derived cancer cells (PDCs) isolated from patients with different APEX1 expression. F The volcano plot shows up-regulated proteins in high-APEX1 PDCs group. The two-sided student\u2019s t test is used for the statistical comparison. G The plots illustrate the correlation between NPM1 abundance and cell proliferation. Data is presented as Fig. 4B. H The Kaplan-Meier curve illustrate the interacted impact of APEX1 and NPM1 on patient\u2019s overall survival times. Cox proportional hazards model is used for survival analysis. I The heatmap presents the enrichment of APEX1, NPM1 and NPM1 Ser125 in PC-Cc. Wilcoxon rank test is used for statistical analysis. J The scatter plot illustrates kinases both correlated with NPM1 Ser125 and enriched in PC-Cc. The Spearman\u2019s correlation is used for associated analysis and the two-sided student\u2019s t test is used for different expression analysis. K Proliferation rate of the RKN cell line is promoted by RIOK1 ( n = 4 biological repeats per group). L Boxplots reveal the influence of RIOK1on APEX1, Ki67 and NPM1 Ser125 in the RKN cell line ( n = 3 biological repeats per group). M Proliferation rate of the RKN cell line promoted by RIOK1 is associated with NPM1 Ser125 ( n = 4 biological repeats per group). N Boxplots reveal the impact of NPM1 Ser125 mutation on APEX1, Ki67 and NPM1 Ser125 in the RKN cell line ( n = 3 biological repeats per group). O The diagram illustrates the comprehensive mechanism of RIOK1, APEX1, and NPM1 in promoting cell proliferation. For scatter plots in ( B , G ), the Pearson\u2019s correlation is used for associated analysis. The error band represents the 95% confidence interval of the regression line. For boxplots in ( B , G , L , N ), the middle bar represents the median and the box represents the interquartile range. Bars extend to 1.5\u00d7 the interquartile range. Kruskal-Wallis\u2019s test is used for statistical analysis. For ( C , K , M ), data is presented as the mean value +/- SE. The two-sided student\u2019s t test is used for statistical analysis at the 5th day. Source data are provided as Source Data files.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par36",
+    "text": "Based on the findings above, we then explored the proteins that might cooperate with APEX1 in the cell cycle pathway and observed proteins including BANF1, RUVBL1, and NPM1 showed the positive correlation with APEX1 (Fig. 4D , Supplementary Data 4 ). Among these proteins potentially interacting with APEX1, NPM1 (Nucleophosmin1) had the highest functionally combined score (0.992) with APEX1 (Supplementary Fig. 12C , \u201cMethods\u201d) 67 . NPM1 involves in several cellular processes, including cell proliferation, DNA repair, and cell senescence, and elevated expression of NPM1 is associated with the progress of several cancers 68 \u2013 70 . Similar to our findings, the interaction of APEX1 and NPM1 has also been reported by previous research in breast cancer and this interaction contributes to drug resistance in triple negative breast cancer 71 . Moreover, high expression of NPM1 was correlated with poor OS in our cohort (Supplementary Fig. 12F ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par37",
+    "text": "For purpose of validating the interaction of APEX1 and NPM1 in PC-Cc, we collected PDCs from patients of PC-Cc with different expression levels of APEX1 (high-APEX1 group: n = 3, average APEX1 abundance = 93.43; control group: n = 3, average APEX1 abundance = 4.64), and performed Immunoprecipitation-Mass Spectrometry (IP-MS) experiments utilizing the APEX1 antibody (anti-APEX1) (\u201cMethods\u201d, Fig. 4G ). As a result, the comparison between high-APEX1 and the control group identified 48 proteins specifically interacting with APEX1. Among these proteins, NPM1 showed the highest elevated expression in the high-APEX1 group compared with the control group, confirming the close interaction of APEX1 and NPM1 in PC-Cc (Fig. 4E, F ). In concordant with APEX1, we also proved the positive correlation between NPM1 and cell proliferation in PC-Cc at the protein level in our cohort and the mRNA level in public independent cohorts (Fig. 4E, G , Supplementary Fig. 12E ) 65 , 66 . Survival analysis further revealed that patients with both high expression levels of NPM1 and APEX1 showed worse prognosis (Cox proportional hazard model, p value = 1.19e\u20133) (Fig. 4H ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par38",
+    "text": "As a phosphoprotein, NPM1 is phosphorylated by various kinases during different stages of the cell cycle, regulating its subcellular localization and functions 72 , 73 . We hypothesized that phosphorylation of NPM1 might help its interaction with APEX1. End of this assumption, we then evaluated the abundance of NPM1 Ser125 had the highest correlation with APEX1 (Pearson\u2019s correlation, r = 0.29, p value = 0.0061) (Fig. 4I , Supplementary Fig. 12G , Supplementary Data 4 ). In addition, we further explored the upstream kinases of NPM1 Ser125 through kinase-substrate correlation analysis and thus found a significantly positive correlation between NPM1 Ser125 and RIOK1, suggesting that NPM1 Ser125 might be a substrate of RIOK1 (Fig. 4J , Supplementary Data 4 ). Similar to NPM1 Ser125, RIOK1 also showed an elevated expression in PC-Cc (Supplementary Fig. 12H ). We also utilized PDCs from patients of PC-Cc with different expression levels of RIOK1 (high-RIOK1 group: n = 3, average RIOK1 abundance = 1.97; control group: n = 3, average RIOK1 abundance = 0.032) and conducted phosphoproteome approach to depict the functional correlation between RIOK1 and NPM1 Ser125 (Supplementary Fig. 12I ). Among all phosphosites participating in the cell cycle, NPM1 Ser125 showed the most elevated abundance in the high-RIOK1 group compared with the control group, verifying the phosphorylation function of RIOK1 on NPM1 Ser125 (Supplementary Fig. 12J ). We also constructed RIOK1-overexpressed RKN cell line (RIOK1-OE-RKN) and RIOK1-knocking-down RKN cell line (RIOK1-KD-RKN) to validate the impact of RIOK1 in promoting cell proliferation and phosphorylating NPM1 Ser125. CCK8 cell proliferation assay revealed that RIOK1-OE-RKN showed most significantly elevated cell proliferation rates and RIOK1-KD-RKN had significantly decreased cell proliferation rates (Fig. 4K ). The RIOK1 inhibitor could also significantly decrease the proliferation of RIOK1-OE-RKN (Fig. 4K ). These observations confirmed the impact of RIOK1 on promoting sarcoma tumor cell proliferation. We then performed comparative proteomic and phosphoproteomic analysis among RKN sarcoma cell lines with different treatments. As a result, besides APEX1, the proteins participating in DNA base excision repair including XRCC1, XRCC4, POLB, as well as cell proliferation index KI67 showed elevated expression in RIOK1-OE-RKN (Fig. 4L , Supplementary Fig. 12K ). Consistent with the result of high-RIOK1 PDCs, NPM1 Ser125 was significantly increased in RIOK1-OE-RKN, verifying the correlation of RIOK1 and NPM1 Ser125 (Fig. 4L ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par40",
+    "text": "We further performed IP-MS using both NPM1 S125A -OE-RIOK1-KD-RKN and NPM1-OE-RIOK1-KD-RKN to further illustrate whether the phosphorylation of NPM1 affects its interaction with APEX1 (Supplementary Fig. 12L ). As a result, 17 proteins were identified to interact with the wildtype NPM1, but not NPM1 S125A . Among them, APEX1 presented the highest abundance, proving that NPM1 Ser125 is the pivotal site for the interaction between NPM1 and APEX1 (Supplementary Fig. 12M ). The above results illustrated the potential mechanism that RIOK1 could impact sarcoma tumor cell proliferation through phosphorylating NPM1 which then interacted with APEX1 and promoted tumor cell proliferation accordingly (Fig. 4O ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par41",
+    "text": "We performed a cell-type deconvolution analysis based on the xCell 74 algorithm to infer the STS TME(\u201cMethods\u201d) 63 . UPS had the highest mean M1 macrophage score among STS histological subtypes; ES had the highest monocyte infiltrated scores (Supplementary Fig. 13D ). Furthermore, we evaluated the prognostic power (Cox proportional hazard model; adjusted p value < 0.05) of these infiltrated cells in our cohort (Supplementary Fig. 13B , Supplementary Data 5 ). The elevated signature of the Th1 cell was associated with the good outcome in DDLPS and oppositely correlated with the poor outcome in LMS and SS. Focusing on macrophages, we observed M1 macrophages were generally associated with favorable outcomes of patients, whereas, the impact of M2 macrophages on prognosis differed among histological subtypes. For instance, the enrichment of M2 macrophages in LMS and MFS was related to poor prognosis, while correlated with favorable prognosis in UPS and DDLPS. These results implied the diversity of immune features within hierarchical clusters. In concordantly, we also observed a similar phenomenon in the TCGA sarcoma cohort 9 , implying the diverse impacts of immune cell infiltration on prognosis among different STS subtypes.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par42",
+    "text": "Consensus clustering based on inferred cell type proportions defined three immune subtypes with distinct immune and stromal features: IM-S-1 (stroma-enriched: n = 96), IM-S-2 (immune-deficiency: n = 93), IM-S-3 (immune-enriched: n = 83) (\u201cMethods\u201d, Fig. 5 A, C ; Supplementary Fig. 13A , 13E ). Survival analysis indicated the immune subtypes significantly differed in OS (log-rank test, p value = 0.0013), suggesting that different types of immune cell infiltration could lead to diverse prognostic outcomes (Fig. 5B ). The stroma-enriched subtype (IM-S-1), containing mainly PC-Sm samples (52%) (Fig. 5D ), showed the highest stromal score and was characterized by multiple types of stromal cells, such as keratinocytes, adipocytes, and mesangial cells (Fig. 5A ). In concordant with the features of PC-Sm, this subtype also had enriched complement & coagulation cascade and PPAR signaling pathway (Fig. 5A ). The immune-deficiency subtype (IM-S-2), predominantly containing PC-Cc and LMS, represented the lowest immune score (Supplementary Fig. 13E ). Consistently, this subtype was enriched with proteins involved in the cell cycle, such as PCNA, CDK2, MCM4, and MCM6. The immune-enriched subtype (IM-S-3), containing most UPS samples, was characterized by the highest immune score, the presence of CD8 + T cells, CD4 + T cells, macrophages, etc., and increased expression of the immune evasion markers CD274 (PD-L1), CD80 (Fig. 5 A, F , Supplementary Fig. 13E ). SsGSEA analysis indicated immune-related pathways, including the Toll-like receptor signaling pathway, T cell receptor signaling pathway, and RIG-like receptor signaling pathway were also enriched in this subtype (Fig. 5A ). Intriguingly, the samples in IM-S-3 showed a significantly higher metastasis ratio than the other two immune subtypes (Fisher\u2019s exact test, p value = 6.1e\u20134) (Fig. 5E ). Fig. 5 Immune subtypes of STS. A The heatmap illustrates enriched cell type compositions, proteins and pathways among three immune clusters. B The Kaplan-Meier curve illustrate distinguished OS of three immune clusters. Log-rank test is used for survival analysis. C The density contour plot of different immune clusters based on stroma and immune scores. D The bar plot indicates the proportion of proteomic clusters in each immune cluster. Per group number: IM-S-1 (PC-Ra = 33, PC-Cc = 13, PC-Sm = 50), IM-S-2 (PC-Ra = 21, PC-Cc = 66, PC-Sm = 6), IM-S-3 (PC-Ra = 32, PC-Cc = 43, PC-Sm = 8). E The bar plot indicates the proportion of patients with and without metastasis in each immune cluster. The number for each group: IM-S-1 (metastasis = 13, non-metastasis = 73), IM-S-2 (metastasis = 26, non-metastasis = 52), IM-S-3 (metastasis = 29, non-metastasis = 39). Fisher\u2019s exact test is used for statistical analysis. F Boxplots present CD274 and CD80 abundance in different immune clusters. G Boxplots present CD274 and CD80 abundance in patients with and without metastasis of IM-S-3. Per group number: metastasis ( n = 41) and non-metastasis ( n = 40). The two-sided student\u2019s t test is used for statistical analysis. H Boxplots present CD274 and CD80 abundance in different proteomic clusters. I The heatmap shows the metastasis ratio in different proteomic and immune clusters. J Boxplot presents CD274 and CD80 abundance in three groups: PC-Ra-nIM3 ( n = 54), IM3-nPC-Ra ( n = 51), and PC-Ra-IM3 ( n = 32). K Boxplot presents phosphosite abundance of CTNNB1 Ser675 in three groups: PC-Ra-nIM3 ( n = 18), IM3-nPC-Ra ( n = 25), and PC-Ra-IM3 ( n = 18). L Scatter plots present the correlation between CTNNB1 pSer675 and CD274 or CD80 abundance. M The boxplot shows log2-transformed MAPK10 protein abundance across PC-Ra-nIM3 ( n = 54), IM3-nPC-Ra ( n = 51), and PC-Ra-IM3 ( n = 32). N Scatter plots present the correlation between MAPK10 and CD274/CD80. O The diagram illustrates the mechanism that MAPK10 phosphorylate CTNNB1 Ser675 to regulate CD274, resulting in promote metastasis. For ( F , H , J , K , M ), the Kruskal\u2212Wallis\u2019s test is used for statistical analysis. For ( F \u2013 H , J , K , M ), the middle bar represents the median and the box represents the interquartile range. Bars extend to 1.5\u00d7 the interquartile range. For ( L , N ), Pearson\u2019s correlation is used for associated analysis. Source data are provided as Source Data files.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par43",
+    "text": "To confirm our cellular deconvolution analysis by xCell algorithms, we utilized ESTIMATE and CIBERSORT methods to infer each patient\u2019s total immune cell infiltration scores and distinctive cell type enrichment scores. We then compared both total immune scores and cell-type specific enrichment scores among the three immune subtypes. The results confirmed the consistent conclusion inferred by the three deconvolution methods. As for the total immune and stroma scores inferred by ESTIMATE confirmed the analysis results of xCell, the immune subtype that harbored the highest immune infiltration score was IM-S-3, and the immune subtype that held the highest stromal scores was IM-S-1 (Supplementary Fig. 14A ). Meanwhile, as for cell-type specific enrichment scores among the three immune subtypes, in concordant with the distinctive cell-type enrichments revealed by xCell analysis, CIBERSORT also indicated that the IM-S-3 showed the highest enrichment scores of CD8 + T cell, M1 macrophage and M2 macrophage, and IM-S-2 showed the highest memory B cell enrichment scores (Supplementary Fig. 14B ). These results confirmed the feasibility of our proteomic-based xCell deconvolution analysis in predicting the distinctive cell type enrichment in sarcoma tumor microenvironments. We further evaluated the expression of cell-type-specific markers among three immune clusters. As a result, the keratinocyte markers (KRT14, KRT19, and KRT5) were enriched in IM-S-1. The B cell markers (CD19 and IgM) and endothelial cell markers (MCAM, etc.) were significantly elevated in IM-S-2. The CD4 + T cell markers (CD4 and ISG20) and the macrophage markers (CD14, FCGRA, and etc.) were significantly elevated in IM-S-3 (Supplementary Fig. 14C ). To further verify our TME deconvolution analysis, we randomly selected several markers for distinctive cell types of each immune subtype (KRT5 & KRT9 for Keratinocyte, CD4 & ISG20 for CD4 + T cells, CD19 & IgM for B cells) and obtained their expression through IHC staining. These markers showed consistent enrichment in immune clusters with related xCell-enriched cell types (Supplementary Fig. 14D ). For example, CD4 + T cells had the highest infiltrated scores in the IM-S-3 group. Consistently, the IHC results also presented the highest CD4 and ISG20 expressions in the IM-S-3 group. Meanwhile, IHC staining using CD19 and IgM confirmed the elevated expressions of these two B cell markers in the IM-S-2. Moreover, IHC staining using KRT5 and KRT9 verified the dominant expression of these keratinocytes in IM-S-1. In sum, these IHC staining provided a convincible proof for our TME convolution result.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par45",
+    "text": "Noticeably, the samples of PC-Ra also featured by high metastasis ratio but were not predominantly overlapped with samples of IM-S-3 (Figs. 3 D, 5D ). Based on the intersection of PC-Ra and IM-S-3, we found patients belonging to both PC-Ra and IM-S-3 (PC-Ra-IM3) had the highest metastasis ratio (56%) and elevated abundances of CD274/CD80 than PC-Ra-nIM3 (patients belonged to PC-Ra, but not IM-S-3) and IM3-nPC-Ra (patients belonged to IM-S-3, but not PC-Ra) (Fig. 5H\u2013J ). Since we have proven that metastasis in PC-Ra depended on activating the CTNNB1 through phosphorylating Ser552 or Ser675 (Fig. 3L ), we then analyzed the expression of CTNNB1 Ser552 and Ser675 in three groups: PC-Ra-IM3, PC-Ra-nIM3, and IM3-nPC-Ra. We found a high expression of CTNNB1 Ser675 in PC-Ra-IM3 (Kruskal-Wallis\u2019s test, p value = 0.016), but not CTNNB1 Ser552 (Fig. 5K , Supplementary Fig. 13F ). We next evaluated the association between CD274/CD80 and the phosphorylation of CTNNB1 Ser675 and observed a significant correlation between the abundance of CTNNB1 Ser675 and the expression of CD274 or CD80 (Fig. 5L ). Consistent with our findings, previous research has reported that CTNNB1 could induce transcriptional expression of CD274 78 , which meant the phosphorylation of CTNNB1 Ser675 might activate CTNNB1 for inducing transcription of CD274. Furthermore, in concordant with the correlation of CTNNB1 Ser675 and MAPK10 in PC-Ra, we also observed the increased expression of MAPK10 in PC-Ra-IM3 and a significantly positive correlation between MAPK10 and CD274/CD80 (Fig. 5 M, N ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par46",
+    "text": "We further validated the impact of MAPK10 on tumor immune infiltration using C57/BL6J mice, which usually used as the model for immune microenvironment analysis 79 \u2013 81 . We constructed xenograft mice models using SW872 cells in which MAPK10 were stably overexpressed or knocked down. Twenty C57/BL6J mice were randomized into four groups ( n = 5 per group), and separately injected MAPK10-overexpressed and MAPK10-knocked-down SW872 cell lines (OE-MAPK10 and sh-MAPK10) and control cell lines (OE-Ctrl and sh-Ctrl) to form subcutaneous tumors. Tumor size and weight were measured throughout the tumor growth process and tumor volume was calculated. After 4 weeks, mice were sacrificed and tumors were collected for further proteomic and IHC staining analysis. As a result, tumors from mice transplanted with OE-MAPK10-SW872 showed significantly increased immune cell infiltrations, which were evidenced by elevated expression of T cell and macrophage markers (CD4, CD8, and CD163) (Supplementary Fig. 15A ). Moreover, the immune checkpoint proteins such as CD274 (PD-L1) and CD80 were also observed to be elevated in OE-MAPK10-SW872 mice (Supplementary Fig. 15A ). On the contrary, mice transplanted with sh-MAPK10-SW872 showed obviously decreased immune cell infiltrations, with decreased expression of both immune cell markers and immune checkpoint proteins (Supplementary Fig. 15A ). IHC staining of immune markers (CD8, CD163, CD274, and etc.) further confirmed the increased immune cell infiltrations in OE-MAPK10-SW872 mice and decreased immune cell infiltrations in sh-MAPK10-SW872 mice (Supplementary Fig. 15B ). In sum, our data implied MAPK10 might activate CTNNB1 through phosphorylating CTNNB1 Ser675 to induce transcriptional expression of CD274 and then result in a high risk of metastasis in PC-Ra-IM3 patients (Fig. 5O ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par47",
+    "text": "To further clarify the relationships among subgroups from different aspects, we performed an integrative analysis of the twelve histological subtypes, six hierarchical clusters, three proteomic clusters, and three immune clusters for STS (Fig. 6A , Supplementary Fig. 16A, B ). Noticeably, three hierarchical clusters (HC4, HC5, HC6) and five histological subtypes (RMS, SS, UPS, LMS, DDLPS) were mainly enriched in PC-Cc. For these histological subtypes, almost all of the patients distributed into PC-Cc showed higher proliferation scores, higher APEX1 abundance, and higher NPM1 abundance (Fig. 6B ), indicating despite the diverse histological subtypes, the consistent molecular features could still be observed at the proteomic level. Furthermore, combined with immune clustering, we found a high overlap between Pc-Cc and IM-S-2, implying the potential impact of tumors on TMEs. Intriguingly, immune clustering grouped PC-Ra mainly into two immune clusters with different TME features: PC-Ra-IM1 and PC-Ra-IM3 (Fig. 6C ). PC-Ra-IM3 showed a higher metastasis ratio with the cooperation of kinase (MAPK10) and immune features (CD274 and CD80), which illustrated that the combination of proteomic clusters and immune clusters could uncover the interaction between tumor biological process and TME to give a detailed division of STS. This conclusion is still tenable in specific histological subtypes and hierarchical clusters. For example, we estimated the proteomic and immune features of HC3, which is mainly clustered into 2 proteomic clusters (PC-Ra and PC-Cc) and 2 immune clusters (IM-S-1 and IM-S-3), showing proteomic and immune environment diversity. According to the distribution of HC3 in proteomic and immune clusters, we classified HC3 into 4 subgroups: HC3-Ra-IM1, HC3-Ra-IM3, HC3-Cc-IM1, and HC3-Cc-IM3. Consistent with the conclusion gotten from the whole proteomic clusters and immune clusters, we also observed the elevated MAPK10 and CTNNB1 S675 in HC3-Ra-IM3 (Supplementary Fig. 16C, D ). For immune features, CD274 and CD80 were also elevated in HC3-Ra-IM3 (Supplementary Fig. 16C ). In HC3, CTNNB1 S675 still had positive correlations with MAPK10, CD274, and CD80, as the same as the results observed in whole samples (Supplementary Fig. 16E ). These results proved the consensus of clustering at different levels. Fig. 6 Summary of molecular characteristics based on proteomic clusters. A The Graphical summary presents the characteristic pathways and major molecular findings of different level subtypes including histological subtypes, hierarchical clusters, unbiased consensus proteomic clusters, and immune clusters. The relationships of these subtypes are also displayed. B Boxplots indicate the proliferation score and APEX1/NPM1 protein abundance across different protein clusters separately in RMS (top) and UPS (bottom). For the number of each group in RMS: PC-Ra ( n = 7), PC-Cc ( n = 6), and PC-Sm ( n = 2). For the number of each group in UPS: PC-Ra ( n = 7), PC-Cc ( n = 33), and PC-Sm ( n = 3). C Boxplots indicate the immune score and signature scores of monocyte/CD4 + T cell/macrophage in PC-Ra-IM1 ( n = 33) and PC-Ra-IM3 ( n = 32). For ( B , C ), the student\u2019s test is used for statistical analysis. The middle bar represents the median and the box represents the interquartile range. Bars extend to 1.5\u00d7 the interquartile range. Source data are provided as Source Data files.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par48",
+    "text": "Moreover, through the combined analysis among the clusters from different aspects, we could also further explore the intrinsic features of STS comprehensively. Specifically, HC5 (UPS) and HC6 (LMS) were both clustered into PC-Cc and featured with fast tumor cell proliferation, which could be confirmed by the elevated cell proliferation index (Supplementary Fig. 16F ). Yet, the two HCs showed distinctive immune features. Particularly, the HC5 showed elevated CD8 + T cell infiltration (Supplementary Fig. 16G ). To illustrate the potential mechanism, we compared the protein expression and pathway enrichment scores of immune-related processes between HC5 and HC6. As a result, we observed the dominant enrichment of the TCR signaling pathway in HC5. TCR-related proteins such as PTPN6, NFKBIE, IKBKG, BCL10, etc. were also significantly elevated in HC5 (Supplementary Fig. 16G ). These observations suggested that even presenting the same proteomic features, the hierarchical clusters could have different TME features, which supported the necessity of clustering from different levels.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par53",
+    "text": "The diverse immune features have been reported to be associated with the prognosis of sarcoma patients, but the majority of these researches were either done in animal models or have one layer of omics data. For instance, Magrini and colleagues have utilized transcriptomic data from sarcoma mice model to illustrate that the sarcoma tumor cells could express C3 which could then recruit macrophages through C3-C3aR axis, thus C3 deficiency-associated signatures of macrophages could lead to favorable prognosis in sarcoma 88 . Since we have also observed elevated C3 protein expression in tumor tissues (Supplementary Fig. 17A ), we then investigated the potential association among C3 protein expression, the recruitment of macrophages, and patients\u2019 prognosis. As a result, the significantly positive correlation between C3 and macrophage enrichment was observed in our pan-sarcoma dataset and in histological subtypes LMS, SS, WDLPS, and AS (Supplementary Fig. 17B ). Further integrative analysis with patients\u2019 prognosis revealed that the C3-deficiency macrophage signature based on proteomic was associated with patients\u2019 prognosis, consistent with the result from transcriptome previously 88 (Supplementary Fig. 17C ). Meanwhile, previous research conducted by Petitprez et al. have utilized transcriptomic data based immune analysis to decipher the immune diversity in pan-sarcomas 89 . They have presented an immune classification of soft tissue sarcomas and identified B cells as a prognostic factor for sarcomas. Taking advantages of our cohort including 12 histological sarcoma subtypes, we further investigated the association between B cells and patients\u2019 prognosis. As a result, although we didn\u2019t observe a significant association between B cell enrichment and patients\u2019 prognosis in our whole pan-sarcoma cohort, we observed that LMS, UPS, MFS, and AS patients with high B cell signatures trended to have longer overall survival times (Supplementary Fig. 17D ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par54",
+    "text": "Moreover, to further elevate the clinical applicable of utilizing B cells to prognostic index, we further evaluated the prognostic relevance of the B cell markers\u2019 protein expression in our sarcoma cohort and TCGA SARC cohort. As a result, among the 12 B cell markers that have been detected in our dataset, 7 B cell markers showed significant associations with patients\u2019 prognosis in our pan-sarcoma cohort. 3 of these B cell markers (PTPRC, CD9, IGLL5) showed consistent prognostic relevance at transcriptomic level in TCGA cohort 9 (Supplementary Fig. 17E ). These results implying the potential clinical utilization of these 3 B cell markers for prognostic prediction in feature.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par62",
+    "text": "The two hundred seventy-two formalin-fixed, paraffin-embedded (FFPE) sarcoma tumor tissues and 91 paired NATs were acquired from Zhongshan Hospital, Fudan University from 2010 to 2019. All cases were collected regardless of histological grade or surgical stage. Clinical information of 272 STS patients, including gender, age, tumor location, survival status, and FNCLCC classification, is listed in Supplementary Data 1 . Written informed consent was obtained by participants. All the patients received primary resection for sarcomas without any anti-cancer treatments prior to surgery. Postoperative surveillance and treatment were conducted consistently according to Zhongshan Hospital\u2019s guidelines. Specifically, 64 patients received chemotherapies, and 27 patients received target therapies after sugary. We compared the overall survival between patients with and without postoperative treatments and observed no significant difference, implying that the patient survival was not impacted by their treatment after surgery (Log-rank test, p value > 0.1). Each sample was assigned a new research ID, and the patient\u2019s name or medical record number used during hospitalization was deidentified.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par64",
+    "text": "For NAT samples: (1) pathologists evaluated and defined the tumor-adjacent areas on the slices of FFPE specimens with no observed tumor cells; (2) for different histological sarcoma subtypes, NATs were chosen based on tumor locations and the original lineages of tumors, according to WHO classification of soft Tissue & Bone tumor 28 . The specific NATs for different histological sarcomas were presented in Supplementary Data 1 . The representative H&E-stained slices showed the regions of tumors with their paired NATs, which confirmed the NAT types for distinctive tumors, and also indicated over 90% of tumor cellular purities for tumor regions, and no tumor cells in NATs (Supplementary Fig. 2A ). Moreover, the same NAT collecting criteria were also utilized by previous published sarcoma studies 9 , 92 \u2013 94 .",
+    "links": []
+  },
+  {
+    "tag": "title",
+    "id": null,
+    "text": "Cell lines",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par65",
+    "text": "Eight human sarcoma cell lines were used for functional experiments, including SW-872 (ATCC no. HTB-92), SK-UT-1B (ATCC no. HTB-115), RKN (ITI BioChem, Cat ITI04946), ASM (obtained from Chinese Academy of Science [Shanghai, China]), ISO-HAS (obtained from BioVector Science Lab), VA-ES-BJ (ATCC no. CRL-2138), SU-CCS-1 (ATCC no. CRL-2971), and 93T449 (ATCC no. CRL-3043). The HEK-293T was obtained from Chinese Academy of Sciences and used for quality control. All cell lines were routinely tested for mycoplasma contamination and authenticated by Short Tandem repeat (STR) profiling. Cells were maintained in recommended medium, Roswell Park Memorial Institute-1640 (RPMI-1640, Corning) or Dulbecco\u2019s modified Eagle\u2019s medium (DMEM, ATCC) supplemented with 10% fetal bovine serum (FBS, Sigma\u2010Aldrich) and 1% penicillin\u2013streptomycin antibiotic (Sigma\u2010 Aldrich) and incubated at 37 \u00b0C and 5% CO 2 in a humidified atmosphere in an incubator.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par76",
+    "text": "For the quality control of MS performance, the HEK293T cell lysate was measured every three days as the quality control standard. The standard was digested and analyzed using the same method and conditions as the STS samples. A pairwise Pearson\u2019s correlation coefficient was calculated for all quality control runs in the statistical analysis environment R (version 4.2.3), and the results were shown in Supplementary Fig. 1A . The average correlation coefficients of proteome standards were 0.83-0.95. We also calculated the CV values based on iBAQs and signal-to-noise ratio, to further determine the reproducibility. Fifteen raw data files of HEK293 standards were utilized. We performed a peptide filtering process, the peptides with CV values higher than 30% were filtered out, and the remaining peptides were utilized for protein quantifications. As a result, the median CV based on signal-to-noise ratio at the protein level was 0.18 (Supplementary Fig. 1J\u2013K ). These results revealed good reproducibility for repeat experiments with the same samples and demonstrated the consistent stability of the MS platform.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par89",
+    "text": "Firstly, 2536 proteins were filtered out with significant variance among histological subtypes (ANOVA analysis, adjust p value <= 0.001). Then, we calculated the mean values of these filtered proteins for each sarcoma histology subtype. The coefficients of Pearson correlation between each two subtypes were calculated utilizing these mean values to represent subtypes\u2019 distances (Supplementary Data 2 ). Next, based on the Pearson\u2019s distances, we created the dendrogram with hclust (R basse) and fviz_dend (factoextra) functions. To find the appropriate cluster number (k), we cut the cluster dendrogram at different heights to get the cluster numbers from 2 to 10. The silhouette coefficient was employed to estimate the similarity of samples in one cluster and the difference of samples among different clusters. The silhouette coefficients reached the peak when the cluster number was 5 or 6 (Supplementary Fig. 8C ). Combined with survival analysis, we selected 6 clusters as the final result of hierarchical clustering, since the 6 clusters had significantly different prognosis, which revealed the clinical relevance of this clustering standard (Supplementary Fig. 8D ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par92",
+    "text": "Statistical details of experiments and analyses were noted in the figure legends and supplementary data. Standard statistical tests were used to analyze the association between clinical information and multi-omics data. Student\u2019s t test, Wilcoxon rank test, One-way ANOVA, and Kruskal-Wallis\u2019s Test were used for continuous data; Fisher\u2019s exact test was used for categorical data. Log-rank tests and Cox proportional hazard model were used in survival analysis. All statistical tests were two-sided, and statistical significance was considered when p value < 0.05. The correlation between two sets of data was calculated using Pearson\u2019s correlation and Spearman\u2019s correlation. All the analyses were performed in R (version 4.2.3). A significance level of p value < 0.05 was assumed for all statistical evaluations * p value < 0.05, ** p value < 0.01, *** p value < 0.001.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par98",
+    "text": "The full sequences of MAPK10, RIOK1 and SHC1 were referred to NCBI (Supplementary Data 5 ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": "Par110",
+    "text": "Five-week-old male C57/BL6J nude mice were obtained (Shanghai SLAC Laboratory Animal Co., Ltd, Shanghai, China) for in vivo xenografts. Mice were housed in pathogen free, temperature-controlled environment, scheduled with 12\u201312 h light\u2013dark cycles. The feeding conditions were specific pathogen free animal laboratory with 28 \u00b0C and 50% humidity 12/12, providing sufficient water and diet. Empty-overexpressing-vector, Empty-shRNA-vector, stably MAPK10 overexpressing, and stable MAPK10 knockdown SW872 cell lines (2 \u00d7 10 6 ) were resuspended in PBS and subcutaneously injected into the right flank of C57/BL6J mice (day 0). Tumor size was measured using a caliper, and tumor volume was determined by using the formula: L\u00d7W 2 \u00d70.52, where L is the longest diameter and W is the shortest diameter. This study is under the guidelines of Institutional Animal Care and Use Committee (IACUC), Fudan University. The maximal permitted tumor size is 20 mm in an average diameter for mice, in accordance with guidelines of IACUC. At the end of the experiment, following euthanasia with excessive carbon dioxide (CO2) inhalation, tumors were excised, weighed, and imaged. All procedures were approved by IACUC, Fudan University. Ethical review approval number 2018JS024 was obtained from the Department of experimental animal science, Fudan University.",
+    "links": []
+  },
+  {
+    "tag": "title",
+    "id": null,
+    "text": "Supplementary information",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Supplementary Information Peer Review File Description of Additional Supplementary Files Supplementary Data 1 Supplementary Data 2 Supplementary Data 3 Supplementary Data 4 Supplementary Data 5 Reporting Summary",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM1_ESM.pdf",
+        "position": "float",
+        "orientation": "portrait"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM2_ESM.pdf",
+        "position": "float",
+        "orientation": "portrait"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM3_ESM.pdf",
+        "position": "float",
+        "orientation": "portrait"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM4_ESM.xlsx",
+        "position": "float",
+        "orientation": "portrait"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM5_ESM.xlsx",
+        "position": "float",
+        "orientation": "portrait"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM6_ESM.xlsx",
+        "position": "float",
+        "orientation": "portrait"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM7_ESM.xlsx",
+        "position": "float",
+        "orientation": "portrait"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM8_ESM.xlsx",
+        "position": "float",
+        "orientation": "portrait"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM9_ESM.pdf",
+        "position": "float",
+        "orientation": "portrait"
+      }
+    ]
+  },
+  {
+    "tag": "supplementary-material",
+    "id": "MOESM1",
+    "text": "Supplementary Information",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM1_ESM.pdf",
+        "position": "float",
+        "orientation": "portrait"
+      }
+    ]
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Supplementary Information",
+    "links": []
+  },
+  {
+    "tag": "supplementary-material",
+    "id": "MOESM3",
+    "text": "Description of Additional Supplementary Files",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM3_ESM.pdf",
+        "position": "float",
+        "orientation": "portrait"
+      }
+    ]
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Description of Additional Supplementary Files",
+    "links": []
+  },
+  {
+    "tag": "supplementary-material",
+    "id": "MOESM4",
+    "text": "Supplementary Data 1",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM4_ESM.xlsx",
+        "position": "float",
+        "orientation": "portrait"
+      }
+    ]
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Supplementary Data 1",
+    "links": []
+  },
+  {
+    "tag": "supplementary-material",
+    "id": "MOESM5",
+    "text": "Supplementary Data 2",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM5_ESM.xlsx",
+        "position": "float",
+        "orientation": "portrait"
+      }
+    ]
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Supplementary Data 2",
+    "links": []
+  },
+  {
+    "tag": "supplementary-material",
+    "id": "MOESM6",
+    "text": "Supplementary Data 3",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM6_ESM.xlsx",
+        "position": "float",
+        "orientation": "portrait"
+      }
+    ]
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Supplementary Data 3",
+    "links": []
+  },
+  {
+    "tag": "supplementary-material",
+    "id": "MOESM7",
+    "text": "Supplementary Data 4",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM7_ESM.xlsx",
+        "position": "float",
+        "orientation": "portrait"
+      }
+    ]
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Supplementary Data 4",
+    "links": []
+  },
+  {
+    "tag": "supplementary-material",
+    "id": "MOESM8",
+    "text": "Supplementary Data 5",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "41467_2024_45306_MOESM8_ESM.xlsx",
+        "position": "float",
+        "orientation": "portrait"
+      }
+    ]
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Supplementary Data 5",
+    "links": []
+  },
+  {
+    "tag": "title",
+    "id": null,
+    "text": "Supplementary information",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "The online version contains supplementary material available at 10.1038/s41467-024-45306-y.",
+    "links": []
+  },
+  {
+    "tag": "title",
+    "id": null,
+    "text": "Data availability",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "All the proteome and phosphoproteome datasets for the cohort study can be accessed through the ProteomeXchange ID: PXD047297 . For functional studies, all the raw data can be accessed through the ProteomeXchange ID accession: PXD047429 . The entire proteome and phosphoproteome datasets from these functional experiments were uploaded to OMIX and can be accessed through the accession: OMIX005327 . The raw files of Annotated gene sets were collected from GO ( https://geneontology.org/docs/download-go-annotations/ ). For molecular signatures database, KEGG database and Reactome database, we got access to them by the R package: msigdbr (version 7.5.1). The public transcriptomic data for validation were downloaded from supplementary files of published articles (10.1016/j.cell.2017.10.014, 10.1074/mcp.M110.000240, 10.1038/modpathol.3800794). The information of kinase-substrate relationships was available in PhosphoSite [ https://www.phosphosite.org/homeAction.action ], Phos-pho.ELM [ http://phospho.elm.eu.org/dataset.html ], and PhosphoPOINT [ http://kinase.bioinformatics.tw/ ]. Software and publicly available resources used in this study were described in \u201cMethods\u201d section. The remaining data are available within the Article, Supplementary Information, or Source Data files. Source data are provided with this paper.",
+    "links": [
+      {
+        "ext-link-type": "uri",
+        "{http://www.w3.org/1999/xlink}href": "https://www.iprox.cn/page/SCV017.html?query=PXD047297"
+      },
+      {
+        "ext-link-type": "uri",
+        "{http://www.w3.org/1999/xlink}href": "https://www.iprox.cn/page/SCV017.html?query=PXD047429"
+      },
+      {
+        "ext-link-type": "uri",
+        "{http://www.w3.org/1999/xlink}href": "https://ngdc.cncb.ac.cn/omix/release/OMIX005327"
+      },
+      {
+        "ext-link-type": "uri",
+        "{http://www.w3.org/1999/xlink}href": "https://geneontology.org/docs/download-go-annotations/"
+      },
+      {
+        "ext-link-type": "uri",
+        "{http://www.w3.org/1999/xlink}href": "https://www.phosphosite.org/homeAction.action"
+      },
+      {
+        "ext-link-type": "uri",
+        "{http://www.w3.org/1999/xlink}href": "http://phospho.elm.eu.org/dataset.html"
+      },
+      {
+        "ext-link-type": "uri",
+        "{http://www.w3.org/1999/xlink}href": "http://kinase.bioinformatics.tw/"
+      }
+    ]
+  }
+]

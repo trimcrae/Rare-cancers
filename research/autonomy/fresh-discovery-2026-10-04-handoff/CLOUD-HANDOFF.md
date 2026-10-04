@@ -1,0 +1,106 @@
+---
+id: DOC-FRESH-EMC-HANDOFF-CLOUD-HANDOFF
+title: EMC discovery handoff CLOUD HANDOFF
+kind: memo
+status: live
+purpose: Preserve verified campaign evidence, decisions and continuation context.
+scope: Computational EMC discovery; no publication or clinical validation.
+audience: [autonomous research agents, maintainers]
+date: 2026-10-04
+last_verified: 2026-10-04
+---
+
+# EMC discovery campaign: authoritative cloud handoff
+
+Checkpoint: 2026-10-04. Read this before the five historical round packets. This is a scientific discovery campaign, not manuscript production or infrastructure maintenance.
+
+## Current conclusion
+
+**No new publication-worthy EMC finding survived rounds 1–5. The search is not exhausted.** No full manuscript was drafted or promoted. TMEM266's standalone paper remains shelved; earlier favorable assessments and rankings are historical. Work stopped for this checkpoint at the user's request for a fresh cloud continuation prompt.
+
+The five round packets preserve actual analyses, original hypotheses, negative/inconclusive evidence, source coverage, independent challenges and decisions. A successful retrieval, source inventory, technically correct computation or repaired provenance is not itself a disease discovery. Do not reread every source or rerun verified analyses just to demonstrate diligence.
+
+## Read order and supersession
+
+1. Repository `AGENTS.md` and `research/autonomy/OPERATING_PROTOCOL.md`, especially parallel discovery, scientific reassessment, complete public-EMC coverage and checkpoint integration.
+2. This handoff, `CONTINUE-IN-CLOUD.txt`, `PORTABLE-INVENTORY.json`, and the five round reports/handoffs.
+3. Claim-specific results, coverage records, scripts and final independent reviews for a proposed follow-up. Use later evaluated dispositions instead of earlier to-do lists.
+
+Round paths under `research/autonomy/`:
+
+- `fresh-discovery-2026-10-04/`
+- `fresh-discovery-2026-10-04-round2/`
+- `fresh-discovery-2026-10-04-round3/`
+- `fresh-discovery-2026-10-04-round4/`
+- `fresh-discovery-2026-10-04-round5/`
+
+Historical snapshots are immutable evidence, not current status. In particular R3 `LATEST-HANDOFF.txt` still says workers are running; the later R3 report, integrations and ownership resolution supersede it. R3's report calls small-RNA review provisional, but `small_rna_review_final/` and its later integration contain the final review. R3/R4 final-state snapshots predate their completed ownership restorations. R5 `LIVE-HANDOFF.txt` predates the final frozen packets; use R5 `REPORT.txt`, `HANDOFF.txt`, `FINAL-STATE.json` and integration receipts. Historical no-commit statements describe their original checkpoints; use actual Git ancestry and the current integration receipt for present status.
+
+## Empirical benchmark and prior baseline
+
+The submitted CSPG4 letter was located and read in round1. Exact historical source: `097f863ab83d242022e05637da39bafbad03b4f2:research/release-candidates/preprint-short-formats-20260924/cspg4-figure1-revision/letter.md`. Submitted as CG-D-26-00971 on September25; submission is not acceptance. Its nine-EMC/393-malignancy RNA comparison and limited independent array contrast illustrate the requested disease-specific empirical contribution, with explicit sample-selection, overlap, protein and clinical limitations. Read the actual letter and R1 audit before using it as a standard.
+
+The required original baseline folders were reviewed in R1: data-opportunities-2026-09-30, continuation-2026-10-02, discovery-2026-10-03, tmem266-tissue-2026-10-03, tmem266-prepublication-2026-10-03, tmem266-questions-2026-10-04, tmem266-all-cultures-2026-10-04, scientific-reassessment-2026-10-04, public-emc-coverage-rule-2026-10-04 and session-save-2026-10-04. Missing current-tree paths have historical/source references in that audit. Reuse those verified evaluations; do not interpret missing working-tree paths as missing historical evidence.
+
+## Decision index: avoid rediscovery
+
+| Question | Actual disposition and important limits | Durable record |
+|---|---|---|
+| DDR, TP53 and HLA reuse | Published DDR work already includes ATR-related observations; compound-specific activity defeats a blanket resistance claim. Version/method and linked raw-data gaps remain. TP53 observations and HLA reuse did not yield a new useful finding. | R1 functional, genomics and lead records |
+| Matrix-enzyme expression | Frozen 44-gene screen and independent contrasts did not validate a worthwhile novel broad EMC claim. Known matrix biology is prior art, not discovery. | R2 matrix results and review |
+| TSC2/secondary genomics | Two TSC2 events were already published; no new genotype-response linkage. Exploratory nominal enrichment did not survive the recorded multiplicity check; isoform/VUS and cohort independence matter. | R2 genomics |
+| Clinical late recurrence | Small Mayo landmark analysis is imprecise and reinforces known late recurrence; cohort overlap prevents independent confirmation. | R2 clinical |
+| H1FX | The cited GSE6481 identity is wrong for the claimed EMC/cartilage comparison. Authentic EMC analyses do not establish that intended comparison; provenance correction is not a new biological discovery. R5 metadata-only GSE4303 check did not reopen it. | R2 h1fx; R5 LEAD-METADATA-CHECK-01.json |
+| Genomics, methylation, telomeres | Okayama's three EMC rows lack individual genotype-response linkage; UCL lacks paired post-RT DNA for the proposed mutational inference. TERT/ATRX/ALT measurements are already published; no pan-EMC absence claim. Methylation measurements exist but the proposed fusion/outcome comparison lacked metadata. | R3 genomics/reassessment |
+| Proteomics and functional-model discovery | Broad resource eligibility checks did not authenticate the needed EMC measurements. Generic or privately labelled samples remain unresolved; inventory size is not evaluation. MUG-EMCS identity cannot be assumed authentic EMC. | R2 regulatory; R3 proteomics, functional_discovery |
+| Imaging/immune response | Published EMC cases and aggregate trials lack the needed individual measurement/response crosswalks or independent donors. IMMUNOSARC2025 aggregates were already evaluated and were deliberately not redispatched in R4. | R3 immune, imaging_discovery, trial_followup; R4 REUSE-CHECK-01.json |
+| Circulating biomarkers | Very few case-linked measurements, nondetection without suitable assay sensitivity and missing longitudinal linkage do not establish low shedding, sensitivity or a useful monitoring marker. | R3 liquid_biomarker and final reviews |
+| DLK1 | Broad-expression hypothesis failed; low median does not erase two high specimens or establish protein absence. High-case heterogeneity remains real in the inspected RNA. Failure of our hypothesis is not automatically a negative paper. | R3 dlk1 and dlk1_review |
+| DLK1-DIO3 mature miRNA | Low DLK1 mRNA is not measurement of the maternal miRNA domain. Published selected markers/conference observations and incomplete sample mappings do not support the proposed domain-level finding. | R3 small_rna, small_rna_review_final, mirna_deposition |
+| TTX-MC138 | Sponsor subject102-001 has conflicting disease labels across releases and no authenticated individual EMC target engagement/lesion trajectory. Stable disease and another cancer's target measurements do not establish EMC benefit. | R3 mirna_trial, mirna_trial_review |
+| Direct HLA-bound peptides | Evaluated measured-ligand sources were other cancers/models. JCI case101 is author-labelled EMC with predicted HLA context, not measured ligands. Broader atlas and independent omission evaluation remain incomplete. | R4 immunopeptidomics |
+| Glycan binding, fusion-forming genomic topology | Scientific owners/review were interrupted by platform content-access restrictions. Partial retrieval/plans do not provide positive or negative scientific results. | R4 interrupted lane metadata and handoff |
+| FAPI imaging and FAP tissue | Clinical scoped gate shelved; no authenticated EMC paired scan comparison recovered in evaluated sources. Named clinical sources remain pending. Tissue task interrupted; no localization conclusion. | R5 final report, fapi_imaging/COVERAGE.json, independent_challenge/FINAL-REVIEW.json |
+
+Each row refers to the exact underlying primary references, measurements and limitations in its packet; this compact index does not replace those records. Reopening requires specific new authenticated evidence that addresses the recorded deficiency and would yield useful EMC knowledge. A narrower title or more caveats does not rescue a weak contribution.
+
+## Concrete unfinished clinical source work
+
+No new follow-up was dispatched after R5. A fresh session may assess a bounded permitted clinical-coverage continuation, with a decision it could change, rather than automatically reviving a paper. Pending/unavailable are different statuses; preserve actual earlier access attempts and avoid repeating unchanged failures.
+
+- Kessler2022, [10.2967/jnumed.121.262096](https://doi.org/10.2967/jnumed.121.262096), PMC8717183: supplemental Tables1 and6 (histologies, regions). An attempted BioC response was an ERROR page.
+- Lanzafame2024, [10.2967/jnumed.123.267248](https://doi.org/10.2967/jnumed.123.267248): supplemental Table3 exact other-bone/STS subtypes.
+- Pabst2025, [10.1016/S1470-2045(25)00299-2](https://doi.org/10.1016/S1470-2045(25)00299-2): main article evaluated; appendix p5 subtype list not accessed. Patient-level data are request-only; outreach remains unauthorized.
+- Kratochwil2019, [10.2967/jnumed.119.227967](https://doi.org/10.2967/jnumed.119.227967): detailed histology roster. Four Koerber patients were reported previously, without a released exact crosswalk.
+- ThreeTimePointFAPI46, [PMC11927082](https://pmc.ncbi.nlm.nih.gov/articles/PMC11927082/): two generic sarcomas; EMC identity and conditions unassessed.
+- Hirmas2023, J Nucl Med64:711–716, database of324patients/21entities; Hirmas2024, J Nucl Med65:372–378, FAPI versus FDG diagnostic accuracy: citations identified, eligibility not evaluated.
+- InternationalFAPIInterobserver2023, [JNM64:1043](https://jnm.snmjournals.org/content/64/7/1043): full50patient histology coverage pending.
+- Liver metastases2026, [10.1007/s44178-026-00295-4](https://doi.org/10.1007/s44178-026-00295-4): indexed figures are not a complete case roster.
+
+Potential Essen/Kessler/Lanzafame/Pabst overlap and other reused clinical donors must be resolved before pooling. Generic sarcoma/chondrosarcoma labels are neither authenticated EMC nor confirmed non-EMC. No scan ratio is justified without same-patient/same-lesion dates, acquisition comparability, treatment interval and verification. R5's prospective pilot required scans within28days with no intervening therapy; do not change that retrospectively to obtain a result.
+
+Other important gaps remain in their original records: DDR/TempO-Seq methods and outcome linkage, unresolved proteomics identities, immune/clinical patient crosswalks, Kelly supplement1, Qin individual cases, Galitskiy case details, and withheld/unreleased numerical measurements. These are not automatically promising projects; first establish whether the missing evidence can change a useful claim.
+
+## Evidence portability and reproducibility
+
+`PORTABLE-INVENTORY.json` records original file sizes/SHA256, Git inclusion or cache exclusion, and recovery locations. Reports, decisions, coverage, preregistrations, scripts, derived data, manifests and independent checks are preserved for knowledge reuse. Downloaded full papers, renders, archives, runtimes and sensitive retrieval receipts remain in verified local recovery rather than being silently treated as committed inputs. Original files are not deleted or rewritten.
+
+Many scripts were run on Windows and refer to local dependency/cache/source paths. Do not execute them blindly in cloud or claim the Git export is fully self-contained. Resolve only inputs needed for the selected analysis using source receipts/hashes, existing Git history, permitted primary repositories or a user-provided recovery archive. Do not redownload unchanged sources merely because the new filesystem differs. Missing local caches must remain explicit reproducibility gaps. A file manifest or code syntax check is not independent scientific reproduction.
+
+R1–R5 complete raw recovery archives remain in `C:/Users/mcrae/.codex/private/fresh-emc-discovery-20261004/`; their hashes are in `RECOVERY-INDEX.json`. Cloud does not have those Windows paths. The cloud session should not load live local ownership records as its own authority.
+
+## Ownership, restrictions and integration
+
+All R1–R5 scientific workers finished/froze their assignments and report no live scientific process. Only the final preservation/integration and two read-only handoff audits ran after R5. No phase2 work, automation, publication or outreach was started. Historical reservations for other work are preserved; a status such as `running_cloud` in an old reservation is not proof of a current process. The next session must establish actual host/repository ownership before writing.
+
+Use maximum useful concurrency with one integrating lead; local capacity was root plus3workers, but cloud must inspect its own limit. Give distinct bounded scientific questions/data/approaches/challenges and owned output paths. Pass every restriction and scientific duty to every worker. Reassign completed workers only to credible, nonduplicative work. Keep detailed logs in packets and main-thread updates concise.
+
+Maintain at least10GiB free; measure storage before checkouts/downloads/large artifacts, budget retained originals/copies/recovery, reuse dependencies and sparse writer worktrees. Preserve concurrent/uncommitted/ignored work. A prior recursive cleanup was rejected by automatic approval review and was not performed; do not retry or circumvent it.
+
+Daily computer-use ban remains06:00 inclusive to10:00 exclusive America/New_York with DST, including UI control, screenshots/screen inspection, browser automation and headless browser tests. Check actual local time before such work and stop owned automation before06:00. Quiet file/API work may continue; avoid intensive local rendering/builds that interfere with the children. September12's exception expired. In cloud, do not assume any tool touching the user's local computer is exempt.
+
+Do not bypass platform content-access restrictions by moving the interrupted FAP-tissue, glycan, structural-genomics or HLA-review task to another worker/tool/session. Preserve those scientific gaps. Ordinary permitted clinical source work is a separate scope, not permission to reopen denied content.
+
+No paid resources, outreach, manuscript submission/publication, external scientific-record changes or PR are authorized. The user's latest instruction explicitly authorizes documenting findings and integrating coherent validated checkpoints to `main` as work proceeds. Fetch current remote state, preserve concurrent commits, use normal repository gates, push without force and verify the remote SHA. Do not equate a local file or commit with merged/pushed work. Evidence integration is not scientific publication clearance.
+
+The latest integration receipt and actual Git ancestry are authoritative for commit/push status. Earlier records preserve their truthful as-at state. Continue toward useful empirical EMC knowledge; do not manufacture a result or declare every possible angle covered.

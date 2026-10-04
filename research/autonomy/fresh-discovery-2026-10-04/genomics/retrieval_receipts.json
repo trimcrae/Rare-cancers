@@ -1,0 +1,468 @@
+[
+  {
+    "url": "https://www.cbioportal.org/api/studies/msk_impact_50k_2026/clinical-attributes",
+    "method": "GET",
+    "body": null,
+    "bytes": 9063,
+    "sha256": "3ea4481911fcc7c0ce0ca2c9eee8289bb944d8841f0e0f4093bd69311d6ddf42",
+    "time_utc": "2026-10-04T15:57:57.138146+00:00",
+    "saved": "clinical_attributes.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/studies/msk_impact_50k_2026/molecular-profiles",
+    "method": "GET",
+    "body": null,
+    "bytes": 2160,
+    "sha256": "10555d80714774124f8834292c44dd1889306e48dec9633395b5074838b31289",
+    "time_utc": "2026-10-04T15:57:57.236920+00:00",
+    "saved": "profiles.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/studies/msk_impact_50k_2026",
+    "method": "GET",
+    "body": null,
+    "bytes": 1459,
+    "sha256": "4812e7672be83083e798dc4056ea1443b156f82b07b2e1b2105afdc6be899e4d",
+    "time_utc": "2026-10-04T15:57:57.331648+00:00",
+    "saved": "study.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/studies/msk_impact_50k_2026/clinical-data?attributeId=CANCER_TYPE_DETAILED&clinicalDataType=SAMPLE&projection=SUMMARY&pageSize=100000",
+    "method": "GET",
+    "body": null,
+    "bytes": 16464665,
+    "sha256": "4ec0e1c0bb84552161eb9ba2aae7a569aa608cdfb04827919db22a936b267f48",
+    "time_utc": "2026-10-04T15:57:59.059824+00:00",
+    "saved": null
+  },
+  {
+    "url": "https://www.cbioportal.org/api/structural-variant/fetch",
+    "method": "POST",
+    "body": {
+      "molecularProfileIds": [
+        "msk_impact_50k_2026_structural_variants"
+      ],
+      "entrezGeneIds": [
+        8013
+      ]
+    },
+    "bytes": 9580,
+    "sha256": "eb087d79a7e0bae579a53a4de3bd0da65033dfd8ddc226123967349e618b1df3",
+    "time_utc": "2026-10-04T15:58:41.071795+00:00",
+    "saved": "all_nr4a3_sv.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/studies/msk_impact_50k_2026/clinical-data/fetch?clinicalDataType=SAMPLE",
+    "method": "POST",
+    "body": {
+      "ids": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0005607-T02-IM6",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0011067-T03-IM6",
+        "P-0035763-T01-IM6",
+        "P-0053910-T01-IM6",
+        "P-0054159-T01-IM6",
+        "P-0056135-T01-IM6"
+      ]
+    },
+    "bytes": 94463,
+    "sha256": "25177eb0f25e8d78c24ea8a0500890f233241f1ed9684dc05d92f892ee3b968b",
+    "time_utc": "2026-10-04T15:58:41.313301+00:00",
+    "saved": "emc_and_nr4a3_sample_clinical.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/studies/msk_impact_50k_2026/clinical-data/fetch?clinicalDataType=PATIENT",
+    "method": "POST",
+    "body": {
+      "ids": [
+        "P-0000379",
+        "P-0000718",
+        "P-0000857",
+        "P-0001129",
+        "P-0001482",
+        "P-0004306",
+        "P-0005607",
+        "P-0006159",
+        "P-0011067",
+        "P-0035763",
+        "P-0053910",
+        "P-0054159",
+        "P-0056135"
+      ]
+    },
+    "bytes": 26177,
+    "sha256": "0012e472b34d45de7e06a2d5e20a2758c3fd6f27fa485a185938787104ead366",
+    "time_utc": "2026-10-04T15:58:41.491266+00:00",
+    "saved": "emc_and_nr4a3_patient_clinical.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/molecular-profiles/msk_impact_50k_2026_mutations/mutations/fetch?projection=DETAILED",
+    "method": "POST",
+    "body": {
+      "sampleIds": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0005607-T02-IM6",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0011067-T03-IM6",
+        "P-0035763-T01-IM6",
+        "P-0053910-T01-IM6",
+        "P-0054159-T01-IM6",
+        "P-0056135-T01-IM6"
+      ]
+    },
+    "bytes": 11061,
+    "sha256": "0043196c9153dde9bc7c43c98290f31ffb0136d0479d4ce31d80aebd401a6cc8",
+    "time_utc": "2026-10-04T15:58:41.692122+00:00",
+    "saved": "emc_and_nr4a3_mutations.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/structural-variant/fetch",
+    "method": "POST",
+    "body": {
+      "sampleMolecularIdentifiers": [
+        {
+          "sampleId": "P-0000379-T02-IM3",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0000718-T01-IM3",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0000857-T01-IM3",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0001129-T01-IM3",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0001482-T01-IM3",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0004306-T01-IM5",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0005607-T01-IM5",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0005607-T02-IM6",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0006159-T01-IM5",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0011067-T01-IM5",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0011067-T03-IM6",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0035763-T01-IM6",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0053910-T01-IM6",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0054159-T01-IM6",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        },
+        {
+          "sampleId": "P-0056135-T01-IM6",
+          "molecularProfileId": "msk_impact_50k_2026_structural_variants"
+        }
+      ]
+    },
+    "bytes": 10914,
+    "sha256": "0a0f39084b67af0e5965435f97307780dcf7ee8197335658f77c80f3d85f1340",
+    "time_utc": "2026-10-04T15:58:41.995483+00:00",
+    "saved": "emc_and_nr4a3_sv.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/molecular-profiles/msk_impact_50k_2026_gistic/molecular-data/fetch?projection=DETAILED",
+    "method": "POST",
+    "body": {
+      "sampleIds": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0005607-T02-IM6",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0011067-T03-IM6",
+        "P-0035763-T01-IM6",
+        "P-0053910-T01-IM6",
+        "P-0054159-T01-IM6",
+        "P-0056135-T01-IM6"
+      ]
+    },
+    "bytes": 2871541,
+    "sha256": "0707013585705b1f987e19a49ccf9508f227ea2f25be527f0cab115b2db16e7b",
+    "time_utc": "2026-10-04T15:58:46.111528+00:00",
+    "saved": "emc_and_nr4a3_cna.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/structural-variant/fetch",
+    "method": "POST",
+    "body": {
+      "molecularProfileIds": [
+        "msk_impact_50k_2026_structural_variants"
+      ]
+    },
+    "bytes": 20753605,
+    "sha256": "e9d2acc6f3043c167bae0a1e92d17bca5655a5f35fde7ec0e9185355109251e6",
+    "time_utc": "2026-10-04T16:00:36.420747+00:00",
+    "saved": null
+  },
+  {
+    "url": "https://www.cbioportal.org/api/molecular-profiles/msk_impact_50k_2026_mutations/gene-panel-data/fetch",
+    "method": "POST",
+    "body": {
+      "sampleIds": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0005607-T02-IM6",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0011067-T03-IM6",
+        "P-0035763-T01-IM6",
+        "P-0053910-T01-IM6",
+        "P-0054159-T01-IM6",
+        "P-0056135-T01-IM6"
+      ]
+    },
+    "bytes": 4741,
+    "sha256": "a263819fc9634d2795cd725d2adc5f441d9a3e02d0d1e616d99a4a8849981eb2",
+    "time_utc": "2026-10-04T16:00:36.944000+00:00",
+    "saved": "gene_panel_data_mutations.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/molecular-profiles/msk_impact_50k_2026_gistic/gene-panel-data/fetch",
+    "method": "POST",
+    "body": {
+      "sampleIds": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0005607-T02-IM6",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0011067-T03-IM6",
+        "P-0035763-T01-IM6",
+        "P-0053910-T01-IM6",
+        "P-0054159-T01-IM6",
+        "P-0056135-T01-IM6"
+      ]
+    },
+    "bytes": 4696,
+    "sha256": "4016a754d0f0b09838a159c2907ba1604425369c31b871c572ffd336690a1094",
+    "time_utc": "2026-10-04T16:00:37.295654+00:00",
+    "saved": "gene_panel_data_gistic.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/gene-panels/fetch?projection=DETAILED",
+    "method": "POST",
+    "body": [
+      "IMPACT341",
+      "IMPACT410",
+      "IMPACT468"
+    ],
+    "bytes": 57678,
+    "sha256": "d6491aedf2a813131c3d48632c2b408bf16dcd5df677f737291b8022959f5b2b",
+    "time_utc": "2026-10-04T16:00:37.465701+00:00",
+    "saved": "gene_panels.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/studies/sarcoma_mskcc_2022/clinical-data?attributeId=CANCER_TYPE_DETAILED&clinicalDataType=SAMPLE&projection=SUMMARY&pageSize=100000",
+    "method": "GET",
+    "body": null,
+    "bytes": 646158,
+    "sha256": "ca456c888281d811db4bfc7d9b081cc9d638e30875c2a47726ee9d95391be47b",
+    "time_utc": "2026-10-04T16:00:37.856769+00:00",
+    "saved": null
+  },
+  {
+    "url": "https://www.cbioportal.org/api/studies/sarcoma_mskcc_2022/molecular-profiles",
+    "method": "GET",
+    "body": null,
+    "bytes": 865,
+    "sha256": "6bb4624571f4caf12f2b0564bbb6ff435715248a87b074c24c594273895f8d12",
+    "time_utc": "2026-10-04T16:02:15.138900+00:00",
+    "saved": "historical_msk2022_profiles.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/studies/msk_impact_50k_2026/clinical-data/fetch?clinicalDataType=SAMPLE",
+    "method": "POST",
+    "body": {
+      "ids": [
+        "P-0022485-T01-IM6"
+      ]
+    },
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "time_utc": "2026-10-04T16:02:15.235154+00:00",
+    "saved": "historical_unique_current_lookup.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/studies/sarcoma_mskcc_2022/clinical-data/fetch?clinicalDataType=SAMPLE",
+    "method": "POST",
+    "body": {
+      "ids": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0022485-T01-IM6",
+        "P-0035763-T01-IM6"
+      ]
+    },
+    "bytes": 53151,
+    "sha256": "4376a34207af5c93dea1f315710dffd723bb185689d62e5864b64668d23e5ea9",
+    "time_utc": "2026-10-04T16:02:15.468500+00:00",
+    "saved": "historical_msk2022_emc_clinical.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/molecular-profiles/sarcoma_mskcc_2022_cna/molecular-data/fetch?projection=DETAILED",
+    "method": "POST",
+    "body": {
+      "sampleIds": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0022485-T01-IM6",
+        "P-0035763-T01-IM6"
+      ]
+    },
+    "bytes": 1914143,
+    "sha256": "10cf76bfc00d106fa22cea3051d22f71e09a9a1d47afedab99d95d1893ff0e20",
+    "time_utc": "2026-10-04T16:02:16.076770+00:00",
+    "saved": "historical_msk2022_emc_cna.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/molecular-profiles/sarcoma_mskcc_2022_mutations/mutations/fetch?projection=DETAILED",
+    "method": "POST",
+    "body": {
+      "sampleIds": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0022485-T01-IM6",
+        "P-0035763-T01-IM6"
+      ]
+    },
+    "bytes": 5728,
+    "sha256": "0866326b21e1f9d579e0730a0773dcd48705739d156aa8cf22f0b7dccc5c870e",
+    "time_utc": "2026-10-04T16:02:16.284304+00:00",
+    "saved": "historical_msk2022_emc_mutations.json"
+  },
+  {
+    "url": "https://www.cbioportal.org/api/structural-variant/fetch",
+    "method": "POST",
+    "body": {
+      "sampleMolecularIdentifiers": [
+        {
+          "sampleId": "P-0000379-T02-IM3",
+          "molecularProfileId": "sarcoma_mskcc_2022_structural_variants"
+        },
+        {
+          "sampleId": "P-0000718-T01-IM3",
+          "molecularProfileId": "sarcoma_mskcc_2022_structural_variants"
+        },
+        {
+          "sampleId": "P-0000857-T01-IM3",
+          "molecularProfileId": "sarcoma_mskcc_2022_structural_variants"
+        },
+        {
+          "sampleId": "P-0001129-T01-IM3",
+          "molecularProfileId": "sarcoma_mskcc_2022_structural_variants"
+        },
+        {
+          "sampleId": "P-0001482-T01-IM3",
+          "molecularProfileId": "sarcoma_mskcc_2022_structural_variants"
+        },
+        {
+          "sampleId": "P-0004306-T01-IM5",
+          "molecularProfileId": "sarcoma_mskcc_2022_structural_variants"
+        },
+        {
+          "sampleId": "P-0005607-T01-IM5",
+          "molecularProfileId": "sarcoma_mskcc_2022_structural_variants"
+        },
+        {
+          "sampleId": "P-0006159-T01-IM5",
+          "molecularProfileId": "sarcoma_mskcc_2022_structural_variants"
+        },
+        {
+          "sampleId": "P-0011067-T01-IM5",
+          "molecularProfileId": "sarcoma_mskcc_2022_structural_variants"
+        },
+        {
+          "sampleId": "P-0022485-T01-IM6",
+          "molecularProfileId": "sarcoma_mskcc_2022_structural_variants"
+        },
+        {
+          "sampleId": "P-0035763-T01-IM6",
+          "molecularProfileId": "sarcoma_mskcc_2022_structural_variants"
+        }
+      ]
+    },
+    "bytes": 8333,
+    "sha256": "dabee7aafff4c1641514a1f1a02a10da9c1dd0ce8c3c0f513141bec00cebd78c",
+    "time_utc": "2026-10-04T16:02:16.558837+00:00",
+    "saved": "historical_msk2022_emc_sv.json"
+  }
+]

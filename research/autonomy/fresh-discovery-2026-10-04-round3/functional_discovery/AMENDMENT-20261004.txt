@@ -1,0 +1,17 @@
+Dated source-gate clarification; original PLAN remains unchanged.
+The first completePanPDOparser run correctly recovered220rows but a proposed
+unique-IDassertion failed. The source column is PatientID with repeats and
+suffixed samples, not a guaranteedunique-model key. Preserved all220rows,
+recorded215literalunique labels and all5excess repeated rows; never interpreted
+them as215donors. The corrected parser passes rowcompleteness and records the
+source's191patientcount only in the narrative. This is a parsing correction,
+not a changed biological hypothesis; no drug-response pilot was selected.
+
+PanPDO supplement transfer11.74MB and NCCreport40.23MB exceeded10MiB retained
+payload individually, but both were streamed inRAM and onlycompacttext/hash
+receipts retained. Retainedscope remains below10MiB with>=10GiB free.
+
+Complete accessible modelidentity checks did not create a new worthwhile
+functional question. Explicitly shelve this standalone lane; unresolved
+PARIS/UCLA/CIVO/CUPidentities/measurements remain reopeningroutes and prevent
+any universalabsence/resistanceclaim. No manuscript preparation.

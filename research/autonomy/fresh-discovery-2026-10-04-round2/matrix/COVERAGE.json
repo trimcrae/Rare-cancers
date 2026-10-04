@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-04",
+  "claim_domain": "An EMC-specific glycosaminoglycan biosynthetic RNA program beyond known myxoid matrix phenotype",
+  "decision": "shelve standalone paper; no claim advanced",
+  "discovery": {
+    "aliases": ["extraskeletal myxoid chondrosarcoma", "EMCS", "glycosaminoglycan", "chondroitin", "dermatan", "hyaluronan", "HS3ST5", "DSEL", "DSE", "CHSY3", "HAS2"],
+    "classes": ["primary matrix histochemistry", "primary EMC expression studies", "public GEO series and original platform annotations", "authentic culture RNA deposits", "publication supplements", "citation trails"],
+    "limits": "This is a dated search and pilot, not a claim of exhaustive public evidence discovery. Independent numerical/source review completed in clinical/matrix-independent-challenge.json. Complete omission closure was not established and no claim is advanced."
+  },
+  "sources": [
+    {"id":"Lund/Hofvander RNA", "status":"evaluated", "observations":"Every one of 13 source EMC columns, with primary9/all12primary/all13 sensitivities; all79 panel genes", "overlap":"Source old-cohort labels retained; independence from historical arrays unproven", "location":"tissue-results.json", "consequence":"Five exploratory candidates; batch and comparator limitations retained"},
+    {"id":"GSE24369/GPL6244", "status":"evaluated", "observations":"All6 EMC array specimens, all available myxoid comparators and other/normal context, every eligible panel probe with Entrez mapping", "overlap":"No independent-donor claim versus Lund RNA", "location":"validation-results.json", "consequence":"None of five allocated candidates meets frozen validation rule; HS3ST5 favorable tumor ordering but normal-muscle caution"},
+    {"id":"PeerJ21497 processed s009", "status":"evaluated", "observations":"All12 columns and all panel genes present; missing genes explicitly listed", "location":"validation-results.json", "consequence":"Filtered measurement and absent outcome crosswalk cannot supply absent expression or prognosis"},
+    {"id":"PRJNA1357027 raw TempO-Seq", "status":"pending accessible analysis", "observations":"Full raw12 libraries not quantified for this program; unchanged earlier raw-prefix diagnostic is not a gene-expression analysis", "consequence":"Blocks any claim requiring complete unfiltered twelve-specimen expression; no negative inference"},
+    {"id":"ARCHS4 GSM2113301 V1-34 and GSM6883080 USZ22", "status":"evaluated", "observations":"Both source libraries, all panel rows including duplicateDSEL annotation", "location":"validation-results.json", "consequence":"Culture variation; one library per model and CPM notTPM. No pan-EMC absence inferred"},
+    {"id":"USZ23 GSM9037837 original RefSeq quantification", "status":"pending accessible analysis", "observations":"Gene-to-transcript mapping needed for all panel genes; previousTMEM-only extraction is insufficient", "consequence":"Blocks common all-culture claim; source exists, not declared unavailable"},
+    {"id":"Older public EMC arrays including GSE4303 and GSE6481", "status":"pending accessible analysis", "observations":"No gene-specific complete evaluation in this pilot; cohort and probe identity require reconciliation", "consequence":"Blocks advancement; no favorable subset used as final validation"},
+    {"id":"10.1038/modpathol.3800036; PMID18315599; PMID3522393", "status":"evaluated", "observations":"Original published matrix phenotype findings evaluated as prior art at article/abstract level; individual raw specimen intensities unavailable in the inspected source", "consequence":"Known matrix chemistry cannot be claimed as new; RNA cannot replace chemical measurements"},
+    {"id":"PMC4429309", "status":"verified evaluation reused", "observations":"Published highCSPG2/versican and original molecular findings reused as prior art; gene-specific entire oldcohort remains covered by pending arrayentry", "consequence":"Versican is not a new finding; no inventory counted as new evaluation"}
+  ]
+}

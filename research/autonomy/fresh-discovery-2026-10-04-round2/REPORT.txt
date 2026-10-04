@@ -1,0 +1,37 @@
+Fresh EMC discovery: second-round checkpoint, 4 October 2026
+
+Surviving demonstrated findings
+None. No new publication-worthy EMC finding survived measurement, prior-art and independent scientific-value checks. The persistent discovery goal remains active; this checkpoint does not claim all public data or useful questions have been exhausted.
+
+Completed analyses and rejected papers
+
+Matrix biosynthesis: the frozen 44-enzyme pilot evaluated all 13 Lund EMC specimens, six historical EMC arrays, 12 processed PeerJ samples and both reused authentic-culture libraries. Five allocated RNA candidates failed the frozen second-assay gate. An independent worker reproduced 396 comparisons within 594 checks; this does not establish donor independence. The results do not add a validated mechanism to established chondroitin-rich matrix and versican findings. Decision: shelve. Reproduction: matrix/analyze_matrix.py and matrix/validate_matrix.py.
+
+Secondary alterations: all 75 Foundation EMC profiles and 49 secondary-event rows were evaluated, alongside additional eligible public cases. A TSC2 lead failed because one variant has an alternative-exon caveat, the other is one deletion, multiplicity removes the fusion-partner association, and the original study already reports both events. Completed cBio gene queries do not establish exhaustive clinical-label coverage. No new genotype-response link was demonstrated. Decision: shelve. Reproduction: genomics/analyze_foundation.py, analyze_tsc2_followup.py, analyze_crosscohort.py and final_scoped_analysis.py.
+
+Late metastasis: all 23 Mayo 2000 patient rows were evaluated. Among 12 patients observed metastasis-free at five years, estimated risk during years five to ten was 21.43% (95% CI 5.55–63.86%; tie-ordering sensitivity 22.08%). This adds little to known late relapse; uncertainty is large, referral-entry timing is unavailable, and 15 cases overlap a later report. Decision: shelve. Reproduction: clinical/conditional_pilot.py and regulatory/review_clinical.py.
+
+Regulatory and model biology: Zullow's recovered 11 clinical rows do not identify the seven claimed RNA specimens. The reported NCC-EMC1-C1 rapalog viability means were above control, but dose/exposure details and TSC2 genotype remain unresolved. H19's TMA descriptions include EMC, but its final 150-case report provides pooled Others and no EMC case crosswalk; its MUG-EMCS model has a contrary creator annotation as mesenchymal chondrosarcoma. Existing reclassification and regulatory-program observations are prior art. No new EMC dependency or therapeutic prediction was established. Decision: shelve. Reproduction and primary sources: regulatory/.
+
+H1FX: all 105 original GSE6481 records were evaluated, including 19 myxoid liposarcomas and no EMC-labelled specimen. This contradicts the accession assigned to PeerJ 21497's cartilage validation; its stated comparator count also differs from its plot. Independent authentic EMC expression analyses do not test the exact conventional-chondrosarcoma contrast, and the paper already acknowledged the broader soft-tissue negative result. Decision: preserve the serious provenance contradiction, but shelve a standalone biological paper. No inference about intent or the plot's actual samples is justified, and no external correction was sent. Reproduction: h1fx/analyze_h1fx.py and its frozen contract and amendments.
+
+Promising but unfinished questions
+
+- Does an authenticated secondary alteration identify an informative functional or clinical phenotype in EMC? Public GENIE, BostonGene and Caris aggregates lack the allele, donor, assay and outcome crosswalks needed to answer it. Sources: https://doi.org/10.1158/1078-0432.CCR-23-0876 and https://doi.org/10.1016/j.labinv.2025.104344 ; exact evaluations in genomics/.
+- Can pretreatment MRI predict later metastasis in initially localized EMC? Ashburner, Minami and Kandoussi leave essential individual mappings or compatible definitions unresolved; baseline metastases cannot be treated as future events. Sources: https://doi.org/10.1007/s00256-025-05050-w and https://doi.org/10.21873/anticanres.14039 ; clinical/imaging-gate-results.json and clinical/COVERAGE.txt.
+- Can an authenticated immune-state measurement be linked to outcome across all eligible published EMC observations? Rosenbaum's one depleted-TME/no-response observation and Vienna's two pembrolizumab progression cases are evaluated, but the Galitskiy paired case remains incomplete and no pooled efficacy estimate is justified. Sources: https://doi.org/10.1158/1078-0432.CCR-25-3419 and https://doi.org/10.1016/j.annonc.2025.08.310 ; clinical/IMMUNE-FOLLOWUP.txt.
+
+Coverage and remaining work
+Each lane distinguishes evaluated evidence, verified reuse, pending accessible analysis, unsuitable measurement and unavailable evidence. Remaining accessible work includes individual genomic reports and thesis cases, broader clinical-label discovery, and histology eligibility in PanAtlas, CPTAC-SAR and ProCan. Any reopened tissue-expression claim must retain the pending GSE4303, raw PeerJ and USZ23 questions. GSE6481 is unsuitable for EMC; its dated correction preserves the original plan. Account-controlled GENIE and dbGaP records were not bypassed. HANDOFF.txt gives precise accessions, questions and reopening conditions.
+
+TMEM266 and the first-round rejected routes retain their recorded decisions. The submitted CSPG4 letter and ten requested historical packets were read in the baseline audit; historical favorable drafts do not establish a surviving scientific case.
+
+Primary foundations
+Foundation: https://doi.org/10.1038/s41467-022-30496-0 .
+TSC2 caveat: https://www.ncbi.nlm.nih.gov/clinvar/variation/821922/ and https://doi.org/10.1002/humu.22951 .
+Matrix prior art: https://doi.org/10.1038/modpathol.3800036 ; https://pubmed.ncbi.nlm.nih.gov/18315599/ ; https://pmc.ncbi.nlm.nih.gov/articles/PMC4429309/ .
+Lund RNA: https://doi.org/10.1158/1078-0432.CCR-25-3740 ; historical array: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369 .
+PeerJ H1FX: https://doi.org/10.7717/peerj.21497 ; original named series: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE6481 .
+
+Validation and Git status
+The scientific checkpoint verifier passed 428 checks. Normal repository preflight failed, exit 1, in a sparse context omitting some required file types; GATE-TRIAGE.json records the failed sections and execution limits. All checkouts remain at 373a430957178c1ce76cab89b3ae21b337cb3fc0. Campaign files are uncommitted; no push or Git merge occurred. INTEGRATION.json records verified local file integration. HANDOFF.txt records ownership, recovery and running-work status.

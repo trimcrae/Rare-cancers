@@ -1,0 +1,81 @@
+Clinical discovery round 2 handoff — 4 October 2026
+
+No new demonstrated EMC finding survives. The completed conditional-risk pilot
+is scientifically valid as a descriptive reconstruction of published patient
+histories, but does not add a useful conclusion beyond established late metastatic
+risk. Its standalone paper is shelved after independent arithmetic, source and
+value review. RESULTS.txt gives the actual estimate, uncertainty and limitations.
+
+Different promising but unfinished ideas
+1. Whether solid pretreatment MRI enhancement predicts future distant metastasis
+   among patients initially free of it. The newer 44-patient study publishes 34
+   enhancement measurements and ten metastatic histories, but no crosswalk or
+   complete patient censoring data. Its underlying data are explicitly nonpublic.
+   The original paper's association has not been refuted.
+2. Whether extracompartmental invasion and MRI multicompartment extent identify
+   the same metastatic-risk phenotype. The published associations differ, but the
+   measurement definitions and temporal outcome crosswalks are not authenticated.
+   Minami's full methods were inaccessible. Do not call this biological discordance
+   or a validation failure until those definitions are resolved.
+
+What was actually done
+- Recovered the full public Mayo clinical table, evaluated every one of its 23
+  patients, and computed the prespecified five-to-ten-year landmark estimate for
+  all eligible initially nonmetastatic patients, with uncertainty and tie sensitivity.
+- Evaluated full primary Drilon and Chiusole reports, relevant published Japanese
+  registry outcomes, all available Kapoor/Fice/surgical-series patient tables,
+  public Ogura/Paioli tables, all ten Ashburner metastatic histories, all 30
+  Kandoussi patient rows, and actual data-availability statements.
+- Fresh searches found 2026 conference outcomes and recent MRI cohorts beyond the
+  old recurrence work. We preserved inaccessible and pending evidence rather than
+  treating retrieval as completed analysis. COVERAGE.txt records the incomplete scope.
+
+Reopening conditions
+Conditional risk needs independent EMC event/censoring histories with coherent
+time origins, referral entry and competing deaths, enough long follow-up to resolve
+a clinically useful contrast beyond known late recurrence. MRI ideas need exact
+definitions plus individual MRI/baseline-stage/subsequent-outcome linkage. Data
+requests are not authorized. No manuscript drafting or promotion is justified now.
+
+Reproduction and evidence
+conditional_pilot.py writes conditional-pilot-results.json from all preserved source
+rows; imaging_gate.py accounts for all released Ashburner event histories. All code
+uses the existing Python runtime and standard library. Source fetch receipts carry
+UTC, URLs, byte counts and hashes. Some intact HTML is stored with an .xml extension
+and caused an initial XML-parser error; inspect_tables.py/read_html.py subsequently
+parse those pages as HTML. HTTP 200 and a filename ending '-full' do not prove full
+article access; subscription previews and browser-challenge pages are labelled in
+coverage. The independent review and its script are copied with hashes for durability.
+
+Ownership and state
+Worker /root/microenvironment wrote only round2/clinical in its assigned worktree.
+Round1 evidence and the primary repository were not edited. Base HEAD remains
+373a430957178c1ce76cab89b3ae21b337cb3fc0. All new output is uncommitted local work;
+no worker commit, push, merge or PR was made. The lead owns integration. No external
+scientific records, publication, outreach, paid services or new runtime were used.
+No owned process, UI automation, download stream or scheduled task remains running.
+This round used only quiet files and public APIs, respecting the daily 06:00–10:00
+America/New_York computer-use restriction. Final sizes and hashes are in MANIFEST.json.
+Final frozen checkpoint: 4 October 2026
+Surviving demonstrated new findings: none from this worker. Conditional-risk,
+matrix and H1FX standalone scientific-value decisions are shelve. MRI/ETI and
+immune-response phenotype questions remain unfinished with explicit source gaps.
+Serious H1FX published source mismatch preserved without allegations or outreach.
+Latest sourcechallenge: h1fx-independent-identity.json plus reproducible script;
+actual FigureS6PNG retained. Broader frozen results remain in RESULTS.txt and
+COVERAGE.txt, with the immune follow-up in IMMUNE-FOLLOWUP.txt.
+
+Main computations actually run: conditional_pilot.py, imaging_gate.py,
+review_matrix.py, review_h1fx_identity.py, evaluate_immune_tables.py. Bounded source
+fetch scripts and receipts retained. No manuscript drafted. No active worker-owned
+background processes or UI sessions. All shell commands completed. No commits,
+pushes, PRs, merges, external records or shared coordination state changed by this
+worker. This whole round2 packet is uncommitted local work pending lead integration.
+Worker worktree HEAD373a430957178c1ce76cab89b3ae21b337cb3fc0; exact final status and
+bytes recorded in FREEZE.json. Round1 scope was not modified.
+
+User objective remains active with lead; no claim that public discovery is exhausted.
+Do not reopen failed immune raw counting or TMEM266 for occupancy. Reopening
+requires the measurement/identity/value conditions already recorded, or a distinct
+new accessible disease question. Lead owns continuing discovery and final public
+EMCcoverage challenge. This writer is now frozen for integration.

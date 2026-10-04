@@ -1,0 +1,189 @@
+[
+  {
+    "text": "These challenges include the privacy of data, especially personal clinical records, data ownership and governance, human research ethics, and intellectual property concerns ( 4 ). In transnational studies, compliance with laws and regulations that impose stringent standards on the collection, storage, sharing, and use of biomedical data may be complicated by differing requirements in the relevant jurisdictions ( 5 , 6 ). Consequently, data sharing among collaborators within international consortia can be infeasible, hindering the assembly of heterogeneous and globally representative large-scale datasets and presenting a significant barrier to the development of practical and relevant AI tools in the biomedical field. This contrasts sharply with commercial AI products based on ubiquitous information regarded as nonsensitive. However, for biomedical applications such as cancer research, there is an urgent need to utilize all sources of good-quality data for purposes that include expediting the discovery of drug targets and predictive biomarkers and avoiding duplication of resources and therefore wastage due to data siloing and inaccessibility. To address these challenges, innovative solutions that balance the need for data accessibility and protection of clinical data are crucial.",
+    "links": []
+  },
+  {
+    "text": "In the ProCan Compendium, cohort 1 serves as the baseline pan-cancer cohort and its raw data, and the corresponding spectral library are made publicly available alongside this study as a resource for researchers in the field of cancer proteomics (\u201cData Availability\u201d). This cohort was acquired from the Victorian Cancer Biobank, the Gynaecological Oncology Biobank (GynBiobank) at Westmead Hospital, and the Children\u2019s Medical Research Institute Legacy sample set and consists of 766 tumor samples from 638 patients. Similarly to the ProCan Compendium overall, high correlations were observed between replicates of individual samples across all cancer types in cohort 1 (Supplementary Fig. S2A). Protein intensities were visualized in tumor samples using Uniform Manifold Approximation and Projection for Dimension Reduction (UMAP), revealing distinct clusters for several cancer types, including lymphoma and melanoma, with biologically related cancer types, such as neuroblastoma and ganglioneuroblastoma, forming neighboring clusters, indicating the robustness of this pan-cancer dataset ( Fig. 1E ). For broad cancer types, such as adenocarcinoma and carcinoma, the UMAP visualization of their subtypes provides a detailed representation of the subtypes and clearer insight into the diversity within the cancer types ( Fig. 1F ). Analysis of cancer subtype\u2013enriched proteins showed that cohort 1 exhibited a pattern consistent with our previous study in cancer cell lines ( 13 ), with neuroblastoma showing the highest number of enriched proteins and quantification rate and lymphoma showing the second highest (Supplementary Fig. S2B and S2C). Cohorts 2 to 30 comprise 29 single-cancer cohorts, with a total of 5,217 tumor samples from 4,316 patients encompassing 42 cancer subtypes, which will be included in separate publications.",
+    "links": []
+  },
+  {
+    "text": "Generalization, integration, and model explanation. A, Performance of models was benchmarked by the AUROC with 95% confidence intervals estimated from the 10 experiments. B, AUROC of models across 16 cancer subtypes. C, Beeswarm plot demonstrating the top 10 proteins contributing to the prediction of prostate adenocarcinoma. D, Top 10 proteins contributing to the prediction of colorectal adenocarcinoma. E, Comparison of the top upregulated and downregulated pathways as identified by overrepresentation analysis using the top and bottom 200 proteins per SHAP value for lung adenocarcinoma between the global and local models. F, Heatmap showing the normalized enrichment scores for selected Hallmark gene sets across cancer subtypes in the global model. Pathways contributing positively toward the identification of each cancer subtype are shown in red, whereas pathways contributing negatively toward the identification of each cancer subtype are shown in blue. Plausible biological associations are identified within cancer subtypes. GO, Gene Ontology; GSVA, gene set variation analysis; KEGG, Kyoto Encyclopedia of Genes and Genomes. BRCA, breast carcinoma; ccRCC, clear-cell renal cell carcinoma; COAD, colorectal adenocarcinoma; CM, cutaneous melanoma; cSCC, cutaneous squamous cell carcinoma; ESAD, esophageal adenocarcinoma; HNSCC, head and neck squamous carcinoma; HCC, hepatocellular carcinoma; HGSOC, high-grade serous ovarian carcinoma; LMS, leiomyosarcoma; LPS, liposarcoma; LUAD, lung adenocarcinoma; LUSC, lung squamous carcinoma; PancNET, pancreatic neuroendocrine tumor; PDAC, pancreatic ductal adenocarcinoma; PRAD, prostate adenocarcinoma.",
+    "links": []
+  },
+  {
+    "text": "For potential downstream clinical application and interpretation, understanding the learned relationships and key discriminatory proteins in the ProCanFDL global model is important. By leveraging Shapley Additive Explanation (SHAP) values ( 22 ), we identified the top features contributing to the cancer subtype predictions made by the ProCanFDL global model, which achieved the highest AUROC when trained with internal data (Supplementary Table S5). For example, proteins with utility in distinguishing between histologic types of cancer were identified. Desmoglein 3 (DSG3), a marker of squamous differentiation ( 23 ), was identified within the top 10 SHAP values for both cutaneous and head and neck squamous cell cancers, with SHAP values for this marker contributing negatively to the prediction of the other cancer subtypes (Supplementary Fig. S9A). Similarly, markers suggesting epithelial differentiation, such as anterior gradient 2 (AGR2), a protein disulfide isomerase family member ( 24 ), contributed positively to the identification of breast, colorectal, and pancreatic adenocarcinomas but negatively to the identification of tumors arising from other cell types, including pancreatic neuroendocrine tumors, sarcoma, and melanoma (Supplementary Fig. S9B). Finally, additional proteins were specific for identifying different tissues, including kallikrein-related peptidase 3 (prostate-specific antigen) and Purkinje cell protein 4 (PCP4) for prostate adenocarcinoma ( Fig. 4C ), as well as galectin 4 (LGALS4) and cadherin 17 (CDH17), which are known to be expressed in the intestinal epithelium, for colorectal adenocarcinoma ( Fig. 4D ; ref. 25 ). Cytokeratin 20 (KRT20) featured among the top 10 SHAP values for predicting colorectal adenocarcinoma and is known to have clinical utility for differentiating this cancer subtype from other subtypes of adenocarcinoma ( 26 ).",
+    "links": []
+  },
+  {
+    "text": "Overrepresentation analysis using the top 200 positive and negative SHAP values (Supplementary Fig. S10) for each cancer subtype revealed similar patterns with significant enrichment scores identified for specific or closely related cell types. Lung adenocarcinoma showed enrichment for alveolar type 2 cells driven by proteins, including napsin A (NAPSA), surfactant protein B (SFTPB), and lysophosphatidylcholine acyltransferase 1 (LPCAT2) ( 27 ). Squamous cancers were generally enriched for basal cells driven by proteins expressed in the squamous epithelium, including cytokeratin 6A (KRT6A), which has clinical utility in identifying squamous carcinoma ( 28 ). Esophageal and colorectal adenocarcinoma showed enrichment for enterocytes driven by proteins, including villin 1 (VIL1), as well as potential antibody\u2013drug conjugate (ADC) targets, including carcinoembryonic antigen cell adhesion molecule 5 (CEACAM5; 29 ) and claudin 3 (CLDN3; 30 , 31 ). This cell type contributed negatively to the identification of several cancer subtypes, including pancreatic neuroendocrine tumors, breast carcinoma, and leiomyosarcoma. Of note, in the FDL model, one liposarcoma case was misclassified as breast carcinoma due to the presence of proteins enriched in adipose tissue (fatty acid binding protein 4 (FABP4), perilipin 1 (PLIN1), and lipase E (LIPE); ref. 25 ) across both cancer subtypes.",
+    "links": []
+  },
+  {
+    "text": "Next, we evaluated biological associations using the top and bottom 200 proteins for each cancer subtype across several pathway databases (Supplementary Fig. S11). For pancreatic ductal adenocarcinoma, we identified pathways related to the extracellular matrix. Dense stroma is a key feature and a well-recognized barrier to efficient chemotherapeutic delivery in this cancer subtype. Pathways contributing positively to the identification of hepatocellular carcinoma highlighted a propensity for metabolic processes, including histidine and choline catabolism, consistent with the presence of hepatic tissue ( 32 ). We then compared the top identified pathways across the global and local models. The degree of overlap within the top and bottom 200 proteins, as identified by SHAP value for each model, was 221/400 (55%; Supplementary Fig. S12). Both models provided relevant biological information. For example, in both models, the top features contributing positively toward the identification of leiomyosarcoma were related to muscle development pathways, consistent with the known cell type of origin ( 33 ). Similarly, for squamous cancers, pathways relating to keratinization and the cornified envelope were identified, consistent with squamous epithelial origin ( 32 ). Further, these pathways contributed negatively to the identification of other cancer subtypes across both models, including colorectal cancer (Supplementary Fig. S11). However, there were notable differences between the global and local models, particularly for cancer subtypes underrepresented in the local model. For lung adenocarcinoma, pathways identified in the local model were related to underlying lung tissue, including surfactant metabolism and O-glycan biosynthesis due to the expression of multiple mucins, such as MUC5AC and MUC5B ( 34 ). In contrast, the global model identified pathways potentially more relevant to lung cancer biology, including the MET proto-oncogene. MET alterations are seen in more than 70% of lung adenocarcinoma tumor tissues ( 35 ), with multiple preclinical and clinical studies currently investigating the role of c-MET\u2013directed ADCs in this cancer subtype ( 36 \u2013 38 ). Further, we identified several pathways relating to glycosphingolipid metabolism, which has been linked to lung cancer growth and progression ( Fig. 4E ; refs. 39 \u2013 41 ). For colorectal cancer, the local model highlighted nonspecific pathways, including neutrophil degranulation and tissue-specific immune response. However, the global model highlighted pathways related to triglyceride metabolism and peroxisome proliferator\u2013activated receptor signaling, which were driven by several fatty acid binding and perlipin proteins. FABP4 has been postulated as a diagnostic biomarker ( 42 ) for colorectal cancer and may have prognostic significance.",
+    "links": []
+  },
+  {
+    "text": "Finally, we looked at drug and immune treatment targets, including approved and emerging ADC targets (Supplementary Fig. S13). Again, plausible biological patterns were identified. For example, ERBB2 , which is a well-established prognostic and therapeutic biomarker in breast cancer ( 46 ), showed a strong association with this cancer subtype. Trophoblast cell surface antigen 2 (TROP2), which is the target of the ADC sacituzumab govitecan, contributed positively to the identification of breast, head and neck squamous, lung squamous, and prostate adenocarcinoma. TROP2 contributed negatively to the identification of nonepithelial tumor entities, including liposarcoma, leiomyosarcoma, and melanoma, as well as colorectal adenocarcinoma, in keeping with published IHC and RNA data ( 47 ). Several markers involved in immune responses, such as signal transducer and activator of transcription 3 ( STAT3 ), intercellular adhesion molecule 1 ( ICAM1 ), and CD274 (programmed death-ligand 1 (PD-L1), contributed positively to the identification of lung adenocarcinoma. Of note, PD-L1 expression has clinical utility in predicting the response of non\u2013small cell lung cancer to checkpoint inhibitor therapy ( 48 , 49 ).",
+    "links": []
+  },
+  {
+    "text": "Although we demonstrated the utility of ProCanFDL, several limitations of the study provide scope for improvement and extension. One area for future research is the application of this FDL framework to more complex multi-institutional setups, in which even greater variations in data types, collection methods, and processing protocols could introduce additional data harmonization challenges. Our implementation used a simulated FL scenario in which global normalization was possible, but real-world FL deployments would require specialized techniques such as federated batch normalization ( 52 ) to harmonize data across sites without sharing raw values. This represents a significant technical challenge, as proteomics data normalization typically requires global statistics that cannot be directly shared in privacy-preserving scenarios. Another important direction is addressing the challenge of missing data by adapting FL frameworks such as FedIMPUTE ( 53 ) to handle missing data. Further, this study served as a proof of concept focused on cancer subtyping due to the availability of relevant annotations. Expanding its application to areas such as prognostic biomarker development and clinical outcome prediction will require datasets annotated with treatment outcomes, survival data, and other detailed metadata at each participating site.",
+    "links": []
+  },
+  {
+    "text": "FF and FFPE samples were obtained from malignant samples (tumor and premalignant samples) and nonmalignant tissues (benign tumors and tumor-adjacent normal samples). Ethics approval was obtained for the use of all patient samples. Cohort 1 consisted of FF samples ( n = 766 primary tumor samples and n = 494 tumor-adjacent normal samples) obtained from the Victorian Cancer Biobank [2019/ ETH02039 (HREC/17/WMEAD/63)], the Gynaecological Oncology Biobank (GynBiobank) at Westmead Hospital [2019/ ETH02039 (HREC/17/WMEAD/63); 2019/ ETH02043 (LNR/16/WMEAD/291)], and the Children\u2019s Medical Research Institute Legacy sample set [2019/ ETH05866 (LNR/17/SCHN/291)]. Cohorts 2 to 30 included both FF and FFPE samples obtained from the following sites: Gynaecological Oncology Biobank (GynBiobank) at Westmead Hospital, Australia [2019/ ETH02039 (HREC/17/WMEAD/63); 2019/ ETH02043 (LNR/16/WMEAD/291)]; NCI Biobank, USA [2019/ ETH02039 (HREC/17/WMEAD/63); 2019/ ETH02075 (LNR/17/WMEAD/249)]; Westmead Institute for Medical Research, Australia [2019/ ETH02039 (HREC/17/WMEAD/63); 2019/ ETH10764 (LNR/19/WMEAD/39)]; Germans Trias i Pujol Research Institute, Badalona, Spain [2019/ ETH06112 (HREC/17/SCHN/63), PI-17-079]; Royal Prince Alfred Hospital and Centenary Institute, Australia [2019/ ETH02039 (HREC/17/WMEAD/63); 2021/ ETH11460 ]; Royal Prince Alfred Hospital and Woolcock Institute, Australia [2019/ ETH02039 (HREC/17/WMEAD/63); 2020/ ETH01304 (X20-0223)]; St Vincent\u2019s Hospital, Department of Surgery, Sydney, Australia, and Institute of Clinical Sciences, Lund University Hospital, Sweden [2019/ ETH02039 (HREC/17/WMEAD/63); 2021/ ETH11590 ]; Garvan Institute of Medical Research (APGI), Australia [2019/ ETH02039 (HREC/17/WMEAD/63); X16-0293 (HREC/11/RPAH/329)]; Garvan Institute of Medical Research [2019/ ETH02039 (HREC/17/WMEAD/63)]; Melanoma Institute Australia [2019/ ETH02039 (HREC/17/WMEAD/63); X15-0454 (HREC/11/RPAH/444); X17-0312 (HREC/11/RPAH/32); X15-0311 (HREC/10/RPAH/530)]; International Sarcoma Kindred Study [2019/ ETH02039 (HREC/17/WMEAD/63); SVH 16/126; PMCC 09/11]; University of Manitoba Tissue Biobank, Canada [2019/ ETH02039 (HREC/17/WMEAD/63); HS14811 (H2001-083)]; Australian Breast Cancer Tissue Bank [2019/ ETH02039 (HREC/17/WMEAD/63); 2019/ ETH02413 (LNR/16/WMEAD/93)]; Nepean Research Biobank, Australia [2019/ ETH02039 (HREC/17/WMEAD/63)]; Princess Alexandra Hospital, Queensland Medical Labs, Mater Hospital, Queensland, Australia [2019/ ETH02039 (HREC/17/WMEAD/63); PR/2022/QMS/8692 (HREC/03/QPAH/197)]; Institute of Cancer Research, Comprehensive Cancer Centre, Medical University of Vienna, Austria [2019/ ETH02039 (HREC/17/WMEAD/63); 1312/2022]; the University of Sydney, Royal North Shore Hospital, NSW Health Pathology, Australia [2019/ ETH02039 (HREC/17/WMEAD/63); 2019/ ETH08639 (HREC/16/HAWKE/105)]; Jewish General Hospital Breast Cancer Biobank, Montreal, Canada [2019/ ETH02039 (HREC/17/WMEAD/63); 2023-3377]; Laboratory of Translational Oncology, Medical School, University of Crete, and Laboratory of Pathology, University Hospital of Heraklion, Greece [2019/ ETH02039 (HREC/17/WMEAD/63)]; and University of Crete (ref 27/February 17, 2020. University Hospital ref 9920).",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02043",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH05866",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02043",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02075",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH10764",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH06112",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH11460",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH01304",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH11590",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02413",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH08639",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://www.ncbi.nlm.nih.gov/protein/ETH02039",
+        "ext-link-type": "uri"
+      }
+    ]
+  },
+  {
+    "text": "The raw DIA-MS data and processed data of cohort 1 and the corresponding spectral library have been deposited in the Proteomics Identification database (PRIDE) (RRID:SCR_003411) under the dataset identifier PXD056810. The two external DIA-MS datasets have the identifiers PXD019549 and PXD007810, respectively. Proteomics data for CPTAC datasets are available at the Proteomic Data Commons (PDC) at https://proteomic.datacommons.cancer.gov/pdc/cptac-pancancer . The PDC accession numbers for CPTAC datasets are as follows: BRCA, PDC000120; CCRCC, PDC000471; COAD, PDC000109; HNSCC, PDC000221; LUAD, PDC000153; PDAC, PDC000270; LSCC, PDC000234; and OV, PDC000250. The software code is available on GitHub at https://github.com/CMRI-ProCan/ProCanFDL .",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://proteomic.datacommons.cancer.gov/pdc/cptac-pancancer",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://github.com/CMRI-ProCan/ProCanFDL",
+        "ext-link-type": "uri"
+      }
+    ]
+  },
+  {
+    "text": "The raw DIA-MS data and processed data of cohort 1 and the corresponding spectral library have been deposited in the Proteomics Identification database (PRIDE) (RRID:SCR_003411) under the dataset identifier PXD056810. The two external DIA-MS datasets have the identifiers PXD019549 and PXD007810, respectively. Proteomics data for CPTAC datasets are available at the Proteomic Data Commons (PDC) at https://proteomic.datacommons.cancer.gov/pdc/cptac-pancancer . The PDC accession numbers for CPTAC datasets are as follows: BRCA, PDC000120; CCRCC, PDC000471; COAD, PDC000109; HNSCC, PDC000221; LUAD, PDC000153; PDAC, PDC000270; LSCC, PDC000234; and OV, PDC000250. The software code is available on GitHub at https://github.com/CMRI-ProCan/ProCanFDL .",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://proteomic.datacommons.cancer.gov/pdc/cptac-pancancer",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://github.com/CMRI-ProCan/ProCanFDL",
+        "ext-link-type": "uri"
+      }
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+Frozen 2026-10-04 before inspecting EMC HLA values.
+Question: Is allele-specific HLA-I loss measured in molecularly supported EMC,
+and could this undermine assuming retention of a germline peptide-presenting allele?
+Prior art: EMC is generally fusion-driven; the repository's vaccine work is
+prediction rather than measured presentation. A fresh web search of EMC + HLA
++ loss found no direct primary EMC-specific finding; this is not proof of novelty.
+Source pilot: the public MSK-IMPACT 50K 2026 release, PMID 41895280.
+Include every EMCHS case/sample and all HLA-A/B/C fields. Distinguish missing,
+homozygous/non-informative loci, retained loci and LOH; do not treat missing as intact.
+Join patient identifiers, sample type, gene-panel and molecular fusion support.
+Multiple samples are not independent patients. Earlier MSK studies overlap.
+First endpoint: any measured HLA LOH in all EMC, and fusion-supported subset;
+retain per-locus and per-sample calls, proportion with exact binomial intervals.
+No positive-selection filtering. If calls are absent or annotation is unsuitable,
+stop this pilot as uninformative, not a negative biological result.
+If present, test alternative explanations: assay/purity qualification, copy-number
+calling criteria, same-patient variation, subtype misclassification; complete public
+EMC coverage beyond this dataset before advancing any general claim. A matched
+sarcoma comparison would require a dated amendment before comparator values.
+No inference of expression, actual peptide presentation, immune selection, treatment
+response or causation from DNA LOH. No manuscript draft before independent challenge
+and scientific-value reassessment. Budget <=30MB and one bounded pilot, then decide.

@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-04",
+  "parent_owner": "01a1079e-2171-7b53-99eb-f19a6449ffba",
+  "scope": "Lead-owned bounded scientific follow-up under the existing matrix-biology reservation; no shared queue or other worker edits",
+  "trigger": "Primary GEO GSE6481 series metadata contradicts PeerJ21497's description of 19 EMC versus 128 other chondrosarcomas; all sample metadata fetched read-only showed actual soft-tissue categories. Expression values have not been inspected for this follow-up.",
+  "question": "Does the published H1FX EMC-lineage interpretation survive source identity verification and a targeted comparison in authenticated EMC tissue expression data?",
+  "original_claim": "PeerJ21497 describes H1FX as a lineage-specific feature and candidate epigenetic hallmark based partly on GSE6481 P=0.001. It already acknowledges prognostic overfitting and lacks outcome validation; those existing limitations are not new findings here.",
+  "hypotheses": ["The reported accession could be a typo and a different valid source may support the comparison", "The named source cannot provide EMC validation", "H1FX may still be EMC-enriched in authenticated independent measurements despite the source mismatch"],
+  "prospective_analysis": {
+    "genes": ["H1FX/H1-10/Entrez8971", "PXN/Entrez5829", "TYMS/Entrez7298"],
+    "focus": "H1FX is primary; PXN and TYMS are companion context, not adaptive replacements",
+    "RNA": "All13EMC retained; primary9 and all12primary and all13 shown. Compare to all primary malignant nonEMC and each MLPS/LGFMS/MFS primary group separately. Use existing specimen inclusion metadata; no pooled cross-study tests.",
+    "array": "Every GSE24369 EMC (6), all original comparator groups and both normal muscle pools. Original Entrez-compatible probes; keep per-probe values, median unique-gene probes only. No cutoff optimized from expression.",
+    "uncertainty": "A=Pr(EMC>comparator)+half ties, median differences and two-sided MannWhitney; 2000 bootstrap draws for A with seed20261004. Multiplicity report BH over all three genes across four plannedRNAcontrasts and separately over threegenes across two plannedarraymyxoidcontrasts. No nonsignificant-result-as-equivalence inference.",
+    "decision": "A source mismatch alone establishes a provenance limitation, not a biological negative. A new useful disease finding requires measured evidence changing the lineage interpretation, complete relevantEMCevidence, priorart and independent value review. If only accession provenance is resolved, preserve audit without labelling it a new EMC discovery."
+  },
+  "scope_limits": ["No author/journal contact or external scientific record edits", "Retain all original hypotheses and earlierpilotresults", "Budgetadditional10MBretained output; inspect smallmetadatafirst", "Daily06–10ETnoUI restriction and10GiBfree continue", "Independentclinicalworker checks originalpaper/supplements/alternativeaccession and meaning"],
+  "stopping": "One targeted identity and expression batch, followed by independent reassessment. No fullpaperdraft. Accessible olderEMCsourceexpression or originalsourcecrosswalk stillpending blocksmanuscriptadvancement."
+}

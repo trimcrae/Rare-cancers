@@ -1,0 +1,80 @@
+Fresh EMC microenvironment pilot, 2026-10-04
+
+No newly demonstrated EMC finding clears the requested scientific-value bar.
+Decision: SHELVE both standalone candidates; preserve the unfinished B-cell-specificity
+question and accessible raw measurements, with no manuscript advancement.
+
+Pilot 1: macrophages and CD47/SIRPa
+The Dancsok2020 primary source includes six EMC cases. Printed Figure2 measurements
+show CD68 median0cells/mm2 (n5), CD163 median5cells/mm2 (n5), and adjusted mean
+CD68:TIL ratio0.3 (n4). The two microarray cores per case are technical subsamples.
+Thus relative M2 predominance does not establish high absolute macrophage density.
+Figure4 shows heterogeneous CD47 staining and only a minority of EMC cases with
+SIRPa-positive macrophages, but its EMC per-assay denominator is not printed.
+We did not invent exact categorical counts or infer paired-cell relationships.
+Supplement tables provide clinical aggregates (four cases with clinical data,
+all four grade2; three outcome-evaluable), not a per-case checkpoint matrix.
+All published EMC aggregates and the relevant figures were inspected. This is
+useful contrary context, but the underlying measurements are already published.
+Chaiboonchoe2026 already explicitly discusses EMC immune heterogeneity. Neither
+retelling the protein results nor juxtaposing unmatched cohorts is new enough.
+
+Pilot 2: is the reported favorable-risk B-cell signal B-cell-specific?
+The prespecified contrast used MS4A1/CD79A/CD79B/CD37 relative to PTPRC with
+CD3D/CD3E/CD3G and LST1/AIF1/FCER1G controls. We evaluated all twelve columns
+of the released9500-gene TempO-Seq log2CPM matrix. MS4A1,CD79A,PTPRC,CD3G,LST1
+and AIF1 are absent from that processed file; the frozen panel-coverage rule
+failed, so no substituted-marker test or prognostic association was calculated.
+The missing rows are not zero counts, absent expression or assay target absence.
+The actual assay manifest contains every prespecified gene. The paper describes
+zero/duplicate/low-expression filtering and9909retained genes; releasedS9 has9500.
+No inference about causes of this discrepancy was made.
+
+Raw follow-through
+PRJNA1357027 contains twelve public50nt single-end TempO-Seq libraries matching
+all twelve Si sample identifiers. Full FASTQs total about2.705GB compressed;
+streaming would avoid disk growth. Official HWT2.0 manifest has22537probes.
+Before full counting, the frozen exact-match implementation gate required75%
+assignment or investigation. The first10000reads of EVERY library were inspected
+as a measurement diagnostic, not as completed biological analysis.
+Exact unique full50nt assignment ranged6.62–69.18%, all below the allocation
+threshold. All matched reads were forward; all120000inspected reads were50nt.
+The official v2.1 manifest shares22533sequences withv2.0 and did not improve
+assignment. In Si01, only10of159unmatched reads among the first200were one
+mismatch from a v2.0probe; many were23–25mismatches away. Across libraries,
+2.15–14.53%of inspected reads matched different probes' first/last25nt halves.
+These diagnostics do not establish the cause of unassigned reads and do not
+show that the original investigators' aligned counts or biological claim are
+invalid.75%is our prospective allocation threshold, not a validated assay rule.
+They leave our exact-match method insufficiently validated for the intended
+cell-composition comparison. No full12-library count stream was launched.
+
+Interpretation and remaining value
+No B-cell versus global-leukocyte result was established, either positive or
+negative. The public paper's B-cell-risk contrasts were already nominal only
+and did not survive its36-comparisonFDR; its mIF consists of two selected tumors,
+not20independent patients. This pilot does not overturn that published biology.
+Patient-specific risk labels/outcomes were not authenticated. A three-gene
+reconstructed score would be exploratory; no inference used it. No G/B or Time
+metadata field was treated as validated survival/censor information.
+
+Reopening: a validated same-assay count/alignment pipeline or released unfiltered
+probe counts, specimen-specific risk/outcome labels, and enough marker signal
+to assess the original fixed contrast across all twelve cases. A new result
+would still need all relevant EMC source evaluation and independent challenge.
+Obtaining counts alone would not establish scientific value or revive a paper.
+
+Submitted CSPG4 reference actually read
+Exact letter at Git097f863ab83d242022e05637da39bafbad03b4f2:
+research/release-candidates/preprint-short-formats-20260924/cspg4-figure1-revision/letter.md.
+It evaluates9EMC versus393malignant-reference specimens(A0.846), retains all12/13
+sensitivities, and notes GIST/DFSPhigher medians, overlapping distributions,
+unresolved full independence and RNA-versus-cell-surface-protein limitations.
+Earlier canonical full manuscript was also read; it is not substituted for the
+submitted letter. No TMEM266 revival or inherited candidate ranking.
+
+Reproduction: bcell_pilot.py re-extracts originalS9 and reproduces coverage stop;
+raw_probe_count.py --gate and mapping_diagnostic.py reproduce bounded method
+diagnostics. Outputs preserve all twelve libraries and source hashes/URLs.
+Read TIMESTAMP-CORRECTION.txt: manual amendment UTC labels were inaccurate;
+the original plans remain unchanged and exact creation/tool order is recorded.

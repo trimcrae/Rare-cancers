@@ -1,0 +1,3072 @@
+{
+  "date": "2026-10-04",
+  "round1_sources": {
+    "emc_and_nr4a3_mutations.json": {
+      "relative_location": "../../fresh-discovery-2026-10-04/genomics/emc_and_nr4a3_mutations.json",
+      "bytes": 11061,
+      "sha256": "0043196c9153dde9bc7c43c98290f31ffb0136d0479d4ce31d80aebd401a6cc8"
+    },
+    "emc_and_nr4a3_cna.json": {
+      "relative_location": "../../fresh-discovery-2026-10-04/genomics/emc_and_nr4a3_cna.json",
+      "bytes": 2871541,
+      "sha256": "0707013585705b1f987e19a49ccf9508f227ea2f25be527f0cab115b2db16e7b"
+    },
+    "gene_panels.json": {
+      "relative_location": "../../fresh-discovery-2026-10-04/genomics/gene_panels.json",
+      "bytes": 57678,
+      "sha256": "d6491aedf2a813131c3d48632c2b408bf16dcd5df677f737291b8022959f5b2b"
+    },
+    "gene_panel_data_mutations.json": {
+      "relative_location": "../../fresh-discovery-2026-10-04/genomics/gene_panel_data_mutations.json",
+      "bytes": 4741,
+      "sha256": "a263819fc9634d2795cd725d2adc5f441d9a3e02d0d1e616d99a4a8849981eb2"
+    },
+    "gene_panel_data_gistic.json": {
+      "relative_location": "../../fresh-discovery-2026-10-04/genomics/gene_panel_data_gistic.json",
+      "bytes": 4696,
+      "sha256": "4016a754d0f0b09838a159c2907ba1604425369c31b871c572ffd336690a1094"
+    },
+    "historical_msk2022_emc_mutations.json": {
+      "relative_location": "../../fresh-discovery-2026-10-04/genomics/historical_msk2022_emc_mutations.json",
+      "bytes": 5728,
+      "sha256": "0866326b21e1f9d579e0730a0773dcd48705739d156aa8cf22f0b7dccc5c870e"
+    },
+    "historical_msk2022_emc_cna.json": {
+      "relative_location": "../../fresh-discovery-2026-10-04/genomics/historical_msk2022_emc_cna.json",
+      "bytes": 1914143,
+      "sha256": "10cf76bfc00d106fa22cea3051d22f71e09a9a1d47afedab99d95d1893ff0e20"
+    }
+  },
+  "all_MSK_mutation_rows": [
+    {
+      "uniqueSampleKey": "UC0wMDAwMzc5LVQwMi1JTTM6bXNrX2ltcGFjdF81MGtfMjAyNg",
+      "uniquePatientKey": "UC0wMDAwMzc5Om1za19pbXBhY3RfNTBrXzIwMjY",
+      "molecularProfileId": "msk_impact_50k_2026_mutations",
+      "sampleId": "P-0000379-T02-IM3",
+      "patientId": "P-0000379",
+      "entrezGeneId": 5071,
+      "gene": {
+        "entrezGeneId": 5071,
+        "hugoGeneSymbol": "PRKN",
+        "type": "protein-coding"
+      },
+      "studyId": "msk_impact_50k_2026",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 243,
+      "tumorRefCount": 315,
+      "normalAltCount": 0,
+      "normalRefCount": 340,
+      "chr": "6",
+      "startPosition": 162394390,
+      "endPosition": 162394390,
+      "referenceAllele": "C",
+      "variantAllele": "A",
+      "proteinChange": "L226F",
+      "mutationType": "Missense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_004562.2",
+      "proteinPosStart": 226,
+      "proteinPosEnd": 226,
+      "keyword": "PRKN L226 missense",
+      "alleleSpecificCopyNumber": {
+        "ascnIntegerCopyNumber": 2,
+        "ascnMethod": "FACETS",
+        "ccfExpectedCopiesUpper": 0.994,
+        "ccfExpectedCopies": 0.94,
+        "clonal": "CLONAL",
+        "minorCopyNumber": 1,
+        "expectedAltCopies": 3,
+        "totalCopyNumber": 2
+      }
+    },
+    {
+      "uniqueSampleKey": "UC0wMDAxMTI5LVQwMS1JTTM6bXNrX2ltcGFjdF81MGtfMjAyNg",
+      "uniquePatientKey": "UC0wMDAxMTI5Om1za19pbXBhY3RfNTBrXzIwMjY",
+      "molecularProfileId": "msk_impact_50k_2026_mutations",
+      "sampleId": "P-0001129-T01-IM3",
+      "patientId": "P-0001129",
+      "entrezGeneId": 8085,
+      "gene": {
+        "entrezGeneId": 8085,
+        "hugoGeneSymbol": "KMT2D",
+        "type": "protein-coding"
+      },
+      "studyId": "msk_impact_50k_2026",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 129,
+      "tumorRefCount": 185,
+      "normalAltCount": 0,
+      "normalRefCount": 284,
+      "chr": "12",
+      "startPosition": 49433655,
+      "endPosition": 49433655,
+      "referenceAllele": "G",
+      "variantAllele": "T",
+      "proteinChange": "S2633*",
+      "mutationType": "Nonsense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_003482.3",
+      "proteinPosStart": 2633,
+      "proteinPosEnd": 2633,
+      "keyword": "KMT2D truncating",
+      "alleleSpecificCopyNumber": {
+        "ascnIntegerCopyNumber": 2,
+        "ascnMethod": "FACETS",
+        "ccfExpectedCopiesUpper": 1.0,
+        "ccfExpectedCopies": 0.967,
+        "clonal": "CLONAL",
+        "minorCopyNumber": 1,
+        "expectedAltCopies": 5,
+        "totalCopyNumber": 2
+      }
+    },
+    {
+      "uniqueSampleKey": "UC0wMDAxNDgyLVQwMS1JTTM6bXNrX2ltcGFjdF81MGtfMjAyNg",
+      "uniquePatientKey": "UC0wMDAxNDgyOm1za19pbXBhY3RfNTBrXzIwMjY",
+      "molecularProfileId": "msk_impact_50k_2026_mutations",
+      "sampleId": "P-0001482-T01-IM3",
+      "patientId": "P-0001482",
+      "entrezGeneId": 5289,
+      "gene": {
+        "entrezGeneId": 5289,
+        "hugoGeneSymbol": "PIK3C3",
+        "type": "protein-coding"
+      },
+      "studyId": "msk_impact_50k_2026",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 211,
+      "tumorRefCount": 326,
+      "normalAltCount": 0,
+      "normalRefCount": 329,
+      "chr": "18",
+      "startPosition": 39584444,
+      "endPosition": 39584444,
+      "referenceAllele": "A",
+      "variantAllele": "T",
+      "proteinChange": "H370L",
+      "mutationType": "Missense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_002647.2",
+      "proteinPosStart": 370,
+      "proteinPosEnd": 370,
+      "keyword": "PIK3C3 H370 missense",
+      "alleleSpecificCopyNumber": {
+        "ascnIntegerCopyNumber": 2,
+        "ascnMethod": "FACETS",
+        "ccfExpectedCopiesUpper": 1.0,
+        "ccfExpectedCopies": 1.0,
+        "clonal": "CLONAL",
+        "minorCopyNumber": 1,
+        "expectedAltCopies": 1,
+        "totalCopyNumber": 2
+      }
+    },
+    {
+      "uniqueSampleKey": "UC0wMDA0MzA2LVQwMS1JTTU6bXNrX2ltcGFjdF81MGtfMjAyNg",
+      "uniquePatientKey": "UC0wMDA0MzA2Om1za19pbXBhY3RfNTBrXzIwMjY",
+      "molecularProfileId": "msk_impact_50k_2026_mutations",
+      "sampleId": "P-0004306-T01-IM5",
+      "patientId": "P-0004306",
+      "entrezGeneId": 7015,
+      "gene": {
+        "entrezGeneId": 7015,
+        "hugoGeneSymbol": "TERT",
+        "type": "protein-coding"
+      },
+      "studyId": "msk_impact_50k_2026",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 24,
+      "tumorRefCount": 37,
+      "normalAltCount": 0,
+      "normalRefCount": 769,
+      "chr": "5",
+      "startPosition": 1295250,
+      "endPosition": 1295254,
+      "referenceAllele": "GAGGG",
+      "variantAllele": "AAGGA",
+      "proteinChange": "Promoter",
+      "mutationType": "5'Flank",
+      "ncbiBuild": "GRCh37",
+      "variantType": "ONP",
+      "refseqMrnaId": "NM_198253.2",
+      "proteinPosStart": -1,
+      "proteinPosEnd": -1,
+      "alleleSpecificCopyNumber": {
+        "ascnMethod": "FACETS"
+      }
+    },
+    {
+      "uniqueSampleKey": "UC0wMDA1NjA3LVQwMS1JTTU6bXNrX2ltcGFjdF81MGtfMjAyNg",
+      "uniquePatientKey": "UC0wMDA1NjA3Om1za19pbXBhY3RfNTBrXzIwMjY",
+      "molecularProfileId": "msk_impact_50k_2026_mutations",
+      "sampleId": "P-0005607-T01-IM5",
+      "patientId": "P-0005607",
+      "entrezGeneId": 4087,
+      "gene": {
+        "entrezGeneId": 4087,
+        "hugoGeneSymbol": "SMAD2",
+        "type": "protein-coding"
+      },
+      "studyId": "msk_impact_50k_2026",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 13,
+      "tumorRefCount": 206,
+      "normalAltCount": 0,
+      "normalRefCount": 256,
+      "chr": "18",
+      "startPosition": 45423125,
+      "endPosition": 45423125,
+      "referenceAllele": "C",
+      "variantAllele": "T",
+      "proteinChange": "M1?",
+      "mutationType": "Translation_Start_Site",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_005901.5",
+      "proteinPosStart": 1,
+      "proteinPosEnd": 1,
+      "keyword": "SMAD2 truncating",
+      "alleleSpecificCopyNumber": {
+        "ascnIntegerCopyNumber": 2,
+        "ascnMethod": "FACETS",
+        "ccfExpectedCopiesUpper": 0.26,
+        "ccfExpectedCopies": 0.192,
+        "clonal": "SUBCLONAL",
+        "minorCopyNumber": 1,
+        "expectedAltCopies": 1,
+        "totalCopyNumber": 2
+      }
+    },
+    {
+      "uniqueSampleKey": "UC0wMDA1NjA3LVQwMi1JTTY6bXNrX2ltcGFjdF81MGtfMjAyNg",
+      "uniquePatientKey": "UC0wMDA1NjA3Om1za19pbXBhY3RfNTBrXzIwMjY",
+      "molecularProfileId": "msk_impact_50k_2026_mutations",
+      "sampleId": "P-0005607-T02-IM6",
+      "patientId": "P-0005607",
+      "entrezGeneId": 4087,
+      "gene": {
+        "entrezGeneId": 4087,
+        "hugoGeneSymbol": "SMAD2",
+        "type": "protein-coding"
+      },
+      "studyId": "msk_impact_50k_2026",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 42,
+      "tumorRefCount": 254,
+      "normalAltCount": 0,
+      "normalRefCount": 254,
+      "chr": "18",
+      "startPosition": 45423125,
+      "endPosition": 45423125,
+      "referenceAllele": "C",
+      "variantAllele": "T",
+      "proteinChange": "M1?",
+      "mutationType": "Translation_Start_Site",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_005901.5",
+      "proteinPosStart": 1,
+      "proteinPosEnd": 1,
+      "keyword": "SMAD2 truncating",
+      "alleleSpecificCopyNumber": {
+        "ascnIntegerCopyNumber": 2,
+        "ascnMethod": "FACETS",
+        "ccfExpectedCopiesUpper": 1.0,
+        "minorCopyNumber": 1,
+        "totalCopyNumber": 2
+      }
+    },
+    {
+      "uniqueSampleKey": "UC0wMDExMDY3LVQwMS1JTTU6bXNrX2ltcGFjdF81MGtfMjAyNg",
+      "uniquePatientKey": "UC0wMDExMDY3Om1za19pbXBhY3RfNTBrXzIwMjY",
+      "molecularProfileId": "msk_impact_50k_2026_mutations",
+      "sampleId": "P-0011067-T01-IM5",
+      "patientId": "P-0011067",
+      "entrezGeneId": 8289,
+      "gene": {
+        "entrezGeneId": 8289,
+        "hugoGeneSymbol": "ARID1A",
+        "type": "protein-coding"
+      },
+      "studyId": "msk_impact_50k_2026",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 72,
+      "tumorRefCount": 279,
+      "normalAltCount": 0,
+      "normalRefCount": 404,
+      "chr": "1",
+      "startPosition": 27099008,
+      "endPosition": 27099008,
+      "referenceAllele": "C",
+      "variantAllele": "T",
+      "proteinChange": "Q1142*",
+      "mutationType": "Nonsense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_006015.4",
+      "proteinPosStart": 1142,
+      "proteinPosEnd": 1142,
+      "keyword": "ARID1A truncating",
+      "alleleSpecificCopyNumber": {
+        "ascnIntegerCopyNumber": 2,
+        "ascnMethod": "FACETS",
+        "ccfExpectedCopiesUpper": 0.499,
+        "ccfExpectedCopies": 0.442,
+        "clonal": "SUBCLONAL",
+        "minorCopyNumber": 1,
+        "expectedAltCopies": 1,
+        "totalCopyNumber": 2
+      }
+    },
+    {
+      "uniqueSampleKey": "UC0wMDExMDY3LVQwMy1JTTY6bXNrX2ltcGFjdF81MGtfMjAyNg",
+      "uniquePatientKey": "UC0wMDExMDY3Om1za19pbXBhY3RfNTBrXzIwMjY",
+      "molecularProfileId": "msk_impact_50k_2026_mutations",
+      "sampleId": "P-0011067-T03-IM6",
+      "patientId": "P-0011067",
+      "entrezGeneId": 2903,
+      "gene": {
+        "entrezGeneId": 2903,
+        "hugoGeneSymbol": "GRIN2A",
+        "type": "protein-coding"
+      },
+      "studyId": "msk_impact_50k_2026",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 164,
+      "tumorRefCount": 412,
+      "normalAltCount": 0,
+      "normalRefCount": 247,
+      "chr": "16",
+      "startPosition": 9857087,
+      "endPosition": 9857087,
+      "referenceAllele": "C",
+      "variantAllele": "T",
+      "proteinChange": "M1438I",
+      "mutationType": "Missense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_001134407.1",
+      "proteinPosStart": 1438,
+      "proteinPosEnd": 1438,
+      "keyword": "GRIN2A M1438 missense",
+      "alleleSpecificCopyNumber": {
+        "ascnIntegerCopyNumber": 3,
+        "ascnMethod": "FACETS",
+        "ccfExpectedCopiesUpper": 1.0,
+        "ccfExpectedCopies": 0.949,
+        "clonal": "CLONAL",
+        "minorCopyNumber": 1,
+        "expectedAltCopies": 1,
+        "totalCopyNumber": 3
+      }
+    },
+    {
+      "uniqueSampleKey": "UC0wMDM1NzYzLVQwMS1JTTY6bXNrX2ltcGFjdF81MGtfMjAyNg",
+      "uniquePatientKey": "UC0wMDM1NzYzOm1za19pbXBhY3RfNTBrXzIwMjY",
+      "molecularProfileId": "msk_impact_50k_2026_mutations",
+      "sampleId": "P-0035763-T01-IM6",
+      "patientId": "P-0035763",
+      "entrezGeneId": 4914,
+      "gene": {
+        "entrezGeneId": 4914,
+        "hugoGeneSymbol": "NTRK1",
+        "type": "protein-coding"
+      },
+      "studyId": "msk_impact_50k_2026",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 291,
+      "tumorRefCount": 288,
+      "normalAltCount": 39,
+      "normalRefCount": 710,
+      "chr": "1",
+      "startPosition": 156838030,
+      "endPosition": 156838030,
+      "referenceAllele": "A",
+      "variantAllele": "T",
+      "proteinChange": "N188I",
+      "mutationType": "Missense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_002529.3",
+      "proteinPosStart": 188,
+      "proteinPosEnd": 188,
+      "keyword": "NTRK1 N188 missense",
+      "alleleSpecificCopyNumber": {
+        "ascnIntegerCopyNumber": 2,
+        "ascnMethod": "FACETS",
+        "ccfExpectedCopiesUpper": 0.993,
+        "ccfExpectedCopies": 0.946,
+        "clonal": "CLONAL",
+        "minorCopyNumber": 1,
+        "expectedAltCopies": 3,
+        "totalCopyNumber": 2
+      }
+    },
+    {
+      "uniqueSampleKey": "UC0wMDU0MTU5LVQwMS1JTTY6bXNrX2ltcGFjdF81MGtfMjAyNg",
+      "uniquePatientKey": "UC0wMDU0MTU5Om1za19pbXBhY3RfNTBrXzIwMjY",
+      "molecularProfileId": "msk_impact_50k_2026_mutations",
+      "sampleId": "P-0054159-T01-IM6",
+      "patientId": "P-0054159",
+      "entrezGeneId": 7157,
+      "gene": {
+        "entrezGeneId": 7157,
+        "hugoGeneSymbol": "TP53",
+        "type": "protein-coding"
+      },
+      "studyId": "msk_impact_50k_2026",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 37,
+      "tumorRefCount": 234,
+      "normalAltCount": 0,
+      "normalRefCount": 720,
+      "chr": "17",
+      "startPosition": 7577564,
+      "endPosition": 7577565,
+      "referenceAllele": "-",
+      "variantAllele": "T",
+      "proteinChange": "N239Kfs*25",
+      "mutationType": "Frame_Shift_Ins",
+      "ncbiBuild": "GRCh37",
+      "variantType": "INS",
+      "refseqMrnaId": "NM_001126112.2",
+      "proteinPosStart": 239,
+      "proteinPosEnd": 239,
+      "keyword": "TP53 truncating",
+      "alleleSpecificCopyNumber": {
+        "ascnIntegerCopyNumber": 2,
+        "ascnMethod": "FACETS",
+        "ccfExpectedCopiesUpper": 1.0,
+        "minorCopyNumber": 1,
+        "totalCopyNumber": 2
+      }
+    },
+    {
+      "uniqueSampleKey": "UC0wMDU0MTU5LVQwMS1JTTY6bXNrX2ltcGFjdF81MGtfMjAyNg",
+      "uniquePatientKey": "UC0wMDU0MTU5Om1za19pbXBhY3RfNTBrXzIwMjY",
+      "molecularProfileId": "msk_impact_50k_2026_mutations",
+      "sampleId": "P-0054159-T01-IM6",
+      "patientId": "P-0054159",
+      "entrezGeneId": 9688,
+      "gene": {
+        "entrezGeneId": 9688,
+        "hugoGeneSymbol": "NUP93",
+        "type": "protein-coding"
+      },
+      "studyId": "msk_impact_50k_2026",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 16,
+      "tumorRefCount": 291,
+      "normalAltCount": 0,
+      "normalRefCount": 474,
+      "chr": "16",
+      "startPosition": 56873501,
+      "endPosition": 56873501,
+      "referenceAllele": "A",
+      "variantAllele": "C",
+      "proteinChange": "R735S",
+      "mutationType": "Missense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_014669.4",
+      "proteinPosStart": 735,
+      "proteinPosEnd": 735,
+      "keyword": "NUP93 R735 missense",
+      "alleleSpecificCopyNumber": {
+        "ascnIntegerCopyNumber": 2,
+        "ascnMethod": "FACETS",
+        "ccfExpectedCopiesUpper": 1.0,
+        "minorCopyNumber": 1,
+        "totalCopyNumber": 2
+      }
+    }
+  ],
+  "MSK_selected_gene_measurements": {
+    "IDH2": {
+      "panel_membership": {
+        "IMPACT341": true,
+        "IMPACT410": true,
+        "IMPACT468": true
+      },
+      "mutation_rows": [],
+      "CNA_record_count": 15,
+      "CNA_sample_ids": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0005607-T02-IM6",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0011067-T03-IM6",
+        "P-0035763-T01-IM6",
+        "P-0053910-T01-IM6",
+        "P-0054159-T01-IM6",
+        "P-0056135-T01-IM6"
+      ],
+      "CNA_value_counts": {
+        "0": 15
+      },
+      "nonzero_CNA_rows": []
+    },
+    "ARID1A": {
+      "panel_membership": {
+        "IMPACT341": true,
+        "IMPACT410": true,
+        "IMPACT468": true
+      },
+      "mutation_rows": [
+        {
+          "uniqueSampleKey": "UC0wMDExMDY3LVQwMS1JTTU6bXNrX2ltcGFjdF81MGtfMjAyNg",
+          "uniquePatientKey": "UC0wMDExMDY3Om1za19pbXBhY3RfNTBrXzIwMjY",
+          "molecularProfileId": "msk_impact_50k_2026_mutations",
+          "sampleId": "P-0011067-T01-IM5",
+          "patientId": "P-0011067",
+          "entrezGeneId": 8289,
+          "gene": {
+            "entrezGeneId": 8289,
+            "hugoGeneSymbol": "ARID1A",
+            "type": "protein-coding"
+          },
+          "studyId": "msk_impact_50k_2026",
+          "center": "MSKCC",
+          "mutationStatus": "SOMATIC",
+          "validationStatus": "Unknown",
+          "tumorAltCount": 72,
+          "tumorRefCount": 279,
+          "normalAltCount": 0,
+          "normalRefCount": 404,
+          "chr": "1",
+          "startPosition": 27099008,
+          "endPosition": 27099008,
+          "referenceAllele": "C",
+          "variantAllele": "T",
+          "proteinChange": "Q1142*",
+          "mutationType": "Nonsense_Mutation",
+          "ncbiBuild": "GRCh37",
+          "variantType": "SNP",
+          "refseqMrnaId": "NM_006015.4",
+          "proteinPosStart": 1142,
+          "proteinPosEnd": 1142,
+          "keyword": "ARID1A truncating",
+          "alleleSpecificCopyNumber": {
+            "ascnIntegerCopyNumber": 2,
+            "ascnMethod": "FACETS",
+            "ccfExpectedCopiesUpper": 0.499,
+            "ccfExpectedCopies": 0.442,
+            "clonal": "SUBCLONAL",
+            "minorCopyNumber": 1,
+            "expectedAltCopies": 1,
+            "totalCopyNumber": 2
+          }
+        }
+      ],
+      "CNA_record_count": 15,
+      "CNA_sample_ids": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0005607-T02-IM6",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0011067-T03-IM6",
+        "P-0035763-T01-IM6",
+        "P-0053910-T01-IM6",
+        "P-0054159-T01-IM6",
+        "P-0056135-T01-IM6"
+      ],
+      "CNA_value_counts": {
+        "0": 15
+      },
+      "nonzero_CNA_rows": []
+    },
+    "NTRK3": {
+      "panel_membership": {
+        "IMPACT341": true,
+        "IMPACT410": true,
+        "IMPACT468": true
+      },
+      "mutation_rows": [],
+      "CNA_record_count": 15,
+      "CNA_sample_ids": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0005607-T02-IM6",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0011067-T03-IM6",
+        "P-0035763-T01-IM6",
+        "P-0053910-T01-IM6",
+        "P-0054159-T01-IM6",
+        "P-0056135-T01-IM6"
+      ],
+      "CNA_value_counts": {
+        "0": 15
+      },
+      "nonzero_CNA_rows": []
+    },
+    "TSC2": {
+      "panel_membership": {
+        "IMPACT341": true,
+        "IMPACT410": true,
+        "IMPACT468": true
+      },
+      "mutation_rows": [],
+      "CNA_record_count": 15,
+      "CNA_sample_ids": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0005607-T02-IM6",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0011067-T03-IM6",
+        "P-0035763-T01-IM6",
+        "P-0053910-T01-IM6",
+        "P-0054159-T01-IM6",
+        "P-0056135-T01-IM6"
+      ],
+      "CNA_value_counts": {
+        "0": 15
+      },
+      "nonzero_CNA_rows": []
+    },
+    "KDM5C": {
+      "panel_membership": {
+        "IMPACT341": true,
+        "IMPACT410": true,
+        "IMPACT468": true
+      },
+      "mutation_rows": [],
+      "CNA_record_count": 15,
+      "CNA_sample_ids": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0005607-T02-IM6",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0011067-T03-IM6",
+        "P-0035763-T01-IM6",
+        "P-0053910-T01-IM6",
+        "P-0054159-T01-IM6",
+        "P-0056135-T01-IM6"
+      ],
+      "CNA_value_counts": {
+        "0": 15
+      },
+      "nonzero_CNA_rows": []
+    },
+    "KMT2C": {
+      "panel_membership": {
+        "IMPACT341": true,
+        "IMPACT410": true,
+        "IMPACT468": true
+      },
+      "mutation_rows": [],
+      "CNA_record_count": 15,
+      "CNA_sample_ids": [
+        "P-0000379-T02-IM3",
+        "P-0000718-T01-IM3",
+        "P-0000857-T01-IM3",
+        "P-0001129-T01-IM3",
+        "P-0001482-T01-IM3",
+        "P-0004306-T01-IM5",
+        "P-0005607-T01-IM5",
+        "P-0005607-T02-IM6",
+        "P-0006159-T01-IM5",
+        "P-0011067-T01-IM5",
+        "P-0011067-T03-IM6",
+        "P-0035763-T01-IM6",
+        "P-0053910-T01-IM6",
+        "P-0054159-T01-IM6",
+        "P-0056135-T01-IM6"
+      ],
+      "CNA_value_counts": {
+        "0": 15
+      },
+      "nonzero_CNA_rows": []
+    },
+    "CD36": {
+      "panel_membership": {
+        "IMPACT341": false,
+        "IMPACT410": false,
+        "IMPACT468": false
+      },
+      "mutation_rows": [],
+      "CNA_record_count": 0,
+      "CNA_sample_ids": [],
+      "CNA_value_counts": {},
+      "nonzero_CNA_rows": []
+    }
+  },
+  "historical_MSK_all_mutations": [
+    {
+      "uniqueSampleKey": "UC0wMDAwMzc5LVQwMi1JTTM6c2FyY29tYV9tc2tjY18yMDIy",
+      "uniquePatientKey": "UC0wMDAwMzc5OnNhcmNvbWFfbXNrY2NfMjAyMg",
+      "molecularProfileId": "sarcoma_mskcc_2022_mutations",
+      "sampleId": "P-0000379-T02-IM3",
+      "patientId": "P-0000379",
+      "entrezGeneId": 5071,
+      "gene": {
+        "entrezGeneId": 5071,
+        "hugoGeneSymbol": "PRKN",
+        "type": "protein-coding"
+      },
+      "studyId": "sarcoma_mskcc_2022",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 243,
+      "tumorRefCount": 315,
+      "normalAltCount": 0,
+      "normalRefCount": 340,
+      "chr": "6",
+      "startPosition": 162394390,
+      "endPosition": 162394390,
+      "referenceAllele": "C",
+      "variantAllele": "A",
+      "proteinChange": "L226F",
+      "mutationType": "Missense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_004562.2",
+      "proteinPosStart": 226,
+      "proteinPosEnd": 226,
+      "keyword": "PRKN L226 missense"
+    },
+    {
+      "uniqueSampleKey": "UC0wMDAxMTI5LVQwMS1JTTM6c2FyY29tYV9tc2tjY18yMDIy",
+      "uniquePatientKey": "UC0wMDAxMTI5OnNhcmNvbWFfbXNrY2NfMjAyMg",
+      "molecularProfileId": "sarcoma_mskcc_2022_mutations",
+      "sampleId": "P-0001129-T01-IM3",
+      "patientId": "P-0001129",
+      "entrezGeneId": 8085,
+      "gene": {
+        "entrezGeneId": 8085,
+        "hugoGeneSymbol": "KMT2D",
+        "type": "protein-coding"
+      },
+      "studyId": "sarcoma_mskcc_2022",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 129,
+      "tumorRefCount": 185,
+      "normalAltCount": 0,
+      "normalRefCount": 284,
+      "chr": "12",
+      "startPosition": 49433655,
+      "endPosition": 49433655,
+      "referenceAllele": "G",
+      "variantAllele": "T",
+      "proteinChange": "S2633*",
+      "mutationType": "Nonsense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_003482.3",
+      "proteinPosStart": 2633,
+      "proteinPosEnd": 2633,
+      "keyword": "KMT2D truncating"
+    },
+    {
+      "uniqueSampleKey": "UC0wMDAxNDgyLVQwMS1JTTM6c2FyY29tYV9tc2tjY18yMDIy",
+      "uniquePatientKey": "UC0wMDAxNDgyOnNhcmNvbWFfbXNrY2NfMjAyMg",
+      "molecularProfileId": "sarcoma_mskcc_2022_mutations",
+      "sampleId": "P-0001482-T01-IM3",
+      "patientId": "P-0001482",
+      "entrezGeneId": 5289,
+      "gene": {
+        "entrezGeneId": 5289,
+        "hugoGeneSymbol": "PIK3C3",
+        "type": "protein-coding"
+      },
+      "studyId": "sarcoma_mskcc_2022",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 211,
+      "tumorRefCount": 326,
+      "normalAltCount": 0,
+      "normalRefCount": 329,
+      "chr": "18",
+      "startPosition": 39584444,
+      "endPosition": 39584444,
+      "referenceAllele": "A",
+      "variantAllele": "T",
+      "proteinChange": "H370L",
+      "mutationType": "Missense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_002647.2",
+      "proteinPosStart": 370,
+      "proteinPosEnd": 370,
+      "keyword": "PIK3C3 H370 missense"
+    },
+    {
+      "uniqueSampleKey": "UC0wMDA0MzA2LVQwMS1JTTU6c2FyY29tYV9tc2tjY18yMDIy",
+      "uniquePatientKey": "UC0wMDA0MzA2OnNhcmNvbWFfbXNrY2NfMjAyMg",
+      "molecularProfileId": "sarcoma_mskcc_2022_mutations",
+      "sampleId": "P-0004306-T01-IM5",
+      "patientId": "P-0004306",
+      "entrezGeneId": 7015,
+      "gene": {
+        "entrezGeneId": 7015,
+        "hugoGeneSymbol": "TERT",
+        "type": "protein-coding"
+      },
+      "studyId": "sarcoma_mskcc_2022",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 24,
+      "tumorRefCount": 37,
+      "normalAltCount": 0,
+      "normalRefCount": 196,
+      "chr": "5",
+      "startPosition": 1295250,
+      "endPosition": 1295254,
+      "referenceAllele": "GAGGG",
+      "variantAllele": "AAGGA",
+      "proteinChange": "Promoter",
+      "mutationType": "5'Flank",
+      "ncbiBuild": "GRCh37",
+      "variantType": "ONP",
+      "refseqMrnaId": "NM_198253.2",
+      "proteinPosStart": -1,
+      "proteinPosEnd": -1
+    },
+    {
+      "uniqueSampleKey": "UC0wMDA1NjA3LVQwMS1JTTU6c2FyY29tYV9tc2tjY18yMDIy",
+      "uniquePatientKey": "UC0wMDA1NjA3OnNhcmNvbWFfbXNrY2NfMjAyMg",
+      "molecularProfileId": "sarcoma_mskcc_2022_mutations",
+      "sampleId": "P-0005607-T01-IM5",
+      "patientId": "P-0005607",
+      "entrezGeneId": 4087,
+      "gene": {
+        "entrezGeneId": 4087,
+        "hugoGeneSymbol": "SMAD2",
+        "type": "protein-coding"
+      },
+      "studyId": "sarcoma_mskcc_2022",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 13,
+      "tumorRefCount": 206,
+      "normalAltCount": 0,
+      "normalRefCount": 256,
+      "chr": "18",
+      "startPosition": 45423125,
+      "endPosition": 45423125,
+      "referenceAllele": "C",
+      "variantAllele": "T",
+      "proteinChange": "M1?",
+      "mutationType": "Translation_Start_Site",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_005901.5",
+      "proteinPosStart": 1,
+      "proteinPosEnd": 1,
+      "keyword": "SMAD2 truncating"
+    },
+    {
+      "uniqueSampleKey": "UC0wMDExMDY3LVQwMS1JTTU6c2FyY29tYV9tc2tjY18yMDIy",
+      "uniquePatientKey": "UC0wMDExMDY3OnNhcmNvbWFfbXNrY2NfMjAyMg",
+      "molecularProfileId": "sarcoma_mskcc_2022_mutations",
+      "sampleId": "P-0011067-T01-IM5",
+      "patientId": "P-0011067",
+      "entrezGeneId": 8289,
+      "gene": {
+        "entrezGeneId": 8289,
+        "hugoGeneSymbol": "ARID1A",
+        "type": "protein-coding"
+      },
+      "studyId": "sarcoma_mskcc_2022",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 72,
+      "tumorRefCount": 279,
+      "normalAltCount": 0,
+      "normalRefCount": 404,
+      "chr": "1",
+      "startPosition": 27099008,
+      "endPosition": 27099008,
+      "referenceAllele": "C",
+      "variantAllele": "T",
+      "proteinChange": "Q1142*",
+      "mutationType": "Nonsense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_006015.4",
+      "proteinPosStart": 1142,
+      "proteinPosEnd": 1142,
+      "keyword": "ARID1A truncating"
+    },
+    {
+      "uniqueSampleKey": "UC0wMDM1NzYzLVQwMS1JTTY6c2FyY29tYV9tc2tjY18yMDIy",
+      "uniquePatientKey": "UC0wMDM1NzYzOnNhcmNvbWFfbXNrY2NfMjAyMg",
+      "molecularProfileId": "sarcoma_mskcc_2022_mutations",
+      "sampleId": "P-0035763-T01-IM6",
+      "patientId": "P-0035763",
+      "entrezGeneId": 4914,
+      "gene": {
+        "entrezGeneId": 4914,
+        "hugoGeneSymbol": "NTRK1",
+        "type": "protein-coding"
+      },
+      "studyId": "sarcoma_mskcc_2022",
+      "center": "MSKCC",
+      "mutationStatus": "SOMATIC",
+      "validationStatus": "Unknown",
+      "tumorAltCount": 291,
+      "tumorRefCount": 288,
+      "normalAltCount": 39,
+      "normalRefCount": 710,
+      "chr": "1",
+      "startPosition": 156838030,
+      "endPosition": 156838030,
+      "referenceAllele": "A",
+      "variantAllele": "T",
+      "proteinChange": "N188I",
+      "mutationType": "Missense_Mutation",
+      "ncbiBuild": "GRCh37",
+      "variantType": "SNP",
+      "refseqMrnaId": "NM_002529.3",
+      "proteinPosStart": 188,
+      "proteinPosEnd": 188,
+      "keyword": "NTRK1 N188 missense"
+    }
+  ],
+  "davis_all_six_patients": [
+    {
+      "patient": "MO_1023",
+      "somatic_table_indices": [
+        2,
+        3
+      ],
+      "all_somatic_source_rows": [
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "BANF1",
+            "SNV Location": "chr11:65527764",
+            "Base change": "A\u2192G",
+            "Tumor Variant Fraction": "23/88 (26%)",
+            "Protein": "p.K72R",
+            "BLOSUMScore": "2",
+            "COSMICMutations": "0/90",
+            "MO_1039Gene Expression (RPKM)": "56.39",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "27.6",
+            "Copy Number Ratio": "0.9"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "PALLD",
+            "SNV Location": "chr4:169669901",
+            "Base change": "T\u2192C",
+            "Tumor Variant Fraction": "7/62 (11%)",
+            "Protein": "p.M224T",
+            "BLOSUMScore": "-1",
+            "COSMICMutations": "3/96",
+            "MO_1039Gene Expression (RPKM)": "12.05",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "12.84",
+            "Copy Number Ratio": "1.09"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "NES",
+            "SNV Location": "chr1:154907302",
+            "Base change": "G\u2192A",
+            "Tumor Variant Fraction": "12/15 (80%)",
+            "Protein": "p.P1101L",
+            "BLOSUMScore": "-3",
+            "COSMICMutations": "6/520",
+            "MO_1039Gene Expression (RPKM)": "9.52",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "8.67",
+            "Copy Number Ratio": "1.07"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "MMAB",
+            "SNV Location": "chr12:108495613",
+            "Base change": "C\u2192T",
+            "Tumor Variant Fraction": "12/23 (52%)",
+            "Protein": "p.R19H",
+            "BLOSUMScore": "0",
+            "COSMICMutations": "0/90",
+            "MO_1039Gene Expression (RPKM)": "5.27",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "7.76",
+            "Copy Number Ratio": "0.94"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "OLFML1",
+            "SNV Location": "chr11:7487841",
+            "Base change": "G\u2192A",
+            "Tumor Variant Fraction": "16/55 (29%)",
+            "Protein": "p.S352N",
+            "BLOSUMScore": "1",
+            "COSMICMutations": "3/71",
+            "MO_1039Gene Expression (RPKM)": "3.23",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "1.99",
+            "Copy Number Ratio": "1.04"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "ZC3H3",
+            "SNV Location": "chr8:144691485",
+            "Base change": "T\u2192C",
+            "Tumor Variant Fraction": "14/29 (48%)",
+            "Protein": "p.S399G",
+            "BLOSUMScore": "0",
+            "COSMICMutations": "3/93",
+            "MO_1039Gene Expression (RPKM)": "1.26",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "8.07",
+            "Copy Number Ratio": "1.18"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "ICAM5",
+            "SNV Location": "chr19:10263938",
+            "Base change": "G\u2192A",
+            "Tumor Variant Fraction": "9/17 (53%)",
+            "Protein": "p.V301I",
+            "BLOSUMScore": "3",
+            "COSMICMutations": "3/153",
+            "MO_1039Gene Expression (RPKM)": "1.14",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "0.2",
+            "Copy Number Ratio": "0.79"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "PAK2",
+            "SNV Location": "chr3:197993974",
+            "Base change": "C\u2192G",
+            "Tumor Variant Fraction": "11/64 (17%)",
+            "Protein": "p.S20R",
+            "BLOSUMScore": "-1",
+            "COSMICMutations": "2/948",
+            "MO_1039Gene Expression (RPKM)": "1.06",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "7.52",
+            "Copy Number Ratio": "0.78"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "IFT140",
+            "SNV Location": "chr16:1574386",
+            "Base change": "C\u2192T",
+            "Tumor Variant Fraction": "7/18 (39%)",
+            "Protein": "p.V398I",
+            "BLOSUMScore": "3",
+            "COSMICMutations": "7/99",
+            "MO_1039Gene Expression (RPKM)": "0.41",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "6.19",
+            "Copy Number Ratio": "0.88"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "CROCC",
+            "SNV Location": "chr1:17137507",
+            "Base change": "C\u2192T",
+            "Tumor Variant Fraction": "8/34 (24%)",
+            "Protein": "p.A439V",
+            "BLOSUMScore": "0",
+            "COSMICMutations": "6/138",
+            "MO_1039Gene Expression (RPKM)": "0.29",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "4.7",
+            "Copy Number Ratio": "0.92"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "PSPH",
+            "SNV Location": "chr7:56056319",
+            "Base change": "T\u2192A",
+            "Tumor Variant Fraction": "9/53 (17%)",
+            "Protein": "p.R27S",
+            "BLOSUMScore": "-1",
+            "COSMICMutations": "2/92",
+            "MO_1039Gene Expression (RPKM)": "0.27",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "2.7",
+            "Copy Number Ratio": "0.73"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "TBCK",
+            "SNV Location": "chr4:107334296",
+            "Base change": "C\u2192T",
+            "Tumor Variant Fraction": "36/115 (31%)",
+            "Protein": "p.V597I",
+            "BLOSUMScore": "3",
+            "COSMICMutations": "4/326",
+            "MO_1039Gene Expression (RPKM)": "0.02",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "5.12",
+            "Copy Number Ratio": "1.08"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "FBN3",
+            "SNV Location": "chr19:8082640",
+            "Base change": "C\u2192T",
+            "Tumor Variant Fraction": "8/15 (53%)",
+            "Protein": "p.V1326I",
+            "BLOSUMScore": "3",
+            "COSMICMutations": "17/105",
+            "MO_1039Gene Expression (RPKM)": "0.01",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "0.1",
+            "Copy Number Ratio": "0.82"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "DSG1",
+            "SNV Location": "chr18:27167598",
+            "Base change": "G\u2192A",
+            "Tumor Variant Fraction": "30/124 (24%)",
+            "Protein": "p.G245R",
+            "BLOSUMScore": "-2",
+            "COSMICMutations": "9/521",
+            "MO_1039Gene Expression (RPKM)": "0",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "0.01",
+            "Copy Number Ratio": "1.04"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "UBQLNL",
+            "SNV Location": "chr11:5493221",
+            "Base change": "T\u2192C",
+            "Tumor Variant Fraction": "99/251 (39%)",
+            "Protein": "p.T343A",
+            "BLOSUMScore": "0",
+            "COSMICMutations": "4/137",
+            "MO_1039Gene Expression (RPKM)": "0",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "0.37",
+            "Copy Number Ratio": "1"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "FIG4",
+            "SNV Location": "chr6:110219379",
+            "Base change": "G\u2192A",
+            "Tumor Variant Fraction": "12/62 (19%)",
+            "Protein": "p.G763E",
+            "BLOSUMScore": "-2",
+            "COSMICMutations": "2/70",
+            "MO_1039Gene Expression (RPKM)": "0",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "6.07",
+            "Copy Number Ratio": "1.04"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "OR51B6",
+            "SNV Location": "chr11:5329671",
+            "Base change": "T\u2192C",
+            "Tumor Variant Fraction": "9/81 (11%)",
+            "Protein": "p.C120R",
+            "BLOSUMScore": "-3",
+            "COSMICMutations": "2/70",
+            "MO_1039Gene Expression (RPKM)": "0",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "0",
+            "Copy Number Ratio": "1"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "WDR65",
+            "SNV Location": "chr1:43445023",
+            "Base change": "G\u2192A",
+            "Tumor Variant Fraction": "21/106 (20%)",
+            "Protein": "p.G530S",
+            "BLOSUMScore": "0",
+            "COSMICMutations": "2/92",
+            "MO_1039Gene Expression (RPKM)": "0",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "0.12",
+            "Copy Number Ratio": "0.92"
+          }
+        },
+        {
+          "table_index": 2,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "DTX2",
+            "SNV Location": "chr7:75969581",
+            "Base change": "A\u2192G",
+            "Tumor Variant Fraction": "8/26 (31%)",
+            "Protein": "p.T374A, p.T421A",
+            "BLOSUMScore": "0",
+            "COSMICMutations": "2/524",
+            "MO_1039Gene Expression (RPKM)": "0",
+            "Median Gene Expression across Compendium Tissues (RPKM)": "4.48",
+            "Copy Number Ratio": "0.76"
+          }
+        },
+        {
+          "table_index": 3,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "BANF1",
+            "SNV Location": "chr11:65527764",
+            "Base change": "A\u2192G",
+            "Tumor Variant Fraction": "17/34 (50%)",
+            "Protein": "p.K72R",
+            "BLOSUMScore": "2",
+            "COSMICMutations": "0/90",
+            "Copy Number Ratio": "1.67"
+          }
+        },
+        {
+          "table_index": 3,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "MCF2L",
+            "SNV Location": "chr13:112781044",
+            "Base change": "A\u2192G",
+            "Tumor Variant Fraction": "6/16 (38%)",
+            "Protein": "p.I657V, p.I598V, p.I604V",
+            "BLOSUMScore": "3",
+            "COSMICMutations": "2/219",
+            "Copy Number Ratio": "0.68"
+          }
+        },
+        {
+          "table_index": 3,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "TBCK",
+            "SNV Location": "chr4:107334296",
+            "Base change": "C\u2192T",
+            "Tumor Variant Fraction": "13/20 (65%)",
+            "Protein": "p.V597I",
+            "BLOSUMScore": "3",
+            "COSMICMutations": "4/326",
+            "Copy Number Ratio": "1.22"
+          }
+        },
+        {
+          "table_index": 3,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "TMEM211",
+            "SNV Location": "chr22:23664114",
+            "Base change": "A\u2192C",
+            "Tumor Variant Fraction": "7/25 (28%)",
+            "Protein": "",
+            "BLOSUMScore": "",
+            "COSMICMutations": "1/69",
+            "Copy Number Ratio": "0.69"
+          }
+        },
+        {
+          "table_index": 3,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "RAI1",
+            "SNV Location": "chr17:17637821",
+            "Base change": "G\u2192C",
+            "Tumor Variant Fraction": "7/63 (11%)",
+            "Protein": "p.Q278H",
+            "BLOSUMScore": "0",
+            "COSMICMutations": "3/92",
+            "Copy Number Ratio": "1.83"
+          }
+        },
+        {
+          "table_index": 3,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "SEMG1",
+            "SNV Location": "chr20:43270692",
+            "Base change": "G\u2192A",
+            "Tumor Variant Fraction": "6/19 (32%)",
+            "Protein": "p.R447H",
+            "BLOSUMScore": "0",
+            "COSMICMutations": "2/92",
+            "Copy Number Ratio": "0.6"
+          }
+        },
+        {
+          "table_index": 3,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "FIG4",
+            "SNV Location": "chr6:110219379",
+            "Base change": "G\u2192A",
+            "Tumor Variant Fraction": "16/30 (53%)",
+            "Protein": "p.G763E",
+            "BLOSUMScore": "-2",
+            "COSMICMutations": "2/70",
+            "Copy Number Ratio": "0.83"
+          }
+        },
+        {
+          "table_index": 3,
+          "cells": {
+            "Patient": "MO_1023",
+            "Gene": "XPC",
+            "SNV Location": "chr3:14174913",
+            "Base change": "T\u2192C",
+            "Tumor Variant Fraction": "14/49 (29%)",
+            "Protein": "p.I492V, p.I455V",
+            "BLOSUMScore": "3",
+            "COSMICMutations": "5/655",
+            "Copy Number Ratio": "1.78"
+          }
+        }
+      ],
+      "selected_gene_hits": {
+        "IDH2": [],
+        "ARID1A": [],
+        "NTRK3": [],
+        "TSC2": [],
+        "KDM5C": [],
+        "KMT2C": [],
+        "CD36": []
+      },
+      "limitations": "Source tables include provisional/VUS calls and MO_1023 technical/specimen replication; no inferred actionability."
+    },
+    {
+      "patient": "MO_1088",
+      "somatic_table_indices": [
+        9
+      ],
+      "all_somatic_source_rows": [
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "AC010336.1",
+            "Amino Acid Change": "p.P751S",
+            "Chr": "19",
+            "Coord": "7935879",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "62",
+            "Ref Reads> Q20Tumor": "45",
+            "Var Reads> Q20Tumor": "12",
+            "Var AlleleFreq %": "21.1"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "ARSD",
+            "Amino Acid Change": "p.G221S",
+            "Chr": "X",
+            "Coord": "2836047",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "62",
+            "Ref Reads> Q20Tumor": "52",
+            "Var Reads> Q20Tumor": "9",
+            "Var AlleleFreq %": "14.8"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "ARSD",
+            "Amino Acid Change": "p.F223I",
+            "Chr": "X",
+            "Coord": "2836041",
+            "Ref": "A",
+            "Var": "T",
+            "Tumor Read Depth": "60",
+            "Ref Reads> Q20Tumor": "52",
+            "Var Reads> Q20Tumor": "8",
+            "Var AlleleFreq %": "13.3"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "BRIP1",
+            "Amino Acid Change": "p.V607A",
+            "Chr": "17",
+            "Coord": "59857737",
+            "Ref": "A",
+            "Var": "G",
+            "Tumor Read Depth": "55",
+            "Ref Reads> Q20Tumor": "36",
+            "Var Reads> Q20Tumor": "18",
+            "Var AlleleFreq %": "33.3"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "C9orf69",
+            "Amino Acid Change": "p.R27W",
+            "Chr": "9",
+            "Coord": "139008742",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "121",
+            "Ref Reads> Q20Tumor": "89",
+            "Var Reads> Q20Tumor": "29",
+            "Var AlleleFreq %": "24.6"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "CACNA1S",
+            "Amino Acid Change": "p.R1580Q",
+            "Chr": "1",
+            "Coord": "201013457",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "718",
+            "Ref Reads> Q20Tumor": "566",
+            "Var Reads> Q20Tumor": "128",
+            "Var AlleleFreq %": "18.4"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "CBLC",
+            "Amino Acid Change": "p.R118K",
+            "Chr": "19",
+            "Coord": "45281541",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "36",
+            "Ref Reads> Q20Tumor": "28",
+            "Var Reads> Q20Tumor": "7",
+            "Var AlleleFreq %": "20.0"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "CES3",
+            "Amino Acid Change": "p.A66P",
+            "Chr": "16",
+            "Coord": "66997195",
+            "Ref": "G",
+            "Var": "C",
+            "Tumor Read Depth": "264",
+            "Ref Reads> Q20Tumor": "127",
+            "Var Reads> Q20Tumor": "21",
+            "Var AlleleFreq %": "14.2"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "CIB2",
+            "Amino Acid Change": "p.R66W",
+            "Chr": "15",
+            "Coord": "78403509",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "132",
+            "Ref Reads> Q20Tumor": "91",
+            "Var Reads> Q20Tumor": "40",
+            "Var AlleleFreq %": "30.5"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "CPZ",
+            "Amino Acid Change": "p.P6L",
+            "Chr": "4",
+            "Coord": "8594577",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "31",
+            "Ref Reads> Q20Tumor": "17",
+            "Var Reads> Q20Tumor": "7",
+            "Var AlleleFreq %": "29.2"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "CPZ",
+            "Amino Acid Change": "p.L5P",
+            "Chr": "4",
+            "Coord": "8594574",
+            "Ref": "T",
+            "Var": "C",
+            "Tumor Read Depth": "29",
+            "Ref Reads> Q20Tumor": "16",
+            "Var Reads> Q20Tumor": "6",
+            "Var AlleleFreq %": "27.3"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "ERBB4",
+            "Amino Acid Change": "p.E133D (not hot spot)",
+            "Chr": "2",
+            "Coord": "212812177",
+            "Ref": "T",
+            "Var": "A",
+            "Tumor Read Depth": "83",
+            "Ref Reads> Q20Tumor": "58",
+            "Var Reads> Q20Tumor": "24",
+            "Var AlleleFreq %": "29.3"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "GALR3",
+            "Amino Acid Change": "p.T56P",
+            "Chr": "22",
+            "Coord": "38219579",
+            "Ref": "A",
+            "Var": "C",
+            "Tumor Read Depth": "591",
+            "Ref Reads> Q20Tumor": "327",
+            "Var Reads> Q20Tumor": "51",
+            "Var AlleleFreq %": "13.5"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "MKL1",
+            "Amino Acid Change": "p.A567T,p.A517T",
+            "Chr": "22",
+            "Coord": "40814743",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "15",
+            "Ref Reads> Q20Tumor": "8",
+            "Var Reads> Q20Tumor": "7",
+            "Var AlleleFreq %": "46.7"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "MST1P9",
+            "Amino Acid Change": "p.A583V,p.A609V",
+            "Chr": "1",
+            "Coord": "17084269",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "33",
+            "Ref Reads> Q20Tumor": "27",
+            "Var Reads> Q20Tumor": "6",
+            "Var AlleleFreq %": "18.2"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "NCDN",
+            "Amino Acid Change": "p.A714P,p.A697P",
+            "Chr": "1",
+            "Coord": "36031214",
+            "Ref": "G",
+            "Var": "C",
+            "Tumor Read Depth": "125",
+            "Ref Reads> Q20Tumor": "70",
+            "Var Reads> Q20Tumor": "8",
+            "Var AlleleFreq %": "10.3"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "NLGN3",
+            "Amino Acid Change": "p.N126K",
+            "Chr": "X",
+            "Coord": "70367977",
+            "Ref": "C",
+            "Var": "G",
+            "Tumor Read Depth": "346",
+            "Ref Reads> Q20Tumor": "147",
+            "Var Reads> Q20Tumor": "181",
+            "Var AlleleFreq %": "55.2"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "PCDHGA6",
+            "Amino Acid Change": "p.P500L",
+            "Chr": "5",
+            "Coord": "140755149",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "737",
+            "Ref Reads> Q20Tumor": "522",
+            "Var Reads> Q20Tumor": "186",
+            "Var AlleleFreq %": "26.3"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "POTEG",
+            "Amino Acid Change": "p.A146T",
+            "Chr": "14",
+            "Coord": "19553852",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "49",
+            "Ref Reads> Q20Tumor": "40",
+            "Var Reads> Q20Tumor": "5",
+            "Var AlleleFreq %": "11.1"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "PTPN21",
+            "Amino Acid Change": "p.Y569H",
+            "Chr": "14",
+            "Coord": "88946070",
+            "Ref": "A",
+            "Var": "G",
+            "Tumor Read Depth": "242",
+            "Ref Reads> Q20Tumor": "145",
+            "Var Reads> Q20Tumor": "16",
+            "Var AlleleFreq %": "9.9"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "PTPRA",
+            "Amino Acid Change": "p.G656V (not hot spot)",
+            "Chr": "20",
+            "Coord": "3016277",
+            "Ref": "G",
+            "Var": "T",
+            "Tumor Read Depth": "311",
+            "Ref Reads> Q20Tumor": "226",
+            "Var Reads> Q20Tumor": "75",
+            "Var AlleleFreq %": "24.9"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "RASA2",
+            "Amino Acid Change": "p.C779F,p.C780F",
+            "Chr": "3",
+            "Coord": "141328725",
+            "Ref": "G",
+            "Var": "T",
+            "Tumor Read Depth": "43",
+            "Ref Reads> Q20Tumor": "25",
+            "Var Reads> Q20Tumor": "5",
+            "Var AlleleFreq %": "16.7"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "SERPINB7",
+            "Amino Acid Change": "p.R249X,p.R266X",
+            "Chr": "18",
+            "Coord": "61471522",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "56",
+            "Ref Reads> Q20Tumor": "40",
+            "Var Reads> Q20Tumor": "13",
+            "Var AlleleFreq %": "24.5"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "SERPINC1",
+            "Amino Acid Change": "p.S426L",
+            "Chr": "1",
+            "Coord": "173873145",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "173",
+            "Ref Reads> Q20Tumor": "131",
+            "Var Reads> Q20Tumor": "39",
+            "Var AlleleFreq %": "22.9"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "SIK1",
+            "Amino Acid Change": "p.T479P",
+            "Chr": "21",
+            "Coord": "44838928",
+            "Ref": "T",
+            "Var": "G",
+            "Tumor Read Depth": "175",
+            "Ref Reads> Q20Tumor": "46",
+            "Var Reads> Q20Tumor": "5",
+            "Var AlleleFreq %": "9.8"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "TPSAB1",
+            "Amino Acid Change": "p.R168P",
+            "Chr": "16",
+            "Coord": "1291831",
+            "Ref": "G",
+            "Var": "C",
+            "Tumor Read Depth": "18",
+            "Ref Reads> Q20Tumor": "12",
+            "Var Reads> Q20Tumor": "6",
+            "Var AlleleFreq %": "33.3"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "ZDBF2",
+            "Amino Acid Change": "p.A1090E",
+            "Chr": "2",
+            "Coord": "207172521",
+            "Ref": "C",
+            "Var": "A",
+            "Tumor Read Depth": "156",
+            "Ref Reads> Q20Tumor": "108",
+            "Var Reads> Q20Tumor": "43",
+            "Var AlleleFreq %": "28.5"
+          }
+        },
+        {
+          "table_index": 9,
+          "cells": {
+            "Gene Name": "ZNF573",
+            "Amino Acid Change": "p.M535I",
+            "Chr": "19",
+            "Coord": "38229612",
+            "Ref": "C",
+            "Var": "A",
+            "Tumor Read Depth": "125",
+            "Ref Reads> Q20Tumor": "100",
+            "Var Reads> Q20Tumor": "22",
+            "Var AlleleFreq %": "18.0"
+          }
+        }
+      ],
+      "selected_gene_hits": {
+        "IDH2": [],
+        "ARID1A": [],
+        "NTRK3": [],
+        "TSC2": [],
+        "KDM5C": [],
+        "KMT2C": [],
+        "CD36": []
+      },
+      "limitations": "Source tables include provisional/VUS calls and MO_1023 technical/specimen replication; no inferred actionability."
+    },
+    {
+      "patient": "MO_1180",
+      "somatic_table_indices": [
+        17,
+        18
+      ],
+      "all_somatic_source_rows": [
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "TYK2",
+            "GeneSet": "Y",
+            "Amino AcidChange": "splicing",
+            "Chr": "19",
+            "Coord": "10464717",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "184",
+            "RefReads> Q20Tumor": "111",
+            "VarReads> Q20Tumor": "71",
+            "Var Allele Freq %": "39.0",
+            "Normal Read Depth": "210",
+            "Ref Reads > Q20Normal": "209",
+            "Gene Expr (FPKM)": "39.2",
+            "Gene Expr percentile (Compendium)": "18.1",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "TMC6",
+            "GeneSet": "Y",
+            "Amino AcidChange": "p.R104C",
+            "Chr": "17",
+            "Coord": "76121927",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "230",
+            "RefReads> Q20Tumor": "139",
+            "VarReads> Q20Tumor": "91",
+            "Var Allele Freq %": "39.6",
+            "Normal Read Depth": "260",
+            "Ref Reads > Q20Normal": "258",
+            "Gene Expr (FPKM)": "3.2",
+            "Gene Expr percentile (Compendium)": "8.6",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "CBLC",
+            "GeneSet": "Y",
+            "Amino AcidChange": "splicing",
+            "Chr": "19",
+            "Coord": "45295773",
+            "Ref": "T",
+            "Var": "A",
+            "Tumor Read Depth": "66",
+            "RefReads> Q20Tumor": "39",
+            "VarReads> Q20Tumor": "24",
+            "Var Allele Freq %": "38.1",
+            "Normal Read Depth": "86",
+            "Ref Reads > Q20Normal": "86",
+            "Gene Expr (FPKM)": "0.0",
+            "Gene Expr percentile (Compendium)": "0.5",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "1"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "EEF1A2",
+            "GeneSet": "",
+            "Amino AcidChange": "p.P406R",
+            "Chr": "20",
+            "Coord": "62120318",
+            "Ref": "G",
+            "Var": "C",
+            "Tumor Read Depth": "203",
+            "RefReads> Q20Tumor": "185",
+            "VarReads> Q20Tumor": "11",
+            "Var Allele Freq %": "5.6",
+            "Normal Read Depth": "171",
+            "Ref Reads > Q20Normal": "163",
+            "Gene Expr (FPKM)": "294.6",
+            "Gene Expr percentile (Compendium)": "97.1",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "SFPQ",
+            "GeneSet": "",
+            "Amino AcidChange": "p.A131P",
+            "Chr": "1",
+            "Coord": "35658260",
+            "Ref": "C",
+            "Var": "G",
+            "Tumor Read Depth": "61",
+            "RefReads> Q20Tumor": "48",
+            "VarReads> Q20Tumor": "7",
+            "Var Allele Freq %": "12.7",
+            "Normal Read Depth": "70",
+            "Ref Reads > Q20Normal": "65",
+            "Gene Expr (FPKM)": "111.4",
+            "Gene Expr percentile (Compendium)": "19.5",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "WNK1",
+            "GeneSet": "",
+            "Amino AcidChange": "p.R121G",
+            "Chr": "12",
+            "Coord": "863092",
+            "Ref": "C",
+            "Var": "G",
+            "Tumor Read Depth": "336",
+            "RefReads> Q20Tumor": "305",
+            "VarReads> Q20Tumor": "17",
+            "Var Allele Freq %": "5.3",
+            "Normal Read Depth": "365",
+            "Ref Reads > Q20Normal": "348",
+            "Gene Expr (FPKM)": "49.6",
+            "Gene Expr percentile (Compendium)": "87.1",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "UBR5",
+            "GeneSet": "",
+            "Amino AcidChange": "p.E1663X",
+            "Chr": "8",
+            "Coord": "103298816",
+            "Ref": "C",
+            "Var": "A",
+            "Tumor Read Depth": "254",
+            "RefReads> Q20Tumor": "167",
+            "VarReads> Q20Tumor": "84",
+            "Var Allele Freq %": "33.5",
+            "Normal Read Depth": "118",
+            "Ref Reads > Q20Normal": "117",
+            "Gene Expr (FPKM)": "30.7",
+            "Gene Expr percentile (Compendium)": "48.1",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "1"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "MMS19",
+            "GeneSet": "",
+            "Amino AcidChange": "p.A4V",
+            "Chr": "10",
+            "Coord": "99258131",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "257",
+            "RefReads> Q20Tumor": "161",
+            "VarReads> Q20Tumor": "87",
+            "Var Allele Freq %": "35.1",
+            "Normal Read Depth": "245",
+            "Ref Reads > Q20Normal": "237",
+            "Gene Expr (FPKM)": "21.5",
+            "Gene Expr percentile (Compendium)": "46.2",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "GPNMB",
+            "GeneSet": "",
+            "Amino AcidChange": "p.T342I",
+            "Chr": "7",
+            "Coord": "23306106",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "118",
+            "RefReads> Q20Tumor": "68",
+            "VarReads> Q20Tumor": "46",
+            "Var Allele Freq %": "40.4",
+            "Normal Read Depth": "75",
+            "Ref Reads > Q20Normal": "74",
+            "Gene Expr (FPKM)": "16.5",
+            "Gene Expr percentile (Compendium)": "44.8",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "TTC14",
+            "GeneSet": "",
+            "Amino AcidChange": "p.Q635E",
+            "Chr": "3",
+            "Coord": "180335296",
+            "Ref": "C",
+            "Var": "G",
+            "Tumor Read Depth": "10",
+            "RefReads> Q20Tumor": "4",
+            "VarReads> Q20Tumor": "6",
+            "Var Allele Freq %": "60.0",
+            "Normal Read Depth": "10",
+            "Ref Reads > Q20Normal": "10",
+            "Gene Expr (FPKM)": "10.0",
+            "Gene Expr percentile (Compendium)": "40.0",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "MED22",
+            "GeneSet": "",
+            "Amino AcidChange": "p.S167X",
+            "Chr": "9",
+            "Coord": "136208458",
+            "Ref": "G",
+            "Var": "T",
+            "Tumor Read Depth": "286",
+            "RefReads> Q20Tumor": "175",
+            "VarReads> Q20Tumor": "103",
+            "Var Allele Freq %": "37.1",
+            "Normal Read Depth": "312",
+            "Ref Reads > Q20Normal": "306",
+            "Gene Expr (FPKM)": "9.4",
+            "Gene Expr percentile (Compendium)": "32.4",
+            "COSMIC@ Pos": "2",
+            "COSMIC+/- 6": "2"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "ACACB",
+            "GeneSet": "",
+            "Amino AcidChange": "p.R1798C",
+            "Chr": "12",
+            "Coord": "109684074",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "292",
+            "RefReads> Q20Tumor": "189",
+            "VarReads> Q20Tumor": "97",
+            "Var Allele Freq %": "33.9",
+            "Normal Read Depth": "263",
+            "Ref Reads > Q20Normal": "261",
+            "Gene Expr (FPKM)": "8.4",
+            "Gene Expr percentile (Compendium)": "75.2",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "TCP11L1",
+            "GeneSet": "",
+            "Amino AcidChange": "p.A290T",
+            "Chr": "11",
+            "Coord": "33083168",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "91",
+            "RefReads> Q20Tumor": "56",
+            "VarReads> Q20Tumor": "35",
+            "Var Allele Freq %": "38.5",
+            "Normal Read Depth": "99",
+            "Ref Reads > Q20Normal": "99",
+            "Gene Expr (FPKM)": "5.1",
+            "Gene Expr percentile (Compendium)": "71.4",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "KALRN",
+            "GeneSet": "",
+            "Amino AcidChange": "p.N369T",
+            "Chr": "3",
+            "Coord": "124044846",
+            "Ref": "A",
+            "Var": "C",
+            "Tumor Read Depth": "399",
+            "RefReads> Q20Tumor": "340",
+            "VarReads> Q20Tumor": "18",
+            "Var Allele Freq %": "5.0",
+            "Normal Read Depth": "390",
+            "Ref Reads > Q20Normal": "357",
+            "Gene Expr (FPKM)": "4.5",
+            "Gene Expr percentile (Compendium)": "46.2",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "ZW10",
+            "GeneSet": "",
+            "Amino AcidChange": "p.P255L",
+            "Chr": "11",
+            "Coord": "113628545",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "71",
+            "RefReads> Q20Tumor": "41",
+            "VarReads> Q20Tumor": "28",
+            "Var Allele Freq %": "40.6",
+            "Normal Read Depth": "58",
+            "Ref Reads > Q20Normal": "57",
+            "Gene Expr (FPKM)": "3.4",
+            "Gene Expr percentile (Compendium)": "40.0",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "KIF21A",
+            "GeneSet": "",
+            "Amino AcidChange": "p.A891T",
+            "Chr": "12",
+            "Coord": "39726726",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "359",
+            "RefReads> Q20Tumor": "233",
+            "VarReads> Q20Tumor": "121",
+            "Var Allele Freq %": "34.2",
+            "Normal Read Depth": "293",
+            "Ref Reads > Q20Normal": "291",
+            "Gene Expr (FPKM)": "2.1",
+            "Gene Expr percentile (Compendium)": "24.3",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "ALPK2",
+            "GeneSet": "",
+            "Amino AcidChange": "p.A608P",
+            "Chr": "18",
+            "Coord": "56246186",
+            "Ref": "C",
+            "Var": "G",
+            "Tumor Read Depth": "501",
+            "RefReads> Q20Tumor": "319",
+            "VarReads> Q20Tumor": "176",
+            "Var Allele Freq %": "35.6",
+            "Normal Read Depth": "404",
+            "Ref Reads > Q20Normal": "402",
+            "Gene Expr (FPKM)": "0.6",
+            "Gene Expr percentile (Compendium)": "76.7",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "1"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "SLC24A4",
+            "GeneSet": "",
+            "Amino AcidChange": "p.V379A",
+            "Chr": "14",
+            "Coord": "92922833",
+            "Ref": "T",
+            "Var": "C",
+            "Tumor Read Depth": "160",
+            "RefReads> Q20Tumor": "107",
+            "VarReads> Q20Tumor": "49",
+            "Var Allele Freq %": "31.4",
+            "Normal Read Depth": "148",
+            "Ref Reads > Q20Normal": "145",
+            "Gene Expr (FPKM)": "0.2",
+            "Gene Expr percentile (Compendium)": "63.8",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "1"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "AGBL1",
+            "GeneSet": "",
+            "Amino AcidChange": "p.Q230H",
+            "Chr": "15",
+            "Coord": "86800176",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "255",
+            "RefReads> Q20Tumor": "149",
+            "VarReads> Q20Tumor": "96",
+            "Var Allele Freq %": "39.2",
+            "Normal Read Depth": "245",
+            "Ref Reads > Q20Normal": "241",
+            "Gene Expr (FPKM)": "0.1",
+            "Gene Expr percentile (Compendium)": "91.4",
+            "COSMIC@ Pos": "1",
+            "COSMIC+/- 6": "1"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "COL6A6",
+            "GeneSet": "",
+            "Amino AcidChange": "p.L105P",
+            "Chr": "3",
+            "Coord": "130282161",
+            "Ref": "T",
+            "Var": "C",
+            "Tumor Read Depth": "310",
+            "RefReads> Q20Tumor": "282",
+            "VarReads> Q20Tumor": "15",
+            "Var Allele Freq %": "5.1",
+            "Normal Read Depth": "227",
+            "Ref Reads > Q20Normal": "214",
+            "Gene Expr (FPKM)": "0.1",
+            "Gene Expr percentile (Compendium)": "63.3",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "BMP15",
+            "GeneSet": "",
+            "Amino AcidChange": "p.H83N",
+            "Chr": "X",
+            "Coord": "50654030",
+            "Ref": "C",
+            "Var": "A",
+            "Tumor Read Depth": "100",
+            "RefReads> Q20Tumor": "29",
+            "VarReads> Q20Tumor": "69",
+            "Var Allele Freq %": "70.4",
+            "Normal Read Depth": "107",
+            "Ref Reads > Q20Normal": "101",
+            "Gene Expr (FPKM)": "0.0",
+            "Gene Expr percentile (Compendium)": "0.5",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "CYP4F12",
+            "GeneSet": "",
+            "Amino AcidChange": "p.A376T",
+            "Chr": "19",
+            "Coord": "15806756",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "198",
+            "RefReads> Q20Tumor": "130",
+            "VarReads> Q20Tumor": "67",
+            "Var Allele Freq %": "34.0",
+            "Normal Read Depth": "198",
+            "Ref Reads > Q20Normal": "196",
+            "Gene Expr (FPKM)": "0.0",
+            "Gene Expr percentile (Compendium)": "0.5",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "CRISP2",
+            "GeneSet": "",
+            "Amino AcidChange": "p.H82Q",
+            "Chr": "6",
+            "Coord": "49667542",
+            "Ref": "A",
+            "Var": "T",
+            "Tumor Read Depth": "114",
+            "RefReads> Q20Tumor": "61",
+            "VarReads> Q20Tumor": "51",
+            "Var Allele Freq %": "45.5",
+            "Normal Read Depth": "94",
+            "Ref Reads > Q20Normal": "93",
+            "Gene Expr (FPKM)": "0.0",
+            "Gene Expr percentile (Compendium)": "0.5",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "AC011467.1",
+            "GeneSet": "",
+            "Amino AcidChange": "p.K80E",
+            "Chr": "19",
+            "Coord": "22868206",
+            "Ref": "A",
+            "Var": "G",
+            "Tumor Read Depth": "12",
+            "RefReads> Q20Tumor": "4",
+            "VarReads> Q20Tumor": "8",
+            "Var Allele Freq %": "66.7",
+            "Normal Read Depth": "5",
+            "Ref Reads > Q20Normal": "5",
+            "Gene Expr (FPKM)": "0.0",
+            "Gene Expr percentile (Compendium)": "0.5",
+            "COSMIC@ Pos": "1",
+            "COSMIC+/- 6": "2"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "CTB-78H18.1.1",
+            "GeneSet": "",
+            "Amino AcidChange": "p.S139P",
+            "Chr": "5",
+            "Coord": "171201624",
+            "Ref": "T",
+            "Var": "C",
+            "Tumor Read Depth": "82",
+            "RefReads> Q20Tumor": "72",
+            "VarReads> Q20Tumor": "8",
+            "Var Allele Freq %": "10.0",
+            "Normal Read Depth": "63",
+            "Ref Reads > Q20Normal": "60",
+            "Gene Expr (FPKM)": "0.0",
+            "Gene Expr percentile (Compendium)": "0.5",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 17,
+          "cells": {
+            "Gene": "CR1L",
+            "GeneSet": "",
+            "Amino AcidChange": "p.N402D",
+            "Chr": "1",
+            "Coord": "207872595",
+            "Ref": "A",
+            "Var": "G",
+            "Tumor Read Depth": "37",
+            "RefReads> Q20Tumor": "31",
+            "VarReads> Q20Tumor": "6",
+            "Var Allele Freq %": "16.2",
+            "Normal Read Depth": "9",
+            "Ref Reads > Q20Normal": "9",
+            "Gene Expr (FPKM)": "0.0",
+            "Gene Expr percentile (Compendium)": "0.5",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "2"
+          }
+        },
+        {
+          "table_index": 18,
+          "cells": {
+            "Gene": "BCL9",
+            "ExonicFunc": "frameshift deletion",
+            "Chr": "1",
+            "Start": "147091501",
+            "End": "147091501",
+            "Ref": "C",
+            "Obs": "-",
+            "Var reads/ Total reads": "5/591",
+            "Normal": "1/364",
+            "Status": "somatic?",
+            "Comments": "PCR stutter/ homopolymer"
+          }
+        }
+      ],
+      "selected_gene_hits": {
+        "IDH2": [],
+        "ARID1A": [],
+        "NTRK3": [],
+        "TSC2": [],
+        "KDM5C": [],
+        "KMT2C": [],
+        "CD36": []
+      },
+      "limitations": "Source tables include provisional/VUS calls and MO_1023 technical/specimen replication; no inferred actionability."
+    },
+    {
+      "patient": "MO_1222",
+      "somatic_table_indices": [
+        24
+      ],
+      "all_somatic_source_rows": [
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "MYH9",
+            "Gene Set": "",
+            "Amino Acid Change": "p.V1930M",
+            "Chr": "22",
+            "Coord": "36678809",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "290",
+            "RefReads> Q20Tumor": "250",
+            "VarReads> Q20Tumor": "20",
+            "Var Allele Freq %": "7.4",
+            "Normal Read Depth": "219",
+            "Ref Reads > Q20Normal": "214",
+            "Gene Expr (FPKM)": "177.6",
+            "Gene Expr percentile Compendium": "63.8",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "ATIC",
+            "Gene Set": "",
+            "Amino Acid Change": "splicing",
+            "Chr": "2",
+            "Coord": "216213455",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "16",
+            "RefReads> Q20Tumor": "10",
+            "VarReads> Q20Tumor": "6",
+            "Var Allele Freq %": "37.5",
+            "Normal Read Depth": "5",
+            "Ref Reads > Q20Normal": "5",
+            "Gene Expr (FPKM)": "29.2",
+            "Gene Expr percentile Compendium": "5.0",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "CRY1",
+            "Gene Set": "",
+            "Amino Acid Change": "p.P504S",
+            "Chr": "12",
+            "Coord": "107391147",
+            "Ref": "G",
+            "Var": "A",
+            "Tumor Read Depth": "133",
+            "RefReads> Q20Tumor": "70",
+            "VarReads> Q20Tumor": "59",
+            "Var Allele Freq %": "45.7",
+            "Normal Read Depth": "97",
+            "Ref Reads > Q20Normal": "96",
+            "Gene Expr (FPKM)": "25.7",
+            "Gene Expr percentile Compendium": "98.9",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "VARS",
+            "Gene Set": "",
+            "Amino Acid Change": "p.R1119H",
+            "Chr": "6",
+            "Coord": "31747246",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "305",
+            "RefReads> Q20Tumor": "256",
+            "VarReads> Q20Tumor": "30",
+            "Var Allele Freq %": "10.5",
+            "Normal Read Depth": "195",
+            "Ref Reads > Q20Normal": "185",
+            "Gene Expr (FPKM)": "14.9",
+            "Gene Expr percentile Compendium": "14.0",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "DACT3",
+            "Gene Set": "",
+            "Amino Acid Change": "p.K624X",
+            "Chr": "19",
+            "Coord": "47151759",
+            "Ref": "T",
+            "Var": "A",
+            "Tumor Read Depth": "532",
+            "RefReads> Q20Tumor": "489",
+            "VarReads> Q20Tumor": "29",
+            "Var Allele Freq %": "5.6",
+            "Normal Read Depth": "396",
+            "Ref Reads > Q20Normal": "389",
+            "Gene Expr (FPKM)": "12.8",
+            "Gene Expr percentile Compendium": "93.9",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "KIAA2026",
+            "Gene Set": "",
+            "Amino Acid Change": "p.I1401T",
+            "Chr": "9",
+            "Coord": "5921794",
+            "Ref": "A",
+            "Var": "G",
+            "Tumor Read Depth": "287",
+            "RefReads> Q20Tumor": "169",
+            "VarReads> Q20Tumor": "110",
+            "Var Allele Freq %": "39.4",
+            "Normal Read Depth": "162",
+            "Ref Reads > Q20Normal": "160",
+            "Gene Expr (FPKM)": "10.3",
+            "Gene Expr percentile Compendium": "85.7",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "4"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "TAP2",
+            "Gene Set": "",
+            "Amino Acid Change": "p.I288K",
+            "Chr": "6",
+            "Coord": "32803013",
+            "Ref": "A",
+            "Var": "T",
+            "Tumor Read Depth": "186",
+            "RefReads> Q20Tumor": "114",
+            "VarReads> Q20Tumor": "66",
+            "Var Allele Freq %": "36.7",
+            "Normal Read Depth": "141",
+            "Ref Reads > Q20Normal": "135",
+            "Gene Expr (FPKM)": "7.6",
+            "Gene Expr percentile Compendium": "30.8",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "2"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "ZNF142",
+            "Gene Set": "",
+            "Amino Acid Change": "p.S511Y",
+            "Chr": "2",
+            "Coord": "219509707",
+            "Ref": "G",
+            "Var": "T",
+            "Tumor Read Depth": "292",
+            "RefReads> Q20Tumor": "188",
+            "VarReads> Q20Tumor": "88",
+            "Var Allele Freq %": "31.9",
+            "Normal Read Depth": "205",
+            "Ref Reads > Q20Normal": "199",
+            "Gene Expr (FPKM)": "5.8",
+            "Gene Expr percentile Compendium": "39.1",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "2"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "DAAM1",
+            "Gene Set": "",
+            "Amino Acid Change": "p.Y833H",
+            "Chr": "14",
+            "Coord": "59821993",
+            "Ref": "T",
+            "Var": "C",
+            "Tumor Read Depth": "162",
+            "RefReads> Q20Tumor": "105",
+            "VarReads> Q20Tumor": "51",
+            "Var Allele Freq %": "32.7",
+            "Normal Read Depth": "100",
+            "Ref Reads > Q20Normal": "99",
+            "Gene Expr (FPKM)": "3.5",
+            "Gene Expr percentile Compendium": "8.6",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "2"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "CCDC165",
+            "Gene Set": "",
+            "Amino Acid Change": "p.P1476T",
+            "Chr": "18",
+            "Coord": "8824977",
+            "Ref": "C",
+            "Var": "A",
+            "Tumor Read Depth": "800",
+            "RefReads> Q20Tumor": "467",
+            "VarReads> Q20Tumor": "297",
+            "Var Allele Freq %": "38.9",
+            "Normal Read Depth": "627",
+            "Ref Reads > Q20Normal": "611",
+            "Gene Expr (FPKM)": "2.3",
+            "Gene Expr percentile Compendium": "54.5",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "MUC3A",
+            "Gene Set": "",
+            "Amino Acid Change": "p.E702A",
+            "Chr": "7",
+            "Coord": "100608370",
+            "Ref": "A",
+            "Var": "C",
+            "Tumor Read Depth": "401",
+            "RefReads> Q20Tumor": "359",
+            "VarReads> Q20Tumor": "28",
+            "Var Allele Freq %": "7.2",
+            "Normal Read Depth": "274",
+            "Ref Reads > Q20Normal": "262",
+            "Gene Expr (FPKM)": "0.3",
+            "Gene Expr percentile Compendium": "31.5",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "UGT8",
+            "Gene Set": "",
+            "Amino Acid Change": "p.A18V",
+            "Chr": "4",
+            "Coord": "115544089",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "226",
+            "RefReads> Q20Tumor": "132",
+            "VarReads> Q20Tumor": "80",
+            "Var Allele Freq %": "37.7",
+            "Normal Read Depth": "123",
+            "Ref Reads > Q20Normal": "121",
+            "Gene Expr (FPKM)": "0.1",
+            "Gene Expr percentile Compendium": "12.5",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "1"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "ADH7",
+            "Gene Set": "",
+            "Amino Acid Change": "p.F379S",
+            "Chr": "4",
+            "Coord": "100336659",
+            "Ref": "A",
+            "Var": "G",
+            "Tumor Read Depth": "100",
+            "RefReads> Q20Tumor": "58",
+            "VarReads> Q20Tumor": "41",
+            "Var Allele Freq %": "41.4",
+            "Normal Read Depth": "86",
+            "Ref Reads > Q20Normal": "85",
+            "Gene Expr (FPKM)": "0.0",
+            "Gene Expr percentile Compendium": "0.4",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 24,
+          "cells": {
+            "Gene": "ENSG00000250264",
+            "Gene Set": "",
+            "Amino Acid Change": "p.I288K",
+            "Chr": "6",
+            "Coord": "32803013",
+            "Ref": "A",
+            "Var": "T",
+            "Tumor Read Depth": "186",
+            "RefReads> Q20Tumor": "114",
+            "VarReads> Q20Tumor": "66",
+            "Var Allele Freq %": "36.7",
+            "Normal Read Depth": "141",
+            "Ref Reads > Q20Normal": "135",
+            "Gene Expr (FPKM)": "",
+            "Gene Expr percentile Compendium": "",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "2"
+          }
+        }
+      ],
+      "selected_gene_hits": {
+        "IDH2": [],
+        "ARID1A": [],
+        "NTRK3": [],
+        "TSC2": [],
+        "KDM5C": [],
+        "KMT2C": [],
+        "CD36": []
+      },
+      "limitations": "Source tables include provisional/VUS calls and MO_1023 technical/specimen replication; no inferred actionability."
+    },
+    {
+      "patient": "MO_1381",
+      "somatic_table_indices": [
+        32
+      ],
+      "all_somatic_source_rows": [
+        {
+          "table_index": 32,
+          "cells": {
+            "Gene": "BTK",
+            "Gene Set": "Y",
+            "Amino Acid Change": "p.E280D",
+            "Chr": "X",
+            "Coord": "100614335",
+            "Ref": "C",
+            "Var": "A",
+            "Tumor Read Depth": "106",
+            "Ref Reads> Q20Tumor": "89",
+            "Var Reads> Q20Tumor": "9",
+            "Var Allele Freq %": "9.2",
+            "Normal Read Depth": "101",
+            "Ref Reads> Q20Normal": "96",
+            "Gene Expr (FPKM)": "3.0",
+            "Gene Expr percentile Compendium": "52.6",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 32,
+          "cells": {
+            "Gene": "ZNF804A",
+            "Gene Set": "",
+            "Amino Acid Change": "p.Y446X",
+            "Chr": "2",
+            "Coord": "185801461",
+            "Ref": "T",
+            "Var": "G",
+            "Tumor Read Depth": "286",
+            "Ref Reads> Q20Tumor": "249",
+            "Var Reads> Q20Tumor": "27",
+            "Var Allele Freq %": "9.8",
+            "Normal Read Depth": "249",
+            "Ref Reads> Q20Normal": "245",
+            "Gene Expr (FPKM)": "0.3",
+            "Gene Expr percentile Compendium": "54.9",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "2"
+          }
+        },
+        {
+          "table_index": 32,
+          "cells": {
+            "Gene": "NPHP3",
+            "Gene Set": "",
+            "Amino Acid Change": "p.E492K",
+            "Chr": "3",
+            "Coord": "132423092",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "241",
+            "Ref Reads> Q20Tumor": "212",
+            "Var Reads> Q20Tumor": "21",
+            "Var Allele Freq %": "9.0",
+            "Normal Read Depth": "211",
+            "Ref Reads> Q20Normal": "206",
+            "Gene Expr (FPKM)": "14.7",
+            "Gene Expr percentile Compendium": "63.1",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "1"
+          }
+        },
+        {
+          "table_index": 32,
+          "cells": {
+            "Gene": "KIF24",
+            "Gene Set": "",
+            "Amino Acid Change": "p.G331V",
+            "Chr": "9",
+            "Coord": "34290307",
+            "Ref": "C",
+            "Var": "A",
+            "Tumor Read Depth": "142",
+            "Ref Reads> Q20Tumor": "122",
+            "Var Reads> Q20Tumor": "15",
+            "Var Allele Freq %": "11.0",
+            "Normal Read Depth": "154",
+            "Ref Reads> Q20Normal": "149",
+            "Gene Expr (FPKM)": "3.6",
+            "Gene Expr percentile Compendium": "55.5",
+            "COSMIC@ Pos": "1",
+            "COSMIC+/- 6": "1"
+          }
+        },
+        {
+          "table_index": 32,
+          "cells": {
+            "Gene": "C9orf47",
+            "Gene Set": "",
+            "Amino Acid Change": "p.A34P",
+            "Chr": "9",
+            "Coord": "91606010",
+            "Ref": "G",
+            "Var": "C",
+            "Tumor Read Depth": "440",
+            "Ref Reads> Q20Tumor": "379",
+            "Var Reads> Q20Tumor": "47",
+            "Var Allele Freq %": "11.0",
+            "Normal Read Depth": "377",
+            "Ref Reads> Q20Normal": "366",
+            "Gene Expr (FPKM)": "0.8",
+            "Gene Expr percentile Compendium": "70.1",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 32,
+          "cells": {
+            "Gene": "OR4D10",
+            "Gene Set": "",
+            "Amino Acid Change": "p.T241S",
+            "Chr": "11",
+            "Coord": "59245624",
+            "Ref": "C",
+            "Var": "G",
+            "Tumor Read Depth": "170",
+            "Ref Reads> Q20Tumor": "145",
+            "Var Reads> Q20Tumor": "13",
+            "Var Allele Freq %": "8.2",
+            "Normal Read Depth": "138",
+            "Ref Reads> Q20Normal": "135",
+            "Gene Expr (FPKM)": "0.0",
+            "Gene Expr percentile Compendium": "65.7",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 32,
+          "cells": {
+            "Gene": "GAL3ST3",
+            "Gene Set": "",
+            "Amino Acid Change": "p.S28T",
+            "Chr": "11",
+            "Coord": "65812804",
+            "Ref": "C",
+            "Var": "G",
+            "Tumor Read Depth": "151",
+            "Ref Reads> Q20Tumor": "132",
+            "Var Reads> Q20Tumor": "17",
+            "Var Allele Freq %": "11.4",
+            "Normal Read Depth": "140",
+            "Ref Reads> Q20Normal": "136",
+            "Gene Expr (FPKM)": "1.0",
+            "Gene Expr percentile Compendium": "85.9",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        },
+        {
+          "table_index": 32,
+          "cells": {
+            "Gene": "CCDC102B",
+            "Gene Set": "",
+            "Amino Acid Change": "p.Q192X",
+            "Chr": "18",
+            "Coord": "66504574",
+            "Ref": "C",
+            "Var": "T",
+            "Tumor Read Depth": "274",
+            "Ref Reads> Q20Tumor": "227",
+            "Var Reads> Q20Tumor": "28",
+            "Var Allele Freq %": "11.0",
+            "Normal Read Depth": "242",
+            "Ref Reads> Q20Normal": "230",
+            "Gene Expr (FPKM)": "18.6",
+            "Gene Expr percentile Compendium": "92.4",
+            "COSMIC@ Pos": "0",
+            "COSMIC+/- 6": "0"
+          }
+        }
+      ],
+      "selected_gene_hits": {
+        "IDH2": [],
+        "ARID1A": [],
+        "NTRK3": [],
+        "TSC2": [],
+        "KDM5C": [],
+        "KMT2C": [],
+        "CD36": []
+      },
+      "limitations": "Source tables include provisional/VUS calls and MO_1023 technical/specimen replication; no inferred actionability."
+    },
+    {
+      "patient": "MO_1582",
+      "somatic_table_indices": [
+        38
+      ],
+      "all_somatic_source_rows": [
+        {
+          "table_index": 38,
+          "cells": {
+            "Gene": "LPHN3",
+            "Location": "chr4:62813870",
+            "Exon": "14",
+            "Effect": "Missense",
+            "Protein Change": "p.R826H",
+            "dbSNP": "rs372785017",
+            "Variant Reads (Tumor)": "243/1190 (20%)",
+            "Variant Reads (Normal)": "3/800 (0%)",
+            "COSMICCount": "5",
+            "CADD": "23.8",
+            "FPKM": "9.6",
+            "FPKMPercentile": "84.4"
+          }
+        },
+        {
+          "table_index": 38,
+          "cells": {
+            "Gene": "CDH7",
+            "Location": "chr18:63491970",
+            "Exon": "6",
+            "Effect": "Missense",
+            "Protein Change": "p.A295V",
+            "dbSNP": "",
+            "Variant Reads (Tumor)": "194/1085 (18%)",
+            "Variant Reads (Normal)": "0/730 (0%)",
+            "COSMICCount": "0",
+            "CADD": "25",
+            "FPKM": "0",
+            "FPKMPercentile": "46.7"
+          }
+        }
+      ],
+      "selected_gene_hits": {
+        "IDH2": [],
+        "ARID1A": [],
+        "NTRK3": [],
+        "TSC2": [],
+        "KDM5C": [],
+        "KMT2C": [],
+        "CD36": []
+      },
+      "limitations": "Source tables include provisional/VUS calls and MO_1023 technical/specimen replication; no inferred actionability."
+    }
+  ],
+  "davis_other_tables_with_selected_genes": [
+    {
+      "table_index": 27,
+      "row_index": 13,
+      "cells": {
+        "Gene": "TSC2",
+        "Amino Acid Change": "p.W477C",
+        "Chr": "16",
+        "Coord": "2114407",
+        "Ref": "C",
+        "Var": "T",
+        "Tumor Read Depth": "207",
+        "Ref Reads > Q20Tumor": "94",
+        "Var Reads> Q20Tumor": "104",
+        "Var Allele Freq %": "52.5",
+        "Normal Allele Freq %": "46.6",
+        "Normal Read Depth": "145",
+        "Ref Reads> Q20Normal": "71",
+        "Var Reads> Q20Normal": "62",
+        "1000Genome": "0.04",
+        "LOH": "No"
+      }
+    }
+  ],
+  "limits": [
+    "GENIE v12/v20 patient-level authentication unavailable; aggregate supplements cannot identify the NTRK fusion or prove overlap.",
+    "Current and historical MSK samples are not independent; round1 ID crosswalk remains authoritative.",
+    "Missing fusion calls are not diagnostic exclusions.",
+    "Davis TSC2W477C occurs in a germline variation table with similar normal/tumor allele fractions, not independent somatic TSC2-loss validation.",
+    "MSK RNA/structural assay coverage is not equivalent to coding-gene panel membership."
+  ]
+}

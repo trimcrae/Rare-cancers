@@ -1,0 +1,42 @@
+Use the existing Python runtime, no installation:
+C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe
+PYTHONDONTWRITEBYTECODE=1
+PYTHONIOENCODING=utf-8
+PYTHONPATH=C:/Projects/EMC-Research/.cache/python-deps
+
+For local reproducibility without network, run evaluate_manifests.py in this
+directory. It independently reads retained PanAtlas/TCIA source tables and the
+full streamed ProCan annotation extraction, preserves exact rows, checks1260
+unique IDs and writes the three eligibility evaluations. No protein statistical
+analysis was run because no authenticatedEMC passed the source gate.
+
+To reproduce ProCan extraction from the primary public source, run
+extract_procan_metadata.py. It reads source URL/size from the retained PRIDE
+file metadata, range-streams the compressed workbook with a1MiB buffer and
+an85MB transfer guard, validates theZIPmember CRC and full uncompressed member
+length, hashes the entire XML member, and retains only the first4annotation
+columns for every1260sample row. All other cells are discarded. This incurs
+about80MBnetworktraffic but no full workbook on disk. Then rerun
+evaluate_manifests.py. Exact ranges, hashes and source metadata are in the
+extraction receipt. Original file may change; do not silently accept mismatches.
+
+Scripts actually run in this packet:
+- bind_immune_review.py and finalize_immune_review.py: hash-bound independent
+  source/validity/value challenges, preserving original provisional receipt.
+- make_manifest.py: hashes allretainedfiles and checks storage budget/headroom.
+- scout_sources.py: initial codec misspelling failed after source downloads;
+  corrected to utf-8-sig, then completed. Source receipts distinguish reuse.
+- fetch_manifests.py: completedPRIDE1242-file pagination and supplement retrieval.
+- inspect_remote_xlsx.py: completed bounded workbook structure/entry inspection.
+- extract_procan_metadata.py: completed all1260rows; network79,748,672bytes;
+  ZIPentry uncompressed240,649,365bytes. No owned process remains.
+- evaluate_manifests.py: completed after full row extraction and correction of
+  the exact 'High grade spindle cell sarcoma' spelling in generic-label handling.
+
+Other bounded API retrieval/OOXML text-extraction calls were run as inline
+Python and retained their exactURLs, filehashes, rangehashes and errors in
+*-receipt*.json/retrievals*.json. No runtime, browser, raw mass-spectrum or
+sequencing downloads occurred. Original supplement PDFs/DOCX are evidence,
+not newly drafted scientific documents. No unit/integration test suite was
+needed for this source gate; checks are row completeness, ID uniqueness,
+histology consistency, exact memberlength/CRC and source checksums.

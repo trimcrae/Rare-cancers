@@ -1,0 +1,356 @@
+[ {
+  "accession" : "PXD006317",
+  "title" : "A Temporal Proteomic Map of Epstein-Barr Virus Lytic Replication in B-cells",
+  "projectDescription" : "Epstein Barr virus (EBV) replication contributes to multiple human diseases, including infectious mononucleosis, nasopharyngeal carcinoma, B-cell lymphomas, and oral hairy leukoplakia. We performed systematic quantitative analyses of temporal changes in host and EBV proteins during lytic replication to gain novel insights into virus-host interactions, using conditional Burkitt lymphoma models of type I and II EBV infection. We quantified profiles of >8000 cellular and 69 EBV proteins, including >500 plasma membrane proteins, providing temporal views of the lytic B-cell proteome and EBV virome. Our approach revealed EBV-induced remodelling of cell cycle, innate and adaptive immune pathways, including upregulation of the complement cascade and proteasomal degradation of the B-cell receptor complex, conserved between EBV types I and II. Cross-comparison with proteomic analyses of human cytomegalovirus infection and of a Kaposi sarcoma associated herpesvirus immunoevasin identified host factors targeted by multiple herpesviruses. Our results provide an important resource for studies of EBV replication.",
+  "dataProcessingProtocol" : "Mass spectra were processed using a Sequest-based in-house software pipeline as described previously (Weekes et al., Cell 2014). Briefly, MS spectra were converted to mzXML using a modified version of ReAdW.exe. A combined database was constructed from (a) a combined human Uniprot and Trembl database (February 4th, 2014), (b) P3HR1 strain EBV, (c) Akata strain EBV (d) all open reading frames from a six-frame translation of P3HR1 strain EBV, (e) all open reading frames from a six-frame translation of Akata strain EBV and (f) common contaminants such as porcine trypsin and endoproteinase LysC. The combined database was concatenated with a reverse database composed of all protein sequences in reversed order. Searches were performed using a 20 ppm precursor ion tolerance. Product ion tolerance was set to 0.03 Th. TMT tags on lysine residues and peptide N termini (229.162932 Da) and carbamidomethylation of cysteine residues (57.02146 Da) were set as static modifications, while oxidation of methionine residues (15.99492 Da) was set as a variable modification. To control the fraction of erroneous protein identifications, we used a target-decoy strategy (Elias and Gygi, Nat Methods 2007, Methods Mol Biol 2010). Peptide spectral matches (PSMs) were filtered to an initial peptide-level false discovery rate (FDR) of 1% with subsequent filtering to attain a final protein-level FDR of 1%. PSM filtering was performed using a linear discriminant analysis, as described previously (Huttlin et al., Cell 2010), considering the following parameters: XCorr, DCn, missed cleavages, peptide length, charge state, and precursor mass accuracy. Protein assembly was guided by principles of parsimony to produce the smallest set of proteins necessary to account for all observed peptides. Where all PSMs from a given EBV protein could be explained either by a canonical gene or an ORF from the six-frame translation, the canonical gene was picked in preference. Proteins were quantified by summing TMT reporter ion counts across all matching peptide-spectral matches using in-house software, as described previously (Pease et al., 2013). Briefly, a 0.003 Th window around the theoretical m/z of each reporter ion (126, 127N, 127C, 128N, 128C, 129N, 129C, 130N, 130C, 131) was scanned for ions, and the maximum intensity nearest to the theoretical m/z was used. We required every individual peptide used for quantitation to contribute sufficient TMT reporter ions (minimum of 1,250 per spectrum) so that each on its own provided a representative picture of relative protein abundance (McAlister et al., Anal Chem 2012). We additionally employed an isolation specificity filter to minimize peptide coisolation (Ting et al., J Am Soc Mass Spectrom 2011). Peptide-spectral matches with poor quality MS3 spectra (more than 9 TMT channels missing and/or a combined signal:noise ratio of less than 250 across all TMT reporter ions) or no MS3 spectra at all were excluded from quantitation. Protein quantitation values were exported for further analysis in Excel.",
+  "sampleProcessingProtocol" : "Plasma membrane profiling was performed as previously described (Weekes et al., Cell 2014) with minor modifications. FACS sorted cells were washed twice with ice-cold PBS, followed by oxidation of sialic acid residues with sodium-meta-periodate. Plasma-membrane glycoproteins were selectively labelled with aminooxy-biotin. The reaction was quenched, cell numbers normalized then cells lysed in Triton-X-100. For whole proteome samples, cells were washed, lysed in 6M guanidine/50mM HEPES buffer then vortexed, sonicated and centrifuged. Protein concentrations were determined by BCA. TMT-based analysis was performed as described previously (Weekes et al., Cell 2014). Alkylated and reduced proteins were digested into peptides, which were labelled with TMT reagents, and fractions generated from combined peptide samples strong cation exchange (PM samples) or high pH reverse-phase HPLC. We performed mass spectrometry as described previously using an Orbitrap Fusion or Orbitrap Lumos (Weekes et al., Cell 2014), and quantified TMT reporter ions from the MS3 scan (McAlister et al., Anal Chem 2012, Ting et al., Nat Methods 2011). Peptides were identified and quantified using a Sequest-based in-house software pipeline. A combined database was searched, consisting of human, P3HR1 and Akata strains of EBV, all open reading frames from six-frame translations of P3HR1 and Akata and common contaminants. Peptide-spectral matches were filtered to a 1% false discovery rate using linear discriminant analysis in conjunction with the target-decoy method (Huttlin et al., Cell 2010). The resulting data set was further collapsed to a final protein-level FDR of 1%. Protein assembly was guided by principles of parsimony. Where all PSM from a given EBV protein could be explained either by a canonical gene or an ORF from the six-frame translation, the canonical gene was picked in preference. Proteins were quantified by summing TMT reporter ion counts across all matching PSM after filtering based on isolation specificity. Reverse and contaminant proteins were removed, and protein quantitation values were exported for normalization and further analysis in Excel.",
+  "projectTags" : [ "Biomedical" ],
+  "keywords" : [ "Viral evasion", "Lytic replication", "Quantitative proteomics", "Epstein-barr virus", "Tandem mass tag", "Complement", "Immune evasion", "B-cell receptor", "Host-pathogen interaction", "Herpesvirus" ],
+  "doi" : "",
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2017-05-19",
+  "updatedDate" : "2017-04-18",
+  "submissionDate" : "2017-04-18",
+  "downloadCount" : 4613,
+  "avgDownloadsPerFile" : 79.534485,
+  "botCount" : 2201,
+  "hubCount" : 2087,
+  "organicCount" : 325,
+  "percentile" : 77,
+  "yearlyDownloads" : [ {
+    "year" : "2021",
+    "count" : 562
+  }, {
+    "year" : "2022",
+    "count" : 296
+  }, {
+    "year" : "2023",
+    "count" : 126
+  }, {
+    "year" : "2024",
+    "count" : 636
+  }, {
+    "year" : "2025",
+    "count" : 2094
+  }, {
+    "year" : "2026",
+    "count" : 899
+  } ],
+  "submitters" : [ "Michael Weekes" ],
+  "labPIs" : [ "Michael Weekes" ],
+  "affiliations" : [ "Cambridge Institute for Medical Research, University of Cambridge, Hills Road, Cambridge, CB2 0XY" ],
+  "instruments" : [ "Orbitrap Fusion Lumos", "Orbitrap Fusion" ],
+  "softwares" : [ "Sequest" ],
+  "quantificationMethods" : [ "TMT" ],
+  "sampleAttributes" : [ "Epstein-Barr virus hepatitis", "B cell", "cell culture", "Homo sapiens (Human)" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Cell culture", "B cell" ],
+  "diseases" : [ "Epstein-barr virus hepatitis" ],
+  "references" : [ "Ersing I, Nobre L, Wang LW, Soday L, Ma Y, Paulo JA, Narita Y, Ashbaugh CW, Jiang C, Grayson NE, Kieff E, Gygi SP, Weekes MP, Gewurz BE. A Temporal Proteomic Map of Epstein-Barr Virus Lytic Replication in B Cells. Cell Rep. 2017 May 16;19(7):1479-1493--pubMed:28514666--doi: 10.1016/j.celrep.2017.04.062" ],
+  "experimentTypes" : [ "Shotgun proteomics" ],
+  "projectFileNames" : [ "P3HR1_WCL2_1512_m03067.raw", "P3HR1_WCL1_1511_m07083.raw", "P3HR1_WCL3_1702_a04293.raw", "Akata_WCL_1702_a04649.raw", "P3HR1_WCL2_1512_m03076.raw", "P3HR1_WCL2_1512_m03068.raw", "P3HR1_WCL3_1702_a04286.raw", "P3HR1_WCL2_1512_m03074.raw", "P3HR1_WCL1_1511_m07082.raw", "P3HR1_WCL2_1512_m03077.raw", "P3HR1_WCL2_1512_m03069.raw", "P3HR1_PM1_1511_m07089.raw", "Akata_WCL_1702_a04650.raw", "P3HR1_WCL3_1702_a04294.raw", "P3HR1_WCL2_1512_m03078.raw", "P3HR1_WCL1_1511_m07077.raw", "P3HR1_WCL2_1512_m03073.raw", "P3HR1_PM1_1511_m07094.raw", "P3HR1_WCL3_1702_a04287.raw", "Akata_WCL_1702_a04647.raw", "P3HR1_WCL1_1511_m07080.raw", "P3HR1_WCL1_1511_m07081.raw", "Akata_WCL_1702_a04651.raw", "P3HR1_WCL3_1702_a04291.raw", "P3HR1_WCL1_1511_m07076.raw", "P3HR1_WCL3_1702_a04292.raw", "P3HR1_WCL2_1512_m03072.raw", "PRIDEsubmissionEBV.docx", "Akata_WCL_1702_a04648.raw", "170305_EBV_Timecourse_Peptides.txt", "P3HR1_WCL3_1702_a04288.raw", "P3HR1_WCL2_1512_m03071.raw", "Akata_WCL_1702_a04652.raw", "P3HR1_WCL2_1512_m03070.raw", "P3HR1_WCL3_1702_a04289.raw", "Akata_WCL_1702_a04644.raw", "P3HR1_PM1_1511_m07092.raw", "Akata_WCL_1702_a04653.raw", "P3HR1_WCL1_1511_m07087.raw", "P3HR1_WCL1_1511_m07078.raw", "P3HR1_PM1_1511_m07093.raw", "Akata_WCL_1702_a04646.raw", "Akata_WCL_1702_a04645.raw", "P3HR1_WCL1_1511_m07086.raw", "P3HR1_WCL3_1702_a04290.raw", "Akata_WCL_1702_a04642.raw", "P3HR1_WCL3_1512_m04456.raw", "P3HR1_WCL3_1702_a04295.raw", "P3HR1_WCL1_1511_m07085.raw", "P3HR1_PM1_1511_m07090.raw", "Akata_WCL_1702_a04643.raw", "P3HR1_WCL1_1511_m07084.raw", "170305_EBV_Timecourse_Proteins.txt", "P3HR1_WCL3_1702_a04297.raw", "P3HR1_WCL2_1512_m03075.raw", "P3HR1_PM1_1511_m07091.raw", "P3HR1_WCL3_1702_a04296.raw", "P3HR1_WCL1_1511_m07079.raw" ],
+  "highlights" : {
+    "projectDescription" : [ "Cross-comparison with proteomic analyses of human cytomegalovirus infection and of a Kaposi <em>sarcoma</em> associated herpesvirus immunoevasin identified host factors targeted by multiple herpesviruses." ]
+  }
+}, {
+  "accession" : "PXD005696",
+  "title" : "Proteomics of Matrigel, LC-MS/MS",
+  "projectDescription" : "ECM is the physicochemical support for the cells living in the tissue microenvironment. it is important to know the protein contents within the ECM that are critical for extra- and intracellular signaling, cell growth, migration, cell-cell/ECM interactions.  The ECM gel derived from the Engelbreth-Holm-Swarm murine sarcoma (commonly known as Matrigel or lrECM) purchased from the Sigma Aldrich in the liquid concentration of 8-12 mg/ml (Lot # 064M4075V) was used for the LC-MS/MS analysis and to prepare the 3D scaffolds used for downstream experiments. The Matrigel mass spectrometry data will be used to compare with those of the decellularized mice mammary tissue ECM/DBT-TMS.",
+  "dataProcessingProtocol" : "Raw MS/MS data were converted to mgf file format using MSConvert (ProteoWizard: Open Source Software for Rapid Proteomics Tools Development). The resulting mgf files were used to search against Mus musculus amino acid sequence database with a decoy reverse entries and a list of common contaminants (87,154 total entries with 43,539 mouse proteins from UniProt database downloaded 09_18_2014) using in-house Mascot search engine 2.2.07 (Matrix Science) with variable Methionine and Proline oxidation, and with Asparagine and Glutamine deamidation. Peptide mass tolerance was set at 15 ppm and fragment mass at 0.6 Da. Protein annotations, significance of identification and spectral based quantification was done with the help of Scaffold software (version 4.3.2, Proteome Software Inc., Portland, OR). Protein identifications were accepted if they could be established at greater than 80.0% probability within 1% False Discovery Rate and contained at least 2 identified peptides.  Protein probabilities were assigned by the Protein Prophet algorithm (Nesvizhskii, AI Anal Chem. 2003 Sep 1;75(17):4646-58). Proteins that contained similar peptides and could not be differentiated based on MS/MS analysis alone were grouped to satisfy the principles of parsimony.",
+  "sampleProcessingProtocol" : "100 µg of Matrigel extract (in 10 µl) was denatured in 30 µl of 8 M Urea and 4.4 µl of 1% ProteaseMAX (Promega). The sample was stored overnight at 4 °C to facilitate further denaturation, diluted to 120μl for reduction with 5μl of 25mM DTT, 60μl 25mM NH4HCO3 (pH8.5) and 10μl MeOH, incubated at 52°C for 15 minutes, cooled on ice to room temperature, and subjected to alkylation with 6 μl of 55 mM IAA (room temperature, 15 minutes in dark). Reaction was quenched by adding 16 μl of 25 mM DTT. Subsequently the sample was split into two portions. One portion was digested without further handling whereas the second portion was treated with 3 µl of PNGase F enzyme (Promega) at 37 °C for 2 hrs. For protease digestion, 10 μl of Trypsin/LysC mix solution [50 ng/μl Trypsin from Promega and 50 ng/μl LysC from WAKO in 25 mM NH4HCO3] and 20 μl of 25 mM NH4HCO3 (pH8.5) were added to 100 µl final volume. Digestion was conducted at 42 °C for 2 hrs, followed by addition of 10 µl of trypsin/LysC solution, and further digested at 37 °C overnight. Reaction was terminated by acidification with 2.5% TFA [Trifluoroacetic Acid] (0.3% final concentration). 50 µg of the final digest was cleaned up using OMIX C18 SPE cartridges (Agilent, Palo Alto, CA) per manufacturer protocol, eluted in 20 µl of 60/40/0.1% ACN/H2O/TFA, completely dried in speed-vac, and reconstituted in 25 µl of 0.1% formic acid.  Peptides were analyzed by nanoLC-MS/MS (Biotechnology Center, University of Wisconsin-Madison) using the Agilent 1100 nanoflow system (Agilent) connected to a new generation hybrid linear ion trap-orbitrap mass spectrometer (LTQ-Orbitrap Elite™, Thermo Fisher Scientific) equipped with an EASY-Spray™ electrospray source.  Chromatography of peptides prior to mass spectral analysis was accomplished using capillary emitter column (PepMap® C18, 3 µM, 100 Å, 150x0.075 mm, Thermo Fisher Scientific) onto which 2 µl of extracted peptides was automatically loaded. NanoHPLC system delivered solvents A: 0.1% (v/v) formic acid and B: 99.9% (v/v) acetonitrile with 0.1% (v/v) formic acid at 0.50 µL/min to load the peptides (over a period of 30 minutes), and 0.3 µl/min to elute peptides directly into the nano-electrospray with gradual gradient from 3% (v/v) B to 20% (v/v) B over 154 minutes, and concluded with 12 minutes fast gradient from 20% (v/v) B to 50% (v/v) B at which time a 5 minute flash-out from 50-95% (v/v) B took place. As peptides eluted from the HPLC-column/electrospray source, MS scans were acquired in the Orbitrap with a resolution of 120,000 followed by MS2 fragmentation of 20 most intense peptides detected in the MS1 scan from 380 to 1800 m/z; redundancy was limited by dynamic exclusion.",
+  "projectTags" : [ "Biomedical" ],
+  "keywords" : [ "Matrigel", "Lc-ms/ms", "Tissue matrix scaffold", "Tms", "Ecm" ],
+  "doi" : "10.6019/PXD005696",
+  "otherOmicsLinks" : [ "pride.project:PXD005697", "px:PXD005697" ],
+  "submissionType" : "COMPLETE",
+  "publicationDate" : "2018-10-26",
+  "updatedDate" : "2017-01-12",
+  "submissionDate" : "2017-01-12",
+  "downloadCount" : 1379,
+  "avgDownloadsPerFile" : 106.07692,
+  "percentile" : 46,
+  "yearlyDownloads" : [ {
+    "year" : "2021",
+    "count" : 64
+  }, {
+    "year" : "2022",
+    "count" : 259
+  }, {
+    "year" : "2023",
+    "count" : 258
+  }, {
+    "year" : "2024",
+    "count" : 32
+  }, {
+    "year" : "2025",
+    "count" : 653
+  }, {
+    "year" : "2026",
+    "count" : 113
+  } ],
+  "submitters" : [ "Weimin Li" ],
+  "labPIs" : [ "Weimin Li" ],
+  "affiliations" : [ "Elson S. Floyd College of Medicine, Washington State University Spokane" ],
+  "instruments" : [ "LTQ Orbitrap Elite" ],
+  "softwares" : [ "ProteoWizard msconvert", "Mascot", "Scaffold" ],
+  "quantificationMethods" : [ "Spectrum counting", "Peptide counting", "APEX - Absolute Protein Expression" ],
+  "sampleAttributes" : [ "skin", "Mus musculus (Mouse)" ],
+  "organisms" : [ "Mus musculus (mouse)" ],
+  "organismsPart" : [ "Skin" ],
+  "diseases" : [ ],
+  "references" : [ "Rijal G, Li W. A versatile 3D tissue matrix scaffold system for tumor modeling and drug screening. Sci Adv. 2017 3(9):e1700764--pubMed:28924608--doi: 10.1126/sciadv.1700764" ],
+  "experimentTypes" : [ "Top-down proteomics" ],
+  "projectFileNames" : [ "Matrigel-de-glycosylatedF015560.mzid.gz", "SamplesViewReportforMatrigel_12-2016.xlsx", "Matrigel-glycosylated.raw", "Matrigel-de-glycosylated.raw", "Matrigel-de-glycosylated (F015560).mzid_Matrigel-de-glycosylated_(F015560).pride.mgf.gz", "Matrigel-de-glycosylated (F015560).pride.mztab.gz", "Matrigel-glycosylatedF015561.mzid.gz", "Matrigel-de-glycosylatedF015560.mzid_Matrigel-de-glycosylated_F015560.MGF", "PeptideReportforMatrigel_12-2016.xlsx", "Matrigel-glycosylated (F015561).pride.mztab.gz", "Matrigel-glycosylatedF015561.mzid_Matrigel-glycosylated_F015561.MGF", "Matrigel_12-2016.sf3", "Matrigel-glycosylated (F015561).mzid_Matrigel-glycosylated_(F015561).pride.mgf.gz" ],
+  "highlights" : {
+    "projectDescription" : [ "The ECM gel derived from the Engelbreth-Holm-Swarm murine <em>sarcoma</em> (commonly known as Matrigel or lrECM) purchased from the Sigma Aldrich in the liquid concentration of 8-12 mg/ml (Lot # 064M4075V) was" ]
+  }
+}, {
+  "accession" : "PXD004818",
+  "title" : "Spectral histopathology supported laser capture microdissection and quantitative proteome analysis of diffuse malignant mesothelioma",
+  "projectDescription" : "FTIR based spectral histopathology was used for label-free classification of tumor tissue sections. The regions of interest were identified and annotated with high spatial resolution. The spatial information was used for automated laser capture microdissection of relevant tissue areas. Subsequently, the collected tissue samples were analyzed using quantitative proteomics. This novel approach for precise sample collection in clinical studies was applied to differentiate epitheloid and sarcomatoid subtypes of diffuse malignant mesothelioma.",
+  "dataProcessingProtocol" : "The RPLC−MS/MS analysis was performed using an Ultimate 3000 RSLCnano system (Thermo Scientific, Bremen, Germany) coupled online to an Orbitrap Elite mass spectrometer (Thermo Scientific, Bremen, Germany). The peptides were injected in a volume of 15µL and pre-concentrated with 0.1% TFA on a trap column for 7 min (Acclaim PepMap 100, 300 μm × 5 mm, C18, 5 μm, 100 Å; flow rate 30 μL/min). Subsequently, the peptides were separated on the analytical column (Acclaim PepMap RSLC, 75 μm × 50 cm, nano Viper, C18, 2 μm, 100 Å) by a gradient from 5% to 40% solvent B over 98 min (solvent A: 0.1% FA, solvent B: 0.1% FA, 84% acetonitrile; flow rate 400 nL/min; column oven temperature 60 °C). The instrument was operated in a data-dependent mode. Full scan mass spectra were acquired in profile mode at a resolution of 60,000 at 400 m/z in the Orbitrap analyzer and within a mass range of 350-2000 m/z. The 20 most abundant precursors were selected for MS/MS analysis. The tandem mass spectra were measured in the linear ion trap after peptide fragmentation by collision-induced dissociation (CID). The precursor isolation width was 1.0 m/z. Charge state screening was enabled and only precursors of charge states +2, +3 and +4 were fragmented with normalized collision energy of 35.0%. The mass range for MS/MS spectra was 0-2000 m/z and the scan mode was centroid. Dynamic exclusion parameters were used: Exclusion list size was 500, exclusion duration was 30 s and the mass width relative to excluded mass was ± 10 ppm. The time for one duty cycle was 3.6 s if 20 MS/MS spectra per full scan were acquired.  Peptide identification was performed using Proteome Discoverer Software (ver. 1.4.1.14, Thermo Fisher Scientific, Rockford, IL, USA). The mass spectra were searched against UniProtKB/Swiss-Prot database (Uniprot/Swissprot-Release 2015_05 of 29.04.2015; 548,454) restricted to homo sapiens using the Mascot search engine (version 2.5). The mass tolerance was set to 5 ppm for precursor ions and 0.4 daltons for fragment ions. One tryptic missed cleavage was considered as well as chemical modifications of methionine (oxidation, dynamic) and cysteine (carbamidomethyl, static). The percolator function implemented in proteome discoverer was used to estimate peptide confidence and only peptides which passed a false discovery rate < 1% (q-value < 0.01) were considered for analysis.",
+  "sampleProcessingProtocol" : "Samples were collected via FTIR based spectral histopathology and automated laser capture microdissection. The resulting samples were sonicated in an ultrasonic bath for 1 min on ice. Subsequently, the samples were incubated for 5 min at 95 °C and the protein disulfide bonds were reduced with 5 mM DTT for 30 min at 60 °C. Alkylation was performed for 30 min at room temperature in the dark using 15 mM iodoacetamide. The proteins were digested overnight at 37 °C using 20 ng trypsin (SERVA Electrophoresis, Heidelberg, Germany) per sample. The enzymatic digestion was stopped by acidification with 0.5% TFA for 30 min at 37 °C and precipitated RapiGest was removed by centrifugation. The samples were vacuum dried and subsequently dissolved in 0.1% TFA. Each sample of 1 mm² microdissected tissue was divided in three replicates which were all analyzed technical triplicates.",
+  "projectTags" : [ "Biomedical" ],
+  "keywords" : [ "Diffuse malignant mesothelioma", "Ftir", "Colorectal carcinoma", "Laser capture microdissection", "Infrared spectral histopathology" ],
+  "doi" : "10.6019/PXD004818",
+  "submissionType" : "COMPLETE",
+  "publicationDate" : "2017-03-31",
+  "updatedDate" : "2016-08-16",
+  "submissionDate" : "2016-08-16",
+  "downloadCount" : 8777,
+  "avgDownloadsPerFile" : 65.01482,
+  "botCount" : 3662,
+  "hubCount" : 4994,
+  "organicCount" : 121,
+  "percentile" : 88,
+  "yearlyDownloads" : [ {
+    "year" : "2021",
+    "count" : 20
+  }, {
+    "year" : "2022",
+    "count" : 544
+  }, {
+    "year" : "2023",
+    "count" : 738
+  }, {
+    "year" : "2024",
+    "count" : 78
+  }, {
+    "year" : "2025",
+    "count" : 5680
+  }, {
+    "year" : "2026",
+    "count" : 1717
+  } ],
+  "submitters" : [ "Thilo Bracht" ],
+  "labPIs" : [ "Barbara Sitek" ],
+  "affiliations" : [ "Ruhr-Universität Bochum Medizinisches Proteom-Center AG Clinical Proteomics" ],
+  "instruments" : [ "LTQ Orbitrap Elite" ],
+  "softwares" : [ "Mascot", "Proteome Discoverer" ],
+  "quantificationMethods" : [ "MS1 intensity based label-free quantification method" ],
+  "sampleAttributes" : [ "lung", "meso-epithelium", "Homo sapiens (Human)", "malignant mesothelioma", "pleura" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Meso-epithelium", "Lung", "Pleura" ],
+  "diseases" : [ "Malignant mesothelioma" ],
+  "references" : [ "Großerueschkamp F, Bracht T, Diehl HC, Kuepper C, Ahrens M, Kallenbach-Thieltges A, Mosig A, Eisenacher M, Marcus K, Behrens T, Brüning T, Theegarten D, Sitek B, Gerwert K. Spatial and molecular resolution of diffuse malignant mesothelioma heterogeneity by integrating label-free FTIR imaging, laser capture microdissection and proteomics. Sci Rep. 2017 Mar 30;7:44829--pubMed:28358042--doi: 10.1038/srep44829" ],
+  "experimentTypes" : [ "Shotgun proteomics" ],
+  "projectFileNames" : [ "OEI12752.raw", "OEI12750.mgf", "OEI12760.raw", "OEI12725.pride.mgf.gz", "OEI12736.raw", "OEI12723.pride.mztab.gz", "OEI12774.pride.mztab.gz", "OEI12721.pride.mgf.gz", "OEI12760.mzid.gz", "OEI12744.pride.mztab.gz", "OEI12713.mzid.gz", "OEI12752.pride.mgf.gz", "OEI12744.mgf", "OEI12738.pride.mztab.gz", "OEI12746.raw", "OEI12752.mgf", "OEI12723.mzid.gz", "OEI12750.raw", "OEI12754.mzid.gz", "OEI12738.raw", "OEI12713.pride.mgf.gz", "OEI12768.pride.mztab.gz", "OEI12770.pride.mztab.gz", "OEI12727.mzid.gz", "OEI12768.pride.mgf.gz", "OEI12760.pride.mgf.gz", "OEI12762.raw", "OEI12768.mzid.gz", "OEI12744.raw", "OEI12746.mgf", "OEI12778.pride.mgf.gz", "OEI12736.pride.mztab.gz", "OEI12774.pride.mgf.gz", "OEI12731.mzid.gz", "OEI12776.mzid.gz", "OEI12713.raw", "OEI12776.pride.mgf.gz", "OEI12713.pride.mztab.gz", "OEI12762.mgf", "OEI12770.pride.mgf.gz", "OEI12713.mgf", "OEI12709.pride.mztab.gz", "OEI12772.pride.mgf.gz", "OEI12746.mzid.gz", "OEI12707.raw", "OEI12748.mgf", "OEI12731.pride.mgf.gz", "OEI12709.mzid.gz", "OEI12760.mgf", "OEI12754.raw", "OEI12707.mgf", "OEI12754.mgf", "OEI12748.raw", "OEI12738.mzid.gz", "OEI12762.pride.mztab.gz", "OEI12772.mzid.gz", "OEI12715.pride.mztab.gz", "OEI12727.raw", "OEI12768.mgf", "OEI12725.mgf", "OEI12719.pride.mztab.gz", "OEI12760.pride.mztab.gz", "OEI12762.mzid.gz", "OEI12778.raw", "OEI12719.mzid.gz", "OEI12719.raw", "OEI12723.pride.mgf.gz", "OEI12766.mzid.gz", "OEI12721.pride.mztab.gz", "OEI12715.mzid.gz", "OEI12778.mgf", "OEI12768.raw", "OEI12731.mgf", "OEI12709.mgf", "OEI12774.mgf", "OEI12754.pride.mgf.gz", "OEI12776.raw", "OEI12725.mzid.gz", "OEI12725.pride.mztab.gz", "OEI12727.mgf", "OEI12725.raw", "OEI12752.mzid.gz", "OEI12766.pride.mgf.gz", "OEI12750.pride.mgf.gz", "OEI12715.pride.mgf.gz", "OEI12772.pride.mztab.gz", "OEI12721.mzid.gz", "OEI12709.raw", "OEI12762.pride.mgf.gz", "OEI12715.mgf", "OEI12766.pride.mztab.gz", "OEI12707.pride.mztab.gz", "OEI12731.raw", "OEI12774.raw", "OEI12754.pride.mztab.gz", "OEI12776.mgf", "OEI12727.pride.mgf.gz", "OEI12752.pride.mztab.gz", "OEI12738.mgf", "OEI12731.pride.mztab.gz", "OEI12778.pride.mztab.gz", "OEI12748.mzid.gz", "OEI12748.pride.mztab.gz", "OEI12744.mzid.gz", "OEI12727.pride.mztab.gz", "OEI12721.mgf", "OEI12715.raw", "OEI12721.raw", "OEI12750.mzid.gz", "OEI12738.pride.mgf.gz", "OEI12772.raw", "OEI12770.mgf", "OEI12736.pride.mgf.gz", "OEI12778.mzid.gz", "OEI12719.mgf", "OEI12719.pride.mgf.gz", "OEI12746.pride.mztab.gz", "OEI12776.pride.mztab.gz", "OEI12766.mgf", "OEI12750.pride.mztab.gz", "OEI12770.mzid.gz", "OEI12723.mgf", "OEI12736.mgf", "OEI12736.mzid.gz", "OEI12770.raw", "OEI12774.mzid.gz", "OEI12748.pride.mgf.gz", "OEI12723.raw", "OEI12707.pride.mgf.gz", "OEI12709.pride.mgf.gz", "OEI12766.raw", "OEI12744.pride.mgf.gz", "OEI12707.mzid.gz", "OEI12746.pride.mgf.gz", "OEI12772.mgf" ],
+  "highlights" : {
+    "projectDescription" : [ "This novel approach for precise sample collection in clinical studies was applied to differentiate epitheloid and <em>sarcomatoid</em> subtypes of diffuse malignant mesothelioma." ]
+  }
+}, {
+  "accession" : "PXD004440",
+  "title" : "Dynarrestin, a novel inhibitor of cytoplasmic dyneins 1 and 2",
+  "projectDescription" : "Aberrant hedgehog (Hh) signaling contributes to the pathogenesis of multiple cancers. Currently available inhibitors target Smoothened, which can acquire mutations causing drug resistance. Thus, compounds that inhibit Hh signaling downstream of Smoothened are urgently needed. We identified dynarrestin, a novel inhibitor of cytoplasmic dyneins 1 and 2 by using achemical proteomics approach. Dynarrestin acts reversibly to inhibit cytoplasmic dynein 1-dependent microtubule binding and motility in vitro without affecting ATP hydrolysis. It rapidly and reversibly inhibits endosome movement in living cells and perturbs mitosis by inducing spindle misorientation and a pseudoprometaphase delay. Dynarrestin reversibly inhibits intraflagellar transport (IFT) of the cargo IFT88 and flux of Smoothened within cilia without interfering with ciliogenesis as well as suppresses Hh-dependent proliferation of neuronal precursors and tumor cells. As such, dynarrestin is a valuable new tool for probing cytoplasmic dynein-dependent cellular processes and a promising lead compound for medicinal chemistry programs aimed at development of anti-cancer drugs.",
+  "dataProcessingProtocol" : "MS raw files were processed using the MaxQuant computional platform (version 1.5.2.8)(Cox and Mann 2008). Identification of peptides and proteins was enabled by the built-in Andromeda search engine by querying the concatenated forward and reverse HUMAN Uniprot database (version from November 2012), including common contaminants. The allowed initial mass deviation was set to 7ppm and 20ppm in the search for precursor and fragment ions, respectively. Trypsin with full enzyme specificity and only peptides with a minimum length of 7 amino acids were selected. A maximum of two missed cleavages was allowed. Carbamidomethylation (Cys) was set as fixed modification, while Oxidation (Met) and N - acetylation were defined as variable modifications. For protein and peptide identification a minimum false discovery rate (FDR) of 1% was required.   Relative label free quantification was based on the measurements of 4 independent pulldown experiments with each compound (2 replicates for L357) and was performed using theLFQ algorithm of MaxQuant with the ‘match between runs’ option turned on. Data processing was performed using the Perseus module of MaxQuant version 1.5.1.6.  The output file (proteinGroups.txt) was filtered for reverse and contaminant hits as well as proteins that were identified by a modified site only. Proteins included in the analysis had to be identified with at least 2 different peptide sequences, one of these being unique for the protein group. Proteins that could not be discrimiminated by the presence of unique peptides were grouped together. Intensity values were logarithmized and missing values (NaN) were replaced by imputation, simulating signals of very low abundant proteins within the distribution of measured values. A width of 0.3 SD and a downshift of 1.8 SD was used for this purpose(Hubner, Bird et al. 2010). To identify proteins that significantly stand out in a groupwise comparison the ANOVA function of Perseus was applied (p = 0.05). Principal component analysis was performed on the list of significantly changed proteins to project the proteome measurements of the different compounds onto a two-dimensional data space. Hierarchical clustering (rows: proteins; columns: compounds) was performed using default values of Perseus (Euclidian distance; average linkage; pre-processing with K-means) subsequent to normalization of the matrix of significantly changed proteins by Z-transformation.",
+  "sampleProcessingProtocol" : "C3H10T1/2 cells were lysed in a lysis buffer containing 50 mM PIPES (pH 7.4), 50 mM NaCl, 5 mM MgCl2, 5 mM EGTA, 0.1% NP40, 0.1% Triton X-100, 0.1% Tween 20, protease and phosphatase inhibitors and 1mM DTT. Streptavidin magnetic beads (New England BioLabs) were washed with PBS and then incubated with 10 µM of the biotinylated compounds in PBS for 30 min at room temperature. Immobilized probes were washed with PBS prior to incubation with the cell lysate (total protein amount 1.25 mg) for 1 h at 4°C. The beads were washed twice with lysis buffer that was supplemented with 75 mM MgCl2 followed by washing two times with PBS. Enriched proteins were leased from the matrix by boiling the samples in SDS sample buffer. Supernatants were loaded on a 4-20% SDS-polyacrylamide gel for protein separation. Gels were stained with Colloidal Coomassie, cut into 10-15 subsequent slices per lane, and subjected to in-gel digestion (Shevchenko, Tomas et al. 2006). Extracted peptides were then desalted using Empore-C18 StageTips (Rappsilber, Ishihama et al. 2003).  For LC-MSMS analysis peptides were eluted twice with 20µl of 80% ACN, 0.5% acetic acid each, dried in an Eppendorf concentrator to a volume of about 2µl and resuspended in 10 µl Buffer A (0.5% acetic acid). Peptides present in 6 µl of this solution were subsequently separated by reversed-phase chromatography using an EASY nLC HPLC system and in-house packed fused silica emitter columns (columns 15 cm x 75 µm ID by New Objective, Woburn, MA, USA; 3µm C18 particles by Dr. Maisch, Ammerbuch-Entringen, Germany) that were online coupled via a NanoFlex ESI source (Thermo Scientific) to a Orbitrap Velos mass spectrometer (Thermo Scientific). Peptides were separated at a flow rate of 250 nl/min using a 2-segment gradient from 0-40% B (0.5% acetic acid in 80% acetonitril) in 70min and from 40 – 98% B in 5 min). The mass spectrometer was operated in data-dependent mode, acquiring full scan spectra at a resolution of 60.000 and an AGC target value of 3e6 (scan range 300 - 1650 m/z). The 15 most intense ions were chosen for collisional induced dissociation (CID). Dynamic exclusion was allowed and set to 30 sec (list size 500; duration 90 sec), uncharged as well as singly charged compounds were excluded from the analysis. Data were recorded with Xcalibur software (Thermo Scientific).",
+  "projectTags" : [ "Biological", "Biomedical" ],
+  "keywords" : [ "Dynarrestin", "Dynein", "Hedgehog signalling", "Small molecule inhibitor" ],
+  "doi" : "",
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2018-08-08",
+  "updatedDate" : "2016-06-24",
+  "submissionDate" : "2016-06-24",
+  "downloadCount" : 6008,
+  "avgDownloadsPerFile" : 42.914288,
+  "botCount" : 1928,
+  "hubCount" : 3999,
+  "organicCount" : 81,
+  "percentile" : 82,
+  "yearlyDownloads" : [ {
+    "year" : "2021",
+    "count" : 44
+  }, {
+    "year" : "2022",
+    "count" : 20
+  }, {
+    "year" : "2023",
+    "count" : 106
+  }, {
+    "year" : "2025",
+    "count" : 5148
+  }, {
+    "year" : "2026",
+    "count" : 690
+  } ],
+  "submitters" : [ "Hannes Drexler" ],
+  "labPIs" : [ "Hannes C. A. Drexler" ],
+  "affiliations" : [ "Dr. Hannes C.A. Drexler Bioanalytical Mass Spectrometry Max Planck Institute for Molecular Biomedicine Röntgenstr. 20 48149 Münster P:+49-251-70365550 P:+49-251-70365521 F:+49-251-70365299" ],
+  "instruments" : [ "LTQ Orbitrap Velos" ],
+  "softwares" : [ "MaxQuant" ],
+  "quantificationMethods" : [ "MS1 intensity based label-free quantification method" ],
+  "sampleAttributes" : [ "sarcoma", "embryonic fibroblast", "Mus musculus (Mouse)" ],
+  "organisms" : [ "Mus musculus (mouse)" ],
+  "organismsPart" : [ "Embryonic fibroblast" ],
+  "diseases" : [ "Sarcoma" ],
+  "references" : [ "Höing S, Yeh TY, Baumann M, Martinez NE, Habenberger P, Kremer L, Drexler HCA, Küchler P, Reinhardt P, Choidas A, Zischinsky ML, Zischinsky G, Nandini S, Ledray AP, Ketcham SA, Reinhardt L, Abo-Rady M, Glatza M, King SJ, Nussbaumer P, Ziegler S, Klebl B, Schroer TA, Schöler HR, Waldmann H, Sterneckert J. Dynarrestin, a Novel Inhibitor of Cytoplasmic Dynein. Cell Chem Biol. 2018 25(4):357-369.e6--pubMed:29396292--doi: 10.1016/j.chembiol.2017.12.014" ],
+  "experimentTypes" : [ "Affinity purification coupled with mass spectrometry proteomics", "Shotgun proteomics" ],
+  "projectFileNames" : [ "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_39.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_10.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_10.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_13.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_12.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_57.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_10.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_03.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_11.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_55.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_12.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_47.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_04.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_05.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_02.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_02.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_02.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_37.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_40.raw", "Peaklist_apl_files.zip", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_10.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_13.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_53.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_14.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_12.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_17.raw", "Zscores.xlsx", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_04.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_15.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_49.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_04.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_01.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_09.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_03.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_06.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_23.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_07.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_51.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_16.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_09.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_06.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_16.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_15.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_08.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_09.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_06.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_07.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_34.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_43.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_15.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_18.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_32.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_02.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_04.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_15.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_21.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_05.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_11.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_17.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_01.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_14.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_12.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_09.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_07.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_08.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_58.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_45.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_13.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_56.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_14.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_10.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_03.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_13.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_06.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_03.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_03.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_19.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_48.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_02.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_05.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_38.raw", "proteinGroups_filtered_ANOVA.xlsx", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_20.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_11.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_11.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_12.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_11.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_07.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_05.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_20.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_05.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_09.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_11.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_04.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_02.raw", "MaxQuant_Output.zip", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_01.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_08.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_54.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_36.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_41.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_16.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_14.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_13.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_16.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_08.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_07.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_35.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_42.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_24.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_19.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_16.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_06.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_52.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_10.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_06.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_15.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_07.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_15.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_01.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_08.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_08.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_59.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_01.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_03.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_33.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_46.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_2_14.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_31.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_44.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_22.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_14.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_01.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_05.raw", "20111202_exp0358_AN_Nancy_LDC-Hedgehoc_Ingel_50.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_09.raw", "20120706_exp0447_AN_Nancy_hedgehog_Ingel_18.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_5_04.raw", "20120630_exp0446_AN_Nancy_hedgehog_Ingel_12.raw", "20120319_exp0368_AN_Nancy_LDC-Hedgehog_Ingel_4_13.raw" ],
+  "highlights" : {
+    "diseases" : [ "<em>Sarcoma</em>" ],
+    "sampleAttributes" : [ "<em>sarcoma</em>" ]
+  }
+}, {
+  "accession" : "PXD003001",
+  "title" : "Triple SILAC exosomal quantitative proteomic analysis",
+  "projectDescription" : "Exosomes are 30-100 nm sized membrane vesicles released by cells into extracellular space and mediate the intercellular communication via transfer of proteins and RNAs. To better understand the function of these microvesicles in lung carcinogenesis, we employed a Triple SILAC quantitative proteomic strategy to examine the differential protein abundance between exosomes derived from an immortalized normal bronchial epithelial cell line and two non-small cell lung cancer (NSCLC) cell lines harboring distinct activating mutations in the cell signaling molecules Kirsten rat sarcoma viral oncogene homolog (KRAS) or epidermal growth factor receptor (EGFR). We were able to quantify 727 exosomal proteins derived from the three cell lines. Proteins associated with signal transduction are enriched in NSCLC exosomes which are functionally active in regulating cell proliferation. The study is the first to investigate protein abundance differences in exosomes derived from NSCLC  cells and their normal counterparts, and reveals the role of exosomes in NSCLC cancer progression, which may have clinical implications in biomarker development for patients with NSCLC.",
+  "dataProcessingProtocol" : "MSConvert (v3.06736) was used to convert the acquired RAW files to mzML. Database searches and PSM validation were performed in the Trans-Proteomic Pipeline (TPP). Comet (v2014.1) was used to perform the database searches against a UniProtKB human protein database (version July, 2014; 40,826 reviewed sequences; 48,167 unreviewed sequences) with a concatenated reverse sequence decoy database. Search parameters include 50 ppm peptide mass tolerance, 1.0 Da fragment tolerance, variable modification: Methionine + 15.99492, and the following fixed modifications: Cysteine + 57.02510 (carbamidomethylation), N-term peptide + 229.1629, Lysine + 229.1629, (oxidation), and semi-tryptic peptides with up to three missed cleavages. PeptideProphet was used to validate the peptide search results from Comet and only peptide identifications with greater than 0.8 probability, with a calculated false positive rate < 1%, were kept for quantification. All peptides were used in ProteinProphet to infer proteins from the identified peptides and proteins with zero probability or zero quantified peptides were discarded. QuantiMORE (formerly IsoQuant) was employed to calculate the isobaric tag ratios for the validated peptides in each replicate. The software is available for download at the following web address:  http://www.proteomeumb.org/MZw.html. Protein ratios were computed in the R programming language (v3.1.1) from the peptide ratios generated by QuantiMORE. The protein ratio is the average of the peptide ratios assigned by ProteinProphet and weighted by the number of quantified PSMs for each peptide.",
+  "sampleProcessingProtocol" : "For exosome isolation: conditioned media was subjected to differential ultracentrifugation, PEG precipitation, and Optiprep density gradient separation. The exosome pellet was lysed and subjected to eFASP digestion. Resulting pepties were SAX fractionated using the StageTip protocol and subjected to nano-ESI-LC-MS/MS. Peptides were separated by nanoscale reversed-phase liquid chromatography using an Xtreme Simple nanoLC system (CVC/Micro-Tech).  The analytical column was prepared by packing 1.7 m 200 Å C18 resin (Prospereon Life Sciences) into a laser-pulled fused silica capillary (75 m inner diameter, 10.5 cm length, 10 m tip; Sutter Instruments) using a pressure injection cell (Next Advance).  Peptides were injected into the sample loop using an Endurance autosampler (Spark Holland) and were loaded onto the column with 95% solvent A (0.5% acetic acid in water).  A 180 min LC gradient method from 5 to 70% Solvent B (60% acetonitrile, 0.5% acetic acid) with a postsplit flow of 0.3 mL/min was used to elute the peptides into the mass spectrometer.  The LTQ-Orbitrap XL mass spectrometer (Thermo Electron) was equipped with a nanospray ionization source.  The spray voltage was 1.7 kV and the heated capillary temperature was 180ºC.  MS1 data were acquired in profile mode in the Orbitrap with a resolution of 60,000 at 400 m/z, and the top 10 most intense ions in each MS1 scan were selected for collision induced dissociation in the linear ion trap.  Dynamic exclusion was enabled with a repeat count 2, repeat duration 30 s, and exclusion duration 180 s.  Other mass spectrometry data generation parameters were as follows: collision energy 35%, ion selection threshold for MS/MS 500 counts, isolation width 3 m/z, default charge state 3, and charge state screening enabled.",
+  "projectTags" : [ "Biomedical" ],
+  "keywords" : [ "Quantitative proteomics", "Non-small cell lung cancer", "Silac", "Exosomes" ],
+  "doi" : "",
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2016-01-12",
+  "updatedDate" : "2015-10-02",
+  "submissionDate" : "2015-10-02",
+  "downloadCount" : 6926,
+  "avgDownloadsPerFile" : 135.80392,
+  "botCount" : 1937,
+  "hubCount" : 4941,
+  "organicCount" : 48,
+  "percentile" : 84,
+  "yearlyDownloads" : [ {
+    "year" : "2021",
+    "count" : 62
+  }, {
+    "year" : "2022",
+    "count" : 1426
+  }, {
+    "year" : "2023",
+    "count" : 76
+  }, {
+    "year" : "2024",
+    "count" : 1028
+  }, {
+    "year" : "2025",
+    "count" : 4126
+  }, {
+    "year" : "2026",
+    "count" : 208
+  } ],
+  "submitters" : [ "David Clark" ],
+  "labPIs" : [ "Li Mao" ],
+  "affiliations" : [ "Department of Oncology and Diagnostics Sciences University of Maryland School of Dentistry Baltimore, MD" ],
+  "instruments" : [ "LTQ Orbitrap" ],
+  "softwares" : [ "ProteoWizard msconvert", "Comet", "PeptideProphet", "ProteinProphet" ],
+  "quantificationMethods" : [ "SILAC" ],
+  "sampleAttributes" : [ "lung", "lung adenoma", "Homo sapiens (Human)", "epithelial cell" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Lung", "Epithelial cell" ],
+  "diseases" : [ "Lung adenoma" ],
+  "references" : [ "Clark DJ, Fondrie WE, Yang A, Mao L. Triple SILAC quantitative proteomic analysis reveals differential abundance of cell signaling proteins between normal and lung cancer-derived exosomes. J Proteomics. 2015 Dec 28. pii: S1874-3919(15)30222-0--pubMed:26739763--doi: 10.1016/j.jprot.2015.12.023" ],
+  "experimentTypes" : [ "Shotgun proteomics" ],
+  "projectFileNames" : [ "141023_TripSIL-exo-PepPro.prot.xml", "141023_TripSIL-exo-PepPro.pep.xml", "141023_TripSIL-exo_SAX_pH3.mzML", "all_peptide-TripSILexo_141112.txt", "141023_TripSIL-exo_SAX_FT.ms1", "141023_TripSIL-exo_SAX_FT.mzML", "141106_TripSIL-exo_SAX_pH3.mzML", "141023_TripSIL-exo_SAX_pH5.ms1", "141106_TripSIL-exo-PepPro.prot.xml", "141023_TripSIL-exo_SAX_pH11.ms1", "141023_TripSIL-exo_SAX_pH4.mzML", "141106_TripSIL-exo_SAX_pH3.ms1", "141106_TripSIL-exo_SAX_pH11.mzML", "141112_TripSIL-exo_SAX_pH3.ms1", "141106_TripSIL-exo_SAX_pH4.mzML", "141023_TripSIL-exo_SAX_pH6.ms1", "141112_TripSIL-exo_SAX_pH8.mzML", "141112_TripSIL-exo_SAX_pH3.mzML", "141023_TripSIL-exo_SAX_pH3.ms1", "141112_TripSIL-exo_SAX_FT.ms1", "141023_TripSIL-exo_SAX_pH8.mzML", "141112_TripSIL-exo_SAX_pH5.ms1", "141112_TripSIL-exo_SAX_pH6.mzML", "141112_TripSIL-exo_SAX_pH4.ms1", "141106_TripSIL-exo_SAX_pH5.mzML", "all_peptide-TripSILexo_141106.txt", "141106_TripSIL-exo_SAX_pH8.mzML", "141112_TripSIL-exo_SAX_pH6.ms1", "141023_TripSIL-exo_SAX_pH4.ms1", "141023_TripSIL-exo_SAX_pH11.mzML", "141106_TripSIL-exo_SAX_pH8.ms1", "141106_TripSIL-exo_SAX_pH11.ms1", "141023_TripSIL-exo_SAX_pH5.mzML", "141112_TripSIL-exo_SAX_pH11.mzML", "141106_TripSIL-exo_SAX_pH6.mzML", "141023_TripSIL-exo_SAX_pH6.mzML", "141112_TripSIL-exo_SAX_pH4.mzML", "141106_TripSIL-exo_SAX_pH6.ms1", "141112_TripSIL-exo-PepPro.prot.xml", "141112_TripSIL-exo_SAX_pH8.ms1", "141106_TripSIL-exo_SAX_FT.ms1", "141112_TripSIL-exo_SAX_pH5.mzML", "141106_TripSIL-exo-PepPro.pep.xml", "141112_TripSIL-exo_SAX_FT.mzML", "141106_TripSIL-exo_SAX_pH5.ms1", "141106_TripSIL-exo_SAX_FT.mzML", "141106_TripSIL-exo_SAX_pH4.ms1", "141112_TripSIL-exo-PepPro.pep.xml", "141112_TripSIL-exo_SAX_pH11.ms1", "all_peptide-TripSILexo_141023.txt", "141023_TripSIL-exo_SAX_pH8.ms1" ],
+  "highlights" : {
+    "projectDescription" : [ "derived from an immortalized normal bronchial epithelial cell line and two non-small cell lung cancer (NSCLC) cell lines harboring distinct activating mutations in the cell signaling molecules Kirsten rat <em>sarcoma</em>" ]
+  }
+}, {
+  "accession" : "PXD002765",
+  "title" : "Proteomics analysis of synergistic drug combination of midostaurin and BMS-754807 in Ewing sarcoma ASP14 cell line",
+  "projectDescription" : "We used quantitative mass spectrometry-based proteomics to unravel global changes in the phosphoproteome upon treatment of ASP14 cells (a Ewing Sarcoma cell line) according to the setup below. The combination of drugs were experimentally shown to infer synergy in terms of cell killing. Three experiments were performed using a triple SILAC setup (Light: Lys0,Arg0; Medium: Lys4,Arg6; and Heavy: Lys8,Arg10):  Experiment 1:  Light SILAC: Drug combination (90 nM Midostaurin + 20 nM BMS-754807) Medium SILAC: Midostaurin (90 nM) Heavy SILAC: 0.1% DMSO Experiment 2: Light SILAC: Drug combination (90 nM Midostaurin + 20 nM BMS-754807) Medium SILAC: Midostaurin (90 nM) Heavy SILAC: BMS-754807 (20 nM) Experiment 3: Light SILAC: Drug combination (90 nM Midostaurin + 20 nM BMS-754807) Medium SILAC: BMS-754807 (20 nM) Heavy SILAC: 0.1% DMSO  ASP14 cells were starved by replacing complete SILAC medium with SILAC minimal medium without serum over night. Cells were treated with drugs as stated above for 2h; then they were stimulated with serum for 20 minutes and harvested thereafter.",
+  "dataProcessingProtocol" : "Raw MS files were analyzed using MaxQuant software version 1.5.3.6 using the Andromeda search engine.",
+  "sampleProcessingProtocol" : "For the phosphoproteome analysis SILAC cells were lysed, samples mixed in equal amounts and proteins were in-solution digested with Lys-C and trypsin. Phosphopeptides were fractionated by high pH fractionation and enriched by incubation with titanium dioxide (TiO2). Resulting peptide mixtures were analyzed by nanoLC-MS/MS on a Q Exactive orbitrap mass spectrometer.",
+  "projectTags" : [ "Biomedical" ],
+  "keywords" : [ "Human", "Ewing sarcoma", "Lc-msms", "Drug synergy" ],
+  "doi" : "",
+  "submissionType" : "PARTIAL",
+  "publicationDate" : "2017-04-19",
+  "updatedDate" : "2015-08-27",
+  "submissionDate" : "2015-08-27",
+  "downloadCount" : 8666,
+  "avgDownloadsPerFile" : 108.325,
+  "botCount" : 1666,
+  "hubCount" : 6935,
+  "organicCount" : 65,
+  "percentile" : 88,
+  "yearlyDownloads" : [ {
+    "year" : "2021",
+    "count" : 52
+  }, {
+    "year" : "2022",
+    "count" : 122
+  }, {
+    "year" : "2023",
+    "count" : 1166
+  }, {
+    "year" : "2024",
+    "count" : 8
+  }, {
+    "year" : "2025",
+    "count" : 6889
+  }, {
+    "year" : "2026",
+    "count" : 429
+  } ],
+  "submitters" : [ "Kristina Bennet Emdal" ],
+  "labPIs" : [ "Jesper Velgaard Olsen" ],
+  "affiliations" : [ "Jesper V. Olsen, Novo Nordisk Foundation Center for Protein Research, Faculty of Health & Medical Sciences, University of Copenhagen, Blegdamsvej 3B, DK-2200 Copenhagen, Denmark." ],
+  "instruments" : [ "Q Exactive" ],
+  "softwares" : [ "MaxQuant" ],
+  "quantificationMethods" : [ "SILAC" ],
+  "sampleAttributes" : [ "peripheral primitive neuroectodermal tumor", "cell culture", "Homo sapiens (Human)", "muscle cell" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ "Cell culture", "Muscle cell" ],
+  "diseases" : [ "Peripheral primitive neuroectodermal tumor" ],
+  "references" : [ "Radic-Sarikas B, Tsafou KP, Emdal KB, Papamarkou T, Huber KV, Mutz C, Toretsky JA, Bennett KL, Olsen JV, Brunak S, Kovar H, Superti-Furga G. Combinatorial Drug Screening Identifies Ewing Sarcoma-specific Sensitivities. Mol Cancer Ther. 2017 Jan;16(1):88-101--pubMed:28062706--doi: 10.1158/1535-7163.MCT-16-0235" ],
+  "experimentTypes" : [ "Shotgun proteomics" ],
+  "projectFileNames" : [ "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_12.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_07.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_03.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_06.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_12.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_09.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_01.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_08.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_03.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_11.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_02.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_08.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_1st_01.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_05.raw", "PXD002765_community_annotated.sdrf.tsv", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_11.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_2nd_02.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_02.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_09.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_03.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_08.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_1st_01.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_06.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_2nd_02.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_04.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_05.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_01.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_10.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_11.raw", "Proteomics_drugsynergy_ASP14cells_MaxQuant.txt.zip", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_07.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_03.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_06.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_05.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_12.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_09.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_02.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_10.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_01.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_09.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_04.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_07.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_06.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_08.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_02.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_10.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_11.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_02.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_09.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_05.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_06.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_10.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_11.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_05.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_12.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_07.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_07.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_04.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_01.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_04.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_01.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_12.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_09.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_03.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_04.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_06.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_07.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_10.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_01.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_11.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_2nd_02.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_04.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_1st_01.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_08.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix1_HpH_TiO2_05.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix3_HpH_TiO2_12.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix1_TiO2_HpH_08.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix3_TiO2_HpH_03.raw", "20150630_QE7_UPLC10_DBJ_SA_COLLAB_ASSET_WP8_Asp14_Mix2_HpH_TiO2_02.raw", "20150617_QE3_UPLC11_AKP_SA_COLLAB_ASSET_WP8_Asp14_Mix2_TiO2_HpH_10.raw" ],
+  "highlights" : {
+    "projectDescription" : [ "We used quantitative mass spectrometry-based proteomics to unravel global changes in the phosphoproteome upon treatment of ASP14 cells (a Ewing <em>Sarcoma</em> cell line) according to the setup below." ],
+    "references" : [ "Combinatorial Drug Screening Identifies Ewing <em>Sarcoma</em>-specific Sensitivities. Mol Cancer Ther. 2017 Jan;16(1):88-101--pubMed:28062706--doi: 10.1158/1535-7163.MCT-16-0235" ],
+    "keywords" : [ "Ewing <em>sarcoma</em>" ],
+    "title" : [ "Proteomics analysis of synergistic drug combination of midostaurin and BMS-754807 in Ewing <em>sarcoma</em> ASP14 cell line" ]
+  }
+}, {
+  "accession" : "PRD000511",
+  "title" : "Integrative proteomics and genomics interrogation of Kaposi Sarcoma tumors finds multiple candidate proteins involved in disease pathogenesis which may have utility for early detection",
+  "projectDescription" : "Not available",
+  "dataProcessingProtocol" : "Not available",
+  "sampleProcessingProtocol" : "Not available",
+  "projectTags" : [ ],
+  "keywords" : [ "Not available" ],
+  "doi" : "",
+  "submissionType" : "PRIDE",
+  "publicationDate" : "2012-07-26",
+  "updatedDate" : "2012-05-03",
+  "submissionDate" : "2012-05-03",
+  "downloadCount" : 0,
+  "avgDownloadsPerFile" : 0.0,
+  "percentile" : 0,
+  "submitters" : [ "Attila Csordas" ],
+  "labPIs" : [ "Attila Csordas" ],
+  "affiliations" : [ "Proteomics" ],
+  "instruments" : [ "instrument model" ],
+  "softwares" : [ ],
+  "quantificationMethods" : [ ],
+  "sampleAttributes" : [ "Homo sapiens (Human)" ],
+  "organisms" : [ "Homo sapiens (human)" ],
+  "organismsPart" : [ ],
+  "diseases" : [ ],
+  "references" : [ ],
+  "experimentTypes" : [ "Bottom-up proteomics" ],
+  "projectFileNames" : [ "PRIDE_Exp_Complete_Ac_18250.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18252.xml.gz", "PRIDE_Exp_Complete_Ac_18251.xml.gz", "PRIDE_Exp_Complete_Ac_18255.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18267.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18254.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18256.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18264.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18258.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18257.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18261.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18264.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18258.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18263.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18261.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18262.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18253.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18267.xml.gz", "PRIDE_Exp_Complete_Ac_18262.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18258.xml.gz", "PRIDE_Exp_Complete_Ac_18252.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18250.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18251.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18265.xml.gz", "PRIDE_Exp_Complete_Ac_18265.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18247.xml.gz", "PRIDE_Exp_Complete_Ac_18266.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18254.xml.gz", "PRIDE_Exp_Complete_Ac_18256.xml.gz", "PRIDE_Exp_Complete_Ac_18268.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18249.xml.gz", "PRIDE_Exp_Complete_Ac_18250.xml.gz", "PRIDE_Exp_Complete_Ac_18267.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18260.xml.gz", "PRIDE_Exp_Complete_Ac_18263.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18247.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18263.xml.gz", "PRIDE_Exp_Complete_Ac_18262.xml.gz", "PRIDE_Exp_Complete_Ac_18261.xml.gz", "PRIDE_Exp_Complete_Ac_18254.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18256.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18255.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18260.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18260.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18259.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18259.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18257.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18251.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18268.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18249.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18265.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18252.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18247.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18248.pride.mgf.gz", "PRIDE_Exp_Complete_Ac_18259.xml.gz", "PRIDE_Exp_Complete_Ac_18248.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18268.xml.gz", "PRIDE_Exp_Complete_Ac_18266.xml.gz", "PRIDE_Exp_Complete_Ac_18264.xml.gz", "PRIDE_Exp_Complete_Ac_18253.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18255.xml.gz", "PRIDE_Exp_Complete_Ac_18266.pride.mztab.gz", "PRIDE_Exp_Complete_Ac_18257.xml.gz", "PRIDE_Exp_Complete_Ac_18253.xml.gz", "PRIDE_Exp_Complete_Ac_18248.xml.gz", "PRIDE_Exp_Complete_Ac_18249.pride.mgf.gz" ],
+  "highlights" : {
+    "title" : [ "Integrative proteomics and genomics interrogation of Kaposi <em>Sarcoma</em> tumors finds multiple candidate proteins involved in disease pathogenesis which may have utility for early detection" ]
+  }
+} ]

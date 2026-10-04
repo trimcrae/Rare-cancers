@@ -1,0 +1,131 @@
+[
+  {
+    "tag": "p",
+    "id": null,
+    "text": "We analyzed H19 expression patterns in various cancer cell lines, focusing on sarcoma subtypes. RNA in situ hybridization was performed on a tissue microarray ( n = 150) to assess H19 expression in human STS samples. Univariate and multivariate analyses were conducted to evaluate H19's prognostic value. In STS cell lines with high H19 expression, a Gapmer\u2010based knock\u2010down approach was used to study the functional impact of H19 expression.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Low H19 expression was associated with poor prognosis in univariate analysis (HR: 0.564; 95% CI: 0.324\u20130.985; p = 0.044). Multivariate analysis showed advanced patient age ( p < 0.001) and large tumor size ( p = 0.002) as independent predictors of worse overall survival, irrespective of H19 expression (HR: 0.655; 95% CI: 0.367\u20131.170; p = 0.153). H19 knockdown in STS cell lines reduced cellular growth and increased pro\u2010apoptotic activity.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "A comprehensive approach was utilized to investigate the expression and functional significance of H19 in sarcoma. Initially, an in silico analysis was performed using publicly available RNA\u2010seq datasets from CCLE, TCGA, and GTEx to compare H19 expression across multiple cancer types, including soft tissue sarcomas. These data provided a foundational reference for H19 expression patterns in various malignancies. To further validate and expand these findings, cell line\u2010based experiments were conducted. RNA was extracted from sarcoma cell lines, converted to cDNA, and analyzed via quantitative RT\u2010PCR to assess H19 expression levels relative to housekeeping genes.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Additionally, tissue microarrays (TMAs) were utilized to examine H19 expression at the tissue level through in situ hybridization, employing automated whole\u2010slide imaging and computational quantification to ensure objective signal detection. Computational tools were further used to quantify tumor cell nuclei and RNA point signals, providing a robust assessment of H19 transcript abundance per nucleus. To elucidate the functional role of H19, cell culture\u2010based transfection assays were performed using Gapmers to knockdown H19 expression in sarcoma cell lines. The effects of H19 silencing were analyzed through multiple assays, including cellular proliferation (WST\u20101), clonogenic capacity (colony formation assay), apoptosis induction (Caspase 3/7 activity), and protein expression (Western blot analysis).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "The online available RNA\u2010seq dataset provided by the Broad Institute Cancer Cell Line Encyclopedia (CCLE) was analyzed to compare H19 expression across multiple cancer cell lines ( https://portals.broadinstitute.org/ccle ). The visualization presents normalized expression data for H19 as box plots for cell lines from 38 different cancer types. The number of cell lines tested from each cancer type is given, and box plots are sorted according to the highest average expression within the cancer type, with the mean expression indicated as a dashed line. To compare H19 expression in tissue samples from different tumor types, data from The Cancer Genome Atlas Program (TCGA) and the Genotype\u2010Tissue Expression (GTEx) project were analyzed using the online tool GEPIA ( http://gepia.cancer\u2010pku.cn/index.html ). This data set comprised RNA\u2010seq expression data from 31 cancer types, including 262 soft tissue sarcoma tissue samples.",
+    "links": [
+      {
+        "{http://www.w3.org/1999/xlink}href": "https://portals.broadinstitute.org/ccle",
+        "ext-link-type": "uri"
+      },
+      {
+        "{http://www.w3.org/1999/xlink}href": "http://gepia.cancer-pku.cn/index.html",
+        "ext-link-type": "uri"
+      }
+    ]
+  },
+  {
+    "tag": "title",
+    "id": null,
+    "text": "RNA Isolation and cDNA Synthesis From Cell Line Panels",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Following the manufacturer's protocol, RNA was isolated from the sarcoma cell lines (at a confluency of approximately 75%\u201390%) in biological triplicates using TRIzol Reagent (Thermo Fisher Scientific, Waltham, MA, USA). From each sample, 1 \u03bcg of total RNA was reverse transcribed into cDNA after removal of genomic DNA by applying the QuantiTect Reverse Transcription Kit (Qiagen, Venlo, Netherlands) according to the manufacturer's protocol. We extended the incubation period of the reverse transcription at 42\u00b0C to 60 min.",
+    "links": []
+  },
+  {
+    "tag": "title",
+    "id": null,
+    "text": "Quantitative RT\u2010PCR for Cell Line Panels",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Quantitative RT\u2010PCR was conducted with the synthesized cDNA to detect the expression levels of H19 in the sarcoma cell lines and was carried out in technical duplicates of the biological triplicates using the QuantiTect SYBR Green PCR Kit (Qiagen) according to the manufacturer's two\u2010step RT\u2010PCR protocol. Primers specific for H19 and the two housekeeper genes GAPDH and U6 were used (Eurofins Scientific, Vienna, Austria) at a final concentration of 0.4 \u03bcM. The primer sequences were: H19\u2010forward 5\u2032\u2010TGC TGC ACT TTA CAA CCA CTG\u20103\u2032, H19\u2010reverse 5\u2032\u2010ATG GTG TCT TTG ATG TTG GGC\u20103\u2032, GAPDH\u2010forward 5\u2032\u2010AAG GTC GGA GTC AAC GGA TTT\u20103\u2032, GAPDH\u2010reverse 5\u2032\u2010ACC AGA GTT AAA AGC AGC CCT G\u20103\u2032, U6\u2010forward 5\u2032\u2010CTC GCT TCG GCA GCA CA\u20103\u2032, U6\u2010reverse 5\u2032\u2010AAC GCT TCA CGA ATT TGC GT\u20103\u2032. Per reaction (volume of 10 \u03bcL), 10 ng of cDNA was used. The measurements were conducted in LightCycler 480 Multiwell Plates 384 on a LightCycler 480 Real\u2010Time PCR System (Roche, Basel, Switzerland). CT values were normalized by subtracting the according arithmetic mean of the two housekeeper genes. The received delta CT (dCT) values for each sarcoma cell line were plotted as 2 \u2212dCT using GraphPad Prism Version 5.01 (GraphPad Software Inc., San Diego, CA, USA).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "The sarcoma cell lines SW872 (Liposarcoma) and SW982 (Synovial Sarcoma) were purchased from the American Type Culture Collection (ATCC; Manassas, CA, USA). Both cell lines were maintained in DMEM: F12 containing 10% fetal bovine serum (FBS) (Serana, Pessin, Germany), 2 mM L\u2010Glutamine (Gibco, Thermo Fisher Scientific, Waltham, MA, USA), and 1% penicillin/streptomycin (Sigma\u2010Aldrich, St. Louis, MO, USA). All cell lines were cultivated at 37\u00b0C and under a 5% CO 2 atmosphere and tested regularly for mycoplasma infection.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "To quantify expression levels of H19 in sarcoma cell lines, quantitative RT\u2010PCR was carried out in biological triplicates using PowerUp SYBR Green Master Mix (Applied Biosystems, ThermoFisher Scientific, Waltham, USA) according to the manufacturer's protocol (20 ng cDNA/10 \u03bcL reaction volume). Measurements were done on a QuantStudio 6/7 Pro real\u2010time PCR system (Applied Biosystems, ThermoFisher Scientific, Waltham, USA). Expression levels were normalized to the housekeeping genes TATA\u2010binding protein (TBP) and glyceraldehyde\u20103\u2010phosphate dehydrogenase (GAPDH) and analyzed using the \u0394\u0394CT method. Primers specific for H19 and for the housekeeping genes GAPDH and TBP were designed with the NIH Primer Blast Tool and purchased from Eurofins Scientific. Primer sequences are the following:",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Whether and to what extent the lncRNA H19 is expressed in the heterogeneous group of sarcomas is largely unknown. Therefore, in the first screening step, we compared the occurrence and expression levels of H19 between different cancer types by using publicly available RNA\u2010seq data provided by the Broad Institute Cancer Cell Line Encyclopedia (CCLE) that comprises expression data of cell lines originating from 38 different cancer types. These included four sarcoma subtypes, namely Ewing sarcoma (12 cell lines), osteosarcoma (10 cell lines), chondrosarcoma (4 cell lines), and soft tissue sarcoma (20 cell lines). The highest H19 expression level was found for gastrointestinal cancers, whereas the lowest levels were depicted for hematological malignant disorders. In the group of sarcoma cell lines, the average expression level of H19 of all four subtypes was found to lie in the medium range compared to the included cancer types. Soft tissue sarcoma cell lines lie in the upper half of all cancer cell line groups (Figure 1A ). In order to compare H19 expression from cell lines and tumor tissue samples, data from The Cancer Genome Atlas Program (TCGA) and the Genotype\u2010Tissue Expression (GTEx) project were analyzed using the online tool GEPIA [ 32 ]. Data from this platform showed that among 31 cancer types, soft tissue sarcomas ( n = 262) had the fourth\u2010highest expression levels of H19 (Figure 1B ). In the third step, we analyzed the expression of H19 in 7 different sarcoma cell lines using RT\u2010qPCR. These included a synovial sarcoma cell line (SW982), a myxosarcoma cell line (MUG\u2010Myx 2a), an extraskeletal myxoid chondrosarcoma cell line (MUG\u2010EMCS), a rhabdomyosarcoma cell line (TE\u2010671), and three different liposarcoma cell lines (LISA 2, 93T 449, SW872). The highest expression level was detected in the liposarcoma cell line SW872, whereas all other cell lines exhibited considerably lower or even undetectable levels of H19 (Figure 1C ). To confirm H19 expression in the cell lines by an independent method, RNA in situ hybridization on cyto\u2010slides with the respective cell line SW872 confirmed and showed an expression pattern varying between cells (Figure 1D ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "H19 expression in different sarcoma subtypes. (A) H19 RNA\u2010seq expression data across cell lines from 38 different cancer types derived from the publicly available CCLE database. (B) H19 RNA\u2010seq expression data from 31 cancer types in tumor tissue derived from TCGA and GTEx data (SARC = sarcoma; TMP = Transcript Per Million). (C) The expression of H19 in 7 different sarcoma cell lines was measured by qRT\u2010PCR and normalized to the housekeeper genes GAPDH and U6 ( n = 3; mean \u00b1 SD). (D) Representative pictures of RNA in situ hybridization of H19 in the liposarcoma cell line SW872 showing a heterogenous expression pattern.",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Tissue microarrays were assembled from FFPE tissue blocks processed for routine histopathological reporting (10% NBF fixed). Each tumor was represented by five tumor cores on the TMA (tissue core diameter 0.6 mm). Five TMAs were subjected to staining as described below: One TMA contained liposarcomas (225 cores/42 patients), two TMAs represented myxofibrosarcomas (MFS) (510 cores/95 patients), one TMA contained high\u2010grade sarcomas (defined by high cellular pleomorphism) (401 cores/63 patients), encompassing the following entities: Pleomorphic sarcoma (PS), dedifferentiated and pleomorphic liposarcoma, embryonal rhabdomyosarcoma (ERMS), myxoinflammatory fibroblastic sarcoma, (MFS) malignant peripheral nerve sheet tumor, low\u2010grade fibromyxoid sarcoma (LGFMS), leiomyosarcoma (LS), angiosarcoma, pleomorphic rhabdomyosarcoma, one TMA consisted of a broad array of sarcomatous entities (420 cores/79 patients), entities: synovial sarcoma (SS), MFS, extraskeletal myxoid chondrosarcoma, alveolar soft part sarcoma (ASPS), myxoid liposarcoma (MLS), dermatofibrosarcoma protuberans (DFSP), leiomyosarcoma (LMS), undifferentiated pleomorphic sarcoma (UPS), myxofibrosarcoma (MFS) and one TMA consisted of translocation sarcomas (275 cores/52 patients, entities: DFSP, LGFMS, MFS, ASPS, ERMS, MLS, ERMS, rhabdomyosarcoma, extraskeletal myxoid chondrosarcoma, malignant melanotic schwannoma, clear cell sarcoma, malignant mesenchymoma).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "To investigate the relevance of H19 in soft tissue sarcoma as a potential therapeutic target, we established a gene knock\u2010down approach by using Gapmers directed against H19 in two independent soft tissue sarcoma cell lines (synovial sarcoma SW982 and liposarcoma SW872). These cell lines displayed the highest H19 expression levels in the cell line panel screen shown in Figure 1C . The successful knockdown of H19 (Figure 3A,C ) significantly reduced cellular growth in both cell lines (Figure 3B,D ). This result was independently confirmed by a colony formation assay showing a significantly lower number of colonies formed in cells with decreased H19 expression levels (Figure 4A,B ). To examine whether the decreased cellular growth might be caused by activation of apoptosis, we measured the caspase 3/7 activity 48 h after H19 silencing. In both the SW872 and SW982 cells, the knockdown of H19 led to increased caspase activity (Figure 4C,D ).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "Targeting H19 by Gapmer\u2010mediated knock\u2010down leads to a reduction of cellular growth. (A, C) Quantification of knock\u2010down efficiency of H19 in two sarcoma cell lines after treatment with specific Gapmers against H19 or negative control Gapmer A 48 h after transfection on RNA level via real\u2010time PCR ( n = 3; mean \u00b1 SD; * p < 0.05, *** p < 0.001). (B, D) Cellular growth after H19 knockdown in two sarcoma cell lines. WST\u20101 cellular growth assay in sarcoma cell lines over 96 h under control conditions (Negative Control Gapmer A) or after Gapmer\u2010mediated knockdown of H19 ( n = 6, mean \u00b1 SD; **** p < 0.001).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "In vitro phenotypic characterization of H19 silencing in two sarcoma cell lines. (A, B) Clony formation assay in two sarcoma cell lines. The bar graphs on top represent absolute colony numbers under control conditions (Negative Control Gapmer A; gray bars) or after Gapmer\u2010mediated H19 knockdown (red and blue bars). n = 3, \u00b1SD. ** p < 0.01, *** p < 0.001, *** p < 0.0001. The bottom panels depict corresponding representative pictures. (C, D) Caspase 3/7 assay under control conditions (Negative Control Gapmer A, gray bars) or upon Gapmer\u2010mediated knockdown of H19 (red and blue bars) 48 h after transfection ( n = 3, mean \u00b1 SD; *** p < 0.001, **** p < 0.0001).",
+    "links": []
+  },
+  {
+    "tag": "p",
+    "id": null,
+    "text": "In vitro, targeting H19 by RNA interference (RNAi) has been demonstrated to reduce osteosarcoma cell migration and invasion by modulating the NF\u2010\u03baB pathway [ 30 ]. On the other hand, H19 was also reported to increase proliferation in osteosarcoma cells by acting as a competing endogenous non\u2010coding RNA sponging microRNAs [ 34 ]. This supports our in vitro data in two analyzed cell lines but contrasts with in vivo data from the prevailing study and those of others as mentioned above and could, among other factors, pertain to cell culture data not fully replicating the corresponding sarcoma biology in vivo.",
+    "links": []
+  },
+  {
+    "tag": "title",
+    "id": null,
+    "text": "Data Availability Statement",
+    "links": []
+  },
+  {
+    "tag": "title",
+    "id": null,
+    "text": "Data Availability Statement",
+    "links": []
+  }
+]

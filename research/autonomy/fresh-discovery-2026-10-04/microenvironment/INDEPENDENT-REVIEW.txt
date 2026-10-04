@@ -1,0 +1,30 @@
+Independent review receipt, 4 October 2026
+
+Reviewer: /root/functional_models. Read-only review of the actual assay manifest,
+parser, sample receipts, diagnostics and scientific interpretation. The reviewer
+saved microenvironment-independent-challenge.json and review_micro_mapping.py in
+their separately owned functional packet, not in this packet.
+
+Reported verification
+- An independent openpyxl parser found 22,537 valid 50-nucleotide probes, no
+  duplicate forward sequences, and no forward/reverse-complement ambiguities.
+- All twelve run, sample and biosample receipt identities match. All inspected
+  reads have length 50. Exact assignment ranges from 6.62% to 69.18%.
+- Forward and reverse-complement handling is correct. Equal read/probe length
+  leaves no offset room for a complete 50-nucleotide exact match.
+- Missing rows in the processed matrix do not establish missing assay targets.
+  The 75% workflow allocation criterion does not establish assay invalidity.
+
+Limitations and decision
+Prefix diagnostics are not whole-library quality control. Phred quality,
+complexity, mismatch-aware alignment and correspondence with the processed matrix
+remain unresolved method questions. Distinct accession identities do not establish
+independent donors or authenticate clinical risk or outcome labels. The reviewer
+agrees that further counting for this question fails the scientific-value gate:
+all twelve raw libraries remain pending accessible analysis, and this work does
+not demonstrate a biological negative. No additional reads were examined after
+the lead's decision to stop; neither the proposed next-100,000-read validation
+nor full-library counting was started.
+
+This receipt records the reviewer's message, not an independent rerun by this
+worker. The underlying reviewer scripts and JSON remain in the functional scope.

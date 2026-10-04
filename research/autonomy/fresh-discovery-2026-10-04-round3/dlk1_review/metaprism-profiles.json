@@ -1,0 +1,35 @@
+{
+  "url": "https://cbioportal.gustaveroussy.fr/api/studies/metaprism_2023/molecular-profiles",
+  "response": [
+    {
+      "molecularAlterationType": "COPY_NUMBER_ALTERATION",
+      "datatype": "DISCRETE",
+      "name": "Copy-number alterations",
+      "description": "Putative focal (segment length < 10 Mb) CNAs from FACETS v0.5.14 with params cval_pre=25, cval_pro=500. Values: -2 = homozygous deletion; -1 = loss of heterozygosity; 0 = neutral / no change / not focal; 1 = low- or medium-level gain; 2 = high-level gain",
+      "showProfileInAnalysisTab": true,
+      "patientLevel": false,
+      "molecularProfileId": "metaprism_2023_cna",
+      "studyId": "metaprism_2023"
+    },
+    {
+      "molecularAlterationType": "MUTATION_EXTENDED",
+      "datatype": "MAF",
+      "name": "Mutations",
+      "description": "Whole exome sequencing data analyzed by Mutect2 (GATK v4.1.8.1) and annotated with VEP v104.",
+      "showProfileInAnalysisTab": true,
+      "patientLevel": false,
+      "molecularProfileId": "metaprism_2023_mutations",
+      "studyId": "metaprism_2023"
+    },
+    {
+      "molecularAlterationType": "STRUCTURAL_VARIANT",
+      "datatype": "SV",
+      "name": "Fusions",
+      "description": "Known oncogenic fusions and 'novel' fusions implicating a driver gene (see 'Fusion_Category'). Columns from each caller were prefixed by 2-letter acronyms, with AR, ES, PZ, and SF standing for Arriba, EricScript, Pizzly, and STAR-Fusion, respectively.",
+      "showProfileInAnalysisTab": true,
+      "patientLevel": false,
+      "molecularProfileId": "metaprism_2023_structural_variants",
+      "studyId": "metaprism_2023"
+    }
+  ]
+}

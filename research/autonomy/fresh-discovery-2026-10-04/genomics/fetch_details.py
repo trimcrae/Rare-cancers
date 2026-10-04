@@ -1,0 +1,15 @@
+import json
+from fetch_pilot import OUT,get,STUDY,receipts
+receipts.extend(json.loads((OUT/'retrieval_receipts.json').read_text()))
+labels=json.loads((OUT/'emc_label_records.json').read_text())
+svall=get('/structural-variant/fetch',{'molecularProfileIds':[STUDY+'_structural_variants'],'entrezGeneIds':[8013]},'all_nr4a3_sv.json')
+ids=sorted({r['sampleId'] for r in labels}|{r['sampleId'] for r in svall})
+clinical=get('/studies/'+STUDY+'/clinical-data/fetch?clinicalDataType=SAMPLE',{'ids':ids},'emc_and_nr4a3_sample_clinical.json')
+pids=sorted({r['patientId'] for r in clinical})
+patient=get('/studies/'+STUDY+'/clinical-data/fetch?clinicalDataType=PATIENT',{'ids':pids},'emc_and_nr4a3_patient_clinical.json')
+mut=get('/molecular-profiles/'+STUDY+'_mutations/mutations/fetch?projection=DETAILED',{'sampleIds':ids},'emc_and_nr4a3_mutations.json')
+sv=get('/structural-variant/fetch',{'sampleMolecularIdentifiers':[{'sampleId':x,'molecularProfileId':STUDY+'_structural_variants'} for x in ids]},'emc_and_nr4a3_sv.json')
+cn=get('/molecular-profiles/'+STUDY+'_gistic/molecular-data/fetch?projection=DETAILED',{'sampleIds':ids},'emc_and_nr4a3_cna.json')
+print('Clinical samples',len(ids),'patients',len(pids),'NR4A3 SV',len(svall),'mutations',len(mut),'SV',len(sv),'CNA entries',len(cn))
+print('NR4A3',json.dumps(svall,indent=2)[:6500])
+print('Mutation first',json.dumps(mut[:1],indent=2))

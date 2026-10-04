@@ -1,0 +1,59 @@
+Bounded immune-response follow-up, 4 October 2026
+
+Decision: unfinished source question; no demonstrated new EMC finding and no
+standalone paper. AMENDMENT-02 records the question before new case values.
+
+Rosenbaum2026 DOI10.1158/1078-0432.CCR-25-3419:
+Full author manuscript read from https://pmc.ncbi.nlm.nih.gov/articles/PMC13014529/ .
+Actual publisher S1–S3 were recovered using Figshare articles32712453,32712450,
+32712447, after PMC binary links returned challenge HTML. Every table row was
+parsed. S1 lists one EMC among178 patients with blood profiles. S3 lists one EMC
+with immune-depleted TME and no response among67 RNA-profiled tumors. Exact case,
+drug-arm, NR4A3 status, blood immunotype and H&E aggregate links are not supplied
+in these three tables; do not assume an independently authenticated donor match.
+The five trials combine different agents. MSK RNA192 is dbGaP phs003284; Stanford
+validation GSE213065, additional figures and originaltrial crosswalks remain
+pending suitable evidence. This single published nonresponse cannot establish
+EMC-wide immune exclusion or prediction. Reproduce with evaluate_immune_tables.py.
+
+Schur2017 DOI10.1093/annonc/mdx387.033, primary Table1507P was evaluated through
+publisher-indexed full table and official ESMO2017 abstract book search extraction:
+https://www.annalsofoncology.org/article/S0923-7534%2820%2938756-1/fulltext
+https://dam.esmo.org/image/upload/v1742307450/ESMO-2017-Abstract-Book.pdf.pdf
+Both eligible EMC patients, IDs8/9, received3 pembrolizumab cycles and stopped
+for progressive disease; both alive at report. No NR4A3 or paired PD-L1 value is
+provided. Other chondrosarcoma and myxoid liposarcoma rows are not EMC. The local
+Elsevier API response is metadata only, not the actual table; no source-body
+download is claimed. This is prior published negative evidence, not a new result.
+
+Martin-Broto2020 DOI10.1136/jitc-2020-001561 fullXML read,4EMC in phaseII and1
+partial response reported after sunitinib+nivolumab. No attribution to nivolumab
+alone; no pooling with monotherapy or claiming4 molecularly resolved independent
+cases. Per-case graph/supplement and identity/biomarker crosswalk pending. Hindi2025
+DOI10.1200/JCO.2025.43.16_suppl.11513 primaryabstract reports24EMC accrued,23PFS
+evaluable and2PR; response totals in abstract sum22. ClinicalTrials.gov actual
+NCT03277924 JSON retrieved, hasResults=false. No patient-level response predictor
+or causal component comparison can be derived. Cohort/abstract updates must be
+checked before any trial aggregation; crude and KM sixmonth percentages differ.
+
+Galitskiy2025 DOI10.1016/j.annonc.2025.08.310 primaryintro evaluated only. Publisher
+HTML/ScienceDirect403, ElsevierAPI metadataonly, Crossref noabstract. BostonGene's
+EMC patient-case resource leads to a signup requiring contactdetails; no form was
+submitted, outreach is unauthorized. No treatment or biomarker values recovered.
+This remains unavailable, not evidence of benefit or no benefit. Potential overlap
+with BostonGene sarcoma cohort is unresolved.
+
+BostonGene SITC2024 Abstract183 poster publicPDF recovered and visually evaluated,
+https://bostongene.com/assets/SITC_2024_Comprehensive_molecular_profiling_management_patients_with_diverse_sarcoma_RGB.pdf
+The cohort has10 EMC,9 displayed NR4A3fusions; source methods retrospective CGP
+2021–2023 at MDACC/MGH/SOC. TME is aggregated across translocation sarcomas, with
+no EMC-response crosswalk. Figure2B EMC column shows1 BRCA2mutation/loss event,
+1 PIK3CAmutation event and3 TSC1/2mutation/loss events; allotherdisplayedrows blank.
+These are events, not independently identified patients. TSC1/2 combinesgenes;
+PTENmutationblank doesnotestablishPTENdeletionabsence. Exactvariant/overlapunknown.
+Findings relayed to genomicsworker for its coverage; no immunotherapy inference.
+
+Coverage is deliberately incomplete for a shelved/nonpromoted question. Remaining
+published EMC immunotherapy reports, complete trial supplements, actual Galitskiy
+case and sample/assay crosswalks would block any response or biomarker claim.
+Existing results do not justify spending further work merely to make a catalogue.

@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-04",
+  "status": "PASS",
+  "inputs": {
+    "original_source": {
+      "name": "mendeley-supporting-values.xlsx",
+      "bytes": 115056,
+      "sha256": "a3eec1dd81423727283939d394e3a51a8c404e2c377a840ba3ccb5946098ec5f"
+    },
+    "independent_values": {
+      "name": "mendeley-independent-values.json",
+      "bytes": 38091,
+      "sha256": "65b4aa16ef198a98e67342a9335d7b714de54839524bab72b504a828d1a676b3"
+    },
+    "worker_analysis": {
+      "name": "mendeley-analysis.json",
+      "bytes": 279879,
+      "sha256": "9d1030cf7b8a26327e7968a429a540611594c41284872daf5a501f18caaba085"
+    },
+    "independent_extractor": {
+      "name": "challenge_mendeley.py",
+      "bytes": 4120,
+      "sha256": "a964f0de0ad93b83e97a6ae71212574a88801a82724845dd72f2b9d8e0cafe91"
+    },
+    "worker_extractor": {
+      "name": "analyze_mendeley.py",
+      "bytes": 4248,
+      "sha256": "0e05ff687179744f5e60af55fe78ed6987cf0d019de5168f4a12078d1e01731c"
+    }
+  },
+  "checked": {
+    "drug_curves": 8,
+    "drug_points": 48,
+    "drug_replicate_cells": 144,
+    "reported_auc_rows": 8,
+    "fiber_conditions": 5,
+    "fiber_values": 750,
+    "pATR_source_values": 3,
+    "signature_counts": 10
+  },
+  "maximum_summary_absolute_difference": 2.842170943040401e-14,
+  "errors": [],
+  "limits": [
+    "Checks every explicitly labelled EMC numerical condition in the deposit, not unlabelled model sheets 4I and 5E.",
+    "This checks deposited arithmetic and identity; it does not establish final-2026 version concordance, assay units/duration or biological replicate hierarchy.",
+    "Fibers and technical columns are not independent donors; source AUC N13 remains uninterpreted.",
+    "Drug-specific positive responses disallow a general ATR/DDR resistance claim; reported original-source observations are not newly discovered EMC biology."
+  ]
+}
