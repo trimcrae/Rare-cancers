@@ -1,0 +1,313 @@
+{
+  "series_metadata_count": 389,
+  "all_library_rosters": {
+    "GSE319327": {
+      "listed_conditions": 1,
+      "parsed_conditions": 1,
+      "pending": [],
+      "reported_source_condition_classes": {
+        "Retroperitoneal leiomyosarcoma": 1
+      }
+    },
+    "GSE319124": {
+      "listed_conditions": 59,
+      "parsed_conditions": 59,
+      "pending": [],
+      "reported_source_condition_classes": {
+        "RMS|3D": 5,
+        "EWS|PDX": 1,
+        "RMS|2D": 3,
+        "RMS|CCLF_cells": 6,
+        "OST|PDX": 1,
+        "OST|CCLF_cells": 2,
+        "EWS|CCLF_cells": 5,
+        "NBL|PDX": 7,
+        "RMS|PDX": 4,
+        "NBL|Patient": 4,
+        "NBL|CCLF_cells": 5,
+        "RMS|Patient": 5,
+        "EWS|Patient": 1,
+        "OST|Patient": 1,
+        "OST|2D": 1,
+        "NBL|2D": 3,
+        "EWS|2D": 1,
+        "NBL|3D": 2,
+        "OST|3D": 1,
+        "EWS|3D": 1
+      }
+    },
+    "GSE200529": {
+      "listed_conditions": 26,
+      "parsed_conditions": 26,
+      "pending": [],
+      "reported_source_condition_classes": {
+        "DSRCT cell": 10,
+        "ES cell": 10,
+        "OS cell": 6
+      }
+    },
+    "GSE184118": {
+      "listed_conditions": 11,
+      "parsed_conditions": 11,
+      "pending": [],
+      "reported_source_condition_classes": {
+        "primary human tumor": 10,
+        "human fetal femur": 1
+      }
+    },
+    "GSE243381": {
+      "listed_conditions": 21,
+      "parsed_conditions": 21,
+      "pending": [],
+      "reported_source_condition_classes": {
+        "Sarcoma": 21
+      }
+    },
+    "GSE336655": {
+      "listed_conditions": 3,
+      "parsed_conditions": 3,
+      "pending": [],
+      "reported_source_condition_classes": {
+        "Immune cell": 3
+      }
+    }
+  },
+  "source_prefix_conflicts": [
+    {
+      "accession": "GSM9511127",
+      "title": [
+        "SJEWS030393_C3_DYE2547"
+      ],
+      "source_disease": [
+        "RMS"
+      ],
+      "source_sha256": "500676055ab85914324560bb18075ed164abec60135bf851fc44f49b24702637",
+      "consequence": "Potential title/annotation or disease-reclassification conflict; do not silently relabel. No EMC identity established."
+    },
+    {
+      "accession": "GSM9511129",
+      "title": [
+        "SJRHB013758_C6_DYE2549"
+      ],
+      "source_disease": [
+        "EWS"
+      ],
+      "source_sha256": "5b5f5bc2dd2ef9f3e8589daf6955ad3a2e74276b1a8d979ee90375f3465aa9b2",
+      "consequence": "Potential title/annotation or disease-reclassification conflict; do not silently relabel. No EMC identity established."
+    }
+  ],
+  "pending_library_metadata": [],
+  "all_series_disease_model_hits": [
+    {
+      "accession": "GSE24369",
+      "title": "Gene expression profiling of low-grade fibromyxoid sarcoma (LGFMS)",
+      "n_samples": 42,
+      "consequence": "Existing bulk/reference evidence, not single-cell by alias alone; source assay determines eligibility."
+    },
+    {
+      "accession": "GSE4303",
+      "title": "Gene expression profile of extraskeletal myxoid chondrosarcoma.",
+      "n_samples": 36,
+      "consequence": "Existing bulk/reference evidence, not single-cell by alias alone; source assay determines eligibility."
+    }
+  ],
+  "interpretation": "Counts refer to library conditions, not independent donors or evaluated biological measurements.",
+  "additional_all_library_rosters": {
+    "GSE318841": {
+      "listed_conditions": 277,
+      "source_status_counts": {
+        "200": 277
+      }
+    },
+    "GSE313859": {
+      "listed_conditions": 12,
+      "source_status_counts": {
+        "200": 12
+      }
+    },
+    "GSE313858": {
+      "listed_conditions": 4,
+      "source_status_counts": {
+        "200": 4
+      }
+    },
+    "GSE279852": {
+      "listed_conditions": 10,
+      "source_status_counts": {
+        "200": 10
+      }
+    }
+  },
+  "scTumor_primary_table": {
+    "all36_source_classes": [
+      "ALL",
+      "ATC",
+      "BCC",
+      "BLCA",
+      "BRCA",
+      "CESC",
+      "ccRCC",
+      "CRC",
+      "cSCC",
+      "DSRCT",
+      "GCTB",
+      "GBM",
+      "HNSCC",
+      "HCC",
+      "ICC",
+      "LUAD",
+      "LUSC",
+      "MPNST",
+      "MB",
+      "MCC",
+      "MESO",
+      "MPAL",
+      "NB",
+      "OS",
+      "OV",
+      "PAAD",
+      "PNET",
+      "PTC",
+      "PRAD",
+      "RMS",
+      "SACC",
+      "SKCM",
+      "STAD",
+      "SyS",
+      "TGCT",
+      "WT"
+    ],
+    "disease_label_hits": [],
+    "limits": "All36 reported primary-source classes checked. Table has reused datasets and some breast cell lines; rows/samples/cells are not independent donors. Generic pan-cancer CCL panels require separate authentication."
+  },
+  "BO112_unresolved_conditions": {
+    "all_six_library_conditions": [
+      {
+        "accession": "GSM9376750",
+        "patient": [
+          "Patient 012"
+        ],
+        "title": [
+          "BO112-SARC-012_Baseline-1"
+        ],
+        "conditions": [
+          "tissue: Tumor",
+          "timepoint: baseline",
+          "sorted population: live cell tumor digest",
+          "patient: Patient 012",
+          "treatment: Cohort -2 (preoperative RT, BO-112, resection)",
+          "batch: 7"
+        ]
+      },
+      {
+        "accession": "GSM9376751",
+        "patient": [
+          "Patient 012"
+        ],
+        "title": [
+          "BO112-SARC-012_surgery-1"
+        ],
+        "conditions": [
+          "tissue: Tumor",
+          "timepoint: surgery",
+          "sorted population: live cell tumor digest",
+          "patient: Patient 012",
+          "treatment: Cohort -2 (preoperative RT, BO-112, resection)",
+          "batch: 8"
+        ]
+      },
+      {
+        "accession": "GSM9376752",
+        "patient": [
+          "Radiation only-001"
+        ],
+        "title": [
+          "RT-001_190612_CD45neg-1"
+        ],
+        "conditions": [
+          "tissue: Tumor",
+          "timepoint: surgery",
+          "sorted population: live CD45 negative cell tumor digest",
+          "patient: Radiation only-001",
+          "treatment: pre-operative RT, resection",
+          "batch: 9"
+        ]
+      },
+      {
+        "accession": "GSM9376753",
+        "patient": [
+          "Radiation only-001"
+        ],
+        "title": [
+          "RT-001_190612_CD45pos-1"
+        ],
+        "conditions": [
+          "tissue: Tumor",
+          "timepoint: surgery",
+          "sorted population: live CD45 positive cell tumor digest",
+          "patient: Radiation only-001",
+          "treatment: pre-operative RT, resection",
+          "batch: 9"
+        ]
+      },
+      {
+        "accession": "GSM9376754",
+        "patient": [
+          "Radiation only-002"
+        ],
+        "title": [
+          "RT-002_200226_tumor-1"
+        ],
+        "conditions": [
+          "tissue: Tumor",
+          "timepoint: surgery",
+          "sorted population: live cell tumor digest",
+          "patient: Radiation only-002",
+          "treatment: pre-operative RT, resection",
+          "batch: 10"
+        ]
+      },
+      {
+        "accession": "GSM9376755",
+        "patient": [
+          "Radiation only-003"
+        ],
+        "title": [
+          "RT-003_200122_tumor-1"
+        ],
+        "conditions": [
+          "tissue: Tumor",
+          "timepoint: surgery",
+          "sorted population: live cell tumor digest",
+          "patient: Radiation only-003",
+          "treatment: pre-operative RT, resection",
+          "batch: 11"
+        ]
+      }
+    ],
+    "apparent_donor_count": 4,
+    "limits": "Patient012 baseline/surgery; RT001CD45neg/pos sorts; RT002 and RT003. Five may be malignant-compatible but all6 conditions remain relevant source coverage. No fusion/pathology crosswalk here; not non-EMC."
+  },
+  "input_bindings": [
+    {
+      "path": "GSM-ELIGIBILITY-OBSERVATIONS.json",
+      "sha256": "6e0a5e8fbe00fa9ebe0e5e6735a6946b6da47e95a3af212ba456e755fda0466d"
+    },
+    {
+      "path": "GSM9511154-RETRY-OBSERVATION.json",
+      "sha256": "269c2d1053c2c052c614d7080d3cca3744a8077aee3defa9476653fc8efc85fe"
+    },
+    {
+      "path": "GEO-SERIES-ELIGIBILITY.json",
+      "sha256": "2c646c9e708858822d9c691d784490c8b4c17f59372da9a5d750bcafe65080c1"
+    },
+    {
+      "path": "ADDITIONAL-GSM-ELIGIBILITY-OBSERVATIONS.json",
+      "sha256": "68a4c16010d388e28508a26ab99bfb3ab9a7b69e8e2fe0923bdd20fd331c09bc"
+    },
+    {
+      "path": "SCTUMOR-TABLE1-EXTRACT.txt",
+      "sha256": "b5a5358eea1344d8fe5250432eae67a8c272fdf7e14be36de3fa9057b62b07bf"
+    }
+  ]
+}

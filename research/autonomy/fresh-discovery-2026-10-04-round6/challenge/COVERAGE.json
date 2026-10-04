@@ -1,0 +1,127 @@
+{
+  "search_date": "2026-10-04T22:02:01.910845+00:00",
+  "claim": "No advancing disease claim. Pilot tests whether source measurements could support a new untreated-kinetics/metabolic finding.",
+  "population": "Author-labelled EMC; strength of molecular authentication distinguished",
+  "source_classes": [
+    "EuropePMC primary literature/full XML",
+    "Primary citation chains of the selected untreated/regression reports",
+    "Verified R1\u2013R5 reports/decisions reused for existing clinical/model routes"
+  ],
+  "queries": [
+    {
+      "key": "physiology",
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"NR4A3 sarcoma\") AND (hypoglycemia OR IGF2 OR glucose OR lactate OR metabolomics OR metabolic OR ACTH OR Cushing OR catecholamine OR hormone)",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22extraskeletal+myxoid+chondrosarcoma%22+OR+%22NR4A3+sarcoma%22%29+AND+%28hypoglycemia+OR+IGF2+OR+glucose+OR+lactate+OR+metabolomics+OR+metabolic+OR+ACTH+OR+Cushing+OR+catecholamine+OR+hormone%29&format=json&resultType=core&pageSize=1000"
+    },
+    {
+      "key": "kinetics",
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"NR4A3 sarcoma\") AND (\"doubling time\" OR \"growth rate\" OR untreated OR observation OR \"spontaneous regression\" OR \"natural history\")",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22extraskeletal+myxoid+chondrosarcoma%22+OR+%22NR4A3+sarcoma%22%29+AND+%28%22doubling+time%22+OR+%22growth+rate%22+OR+untreated+OR+observation+OR+%22spontaneous+regression%22+OR+%22natural+history%22%29&format=json&resultType=core&pageSize=1000"
+    },
+    {
+      "key": "historical_metabolic",
+      "query": "(\"myxoid chondrosarcoma\" OR \"chondromyxoid sarcoma\") AND (hypoglycemia OR ACTH OR Cushing OR metabolomics OR catecholamine)",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22myxoid+chondrosarcoma%22+OR+%22chondromyxoid+sarcoma%22%29+AND+%28hypoglycemia+OR+ACTH+OR+Cushing+OR+metabolomics+OR+catecholamine%29&format=json&resultType=core&pageSize=1000"
+    }
+  ],
+  "coverage_limit": "Bounded source/value gate, not exhaustive physiological/natural-history review. No metabolomic repository or all historical clinical cohorts closed; suitable accessible pending evidence blocks promotion, and no manuscript advances. Search-result citations are not evaluated specimens.",
+  "sources": [
+    {
+      "source": "Carroll2025",
+      "primary": "10.1177/20363613251392654 / PMC12660641",
+      "status": "evaluated",
+      "specimens_conditions": "one male NR4A3-rearranged primary donor; all8 clinical/pathology size observations, all6 pulmonary imaging follow-up states",
+      "overlap": "single donor; serial primary and lung observations not independent; no known cross-paper overlap authenticated",
+      "measurement": "Only one interval with reported sizes (unverified acquisition comparability) and no new systemic treatment reported. Lung resolution is author radiographic report; lung nodules not molecularly/pathologically authenticated as metastases in this paper.",
+      "result": "Reported post-debulking regression, prior atezolizumab/trabectedin and unbiopsied lung alternative remain. No untreated lung numerical trajectory.",
+      "location": "measurement-gate-results.json primary_measurements/primary_changes/pulmonary_followup_states"
+    },
+    {
+      "source": "Kinoshita2015",
+      "primary": "10.1016/j.athoracsur.2014.12.107 / PMID26434451",
+      "status": "unavailable evidence",
+      "specimens_conditions": "one25-year-old woman; abstract primary inguinal biopsy and bilateral pulmonary regression after biopsy",
+      "overlap": "Different age/sex than Carroll2025; not independent causal validation",
+      "measurement": "Abstract evaluated for already-published regression prior art; full numerical article not recovered. Initial guessed publisher endpoint is not verified article identification; actual DOI resolver then failed403 tunnel.",
+      "result": "No rate reconstructed; unavailable full details prevent quantitative inclusion, not evidence of absent measurements",
+      "location": "kinetics-search receipt; kinoshita2015-doi-access.json"
+    },
+    {
+      "source": "Brown2020",
+      "primary": "10.1155/2020/2684746 / PMC7492874",
+      "status": "evaluated",
+      "specimens_conditions": "all3 source Patients1/2/3, no systemic therapy; observation50/70/126months, first2 no primary local management, third palliative amputation",
+      "overlap": "3 reported donors distinct; no numerical lung specimen/lesion mapping; no authenticated overlap with other series",
+      "measurement": "Histology+EWSR1 FISH author EMC labels; NR4A3 partner not specified. No individual size table; source figures not segmented and no image-derived rate claimed.",
+      "result": "Known indolence under observation, not new finding; third death colon cancer cannot mean no EMC progression",
+      "location": "measurement-gate-results.json all_Brown2020_observation_donors"
+    },
+    {
+      "source": "Elsayed2018",
+      "primary": "10.7759/cureus.2709 / PMC6065618",
+      "status": "evaluated",
+      "specimens_conditions": "one53-year-old man; all5 serial lung figure captions Aug2013\u2013Jul2017 after2012 lobectomy; earlier primary50Gy/resection",
+      "overlap": "Cited by Brown2020; cite is not a fourth Brown donor or independence proof",
+      "measurement": "Author histology primary and lung consistent, no NR4A3 measurement reported. Text has no linked dimensions, source images not segmented.",
+      "result": "47-month documented untreated pulmonary interval, distinct from8years since primary diagnosis; no rate or SD estimate inferred",
+      "location": "measurement-gate-results.json Elsayed2018_serial_source"
+    },
+    {
+      "source": "Morioka2016",
+      "primary": "10.1186/s12885-016-2511-y / PMC4946242",
+      "status": "evaluated",
+      "specimens_conditions": "all2 EMC clinical rows1/2 on trabectedin; all3 BSC rows6/7/8 explicitly mesenchymal chondrosarcoma",
+      "overlap": "One randomized original trial reused by subanalysis; not a new cohort",
+      "measurement": "Case-linked baseline target sums and best change/PFS for treated EMC; zero BSC EMC controls",
+      "result": "No untreated EMC comparator. Other histology cannot substitute.",
+      "location": "measurement-gate-results.json randomized_source_histology_check"
+    },
+    {
+      "source": "Paoluzzi2018",
+      "primary": "10.1186/s13569-018-0108-8 / PMC6280406",
+      "status": "evaluated",
+      "specimens_conditions": "one EWSR1\u2013NR4A3 donor; both pelvic/inguinal lesions before and~4months after45Gy/18fractions on pazopanib",
+      "overlap": "two lesions one donor; repeated PET not independent",
+      "measurement": "Published both dimensions and SUV; scan comparability beyond report unresolved",
+      "result": "Actual anatomic/metabolic decreases are already author findings; concurrent pazopanib blocks isolated RT effect",
+      "location": "measurement-gate-results.json RT_lesion_measurements"
+    },
+    {
+      "source": "TrObs2022",
+      "primary": "10.3389/fonc.2022.1042479 / PMC9780071",
+      "status": "evaluated",
+      "specimens_conditions": "all3 EMC subgroup observations, aggregate treated outcomes only; no released donor IDs",
+      "overlap": "Post-hoc reuse of TrObs512patient original; treatment-line/donor overlap with other Italian reports unresolved",
+      "measurement": "Aggregate group response/PFS not individual untreated sizes; no causal or pooled rate calculation",
+      "result": "Unsuitable untreated-kinetic comparator; not treated-response absence",
+      "location": "cached primary XML with exact hash in selected-source-receipts.json"
+    },
+    {
+      "source": "AntiHu2018",
+      "primary": "10.1634/theoncologist.2017-0344 / PMID29158368 / PMC5759826",
+      "status": "pending accessible analysis",
+      "specimens_conditions": "one source myxoid-chondrosarcoma case, PD1-associated encephalitis and preexisting antibodies; actual EMC NR4A3 identity unresolved here",
+      "overlap": "not pooled with chronic intestinal case",
+      "measurement": "Abstract prior-art screen only. XML endpoint500; listed public HTML/PDF not attempted because no distinct surviving question established.",
+      "result": "Existing autoimmune physiological observation, not new secretory-metabolic finding or proof of neuroendocrine lineage",
+      "location": "physiology-search receipt and selected-source-receipts.json"
+    },
+    {
+      "source": "AntiHuCIPO2021",
+      "primary": "10.17235/reed.2021.8195/2021 / PMID34470448",
+      "status": "pending accessible analysis",
+      "specimens_conditions": "title author-labelled EMC, individual phenotype/serology/timing not recovered from short abstract",
+      "overlap": "unresolved; not pooled",
+      "measurement": "Citation/abstract screening only, cannot count case evaluation.",
+      "result": "Pending linked primary details would be necessary before any anti-Hu claim; no claim advances",
+      "location": "physiology-search receipt"
+    },
+    {
+      "source": "R1\u2013R5 historical clinical/model decisions",
+      "status": "verified evaluation reused",
+      "specimens_conditions": "Exact scope in prior reports; no numerical reruns",
+      "result": "Late recurrence/Mayo overlap and prior imaging/model source/value failures retained. No extension to population kinetics or metabolite phenotype inferred.",
+      "location": "authoritative CLOUD-HANDOFF.md decision index and R1\u2013R5 REPORT.txt"
+    }
+  ]
+}

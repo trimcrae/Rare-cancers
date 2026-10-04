@@ -1,0 +1,28 @@
+{
+  "query": "(\"H-EMC-SS\" OR \"MUG-EMCS\" OR \"chordoid sarcoma\" OR \"chondromyxoid sarcoma\") AND (\"single cell\" OR \"single-cell\" OR \"single nucleus\" OR \"spatial transcriptomics\" OR \"scRNA-seq\") AND gse[ETYP] AND (\"1900/01/01\"[PDAT] : \"2026/10/04\"[PDAT])",
+  "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=gds&term=%28%22H-EMC-SS%22+OR+%22MUG-EMCS%22+OR+%22chordoid+sarcoma%22+OR+%22chondromyxoid+sarcoma%22%29+AND+%28%22single+cell%22+OR+%22single-cell%22+OR+%22single+nucleus%22+OR+%22spatial+transcriptomics%22+OR+%22scRNA-seq%22%29+AND+gse%5BETYP%5D+AND+%28%221900%2F01%2F01%22%5BPDAT%5D+%3A+%222026%2F10%2F04%22%5BPDAT%5D%29&retmode=json&retmax=1000",
+  "date": "2026-10-04T22:03:22.064002+00:00",
+  "status": 200,
+  "source_bytes": 2499,
+  "source_sha256": "a09e16ec2724ae47364ee496b7f88a7bc0a721d26229e41ee8ca174244df3fdc",
+  "count": "0",
+  "idlist": [],
+  "meaning": "One bounded exact-alias catalogue omission search, not evaluation of public biology or evidence of universal absence.",
+  "querytranslation": "(\"H-EMC-SS\"[All Fields] OR (MUG[All Fields] AND EMCS[All Fields]) OR (chordoid[All Fields] AND (\"sarcoma\"[MeSH Terms] OR sarcoma[All Fields])) OR (chondromyxoid[All Fields] AND (\"sarcoma\"[MeSH Terms] OR sarcoma[All Fields]))) AND (\"single cell\"[All Fields] OR \"single-cell\"[All Fields] OR \"single nucleus\"[All Fields] OR \"spatial transcriptomics\"[All Fields] OR \"scRNA-seq\"[All Fields]) AND gse[ETYP] AND (\"1900/01/01\"[PDAT] : \"2026/10/04\"[PDAT])",
+  "errorlist": {
+    "phrasesnotfound": [
+      "MUG-EMCS"
+    ],
+    "fieldsnotfound": []
+  },
+  "warninglist": {
+    "phrasesignored": [],
+    "quotedphrasesnotfound": [
+      "\"MUG-EMCS\"",
+      "\"chordoid sarcoma\"",
+      "\"chondromyxoid sarcoma\""
+    ],
+    "outputmessages": []
+  },
+  "limits": "Some exact phrases not indexed and automatically split; no retrieved eligible source in this combination. Does not establish no public model measurement."
+}
