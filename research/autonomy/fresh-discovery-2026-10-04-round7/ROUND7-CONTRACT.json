@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-04",
+  "objective": "Find a genuinely new and useful EMC-specific result, or make an honest bounded scientific decision; do not claim all angles exhausted.",
+  "concurrency": "Four runtime slots: one integrating lead plus three distinct scientific workers.",
+  "baseline": "R1-R6 are integrated on main 6bc942c888a60cf0194f8437ecd92e36f2e5568e; reuse unchanged verified analyses and the CSPG4 letter benchmark. TMEM266 standalone shelved.",
+  "lanes": {
+    "clinical_linkage": {
+      "question": "Do public patient-level EMC cohorts link authenticated NR4A3 fusion partner or molecular subtype to a clinically meaningful course or treatment outcome beyond what the original authors and prior R1-R6 analyses established?",
+      "potential_value": "A robust subtype-to-outcome or treatment interaction could change stratification or next study design; a duplicated cohort or aggregate sarcoma result cannot.",
+      "first_gate": "Find original cohort data tables/case-level published values and overlap crosswalks before modelling. Check existing Mayo, IMMUNOSARC and imaging/trial work; do not repeat it.",
+      "defeat": "No public individual EMC subtype-to-outcome mapping with enough independent donors and a nontrivial unanswered comparison; stop without fabricating a paper.",
+      "output": "clinical_linkage/"
+    },
+    "fusion_transcripts": {
+      "question": "Do direct RNA measurements in authenticated EMC tumors show a recurrent, fusion-partner-related NR4A3 transcript or isoform state not established in the original studies?",
+      "potential_value": "A reproducible endogenous transcript difference could change which disease mechanism or measurement a researcher tests next; assay or index artifacts and a single sample cannot.",
+      "first_gate": "Locate source-level specimen, fusion-partner, assay and expression/junction mappings beyond the repository's prior tissue and ASO analyses. Use processed data first; avoid large FASTQ/BAM downloads unless a decisive question passes identity and value gates.",
+      "defeat": "Original authors already report the contrast, missing junction resolution or independent partner groups, or no authenticated EMC source; stop or record a precise pending gap.",
+      "output": "fusion_transcripts/"
+    },
+    "functional_models": {
+      "question": "Do publicly measured pharmacologic or genetic responses in authenticated EMC PDX, organoid or cell models reveal a reproducible disease-specific vulnerability not already reported?",
+      "potential_value": "A replicated direct response with molecular and tissue context could guide a new experiment; expression, in-silico target lists and disputed model labels cannot.",
+      "first_gate": "Search original model and drug-screen studies/resources since the prior R1-R6 audits, authenticate every model/condition and compare source prior art. Exclude prior ATR compound work and R6 engineered-NR4A3 study unless genuinely new evidence changes the decision.",
+      "defeat": "No independent authenticated EMC model response with appropriate controls and novelty; stop without relabelling other sarcomas or single technical wells as donors.",
+      "output": "functional_models/"
+    }
+  },
+  "mandatory_science": "Before advancing any claim evaluate every identifiable relevant public EMC specimen, model and condition, including broader studies and published-only measurements. Record evaluated/reused/pending suitable/unsuitable/unavailable separately; preserve unfavorable evidence. Independently assess validity, prior art, novelty and value; pursue contrary checks and choose continue, bounded decisive follow-up or shelve. No full manuscript before a worthwhile finding.",
+  "restrictions": "Preserve evidence, prior work and ownership. Existing sparse worktrees only. Measure C free space before downloads/artifacts and leave >=10GiB; each lane retained cap8MiB and whole R7 copied/recovery budget64MiB. Daily no computer use06:00-10:00 America/New_York, DST-aware, including UI/screenshots/browser automation/headless tests; check time before each such operation and stop by06:00. Quiet file/API work can continue. No paid sources, outreach, publication/submission, external scientific-record edits or PR. Do not route previous platform-denied FAP-tissue/glycan/structural-genomics/HLA-review material through another worker/tool/session; no CAPTCHA/login/unchanged403 workarounds.",
+  "worker_closeout": "Freeze exact source/evaluation files with hashes and a terminal process statement; report only decision-relevant findings to lead. Lead integrates and pushes validated checkpoint without force; uncommitted worker files are never called merged."
+}

@@ -1,0 +1,83 @@
+{
+  "utc": "2026-10-04T22:28:10.816715+00:00",
+  "reviewer": "functional_models",
+  "scope": "Independent narrow source/eligibility/value challenge from retained files only; no fresh downloads or all-literature audit",
+  "sha256": {
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round7\\clinical_linkage\\RESULTS.txt": "c7f96006ae2bd003a5d3b8287fb1600b7baa98e0a4e861ac6f4823331c161ad7",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round7\\clinical_linkage\\COVERAGE.json": "ac2d8f8ce89f252749af58e32e430d8c7b56000f00549ebc5c3a84ae6c86fe87",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round7\\clinical_linkage\\linkage-evaluation.json": "ffcb1d056e17762ddbcbd4506c41e4e7dd0c8a0bd05800d52ec227cdb1f304fe",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round7\\clinical_linkage\\evaluate_linkage.py": "bcccc40403d424bc37ce9a616be5f6b91d5580d5b5b5ac324678f2962e321be5",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round7\\clinical_linkage\\anthracycline2013.xml": "390e456b36664c767f2b06d5bc6c5ffc2afcf5f2d1074727dd5c06fc248bf8c7",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round7\\clinical_linkage\\sunitinib2012.xml": "14e9260b9325619aa3da9f999694df3cd41b3e978fb4afc2c66707b5eff2df6f",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round7\\clinical_linkage\\temozolomide2017.xml": "9c8c933494cceac8f22ccad3ea4d269bf0bcf1e6bb6884d16f373300752c0c32",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round2\\genomics\\davis2017.xml": "6eaff4e3811e2a23210f2547d4b669d1bd30e55e7d7c1d3578e052c02c804ed3",
+    "C:\\Users\\mcrae\\.codex\\worktrees\\emc-fresh-20261004-genomics\\research\\autonomy\\fresh-discovery-2026-10-04-round2\\genomics\\davis-supplement2.docx": "7c8c0d3c0b302211b6687dce19e7959aa1a8ed783ed9af088dbb041dc75d6f84"
+  },
+  "checks": {
+    "all11_anthracycline_NR4A3_rows": true,
+    "responses": {
+      "PR": 4,
+      "SD": 3,
+      "PD": 3,
+      "NV": 1
+    },
+    "Table3_lacks_individual_fusion_columns": true,
+    "temozolomide_all_EMC_rows": [
+      [
+        "2",
+        "Extraskeletal myxoid chondrosarcoma",
+        "Sunitinib, radiation, nivolumab",
+        "19",
+        "SD"
+      ],
+      [
+        "2",
+        "Extraskeletal myxoid chondrosarcoma",
+        "PD",
+        "2"
+      ]
+    ],
+    "patient2_EWSR1_NR4A3": true,
+    "Davis1582_main_row": [
+      "MO-1582",
+      "36",
+      "M",
+      "C",
+      "Lung",
+      "Metastatic",
+      "Lung",
+      "Pazopanib × 2 months, Doxorubicin × 3 months",
+      "2+"
+    ],
+    "Davis1582_exact_history": [
+      "MO_1582: PATIENT HISTORYMO_1582: PATIENT HISTORY",
+      "MO_1582: PATIENT HISTORY",
+      "MO_1582: PATIENT HISTORY",
+      "",
+      "",
+      "",
+      "37 year old man with metastatic extraskeletal myxoid chondrosarcoma involving the lungs",
+      "",
+      "06/2014: Chest imaging showed multiple pulmonary nodules concerning for metastatic disease. Chest CT confirmed the presence of multiple bilateral lung nodules measuring up to 1.7 cm.",
+      "7/14/14: Biopsy showed extraskeletal myxoid chondrosarcoma.",
+      "10/2014: Started pazopanib for progressive disease.",
+      "12/2015: D/C pazopanib for disease progression.",
+      "1/2016-2/2016: Doxorubicin 75 mg/sq m x 2 cycles.",
+      "03/03/2016: Progression of EMC on doxorubicin. Referred for Mi-Oncoseq.",
+      "",
+      "Patient underwent Pleural Nodal Biopsy for MI-ONCOSEQ Profiling Study",
+      ""
+    ]
+  },
+  "interpretation": "Agree scoped SHELVE. Missing partner mapping and no alternate-fusion comparator prevent treatment-by-partner inference; published sequential courses cannot separate prognosis, selection and treatment effect.",
+  "material_cautions": [
+    "All11 anthracycline NR4A3 cases cannot be split into EWS versus TAF15 from aggregate9/11",
+    "Do not derive a treatment interval or growth-modulation ratio from contradictory Davis table/supplement",
+    "Temozolomide add-on follows selected pazopanib progression with dose change; no isolated causal effect",
+    "Suspected sunitinib2012/2014 extension/overlap lacks a verified individual crosswalk; do not assume12independent patients or prove which cases were reused",
+    "No PR/SD counts pooled across heterogeneous definitions/timepoints",
+    "Source gaps remain visible; no all-public-data absence claim"
+  ],
+  "no_required_corrections": true,
+  "limits": "No independent full source review of all prior cohorts, blocked sources, or unavailable2014/2019tables; owner source summaries for already-published sunitinib linkage reviewed, no new effect recomputed."
+}

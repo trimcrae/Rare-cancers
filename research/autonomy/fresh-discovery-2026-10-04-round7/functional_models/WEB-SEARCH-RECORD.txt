@@ -1,0 +1,44 @@
+2026-10-04 primary web discovery observations, quiet source-reader/API only
+
+Queries used:
+"extraskeletal myxoid" "organoid" drug2025 2026
+"extraskeletal myxoid" "patient-derived" "screen" excluding alreadyknownauthors
+"extraskeletal myxoid chondrosarcoma" "CRISPR" dependency
+"extraskeletal myxoid" "drug" "2026" model
+"extraskeletal myxoid" "xenograft"
+"USZ22"; "PAS-MC-CELL-0013"
+"5-ALA-mediated fluorescence" "EMC"
+"Addressing Modern Diagnostic Pathology" "five" models
+"extraskeletal myxoid" "2026" "cell" viability
+"extraskeletal myxoid" "spheroid"
+"10.1016/j.biomaterials.2025.123546" sarcoma subtypes
+"Generation of patient-derived sarcoma organoids" "chondrosarcoma"
+"Functional combinatorial precision medicine" "extraskeletal"
+
+Decision-relevant primary leads and disposition:
+PMC9813045 Bangerter, XenoSarc2019 and JCI72124 returned again; unchanged evaluations
+reused, not treated as new discovery. ExistingCIVO patient4 was also rediscovered;
+no unchanged403 route retried. Commercial gene-edited-model claims without primary
+measurements were not accepted as evidence.
+CancerModels.org/BioStudies S-CMO9316 led to complete primary catalogue metadata and
+its linked Minopoli2020 paper. Both retained with source hashes; no inferred EMC.
+PMC8761327 (5-ALA) and PMC10425732 (INBRX) full primaryXML retained and evaluated.
+The broad primary title screen identified the2026 twenty-line screen, newHDAC and
+bone-sarcoma studies, QPOP, SHHorganoids and theMa44organoid source; exact URLs and
+all retainedbytes/hashes are in retrieval/ followup/ new-source receipts.
+
+Access and completeness limitations:
+https://www.nature.com/articles/s41598-025-33061-z/tables/1
+  Source-reader failed; the main XML's image table is not a decoded six-case roster.
+https://www.sciencedirect.com/science/article/pii/S014296122500465X
+  Primary indexed abstract/references visible in search; directopen403, no retry.
+QPOP observed supplementfilename41698_2025_851_MOESM1_ESM.pdf; normal publisherCDN
+request failedDNS (precision-supp-receipt.json), not a scientific negative.
+Initial broad EPMCcore request exceeded the script's3MiB bound and retained an
+empty AssertionError string in the originalreceipt. Its lite-metadata replacement
+was paginated completely1450rows. No partialresponse is falsely labelledfulltext.
+
+The source-reader results were not saved as original webpage bytes, so no local
+raw-page hash is invented. Retained EPMC XML/metadata and BioStudies receipts are
+the source evidence. No browserUI, CAPTCHA/login workaround, paid source, outreach
+or earlier blocked scientific task/content was used.

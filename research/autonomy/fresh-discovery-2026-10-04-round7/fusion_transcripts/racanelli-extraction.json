@@ -1,0 +1,228 @@
+{
+  "source_sha256": "e1cc752c36d1b1727b6ba511aa99dc744c26d9a308e94b32381028d3684a0216",
+  "paragraphs": [
+    "RNA was extracted from 5 to 10 \u03bcm-FFPE tissue sections using the Qiagen miRNeasy FFPE kit (Qiagen, Valencia, CA, USA) or the Invitrogen RecoverAll Total Nucleic Acid Isolation kit (Thermo Fisher Scientific, Waltham, MA, USA). For frozen samples the TRIzol reagent (Life Technologies Italia, Monza, Italy) followed by the RNeasy MinElute cleanup (Qiagen, Valencia, CA, USA) was used. Total RNA was quantified by using a Qubit fluorometer (Thermo Fisher Scientific, Waltham, MA, USA). Quality was checked with the RNA 6000 Nano Kit on a 2100 Bioanalyzer (Agilent Technologies, Santa Clara, CA, USA), or by using the Archer PreSeqTM RNA QC qPCR Assay (ArcherDX, Boulder, CO, USA) and a threshold of DV200 >30 or PreSeq Cq <31 was used to identify high quality RNA, respectively.",
+    "Three different commercially available NGS-based fusion panels were selected based on their capacity to cover most genes known to be involved in sarcoma-relevant fusions: an anchored multiplex PCR-based assay, namely the Archer FusionPlex Sarcoma kit (AMP-FPS)(ArcherDX, Boulder, CO, USA), covering 26 genes involved in sarcoma-associated fusions; two hybrid capture-based (HC) assays, namely the TruSight RNA Fusion Panel (TS-Fusion) (Illumina Inc., San Diego, CA, USA) and the TruSight RNA PanCancer Panel (TS-PanCancer) (Illumina Inc., San Diego, CA, USA) covering 507 and 1,385 genes commonly involved in cancer, respectively. Both HC assays included the 26 genes covered by the AMP-FPS kit. In a subset of samples, a customized version of the AMP-FPS panel was used to detect PAX3 fusion transcripts. Specifically, the assay was integrated with PAX3-specific primers (exons 6, 7 and 8) designed by using the Archer Assay Designer tool (ArcherDX, Boulder, CO, USA).",
+    "The Archer Analysis suite (v 5.1 or v 6.0) was exploited for the analysis of AMP-FPS panel results, using default settings. Default parameters (QC PASS) that, according to the Archer user manual, allow to achieve up to 95% of sensitivity in fusion detection, were employed to assess data quality. Samples included in the study met the quality cutoffs set by the Archer Analysis platform but in a few cases that, although not fulfilling all default criteria, nevertheless yielded high confidence fusion calls (cases #9, 31, 37, 47, 57, 60, 80, 126). Fusions were recorded as \u201chigh confidence calls\u201d(strong = true in output table) if they passed all \u201cstrong evidence\u201d default filters as described in the Archer analysis user manual (briefly: breakpoint spanning reads that support the candidate \u2265 5; \u201cfusion_percent_of_GSP2_reads\u201d, i.e., proportion of breakpoint spanning reads that support the candidate relative to the total number of reads spanning the breakpoint \u226510%; \u201cmin_unique_start_sites_for_strong_fusion\u201d \u22653; fusion recorded in the Quiver database or not fulfilling the \u201cnegative evidence criteria\u201d).",
+    "As a first step toward the assessment of suitability of NGS-based approaches for the detection of pathognomonic fusions in sarcomas, performance and ease-of-use (library preparation complexity, hands-on time, user-friendly dedicated bioinformatic analysis tool) of three different NGS fusion panels were evaluated on a set of sarcoma samples previously characterized by either FISH or RT-qPCR for gene fusions (Table 1). Twenty-six samples were analyzed with a hybrid capture-based panel (HC) (Illumina TS-Fusion). Twenty samples were analyzed with an anchored multiplex PCR panel (Archer AMP-FPS), 19 of which investigated also with the Illumina TS-Fusion. In addition, 9 samples were profiled with a more comprehensive HC panel (Illumina TS-PanCancer).",
+    "NFD, no histotype-specific fusion detected; nd, not done; FISH, fluorescent in situ hybridization; RT-qPCR, reverse transcriptase- quantitative PCR; Sequencing platform used: T, Thermo platform; IL, Illumina platform.",
+    "Raw data obtained with the different panels were then analyzed using the dedicated bioinformatic suite (BaseSpace RNA-Seq Alignment for Illumina HC panels, Archer Analysis platform for the AMP-FPS panel). The AMP-FPS assay correctly identified the pathognomonic fusion in all samples analyzed (20/20), irrespective of the sequencing platform used (Thermo and/or Illumina), demonstrating an excellent sensitivity. The pathognomonic fusion was correctly called in 22/26 samples analyzed with the TS-Fusion HC assay. Of the 9 cases analyzed with the TS-PanCancer HC panel, the dedicated bioinformatic tool identified the diagnostic fusion in 7 cases, in one of these as a reciprocal fusion. To further explore the performance of HC panels, data generated with TS-Fusion and TS-PanCancer panels were re-evaluated with additional algorithms, namely Arriba, STAR-Fusion and Pizzly (16\u201318). Although impractical in a routine diagnostic setting, as they rely on a command line interface, these tools are reported to have high fusion detection rates (16\u201318). With the exception of case #27, for which no algorithm detected, as high confidence calls, fusions involving the CIC gene, apparently rearranged according to FISH, at least one fusion caller was capable of detecting, among others, a fusion transcript involving the target gene in cases previously scored negative with the BaseSpace RNA-Seq Alignment tool, emphasizing the importance of software sensitivity in data analysis (Supplemental Tables 1\u20133).",
+    "Overall, both AMP-FPS and HC assays demonstrated a good detection capability. The HC assays were definitively more comprehensive and suitable for a research environment. In contrast, the AMP-FPS panel was limited in breath (only 26 target genes), and hence with reduced capacity of discovering new fusions, but definitively provided for a better ease-of-use. In particular, the hands-on-time for library preparation was reduced. Moreover, compared to the BaseSpace RNA-Seq Alignment, the AMP-FPS dedicated bioinformatic analysis tool (Archer Analysis platform) featured a more user-friendly graphical interface with detailed and straightforward information about the fusion (exons involved, in frame/out of frame, confidence of the call) (Figure 1).",
+    "Representative graphical output of Archer Analysis (top) and Illumina BaseSpace RNA-Seq Alignment (bottom) tools. The EWSR1-FLI1 fusion detected in sample #2 by both AMP-FPS and HC panels is shown.",
+    "NFD, no histotype-specific fusion detected; nd, not done; amp, amplification; neg, negative; RT-PCR, reverse transcriptase-PCR; FISH, fluorescent in situ hybridization; RT-qPCR, reverse transcriptase-quantitative PCR; IHC, immunohistochemistry; unl, unaligned sequence. PAX3-MAML3\u00a7: fusion detected with a PAX3-customized AMP-FPS Panel. This sample scored negative with the standard AMP-FPS Panel.",
+    "Overall, the AMP-FPS panel confirmed the good performance. Of 81 cases with a pre-detected genetic abnormality suggestive of a fusion event, this NGS assay proved effective in 71, with orthogonal validations (RT-PCR) confirming the NGS result where appropriate (see Material and Methods). In the remaining 10 cases, a gene rearrangement was suggested by FISH. Nevertheless, although samples passed quality filters, the AMP-FPS assay failed to detect a fusion transcript. There are several possible explanations for this discrepancy including inadequate tumor cell fraction or low expression levels of the fusion transcript, chromosome rearrangements not yielding a fusion transcript, unusual breakpoints not covered by the assay or lack of primers covering the target gene. For instance, in two tumors (one endometrial stromal sarcoma and one sarcoma NOS) FISH indicated a rearrangement of the BCOR gene with an unknown partner. It is worth noting that the commercial AMP-FPS panel used in this study does not include primers for BCOR. Moreover, beside the common CCNB3 partner (covered by the panel), BCOR has been reported to fuse with other genes which are also not targeted by the AMP-FPS assay (e.g., ZC3H7B, MAML3, CIITA) (20\u201323). Thus, in the absence of probes for BCOR and potential partner genes, the failure of the assay in the 2 BCOR rearranged tumors of our series is not surprising. The same holds true for rearrangements involving NR4A3 in extraskeletal myxoid chondrosarcomas: while the AMP-FPS assay covers the most NR4A3 common partners (EWSR1, TAF15, TCF12, TFG) it lacks probes for both NR4A3 and uncommon partners (24), thus scoring negative in the presence of alternative fusions.",
+    "PAX3-MAML3 fusion detected by the customized AMP-FPS panel in a representative case of biphenotypic sinonasal sarcoma (sample #123). The top panel shows the output of the Archer Analysis tool. The bottom panel shows the validation of the fusion by RT-PCR sequencing."
+  ],
+  "tables": [
+    {
+      "id": "T1",
+      "headers": [
+        [
+          "Nr",
+          "Diagnosis",
+          "Pre-detected genetic abnormality",
+          "Primary detection method",
+          "Histotype-specific fusion detected by the indicated NGS approach",
+          "Other passing filters fusions (assay detecting the additional fusion)"
+        ],
+        [
+          "",
+          "",
+          "",
+          "",
+          "AMP-FPS",
+          "TS-Fusion",
+          "TS-PanCancer",
+          ""
+        ]
+      ],
+      "emc_rows": [
+        [
+          "7",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "EWSR1-NR4A3",
+          "RT-qPCR",
+          "EWSR1-NR4A3IL",
+          "NFD",
+          "NFD",
+          "NFD"
+        ],
+        [
+          "12",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "EWSR1-NR4A3",
+          "RT-qPCR",
+          "EWSR1-NR4A3T",
+          "EWSR1-NR4A3",
+          "nd",
+          "NFD"
+        ]
+      ]
+    },
+    {
+      "id": "T2",
+      "headers": [
+        [
+          "Nr",
+          "Diagnosis",
+          "Pre-detected genetic abnormality",
+          "Primary detection method",
+          "Sequencing platfom",
+          "Histotype-specific fusion detected",
+          "Other passing filters fusions"
+        ],
+        [
+          "28",
+          "Askin Tumor",
+          "EWSR1-ERG",
+          "RT-qPCR",
+          "Illumina",
+          "EWSR1-ERG",
+          "EWSR1-unl-ERG"
+        ]
+      ],
+      "emc_rows": [
+        [
+          "55",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "NR4A3",
+          "FISH",
+          "Illumina",
+          "EWSR1-NR4A3",
+          "NFD"
+        ],
+        [
+          "56",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "EWSR1",
+          "FISH",
+          "Illumina",
+          "EWSR1-NR4A3",
+          "NFD"
+        ],
+        [
+          "57",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "EWSR1-NR4A3",
+          "RT-qPCR",
+          "Illumina",
+          "EWSR1-NR4A3",
+          "NFD"
+        ],
+        [
+          "58",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "TAF15-NR4A3",
+          "RT-qPCR",
+          "Illumina",
+          "TAF15-NR4A3",
+          "NFD"
+        ],
+        [
+          "59",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "EWSR1-NR4A3",
+          "RT-qPCR",
+          "Illumina",
+          "EWSR1-NR4A3",
+          "NFD"
+        ],
+        [
+          "60",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "EWSR1-NR4A3",
+          "RT-qPCR",
+          "Illumina",
+          "EWSR1-NR4A3",
+          "NFD"
+        ],
+        [
+          "61",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "EWSR1-NR4A3",
+          "RT-qPCR",
+          "Illumina",
+          "EWSR1-NR4A3",
+          "NFD"
+        ],
+        [
+          "62",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "EWSR1-NR4A3",
+          "RT-qPCR",
+          "Illumina",
+          "EWSR1-NR4A3",
+          "NFD"
+        ],
+        [
+          "63",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "EWSR1-NR4A3",
+          "RT-qPCR",
+          "Illumina",
+          "EWSR1-NR4A3",
+          "NFD"
+        ],
+        [
+          "64",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "NR4A3",
+          "FISH",
+          "Illumina",
+          "EWSR1-NR4A3",
+          "NFD"
+        ],
+        [
+          "65",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "EWSR1-NR4A3",
+          "RT-qPCR",
+          "Illumina",
+          "EWSR1-NR4A3",
+          "NFD"
+        ],
+        [
+          "100",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "NR4A3",
+          "FISH",
+          "Illumina",
+          "NFD",
+          "NFD"
+        ]
+      ]
+    }
+  ],
+  "supplements": [
+    {
+      "text": "Supplemental Table 1Fusion transcripts called by the Arriba algorithm.Click here for additional data file.",
+      "links": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "Table_1.XLSX",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "text": "Supplemental Table 2Fusion transcripts called by the Pizzly algorithm.Click here for additional data file.",
+      "links": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "Table_2.XLSX",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "text": "Supplemental Table 3Fusion transcripts called by the STAR-Fusion algorithm.Click here for additional data file.",
+      "links": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "Table_3.XLSX",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    }
+  ]
+}
