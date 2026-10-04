@@ -1,0 +1,197 @@
+{
+  "utc": "2026-10-04T22:20:45.643741+00:00",
+  "reviewer": "Independent fapi_broader worker; distinct from integrating lead and source-summary writer",
+  "kind": "Bounded checkpoint source/decision consistency and reader-facing prose check; not manuscript or publication approval",
+  "started_utc": "2026-10-04T22:17:03+00:00",
+  "cap_minutes": 10,
+  "elapsed_seconds": 222.643741,
+  "reviewed_artifacts": [
+    {
+      "path": "REPORT.txt",
+      "bytes": 9981,
+      "sha256": "1114cf4c60b13f0b919e812092d354cebfe40a0568547d7de835f5144d82da7e"
+    },
+    {
+      "path": "INDEX.md",
+      "bytes": 3607,
+      "sha256": "1ab9909f89ede6da3511467958d3ea93c4a428d784625901176e8880b844976c"
+    }
+  ],
+  "source_records": [
+    {
+      "lane": "fapi_named",
+      "repository_path": "fapi_named/RESULTS.json",
+      "sha256": "08e474615fd235c0722e6dc0f107efd72b1201d8beda576dc729675664b00bc7",
+      "read_from": "frozen owned worker tree"
+    },
+    {
+      "lane": "fapi_named",
+      "repository_path": "fapi_named/EVIDENCE-FREEZE-02.json",
+      "sha256": "89af5884b7b861d828aaa985dfd0d8e28c210b5c45ad8985f779be6d243051da",
+      "read_from": "frozen owned worker tree"
+    },
+    {
+      "lane": "fapi_broader",
+      "repository_path": "fapi_broader/DECISION.json",
+      "sha256": "c6701fe1e3fc8c4c8aa6a0bd1493590088e921ee2d83c9c16615e3ef515cfe9e",
+      "read_from": "frozen owned worker tree"
+    },
+    {
+      "lane": "fapi_broader",
+      "repository_path": "fapi_broader/HIRMAS-HISTOLOGY-COMPLETENESS-AMENDMENT.json",
+      "sha256": "64609e3e57353de22b2b039b688b147f22f91540832bc87a8c02c3d50c5c1d2e",
+      "read_from": "frozen owned worker tree"
+    },
+    {
+      "lane": "single_cell",
+      "repository_path": "single_cell/REPORT.txt",
+      "sha256": "35eddaf011f7985642db5b9844f905a336d197c8253bc7995eac86b2c9063330",
+      "read_from": "frozen owned worker tree"
+    },
+    {
+      "lane": "single_cell",
+      "repository_path": "single_cell/DECISION.json",
+      "sha256": "eb48f27f767056af52b8e9e74cea8e0dd411bebbe0445a355f419e15fced2c62",
+      "read_from": "frozen owned worker tree"
+    },
+    {
+      "lane": "radiotherapy",
+      "repository_path": "radiotherapy/RESULTS.txt",
+      "sha256": "48bf84a6f5c703db313319d04aae3a5c8aa5f25e1c3ce35404a2de41505cbbe2",
+      "read_from": "frozen owned worker tree"
+    },
+    {
+      "lane": "radiotherapy",
+      "repository_path": "radiotherapy/measurement-gate-results.json",
+      "sha256": "1759ad06cd4cebb3643d33c26dd4e4c545a7e9afd13577d66738317c7eae1434",
+      "read_from": "frozen owned worker tree"
+    },
+    {
+      "lane": "diagnostic",
+      "repository_path": "diagnostic/REPORT.txt",
+      "sha256": "36b48d83e532648c91cb14b8fa40f2ccaf74cb61fc1bc9cbd5a7718345a137ed",
+      "read_from": "frozen owned worker tree"
+    },
+    {
+      "lane": "diagnostic",
+      "repository_path": "diagnostic/DECISION.json",
+      "sha256": "87b749bd0dee1b7a6cf3b82aafbd19542dc2a89736ba5165cb31cbd5cc95b259",
+      "read_from": "frozen owned worker tree"
+    },
+    {
+      "lane": "challenge",
+      "repository_path": "challenge/PILOT-REPORT.txt",
+      "sha256": "3f334c5f96fa275e3705453679d5245c918dc88a4c3c653154fa14a8343da815",
+      "read_from": "frozen owned worker tree"
+    },
+    {
+      "lane": "challenge",
+      "repository_path": "challenge/measurement-gate-results.json",
+      "sha256": "ad684e709899f17eed9426a2df0cc260c26779abfb4c551bb2c9e7129e38a5c5",
+      "read_from": "frozen owned worker tree"
+    }
+  ],
+  "reader_understanding": {
+    "question": "Can public studies reveal something new and useful about extraskeletal myxoid chondrosarcoma, rather than repeat established findings?",
+    "approach": "Six parallel source and measurement pilots checked clinical imaging, cell-level data, radiotherapy, diagnostic markers and untreated clinical trajectories. They authenticated patients and measurements, checked repeated observations and prior studies, and used independent workers to challenge omissions and interpretation.",
+    "finding": "No new publication-worthy EMC finding survived. The team recovered and checked useful source records, but missing identity, patient links, conditions or a new informative comparison prevented a supported disease discovery.",
+    "strongest_limits": "The public search is unfinished, some suitable evidence is still pending, and repeated patients or conditions cannot be treated as independent. Full primary papers and caches are preserved locally rather than included in Git, so later reproduction can require recovery from recorded URLs and hashes.",
+    "next_step": "Reopen a route only when the specific authenticated patient or model measurements can answer a useful unresolved question, then complete all relevant EMC evidence and discriminating checks before promotion."
+  },
+  "checked_claims": [
+    "Reported 47/200/155 named-FAPI counts retain their released resolution and nested sarcoma labels; no authenticated EMC scan ratio is claimed.",
+    "Broader 43/324+131/115/76+189 source counts match focused records and full Hirmas leaf amendment; Interobserver50 subtype/workbook remains incomplete.",
+    "Single-cell screening is described as source/specimen eligibility, not expression analysis or absence of a cell-state program; model/library conflicts and repeated conditions remain visible.",
+    "Fice15 complete-row audit and10-row6RT/4noRT subset preserve source recurrence/operation/margin discordance; no treatment-effect or imputed event claim appears.",
+    "Diagnostic31/187 source observations, threshold/handling limitations and verified CHRNA6 reuse remain prior published findings, without pooled sensitivity or new paired marker inference.",
+    "Nominal primary diameter15.8to18cm yields+13.92%; correctly distinguished from untreated pulmonary growth, volume doubling, RECIST or attributable efficacy.",
+    "No universal source absence, biological absence, efficacy, safety, independent replication or exhaustive-search claim is made.",
+    "Pending suitable accessible sources block promotion; shelving is not an exclusion rule.",
+    "Ignored raw sources, missing Windows archives, cache-only508 historical inputs, actual portability limits and retrieval timestamp loss remain explicit.",
+    "Seven-slot concurrency and later integration/gate receipts are referenced without claiming remote push completion in these summaries."
+  ],
+  "relative_evidence_links": [
+    {
+      "label": "REPORT.txt",
+      "relative_target": "REPORT.txt",
+      "exists": true,
+      "kind": "file"
+    },
+    {
+      "label": "Named FAPI",
+      "relative_target": "fapi_named/RESULTS.txt",
+      "exists": true,
+      "kind": "file"
+    },
+    {
+      "label": "Broader FAPI",
+      "relative_target": "fapi_broader/RESULTS.txt",
+      "exists": true,
+      "kind": "file"
+    },
+    {
+      "label": "Single-cell packet",
+      "relative_target": "single_cell/",
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "label": "Radiotherapy",
+      "relative_target": "radiotherapy/RESULTS.txt",
+      "exists": true,
+      "kind": "file"
+    },
+    {
+      "label": "Diagnostic assays",
+      "relative_target": "diagnostic/REPORT.txt",
+      "exists": true,
+      "kind": "file"
+    },
+    {
+      "label": "Kinetics/source challenge",
+      "relative_target": "challenge/PILOT-REPORT.txt",
+      "exists": true,
+      "kind": "file"
+    },
+    {
+      "label": "CONCURRENCY.json",
+      "relative_target": "CONCURRENCY.json",
+      "exists": true,
+      "kind": "file"
+    },
+    {
+      "label": "ROUND-CONTRACT.json",
+      "relative_target": "ROUND-CONTRACT.json",
+      "exists": true,
+      "kind": "file"
+    },
+    {
+      "label": "OWNERSHIP.json",
+      "relative_target": "OWNERSHIP.json",
+      "exists": true,
+      "kind": "file"
+    },
+    {
+      "label": "SOURCE-REUSE.json",
+      "relative_target": "SOURCE-REUSE.json",
+      "exists": true,
+      "kind": "file"
+    },
+    {
+      "label": "verify_reused_export.py",
+      "relative_target": "verify_reused_export.py",
+      "exists": true,
+      "kind": "file"
+    }
+  ],
+  "temporary_integration_dependency": {
+    "target": "challenge/PILOT-REPORT.txt",
+    "initial_state": "Absent in lead tree during first link check, present in frozen challenge worker tree.",
+    "resolution": "Lead reported local integration of challenge checkpoint ef1fe1e2; direct filesystem recheck confirms target now resolves. REPORT/INDEX bytes unchanged."
+  },
+  "corrections_requested": [],
+  "conclusion": "PASS for exact reviewed summary bytes: source-qualified results, scientific-value decisions, coverage/portability limits and plain-language meaning are preserved. No new source search or full-paper review was performed.",
+  "recheck_if": "REPORT/INDEX scientific wording or linked evidence changes materially; exact hashes bind this receipt. Main push and repository checks remain lead-owned and separately recorded.",
+  "restrictions": "Quiet file work only; no UI/browser/headless operation, restricted-content reopening, paid/GPU resources, outreach, publication, external record edits, PR or push. TMEM266 remains shelved.",
+  "free_bytes": 27653423104
+}
