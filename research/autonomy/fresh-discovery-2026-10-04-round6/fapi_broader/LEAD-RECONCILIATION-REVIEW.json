@@ -1,0 +1,504 @@
+{
+  "schema": "emc-r6-lead-reconciliation-reader-review/1",
+  "utc": "2026-10-04T22:54:31.385185+00:00",
+  "reviewer": "Codex /root/fapi_broader",
+  "kind": "Additive final reader review; original lead-summary review and scientific packets preserved",
+  "question": "Can a future worker understand what both R6 packets actually established, what was corrected, and which evidence is still missing?",
+  "approach": "Read the actual lead REPORT, final INDEX, RECONCILIATION and authoritative handoff addenda against frozen clinical, regulatory, ownership and portability records. Read the final independent BO-112 amendment challenge, recompute its complete 26-condition disposition counts, and check every relative Markdown evidence link in INDEX and CLOUD-HANDOFF. Reuse prior source reviews; perform no new source search or expression analysis.",
+  "started_utc": "2026-10-04T22:42:03+00:00",
+  "final_dependency": "Independent BO-112 challenge frozen in commit83442f5352067db32b69c966421f5edaaaab06ec; final binding and commit within the requested ten-minute dependency window.",
+  "lead_HEAD_at_review": "50b774c49f46d3db98a68485bf8d57597824b7a1",
+  "finding": "The final summaries are understandable and consistent with the corrected evidence. They report useful source and measurement checks without calling them new EMC discoveries; no publication-worthy finding survives, the search remains unexhausted, and TMEM266 stays shelved. The later reconciliation explicitly governs historical BO-112 exclusions and counts.",
+  "strongest_limits": "This is a reader and provenance review, not independent reproduction of every raw measurement or publication clearance. Some original raw inputs remain on another host or in ignored worker caches. Generic clinical histologies, the full interobserver workbook and separate test dataset, single-cell specimen identity, full regulatory methods and donor overlap remain unresolved. Zero authenticated EMC observations here does not establish biological absence.",
+  "reviewed_artifacts": [
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/REPORT.txt",
+      "bytes": 9981,
+      "sha256": "1114cf4c60b13f0b919e812092d354cebfe40a0568547d7de835f5144d82da7e",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "bytes": 4279,
+      "sha256": "978bc181cbf30723a8d67418eae6d148a29400370f53f9694de0f7ed4da9f768",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/RECONCILIATION.txt",
+      "bytes": 7019,
+      "sha256": "b2ecbc7905ca77f77ac546ae6868bc7bdeb2d6b240f30f1f64063bee1f65fe2f",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-handoff/CLOUD-HANDOFF.md",
+      "bytes": 22206,
+      "sha256": "1d2940927ce141faaeff66deae6a082f97b3933bc41f1b8683bc52d87abae824",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-handoff/CONTINUE-IN-CLOUD.txt",
+      "bytes": 7681,
+      "sha256": "13b1984ccb648758fca3130899264fc7da0cf0283b8e7e9e68fb0b2aed230f56",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/HANDOFF.txt",
+      "bytes": 5728,
+      "sha256": "833057152e152857cfce3fda3b39352222e4a1c5e3b9d00e593a6ffff0e27c5a",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/FINAL-STATE.json",
+      "bytes": 1116,
+      "sha256": "5c2e2f7d6d2834a8772a0db20efed09b63ae2c54f5e07ce5dded3af8a99ecdbc",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/OWNERSHIP.json",
+      "bytes": 3268,
+      "sha256": "89d3a5d3556c84401b247d89ad42ac3da226ce235596868f78a1cf7b0327c126",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/OWNERSHIP-RESOLUTION.json",
+      "bytes": 449,
+      "sha256": "9c44810d010bb7059716217447e43cbf80d2e0bb18bd9cc434095c55da382613",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/CLOUD-OWNERSHIP.json",
+      "bytes": 1774,
+      "sha256": "7ee1946892236ba88c128b1d666b98bdb543141edc6af3bc57af1a8eb9372486",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/LEAD-BO112-CROSSWALK.json",
+      "bytes": 2434,
+      "sha256": "adfb1587921f7b3f5c8e7501e815969b517cc834520418aa50731dd55d4061cd",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/clinical_identity/RESULTS.txt",
+      "bytes": 5895,
+      "sha256": "eeb33738c52e3984370f31e03f80b325516edef5a363d764dc8ae986812af8c0",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/nr4a3_regulatory/RESULTS.txt",
+      "bytes": 3139,
+      "sha256": "0732a443190c329fd761eadb57168db2e1becc599c9c394ef1f822a491e5f739",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/nr4a3_regulatory/AMENDMENT-01.txt",
+      "bytes": 492,
+      "sha256": "3aec42fe5ed0c2b32311b767e307ddd5ad2f9fe4854019031de478a21c2d6a58",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_named/CONCURRENT-CLINICAL-RECONCILIATION.json",
+      "bytes": 9061,
+      "sha256": "2959293413541850f02b3e96d8847188c20876e8d2ff41295198b4d1b533c88b",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/radiotherapy/CONCURRENT-CHECKPOINT-PORTABILITY-REVIEW.json",
+      "bytes": 57882,
+      "sha256": "2e3b12256fc4310768fa83fe714bc241e110e6cf422eaf4866b77d556d3fe614",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-RECONCILIATION-AMENDMENT.json",
+      "bytes": 10649,
+      "sha256": "22bd1ee94f42442d13d6513215a5018614123352732644fe8a6a50f3d69bc50f",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-RECONCILIATION-AMENDMENT.txt",
+      "bytes": 3160,
+      "sha256": "b8708e2b340ffa973db73e26fc439eb53fafa335627535eb0637ffe4e19d3be9",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-CORRECTED-CONDITION-DISPOSITIONS.json",
+      "bytes": 19650,
+      "sha256": "14a7d9d3fb3bea97f6e2ca905ae6d33b0bffcaede580f6a564ee932261de6ec8",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-RECONCILIATION-VALIDATION.json",
+      "bytes": 2212,
+      "sha256": "76b106f1200ba3baefaaea62c9b4da85c862d4a827cc8b242e71047508c35621",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/AVAILABILITY-AMENDMENT-01.json",
+      "bytes": 4274,
+      "sha256": "9b2de2c54ff5b85de0929f7200e3bb2aee7ebcc17c6d9332650dedbc1762e613",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/fapi_broader_review/FINAL-REVIEW.json",
+      "bytes": 13604,
+      "sha256": "faa5849e5f9acc912a986d739f4b634fc6442c0b97e94d2cbef07aae6b707297",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/manuscripts/emc-systems-map.json",
+      "bytes": 360728,
+      "sha256": "d03418a1a7df141e7d6904094c25e6e6aba2840ddb6336953ffdfe2d075bbde0",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/challenge/BO112-RECONCILIATION-REVIEW.json",
+      "bytes": 12464,
+      "sha256": "ad6e1a19ecb8d971ad6273b95d23226d21ff661183ef9d875dc0197525234440",
+      "inspected_checkout": "/workspace/Rare-cancers",
+      "frozen_commit": "83442f5352067db32b69c966421f5edaaaab06ec",
+      "integration_note": "Imported lead copy independently matches frozen owner83442f5352067db32b69c966421f5edaaaab06ec bytes; no raw cache import is implied."
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/radiotherapy/PLAN.md",
+      "bytes": 4628,
+      "sha256": "e391210382118ef945836b67927b90f366af753a56deb16bf3e0f9eba23057a3",
+      "inspected_checkout": "/workspace/Rare-cancers",
+      "scope": "Current exported document; exact original header/hash preserved in registration and reachable Git blob."
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/PLAN.md",
+      "bytes": 4736,
+      "sha256": "58684d28c75e76e2977bb8d9991138d3847f456440313675d3254cfca8ce7965",
+      "inspected_checkout": "/workspace/Rare-cancers",
+      "scope": "Current exported document; exact original header/hash preserved in registration and reachable Git blob."
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/CLOUD-DOCUMENT-REGISTRATION.json",
+      "bytes": 3602,
+      "sha256": "6cd9166b795e81d6c48af67a357696f7b64f1886b91221c87109ba919c06c2f4",
+      "inspected_checkout": "/workspace/Rare-cancers"
+    }
+  ],
+  "checked_claims": [
+    {
+      "question": "Do the two R6 scopes remain distinct?",
+      "finding": "Yes. REPORT/INDEX describe six cloud lanes; concurrent HANDOFF/FINAL-STATE describe three separate lanes. Merge and ancestry preserve both. Prior ownership records and cloud reservation snapshot are distinguished, and no remote lease/process/cache inheritance is asserted."
+    },
+    {
+      "question": "Are released clinical observations and persistent gaps correctly separated?",
+      "finding": "Yes. Hirmas2023 released tables and four public teaching cases supersede their earlier access gaps only at their evaluated resolution. Generic diagnoses, dates/conditions, donor overlap, full50 workbook accessibility and the article-described one test-patient dataset remain gaps; no EMC uptake absence or paired-ratio claim is introduced."
+    },
+    {
+      "question": "Is overlapping clinical evidence counted as replication?",
+      "finding": "No. The independent comparison verifies all76 liver rows and all14 three-time-point categories without adding donors. Source classification inconsistency, shared Fudan IRB/recruitment intervals and Hirmas prior cohorts remain discrepancies or possible reuse."
+    },
+    {
+      "question": "Is the bibliographic correction clear?",
+      "finding": "Yes. Naeimi DOI10.2967/jnumed.122.264941 spans64:618–622. The original frozen618–623 endpoint is explicitly a citation error, and the same study remains one source."
+    },
+    {
+      "question": "Does the BO-112 correction withdraw unsupported inference?",
+      "finding": "Yes. Matching numeric codes across GSE279852 and GSE313859 do not authenticate donors. Four current spatial004 records directly state MFS; two sc004 conditions use source-declared full-isolate/provider linkage with absent own histology retained. Current010/011 return to pending, RT-only generic records remain pending, and prior/current donors are not pooled."
+    },
+    {
+      "question": "Do corrected BO-112 counts and the independent challenge agree?",
+      "finding": "Yes. All26 rows are unique:16source-supported nonEMC conditions and10pending conditions across six named current donor keys,0authenticated EMC conditions. Old20/6/four-donor counts and the prior identity endorsement are explicitly superseded; the424metadata extraction check remains valid only as extraction verification."
+    },
+    {
+      "question": "Are regulatory prior art and contrary evidence respected?",
+      "finding": "Yes. The same four engineered293 conditions are neither EMC donors nor independent replication; engineered293T PROD-ATAC does not supply an EMC model. The unsupported SIX3 RNA-versus-protein explanation is withdrawn; published contrary cases and remaining assay/method/donor gaps do not become a new dependency or diagnostic finding."
+    },
+    {
+      "question": "Do three new HEMCSS registry uses weaken authentication?",
+      "finding": "No. They record an alias query, a prospective search contract and a bounded review. The identity_disputed status, curated verdict and may_not_ground restrictions remain; zero catalogue returns is not universal absence or model authentication."
+    },
+    {
+      "question": "Are portability and check scope described accurately?",
+      "finding": "Yes. Historical1176 export checks and concurrent109 export checks are separate, and neither recovers508historical or29concurrent cache-only inputs. Focused observations/hashes/scripts are durable; full raw sources/renders/extracts remain ignored. Code/preflight and this review do not establish biological replication, efficacy or publication readiness."
+    },
+    {
+      "question": "Are scientific and actual integration outcomes separated?",
+      "finding": "Yes. No absence/exhaustion/efficacy/publication claim is introduced. Actual final push, process and ownership status is reserved to the later integration receipt and Git verification; this subagent performed no push or shared write."
+    },
+    {
+      "question": "Do normal-gate document metadata repairs alter scientific choices?",
+      "finding": "No. Independently compared both original exact Git blobs and current exported bytes: only preserved YAML headers change; both scientific bodies are byte identical and original hashes/frontmatter stay reachable and explicitly registered."
+    }
+  ],
+  "BO112_recalculated": {
+    "unique_conditions": 26,
+    "dispositions": {
+      "demonstrably unsuitable measurement": 16,
+      "pending accessible analysis": 10
+    },
+    "pending_donor_keys": [
+      "RT-001",
+      "RT-002",
+      "RT-003",
+      "SARC-010",
+      "SARC-011",
+      "SARC-012"
+    ],
+    "authenticated_EMC_conditions": 0,
+    "source_vs_inference": "16includes10prior directGEO,4current directMFSspatial,2current source-linkedscRNA; linkedscRNA is not independently diagnosed"
+  },
+  "final_peer_portable_binding_checks": [
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-RECONCILIATION-PLAN.json",
+      "bytes": 2021,
+      "sha256": "ac5a4b3ab852faab2e1c287401d8b9230a39825f6ed51778147a3d6026d6ccc9",
+      "matches_final_peer": true
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-RECONCILIATION-AMENDMENT.json",
+      "bytes": 10649,
+      "sha256": "22bd1ee94f42442d13d6513215a5018614123352732644fe8a6a50f3d69bc50f",
+      "matches_final_peer": true
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-CORRECTED-CONDITION-DISPOSITIONS.json",
+      "bytes": 19650,
+      "sha256": "14a7d9d3fb3bea97f6e2ca905ae6d33b0bffcaede580f6a564ee932261de6ec8",
+      "matches_final_peer": true
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-DIRECT-BIOSAMPLE-OBSERVATIONS.json",
+      "bytes": 15274,
+      "sha256": "e7b57cc4510c2d46108c97bc4718a73d24e6bea95e99a59a3ce9882990eba2a9",
+      "matches_final_peer": true
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-RECONCILIATION-RECEIPT.json",
+      "bytes": 1179,
+      "sha256": "2804d7386722c29544c0b28c5f2219b7c442a80ff2b432b6760405d59a0f2de4",
+      "matches_final_peer": true
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-RECONCILIATION-VALIDATION.json",
+      "bytes": 2212,
+      "sha256": "76b106f1200ba3baefaaea62c9b4da85c862d4a827cc8b242e71047508c35621",
+      "matches_final_peer": true
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/ADDITIONAL-GSM-ELIGIBILITY-OBSERVATIONS.json",
+      "bytes": 443427,
+      "sha256": "68a4c16010d388e28508a26ab99bfb3ab9a7b69e8e2fe0923bdd20fd331c09bc",
+      "matches_final_peer": true
+    }
+  ],
+  "relative_evidence_links": [
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "RECONCILIATION.txt",
+      "target": "RECONCILIATION.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/RECONCILIATION.txt",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "HANDOFF.txt",
+      "target": "HANDOFF.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/HANDOFF.txt",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "REPORT.txt",
+      "target": "REPORT.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/REPORT.txt",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "Named FAPI",
+      "target": "fapi_named/RESULTS.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_named/RESULTS.txt",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "Broader FAPI",
+      "target": "fapi_broader/RESULTS.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/RESULTS.txt",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "Single-cell packet",
+      "target": "single_cell/",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "corrected BO-112 identities",
+      "target": "single_cell/BO112-RECONCILIATION-AMENDMENT.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-RECONCILIATION-AMENDMENT.txt",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "Radiotherapy",
+      "target": "radiotherapy/RESULTS.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/radiotherapy/RESULTS.txt",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "Diagnostic assays",
+      "target": "diagnostic/REPORT.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/diagnostic/REPORT.txt",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "Kinetics/source challenge",
+      "target": "challenge/PILOT-REPORT.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/challenge/PILOT-REPORT.txt",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "CONCURRENCY.json",
+      "target": "CONCURRENCY.json",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/CONCURRENCY.json",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "ROUND-CONTRACT.json",
+      "target": "ROUND-CONTRACT.json",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/ROUND-CONTRACT.json",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "CLOUD-OWNERSHIP.json",
+      "target": "CLOUD-OWNERSHIP.json",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/CLOUD-OWNERSHIP.json",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "SOURCE-REUSE.json",
+      "target": "SOURCE-REUSE.json",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/SOURCE-REUSE.json",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "label": "verify_reused_export.py",
+      "target": "verify_reused_export.py",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/verify_reused_export.py",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-handoff/CLOUD-HANDOFF.md",
+      "label": "INDEX.md",
+      "target": "../fresh-discovery-2026-10-04-round6/INDEX.md",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/INDEX.md",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-handoff/CLOUD-HANDOFF.md",
+      "label": "REPORT.txt",
+      "target": "../fresh-discovery-2026-10-04-round6/REPORT.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/REPORT.txt",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-handoff/CLOUD-HANDOFF.md",
+      "label": "RECONCILIATION.txt",
+      "target": "../fresh-discovery-2026-10-04-round6/RECONCILIATION.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/RECONCILIATION.txt",
+      "exists": true
+    },
+    {
+      "document": "research/autonomy/fresh-discovery-2026-10-04-handoff/CLOUD-HANDOFF.md",
+      "label": "BO-112 amendment",
+      "target": "../fresh-discovery-2026-10-04-round6/single_cell/BO112-RECONCILIATION-AMENDMENT.txt",
+      "resolved_path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/BO112-RECONCILIATION-AMENDMENT.txt",
+      "exists": true
+    }
+  ],
+  "relative_link_count": 19,
+  "HEMCSS_scope_check": {
+    "object_id": "OBJ-LINE-HEMCSS",
+    "status": "identity_disputed",
+    "verdict": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD",
+    "may_not_ground": [
+      "any claim of the form 'EMC expresses X' / 'EMC's surface phenotype is Y'",
+      "any EMC-specific dependency, sensitivity or biomarker reading",
+      "any corroboration of EMC's neuroendocrine differentiation",
+      "the description of this repository as having a real EMC cell line in public data"
+    ],
+    "three_new_search_uses": [
+      {
+        "file": "research/autonomy/fresh-discovery-2026-10-04-round6/challenge/SINGLE-CELL-ALIAS-SEARCH-RECEIPT.json",
+        "use": "Exact-alias GEO catalogue search receipt",
+        "classification": "unaffected",
+        "why_unaffected": "The disputed alias is a query term only. A zero returned count is explicitly limited to this query and does not establish model identity, EMC biology or universal data absence."
+      },
+      {
+        "file": "research/autonomy/fresh-discovery-2026-10-04-round6/challenge/SINGLE-CELL-CHALLENGE-CONTRACT.json",
+        "use": "Prospective source-omission search alias",
+        "classification": "unaffected",
+        "why_unaffected": "The plan requires authenticated suitable measurements and treats a catalogue query as discovery of sources, not an authenticated EMC specimen or a disease measurement."
+      },
+      {
+        "file": "research/autonomy/fresh-discovery-2026-10-04-round6/challenge/SINGLE-CELL-INDEPENDENT-REVIEW-FINAL.json",
+        "use": "Bounded alias-search and source-eligibility review",
+        "classification": "unaffected",
+        "why_unaffected": "The alias appears in a reported omission search with explicit indexing and coverage limits; no phenotype or EMC model authentication is grounded on the disputed line."
+      }
+    ]
+  },
+  "preservation": {
+    "original_lead_reader_path": "LEAD-SUMMARY-REVIEW.json",
+    "sha256": "37a3daa5b183651f4dcaa563851f669b624c8dd79bb1f880e3d77a4212f18dbc",
+    "original_manifest_entries_unchanged": 32,
+    "original_scientific_bodies_not_rewritten": true
+  },
+  "corrections_requested": [],
+  "decision": "PASS final reader scope; maintain all existing shelving and coverage duties. Lead may integrate this additive review after exact source-copy and repository gates; no scientific promotion is implied.",
+  "recheck_if": "Any reviewed root document, corrected BO-112 disposition, independent challenge or authoritative handoff bytes change; exact peer integration copies must match the bound hash.",
+  "restrictions": {
+    "quiet_file_work_only": true,
+    "no_new_source_retrieval": true,
+    "no_UI_browser_screenshot_headless": true,
+    "no_restricted_science_reopened": true,
+    "no_paid_GPU_outreach_publication_PR_external_record_shared_write_or_push": true,
+    "owned_processes_running": false,
+    "resource_reservation": "remains reserved through lead integration"
+  },
+  "storage": {
+    "retained_owned_packet_bytes_before_review": 10976676,
+    "retained_raw_and_copies_limit_bytes": 67108864,
+    "free_bytes": 27679162368,
+    "free_floor_bytes": 10737418240
+  },
+  "document_registration_review": {
+    "receipt": "research/autonomy/fresh-discovery-2026-10-04-round6/CLOUD-DOCUMENT-REGISTRATION.json",
+    "sha256": "6cd9166b795e81d6c48af67a357696f7b64f1886b91221c87109ba919c06c2f4",
+    "checks": [
+      {
+        "path": "research/autonomy/fresh-discovery-2026-10-04-round6/radiotherapy/PLAN.md",
+        "original_git_reference": "50b774c49f46d3db98a68485bf8d57597824b7a1:research/autonomy/fresh-discovery-2026-10-04-round6/radiotherapy/PLAN.md",
+        "original_sha256": "3dfe8ace16ea208c22567dc1c5bd645e3305aeb99f8e78cf87623c5d456dabb6",
+        "export_sha256": "e391210382118ef945836b67927b90f366af753a56deb16bf3e0f9eba23057a3",
+        "scientific_body_sha256": "0a5e8b7386d1b8c0d3dfc6c3fcbd7ac1be4129dbe046ee6b01ab9ce0d59fe14e",
+        "header_only": true,
+        "scientific_body_byte_identical": true
+      },
+      {
+        "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/PLAN.md",
+        "original_git_reference": "50b774c49f46d3db98a68485bf8d57597824b7a1:research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/PLAN.md",
+        "original_sha256": "f8226fa0db9c3a95ee753690e9019cfbe7d4b60dccea45b147e0d62e552a7626",
+        "export_sha256": "58684d28c75e76e2977bb8d9991138d3847f456440313675d3254cfca8ce7965",
+        "scientific_body_sha256": "e578dd2582e682d4dc671ae72487f9fc693b4458593e22ecacefe9e90d9bb691",
+        "header_only": true,
+        "scientific_body_byte_identical": true
+      }
+    ],
+    "conclusion": "Both changes affect schema registration only: kind preregistration→prereg, status→immutable, valid audience, and RT id prefix. Original hypotheses, conditions and stopping rules remain byte exact in scientific bodies. Worker freezes bind original hashes; integration exports bind current hashes. No source or scientific gate is weakened; normal repository rerun remains the lead responsibility."
+  }
+}
