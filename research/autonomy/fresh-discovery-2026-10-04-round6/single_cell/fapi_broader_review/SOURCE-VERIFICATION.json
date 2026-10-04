@@ -1,0 +1,1831 @@
+{
+  "utc": "2026-10-04T22:31:55.487817+00:00",
+  "scope": "Independent original clinical roster arithmetic and source hashes, bounded five-source review",
+  "all_checks_passed": true,
+  "checks": [
+    {
+      "check": "MANIFEST.json binding",
+      "passed": true,
+      "details": {
+        "entries": 25,
+        "mismatches": []
+      }
+    },
+    {
+      "check": "ADDITIVE-MANIFEST.json binding",
+      "passed": true,
+      "details": {
+        "entries": 7,
+        "mismatches": []
+      }
+    },
+    {
+      "check": "Hirmas2023 entire macro roster",
+      "passed": true,
+      "details": {
+        "original_rows": [
+          [
+            "Sarcoma",
+            "131 (40%)"
+          ],
+          [
+            "Pancreas",
+            "67 (21%)"
+          ],
+          [
+            "Brain",
+            "22 (7%)"
+          ],
+          [
+            "Lung",
+            "14 (4%)"
+          ],
+          [
+            "Pleura",
+            "12 (4%)"
+          ],
+          [
+            "Cholangiocellular",
+            "11 (3%)"
+          ],
+          [
+            "Colorectal",
+            "11 (3%)"
+          ],
+          [
+            "Prostate",
+            "11 (3%)"
+          ],
+          [
+            "Head and neck",
+            "9 (3%)"
+          ],
+          [
+            "Bladder",
+            "8 (3%)"
+          ],
+          [
+            "Lymphoma",
+            "7 (2%)"
+          ],
+          [
+            "Myeloma",
+            "6 (2%)"
+          ],
+          [
+            "Ovarian",
+            "4 (1%)"
+          ],
+          [
+            "Breast",
+            "3 (1%)"
+          ],
+          [
+            "Duodenum",
+            "2 (1%)"
+          ],
+          [
+            "Other*",
+            "6 (2%)"
+          ]
+        ],
+        "patients": 324
+      }
+    },
+    {
+      "check": "Hirmas2023 all sarcoma leaves",
+      "passed": true,
+      "details": {
+        "rows": 18,
+        "patients": 131
+      }
+    },
+    {
+      "check": "Hirmas2023 all remaining histology leaves",
+      "passed": true,
+      "details": {
+        "rows": 43,
+        "patients": 193,
+        "generic_remaining_patients": 5
+      }
+    },
+    {
+      "check": "Hirmas2023 eleven Other+ source labels",
+      "passed": true,
+      "details": {
+        "labels": [
+          "Epitheloid sarcoma",
+          "follicular dendritic sarcoma",
+          "giant cell tumor",
+          "gastrointestinal neuroendocrine tumor (G-NET)",
+          "hemangioendothelioma",
+          "hemangiopericytoma",
+          "myofibroblastic sarcoma",
+          "peripheral nerve sheath tumor",
+          "soft tissue sarcoma",
+          "synchronous adenosarcoma-carcinoma",
+          "vulvar sarcoma"
+        ],
+        "n_each": 1
+      }
+    },
+    {
+      "check": "Hirmas2024 all eight entities",
+      "passed": true,
+      "details": {
+        "patients": 115,
+        "rows": [
+          [
+            "Prostate",
+            "22 (19%)"
+          ],
+          [
+            "Head and neck",
+            "18 (16%)"
+          ],
+          [
+            "Breast",
+            "16 (14%)"
+          ],
+          [
+            "Colorectal",
+            "15 (13%)"
+          ],
+          [
+            "Bladder",
+            "12 (10%)"
+          ],
+          [
+            "Myeloma",
+            "12 (10%)"
+          ],
+          [
+            "Kidney",
+            "10 (9%)"
+          ],
+          [
+            "Lymphoma",
+            "10 (9%)"
+          ]
+        ]
+      }
+    },
+    {
+      "check": "Hirmas2024 explicit sarcoma exclusion in selected clinical excerpt",
+      "passed": true,
+      "details": {
+        "scope": "Selected source-bound clinical excerpt; no full article/tissue inspection"
+      }
+    },
+    {
+      "check": "ThreeTimePoint entire14-type roster",
+      "passed": true,
+      "details": {
+        "rows": [
+          [
+            "Sarcoma",
+            "2"
+          ],
+          [
+            "Anal cancer",
+            "4"
+          ],
+          [
+            "Colorectal cancer",
+            "6"
+          ],
+          [
+            "Lung cancer",
+            "11"
+          ],
+          [
+            "Pancreatic cancer",
+            "5"
+          ],
+          [
+            "Esophageal cancer",
+            "2"
+          ],
+          [
+            "Head and neck cancer",
+            "3"
+          ],
+          [
+            "Adrenocortical carcinoma",
+            "3"
+          ],
+          [
+            "Breast cancer",
+            "2"
+          ],
+          [
+            "Ovarian cancer",
+            "1"
+          ],
+          [
+            "Bladder cancer",
+            "1"
+          ],
+          [
+            "Lymphoma",
+            "1"
+          ],
+          [
+            "Prostate cancer",
+            "1"
+          ],
+          [
+            "Neuroblastoma",
+            "1"
+          ]
+        ],
+        "patients": 43,
+        "generic_sarcoma_donors": 2,
+        "conditions": "10min/1h/3h after one injection; dependent repeated acquisition, not additional donors"
+      }
+    },
+    {
+      "check": "Liver2026 all19 categories",
+      "passed": true,
+      "details": {
+        "patients": 76,
+        "lesions": 189,
+        "source_rows": [
+          [
+            "Gastrointestinal stromal tumors",
+            "1 (2)"
+          ],
+          [
+            "Hepatocellular carcinoma",
+            "3 (5)"
+          ],
+          [
+            "Nasopharyngeal carcinoma",
+            "7 (18)"
+          ],
+          [
+            "Cholangiocarcinoma",
+            "1 (1)"
+          ],
+          [
+            "Gallbladder cancer",
+            "1 (1)"
+          ],
+          [
+            "Pleomorphic sarcoma",
+            "1 (7)"
+          ],
+          [
+            "Solitary fibroma",
+            "1 (1)"
+          ],
+          [
+            "Rhabdomyosarcoma",
+            "1 (1)"
+          ],
+          [
+            "Synovial sarcoma",
+            "1 (9)"
+          ],
+          [
+            "Chordoma",
+            "1 (1)"
+          ],
+          [
+            "Colorectal cancer",
+            "12 (18)"
+          ],
+          [
+            "Ovarian cancer",
+            "6 (11)"
+          ],
+          [
+            "Follicular dendritic cell Sarcoma",
+            "1 (1)"
+          ],
+          [
+            "Leiomyosarcoma",
+            "1 (1)"
+          ],
+          [
+            "Dedifferentiated liposarcoma",
+            "1 (2)"
+          ],
+          [
+            "Neuroendocrine tumor, G2",
+            "1 (5)"
+          ],
+          [
+            "Dendritic cell sarcoma",
+            "1 (7)"
+          ],
+          [
+            "Gastric cancer",
+            "7 (16)"
+          ],
+          [
+            "Pancreatic cancer",
+            "28 (82)"
+          ]
+        ]
+      }
+    },
+    {
+      "check": "Liver2026 all76 original donor rows and both tracer conditions",
+      "passed": true,
+      "details": {
+        "source_rows": [
+          {
+            "source_table": "S1",
+            "source_id": 1,
+            "original_cells": [
+              "1",
+              "male",
+              "48",
+              "interdigitating dendritic cell sarcoma",
+              "0",
+              "7",
+              "7",
+              "0"
+            ],
+            "pair_lesion_total": 7,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 2,
+            "original_cells": [
+              "2",
+              "male",
+              "70",
+              "liposarcoma",
+              "2",
+              "0",
+              "2",
+              "0"
+            ],
+            "pair_lesion_total": 2,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 3,
+            "original_cells": [
+              "3",
+              "male",
+              "69",
+              "solitary fibrous tumor",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 4,
+            "original_cells": [
+              "4",
+              "female",
+              "59",
+              "pleomorphic sarcoma",
+              "7",
+              "0",
+              "6",
+              "1"
+            ],
+            "pair_lesion_total": 7,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 5,
+            "original_cells": [
+              "5",
+              "female",
+              "47",
+              "leiomyosarcoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 6,
+            "original_cells": [
+              "6",
+              "female",
+              "55",
+              "synovial sarcoma",
+              "8",
+              "1",
+              "8",
+              "1"
+            ],
+            "pair_lesion_total": 9,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 7,
+            "original_cells": [
+              "7",
+              "female",
+              "56",
+              "neuroendocrine neoplasm",
+              "0",
+              "5",
+              "1",
+              "4"
+            ],
+            "pair_lesion_total": 5,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 8,
+            "original_cells": [
+              "8",
+              "male",
+              "56",
+              "hepatocellular carcinoma",
+              "1",
+              "0",
+              "0",
+              "1"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 9,
+            "original_cells": [
+              "9",
+              "female",
+              "49",
+              "hepatocellular carcinoma",
+              "2",
+              "1",
+              "3",
+              "0"
+            ],
+            "pair_lesion_total": 3,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 10,
+            "original_cells": [
+              "10",
+              "male",
+              "62",
+              "cholangiocarcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 11,
+            "original_cells": [
+              "11",
+              "female",
+              "27",
+              "gastric carcinoma",
+              "1",
+              "1",
+              "2",
+              "0"
+            ],
+            "pair_lesion_total": 2,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 12,
+            "original_cells": [
+              "12",
+              "male",
+              "61",
+              "gastric carcinoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 13,
+            "original_cells": [
+              "13",
+              "male",
+              "68",
+              "gastric carcinoma",
+              "5",
+              "2",
+              "7",
+              "0"
+            ],
+            "pair_lesion_total": 7,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 14,
+            "original_cells": [
+              "14",
+              "male",
+              "76",
+              "gastric carcinoma",
+              "1",
+              "0",
+              "0",
+              "1"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 15,
+            "original_cells": [
+              "15",
+              "male",
+              "57",
+              "gastric carcinoma",
+              "3",
+              "0",
+              "3",
+              "0"
+            ],
+            "pair_lesion_total": 3,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 16,
+            "original_cells": [
+              "16",
+              "male",
+              "67",
+              "gastric carcinoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 17,
+            "original_cells": [
+              "17",
+              "male",
+              "43",
+              "colorectal carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 18,
+            "original_cells": [
+              "18",
+              "male",
+              "65",
+              "colorectal carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 19,
+            "original_cells": [
+              "19",
+              "female",
+              "51",
+              "colorectal carcinoma",
+              "2",
+              "0",
+              "2",
+              "0"
+            ],
+            "pair_lesion_total": 2,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 20,
+            "original_cells": [
+              "20",
+              "male",
+              "49",
+              "colorectal carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 21,
+            "original_cells": [
+              "21",
+              "female",
+              "52",
+              "colorectal carcinoma",
+              "4",
+              "1",
+              "5",
+              "0"
+            ],
+            "pair_lesion_total": 5,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 22,
+            "original_cells": [
+              "22",
+              "male",
+              "82",
+              "colorectal carcinoma",
+              "2",
+              "0",
+              "2",
+              "0"
+            ],
+            "pair_lesion_total": 2,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 23,
+            "original_cells": [
+              "23",
+              "male",
+              "47",
+              "colorectal carcinoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 24,
+            "original_cells": [
+              "24",
+              "male",
+              "51",
+              "colorectal carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 25,
+            "original_cells": [
+              "25",
+              "male",
+              "69",
+              "pancreatic carcinoma",
+              "8",
+              "0",
+              "8",
+              "0"
+            ],
+            "pair_lesion_total": 8,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 26,
+            "original_cells": [
+              "26",
+              "female",
+              "76",
+              "pancreatic carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 27,
+            "original_cells": [
+              "27",
+              "male",
+              "55",
+              "pancreatic carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 28,
+            "original_cells": [
+              "28",
+              "female",
+              "51",
+              "pancreatic carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 29,
+            "original_cells": [
+              "29",
+              "female",
+              "69",
+              "pancreatic carcinoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 30,
+            "original_cells": [
+              "30",
+              "male",
+              "42",
+              "pancreatic carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 31,
+            "original_cells": [
+              "31",
+              "female",
+              "71",
+              "pancreatic carcinoma",
+              "6",
+              "5",
+              "11",
+              "0"
+            ],
+            "pair_lesion_total": 11,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 32,
+            "original_cells": [
+              "32",
+              "male",
+              "67",
+              "pancreatic carcinoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 33,
+            "original_cells": [
+              "33",
+              "female",
+              "58",
+              "pancreatic carcinoma",
+              "6",
+              "0",
+              "6",
+              "0"
+            ],
+            "pair_lesion_total": 6,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 34,
+            "original_cells": [
+              "34",
+              "male",
+              "85",
+              "pancreatic carcinoma",
+              "12",
+              "0",
+              "12",
+              "0"
+            ],
+            "pair_lesion_total": 12,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 35,
+            "original_cells": [
+              "35",
+              "male",
+              "51",
+              "pancreatic carcinoma",
+              "3",
+              "0",
+              "3",
+              "0"
+            ],
+            "pair_lesion_total": 3,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 36,
+            "original_cells": [
+              "36",
+              "male",
+              "56",
+              "pancreatic carcinoma",
+              "3",
+              "5",
+              "8",
+              "0"
+            ],
+            "pair_lesion_total": 8,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 37,
+            "original_cells": [
+              "37",
+              "female",
+              "62",
+              "pancreatic carcinoma",
+              "2",
+              "2",
+              "4",
+              "0"
+            ],
+            "pair_lesion_total": 4,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 38,
+            "original_cells": [
+              "38",
+              "male",
+              "55",
+              "pancreatic carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 39,
+            "original_cells": [
+              "39",
+              "male",
+              "59",
+              "pancreatic carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 40,
+            "original_cells": [
+              "40",
+              "male",
+              "59",
+              "pancreatic carcinoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 41,
+            "original_cells": [
+              "41",
+              "male",
+              "62",
+              "pancreatic carcinoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 42,
+            "original_cells": [
+              "42",
+              "male",
+              "34",
+              "pancreatic carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 43,
+            "original_cells": [
+              "43",
+              "female",
+              "55",
+              "pancreatic carcinoma",
+              "2",
+              "0",
+              "2",
+              "0"
+            ],
+            "pair_lesion_total": 2,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 44,
+            "original_cells": [
+              "44",
+              "male",
+              "60",
+              "pancreatic carcinoma",
+              "1",
+              "3",
+              "4",
+              "0"
+            ],
+            "pair_lesion_total": 4,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 45,
+            "original_cells": [
+              "45",
+              "female",
+              "69",
+              "pancreatic carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 46,
+            "original_cells": [
+              "46",
+              "male",
+              "57",
+              "pancreatic carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 47,
+            "original_cells": [
+              "47",
+              "male",
+              "56",
+              "pancreatic carcinoma",
+              "2",
+              "1",
+              "3",
+              "0"
+            ],
+            "pair_lesion_total": 3,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 48,
+            "original_cells": [
+              "48",
+              "female",
+              "58",
+              "pancreatic carcinoma",
+              "1",
+              "1",
+              "2",
+              "0"
+            ],
+            "pair_lesion_total": 2,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 49,
+            "original_cells": [
+              "49",
+              "female",
+              "68",
+              "pancreatic carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 50,
+            "original_cells": [
+              "50",
+              "female",
+              "61",
+              "pancreatic carcinoma",
+              "1",
+              "2",
+              "3",
+              "0"
+            ],
+            "pair_lesion_total": 3,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 51,
+            "original_cells": [
+              "51",
+              "male",
+              "44",
+              "nasopharynx carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 52,
+            "original_cells": [
+              "52",
+              "male",
+              "49",
+              "nasopharynx carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 53,
+            "original_cells": [
+              "53",
+              "male",
+              "29",
+              "nasopharynx carcinoma",
+              "4",
+              "4",
+              "8",
+              "0"
+            ],
+            "pair_lesion_total": 8,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 54,
+            "original_cells": [
+              "54",
+              "male",
+              "58",
+              "nasopharynx carcinoma",
+              "2",
+              "1",
+              "3",
+              "0"
+            ],
+            "pair_lesion_total": 3,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 55,
+            "original_cells": [
+              "55",
+              "male",
+              "79",
+              "nasopharynx carcinoma",
+              "3",
+              "0",
+              "3",
+              "0"
+            ],
+            "pair_lesion_total": 3,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 56,
+            "original_cells": [
+              "56",
+              "male",
+              "58",
+              "nasopharynx carcinoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 57,
+            "original_cells": [
+              "57",
+              "male",
+              "40",
+              "nasopharynx carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 58,
+            "original_cells": [
+              "58",
+              "female",
+              "54",
+              "ovarian carcinoma",
+              "3",
+              "0",
+              "2",
+              "1"
+            ],
+            "pair_lesion_total": 3,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 59,
+            "original_cells": [
+              "59",
+              "female",
+              "44",
+              "ovarian carcinoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 60,
+            "original_cells": [
+              "60",
+              "female",
+              "66",
+              "ovarian carcinoma",
+              "4",
+              "0",
+              "4",
+              "0"
+            ],
+            "pair_lesion_total": 4,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S1",
+            "source_id": 61,
+            "original_cells": [
+              "61",
+              "female",
+              "62",
+              "ovarian carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 1,
+            "original_cells": [
+              "1",
+              "fe male",
+              "48",
+              "ovarian carcinoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 2,
+            "original_cells": [
+              "2",
+              "fe male",
+              "58",
+              "g allbladder carcinoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 3,
+            "original_cells": [
+              "3",
+              "fe male",
+              "6 3",
+              "hepatocellular carcinoma",
+              "0",
+              "1",
+              "0",
+              "1"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 4,
+            "original_cells": [
+              "4",
+              "female",
+              "44",
+              "follicular dendritic cell sarcoma",
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 5,
+            "original_cells": [
+              "5",
+              "female",
+              "29",
+              "rhabdomyosarcoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 6,
+            "original_cells": [
+              "6",
+              "female",
+              "48",
+              "Gastrointestinal stromal tumor",
+              "2",
+              "0",
+              "2",
+              "0"
+            ],
+            "pair_lesion_total": 2,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 7,
+            "original_cells": [
+              "7",
+              "female",
+              "74",
+              "ovarian carcinoma",
+              "0",
+              "1",
+              "0",
+              "1"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 8,
+            "original_cells": [
+              "8",
+              "male",
+              "56",
+              "colorectal carcinoma",
+              "0",
+              "1",
+              "0",
+              "1"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 9,
+            "original_cells": [
+              "9",
+              "male",
+              "67",
+              "colorectal carcinom a",
+              "0",
+              "1",
+              "0",
+              "1"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 10,
+            "original_cells": [
+              "10",
+              "male",
+              "6 5",
+              "gastric carcinoma",
+              "0",
+              "1",
+              "1",
+              "0"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 11,
+            "original_cells": [
+              "11",
+              "female",
+              "6 4",
+              "colorectal carcinom a",
+              "0",
+              "1",
+              "0",
+              "1"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 12,
+            "original_cells": [
+              "12",
+              "male",
+              "50",
+              "pancreatic carcinom a",
+              "0",
+              "1",
+              "0",
+              "1"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 13,
+            "original_cells": [
+              "13",
+              "male",
+              "6 9",
+              "colorectal carcinom a",
+              "0",
+              "1",
+              "0",
+              "1"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 14,
+            "original_cells": [
+              "14",
+              "fe male",
+              "34",
+              "colorectal carcinom a",
+              "0",
+              "1",
+              "0",
+              "1"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          },
+          {
+            "source_table": "S2",
+            "source_id": 15,
+            "original_cells": [
+              "1 5",
+              "female",
+              "6 7",
+              "chordoma",
+              "0",
+              "1",
+              "0",
+              "1"
+            ],
+            "pair_lesion_total": 1,
+            "tracer_totals_equal": true
+          }
+        ],
+        "mismatches": [],
+        "tables": [
+          {
+            "table": "S1",
+            "donors": 61,
+            "lesions": 173
+          },
+          {
+            "table": "S2",
+            "donors": 15,
+            "lesions": 16
+          }
+        ],
+        "normalization": "Only whitespace/case for comparison, including split source glyph words; original cells retained above."
+      }
+    },
+    {
+      "check": "Liver2026 classification inconsistency preserved",
+      "passed": true,
+      "details": {
+        "explicit_sarcoma_plus_GIST_chordoma_SFT_donors": 10,
+        "lesions": 32,
+        "source_assertion": "11sarcomas/37lesions",
+        "unassigned_difference": "G2NET row supplies1/5 numerically; this does not justify reclassification."
+      }
+    },
+    {
+      "check": "Interobserver original teaching and guide PDF hashes",
+      "passed": true,
+      "details": {
+        "independent_visual_verification": "All four diagnoses and conditions in cached caption render; guidep1 workbook/PatientsA-I; guidep3 reader access provisions. Outside daily ban.",
+        "teaching_donors_not_crosswalked": true,
+        "full_workbook_access_attempted": false
+      }
+    },
+    {
+      "check": "Interobserver complete macro source counts",
+      "passed": true,
+      "details": {
+        "patients": 50,
+        "generic_sarcoma_donors": 10,
+        "availability": "Unlocated named workbook does not establish public access; no full50 histology claim."
+      }
+    },
+    {
+      "check": "Interobserver additive availability correction and unchanged originals",
+      "passed": true,
+      "details": {
+        "amendment_sha256": "9b2de2c54ff5b85de0929f7200e3bb2aee7ebcc17c6d9332650dedbc1762e613",
+        "full_workbook": "unavailable evidence; actual public access unresolved",
+        "evaluated": "five macro categories and four public teaching cases",
+        "decision_changed": false,
+        "private_access_attempted": false
+      }
+    }
+  ],
+  "input_bindings": [
+    {
+      "path": "MANIFEST.json",
+      "bytes": 4032,
+      "sha256": "4a5508aca6ab37c817b8a55f990c36eb68b2d37926e7879b3d22dc8937f7b130",
+      "disposition": "committed owner freeze",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/MANIFEST.json"
+    },
+    {
+      "path": "ADDITIVE-MANIFEST.json",
+      "bytes": 1444,
+      "sha256": "f7f42d2d67bcfafc7c94c35341841929513233816c01093dc1fddbf4d2d4b2a2",
+      "disposition": "committed owner freeze",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/ADDITIVE-MANIFEST.json"
+    },
+    {
+      "path": "PLAN.json",
+      "bytes": 2335,
+      "sha256": "988be0fa7376c77b0b2cd988c01421082a16d81e9d7716e3888790ed35651adc",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/PLAN.json"
+    },
+    {
+      "path": "COVERAGE.json",
+      "bytes": 8670,
+      "sha256": "7f262566d016d8d55101360e5cac2bef13f7070c4c8256803328184ed1087578",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/COVERAGE.json"
+    },
+    {
+      "path": "DECISION.json",
+      "bytes": 1674,
+      "sha256": "c6701fe1e3fc8c4c8aa6a0bd1493590088e921ee2d83c9c16615e3ef515cfe9e",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/DECISION.json"
+    },
+    {
+      "path": "HANDOFF.txt",
+      "bytes": 3994,
+      "sha256": "a8a66c3112de8de6d15a3f4d4bc5485480ec88cb3ffac8d5e5f292b7eea21443",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/HANDOFF.txt"
+    },
+    {
+      "path": "PORTABILITY.json",
+      "bytes": 13719,
+      "sha256": "7528e9cee0a5b0b14c85da257012df7a44c1dab35183be3cbaf7a7aa60717276",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/PORTABILITY.json"
+    },
+    {
+      "path": "clinical-eligibility-excerpts.json",
+      "bytes": 18780,
+      "sha256": "4bf2894c8df13e06752f1fa68842f0911887d362b76cf7f3e310b9824efb11bf",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/clinical-eligibility-excerpts.json"
+    },
+    {
+      "path": "hirmas2023-roster.json",
+      "bytes": 3315,
+      "sha256": "2d27bb466bf935a946d717cec1e715fa6bd29b5f0ab0740a0d6ce02bfc520277",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/hirmas2023-roster.json"
+    },
+    {
+      "path": "hirmas2024-roster.json",
+      "bytes": 717,
+      "sha256": "727a47e456c075209515b6faf2f531cbbef3622aae4cd3f95e6aeb4cc90fa257",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/hirmas2024-roster.json"
+    },
+    {
+      "path": "liver2026-rosters.json",
+      "bytes": 27530,
+      "sha256": "ec4b79ac1aec5826660064df305759a2eeadc872a60d599fec6d5578ec2a3b51",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/liver2026-rosters.json"
+    },
+    {
+      "path": "three-timepoint-roster.json",
+      "bytes": 1018,
+      "sha256": "9cd25711aa019197e1db2e3ef0cb494024abe31dc109444eb24f12c3f61160c5",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/three-timepoint-roster.json"
+    },
+    {
+      "path": "interobserver-teaching-eligibility.json",
+      "bytes": 2697,
+      "sha256": "4bec2cabf3134e2e1acc5e233a08de59d79b002d26b049822fadab66c336bed4",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/interobserver-teaching-eligibility.json"
+    },
+    {
+      "path": "HIRMAS-HISTOLOGY-COMPLETENESS-AMENDMENT.json",
+      "bytes": 6904,
+      "sha256": "64609e3e57353de22b2b039b688b147f22f91540832bc87a8c02c3d50c5c1d2e",
+      "disposition": "committed owner evidence",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/HIRMAS-HISTOLOGY-COMPLETENESS-AMENDMENT.json"
+    },
+    {
+      "path": "raw/hirmas2023_popup1.html",
+      "bytes": 9814,
+      "sha256": "119f4d992fca3d50ae9b4419f160a19c78ed1043ceb40b586b28c068c80e925f",
+      "disposition": "owner-cache-only; read in place, not copied",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/hirmas2023_popup1.html"
+    },
+    {
+      "path": "raw/hirmas2023_supp.pdf",
+      "bytes": 2395122,
+      "sha256": "74061f4122069ced8160b7dae3804bedfdf3ae5b6a9e7fcd718335fe1ce73346",
+      "disposition": "owner-cache-only; selected clinical pages only",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/hirmas2023_supp.pdf"
+    },
+    {
+      "path": "raw/hirmas2024_popup1.html",
+      "bytes": 8226,
+      "sha256": "e8c4d97a33ff78c1460ae98c27e8c715db87e2d6fac2833376d6d50d97765751",
+      "disposition": "owner-cache-only; read in place, not copied",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/hirmas2024_popup1.html"
+    },
+    {
+      "path": "raw/hirmas2024_supp.pdf",
+      "bytes": 160472,
+      "sha256": "1d80c17f1dec3749d9cd7614097dfab48ba4b16caeca2b66a66b1dc5e78b7db9",
+      "disposition": "owner-cache-only; clinical pages/snippets inspected only, excluded tissue sections not read",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/hirmas2024_supp.pdf"
+    },
+    {
+      "path": "raw/hirmas2023_supp.txt",
+      "bytes": 24834,
+      "sha256": "5aebe89e71f8e832067c91ea86a18b0670e6b2d9bb7c75a90d154d87ca69bc43",
+      "disposition": "owner-cache-only; clinical pages/snippets inspected only, excluded tissue sections not read",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/hirmas2023_supp.txt"
+    },
+    {
+      "path": "raw/three_timepoint_jnm.html",
+      "bytes": 282346,
+      "sha256": "bfa5f488fc638ec4d5ae7d8d4f4e205058d187eac5b7c77dc98127061be4c083",
+      "disposition": "owner-cache-only; clinical pages/snippets inspected only, excluded tissue sections not read",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/three_timepoint_jnm.html"
+    },
+    {
+      "path": "raw/interobserver2023_jnm.html",
+      "bytes": 322617,
+      "sha256": "a7667bc43f4667ae3586ae4622c0d4b1ea5e18575fbaebc7f69b1afe825518cb",
+      "disposition": "owner-cache-only; clinical pages/snippets inspected only, excluded tissue sections not read",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/interobserver2023_jnm.html"
+    },
+    {
+      "path": "raw/three_timepoint_table1.html",
+      "bytes": 4141,
+      "sha256": "57c531f784f28a2a65a63977d05e7ffccd5a66188ddf2792fc53eef3270e0503",
+      "disposition": "owner-cache-only; read in place, not copied",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/three_timepoint_table1.html"
+    },
+    {
+      "path": "raw/liver2026_table1.html",
+      "bytes": 209323,
+      "sha256": "22433907cc187e76f54442c94253ff8d971a8b3217595875dd8392a9f8db0ec7",
+      "disposition": "owner-cache-only; read in place, not copied",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/liver2026_table1.html"
+    },
+    {
+      "path": "raw/liver2026_supp.docx",
+      "bytes": 36027,
+      "sha256": "1137d230cb8747be5551c648b44d5184e5200ab6300f9bae3e77815e77064265",
+      "disposition": "owner-cache-only; original clinical roster",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/liver2026_supp.docx"
+    },
+    {
+      "path": "raw/interobserver2023_teaching.pdf",
+      "bytes": 2849056,
+      "sha256": "0bd0d2a90f2b5870d84cb7c41c4de6d2199d6d9ff8b2c3735e1c7231d7262664",
+      "disposition": "owner-cache-only public supplement/caption render; read in place",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/interobserver2023_teaching.pdf"
+    },
+    {
+      "path": "raw/interobserver2023_guide.pdf",
+      "bytes": 335461,
+      "sha256": "6e89d80ff368db23feb76283b1b49d4cb2d8eda0edcae33aaa3de69be7ba150c",
+      "disposition": "owner-cache-only public supplement/caption render; read in place",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/interobserver2023_guide.pdf"
+    },
+    {
+      "path": "raw/teaching-captions.png",
+      "bytes": 142794,
+      "sha256": "faab4d29b20b77782ab785436b66289f2cd00acf11091c9d87313e89a220530f",
+      "disposition": "owner-cache-only public supplement/caption render; read in place",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/teaching-captions.png"
+    },
+    {
+      "path": "raw/guide-page1.png",
+      "bytes": 244427,
+      "sha256": "90e0acaf8d0c7b90c433cc12c7b07b9a5273b99c3a56963c7fe4852899938d65",
+      "disposition": "owner-cache-only public supplement/caption render; read in place",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/guide-page1.png"
+    },
+    {
+      "path": "raw/guide-page3.png",
+      "bytes": 56687,
+      "sha256": "af307bad6f168d9da8f1d37771268bd9ede2c1dcb45bf2d6ccf87088cd65f9cb",
+      "disposition": "owner-cache-only public supplement/caption render; read in place",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/raw/guide-page3.png"
+    },
+    {
+      "path": "AVAILABILITY-AMENDMENT-01.json",
+      "bytes": 4274,
+      "sha256": "9b2de2c54ff5b85de0929f7200e3bb2aee7ebcc17c6d9332650dedbc1762e613",
+      "disposition": "committed additive access clarification; original freeze unchanged",
+      "actual_read_location": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/AVAILABILITY-AMENDMENT-01.json"
+    }
+  ],
+  "limitations": [
+    "Originals are owner cache only; read in place, not copied into reviewer or Git.",
+    "Clinical excerpts were reviewed at selected release resolution; excluded tissue sections were not inspected.",
+    "This verifies identity/access suitability and counts, not a biological or imaging effect in EMC.",
+    "All generic identities and donor/date/treatment/cohort-overlap gaps remain unresolved."
+  ],
+  "no_new_data_retrieval": true,
+  "no_EMC_effect_estimation": true
+}
