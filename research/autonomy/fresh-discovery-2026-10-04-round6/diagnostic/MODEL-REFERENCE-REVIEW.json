@@ -1,0 +1,29 @@
+{
+  "utc": "2026-10-04T22:18:22.491837+00:00",
+  "reviewer": "Independent Codex diagnostic worker /root/diagnostic",
+  "scope": "Named systems-map gate dependency; read only the two requested single-cell plan/report files. No gate, model registry or scientific record was changed. No source retrieval or restricted-lane content was accessed.",
+  "files": [
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/PLAN.md",
+      "sha256": "f8226fa0db9c3a95ee753690e9019cfbe7d4b60dccea45b147e0d62e552a7626",
+      "model": "MUG-EMCS",
+      "classification": "strict exclusion and provenance reference",
+      "current_EMC_inference_uses_model": false,
+      "use": "MUG-EMCS is not accepted as EMC without NR4A3 identity.",
+      "why": "The reference refuses unauthenticated EMC identity. No expression, state, dependency, response or other EMC measurement is inferred from this model in the inspected file."
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/REPORT.txt",
+      "sha256": "35eddaf011f7985642db5b9844f905a336d197c8253bc7995eac86b2c9063330",
+      "model": "MUG-EMCS",
+      "classification": "strict exclusion and provenance reference",
+      "current_EMC_inference_uses_model": false,
+      "use": "MUG-EMCS was not assumed to be EMC.",
+      "why": "The reference refuses unauthenticated EMC identity. No expression, state, dependency, response or other EMC measurement is inferred from this model in the inspected file."
+    }
+  ],
+  "conclusion": "Both references are exclusions/provenance, not EMC inferences using the disputed model. This classification does not authenticate MUG-EMCS as EMC or establish non-EMC identity, and it does not resolve the lane's pending public evidence coverage.",
+  "scientific_decision_unchanged": true,
+  "computer_use": "Quiet file reads only",
+  "running_processes": []
+}
