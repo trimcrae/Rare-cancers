@@ -1,0 +1,151 @@
+{
+  "utc": "2026-10-04T22:43:33.667467+00:00",
+  "reviewer": "Independent Codex diagnostic worker /root/diagnostic",
+  "scope": "Six current cloud lanes only; read-only worker-to-lead path/hash, retained cache-manifest, payload and portability audit plus three named disputed-model reference classifications. No remote-other-host lane, ownership record, gate or registry was changed.",
+  "lead_commit_at_check": "f5cd71aae36b720d958980d98664df8677de2212",
+  "tracked_scope_files": 199,
+  "tracked_scope_bytes": 2584636,
+  "lanes": [
+    {
+      "lane": "diagnostic",
+      "tracked_files": 19,
+      "tracked_bytes": 83561,
+      "worker_paths_missing": [],
+      "unexpected_lead_paths": [],
+      "worker_to_lead_hash_differences": [],
+      "manifested_cache_entries_checked": 25,
+      "manifested_cache_bytes_actual": 15973526,
+      "cache_manifest_errors": [],
+      "manifested_cache_bytes_within_64MiB": true
+    },
+    {
+      "lane": "fapi_named",
+      "tracked_files": 32,
+      "tracked_bytes": 219016,
+      "worker_paths_missing": [],
+      "unexpected_lead_paths": [],
+      "worker_to_lead_hash_differences": [],
+      "manifested_cache_entries_checked": 25,
+      "manifested_cache_bytes_actual": 3421901,
+      "cache_manifest_errors": [],
+      "manifested_cache_bytes_within_64MiB": true
+    },
+    {
+      "lane": "fapi_broader",
+      "tracked_files": 36,
+      "tracked_bytes": 197224,
+      "worker_paths_missing": [],
+      "unexpected_lead_paths": [],
+      "worker_to_lead_hash_differences": [],
+      "manifested_cache_entries_checked": 59,
+      "manifested_cache_bytes_actual": 10779452,
+      "cache_manifest_errors": [],
+      "manifested_cache_bytes_within_64MiB": true
+    },
+    {
+      "lane": "radiotherapy",
+      "tracked_files": 25,
+      "tracked_bytes": 577727,
+      "worker_paths_missing": [],
+      "unexpected_lead_paths": [],
+      "worker_to_lead_hash_differences": [],
+      "manifested_cache_entries_checked": 38,
+      "manifested_cache_bytes_actual": 34424400,
+      "cache_manifest_errors": [],
+      "manifested_cache_bytes_within_64MiB": true
+    },
+    {
+      "lane": "single_cell",
+      "tracked_files": 60,
+      "tracked_bytes": 1390865,
+      "worker_paths_missing": [],
+      "unexpected_lead_paths": [],
+      "worker_to_lead_hash_differences": [],
+      "manifested_cache_entries_checked": 482,
+      "manifested_cache_bytes_actual": 58438790,
+      "cache_manifest_errors": [],
+      "manifested_cache_bytes_within_64MiB": true
+    },
+    {
+      "lane": "challenge",
+      "tracked_files": 27,
+      "tracked_bytes": 116243,
+      "worker_paths_missing": [],
+      "unexpected_lead_paths": [],
+      "worker_to_lead_hash_differences": [],
+      "manifested_cache_entries_checked": 16,
+      "manifested_cache_bytes_actual": 5015853,
+      "cache_manifest_errors": [],
+      "manifested_cache_bytes_within_64MiB": true
+    }
+  ],
+  "manifested_cache_total_entries_checked": 645,
+  "manifested_cache_total_bytes_checked": 128053922,
+  "payload_screen": {
+    "tracked_files_over_1MiB": [],
+    "tracked_original_binary_fulltext_suffixes": [],
+    "tracked_complete_article_extract_filenames": [],
+    "tracked_files_byte_identical_to_manifested_raw_cache": [],
+    "largest_tracked_file": {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/ADDITIONAL-GSM-ELIGIBILITY-OBSERVATIONS.json",
+      "bytes": 443427
+    },
+    "inspected_compact_examples": [
+      "Radiotherapy discovery catalogue projects 1,338 records to source/ID/PMID/PMCID/DOI/year/title, without abstracts or full article text.",
+      "Single-cell library tables contain 424 selected condition/identity metadata projections; these are neither expression matrices nor independent donor counts.",
+      "SCTUMOR-TABLE1-EXTRACT is a selected source-roster table; FAPI excerpts contain selected clinical roster/eligibility passages and tables. Full PDFs/article-body extracts remain cache-only."
+    ]
+  },
+  "single_cell_389_catalogue": {
+    "actual_bytes": 2939223,
+    "actual_sha256": "2c646c9e708858822d9c691d784490c8b4c17f59372da9a5d750bcafe65080c1",
+    "tracked_in_Git": false,
+    "additive_record_matches_actual_hash": true,
+    "bindings": [
+      "single_cell/ADDITIVE-CACHE-PORTABILITY.json",
+      "challenge/SOURCE-BINDING-PORTABILITY-AMENDMENT.json"
+    ],
+    "reuse_limit": "Exact catalogue review requires preserved original cache or reconstruction from the documented cached response order; a compact inventory/manifest is not equivalent to the 389-entry source catalogue. Current API retrieval can change and is not automatic exact reproduction."
+  },
+  "disputed_model_reference_review": [
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/challenge/SINGLE-CELL-ALIAS-SEARCH-RECEIPT.json",
+      "sha256": "f96df52a829996a455a5e3f79d04b42f18cd7624ac7e2349ae4265409d0caefe",
+      "model_reference": "H-EMC-SS historical alias of disputed HE-MCSS; MUG-EMCS appears in the same search context",
+      "classification": "Historical-alias source discovery, omission-check protocol or source-review provenance; no current EMC scientific inference from the disputed model.",
+      "use": "One bounded exact-alias catalogue omission search, not evaluation of public biology or evidence of universal absence.",
+      "why": "References specify or report a bounded GEO alias search, not a measured model experiment. The zero-result query retains translation/indexing warnings and expressly does not establish absence of all public model measurements or authenticate a disputed model as EMC."
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/challenge/SINGLE-CELL-CHALLENGE-CONTRACT.json",
+      "sha256": "b1424f3334122ff0b65463cf798d1f87e44e6d0161d3eac84858fc5a5abb1f83",
+      "model_reference": "H-EMC-SS historical alias of disputed HE-MCSS; MUG-EMCS appears in the same search context",
+      "classification": "Historical-alias source discovery, omission-check protocol or source-review provenance; no current EMC scientific inference from the disputed model.",
+      "use": "Independent omission/identity/value check of frozen round6 single-cell eligibility; no biological-expression inspection",
+      "why": "References specify or report a bounded GEO alias search, not a measured model experiment. The zero-result query retains translation/indexing warnings and expressly does not establish absence of all public model measurements or authenticate a disputed model as EMC."
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/challenge/SINGLE-CELL-INDEPENDENT-REVIEW-FINAL.json",
+      "sha256": "704d647098efa378f6f07233adeee0f9467aa86bb177f211020d2fcf3961f112",
+      "model_reference": "H-EMC-SS historical alias of disputed HE-MCSS; MUG-EMCS appears in the same search context",
+      "classification": "Historical-alias source discovery, omission-check protocol or source-review provenance; no current EMC scientific inference from the disputed model.",
+      "use": "Independent source discovery/omission, exact original identity-condition extraction, donor/technical replication and scientific-value challenge; no expression values, biological validation or manuscript review.",
+      "why": "References specify or report a bounded GEO alias search, not a measured model experiment. The zero-result query retains translation/indexing warnings and expressly does not establish absence of all public model measurements or authenticate a disputed model as EMC."
+    }
+  ],
+  "storage": {
+    "filesystem_free_bytes": 27650727936,
+    "minimum_free_bytes": 10737418240,
+    "no_deletion_or_folder_move": true
+  },
+  "limitations": [
+    "This is source integrity/storage/provenance verification, not independent scientific reproduction, a medical validation or full public-EMC coverage certification.",
+    "Cache counts above cover manifest-registered originals/copies; they do not claim every later additive cache byte is in an earlier frozen manifest. Worker budget receipts additionally account for derived packet copies.",
+    "Git intentionally omits source originals and full article extracts; replay scripts may require existing cache recovery and relocation of explicit /workspace paths. Windows raw recovery caches were not loaded.",
+    "Radiotherapy SOURCE-HASHES.json preserves a missing precise request-timestamp gap for the overwritten first XML receipt batch; file mtime is not an acquisition receipt.",
+    "All scientific pending/unavailable coverage and shelving decisions remain unchanged. This review used quiet file reads only, with no new network retrieval, UI/rendering, paid resources, GPU, outreach, publication or external-record edit."
+  ],
+  "issues": [],
+  "decision": "No accidental tracked original/bulky payload or path/hash loss found in the inspected six-lane scope; explicit portability gaps remain.",
+  "running_processes": []
+}
