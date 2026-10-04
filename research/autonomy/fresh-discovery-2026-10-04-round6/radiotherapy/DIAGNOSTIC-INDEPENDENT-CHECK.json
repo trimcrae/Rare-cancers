@@ -1,0 +1,40 @@
+{
+  "utc": "2026-10-04T22:17:26.778148+00:00",
+  "reviewer": "Codex /root/radiotherapy, distinct from diagnostic owner",
+  "artifact_hashes": {
+    "REPORT.txt": "36b48d83e532648c91cb14b8fa40f2ccaf74cb61fc1bc9cbd5a7718345a137ed",
+    "OBSERVATIONS.json": "d592848aa032178bf4dbf513a5bcf9e1120f9742c96f17723094baa2eb0f5580",
+    "COVERAGE.json": "9d73ebc7df7fdcc966b3c687372c226912b084cf965543cc0836f25a0d1d809a",
+    "DECISION.json": "87b749bd0dee1b7a6cf3b82aafbd19542dc2a89736ba5165cb31cbd5cc95b259"
+  },
+  "primary_source_pdf_sha256": "06db9d812ed21b6ec3b487bbac17f6fb63a424d8473e7d7aa807ba4cb28bf6d4",
+  "separately_regenerated_pdf_text_sha256": "c2cdc0bb2a2313fd781908cf28f4710252c5cbe599bdc294ab3a10e2ccd43bef",
+  "primary_abstract_cache_sha256": "46166b3218862fe36cb6caa10652052f6a3b73a2287892dc50fc886521b19332",
+  "decision_scientific_projection_sha256": "a40c46b687c28fb39d79983c71fbcb3e8eefc9ddd8952dad10c5847a33a9165c",
+  "operational_receipt_update": "Final DECISION changes only independent_review and independent_review_reference; all scientific decision/validity/value/reopening/gap flags preserved.",
+  "source_checks": {
+    "all16_table_rows_exact": true,
+    "EMC31_with_bins9_2_5_12_and3_negative": true,
+    "all187_mimics_and11_positive": true,
+    "all31_NR4A3_and24vs7_EWSR1": true,
+    "distinct_acid_decalcified_and_repeat_biopsy_cases": true,
+    "three_positive_needle_biopsies_no_new_donors": true,
+    "Lenz16_stains_13positive_original31percent_limit": true
+  },
+  "scope": "Focused source/value review of unchanged diagnostic claim; CHRNA6 baseline audit reused, not reacquired.",
+  "finding": "Original INSM1 work already reports incomplete positivity, mimic positives and distinct preanalytic/specimen discordance; Lenz already reports threshold-sensitive low broad staining. No new useful paired CHRNA6/INSM1 finding is demonstrated.",
+  "small_source_wording_correction": "Repeat biopsy is reported as focal INSM1 reactivity; its individual extent/intensity and crossing the >=5% moderate/strong criterion are not quantified in that discussion. Preserve this uncertainty; do not update the sensitivity denominator.",
+  "correction_status": "Owner corrected REPORT and OBSERVATIONS before this final bound receipt; quantitative results and shelving unchanged.",
+  "independent_omission_screen": {
+    "cached_source_sha256": "5e3ef5fc57aa60bf8f35196eb036abbd988776241f2352f99d8988fb888d1493",
+    "cached_hits_inspected": 190,
+    "comparison": "Independently inspected cached87-hit INSM1 title/abstract query and190-hit EMC diagnostic query for measured-marker/identity eligibility, beyond final owner tables.",
+    "additional_hit": "PMID42621976 skull-base generic myxoid chondrosarcoma: source abstract explicitly says IHC and molecular characterization could not be performed; no authentic paired-marker measurement. Not counted as EMC or confirmed non-EMC.",
+    "scope_limit": "This is a bounded cached discovery/eligibility challenge, not a fresh full-corpus search or certification of all public coverage."
+  },
+  "strongest_alternative": "Between-study aggregate differences may reflect assay dilution/intensity/extent thresholds, specimen handling and selected cohort/morphology spectrum; none is identified as a biological marker mechanism.",
+  "omissions_and_limits": "Huang2023 primary tables/denominator remain pending suitable accessible analysis; Zhang generic chondrosarcoma identities, later variant series, individual paired markers and donor overlap remain unresolved. This review reuses existing omission discovery and does not certify public corpus closure.",
+  "decision": "Shelve standalone diagnostic paper on present evidence; no new challenge to an important existing claim demonstrated. Suitable pending sources would block promotion.",
+  "reopening": "Authenticated paired per-case marker/handling/molecular/mimic measurements with donor crosswalks supporting a distinct unanswered useful comparison.",
+  "computational_status": "All stated source/arithmetic/coverage assertions passed; no pooled sensitivity, efficacy claim or external action."
+}
