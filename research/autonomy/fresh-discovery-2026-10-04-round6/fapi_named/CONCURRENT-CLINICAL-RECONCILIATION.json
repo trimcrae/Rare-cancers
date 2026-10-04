@@ -1,0 +1,145 @@
+{
+  "utc": "2026-10-04T22:40:31.894434+00:00",
+  "scope": "Additive read-only reconciliation of concurrent clinical identity and frozen cloud FAPI evidence; no new retrieval or frozen-science edits",
+  "concurrent_source_commit": "6bc942c888a60cf0194f8437ecd92e36f2e5568e",
+  "compared_artifacts": [
+    {
+      "authority": "concurrent main",
+      "commit": "6bc942c888a60cf0194f8437ecd92e36f2e5568e",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/clinical_identity/eligibility-results.json",
+      "sha256": "eeb26f650e23a1519aad80d79f2bb318dc77b3b8f096981130ee84ea7b5dc372"
+    },
+    {
+      "authority": "concurrent main",
+      "commit": "6bc942c888a60cf0194f8437ecd92e36f2e5568e",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/clinical_identity/COVERAGE.json",
+      "sha256": "231133069dd6b7c1627036acf61f66cb41235cc8abb58c152e9a6644f0d9632f"
+    },
+    {
+      "authority": "concurrent main",
+      "commit": "6bc942c888a60cf0194f8437ecd92e36f2e5568e",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/clinical_identity/RESULTS.txt",
+      "sha256": "eeb33738c52e3984370f31e03f80b325516edef5a363d764dc8ae986812af8c0"
+    },
+    {
+      "authority": "concurrent main",
+      "commit": "6bc942c888a60cf0194f8437ecd92e36f2e5568e",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/clinical_identity/independent-clinical-review.json",
+      "sha256": "b5bcfdcec5fb26703eb5d50db6a28ae1d9861c14ab5f6c111d728bf525e08c55"
+    },
+    {
+      "authority": "concurrent main",
+      "commit": "6bc942c888a60cf0194f8437ecd92e36f2e5568e",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/clinical_identity/timepoint-title-metadata.json",
+      "sha256": "1ffe4a644f773b885ee7684b76e0bbdc30d9ba3e866fbb7ed7e4aca02282e6ab"
+    },
+    {
+      "authority": "our frozen broader packet",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/liver2026-rosters.json",
+      "sha256": "ec4b79ac1aec5826660064df305759a2eeadc872a60d599fec6d5578ec2a3b51"
+    },
+    {
+      "authority": "our frozen broader packet",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/three-timepoint-roster.json",
+      "sha256": "9cd25711aa019197e1db2e3ef0cb494024abe31dc109444eb24f12c3f61160c5"
+    },
+    {
+      "authority": "our frozen broader packet",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/hirmas2023-roster.json",
+      "sha256": "2d27bb466bf935a946d717cec1e715fa6bd29b5f0ab0740a0d6ce02bfc520277"
+    },
+    {
+      "authority": "our frozen broader packet",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/HIRMAS-HISTOLOGY-COMPLETENESS-AMENDMENT.json",
+      "sha256": "64609e3e57353de22b2b039b688b147f22f91540832bc87a8c02c3d50c5c1d2e"
+    },
+    {
+      "authority": "our frozen broader packet",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/interobserver-teaching-eligibility.json",
+      "sha256": "4bec2cabf3134e2e1acc5e233a08de59d79b002d26b049822fadab66c336bed4"
+    },
+    {
+      "authority": "our frozen broader packet",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/COVERAGE.json",
+      "sha256": "7f262566d016d8d55101360e5cac2bef13f7070c4c8256803328184ed1087578"
+    },
+    {
+      "authority": "our frozen broader packet",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_broader/RESULTS.txt",
+      "sha256": "33a3483a728f73e0bf5e0da597b7be5de0e2d177c8bbe235ef887e9f2f772233"
+    },
+    {
+      "authority": "our frozen named packet",
+      "commit": "b85aca7822d2b81c9dff27a7f31d0ad0ed03b0da",
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/fapi_named/RESULTS.json",
+      "sha256": "08e474615fd235c0722e6dc0f107efd72b1201d8beda576dc729675664b00bc7"
+    }
+  ],
+  "exact_derived_checks": {
+    "liver_all76_rows_equal": true,
+    "fields": [
+      "source table/ID",
+      "sex",
+      "age",
+      "histology",
+      "FDG positive/negative lesion counts",
+      "FAPI positive/negative lesion counts"
+    ],
+    "normalization": "Numeric IDs/age converted to integers; sex/histology lowercase and whitespace normalized. Counts preserved exactly.",
+    "canonical76_sha256": "4fa4be6f1190cffac31a784e87e1a5e77bebc5280d8e188ebdabc333cca9df05",
+    "same_original_liver_DOCX_sha256": "1137d230cb8747be5551c648b44d5184e5200ab6300f9bae3e77815e77064265",
+    "three_timepoint_all14_categories_equal": true,
+    "three_timepoint_donors": 43,
+    "generic_sarcoma_donors": 2
+  },
+  "reconciliation": [
+    {
+      "source": "LiverMetastases2026",
+      "status": "Verified evaluation reused; both packets agree on every released76 donor row and all tracer counts",
+      "limit": "Same DOCX bytes mean these are duplicate source evaluations, not independent validation cohorts. Both preserve S1:4 generic pleomorphic identity and11sarcoma/37lesion source-classification ambiguity; no recoding or EMC inference."
+    },
+    {
+      "source": "ThreeTimePointFAPI46",
+      "status": "Concurrent indexed-text14-category evaluation and our recovered original JNM HTML/table evaluation agree exactly",
+      "historical_access": "Concurrent original XML/PDF failures remain truthful as-at receipts. Our original HTML/table recovery resolves only that source-byte access gap at released categorical resolution.",
+      "limit": "Both generic sarcoma identities and10min/1hour/3hours measurement crosswalk remain unresolved; repeated scans are not donors."
+    },
+    {
+      "source": "Hirmas2023",
+      "status": "Concurrent main/supplement-unavailable abstract gate is superseded only for released aggregate roster coverage by our subsequent successful original HTML/Table1/supplement evaluation",
+      "current_resolution": "All324 macro/leaf categories and all131 sarcoma subtype counts evaluated in our completeness amendment. Supplemental explicit prior subgroup reuse47/69/91 is reusable evidence, not proof of exact donor crosswalk.",
+      "limit": "Generic labels and individual diagnosis/date/same-lesion/therapy crosswalk remain unavailable. Do not leave the recovered main/supplement classified globally unavailable, or call all131 patients individually authenticated."
+    },
+    {
+      "source": "Hirmas2024",
+      "status": "Agreement: original Methods explicitly excludes sarcoma; analyzed115 cohort unsuitable for EMC comparison",
+      "limit": "Registry sarcoma exists in separately reported sources; exclusion is not negative EMC uptake."
+    },
+    {
+      "source": "InternationalFAPIInterobserver2023",
+      "status": "Concurrent original mainPDF50 macro evaluation reused; our later original guide and all4 teaching-caption evaluations resolve those historical supplemental access portions",
+      "remaining": "All10 generic sarcoma identities, full50-ID subtype/case crosswalk and named reader workbook remain incomplete. The separately described1 test-patient dataset also remains unresolved;4 teaching cases do not close that gap.",
+      "limit": "Teaching examples have no cohort crosswalk and are not additional independent donors. GuideFAPI04 versus main/teachingFAPI46 discrepancy preserved."
+    }
+  ],
+  "new_reusable_details": {
+    "Gu2022_liver_overlap": "Concurrent packet directly rechecked unchanged R5 Gu primary source: Fudan Shanghai Cancer Center, IRB2004216-25, May2020–May2021 overlaps liver May2020–April2023. This strengthens possible overlap but does not establish donor identity.",
+    "source_queries": "Concurrent COVERAGE preserves incidental JNM2025 abstract66(suppl1):252150 with18metastaticSTS/seven incompletely namedsubtypes and other2026 citation leads as unevaluated routes, not EMC results."
+  },
+  "bibliographic_erratum": {
+    "source": "Naeimi2023 DOI10.2967/jnumed.122.264941",
+    "source_metadata_pageInfo": "618-622",
+    "correct_citation": "J Nucl Med2023;64:618–622",
+    "our_frozen_coverage_citation": "618–623",
+    "handling": "Additive bibliographic correction only; frozen historical bytes unchanged, no scientific effect."
+  },
+  "decision": "Agreement: no new publication-worthy EMC finding, standalone FAPI paper stays shelved, search not exhausted. No source/donor pooling and no claim of absent EMC uptake.",
+  "reopen": "Only authenticated public EMC identity-to-scan/lesion evidence satisfying preserved <=28-day/no-intervening-therapy, verification and independence gates, followed by complete relevant conditions/contrary evidence and scientific-value reassessment.",
+  "actual_verification": [
+    "git show against exact concurrent commit, no merge or branch mutation",
+    "All76 derived liver fields and14 timepoint categories compared programmatically",
+    "Same original DOCX SHA checked; artifact byte hashes captured",
+    "No raw copies, source retrieval, UI operations or frozen artifact edits performed"
+  ],
+  "ownership": "One new owned reconciliation JSON; coordinator alone integrates/pushes. No owned scientific process running."
+}
