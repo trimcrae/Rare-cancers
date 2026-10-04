@@ -1,0 +1,1614 @@
+{
+  "schema": "emc-r6-concurrent-checkpoint-portability-review/1",
+  "utc": "2026-10-04T22:38:49.703742+00:00",
+  "reviewer": "Codex /root/radiotherapy",
+  "exact_source_revision": "6bc942c888a60cf0194f8437ecd92e36f2e5568e",
+  "repository": "trimcrae/Rare-cancers",
+  "packet_root": "research/autonomy/fresh-discovery-2026-10-04-round6/",
+  "scope": "Independent byte/hash/source-availability check only. No scientific interpretation, restricted-science content review, raw-source acquisition or claimed reanalysis.",
+  "inventory": {
+    "path": "research/autonomy/fresh-discovery-2026-10-04-round6/PORTABLE-INVENTORY.json",
+    "bytes": 29581,
+    "sha256": "fef382b9338bf7e740ddc06f43211441a93b49fa306f4874c5e2045df7f55fdf",
+    "entries": 138,
+    "git_export": 109,
+    "cache_only": 29
+  },
+  "validation_method": [
+    "Read inventory/integration JSON metadata with git show at exact pinned revision, never current checkout content for expected exports.",
+    "For every git_export read exact git blob and compare raw byte length plus SHA256; no newline or frontmatter normalization.",
+    "For each integration source hash confirm inventory agreement; verify all portable file_hashes against exact committed blobs.",
+    "Read only metadata/presence for cache-only entries; skip their payloads expressly. No raw source retrieval.",
+    "Confirm referenced lane MANIFEST/FREEZE hashes at exact revision."
+  ],
+  "frontmatter_transformations": "No special transformation was required: all109 git_export entries matched raw committed bytes exactly. This check would report rather than normalize any mismatch.",
+  "portable_file_checks": [
+    {
+      "path": "clinical_identity/COVERAGE.json",
+      "bytes": 6809,
+      "sha256": "231133069dd6b7c1627036acf61f66cb41235cc8abb58c152e9a6644f0d9632f",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/detail-fetch-receipts.json",
+      "bytes": 1641,
+      "sha256": "96dbbd120fef2865fac65bf2a7fd48c3296612e449a77cff13bffcbb7d800919",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/eligibility-results.json",
+      "bytes": 47267,
+      "sha256": "eeb26f650e23a1519aad80d79f2bb318dc77b3b8f096981130ee84ea7b5dc372",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/evaluate_eligibility.py",
+      "bytes": 8964,
+      "sha256": "0a49be65de56f7d9db6812533aaf247971ead3c08cf0259929d16a45ddeacf74",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/extract_details.py",
+      "bytes": 1293,
+      "sha256": "b8bc5fd6ba2fbf8af8ad80dd8dcddc1c913aa6313d412a8acb03f9fe1f196c8a",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/fetch_details.py",
+      "bytes": 728,
+      "sha256": "510da47c8689b359fc5fa7285b22a58ac49fb30e3f9d8d62e5777434de791b6c",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/fetch_hirmas_pdf.py",
+      "bytes": 208,
+      "sha256": "f52786f0daa258b91c4b02e28e07b323d86944e600e48ae905aace6e680fdb18",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/fetch_primary.py",
+      "bytes": 799,
+      "sha256": "9250780d7862a8188c676de835d3b2092a4608ccc010eec8a29c903e3bb29ff6",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/fetch_sources.py",
+      "bytes": 1713,
+      "sha256": "6f4cd3b6e92e83adfbdbc211980ee2252bdd2bac0a2e32ee7ac3a9745b365fc5",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/fetch_supplement_links.py",
+      "bytes": 426,
+      "sha256": "bedf155956e25e02718729d694a60ec164e06525fa9bcdb8acf198a7426aa246",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/final-source-search.json",
+      "bytes": 31218,
+      "sha256": "965a1a8044f3d7f87340b0386647fb987f91785e34b4a812aa91ed925d301158",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/FREEZE.json",
+      "bytes": 954,
+      "sha256": "931a284c2eabd531797473561a210bd9112eaf5fe4c44c3a32ffdb145ac0bc96",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/freeze_packet.py",
+      "bytes": 3021,
+      "sha256": "5ad448eef5720a095ef6e6834547da606608b5f1f7728ad77b523b8d51061a67",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/GIT-STATUS.json",
+      "bytes": 397,
+      "sha256": "8b518bbba8e9cb44b22a007bc3cfa866610ff0a9c23c1a456c80352a727b4883",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/HANDOFF.txt",
+      "bytes": 3848,
+      "sha256": "76eb75bcc1fcd7def7f90f6488d9f707b35f19c037ff94e0702880763bda8b09",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/hirmas-pdf-receipt.json",
+      "bytes": 193,
+      "sha256": "fe4cae02adfec6ffdac36e8666ea248c5a6686671b30d70dcff73eefd1d7bb12",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/hirmas2023-metadata.json",
+      "bytes": 14422,
+      "sha256": "b5f807aaa743c72dfd20a99272dfc2f1bb06855f84dea999593114e8867fbe3b",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/hirmas2024-exclusion-web.json",
+      "bytes": 28359,
+      "sha256": "6e08d5445a9e45ccd26f48a3425204f3c1c989a71462ed3c35802b258dd65503",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/hirmas2024-metadata.json",
+      "bytes": 12912,
+      "sha256": "c3f160962fb34ddcf56074c449a2c4e05944464a1d105ed140e03174460e369b",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/independent-clinical-review.json",
+      "bytes": 2877,
+      "sha256": "b5bcfdcec5fb26703eb5d50db6a28ae1d9861c14ab5f6c111d728bf525e08c55",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/independent-regulatory-review.json",
+      "bytes": 3055,
+      "sha256": "1d43745f9889b074b933383ffa61363140cafa1eb8dd9cbdf92200f9405bdc8c",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/inspect_primary.py",
+      "bytes": 1146,
+      "sha256": "94344545ea935e0c5f8bc0ccb533107470d8180f5dac75f1bdc3d4148cbff278",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/inspect_routes.py",
+      "bytes": 661,
+      "sha256": "b09689790dd8cb5a63ff7b5a0fb62ed668323ecd437954fab624b401c306f683",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/interobserver-metadata.json",
+      "bytes": 13384,
+      "sha256": "511ba1091a02bf769b8449d987325c0f52579dfbd69d4c728b273ba56e3f3f06",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/interobserver-pages.json",
+      "bytes": 32701,
+      "sha256": "8b5ab65177b7f17ae60808f32dabdc0f814585f1699761478bc4019cee5e51b3",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/interobserver-pdf-links.json",
+      "bytes": 168,
+      "sha256": "4231959ff7456c78ce105f0ff95718d95f9894fd478f3f4cf74dcc77f31c06ea",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/liver-extracted.json",
+      "bytes": 20668,
+      "sha256": "cc34d61a51a307d2124ab128eccce15e84230c45481b7ef7cb8383bad3253622",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/liver2026-metadata.json",
+      "bytes": 193,
+      "sha256": "9aee2b51055c2480fdbc9168cd5427ad6bf456c1987faec607e8a6697735292b",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/MANIFEST.json",
+      "bytes": 7849,
+      "sha256": "9da8ed8cba68b6f9f865acb79aa9b9ed88b1011791f37db9316723786f8dc2c5",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/metadata-fetch-receipts.json",
+      "bytes": 2561,
+      "sha256": "23d7ba1fe970f075127fd505006a6b9e4395bb8ac0afdd0c2f67744726c61200",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/openalex-fetch-receipt.json",
+      "bytes": 384,
+      "sha256": "00eb62fd3102d032124e6335d9e0b79f430e5735e1ff2c61f714456754d1a461",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/PLAN.json",
+      "bytes": 3993,
+      "sha256": "d0e81f7800d7859781b5ca98dedf295ca6c0aa16760c6e49f5a7d603e895f025",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/primary-fetch-receipts.json",
+      "bytes": 1710,
+      "sha256": "88f5eb2a24b0c6d7c4959c76ed797dd2a7ce2483321fa74d91f0fb77096ac7bd",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/primary-identity-search.json",
+      "bytes": 25704,
+      "sha256": "a8c6d994f479ad5a01d71694735e495b9db4a987933f93e9c2d7e7ccc4361111",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/primary-structure.json",
+      "bytes": 1551,
+      "sha256": "3f5d70d5df14d3abd5dfe39f6bf5cb70f467beec7efacc44acff5a24b02f79ef",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/primary-title-search.json",
+      "bytes": 27993,
+      "sha256": "1614699755e3e2e3e705b58e8e55984786cecee685c7b5c9b34b23b0010982a6",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/primary-web-search.json",
+      "bytes": 29903,
+      "sha256": "9ec135a11901b18a58d69f6c815e8147d482e1b3570ee378aa627e9d6863ed2e",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/RESULTS.txt",
+      "bytes": 5895,
+      "sha256": "eeb33738c52e3984370f31e03f80b325516edef5a363d764dc8ae986812af8c0",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/review_regulatory.py",
+      "bytes": 3723,
+      "sha256": "73c433094c827e5ed91cbe83a6c1d97ca31b971df457aafd2f44e1d13ec8a73d",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/supplement-link-fetch-receipts.json",
+      "bytes": 416,
+      "sha256": "88b93831bcddcdbd67f345193e56c7dfab86bb9c6ee275704f434e8be2ed0cc7",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/timepoint-metadata.json",
+      "bytes": 181,
+      "sha256": "abd2bc26e5b8a55d24ee1a2ac088537c9b8f03b6dc4dabd657fed8384f97c7b5",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/timepoint-title-metadata.json",
+      "bytes": 9208,
+      "sha256": "1ffe4a644f773b885ee7684b76e0bbdc30d9ba3e866fbb7ed7e4aca02282e6ab",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "clinical_identity/web-access-receipt.json",
+      "bytes": 1130,
+      "sha256": "1d151cb768acc88d4316d3a148451ab28342b9d63f471284e82be11638d261b8",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "DISPATCH.json",
+      "bytes": 686,
+      "sha256": "5647f01d6c8326e2880bc57e7cfdeae77ff1821743a6e9c68893130a980716a7",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "FINAL-STATE.json",
+      "bytes": 1116,
+      "sha256": "5c2e2f7d6d2834a8772a0db20efed09b63ae2c54f5e07ce5dded3af8a99ecdbc",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "HANDOFF.txt",
+      "bytes": 5728,
+      "sha256": "833057152e152857cfce3fda3b39352222e4a1c5e3b9d00e593a6ffff0e27c5a",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "INTEGRATION-clinical_identity.json",
+      "bytes": 7957,
+      "sha256": "8db7708e9492c59cdedbef2815efd78d4a15fbf836ff55e9013f960c2623c5e9",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "INTEGRATION-nr4a3_regulatory.json",
+      "bytes": 5832,
+      "sha256": "42b48d1996c5d1f11af70325e297aa110b91f8d22a16c9dc929ea88f7dfea1ca",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "INTEGRATION-spatial_omics.json",
+      "bytes": 6638,
+      "sha256": "65fb11956832a8a8ab56607ab110c268d7891dcab4cf68a79fab76347e521fe0",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "LEAD-BO112-CROSSWALK-PLAN.json",
+      "bytes": 1566,
+      "sha256": "8b01f58e9fc87fa74671d3320ea2d0661808b00aa0064e65d07ef8e7daadb151",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "LEAD-BO112-CROSSWALK.json",
+      "bytes": 2434,
+      "sha256": "adfb1587921f7b3f5c8e7501e815969b517cc834520418aa50731dd55d4061cd",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/AMENDMENT-01.txt",
+      "bytes": 492,
+      "sha256": "3aec42fe5ed0c2b32311b767e307ddd5ad2f9fe4854019031de478a21c2d6a58",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/apply_review_correction.py",
+      "bytes": 2753,
+      "sha256": "f921c9986b90968b4ed45fce70273b245463fbde38de4979b239afd77fdb9189",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/bind_independent_review.py",
+      "bytes": 771,
+      "sha256": "805fc354a8c94b80fb404b99fb6f037605138a500a949481bc57c8a82236fd7d",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/clinical-independent-review.json",
+      "bytes": 2877,
+      "sha256": "b5bcfdcec5fb26703eb5d50db6a28ae1d9861c14ab5f6c111d728bf525e08c55",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/COVERAGE.txt",
+      "bytes": 5654,
+      "sha256": "dcfdc68d8ba1fbe8c960444a835f9bfd8ae5165c3b34d6a487effe40ea50100f",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/evaluate_gate.py",
+      "bytes": 5674,
+      "sha256": "6d01f1407c00d3d622028f16ab9120ba201662a04a44a93810238e258d393d61",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/evaluation.json",
+      "bytes": 3246,
+      "sha256": "9719024f35cb201c423eaf85825f8f29ff7d699eaf29f660b44c2483cf15424d",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/fetch_contrary.py",
+      "bytes": 1072,
+      "sha256": "bb9d78da5d924d0eff0bdc475cc29d421a4a39168dcc965b8f3862e148b73f14",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/fetch_gate.py",
+      "bytes": 1945,
+      "sha256": "bf289c9ab26a57f3c237da092af00a449933b439c90d2e81b74fb8db785d7f9d",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/FREEZE.json",
+      "bytes": 799,
+      "sha256": "a89028dc6318c733d1e4b674ea00abde2fe80a1b0d63c51903ed82080e8036c7",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/freeze_packet.py",
+      "bytes": 2523,
+      "sha256": "5dcdfb8c19362c09e758099b0bf49bfcb1463b85edda5876980882edbea6c69b",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/geo-four-condition-evaluation.json",
+      "bytes": 2163,
+      "sha256": "015da8bb1f273d96a75327231d8748126c24d2c4831d9bcef2a369f37fa936d1",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/geo-retrieval.json",
+      "bytes": 1435,
+      "sha256": "3ec086091d2167e9dfd43f417a8bf8c4b3b19e44c37735532910204f7900cbab",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/HANDOFF.txt",
+      "bytes": 3040,
+      "sha256": "a0f11b5745c567557a2a67bb9e07a125d2eddd4ee5cb94ef42c6e2846fd0a6ad",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/independent-review-binding.json",
+      "bytes": 3526,
+      "sha256": "320909baaf2332e088c75c22e04aad703cd2d0979d518b682fe0d92eb2f86339",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/MANIFEST.json",
+      "bytes": 5552,
+      "sha256": "ab3bcb635f2140ad318e3728a4d58c5fc4e021e63480f125554f2e2251027507",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/model-query-title-screen.json",
+      "bytes": 6909,
+      "sha256": "4219e1a0ee639a99f47a7c991115f03fe8a273063849e4bcb834d679c919c5eb",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/PLAN.txt",
+      "bytes": 4684,
+      "sha256": "ce0f9607bc0683e24cfa40121a649dee70c3f3f5538fa06757e867c1065a37a6",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/queries.json",
+      "bytes": 503,
+      "sha256": "35439ab414ccdba085e7f39e97cc1b64ce490ae71aaac5b61d0a5d8f9d751993",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/query_geo.py",
+      "bytes": 2192,
+      "sha256": "78549f1230e858a68972f40d7e6d3fa4917d595a12a8de8901b8580fe6ceee73",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/RESULTS.txt",
+      "bytes": 3139,
+      "sha256": "0732a443190c329fd761eadb57168db2e1becc599c9c394ef1f822a491e5f739",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/retrieval.json",
+      "bytes": 2511,
+      "sha256": "b47b09470c916836409627ef664be442544896021640fd5a1b1f9a82fbac0ef9",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/reused-evidence.json",
+      "bytes": 2680,
+      "sha256": "8024fe0b7657014311f1534339147d4aa5ce50e39c37a67982e69357babf0691",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/review_clinical_identity.py",
+      "bytes": 5056,
+      "sha256": "21f6ca994030195e485b44145406841361d82befb4bd5d882339cf55a4f9f7a8",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/selected-primary-metadata.json",
+      "bytes": 82962,
+      "sha256": "3cca45cff4c1697a6a00ed29ae2e03411704414ef62f4107d627e4f6fa643b60",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/six3-contrary-retrieval.json",
+      "bytes": 352,
+      "sha256": "9bf10da9d8657ecde2d60d238c207ad3aa7092adcfb3d07337e18a159e9f0c68",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/six3-contrary2004.json",
+      "bytes": 7990,
+      "sha256": "bb0117e776d7ba649db8ceb66cd07599e416fce1b705dd3f36b5c702893de082",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "nr4a3_regulatory/WEB-OBSERVATIONS.txt",
+      "bytes": 1498,
+      "sha256": "6eb853934cf630b8f8759f68ccb46f637447a58aa6e34cf158719a802c1d394a",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "OWNERSHIP-RESOLUTION.json",
+      "bytes": 449,
+      "sha256": "9c44810d010bb7059716217447e43cbf80d2e0bb18bd9cc434095c55da382613",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "OWNERSHIP.json",
+      "bytes": 3268,
+      "sha256": "89d3a5d3556c84401b247d89ad42ac3da226ce235596868f78a1cf7b0327c126",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "RECOVERY.json",
+      "bytes": 367,
+      "sha256": "a55d71f80d411335ad16b0975677b7c1b652410ca59f9337944d679b4953e637",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "ROUND6-CONTRACT.json",
+      "bytes": 2014,
+      "sha256": "7245edc0693a53cd7f400066d0ba637420c17b99529d2d34a17391cb260e57e4",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "SPATIAL-INDEPENDENT-CHALLENGE.json",
+      "bytes": 2762,
+      "sha256": "4d8a99f43fa2730be1b080a516b37754755980f2aba045ab36edbda907f2e383",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/audit_sources.py",
+      "bytes": 1357,
+      "sha256": "f4641107227241d633a52ca84a8f6a26d55139942693c701e9eddac7d445ef84",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/bo112-library-identities.json",
+      "bytes": 4605,
+      "sha256": "8b3a5598be1794b117de4ca0aecffa257743afb2068c186fc1f9719cd0504f2b",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/candidate-receipts.json",
+      "bytes": 2466,
+      "sha256": "77e849350d2d09244764267cb016326f13892a1471b7d16130723e6c887392bd",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/close_metadata.py",
+      "bytes": 3187,
+      "sha256": "b569345ee43a0a56254ff6ab885ec3d775e217c5258d14c162b95d1532ac00f0",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/closure-receipts.json",
+      "bytes": 2213,
+      "sha256": "3b4bcf37abc97abb60078f04e2d9117339ce4fecd59172a5473668560dcb1893",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/COVERAGE.txt",
+      "bytes": 7273,
+      "sha256": "883d6b14c757e8f7cd98f218b457e28eb3b839071ce673fc276d816016022eaa",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/emc-cell-search.json",
+      "bytes": 1791,
+      "sha256": "16517d99d6bb88709a6496e85fe6953d74ee946576a414c4c401a85e588735b5",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/fetch_sources.py",
+      "bytes": 1786,
+      "sha256": "23e6b09c63049391197c17dd2ec43079b628987d00210b59851d960169b79412",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/FREEZE.json",
+      "bytes": 1018,
+      "sha256": "522d568b57c0d8f6ea2adb9cf5e5d837033d000da587f7d4452a93cb3caf4346",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/freeze_packet.py",
+      "bytes": 2396,
+      "sha256": "0615ff8fd5d59380d6e8375be955020b042a01a49e332c813efec2e6f9392403",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/geo-search-receipts.json",
+      "bytes": 13664,
+      "sha256": "0c9efe08f9457a55a26bce0d362c7d22de6b7347909c1a40805e2cc09dffb7b5",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/HANDOFF.txt",
+      "bytes": 3860,
+      "sha256": "8f23f7d507486ae092ab0ebb07c5554a983ee7df4a3668d986336151f5d44018",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/MANIFEST.json",
+      "bytes": 6688,
+      "sha256": "56d4c74b0bc704b2181dfa9b37a7e516cb49fba7f411e0b7bd9b6a1826ea5333",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/metadata-verification.json",
+      "bytes": 2839,
+      "sha256": "d6a1a79e90dcae3bcff03b946cf5f27bf9b500c389aeca61c0bfc81bea19d1ab",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/ngo-assay-scope.json",
+      "bytes": 11027,
+      "sha256": "d5ed5913d9600b7a12fd036208e30b15c913688220d0c6fedc8ed1e497841a9f",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/PLAN.txt",
+      "bytes": 4365,
+      "sha256": "f78f8f9ca62d4c6aa480ae90018b65f95c41ca357e6817a425f286f89c020a89",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/prior-evaluation-reuse.json",
+      "bytes": 2613,
+      "sha256": "5490bbed8b6cb31599f392cb3de25842a9fe0b495648ac5bffa937c3aa068cb7",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/RESULTS.txt",
+      "bytes": 4171,
+      "sha256": "e4b92dc648fc8bea89516cedb70eb049f625980432af182cb30174d8358cf1a8",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/sarcoma-cell-search.json",
+      "bytes": 5153,
+      "sha256": "b3b52b103690fbfb329ed88dca3e213012e4142130c64b79156460ecaf51bb39",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/search_geo.py",
+      "bytes": 1674,
+      "sha256": "b5be47bee898e17677ccfd44877452ce37234e4a598407609b1bdd6ebb6b5095",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/source-audit.json",
+      "bytes": 86021,
+      "sha256": "a20f82f7e6c67ace10788c9b18f1ff24869a8141c2fa184aea797f9ec9acb5c9",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/source-receipts.json",
+      "bytes": 2650,
+      "sha256": "f62fd90f477053755520454cb64e5b4533ee5dca932d7f2250ad6a3d5ae5388b",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/VALIDATION.json",
+      "bytes": 4173,
+      "sha256": "226d5eedf2b181e7dd070c66fba479313c47c91861c4d9111ede61792146309f",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/verify_packet.py",
+      "bytes": 1947,
+      "sha256": "a03c5f61aed1437519804a2ddf09a02f9be957a8f77fba2a09716f420c5b517a",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    },
+    {
+      "path": "spatial_omics/wagner-search.json",
+      "bytes": 1133,
+      "sha256": "5e0df6e703af99bfd37a0c78c467e3701774c96283ac90c29f7bb795c3a42b69",
+      "matches_expected_bytes": true,
+      "matches_expected_sha256": true
+    }
+  ],
+  "portable_mismatches": [],
+  "integration_receipts": [
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/INTEGRATION-clinical_identity.json",
+      "bytes": 7957,
+      "sha256": "8db7708e9492c59cdedbef2815efd78d4a15fbf836ff55e9013f960c2623c5e9",
+      "original_file_hash_count": 49,
+      "portable_git_items_checked": 43,
+      "cache_only_items_skipped": 6,
+      "portable_items": [
+        {
+          "path": "clinical_identity/COVERAGE.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/detail-fetch-receipts.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/eligibility-results.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/evaluate_eligibility.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/extract_details.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/fetch_details.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/fetch_hirmas_pdf.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/fetch_primary.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/fetch_sources.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/fetch_supplement_links.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/final-source-search.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/FREEZE.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/freeze_packet.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/GIT-STATUS.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/HANDOFF.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/hirmas-pdf-receipt.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/hirmas2023-metadata.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/hirmas2024-exclusion-web.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/hirmas2024-metadata.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/independent-clinical-review.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/independent-regulatory-review.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/inspect_primary.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/inspect_routes.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/interobserver-metadata.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/interobserver-pages.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/interobserver-pdf-links.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/liver-extracted.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/liver2026-metadata.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/MANIFEST.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/metadata-fetch-receipts.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/openalex-fetch-receipt.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/PLAN.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/primary-fetch-receipts.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/primary-identity-search.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/primary-structure.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/primary-title-search.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/primary-web-search.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/RESULTS.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/review_regulatory.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/supplement-link-fetch-receipts.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/timepoint-metadata.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/timepoint-title-metadata.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "clinical_identity/web-access-receipt.json",
+          "bytes_match": true,
+          "sha256_match": true
+        }
+      ],
+      "skipped_cache_paths": [
+        "clinical_identity/hirmas2023-openalex.json",
+        "clinical_identity/interobserver-repository.html",
+        "clinical_identity/interobserver2023.pdf",
+        "clinical_identity/liver2026-supp.docx",
+        "clinical_identity/liver2026-table1.html",
+        "clinical_identity/liver2026.html"
+      ]
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/INTEGRATION-nr4a3_regulatory.json",
+      "bytes": 5832,
+      "sha256": "42b48d1996c5d1f11af70325e297aa110b91f8d22a16c9dc929ea88f7dfea1ca",
+      "original_file_hash_count": 35,
+      "portable_git_items_checked": 28,
+      "cache_only_items_skipped": 7,
+      "portable_items": [
+        {
+          "path": "nr4a3_regulatory/AMENDMENT-01.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/apply_review_correction.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/bind_independent_review.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/clinical-independent-review.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/COVERAGE.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/evaluate_gate.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/evaluation.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/fetch_contrary.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/fetch_gate.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/FREEZE.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/freeze_packet.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/geo-four-condition-evaluation.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/geo-retrieval.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/HANDOFF.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/independent-review-binding.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/MANIFEST.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/model-query-title-screen.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/PLAN.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/queries.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/query_geo.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/RESULTS.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/retrieval.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/reused-evidence.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/review_clinical_identity.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/selected-primary-metadata.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/six3-contrary-retrieval.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/six3-contrary2004.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "nr4a3_regulatory/WEB-OBSERVATIONS.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        }
+      ],
+      "skipped_cache_paths": [
+        "nr4a3_regulatory/epmc-authentic-models.json",
+        "nr4a3_regulatory/epmc-emc-regulatory.json",
+        "nr4a3_regulatory/epmc-fusion-regulatory.json",
+        "nr4a3_regulatory/geo-candidates.json",
+        "nr4a3_regulatory/geo-emc-regulatory.xml",
+        "nr4a3_regulatory/geo-fusion-summary.xml",
+        "nr4a3_regulatory/geo-fusion.xml"
+      ]
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round6/INTEGRATION-spatial_omics.json",
+      "bytes": 6638,
+      "sha256": "65fb11956832a8a8ab56607ab110c268d7891dcab4cf68a79fab76347e521fe0",
+      "original_file_hash_count": 41,
+      "portable_git_items_checked": 25,
+      "cache_only_items_skipped": 16,
+      "portable_items": [
+        {
+          "path": "spatial_omics/audit_sources.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/bo112-library-identities.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/candidate-receipts.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/close_metadata.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/closure-receipts.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/COVERAGE.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/emc-cell-search.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/fetch_sources.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/FREEZE.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/freeze_packet.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/geo-search-receipts.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/HANDOFF.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/MANIFEST.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/metadata-verification.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/ngo-assay-scope.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/PLAN.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/prior-evaluation-reuse.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/RESULTS.txt",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/sarcoma-cell-search.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/search_geo.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/source-audit.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/source-receipts.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/VALIDATION.json",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/verify_packet.py",
+          "bytes_match": true,
+          "sha256_match": true
+        },
+        {
+          "path": "spatial_omics/wagner-search.json",
+          "bytes_match": true,
+          "sha256_match": true
+        }
+      ],
+      "skipped_cache_paths": [
+        "spatial_omics/3ca-sarcoma.html",
+        "spatial_omics/atlas2026-S1.pdf",
+        "spatial_omics/atlas2026.xml",
+        "spatial_omics/bo112-biosamples.xml",
+        "spatial_omics/broad-human-candidates.json",
+        "spatial_omics/cassis-project.html",
+        "spatial_omics/cassis-report.html",
+        "spatial_omics/cassis-results.html",
+        "spatial_omics/emc-cell-summary.json",
+        "spatial_omics/geo-candidates.json",
+        "spatial_omics/GSE313859.soft",
+        "spatial_omics/luthria-S1.xlsx",
+        "spatial_omics/luthria2024.xml",
+        "spatial_omics/ngo2025.xml",
+        "spatial_omics/sarcoma-cell-summary.json",
+        "spatial_omics/wagner-summary.json"
+      ]
+    }
+  ],
+  "integration_mismatches": [],
+  "original_cache_availability": {
+    "entries": 29,
+    "committed_at_exact_source": 0,
+    "present_in_current_main_worktree": 0,
+    "original_recovery_path": "C:/Users/mcrae/.codex/private/fresh-emc-discovery-20261004/round6-packet.zip",
+    "original_recovery_sha256": "a4110ee574ad03a4e7c71e3129aeb7246581842be5633c4107be08bec5444ab8",
+    "recovery_archive_checked": false,
+    "meaning": "Original Windows recovery cache/archive is not available in this cloud workspace. Metadata hash is preserved, not independently verified archive bytes; no global unavailability claim."
+  },
+  "cache_only_skipped": [
+    {
+      "path": "clinical_identity/hirmas2023-openalex.json",
+      "disposition": "cache_only",
+      "expected_original_bytes": 67310,
+      "expected_original_sha256": "7a7a1e4d7d0e86439ad856b63418dc0e575b9b5ac555a6e6b37a17b4a8452ab5",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "clinical_identity/interobserver-repository.html",
+      "disposition": "cache_only",
+      "expected_original_bytes": 69898,
+      "expected_original_sha256": "032f266213b29625ac6a175fa72f5e3bf631983749082f5cec6813b1741b6829",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "clinical_identity/interobserver2023.pdf",
+      "disposition": "cache_only",
+      "expected_original_bytes": 784669,
+      "expected_original_sha256": "e2cff261a3e225d2fa1c11931a86e89bb75012570ab391801d9588241310affe",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "clinical_identity/liver2026-supp.docx",
+      "disposition": "cache_only",
+      "expected_original_bytes": 36027,
+      "expected_original_sha256": "1137d230cb8747be5551c648b44d5184e5200ab6300f9bae3e77815e77064265",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "clinical_identity/liver2026-table1.html",
+      "disposition": "cache_only",
+      "expected_original_bytes": 209321,
+      "expected_original_sha256": "7150a04cb78956f3af78c6bbca13813efe2a055b6f3066ea27b504dd0d339049",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "clinical_identity/liver2026.html",
+      "disposition": "cache_only",
+      "expected_original_bytes": 385234,
+      "expected_original_sha256": "c8733a9c21e2da03ec7b3bd584e7d535f0047c3028218f8b847bd7bf6dec2d86",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "nr4a3_regulatory/epmc-authentic-models.json",
+      "disposition": "cache_only",
+      "expected_original_bytes": 237759,
+      "expected_original_sha256": "9de9ef9c737ca6c41ff49a90e8e2fc33c44dfbb2d5174bcecc76be248703392f",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "nr4a3_regulatory/epmc-emc-regulatory.json",
+      "disposition": "cache_only",
+      "expected_original_bytes": 2963607,
+      "expected_original_sha256": "ab88bc5fce4421e61474ef9e5b82b555d0a90dcf5c0bdcae769e3cee4a53d780",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "nr4a3_regulatory/epmc-fusion-regulatory.json",
+      "disposition": "cache_only",
+      "expected_original_bytes": 1764588,
+      "expected_original_sha256": "b921b091c2835d92c35a2cf4bc10afff103f7ddb9cc5d7dd694a5a9e11e1b0ff",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "nr4a3_regulatory/geo-candidates.json",
+      "disposition": "cache_only",
+      "expected_original_bytes": 37497,
+      "expected_original_sha256": "62196cf8aa9b190957f2a09919d20f3e78be0d769ef673ad56a5ad9d064723e7",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "nr4a3_regulatory/geo-emc-regulatory.xml",
+      "disposition": "cache_only",
+      "expected_original_bytes": 1833,
+      "expected_original_sha256": "f1ab89cf32989f8149bf2e6038cf82acc1b42e5409e76b5276203acea7faae63",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "nr4a3_regulatory/geo-fusion-summary.xml",
+      "disposition": "cache_only",
+      "expected_original_bytes": 56660,
+      "expected_original_sha256": "042ce9562a196675f5cae13686dba2f17e4dc4950783c8dc2d4a4edd766b42b1",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "nr4a3_regulatory/geo-fusion.xml",
+      "disposition": "cache_only",
+      "expected_original_bytes": 2668,
+      "expected_original_sha256": "4c9f2ef5433359098b89e912108e79017594347191460119aba78cc90da3b99f",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/3ca-sarcoma.html",
+      "disposition": "cache_only",
+      "expected_original_bytes": 45121,
+      "expected_original_sha256": "7d9948524c99d0f88e1b16d66c49cfc2835c73f9bbfc7ab4f2ea52edbbe1d8eb",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/atlas2026-S1.pdf",
+      "disposition": "cache_only",
+      "expected_original_bytes": 1817,
+      "expected_original_sha256": "421ac61ee4e624a81aa1322112e57fa05866c5703a2593a0855bc5060c479592",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/atlas2026.xml",
+      "disposition": "cache_only",
+      "expected_original_bytes": 149334,
+      "expected_original_sha256": "06643ffcbbfdbe1eff376b82e70921107ceab1ac27ef4e84ed1572d524cae524",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/bo112-biosamples.xml",
+      "disposition": "cache_only",
+      "expected_original_bytes": 23238,
+      "expected_original_sha256": "33f4ca6a1caccf1e98221f6fdcb2fc40f98d180e76beafc76f5c8dfb464164e6",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/broad-human-candidates.json",
+      "disposition": "cache_only",
+      "expected_original_bytes": 679126,
+      "expected_original_sha256": "5d1a9b51fc5a52dea0fc99c2b72dc77420fe5a34a00de8eb23328fb5bc122591",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/cassis-project.html",
+      "disposition": "cache_only",
+      "expected_original_bytes": 103027,
+      "expected_original_sha256": "2633794b67e2cada43c5e8ded01fa26433033f80322cb21f84579931f690c627",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/cassis-report.html",
+      "disposition": "cache_only",
+      "expected_original_bytes": 80818,
+      "expected_original_sha256": "b26da43d7ecf41b7cc53d0ce82eed6d69a2bbb852b5eaa906c0396be2100c9b1",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/cassis-results.html",
+      "disposition": "cache_only",
+      "expected_original_bytes": 74964,
+      "expected_original_sha256": "2793ab58cf59f0c737c880cd84a544c4632f41b46d34a1fec1543aa7ff65ae18",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/emc-cell-summary.json",
+      "disposition": "cache_only",
+      "expected_original_bytes": 99252,
+      "expected_original_sha256": "5a5cc365d2b0c6cb90634beb8f55267531ccfa7d8fa5d30884e115ddbe1a11df",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/geo-candidates.json",
+      "disposition": "cache_only",
+      "expected_original_bytes": 2197834,
+      "expected_original_sha256": "2b64149c211732787f55195647b558ae3a8adb42372ee669bb5cd00fc6caa6c5",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/GSE313859.soft",
+      "disposition": "cache_only",
+      "expected_original_bytes": 1327494,
+      "expected_original_sha256": "fb0585aef60f771d17002a3fe3aa4f8bd4388380e9f979624fe311b5857c6ce1",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/luthria-S1.xlsx",
+      "disposition": "cache_only",
+      "expected_original_bytes": 1817,
+      "expected_original_sha256": "ea508ee5d080fb1ef75cc28b054ea7cc4d87a3786af710c53163fecd617d8f5e",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/luthria2024.xml",
+      "disposition": "cache_only",
+      "expected_original_bytes": 129282,
+      "expected_original_sha256": "cac87b9edd8de0f5be14e71545b75fa7e7d0ddb7b9ad674dbca32867bb260566",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/ngo2025.xml",
+      "disposition": "cache_only",
+      "expected_original_bytes": 61291,
+      "expected_original_sha256": "29834e61924d345271b8a614daa88e31e22d6edbee1467261164339b74aad8bf",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/sarcoma-cell-summary.json",
+      "disposition": "cache_only",
+      "expected_original_bytes": 1383014,
+      "expected_original_sha256": "7cc6c06865e875f9793cfc28721b6f4757457d93108f2a6e0337f3f2a6f713cc",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    },
+    {
+      "path": "spatial_omics/wagner-summary.json",
+      "disposition": "cache_only",
+      "expected_original_bytes": 163948,
+      "expected_original_sha256": "8d31070c8e48317cdc9ff8871c78b4c68627f61ec545a9011cbe8e13ee4b6f30",
+      "git_present_at_exact_source": false,
+      "current_main_worktree_file_present": false,
+      "action": "Explicitly skipped payload read/hash; not portable Git input."
+    }
+  ],
+  "conclusion": "All portable inventory bytes and integration source hashes verified at exact source revision; original cache payloads not reproduced or scientifically evaluated.",
+  "no_original_cache_retrieval": true,
+  "worker_owned_processes_running": false
+}
