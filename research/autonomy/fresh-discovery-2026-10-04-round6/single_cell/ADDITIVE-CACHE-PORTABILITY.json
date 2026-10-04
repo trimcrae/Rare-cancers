@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-04T22:24:57.711503+00:00",
+  "additive_to_commit": "76f77a63daf26764f5651f63b9af135d926c91ab",
+  "reason": "Independent review input binding can reference an ignored local file without implying Git portability. Preserve immutable original and freeze manifest.",
+  "reviewed_input": {
+    "relative_path": "GEO-SERIES-ELIGIBILITY.json",
+    "absolute_cache_path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/GEO-SERIES-ELIGIBILITY.json",
+    "bytes": 2939223,
+    "sha256": "2c646c9e708858822d9c691d784490c8b4c17f59372da9a5d750bcafe65080c1",
+    "disposition": "cache-only-not-Git",
+    "content": "Full389-entry merged broad/disease-alias GEO ESummary metadata catalogue; source metadata and library titles, no derived scientific eligibility judgments.",
+    "review": "Independent reviewer inspected this local frozen input; exact-hash verification is not a claim it exists in the Git export.",
+    "authority": "MANIFEST.json already records cache-only-not-Git for this exact file; .gitignore excludes it."
+  },
+  "portable_reuse": {
+    "compact_inventory": "SELECTED-GEO-ACCESSION-INVENTORY.json",
+    "inventory_sha256": "1020d62890efdaa0ccee067c96b3904df78e5aec0becd0ddbbc5e59cad8fa599",
+    "scientific_dispositions": "COVERAGE.json; DECISION.json; complete per-library observation records and source receipts already committed. No broad metadata catalogue needed to reuse these scoped decisions.",
+    "receipt_files": [
+      "SEARCH-RECEIPTS.json",
+      "GEO-FOLLOWUP-RECEIPTS.json"
+    ],
+    "recovery_scripts": [
+      "source_pilot.py",
+      "geo_followup.py"
+    ],
+    "recovery_limit": "If cache absent, recover documented original ESearch/ESummary API bytes using exact recorded queries/URLs and compare source versions/hashes. Current database responses may change; regeneration is not exact original reproduction. Do not treat manifest or available summary inventory as equivalent to the original389-entry catalogue.",
+    "restricted_scope": "No restricted task contents exported; compact table contains only selected public single-cell/assay accessions previously evaluated."
+  }
+}
