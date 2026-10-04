@@ -1,0 +1,109 @@
+{
+  "date": "2026-10-04T22:26:22.528871+00:00",
+  "kind": "additive portability clarification; unchanged frozen scientific review",
+  "frozen_review": {
+    "path": "SINGLE-CELL-INDEPENDENT-REVIEW-FINAL.json",
+    "sha256": "704d647098efa378f6f07233adeee0f9467aa86bb177f211020d2fcf3961f112",
+    "unchanged": true,
+    "binding_requiring_clarification": "../single_cell/GEO-SERIES-ELIGIBILITY.json"
+  },
+  "input": {
+    "role": "Full389-series broad GEO metadata catalogue; source discovery/alias screening input, not424-library biological evaluation or expression data",
+    "git_inclusion": false,
+    "status": "cache-only reviewed input; intentionally excluded from Git",
+    "bytes": 2939223,
+    "sha256": "2c646c9e708858822d9c691d784490c8b4c17f59372da9a5d750bcafe65080c1",
+    "actual_review_location": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-04-round6/single_cell/GEO-SERIES-ELIGIBILITY.json",
+    "original_relative_location": "../single_cell/GEO-SERIES-ELIGIBILITY.json",
+    "ignore_rule": "single_cell/.gitignore explicitly names GEO-SERIES-ELIGIBILITY.json",
+    "source_export_statement": "single_cell/MANIFEST.json labels catalogue cache-only-not-Git; a review input binding never makes the underlying cached input part of Git."
+  },
+  "recovery": {
+    "preferred": "Reuse preserved original at actual_review_location, verifying size and SHA256 before reproducing the reviewer catalogue audit. Do not redownload unchanged sources to prove diligence.",
+    "cache_reconstruction": "If the full derived catalogue is missing but original cached API responses survive, reconstruct from six esummary sources below in receipt order, applying the exact geo_followup.py transformation. This was independently verified byte-for-byte without network calls.",
+    "committed_script_reference": "../single_cell/geo_followup.py",
+    "committed_receipt_reference": {
+      "path": "../single_cell/GEO-FOLLOWUP-RECEIPTS.json",
+      "sha256": "50f1c2f62f923c29d2ea0f9ba0dfed1a3b6fc7749027d5b18fc789cd673eebac"
+    },
+    "ordered_cache_response_ids": [
+      "geo_aliases_summary_0",
+      "geo_aliases_summary_1",
+      "geo_broad_sc_summary_0",
+      "geo_broad_sc_summary_1",
+      "geo_broad_sc_summary_2",
+      "geo_broad_sc_summary_3"
+    ],
+    "ordered_cache_response_hashes": [
+      {
+        "id": "geo_aliases_summary_0",
+        "relative_cache_path": "../single_cell/sources/geo_aliases_summary_0.json",
+        "sha256": "959823db271510b8cbd0e1b2ab2c1d0b5039df9f6653d6cef37465ec6c6741f1",
+        "bytes": 966319
+      },
+      {
+        "id": "geo_aliases_summary_1",
+        "relative_cache_path": "../single_cell/sources/geo_aliases_summary_1.json",
+        "sha256": "ecc5be2777d924d31632782366148d859ffee1954bd5aed005488bc96697c092",
+        "bytes": 56116
+      },
+      {
+        "id": "geo_broad_sc_summary_0",
+        "relative_cache_path": "../single_cell/sources/geo_broad_sc_summary_0.json",
+        "sha256": "3017ba8ec988f60543254826ca756fcd42e6a2f153014a608c8585ef9e75ab05",
+        "bytes": 325012
+      },
+      {
+        "id": "geo_broad_sc_summary_1",
+        "relative_cache_path": "../single_cell/sources/geo_broad_sc_summary_1.json",
+        "sha256": "dddf6d4b34aab9f90e26c22ce5198d6b8435546dbcf83fa8eea1bca40b0cbc2e",
+        "bytes": 248198
+      },
+      {
+        "id": "geo_broad_sc_summary_2",
+        "relative_cache_path": "../single_cell/sources/geo_broad_sc_summary_2.json",
+        "sha256": "49ade39c1a4789f71859c9b342b70fa8085c1e688b06af30049d51b1b15cc269",
+        "bytes": 265447
+      },
+      {
+        "id": "geo_broad_sc_summary_3",
+        "relative_cache_path": "../single_cell/sources/geo_broad_sc_summary_3.json",
+        "sha256": "631d72e00e34014ca37ab987c9d57855c33c753bcc5d018259003c0ceeb8ba51",
+        "bytes": 259322
+      }
+    ],
+    "transformation": [
+      "Read each original JSON result in listed order; remove uids and update one ordered dictionary with all remaining key/value records.",
+      "For each record retain fields listed in selected_fields in that exact order, setting absent fields to null.",
+      "Serialize an object with query first and series second using Python json.dumps(indent=2), default ensure_ascii=True, then append one newline. Verify the resulting expected catalogue SHA256."
+    ],
+    "query": "sarcoma AND (\"single cell\" OR \"single-cell\" OR \"single nucleus\" OR \"spatial transcriptomics\" OR \"scRNA-seq\") AND gse[ETYP] AND (\"1900/01/01\"[PDAT] : \"2026/10/04\"[PDAT])",
+    "selected_fields": [
+      "accession",
+      "title",
+      "summary",
+      "n_samples",
+      "taxon",
+      "gdsType",
+      "entryType",
+      "samples",
+      "pubmedids",
+      "pdat",
+      "suppfile"
+    ],
+    "without_original_cache": "Use exact public API URLs in GEO-FOLLOWUP-RECEIPTS.json and the existing scripts/alias-search receipts to retrieve needed public metadata only. API records and ordering may change. Compare original source hashes/version and derived catalogue hash before treating a new retrieval as this frozen reviewed input; do not silently replace it.",
+    "portable_exact_byte_archive": "No separate portable exact-byte recovery archive established in this clarification; the current cloud cache is preserved but is not implicitly present in another environment."
+  },
+  "actual_validation": {
+    "source_cache_hashes_checked": 6,
+    "reconstructed_series": 389,
+    "reconstructed_bytes": 2939223,
+    "reconstructed_sha256": "2c646c9e708858822d9c691d784490c8b4c17f59372da9a5d750bcafe65080c1",
+    "exact_byte_match": true,
+    "frozen_review_unchanged": true,
+    "new_network_requests": 0,
+    "actual_free_bytes": 27653242880
+  },
+  "scientific_consequence": "None. Shelving,424 original-library extraction checks, two annotation conflicts, six unresolved BO-112 conditions/four donors and other pending coverage retain the original decisions. The broad catalogue is not claimed committed or independently portable; suitable accessible pending evidence still blocks promotion.",
+  "ownership": "Only this additive challenge amendment is written. No shared mutation/push, new scientific search, restricted-content work, paid/GPU/outreach/publication/PR or UI operation."
+}
