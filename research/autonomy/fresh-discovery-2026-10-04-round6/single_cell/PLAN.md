@@ -1,13 +1,13 @@
 ---
 id: DOC-EMC-R6-SINGLE-CELL-PLAN
 title: EMC single-cell and spatial malignant-program pilot
-kind: preregistration
+kind: prereg
 purpose: Freeze the question, eligibility and stop conditions before inspecting new measurements.
 scope: Authenticated public EMC single-cell and spatial transcriptomic measurements.
-audience: [researchers, integrating lead]
+audience: [maintainers, autonomous research agents]
 date: 2026-10-04
 last_verified: 2026-10-04
-status: frozen-before-new-relevant-measurements
+status: immutable
 ---
 
 Frozen at 2026-10-04T21:48Z, before retrieval of new candidate sources. Owner `/root/single_cell`; writer worktree `/workspace/emc-r6-single_cell`; base `887c7d7c110460f2b987a756397f407461ee66f6`. Integrating lead alone owns shared records, integration and pushes.

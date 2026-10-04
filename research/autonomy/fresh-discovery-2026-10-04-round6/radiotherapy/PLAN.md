@@ -1,11 +1,11 @@
 ---
-id: EMC-R6-RADIOTHERAPY-PLAN
+id: DOC-EMC-R6-RADIOTHERAPY-PLAN
 title: Bounded public-data local-treatment pilot
-kind: preregistration
-status: frozen
+kind: prereg
+status: immutable
 purpose: Define a useful clinical question and immutable pilot stopping rules.
 scope: Published observational EMC local-treatment measurements.
-audience: EMC discovery coordinator and independent challenger.
+audience: [maintainers, autonomous research agents]
 date: 2026-10-04
 last_verified: 2026-10-04
 ---
