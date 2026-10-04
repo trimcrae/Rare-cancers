@@ -1,0 +1,119 @@
+{
+  "date_utc": "2026-10-04T22:02:14.067819+00:00",
+  "search_cutoff": "2026-10-04",
+  "claim": "No advancing EMC claim; bounded continuation of five R5 pending clinical imaging sources",
+  "source_classes": [
+    "Primary journal main text/tables",
+    "Original supplements and source indexes",
+    "EuropePMC bibliographic/fulltext API",
+    "Crossref DOI metadata",
+    "R5 verified clinical evaluations and source receipts"
+  ],
+  "aliases": [
+    "extraskeletal myxoid chondrosarcoma",
+    "EMC",
+    "NR4A3",
+    "NR4A2",
+    "myxoid",
+    "chondrosarcoma",
+    "sarcoma",
+    "fibrosarcoma",
+    "spindle cell"
+  ],
+  "selection": "Five sources prospectively fixed in PLAN. No convenient EMC subset; every released relevant roster category or donor observation evaluated at actual resolution.",
+  "sources": [
+    {
+      "source": "ThreeTimePointFAPI46",
+      "doi": "10.2967/jnumed.122.264941",
+      "citation": "Naeimi et al. J Nucl Med2023;64:618–623. PMC11927082",
+      "status": "evaluated",
+      "resolution": "All14 released categorical rows account for43donors; two sarcomas remain generic. All three FAPI acquisition conditions identified.",
+      "conditions": "68Ga-FAPI-46 at10min/1h/3h after one injection;171lesions are dependent repeated measurements. No within-patient FDG comparator, exact calendar scan dates, generic sarcoma subtype/individual measurement crosswalk or patient treatment chronology released in inspected source.",
+      "EMC_authenticated": 0,
+      "unresolved_ids": [
+        "Sarcoma donor1 (no source ID)",
+        "Sarcoma donor2 (no source ID)"
+      ],
+      "limitations": "Cannot exclude EMC among generic sarcomas. Published aggregate temporal uptake is prior art, not EMC knowledge. Source narrative diagnoses differ from Table1 (ovarian/esophageal categories); table totals43.",
+      "overlap": "Heidelberg single-center ethicsS016/2018; possible earlier Heidelberg cohorts, no public donor crosswalk. Do not pool as independent.",
+      "analysis": "three-timepoint-roster.json; clinical-eligibility-excerpts.json",
+      "access": "R5 S3 failure reused without retry; current PMC recaptcha and EuropePMC500 preserved; original JNM HTML/table now successfully evaluated."
+    },
+    {
+      "source": "Hirmas2023",
+      "doi": "10.2967/jnumed.122.264689",
+      "citation": "J Nucl Med2023;64:711–716",
+      "status": "evaluated",
+      "resolution": "Complete released macro roster accounts for324donors/21tumor entities after Other expansion; all18sarcoma subtype categories sum131; Other footnote11x1 inspected.",
+      "conditions": "Essen Oct2018–Oct2021, FAPI-04 n21/FAPI-46 n303. FAPI median uptake14min vs FDG67min; paired n237 overall/n116sarcoma; median interval0days(IQR2);159same-day pairs >=4h apart. Individual dates, generic identities, lesion/tracer crosswalk and no-intervening-treatment criterion unresolved. Median interval is not eligibility for every patient.",
+      "EMC_authenticated": 0,
+      "unresolved_ids": [
+        "Chondrosarcoma10",
+        "Fibrosarcoma11",
+        "Spindle cell sarcoma7",
+        "Pleomorphic sarcoma9",
+        "Round cell sarcoma2",
+        "soft tissue sarcoma1",
+        "myofibroblastic sarcoma1",
+        "vulvar sarcoma1"
+      ],
+      "limitations": "No explicit EMC label or individual EMC measurement. Full aggregate source evaluation does not resolve these generic/subtype labels. No localization/tissue analysis performed.",
+      "overlap": "Supplement expressly reuses earlier Kessler47, Ferdinandus69, pitfalls91 subsets. SameNCT04571086 Essen registry as later reports; potential Lanzafame/Pabst overlap, exact patient crosswalk absent.",
+      "analysis": "hirmas2023-roster.json; clinical-eligibility-excerpts.json",
+      "access": "Primary HTML/Table1/original supplement recovered by ordinary JNM URLs."
+    },
+    {
+      "source": "Hirmas2024",
+      "doi": "10.2967/jnumed.123.266652",
+      "citation": "J Nucl Med2024;65:372–378",
+      "status": "demonstrably unsuitable measurement",
+      "resolution": "Main explicitly excludes sarcoma/pancreas/pleural mesothelioma; complete eight-entity roster sums115donors, paired accuracy subset103.",
+      "conditions": "Essen Oct2018–Mar2022; FAPI-04 first4/FAPI-46 remaining111; median pair interval0days,IQR2,max35days. No eligibility inference for EMC because sarcoma excluded.",
+      "EMC_authenticated": 0,
+      "unresolved_ids": [],
+      "limitations": "A relevant suspected broader source is resolved as containing no eligible source-labelled sarcoma analysis, not a negative EMC uptake result.",
+      "overlap": "SameEssen registry and explicitly cited prior cohorts; excluded sarcoma results reported separately.",
+      "analysis": "hirmas2024-roster.json; clinical-eligibility-excerpts.json",
+      "access": "Main/Table1/original supplement evaluated."
+    },
+    {
+      "source": "InternationalFAPIInterobserver2023",
+      "doi": "10.2967/jnumed.122.265245",
+      "citation": "Mei et al. J Nucl Med2023;64:1043–1048",
+      "status": "pending accessible analysis",
+      "resolution": "All five10patient macro groups (sarcoma/CRC/PDAC/genitourinary/misc) and all released demographics evaluated; no complete subtype roster for50. Every four teaching-case diagnosis/condition was visually verified despite PDF glyph extraction failure.",
+      "conditions": "Retrospectively selected50 from Essen/Bologna, prospective15reader assessment,NCT04990882; mean14±9min afterFAPI46,min10/max48;34diagnostic CT available within2weeks. Referenceexpert clinical/histopathology/followup composite; no released samepatientFDG comparison. Guide callsFAPI04 whereas main/teaching saysFAPI46.",
+      "EMC_authenticated": 0,
+      "unresolved_ids": [
+        "All10source generic sarcoma rows have no released full IDs/subtypes; teaching cases not crosswalked"
+      ],
+      "limitations": "Reader guide namesFAPI interobserver.xlsm with PatientsA-I tumor/PET fields, but workbook/full50datasets not linked by inspected main/supp indexes. Public availability unresolved; this is a remaining coverage gap, not completed50patient subtype analysis. Main misc list differs from an ovarian figure example.",
+      "overlap": "Essen/Bologna retrospective selection; exact crosswalk to Kessler/Hirmas/Essen cohorts and teaching examples unknown. No independent pooling.",
+      "analysis": "interobserver-teaching-eligibility.json; clinical-eligibility-excerpts.json",
+      "access": "Main/Table1, Guide_for_Readers.pdf, Teaching_Cases.pdf evaluated; no request made. Full workbook still pending."
+    },
+    {
+      "source": "LiverMetastases2026",
+      "doi": "10.1007/s44178-026-00295-4",
+      "citation": "Head-to-head comparison... Holistic Integrative Oncology2026;5:74. Published16Sep2026.",
+      "status": "evaluated",
+      "resolution": "All19entity Table1 categories sum76donors/189lesions. Original DOCX TableS1 all61donors/173metastatic lesions andS2 all15donors/16nonmetastatic lesions evaluated, with each donor tracer lesion totals checked.",
+      "conditions": "FUSCC May2020–Apr2023; FDG/FAPI04 within1week on different days, sameBiograph64mCTFlow,1h uptake each; newly diagnosed or lasttherapy>=3months. No donor-specific dates or intervening-treatment crosswalk. Liver verification composite>=3monthfollowup, mainly imaging not lesion histology; uses treatment response and FDG/CT/MR in reference.",
+      "EMC_authenticated": 0,
+      "unresolved_ids": [
+        "S1ID4:pleomorphic sarcoma; no molecular crosswalk"
+      ],
+      "limitations": "No explicit EMC in any released donor row; source labels are not molecular exclusions. Main/supp terminology differs and11sarcoma/37lesion grouping appears to includeG2NET1/5; preserve classification ambiguity rather than relabel.",
+      "overlap": "FUSCC sameinstitution/ethics and time window potentially overlap Gu2022; exact donor IDs absent. Do not count lesions as independent or pool sources.",
+      "analysis": "liver2026-rosters.json; clinical-eligibility-excerpts.json",
+      "access": "Primary Springer HTML/Table1/original DOCX supplement recovered and evaluated."
+    }
+  ],
+  "reused": [
+    "R5 clinical imaging negative/inconclusive evaluations unchanged; no rereading unavailable raw sources or retrying unchanged failedS3 routes",
+    "R5 prospective pair gate<=28days and no intervening therapy; no authenticated pair passed identity gate"
+  ],
+  "pending_gaps_block_promotion": true,
+  "global_search_exhausted": false,
+  "restricted_scopes": "No FAP tissue, glycan, structural-genomics or HLA-review takeover; no tissue/localization inference. TMEM266 remains shelved."
+}

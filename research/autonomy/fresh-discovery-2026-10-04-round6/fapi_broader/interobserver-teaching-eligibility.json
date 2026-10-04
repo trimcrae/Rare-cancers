@@ -1,0 +1,58 @@
+{
+  "source": "InternationalFAPIInterobserver2023",
+  "teaching_cases_pdf_sha256": "0bd0d2a90f2b5870d84cb7c41c4de6d2199d6d9ff8b2c3735e1c7231d7262664",
+  "extraction": "Manual transcription of all four caption diagnoses, verified by PDF caption renders. Text extraction with pdftotext, pypdf and PyMuPDF returned corrupted glyph codes; no labels inferred from those codes.",
+  "visual_read_utc": "2026-10-04T21:57:12+00:00",
+  "visual_read_New_York": "2026-10-04T17:57:12-04:00; outside daily ban",
+  "teaching_cases": [
+    {
+      "case": 1,
+      "pages": [
+        1
+      ],
+      "age": 70,
+      "sex": "male",
+      "source_diagnosis": "low-grade G2 myofibroblast sarcoma of the left thigh in 2018",
+      "condition": "Pulmonary metastases and local recurrence on CT; restaging before CTx",
+      "EMC_identity": "not authenticated; source alternative sarcoma label without molecular crosswalk"
+    },
+    {
+      "case": 2,
+      "pages": [
+        2,
+        3
+      ],
+      "age": 78,
+      "sex": "male",
+      "source_diagnosis": "pancreatic ductal adenocarcinoma",
+      "condition": "Suspected local recurrence; restaging",
+      "EMC_identity": "author-labelled epithelial carcinoma; unsuitable EMC measurement"
+    },
+    {
+      "case": 3,
+      "pages": [
+        4
+      ],
+      "age": 70,
+      "sex": "male",
+      "source_diagnosis": "pleural mesothelioma confirmed by biopsy and thoracoscopy",
+      "condition": "Staging",
+      "EMC_identity": "author-labelled mesothelioma; unsuitable EMC measurement"
+    },
+    {
+      "case": 4,
+      "pages": [
+        5
+      ],
+      "age": 33,
+      "sex": "female",
+      "source_diagnosis": "low-grade endometrial stromal sarcoma",
+      "condition": "Restaging after conservative tumor excision; suspected local recurrence and peritoneal metastases",
+      "EMC_identity": "source alternative sarcoma label; not authenticated EMC"
+    }
+  ],
+  "cohort_crosswalk": "Teaching examples have no released ID-to-full50-cohort crosswalk; do not subtract them from the ten generic sarcomas or count them as new independent donors.",
+  "reader_guide": "Guide p1 names FAPI interobserver.xlsm; Patients worksheet columns A-I are said to contain patient, tumor-type and performed-PET details. No workbook or full50 datasets were linked by the inspected primary/supplement indexes. Guide refers to FAPI-04 whereas main article and teaching captions name FAPI-46; do not resolve that source inconsistency by assumption.",
+  "status": "evaluated all four teaching cases; full cohort subtype evaluation remains pending accessible analysis",
+  "reader_guide_pdf_sha256": "6e89d80ff368db23feb76283b1b49d4cb2d8eda0edcae33aaa3de69be7ba150c"
+}
