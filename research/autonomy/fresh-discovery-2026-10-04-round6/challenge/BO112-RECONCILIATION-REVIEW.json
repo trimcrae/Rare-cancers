@@ -1,0 +1,262 @@
+{
+  "utc": "2026-10-04T22:49:51.159952+00:00",
+  "kind": "Additive independent source-identity correction review",
+  "owner": "/root/challenge",
+  "scope": "Exact final single_cell BO-112 reconciliation amendment and current GSM-to-BioSample source links; no new biological values or source retrieval.",
+  "decision": "ENDORSE conservative corrected eligibility gate and unchanged shelving; no remaining blocker in reviewed amendment scope.",
+  "reviewed_bindings": [
+    {
+      "path": "../single_cell/BO112-RECONCILIATION-PLAN.json",
+      "bytes": 2021,
+      "sha256": "ac5a4b3ab852faab2e1c287401d8b9230a39825f6ed51778147a3d6026d6ccc9",
+      "status": "committed derived record"
+    },
+    {
+      "path": "../single_cell/BO112-RECONCILIATION-AMENDMENT.json",
+      "bytes": 10649,
+      "sha256": "22bd1ee94f42442d13d6513215a5018614123352732644fe8a6a50f3d69bc50f",
+      "status": "committed derived record"
+    },
+    {
+      "path": "../single_cell/BO112-CORRECTED-CONDITION-DISPOSITIONS.json",
+      "bytes": 19650,
+      "sha256": "14a7d9d3fb3bea97f6e2ca905ae6d33b0bffcaede580f6a564ee932261de6ec8",
+      "status": "committed derived record"
+    },
+    {
+      "path": "../single_cell/BO112-DIRECT-BIOSAMPLE-OBSERVATIONS.json",
+      "bytes": 15274,
+      "sha256": "e7b57cc4510c2d46108c97bc4718a73d24e6bea95e99a59a3ce9882990eba2a9",
+      "status": "committed derived record"
+    },
+    {
+      "path": "../single_cell/BO112-RECONCILIATION-RECEIPT.json",
+      "bytes": 1179,
+      "sha256": "2804d7386722c29544c0b28c5f2219b7c442a80ff2b432b6760405d59a0f2de4",
+      "status": "committed derived record"
+    },
+    {
+      "path": "../single_cell/BO112-RECONCILIATION-VALIDATION.json",
+      "bytes": 2212,
+      "sha256": "76b106f1200ba3baefaaea62c9b4da85c862d4a827cc8b242e71047508c35621",
+      "status": "committed derived record"
+    },
+    {
+      "path": "../single_cell/ADDITIONAL-GSM-ELIGIBILITY-OBSERVATIONS.json",
+      "bytes": 443427,
+      "sha256": "68a4c16010d388e28508a26ab99bfb3ab9a7b69e8e2fe0923bdd20fd331c09bc",
+      "status": "committed derived record"
+    },
+    {
+      "path": "../single_cell/sources/bo112_reconciliation_biosamples.xml",
+      "bytes": 20400,
+      "sha256": "f63b9620611e2ed17c61582d2ed709f2d2c05b0a0b34ed6cf22add9e6da80798",
+      "status": "ignored cache only; read in owner worktree; not copied"
+    }
+  ],
+  "actual_independent_checks": {
+    "official_XML_SHA256_verified": true,
+    "all_direct_BioSample_records_checked": 10,
+    "complete_attribute_name_value_order_title_description_and_organism_match": true,
+    "all_26_corrected_rows_unique_and_bound_to_original_GSM_title_hash_and_exact_BioSample_relation": true,
+    "direct_BioSample_to_current_GSM_links": [
+      {
+        "GSM": "GSM9376744",
+        "BioSample": "SAMN53829687",
+        "direct_disease": null,
+        "full_isolate": "BO112-SARC-004",
+        "provider": "Kalbasi Lab"
+      },
+      {
+        "GSM": "GSM9376745",
+        "BioSample": "SAMN53829688",
+        "direct_disease": null,
+        "full_isolate": "BO112-SARC-004",
+        "provider": "Kalbasi Lab"
+      },
+      {
+        "GSM": "GSM9376752",
+        "BioSample": "SAMN53829695",
+        "direct_disease": null,
+        "full_isolate": "RT001",
+        "provider": "Kalbasi Lab"
+      },
+      {
+        "GSM": "GSM9376753",
+        "BioSample": "SAMN53829696",
+        "direct_disease": null,
+        "full_isolate": "RT001",
+        "provider": "Kalbasi Lab"
+      },
+      {
+        "GSM": "GSM9376754",
+        "BioSample": "SAMN53829697",
+        "direct_disease": null,
+        "full_isolate": "RT002",
+        "provider": "Kalbasi Lab"
+      },
+      {
+        "GSM": "GSM9376755",
+        "BioSample": "SAMN53829698",
+        "direct_disease": null,
+        "full_isolate": "RT003",
+        "provider": "Kalbasi Lab"
+      },
+      {
+        "GSM": "GSM9376740",
+        "BioSample": "SAMN53912815",
+        "direct_disease": "myxofibrosarcoma",
+        "full_isolate": "BO112-SARC-004",
+        "provider": "Kalbasi Lab"
+      },
+      {
+        "GSM": "GSM9376741",
+        "BioSample": "SAMN53912816",
+        "direct_disease": "myxofibrosarcoma",
+        "full_isolate": "BO112-SARC-004",
+        "provider": "Kalbasi Lab"
+      },
+      {
+        "GSM": "GSM9376742",
+        "BioSample": "SAMN53912817",
+        "direct_disease": "myxofibrosarcoma",
+        "full_isolate": "BO112-SARC-004",
+        "provider": "Kalbasi Lab"
+      },
+      {
+        "GSM": "GSM9376743",
+        "BioSample": "SAMN53912818",
+        "direct_disease": "myxofibrosarcoma",
+        "full_isolate": "BO112-SARC-004",
+        "provider": "Kalbasi Lab"
+      }
+    ],
+    "counts_recalculated": {
+      "demonstrably unsuitable measurement": 16,
+      "pending accessible analysis": 10
+    },
+    "pending_current_named_source_donors": 6,
+    "pending_accessions": [
+      "GSM9376746",
+      "GSM9376747",
+      "GSM9376748",
+      "GSM9376749",
+      "GSM9376750",
+      "GSM9376751",
+      "GSM9376752",
+      "GSM9376753",
+      "GSM9376754",
+      "GSM9376755"
+    ],
+    "owner_seven_frozen_records_unchanged": [
+      {
+        "path": "../single_cell/REPORT.txt",
+        "sha256": "35eddaf011f7985642db5b9844f905a336d197c8253bc7995eac86b2c9063330",
+        "unchanged": true
+      },
+      {
+        "path": "../single_cell/COVERAGE.json",
+        "sha256": "ac7b3743bad2548640fae72f3d86a1ae66d8a97bc34e34ffba23ffdd560107a7",
+        "unchanged": true
+      },
+      {
+        "path": "../single_cell/DECISION.json",
+        "sha256": "eb48f27f767056af52b8e9e74cea8e0dd411bebbe0445a355f419e15fced2c62",
+        "unchanged": true
+      },
+      {
+        "path": "../single_cell/MANIFEST.json",
+        "sha256": "88dec5561d0b04739e7d7e600924f8dd618f9dfe6e581aa0b2e26f0b9cdd8bd8",
+        "unchanged": true
+      },
+      {
+        "path": "../single_cell/BO112-COVERAGE-BY-CONDITION.json",
+        "sha256": "75e74996572c715302047b4515779ae10f128e16262326af31afdd1f5a3cb7f5",
+        "unchanged": true
+      },
+      {
+        "path": "../single_cell/BO112-PUBLISHED-ROSTER-OBSERVATIONS.json",
+        "sha256": "5ddde7fdb31b6e070f4c9af3d7604f6872b03a33f36cdd5cdd16ad2e598b3474",
+        "unchanged": true
+      },
+      {
+        "path": "../single_cell/SELECTED-GEO-ACCESSION-INVENTORY.json",
+        "sha256": "1020d62890efdaa0ccee067c96b3904df78e5aec0becd0ddbbc5e59cad8fa599",
+        "unchanged": true
+      }
+    ],
+    "own_original_records_unchanged": [
+      {
+        "path": "SINGLE-CELL-INDEPENDENT-REVIEW-FINAL.json",
+        "sha256": "704d647098efa378f6f07233adeee0f9467aa86bb177f211020d2fcf3961f112",
+        "unchanged_from_prior_commit": true
+      },
+      {
+        "path": "SINGLE-CELL-METADATA-AUDIT.json",
+        "sha256": "cccdb666b40b4243cb14b9376e631753d038efdf023b24c1faceb8287b0c37e0",
+        "unchanged_from_prior_commit": true
+      },
+      {
+        "path": "SINGLE-CELL-RAW-EXTRACTION-CHECK.json",
+        "sha256": "176d6f745d7353b0fb68700a66c5eda9d64c54c7b385c9922f774eb6f23c6806",
+        "unchanged_from_prior_commit": true
+      },
+      {
+        "path": "MANIFEST.json",
+        "sha256": "1b178617a023e449d6515777d0acbdab41363e109f3cf0c27cd83cd0eeb1aa30",
+        "unchanged_from_prior_commit": true
+      }
+    ],
+    "method": "Independent standard-library XML parsing of retained official raw original; exact extracted field comparison and original GSM relation membership; complete corrected-row uniqueness/count/title/hash checks. No new original copy, no expression matrix, no re-frozen historical review."
+  },
+  "identity_assessment": [
+    "Four current GSE313858 spatial conditions have direct exact GSM-linked BioSample disease=myxofibrosarcoma. This is author source typing, not independent pathology.",
+    "Two current GSE313859 scRNA 004 conditions omit diagnosis, but declare identical full isolate BO112-SARC-004 and provider Kalbasi Lab as the four spatial records; sex and collection years are consistent. Accept within-current-source linkage for conservative eligibility disposition while preserving absent scRNA pathology/genomic confirmation. Do not describe these two as directly typed.",
+    "Current 010/011 subtype transfer from old GSE279852 using repeated numeric codes is unsupported. All four 010/011 libraries correctly return to pending. Current 012 paired libraries remain pending.",
+    "All four exact RT-only BioSample records omit disease and say sarcoma. RT001 CD45-positive/negative are two sorts of one named source donor. An unretained remote primary-text UPS assertion is not independently reproduced; all RT records remain pending.",
+    "The prior GSE279852 ten directly labelled non-EMC libraries remain evaluated separately. Prior/current donor equivalence is unresolved, including similarly numbered 004/010/011; source-declared current 004 linkage does not validate cross-deposit transfer or pooling."
+  ],
+  "corrected_coverage": {
+    "BO112_library_conditions": 26,
+    "source_nonEMC_conditions": 16,
+    "source_nonEMC_basis": {
+      "prior_direct_GEO_conditions": 10,
+      "current_direct_MFS_spatial_conditions": 4,
+      "current_source_linked_MFS_scRNA_conditions": 2
+    },
+    "pending_conditions": 10,
+    "pending_current_named_donors": [
+      "SARC-010",
+      "SARC-011",
+      "SARC-012",
+      "RT-001",
+      "RT-002",
+      "RT-003"
+    ],
+    "authenticated_EMC_conditions": 0,
+    "meaning": "Metadata eligibility gate only. Zero currently authenticated EMC is not biological absence. Conditions/timepoints/sorts are not independent donors, and old/current overlap is unresolved."
+  },
+  "explicit_supersession": {
+    "historical_review": "SINGLE-CELL-INDEPENDENT-REVIEW-FINAL.json",
+    "historical_review_sha256": "704d647098efa378f6f07233adeee0f9467aa86bb177f211020d2fcf3961f112",
+    "affected_claims": "Its endorsement of BO-112 old/current numerical-code subtype transfer, source overlap, and 20 non-EMC / 6 pending conditions across 4 pending donors is superseded by this review and the owner corrective amendment. The corresponding BO-112 mapped-donor section of SINGLE-CELL-METADATA-AUDIT.json and hardcoded known-map in audit_single_cell_metadata.py is historical, not current donor identity validation.",
+    "preserved_findings": "The original independent hash/four-field extraction comparisons for all 424 condition records, scTumor complete 36-type roster inspection and unrelated eligibility/value cautions remain evidence in their original scope. Matching metadata extraction never validates inferred cross-series donor identity."
+  },
+  "validity_AND_scientific_value": {
+    "validity": "Correction resolves the identified unsupported inference without manufacturing new diagnosis or biological negative. Suitable identity-pending measurements continue to block promotion.",
+    "value": "No qualifying EMC cell-state, spatial or treatment contrast is authenticated; unchanged shelving is warranted. A completed source gate is reusable search work, not a publishable negative discovery.",
+    "strongest_alternative": "RT-only primary histology or actual source-defined cross-deposit donor mapping could close eligibility, but neither has been independently authenticated in retained accessible originals; do not substitute trial aggregates or matching digits.",
+    "reopen": "Exact authenticated EMC histology/donor/condition evidence with permitted processed measurements, useful independent contrast, and complete relevant public coverage. Search is not exhausted.",
+    "other_remaining_gaps": "Broader pediatric and CASSIS/Luthria/CellSARCTx specimen-source crosswalks and generic cell-line-panel identities remain as owner amendment records; no blanket public coverage claim."
+  },
+  "portability": "Owner official XML is ignored cache only, retained at exact owner location and bound by receipt URL/hash. Committed small observations and disposition records carry reviewed source facts; a future raw replication requires permitted receipt-URL recovery and source-version comparison. No new raw duplicate was made; no remote cache possession is implied.",
+  "storage_and_access": {
+    "retained_limit_bytes": 67108864,
+    "free_bytes": 27679358976,
+    "free_minimum_bytes": 10737418240,
+    "quiet_files_only": true,
+    "no_UI_paid_GPU_outreach_publication_PR_shared_write_or_push": true,
+    "no_restricted_science_reopened": true,
+    "own_retained_packet_plus_cache_bytes_before_additive_review": 5134595
+  }
+}
