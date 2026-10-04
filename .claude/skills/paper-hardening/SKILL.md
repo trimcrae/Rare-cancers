@@ -14,6 +14,21 @@ Budget one independent review batch, one batched repair, and a focused independe
 of changed claims and dependencies. Further full review needs a named material reason. If existing
 publication evidence requirements remain unsatisfied, report that fact rather than claiming ready.
 
+Apply the operating protocol's scientific follow-through and reassessment before judging a
+manuscript ready. State separately whether the analysis is valid and whether its surviving finding
+is new and useful enough to merit a paper. Material contrary evidence or substantial claim narrowing
+requires a focused contribution decision before further polishing, even if every remaining sentence
+is accurate. The minimum repair may be shelving the paper or a bounded decisive scientific check.
+Do not rescue a failed contribution with caveats, substitute a positive single model for relevant
+coverage, or treat an unavailable measurement as negative. Keep this within the existing review
+batch; report the clear verdict, evidence, remaining decision-changing gap and next action.
+
+Require the operating protocol's complete public-EMC evidence evaluation for the actual claim.
+Independently check source discovery, eligibility and omissions, including EMC observations within
+broader studies, rather than accepting a complete-looking table. No source- or sample-size exception
+permits convenience sampling of EMC. Pending suitable accessible evidence blocks manuscript
+promotion; verify the reasons and claim consequences for unavailable or unsuitable measurements.
+
 Findings distinguish current submission blockers, maintenance gaps, and optional editorial changes.
 Every finding names the exact outgoing claim, source, consequence, and minimum repair. A correct
 sentence without a guard is maintenance. Zero findings is a valid result. Verify objections against

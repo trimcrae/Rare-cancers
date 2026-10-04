@@ -4,7 +4,7 @@ title: Local subscription research runner
 kind: runbook
 status: live
 date: 2026-09-04
-last_verified: 2026-09-05
+last_verified: 2026-10-04
 purpose: Run one bounded research task using saved ChatGPT authentication and preserve its actual outcome.
 audience: [maintainers, autonomous research agents]
 scope: Setup and operation of scripts/research_run.py; not publication authority.
@@ -76,6 +76,14 @@ timeouts, authentication failure, and blocked tools produce distinct non-success
 in `follow_up`. Completion with a real task blocker is still refused. The worker receives the
 actual model, effort, time and dispatch limits rather than guessing execution metadata. Usage is
 recorded when Codex emits it; token counts do not imply a known remaining subscription allowance.
+
+The live operating protocol is included in every worker prompt, including its
+[scientific follow-through and reassessment](OPERATING_PROTOCOL.md#scientific-follow-through-and-reassessment)
+duties. Workers surface interpretation-changing checks inside their scope and concrete scientific
+`follow_up` outside it. The lead must execute or disposition those checks and decide whether a useful
+paper survives before drafting; a `completed` worker receipt does not end that responsibility.
+This is an evidence-triggered research instruction, not a new scheduler or an automated judgment
+of biological truth. Existing dispatch limits, outcome schemas, locks and publication gates remain.
 
 Completion retains resource ownership until integration. Each returned outcome has a SHA256 and
 an inventory of all changed files, including untracked additions and deletions. Missing claimed

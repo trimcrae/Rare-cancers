@@ -1,0 +1,59 @@
+---
+id: DOC-TMEM266-RNA-LETTER-DRAFT-20261004
+title: Comparative enrichment of TMEM266-associated RNA in extraskeletal myxoid chondrosarcoma
+level: L3
+kind: manuscript
+status: live
+purpose: Report exploratory EMC tissue RNA association with assay and culture evidence and explicit limits.
+scope: Public data reanalysis; no localization, full-length transcript, protein or clinical validation.
+audience: [maintainers, external reviewers, collaborators]
+date: 2026-10-04
+last_verified: 2026-10-04
+---
+
+# Comparative enrichment of TMEM266-associated RNA in extraskeletal myxoid chondrosarcoma
+
+Tristan D. McRae
+
+Working research-letter draft, revised 4 October 2026. Not submitted or approved for publication; affiliation and correspondence remain to be supplied. The 3 October draft is preserved as an earlier checkpoint.
+
+To the Editor,
+
+Extraskeletal myxoid chondrosarcoma (EMC) has a distinctive transcriptional phenotype, but bulk RNA does not identify the cells or protein products responsible. The development of CHRNA6 RNA in situ hybridization illustrates the value of following expression observations with direct tissue localization.[1] We investigated TMEM266, also known as C15orf27 or HVRP1, after its nomination in a comparative transcriptomic screen, asking whether the association was supported by published EMC tissue measurements and which transcript regions those assays could identify.
+
+This exploratory analysis screened a frozen UniProt-based universe of 2,694 measurable membrane-associated genes in the public tissue RNA-sequencing resource of Hofvander and colleagues.[2] Nine eligible primary specimens labelled EMC were compared separately with myxoid liposarcoma (n=14), low-grade fibromyxoid sarcoma (LGFMS; n=13), and synovial sarcoma (n=18), after excluding known reused specimens and a recurrence. Twenty-one genes met the recorded discovery criteria and 16 met array follow-up criteria; TMEM266 was selected from these results. All nominations and unsuccessful candidates remain in the analysis record. This was not a prespecified single-gene validation study.
+
+TMEM266 abundance in the nine specimens had a median of 28.88 transcripts per million (TPM; range, 6.73–56.82). Every EMC value exceeded every value in each primary comparator group, giving empirical probability of superiority A=1.00 in all three comparisons. A gives half credit to ties and describes these distributions, not prospective diagnostic accuracy. The discovery intersection-union test, using the largest of three directional P values and Benjamini–Hochberg adjustment over screened genes, yielded q=0.00961. Shared-sequencing-year comparisons also gave A=1.00, but included only three EMC specimens per comparison and four distinct EMC specimens overall.
+
+Source molecular annotations qualify the cohort. One specimen, 5149-18, has an RT-PCR-verified FUS::NR4A2 fusion; seven have explicit NR4A3 fusion entries, and one lacks a specimen-linked fusion entry in the detailed table despite aggregate fusion-positive metadata. Restricting to the seven explicit NR4A3 entries retained the same TMEM266 median and range and A=1.00 against the three comparators. This subset result follows from the all-nine separation and is not additional validation. We preserve the source pathology labels rather than reclassifying cases from a table alone.
+
+In GSE24369 tissue arrays, the C15orf27/TMEM266 transcript cluster was higher in six EMC specimens than in LGFMS (n=17; A=0.922), myxofibrosarcoma (n=6; A=0.917), solitary fibrous tumor (n=5; A=0.900), and desmoid tumors (n=6; A=1.00).[3] CEL headers identify all six EMC specimens; three shared identifiers were already excluded from the RNA-sequencing analysis and none matches its retained nine. Undocumented patient aliases remain possible, so these counts are not pooled as independent patients. More importantly, all six EMC arrays were scanned on 30 September 2008, whereas all 17 LGFMS arrays were scanned on 7 or 15 October. Histology and scan date are completely confounded in that comparison; these arrays cannot independently separate biological enrichment from technical batch effects. GSE24369 also contributed to the earlier CHRNA6 discovery study.[1]
+
+Before inspecting raw probe intensities, we recovered the cluster's 30 physical 25-mer probes and froze an upstream score using 14 probes across six regions corresponding to canonical exons 2–7. Within-array intensity percentiles were averaged within regions and then equally across regions. In the same six EMC and 17 LGFMS arrays, this score gave A=0.971 (exploratory 95% array-bootstrap interval, 0.882–1.000; 2,000 resamples), with all six regions in the same direction. Two probes partly cross the current 5′ untranslated-region boundary; restricting to 12 probes wholly within canonical coding exons 3–7 gave A=0.951 (0.824–1.000). Removing CEL-flagged probes or subtracting fixed GC-matched control scores preserved the direction, but neither resolves the scan-date confounding. These post-selection results describe regional assay signal, not an independently validated coding transcript.
+
+Normal muscle substantially limits interpretation. Both skeletal-muscle RNA pools in the array study had upstream scores within the EMC range and were themselves scanned on a separate date. A fixed five-gene mature-muscle expression contrast distinguished the EMC profile from those pools, but the same direction occurred in every other tumor specimen examined; it neither localizes TMEM266 nor excludes muscle contamination. Accordingly, the tissue result supports enrichment relative to selected sarcomas and does not establish tumor specificity. No diagnostic increment over CHRNA6 was demonstrated: in the reused RNA-sequencing data, CHRNA6 separated EMC from all three primary comparators and ossifying fibromyxoid tumor (n=8), whereas TMEM266 overlapped the latter group (A=0.958).
+
+A published FFPE series offers additional, qualified tissue evidence.[4] Excluding a deposited sample with a Si22/Si21 identifier conflict leaves 11 pathology-reviewed EMC tissue areas with a median of 3.978 on the authors' TMEM266 Log2CPM scale (range, −0.376–7.223). The matching manufacturer design spans canonical exon 10–11, outside the identified antisense overlap.[5] Its exact 50-nucleotide detector sequence occurs in a pre-existing raw-read counting checkpoint for five consistently identified specimens and the conflicting specimen. These are detector-oligo products, not native RNA-junction sequences; the check authenticates the assayed target sequence without validating the entire manifest revision or hybridization specificity. The filtered expression export has no authenticated detection threshold, and unretained checkpoint sequences are censored rather than negative tumors. Source provenance discrepancies and an incorrectly labelled external-validation cohort further limit this series (Supplementary Methods).
+
+Published culture data add evidence that TMEM266 RNA can occur in an EMC-derived experimental model. V1-34 has sparse downstream TMEM266 coverage in two technical sequencing runs and a source-reported EWSR1–NR4A3 fusion.[6] A second source-labelled culture, USZ-23_EMC3, has prior raw-read support for that fusion and published transcript estimates summing to 133.52 TPM across the three indexed TMEM266 models.[8] These estimates include a canonical model and a predicted model with a different coding annotation; shared tissue probes cannot distinguish them. The result identifies a model for transcript-resolution experiments, without establishing the cellular source of RNA in intact tumors or a predominant protein product.
+
+The tissue measurements support an EMC-associated RNA pattern with assay signals assigned to multiple TMEM266 regions. They do not phase those regions into one full-length molecule, and alternative transcript annotations make even canonical coding-region signal insufficient to infer the protein. Prior work on TMEM266 forms in mouse cerebellum reinforces the distinction between gene-level signal and protein identity.[7] No malignant-cell localization in tissue, TMEM266 protein expression, voltage-sensing function, dependency, or therapeutic window was demonstrated here.
+
+The next discriminating experiment is localization of separately targeted upstream and downstream RNA in fusion-confirmed EMC tissue, with muscle and stromal controls, followed by transcript-resolved sequencing and protein validation. Bounded literature searches did not retrieve a direct EMC-specific TMEM266 claim, but coverage of all candidates from earlier screens was incomplete; we make no claim of first discovery. The contribution is a comparative tissue-RNA association, a qualified account of its assay-region support, and a fusion-supported culture in which the transcript question can be tested.
+
+## Data, code, and declarations
+
+Original data are available through the cited studies and the Hofvander [Zenodo resource](https://doi.org/10.5281/zenodo.17866629). [Supplementary Methods](SUPPLEMENT.md) links the dated plans, selected measurements, scripts, source hashes and independent checks. The package remains local and has not been deposited as a public release. No new patients were recruited or specimens collected; this does not assert a new ethics approval or exemption.
+
+Funding: none. Competing interests: none declared, under the author's standing declarations. OpenAI Codex assisted with retrieval, code, analysis, computational checks and drafting; human author review and responsibility for an outgoing version remain required.
+
+## References
+
+1. Dulken et al. CHRNA6 RNA In Situ Hybridization Is a Useful Tool for the Diagnosis of Extraskeletal Myxoid Chondrosarcoma. *Modern Pathology*. 2024. [doi:10.1016/j.modpat.2024.100464](https://doi.org/10.1016/j.modpat.2024.100464).
+2. Hofvander J et al. Transcriptomic Subgroups in Soft Tissue Tumors Correlate with Morphologic Subtype, Genomic Features, and Outcome. *Clinical Cancer Research*. 2026;32:1825–1834. [doi:10.1158/1078-0432.CCR-25-3740](https://doi.org/10.1158/1078-0432.CCR-25-3740).
+3. Möller E et al. FUS-CREB3L2/L1–Positive Sarcomas Show a Specific Gene Expression Profile with Upregulation of CD24 and FOXL1. *Clinical Cancer Research*. 2011;17:2646–2656. [Original article](https://aacrjournals.org/clincancerres/article/17/9/2646/12912/FUS-CREB3L2-L1-Positive-Sarcomas-Show-a-Specific); [GSE24369](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369).
+4. Chaiboonchoe A et al. Prognostic biomarkers for enhanced risk stratification in extraskeletal myxoid chondrosarcoma: a retrospective cohort study. *PeerJ*. 2026;14:e21497. [doi:10.7717/peerj.21497](https://doi.org/10.7717/peerj.21497).
+5. BioSpyder. Human Whole Transcriptome 2.0 manifest, 190620 revision. [Official manifest](https://www.biospyder.com/s/190620HumanWholeTranscriptome20Manifest.xlsx).
+6. Davila JI et al. Impact of RNA degradation on fusion detection by RNA-seq. *BMC Genomics*. 2016;17:814. [doi:10.1186/s12864-016-3161-9](https://doi.org/10.1186/s12864-016-3161-9).
+7. Kawai T et al. Insight into the function of a unique voltage-sensor protein (TMEM266) and its short form in mouse cerebellum. *Biochemical Journal*. 2022;479:1127–1145. [doi:10.1042/BCJ20220033](https://doi.org/10.1042/BCJ20220033).
+8. Planas-Paz L et al. Targeting ATR signaling in sarcoma with homologous recombination deficiency. *Cancer Letters*. 2026;642:218300. [doi:10.1016/j.canlet.2026.218300](https://doi.org/10.1016/j.canlet.2026.218300); [GSM9037837](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM9037837).

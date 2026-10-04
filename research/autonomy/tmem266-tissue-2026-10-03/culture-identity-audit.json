@@ -1,0 +1,185 @@
+{
+  "source_doi": "10.1186/s12864-016-3161-9",
+  "receipts": {
+    "geo": {
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2113301&targ=self&form=text&view=full",
+      "bytes": 4006,
+      "sha256": "faab04a325e90a1e01079eb551ff9fcaf51bb0ec452a145c8e6ffb8200bc3d1e"
+    },
+    "supplement": {
+      "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5072325.1/12864_2016_3161_MOESM3_ESM.docx",
+      "bytes": 71035,
+      "sha256": "67e13d079a36a8ff0ed0735476f45b669e984f09b6a4f4026c078d353688a35c"
+    },
+    "article": {
+      "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5072325.1/PMC5072325.1.xml",
+      "bytes": 85410,
+      "sha256": "9e6e68582041567e1b6be653bc0cfd58e26e3e7ca0d4dec1f3e1e0ca6680cfd6"
+    },
+    "ena": {
+      "url": "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=SRX1703825&result=read_run&fields=run_accession,experiment_accession,sample_accession,secondary_sample_accession,sample_alias,study_accession&format=tsv",
+      "bytes": 246,
+      "sha256": "277ba003f820b89e32c927b2420b0d8ae5c75bdc9deabcbcfc7c637200e76286"
+    }
+  },
+  "selected_GEO_metadata_lines": [
+    "!Sample_title = V1-34",
+    "!Sample_source_name_ch1 = Cell culture",
+    "!Sample_characteristics_ch1 = sample type: Accuracy sample",
+    "!Sample_characteristics_ch1 = histology: extraskeletal myxoid chondrosarcoma",
+    "!Sample_characteristics_ch1 = rin score: 10",
+    "!Sample_relation = BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851121",
+    "!Sample_relation = SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703825"
+  ],
+  "source_tables": [
+    {
+      "table_index": 1,
+      "headers": [
+        [
+          "Sample",
+          "Total read depth (Million reads)",
+          "Percent of reads mapping to hg19",
+          "Average read depth on exome region"
+        ],
+        [
+          "KU812 (RIN=10)",
+          "124.62",
+          "94.9",
+          "291.48"
+        ]
+      ],
+      "matching_rows": [
+        [
+          16,
+          [
+            "V1-34",
+            "101.09",
+            "95.7",
+            "238.60"
+          ]
+        ]
+      ]
+    },
+    {
+      "table_index": 3,
+      "headers": [
+        [
+          "Gene Symbol",
+          "Transcript ID",
+          "Gene description"
+        ],
+        [
+          "ABI1",
+          "NM_005470",
+          "abl-interactor 1"
+        ]
+      ],
+      "matching_rows": [
+        [
+          331,
+          [
+            "NR4A3",
+            "NM_173200",
+            "nuclear receptor subfamily 4, group A, member 3"
+          ]
+        ]
+      ]
+    },
+    {
+      "table_index": 4,
+      "headers": [
+        [
+          "Type",
+          "Anatomical site",
+          "Histology",
+          "RIN",
+          "Decay rate",
+          "R2",
+          "p value"
+        ],
+        [
+          "Tissue",
+          "Kidney",
+          "Normal",
+          "3.4",
+          "-0.74",
+          "0.87",
+          "3.78E-22"
+        ]
+      ],
+      "matching_rows": [
+        [
+          15,
+          [
+            "Cell line",
+            "Cell culture",
+            "Enchondroma v. fibromyxoid sarcoma",
+            "9.9",
+            "-0.03",
+            "0.11",
+            "2.27E-02"
+          ]
+        ],
+        [
+          20,
+          [
+            "Cell line",
+            "Cell culture",
+            "Extraskeletal myxoid chondrosarcoma",
+            "10.0",
+            "0.01",
+            "0.02",
+            "3.25E-01"
+          ]
+        ]
+      ]
+    },
+    {
+      "table_index": 6,
+      "headers": [
+        [
+          "Type",
+          "Histologic diagnosis",
+          "RIN",
+          "Fusion detected by RNA seq",
+          "Distance from 3\u2019 end",
+          "Estimated sensitivity"
+        ],
+        [
+          "Tissue",
+          "Metastatic cholangiocarcinoma",
+          "7.7",
+          "FGFR2-TACC3",
+          "741",
+          "93.6"
+        ]
+      ],
+      "matching_rows": [
+        [
+          11,
+          [
+            "Cell line",
+            "Extraskeletal myxoid chondrosarcoma",
+            "10.0",
+            "EWSR1-NR4A3",
+            "4,907",
+            "95.0"
+          ]
+        ],
+        [
+          13,
+          [
+            "Cell line",
+            "Enchondroma v. fibromyxoid sarcoma",
+            "10.0",
+            "HGMA2-LPP",
+            "16,622",
+            "87.0*"
+          ]
+        ]
+      ]
+    }
+  ],
+  "ENA_run_crosswalk": "run_accession\texperiment_accession\tsample_accession\tsecondary_sample_accession\tsample_alias\tstudy_accession\nSRR3380704\tSRX1703825\tSAMN04851121\tSRS1395972\tGSM2113301\tPRJNA318407\nSRR3380705\tSRX1703825\tSAMN04851121\tSRS1395972\tGSM2113301\tPRJNA318407\n",
+  "interpretation": "Publication and GEO jointly identify one EMC-derived cell culture with EWSR1::NR4A3 and two sequencing runs. Neither source establishes modern STR identity, malignant-cell fraction or same-cell coexpression of fusion and TMEM266."
+}

@@ -1,0 +1,85 @@
+TMEM266 prepublication investigation and draft checkpoint
+3 October 2026 America/New_York / 4 October UTC
+
+Demonstrated candidate (one, unranked)
+A new analysis of published EMC tissue arrays found that the EMC-associated
+TMEM266 RNA signal extends across upstream coding regions: six EMC samples
+exceeded 17 LGFMS samples with primary A=.970588 and strict coding-region
+A=.950980, concordant with the existing gene-level and downstream-target data.
+This makes localization of TMEM266 RNA within EMC cells a specific research
+priority, but normal muscle overlaps and the arrays neither identify the
+expressing cells nor phase a complete protein-coding transcript.
+
+The new result is assay-region evidence in the reused GSE24369 cohort, not
+additional patients or independent validation. Primary bootstrap95% interval
+.882353-1; strict .823529-1; exploratory and conditional on prior gene selection.
+All six primary regions show A>.5, not only the downstream/antisense region.
+Fourteen upstream probes include two mixed current-UTR/CDS probes; the strict
+12-probe group covers five current coding regions. All30 target probes,
+including11/750 outlier-flagged measurements, remain in saved output as planned.
+GC-matched controls show a small class shift and do not eliminate technical
+confounding. Both normal-muscle pools overlap the EMC score range.
+
+What changed the drafting decision
+Before this turn, downstream junction/locus evidence did not establish
+whether the comparative tissue signal extended to upstream coding regions.
+Authentic source probe maps and bounded raw-CEL ranges now support that
+specific extension. The clinical/novelty reviewer judged the combined
+comparative-RNA contribution suitable for a narrow exploratory research
+letter, with no first-ever claim and no tumor-specific target conclusion.
+DRAFT.md and SUPPLEMENT.md now integrate the demonstrated results.
+Three independent workers reviewed distinct claims/methods/sequence scopes;
+one citation placeholder and one incompletely stated allocation rule were
+repaired. This is not an ultra review or a submission-readiness decision.
+
+Other investigation completed before drafting
+The raw array pilot was planned before target intensities, independently
+checked in two prespecified CELs, and replayed in full by the lead to preserve
+untruncated selected output. Raw CEL files were not persisted. The complete
+selected JSON uses114321958 retrieved bytes; the original independent2CEL
+verification used8852768 bytes and agreed on intensities and range hashes.
+An offline script recomputes all saved effect summaries and bootstrap limits.
+
+Prior-art review checked original Moller2011 supplementary tables, the
+Dulken2024 CHRNA6 study, TMEM266 prior biology, and prior completed repository
+work. No direct EMC-specific TMEM266 claim was retrieved, but full prior-screen
+candidate coverage remains incomplete. Absence in search is not proof of
+novelty, and this draft makes no first-discovery claim.
+
+The FFPE source review recovered a previously known Si22/Si21 identity conflict
+that had not been carried into our preceding packet's FISH summary. Original
+files remain unchanged; the new11-case sensitivity and draft carry the
+qualification. It does not alter the8 EWSR1-positive subgroup. GSE6481 cannot
+supply the source article's claimed EMC external validation. These are
+source-reliability limits, not the proposed scientific contribution.
+
+Promising but unfinished evidence routes
+Cell-localized upstream plus downstream TMEM266 RNA in fusion-authenticated
+EMC cells would resolve the main question, with entrapped muscle/stromal controls.
+Full-length RNA and protein require separate evidence. Publicly recovered
+materials did not provide those measurements. Available culture coverage is
+sparse/downstream, and its two runs are technical replicates of one culture.
+No authenticated EMC-specific spatial/single-cell/protein measurement was found.
+
+Rejected or stopped investigations
+BrencaPRJNA692081 tissue/engineered-culture runs lack an adequate crosswalk;
+generic BioSample tissue labels are insufficient, so no FASTQ prefixes were
+examined. Hofvander raw reads require controlled access; public gene TPMs do
+not establish transcript structure. Davis2017 public reports had no usable
+TMEM266 matrix. H-EMC-SS identity concerns prevent treating its name as proof
+of an authentic EMC model. The existing culture and engineered-fibroblast
+results cannot substitute for tissue localization or fusion-induced expression.
+No additional speculative pilot was created just to occupy worker slots.
+
+Evidence locations
+PLAN.txt records choices and dated amendments before relevant measurements.
+raw_array_pilot.py / raw-array-results.json: all25 arrays and selected data.
+probe-map.csv / probe_sequence_verify.py / probe-sequence-verification.json:
+exact target mapping and current annotation. recover_probe_map.py preserves
+the source-recovery recipe; assembled-file syntax only, not end-to-end rerun.
+identity_sensitivity.py / identity-sensitivity-results.json: source conflict.
+independent-raw-verification.json: distinct2CEL source/arithmetic verification.
+verify_packet.py / verification.json: offline numeric and preservation checks.
+SOURCE-GATES.txt: original sources, rejected routes and search limitations.
+The sibling discovery and tissue packets preserve all earlier inputs/code.
+No platform scales, cohorts or technical replicates were pooled.

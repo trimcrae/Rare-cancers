@@ -1,0 +1,3486 @@
+{
+  "series": "GSE80126",
+  "source": {
+    "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE80126&targ=gsm&form=text&view=full",
+    "bytes": 115698,
+    "sha256": "4ecddd4fcf50f81ee6b4b3e4f67176b8051d0386000728fedcd56c29487249a4"
+  },
+  "all_sample_metadata": [
+    {
+      "GSM": "GSM2113293",
+      "fields": {
+        "title": [
+          "V1-4"
+        ],
+        "geo_accession": [
+          "GSM2113293"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Peripheral Blood"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Acute Promyelocytic Leukemia",
+          "rin score: 8.5"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851113",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703817"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113293/suppl/GSM2113293_V1-4.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113294",
+      "fields": {
+        "title": [
+          "V1-6"
+        ],
+        "geo_accession": [
+          "GSM2113294"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Cell culture"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Endometrial Stromal Nodule",
+          "rin score: 9.7"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851114",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703818"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113294/suppl/GSM2113294_V1-6.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113295",
+      "fields": {
+        "title": [
+          "V1-12"
+        ],
+        "geo_accession": [
+          "GSM2113295"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Cell culture"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Ewings sarcoma",
+          "rin score: 10"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851115",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703819"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113295/suppl/GSM2113295_V1-12.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113296",
+      "fields": {
+        "title": [
+          "V1-24"
+        ],
+        "geo_accession": [
+          "GSM2113296"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Cell culture"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Liposarcoma",
+          "rin score: 10"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851116",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703820"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113296/suppl/GSM2113296_V1-24.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113297",
+      "fields": {
+        "title": [
+          "V1-25"
+        ],
+        "geo_accession": [
+          "GSM2113297"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Cell culture"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Histiocytic lymphoma",
+          "rin score: 10"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851117",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703821"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113297/suppl/GSM2113297_V1-25.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113298",
+      "fields": {
+        "title": [
+          "V1-30"
+        ],
+        "geo_accession": [
+          "GSM2113298"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Lung"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Adenocarcinoma",
+          "rin score: 7.7"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851118",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703822"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113298/suppl/GSM2113298_V1-30.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113299",
+      "fields": {
+        "title": [
+          "V1-31"
+        ],
+        "geo_accession": [
+          "GSM2113299"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Cell culture"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Synovial sarcoma",
+          "rin score: 10"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851119",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703823"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113299/suppl/GSM2113299_V1-31.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113300",
+      "fields": {
+        "title": [
+          "V1-33"
+        ],
+        "geo_accession": [
+          "GSM2113300"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Cell culture"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: enchondroma v. fibromyxoid sarcoma",
+          "rin score: 9.9"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851120",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703824"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113300/suppl/GSM2113300_V1-33.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113301",
+      "fields": {
+        "title": [
+          "V1-34"
+        ],
+        "geo_accession": [
+          "GSM2113301"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Cell culture"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: extraskeletal myxoid chondrosarcoma",
+          "rin score: 10"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851121",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703825"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113301/suppl/GSM2113301_V1-34.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113302",
+      "fields": {
+        "title": [
+          "V1-35"
+        ],
+        "geo_accession": [
+          "GSM2113302"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Lung"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Metastatic adenocarcinoma consistent with cholangiocarcinoma",
+          "rin score: 7.7"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851122",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703826"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113302/suppl/GSM2113302_V1-35.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113303",
+      "fields": {
+        "title": [
+          "V1-36"
+        ],
+        "geo_accession": [
+          "GSM2113303"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Lung"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Adenocarcinoma",
+          "rin score: 8.5"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851123",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703827"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113303/suppl/GSM2113303_V1-36.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113304",
+      "fields": {
+        "title": [
+          "V3-41"
+        ],
+        "geo_accession": [
+          "GSM2113304"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Lung"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Adenocarcinoma",
+          "rin score: 9"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851124",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703828"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113304/suppl/GSM2113304_V3-41.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113305",
+      "fields": {
+        "title": [
+          "V3-43"
+        ],
+        "geo_accession": [
+          "GSM2113305"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Liver"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Normal tissue",
+          "rin score: 7.8"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851125",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703829"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113305/suppl/GSM2113305_V3-43.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113306",
+      "fields": {
+        "title": [
+          "V3-44"
+        ],
+        "geo_accession": [
+          "GSM2113306"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Lymph node"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Normal tissue",
+          "rin score: 8.4"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851126",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703830"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113306/suppl/GSM2113306_V3-44.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113307",
+      "fields": {
+        "title": [
+          "V3-45"
+        ],
+        "geo_accession": [
+          "GSM2113307"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Uterus"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Normal tissue",
+          "rin score: 9.2"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851127",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703831"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113307/suppl/GSM2113307_V3-45.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113308",
+      "fields": {
+        "title": [
+          "V3-59"
+        ],
+        "geo_accession": [
+          "GSM2113308"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Colon"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Normal tissue",
+          "rin score: 8.2"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851128",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703832"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113308/suppl/GSM2113308_V3-59.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113309",
+      "fields": {
+        "title": [
+          "V3-60"
+        ],
+        "geo_accession": [
+          "GSM2113309"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Kidney"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Normal tissue",
+          "rin score: 3.4"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851129",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703833"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113309/suppl/GSM2113309_V3-60.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113310",
+      "fields": {
+        "title": [
+          "V3-61"
+        ],
+        "geo_accession": [
+          "GSM2113310"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Liver"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Normal tissue",
+          "rin score: 8.3"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851130",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703834"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113310/suppl/GSM2113310_V3-61.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113311",
+      "fields": {
+        "title": [
+          "V3-62"
+        ],
+        "geo_accession": [
+          "GSM2113311"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Lung"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Adenocarcinoma",
+          "rin score: 6.4"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851131",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703835"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113311/suppl/GSM2113311_V3-62.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113312",
+      "fields": {
+        "title": [
+          "V3-63"
+        ],
+        "geo_accession": [
+          "GSM2113312"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Lung"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: Invasive grade 3 adenocarcinoma",
+          "rin score: 9.3"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851132",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703836"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113312/suppl/GSM2113312_V3-63.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113313",
+      "fields": {
+        "title": [
+          "KU812RIN3"
+        ],
+        "geo_accession": [
+          "GSM2113313"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Cell line (KU812)"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Degradation: RIN3",
+          "histology: Chronic Myelogenous Leukemia",
+          "rin score: 3"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851133",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703837"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113313/suppl/GSM2113313_KU812RIN3.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113314",
+      "fields": {
+        "title": [
+          "KU812RIN5"
+        ],
+        "geo_accession": [
+          "GSM2113314"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Cell line (KU812)"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Degradation: RIN5",
+          "histology: Chronic Myelogenous Leukemia",
+          "rin score: 5"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851134",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703838"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113314/suppl/GSM2113314_KU812RIN5.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113315",
+      "fields": {
+        "title": [
+          "KU812RIN7"
+        ],
+        "geo_accession": [
+          "GSM2113315"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Cell line (KU812)"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Degradation: RIN7",
+          "histology: Chronic Myelogenous Leukemia",
+          "rin score: 7"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851135",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703839"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113315/suppl/GSM2113315_KU812RIN7.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113316",
+      "fields": {
+        "title": [
+          "UHR39"
+        ],
+        "geo_accession": [
+          "GSM2113316"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "cell line"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Degradation: RIN3.9",
+          "histology: UHR tumor*",
+          "rin score: 3.9"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851136",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703840"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113316/suppl/GSM2113316_UHR39.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113317",
+      "fields": {
+        "title": [
+          "UHR49"
+        ],
+        "geo_accession": [
+          "GSM2113317"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "cell line"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Degradation: RIN4.9",
+          "histology: UHR tumor*",
+          "rin score: 4.9"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851137",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703841"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113317/suppl/GSM2113317_UHR49.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113318",
+      "fields": {
+        "title": [
+          "UHR59"
+        ],
+        "geo_accession": [
+          "GSM2113318"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "cell line"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Degradation: RIN5.9",
+          "histology: UHR tumor*",
+          "rin score: 5.9"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851138",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703842"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113318/suppl/GSM2113318_UHR59.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113319",
+      "fields": {
+        "title": [
+          "UHR76"
+        ],
+        "geo_accession": [
+          "GSM2113319"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "cell line"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Degradation: RIN7.6",
+          "histology: UHR tumor*",
+          "rin score: 7.6"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851139",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703843"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113319/suppl/GSM2113319_UHR76.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113320",
+      "fields": {
+        "title": [
+          "UHR84"
+        ],
+        "geo_accession": [
+          "GSM2113320"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "cell line"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Degradation: RIN8.4",
+          "histology: UHR tumor*",
+          "rin score: 8.4"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851140",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703844"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113320/suppl/GSM2113320_UHR84.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    },
+    {
+      "GSM": "GSM2113321",
+      "fields": {
+        "title": [
+          "UHR-86"
+        ],
+        "geo_accession": [
+          "GSM2113321"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "cell line"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Degradation: RIN8.6",
+          "histology: UHR tumor*",
+          "rin score: 8.6"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851141",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703845"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113321/suppl/GSM2113321_UHR-86.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    }
+  ],
+  "explicit_EMC_samples": [
+    {
+      "GSM": "GSM2113301",
+      "fields": {
+        "title": [
+          "V1-34"
+        ],
+        "geo_accession": [
+          "GSM2113301"
+        ],
+        "status": [
+          "Public on Oct 20 2016"
+        ],
+        "submission_date": [
+          "Apr 11 2016"
+        ],
+        "last_update_date": [
+          "May 15 2019"
+        ],
+        "type": [
+          "SRA"
+        ],
+        "channel_count": [
+          "1"
+        ],
+        "source_name_ch1": [
+          "Cell culture"
+        ],
+        "organism_ch1": [
+          "Homo sapiens"
+        ],
+        "taxid_ch1": [
+          "9606"
+        ],
+        "characteristics_ch1": [
+          "sample type: Accuracy sample",
+          "histology: extraskeletal myxoid chondrosarcoma",
+          "rin score: 10"
+        ],
+        "molecule_ch1": [
+          "total RNA"
+        ],
+        "extract_protocol_ch1": [
+          "RNA quality [RNA Integrity Number (RIN)] was assessed on an Agilent 2100 Bioanalyzer with the RNA 6000 Nano Kit and quantified with a Qubit\u00ae 2.0 fluorometer with the Qubit\u00ae RNA BR Assay Kit. The TruSeq\u00ae RNA Sample Preparation v2 Kit (Illumina, San Diego, CA) was used for isolation of polyadenylated mRNA with oligo-dT beads, second strand cDNA synthesis and NGS library preparation",
+          "Paired-end, 101 bp sequencing was performed on a HiSeq 2500 (Illumina) instrument in Rapid Run mode."
+        ],
+        "data_processing": [
+          "Base calling was performed by the instrument computer using Illumina Real Time Analysis (RTA) software that is integrated with HiSeq Control Software (HCS) and provides a summary of quality statistics as per Illumina's acceptance criteria for sequencing. CASAVA 1.8.2 was used for de-multiplexing and conversion of base calls to paired-end FASTQ files",
+          "RNA-Seq data was analyzed using the MAP-RSeq(http://www.ncbi.nlm.nih.gov/pubmed/24972667) pipeline v 1.2 which uses TopHat 2.0.6 to align reads to the human reference GRCh37  without alternative haplotypes. During alignment,TopHat was supplied transcript models from UCSC (March 2012 version) available from Illumina\u2019s iGenomes Project. For the degraded KU812 samples we obtained > 13 million reads per sample and for the degraded UHR and clinical samples we obtained > 80 million reads per sample. Fusion calling was performed using TopHat-Fusion (http://www.ncbi.nlm.nih.gov/pubmed/21835007) with a minimum of 5 fusion supporting reads required",
+          "For the UHR samples read coverage was normalized to 50 million reads per sample. The utility DepthOfCoverage from the Genome Analysis Toolkit (GATK) v.1.6.7 was used to query the alignment files to obtain read depth coverage information. Read coverage as a function of the distance to the 3\u2019 end was calculated for genes with expression > 10x at a position 300 bases from the 3\u2019 end.  Linear models and plots were created in R (version 3.1) using ggplot2 v 2.1.",
+          "Genome_build: hg19",
+          "Supplementary_files_format_and_content: tab-delimited text files include fusions found in each sample with annotations on the 5' and 3' gene partners, exons, syupporting read information and genomic breakpoints for each fusion"
+        ],
+        "platform_id": [
+          "GPL16791"
+        ],
+        "contact_name": [
+          "Numrah,Mohammadali,Fadra"
+        ],
+        "contact_email": [
+          "fadra.numrah@mayo.edu"
+        ],
+        "contact_phone": [
+          "5077733248"
+        ],
+        "contact_laboratory": [
+          "Division of Biomedical Statistics and Informatics"
+        ],
+        "contact_department": [
+          "Health Sciences Research"
+        ],
+        "contact_institute": [
+          "Mayo Clinic"
+        ],
+        "contact_address": [
+          "200 2nd Street SW"
+        ],
+        "contact_city": [
+          "Rochester"
+        ],
+        "contact_state": [
+          "Minnesota"
+        ],
+        "contact_zip/postal_code": [
+          "55901"
+        ],
+        "contact_country": [
+          "USA"
+        ],
+        "instrument_model": [
+          "Illumina HiSeq 2500"
+        ],
+        "library_selection": [
+          "cDNA"
+        ],
+        "library_source": [
+          "transcriptomic"
+        ],
+        "library_strategy": [
+          "RNA-Seq"
+        ],
+        "relation": [
+          "BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN04851121",
+          "SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX1703825"
+        ],
+        "supplementary_file_1": [
+          "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2113nnn/GSM2113301/suppl/GSM2113301_V1-34.In-Frame_Fusions.txt.gz"
+        ],
+        "series_id": [
+          "GSE80126"
+        ],
+        "data_row_count": [
+          "0"
+        ]
+      }
+    }
+  ],
+  "TMEM266_reused": {
+    "gene_id": "ENSG00000169758.12",
+    "annotation": {
+      "name": "TMEM266",
+      "gtf": "chr15\tHAVANA\tgene\t76059837\t76229121\t5265\t+\t.\tgene_id \"ENSG00000169758.12\"; gene_type \"protein_coding\"; gene_name \"TMEM266\"; level 1; havana_gene \"OTTHUMG00000142918.6\";"
+    },
+    "runs": {
+      "SRR3380704": {
+        "coverage_bp_sum": 1333,
+        "auc_all_reads_all_bases": 4010619836.0,
+        "coverage_scaled_to_40M_AUC": 13.29470310833021
+      },
+      "SRR3380705": {
+        "coverage_bp_sum": 1694,
+        "auc_all_reads_all_bases": 4149109043.0,
+        "coverage_scaled_to_40M_AUC": 16.331216966765073
+      }
+    }
+  },
+  "frozen_source": {
+    "path": "../tmem266-tissue-2026-10-03/cultured-emc-recount-results.json",
+    "sha256": "416389d99149a647fff2701a6f00adae91c53ba62ed3283a859fcb38a66bc2e3"
+  },
+  "scope": "All29GEOsamples screened by explicit histology; one biological EMC culture, two technical runs. Other samples with fibromyxoid in a different diagnosis are not EMC. GEO processed sample contains fusion calls, not gene abundance; prior recount3 gene/base coverage retained in its own units."
+}

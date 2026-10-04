@@ -4,7 +4,7 @@ title: Research operating protocol
 kind: runbook
 status: live
 date: 2026-09-04
-last_verified: 2026-09-04
+last_verified: 2026-10-04
 purpose: Deliver useful computational EMC research with bounded review and explicit ownership.
 audience: [maintainers, autonomous research agents]
 scope: Work selection, review, coordination, and the Claude-to-Codex transition.
@@ -41,6 +41,120 @@ association, and experimental validation. No wet-lab claim can be established by
    conditions that affect the proposed action. Enforce real budget, access, ownership, and evidence
    constraints. A process fix must remove observed friction and report its measured effect.
 
+## Scientific follow-through and reassessment
+
+**User instruction, 2026-10-04:** follow-up and reevaluation of scientific value are automatic
+responsibilities of the research team. Do not wait for the user to request the obvious comparison,
+identify contrary evidence, or ask whether the paper should be abandoned. A technically correct
+analysis and an accurately qualified manuscript do not by themselves establish a useful contribution.
+
+Before the relevant results are inspected where possible, record the proposed EMC finding, what
+primary studies already establish, why the answer would change a researcher's beliefs, measurements
+or next experiment, the strongest alternative explanation, and a result that would defeat the
+interpretation or make the project unworthy of a paper. Preserve that original rationale and append
+dated revisions; do not rewrite a hypothesis or a stop condition to fit observed results.
+
+When a result looks promising, investigate credible, accessible follow-up that could materially
+change its interpretation or scientific value **before full manuscript drafting or promotion**.
+Choose the most discriminating checks, including those most likely to disprove the preferred
+explanation, before additional favorable examples or polishing. This is not a demand to exhaust
+every imaginable analysis. Use bounded pilots with recorded choices, sources and stopping rules;
+reuse completed checks and do not search or extend sampling until a positive result appears.
+
+### Mandatory coverage of public EMC evidence
+
+**User clarification, 2026-10-04:** for every scientific claim, identify and evaluate **all
+identifiable relevant public EMC evidence**. EMC is a sparse field; a convenient or favorable
+subset is not an acceptable basis for a paper. This requirement is unconditional on corpus size.
+Do not sample EMC studies, models or eligible observations to save effort, and do not skip a relevant
+source because it seems unlikely to reverse the conclusion. Relevance includes effects on the
+claim's uncertainty, scope, interpretation and scientific use, as well as direct contradiction.
+
+Define the claim, population, conditions and relevance criteria before selecting evidence where
+possible. Include evidence bearing on its strongest alternative explanations and asserted use.
+A later narrower claim cannot silently exclude contrary evidence already identified. Search beyond
+the repository's existing inputs and a single catalogue: primary studies and citation trails,
+supplements and data-availability statements, applicable public repositories and model resources,
+and broader sarcoma or pan-cancer studies containing EMC observations. Include published measurements
+even when no separate data deposit exists. Search disease, gene/model aliases and historical labels
+as appropriate to the claim, then authenticate identity from the actual source.
+
+Keep a compact coverage record in the existing analysis packet: search dates/cutoff, source classes,
+queries/aliases and accession/citation tracing; for each relevant source, the model/specimen/condition
+identifiers, cohort and donor overlap, technical replication, measurement suitability, inspected
+findings, limitations, consequence for the claim and reproducible analysis location. Evaluate every
+eligible EMC specimen, model and relevant condition within each source, not just a representative
+sample or a study-level citation. Preserve favorable, unfavorable and inconclusive results.
+
+Every source must have an explicit status: **evaluated**, **verified evaluation reused**,
+**pending accessible analysis**, **demonstrably unsuitable measurement**, or **unavailable evidence**.
+A citation, inventory entry, download or unrepresentative pilot is not a completed evaluation.
+Use suitable published processed measurements when they answer the question; inspect raw data when
+necessary to resolve identity, annotation or measurement concerns. This requires complete relevant
+evidence coverage, not every possible analysis or indiscriminate full-data downloads.
+
+Document the scientific reason for unsuitability, or actual access attempts and limitations for
+unavailability, and what the gap prevents the claim from establishing. Distinguish inaccessible data
+from analysis not yet done and from a negative measurement. Time, storage and worker limits require
+staged work or an explicit unresolved gap; they do not turn pending suitable public data into an
+exclusion. Manuscript promotion is blocked while suitable, accessible relevant EMC evidence remains
+unevaluated. A shelved project may stop work, but must retain its incomplete coverage status.
+
+Refresh discovery before manuscript promotion, at the publication evidence freeze, and when the
+claim changes materially or another relevant source is identified; reuse unchanged verified
+evaluations. An independent worker must challenge omissions by checking source discovery and
+eligibility, not only reading the final table. Report the dated search coverage honestly rather than
+asserting that no undiscovered public evidence exists. Justified sampling can apply to non-EMC
+comparison data, with selection choices recorded before inspecting relevant results; it is not an
+exception for EMC observations embedded in a larger dataset.
+
+Compare assay coverage, units and identity before interpreting discordance; do not pool incompatible
+measurements or count reused patients as independent. Keep expression, cell identity, protein,
+dependency and clinical benefit separate. The necessary evidence remains claim-dependent: complete
+coverage does not require every model to be positive or every computational paper to have wet-lab data.
+
+### Reassessment and decision
+
+Reassess immediately when a material result contradicts the proposed biology, a plausible normal
+tissue or technical explanation remains, independence or identity fails, a required comparison is
+missing, prior art removes the proposed novelty, or the claim has to be narrowed substantially.
+Stop advancing the affected manuscript while resolving that decision. Culture adaptation, subtype
+heterogeneity or assay differences are possible explanations to test, not automatic excuses for
+unfavorable evidence. Equally, one discordant observation is not automatic falsification of every
+claim; judge what the measurements can actually establish.
+
+The lead must distinguish **validity** (is the result supported?) from **value** (does the supported
+result teach something new and useful about EMC?). Obtain an independent challenge to the strongest
+surviving interpretation, covering prior art, alternative explanations, confounding and practical
+consequence. The challenger may recommend shelving; its task is not to rescue the draft. Reuse an
+existing challenge when it covers the unchanged evidence. This focused decision is part of the
+bounded research/review batch, not an additional recurring whole-paper review or the submission ultra pass.
+
+Record a clear decision in the existing results/handoff, leading with one of these outcomes:
+
+| Decision | Required consequence |
+|---|---|
+| **Continue toward a paper** | Complete the mandatory public-EMC evidence evaluation and state the demonstrated finding, why it remains useful after contrary evidence, and the strongest limit. No unresolved credible, feasible check within the authorized scope may be left unexamined if it could reverse this decision. Publication requirements remain separate. |
+| **Run one bounded decisive follow-up** | State the exact uncertainty, feasible measurement/comparison, budget or stopping rule, and how either result changes the decision. Finish it and reassess before drafting; do not append it indefinitely to future work. |
+| **Shelve the standalone paper** | Preserve the result, negative evidence and prior drafts; stop drafting, polishing and release preparation. State the specific new evidence that could justify reopening, or that none is currently identified. Move to a different credible question. |
+
+A narrower claim must independently clear the same usefulness bar. Adding caveats, changing the
+title, correct code, more figures, a favorable single model or a completed review cannot substitute
+for that judgment. A negative finding warrants a paper when it challenges an important existing
+claim; failure of a speculation invented for this project does not automatically qualify.
+
+Worker briefs must include the central claim, relevant restrictions, the strongest unresolved
+alternative and the decision their work could change. Bounded workers finish feasible checks
+inside their assignment and report contradictory evidence and concrete out-of-scope follow-up,
+including source/access constraints and the consequence for the claim. The lead executes that
+follow-up when authorized and feasible, or records why it cannot resolve the issue and reassesses
+the paper accordingly. A worker's `completed` status remains computational task completion, not
+permission to skip this decision. Carry the latest decision and reopening condition into the next
+handoff so an old draft, stale ranking or later session cannot silently revive a shelved project.
+
+The [adoption record](scientific-reassessment-2026-10-04/decision.json) applies this instruction
+to the TMEM266 candidate and preserves the decision to shelve its standalone paper.
+
 ## Review with an endpoint
 
 **User rule, 2026-09-12: readability requires an independent LLM prose pass.**
@@ -69,7 +183,8 @@ Each finding names the exact outgoing artifact, evidence, consequence, and small
 
 | Class | Meaning | Action |
 |---|---|---|
-| Submission blocker | A current unsupported/misleading claim, invalid analysis, missing reproducibility evidence, or a real venue requirement | Resolve or narrow the claim before submission |
+| Scientific stop | The supported result no longer offers a worthwhile contribution, or its essential interpretation cannot be supported | Apply scientific reassessment; run a decisive bounded check or shelve, rather than repair prose indefinitely |
+| Submission blocker | A current unsupported/misleading claim, invalid analysis, missing reproducibility evidence, or a real venue requirement | Resolve the issue; a materially narrowed claim must pass scientific reassessment before submission |
 | Maintenance | Correct current content lacks a regression guard or tooling could be improved | Separate backlog; does not trigger another whole-paper review |
 | Editorial suggestion | Optional wording, presentation, or speculative future work | Accept only if it improves clarity without starting a rewrite cycle |
 

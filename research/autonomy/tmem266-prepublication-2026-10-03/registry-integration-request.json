@@ -1,0 +1,14 @@
+{
+  "target": "research/manuscripts/emc-systems-map.json",
+  "original_sha256": "5a4c808b540281a4b8a1d21b066a03703fbe791b88fc3368f8eb6ba66770654d",
+  "proposed_additions": 3,
+  "patch_sha256": "8f15f7d53aecd08b3e925681335be56366e15ec909ebd0dd99edd3795c516f81",
+  "applied": false,
+  "reason": "Shared registry is governed by a different durable coordinator; current task preserves its ownership. Local working draft is complete, integration remains pending.",
+  "patch_check": {
+    "command": "git apply --check --ignore-space-change research/autonomy/tmem266-prepublication-2026-10-03/registry-read-by.patch",
+    "exit_code": 0,
+    "applied": false,
+    "note": "Whitespace tolerance is needed for the Windows checkout line endings; without it the check failed."
+  }
+}

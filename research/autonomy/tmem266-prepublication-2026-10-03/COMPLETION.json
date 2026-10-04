@@ -1,0 +1,92 @@
+{
+  "utc": "2026-10-04T03:09:44.365450+00:00",
+  "status": "Exploratory investigation complete; working draft written and reviewed; shared-registry integration pending",
+  "base_revision": "3d550114538a1545e1eab03e1a93f69566da47de",
+  "draft": "DRAFT.md",
+  "methods": "SUPPLEMENT.md",
+  "handoff": "HANDOFF.txt",
+  "new_finding": "Upstream TMEM266 coding-region-associated RNA signal in reused EMC tissue arrays; comparative enrichment over LGFMS",
+  "not_established": [
+    "malignant-cell localization",
+    "full-length coding transcript",
+    "protein",
+    "tumor specificity",
+    "dependency",
+    "clinical usefulness"
+  ],
+  "normal_repository_gate": {
+    "mode": "normal",
+    "exit_code": 1,
+    "seconds": 85.82799999997951,
+    "scope": "Normal repository gates only; no publication clearance, no full scientific suites",
+    "base_revision": "3d550114538a1545e1eab03e1a93f69566da47de"
+  },
+  "subsequent_metadata_recheck": {
+    "exit_code": 0,
+    "seconds": 24.31200000003446,
+    "scope": "Targeted systems recheck after frontmatter enum/audience repair; scientific bodies unchanged; not a replacement for failed whole repository gate"
+  },
+  "repository_gate_passed": false,
+  "remaining_repository_gate": "Three consumer registrations for a rejected disputed-model route; registry-read-by.patch is prepared but not applied to a differently owned shared registry",
+  "reviewed_scientific_body_sha256": {
+    "DRAFT.md": "e03e0e227b4687d441abbb385016a26bcd63673c180d8231263e371a9f1bc37c",
+    "SUPPLEMENT.md": "96cfc645915660c20eb9956b739fd192a92c674271e94f14c38fe2737a972ce6"
+  },
+  "scientific_verification": "verification.json and independent-raw-verification.json",
+  "review": "REVIEW.txt; three independent scopes plus focused repair verification",
+  "full_publication_checks_run": false,
+  "independent_ultra_review_run": false,
+  "submission_ready": false,
+  "publication_or_submission_performed": false,
+  "outreach_or_paid_access_performed": false,
+  "commit_push_or_shared_queue_edit": false,
+  "workers": {
+    "emc_clinical": {
+      "status": "completed",
+      "read_only": true,
+      "owned_process_running": false
+    },
+    "emc_genomics": {
+      "status": "completed",
+      "read_only": true,
+      "owned_process_running": false
+    },
+    "emc_measurements": {
+      "status": "completed",
+      "read_only": true,
+      "owned_process_running": false
+    }
+  },
+  "task_owned_processes_running_at_checkpoint": [],
+  "other_coordinators_processes": "Not controlled or claimed stopped by this task",
+  "new_worktree_or_runtime": false,
+  "previous_evidence_preservation": {
+    "discovery-2026-10-03": {
+      "files_verified": 52,
+      "manifest_sha256": "36eac7fe60f8b1d1ccc93cd040c749dbb208155d8daaf51fdd16ec52de596c72"
+    },
+    "tmem266-tissue-2026-10-03": {
+      "files_verified": 38,
+      "manifest_sha256": "a5528a348181b3e796692f627744fed12d11201ee923f7bf66c5e2a313fcba03"
+    }
+  },
+  "free_bytes_at_checkpoint": 10607931392,
+  "optional_recovery_script": "Syntax checked; assembled recipe not rerun end to end",
+  "python_syntax_checked": [
+    "finalize_receipt.py",
+    "identity_sensitivity.py",
+    "probe_sequence_verify.py",
+    "raw_array_pilot.py",
+    "recover_probe_map.py",
+    "run_preflight.py",
+    "verify_packet.py"
+  ],
+  "next_actions": [
+    "Human review of the working draft",
+    "Shared coordinator integrates the prepared three-entry registry patch, regenerates affected views if required, and reruns the normal gate",
+    "If advancing toward submission, reconcile ownership and prepare a portable public evidence package",
+    "Freeze outgoing files for the required independent ultra review before any submission",
+    "Scientific extension requires authenticated tissue localization/full-length evidence"
+  ],
+  "authorization_boundary": "No publication, submission, outreach, paid resources or public record changes authorized"
+}

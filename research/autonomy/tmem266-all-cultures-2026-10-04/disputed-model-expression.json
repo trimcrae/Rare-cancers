@@ -1,0 +1,88 @@
+{
+  "scope": "Disputed EMC-labelled culture; no authenticated EMC biological inference",
+  "dataset": {
+    "id": "20528fee-bd1d-4f3f-b7a2-f991fc875858",
+    "name": "Expression (Short-read) Public 26Q1",
+    "short_name": null,
+    "description": "Log\\-transformed TPM (Transcripts Per Million) values at gene level derived from unstranded RNA\\-seq for protein\\-coding genes in human\n\nOne row per profile\nColumns are ProfileID, is\\_default\\_entry, ModelID and then a column per gene\n\n",
+    "version": null,
+    "data_type": "Expression",
+    "group_id": "00000000-0000-0000-0000-000000000000",
+    "given_id": "expression",
+    "priority": 1,
+    "taiga_id": "public-26q1-5bbf.27/OmicsExpressionTPMLogp1HumanProteinCodingGenes",
+    "is_transient": false,
+    "expiry": null,
+    "dataset_metadata": {
+      "preprocess": "Chain(transforms=[SimplifyOmicsIndexing(), ExtractIdFromParenthesis(drop_duplicates=True)])",
+      "max_percent_given_ids_missing_metadata": 20,
+      "min_percent_feature_metadata_used": 95,
+      "download_file_info": {
+        "release_name": "DepMap Public 26Q1",
+        "file_name": "OmicsExpressionTPMLogp1HumanProteinCodingGenes.csv"
+      }
+    },
+    "dataset_md5": null,
+    "format": "matrix_dataset",
+    "sample_type_name": "depmap_model",
+    "units": "log2(TPM+1)",
+    "value_type": "continuous",
+    "feature_type_name": "gene",
+    "allowed_values": null,
+    "group": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "name": "Public"
+    }
+  },
+  "model_id": "ACH-001519",
+  "model_metadata": {
+    "CellLineName": "H-EMC-SS",
+    "OncotreePrimaryDisease": "Chondrosarcoma",
+    "OncotreeSubtype": "Extraskeletal Myxoid Chondrosarcoma"
+  },
+  "log2_TPM_plus_1": {
+    "TMEM266": 0.2191530317,
+    "NR4A3": 1.3000065088,
+    "CHRNA6": 0.0,
+    "ACTB": 10.7682752609,
+    "GAPDH": 10.9044017792
+  },
+  "TMEM266_inverse_TPM": 0.16405000270160452,
+  "inverse_units_note": "Algebraic inversion of source log2(TPM+1), not an independently quantified TPM estimate",
+  "receipts": [
+    {
+      "url": "https://depmap.org/portal/breadbox/datasets/?feature_type=gene&sample_type=depmap_model",
+      "read_only_query_body": null,
+      "bytes": 17657,
+      "sha256": "35cd0aa5343afd3b30097b78c04bd1fc7c7f10452a1aaf0978c6bb52b19bda3d"
+    },
+    {
+      "url": "https://depmap.org/portal/breadbox/datasets/matrix/20528fee-bd1d-4f3f-b7a2-f991fc875858",
+      "read_only_query_body": {
+        "features": [
+          "TMEM266",
+          "NR4A3",
+          "CHRNA6",
+          "ACTB",
+          "GAPDH"
+        ],
+        "feature_identifier": "label"
+      },
+      "bytes": 216684,
+      "sha256": "77161f7ec57fc2a731390c57444ef4b1f5bdbed852a56f44c73eea311a394296"
+    },
+    {
+      "url": "https://depmap.org/portal/breadbox/datasets/tabular/depmap_model_metadata",
+      "read_only_query_body": {
+        "columns": [
+          "CellLineName",
+          "OncotreePrimaryDisease",
+          "OncotreeSubtype",
+          "CellLineDisplayName"
+        ]
+      },
+      "bytes": 221566,
+      "sha256": "0a0a069149f5977ef9b8d6dc4fe92edc4cbea2db8f57990fa9e34b30245f332b"
+    }
+  ]
+}

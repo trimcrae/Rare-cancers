@@ -11,7 +11,7 @@ scope: >
   (that is systems/ARCHITECTURE.md), and NOT the standing agent rules (that is CLAUDE.md).
 audience: [maintainers, autonomous research agents]
 date: 2026-08-05
-last_verified: 2026-09-04
+last_verified: 2026-10-04
 related: [DOC-ARCHITECTURE, DOC-CONVENTIONS, DOC-MIGRATION]
 ---
 
@@ -23,6 +23,14 @@ The objective is useful evidence that could improve patient outcomes.
 Read [the operating protocol](research/autonomy/OPERATING_PROTOCOL.md) first. It is the active
 work-selection, coordination, and review procedure for Codex and Claude. The current priority is
 the EMC ASO package for Nucleic Acid Therapeutics; its Qeios version history remains with the user.
+
+Before promoting a result into a manuscript, and whenever material contrary evidence appears,
+apply the operating protocol's [scientific follow-through and reassessment](research/autonomy/OPERATING_PROTOCOL.md#scientific-follow-through-and-reassessment).
+Pass this duty to every worker; the lead must pursue or disposition interpretation-changing
+follow-up and explicitly decide whether a worthwhile paper survives, without waiting for the user.
+For every claim, [evaluate all identifiable relevant public EMC evidence](research/autonomy/OPERATING_PROTOCOL.md#mandatory-coverage-of-public-emc-evidence),
+including every eligible EMC observation within larger studies. No convenience sampling of EMC;
+pending suitable public evidence blocks manuscript promotion and must remain visible in handoffs.
 
 ## Scientific integrity
 

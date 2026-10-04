@@ -1,0 +1,500 @@
+{
+  "scope": "Exploratory descriptive follow-up; no identifier-suffix dates, thresholds, classifier, subtype tests or regulation claims. Subset A=1 is inherited, not new validation. Distinct specimen names do not exclude undocumented patient aliases.",
+  "crosswalk": [
+    {
+      "GSM": "GSM600934",
+      "experiment_name": "EMC 104-92",
+      "specimen": "104-92",
+      "in_full_704": true,
+      "in_eligible_9": false,
+      "DAT_header_repeats_name": true,
+      "header_bytes": 65536,
+      "header_sha256": "7cd642fa3892ae086d33adfd75843608b82ac35074ab544c04aa200113d6fa6d",
+      "source_url": "https://ftp.ebi.ac.uk/biostudies/fire/E-GEOD-/369/E-GEOD-24369/Files/GSM600934_EMCS_1.CEL"
+    },
+    {
+      "GSM": "GSM600935",
+      "experiment_name": "EMC 168-97",
+      "specimen": "168-97",
+      "in_full_704": true,
+      "in_eligible_9": false,
+      "DAT_header_repeats_name": true,
+      "header_bytes": 65536,
+      "header_sha256": "d71c0e284ad22dd079b90e7a709ac4a1c5a9543bbcb304dc0cfb9a5ef32299d9",
+      "source_url": "https://ftp.ebi.ac.uk/biostudies/fire/E-GEOD-/369/E-GEOD-24369/Files/GSM600935_EMCS_2.CEL"
+    },
+    {
+      "GSM": "GSM600936",
+      "experiment_name": "EMC 2663-07",
+      "specimen": "2663-07",
+      "in_full_704": false,
+      "in_eligible_9": false,
+      "DAT_header_repeats_name": true,
+      "header_bytes": 65536,
+      "header_sha256": "08727a3408fd24db7df08e8da601342d2c447a3fb1929ed44e47da1b492ab3e1",
+      "source_url": "https://ftp.ebi.ac.uk/biostudies/fire/E-GEOD-/369/E-GEOD-24369/Files/GSM600936_EMCS_3.CEL"
+    },
+    {
+      "GSM": "GSM600937",
+      "experiment_name": "EMC 536-00",
+      "specimen": "536-00",
+      "in_full_704": true,
+      "in_eligible_9": false,
+      "DAT_header_repeats_name": true,
+      "header_bytes": 65536,
+      "header_sha256": "4e524818d328607fa5b27b4734cfca30f5d24987c0ed4097c6160054443bcabb",
+      "source_url": "https://ftp.ebi.ac.uk/biostudies/fire/E-GEOD-/369/E-GEOD-24369/Files/GSM600937_EMCS_4.CEL"
+    },
+    {
+      "GSM": "GSM600938",
+      "experiment_name": "EMC 81-97",
+      "specimen": "81-97",
+      "in_full_704": false,
+      "in_eligible_9": false,
+      "DAT_header_repeats_name": true,
+      "header_bytes": 65536,
+      "header_sha256": "b48b59a391fd4f865353bbceb260213656c925ccd41dad210e11f68c89b68829",
+      "source_url": "https://ftp.ebi.ac.uk/biostudies/fire/E-GEOD-/369/E-GEOD-24369/Files/GSM600938_EMCS_5.CEL"
+    },
+    {
+      "GSM": "GSM600939",
+      "experiment_name": "EMC F415",
+      "specimen": "F415",
+      "in_full_704": false,
+      "in_eligible_9": false,
+      "DAT_header_repeats_name": true,
+      "header_bytes": 65536,
+      "header_sha256": "a287bb7f01448ec8d5332252f86406d2b3b0ba2ef67d849335fb1c1e2751705f",
+      "source_url": "https://ftp.ebi.ac.uk/biostudies/fire/E-GEOD-/369/E-GEOD-24369/Files/GSM600939_EMCS_6.CEL"
+    }
+  ],
+  "all_9_EMC": [
+    {
+      "sample": "11881-19",
+      "TMEM266_TPM": 28.88,
+      "CHRNA6_TPM": 26.66,
+      "S1_fusion": "Yes",
+      "direct_NR4A3_subset": true,
+      "fusion": {
+        "S3_row": 69,
+        "gene1": "TCF12",
+        "gene2": "NR4A3",
+        "confidence": "high",
+        "reading_frame": "in-frame",
+        "support": "MDB",
+        "previously_reported": "Unpublished",
+        "comment": null
+      },
+      "fusion_note": null
+    },
+    {
+      "sample": "3371-22",
+      "TMEM266_TPM": 32.2,
+      "CHRNA6_TPM": 8.54,
+      "S1_fusion": "Yes",
+      "direct_NR4A3_subset": false,
+      "fusion": null,
+      "fusion_note": "Absent S3; S4 uniquely unassigned TAF15::NR4A3 is indirect, not specimen-linked RT-PCR evidence"
+    },
+    {
+      "sample": "3372-22",
+      "TMEM266_TPM": 55.27,
+      "CHRNA6_TPM": 1.44,
+      "S1_fusion": "Yes",
+      "direct_NR4A3_subset": true,
+      "fusion": {
+        "S3_row": 71,
+        "gene1": "HSPA8",
+        "gene2": "NR4A3",
+        "confidence": "high",
+        "reading_frame": "in-frame",
+        "support": "MDB",
+        "previously_reported": 15434,
+        "comment": null
+      },
+      "fusion_note": null
+    },
+    {
+      "sample": "4716-22",
+      "TMEM266_TPM": 56.82,
+      "CHRNA6_TPM": 16.38,
+      "S1_fusion": "Yes",
+      "direct_NR4A3_subset": true,
+      "fusion": {
+        "S3_row": 72,
+        "gene1": "TAF15",
+        "gene2": "NR4A3",
+        "confidence": "medium",
+        "reading_frame": "stop-codon",
+        "support": "MDB",
+        "previously_reported": "Unpublished",
+        "comment": null
+      },
+      "fusion_note": null
+    },
+    {
+      "sample": "4840-13",
+      "TMEM266_TPM": 11.01,
+      "CHRNA6_TPM": 239.6,
+      "S1_fusion": "Yes",
+      "direct_NR4A3_subset": true,
+      "fusion": {
+        "S3_row": 73,
+        "gene1": "EWSR1",
+        "gene2": "NR4A3",
+        "confidence": "high",
+        "reading_frame": "in-frame",
+        "support": "MDB",
+        "previously_reported": "Unpublished",
+        "comment": null
+      },
+      "fusion_note": null
+    },
+    {
+      "sample": "5149-18",
+      "TMEM266_TPM": 22.28,
+      "CHRNA6_TPM": 57.01,
+      "S1_fusion": "Yes",
+      "direct_NR4A3_subset": false,
+      "fusion": {
+        "S3_row": 75,
+        "gene1": "FUS",
+        "gene2": "NR4A2",
+        "confidence": "high",
+        "reading_frame": "in-frame",
+        "support": ".",
+        "previously_reported": "Unpublished",
+        "comment": "RT-PCR verified"
+      },
+      "fusion_note": null
+    },
+    {
+      "sample": "5241-06",
+      "TMEM266_TPM": 6.73,
+      "CHRNA6_TPM": 277.89,
+      "S1_fusion": "Yes",
+      "direct_NR4A3_subset": true,
+      "fusion": {
+        "S3_row": 76,
+        "gene1": "EWSR1",
+        "gene2": "NR4A3",
+        "confidence": "high",
+        "reading_frame": "in-frame",
+        "support": "MDB",
+        "previously_reported": "Unpublished",
+        "comment": null
+      },
+      "fusion_note": null
+    },
+    {
+      "sample": "7931-19",
+      "TMEM266_TPM": 30.75,
+      "CHRNA6_TPM": 42.22,
+      "S1_fusion": "Yes",
+      "direct_NR4A3_subset": true,
+      "fusion": {
+        "S3_row": 78,
+        "gene1": "EWSR1",
+        "gene2": "NR4A3",
+        "confidence": "high",
+        "reading_frame": "in-frame",
+        "support": "MDB",
+        "previously_reported": "Unpublished",
+        "comment": null
+      },
+      "fusion_note": null
+    },
+    {
+      "sample": "8102-22",
+      "TMEM266_TPM": 17.37,
+      "CHRNA6_TPM": 132.1,
+      "S1_fusion": "Yes",
+      "direct_NR4A3_subset": true,
+      "fusion": {
+        "S3_row": 79,
+        "gene1": "EWSR1",
+        "gene2": "NR4A3",
+        "confidence": "high",
+        "reading_frame": "in-frame",
+        "support": "MDB",
+        "previously_reported": "Unpublished",
+        "comment": null
+      },
+      "fusion_note": null
+    }
+  ],
+  "OFMT": [
+    {
+      "sample": "1388-09",
+      "TMEM266_TPM": 2.32,
+      "CHRNA6_TPM": 1.31
+    },
+    {
+      "sample": "3024-11",
+      "TMEM266_TPM": 2.09,
+      "CHRNA6_TPM": 0.32
+    },
+    {
+      "sample": "3037-12",
+      "TMEM266_TPM": 0.33,
+      "CHRNA6_TPM": 0.0
+    },
+    {
+      "sample": "3992-12",
+      "TMEM266_TPM": 16.27,
+      "CHRNA6_TPM": 0.33
+    },
+    {
+      "sample": "3995-12",
+      "TMEM266_TPM": 3.39,
+      "CHRNA6_TPM": 0.0
+    },
+    {
+      "sample": "4272-20",
+      "TMEM266_TPM": 1.18,
+      "CHRNA6_TPM": 0.0
+    },
+    {
+      "sample": "4985-07",
+      "TMEM266_TPM": 9.82,
+      "CHRNA6_TPM": 0.44
+    },
+    {
+      "sample": "5534-07",
+      "TMEM266_TPM": 3.3,
+      "CHRNA6_TPM": 0.91
+    }
+  ],
+  "S4_aggregate": [
+    {
+      "S4_row": 58,
+      "cells": [
+        "Extraskeletal myxoid chondrosarcoma",
+        13,
+        13,
+        100,
+        "EWSR1::NR4A3 (n=7), FUS::NR4A2 (n=1), HSPA8::NR4A3 (n=1), TAF15::NR4A3 (n=3), TCF12::NR4A3 (n=1)",
+        "One TAF15::NR4A3 not found with either Arriba or Fusioncatcher, but confirmed with RT-PCR"
+      ]
+    }
+  ],
+  "S1_EMC_missing_S3": [
+    "3371-22"
+  ],
+  "comparisons": {
+    "TMEM266": {
+      "pathology_9": {
+        "n": 9,
+        "median": 28.88,
+        "range": [
+          6.73,
+          56.82
+        ],
+        "comparisons": {
+          "Ossifying fibromyxoid tumor": {
+            "n": 8,
+            "median": 2.8099999999999996,
+            "range": [
+              0.33,
+              16.27
+            ],
+            "A": 0.9583333333333334
+          },
+          "Myxoid liposarcoma": {
+            "n": 14,
+            "median": 0.31,
+            "range": [
+              0.0,
+              1.37
+            ],
+            "A": 1.0
+          },
+          "Low-grade fibromyxoid sarcoma": {
+            "n": 13,
+            "median": 0.14,
+            "range": [
+              0.04,
+              1.94
+            ],
+            "A": 1.0
+          },
+          "Synovial sarcoma": {
+            "n": 18,
+            "median": 0.46499999999999997,
+            "range": [
+              0.03,
+              1.27
+            ],
+            "A": 1.0
+          }
+        }
+      },
+      "direct_S3_NR4A3_7": {
+        "n": 7,
+        "median": 28.88,
+        "range": [
+          6.73,
+          56.82
+        ],
+        "comparisons": {
+          "Ossifying fibromyxoid tumor": {
+            "n": 8,
+            "median": 2.8099999999999996,
+            "range": [
+              0.33,
+              16.27
+            ],
+            "A": 0.9464285714285714
+          },
+          "Myxoid liposarcoma": {
+            "n": 14,
+            "median": 0.31,
+            "range": [
+              0.0,
+              1.37
+            ],
+            "A": 1.0
+          },
+          "Low-grade fibromyxoid sarcoma": {
+            "n": 13,
+            "median": 0.14,
+            "range": [
+              0.04,
+              1.94
+            ],
+            "A": 1.0
+          },
+          "Synovial sarcoma": {
+            "n": 18,
+            "median": 0.46499999999999997,
+            "range": [
+              0.03,
+              1.27
+            ],
+            "A": 1.0
+          }
+        }
+      }
+    },
+    "CHRNA6": {
+      "pathology_9": {
+        "n": 9,
+        "median": 42.22,
+        "range": [
+          1.44,
+          277.89
+        ],
+        "comparisons": {
+          "Ossifying fibromyxoid tumor": {
+            "n": 8,
+            "median": 0.325,
+            "range": [
+              0.0,
+              1.31
+            ],
+            "A": 1.0
+          },
+          "Myxoid liposarcoma": {
+            "n": 14,
+            "median": 0.0,
+            "range": [
+              0.0,
+              0.02
+            ],
+            "A": 1.0
+          },
+          "Low-grade fibromyxoid sarcoma": {
+            "n": 13,
+            "median": 0.0,
+            "range": [
+              0.0,
+              0.03
+            ],
+            "A": 1.0
+          },
+          "Synovial sarcoma": {
+            "n": 18,
+            "median": 0.0,
+            "range": [
+              0.0,
+              0.38
+            ],
+            "A": 1.0
+          }
+        }
+      },
+      "direct_S3_NR4A3_7": {
+        "n": 7,
+        "median": 42.22,
+        "range": [
+          1.44,
+          277.89
+        ],
+        "comparisons": {
+          "Ossifying fibromyxoid tumor": {
+            "n": 8,
+            "median": 0.325,
+            "range": [
+              0.0,
+              1.31
+            ],
+            "A": 1.0
+          },
+          "Myxoid liposarcoma": {
+            "n": 14,
+            "median": 0.0,
+            "range": [
+              0.0,
+              0.02
+            ],
+            "A": 1.0
+          },
+          "Low-grade fibromyxoid sarcoma": {
+            "n": 13,
+            "median": 0.0,
+            "range": [
+              0.0,
+              0.03
+            ],
+            "A": 1.0
+          },
+          "Synovial sarcoma": {
+            "n": 18,
+            "median": 0.0,
+            "range": [
+              0.0,
+              0.38
+            ],
+            "A": 1.0
+          }
+        }
+      }
+    }
+  },
+  "receipts": {
+    "research/autonomy/tmem266-questions-2026-10-04/cel-headers.json": {
+      "bytes": 624323,
+      "sha256": "b790047cefb5343adb42e1617ef0991ba95acda8f7325fe81db9eb16922bf1a3"
+    },
+    "research/autonomy/atlas-hofvander-source-2026-09-06/ccr-25-3740_supplementary_table_s1_suppts1.xlsx": {
+      "bytes": 138248,
+      "sha256": "976f13c1a69915cdb05af27b9a56d3f40a27df2e2da3dbc085ca66d25b8bc08c"
+    },
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json": {
+      "bytes": 423739,
+      "sha256": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2"
+    },
+    "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz": {
+      "bytes": 23652488,
+      "sha256": "0255cd254762c6184a782d5b9a90aba6e545b6b2206e28f283455df2de4d62fc"
+    },
+    "https://pmc-oa-opendata.s3.amazonaws.com/PMC13133608.1/ccr-25-3740_supplementary_table_s3_suppts3.xlsx": {
+      "bytes": 39812,
+      "sha256": "9fc0cfa2ad56e1cf44214f0a2835e0e6ba6fb0c1004341ae38981fe05671f94e"
+    },
+    "https://pmc-oa-opendata.s3.amazonaws.com/PMC13133608.1/ccr-25-3740_supplementary_table_s4_suppts4.xlsx": {
+      "bytes": 13728,
+      "sha256": "3b27443c5d926ced78a36d7e64ec34987606a44d81cf2aea65f5d51ed965cce7"
+    }
+  }
+}

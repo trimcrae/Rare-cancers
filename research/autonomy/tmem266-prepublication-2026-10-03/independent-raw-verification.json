@@ -1,0 +1,26 @@
+{
+  "verification": "Independent two-CEL replay against saved results",
+  "reviewer": "emc_genomics",
+  "artifact": "raw-array-results.json",
+  "artifact_sha256": "29995d34c709ff396b2912bdf3d8d3d262eb4e6b6909dfc97882cb4b275e6cae",
+  "samples": ["GSM600934", "GSM600940"],
+  "sample_selection": "First EMC and first LGFMS by accession, fixed before raw intensity inspection",
+  "independent_method": "Separate Calvin parser, NumPy sort/searchsorted midranks; no SciPy rankdata",
+  "raw_intensities_verified": 28,
+  "region_means_verified": 12,
+  "max_region_absolute_error": 0.0,
+  "saved_composites_verified": 4,
+  "max_composite_absolute_error": 1.1102230246251565e-16,
+  "intensity_range_hashes_verified": 2,
+  "intensity_sha256": {
+    "GSM600934": "6552ab206bab0c83e821b9a21c2e70ad845fe6ee5b9fde9137145b4b583a1983",
+    "GSM600940": "4e447a405b583506973ce3d53ededaac34b3279f4595411737f48b66c88b59c1"
+  },
+  "finite_features_each": 1102500,
+  "original_independent_retrieval_bytes": 8852768,
+  "saved_artifact_comparison_new_network_bytes": 0,
+  "flags_independently_verified": false,
+  "issues": [],
+  "status": "pass",
+  "anything_running": false
+}

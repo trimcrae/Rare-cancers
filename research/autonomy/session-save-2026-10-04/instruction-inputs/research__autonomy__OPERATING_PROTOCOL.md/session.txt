@@ -1,0 +1,326 @@
+---
+id: DOC-AUTONOMY-OPERATING-PROTOCOL
+title: Research operating protocol
+kind: runbook
+status: live
+date: 2026-09-04
+last_verified: 2026-10-04
+purpose: Deliver useful computational EMC research with bounded review and explicit ownership.
+audience: [maintainers, autonomous research agents]
+scope: Work selection, review, coordination, and the Claude-to-Codex transition.
+---
+
+# Research operating protocol
+
+This is the active procedure for both Codex and Claude. The user's 2026-09-04 instruction
+authorizes structural changes to improve scientific throughput, cost, and coordination.
+Historical runbooks explain old decisions; they do not override this procedure or current user
+instructions. Publication permissions remain in `publication-authority.json` and its enforcers.
+
+## Objective and work selection
+
+Optimize for useful evidence that could improve EMC patient outcomes, not paper count, review
+rounds, test count, or subscription consumption. Computational work must distinguish prediction,
+association, and experimental validation. No wet-lab claim can be established by an LLM review.
+
+1. **PUB-ASO is the first manuscript to finish.** Read its current manuscript, outgoing package,
+   existing review evidence, and the dated readiness assessment. Do not start with the degrader
+   program's entire roadmap. Its Qeios history remains under the human author's control; its
+   intended journal is Nucleic Acid Therapeutics.
+2. Until its package is ready or externally blocked, keep one manuscript owner and one separately
+   owned process improvement. Parallel evidence retrieval, computation, and independent review
+   are useful when they return distinct outputs. Multiple agents must not rewrite the same paper.
+3. Choose subsequent projects by clinical relevance, a question public data can answer, credible
+   validation, expected information gained, and effort. Record the concrete question and stop
+   condition before starting. Reproducible reanalyses, benchmark datasets, and decisive negative
+   results can be valuable; do not manufacture papers from work with no useful result.
+   Before scientific drill-down or a runner contract, maintain a paper-level rank with evidence
+   and reasons: importance, nontrivial novelty, achievable evidence and validation, coherent
+   contribution, and utility come first. Distinguish demonstrated results from development
+   prospects and blocked hypotheses. Feasibility and usage govern execution, not scientific
+   rank; small preparation tasks inherit the selected paper's priority. Use the current
+   [paper priority memo](portfolio-2026-09-05/recommendation.md).
+   Use [bounded cycle contracts](RESEARCH_CYCLE.md) to specify the evidence, validation and stop
+   condition for one existing route. Reuse matching verified output and reconcile unchanged
+   failed inputs before considering another dispatch. Planning scores are judgements, not evidence.
+4. An unrelated red health row or maintenance backlog is not a scientific task. Triage only the
+   conditions that affect the proposed action. Enforce real budget, access, ownership, and evidence
+   constraints. A process fix must remove observed friction and report its measured effect.
+
+## Continue beyond a route-specific blocker
+
+User reaffirmation, 2026-09-06: continuous substantive research is authorized, with existing
+usage-reset credits when actual account limits require them. Waiting for correspondence,
+an empty generated task list, a failed development experiment, or a paper not being ready
+does not establish that all useful work is blocked. At each checkpoint, distinguish the
+specific missing input from the next credible independent computation, exact source recovery,
+authorized targeted request or genuinely new evidence-based question. Execute that next step
+without an artificial daily reserve, total-round cap or inbox-only pause. Preserve negative
+results and real acceptance criteria; do not repeat unchanged work or invent a paper merely
+to consume credits. Keep finite worker checkpoints and explicit ownership, then continue.
+
+## Scientific follow-through and reassessment
+
+**User instruction, 2026-10-04:** follow-up and reevaluation of scientific value are automatic
+responsibilities of the research team. Do not wait for the user to request the obvious comparison,
+identify contrary evidence, or ask whether the paper should be abandoned. A technically correct
+analysis and an accurately qualified manuscript do not by themselves establish a useful contribution.
+
+Before the relevant results are inspected where possible, record the proposed EMC finding, what
+primary studies already establish, why the answer would change a researcher's beliefs, measurements
+or next experiment, the strongest alternative explanation, and a result that would defeat the
+interpretation or make the project unworthy of a paper. Preserve that original rationale and append
+dated revisions; do not rewrite a hypothesis or a stop condition to fit observed results.
+
+When a result looks promising, investigate credible, accessible follow-up that could materially
+change its interpretation or scientific value **before full manuscript drafting or promotion**.
+Choose the most discriminating checks, including those most likely to disprove the preferred
+explanation, before additional favorable examples or polishing. This is not a demand to exhaust
+every imaginable analysis. Use bounded pilots with recorded choices, sources and stopping rules;
+reuse completed checks and do not search or extend sampling until a positive result appears.
+
+### Mandatory coverage of public EMC evidence
+
+**User clarification, 2026-10-04:** for every scientific claim, identify and evaluate **all
+identifiable relevant public EMC evidence**. EMC is a sparse field; a convenient or favorable
+subset is not an acceptable basis for a paper. This requirement is unconditional on corpus size.
+Do not sample EMC studies, models or eligible observations to save effort, and do not skip a relevant
+source because it seems unlikely to reverse the conclusion. Relevance includes effects on the
+claim's uncertainty, scope, interpretation and scientific use, as well as direct contradiction.
+
+Define the claim, population, conditions and relevance criteria before selecting evidence where
+possible. Include evidence bearing on its strongest alternative explanations and asserted use.
+A later narrower claim cannot silently exclude contrary evidence already identified. Search beyond
+the repository's existing inputs and a single catalogue: primary studies and citation trails,
+supplements and data-availability statements, applicable public repositories and model resources,
+and broader sarcoma or pan-cancer studies containing EMC observations. Include published measurements
+even when no separate data deposit exists. Search disease, gene/model aliases and historical labels
+as appropriate to the claim, then authenticate identity from the actual source.
+
+Keep a compact coverage record in the existing analysis packet: search dates/cutoff, source classes,
+queries/aliases and accession/citation tracing; for each relevant source, the model/specimen/condition
+identifiers, cohort and donor overlap, technical replication, measurement suitability, inspected
+findings, limitations, consequence for the claim and reproducible analysis location. Evaluate every
+eligible EMC specimen, model and relevant condition within each source, not just a representative
+sample or a study-level citation. Preserve favorable, unfavorable and inconclusive results.
+
+Every source must have an explicit status: **evaluated**, **verified evaluation reused**,
+**pending accessible analysis**, **demonstrably unsuitable measurement**, or **unavailable evidence**.
+A citation, inventory entry, download or unrepresentative pilot is not a completed evaluation.
+Use suitable published processed measurements when they answer the question; inspect raw data when
+necessary to resolve identity, annotation or measurement concerns. This requires complete relevant
+evidence coverage, not every possible analysis or indiscriminate full-data downloads.
+
+Document the scientific reason for unsuitability, or actual access attempts and limitations for
+unavailability, and what the gap prevents the claim from establishing. Distinguish inaccessible data
+from analysis not yet done and from a negative measurement. Time, storage and worker limits require
+staged work or an explicit unresolved gap; they do not turn pending suitable public data into an
+exclusion. Manuscript promotion is blocked while suitable, accessible relevant EMC evidence remains
+unevaluated. A shelved project may stop work, but must retain its incomplete coverage status.
+
+Refresh discovery before manuscript promotion, at the publication evidence freeze, and when the
+claim changes materially or another relevant source is identified; reuse unchanged verified
+evaluations. An independent worker must challenge omissions by checking source discovery and
+eligibility, not only reading the final table. Report the dated search coverage honestly rather than
+asserting that no undiscovered public evidence exists. Justified sampling can apply to non-EMC
+comparison data, with selection choices recorded before inspecting relevant results; it is not an
+exception for EMC observations embedded in a larger dataset.
+
+Compare assay coverage, units and identity before interpreting discordance; do not pool incompatible
+measurements or count reused patients as independent. Keep expression, cell identity, protein,
+dependency and clinical benefit separate. The necessary evidence remains claim-dependent: complete
+coverage does not require every model to be positive or every computational paper to have wet-lab data.
+
+### Reassessment and decision
+
+Reassess immediately when a material result contradicts the proposed biology, a plausible normal
+tissue or technical explanation remains, independence or identity fails, a required comparison is
+missing, prior art removes the proposed novelty, or the claim has to be narrowed substantially.
+Stop advancing the affected manuscript while resolving that decision. Culture adaptation, subtype
+heterogeneity or assay differences are possible explanations to test, not automatic excuses for
+unfavorable evidence. Equally, one discordant observation is not automatic falsification of every
+claim; judge what the measurements can actually establish.
+
+The lead must distinguish **validity** (is the result supported?) from **value** (does the supported
+result teach something new and useful about EMC?). Obtain an independent challenge to the strongest
+surviving interpretation, covering prior art, alternative explanations, confounding and practical
+consequence. The challenger may recommend shelving; its task is not to rescue the draft. Reuse an
+existing challenge when it covers the unchanged evidence. This focused decision is part of the
+bounded research/review batch, not an additional recurring whole-paper review or the submission ultra pass.
+
+Record a clear decision in the existing results/handoff, leading with one of these outcomes:
+
+| Decision | Required consequence |
+|---|---|
+| **Continue toward a paper** | Complete the mandatory public-EMC evidence evaluation and state the demonstrated finding, why it remains useful after contrary evidence, and the strongest limit. No unresolved credible, feasible check within the authorized scope may be left unexamined if it could reverse this decision. Publication requirements remain separate. |
+| **Run one bounded decisive follow-up** | State the exact uncertainty, feasible measurement/comparison, budget or stopping rule, and how either result changes the decision. Finish it and reassess before drafting; do not append it indefinitely to future work. |
+| **Shelve the standalone paper** | Preserve the result, negative evidence and prior drafts; stop drafting, polishing and release preparation. State the specific new evidence that could justify reopening, or that none is currently identified. Move to a different credible question. |
+
+A narrower claim must independently clear the same usefulness bar. Adding caveats, changing the
+title, correct code, more figures, a favorable single model or a completed review cannot substitute
+for that judgment. A negative finding warrants a paper when it challenges an important existing
+claim; failure of a speculation invented for this project does not automatically qualify.
+
+Worker briefs must include the central claim, relevant restrictions, the strongest unresolved
+alternative and the decision their work could change. Bounded workers finish feasible checks
+inside their assignment and report contradictory evidence and concrete out-of-scope follow-up,
+including source/access constraints and the consequence for the claim. The lead executes that
+follow-up when authorized and feasible, or records why it cannot resolve the issue and reassesses
+the paper accordingly. A worker's `completed` status remains computational task completion, not
+permission to skip this decision. Carry the latest decision and reopening condition into the next
+handoff so an old draft, stale ranking or later session cannot silently revive a shelved project.
+
+The [adoption record](scientific-reassessment-2026-10-04/decision.json) applies this instruction
+to the TMEM266 candidate and preserves the decision to shelve its standalone paper.
+
+## Review with an endpoint
+
+**User rule, 2026-09-05: every paper requires one independent ultra-reasoning pass
+before submission.** This applies to journal and preprint submissions and future revised
+submissions, including the pending ASO submission; it does not retroactively reopen posted
+versions or authorize publication. Keep routine research at medium. Plan the ultra pass as
+part of the existing bounded review batch, not an extra recurring review cycle.
+
+Freeze the paper and supporting evidence before this pass. Review scientific validity,
+methods, novelty, claim strength, citations, limitations and whether the contribution merits
+submission. Preserve the actual model and `reasoning_effort: ultra` execution record, reviewed
+revision/deliverable digest, findings and their disposition. Do not relabel a historical high
+or unknown-effort review as ultra. Reuse a documented ultra pass covering unchanged deliverables.
+The coordinator must verify this evidence before declaring a package ready or handing it off
+for submission; missing evidence blocks that readiness declaration. This is a procedural
+submission requirement, not a claim that the existing publish-bar code already checks effort.
+
+Resolve substantiated blockers in one batch and independently verify the changed claims and
+dependencies. Editorial repairs do not require another full ultra pass. Material scientific
+changes require a new pass covering the changed science and its dependencies. A zero-finding
+review is valid; ultra reasoning is not experimental validation or a guarantee of correctness.
+
+Freeze the outgoing files and identify their evidence before commissioning a review. Reuse
+existing completed reviews when their deliverable digest still matches. Read
+`publish_bar.py` for actual acceptance, not the convenience `converged` field alone.
+
+For new work, budget one independent review batch covering claims/citations and methods/results,
+one batched repair, and one independent verification of the changed claims and their dependencies.
+This is an iteration budget, not a declaration that a paper must pass. Choose additional expert
+lenses only for a named uncertainty. Maintain any evidence required by the existing publish bar;
+a shorter workflow is not permission to fabricate a review record or override a failed clause.
+
+Each finding names the exact outgoing artifact, evidence, consequence, and smallest correction:
+
+| Class | Meaning | Action |
+|---|---|---|
+| Scientific stop | The supported result no longer offers a worthwhile contribution, or its essential interpretation cannot be supported | Apply scientific reassessment; run a decisive bounded check or shelve, rather than repair prose indefinitely |
+| Submission blocker | A current unsupported/misleading claim, invalid analysis, missing reproducibility evidence, or a real venue requirement | Resolve the issue; a materially narrowed claim must pass scientific reassessment before submission |
+| Maintenance | Correct current content lacks a regression guard or tooling could be improved | Separate backlog; does not trigger another whole-paper review |
+| Editorial suggestion | Optional wording, presentation, or speculative future work | Accept only if it improves clarity without starting a rewrite cycle |
+
+Independently verify findings; reviewer labels are not evidence. Do not require a nonzero finding
+count. Record disputed and dismissed findings with reasons. A repair replaces the defective text
+and receives a focused evidence check; it does not append defensive paragraphs or reopen every
+section. A material methods change may justify broader review; record that reason explicitly.
+
+After the budget is used, return either a verified package or a precise unresolved issue. A new
+whole-paper review needs changed scientific evidence, an independently demonstrated material
+error, or an external review request. "Another fresh look" and unguarded correct sentences are
+insufficient. Never change a real acceptance criterion merely to relabel unresolved work as ready.
+
+## Ownership and integration
+
+Use a separate Git worktree for each writing task. The coordinator alone integrates changes and
+writes shared queue/status records. Assign ownership by paper or shared subsystem, not merely by
+task name. A process worker must not change its own scientific task's acceptance rules mid-run.
+
+Workers report a needed execution approval to the coordinator before entering a blocking tool
+call. The coordinator owns the approval request and keeps its purpose visible to the user.
+Do not leave several delegated workers silently waiting on separate permission prompts.
+
+The legacy remote `claim.py` protocol uses a successful compare-and-push to `main` as its remote
+claim. A local file, worktree, or branch is not a remote claim. The local Codex runner and local
+legacy claims share the existing OS-held lock; its durable coordinator and resource records retain
+ownership through output integration or explicit abandonment. A stopped process does not release
+its unfinished paper to a second writer. Transfer ownership explicitly, and preserve interrupted
+outputs when recovering. See [the runner](CODEX_RUNNER.md) for the actual commands.
+
+The lock cannot fence a noncooperating worker on another machine. Cooperating legacy claims also
+read the disabled-driver handover from fetched main. **Do not run both schedulers over the same
+work.** Before autonomous local execution, pause/drain the legacy driver and identify outstanding
+owners. Every writing launch rechecks the handover and outstanding legacy owners. A read-only
+audit can run while handover is pending; an implementation branch is not a live cutover.
+
+Start from a known base. Integrate coherent changes at a settled checkpoint, after checking current
+main for conflicts. Do not merge main after every edit or push each status observation separately.
+Preserve working branches and evidence until integration. On a collision, leave both versions
+intact and reconcile; never choose a winner by last write.
+
+A draft commit on an isolated work branch may anchor generated-artifact provenance before its
+manifest is regenerated. Record the pending checks explicitly, generate the manifest from that
+committed source, and validate before integration. A draft checkpoint is not a green gate or a
+publication candidate. This avoids requiring a clean-source manifest before its source can exist
+in a commit.
+
+## Verification and cost
+
+Run the smallest checks that cover the changed behavior during development. Batch all known fixes
+and regenerations, then validate the settled tree once. Re-run only for a change, a failure, or an
+unresolved concern. Use `scripts/preflight.sh` for the normal commit gate; its reported scope is
+part of the result. Full publication verification still uses `PREFLIGHT_FULL=1` on the release
+candidate, with its original log and exact revision. A skipped suite has not passed.
+
+Do not add tests that merely pin a sentence, a file length, or a narrative incident. Add behavioral
+checks for meaningful failure modes. Retain scientific provenance, arithmetic, reproducibility,
+claim-strength, and artifact-integrity checks. An administrative hash mismatch with a safe full
+fallback must not force a circular "full must pass before full can pass" repair loop.
+
+Use saved ChatGPT authentication for local Codex work. API use is separately billed and is not an
+automatic fallback. Preserve the active no-GPU-spend posture. Set a finite task duration and record
+model, effort, base revision, output files, test scope, elapsed time, usage when available, unresolved
+issues, and the next concrete action. Unknown remaining subscription capacity stays unknown.
+
+Evaluate improvements by time to a verified artifact, substantive defects found, repair-induced
+defects, duplicate work, and observed usage. Do not create work to reach a utilization target.
+
+## Distribution and continuity
+
+Use the [standing author declarations](author-declarations.json) for funding and competing
+interests. On 2026-09-07 Tristan D. McRae confirmed no funding and no competing interests for all
+papers in this program. Do not re-request these facts unless they change; this declaration does
+not establish ethics approval, exemption, waiver, affiliation or consent.
+
+Prepare reviewer-readable preprints, reusable data/code, accurate limitations, and venue metadata
+together. Follow [the preprint workflow](PREPRINT_WORKFLOW.md): the user's 2026-09-10 decision
+retires Qeios as the default for future new papers and selects a venue for each manuscript.
+Preserve PUB-ASO's published Qeios DOI, version history and necessary corrections. The separately
+held submission is not cleared for posting elsewhere until its identity, public status and
+cancellation are confirmed; an approved or sent cancellation request is not that confirmation.
+Scientific readiness follows evidence, novelty, reproducibility, accurate limitations and AI-use
+disclosure, with the independent ultra review above. Consolidate overlapping analyses when they
+form one contribution. Schedule outreach for reader attention separately; there is no general
+three-week scientific release gate. aiXiv remains an authorized distribution option within the
+existing grant, not evidence
+of scientific credibility. PUB-ASO remains excluded from automatic aiXiv posting. Recheck venue
+rules at release time; do not wait indefinitely for a hypothetical higher-visibility AI venue.
+Journal submission follows its existing authority. The user's 2026-09-06 standing research_correspondence
+grant covers routine EMC outreach and follow-through without per-message approval; follow
+[the correspondence procedure](correspondence/README.md) and its private durable ledger.
+
+A cycle ends with a durable outcome and a clear next action. A process launch is not a delivered
+result. Do not report a scheduler as active until an actual run produced and preserved its output.
+Local runner receipts are not legacy `CYC-*` receipts or publication evidence. A remote cycle must
+continue using the existing claim and receipt schemas until its readers are deliberately migrated.
+The cycle adapter preserves local verified results separately, including input/output hashes,
+independent check logs, elapsed time and observed usage. Independent maintenance needs measured
+friction and normally consumes at most one of four cycles; useful science has selection priority.
+
+## Basis for this change
+
+The baseline is repository commit `c309b6f6e42ab6adb684c995dc9af2b6caa08fe5`.
+`hardening-state/PUB-ASO.json` records round 34 with no blockers and maintenance findings, but its
+recorder still used the retired zero-P1 rule. Historical instructions also required repeated blind
+review, immediate synchronization, and continuing through an open-ended maintenance backlog.
+These mechanisms rewarded activity and made acceptance move while the paper was being repaired.
+
+OpenAI's current [Astra guide](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra)
+describes strong multistep research/coding and flags sensitivity to accumulated instructions and
+excessive verification. That supports testing concise instructions and bounded review here; it
+does not independently validate this project's science. [Codex authentication](https://learn.chatgpt.com/docs/auth)
+distinguishes subscription sign-in from separately billed API use.

@@ -1,0 +1,74 @@
+Bounded source search and access decisions
+
+Direct RNA localization
+No inspected source supplied a TMEM266 measurement localized to authentic
+EMC malignant cells by single-cell/spatial RNA, RNA-ISH or microdissection.
+This is not an exhaustive claim that no such material exists.
+- PMC12728484: the retrieved single-cell/spatial measurements were
+  epithelioid sarcoma; an EMC bulk comparison was not a spatial EMC assay.
+- CIVO/GeoMx material inspected: fibrosarcoma, not EMC for the proposed
+  quantitative spatial measurement. Other-cancer evidence cannot substitute.
+- GSE28866: bulk FFPE cores; the publication's novel-lncRNA in situ analysis
+  was in breast tissue, not TMEM266 in EMC.
+- Seitz pediatric atlas, https://doi.org/10.21203/rs.3.rs-10374394/v1 :
+  available main labels did not authenticate EMC inclusion; relevant data
+  access was controlled. The linked EGAS50000000393 record did not resolve
+  the proposed tissue dataset. No access request or outreach was sent.
+- PeerJ21497's reported imaging targets did not include TMEM266.
+
+Additional patient tumor RNA
+Brenca2019 https://doi.org/10.1002/path.5284 described tumor-rich material
+with >70 percent tumor nuclei. The available s005/s006 selected-gene tables
+do not contain TMEM266 or inspected aliases. A missing selected row is not
+zero expression. Corrigendum https://doi.org/10.1002/path.5737 points to
+PRJNA692081; no full raw patient reads were downloaded.
+The reanalysis at https://doi.org/10.3389/fgene.2024.1440994 supplied eight
+engineered-fibroblast libraries, not patient tumor evidence. This distinction
+is retained despite measurable TMEM266 counts in all eight libraries.
+
+Successful public sources
+Exact published tissue workbook is preserved with SHA256 receipt; original
+4.46MB supplementary ZIP was read in memory and not retained.
+https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/supplementaryFiles
+https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/fullTextXML
+
+Official probe manifest was read in memory only; selected exact row and
+reference-junction sequence checks are preserved in probe-specificity-results.
+https://www.biospyder.com/temposeq-manifests
+https://www.biospyder.com/s/190620HumanWholeTranscriptome20Manifest.xlsx
+
+Culture identity: primary TablesS4/S6, GEO GSM2113301 and ENA/SRA crosswalk
+are preserved as selected facts and source hashes in culture-identity-audit.
+No authentication claim beyond the original publication is implied.
+https://doi.org/10.1186/s12864-016-3161-9
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2113301
+
+recount3 gene counts, QC, G026 annotation and full-resolution range receipts
+are reproducible from the adjacent scripts and source URLs. Gene/exon sums
+retain overlap by design; the specific shared exon was explicitly measured.
+https://research.libd.org/recount3/articles/recount3-quickstart.html#bigwig-files
+https://research.libd.org/recount3/reference/locate_url.html
+https://raw.githubusercontent.com/LieberInstitute/recount3/master/R/transform_counts.R
+
+Coordinate/isoform interpretation
+GENCODEv26 through UCSC is the matching annotation for recount3 G026.
+Current Ensembl supplies interpretive context; it was not substituted into
+the frozen G026 gene-sum check. Current JSON key ordering and UCSC request
+metadata can change hashes without changing sequence/annotation payloads.
+https://rest.ensembl.org/lookup/id/ENSG00000169758?expand=1;content-type=application/json
+Both annotations preserve multiple transcripts sharing the assay junction.
+
+Specimen identity sensitivity
+The primary article's table supplies aggregate FISH counts; its Cox-model
+supplement and expression workbook lack the specimen crosswalk. Explicit
+FISH_1 labels were recovered from BioSamples SAMN53073757-SAMN53073768,
+linked to Si identifiers through the primary-associated PRJNA1357027 deposit.
+All twelve aliases match exactly, with eight EWSR1+ and four EWSR1-.
+https://www.ebi.ac.uk/ena/browser/api/xml/SAMN53073757
+https://www.ebi.ac.uk/ena/browser/api/xml/SAMN53073759
+Exact per-record receipts, deposited attributes and run linkage are in
+fish-sensitivity-results.json. Other metadata do not fully reconcile to
+the article's cohort dates/origins; retain this provenance limitation.
+
+All retrievals were public, read-only HTTP/API or local files. No UI,
+browser automation, paid access, outreach, publication or public mutation.

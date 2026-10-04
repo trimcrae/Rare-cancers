@@ -1,0 +1,128 @@
+TMEM266 in published EMC tissue — 3 October 2026
+Started 00:27 UTC on 4 October / evening 3 October America/New_York.
+User asks whether the transcript can be located within published EMC tissue.
+
+Read AGENTS.md and OPERATING_PROTOCOL.md; this task supersedes ASO priority.
+Root is the only writer; three workers are read-only/in-memory. Free C: is
+10,664,366,080 bytes (below 10 GiB), so no new worktrees/runtimes/large files.
+Reuse existing data; budget <=2 MB new selected tables, code and receipts.
+No paid resources, outreach, publication, submission or public changes.
+Daily no computer use 06:00–10:00 America/New_York explicitly passed to all.
+
+Question and evidence hierarchy
+1. Direct: authentic EMC cells with spatial/single-cell RNA, RNA in situ
+   hybridization, or microdissection tied to pathology and gene measurement.
+2. Supporting: verified tumor-enriched sections or authentic patient-derived
+   tumor models with TMEM266 measured, appropriate identity/assay controls.
+3. Context: bulk tissue expression, anatomic matching, admixture sensitivity.
+Do not infer gene localization from H&E images, expression signatures, or
+synthetic image prediction. RNA does not establish protein or full-length
+isoform. Engineered fusion fibroblasts are not authentic EMC tissue.
+
+Work allocation
+Measurements worker: direct spatial/ISH/single-cell tissue sources.
+Genomics worker: authentic models and Brenca tumor-rich tissue/model data.
+Clinical worker: source pathology, anatomical controls and assay specificity.
+Root: published Thai FFPE/TempO-Seq cohort, independent synthesis and replay.
+
+Thai FFPE pilot, choices before inspecting TMEM266 values
+Read actual source methods for tumor selection/purity and assay. Authenticate
+published s009 XLSX against prior source SHA256 and preserve literal labels.
+Look up TMEM266 and explicit aliases C15orf27/FLJ38190/HVRP1 only. Unique row
+required; report missing/duplicate rows as unavailable, not biological absence.
+Report all 12 original specimen values on the authors' stated log2CPM scale,
+with within-sample ranks as descriptive only; neither cross-gene quantitative
+equivalence nor cross-platform TPM comparisons are justified.
+Fixed context controls: NR4A3,CHRNA6; skeletal muscle ACTA1,CKM,MYH1,MYH2,MYH7;
+immune PTPRC,LST1; endothelial PECAM1,VWF; matrix COL1A1,COL1A2,DCN.
+Report every control's presence/value, no post-value substitutions.
+Previous source audit found repeated value .010026459; this is an export
+property, NOT an authenticated assay detection threshold. Report whether
+TMEM266 shares that value, and lower-quartile position, without calling it
+positive/negative. No prognosis, survival, new signature, or imputed cell map.
+If tumor content is documented, describe it exactly and do not equate it
+with spatial localization or exclude minority-cell expression.
+
+Stop conditions
+A bounded public-source search plus all credible accessible pilots; stop an
+individual route when EMC identity, assay coverage or access cannot support
+the question. Preserve missing evidence and contradictory results. Use one
+independent claim/method challenge before final handoff, no full manuscript.
+
+Brenca/DElite supporting-model pilot, recorded before target values:
+Public DataSheet2 has raw counts for engineered tBJ/ER fibroblasts expressing
+EWSR1::NR4A3 (EN: S315,S316,S317,S363) or TAF15::NR4A3
+(TN: S367,S385,S386,S318). These are NOT authentic EMC cells or tissue.
+Extract ENSG00000169758.12/TMEM266 in all eight libraries; compute CPM from
+the sum over all 57,714 gene rows. Preserve IDs, group mapping, counts and
+denominators; report nonzero and >=10-read counts descriptively, not as an
+authenticated limit of detection. GAPDH and NR4A3 are assay context only.
+No differential-expression p-value or fusion-induction inference: there is
+no fusion-negative control in this export. Any positive result shows only
+that these engineered cells contain measured target RNA.
+
+Clinical worker's anatomical sensitivity was announced before new filtered
+values: restrict original eligible groups to source TableS1 explicit deep(D)
+and site containing 'thigh', compare EMC to each original histology; no
+adaptive regrouping or p-values. This is post hoc context using known target
+measurements, not independent localization. A superficial specimen can weaken
+a simple deep-muscle explanation but cannot exclude microscopic admixture.
+
+Davila2016 cultured EMC pilot, before values:
+Primary source TableS4 labels V1-34 / GSM2113301 as patient-derived cell
+culture; TableS6 reports EWSR1::NR4A3. Verify these links and retain the
+distinction between a source-authenticated culture and modern STR identity.
+recount3 has two technical runs SRR3380704/SRR3380705 from SRX1703825, ONE
+biological sample. Retrieve ~6 MB compressed gene-sum file in memory only;
+no raw reads, bigwig or persistent full matrix. Root approves this bounded
+in-memory retrieval within storage policy.
+Resolve ENSG00000169758/TMEM266 using the deposited GENCODEv26 annotation.
+Report exact base-coverage gene sums, project QC and documented transform
+only if its formula/units are verified before scaled results. Raw gene-sum
+coverage is not an integer count of sequenced transcript molecules.
+Fixed controls: ACTB,RPLP0,VIM,NR4A3 and ACTA1,CKM,MYH1,MYH2,MYH7.
+Require concordant target measurement in both runs to call culture evidence;
+no biological-replicate p-value, no induction/dependency/protein inference.
+Positive culture evidence would show entrapped muscle is not required to
+obtain a signal in this experimental material, not localize RNA in an intact
+patient tumor. Zero cannot exclude the transcript in the parent tumor.
+
+4 October ~00:50 UTC amendment, before viewing regional BigWig coverage:
+The GENCODEv26 gene sum includes 116 bp shared with an antisense gene.
+Query both original technical runs at all 15 union-exon intervals via HTTP
+Range only, <=5 MB transferred per run and no full BigWig persistence. Use
+the primary format implementation to decode full-resolution records, never
+zoom summaries. Require summed coverage to reproduce the published gene
+sums (1333 and 1694); otherwise stop and do not interpret the regional data.
+Report per-exon coverage, covered bases, and shared versus unique sequence.
+If all signal lies in the shared interval, this is not TMEM266-specific
+detection. One unique exon is local RNA coverage only; separated unique
+exons strengthen gene attribution but cannot establish a full-length coding
+transcript, splice junction, mapping uniqueness, cell purity or protein.
+Retain all intervals including zeros and original annotation version. This
+is an exploratory specificity audit prompted by the initial low coverage.
+
+Manufacturer probe-specificity extension, before sequence matching:
+Worker found official HumanWholeTranscriptome2.0 manifest (2,483,450 bytes),
+authorized in memory only as a bounded exception to the 2 MB query cap.
+Extract every exact TMEM266/alias row, preserving literal probe sequence,
+coordinates and transcript identifiers. Verify sequence against reference
+DNA across the relevant exon junction in both orientations; require exact
+match to assign reference build or spliced target. A manufacturer-design
+match is not independent assay validation, complete-transcript sequencing,
+proof of isoform exclusivity, or cellular localization. Preserve any mismatch.
+
+Source correction after method review: the initial shorthand 'Thai' above
+does not describe the whole cohort; specimens came from Siriraj and Columbia.
+Use pathology-reviewed EMC, not 12 fusion-confirmed tumors: EWSR1 break-apart
+FISH was positive in eight and negative in four, without a fusion-partner
+assay for every specimen. Original plan retained; this correction governs
+interpretation and reporting.
+
+Identity sensitivity, before linking FISH labels to known TMEM266 values:
+Only if a primary source explicitly crosswalks specimen Si identifiers to
+the individual EWSR1 break-apart results, summarize the positive and negative
+subsets descriptively (count, original values, median, range). Keep all12
+specimens visible, no p-value, no fusion-partner or mechanistic inference.
+Do not infer labels from numbering, tumor morphology, expression or site.
+This is exploratory identity context; absent crosswalk means unavailable.

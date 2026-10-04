@@ -1,0 +1,212 @@
+diff --git a/.claude/skills/paper-hardening/SKILL.md b/.claude/skills/paper-hardening/SKILL.md
+index 40008a7ed1..339e50635d 100644
+--- a/.claude/skills/paper-hardening/SKILL.md
++++ b/.claude/skills/paper-hardening/SKILL.md
+@@ -19,6 +19,15 @@ Budget one independent review batch, one batched repair, and a focused independe
+ of changed claims and dependencies. Further full review needs a named material reason. If existing
+ publication evidence requirements remain unsatisfied, report that fact rather than claiming ready.
+ 
++Apply the operating protocol's scientific follow-through and reassessment before judging a
++manuscript ready. State separately whether the analysis is valid and whether its surviving finding
++is new and useful enough to merit a paper. Material contrary evidence or substantial claim narrowing
++requires a focused contribution decision before further polishing, even if every remaining sentence
++is accurate. The minimum repair may be shelving the paper or a bounded decisive scientific check.
++Do not rescue a failed contribution with caveats, substitute a positive single model for relevant
++coverage, or treat an unavailable measurement as negative. Keep this within the existing review
++batch; report the clear verdict, evidence, remaining decision-changing gap and next action.
++
+ Findings distinguish current submission blockers, maintenance gaps, and optional editorial changes.
+ Every finding names the exact outgoing claim, source, consequence, and minimum repair. A correct
+ sentence without a guard is maintenance. Zero findings is a valid result. Verify objections against
+diff --git a/AGENTS.md b/AGENTS.md
+index 89171d9e4b..f1f5b2cf7e 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -11,7 +11,7 @@ scope: >
+   (that is systems/ARCHITECTURE.md), and NOT the standing agent rules (that is CLAUDE.md).
+ audience: [maintainers, autonomous research agents]
+ date: 2026-08-05
+-last_verified: 2026-09-04
++last_verified: 2026-10-04
+ related: [DOC-ARCHITECTURE, DOC-CONVENTIONS, DOC-MIGRATION]
+ ---
+ 
+@@ -26,6 +26,11 @@ the EMC ASO package for Nucleic Acid Therapeutics; its Qeios version history rem
+ For future preprints, follow [the preprint workflow](research/autonomy/PREPRINT_WORKFLOW.md).
+ Qeios is no longer the default for new papers; preserve existing published records and corrections.
+ 
++Before promoting a result into a manuscript, and whenever material contrary evidence appears,
++apply the operating protocol's [scientific follow-through and reassessment](research/autonomy/OPERATING_PROTOCOL.md#scientific-follow-through-and-reassessment).
++Pass this duty to every worker; the lead must pursue or disposition interpretation-changing
++follow-up and explicitly decide whether a worthwhile paper survives, without waiting for the user.
++
+ ## Scientific integrity
+ 
+ - Never invent medical facts, statistics, sources, patient data, experiments, or test results.
+diff --git a/research/autonomy/CODEX_RUNNER.md b/research/autonomy/CODEX_RUNNER.md
+index c8ab4536d4..27a7fa7e1b 100644
+--- a/research/autonomy/CODEX_RUNNER.md
++++ b/research/autonomy/CODEX_RUNNER.md
+@@ -4,7 +4,7 @@ title: Local subscription research runner
+ kind: runbook
+ status: live
+ date: 2026-09-04
+-last_verified: 2026-09-05
++last_verified: 2026-10-04
+ purpose: Run one bounded research task using saved ChatGPT authentication and preserve its actual outcome.
+ audience: [maintainers, autonomous research agents]
+ scope: Setup and operation of scripts/research_run.py; not publication authority.
+@@ -125,6 +125,14 @@ in `follow_up`. Completion with a real task blocker is still refused. The worker
+ actual model, effort, time and dispatch limits rather than guessing execution metadata. Usage is
+ recorded when Codex emits it; token counts do not imply a known remaining subscription allowance.
+ 
++The live operating protocol is included in every worker prompt, including its
++[scientific follow-through and reassessment](OPERATING_PROTOCOL.md#scientific-follow-through-and-reassessment)
++duties. Workers surface interpretation-changing checks inside their scope and concrete scientific
++`follow_up` outside it. The lead must execute or disposition those checks and decide whether a useful
++paper survives before drafting; a `completed` worker receipt does not end that responsibility.
++This is an evidence-triggered research instruction, not a new scheduler or an automated judgment
++of biological truth. Existing dispatch limits, outcome schemas, locks and publication gates remain.
++
+ Completion retains resource ownership until integration. Each returned outcome has a SHA256 and
+ an inventory of all changed files, including untracked additions and deletions. Missing claimed
+ artifacts, paths outside the worktree, and worker commits fail the run. After inspecting and
+diff --git a/research/autonomy/OPERATING_PROTOCOL.md b/research/autonomy/OPERATING_PROTOCOL.md
+index 8f410a24e8..57d97067e9 100644
+--- a/research/autonomy/OPERATING_PROTOCOL.md
++++ b/research/autonomy/OPERATING_PROTOCOL.md
+@@ -4,7 +4,7 @@ title: Research operating protocol
+ kind: runbook
+ status: live
+ date: 2026-09-04
+-last_verified: 2026-09-10
++last_verified: 2026-10-04
+ purpose: Deliver useful computational EMC research with bounded review and explicit ownership.
+ audience: [maintainers, autonomous research agents]
+ scope: Work selection, review, coordination, and the Claude-to-Codex transition.
+@@ -59,6 +59,75 @@ without an artificial daily reserve, total-round cap or inbox-only pause. Preser
+ results and real acceptance criteria; do not repeat unchanged work or invent a paper merely
+ to consume credits. Keep finite worker checkpoints and explicit ownership, then continue.
+ 
++## Scientific follow-through and reassessment
++
++**User instruction, 2026-10-04:** follow-up and reevaluation of scientific value are automatic
++responsibilities of the research team. Do not wait for the user to request the obvious comparison,
++identify contrary evidence, or ask whether the paper should be abandoned. A technically correct
++analysis and an accurately qualified manuscript do not by themselves establish a useful contribution.
++
++Before the relevant results are inspected where possible, record the proposed EMC finding, what
++primary studies already establish, why the answer would change a researcher's beliefs, measurements
++or next experiment, the strongest alternative explanation, and a result that would defeat the
++interpretation or make the project unworthy of a paper. Preserve that original rationale and append
++dated revisions; do not rewrite a hypothesis or a stop condition to fit observed results.
++
++When a result looks promising, investigate credible, accessible follow-up that could materially
++change its interpretation or scientific value **before full manuscript drafting or promotion**.
++Choose the most discriminating checks, including those most likely to disprove the preferred
++explanation, before additional favorable examples or polishing. This is not a demand to exhaust
++every imaginable analysis. Use bounded pilots with recorded choices, sources and stopping rules;
++reuse completed checks and do not search or extend sampling until a positive result appears.
++
++For a small relevant public corpus, account for every identifiable model or cohort, including
++unfavorable results, aliases, donor overlap and technical replicates. Analyze suitable accessible
++measurements and explain exclusions or access gaps. A catalogue alone is not a complete census.
++For larger corpora, define a justified sampling frame before selecting results. Distinguish absent
++data from negative measurements, and compare assay coverage, units and identity before interpreting
++discordance. Keep expression, cell identity, protein, dependency and clinical benefit separate.
++Whether culture, tissue, spatial or other evidence is necessary depends on the specific claim;
++there is no rule requiring every model to be positive or every computational paper to have wet-lab data.
++
++Reassess immediately when a material result contradicts the proposed biology, a plausible normal
++tissue or technical explanation remains, independence or identity fails, a required comparison is
++missing, prior art removes the proposed novelty, or the claim has to be narrowed substantially.
++Stop advancing the affected manuscript while resolving that decision. Culture adaptation, subtype
++heterogeneity or assay differences are possible explanations to test, not automatic excuses for
++unfavorable evidence. Equally, one discordant observation is not automatic falsification of every
++claim; judge what the measurements can actually establish.
++
++The lead must distinguish **validity** (is the result supported?) from **value** (does the supported
++result teach something new and useful about EMC?). Obtain an independent challenge to the strongest
++surviving interpretation, covering prior art, alternative explanations, confounding and practical
++consequence. The challenger may recommend shelving; its task is not to rescue the draft. Reuse an
++existing challenge when it covers the unchanged evidence. This focused decision is part of the
++bounded research/review batch, not an additional recurring whole-paper review or the submission ultra pass.
++
++Record a clear decision in the existing results/handoff, leading with one of these outcomes:
++
++| Decision | Required consequence |
++|---|---|
++| **Continue toward a paper** | State the demonstrated finding, why it remains useful after contrary evidence, and the strongest limit. No unresolved credible, feasible check within the authorized scope may be left unexamined if it could reverse this decision. Publication requirements remain separate. |
++| **Run one bounded decisive follow-up** | State the exact uncertainty, feasible measurement/comparison, budget or stopping rule, and how either result changes the decision. Finish it and reassess before drafting; do not append it indefinitely to future work. |
++| **Shelve the standalone paper** | Preserve the result, negative evidence and prior drafts; stop drafting, polishing and release preparation. State the specific new evidence that could justify reopening, or that none is currently identified. Move to a different credible question. |
++
++A narrower claim must independently clear the same usefulness bar. Adding caveats, changing the
++title, correct code, more figures, a favorable single model or a completed review cannot substitute
++for that judgment. A negative finding warrants a paper when it challenges an important existing
++claim; failure of a speculation invented for this project does not automatically qualify.
++
++Worker briefs must include the central claim, relevant restrictions, the strongest unresolved
++alternative and the decision their work could change. Bounded workers finish feasible checks
++inside their assignment and report contradictory evidence and concrete out-of-scope follow-up,
++including source/access constraints and the consequence for the claim. The lead executes that
++follow-up when authorized and feasible, or records why it cannot resolve the issue and reassesses
++the paper accordingly. A worker's `completed` status remains computational task completion, not
++permission to skip this decision. Carry the latest decision and reopening condition into the next
++handoff so an old draft, stale ranking or later session cannot silently revive a shelved project.
++
++The [adoption record](scientific-reassessment-2026-10-04/decision.json) applies this instruction
++to the TMEM266 candidate and preserves the decision to shelve its standalone paper.
++
+ ## Review with an endpoint
+ 
+ **User rule, 2026-09-05: every paper requires one independent ultra-reasoning pass
+@@ -95,7 +164,8 @@ Each finding names the exact outgoing artifact, evidence, consequence, and small
+ 
+ | Class | Meaning | Action |
+ |---|---|---|
+-| Submission blocker | A current unsupported/misleading claim, invalid analysis, missing reproducibility evidence, or a real venue requirement | Resolve or narrow the claim before submission |
++| Scientific stop | The supported result no longer offers a worthwhile contribution, or its essential interpretation cannot be supported | Apply scientific reassessment; run a decisive bounded check or shelve, rather than repair prose indefinitely |
++| Submission blocker | A current unsupported/misleading claim, invalid analysis, missing reproducibility evidence, or a real venue requirement | Resolve the issue; a materially narrowed claim must pass scientific reassessment before submission |
+ | Maintenance | Correct current content lacks a regression guard or tooling could be improved | Separate backlog; does not trigger another whole-paper review |
+ | Editorial suggestion | Optional wording, presentation, or speculative future work | Accept only if it improves clarity without starting a rewrite cycle |
+ 
+diff --git a/research/autonomy/RESEARCH_CYCLE.md b/research/autonomy/RESEARCH_CYCLE.md
+index 504fda316d..b0c2bc5fb7 100644
+--- a/research/autonomy/RESEARCH_CYCLE.md
++++ b/research/autonomy/RESEARCH_CYCLE.md
+@@ -4,7 +4,7 @@ title: Bounded research cycle and measured improvement
+ kind: runbook
+ status: live
+ date: 2026-09-05
+-last_verified: 2026-09-05
++last_verified: 2026-10-04
+ purpose: Turn the existing research ledger into finite computational questions and preserve independently verified outcomes.
+ scope: Local Codex cycles, project selection and process measurement; no publication authority.
+ audience: [maintainers, autonomous research agents]
+@@ -51,6 +51,17 @@ SHA256s, output SHA256s, the run ID, next action and measured time to verified o
+ coordinator verification JSON. Counts of substantive and repair-induced defects may be null when
+ not assessed; do not convert unknown values to zero. Later publication requirements are follow-up,
+ not blockers of a finished computational task.
++
++At this same checkpoint, apply the operating protocol's
++[scientific follow-through and reassessment](OPERATING_PROTOCOL.md#scientific-follow-through-and-reassessment).
++Workers report contradictory evidence and concrete interpretation-changing follow-up, not only
++commands and successful outputs. The coordinator must execute or disposition that follow-up and
++record **continue toward a paper**, **one bounded decisive follow-up**, or **shelve** in the existing
++results/handoff before manuscript drafting resumes. Name the supported claim, its scientific value,
++strongest contrary evidence, remaining decision-changing gap and next action. This is a scientific
++judgment separate from the existing computational `verified`/`attempted` outcome; do not change a
++correct negative analysis into a failed run, or treat a verified run as a paper endorsement.
++
+ For a failed run, record a reconciliation note with the run ID, any actual checks, and the next
+ action. Collection can preserve it as `attempted` even if authentication failed before the worker
+ checkout existed or partial output violated its contract. The durable record names those integrity
+diff --git a/research/autonomy/amendments.jsonl b/research/autonomy/amendments.jsonl
+index 523cb7c6ce..faa8d38839 100644
+--- a/research/autonomy/amendments.jsonl
++++ b/research/autonomy/amendments.jsonl
+@@ -343,3 +343,4 @@
+ {"cycle_id":"USER-20260906-AUTONOMOUS-CORRESPONDENCE","utc":"2026-09-06T11:53:02.9623738+00:00","path":"scripts/research_correspondence.py","what_changed":"Add private provider-neutral correspondence ledger and behavioral checks for duplicate sends, uncertain recovery, refusal, authority, mailbox readiness and reply context.","why":"Implement the explicitly authorized routine research correspondence workflow with durable state; no live transport is available yet.","self_serving_check":"No existing test or publication criterion is weakened. Synthetic fixture receipts remain separate from production state; tests do not establish real mailbox connectivity or authorize broader actions."}
+ {"cycle_id":"USER-20260906-AUTONOMOUS-CORRESPONDENCE","utc":"2026-09-06T11:53:02.9623738+00:00","path":"scripts/tests/test_research_correspondence.py","what_changed":"Add private provider-neutral correspondence ledger and behavioral checks for duplicate sends, uncertain recovery, refusal, authority, mailbox readiness and reply context.","why":"Implement the explicitly authorized routine research correspondence workflow with durable state; no live transport is available yet.","self_serving_check":"No existing test or publication criterion is weakened. Synthetic fixture receipts remain separate from production state; tests do not establish real mailbox connectivity or authorize broader actions."}
+ {"cycle_id":"USER-20260910-PREPRINT-WORKFLOW","utc":"2026-09-10T18:40:53Z","path":"research/autonomy/PREPRINT_WORKFLOW.md","what_changed":"Retire Qeios as the default for future new preprints; add per-manuscript venue and AI-policy verification, preserve existing Qeios DOI/version history and PUB-ASO aiXiv exclusion, and require held-submission identity/public-status/cancellation confirmation before alternate posting. Link active entry points and mark superseded venue memos historical.","why":"User explicitly approved the proposed venue workflow and cancellation reply on 2026-09-10. Scientific readiness remains evidence-based; outreach pacing is separate. The approved reply is prepared in the private ledger but unsent because browser automation could not verify the current URL.","self_serving_check":"This implements explicit user direction after reviewing Qeios fit; it does not weaken scientific/ultra-review/publication checks or grant new submission authority. It preserves prior decisions as dated evidence, creates no duplicate publication or retraction, and claims neither successful sending nor confirmed cancellation."}
++{"cycle_id": "USER-20261004-SCIENTIFIC-REEVALUATION", "utc": "2026-10-04T13:45:14.806769+00:00", "path": "research/autonomy/OPERATING_PROTOCOL.md", "what_changed": "Require automatic interpretation-changing follow-up, comprehensive small-corpus coverage, an independent validity-versus-value decision before drafting and after material contrary evidence, and a durable continue/bounded-follow-up/shelve outcome. Connect agent entrypoint, cycle handoff, runner documentation and manuscript review. Record TMEM266 standalone paper as shelved.", "why": "User had to request additional model coverage and twice ask for a clear paper-worthiness judgment; correct analysis and narrower prose had been treated as sufficient to keep drafting.", "self_serving_check": "No failed measurement is relabelled successful, no preregistration or frozen evidence is changed, and no publication gate is weakened. Rules remain claim-dependent, do not demand universal culture positivity or wet-lab validation, and reuse bounded reviews. Existing computational completion, ownership, runtime and publication authority remain unchanged."}

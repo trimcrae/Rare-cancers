@@ -1,0 +1,68 @@
+{
+  "utc": "2026-10-04T11:55:59.102040+00:00",
+  "status": "passed",
+  "earlier_packets_unchanged": {
+    "discovery-2026-10-03": {
+      "verified_files": 52,
+      "manifest_sha256": "36eac7fe60f8b1d1ccc93cd040c749dbb208155d8daaf51fdd16ec52de596c72"
+    },
+    "tmem266-tissue-2026-10-03": {
+      "verified_files": 38,
+      "manifest_sha256": "a5528a348181b3e796692f627744fed12d11201ee923f7bf66c5e2a313fcba03"
+    },
+    "tmem266-prepublication-2026-10-03": {
+      "verified_files": 36,
+      "manifest_sha256": "5b52762ffc683a58732ae2fe68235d7dde69763e899b4a300ca90ad0bcbdf0d6"
+    }
+  },
+  "prefix_worker_root_concordant": true,
+  "selected_read_reference_check": "passed",
+  "detector_positive_libraries": 6,
+  "identity_qualified_detector_positive_libraries": 5,
+  "RNA_BLAST_known_non_TMEM_candidates": [
+    [
+      "828175",
+      "NR_120360.1"
+    ],
+    [
+      "195969",
+      "NR_120360.1"
+    ]
+  ],
+  "python_syntax_checked": [
+    "array_robustness.py",
+    "blast_retrieve.py",
+    "cel_headers.py",
+    "cohort_context.py",
+    "exact_probe_counts.py",
+    "finalize_receipt.py",
+    "muscle_profile.py",
+    "procan_metadata.py",
+    "run_preflight.py",
+    "usz_prefix.py",
+    "usz_quant.py",
+    "verify_packet.py",
+    "verify_splice_reads.py"
+  ],
+  "JSON_parsed": [
+    "array-robustness.json",
+    "blast-genomic-status.json",
+    "blast-observed_RNA.json",
+    "blast-probe_RNA.json",
+    "cel-headers.json",
+    "cohort-context.json",
+    "exact-probe-counts.json",
+    "muscle-profile.json",
+    "normal-preflight-receipt.json",
+    "procan-metadata.json",
+    "splice-read-verification.json",
+    "usz-prefix-replay.json",
+    "usz-prefix-worker.json",
+    "usz-reference-models.json",
+    "usz-selected-reads.json",
+    "usz-worker-quant.json",
+    "verification.json"
+  ],
+  "local_links_checked": 28,
+  "limits": "Integrity and selected arithmetic/replay checks; not a clinical, full-transcript or publication validation."
+}

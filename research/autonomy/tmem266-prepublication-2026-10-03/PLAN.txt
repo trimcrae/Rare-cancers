@@ -1,0 +1,128 @@
+TMEM266: remaining evidence before drafting
+Started 2026-10-04 02:01 UTC / 2026-10-03 evening America/New_York.
+User requests further worthwhile investigation before writing a publication;
+start a draft only if a worthwhile contribution is demonstrated and no
+remaining accessible analysis is needed to support its intended claims.
+
+Rules and ownership
+AGENTS.md and OPERATING_PROTOCOL.md read first; current user task overrides
+ASO priority. Maximum four concurrent agents: lead sole writer/integrator,
+three read-only workers. Routine research, not a pre-submission ultra review.
+Daily no computer use 06:00-10:00 America/New_York passed to every worker;
+quiet file/API work only so far. No paid access, outreach, public changes,
+submission, publication or PR. No manuscript acceptance criterion relaxed.
+C: free10,658,291,712bytes, below10GiB. No new checkout/runtime/large artifacts;
+reuse existing files and bound network work in memory. New output <=2MB
+unless a separate small evidence budget is explicitly recorded by lead.
+Preserve prior manifests and all uncommitted/ignored work. No worker writes.
+
+Evidence already obtained, not to repeat
+Comparative tissue RNA enrichment:9EMC RNAseq and6EMC array specimens;
+patient overlap between Lund cohorts unresolved, normal muscle overlaps.
+Additional12FFPE target measurements with official50ntsplice-junction probe;
+8EWSR1+ and4EWSR1- labels, no NR4A3 partner for every case, no localization.
+One EMC-derived culture: two technical runs, sparse downstream RNA, no
+contribution from shared antisense exon; full coding RNA remains unproven.
+All details in ../discovery-2026-10-03 and ../tmem266-tissue-2026-10-03.
+Older exploration and CSPG4 letter are inspected through Git where this
+checkout is sparse. Their rankings are not publication evidence.
+
+Distinct remaining questions
+1. Patient RNAseq: can an additional authentic tumor-rich cohort supply
+   direct upstream coding-exon/junction evidence? Authenticate patients,
+   libraries and fusion status before touching target measurements.
+2. Tissue microarray: what TMEM266 sequences were interrogated, and can
+   raw probe-level measurements support upstream as well as downstream RNA?
+   Freeze probe groups/controls before intensities; no gene-summary inference
+   about individual oligos or full-length RNA.
+3. Independent novelty and utility: what do original EMC profiling studies
+   already establish? Does the actual comparative finding merit a brief
+   contribution, with selection among16replicated screen hits disclosed?
+4. Lead: integrate source reliability/sample identity, design bounded
+   sequence-level pilots if feasible, and independently replay new evidence.
+
+Stop/advance rules
+No manuscript on probe-method demonstration, a source-error inventory, or
+correction of our prior wording alone. New methods are useful only if they
+resolve an EMC biological measurement. Do not infer protein, dependency,
+tumor specificity, isoform abundance, or malignant-cell localization from
+bulk RNA. A normal-tissue comparison using incompatible units is invalid.
+Metadata-only absence is not a negative target measurement. Raw-prefix
+sampling, if used, can support exact observed sequences; failure to observe
+cannot prove absence and prefixes are not biological replicates.
+Finite worker checkpoint~30minutes; extend only for a named credible result.
+
+Prospective permissions for bounded retrieval
+Each worker may read <=10MB per public file in memory; no persistent raw
+data or full-study download. Manufacturer-derived Bioconductor probe archive
+14.66MB is separately approved in memory for annotation recovery. Authentic
+patient FASTQ prefixes require a separate frozen analysis plan and cap before
+the first target reads are examined. No raw FASTQ has been examined at plan.
+
+Known source-identity qualification, before new subset summaries:
+Earlier 30September work documented Si22 BioSample/alias versus Si21 library
+name discordance. Our last follow-up did not carry this qualification into
+its FISH summary. Authenticate the raw experiment/library field; preserve
+all12 original values and report a separate11-specimen summary excluding
+Si22, with unchanged pre-existing EWSR1 grouping. No reassignment to Si21,
+no clinical endpoint inference, no group-comparison p-value. This repairs
+interpretive scope; it is not a new standalone scientific contribution.
+
+Raw microarray pilot, frozen before target intensities (4October UTC):
+Official GPL10739 exon-region coordinates + manufacturer-derived25mer
+sequences recover exactly30physical probes for cluster7985066; expected
+per-region counts must all match. Region assignment is sequence-based,
+not intensity-based. Canonical exon/CDS numbering must be stated by build.
+Primary upstream coding:7985069-7985074,14probes in6regions (exons2-7).
+Downstream coding:7985076-7985078,8probes in3regions (exons9-11).
+UTR context:7985067,7985068,7985079,6probes. Shared antisense region:
+7985075,2probes. Keep all groups/individual probes, including discordance.
+Use all6EMC +17LGFMS +2normal muscle pools from original GSE24369 metadata.
+Read each <=10MB compressed CEL in memory; totalraw budget<=120MB compressed;
+no rawCEL persistence. Preserve selected intensities, whole-array finite
+feature denominators, sequence map, source hashes and exact replay code.
+Primary score: mean of6upstream region means of per-array feature-intensity
+percentiles (midranks / count ofallfinitefeatures). Secondary same-probe
+raw log2-intensity contrasts, downstream/UTR/shared scores. No RMA/isoform
+abundance claim for these transformed raw intensities.
+Exploratory support rule: upstream EMC-vsLGFMS A>=.80, array-bootstrap95%
+lower>.5, at least4of6upstreamregions A>.5. Bootstrap biological arrays,
+not probes; fixed seed20261004 and2000resamples. This is post-discovery
+assay-region support in a reused cohort, not selection-adjusted inference
+or another independent validation cohort. Normal pools are descriptive.
+Control context: deterministic10same-GC non-TMEM physicalprobes pertarget,
+seed20261004. These assess broad intensity shift, not biological negatives.
+No target-values-based replacement, normalization choice or probe removal.
+Interpretation cannot establish full-length molecules, malignant localization,
+protein, alternative-isoform predominance, or therapeutic relevance.
+
+Pre-intensity annotation amendment from independent reviewer:
+Current canonical CDS start differs from G026, so exon2 membership alone
+does not prove a whole25mer is coding. Keep the original14probe primary
+set as 'upstream regions'; record each probe's CDS/UTR/mixed classification
+under both annotation versions. Add a strict-current-CDS sensitivity using
+only probes entirely inside current canonical CDS by genomic coordinates,
+with annotation-derived exclusions only. Do not replace the primary set.
+Independent raw-CEL verification samples frozen by accession order:
+GSM600934 (first EMC) and GSM600940 (first LGFMS), not chosen by intensity.
+
+Raw transport amendment, before intensities:
+NCBI compressed-CEL transfers repeatedly truncated. BioStudies E-GEOD-24369
+lists the same specimens' uncompressed CELs and provides public HTTP Range
+access through its EBI mirror. Read Calvin headers, complete Intensity
+dataset (about4.41MB/array), and mask/outlier flags only; omit unneeded SD
+and pixel data. The scientific sample/probe/statistic plan is unchanged.
+Control selection deduplicates physical locations in manufacturer annotation
+(804955distinct IDs /861493rows), sorted within GCcount, excluding30target
+IDs; numpy default_rng(20261004),10controls pertarget in probe-map.csv order.
+One technical clarification: EnsemblTranslation.start is1-basedinclusive.
+Current CDS starts0-based76134287,24nt after G02676134263. Both exon2
+primary probes are mixed UTR/CDS under current annotation; strict12probe
+group contains canonical exons3-7 only. Record exact per-probe intervals.
+
+Coordinator replay after completed worker pilot:
+Worker's console truncated portions of its selected-array JSON. Authorize
+one additional <=120MB public in-memory range replay to save the full
+selected output directly in the lead-owned folder, without printing it.
+This is recovery of the complete reproducible artifact, not another
+biological replicate or a changed analysis. Preserve independent2CEL checks.

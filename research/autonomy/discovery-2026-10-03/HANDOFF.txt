@@ -1,0 +1,156 @@
+Fresh EMC scientific discovery fan-out -- 3 October 2026
+
+OUTCOME
+No surviving candidate establishes sufficiently new and useful EMC knowledge
+under the user's discovery criterion. Three actual pilot analyses were run,
+not only an inventory. Their observations are preserved, not promoted to
+negative-discovery papers. No manuscripts were drafted or public acts taken.
+
+DEMONSTRATED OBSERVATIONS, NOT RETAINED AS DISCOVERIES
+
+Antigen-processing bulk RNA:
+Question: is a coordinated presentation/processing RNA deficit a reproducible
+feature of EMC versus three defined sarcoma comparators, beyond already known
+macrophage-rich/CD8-poor immune context?
+New calculation: ten fixed genes in nine EMC and 45 comparator specimens.
+A means probability that EMC exceeds comparator expression, with half ties;
+genes/histologies are separately retained. Mean program A values:
+                        marginal       matched by sequencing year
+Myxoid liposarcoma       .290476        .370000
+LGFMS                   .105128        .028571
+Synovial sarcoma         .404321        .211667
+All directions are lower, but the frozen requirement for large differences
+(all six <=.30 or all six >=.70) failed. Patient/year deletion results and
+conditional intervals are retained. There is no post hoc best-gene rescue.
+Why potentially useful: a replicated distinct processing pattern could focus
+tumor-compartment HLA/processing assays, rather than assume immune exclusion
+alone explains low response. Current data do not distinguish malignant cells
+from infiltrating cells or establish antigen presentation/function.
+Prior art: Ogata2022 already demonstrated tumor HLA-I with sparse CD8 in one
+EMC; Indio2018 and PeerJ2026 already describe immune composition. Failure of
+this newly proposed strong pilot criterion does not challenge those findings.
+Files: antigen_pilot.py, antigen-results.json, PLAN.txt, independent_verify.py.
+
+PLAGL1 tissue expression:
+Question: does published EMC PLAGL1 suppression extend to strong and consistent
+tissue separation from three selected sarcoma histologies across cohorts?
+RNA-seq A was .085470 versus LGFMS, .079365 versus myxoid liposarcoma and
+.006173 versus synovial sarcoma; EMC median 5.03 TPM versus 28.43, 21.22,
+85.495. Year-matched A=0 in all three, but each contrast contains only three
+EMC and conditional bootstrap zeros are not population certainty.
+Separate GSE24369 arrays (6 EMC,17 LGFMS; original unique probe8129985) show
+much weaker same-direction ordering, A=.411765, single-EMC deletion range
+.294118-.494118. CHRNA6/NR4A3 controls retained; no probe selected by outcome.
+Why potentially useful: strong replicated EMC-specific reduction might
+motivate promoter/allele-specific work. It was not established here; original
+2005 fusion-transfected cell and tumor-versus-chondrocyte evidence already
+reported suppression, and the repository already analyzed the array arm.
+This comparison cannot refute the original perturbation, show loss of
+imprinting, or establish tumor-suppressor function. Retain as a limited
+cohort extension, not new mechanism or publication candidate.
+Files: plagl1_pilot.py, plagl1-results.json, source-audit.txt.
+
+Paired metastatic CT attenuation:
+Question: is extrapulmonary versus lung attenuation consistently different
+within the same EMC patient, potentially suggesting a site-linked matrix or
+lesion phenotype worth measuring independently?
+Kapoor2014 Table3 permits five paired patients. Median patient-level
+extrapulmonary-minus-lung difference is +3.70 HU, range -24.15 to +25.65;
+four positive, exact two-sided sign P=.375. Primary tumors and local
+recurrences excluded; sites are not counted as independent patients.
+No consistent/new site-specific phenotype established. The pilot was
+explicitly exploratory after table inspection, with selected largest-burden
+CT examinations, source lung-size filtering, and unresolved site/timing/
+contrast confounding. It neither establishes equivalence nor refutes known
+metastatic heterogeneity. Original descriptive imaging remains prior art.
+Files: ct_pilot.py, ct-results.json, ct-replay.log, independent_verify.py.
+
+PROMISING BUT UNFINISHED
+Trautmann2026 has a potentially useful independent EMC genomic cohort:
+76 available specimens,69 DNA profiles,61 RNA-panel profiles. New analysis
+could test secondary-alteration patterns by fusion/clinical phenotype, but
+the inspected public presentation provides no patient-level variant/fusion/
+outcome table; independence from other cohorts is unestablished.
+The next dependency is a genuinely public sample-linked data release with
+assay denominators and identity mapping, followed by a new pre-result plan.
+No author contact, access application or download of large sequencing data
+is authorized or pending in this task. This is a research opportunity, not
+a demonstrated finding or commitment that it will yield one.
+
+OTHER REJECTED ROUTES
+Rosenbaum2026 immune data: one EMC and controlled molecular release.
+Ngo2025: cellular/spatial assays are epithelioid sarcoma; EMC reference bulk
+matrix privately provided, not exposed with the public figure scripts.
+JCI2023: EMC patient101 is identifiable, but flow dots are unlinked; HLA
+allele assignments are not protein measurements.
+Dancsok2020: six EMC, aggregate IHC only, no new sample-level contrast.
+Ashburner44-case MRI and IMMUNOSARC-II treatment summaries already report
+their key findings and do not expose linked measurements for a new analysis.
+HSPA8-NR4A2 is already the 2025 case finding, with data via author only.
+Full URLs, source qualifications, new retrieval digests and prior art are
+in source-audit.txt. This was bounded searching, not a worldwide exhaustion claim.
+
+INDEPENDENCE AND SCIENTIFIC LIMITS
+Same Hofvander exclusion contract as the submitted CSPG4 reference: exclude
+104-92,168-97,536-00 (explicit old source overlap) and5081-14 (recurrence).
+Nine retained EMC IDs are independently reconstructed from source workbook;
+year-matched comparisons use three each, four unique EMC in their union.
+Historical patient overlap not recorded by the authors remains possible.
+The two array normal-muscle pools are not independent healthy persons; no
+cross-platform absolute RNA pooling or normal-tissue therapeutic index.
+All pilot rules are prospective-to-this-analysis choices, not public
+preregistration. Clinical CT is post-table exploratory. No causal, clinical
+efficacy, safety, dependency or peptide-presentation conclusion is made.
+
+EXECUTION AND VERIFICATION
+Maximum available concurrency used: root plus three workers.
+Initial allocation: clinical measurements; genomic/epigenomic/fusion biology;
+tumor microenvironment/new measurement sources. Finished scouts were reused
+for PLAGL1 prior-art challenge and independent RNA/CT verification.
+Worker code was handed to root; only root wrote this new directory.
+Independent verifier reconstructs cohort from original XLSX and metadata,
+uses order statistics for gene estimates and precomputed pairwise program
+kernels for bootstrap. 318 arithmetic/deletion comparisons agree within
+5.6e-17; 2000-bootstrap intervals agree within1.2e-16. All99 CT table cells
+match primary XML; exact sign-pattern enumeration agrees with binomial test.
+The final CT label was clarified from site means to site values; numbers
+unchanged and replayed after the clarification. PLAGL1 worker executable was
+replayed by root, and novelty/claim strength independently challenged.
+Independent verification stdout: independent-verification.jsonl.
+Normal repository preflight exited0 in211.45s: fast document/artifact gates
+only, no full scientific/publication suite. Ran at base+dirty checkpoint
+before final handoff/verifier-only preservation writes; not a release gate
+for a newly committed candidate. No commit, push or submission was made.
+
+REPRODUCE
+Use installed Python:
+C:/Users/mcrae/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe
+Set PYTHONPATH=C:/Projects/EMC-Research/.cache/python-deps and
+PYTHONDONTWRITEBYTECODE=1. Run antigen_pilot.py, plagl1_pilot.py, ct_pilot.py,
+then independent_verify.py. RNA scripts read existing hash-recorded local
+source files; CT script retrieves the named public XML. Replays overwrite
+only this task's corresponding result JSON. Preserve historical outputs if
+source digests change. No new runtime or checkout is required.
+Source/input hashes are embedded in results and source-audit.txt;
+MANIFEST.json binds final outputs excluding itself.
+
+STORAGE, OWNERSHIP, AND HANDOFF
+Local base3d550114538a1545e1eab03e1a93f69566da47de; prior campaigns read from
+5d2f2e2116; submitted CSPG4 text read from3a4c857c38. Main worktree has not
+been updated to origin/main. Prior work and untracked error.log untouched.
+Only new research/autonomy/discovery-2026-10-03/ files remain uncommitted.
+No checkout/runtime created because C: free space was below10GiB. Output
+budget2MB, reused sources, in-memory retrieval, small source-page render.
+No other checkout was retired: none was created/owned by this campaign.
+Daily06:00-10:00 America/New_York restriction passed to every worker; old
+September12 exception expired. Source-page inspection occurred16:43 local.
+Model/effort inherited from this session; exact runtime identifier/usage
+not exposed to these receipts. No certified ultra or submission review claimed.
+
+All three workers completed; all owned command sessions completed. Nothing
+remains running for this fan-out, and no monitoring automation was created.
+Existing unrelated automation/worker ownership was not altered.
+Next action, if revisiting: obtain publicly released patient-level evidence
+for the new genomic cohort, or a new EMC compartment-resolved measurement
+dataset, before launching another bounded scientific question. Do not repeat
+these pilots or the Sept30/Oct2 campaign absent changed evidence.

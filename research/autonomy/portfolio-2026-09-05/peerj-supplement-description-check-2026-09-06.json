@@ -1,0 +1,109 @@
+{
+  "checked_utc": "2026-09-06T06:36:17.062258+00:00",
+  "source_file": "research/autonomy/peerj21497-source-2026-09-06/article.xml",
+  "source_sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+  "supplement_descriptions": [
+    {
+      "id": "supp-1",
+      "source_description": "10.7717/peerj.21497/supp-1Table S1Univariate Cox proportional hazards regression analysis of clinical variables in patients with extraskeletal myxoid chondrosarcoma (n = 12; events = 5)",
+      "media_attributes": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "peerj-14-21497-s001.docx",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "id": "supp-2",
+      "source_description": "10.7717/peerj.21497/supp-2Table S2Univariate Cox proportional hazards regression analysis and permutation testUnivariate Cox proportional hazards regression analysis was performed to identify genes associated with patient survival. Empirical P values were obtained through permutation testing (10,000 permutations) to assess the statistical significance of individual gene associations. Abbreviations: CI, confidence interval; Coef., coefficient; CoxPH, Cox proportional hazards; HR, hazard ratio.",
+      "media_attributes": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "peerj-14-21497-s002.docx",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "id": "supp-3",
+      "source_description": "10.7717/peerj.21497/supp-3Figure S1PCA plots and heatmap plots for before (A, B) and after (C, D) corrected batch effect of the gene expression with an outlier(A) PCA plot displaying the gene expression profiles before correcting for batch effects. The x-axis represents principal component 1 (PC1), accounting for 53.57% of the variance, and the y-axis represents principal component 2 (PC2), accounting for 24.57% of the variance. Each dot represents a patient, with green dots indicating patients with new tissue blocks and orange dots representing those with old tissue blocks. The density plots along the x and y axes show the distribution of data points for PC1 and PC2. A green circle highlights an outlier. (B) Heatmap showing normalized gene expression levels before batch correction. Patients (columns) are clustered based on their gene expression profiles, with rows representing individual genes. Patients are color-coded according to the age of the tissue block (new: green, old: orange). Red indicates higher gene expression, while blue represents lower expression. (C) PCA plot after correcting for batch effects, with PC1 and PC2 now accounting for 32.57% and 27.03% of the variance, respectively. As in Fig. S1A, green and orange dots indicate patients with new and old tissue blocks, respectively. A green circle highlights an outlier. The density plots again show the compactness of data points. (D) Heatmap of normalized gene expression levels after batch correction. Similar to Fig. S1B, patients (columns) are clustered based on gene expression profiles, and rows represent individual genes. The heatmap shows gene expression levels across patients, with red indicating higher expression and blue indicating lower expression. Abbreviations: EMC, extraskeletal myxoid chondrosarcoma; PCA, principal component analysis.",
+      "media_attributes": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "peerj-14-21497-s003.png",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "id": "supp-4",
+      "source_description": "10.7717/peerj.21497/supp-4Figure S2Gene set enrichment analysis (GSEA) of immune-related and biological Hallmark pathways in extraskeletal myxoid chondrosarcomaLollipop plot showing normalized enrichment score (NES) for selected MSigDB Hallmark pathways, comparing the poor-prognosis (n = 6) and good-prognosis (n=6) cohorts. The analysis was performed using the fgsea package. Node color indicates the clinical group in which the pathway is enriched: orange indicates enrichment in the poor-prognosis group (positive NES), while blue indicates enrichment in the good-prognosis group (negative NES). The size of each node corresponds to the statistical significance, scaled by −log10(P value). Significant enrichment (P < 0.005) was observed for the Apoptosis pathway in the poor prognosis cohort and the IL2-STAT5 signaling pathway in the good-prognosis cohort. Other evaluated immune-related pathways (e.g., Interferon Gamma Response, Inflammatory Response) did not reach statistical significance in this cohort. Abbreviations: EMC, extraskeletal myxoid chondrosarcoma; GSEA, gene set enrichment analysis; MSigDB, Molecular Signatures Database; NES, normalized enrichment score.",
+      "media_attributes": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "peerj-14-21497-s004.pdf",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "id": "supp-5",
+      "source_description": "10.7717/peerj.21497/supp-5Figure S3Construction of the three-gene prognostic signature using LASSO Cox regression(A) Coefficient profiles of selected features as a function of the regularization parameter λ. (B) Partial likelihood deviance plotted against log(λ) using the LASSO–Cox regression model. (C) Kaplan–Meier survival curve stratified by the three-gene (PXN, TYMS, and H1FX) risk score. Abbreviations: EMC, extraskeletal myxoid chondrosarcoma; H1FX, H1 histone family member X; LASSO, Least Absolute Shrinkage and Selection Operator; OS, overall survival; PXN, paxillin; TYMS, thymidylate synthase.",
+      "media_attributes": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "peerj-14-21497-s005.png",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "id": "supp-6",
+      "source_description": "10.7717/peerj.21497/supp-6Figure S4Comparative immune cell infiltration analysis using a multi-algorithm ensemble approach in EMC (n = 12)Grouped boxplots showing the estimated abundance of six canonical immune lineages (B cells, CD4+ T cells, CD8+ T cells, macrophages, neutrophils, and myeloid dendritic cells) stratified by prognostic risk group (low-risk, n = 6; high-risk, n = 6). To ensure cross-method robustness and mitigate algorithm-specific biases, immune infiltration was estimated from bulk RNA sequencing data using six orthogonal deconvolution algorithms (TIMER, CIBERSORT, CIBERSORT-ABS, EPIC, MCP-counter, and xCell). Algorithm-specific high-resolution subpopulations were logically aggregated into the six parent lineages to enable standardized cross-algorithm comparisons. Center lines denote the median, boxes represent the interquartile range, and individual patient estimates are overlaid as jittered points. Statistical differences between the risk groups were evaluated using the non-parametric two-sided Wilcoxon rank-sum test. Significance brackets above each plot display the raw P value, the rank-biserial correlation coefficient (R) indicating effect size, and the Benjamini–Hochberg false discovery rate (FDR) adjusted P value to account for multiple hypothesis testing across the 36 simultaneous comparisons. Abbreviations: CIBERSORT, Cell-Type Identification By Estimating Relative Subsets Of RNA Transcripts; CIBERSORT-ABS, CIBERSORT absolute mode; EMC, extraskeletal myxoid chondrosarcoma; EPIC, Estimating the Proportions of Immune and Cancer cells; FDR, false discovery rate; MCP-counter, Microenvironment Cell Populations-counter; TIMER, Tumor Immune Estimation Resource; xCell, a computational method for cell-type enrichment analysis.",
+      "media_attributes": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "peerj-14-21497-s006.pdf",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "id": "supp-7",
+      "source_description": "10.7717/peerj.21497/supp-7Figure S5Bootstrap calibration plots at 1–5 years demonstrate polarized predicted survival probabilities consistent with model overfitting in this small cohort (n = 12)The directional separation between low-risk (blue) and high-risk (red) groups is consistent across all time points, supporting the biological signal of the three-gene signatures.",
+      "media_attributes": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "peerj-14-21497-s007.pdf",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "id": "supp-8",
+      "source_description": "10.7717/peerj.21497/supp-8Figure S6Integrated exploratory evaluation of the three-gene expression panel in extraskeletal myxoid chondrosarcoma.(A–B) Log2-normalized microarray expression intensities of the candidate genes (PXN, TYMS, and H1FX) across 25 independent EMC tumors sourced from two distinct publicly available cohorts (GSE24369, n = 6; GSE6481, n = 19). Horizontal black bars denote the median expression level, with error bars representing the interquartile range. The candidate genes show consistent baseline detection across these independent external cohorts, comparable to the levels observed in the primary study. (C) Comparison of normalized expression (Z-scores) between the primary study cohort (n = 12, TempO-Seq) and the external MI-ONCOSEQ dataset (n = 6, Davis et al., 2017). Statistical analysis indicates no significant differences in the expression levels of PXN, H1FX, and TYMS between platforms (Mann–Whitney U test, all P > 0.8), supporting the consistency of these transcriptomic markers across disparate sequencing technologies. Abbreviations: EMC, extraskeletal myxoid chondrosarcoma; H1FX, H1 histone family member X; PXN, paxillin; TempO-Seq, Templated Oligo-Sequencing; TYMS, thymidylate synthase.",
+      "media_attributes": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "peerj-14-21497-s008.png",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "id": "supp-9",
+      "source_description": "10.7717/peerj.21497/supp-9Data S1Raw data",
+      "media_attributes": [
+        {
+          "{http://www.w3.org/1999/xlink}href": "peerj-14-21497-s009.xlsx",
+          "position": "float",
+          "orientation": "portrait"
+        }
+      ]
+    }
+  ],
+  "scope": "Primary JATS supplement descriptions only. No unexamined supplementary figure/table contents are claimed inspected.",
+  "finding": "Descriptions identify two aggregate Cox tables, six figures and the already recoveredDataS1. No described same-assay normal arm or additional sample-level external expression/clinical crosswalk asset identified. FigureS6 contains source assertions about external cohort diagnoses and z-score comparison; these are not accepted as independently verified diagnoses, independence or assay calibration.",
+  "decision": "No concrete further atlas validation asset identified from these descriptions; do not reopen classification paper or repeat knownDataS1 extraction."
+}
