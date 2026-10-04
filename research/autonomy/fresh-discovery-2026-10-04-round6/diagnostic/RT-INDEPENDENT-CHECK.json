@@ -1,0 +1,75 @@
+{
+  "utc": "2026-10-04T22:04:18.318053+00:00",
+  "reviewer": "Independent Codex diagnostic worker /root/diagnostic, reassigned by lead; not human validation.",
+  "scope": "Read-only Fice all-row extraction, contradictory treatment/event and surgery fields; Bishop adjusted association prior art. No source download or efficacy calculation.",
+  "bindings": {
+    "Fice_original_XML_SHA256": "85d1a233e91feef6283cbcba28482f20371fae791a4a6093dcdc3263e8f7009f",
+    "Fice_export_TSV_SHA256": "eb8f2d0148d627030f8cd9a9c45d6bf396598606723075d761f5bc71c0922b77",
+    "Bishop_original_BioC_SHA256": "baecdedb53421ebd75057cf8303ca13b429a08acb25ec2a131e37b4d6a818453",
+    "owner_results_at_review_SHA256": "e3faaf8f44792367bf0b52b06b239d226046872d42b5aaceccc5c534368eb275"
+  },
+  "Fice": {
+    "all_printed_fields_equal_owner_export": true,
+    "cases_checked": 15,
+    "printed_fields_per_case": 18,
+    "printed_surgery_Y_cases": [
+      1,
+      2,
+      4,
+      5,
+      6,
+      7,
+      8,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "printed_surgery_N_cases": [
+      3,
+      9
+    ],
+    "narrative_reports_operations": 12,
+    "narrative_reports_nonoperations": 3,
+    "case10": "Surgery Y, preoperative RT N, adjuvant RT N, subsequent local recurrence Y, metastasis Y.",
+    "case11": "Local-recurrence cell is genuinely empty; not a negative measurement.",
+    "narrative_outcome": "Recurrence story is introduced as one of nine RT recipients, with four local recurrences and metastasectomy after first recurrence at 11 years.",
+    "interpretation": "The treatment/event crosswalk disagrees with Table 2. The operation count is also 12 in narrative versus 13 in Table 2. Neither side is privileged as corrected truth.",
+    "table_derived_primary_localized_operated_cases": {
+      "RT": [
+        2,
+        4,
+        11,
+        12,
+        13,
+        14
+      ],
+      "no_RT": [
+        1,
+        6,
+        10,
+        15
+      ]
+    },
+    "margin_limit": "The narrative says all 12 operated patients had negative margins; it cannot be bound to every one of 13 table surgery-Y cases without resolving the discrepancy.",
+    "consequence": "A complete descriptive source-suitability audit is reproducible. Individual RT efficacy, event-time, margin-adjusted or causal comparison is unsupported."
+  },
+  "Bishop": {
+    "pmid": "31436747",
+    "doi": "10.1097/COC.0000000000000590",
+    "verified": "Original study reports 5 local failures; 4 after surgery alone and 1 after combined modality treatment. It already adjusted for margin, tumor size and prior treatment.",
+    "HR_surgery_alone_vs_combined": 12.7,
+    "CI95": [
+      1.4,
+      115.3
+    ],
+    "P": 0.02,
+    "consequence": "Margin adjustment alone is not new. Observational association with five events and a broad interval does not establish causation; no new effect estimate is inferred."
+  },
+  "decision": "Agree with shelving a new RT standalone comparison from these inputs; source inconsistency is not automatically a useful disease-discovery paper.",
+  "repair_verification": "Owner applied AMENDMENT-02. Settled results preserve Table 2 surgery 13/2 versus narrative 12/3; all 13 table surgery-Y rows now state individual margin linkage unresolved. Original 270 source fields and the table-derived 10-case subset are unchanged.",
+  "reopening": "New accessible authenticated patient-level treatment, margin, first-event/censoring and donor crosswalks permitting a useful unanswered analysis.",
+  "running_processes": []
+}
