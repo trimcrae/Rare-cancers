@@ -1,0 +1,17 @@
+{
+  "scope": "Separable native/control/culture/capture/ordinary RNA methods only; mixed denied and sequence paragraphs not read. No result bodies or table values read.",
+  "selected": [
+    {
+      "section": "Materials and Methods",
+      "paragraph": "This study utilized six datasets downloaded from the gene expression omnibus (https://www.ncbi.nlm.nih.gov/geo/). GSE68591 comprises exon expression data (Affymetrix Human Exon 1.0 v2 ST platform) for the NCI sarcoma cell line panel (includes data from ASPS-1, 67 sarcoma lines, and five normal tissues) (Teicher et al., 2015). GSE13433 comprises mRNA expression data for seven ASPS patient tumors analyzed using the Affymetrix U133 plus 2.0 platform (Stockwin et al., 2009). For the analyses of data from GSE13433, additional U133 plus 2.0 control arrays were obtained from GSE17070 (normal skeletal muscle) and GSE118370 (normal lung). GSE32569 comprises a set of U133 plus 2.0 microarrays generated from six patients pre- and post- treatment with Cediranib (Kummar et al., 2013). Lastly, GSE54729 comprises RNA-seq data (HiSeq 2000) from five ASPS patients and three skeletal muscle controls. The overall study design is illustrated in Fig. 1. For experiments involving Affymetrix human Exon 1.0 ST and U133 plus 2.0 arrays differentially expressed genes were identified using the Transcriptome Analysis Console (TAC 4.0, ThermoFisher Scientific) using standard algorithm and comparison settings (RMA normalization, P < 0.05, FDR <0.05, fold change +/-2). The TAC was also used to generate hierarchical clusters using the automated workflow. For RNA-seq data, differential expression values relative to skeletal muscle were determined using the GSE54729_10408R.txt spreadsheet that accompanies the submission. In detail, normalized FKPM values were averaged for the 5 human ASPS samples and the 3 normal human skeletal muscles samples; fold changes were then calculated from these values. In terms of utilities; the GTEX portal (https://www.gtexportal.org/) multi gene query option (https://gtexportal.org/home/multiGeneQueryPage) was used to inform tissue of origin from the top 50 differentially expressed ASPS-1 transcripts. Similarly, the GTEX Top 50 expressed genes search function (https://gtexportal.org/home/topExpressedGenePage) was used to identify genes expressed selectively in skeletal muscle. The Protein Atlas (https://www.proteinatlas.org/) was used to investigate both mRNA and protein expression in normal and cancerous samples for specific transcripts. The in silico surfaceome (http://wlab.ethz.ch/surfaceome/) (Bausch-Fluck et al., 2018) was used to predict the hierarchy of cell surface protein expression for ASPS-1. In detail, a file containing the published human surfaceome (table_S3_surfaceome.xlsx) was downloaded from http://wlab.ethz.ch/surfaceome/ and merged, using MS excel, with the list of differentially expressed ASPS-1 transcripts. Transcripts appearing in both datasets were then extracted and sorted according to ASPS-1 expression. The VENN diagram utility InteractiVenn (http://www.interactivenn.net/) (Heberle et al., 2015) was used to determine the extent of overlap between the 4 different experimental approaches."
+    },
+    {
+      "section": "Data Availability Statement",
+      "paragraph": "The following information was supplied regarding data availability:"
+    },
+    {
+      "section": "Data Availability Statement",
+      "paragraph": "The raw data are available in Data S1\u2013S3."
+    }
+  ]
+}

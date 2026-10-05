@@ -1,0 +1,124 @@
+{
+  "Pestana2021": {
+    "PMID": "34656365",
+    "DOI": "10.1016/j.currproblcancer.2021.100794",
+    "status": "verified original abstract evaluation reused; enumerated main RNA cohort unsuitable for direct EMC/LGFMS measurement",
+    "native_cohort": [
+      {
+        "histotype": "DDLPS",
+        "n_source_specimens": 50
+      },
+      {
+        "histotype": "ULMS",
+        "n_source_specimens": 27
+      },
+      {
+        "histotype": "STLMS",
+        "n_source_specimens": 53
+      },
+      {
+        "histotype": "UPS",
+        "n_source_specimens": 44
+      },
+      {
+        "histotype": "MFS",
+        "n_source_specimens": 17
+      },
+      {
+        "histotype": "SS",
+        "n_source_specimens": 10
+      },
+      {
+        "histotype": "MPNST",
+        "n_source_specimens": 5
+      }
+    ],
+    "n_source_specimens": 206,
+    "assay": "TCGA bulk RNA-seq, originalabstract lacks exact processed normalization/specimen handling",
+    "prior_finding": "GPNMB highly expressed in most enumerated sarcomas, except SS. This is published broader-sarcoma RNA context, not the fixed EMC-LGFMS comparison.",
+    "full_source_gap": "Original fullTextURL metadata says Subscription required; no OA/PMC. No new publisher or alternate article request made. Full donor/handling/supplement details uninspected; abstract main cohort exclusion not global absence."
+  },
+  "Vascular2008": {
+    "PMID": "18447899",
+    "DOI": "10.1186/1471-2164-9-201",
+    "status": "original separable RNA/source methods and target comparative context evaluated",
+    "culture_population_labels": [
+      "HOC-EC (n=9), ovarian carcinoma-derived endothelial cultures",
+      "HKC-EC (n=3), kidney carcinoma-derived endothelial cultures",
+      "HA-EC (n=9), adrenal-gland endothelial cultures",
+      "HSk-EC (n=2), skin-derived endothelial cultures",
+      "HUVEC (n=6), umbilical-vein endothelial cultures"
+    ],
+    "n_label_scope": "Table1 population n labels; not independently authenticated donor count.",
+    "array_conditions": "Three author-described independent HOC-EC populations and two HA-EC populations under both exposed and unexposed media/collagen/fibronectin/growth-factor conditions; ten U95A arrays, not ten donors.",
+    "array_units": "Affymetrix average-difference arbitrary units, probe means >20, selected log2 ratios; no RNAseq TPM comparability. GPNMB gene annotation inspected, outcome values not read.",
+    "other_culture_sources": [
+      "HT29 colon carcinoma",
+      "1A9/A2780 ovarian carcinoma subclone",
+      "SKOV3 ovarian carcinoma",
+      "MDA-MB-231 breast carcinoma",
+      "HuFb and Malme-3 human fibroblasts",
+      "UASMC umbilical artery smooth muscle"
+    ],
+    "other_assays": "Target qPCR/Northern/MTE normal adult and fetal RNA panel; source units/protocol and qualitative published conclusions only, no outcome numbers.",
+    "GPNMB_ISH_conditions": "Representative brain metastasis of adenocarcinoma with antisense/sense probe context; normal brain from other donor(s).",
+    "different_probe_not_GPNMB": "Medulloblastoma panel is ADAM12; Ewing sarcoma panel is PRSS3. Do not transfer their diagnoses or measurements to GPNMB.",
+    "prior_finding": "Published tumor-derived endothelial RNA and vascular-wall target hybridization; normal cardiovascular/fetal-heart/placental RNA context. Compartment/mixture alternative is prior art in these sources, not measured localization in EMC.",
+    "equivalence": "No explicit native EMC/LGFMS source label or exact EMC-LGFMS comparative RNA finding in inspected source fields. Main cultured carcinoma/normal EC sources differ from native sarcoma bulk tissues.",
+    "remaining": "Additional1 DOC culture-method details and complete donor-level in-situ tissue roster uninspected, without a confirmed eligible EMC observation; not numerical negative/no-release."
+  },
+  "Stockwin2020": {
+    "PMID": "32596059",
+    "DOI": "10.7717/peerj.9394",
+    "status": "original methods/source/control cohort and qualitative target prior art evaluated; broad panel identity gaps retained",
+    "native_conditions": [
+      {
+        "source": "GSE13433",
+        "units": "seven author-labelled ASPS patient tumor U133plus2 arrays; no donor/library crosswalk re-authentication here"
+      },
+      {
+        "source": "GSE32569",
+        "units": "six author-labelled ASPS patients before/after cediranib; paired treatment conditions, not independent twelve donors"
+      },
+      {
+        "source": "GSE54729",
+        "units": "five author-labelled ASPS patients and three skeletal-muscle controls, HiSeq2000; authors average normalized FKPM (source spelling), not reinterpreted as current TPM"
+      },
+      {
+        "source": "GSE17070 and GSE118370",
+        "units": "borrowed normal skeletal-muscle and lung U133plus2 arrays; exact sample counts not established here, no native EMC/LGFMS inference"
+      }
+    ],
+    "overlap": "Donor overlap between three ASPS series and treatment/reference studies unresolved; no pooled independent sample total.",
+    "cell_panel": "GSE68591 all75 array GSM conditions enumerated;70human-cell-line records and5normal-human-cell records,73exactlabelstrings. ASPS1 plus broad-model controls. DuplicateA204/ES4 and selected Rh28 condition do not prove donor independence.",
+    "normal_culture_controls": [
+      "hMSC mesenchymal stem cells",
+      "NHAC-kn chondrocytes",
+      "NHDF dermal fibroblasts",
+      "NHOst osteoblasts",
+      "SkMC skeletal-muscle cells"
+    ],
+    "control_correction": "Author methods calls five normal tissues; actualdeposit explicitly labels normal human cells/culture identities. Do not treat them as fresh native tissue controls.",
+    "comparative_method": "RMA for array comparisons; ASPS versus averaged NCI model panel or normal muscle/lung; public processed differential tables are selected, not an all-donor EMC matrix.",
+    "prior_finding": "Authors already report GPNMB in ASPS1 and across native ASPS comparisons, with mesenchymal/normal progenitor expression context. This prevents a first-sarcoma-target or generic GPNMB-presence novelty claim, but is not the fixed native EMC-LGFMS RNA contrast.",
+    "generic_panel_pending": [
+      "GSM1676301",
+      "GSM1676302",
+      "GSM1676304",
+      "GSM1676305",
+      "GSM1676307",
+      "GSM1676319",
+      "GSM1676320",
+      "GSM1676342",
+      "GSM1676344",
+      "GSM1676351",
+      "GSM1676362",
+      "GSM1676364",
+      "GSM1676365",
+      "GSM1676366",
+      "GSM1676367"
+    ],
+    "pending_limit": "Fifteen generic source-type conditions require exact lineage/source proof; no known native EMC/LGFMS label or canonical alias in these75 records. Absence of label is not whole-roster disease exclusion.",
+    "supplement": "Declared DOC/XLSX supplements remain public/uninspected after one official10second socket timeout, zero acceptedbytes, no retry. Not an absent file or negative measurement."
+  }
+}
