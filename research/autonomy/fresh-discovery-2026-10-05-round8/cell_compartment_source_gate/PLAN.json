@@ -1,0 +1,24 @@
+{
+  "schema": "emc-r8-cell-compartment-source-gate/1",
+  "utc": "2026-10-05T01:06:00.113964+00:00",
+  "base_revision": "8469778d1db43b61731e8e84972cf879b49f9b81",
+  "lead_amendment": {
+    "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/AMENDMENT-03-CELL-COMPARTMENT-GATE.json",
+    "sha256": "1be3f0943e65ff201f46ba1b1b2c884b0cc202f25c7e60da8c88b7444b903dc4"
+  },
+  "question": "Is the separately described fresh sarcoma in Luthria2024 authenticated EMC with a linked public per-cell matrix that could measure malignant versus stromal CSPG4 RNA?",
+  "primary_prior_art": "Luthria2024 DOI10.1158/1078-0432.CCR-23-2976, PMC11443197; primary GSE243381 with parent GSE243380 and author IzarLab/sarcoma-sn. Eight frozen5UPS/3INS and21named libraries already verified non-EMC; reuse exact prior audit rather than rediscover. Existing EMC bulk CSPG4 evidence does not resolve tumor versus admixed cell source. Source/assay identity gate only, not a new CSPG4 result.",
+  "population_conditions": "Every separately described fresh specimen, every linked GSM/BioSample/library/technical replicate and every actual EMC condition within this source. Existing non-EMC libraries reused. Public EMC source coverage elsewhere remains required before any promotion.",
+  "worthwhile_addition": "Authentic EMC with case/condition-linked per-cell measurements might test whether a bulk CSPG4 signal arises from malignant cells or stromal admixture and thus change the next measurement toward cell-specific protein validation. A single ambiguous sarcoma or already published localization would add no useful EMC result.",
+  "strongest_alternative": "Fresh case is a non-EMC sarcoma; transcript matrix is unlinked to its pathology; inferred CNAs misclassify stromal cells; CSPG4 expression comes from pericytes/smooth muscle/fibroblasts or ambientRNA/doublets, and dissociation/viability changes composition. Inferred CNA alone does not authenticate EMC.",
+  "identity_gate": "Actual primary supplement/GSM/BioSample/author record must connect the fresh specimen to diagnosis and same assay condition; authenticate EMC using explicit disease identity with molecular/pathology support where reported, preserving absent evidence. No diagnosis inference from NR4A3 expression, an embedding, or generic sarcoma label.",
+  "measurement_gate": "If EMC authentication survives, require analyzable case-linked cell matrix and cell annotations or interpretable malignant-versus-stromal assignment with controls. All donor/condition/cell categories and unfavorable observations must be retained. No numerical expression inspected or matrix downloaded before identity+useful-contrast gate.",
+  "non_EMC_controls": "Reuse all21named libraries for identity audit only. Do not choose a favorable other-histology expression control; any later cross-histology measurement would require separately frozen suitable source/composition controls.",
+  "defeat_stop": "Explicit non-EMC identity; no exact patient/specimen/assay linkage; no public suitable matrix; unreliable cell identity; or localization already fully reported. Missing accessible evidence stays pending, actual failed access stays unavailable; neither is negative CSPG4 RNA. No surface protein, accessible epitope, dependency, efficacy or safety conclusion.",
+  "pilot_minutes": 30,
+  "new_raw_softcap_bytes": 67108864,
+  "minimum_free_bytes": 10737418240,
+  "staging": "HEAD before ordinary supplementary ZIP, inspect archive list before extraction; no full matrix without authentic EMC+useful contrast and lead size/stage decision. Reuse cached primary/SOFT/S1 failure. Ordinary public API and source files only; no unchanged repeated failures.",
+  "restrictions": "No FAP/glycan/structural-genomics/HLA interrupted-task bypass, no GPU/spend/paid/outreach/publication/external edits/rootwrites/push. Browser/computer-use ban06:00-10:00America/New_York DST-aware; quiet API/files permitted. Preserve all old caches/branches. Own only cell_compartment_source_gate plus earlier adaptation lease.",
+  "outputs": "Compact freeze/sourcehashreceipts/specimenconditionstatus/coverage/negativeinconclusive/decision/reopening/reproducible source-gate script; originals ignored cache-only. Codex scoped commit for lead integration."
+}
