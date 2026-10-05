@@ -1,0 +1,228 @@
+{
+  "date": "2026-10-05",
+  "projected_at": "2026-10-05T17:27:49.263395+00:00",
+  "source": "/workspace/Rare-cancers/research/autonomy/discovery-2026-10-03/round2-surface-discovery.tsv",
+  "source_sha256": "4a1ab07eff5aa9ae3746ec432bad525e77cd478db2156adf6346d49218487dc8",
+  "authorization_sha256": "eb175efadc0fd2ecca6d03e48027a0c6fcb6b47dce53cc20b78d7f47fb2af081",
+  "proposal_sha256": "3a287546408558847d9d9dc22ae3ddde6d267b25c53b4b322fd6278dee4afd07",
+  "fields_exact": [
+    "gene",
+    "median_EMC_TPM",
+    "minimum_EMC_TPM",
+    "Myxoid liposarcoma_A",
+    "Myxoid liposarcoma_matched_A",
+    "Myxoid liposarcoma_p",
+    "Myxoid liposarcoma_p_method",
+    "Myxoid liposarcoma_median_TPM",
+    "Myxoid liposarcoma_median_log2_contrast",
+    "Low-grade fibromyxoid sarcoma_A",
+    "Low-grade fibromyxoid sarcoma_matched_A",
+    "Low-grade fibromyxoid sarcoma_p",
+    "Low-grade fibromyxoid sarcoma_p_method",
+    "Low-grade fibromyxoid sarcoma_median_TPM",
+    "Low-grade fibromyxoid sarcoma_median_log2_contrast",
+    "Synovial sarcoma_A",
+    "Synovial sarcoma_matched_A",
+    "Synovial sarcoma_p",
+    "Synovial sarcoma_p_method",
+    "Synovial sarcoma_median_TPM",
+    "Synovial sarcoma_median_log2_contrast",
+    "intersection_union_p",
+    "BH_q",
+    "allocated"
+  ],
+  "rows": [
+    {
+      "gene": "GPNMB",
+      "median_EMC_TPM": "7.8",
+      "minimum_EMC_TPM": "2.15",
+      "Myxoid liposarcoma_A": "0.21428571428571427",
+      "Myxoid liposarcoma_matched_A": "0.3333333333333333",
+      "Myxoid liposarcoma_p": "0.9904342931264455",
+      "Myxoid liposarcoma_p_method": "exact",
+      "Myxoid liposarcoma_median_TPM": "22.924999999999997",
+      "Myxoid liposarcoma_median_log2_contrast": "-1.4429409439323098",
+      "Low-grade fibromyxoid sarcoma_A": "0.042735042735042736",
+      "Low-grade fibromyxoid sarcoma_matched_A": "0.047619047619047616",
+      "Low-grade fibromyxoid sarcoma_p": "0.9999758755176712",
+      "Low-grade fibromyxoid sarcoma_p_method": "exact",
+      "Low-grade fibromyxoid sarcoma_median_TPM": "198.26",
+      "Low-grade fibromyxoid sarcoma_median_log2_contrast": "-4.501004794699204",
+      "Synovial sarcoma_A": "0.5308641975308642",
+      "Synovial sarcoma_matched_A": "0.65",
+      "Synovial sarcoma_p": "0.4102261125602087",
+      "Synovial sarcoma_p_method": "exact",
+      "Synovial sarcoma_median_TPM": "9.05",
+      "Synovial sarcoma_median_log2_contrast": "-0.17067900088222832",
+      "intersection_union_p": "0.9999758755176712",
+      "BH_q": "1.0",
+      "allocated": "False"
+    },
+    {
+      "gene": "LRRC15",
+      "median_EMC_TPM": "0.53",
+      "minimum_EMC_TPM": "0.0",
+      "Myxoid liposarcoma_A": "0.5396825396825397",
+      "Myxoid liposarcoma_matched_A": "0.7999999999999999",
+      "Myxoid liposarcoma_p": "0.3883264041464295",
+      "Myxoid liposarcoma_p_method": "asymptotic",
+      "Myxoid liposarcoma_median_TPM": "0.135",
+      "Myxoid liposarcoma_median_log2_contrast": "0.4315256261386197",
+      "Low-grade fibromyxoid sarcoma_A": "0.5213675213675214",
+      "Low-grade fibromyxoid sarcoma_matched_A": "0.7238095238095238",
+      "Low-grade fibromyxoid sarcoma_p": "0.4468469517360304",
+      "Low-grade fibromyxoid sarcoma_p_method": "asymptotic",
+      "Low-grade fibromyxoid sarcoma_median_TPM": "0.22",
+      "Low-grade fibromyxoid sarcoma_median_log2_contrast": "0.32665050512976557",
+      "Synovial sarcoma_A": "0.3395061728395062",
+      "Synovial sarcoma_matched_A": "0.3333333333333333",
+      "Synovial sarcoma_p": "0.913593564965316",
+      "Synovial sarcoma_p_method": "asymptotic",
+      "Synovial sarcoma_median_TPM": "1.55",
+      "Synovial sarcoma_median_log2_contrast": "-0.736788078126011",
+      "intersection_union_p": "0.913593564965316",
+      "BH_q": "1.0",
+      "allocated": "False"
+    }
+  ],
+  "original_rule_decomposition": [
+    {
+      "gene": "GPNMB",
+      "original_allocation_clauses": [
+        {
+          "clause": "BH_q<=0.05",
+          "passed": false
+        },
+        {
+          "clause": "median_EMC_TPM>=5",
+          "passed": true
+        },
+        {
+          "clause": "minimum_EMC_TPM>=1",
+          "passed": true
+        },
+        {
+          "clause": "Myxoid liposarcoma_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Myxoid liposarcoma_matched_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Myxoid liposarcoma_median_log2_contrast>=1",
+          "passed": false
+        },
+        {
+          "clause": "Low-grade fibromyxoid sarcoma_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Low-grade fibromyxoid sarcoma_matched_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Low-grade fibromyxoid sarcoma_median_log2_contrast>=1",
+          "passed": false
+        },
+        {
+          "clause": "Synovial sarcoma_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Synovial sarcoma_matched_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Synovial sarcoma_median_log2_contrast>=1",
+          "passed": false
+        }
+      ],
+      "failed_clauses": [
+        "BH_q<=0.05",
+        "Myxoid liposarcoma_A>=0.85",
+        "Myxoid liposarcoma_matched_A>=0.85",
+        "Myxoid liposarcoma_median_log2_contrast>=1",
+        "Low-grade fibromyxoid sarcoma_A>=0.85",
+        "Low-grade fibromyxoid sarcoma_matched_A>=0.85",
+        "Low-grade fibromyxoid sarcoma_median_log2_contrast>=1",
+        "Synovial sarcoma_A>=0.85",
+        "Synovial sarcoma_matched_A>=0.85",
+        "Synovial sarcoma_median_log2_contrast>=1"
+      ],
+      "source_flag_matches_original_rule": true
+    },
+    {
+      "gene": "LRRC15",
+      "original_allocation_clauses": [
+        {
+          "clause": "BH_q<=0.05",
+          "passed": false
+        },
+        {
+          "clause": "median_EMC_TPM>=5",
+          "passed": false
+        },
+        {
+          "clause": "minimum_EMC_TPM>=1",
+          "passed": false
+        },
+        {
+          "clause": "Myxoid liposarcoma_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Myxoid liposarcoma_matched_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Myxoid liposarcoma_median_log2_contrast>=1",
+          "passed": false
+        },
+        {
+          "clause": "Low-grade fibromyxoid sarcoma_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Low-grade fibromyxoid sarcoma_matched_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Low-grade fibromyxoid sarcoma_median_log2_contrast>=1",
+          "passed": false
+        },
+        {
+          "clause": "Synovial sarcoma_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Synovial sarcoma_matched_A>=0.85",
+          "passed": false
+        },
+        {
+          "clause": "Synovial sarcoma_median_log2_contrast>=1",
+          "passed": false
+        }
+      ],
+      "failed_clauses": [
+        "BH_q<=0.05",
+        "median_EMC_TPM>=5",
+        "minimum_EMC_TPM>=1",
+        "Myxoid liposarcoma_A>=0.85",
+        "Myxoid liposarcoma_matched_A>=0.85",
+        "Myxoid liposarcoma_median_log2_contrast>=1",
+        "Low-grade fibromyxoid sarcoma_A>=0.85",
+        "Low-grade fibromyxoid sarcoma_matched_A>=0.85",
+        "Low-grade fibromyxoid sarcoma_median_log2_contrast>=1",
+        "Synovial sarcoma_A>=0.85",
+        "Synovial sarcoma_matched_A>=0.85",
+        "Synovial sarcoma_median_log2_contrast>=1"
+      ],
+      "source_flag_matches_original_rule": true
+    }
+  ],
+  "scope": "Existing original nine-specimen summaries only; no data/statistic/test/rank/adjustment recomputation. Original thresholds are administrative, not a biological or clinical decision.",
+  "exposure": "First current-stage numerical projection; historical campaign values already exposed.",
+  "unit_limits": "Nine source specimens not all13, not proved independent donors. All other tissue/array/3SEQ/culture/normal and source-mapping gaps still pending.",
+  "multiplicity": "BH_q belongs original whole surface-gene universe; not a two-gene or current seven-family correction."
+}
