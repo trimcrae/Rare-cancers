@@ -1,0 +1,26 @@
+{
+  "created_utc": "2026-10-05T21:59:53.505319+00:00",
+  "original_plan_preserved_sha256": "3cc48ee121f4fb82045a8f71be22afee97a27ecbb9a6c296c3884c5ec8c753a7",
+  "original_source_packet_preserved_sha256": "dfd07ebc07812a4fc0f9cc3cac4077bfb23e5ed055bb86251a7d2cd395e96056",
+  "correction": "The earlier narrative classification of62 records as generic/unresolved EMC identity overlooked explicit source_name/tissue histotype strings already present in retained GEO. They lack cell_type but carry explicit MFS14/SS12/UPS13/MPNST11/LMS12 labels. BioSample confirms these exact labels; it is not a newly discovered native cohort or additional EMC bridge.",
+  "what_remains_unresolved": "Individual donor/model/technical-repeat/perturbation/preservation roles and independent pathological re-review for these submitted labels. These limits do not turn explicit non-EMC submitted diagnoses into unknown EMC identities.",
+  "alias_correction": "Current retained GSM9037835 source alias is USZ-20_REA1. Earlier root/task CIC1 shorthand is not source-bearing for this record. The literal BCOR-rearranged sarcoma identity label governs eligibility; no underlying rearrangement mechanism was inspected.",
+  "before_and_after_counts": {
+    "old_narrative": "six direct cell_type records plus62 incorrectly described generic identities",
+    "corrected_source_scope": "six direct cell_type records plus62 explicit non-EMC source_name/tissue labels; one already evaluated EMC record total"
+  },
+  "no_changed_originals": true,
+  "no_new_quantities": true,
+  "no_new_COMPARATOR_analysis": true,
+  "consequence": "No additional native-EMC numerical action from this exact68 metadata universe. Preserve unknown donor and assay compatibility; do not pool other histotypes or substitute aliases for labels.",
+  "evidence": [
+    {
+      "path": "RETAINED-GEO-WHITELIST-REPLAY.json",
+      "sha256": "09354683f754ae6dfa6579eed72c3a11a510f31714f8e23e7b0354c538b71c45"
+    },
+    {
+      "path": "ALL68-BIOSAMPLE-IDENTITY-CONDITION-FIELDS.json",
+      "sha256": "0e0a1b8c38c83eca525f100b8d2292cde6ab9db0ce96461205e77b9cce77dcf8"
+    }
+  ]
+}

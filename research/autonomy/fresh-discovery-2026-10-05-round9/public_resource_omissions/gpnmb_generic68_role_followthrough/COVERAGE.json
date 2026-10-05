@@ -1,0 +1,34 @@
+{
+  "created_utc": "2026-10-05T22:01:36.178227+00:00",
+  "actual_scope": "Every exact GSE299349 membership record was reconciled against existing allowed GEO fields and newly returned official BioSample identity metadata.",
+  "all68": {
+    "records": 68,
+    "returned_BioSamples": 68,
+    "missing_BioSamples": 0,
+    "explicit_cell_type_records": 6,
+    "remaining_explicit_source_name_tissue_records": 62,
+    "exact_two_source_identity_agreement": true,
+    "already_evaluated_EMC_culture": 1,
+    "additional_source_labelled_EMC": 0
+  },
+  "histotype62": {
+    "myxofibrosarcoma": 14,
+    "synovial sarcoma": 12,
+    "undifferentiated pleomorphic sarcoma": 13,
+    "malignant peripheral nerve sheath tumor": 11,
+    "leiomyosarcoma": 12
+  },
+  "identity_conclusion": "All62 are explicitly submitted as MFS,SS,UPS,MPNST or LMS. Lack of a cell_type attribute does not erase source_name/tissue diagnoses. This is source-label eligibility, not independent histopathological verification.",
+  "condition_role_gaps": "Individual donor/sample lineage, native-versus-model provenance, repeat/passage/treatment/preparation and comparator exchangeability are not established by these short metadata fields. No undefined roles or accession arithmetic were used to create extra EMC conditions.",
+  "processed_access": "All68 retained GEO records declare processed quant.sf.gz links and polyA RNA. A declaration establishes a public source link, not transcript capture, case identity or additional ready EMC input. No quantities or archive were opened.",
+  "outward_link_scope": "Every accepted BioSample links only its corresponding GEO sample and common BioProject PRJNA1273954. No additional author case/condition manifest was linked by this schema.",
+  "primary_access": "Exact official PMID41651400 metadata has no PMC/OA copy and only subscription-required DOI full text. No primary body, alternate article, preprint or restricted scientific mechanism was pursued.",
+  "remaining_access_status": "No additional ready authentic EMC quantity established in this exact68 universe. Other authentic native/public-file bridges remain separately unresolved and cannot be declared exhausted or cleared here.",
+  "requests": {
+    "actual_new_calls": 2,
+    "maximum_authorized": 4,
+    "timeouts_seconds_each": 10,
+    "scope": "One exact primary availability query and one batched efetch of all68 author-declared BioSamples."
+  },
+  "no_new_values_or_statistics": true
+}
