@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-05T19:01:53.730471+00:00",
+  "initial_check": "allcore13/6/10/FOUR/12 failed",
+  "initial_observed_counts": {
+    "Hofvander": 13,
+    "GSE24369": 0,
+    "GSE4303": 0,
+    "GSE28866": 4,
+    "TempO_published": 12
+  },
+  "cause": "Reviewer helper used exact diagnosis-string equality; array source title/case suffixes did not equal that text. This was a reviewer projection bug, not owner numerical/membership correction.",
+  "repair": "Use exact pre-frozen EMC condition IDs from source-compatible result rosters, not inferred generic diagnosis/alias membership. No source outcome or new statistic changed.",
+  "owner_and_replay_science_unchanged": true
+}

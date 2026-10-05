@@ -1,0 +1,1862 @@
+{
+  "utc": "2026-10-05T18:59:23.405503+00:00",
+  "scope": "Projection of already frozen results for independent value reasoning, not source re-extraction or new numerical computation",
+  "all_core_EMC_conditions": {
+    "Hofvander": {
+      "condition_ids": [
+        "104-92",
+        "11881-19",
+        "168-97",
+        "3371-22",
+        "3372-22",
+        "4716-22",
+        "4840-13",
+        "5081-14",
+        "5149-18",
+        "5241-06",
+        "536-00",
+        "7931-19",
+        "8102-22"
+      ],
+      "feature_rows": 13,
+      "condition_unit": "Exact frozen native/author-labelled source specimens/conditions, not independent donor counts"
+    },
+    "GSE24369": {
+      "condition_ids": [
+        "GSM600934",
+        "GSM600935",
+        "GSM600936",
+        "GSM600937",
+        "GSM600938",
+        "GSM600939"
+      ],
+      "feature_rows": 6,
+      "condition_unit": "Exact frozen native/author-labelled source specimens/conditions, not independent donor counts"
+    },
+    "GSE4303": {
+      "condition_ids": [
+        "GSM98495",
+        "GSM98496",
+        "GSM98499",
+        "GSM98503",
+        "GSM98506",
+        "GSM98509",
+        "GSM98510",
+        "GSM98511",
+        "GSM98512",
+        "GSM98513"
+      ],
+      "feature_rows": 40,
+      "condition_unit": "Exact frozen native/author-labelled source specimens/conditions, not independent donor counts"
+    },
+    "GSE28866": {
+      "condition_ids": [
+        "EMC_STT5525",
+        "EMC_STT5526",
+        "EMC_STT5527",
+        "EMC_STT5592"
+      ],
+      "feature_rows": 12,
+      "condition_unit": "Exact frozen native/author-labelled source specimens/conditions, not independent donor counts"
+    },
+    "TempO_published": {
+      "condition_ids": [
+        "Si01",
+        "Si02",
+        "Si05",
+        "Si09",
+        "Si10",
+        "Si14",
+        "Si15",
+        "Si16",
+        "Si17",
+        "Si19",
+        "Si20",
+        "Si22"
+      ],
+      "feature_rows": 12,
+      "condition_unit": "Exact frozen native/author-labelled source specimens/conditions, not independent donor counts"
+    }
+  },
+  "primary": {
+    "all_conditions": {
+      "n_EMC": 13,
+      "n_comparator": 13,
+      "unit": "TPM",
+      "EMC": {
+        "source_n": 13,
+        "finite_n": 13,
+        "missing_n": 0,
+        "min": 2.15,
+        "median": 8.04,
+        "max": 280.37
+      },
+      "comparator": {
+        "source_n": 13,
+        "finite_n": 13,
+        "missing_n": 0,
+        "min": 9.99,
+        "median": 198.26,
+        "max": 418.97
+      },
+      "A_lower": 0.8994082840236687,
+      "EMC_minus_comparator_median_shift": -190.22,
+      "A_lower_conditional_empirical_resampling_95_range": [
+        0.7455621301775148,
+        1.0
+      ],
+      "median_shift_conditional_empirical_resampling_95_range": [
+        -225.11,
+        -81.75
+      ],
+      "leave_one_EMC_specimen_out": [
+        {
+          "removed_id": "104-92",
+          "A_lower": 0.9038461538461539,
+          "median_shift": -190.34
+        },
+        {
+          "removed_id": "11881-19",
+          "A_lower": 0.8910256410256411,
+          "median_shift": -189.83499999999998
+        },
+        {
+          "removed_id": "168-97",
+          "A_lower": 0.8910256410256411,
+          "median_shift": -190.34
+        },
+        {
+          "removed_id": "3371-22",
+          "A_lower": 0.8974358974358975,
+          "median_shift": -190.34
+        },
+        {
+          "removed_id": "3372-22",
+          "A_lower": 0.8910256410256411,
+          "median_shift": -189.715
+        },
+        {
+          "removed_id": "4716-22",
+          "A_lower": 0.8910256410256411,
+          "median_shift": -189.715
+        },
+        {
+          "removed_id": "4840-13",
+          "A_lower": 0.8910256410256411,
+          "median_shift": -189.715
+        },
+        {
+          "removed_id": "5081-14",
+          "A_lower": 0.9551282051282052,
+          "median_shift": -190.34
+        },
+        {
+          "removed_id": "5149-18",
+          "A_lower": 0.8910256410256411,
+          "median_shift": -189.715
+        },
+        {
+          "removed_id": "5241-06",
+          "A_lower": 0.9102564102564102,
+          "median_shift": -190.34
+        },
+        {
+          "removed_id": "536-00",
+          "A_lower": 0.8910256410256411,
+          "median_shift": -189.715
+        },
+        {
+          "removed_id": "7931-19",
+          "A_lower": 0.8974358974358975,
+          "median_shift": -190.34
+        },
+        {
+          "removed_id": "8102-22",
+          "A_lower": 0.8910256410256411,
+          "median_shift": -189.715
+        }
+      ],
+      "year_context": {
+        "strata": [
+          {
+            "year": "2019",
+            "EMC_ids": [
+              "104-92",
+              "168-97",
+              "4840-13",
+              "5081-14",
+              "5241-06",
+              "536-00"
+            ],
+            "comparator_ids": [
+              "1731-00",
+              "1743-89",
+              "1838-04",
+              "2176-91",
+              "2433-02",
+              "3490-00",
+              "9562-17"
+            ],
+            "pairs": 42,
+            "A_lower": 0.8333333333333334
+          },
+          {
+            "year": "2021",
+            "EMC_ids": [
+              "5149-18"
+            ],
+            "comparator_ids": [
+              "1076-04",
+              "1496-95",
+              "2611-96",
+              "3252-04",
+              "3458-17"
+            ],
+            "pairs": 5,
+            "A_lower": 1.0
+          }
+        ],
+        "A_lower_pair_weighted": 0.851063829787234,
+        "finite_pairs": 47,
+        "no_year_interval": true,
+        "not_all_specimen_batch_adjustment": true
+      },
+      "log2_1plusTPM_shift": -4.462185545808676
+    },
+    "primary_lesions": {
+      "n_EMC": 12,
+      "n_comparator": 13,
+      "unit": "TPM",
+      "EMC": {
+        "source_n": 12,
+        "finite_n": 12,
+        "missing_n": 0,
+        "min": 2.15,
+        "median": 7.92,
+        "max": 87.48
+      },
+      "comparator": {
+        "source_n": 13,
+        "finite_n": 13,
+        "missing_n": 0,
+        "min": 9.99,
+        "median": 198.26,
+        "max": 418.97
+      },
+      "A_lower": 0.9551282051282052,
+      "EMC_minus_comparator_median_shift": -190.34,
+      "A_lower_conditional_empirical_resampling_95_range": [
+        0.8653846153846154,
+        1.0
+      ],
+      "median_shift_conditional_empirical_resampling_95_range": [
+        -225.11,
+        -111.59
+      ],
+      "leave_one_EMC_specimen_out": [
+        {
+          "removed_id": "104-92",
+          "A_lower": 0.965034965034965,
+          "median_shift": -190.45999999999998
+        },
+        {
+          "removed_id": "11881-19",
+          "A_lower": 0.951048951048951,
+          "median_shift": -190.45999999999998
+        },
+        {
+          "removed_id": "168-97",
+          "A_lower": 0.951048951048951,
+          "median_shift": -190.45999999999998
+        },
+        {
+          "removed_id": "3371-22",
+          "A_lower": 0.958041958041958,
+          "median_shift": -190.45999999999998
+        },
+        {
+          "removed_id": "3372-22",
+          "A_lower": 0.951048951048951,
+          "median_shift": -190.22
+        },
+        {
+          "removed_id": "4716-22",
+          "A_lower": 0.951048951048951,
+          "median_shift": -190.22
+        },
+        {
+          "removed_id": "4840-13",
+          "A_lower": 0.951048951048951,
+          "median_shift": -190.22
+        },
+        {
+          "removed_id": "5149-18",
+          "A_lower": 0.951048951048951,
+          "median_shift": -190.22
+        },
+        {
+          "removed_id": "5241-06",
+          "A_lower": 0.972027972027972,
+          "median_shift": -190.45999999999998
+        },
+        {
+          "removed_id": "536-00",
+          "A_lower": 0.951048951048951,
+          "median_shift": -190.22
+        },
+        {
+          "removed_id": "7931-19",
+          "A_lower": 0.958041958041958,
+          "median_shift": -190.45999999999998
+        },
+        {
+          "removed_id": "8102-22",
+          "A_lower": 0.951048951048951,
+          "median_shift": -190.22
+        }
+      ],
+      "year_context": {
+        "strata": [
+          {
+            "year": "2019",
+            "EMC_ids": [
+              "104-92",
+              "168-97",
+              "4840-13",
+              "5241-06",
+              "536-00"
+            ],
+            "comparator_ids": [
+              "1731-00",
+              "1743-89",
+              "1838-04",
+              "2176-91",
+              "2433-02",
+              "3490-00",
+              "9562-17"
+            ],
+            "pairs": 35,
+            "A_lower": 0.9714285714285714
+          },
+          {
+            "year": "2021",
+            "EMC_ids": [
+              "5149-18"
+            ],
+            "comparator_ids": [
+              "1076-04",
+              "1496-95",
+              "2611-96",
+              "3252-04",
+              "3458-17"
+            ],
+            "pairs": 5,
+            "A_lower": 1.0
+          }
+        ],
+        "A_lower_pair_weighted": 0.975,
+        "finite_pairs": 40,
+        "no_year_interval": true,
+        "not_all_specimen_batch_adjustment": true
+      },
+      "log2_1plusTPM_shift": -4.481595170253941
+    },
+    "primary_non_known_overlap": {
+      "n_EMC": 9,
+      "n_comparator": 13,
+      "unit": "TPM",
+      "EMC": {
+        "source_n": 9,
+        "finite_n": 9,
+        "missing_n": 0,
+        "min": 2.15,
+        "median": 7.8,
+        "max": 87.48
+      },
+      "comparator": {
+        "source_n": 13,
+        "finite_n": 13,
+        "missing_n": 0,
+        "min": 9.99,
+        "median": 198.26,
+        "max": 418.97
+      },
+      "A_lower": 0.9572649572649573,
+      "EMC_minus_comparator_median_shift": -190.45999999999998,
+      "A_lower_conditional_empirical_resampling_95_range": [
+        0.8547008547008547,
+        1.0
+      ],
+      "median_shift_conditional_empirical_resampling_95_range": [
+        -225.11,
+        -109.86
+      ],
+      "leave_one_EMC_specimen_out": [
+        {
+          "removed_id": "11881-19",
+          "A_lower": 0.9519230769230769,
+          "median_shift": -191.79
+        },
+        {
+          "removed_id": "3371-22",
+          "A_lower": 0.9615384615384616,
+          "median_shift": -191.79
+        },
+        {
+          "removed_id": "3372-22",
+          "A_lower": 0.9519230769230769,
+          "median_shift": -190.34
+        },
+        {
+          "removed_id": "4716-22",
+          "A_lower": 0.9519230769230769,
+          "median_shift": -190.34
+        },
+        {
+          "removed_id": "4840-13",
+          "A_lower": 0.9519230769230769,
+          "median_shift": -191.67
+        },
+        {
+          "removed_id": "5149-18",
+          "A_lower": 0.9519230769230769,
+          "median_shift": -190.34
+        },
+        {
+          "removed_id": "5241-06",
+          "A_lower": 0.9807692307692307,
+          "median_shift": -191.79
+        },
+        {
+          "removed_id": "7931-19",
+          "A_lower": 0.9615384615384616,
+          "median_shift": -191.79
+        },
+        {
+          "removed_id": "8102-22",
+          "A_lower": 0.9519230769230769,
+          "median_shift": -190.34
+        }
+      ],
+      "year_context": {
+        "strata": [
+          {
+            "year": "2019",
+            "EMC_ids": [
+              "4840-13",
+              "5241-06"
+            ],
+            "comparator_ids": [
+              "1731-00",
+              "1743-89",
+              "1838-04",
+              "2176-91",
+              "2433-02",
+              "3490-00",
+              "9562-17"
+            ],
+            "pairs": 14,
+            "A_lower": 0.9285714285714286
+          },
+          {
+            "year": "2021",
+            "EMC_ids": [
+              "5149-18"
+            ],
+            "comparator_ids": [
+              "1076-04",
+              "1496-95",
+              "2611-96",
+              "3252-04",
+              "3458-17"
+            ],
+            "pairs": 5,
+            "A_lower": 1.0
+          }
+        ],
+        "A_lower_pair_weighted": 0.9473684210526315,
+        "finite_pairs": 19,
+        "no_year_interval": true,
+        "not_all_specimen_batch_adjustment": true
+      },
+      "log2_1plusTPM_shift": -4.501004794699204
+    },
+    "GSE24369": {
+      "n_EMC": 6,
+      "n_comparator": 17,
+      "unit": "RMA log2",
+      "EMC": {
+        "source_n": 6,
+        "finite_n": 6,
+        "missing_n": 0,
+        "min": 5.709718,
+        "median": 8.073409999999999,
+        "max": 9.904842
+      },
+      "comparator": {
+        "source_n": 17,
+        "finite_n": 17,
+        "missing_n": 0,
+        "min": 7.457141,
+        "median": 10.33387,
+        "max": 11.39229
+      },
+      "A_lower": 0.9019607843137255,
+      "EMC_minus_comparator_median_shift": -2.26046,
+      "A_lower_conditional_empirical_resampling_95_range": [
+        0.7352941176470589,
+        1.0
+      ],
+      "median_shift_conditional_empirical_resampling_95_range": [
+        -4.149888499999999,
+        -0.5042649999999984
+      ],
+      "leave_one_EMC_specimen_out": [
+        {
+          "removed_id": "GSM600934",
+          "A_lower": 0.8823529411764706,
+          "median_shift": -1.4156549999999992
+        },
+        {
+          "removed_id": "GSM600935",
+          "A_lower": 0.8823529411764706,
+          "median_shift": -1.4156549999999992
+        },
+        {
+          "removed_id": "GSM600936",
+          "A_lower": 0.8941176470588236,
+          "median_shift": -3.1052649999999993
+        },
+        {
+          "removed_id": "GSM600937",
+          "A_lower": 0.9176470588235294,
+          "median_shift": -3.1052649999999993
+        },
+        {
+          "removed_id": "GSM600938",
+          "A_lower": 0.9529411764705882,
+          "median_shift": -3.1052649999999993
+        },
+        {
+          "removed_id": "GSM600939",
+          "A_lower": 0.8823529411764706,
+          "median_shift": -1.4156549999999992
+        }
+      ]
+    }
+  },
+  "contrary": {
+    "all_conditions": {
+      "Myxoid liposarcoma": {
+        "n_EMC": 13,
+        "n_comparator": 14,
+        "unit": "TPM",
+        "EMC": {
+          "source_n": 13,
+          "finite_n": 13,
+          "missing_n": 0,
+          "min": 2.15,
+          "median": 8.04,
+          "max": 280.37
+        },
+        "comparator": {
+          "source_n": 14,
+          "finite_n": 14,
+          "missing_n": 0,
+          "min": 9.72,
+          "median": 22.924999999999997,
+          "max": 252.69
+        },
+        "A_lower": 0.7087912087912088,
+        "EMC_minus_comparator_median_shift": -14.884999999999998,
+        "A_lower_conditional_empirical_resampling_95_range": [
+          0.4725274725274725,
+          0.9230769230769231
+        ],
+        "median_shift_conditional_empirical_resampling_95_range": [
+          -34.28,
+          25.03
+        ],
+        "leave_one_EMC_specimen_out": [
+          {
+            "removed_id": "104-92",
+            "A_lower": 0.7559523809523809,
+            "median_shift": -15.004999999999997
+          },
+          {
+            "removed_id": "11881-19",
+            "A_lower": 0.6845238095238095,
+            "median_shift": -14.499999999999996
+          },
+          {
+            "removed_id": "168-97",
+            "A_lower": 0.6845238095238095,
+            "median_shift": -15.004999999999997
+          },
+          {
+            "removed_id": "3371-22",
+            "A_lower": 0.7440476190476191,
+            "median_shift": -15.004999999999997
+          },
+          {
+            "removed_id": "3372-22",
+            "A_lower": 0.6845238095238095,
+            "median_shift": -14.379999999999997
+          },
+          {
+            "removed_id": "4716-22",
+            "A_lower": 0.6845238095238095,
+            "median_shift": -14.379999999999997
+          },
+          {
+            "removed_id": "4840-13",
+            "A_lower": 0.6845238095238095,
+            "median_shift": -14.379999999999997
+          },
+          {
+            "removed_id": "5081-14",
+            "A_lower": 0.7678571428571429,
+            "median_shift": -15.004999999999997
+          },
+          {
+            "removed_id": "5149-18",
+            "A_lower": 0.6845238095238095,
+            "median_shift": -14.379999999999997
+          },
+          {
+            "removed_id": "5241-06",
+            "A_lower": 0.7559523809523809,
+            "median_shift": -15.004999999999997
+          },
+          {
+            "removed_id": "536-00",
+            "A_lower": 0.6845238095238095,
+            "median_shift": -14.379999999999997
+          },
+          {
+            "removed_id": "7931-19",
+            "A_lower": 0.7142857142857143,
+            "median_shift": -15.004999999999997
+          },
+          {
+            "removed_id": "8102-22",
+            "A_lower": 0.6845238095238095,
+            "median_shift": -14.379999999999997
+          }
+        ]
+      },
+      "Myxoid liposarcoma_uncertain2492omitted": {
+        "n_EMC": 13,
+        "n_comparator": 13,
+        "unit": "TPM",
+        "EMC": {
+          "source_n": 13,
+          "finite_n": 13,
+          "missing_n": 0,
+          "min": 2.15,
+          "median": 8.04,
+          "max": 280.37
+        },
+        "comparator": {
+          "source_n": 13,
+          "finite_n": 13,
+          "missing_n": 0,
+          "min": 9.72,
+          "median": 22.88,
+          "max": 91.66
+        },
+        "A_lower": 0.6923076923076923,
+        "EMC_minus_comparator_median_shift": -14.84,
+        "A_lower_conditional_empirical_resampling_95_range": [
+          0.44970414201183434,
+          0.9171597633136095
+        ],
+        "median_shift_conditional_empirical_resampling_95_range": [
+          -25.09,
+          26.1
+        ],
+        "leave_one_EMC_specimen_out": [
+          {
+            "removed_id": "104-92",
+            "A_lower": 0.7435897435897436,
+            "median_shift": -14.959999999999999
+          },
+          {
+            "removed_id": "11881-19",
+            "A_lower": 0.6666666666666666,
+            "median_shift": -14.454999999999998
+          },
+          {
+            "removed_id": "168-97",
+            "A_lower": 0.6666666666666666,
+            "median_shift": -14.959999999999999
+          },
+          {
+            "removed_id": "3371-22",
+            "A_lower": 0.7307692307692307,
+            "median_shift": -14.959999999999999
+          },
+          {
+            "removed_id": "3372-22",
+            "A_lower": 0.6666666666666666,
+            "median_shift": -14.334999999999999
+          },
+          {
+            "removed_id": "4716-22",
+            "A_lower": 0.6666666666666666,
+            "median_shift": -14.334999999999999
+          },
+          {
+            "removed_id": "4840-13",
+            "A_lower": 0.6666666666666666,
+            "median_shift": -14.334999999999999
+          },
+          {
+            "removed_id": "5081-14",
+            "A_lower": 0.75,
+            "median_shift": -14.959999999999999
+          },
+          {
+            "removed_id": "5149-18",
+            "A_lower": 0.6666666666666666,
+            "median_shift": -14.334999999999999
+          },
+          {
+            "removed_id": "5241-06",
+            "A_lower": 0.7435897435897436,
+            "median_shift": -14.959999999999999
+          },
+          {
+            "removed_id": "536-00",
+            "A_lower": 0.6666666666666666,
+            "median_shift": -14.334999999999999
+          },
+          {
+            "removed_id": "7931-19",
+            "A_lower": 0.6987179487179487,
+            "median_shift": -14.959999999999999
+          },
+          {
+            "removed_id": "8102-22",
+            "A_lower": 0.6666666666666666,
+            "median_shift": -14.334999999999999
+          }
+        ]
+      },
+      "Synovial sarcoma": {
+        "n_EMC": 13,
+        "n_comparator": 19,
+        "unit": "TPM",
+        "EMC": {
+          "source_n": 13,
+          "finite_n": 13,
+          "missing_n": 0,
+          "min": 2.15,
+          "median": 8.04,
+          "max": 280.37
+        },
+        "comparator": {
+          "source_n": 19,
+          "finite_n": 19,
+          "missing_n": 0,
+          "min": 1.0,
+          "median": 10.29,
+          "max": 124.24
+        },
+        "A_lower": 0.4331983805668016,
+        "EMC_minus_comparator_median_shift": -2.25,
+        "A_lower_conditional_empirical_resampling_95_range": [
+          0.23481781376518218,
+          0.6477732793522267
+        ],
+        "median_shift_conditional_empirical_resampling_95_range": [
+          -11.96,
+          38.04
+        ],
+        "leave_one_EMC_specimen_out": [
+          {
+            "removed_id": "104-92",
+            "A_lower": 0.4649122807017544,
+            "median_shift": -2.369999999999999
+          },
+          {
+            "removed_id": "11881-19",
+            "A_lower": 0.42543859649122806,
+            "median_shift": -1.8649999999999984
+          },
+          {
+            "removed_id": "168-97",
+            "A_lower": 0.42543859649122806,
+            "median_shift": -2.369999999999999
+          },
+          {
+            "removed_id": "3371-22",
+            "A_lower": 0.45614035087719296,
+            "median_shift": -2.369999999999999
+          },
+          {
+            "removed_id": "3372-22",
+            "A_lower": 0.4166666666666667,
+            "median_shift": -1.7449999999999992
+          },
+          {
+            "removed_id": "4716-22",
+            "A_lower": 0.3991228070175439,
+            "median_shift": -1.7449999999999992
+          },
+          {
+            "removed_id": "4840-13",
+            "A_lower": 0.42543859649122806,
+            "median_shift": -1.7449999999999992
+          },
+          {
+            "removed_id": "5081-14",
+            "A_lower": 0.4692982456140351,
+            "median_shift": -2.369999999999999
+          },
+          {
+            "removed_id": "5149-18",
+            "A_lower": 0.42105263157894735,
+            "median_shift": -1.7449999999999992
+          },
+          {
+            "removed_id": "5241-06",
+            "A_lower": 0.4649122807017544,
+            "median_shift": -2.369999999999999
+          },
+          {
+            "removed_id": "536-00",
+            "A_lower": 0.40789473684210525,
+            "median_shift": -1.7449999999999992
+          },
+          {
+            "removed_id": "7931-19",
+            "A_lower": 0.44298245614035087,
+            "median_shift": -2.369999999999999
+          },
+          {
+            "removed_id": "8102-22",
+            "A_lower": 0.41228070175438597,
+            "median_shift": -1.7449999999999992
+          }
+        ]
+      }
+    },
+    "primary_lesions": {
+      "Myxoid liposarcoma": {
+        "n_EMC": 12,
+        "n_comparator": 14,
+        "unit": "TPM",
+        "EMC": {
+          "source_n": 12,
+          "finite_n": 12,
+          "missing_n": 0,
+          "min": 2.15,
+          "median": 7.92,
+          "max": 87.48
+        },
+        "comparator": {
+          "source_n": 14,
+          "finite_n": 14,
+          "missing_n": 0,
+          "min": 9.72,
+          "median": 22.924999999999997,
+          "max": 252.69
+        },
+        "A_lower": 0.7678571428571429,
+        "EMC_minus_comparator_median_shift": -15.004999999999997,
+        "A_lower_conditional_empirical_resampling_95_range": [
+          0.5416666666666666,
+          0.9523809523809523
+        ],
+        "median_shift_conditional_empirical_resampling_95_range": [
+          -35.29,
+          9.925000000000004
+        ],
+        "leave_one_EMC_specimen_out": [
+          {
+            "removed_id": "104-92",
+            "A_lower": 0.8246753246753247,
+            "median_shift": -15.124999999999996
+          },
+          {
+            "removed_id": "11881-19",
+            "A_lower": 0.7467532467532467,
+            "median_shift": -15.124999999999996
+          },
+          {
+            "removed_id": "168-97",
+            "A_lower": 0.7467532467532467,
+            "median_shift": -15.124999999999996
+          },
+          {
+            "removed_id": "3371-22",
+            "A_lower": 0.8116883116883117,
+            "median_shift": -15.124999999999996
+          },
+          {
+            "removed_id": "3372-22",
+            "A_lower": 0.7467532467532467,
+            "median_shift": -14.884999999999998
+          },
+          {
+            "removed_id": "4716-22",
+            "A_lower": 0.7467532467532467,
+            "median_shift": -14.884999999999998
+          },
+          {
+            "removed_id": "4840-13",
+            "A_lower": 0.7467532467532467,
+            "median_shift": -14.884999999999998
+          },
+          {
+            "removed_id": "5149-18",
+            "A_lower": 0.7467532467532467,
+            "median_shift": -14.884999999999998
+          },
+          {
+            "removed_id": "5241-06",
+            "A_lower": 0.8246753246753247,
+            "median_shift": -15.124999999999996
+          },
+          {
+            "removed_id": "536-00",
+            "A_lower": 0.7467532467532467,
+            "median_shift": -14.884999999999998
+          },
+          {
+            "removed_id": "7931-19",
+            "A_lower": 0.7792207792207793,
+            "median_shift": -15.124999999999996
+          },
+          {
+            "removed_id": "8102-22",
+            "A_lower": 0.7467532467532467,
+            "median_shift": -14.884999999999998
+          }
+        ]
+      },
+      "Myxoid liposarcoma_uncertain2492omitted": {
+        "n_EMC": 12,
+        "n_comparator": 13,
+        "unit": "TPM",
+        "EMC": {
+          "source_n": 12,
+          "finite_n": 12,
+          "missing_n": 0,
+          "min": 2.15,
+          "median": 7.92,
+          "max": 87.48
+        },
+        "comparator": {
+          "source_n": 13,
+          "finite_n": 13,
+          "missing_n": 0,
+          "min": 9.72,
+          "median": 22.88,
+          "max": 91.66
+        },
+        "A_lower": 0.75,
+        "EMC_minus_comparator_median_shift": -14.959999999999999,
+        "A_lower_conditional_empirical_resampling_95_range": [
+          0.519070512820513,
+          0.9487179487179487
+        ],
+        "median_shift_conditional_empirical_resampling_95_range": [
+          -25.09,
+          9.874874999999857
+        ],
+        "leave_one_EMC_specimen_out": [
+          {
+            "removed_id": "104-92",
+            "A_lower": 0.8111888111888111,
+            "median_shift": -15.079999999999998
+          },
+          {
+            "removed_id": "11881-19",
+            "A_lower": 0.7272727272727273,
+            "median_shift": -15.079999999999998
+          },
+          {
+            "removed_id": "168-97",
+            "A_lower": 0.7272727272727273,
+            "median_shift": -15.079999999999998
+          },
+          {
+            "removed_id": "3371-22",
+            "A_lower": 0.7972027972027972,
+            "median_shift": -15.079999999999998
+          },
+          {
+            "removed_id": "3372-22",
+            "A_lower": 0.7272727272727273,
+            "median_shift": -14.84
+          },
+          {
+            "removed_id": "4716-22",
+            "A_lower": 0.7272727272727273,
+            "median_shift": -14.84
+          },
+          {
+            "removed_id": "4840-13",
+            "A_lower": 0.7272727272727273,
+            "median_shift": -14.84
+          },
+          {
+            "removed_id": "5149-18",
+            "A_lower": 0.7272727272727273,
+            "median_shift": -14.84
+          },
+          {
+            "removed_id": "5241-06",
+            "A_lower": 0.8111888111888111,
+            "median_shift": -15.079999999999998
+          },
+          {
+            "removed_id": "536-00",
+            "A_lower": 0.7272727272727273,
+            "median_shift": -14.84
+          },
+          {
+            "removed_id": "7931-19",
+            "A_lower": 0.7622377622377622,
+            "median_shift": -15.079999999999998
+          },
+          {
+            "removed_id": "8102-22",
+            "A_lower": 0.7272727272727273,
+            "median_shift": -14.84
+          }
+        ]
+      },
+      "Synovial sarcoma": {
+        "n_EMC": 12,
+        "n_comparator": 18,
+        "unit": "TPM",
+        "EMC": {
+          "source_n": 12,
+          "finite_n": 12,
+          "missing_n": 0,
+          "min": 2.15,
+          "median": 7.92,
+          "max": 87.48
+        },
+        "comparator": {
+          "source_n": 18,
+          "finite_n": 18,
+          "missing_n": 0,
+          "min": 1.0,
+          "median": 9.05,
+          "max": 124.24
+        },
+        "A_lower": 0.4583333333333333,
+        "EMC_minus_comparator_median_shift": -1.1300000000000008,
+        "A_lower_conditional_empirical_resampling_95_range": [
+          0.25462962962962965,
+          0.6759259259259259
+        ],
+        "median_shift_conditional_empirical_resampling_95_range": [
+          -14.965000000000003,
+          23.17
+        ],
+        "leave_one_EMC_specimen_out": [
+          {
+            "removed_id": "104-92",
+            "A_lower": 0.494949494949495,
+            "median_shift": -1.2500000000000009
+          },
+          {
+            "removed_id": "11881-19",
+            "A_lower": 0.45454545454545453,
+            "median_shift": -1.2500000000000009
+          },
+          {
+            "removed_id": "168-97",
+            "A_lower": 0.45454545454545453,
+            "median_shift": -1.2500000000000009
+          },
+          {
+            "removed_id": "3371-22",
+            "A_lower": 0.48484848484848486,
+            "median_shift": -1.2500000000000009
+          },
+          {
+            "removed_id": "3372-22",
+            "A_lower": 0.4444444444444444,
+            "median_shift": -1.0100000000000016
+          },
+          {
+            "removed_id": "4716-22",
+            "A_lower": 0.42424242424242425,
+            "median_shift": -1.0100000000000016
+          },
+          {
+            "removed_id": "4840-13",
+            "A_lower": 0.45454545454545453,
+            "median_shift": -1.0100000000000016
+          },
+          {
+            "removed_id": "5149-18",
+            "A_lower": 0.4494949494949495,
+            "median_shift": -1.0100000000000016
+          },
+          {
+            "removed_id": "5241-06",
+            "A_lower": 0.494949494949495,
+            "median_shift": -1.2500000000000009
+          },
+          {
+            "removed_id": "536-00",
+            "A_lower": 0.43434343434343436,
+            "median_shift": -1.0100000000000016
+          },
+          {
+            "removed_id": "7931-19",
+            "A_lower": 0.4696969696969697,
+            "median_shift": -1.2500000000000009
+          },
+          {
+            "removed_id": "8102-22",
+            "A_lower": 0.4393939393939394,
+            "median_shift": -1.0100000000000016
+          }
+        ]
+      }
+    },
+    "primary_non_known_overlap": {
+      "Myxoid liposarcoma": {
+        "n_EMC": 9,
+        "n_comparator": 14,
+        "unit": "TPM",
+        "EMC": {
+          "source_n": 9,
+          "finite_n": 9,
+          "missing_n": 0,
+          "min": 2.15,
+          "median": 7.8,
+          "max": 87.48
+        },
+        "comparator": {
+          "source_n": 14,
+          "finite_n": 14,
+          "missing_n": 0,
+          "min": 9.72,
+          "median": 22.924999999999997,
+          "max": 252.69
+        },
+        "A_lower": 0.7857142857142857,
+        "EMC_minus_comparator_median_shift": -15.124999999999996,
+        "A_lower_conditional_empirical_resampling_95_range": [
+          0.5317460317460317,
+          0.9841269841269841
+        ],
+        "median_shift_conditional_empirical_resampling_95_range": [
+          -35.53,
+          19.98
+        ],
+        "leave_one_EMC_specimen_out": [
+          {
+            "removed_id": "11881-19",
+            "A_lower": 0.7589285714285714,
+            "median_shift": -16.455
+          },
+          {
+            "removed_id": "3371-22",
+            "A_lower": 0.8482142857142857,
+            "median_shift": -16.455
+          },
+          {
+            "removed_id": "3372-22",
+            "A_lower": 0.7589285714285714,
+            "median_shift": -15.004999999999997
+          },
+          {
+            "removed_id": "4716-22",
+            "A_lower": 0.7589285714285714,
+            "median_shift": -15.004999999999997
+          },
+          {
+            "removed_id": "4840-13",
+            "A_lower": 0.7589285714285714,
+            "median_shift": -16.334999999999997
+          },
+          {
+            "removed_id": "5149-18",
+            "A_lower": 0.7589285714285714,
+            "median_shift": -15.004999999999997
+          },
+          {
+            "removed_id": "5241-06",
+            "A_lower": 0.8660714285714286,
+            "median_shift": -16.455
+          },
+          {
+            "removed_id": "7931-19",
+            "A_lower": 0.8035714285714286,
+            "median_shift": -16.455
+          },
+          {
+            "removed_id": "8102-22",
+            "A_lower": 0.7589285714285714,
+            "median_shift": -15.004999999999997
+          }
+        ]
+      },
+      "Myxoid liposarcoma_uncertain2492omitted": {
+        "n_EMC": 9,
+        "n_comparator": 13,
+        "unit": "TPM",
+        "EMC": {
+          "source_n": 9,
+          "finite_n": 9,
+          "missing_n": 0,
+          "min": 2.15,
+          "median": 7.8,
+          "max": 87.48
+        },
+        "comparator": {
+          "source_n": 13,
+          "finite_n": 13,
+          "missing_n": 0,
+          "min": 9.72,
+          "median": 22.88,
+          "max": 91.66
+        },
+        "A_lower": 0.7692307692307693,
+        "EMC_minus_comparator_median_shift": -15.079999999999998,
+        "A_lower_conditional_empirical_resampling_95_range": [
+          0.49572649572649574,
+          0.9829059829059829
+        ],
+        "median_shift_conditional_empirical_resampling_95_range": [
+          -25.09,
+          19.98
+        ],
+        "leave_one_EMC_specimen_out": [
+          {
+            "removed_id": "11881-19",
+            "A_lower": 0.7403846153846154,
+            "median_shift": -16.41
+          },
+          {
+            "removed_id": "3371-22",
+            "A_lower": 0.8365384615384616,
+            "median_shift": -16.41
+          },
+          {
+            "removed_id": "3372-22",
+            "A_lower": 0.7403846153846154,
+            "median_shift": -14.959999999999999
+          },
+          {
+            "removed_id": "4716-22",
+            "A_lower": 0.7403846153846154,
+            "median_shift": -14.959999999999999
+          },
+          {
+            "removed_id": "4840-13",
+            "A_lower": 0.7403846153846154,
+            "median_shift": -16.29
+          },
+          {
+            "removed_id": "5149-18",
+            "A_lower": 0.7403846153846154,
+            "median_shift": -14.959999999999999
+          },
+          {
+            "removed_id": "5241-06",
+            "A_lower": 0.8557692307692307,
+            "median_shift": -16.41
+          },
+          {
+            "removed_id": "7931-19",
+            "A_lower": 0.7884615384615384,
+            "median_shift": -16.41
+          },
+          {
+            "removed_id": "8102-22",
+            "A_lower": 0.7403846153846154,
+            "median_shift": -14.959999999999999
+          }
+        ]
+      },
+      "Synovial sarcoma": {
+        "n_EMC": 9,
+        "n_comparator": 18,
+        "unit": "TPM",
+        "EMC": {
+          "source_n": 9,
+          "finite_n": 9,
+          "missing_n": 0,
+          "min": 2.15,
+          "median": 7.8,
+          "max": 87.48
+        },
+        "comparator": {
+          "source_n": 18,
+          "finite_n": 18,
+          "missing_n": 0,
+          "min": 1.0,
+          "median": 9.05,
+          "max": 124.24
+        },
+        "A_lower": 0.4691358024691358,
+        "EMC_minus_comparator_median_shift": -1.2500000000000009,
+        "A_lower_conditional_empirical_resampling_95_range": [
+          0.24691358024691357,
+          0.6975308641975309
+        ],
+        "median_shift_conditional_empirical_resampling_95_range": [
+          -15.205000000000002,
+          28.880000000000003
+        ],
+        "leave_one_EMC_specimen_out": [
+          {
+            "removed_id": "11881-19",
+            "A_lower": 0.4652777777777778,
+            "median_shift": -2.580000000000001
+          },
+          {
+            "removed_id": "3371-22",
+            "A_lower": 0.5069444444444444,
+            "median_shift": -2.580000000000001
+          },
+          {
+            "removed_id": "3372-22",
+            "A_lower": 0.4513888888888889,
+            "median_shift": -1.1300000000000008
+          },
+          {
+            "removed_id": "4716-22",
+            "A_lower": 0.4236111111111111,
+            "median_shift": -1.1300000000000008
+          },
+          {
+            "removed_id": "4840-13",
+            "A_lower": 0.4652777777777778,
+            "median_shift": -2.460000000000001
+          },
+          {
+            "removed_id": "5149-18",
+            "A_lower": 0.4583333333333333,
+            "median_shift": -1.1300000000000008
+          },
+          {
+            "removed_id": "5241-06",
+            "A_lower": 0.5208333333333334,
+            "median_shift": -2.580000000000001
+          },
+          {
+            "removed_id": "7931-19",
+            "A_lower": 0.4861111111111111,
+            "median_shift": -2.580000000000001
+          },
+          {
+            "removed_id": "8102-22",
+            "A_lower": 0.4444444444444444,
+            "median_shift": -1.1300000000000008
+          }
+        ]
+      }
+    },
+    "3SEQ": {
+      "10146": {
+        "secondary_MLPS": {
+          "n_EMC": 4,
+          "n_comparator": 6,
+          "unit": "normalized square-root peak density",
+          "EMC": {
+            "source_n": 4,
+            "finite_n": 4,
+            "missing_n": 0,
+            "min": 0.0,
+            "median": 0.25611247400000003,
+            "max": 1.096798546
+          },
+          "comparator": {
+            "source_n": 6,
+            "finite_n": 6,
+            "missing_n": 0,
+            "min": 0.0,
+            "median": 0.2400646275,
+            "max": 0.508801512
+          },
+          "A_lower": 0.47916666666666663,
+          "EMC_minus_comparator_median_shift": 0.016047846500000046,
+          "A_lower_conditional_empirical_resampling_95_range": [
+            0.08333333333333333,
+            0.875
+          ],
+          "median_shift_conditional_empirical_resampling_95_range": [
+            -0.3144144915,
+            0.8567339185
+          ],
+          "leave_one_EMC_specimen_out": [
+            {
+              "removed_id": "EMC_STT5525",
+              "A_lower": 0.5277777777777778,
+              "median_shift": -0.07877242549999999
+            },
+            {
+              "removed_id": "EMC_STT5526",
+              "A_lower": 0.3333333333333333,
+              "median_shift": 0.11086811850000003
+            },
+            {
+              "removed_id": "EMC_STT5527",
+              "A_lower": 0.638888888888889,
+              "median_shift": -0.07877242549999999
+            },
+            {
+              "removed_id": "EMC_STT5592",
+              "A_lower": 0.4166666666666667,
+              "median_shift": 0.11086811850000003
+            }
+          ]
+        },
+        "context_SS": {
+          "n_EMC": 4,
+          "n_comparator": 3,
+          "unit": "normalized square-root peak density",
+          "EMC": {
+            "source_n": 4,
+            "finite_n": 4,
+            "missing_n": 0,
+            "min": 0.0,
+            "median": 0.25611247400000003,
+            "max": 1.096798546
+          },
+          "comparator": {
+            "source_n": 3,
+            "finite_n": 3,
+            "missing_n": 0,
+            "min": 0.0,
+            "median": 0.0,
+            "max": 0.161940885
+          },
+          "A_lower": 0.25,
+          "EMC_minus_comparator_median_shift": 0.25611247400000003,
+          "A_lower_conditional_empirical_resampling_95_range": [
+            0.0,
+            0.7083333333333333
+          ],
+          "median_shift_conditional_empirical_resampling_95_range": [
+            -0.08129478400000001,
+            1.096798546
+          ],
+          "leave_one_EMC_specimen_out": [
+            {
+              "removed_id": "EMC_STT5525",
+              "A_lower": 0.3333333333333333,
+              "median_shift": 0.161292202
+            },
+            {
+              "removed_id": "EMC_STT5526",
+              "A_lower": 0.1111111111111111,
+              "median_shift": 0.350932746
+            },
+            {
+              "removed_id": "EMC_STT5527",
+              "A_lower": 0.3333333333333333,
+              "median_shift": 0.161292202
+            },
+            {
+              "removed_id": "EMC_STT5592",
+              "A_lower": 0.2222222222222222,
+              "median_shift": 0.350932746
+            }
+          ]
+        }
+      },
+      "10147": {
+        "secondary_MLPS": {
+          "n_EMC": 4,
+          "n_comparator": 6,
+          "unit": "normalized square-root peak density",
+          "EMC": {
+            "source_n": 4,
+            "finite_n": 4,
+            "missing_n": 0,
+            "min": 0.231354513,
+            "median": 1.124592481,
+            "max": 5.042641623
+          },
+          "comparator": {
+            "source_n": 6,
+            "finite_n": 6,
+            "missing_n": 0,
+            "min": 0.60521559,
+            "median": 0.933773728,
+            "max": 1.88540511
+          },
+          "A_lower": 0.5,
+          "EMC_minus_comparator_median_shift": 0.19081875300000006,
+          "A_lower_conditional_empirical_resampling_95_range": [
+            0.041666666666666664,
+            0.9583333333333334
+          ],
+          "median_shift_conditional_empirical_resampling_95_range": [
+            -0.9715462600000001,
+            4.1088678949999995
+          ],
+          "leave_one_EMC_specimen_out": [
+            {
+              "removed_id": "EMC_STT5525",
+              "A_lower": 0.6111111111111112,
+              "median_shift": -0.309091715
+            },
+            {
+              "removed_id": "EMC_STT5526",
+              "A_lower": 0.3333333333333333,
+              "median_shift": 0.690729221
+            },
+            {
+              "removed_id": "EMC_STT5527",
+              "A_lower": 0.6666666666666666,
+              "median_shift": -0.309091715
+            },
+            {
+              "removed_id": "EMC_STT5592",
+              "A_lower": 0.3888888888888889,
+              "median_shift": 0.690729221
+            }
+          ]
+        },
+        "context_SS": {
+          "n_EMC": 4,
+          "n_comparator": 3,
+          "unit": "normalized square-root peak density",
+          "EMC": {
+            "source_n": 4,
+            "finite_n": 4,
+            "missing_n": 0,
+            "min": 0.231354513,
+            "median": 1.124592481,
+            "max": 5.042641623
+          },
+          "comparator": {
+            "source_n": 3,
+            "finite_n": 3,
+            "missing_n": 0,
+            "min": 0.229778088,
+            "median": 0.361530455,
+            "max": 0.560979682
+          },
+          "A_lower": 0.16666666666666666,
+          "EMC_minus_comparator_median_shift": 0.7630620260000001,
+          "A_lower_conditional_empirical_resampling_95_range": [
+            0.0,
+            0.5
+          ],
+          "median_shift_conditional_empirical_resampling_95_range": [
+            -0.13296141900000003,
+            4.681111168
+          ],
+          "leave_one_EMC_specimen_out": [
+            {
+              "removed_id": "EMC_STT5525",
+              "A_lower": 0.2222222222222222,
+              "median_shift": 0.26315155800000006
+            },
+            {
+              "removed_id": "EMC_STT5526",
+              "A_lower": 0.0,
+              "median_shift": 1.262972494
+            },
+            {
+              "removed_id": "EMC_STT5527",
+              "A_lower": 0.2222222222222222,
+              "median_shift": 0.26315155800000006
+            },
+            {
+              "removed_id": "EMC_STT5592",
+              "A_lower": 0.2222222222222222,
+              "median_shift": 1.262972494
+            }
+          ]
+        }
+      },
+      "median_fixed_two": {
+        "secondary_MLPS": {
+          "n_EMC": 4,
+          "n_comparator": 6,
+          "unit": "normalized square-root peak density",
+          "EMC": {
+            "source_n": 4,
+            "finite_n": 4,
+            "missing_n": 0,
+            "min": 0.1156772565,
+            "median": 0.6903524775000001,
+            "max": 3.0697200845
+          },
+          "comparator": {
+            "source_n": 6,
+            "finite_n": 6,
+            "missing_n": 0,
+            "min": 0.332582157,
+            "median": 0.62849466575,
+            "max": 1.1484171175
+          },
+          "A_lower": 0.5,
+          "EMC_minus_comparator_median_shift": 0.06185781175000005,
+          "A_lower_conditional_empirical_resampling_95_range": [
+            0.041666666666666664,
+            0.9583333333333334
+          ],
+          "median_shift_conditional_empirical_resampling_95_range": [
+            -0.6653830989999999,
+            2.44122541875
+          ],
+          "leave_one_EMC_specimen_out": [
+            {
+              "removed_id": "EMC_STT5525",
+              "A_lower": 0.6111111111111112,
+              "median_shift": -0.23550755825000003
+            },
+            {
+              "removed_id": "EMC_STT5526",
+              "A_lower": 0.3333333333333333,
+              "median_shift": 0.35922318175
+            },
+            {
+              "removed_id": "EMC_STT5527",
+              "A_lower": 0.6666666666666666,
+              "median_shift": -0.23550755825000003
+            },
+            {
+              "removed_id": "EMC_STT5592",
+              "A_lower": 0.3888888888888889,
+              "median_shift": 0.35922318175
+            }
+          ]
+        },
+        "context_SS": {
+          "n_EMC": 4,
+          "n_comparator": 3,
+          "unit": "normalized square-root peak density",
+          "EMC": {
+            "source_n": 4,
+            "finite_n": 4,
+            "missing_n": 0,
+            "min": 0.1156772565,
+            "median": 0.6903524775000001,
+            "max": 3.0697200845
+          },
+          "comparator": {
+            "source_n": 3,
+            "finite_n": 3,
+            "missing_n": 0,
+            "min": 0.114889044,
+            "median": 0.1807652275,
+            "max": 0.36146028350000003
+          },
+          "A_lower": 0.16666666666666666,
+          "EMC_minus_comparator_median_shift": 0.50958725,
+          "A_lower_conditional_empirical_resampling_95_range": [
+            0.0,
+            0.5
+          ],
+          "median_shift_conditional_empirical_resampling_95_range": [
+            -0.10712810150000002,
+            2.8889548570000003
+          ],
+          "leave_one_EMC_specimen_out": [
+            {
+              "removed_id": "EMC_STT5525",
+              "A_lower": 0.2222222222222222,
+              "median_shift": 0.21222188
+            },
+            {
+              "removed_id": "EMC_STT5526",
+              "A_lower": 0.0,
+              "median_shift": 0.80695262
+            },
+            {
+              "removed_id": "EMC_STT5527",
+              "A_lower": 0.2222222222222222,
+              "median_shift": 0.21222188
+            },
+            {
+              "removed_id": "EMC_STT5592",
+              "A_lower": 0.2222222222222222,
+              "median_shift": 0.80695262
+            }
+          ]
+        }
+      }
+    },
+    "high_EMC": [
+      {
+        "condition_id": "104-92",
+        "value": "72.94",
+        "unit": "TPM",
+        "diagnosis": "Extraskeletal myxoid chondrosarcoma"
+      },
+      {
+        "condition_id": "3371-22",
+        "value": "43.1",
+        "unit": "TPM",
+        "diagnosis": "Extraskeletal myxoid chondrosarcoma"
+      },
+      {
+        "condition_id": "5081-14",
+        "value": "280.37",
+        "unit": "TPM",
+        "diagnosis": "Extraskeletal myxoid chondrosarcoma"
+      },
+      {
+        "condition_id": "5241-06",
+        "value": "87.48",
+        "unit": "TPM",
+        "diagnosis": "Extraskeletal myxoid chondrosarcoma"
+      }
+    ]
+  },
+  "source_missing": {
+    "date": "2026-10-05",
+    "original_output_unchanged": true,
+    "reason": "Generic source_missing in initial helper represents two different cases; keep source-null fields separate from unavailable derived composites. No value imputed or numeric result changed.",
+    "missing_records": [
+      {
+        "dataset": "GSE4303",
+        "feature": "10100",
+        "condition_id": "GSM91381",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_deposited_value",
+        "interpretation": "Source field is null/missing; not zero or transcript absence."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "10100",
+        "condition_id": "GSM91397",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_deposited_value",
+        "interpretation": "Source field is null/missing; not zero or transcript absence."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "10100",
+        "condition_id": "GSM91405",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_deposited_value",
+        "interpretation": "Source field is null/missing; not zero or transcript absence."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "10100",
+        "condition_id": "GSM98499",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_deposited_value",
+        "interpretation": "Source field is null/missing; not zero or transcript absence."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "19562",
+        "condition_id": "GSM91397",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_deposited_value",
+        "interpretation": "Source field is null/missing; not zero or transcript absence."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "19562",
+        "condition_id": "GSM98499",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_deposited_value",
+        "interpretation": "Source field is null/missing; not zero or transcript absence."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "19562",
+        "condition_id": "GSM98506",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_deposited_value",
+        "interpretation": "Source field is null/missing; not zero or transcript absence."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "19562",
+        "condition_id": "GSM98510",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_deposited_value",
+        "interpretation": "Source field is null/missing; not zero or transcript absence."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "median_fixed_three",
+        "condition_id": "GSM91381",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_derived_composite",
+        "interpretation": "At least one fixed feature unavailable; all-three finite median not calculated."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "median_fixed_three",
+        "condition_id": "GSM91397",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_derived_composite",
+        "interpretation": "At least one fixed feature unavailable; all-three finite median not calculated."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "median_fixed_three",
+        "condition_id": "GSM91405",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_derived_composite",
+        "interpretation": "At least one fixed feature unavailable; all-three finite median not calculated."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "median_fixed_three",
+        "condition_id": "GSM98499",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_derived_composite",
+        "interpretation": "At least one fixed feature unavailable; all-three finite median not calculated."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "median_fixed_three",
+        "condition_id": "GSM98506",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_derived_composite",
+        "interpretation": "At least one fixed feature unavailable; all-three finite median not calculated."
+      },
+      {
+        "dataset": "GSE4303",
+        "feature": "median_fixed_three",
+        "condition_id": "GSM98510",
+        "missing_reason": "source_missing",
+        "measurement_status": "unavailable_derived_composite",
+        "interpretation": "At least one fixed feature unavailable; all-three finite median not calculated."
+      }
+    ]
+  },
+  "TempO": {
+    "values": {
+      "Si01": 7.334383788,
+      "Si02": 2.894207909,
+      "Si05": 3.990170138,
+      "Si09": 3.070709769,
+      "Si10": 7.296896994,
+      "Si14": 3.214726371,
+      "Si15": 3.388195908,
+      "Si16": 8.248299046,
+      "Si17": 2.250143242,
+      "Si19": 5.549189212,
+      "Si20": 3.428160575,
+      "Si22": 5.8714413
+    },
+    "distribution": {
+      "source_n": 12,
+      "finite_n": 12,
+      "missing_n": 0,
+      "min": 2.250143242,
+      "median": 3.7091653565,
+      "max": 8.248299046
+    },
+    "conditions": 12,
+    "no_LGFMS_MLPS": "Conditional native context only, case/condition/donor linkage and cross-cohort overlap pending",
+    "raw_estimator_failure_not_applied": true
+  },
+  "complete_result_input_bindings": "EXACT-RESULT-INPUT-BINDINGS.json"
+}
