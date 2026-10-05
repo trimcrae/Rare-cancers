@@ -1,0 +1,66 @@
+{
+  "utc": "2026-10-05T12:17:53.328704+00:00",
+  "inspected_scope": "Human regulatory/methylation definition and assay text only. Patient structural-mechanism analyses, deletion coordinates and fusion mechanisms not evaluated. No images rendered.",
+  "sources": [
+    {
+      "source": "PMID20585555; PMC2887472; DOI10.1371/journal.pgen.1000992",
+      "binding": {
+        "path": "sources/PMC2887472.xml",
+        "sha256": "60d8c04e5915852231de92a88da0cef8030d7e58c74d9f7e33cf763abe5d8596",
+        "bytes": 139396,
+        "portable": false
+      },
+      "evaluated": "Source calls IG-DMR CG4 and CG6 and MEG3-DMR CG7. CG4 PCR311bp/6CpGs and CG6 PCR428bp/19CpGs are component assays, not a complete whole-region boundary. Source-authored hierarchy/body versus placenta is prior art, not an EMC discovery.",
+      "quoted_fragment": "previously reported IG-DMR (CG4 and CG6) and MEG3-DMR (CG7)",
+      "whole_definition_status": "exact complete assembly-bound region remains pending; no union of disjoint assays"
+    },
+    {
+      "source": "PMID30846001; PMC6407230; DOI10.1186/s13148-019-0640-2",
+      "binding": {
+        "path": "sources/PMC6407230.xml",
+        "sha256": "b4a07b03c8246d3b860db50d37d57b64e2bccb108668dd8f21008ea5f2fc255c",
+        "bytes": 83324,
+        "portable": false
+      },
+      "evaluated": "Human leukocyte primary IG assays four pyrosequencing/six bisulfite CpGs versus secondary MEG3 assays. Authors explicitly state their 450K imprinting panel includes MEG3:TSS but not MEG3/DLK1:IG-DMR. This is assay/panel-specific contrary evidence and cannot prove no whole IG coverage across all annotations.",
+      "quoted_fragment": "including the MEG3:TSS-DMR but not the MEG3/DLK1:IG-DMR",
+      "interpretation_limit": "Source demonstrates normal bulk methylation can coexist with irregular non-differential methylation; bulk array values alone cannot establish allelic imprinting. Tissue- and assay-dependent definition matters.",
+      "whole_definition_status": "no new exact complete functional bounds authenticated"
+    },
+    {
+      "source": "PMID25005035; PMC4101709; DOI10.1186/1471-2407-14-495",
+      "binding": {
+        "path": "sources/PMC4101709.xml",
+        "sha256": "721b4f6eb27db8dc67f8624cf71a3505516d3a3ee9c99f3d6eaab8895c5dcbe6",
+        "bytes": 85070,
+        "portable": false
+      },
+      "evaluated": "Human giant-cell-tumor stromal versus MSC cultured cells study already measures regional methylation/expression. Printed IG assay909bp/31CpGs is NT_026437.12 positions82276640\u201382277549, a contig-relative fragment, not a validated whole functional CGI boundary or automatically a chromosome coordinate.",
+      "prior_value": "Other mesenchymal tumor DLK1-DIO3/MEG3 epigenetic patterns already published; merely finding a different EMC regional mean would need native coherent replication and a discriminating practical measurement, not generic tumor suppressor narrative.",
+      "whole_definition_status": "contig fragment not substituted; native controls inappropriate because culture history differs"
+    },
+    {
+      "source": "PMID17213841; DOI10.1038/sj.ejhg.5201759",
+      "binding": {
+        "path": "sources/human_IG_2007.pdf",
+        "sha256": "4009a29cfa17656e25fe963f6a821547740121712529427c723ca108fb2a1205",
+        "bytes": 309568,
+        "portable": false
+      },
+      "evaluated": "Declared public PDF URL returned publisher HTML, NOT PDF; visible abstract covers human gamete/embryo/amniocyte/blood methylation and relaxed intermediate patterns, plus accession AL117190. Full methylation methods require account and were not accessed.",
+      "status": "original complete boundary/method unavailable through inspected ordinary route; not evidence of absence"
+    },
+    {
+      "source": "PMID11076856; PMC310985; DOI10.1101/gr.161600",
+      "binding": {
+        "path": "sources/human_IG_original_2000.json",
+        "sha256": "12ba5ab8da7aecc12913ba3b5339be3d0771232133e6647d75228a2567f8d66a",
+        "bytes": 7979,
+        "portable": false
+      },
+      "evaluated": "Original human DLK1/GTL2 locus primary metadata authenticated; ordinary EPMC fullTextXML500 and declared publisher public PDF403. No unchanged retries or blocked-content bypass.",
+      "status": "complete regional definition pending; abstract/metadata is not a functional interval evaluation"
+    }
+  ],
+  "preserved_prior_exact_assay_results": "Original180b23\u2026 and broader522b901\u2026 freezes unchanged; exact-envelope negatives do not imply whole-region zero; nearby EPIC quality remains unresolved."
+}
