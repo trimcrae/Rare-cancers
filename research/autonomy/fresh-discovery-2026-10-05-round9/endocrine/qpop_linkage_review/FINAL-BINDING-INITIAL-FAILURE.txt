@@ -1,0 +1,7 @@
+Initial operational validation failed before transfer:
+Traceback (most recent call last):
+  File validate_final_binding.py, line18, in <module>
+    assert item["sha256"] == supersession["initial_sha256"]
+AssertionError
+
+The command batch continued to commit, so FINAL-FREEZE.json incorrectly said PASS. Frozen SOURCE-BINDINGS already contained the final owner receipt, not the earlier inspected draft. FINAL-BINDING-AMENDMENT-01.json corrects this and validate_settled_binding.py is the authoritative settled check. No source/science record changed.

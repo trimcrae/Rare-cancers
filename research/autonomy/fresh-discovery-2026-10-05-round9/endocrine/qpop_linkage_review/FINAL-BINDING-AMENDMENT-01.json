@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-05T14:21:26.016734+00:00",
+  "supersedes": [
+    "OWNER-FINAL-OPERATIONAL-BINDING.json transient_owner_receipt_supersession field",
+    "FINAL-FREEZE.json validation PASS sentence",
+    "validate_final_binding.py assumption that frozen receipt is ce17bc..."
+  ],
+  "correction": "The early observed owner draft receipt was1688B/ce17bc..., but actual SOURCE-BINDINGS was written later and already captured2204B/c25fc... final receipt. Therefore no frozen source binding changed and no input supersession is necessary. Initial binder conflated an earlier metadata read with later frozen input. Original scientific binding/decision unaffected.",
+  "actual_frozen_receipt": {
+    "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/qpop_condition_linkage/FIG1-IDENTITY-INSPECTION-RECEIPT.json",
+    "bytes": 2204,
+    "sha256": "c25fc464227b3b1447866231a19302635856c7f07e39f53f167c48b8389a8058",
+    "role": "owner masked identity-only inspection",
+    "availability": "local read-only; raw originals/cache-derived image not exported"
+  },
+  "initial_operational_validation": "FAILED AssertionError at line18 of validate_final_binding.py; execution command continued into commit and the initial FINAL-FREEZE pass text was incorrect. This amendment preserves and explicitly corrects that erroneous operational claim.",
+  "original_science_freeze_sha256": "0ed9348c7c77a58f1d8492a3d887ca58fcc75410b84ea490f90efc80f9b786ac",
+  "authoritative_final_validator": "validate_settled_binding.py",
+  "authoritative_final_manifest": "SETTLED-FINAL-FREEZE.json",
+  "scope": "Operational metadata correction only; no raw source/identity/endpoint/scientific decision changes."
+}
