@@ -1,0 +1,50 @@
+{
+  "utc": "2026-10-05T15:23:22.068559+00:00",
+  "owner": "/root/emc-cloud-round9",
+  "actual_slot_limit": 7,
+  "resources": {
+    "emc-round9-imprinting": {
+      "worker_id": "/root/challenge",
+      "reserved_utc": "2026-10-05T10:36:09.811471Z",
+      "status": "active_source_value_gate_imprinting/native_culture_fidelity_challenge",
+      "worktree": "/workspace/emc-r6-challenge",
+      "receipt": null
+    },
+    "emc-round9-rna_processing": {
+      "worker_id": "/root/single_cell",
+      "reserved_utc": "2026-10-05T10:36:09.902514Z",
+      "status": "active_source_value_gate_rna_processing/native_culture_fidelity_gate",
+      "worktree": "/workspace/emc-r6-single_cell",
+      "receipt": null
+    },
+    "emc-round9-endocrine": {
+      "worker_id": "/root/radiotherapy",
+      "reserved_utc": "2026-10-05T10:36:09.976228Z",
+      "status": "active_source_value_gate_endocrine/clinical_endpoint_sources",
+      "worktree": "/workspace/emc-r6-radiotherapy",
+      "receipt": null
+    },
+    "emc-round9-clinical_measurements": {
+      "worker_id": "/root/fapi_named",
+      "reserved_utc": "2026-10-05T10:36:10.057991Z",
+      "status": "active_source_value_gate_clinical_measurements/clinical_trial_omission_challenge",
+      "worktree": "/workspace/emc-r6-fapi_named",
+      "receipt": null
+    },
+    "emc-round9-functional_new": {
+      "worker_id": "/root/fapi_broader",
+      "reserved_utc": "2026-10-05T10:36:10.147204Z",
+      "status": "active_source_value_gate_functional_new/clinical_trial_individual_gate",
+      "worktree": "/workspace/emc-r6-fapi_broader",
+      "receipt": null
+    },
+    "emc-round9-public_resource_omissions": {
+      "worker_id": "/root/diagnostic",
+      "reserved_utc": "2026-10-05T10:36:10.219861Z",
+      "status": "active_source_value_gate_public_resource_omissions/clinical_durability_source_gate",
+      "worktree": "/workspace/emc-r6-diagnostic",
+      "receipt": null
+    }
+  },
+  "scope": "Six active distinct source/value workers and one integrating lead, resources retained, no expiry/release inferred."
+}
