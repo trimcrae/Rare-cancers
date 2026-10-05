@@ -1,0 +1,33 @@
+{
+  "utc": "2026-10-05T21:53:26.616786+00:00",
+  "routes": [
+    {
+      "name": "PEG10-primary",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5647403/fullTextXML",
+      "cap": 16777216,
+      "scope": "Acceptedprimarycitation/section schema, exactcellculture/clinical-sample/dataavailability names only; no PEG10/TGFmechanisms/quantities/genomic bodies."
+    },
+    {
+      "name": "IGF2BP3-pan-cancer-primary",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9905439/fullTextXML",
+      "cap": 16777216,
+      "scope": "Acceptedprimarycitation/cohort/data-source/assaymetadata, namedTCGA/GTEx/GEO sourceaccessions and histotype/donor eligibility only; no othergene outcomes/mechanisms/immune/HLA/DNA bodies."
+    },
+    {
+      "name": "review-citation-metadata",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=42783458,40563544&retmode=xml",
+      "cap": 1048576,
+      "scope": "PubMedcitation/PublicationType and actualreferenceID schema only; no abstractmechanisms or genevalues."
+    },
+    {
+      "name": "conference-PMC-metadata",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=11696521,9931687,10902613&retmode=xml",
+      "cap": 16777216,
+      "scope": "Articlewrapper/citation/abstract schema; allowedGPNMBandnativehistotype tokens/sourceunitIDs only, no fullbody/quantity/forbiddenmechanisms."
+    }
+  ],
+  "timeout_seconds": 10,
+  "redirects": false,
+  "budget": "At most4 calls,64MiBraw; no repeat or alternate afteraccessdenial.",
+  "stop": "Any failed/unaccepted source preserves coverage gap. No catalogue/resultstats or genequantity stage."
+}

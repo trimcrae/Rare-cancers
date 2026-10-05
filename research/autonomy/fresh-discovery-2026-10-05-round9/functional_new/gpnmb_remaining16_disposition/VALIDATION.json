@@ -1,0 +1,175 @@
+{
+  "checks": [
+    {
+      "check": "exact replay PEG10-SAFE-METHOD-AND-IDENTITY.json",
+      "pass": true
+    },
+    {
+      "check": "exact replay IGF2BP3-SAFE-SOURCE-LINEAGE.json",
+      "pass": true
+    },
+    {
+      "check": "four authorized calls only",
+      "pass": true
+    },
+    {
+      "check": "raw hash PEG10-primary",
+      "pass": true
+    },
+    {
+      "check": "accepted source PEG10-primary",
+      "pass": true
+    },
+    {
+      "check": "raw hash IGF2BP3-pan-cancer-primary",
+      "pass": true
+    },
+    {
+      "check": "accepted source IGF2BP3-pan-cancer-primary",
+      "pass": true
+    },
+    {
+      "check": "raw hash review-citation-metadata",
+      "pass": true
+    },
+    {
+      "check": "accepted source review-citation-metadata",
+      "pass": true
+    },
+    {
+      "check": "raw hash conference-PMC-metadata",
+      "pass": true
+    },
+    {
+      "check": "accepted source conference-PMC-metadata",
+      "pass": true
+    },
+    {
+      "check": "raw total",
+      "pass": true
+    },
+    {
+      "check": "raw budget",
+      "pass": true
+    },
+    {
+      "check": "25 tumor specimens",
+      "pass": true
+    },
+    {
+      "check": "18 generic CHS specimens",
+      "pass": true
+    },
+    {
+      "check": "normal sample not extra donor",
+      "pass": true
+    },
+    {
+      "check": "ten distinct model labels",
+      "pass": true
+    },
+    {
+      "check": "nine assigned unique sources",
+      "pass": true
+    },
+    {
+      "check": "no inferred native zeros",
+      "pass": true
+    },
+    {
+      "check": "resolving evidence PMID41046759/PMC12528890",
+      "pass": true
+    },
+    {
+      "check": "resolving evidence PMID42783458/PMC13609418",
+      "pass": true
+    },
+    {
+      "check": "resolving evidence PMID40563544/PMC12191211",
+      "pass": true
+    },
+    {
+      "check": "resolving evidence PMID36761737/PMC9905439",
+      "pass": true
+    },
+    {
+      "check": "resolving evidence PMID29044189/PMC5647403",
+      "pass": true
+    },
+    {
+      "check": "resolving evidence PMC11696521/10.1111/cas.16413",
+      "pass": true
+    },
+    {
+      "check": "resolving evidence PMC9931687/10.1111/cas.15742",
+      "pass": true
+    },
+    {
+      "check": "resolving evidence PMC10902613/10.1111/cas.16114",
+      "pass": true
+    },
+    {
+      "check": "resolving evidence PMID42349383/PMC13428302",
+      "pass": true
+    },
+    {
+      "check": "CAR reused exact SCIENCE-FREEZE.json",
+      "pass": true
+    },
+    {
+      "check": "CAR reused exact COVERAGE.json",
+      "pass": true
+    },
+    {
+      "check": "CAR reused exact DECISION.json",
+      "pass": true
+    },
+    {
+      "check": "CAR reused exact DISTINCT-OFFICIAL-PMC-ACCESS.json",
+      "pass": true
+    },
+    {
+      "check": "CAR reused exact OFFICIAL-PMC-FORMAT-GATE.json",
+      "pass": true
+    },
+    {
+      "check": "ADC evaluated card hash",
+      "pass": true
+    },
+    {
+      "check": "ADC original hash",
+      "pass": true
+    },
+    {
+      "check": "ADC selected roster",
+      "pass": true
+    },
+    {
+      "check": "CAR no accepted body",
+      "pass": true
+    },
+    {
+      "check": "conferences retain all three wrappers",
+      "pass": true
+    },
+    {
+      "check": "no new biological finding",
+      "pass": true
+    },
+    {
+      "check": "no new outcomes",
+      "pass": true
+    },
+    {
+      "check": "pending blocks promotion",
+      "pass": true
+    },
+    {
+      "check": "all JSON parses",
+      "pass": true
+    }
+  ],
+  "count": 42,
+  "failures": 0,
+  "scope": "Offline exact source/units/reuse checks only; no gene quantities, recomputation or network."
+}
