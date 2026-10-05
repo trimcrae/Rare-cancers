@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-05",
+  "recorded_at": "2026-10-05T18:46:02.962393+00:00",
+  "first_comparison_sha256": "8c2750594f0050b6112decd921d30a4e210cd590842398530bad3f7b9aa36ce0",
+  "first_literal_unit_failures": 76,
+  "actual_numeric_failures": 0,
+  "semantic_resolutions": [
+    {
+      "conditions": 64,
+      "source": "GSE4303",
+      "expected_literal": "log2 tumor/reference ratio",
+      "owner_literal": "log2 tumor/reference",
+      "resolution": "Same ratio measurement; original VALUE definition and all channel1/2/reference fields in frozen ARRAY-CONDITION-ROSTERS establish log2 ratio. Owner shortened unit label does not alter measurement or allow pooling references."
+    },
+    {
+      "conditions": 12,
+      "source": "TempO_published",
+      "expected_literal": "Log2CPM",
+      "owner_literal": "published Log2CPM",
+      "resolution": "Same released Log2CPM measurement with provenance qualifier; source worksheet/title fixed. No rederived counts/TPM or normalization change."
+    }
+  ],
+  "scope": "String aliases only; no source cells, statistical implementation, thresholds, selection, estimands or results altered; first comparison preserved."
+}
