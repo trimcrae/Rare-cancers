@@ -1,0 +1,108 @@
+{
+  "utc": "2026-10-05T00:58:03.577991+00:00",
+  "question": "Prospectively frozen lipid-redox/ferroptosis mechanism; these reused viability observations are not mechanism measurements.",
+  "NCC_model": "NCC-EMC1-C1",
+  "NCC_conditions": [
+    {
+      "cas": "5451-09-2",
+      "drug": "5-Aminolevulinic acid HCl",
+      "viability_percent": 137.1628574695412,
+      "sd_percentage_points": 24.006199738289773,
+      "sheet": "Sheet1",
+      "source_row": 5,
+      "source": "Iwata2025-s5.xlsx"
+    },
+    {
+      "cas": "1327-53-3",
+      "drug": "Arsenic (III) oxide",
+      "viability_percent": 75.69587196435239,
+      "sd_percentage_points": 33.967523121542314,
+      "sheet": "Sheet1",
+      "source_row": 16,
+      "source": "Iwata2025-s5.xlsx"
+    },
+    {
+      "cas": "71963-77-4",
+      "drug": "Artemether",
+      "viability_percent": 69.27064144423409,
+      "sd_percentage_points": 8.151131325194116,
+      "sheet": "Sheet1",
+      "source_row": 17,
+      "source": "Iwata2025-s5.xlsx"
+    },
+    {
+      "cas": "18080-67-6",
+      "drug": "Conoidin A",
+      "viability_percent": 92.64310930671328,
+      "sd_percentage_points": 4.218547226385094,
+      "sheet": "Sheet1",
+      "source_row": 50,
+      "source": "Iwata2025-s5.xlsx"
+    },
+    {
+      "cas": "5608-24-2",
+      "drug": "PRIMA-1",
+      "viability_percent": 78.06994616101932,
+      "sd_percentage_points": 19.15695255618169,
+      "sheet": "Sheet1",
+      "source_row": 166,
+      "source": "Iwata2025-s5.xlsx"
+    },
+    {
+      "cas": "284461-73-0",
+      "drug": "Sorafenib",
+      "viability_percent": 28.415271232270076,
+      "sd_percentage_points": 13.11219440928355,
+      "sheet": "Sheet1",
+      "source_row": 188,
+      "source": "Iwata2025-s5.xlsx"
+    },
+    {
+      "cas": "475207-59-1",
+      "drug": "Sorafenib Tosylate",
+      "viability_percent": 70.30731899432112,
+      "sd_percentage_points": 20.164394699731904,
+      "sheet": "Sheet1",
+      "source_row": 189,
+      "source": "Iwata2025-s5.xlsx"
+    }
+  ],
+  "USZ_condition": [
+    {
+      "model": "USZ20-EMC1",
+      "drug": "Sorafenib",
+      "source_panel": "B",
+      "category": "none",
+      "literal_legend_range": ">71% cell viability"
+    }
+  ],
+  "NCC_screen_limit": "24response-panel labels reconciled and fullmainFig4caption acquired; completeprimaryscreeningmethods/rawreplicates notacquired",
+  "NCC_IC50_units": "IC50(nM) confirmed from fullprimaryS6header; screening% literalnormalizedvalues unclipped",
+  "USZ_screen_context": {
+    "model": "USZ20-EMC1",
+    "independent_patient_models_screened": 1,
+    "rows": 40,
+    "author_panel_groups": {
+      "A": "17 chemotherapies",
+      "B": "23 targeted agents"
+    },
+    "passage_disagreement": {
+      "Methods": 5,
+      "Results": 6
+    },
+    "format": "384-well ULA,800 cells,50\u00b5l,sarco-spheres",
+    "exposure": "6 days",
+    "reported_dose_design": "3-log,6-dose curves; library concentrations33pmol/l to200\u00b5mol/l",
+    "readout": "whole-well ATP,CellTiter-Glo2.0,vehicle normalization; maximalDMSO0.2%",
+    "summary_source": "Figure5 ordinal sensitivity colors; continuous per-drugAUC/IC50 and raw replicate matrix not released in the acquired primary/supplements"
+  },
+  "source_cautions": [
+    "All40 BangerterCAS identifiers unreported; no drug-form identity imputed from IwataCAS. Exact matches are literal labels only.",
+    "Case/parenthetical and formulation candidates are diagnostic lists, not primary harmonized joins; all returned source rows retained.",
+    "Bangerter ordinal colors are not raw viability/AUC/IC50 values; source interval gaps are not repaired.",
+    "Iwata screen dose/exposure/replicate normalization remain unverified;24IC50 rows are selected endpoints. No cross-assay pooled potency, response correlation or concordance threshold is computed.",
+    "No fusion-partner causality, target-dependence, clinical efficacy or novel rediscovery of the original author leads."
+  ],
+  "interpretation": "Unclipped normalized viability and sourceSD; no patient-level pooling, salt equivalence, drug-resistance, ferroptosis, GPX4 dependence, clinical effect or independent replication inferred. Sorafenib viability discordance does not establish a shared mechanism.",
+  "selection_disclosure": "The seven NCC redox-adjacent compound labels and one USZ sorafenib row were descriptively selected after reading the complete rosters, based on compound labels rather than positive values. They are not prospective mechanistic endpoints or a new hit-ranking; the original frozen GPX4/xCT question and failure rule remain unchanged."
+}
