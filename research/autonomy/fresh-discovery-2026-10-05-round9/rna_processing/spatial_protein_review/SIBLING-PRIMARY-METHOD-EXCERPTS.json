@@ -1,0 +1,30 @@
+{
+  "source": {
+    "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/spatial_protein_review/raw/PMC12419029.xml",
+    "bytes": 144623,
+    "sha256": "629336c5b953132e70233b976902d254a9c46e71e88f371d1fc0c5fa181ba44a"
+  },
+  "methods": [
+    {
+      "section": "Clinical Workflow and Validation",
+      "text": "ImmunoProfile was validated within a clinical laboratory improvement amendments (CLIA)-certified pathology laboratory (Fig 1A, Data Supplement, Figs S1 and S2, Supplementary Methods and Materials). The assay was performed prospectively on all cases, upon request by clinical oncologists, on all consented patients (DFCI protocols 11-104, 17-000; 22-176), using available clinical materials. An H&E slide from the best tumor block was reviewed to ensure a minimum of 100 tumor cells. An additional slide was used for automated mIF staining with a Leica BOND Rx and imaged on an Akoya Polaris at 200\u00d7.30,33,34 At least three and at most six regions of interest (ROIs) were selected per WSI using Inform software on the basis of predetermined metrics. Technicians trained a random forest\u2013based ML algorithm in Inform using representative cells and used the algorithm to quantify defined cell types. Custom tools35 were used to calculate cell densities,36,37 and PD-L1 tumor proportion score (TPS) and combined proportion score36,37 (CPS, Data Supplement). An expert pathologist signed out each case."
+    },
+    {
+      "section": "Figure1 caption workflow text only, no image",
+      "text": "(A) Schematic outlining the ImmunoProfile workflow in the CLIA-certified laboratory. Consented patients and their diagnostic pathology material were first identified. Slides were cut to generate an H&E-stained slide, which a pathologist reviewed and confirmed to contain diagnostic material. An additional slide was stained on an autostainer and scanned, and a multiplex digital image of the stained tissue was generated. Technicians digitally annotated the images, including selecting ROIs and demarcating the tumor border under pathologists' review and approval. This was followed by algorithmic training to identify positive and negative staining cells for each biomarker and automated quantitative scoring using image analysis software. A pathologist approved and signed out the image analysis results and the final scores. Results were reported to a clinically accessible database. Images and image analysis results were retained in a HIPAA-compliant data warehouse. Further details are provided in Supplementary Methods."
+    }
+  ],
+  "data_sharing": [
+    {
+      "section": "DATA SHARING STATEMENT",
+      "text": "A data sharing statement provided by the authors is available with this article at DOI https://doi.org/10.1200/PO-25-00240."
+    },
+    {
+      "section": "Data Availability Statement",
+      "text": "A data sharing statement provided by the authors is available with this article at DOI https://doi.org/10.1200/PO-25-00240."
+    }
+  ],
+  "explicit_EMC_alias_paragraphs": [],
+  "interpretation": "No explicit alias paragraph is not an absence proof; rare-type/source-condition roster remains unresolved. Supporting-data tag or data-sharing DOI pointer is not a public numerical matrix. No sibling/new source donor independence inferred.",
+  "not_analyzed": "Images, immune count/case outcome tables, other Results paragraphs, numerical spatial coordinates and FAP/HLA fields."
+}

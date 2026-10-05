@@ -1,0 +1,38 @@
+[
+  {
+    "name": "figshare_exact_doi",
+    "url": "https://api.figshare.com/v2/articles/search",
+    "utc": "2026-10-05T12:04:40.720138+00:00",
+    "method": "POST",
+    "request_json": {
+      "search_for": "10.1016/j.xcrm.2025.102418"
+    },
+    "http": 200,
+    "content_type": "application/json",
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "path": "raw/figshare_exact_doi.json"
+  },
+  {
+    "name": "dryad_exact_doi",
+    "url": "https://datadryad.org/api/v2/search?q=10.1016%2Fj.xcrm.2025.102418",
+    "utc": "2026-10-05T12:04:41.555149+00:00",
+    "method": "GET",
+    "http": 200,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 271,
+    "sha256": "6fb33a4ba4f2118cbe94c46f3895614b458afd51b26386813b9de0de3f7e7921",
+    "path": "raw/dryad_exact_doi.json"
+  },
+  {
+    "name": "epmc_parent_citation20",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Immunoprofiling+at+an+Institutional+Scale+Reveals+That+High+Numbers+of+Intratumoral+CD8%22&format=json&resultType=core&pageSize=10",
+    "utc": "2026-10-05T12:04:41.924490+00:00",
+    "method": "GET",
+    "http": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "bytes": 21933,
+    "sha256": "692460995f0b2638c8f0bb61569c271dc51868e9c32771d186ec5a0d50b4bcc7",
+    "path": "raw/epmc_parent_citation20.json"
+  }
+]

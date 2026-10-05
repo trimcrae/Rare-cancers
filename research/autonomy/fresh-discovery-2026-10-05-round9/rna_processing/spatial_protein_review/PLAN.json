@@ -1,0 +1,50 @@
+{
+  "schema": "independent-spatial-protein-before-values-review/1",
+  "utc": "2026-10-05T12:03:25.595042+00:00",
+  "start_utc": "2026-10-05T12:01:39Z",
+  "finish_by_utc": "2026-10-05T12:21:39Z",
+  "owner": "/root/single_cell",
+  "writer_path": "research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/spatial_protein_review",
+  "primary": {
+    "pmid": "41092903",
+    "doi": "10.1016/j.xcrm.2025.102418",
+    "title": "Pan-cancer spatial characterization of key immune biomarkers in the tumor microenvironment"
+  },
+  "question": "Does this source authenticate public EMC specimens and cell-resolved protein coordinates with independently annotated tumor/stromal compartments that could test EMC-specific T-cell exclusion beyond published EMC immune-cold and macrophage findings?",
+  "before_values": "No per-case immune counts, cell coordinate values, outcomes, images or spatial plots inspected. Review source methods, histology/condition rosters, public file metadata and prior-art scope only.",
+  "conditional_contrast": {
+    "population": "All source-authenticated EMC donors, every measured core/region/condition. Generic sarcoma/chondrosarcoma is not EMC. Multiple cores or cells are not donors.",
+    "endpoint": "T-cell occupancy/density in independently defined tumor versus stromal compartments, with area and total T-cell availability retained. Global low T-cell count alone does not measure exclusion. A distance/nest endpoint requires source-validated tumor-cell identity/segmentation; marker intensities/graphics cannot create compartments.",
+    "comparators": "All eligible non-EMC adult soft-tissue sarcoma source histologies on the same staining, imaging, segmentation and core sampling protocol; preserve every available core/condition. If no assay-matched sarcoma controls, no EMC-specific contrast. Broad carcinoma controls are descriptive context only. Comparator eligibility frozen by source identity/assay, never immune values.",
+    "independence": "Donor-level inference; core/region/library nested technical conditions. Cross-study donor overlap and repeat resections unresolved until sourcebound."
+  },
+  "prior_art_to_reuse": "Published EMC CD47/macrophage prevalence, conventional T-cell paucity and unsupported B-cell prognosis; R1/R3/R8 eligibility and TLS reviews. Novelty must be actual compartment-dependent measured T-cell localization, not immune-cold repetition or pan-cancer platform size.",
+  "strongest_alternatives": [
+    "TMA core selection/limited tumor-stroma boundary coverage and resection compartment mix",
+    "Total T-cell rarity can yield apparent low intratumoral count without exclusion",
+    "Marker threshold, tumor segmentation, area normalization, staining/imaging batch and fixation",
+    "Histologic ECM/morphology/grade/site/sex/therapy and unmatched carcinoma comparators",
+    "Donor overlap or repeated cores falsely treated as independent"
+  ],
+  "defeat_stop": [
+    "No authentic EMC donor-condition identity or unavailable source roster stops this source route, not EMC biology.",
+    "No public numeric cell coordinates/counts plus independently validated tumor compartments leaves spatial inference pending or measurement-unsuitable.",
+    "Same contrast already reported or merely recapitulates global immune-cold/TAM prevalence offers no useful new EMC contribution.",
+    "Insufficient source-matched sarcoma controls, tiny independent donor count, incomplete relevant EMC conditions, or unresolved total-density/area/sampling confounding blocks a standalone paper."
+  ],
+  "usefulness": "A reproducible contrast distinguishing paucity from exclusion could choose a discriminating cell-localization follow-up; no immune mechanism, response, causal or treatment claim follows.",
+  "scope": "20-minute independent source/prior-art/value challenge, not cell-count analysis or unrelated dataset search. Reuse owner caches; independent catalog linkage only if nonduplicative and ordinary public.",
+  "restrictions": [
+    "Quiet APIs/files/PDF text only; NY06-10 UI ban active until14UTC; no graphics/screenshots/browser/headless",
+    "No FAP/HLA field analysis; no interrupted FAP-tissue/glycan/HLA-review/structural-genomic scope reopening",
+    "No spend/GPU/private access/outreach/publication/manuscript/PR/shared mutation/push",
+    "No raw count matrices/images/large bundles; originals cache-only, compact evidence committed; all prior freezes unchanged"
+  ],
+  "storage": {
+    "new_raw_soft_cap_bytes": 67108864,
+    "minimum_free_bytes": 10737418240,
+    "observed_free_bytes": 27219312640,
+    "prior_R9_owned_raw_bytes": 7115940
+  },
+  "scientific_status": "Prospective review only; no finding, no outcomes inspected. Suitable pending evidence blocks promotion."
+}
