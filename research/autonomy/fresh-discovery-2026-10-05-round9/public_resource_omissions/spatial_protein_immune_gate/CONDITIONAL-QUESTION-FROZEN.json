@@ -1,0 +1,28 @@
+{
+  "schema": "conditional-spatial-protein-immune-question-prevalue/1",
+  "utc": "2026-10-05T12:09:31.784706+00:00",
+  "source_candidate": "PMID41092903 DOI10.1016/j.xcrm.2025.102418 and linked author-preprint10.1101/2025.03.05.641733; sibling methodology DOI10.1200/PO-25-00240 not independent replication by assumption",
+  "claim_to_test": "If all source-authenticated EMC specimens are identifiable in a public count/compartment matrix, is their measured intratumoral versus stromal CD8-positive immune-cell occupancy distinct from globally sparse CD8-positive cells, compared with all assay-matched adult soft-tissue-sarcoma histologies present in that source?",
+  "fixed_assay_scope": "CD8-positive author-classified immune cells only. Preserve source assay/cell-identity validation; CD8 staining alone does not automatically identify all T cells or exclude other CD8-expressing cells. No FOXP3/PD1 functional-state rescue or post-hoc marker expansion; no FAP/HLA fields.",
+  "primary_measurement": "Separate per-donor tumor and stromal CD8-positive cell counts and source-measured compartment areas, all ROIs/specimen conditions retained; density and tumor/stroma relation evaluated without treating ROI/cell as independent donor. Total-cell fractions may be descriptive contrary checks but cannot replace area-normalized occupancy. No area from images, digitization or cell-coordinate bounding boxes.",
+  "fixed_comparators": "All explicitly adult soft-tissue-sarcoma histologies with compatible assay/metadata. Preserve per-histology/site/treatment conditions; source NOS sarcoma can be limited comparator context but not EMC or a specific named histology. No epithelial-only pan-cancer control pool as evidence of EMC specificity. Matched benign/normal context retained if truly measured.",
+  "prior_art": "Dancsok conventional TAM/TIL, Omori qualitative case, selected two-case PeerJIF and prior sarcoma/pan-cancer spatial patterns reused. New contribution must be a discriminating actual EMC compartment-specific measurement beyond authors already reported platform/archetype findings, not first immune signal or conventional marker restatement.",
+  "strongest_alternatives": [
+    "Globally low immune-cell density rather than compartment exclusion",
+    "Selected clinical ROIs, partial cores/biopsies, sampling-site and area differences",
+    "Compartment annotation and tumor-cell classifier trained in other histologies",
+    "Cell type/marker overlap or segmentation error; tissue/preservation/batch effects",
+    "Repeated donor/specimen/ROI pseudoreplication and treatment-state differences",
+    "Shared myxoid/sarcoma tissue architecture rather than EMC-specific biology"
+  ],
+  "defeat": [
+    "No authenticated individual EMC pathology/molecular/assay crosswalk",
+    "No actual public cell/count/compartment/area data with all EMC conditions and interpretable controls",
+    "Required cell identity or tumor/stroma boundary validation unsupported for EMC",
+    "Source authors already report same EMC comparative pattern",
+    "Unknown donor/conditions or sparse/sampled observations defeat useful general comparison",
+    "Suitable accessible source/contrary evidence pending blocks promotion"
+  ],
+  "useful_addition": "A validated measured compartment-specific CD8 pattern might justify a bounded tissue assay for spatial access versus abundance. It does not prove immunosuppression, exhaustion, immune exclusion mechanism or treatment benefit.",
+  "current_state": "Conditional prospective question frozen before any numerical source EMC count values. Source identity and public matrix are unresolved; no analysis stage authorized or effect estimated. Source inventory alone is not a finding."
+}
