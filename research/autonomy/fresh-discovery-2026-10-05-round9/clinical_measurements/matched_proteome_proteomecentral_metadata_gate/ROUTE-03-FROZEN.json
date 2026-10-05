@@ -1,0 +1,15 @@
+{
+  "frozen_at_utc": "2026-10-05T20:38:28.819339+00:00",
+  "source_script_sha256": "b637719e1e8498837d13fecce6bd853362aa758c2d21564e493fbc60d9bbd8f9",
+  "direct_declaration": "fetch(./proxi_config.json); _api[datasets] = config.API_URL + datasets",
+  "route": {
+    "url": "https://proteomecentral.proteomexchange.org/proxi_config.json",
+    "purpose": "Third/final publicbrowser-declared metadataAPI documentation: ONLYliteralAPI_URL key, no credential/configurationfields or catalogue/requestvalues",
+    "cap": 131072,
+    "timeout": 10
+  },
+  "safe_mask": [
+    "API_URL only"
+  ],
+  "limits": "No token/secret/credentialinspection. Remainingmetadataquery pending after thisthirdcall; no automaticbackendrequest."
+}

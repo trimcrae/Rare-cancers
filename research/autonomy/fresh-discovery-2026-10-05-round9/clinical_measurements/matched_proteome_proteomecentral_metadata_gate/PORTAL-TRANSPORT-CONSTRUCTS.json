@@ -1,0 +1,28 @@
+{
+  "source_route_transport_lines": [
+    "_px_settings['ordered_facets'] = { 'datasets' : ['search','species','year','instrument','keywords','sdrf','files','repository'],",
+    "fetch(\"./proxi_config.json\")",
+    ".then(response => response.json())",
+    "_api['datasets'] = config.API_URL +\"datasets\";",
+    "fetch(apiurl)",
+    "try   { return response.json(); }",
+    "catch { throw new Error('Unable to fetch item data '+apiurl); }",
+    "PXdataset_details(data,apiurl,false);",
+    "text.append(\" to request that the dataset be associated with the article and released.\");",
+    "text.append(\"Please contact \"+pxpartner+\" to request that the dataset be associated with the article and released.\");",
+    "fetch(apiurl)",
+    "if (response.ok) return response.json();",
+    "else throw new Error('Unable to fetch data '+apiurl);",
+    "var url = _api.datasets + '?src=PCUIdownload&outputFormat=' + format;",
+    "function PXdataset_details(itemdata,src_url=null,preview=false) {",
+    "'Full Dataset File List' : [",
+    "'||{datasetFiles}'",
+    "if (head == 'Full Dataset File List') {",
+    "tr.dataset.filetype = arrit['name'];",
+    "if (head == 'Full Dataset File List') {",
+    "ele.append(\" (\"+itemdata['datasetFiles'].length+\" files)\");",
+    "span.append(\"View all (\"+itemdata['datasetFiles'].length+\")\");",
+    "'datasetFiles' : ["
+  ],
+  "scope": "Only implementation route/transport constructs; no generatedprojectvalueobjects read."
+}
