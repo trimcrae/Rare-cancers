@@ -1,0 +1,54 @@
+{
+  "bindings": [
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets/PRIOR-ART-AND-COMPARTMENT.json",
+      "sha256": "f19cd6774499a08110d011e086005c994a20a8ebe572a2c1bf9e22b8e8762d09"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/adc_review/PRIMARY-OMISSION-REVIEW.json",
+      "sha256": "34e25a030b8880fdf3a6792879f7c44516a2bdc260819e29e01f6bb4de10bf25"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/adc_review/BREAST-ELIGIBILITY-AMENDMENT-01.json",
+      "sha256": "17a61deb71fea9698292cc2a9a1f613f607e441d63418b02c1c6fc44b527a7d0"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/discovery-2026-10-03/ROUND2-SOURCE-AUDIT.txt",
+      "sha256": "77c0adc973197388df022d92809cc099642602c401db320ff4c1229ba1f162f5"
+    }
+  ],
+  "known_conditions": [
+    {
+      "target": "FOLR1",
+      "source": "Davis2017DOI10.18632/oncotarget.15568",
+      "conditions": "Sixmale metastaticEMC clinicaldonors/fiveRNAQC passing/twoRNAoutliers, freshmetastaticbiopsy5+archivedsample1",
+      "scope": "Published folate-targeting suggestion/outlierRNA is priorart; oneRNAQCfailure notnegative; no surfaceprotein/ADCbenefit inferred"
+    },
+    {
+      "target": "ERBB2",
+      "source": "T-DXdPhaseIPMID32213540PMC8292921",
+      "conditions": "Oneauthor-labelledEMC enrollee amongbroaderHER2expressing/mutant cohort",
+      "scope": "Individual centralIHC/genotype/treatment/responsecrosswalk unresolved in reusedgate; preserveactual enrolment, no aggregateEMCbenefit orabsence"
+    },
+    {
+      "target": "ERBB2",
+      "source": "BreastauthorEMCreview andoriginals",
+      "conditions": "21reviewrows not21measurements; originalBhosalemetaplasticcarcinomaexcluded; Militello/indexnegativeHER2withcanonicalNR4A3authentication gaps",
+      "scope": "No authenticatedEMCnegativeprotein denominator"
+    },
+    {
+      "target": "LRRC15",
+      "source": "PMC7140027 citedby2026-10-03sourceaudit",
+      "conditions": "Other48 broadsourcecases without identifiableEMC crosswalk in verifiedpriorgate",
+      "scope": "Identitypending, notabsence ororiginalwholepaperre-reviewed; no newGET"
+    },
+    {
+      "target": "CD276/GPNMB/LRRC15 and otherclinicalagents",
+      "source": "Currentownerclinicalrationale sourcegate",
+      "conditions": "Clinical development/approvedtarget status mustbe authenticated separately from nativeEMC trialexposure",
+      "scope": "No newagentproperties orEMCenrolment claimed here; no numericalsource analysis. Primary clinical rationale alone doesnot change oldRNAcontrast."
+    }
+  ],
+  "RNA_only_claim": "A defensible newRNA-onlycontrast mayjustify localizationtesting withoutpriorproteinproof. Existing high/lowRNA ordrugdevelopment cannotestablish surfaceavailability/dependency/drugresponse. Compartment andnormal-window uncertaintyremain explicit.",
+  "pending": "Relevant suitable primaryantigen/localization/EMCclinical assays remainuninspected/unlinked where recorded; notglobal proteinabsence orsourceexhaustion."
+}

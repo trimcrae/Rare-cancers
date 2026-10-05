@@ -1,0 +1,100 @@
+{
+  "utc": "2026-10-05T17:09:55.456674+00:00",
+  "literal_TSV_source": {
+    "path": "/workspace/Rare-cancers/research/autonomy/discovery-2026-10-03/round2-surface-discovery.tsv",
+    "sha256": "4a1ab07eff5aa9ae3746ec432bad525e77cd478db2156adf6346d49218487dc8"
+  },
+  "allowed_fields_only": [
+    "gene",
+    "allocated"
+  ],
+  "observations": [
+    {
+      "gene": "ERBB2",
+      "allocated": "False"
+    },
+    {
+      "gene": "FOLR1",
+      "allocated": "False"
+    },
+    {
+      "gene": "GPNMB",
+      "allocated": "False"
+    },
+    {
+      "gene": "LRRC15",
+      "allocated": "False"
+    },
+    {
+      "gene": "NECTIN4",
+      "allocated": "False"
+    }
+  ],
+  "not_in_this_TSV": "TACSTD2 andCD276 no exactrow observed here; do not infer missing RNA or notpreviouslytested. Their separate explicitfrozen results establish exposure.",
+  "all_seven_prior_exposed": true,
+  "exact_known_groups": [
+    {
+      "genes": [
+        "ERBB2",
+        "TACSTD2",
+        "NECTIN4",
+        "FOLR1"
+      ],
+      "evidence": "R8fixedFDA-ADCpanel across allretained tissue/array/3SEQ/culturecontexts; frozenrulefailed for allfour",
+      "new_result": false
+    },
+    {
+      "genes": [
+        "CD276"
+      ],
+      "evidence": "Original fixedaddress panelHofvander/GSE24369; knownLGFMSdirectionnon-enrichment inboth; no newvalues calculated",
+      "new_result": false
+    },
+    {
+      "genes": [
+        "GPNMB",
+        "LRRC15"
+      ],
+      "evidence": "Earlier broadsurfaceRNAallocation on exactsameprimaryHofvander/myxoidcomparators; bothallocated=False; numericalfields masked",
+      "new_result": false
+    }
+  ],
+  "old_screen_question": "Unreported membrane-associated consistent EMC-high tissueRNA vsMLPS/LGFMS/SS then separately arrays, to justify localization; broadUniProtuniverse/IUT/BH andyearmatched constraints. Newdrug rationale alone does not change that alreadyanswered comparison.",
+  "new_numerical_fields_read": 0,
+  "no_gene_absence_or_therapy_inference": true,
+  "bindings": [
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/discovery-2026-10-03/ROUND2-DISCOVERY-PLAN-FROZEN.txt",
+      "sha256": "a18e1ec9168295e996ccecf7e595f6c79a909db758f3b1ea7ea30ffd2b0a95b9"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets/PLAN-FROZEN.json",
+      "sha256": "c00a4970c111998d62342194aff062513b38041cb92eecf523439d585782bbaf"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets/DECISION.json",
+      "sha256": "714b6b4c200c8337c46d56c2e1e604f7f90690ae5715be0ab2919384f6fd44c7"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets/SCIENCE-FREEZE.json",
+      "sha256": "7c476a8ac912b9d8a5454d7af982a154344748c1707568b7c28c897158acef65"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets/COVERAGE-ERRATUM-01.json",
+      "sha256": "7b1b5eb4a19879a564eb5ccc281a517cd125cbc9f9d927f8460312b76293bbb8"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/atlas-hofvander-validation-2026-09-06/protocol.md",
+      "sha256": "6baa7aea44c1f170553ec6d8650d2015c794b50180fedd43cbdd10693e779eee"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD276.json",
+      "sha256": "603c35d1714c979243b98af126b0b7d68ae1acbe3152dd89b3f1bf99800fcd25"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD276.json",
+      "sha256": "395082ac5d928d275081d03a7b1694f18881412e28e776f1ec7df60d5faeb59f"
+    }
+  ],
+  "old_array_followthrough_limit": "Only allocated oldscreen hits progressed to the six-specimen array stage. GPNMB/LRRC15 oldFalse does not prove their six-array/ten-array/FFPE/culture target projections completed, nor a new seven-gene family failure."
+}

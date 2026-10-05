@@ -1,0 +1,70 @@
+{
+  "utc": "2026-10-05T17:20:27.914443+00:00",
+  "owner_plan": {
+    "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/clinical_adc_rna_prior_value_gate/PLAN-FROZEN.json",
+    "sha256": "a5748970e7d04c13328b617f20c4c07f215758c2e242495189854099585e599b"
+  },
+  "owner_queries": {
+    "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/clinical_adc_rna_prior_value_gate/CLINICAL-SOURCE-QUERY-RECEIPTS.json",
+    "sha256": "23b4dfa51002963c1b63741fa152fac4739b377763255d43cf029f68ca9272c9"
+  },
+  "evaluated_records": [
+    {
+      "gene": "CD276",
+      "source_path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/clinical_adc_rna_prior_value_gate/raw-cache/CD276-clinical-core.json",
+      "bytes": 89074,
+      "sha256": "a7e8cfce962331af43e16cc3c85783aab89980a638e9a893a208f2f0ce544723",
+      "metadata_hit_count": 15,
+      "returned": 10,
+      "selected_primary": {
+        "id": "41926962",
+        "pmcid": null,
+        "doi": "10.1016/s1470-2045(25)00733-8",
+        "title": "Ifinatamab deruxtecan, a B7-H3-directed antibody-drug conjugate, in patients with advanced solid tumours (IDeate-PanTumor01): dose-escalation results from a phase 1/2 trial.",
+        "pubYear": "2026"
+      },
+      "allowed_mask": "Primarycitation/title/drugtarget/trialtypeonly; noabstract orendpoint fields inspected",
+      "remaining": "Broaderprimary participant/histology/nativeEMC/individualassay/conditionmapping notestablished bymetadata. Unreturned/unassessedsources pending, notabsence."
+    },
+    {
+      "gene": "GPNMB",
+      "source_path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/clinical_adc_rna_prior_value_gate/raw-cache/GPNMB-clinical-core.json",
+      "bytes": 43663,
+      "sha256": "875358c28eff90a547a03f85d106dad4b95b609d2aebbde50eca991b9735048d",
+      "metadata_hit_count": 2,
+      "returned": 2,
+      "selected_primary": {
+        "id": "34016993",
+        "pmcid": "PMC8137923",
+        "doi": "10.1038/s41523-021-00244-6",
+        "title": "Glembatumumab vedotin for patients with metastatic, gpNMB overexpressing, triple-negative breast cancer (\"METRIC\"): a randomized multicenter study.",
+        "pubYear": "2021"
+      },
+      "allowed_mask": "Primarycitation/title/drugtarget/trialtypeonly; noabstract orendpoint fields inspected",
+      "remaining": "Broaderprimary participant/histology/nativeEMC/individualassay/conditionmapping notestablished bymetadata. Unreturned/unassessedsources pending, notabsence."
+    },
+    {
+      "gene": "LRRC15",
+      "source_path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/clinical_adc_rna_prior_value_gate/raw-cache/LRRC15-clinical-core.json",
+      "bytes": 56880,
+      "sha256": "91fe128480d80761bb0b55fd9a93795ecacfaedfbc2576aa1291df274316482c",
+      "metadata_hit_count": 6,
+      "returned": 6,
+      "selected_primary": {
+        "id": "33820780",
+        "pmcid": null,
+        "doi": "10.1158/1078-0432.ccr-20-4513",
+        "title": "First-in-Human Phase I Study of ABBV-085, an Antibody-Drug Conjugate Targeting LRRC15, in Sarcomas and Other Advanced Solid Tumors.",
+        "pubYear": "2021"
+      },
+      "allowed_mask": "Primarycitation/title/drugtarget/trialtypeonly; noabstract orendpoint fields inspected",
+      "remaining": "Broaderprimary participant/histology/nativeEMC/individualassay/conditionmapping notestablished bymetadata. Unreturned/unassessedsources pending, notabsence."
+    }
+  ],
+  "selected_primary3verified": true,
+  "allrawhashesmatchownerreceipts": true,
+  "drugtarget_rationale": "Realclinicaldevelopment metadata supports CD276/B7-H3 ifinatamabderuxtecan, GPNMB/gpNMB glembatumumabvedotin and LRRC15 ABBV-085. Firstfour approvedADCbindingsreused fromR8. This is humanclinical rationale, notEMCenrolment,protein/RNAevidence orRNAvalueverdict.",
+  "new_calls": 0,
+  "copied_originals": 0,
+  "new_numeric_stage": false
+}
