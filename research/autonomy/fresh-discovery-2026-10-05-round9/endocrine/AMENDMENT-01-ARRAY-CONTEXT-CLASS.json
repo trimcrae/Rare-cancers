@@ -1,0 +1,6 @@
+{
+  "utc": "2026-10-05T10:47:45.257511+00:00",
+  "type": "source-eligibility implementation correction before reading numerical outputs",
+  "frozen_hypothesis_unchanged": true,
+  "correction": "Original array has no source malignant-class field. Initial code defaulted all42 rows to Malignant; this incorrectly included desmoid and pooled muscle in broad malignant context. Explicit disease-based classification keeps sixEMC/seventeenLGFMS/sixMFS malignant, leaves five unstratifiedSFT as intermediate/malignant-potential context rather than proven malignant, and excludes sixdesmoid/twopooledmuscle from malignant score. Fixed primary controls/EMC genes/tests unchanged. Initial results preserved ignored; final rerun corrects metadata-only bug. No numerical outcome read to select correction."
+}

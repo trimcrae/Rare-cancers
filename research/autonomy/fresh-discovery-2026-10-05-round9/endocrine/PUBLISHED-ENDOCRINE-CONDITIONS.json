@@ -1,0 +1,61 @@
+{
+  "utc": "2026-10-05T11:00:02.767105+00:00",
+  "cases": [
+    {
+      "source": "vulvar2021.xml",
+      "cache_sha256": "7a2542f74e6f76a690677e04d5438dcbfa67e3c8d8f898c8a87a6d66ed8dda2a",
+      "identity": "63F EWSR1 and NR4A3 FISH; source reports ESWR1-NR4A3 fusion (printed spelling retained)",
+      "status": "evaluated",
+      "condition": "Published excisional tumor IHC",
+      "measurement": "Tumor estrogen receptor IHC negative; PGR/ESR2 staining not assigned from differential-diagnosis discussion.",
+      "selected_exact_passages": [
+        "Tumor cells were negative for cytokeratin, epithelial membrane antigen (EMA), smooth muscle actin (SMA), desmin, caldesmon, estrogen receptor, and S100. INI1 (SMARCB1) expression was retained.  EWSR1  FISH was performed and was positive for  EWSR1  rearrangement, consistent with a diagnosis of extraskeletal myxoid chondrosarcoma ( Figure 2A ). However, because  EWSR1  rearrangement can also be seen in a number of soft tissue sarcomas, 7  confirmatory  NR4A3  FISH was performed. Positive  NR4A3  gene rearrangement by FISH was further supportive of extraskeletal myxoid chondrosarcoma ( Figure 2B ). Also, molecular biomarker findings at Foundation-One-Heme (Cambridge, MA, USA) included ESWR1-NR4A3 fusion and stable microsatellite status.",
+        "Aggressive angiomyxoma is another entity that can be confused with EMC of the vulva, due to its prominent vasculature and hypocellular stroma on microscopy, as well as its much more frequent occurrence in the perineum. Aggressive angiomyxoma often presents as a large vulvar mass with a gross appearance that is ill-defined and edematous. Morphologically, the tumor consists of hypocellular stroma without atypical cells or mitotic activity, admixed with medium- to large-sized vessels with dilated lumina and occasional adventitial thickening. The tumor is often large and deep-seated with infiltrative borders, compared to its more superficial counterpart, superficial angiomyxoma, which is frequently exophytic and well-circumscribed. The cells of aggressive angiomyxoma are immunoreactive to desmin, smooth muscle actin (about half), CD34 (about half), and estrogen and progesterone receptors. 10  While aggressive angiomyxoma entered our differential, our lesion was more cellular and had smaller vessels rather than the large- to medium-sized vessels frequently described. 10  Furthermore, while angiomyxomas often show an edematous stroma, diffuse myxoid stroma, as seen in this case, is not typical. In addition, our lesion was immunophenotypically inconsistent given the negative staining for desmin, smooth muscle actin, and estrogen receptor."
+      ],
+      "overlap": "Distinct source-case labels; no pool with RNA or PGR donor; no cross-source donor independence assumed."
+    },
+    {
+      "source": "breast2022.xml",
+      "cache_sha256": "d4aa522444870ed1597718fab8f596f252d158e162d006c8d494fa34537c9a29",
+      "identity": "45F author-labelled primary breastEMC/EWSR1-rearranged; no case NR4A3 authentication assumed",
+      "status": "demonstrably unsuitable measurement",
+      "condition": "Published tumor/pathology clinical conditions, no estrogen-response set or matched endocrine assay recovered",
+      "measurement": "No reported ER/PR endocrine-program measurement identified in inspected source; absence of a reported assay is not receptor negativity.",
+      "selected_exact_passages": [],
+      "overlap": "Distinct source-case labels; no pool with RNA or PGR donor; no cross-source donor independence assumed."
+    },
+    {
+      "source": "vulvar2015.xml",
+      "cache_sha256": "ffd4d4195a62e040940c1284b3d37151c33fc4ee99ce36e22b14ef03bb7459db",
+      "identity": "32F author-labelled recurrent vulvarEMC; no new molecular authentication",
+      "status": "demonstrably unsuitable measurement",
+      "condition": "Published tumor/pathology clinical conditions, no estrogen-response set or matched endocrine assay recovered",
+      "measurement": "No reported ER/PR endocrine-program measurement identified in inspected source; absence of a reported assay is not receptor negativity.",
+      "selected_exact_passages": [],
+      "overlap": "Distinct source-case labels; no pool with RNA or PGR donor; no cross-source donor independence assumed."
+    },
+    {
+      "source": "breast_met2015.xml",
+      "cache_sha256": "7b0b620b2f8ca6ad2687ccc9f0a9dde7624f0ba910b8e19bda54649080a7ac43",
+      "identity": "Author-labelled EMC breast metastasis; no receptor condition assigned",
+      "status": "demonstrably unsuitable measurement",
+      "condition": "Published tumor/pathology clinical conditions, no estrogen-response set or matched endocrine assay recovered",
+      "measurement": "No reported ER/PR endocrine-program measurement identified in inspected source; absence of a reported assay is not receptor negativity.",
+      "selected_exact_passages": [],
+      "overlap": "Distinct source-case labels; no pool with RNA or PGR donor; no cross-source donor independence assumed."
+    }
+  ],
+  "additional_sources": [
+    {
+      "source": "PMC6449903 vulvar2019",
+      "status": "unavailable evidence",
+      "attempts": "EuropePMC500; BioC200 error-text6148B, not XML/full primary; all payloads/receipts retained. No receptor-negative inference."
+    },
+    {
+      "source": "PMID18855877 PMC4429309 EWSR1/NR4A3-PPARG2008",
+      "status": "unavailable evidence",
+      "attempts": "EuropePMC500; BioC429. Abstract prior-art molecular source, not an estrogen-response contrast. Source limitation preserved."
+    }
+  ],
+  "limit": "Selected published conditions are not a certificate that every historical endocrine IHC case or case table has been acquired."
+}

@@ -1,0 +1,35 @@
+"""Freeze fixed source-backed tests before reading endocrine expression values."""
+import datetime,hashlib,json,pathlib
+B=pathlib.Path(__file__).parent
+if (B/'ANALYSIS-FREEZE.json').exists():raise SystemExit('Immutable analysis freeze already exists; use a dated additive amendment.')
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def dump(p,d):p.write_text(json.dumps(d,indent=2)+'\n')
+sets={}
+for n in ['early','late']:
+ p=B/'.cache'/('hallmark_'+n+'.json');d=json.loads(p.read_text());k=next(iter(d));v=d[k]
+ assert len(v['geneSymbols'])==200 and len(set(v['geneSymbols']))==200
+ sets[n]={'name':k,'MSigDB_systematic_name':v['systematicName'],'primary_pmid':v['pmid'],'genes':v['geneSymbols'],'source_sha256':sha(p),'source_cache':str(p)}
+dump(B/'FIXED-GENE-SETS.json',sets)
+plan={
+ 'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+ 'source_gate_plan_timestamp_note':'SOURCE-GATE-PLAN utc10:43Z was a draft planning timestamp, not a measured execution receipt. This freeze uses actual UTC and occurs before endocrine values.',
+ 'source_set':'Official MSigDB human Hallmark ESTROGEN_RESPONSE_EARLY200 is primary; LATE200 is a coherence check. Liberzon2015 PMID26771021/PMC4707969 describes phenotype-refined coordinate-expression gene sets and independent validation; not a validated receptor-activity assay in EMC. No progesterone arbitrary marker set substituted.',
+ 'gene_set_file_sha256':sha(B/'FIXED-GENE-SETS.json'),
+ 'claim':'A reproducible coherent multigene estrogen-response-associated bulk-RNA contrast in authentic EMC beyond a single published PGR::NR4A3 donor; no inference of hormone dependence or clinical benefit.',
+ 'use_if_pass':'A replicated contrast surviving lineage, batch, sex and receptor-separate checks would change experiment selection: prioritize measuring endogenous ERalpha/ERbeta/PR protein and acute hormone-responsive transcripts under matched conditions in authenticated EMC, rather than infer antiestrogen treatment from one exceptional fusion case. A high generic score without receptor/compartment specificity is insufficient scientific value.',
+ 'Hofvander_population':'All13 sourceEMC measured/retained. Primary overlap-reduced nine primary EMC from frozen prior metadata; all13 and excluding LR/knownMDB overlaps separately. Source S1 has actual sex:10M,2F,1NA? derive exact counts, no invention; primary source inspection supersedes manifest lack. Years2019–2023 as source metadata.',
+ 'common_comparators':['Low-grade fibromyxoid sarcoma','Myxofibrosarcoma'],
+ 'comparator_selection':'All primary-lesion source-class malignant records in each fixed common histology, exclusions based only metadata known donor overlap/nonprimary specimen. GSE24369 all17LGFMS and6MFS. No desmoid or muscle pooled reference replaces malignant primary controls. Broader context: all source-class malignant primary eligible histologies with equal-histology rather than sample-count weighting; all observed malignant histologies shown with n, no positive-driven selection.',
+ 'assay_mapping':'Hofvander exact source gene symbol only. Array originalGPL6244 symbol field: unambiguous single-gene assignment only, common actually measured probes across42samples, median if multiple probes per gene. No modern annotation absent probe imputation, no zero replacement. Exact current symbols only; missing updated aliases visible. >=80%of each200 set in each assay required for primary interpretation. Late shares genes with early, so late is not independent validation. Additional common-gene-only sensitivity.',
+ 'score':'Within each assay and frozen EMC+LGFMS+MFS population, average gene-wise percentile(rankdata average/(n+1)) of log2(TPM+1) or original RMA log2 intensity across covered fixed genes. Rank scales do not pool platform units. Each gene equal weight; all-zero gene has tied rank. No data-driven gene selection.',
+ 'primary_statistic':'Equal-weight mean of EMC score AUC versus LGFMS and MFS, whereAUC=P(EMC>control)+0.5ties. Each histology mustAUC>0.5, primary mean>=0.70 in both assays; each one-sided source stratified bootstrap95%lower must>0.5. Fixed2000 bootstrap seed20261005, resample specimens within group; donor uncertainty not erased by bootstrap.',
+ 'coherence':'Atleast65% covered early genes show EMC median expression >control median in BOTH fixed histologies in each assay. Late meanAUC>=0.65 and bothhistology>0.5 in each assay. Early/late separate, overlap explicitly counted. ESR1/ESR2/PGR/GREB1 context separately reported but cannot rescue failed whole set.',
+ 'contrary_checks':'All leave-one-EMC-out, remove ESR1/ESR2/PGR/GREB1 if present, common-mapped-gene sensitivity, all13 versus primary9 and knownoverlap/LR strata, sequencing-year and actual sex matched AUC within histology, broad equalhistology malignant context, individually display source-protein positive/negative and allpublished hormone conditions. No one favorable specimen rescues a failed gate.',
+ 'sex_scope':'Primary S1 metadata permit descriptive M/F/year-matched sensitivity; unknownNA retained. GSE24369 publicSOFT lacks sex fields, cannot invent sex. Female subgroup too small for independent sex-response finding. No sex inferred from X/Y expression.',
+ 'defeat':'Any primary effect/coherence/replication gate fails, strong matched/broad-context reversal, one specimen/one receptor dominance or lack of useful specificity blocks promotion. Source hormones/sex/partner/compartment limits can defeat value even with numerical pass. Failed speculative gene-set contrast does not itself merit negative paper.',
+ 'coverage':'All13Hofvander/all6GSE24369 plus relevant public RNA/IHC models/conditions. Additional authentic sources identified pending until evaluated or unsuitable with reason; pending suitable accessible blockspromotion.',
+ 'restrictions':'No UI06–10America/New_York; quietAPI/files only. No FAP/glycan/structuralgenomics/HLA-review bypass. No hormone-response/efficacy/safety claims, model authentication invention, spend/GPU/outreach/publication/root edits/push.64MiBnewraw/>=10GiBfree; compactderivedexports only.'
+}
+plan['Hofvander_population']=plan['Hofvander_population'].replace('10M,2F,1NA? derive exact counts','source sex counts derived from all13rows (not the draft estimate); record exact counts')
+dump(B/'ANALYSIS-FREEZE.json',plan)
+print(plan['utc'],sha(B/'ANALYSIS-FREEZE.json'))
