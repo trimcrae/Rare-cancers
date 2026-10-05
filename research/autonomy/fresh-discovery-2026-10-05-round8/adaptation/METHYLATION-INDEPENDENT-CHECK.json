@@ -1,0 +1,538 @@
+{
+  "schema": "emc-r8-independent-methylation-review/1",
+  "utc": "2026-10-05T01:00:34.731496+00:00",
+  "reviewer": "Codex /root/radiotherapy",
+  "reviewed_packet": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round8/methylation",
+  "reviewed_files": {
+    "REPORT.txt": {
+      "sha256": "c654ca7a3eb912e1ef41d4731d12d1eed90d1083fded3eb9257d543db2f40f59",
+      "bytes": 2866
+    },
+    "DECISION.json": {
+      "sha256": "a28620ef9a1330282091772691e8b09cf171bdda50260ecb13a6e7230c94c3b6",
+      "bytes": 2135
+    },
+    "COVERAGE.json": {
+      "sha256": "b2795a223e958dcacca82870379f5402c8e9bc3814e6adb8333c8df701e06585",
+      "bytes": 21151
+    },
+    "METHOD-APPLICABILITY.json": {
+      "sha256": "970466d3b5783296afd3fb34a013079e31f4fc74638d18ee7e5fa1670be092cf",
+      "bytes": 2737
+    },
+    "EMC-CONTROL-METADATA-AUDIT.json": {
+      "sha256": "797b3104c27b347631c993aefa612eb61d1150868c741c941a3f105920bc0f72",
+      "bytes": 87262
+    },
+    "ADDITIONAL-COLLECTION-OBSERVATIONS.json": {
+      "sha256": "117215034ccec4580fc50a78889ca112fa65ff2c223c84f0f4d13f7a4b83a309",
+      "bytes": 228607
+    },
+    "VALIDATION.json": {
+      "sha256": "ca10877c31d6c459e472b34e363a925e0436d6b88ece5def6bc259bd9c928f14",
+      "bytes": 1553
+    },
+    "MANIFEST.json": {
+      "sha256": "04e7d159b33dc33ede999bcc8ddb147077c46875d099b160b04dc65b5d7e5109",
+      "bytes": 8253
+    },
+    "PILOT-CONTRACT.json": {
+      "sha256": "b4d714a6c1294242f68d93b1a0609f6d47afba453aa8640cfb440b992844d59c",
+      "bytes": 3467
+    },
+    "PILOT-FREEZE.json": {
+      "sha256": "9792e49bb61a60c115c6cf3bc515cbcdce9bb8364b9bc2be66ac0d846e3fd9a9",
+      "bytes": 1408
+    },
+    "AMENDMENT-01.json": {
+      "sha256": "fe54e2a6c3970dfa9211cf53e83c8e858a76e443c4f021cf36f30f24abc58bdd",
+      "bytes": 2954
+    },
+    "AMENDMENT-02-STEMTOC-REASSESSMENT.json": {
+      "sha256": "092b3e5eed2dcecc07c14d6d488153c8f950f1b8efda691b63854d8d2ad4f2bb",
+      "bytes": 5499
+    }
+  },
+  "scope": "Independent source/IDAT/case/selection/method/novelty/coverage challenge, no full methylation values or array reanalysis. Read-only peer inputs; own adaptation output only.",
+  "source_bindings": {
+    "prior_R3_derived_table": {
+      "path": "research/autonomy/fresh-discovery-2026-10-04-round3/genomics/reassessment/methylation-tables.json",
+      "git_revision": "80c40ed9fb1af0086bdfc9754c97b176490996e0",
+      "sha256": "ef1645797ae3f7d411d10a9c97017ddc94770decd29a44734241431b8f18064d"
+    },
+    "GSE140686_metadata": {
+      "sha256": "c6f466f84de47df5c5db944beb5e791a665e6d4d6b451bb04d5b2f06cc3c3820"
+    },
+    "myoepithelial_S2": {
+      "sha256": "699498d051a0c7d849a3f53cfc7a779eef2c83451fe4d97616742280c616d77b"
+    },
+    "GSE279837_metadata": {
+      "sha256": "331f41ecc1864b2489a52fcad4c0b9daa89916993103f5dec9a2623b90470f7c"
+    },
+    "GSE243075_series": {
+      "sha256": "7e69a955b36a5f840056d93e829a5e7ea32445248c087d286a7928437c71bf04"
+    },
+    "epitoc2_primary.xml": {
+      "bytes": 216757,
+      "sha256": "bb25cbd5b5d782d21108bd7783984f47457ccbcf2238d135fd8380a73562e4a1",
+      "selected_exact_primary_passages": [
+        "To estimate the parameters of the epiTOC2 model, a large number of individuals are required. We use whole blood, since for this tissue type DNAm data for large healthy cohorts is available. Specifically, we used the Illumina Infinium 450k data from Hannum et al. [ 47 ], encompassing 656 whole blood samples. Model fitting and parameter estimation is performed for each CpG site  i  separately, using non-linear least squares ( nls2  R-package), using a three-dimensional grid of starting values:  δ  = (0.001, 0.00075, 0.0005, 0.00025, 0.0001, 5e−5, 1e−5),  β 0  = ( 0 ,  0 . 01 ,  0 . 02 ,  0 . 03 ,  0 . 04 ,  0 . 05 ),  IR =  ( 1 ,  2 ,  3 ,  4 ,  5 ,  10 ,  15 ,  20 ,  … ,  90 ,  95 ,  100 ). Next, we inspected the individual fits for all 385 epiTOC sites and observed that for some CpGs, the estimated rate of increase in DNAm over a 10-year period (i.e., the product  δ * IR*10 ) was less than 1%. Given that the resolution of the Illumina assay is about 1% [ 48 ], we thus decided to only retain CpGs where the product  δ  * IR  is larger or equal than 0.001, i.e., if  δ * IR*10  is larger or equal than 0.01. This resulted in 163 CpGs (the “epiTOC2” CpGs). However, we note that the true  IR  value cannot be CpG dependent, and therefore, any differences in the estimated  IR  value across these 163 CpGs reflect differences in the de novo methylation probabilities, which however are not optimally captured by the estimation procedure. Thus, to arrive at a single  IR  estimate for blood, we posited that the specific combination (δ,  IR ) of values with highest representation among all 163 CpGs would correspond to the most likely true  IR  value. Remarkably, we observed a clear mode at  δ = 5e − 5  and  IR = 35 . This  IR  estimate corresponds to a turnover rate of 365/35 ≈ 10, i.e., to blood turnover every 10 days. Finally, we use this  IR  estimate to refit the model, so as to obtain fits for each of the 163 CpGs in terms of a site-specific de novo methylation probability  δ i  and ground-state methylation value  β i0 , all of which are assumed to be independent of tissue type.",
+        "From the previous formula, we can estimate  TNSC ( s ) for each sample  s . If the ages of the samples are known, and assuming that all samples represent the same tissue type  x , we can now estimate the intrinsic stem cell division rate of a tissue by\n",
+        "We downloaded and processed level 3 Illumina 450k and RNA-SeqV2 data from the TCGA [ 49 ], as described by us previously [ 60 ]. In total, we considered 16 cancer types for which corresponding  IR  estimates in normal tissue could be found: BLCA (bladder urothelial carcinoma, nN = 19, nC = 204), BRCA (breast invasive carcinoma, nN = 81, nC = 652), COAD (colon adenocarcinoma, nN = 38, nC = 272), ESCA (esophageal carcinoma, nN = 15, nC = 126), HNSC (head and neck squamous cell carcinoma, nN = 45, nC = 402), KIRC (kidney renal cell carcinoma, nN = 160, nC = 299), KIRP (kidney renal papillary carcinoma, nN = 45, nC = 196), LIHC (liver hepatocellular carcinoma, nN = 47, nC = 176), LSCC (lung squamous cell carcinoma, nN = 41, nC = 275), LUAD (lung adenocarcinoma, nN = 32, nC = 399), PAAD (pancreatic adenocarcinoma, nN = 10, nC = 146), PRAD (prostate adenocarcinoma, nN = 48, nC = 278), READ (rectal adenocarcinoma, nN = 7, nC = 95), THCA (thyroid carcinoma, nN = 53,nC = 489), and STAD (stomach adenocarcinoma, nN = 2, nC = 393)."
+      ]
+    },
+    "improved_counter_2024.xml": {
+      "bytes": 289134,
+      "sha256": "da5b6b14ce973109f294c9edb6d78149dc2c221373b52b684b7e6d1993fb8202",
+      "selected_exact_primary_passages": [
+        "The SeSAMe 98  processed Illumina 450k beta value matrices were downloaded from Genomic Data Commons Data Portal ( https://portal.gdc.cancer.gov/ ) with TCGAbiolinks 99 . We analyzed 32 cancer types (ACC, BLCA, BRCA, CESC, CHOL, COAD, DLBC, ESCA, GBM, HNSC, KICH, KIRC, KIRP, LAML, LGG, LIHC, LUAD, LUSC, MESO, PAAD, PCGP, PRAD, READ, SARC, SKCM, STAD, TGCT, THCA, THYM, UCEC, UCS, UVM). We did further processing of the downloaded matrices as follows: For each cancer type, probes with missing values in more than 30% samples were removed. The missing values were then imputed with impute.knn ( k  = 5) 100 . Then, the type-2 probe bias was adjusted with BMIQ 91 . Technical replicates were removed by retaining the sample with the highest CpG coverage. Clinical information on TCGA samples was downloaded from Liu et al. 101 . In addition, we analyzed an Illumina 450k DNAm dataset from Pipinikas et al. 102 , consisting of 45 primary pancreatic neuroendocrine tumors (PNETs). Processing of the idat files and QC was performed with minfi 90 , impute, and BMIQ as described for the TCGA datasets.",
+        "Any potential residual confounding by CTH and chronological is also worth discussing further. First, it is important to stress that CTH can confound mitotic age estimates in three distinct ways. One way is if the CpGs making up the counter are cell-type specific DNAm markers, i.e. if these CpGs display big differences in DNAm (typically >50% DNAm change) between cell types. In such a scenario, variations in cell-type composition between bulk-samples could affect relative mitotic age estimates. In relation to this, it is worth pointing out that by construction, stemTOC’s CpGs (as well as those defining epiTOC1/2 16 , 30 ) are not cell-type specific markers as defined in a suitably defined ground state (fetal-stage). Furthermore, we have shown that stemTOC’s CpGs do not display big DNAm differences between age-matched sorted cell and tissue-types, a clear indication that these CpGs are not cell-type specific markers of adult cell or tissue-types. A second way in which CTH could bias mitotic age estimates is through the selection of CpGs that only change with cell division in a specific cell type, so that they don’t generalize to other cell types and tissues. We also addressed this type of confounding, by ensuring that stemTOC CpGs correlate with cell division in cell lines representing different cell types (fibroblasts, endothelial cells and smooth muscle). In addition, because these were selected by comparing DNAm changes in-vitro with and without treatment by cell-cycle inhibitors, these stemTOC CpGs are not confounded by chronological age. Hence, by further requiring that these same CpGs also change with chronological age in-vivo whilst adjusting for 12 immune-cell fractions in blood, this likely selects for a subset of CpGs that change with cell division in-vivo. Finally, the third way in which CTH can influence mitotic age estimates is when applying the mitotic counter to a bulk-tissue sample which is made up of different cell types. Even if the CpGs making up the counter are not cell-type specific, it is clear that different cell types in a bulk-sample may have different mitotic ages, hence the mitotic age estimate reflects a weighted average over the mitotic ages of each cell type with the weights reflecting their cell-type proportions. Whilst we acknowledge that stemTOC is unable to address this type of confounding, the observed strong correlation between stemTOC’s mitotic age and tumor cell-of-origin fraction in each of 15 TCGA cancer types, demonstrates that this is not a major source of confounding, probably because the mitotic age of the highly proliferative cancer or precancer cells dominates the average estimate. A related challenge and limitation is that stemTOC’s mitotic age estimate not only reflects an average over cell types, but also an average over the cells that make up the differentiation hierarchy within a lineage. As such, the mitotic-age estimate not only reflects the number of cell divisions of the underlying long-lived stem-cell pool, but more broadly also the cell divisions of short-term stem and progenitor cell expansions and their population sizes 83 . In this regard though, it is worth pointing out that it is mainly and only the DNAm changes that accumulate in the long-lived stem-cell pool, and which are inherited by progenitors and differentiated cells, that are able to accumulate in the cell population at large.",
+        "a  We first identify CpGs ( n  = 30,257) mapping to within 200 bp upstream of the TSS of genes that are unmethylated (defined by DNAm beta value < 0.2) across 86 fetal-tissue samples from 13 different fetal-tissues (including neonatal cord blood). These are then filtered further by the requirements that they display hypermethylation as a function of population doublings (PDs) in 6 cell lines representing fibroblasts, endothelial, smooth muscle, and epithelial cell types. To avoid confounding by chronological age, we also demand that they don’t display such hypermethylation when cell lines are deprived of growth-promoting serum or when treated with mitomycin (MMC, a cell-cycle inhibitor), resulting in 629 “vitro-mitCpGs”.  b  To exclude cell-culture effects, CpGs displaying significant hypermethylation with chronological age, as assessed in 3 separate whole-blood cohorts and after adjusting for variations in 12 immune-cell type fractions, are selected. In the heatmaps, rows label samples, ordered by increasing age. Columns label CpGs ordered according to hierarchical clustering.  c  Simulation of DNAm changes at 20 CpGs during carcinogenic transformation (a total of 40 independent samples, 10 from each disease stage). Initially, DNAm changes are inherently stochastic, and average DNAm over the CpGs may not discriminate normal healthy from normal “at-risk” tissue. Taking an upper 95% quantile of the CpG’s DNAm values can discriminate normal from normal at-risk.  d  Top: Scatterplot depicts the difference in upper quantiles (y-axis) over the 371 vivo-mitCpGs between 42 normal samples adjacent to breast cancer (NADJ, “normal at-risk”) and 50 age-matched healthy samples (N, “normal healthy”), against the upper quantile threshold (x-axis). Horizontal blue line indicates the difference in mean DNAm over the 371 CpGs between NADJ and N tissue. Vertical red line marks the upper-quantile threshold maximizing difference without compromising variability. A relative mitotic-age score (stemTOC) is obtained for any sample, by taking the 95% upper quantile (UQ) over the 371 DNAm beta-values corresponding to these vivo-mitCpGs. Bottom density plots display the distribution of the 371 DNAm values for one hypothetical normal healthy and one hypothetical normal at-risk sample. Vertical lines indicate the stemTOC-scores (95% upper quantiles defined over the 371 CpGs). Generated with Biorender.com.",
+        "Any potential residual confounding by CTH and chronological is also worth discussing further. First, it is important to stress that CTH can confound mitotic age estimates in three distinct ways. One way is if the CpGs making up the counter are cell-type specific DNAm markers, i.e. if these CpGs display big differences in DNAm (typically >50% DNAm change) between cell types. In such a scenario, variations in cell-type composition between bulk-samples could affect relative mitotic age estimates. In relation to this, it is worth pointing out that by construction, stemTOC’s CpGs (as well as those defining epiTOC1/2 16 , 30 ) are not cell-type specific markers as defined in a suitably defined ground state (fetal-stage). Furthermore, we have shown that stemTOC’s CpGs do not display big DNAm differences between age-matched sorted cell and tissue-types, a clear indication that these CpGs are not cell-type specific markers of adult cell or tissue-types. A second way in which CTH could bias mitotic age estimates is through the selection of CpGs that only change with cell division in a specific cell type, so that they don’t generalize to other cell types and tissues. We also addressed this type of confounding, by ensuring that stemTOC CpGs correlate with cell division in cell lines representing different cell types (fibroblasts, endothelial cells and smooth muscle). In addition, because these were selected by comparing DNAm changes in-vitro with and without treatment by cell-cycle inhibitors, these stemTOC CpGs are not confounded by chronological age. Hence, by further requiring that these same CpGs also change with chronological age in-vivo whilst adjusting for 12 immune-cell fractions in blood, this likely selects for a subset of CpGs that change with cell division in-vivo. Finally, the third way in which CTH can influence mitotic age estimates is when applying the mitotic counter to a bulk-tissue sample which is made up of different cell types. Even if the CpGs making up the counter are not cell-type specific, it is clear that different cell types in a bulk-sample may have different mitotic ages, hence the mitotic age estimate reflects a weighted average over the mitotic ages of each cell type with the weights reflecting their cell-type proportions. Whilst we acknowledge that stemTOC is unable to address this type of confounding, the observed strong correlation between stemTOC’s mitotic age and tumor cell-of-origin fraction in each of 15 TCGA cancer types, demonstrates that this is not a major source of confounding, probably because the mitotic age of the highly proliferative cancer or precancer cells dominates the average estimate. A related challenge and limitation is that stemTOC’s mitotic age estimate not only reflects an average over cell types, but also an average over the cells that make up the differentiation hierarchy within a lineage. As such, the mitotic-age estimate not only reflects the number of cell divisions of the underlying long-lived stem-cell pool, but more broadly also the cell divisions of short-term stem and progenitor cell expansions and their population sizes 83 . In this regard though, it is worth pointing out that it is mainly and only the DNAm changes that accumulate in the long-lived stem-cell pool, and which are inherited by progenitors and differentiated cells, that are able to accumulate in the cell population at large."
+      ]
+    }
+  },
+  "metadata_check": {
+    "reference_rows": 1077,
+    "all_GSM_records": 1505,
+    "EMC": 10,
+    "controls": 62,
+    "control_diagnoses": {
+      "Myxoid liposarcoma": 26,
+      "Synovial sarcoma": 25,
+      "Low-grade fibromyxoid sarcoma": 8,
+      "Sclerosing epithelioid sarcoma": 3
+    },
+    "age_metadata_available_in_selected72": 0,
+    "primary_FFPE_all72": true,
+    "actual_original_IDAT_pairs_checked": 72,
+    "EMC_platforms": {
+      "GPL21145": 1,
+      "GPL13534": 9
+    },
+    "control_platforms": {
+      "GPL21145": 4,
+      "GPL13534": 58
+    },
+    "EMC_supplier_counts": {
+      "Heidelberg Neuropathology": 1,
+      "Jena Pathology": 8,
+      "Heidelberg Pathology": 1
+    },
+    "matching_checks_identical_to_owner": true,
+    "all10_matching_checks": [
+      {
+        "EMC_ID": "REFERENCE_SAMPLE 259",
+        "GSM": "GSM4180711",
+        "IDAT": "201172580026_R03C01",
+        "platform": "GPL21145",
+        "same_platform_controls": 4,
+        "same_supplier_and_batch_controls": [],
+        "same_slide_controls": [],
+        "individual_age_released": false
+      },
+      {
+        "EMC_ID": "REFERENCE_SAMPLE 422",
+        "GSM": "GSM4180874",
+        "IDAT": "200406080083_R06C01",
+        "platform": "GPL13534",
+        "same_platform_controls": 58,
+        "same_supplier_and_batch_controls": [],
+        "same_slide_controls": [],
+        "individual_age_released": false
+      },
+      {
+        "EMC_ID": "REFERENCE_SAMPLE 651",
+        "GSM": "GSM4181103",
+        "IDAT": "3998909033_R02C02",
+        "platform": "GPL13534",
+        "same_platform_controls": 58,
+        "same_supplier_and_batch_controls": [
+          "REFERENCE_SAMPLE 639",
+          "REFERENCE_SAMPLE 640",
+          "REFERENCE_SAMPLE 641",
+          "REFERENCE_SAMPLE 642",
+          "REFERENCE_SAMPLE 643",
+          "REFERENCE_SAMPLE 644",
+          "REFERENCE_SAMPLE 645",
+          "REFERENCE_SAMPLE 646",
+          "REFERENCE_SAMPLE 647",
+          "REFERENCE_SAMPLE 648",
+          "REFERENCE_SAMPLE 649",
+          "REFERENCE_SAMPLE 650",
+          "REFERENCE_SAMPLE 652",
+          "REFERENCE_SAMPLE 653",
+          "REFERENCE_SAMPLE 654",
+          "REFERENCE_SAMPLE 911"
+        ],
+        "same_slide_controls": [
+          "REFERENCE_SAMPLE 647",
+          "REFERENCE_SAMPLE 648",
+          "REFERENCE_SAMPLE 649",
+          "REFERENCE_SAMPLE 650",
+          "REFERENCE_SAMPLE 652",
+          "REFERENCE_SAMPLE 653",
+          "REFERENCE_SAMPLE 654"
+        ],
+        "individual_age_released": false
+      },
+      {
+        "EMC_ID": "REFERENCE_SAMPLE 665",
+        "GSM": "GSM4181117",
+        "IDAT": "3999547153_R01C02",
+        "platform": "GPL13534",
+        "same_platform_controls": 58,
+        "same_supplier_and_batch_controls": [
+          "REFERENCE_SAMPLE 671",
+          "REFERENCE_SAMPLE 672",
+          "REFERENCE_SAMPLE 673",
+          "REFERENCE_SAMPLE 674",
+          "REFERENCE_SAMPLE 675",
+          "REFERENCE_SAMPLE 676",
+          "REFERENCE_SAMPLE 677",
+          "REFERENCE_SAMPLE 678"
+        ],
+        "same_slide_controls": [
+          "REFERENCE_SAMPLE 671"
+        ],
+        "individual_age_released": false
+      },
+      {
+        "EMC_ID": "REFERENCE_SAMPLE 666",
+        "GSM": "GSM4181118",
+        "IDAT": "3999547153_R06C01",
+        "platform": "GPL13534",
+        "same_platform_controls": 58,
+        "same_supplier_and_batch_controls": [
+          "REFERENCE_SAMPLE 671",
+          "REFERENCE_SAMPLE 672",
+          "REFERENCE_SAMPLE 673",
+          "REFERENCE_SAMPLE 674",
+          "REFERENCE_SAMPLE 675",
+          "REFERENCE_SAMPLE 676",
+          "REFERENCE_SAMPLE 677",
+          "REFERENCE_SAMPLE 678"
+        ],
+        "same_slide_controls": [
+          "REFERENCE_SAMPLE 671"
+        ],
+        "individual_age_released": false
+      },
+      {
+        "EMC_ID": "REFERENCE_SAMPLE 667",
+        "GSM": "GSM4181119",
+        "IDAT": "3999547153_R05C01",
+        "platform": "GPL13534",
+        "same_platform_controls": 58,
+        "same_supplier_and_batch_controls": [
+          "REFERENCE_SAMPLE 671",
+          "REFERENCE_SAMPLE 672",
+          "REFERENCE_SAMPLE 673",
+          "REFERENCE_SAMPLE 674",
+          "REFERENCE_SAMPLE 675",
+          "REFERENCE_SAMPLE 676",
+          "REFERENCE_SAMPLE 677",
+          "REFERENCE_SAMPLE 678"
+        ],
+        "same_slide_controls": [
+          "REFERENCE_SAMPLE 671"
+        ],
+        "individual_age_released": false
+      },
+      {
+        "EMC_ID": "REFERENCE_SAMPLE 668",
+        "GSM": "GSM4181120",
+        "IDAT": "3999547153_R04C01",
+        "platform": "GPL13534",
+        "same_platform_controls": 58,
+        "same_supplier_and_batch_controls": [
+          "REFERENCE_SAMPLE 671",
+          "REFERENCE_SAMPLE 672",
+          "REFERENCE_SAMPLE 673",
+          "REFERENCE_SAMPLE 674",
+          "REFERENCE_SAMPLE 675",
+          "REFERENCE_SAMPLE 676",
+          "REFERENCE_SAMPLE 677",
+          "REFERENCE_SAMPLE 678"
+        ],
+        "same_slide_controls": [
+          "REFERENCE_SAMPLE 671"
+        ],
+        "individual_age_released": false
+      },
+      {
+        "EMC_ID": "REFERENCE_SAMPLE 669",
+        "GSM": "GSM4181121",
+        "IDAT": "3999547153_R03C01",
+        "platform": "GPL13534",
+        "same_platform_controls": 58,
+        "same_supplier_and_batch_controls": [
+          "REFERENCE_SAMPLE 671",
+          "REFERENCE_SAMPLE 672",
+          "REFERENCE_SAMPLE 673",
+          "REFERENCE_SAMPLE 674",
+          "REFERENCE_SAMPLE 675",
+          "REFERENCE_SAMPLE 676",
+          "REFERENCE_SAMPLE 677",
+          "REFERENCE_SAMPLE 678"
+        ],
+        "same_slide_controls": [
+          "REFERENCE_SAMPLE 671"
+        ],
+        "individual_age_released": false
+      },
+      {
+        "EMC_ID": "REFERENCE_SAMPLE 670",
+        "GSM": "GSM4181122",
+        "IDAT": "3999547153_R02C01",
+        "platform": "GPL13534",
+        "same_platform_controls": 58,
+        "same_supplier_and_batch_controls": [
+          "REFERENCE_SAMPLE 671",
+          "REFERENCE_SAMPLE 672",
+          "REFERENCE_SAMPLE 673",
+          "REFERENCE_SAMPLE 674",
+          "REFERENCE_SAMPLE 675",
+          "REFERENCE_SAMPLE 676",
+          "REFERENCE_SAMPLE 677",
+          "REFERENCE_SAMPLE 678"
+        ],
+        "same_slide_controls": [
+          "REFERENCE_SAMPLE 671"
+        ],
+        "individual_age_released": false
+      },
+      {
+        "EMC_ID": "REFERENCE_SAMPLE 935",
+        "GSM": "GSM4181387",
+        "IDAT": "200406080083_R01C01",
+        "platform": "GPL13534",
+        "same_platform_controls": 58,
+        "same_supplier_and_batch_controls": [],
+        "same_slide_controls": [],
+        "individual_age_released": false
+      }
+    ],
+    "unmatched_EMC": [
+      "REFERENCE_SAMPLE 259",
+      "REFERENCE_SAMPLE 422",
+      "REFERENCE_SAMPLE 935"
+    ],
+    "source_pairing_limit": "Same platform/slide/supplier is a technical pairing, not donor linkage or independent scientific replication. Sclerosing-epithelioid-sarcoma printed diagnosis maps to the reported SEF methylation class; no silent recoding to another histology."
+  },
+  "case21": {
+    "original_S2": [
+      {
+        "sheet": "Suppl Table 1 -All case data",
+        "cells": [
+          "Case 21",
+          35,
+          "M",
+          "Anterior abdominal wall",
+          "Excision",
+          "Malignant",
+          "Yes",
+          "Yes",
+          "No",
+          "Negative",
+          "Positiive",
+          "Positiive",
+          "Negative",
+          "Negative",
+          "Negative",
+          "Positive, focal",
+          "N/A",
+          "Histologic Consistent",
+          "EMCS",
+          "EMCS",
+          "TAF15::NR4A3",
+          "+1q, +8, +9p, +12, -13q (focal)"
+        ]
+      }
+    ],
+    "GEO_case21_count": 1,
+    "GSE279837_total_conditions": 30,
+    "GSM": "GSM8581809",
+    "IDAT": "203135920060_R06C01_Grn.idat",
+    "age": 35,
+    "sex": "M",
+    "mitotic_activity_gt5_per10_HPF": true,
+    "fusion": "TAF15::NR4A3",
+    "identity_status": "Prior R2 verified case21 identity/reclassification reused, not new finding. New age metadata checked here.",
+    "binding_limit": "Study title/design/case label support GSE279837 association, but manuscript names unrelated GSE243075; source-level association is not a proved exact manuscript/IDAT donor crosswalk.",
+    "case19_case30_limit": "Their original EMCS-like clustering/negativeRNA and ambiguous morphology do not authenticate additional EMC."
+  },
+  "method_value_challenge": {
+    "epiTOC2": "163-CpG cumulative TNSC can be calculated without age; age-adjusted rate R=TNSC/age requires age. Primary validation is not EMC/sarcoma-specific. No categorical claim of sarcoma inapplicability is justified.",
+    "stemTOC": "371-CpG counter has normal mesenchymal cell-line evidence; original data methods explicitly include32TCGA types including SARC. The15-type subset is a restricted endpoint, not the entire cancer dataset. This is stronger general plausibility, not authenticated EMC validation.",
+    "focused_clarification": "Verified and accepted additive AMENDMENT-01:32types including SARC versus15subset; initial frozen method/report/decision bytes preserved. AMENDMENT-02 separately reassesses the stronger method before outcomes rather than inheriting epiTOC2 rate limits.",
+    "why_no_worthwhile_replicated_contrast": "No score or difference was measured. stemTOC cumulative scoring does not require individual age, and favorable mesenchymal/SARC evidence supports plausibility. Nevertheless no independently measured EMC state endpoint or equivalent independent replication is released: one LGFMS control shared across six EMC and seven MLS for another EMC couple histology to source, three EMC unmatched. One aged Case21 does not supply cohort replication. Bulk cell-history weights and unknown probe/normalization transport remain material. A new classifier-separated descriptor alone would not meet the frozen useful state question. Missing age blocks epiTOC2 rate and limits interpretation of cumulative exposure, not computation of stemTOC.",
+    "no_matrix_negative": "Not downloading/streaming the5.29GB inputs is a staged decision, not a negative methylation result, an access failure or evidence of low proliferation. Actual accessible values and suitable unexplored identities remain pending and block advancement."
+  },
+  "independent_omission_check": {
+    "cached_literature_union": 229,
+    "gene_disease_epigenetic_metadata_candidates": [
+      {
+        "id": "27223121",
+        "pmcid": null,
+        "doi": "10.1002/gcc.22379",
+        "title": "Epigenetic regulation of SMARCB1 By miR-206, -381 and -671-5p is evident in a variety of SMARCB1 immunonegative soft tissue sarcomas, while miR-765 appears specific for epithelioid sarcoma. A miRNA study of 223 soft tissue sarcomas."
+      },
+      {
+        "id": "41315062",
+        "pmcid": null,
+        "doi": "10.1007/s00428-025-04352-7",
+        "title": "Novel HSPA8-NR4A2 rearrangement in extraskeletal myxoid chondrosarcoma: a sarcoma mimicker of neuroendocrine neoplasia."
+      },
+      {
+        "id": "37057757",
+        "pmcid": null,
+        "doi": "10.1002/gcc.23144",
+        "title": "TAF15::NR4A3 gene fusion identifies a morphologically distinct subset of extraskeletal myxoid chondrosarcoma mimicking myoepithelial tumors."
+      },
+      {
+        "id": "32646614",
+        "pmcid": "PMC7993547",
+        "doi": "10.1053/j.semdp.2020.05.005",
+        "title": "SWI/SNF complex-deficient soft tissue neoplasms: An update."
+      },
+      {
+        "id": "36754860",
+        "pmcid": null,
+        "doi": "10.1111/his.14882",
+        "title": "Keratin-positive fibrotic extraskeletal myxoid chondrosarcoma: a close mimic of myoepithelial tumour."
+      },
+      {
+        "id": "36316541",
+        "pmcid": "PMC9813045",
+        "doi": "10.1007/s13577-022-00818-x",
+        "title": "Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models."
+      },
+      {
+        "id": "30809375",
+        "pmcid": "PMC6375211",
+        "doi": "10.1186/s13569-019-0113-6",
+        "title": "Genome-wide methylation profiling and copy number analysis in atypical fibroxanthomas and pleomorphic dermal sarcomas indicate a similar molecular phenotype."
+      },
+      {
+        "id": "30895378",
+        "pmcid": "PMC7607515",
+        "doi": "10.1007/s00432-019-02895-2",
+        "title": "DNA methylation profiling distinguishes Ewing-like sarcoma with EWSR1-NFATc2 fusion from Ewing sarcoma."
+      }
+    ],
+    "meaning": "Independent retained-metadata eligibility challenge only. Broad model/cohort/classifier and numerical arrays remain incomplete; no exhaustive public-EMC coverage certification."
+  },
+  "original_pilot_hash_checks": [
+    {
+      "path": "REPORT.txt",
+      "actual_sha256": "c654ca7a3eb912e1ef41d4731d12d1eed90d1083fded3eb9257d543db2f40f59",
+      "matches_original_pilot_freeze": true
+    },
+    {
+      "path": "DECISION.json",
+      "actual_sha256": "a28620ef9a1330282091772691e8b09cf171bdda50260ecb13a6e7230c94c3b6",
+      "matches_original_pilot_freeze": true
+    },
+    {
+      "path": "COVERAGE.json",
+      "actual_sha256": "b2795a223e958dcacca82870379f5402c8e9bc3814e6adb8333c8df701e06585",
+      "matches_original_pilot_freeze": true
+    },
+    {
+      "path": "METHOD-APPLICABILITY.json",
+      "actual_sha256": "970466d3b5783296afd3fb34a013079e31f4fc74638d18ee7e5fa1670be092cf",
+      "matches_original_pilot_freeze": true
+    },
+    {
+      "path": "EMC-CONTROL-METADATA-AUDIT.json",
+      "actual_sha256": "797b3104c27b347631c993aefa612eb61d1150868c741c941a3f105920bc0f72",
+      "matches_original_pilot_freeze": true
+    },
+    {
+      "path": "ADDITIONAL-COLLECTION-OBSERVATIONS.json",
+      "actual_sha256": "117215034ccec4580fc50a78889ca112fa65ff2c223c84f0f4d13f7a4b83a309",
+      "matches_original_pilot_freeze": true
+    },
+    {
+      "path": "VALIDATION.json",
+      "actual_sha256": "ca10877c31d6c459e472b34e363a925e0436d6b88ece5def6bc259bd9c928f14",
+      "matches_original_pilot_freeze": true
+    },
+    {
+      "path": "MANIFEST.json",
+      "actual_sha256": "04e7d159b33dc33ede999bcc8ddb147077c46875d099b160b04dc65b5d7e5109",
+      "matches_original_pilot_freeze": true
+    }
+  ],
+  "amendment_hash_checks": [
+    {
+      "amendment": "AMENDMENT-01.json",
+      "path": "PILOT-FREEZE.json",
+      "actual_sha256": "9792e49bb61a60c115c6cf3bc515cbcdce9bb8364b9bc2be66ac0d846e3fd9a9",
+      "matches": true
+    },
+    {
+      "amendment": "AMENDMENT-01.json",
+      "path": "METHOD-APPLICABILITY.json",
+      "actual_sha256": "970466d3b5783296afd3fb34a013079e31f4fc74638d18ee7e5fa1670be092cf",
+      "matches": true
+    },
+    {
+      "amendment": "AMENDMENT-01.json",
+      "path": "REPORT.txt",
+      "actual_sha256": "c654ca7a3eb912e1ef41d4731d12d1eed90d1083fded3eb9257d543db2f40f59",
+      "matches": true
+    },
+    {
+      "amendment": "AMENDMENT-01.json",
+      "path": "DECISION.json",
+      "actual_sha256": "a28620ef9a1330282091772691e8b09cf171bdda50260ecb13a6e7230c94c3b6",
+      "matches": true
+    },
+    {
+      "amendment": "AMENDMENT-02-STEMTOC-REASSESSMENT.json",
+      "path": "PILOT-CONTRACT.json",
+      "actual_sha256": "b4d714a6c1294242f68d93b1a0609f6d47afba453aa8640cfb440b992844d59c",
+      "matches": true
+    },
+    {
+      "amendment": "AMENDMENT-02-STEMTOC-REASSESSMENT.json",
+      "path": "PILOT-FREEZE.json",
+      "actual_sha256": "9792e49bb61a60c115c6cf3bc515cbcdce9bb8364b9bc2be66ac0d846e3fd9a9",
+      "matches": true
+    },
+    {
+      "amendment": "AMENDMENT-02-STEMTOC-REASSESSMENT.json",
+      "path": "METHOD-APPLICABILITY.json",
+      "actual_sha256": "970466d3b5783296afd3fb34a013079e31f4fc74638d18ee7e5fa1670be092cf",
+      "matches": true
+    },
+    {
+      "amendment": "AMENDMENT-02-STEMTOC-REASSESSMENT.json",
+      "path": "EMC-CONTROL-METADATA-AUDIT.json",
+      "actual_sha256": "797b3104c27b347631c993aefa612eb61d1150868c741c941a3f105920bc0f72",
+      "matches": true
+    },
+    {
+      "amendment": "AMENDMENT-02-STEMTOC-REASSESSMENT.json",
+      "path": "ADDITIONAL-COLLECTION-OBSERVATIONS.json",
+      "actual_sha256": "117215034ccec4580fc50a78889ca112fa65ff2c223c84f0f4d13f7a4b83a309",
+      "matches": true
+    },
+    {
+      "amendment": "AMENDMENT-02-STEMTOC-REASSESSMENT.json",
+      "path": "AMENDMENT-01.json",
+      "actual_sha256": "fe54e2a6c3970dfa9211cf53e83c8e858a76e443c4f021cf36f30f24abc58bdd",
+      "matches": true
+    }
+  ],
+  "method_specific_value_reassessment": "AMENDMENT-02 accepted after direct source/metadata challenge: the stronger cumulative method is plausibly computable and missing age is not its standalone defeat. Shelving rests on lack of an independently interpretable, replicated useful EMC state contrast, histology/source coupling and unresolved mixtures. All numerical matrices remain pending accessible analysis, so no measured negative, complete coverage or exhaustion is claimed.",
+  "prior_review_snapshot": {
+    "path": "METHYLATION-INDEPENDENT-CHECK-INITIAL.json",
+    "sha256": "7ea01c49d4853b5d9251b2e1a4cc4e87a38dc29b227153bd30328a825e12b6e0",
+    "status": "Preserved pre-amendment review; final receipt supersedes requested clarification status."
+  },
+  "decision": "Shelving supported after favorable method correction and prospective method-specific value reassessment. No new publication-worthy finding or methylation negative demonstrated.",
+  "live_owned_processes": 0
+}
