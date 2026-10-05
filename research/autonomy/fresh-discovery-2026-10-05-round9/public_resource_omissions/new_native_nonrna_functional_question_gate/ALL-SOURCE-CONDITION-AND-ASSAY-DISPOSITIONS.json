@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-05",
+  "source_sha256": "b471db7dd5b58d3743a9332201bf148255d8886d4ce09e6c94e37ba2c519526d",
+  "source_groups": [
+    {
+      "source_unit": "FFPE specimens and patients; source protein/transcriptomics context",
+      "specimens": 102,
+      "patients": 101,
+      "methods_patient_histotypes": {
+        "UPS": 51,
+        "high-grade LMS": 25,
+        "DDLPS": 25
+      },
+      "identity_only_results_specimen_counts": {
+        "UPS": 51,
+        "high-grade LMS": 25,
+        "DDLPS": 26
+      },
+      "repeated_donor": "Source says one patient contributed two samples. Individual identity and cross-assay pairing unlocated; no donor assigned by arithmetic.",
+      "current_EMC_eligibility": "Explicit stated histotypes are other named diagnoses; no transfer to EMC.",
+      "measurement": "SDHB IHC scoring method exists; no quantitative protein cells read and no established same-case direct enzyme measurement."
+    },
+    {
+      "source_unit": "Separate fresh-frozen tumor and normal specimens from surgical patients",
+      "patients": 16,
+      "tumor_specimens": 15,
+      "tumor_histotype_counts": {
+        "UPS": 3,
+        "LMS": 3,
+        "LPS": 2,
+        "DFSP": 1,
+        "SFT": 1,
+        "synovial sarcoma": 1,
+        "generic chondrosarcoma": 1,
+        "clear-cell sarcoma-like gastrointestinal tumor": 1,
+        "endometrial stromal sarcoma": 1,
+        "adamantinoma": 1
+      },
+      "LPS_detail": "One DDLPS and one myxoid LPS as source-labelled.",
+      "identity_pending": [
+        "One generic chondrosarcoma lacks individual pathology/site/NR4A3/donor identification; not assumed EMC or excluded based on name alone.",
+        "Normal specimen count and tumor-normal pairing are not specified in inspected methods.",
+        "Every individual sample/donor ID and protein/NMR/FFPE crosswalk is unresolved;16 patients and15 tumors cannot define pairings or independence across source groups."
+      ],
+      "handling": "2021\u20132023 surgery at two Portuguese centers; histopathology confirmed by dedicated sarcoma pathologist; tissue macerated under liquid nitrogen, stored\u221280\u00b0C.",
+      "assay": "Aqueous tissue extract1H-NMR;500MHz/298K/noesypr1d/512scans, TSP-d4 reference, total spectral-area normalization; selected2D spectra.",
+      "what_it_measures": "Steady-state tissue metabolite signals under this preparation, not direct enzyme turnover, metabolic flux, respiration, dependency or intervention response.",
+      "current_EMC_eligibility": "Unknown. No authenticated EMC-linked non-RNA measurement established.",
+      "available_endpoint_pointer": "Exact author-linked Figshare page403; public listed Table 8 route yielded HTML, not document. No numeric matrix accepted."
+    }
+  ],
+  "all_identified_EMC_conditions": "None newly authenticated; this is not zero actual EMC cases or proof none exist. One generic chondrosarcoma remains pending identity.",
+  "biological_quantitative_outcomes_inspected": 0,
+  "source_counts_not_outcomes": true
+}
