@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-05T11:23:13.018401+00:00",
+  "status": "Initial source packets plus additive reviews; ongoing research followups have separately dated records",
+  "analytical_export": "PORTABLE-EXPORT.json enumerates selected exact committed analytical bytes; verify_checkpoint.py checks hashes only. Followup snapshots and validation/integration receipts are separately scoped.",
+  "root": "/workspace/Rare-cancers",
+  "worker_roots": {
+    "imprinting": "/workspace/emc-r6-challenge",
+    "rna_processing": "/workspace/emc-r6-single_cell",
+    "endocrine": "/workspace/emc-r6-radiotherapy",
+    "clinical_measurements": "/workspace/emc-r6-fapi_named",
+    "functional_new": "/workspace/emc-r6-fapi_broader",
+    "public_resource_omissions": "/workspace/emc-r6-diagnostic"
+  },
+  "original_sources": "Full papers, full extracts/catalogues, archives, new assay matrices and cache receipts remain ignored in retained worker caches. No deletion of originals or bulk Git export. Source URLs/bytes/SHA256 and cache paths are in individual lane inventories. Nested ORIEN workbook/PDF are retained in source ZIP without duplicate bulk files. A fresh checkout must recover needed permitted inputs from actual source records; cannot inherit these caches or assume absolute worker/Windows paths exist.",
+  "lane_cache_record_examples": [
+    "imprinting/VALIDATION-PORTABILITY.json",
+    "imprinting/ANNOTATION-SOURCE-RECEIPTS.json",
+    "rna_processing/PORTABILITY.json",
+    "endocrine/CACHE-ORIGINALS.json",
+    "clinical_measurements/PORTABILITY.json",
+    "functional_new/MANIFEST.json",
+    "public_resource_omissions/SOURCE-HASHES.json"
+  ],
+  "legacy_reuse": "SHARED-INPUTS-REUSE.json verifies four existing legacy inputs in place, total60,113,601bytes. They were not newly staged/copied. R1\u2013R8 scientific decisions and restricted/inaccessible source scopes reused unchanged.",
+  "first_phase_reported_new_raw_bytes": {
+    "imprinting": 28831951,
+    "rna_processing": 6736082,
+    "endocrine": 15064745,
+    "clinical_measurements": 18428335,
+    "functional_new": 28470099,
+    "public_resource_omissions": 84952062
+  },
+  "raw_count_limit": "As reported by workers at initial freeze; additional source-led followups may add retained raw bytes and must report those separately. Counts are not all repository/disk bytes or analytical export sizes.",
+  "raw_BED_FASTQ_retained_for_R9": 0,
+  "large_methylation_matrices_staged_for_R9": false,
+  "free_bytes_at_receipt": 27240497152,
+  "floor_bytes": 10737418240,
+  "review_scope": "Independent focused source/assay/value reviews and exact artifact/cache byte checks are not reproduction of unperformed methylation/APA/phosphosite endpoints or universal evidence exhaustion."
+}

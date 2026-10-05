@@ -1,0 +1,54 @@
+{
+  "utc": "2026-10-05T11:08:35.387281+00:00",
+  "status": "Local integration verified; not yet pushed",
+  "main_HEAD": "bc8b15291467fd0a3785ccb6a5284fe9251c2725",
+  "base": "08de5ae9631624052fa32ae9ee6567394bc4d80d",
+  "checks": [
+    {
+      "lane": "endocrine",
+      "worker_source_commit": "aa8ed29af540627f6ca7a783cddfa8e3e5c51a63",
+      "source_commit_files_byte_equal": 32,
+      "freeze_bindings_verified": 31,
+      "freeze_sha256": "a15f69889bf6484ae7b48b5c0bcbcbaef622b7f7a249c73f9bca50ba42a284f7"
+    },
+    {
+      "lane": "functional_new",
+      "worker_source_commit": "8f9c24d984ec90f78abf3430e964ce8bc92e5eb6",
+      "source_commit_files_byte_equal": 33,
+      "freeze_bindings_verified": 32,
+      "freeze_sha256": "feaae969dabcd65447bbed21b27f466a126ad6fc7a7a9097f5e086c5d7264583"
+    },
+    {
+      "lane": "imprinting",
+      "worker_source_commit": "12846633cf15dfdb9302273c96a69e88bb3c58b4",
+      "source_commit_files_byte_equal": 22,
+      "freeze_bindings_verified": 20,
+      "freeze_sha256": "180b23ffe01bd11189abd862d658e12a50f11d161d6fa932522da54d342d453c"
+    },
+    {
+      "lane": "clinical_measurements",
+      "worker_source_commit": "9eafdee750e12e5a706608ab7e702e841f2ce82c",
+      "source_commit_files_byte_equal": 22,
+      "freeze_bindings_verified": 21,
+      "freeze_sha256": "630b77efcfde36825e4e11c4d5db1a61ce65e62c1d18e01598f28aecaf0f25fa"
+    },
+    {
+      "lane": "rna_processing",
+      "worker_source_commit": "80966f46823b5197ad54947db83e943eaac18c7e",
+      "source_commit_files_byte_equal": 33,
+      "freeze_bindings_verified": 32,
+      "freeze_sha256": "a89f330edd1dde7870473a727cdbeddd6ef9eab3fc0aace6fb3d08d5ba9f045a"
+    },
+    {
+      "lane": "public_resource_omissions",
+      "worker_source_commit": "dd7b6c7a6c2add8360c3f22936f8067ffe261276",
+      "source_commit_files_byte_equal": 36,
+      "freeze_bindings_verified": 34,
+      "freeze_sha256": "73ae0545cde59168163f72315f077560b964a7d4778595a5e5b12edba4254f29"
+    }
+  ],
+  "scope": "Exact worker-source object bytes and declared analytical freezes. No recovery of cache-only originals, raw scientific replication or complete public source coverage implied.",
+  "ongoing": "Six workers active in initial source followup or independent challenges; resources retained. Discovery goal unmet; no exhaustion.",
+  "updated_utc": "2026-10-05T11:36:07.409736+00:00",
+  "reader_implementation_note": "Initial RNA manifest reader assumed files/exports key; before recording a result it found artifacts instead. Corrected schema-specific reader verified all32 bindings; no source or scientific artifact changed."
+}

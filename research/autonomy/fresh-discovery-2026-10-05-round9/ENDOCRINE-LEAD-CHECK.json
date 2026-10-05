@@ -1,0 +1,63 @@
+{
+  "utc": "2026-10-05T11:03:01.988120+00:00",
+  "reviewer": "/root (independent of worker analysis)",
+  "scope": "Pairwise AUC recomputation from fixed sample-level score outputs and declared primary/control IDs; hypothesis/decision reader check. Not raw input reproduction, full gene-to-probe validation or complete source-omission audit.",
+  "bindings": {
+    "ANALYSIS-FREEZE.json": "c743efd123ecd16b437b21df80b98186602e2ad9eba996ea4f5b8e6adb212c6e",
+    "PROGRAM-RESULTS.json": "07360e1bb1b4a104664222f7dce0f72858b4f85639dec8af0347c9a9c5748d9e",
+    "PROGRAM-SCORES.json": "820cadade22f322fe6843bb844ff09e529c8d393b4e6d44fc8857dcc019440eb",
+    "DECISION.json": "d01e69fb3e21d453b6c7f9ae98faa9e69e11e7f595c9024d38aa82b1c0b1a4c4",
+    "REPORT.txt": "ade6144b6d5875ec2711d9f78142e282fb9c7cc1b4b9cbe60ea3fc5f5f4c3c1c"
+  },
+  "checks": [
+    {
+      "cohort": "Hofvander",
+      "set": "early",
+      "independently_recomputed_equal_histology_auc": 0.1962250712250712,
+      "group_auc": {
+        "Low-grade fibromyxoid sarcoma": 0.1794871794871795,
+        "Myxofibrosarcoma": 0.21296296296296297
+      },
+      "n_EMC_primary": 9,
+      "n_all_EMC_retained": 13,
+      "reported_AUC_exactly_matches": true
+    },
+    {
+      "cohort": "Hofvander",
+      "set": "late",
+      "independently_recomputed_equal_histology_auc": 0.248005698005698,
+      "group_auc": {
+        "Low-grade fibromyxoid sarcoma": 0.358974358974359,
+        "Myxofibrosarcoma": 0.13703703703703704
+      },
+      "n_EMC_primary": 9,
+      "n_all_EMC_retained": 13,
+      "reported_AUC_exactly_matches": true
+    },
+    {
+      "cohort": "GSE24369",
+      "set": "early",
+      "independently_recomputed_equal_histology_auc": 0.5849673202614379,
+      "group_auc": {
+        "Low-grade fibromyxoid sarcoma": 0.5588235294117647,
+        "Myxofibrosarcoma": 0.6111111111111112
+      },
+      "n_EMC_primary": 6,
+      "n_all_EMC_retained": 6,
+      "reported_AUC_exactly_matches": true
+    },
+    {
+      "cohort": "GSE24369",
+      "set": "late",
+      "independently_recomputed_equal_histology_auc": 0.6397058823529411,
+      "group_auc": {
+        "Low-grade fibromyxoid sarcoma": 0.696078431372549,
+        "Myxofibrosarcoma": 0.5833333333333334
+      },
+      "n_EMC_primary": 6,
+      "n_all_EMC_retained": 6,
+      "reported_AUC_exactly_matches": true
+    }
+  ],
+  "scientific_decision": "RNA versus array primary effects fail preregistered replicated coherence/uncertainty/effect gates. Shelving endocrine standalone is appropriate; no hormone absence/benefit or global exhaustion follows. Known exceptional PGRcase remains prior art. Pending public source coverage still visible."
+}

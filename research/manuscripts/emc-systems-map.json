@@ -2369,6 +2369,36 @@
           "use": "Independent ADC-panel model exclusion check",
           "classification": "unaffected",
           "why_unaffected": "The review preserves disputed identity and source eligibility; it does not accept model measurements as authentic EMC or infer native EMC phenotype."
+        },
+        {
+          "file": "research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/COVERAGE.json",
+          "use": "R9 functional-source gate reuses explicit disputed-model limits",
+          "classification": "unaffected",
+          "why_unaffected": "Published experiments are retained at their original disputed-identity scope. No measurement is accepted as authentic EMC or relabelled as a new dependency, phenotype or response finding."
+        },
+        {
+          "file": "research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/COVERAGE.json",
+          "use": "Clinical cohort eligibility record",
+          "classification": "unaffected",
+          "why_unaffected": "The separate preclinical label is explicitly not accepted as authentication of the clinical donor or as authentic EMC biology."
+        },
+        {
+          "file": "research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/EVALUATED-SOURCES.json",
+          "use": "Primary clinical-source evaluation",
+          "classification": "unaffected",
+          "why_unaffected": "The separate preclinical label is explicitly not accepted as authentication of the clinical donor or as authentic EMC biology."
+        },
+        {
+          "file": "research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/evaluate_sources.py",
+          "use": "Writer of clinical eligibility limits",
+          "classification": "unaffected",
+          "why_unaffected": "Emits the explicit preclinical-versus-clinical identity limit; it does not accept disputed-model measurements as EMC."
+        },
+        {
+          "file": "research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/functional_source_review/REPORT.txt",
+          "use": "Independent functional source eligibility review",
+          "classification": "unaffected",
+          "why_unaffected": "Preserves the disputed identity and original limitations without treating any model response as authentic EMC or a new vulnerability."
         }
       ],
       "distinct_from": [

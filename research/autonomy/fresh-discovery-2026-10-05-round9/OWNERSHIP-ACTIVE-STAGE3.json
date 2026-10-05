@@ -1,0 +1,610 @@
+{
+  "utc": "2026-10-05T11:20:31.062041+00:00",
+  "state": {
+    "schema": "emc-local-coordinator/1",
+    "owner": "/root/emc-cloud-round9",
+    "resources": {
+      "emc-round9-imprinting": {
+        "worker_id": "/root/challenge",
+        "reserved_utc": "2026-10-05T10:36:09.811471Z",
+        "status": "initial_exact_assay_and_prior_art_reviews_local_integrated; active_broader_region_source_gate",
+        "worktree": "/workspace/emc-r6-challenge",
+        "receipt": null
+      },
+      "emc-round9-rna_processing": {
+        "worker_id": "/root/single_cell",
+        "reserved_utc": "2026-10-05T10:36:09.902514Z",
+        "status": "initial_science_and_imprinting_review_local_integrated; active_native_intron_retention_source_value_gate",
+        "worktree": "/workspace/emc-r6-single_cell",
+        "receipt": null
+      },
+      "emc-round9-endocrine": {
+        "worker_id": "/root/radiotherapy",
+        "reserved_utc": "2026-10-05T10:36:09.976228Z",
+        "status": "initial_science_and_RET_review_local_integrated; active_RNA_assay_review",
+        "worktree": "/workspace/emc-r6-radiotherapy",
+        "receipt": null
+      },
+      "emc-round9-clinical_measurements": {
+        "worker_id": "/root/fapi_named",
+        "reserved_utc": "2026-10-05T10:36:10.057991Z",
+        "status": "initial_science_and_functional_review_local_integrated; active_IGF2_endocrine_source_value_gate",
+        "worktree": "/workspace/emc-r6-fapi_named",
+        "receipt": null
+      },
+      "emc-round9-functional_new": {
+        "worker_id": "/root/fapi_broader",
+        "reserved_utc": "2026-10-05T10:36:10.147204Z",
+        "status": "initial_science_and_clinical_review_local_integrated; active_native_intron_retention_prior_art_challenge",
+        "worktree": "/workspace/emc-r6-fapi_broader",
+        "receipt": null
+      },
+      "emc-round9-public_resource_omissions": {
+        "worker_id": "/root/diagnostic",
+        "reserved_utc": "2026-10-05T10:36:10.219861Z",
+        "status": "RETsource_and_ORIEN_identity_stage_completed; coherent_initial_source_checkpoint_freezing",
+        "worktree": "/workspace/emc-r6-diagnostic",
+        "receipt": null
+      }
+    },
+    "history": [
+      {
+        "utc": "2026-10-04T21:45:24.996085Z",
+        "action": "claim_coordinator",
+        "owner": "/root/emc-cloud-round6",
+        "note": "User-directed continuation on fresh cloud host; no inherited leases; handover disabled; no legacy owners."
+      },
+      {
+        "utc": "2026-10-04T21:45:25.022689Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-fapi_named",
+        "worker_id": "/root/fapi_named"
+      },
+      {
+        "utc": "2026-10-04T21:45:25.045858Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-fapi_broader",
+        "worker_id": "/root/fapi_broader"
+      },
+      {
+        "utc": "2026-10-04T21:45:25.071881Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-single_cell",
+        "worker_id": "/root/single_cell"
+      },
+      {
+        "utc": "2026-10-04T21:45:25.094326Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-radiotherapy",
+        "worker_id": "/root/radiotherapy"
+      },
+      {
+        "utc": "2026-10-04T21:45:25.117959Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-diagnostic",
+        "worker_id": "/root/diagnostic"
+      },
+      {
+        "utc": "2026-10-04T21:45:25.139542Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-challenge",
+        "worker_id": "/root/challenge"
+      },
+      {
+        "utc": "2026-10-04T22:02:37.691314Z",
+        "action": "record_run",
+        "resource": "emc-round6-fapi_named",
+        "status": "source_pilot_or_independent_review"
+      },
+      {
+        "utc": "2026-10-04T22:02:37.693734Z",
+        "action": "record_run",
+        "resource": "emc-round6-fapi_broader",
+        "status": "source_pilot_or_independent_review"
+      },
+      {
+        "utc": "2026-10-04T22:02:37.695040Z",
+        "action": "record_run",
+        "resource": "emc-round6-single_cell",
+        "status": "source_pilot_or_independent_review"
+      },
+      {
+        "utc": "2026-10-04T22:02:37.696015Z",
+        "action": "record_run",
+        "resource": "emc-round6-radiotherapy",
+        "status": "source_pilot_or_independent_review"
+      },
+      {
+        "utc": "2026-10-04T22:02:37.697549Z",
+        "action": "record_run",
+        "resource": "emc-round6-diagnostic",
+        "status": "source_pilot_or_independent_review"
+      },
+      {
+        "utc": "2026-10-04T22:02:37.698686Z",
+        "action": "record_run",
+        "resource": "emc-round6-challenge",
+        "status": "source_pilot_or_independent_review"
+      },
+      {
+        "utc": "2026-10-04T23:23:56.798452Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-fapi_named",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04-round6/CLOUD-INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "e529d73e20913d2665c6cb9af3a10e51229b4cb9fe8ca7c0e7376c7384083e47",
+        "retained_output": {
+          "worker_id": "/root/fapi_named",
+          "reserved_utc": "2026-10-04T21:45:25.022653Z",
+          "status": "source_pilot_or_independent_review",
+          "worktree": "/workspace/emc-r6-fapi_named",
+          "receipt": null
+        }
+      },
+      {
+        "utc": "2026-10-04T23:23:56.801478Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-fapi_broader",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04-round6/CLOUD-INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "e529d73e20913d2665c6cb9af3a10e51229b4cb9fe8ca7c0e7376c7384083e47",
+        "retained_output": {
+          "worker_id": "/root/fapi_broader",
+          "reserved_utc": "2026-10-04T21:45:25.045824Z",
+          "status": "source_pilot_or_independent_review",
+          "worktree": "/workspace/emc-r6-fapi_broader",
+          "receipt": null
+        }
+      },
+      {
+        "utc": "2026-10-04T23:23:56.802495Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-single_cell",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04-round6/CLOUD-INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "e529d73e20913d2665c6cb9af3a10e51229b4cb9fe8ca7c0e7376c7384083e47",
+        "retained_output": {
+          "worker_id": "/root/single_cell",
+          "reserved_utc": "2026-10-04T21:45:25.071849Z",
+          "status": "source_pilot_or_independent_review",
+          "worktree": "/workspace/emc-r6-single_cell",
+          "receipt": null
+        }
+      },
+      {
+        "utc": "2026-10-04T23:23:56.804626Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-radiotherapy",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04-round6/CLOUD-INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "e529d73e20913d2665c6cb9af3a10e51229b4cb9fe8ca7c0e7376c7384083e47",
+        "retained_output": {
+          "worker_id": "/root/radiotherapy",
+          "reserved_utc": "2026-10-04T21:45:25.094296Z",
+          "status": "source_pilot_or_independent_review",
+          "worktree": "/workspace/emc-r6-radiotherapy",
+          "receipt": null
+        }
+      },
+      {
+        "utc": "2026-10-04T23:23:56.806588Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-diagnostic",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04-round6/CLOUD-INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "e529d73e20913d2665c6cb9af3a10e51229b4cb9fe8ca7c0e7376c7384083e47",
+        "retained_output": {
+          "worker_id": "/root/diagnostic",
+          "reserved_utc": "2026-10-04T21:45:25.117847Z",
+          "status": "source_pilot_or_independent_review",
+          "worktree": "/workspace/emc-r6-diagnostic",
+          "receipt": null
+        }
+      },
+      {
+        "utc": "2026-10-04T23:23:56.807616Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round6",
+        "resource": "emc-round6-challenge",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04-round6/CLOUD-INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "e529d73e20913d2665c6cb9af3a10e51229b4cb9fe8ca7c0e7376c7384083e47",
+        "retained_output": {
+          "worker_id": "/root/challenge",
+          "reserved_utc": "2026-10-04T21:45:25.139513Z",
+          "status": "source_pilot_or_independent_review",
+          "worktree": "/workspace/emc-r6-challenge",
+          "receipt": null
+        }
+      },
+      {
+        "utc": "2026-10-04T23:23:56.808687Z",
+        "action": "release_coordinator",
+        "owner": "/root/emc-cloud-round6",
+        "note": "All six writer resources integrated at verified remote main 71bf6a89f94e3b250bbd492f4dd070fee82b712c; all owned source/review processes terminal. Preserve worktrees and caches. Final ownership export follows as authorized completion metadata."
+      },
+      {
+        "utc": "2026-10-05T00:25:22.826986Z",
+        "action": "claim_coordinator",
+        "owner": "/root/emc-cloud-round8",
+        "note": "Continue explicit publication-worthy discovery goal from verified main 80c40ed9fb; previous six leases resolved, no inherited ownership."
+      },
+      {
+        "utc": "2026-10-05T00:25:22.895145Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-neurosecretory",
+        "worker_id": "/root/fapi_named"
+      },
+      {
+        "utc": "2026-10-05T00:25:22.948263Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-metabolism",
+        "worker_id": "/root/fapi_broader"
+      },
+      {
+        "utc": "2026-10-05T00:25:22.999735Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-microenvironment",
+        "worker_id": "/root/single_cell"
+      },
+      {
+        "utc": "2026-10-05T00:25:23.066577Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-adaptation",
+        "worker_id": "/root/radiotherapy"
+      },
+      {
+        "utc": "2026-10-05T00:25:23.122697Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-surface_targets",
+        "worker_id": "/root/diagnostic"
+      },
+      {
+        "utc": "2026-10-05T00:25:23.179877Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-methylation",
+        "worker_id": "/root/challenge"
+      },
+      {
+        "utc": "2026-10-05T00:45:34.335129Z",
+        "action": "extend_scoped_writer_output",
+        "resource": "emc-round8-neurosecretory",
+        "worker": "/root/fapi_named",
+        "output": "research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets",
+        "reason": "Distinct fixed clinical intervention panel after pilot freeze, before new outcomes"
+      },
+      {
+        "utc": "2026-10-05T00:53:26.937171Z",
+        "action": "record_run",
+        "resource": "emc-round8-microenvironment",
+        "status": "authorized_bounded_full12_tempo_followup"
+      },
+      {
+        "utc": "2026-10-05T01:04:47.851434Z",
+        "action": "extend_scoped_writer_output",
+        "resource": "emc-round8-adaptation",
+        "worker": "/root/radiotherapy",
+        "output": "research/autonomy/fresh-discovery-2026-10-05-round8/cell_compartment_source_gate",
+        "reason": "Specific unresolved public fresh-specimen identity/assay source gate after original pilot and peerreview freeze"
+      },
+      {
+        "utc": "2026-10-05T01:45:48.691308Z",
+        "action": "record_run",
+        "resource": "emc-round8-neurosecretory",
+        "status": "frozen_locally_integrated_awaiting_verified_push"
+      },
+      {
+        "utc": "2026-10-05T01:45:48.694674Z",
+        "action": "record_run",
+        "resource": "emc-round8-metabolism",
+        "status": "final_microenvironment_peer_freeze"
+      },
+      {
+        "utc": "2026-10-05T01:45:48.695771Z",
+        "action": "record_run",
+        "resource": "emc-round8-microenvironment",
+        "status": "frozen_locally_integrated_awaiting_verified_push"
+      },
+      {
+        "utc": "2026-10-05T01:45:48.696761Z",
+        "action": "record_run",
+        "resource": "emc-round8-adaptation",
+        "status": "final_lead_integrity_review"
+      },
+      {
+        "utc": "2026-10-05T01:45:48.697747Z",
+        "action": "record_run",
+        "resource": "emc-round8-surface_targets",
+        "status": "frozen_locally_integrated_awaiting_verified_push"
+      },
+      {
+        "utc": "2026-10-05T01:45:48.698631Z",
+        "action": "record_run",
+        "resource": "emc-round8-methylation",
+        "status": "frozen_locally_integrated_awaiting_verified_push"
+      },
+      {
+        "utc": "2026-10-05T02:15:13.810884Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-neurosecretory",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "03322e0747ddfcee46e99c023ed2c05dc0eba01c42df730410a923cdafaded94",
+        "retained_output": {
+          "worker_id": "/root/fapi_named",
+          "reserved_utc": "2026-10-05T00:25:22.895108Z",
+          "status": "frozen_locally_integrated_awaiting_verified_push",
+          "worktree": "/workspace/emc-r6-fapi_named",
+          "receipt": null,
+          "additional_owned_output_paths": [
+            "research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets"
+          ]
+        }
+      },
+      {
+        "utc": "2026-10-05T02:15:13.817152Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-metabolism",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "03322e0747ddfcee46e99c023ed2c05dc0eba01c42df730410a923cdafaded94",
+        "retained_output": {
+          "worker_id": "/root/fapi_broader",
+          "reserved_utc": "2026-10-05T00:25:22.948230Z",
+          "status": "final_microenvironment_peer_freeze",
+          "worktree": "/workspace/emc-r6-fapi_broader",
+          "receipt": null
+        }
+      },
+      {
+        "utc": "2026-10-05T02:15:13.820203Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-microenvironment",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "03322e0747ddfcee46e99c023ed2c05dc0eba01c42df730410a923cdafaded94",
+        "retained_output": {
+          "worker_id": "/root/single_cell",
+          "reserved_utc": "2026-10-05T00:25:22.999701Z",
+          "status": "frozen_locally_integrated_awaiting_verified_push",
+          "worktree": "/workspace/emc-r6-single_cell",
+          "receipt": null
+        }
+      },
+      {
+        "utc": "2026-10-05T02:15:13.821524Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-adaptation",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "03322e0747ddfcee46e99c023ed2c05dc0eba01c42df730410a923cdafaded94",
+        "retained_output": {
+          "worker_id": "/root/radiotherapy",
+          "reserved_utc": "2026-10-05T00:25:23.066542Z",
+          "status": "final_lead_integrity_review",
+          "worktree": "/workspace/emc-r6-radiotherapy",
+          "receipt": null,
+          "additional_owned_output_paths": [
+            "research/autonomy/fresh-discovery-2026-10-05-round8/cell_compartment_source_gate"
+          ]
+        }
+      },
+      {
+        "utc": "2026-10-05T02:15:13.822597Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-surface_targets",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "03322e0747ddfcee46e99c023ed2c05dc0eba01c42df730410a923cdafaded94",
+        "retained_output": {
+          "worker_id": "/root/diagnostic",
+          "reserved_utc": "2026-10-05T00:25:23.122664Z",
+          "status": "frozen_locally_integrated_awaiting_verified_push",
+          "worktree": "/workspace/emc-r6-diagnostic",
+          "receipt": null
+        }
+      },
+      {
+        "utc": "2026-10-05T02:15:13.823597Z",
+        "action": "resolve_resource",
+        "owner": "/root/emc-cloud-round8",
+        "resource": "emc-round8-methylation",
+        "resolution": "integrated",
+        "evidence": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/INTEGRATION-RECEIPT.json",
+        "evidence_sha256": "03322e0747ddfcee46e99c023ed2c05dc0eba01c42df730410a923cdafaded94",
+        "retained_output": {
+          "worker_id": "/root/challenge",
+          "reserved_utc": "2026-10-05T00:25:23.179842Z",
+          "status": "frozen_locally_integrated_awaiting_verified_push",
+          "worktree": "/workspace/emc-r6-challenge",
+          "receipt": null
+        }
+      },
+      {
+        "utc": "2026-10-05T02:15:13.826146Z",
+        "action": "release_coordinator",
+        "owner": "/root/emc-cloud-round8",
+        "note": "All six scientific owners/reviewers terminal and exact remote main a2b925bcc verified. Preserve all worktrees, local branches, cache inputs and count vectors. Completion metadata push follows."
+      },
+      {
+        "utc": "2026-10-05T10:36:09.708728Z",
+        "action": "claim_coordinator",
+        "owner": "/root/emc-cloud-round9",
+        "note": "User reaffirmed continue until publication-worthy; previous bounded-round stopping was not a campaign-wide blocker. All six R8 owners released with verified pushes; fresh current main, no inherited worker leases."
+      },
+      {
+        "utc": "2026-10-05T10:36:09.811511Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round9",
+        "resource": "emc-round9-imprinting",
+        "worker_id": "/root/challenge"
+      },
+      {
+        "utc": "2026-10-05T10:36:09.902554Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round9",
+        "resource": "emc-round9-rna_processing",
+        "worker_id": "/root/single_cell"
+      },
+      {
+        "utc": "2026-10-05T10:36:09.976266Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round9",
+        "resource": "emc-round9-endocrine",
+        "worker_id": "/root/radiotherapy"
+      },
+      {
+        "utc": "2026-10-05T10:36:10.058029Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round9",
+        "resource": "emc-round9-clinical_measurements",
+        "worker_id": "/root/fapi_named"
+      },
+      {
+        "utc": "2026-10-05T10:36:10.147240Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round9",
+        "resource": "emc-round9-functional_new",
+        "worker_id": "/root/fapi_broader"
+      },
+      {
+        "utc": "2026-10-05T10:36:10.219896Z",
+        "action": "reserve_resource",
+        "owner": "/root/emc-cloud-round9",
+        "resource": "emc-round9-public_resource_omissions",
+        "worker_id": "/root/diagnostic"
+      },
+      {
+        "utc": "2026-10-05T10:44:50.778107Z",
+        "action": "record_run",
+        "resource": "emc-round9-imprinting",
+        "status": "active_source_backed_discovery_pilot"
+      },
+      {
+        "utc": "2026-10-05T10:44:50.780024Z",
+        "action": "record_run",
+        "resource": "emc-round9-rna_processing",
+        "status": "active_source_backed_discovery_pilot"
+      },
+      {
+        "utc": "2026-10-05T10:44:50.781213Z",
+        "action": "record_run",
+        "resource": "emc-round9-endocrine",
+        "status": "active_source_backed_discovery_pilot"
+      },
+      {
+        "utc": "2026-10-05T10:44:50.782409Z",
+        "action": "record_run",
+        "resource": "emc-round9-clinical_measurements",
+        "status": "active_source_backed_discovery_pilot"
+      },
+      {
+        "utc": "2026-10-05T10:44:50.786111Z",
+        "action": "record_run",
+        "resource": "emc-round9-functional_new",
+        "status": "active_source_backed_discovery_pilot"
+      },
+      {
+        "utc": "2026-10-05T10:44:50.787586Z",
+        "action": "record_run",
+        "resource": "emc-round9-public_resource_omissions",
+        "status": "active_source_backed_discovery_pilot"
+      },
+      {
+        "utc": "2026-10-05T11:04:06.946917Z",
+        "action": "record_run",
+        "resource": "emc-round9-endocrine",
+        "status": "initial_science_checkpoint_local_integrated; active_phosphoproteomic_omission_review"
+      },
+      {
+        "utc": "2026-10-05T11:04:06.949845Z",
+        "action": "record_run",
+        "resource": "emc-round9-functional_new",
+        "status": "initial_source_checkpoint_local_integrated; active_clinical_source_review"
+      },
+      {
+        "utc": "2026-10-05T11:04:06.953956Z",
+        "action": "record_run",
+        "resource": "emc-round9-imprinting",
+        "status": "exact_interval_checkpoint_local_integrated; broader_region_pending; active_prior_art_value_review"
+      },
+      {
+        "utc": "2026-10-05T11:04:06.955112Z",
+        "action": "record_run",
+        "resource": "emc-round9-clinical_measurements",
+        "status": "initial_packet_frozen; active_functional_source_review"
+      },
+      {
+        "utc": "2026-10-05T11:04:06.957703Z",
+        "action": "record_run",
+        "resource": "emc-round9-rna_processing",
+        "status": "initial_processed_assay_reassessment; pending_raw_suitability; next_imprinting_review"
+      },
+      {
+        "utc": "2026-10-05T11:04:06.960329Z",
+        "action": "record_run",
+        "resource": "emc-round9-public_resource_omissions",
+        "status": "active_finite_phosphoproteomic_source_linkage_stage; prospective_RET_plan_frozen"
+      },
+      {
+        "utc": "2026-10-05T11:20:31.041254Z",
+        "action": "record_run",
+        "resource": "emc-round9-endocrine",
+        "status": "initial_science_and_RET_review_local_integrated; active_RNA_assay_review"
+      },
+      {
+        "utc": "2026-10-05T11:20:31.045328Z",
+        "action": "record_run",
+        "resource": "emc-round9-functional_new",
+        "status": "initial_science_and_clinical_review_local_integrated; active_native_intron_retention_prior_art_challenge"
+      },
+      {
+        "utc": "2026-10-05T11:20:31.048587Z",
+        "action": "record_run",
+        "resource": "emc-round9-imprinting",
+        "status": "initial_exact_assay_and_prior_art_reviews_local_integrated; active_broader_region_source_gate"
+      },
+      {
+        "utc": "2026-10-05T11:20:31.050477Z",
+        "action": "record_run",
+        "resource": "emc-round9-clinical_measurements",
+        "status": "initial_science_and_functional_review_local_integrated; active_IGF2_endocrine_source_value_gate"
+      },
+      {
+        "utc": "2026-10-05T11:20:31.052203Z",
+        "action": "record_run",
+        "resource": "emc-round9-rna_processing",
+        "status": "initial_science_and_imprinting_review_local_integrated; active_native_intron_retention_source_value_gate"
+      },
+      {
+        "utc": "2026-10-05T11:20:31.055098Z",
+        "action": "record_run",
+        "resource": "emc-round9-public_resource_omissions",
+        "status": "RETsource_and_ORIEN_identity_stage_completed; coherent_initial_source_checkpoint_freezing"
+      }
+    ]
+  },
+  "resolution": "No remote R9 proof yet; initial outputs and active additive followups retained under same explicit resource reservations. No ownership expiry guessed."
+}
