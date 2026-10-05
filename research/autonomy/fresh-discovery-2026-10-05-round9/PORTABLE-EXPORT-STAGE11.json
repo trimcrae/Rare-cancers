@@ -1,0 +1,953 @@
+{
+  "utc": "2026-10-05T18:43:15.505230+00:00",
+  "files": [
+    {
+      "path": "CONTINUATION-STAGE11.json",
+      "bytes": 8350,
+      "sha256": "12b43f9f55e67833ce5da67db5135b673286db1bd4cf949379585cfb7ca871dd"
+    },
+    {
+      "path": "GPNMB-NUMERICAL-PILOT-AUTHORIZATION.json",
+      "bytes": 5999,
+      "sha256": "6e6bb8d2a150193048e53b87bf215b447d6994b07ea0c7c4a6807f9bb696d9ac"
+    },
+    {
+      "path": "INDEX-ADDITIVE-STAGE11.json",
+      "bytes": 6300,
+      "sha256": "98b51f2815add6de92fdd5cb162c8dfbf393f4280faeae5891a61272ecec546e"
+    },
+    {
+      "path": "NORMAL-PREFLIGHT-STAGE11.json",
+      "bytes": 913,
+      "sha256": "511c3b185d5046bde1cce94a4840237a7e9ffa613e28ccd02a104615a2d28d19"
+    },
+    {
+      "path": "OWNERSHIP-ACTIVE-STAGE13.json",
+      "bytes": 3474,
+      "sha256": "37a1bed995a5f94e6e4a888552712e44348137e5af27fc937c9fc34ad9cc5fad"
+    },
+    {
+      "path": "STAGE10-VERIFIED-PUSH.json",
+      "bytes": 1170,
+      "sha256": "623c90eadccc50793a2bab8b1794cfec0f526ec770ad727484fbecff5278d4d1"
+    },
+    {
+      "path": "STAGE11-CONCURRENT-MAIN-RECONCILIATION.json",
+      "bytes": 1253,
+      "sha256": "65e50199eb6cd4207429e36edef091e683fc3dded9beebbeee21b1b3af369f1f"
+    },
+    {
+      "path": "STAGE11-CONTRACT-SOURCE-INTEGRATION.json",
+      "bytes": 13788,
+      "sha256": "2b2d45f569ed15e24e620f72dd3b23e932bc92944b8fce904ecddfd9835638d7"
+    },
+    {
+      "path": "STAGE11-DEPENDENCY-SOURCE-INTEGRATION.json",
+      "bytes": 1255,
+      "sha256": "83cb5eaf9a4d161442576c67c1b454a65646e94a600ba1abdd350d125c851a58"
+    },
+    {
+      "path": "STAGE11-FRESH-BRIDGE-SOURCE-INTEGRATION.json",
+      "bytes": 5258,
+      "sha256": "d7849075b102ccc1c3bc46f1dd21dcb4250d06ce08f561fc5d592f0a0425daa9"
+    },
+    {
+      "path": "STAGE11-MODEL-EXCLUSION-REGISTRATION.json",
+      "bytes": 3674,
+      "sha256": "9d7685b02a9531b380eb27ee1c048780896f8b598ace2f6e52df60f615e60bd1"
+    },
+    {
+      "path": "STAGE11-PREVALUE-SOURCE-INTEGRATION.json",
+      "bytes": 7971,
+      "sha256": "a72a6222ec6a1eee771eecb2aabbaacc89cae7dc839f60ed6b6fc757e9c9094e"
+    },
+    {
+      "path": "STAGE11-REVIEW-SOURCE-INTEGRATION.json",
+      "bytes": 3869,
+      "sha256": "90adabc6245100df2014de94ba00657324cc02ff34735762575ba46687c89b46"
+    },
+    {
+      "path": "STAGE11-SUPPORT-SOURCE-INTEGRATION.json",
+      "bytes": 17808,
+      "sha256": "8af068e585f6bd2e374f9b811b535e379dde06b48227a31e01186c63a1093eac"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/.gitignore",
+      "bytes": 25,
+      "sha256": "d67d09783c6c7683d0f2fe60a836e35ecc6a485d8867ba8245857f9373c1a17e"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/ACCESS-AND-READ-SCOPE.json",
+      "bytes": 978,
+      "sha256": "4d737c3d1e6abf1086adf553ba45376802154f340872755cf47ce064769052ce"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/BO112-CORRECTED26-CONDITIONS.json",
+      "bytes": 11654,
+      "sha256": "3db6543fa212c0447b76ee069e582d59b9778f9845e76a3cf2ba7dec835e6ca9"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/BROADER-COHORT-OMISSIONS.json",
+      "bytes": 3892,
+      "sha256": "7780b5f49b59ca3045084486a56d4191d8a8b9769edc5d3bc68e598a1c28c5f9"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/CULTURE-COVERAGE-CORRECTION.json",
+      "bytes": 2531,
+      "sha256": "fbdf328633a849b68f3af74dd74ff9df09af4cd40be1351cf26d8ec366ec04e6"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/DECISION.json",
+      "bytes": 1617,
+      "sha256": "f0ed618b78463d1c78d9648feb04a7bc48e5682925a2a22ca4d581483d8e3b99"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/EXTERNAL-STAGE-BINDINGS.json",
+      "bytes": 1699,
+      "sha256": "ab62f8e294cb2fc19b517d029bece818cabc8148ba12dc1a4f3c403a9dd85250"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/FREEZE.json",
+      "bytes": 2727,
+      "sha256": "e080d83ef18c2619a5dbcf576916d86a850bfafdb53cec05ae123b05e073329f"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/METHOD-REPAIR.json",
+      "bytes": 312,
+      "sha256": "be4c3601f6d8dde586cbc521690d72b03d833c400dde09d6053145742d255f5f"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/NATIVE-TISSUE-SOURCE-CONDITIONS.json",
+      "bytes": 6494,
+      "sha256": "2f3370ca376557762017e0578c6e7eb66673741e42a69cc47c1684b9cbb5e0c8"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/PLAN-FROZEN.json",
+      "bytes": 2538,
+      "sha256": "f1285799cafc3b6637f850413c469fc744dea906421c915cfaccdffa461b982c"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/REPORT.txt",
+      "bytes": 1298,
+      "sha256": "ebf04ba0db8d87e7ac05ba36b4aa80ba4c9fbb3ed00519cf88038a181b9f8612"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/SOURCE-BINDINGS.json",
+      "bytes": 3621,
+      "sha256": "d853c2042e5be6840356c8e8fdfda882885b6069f101f3406d1b9eb0c5ae7355"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/TEMPO12-CONDITION-COVERAGE.json",
+      "bytes": 4146,
+      "sha256": "a088dff5b07356d66890ab3d06a5f6114bfb794c91bbcf65c0eaec571a36c2fd"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/VERIFICATION.json",
+      "bytes": 2364,
+      "sha256": "49ff00abbc127dcff017eb9fec65189ff3fda23f8183d83ac64c3f57acb58377"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/build_gate.py",
+      "bytes": 17763,
+      "sha256": "c252b0d4ee2db17ffde0cf8372b458272cb524ecf8ee21346fdfd59242b0b6a6"
+    },
+    {
+      "path": "clinical_measurements/gpnmb_broader_coverage_gate/verify_gate.py",
+      "bytes": 2092,
+      "sha256": "bb9f301b232e4218ca915847fc62c7fdb09a2603d8977e5bc84950247df2e9f2"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/.gitignore",
+      "bytes": 25,
+      "sha256": "d67d09783c6c7683d0f2fe60a836e35ecc6a485d8867ba8245857f9373c1a17e"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/ACCESS.json",
+      "bytes": 2066,
+      "sha256": "d162b69a0ae909781363d21066e4411bfd60d0433afc030df108ff1024e2ba81"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/BOUNDARY-REPAIR-NOTE.json",
+      "bytes": 765,
+      "sha256": "0db10f106f1e8eee1890e1593419568b31a04533fcdb9009fd746b5dccd5a95a"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/CONDITION-AND-OBJECT-LINKAGE.json",
+      "bytes": 3226,
+      "sha256": "024aa7f1c5fef9948321f0dcbb2bb38f88fa9033a677d4984923fec4685b3669"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/DECISION.json",
+      "bytes": 1359,
+      "sha256": "b9bcfaa2fccfaf99201c7ea1d6993228f3c2517f8449b6369b3cde860328b340"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/FREEZE.json",
+      "bytes": 2630,
+      "sha256": "211d02b0d06b5d75d73384fe9469d4805b87e93b2d9c9ca9cc0fba8d351b03e3"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/PLAN-FROZEN.json",
+      "bytes": 2453,
+      "sha256": "b7c9d80a97a2706931a4f19babda0f3ae8f2655a3f3f793e44eae42309dab64f"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/PORTABILITY-AND-READ-SCOPE.json",
+      "bytes": 878,
+      "sha256": "a2578c7a7691433bb952d302ae7e31a201bb1b4e4f23e8140875abd4ee9774a5"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/REPORT.txt",
+      "bytes": 1772,
+      "sha256": "9a878df81c14059b249ad92ac169229c3eb58e4338dd2164c4bf2f17d5275fbc"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/REUSED-FRESH-ALIAS-AND-LOCAL-PATHS.json",
+      "bytes": 2220,
+      "sha256": "e849d997832eee599ccbe10dfe1c8a60773b4599cd54d9b3f78d714b93711d85"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/REUSED-SOURCE-BINDINGS.json",
+      "bytes": 16244,
+      "sha256": "7e0b2026fb38382d10e0501331c0aab419937b43eabb966b5655f5033ba342d7"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/SAFE-SOURCE-METADATA-OBSERVATIONS.json",
+      "bytes": 5614,
+      "sha256": "9dce6111ae4a27e5122d783bdf549a501880206fbe23434477213eab129f8fa3"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/VERIFICATION.json",
+      "bytes": 3345,
+      "sha256": "9cea5af7012355e1279470d409221acb3465275a6d48d56f12b0a64b1fe5d39c"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/finalize_gate.py",
+      "bytes": 9621,
+      "sha256": "06fa77b150e7e6b686d1af4f6a3dd0115f947c7e7f4dcec559346a80d8dd4c09"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/source_followthrough.py",
+      "bytes": 3619,
+      "sha256": "0fafb247b786719624e98187da8e57f7fec7665f96f29cc845a676a61c90b33d"
+    },
+    {
+      "path": "clinical_measurements/luthria_gs001_cell_map_followthrough/verify_gate.py",
+      "bytes": 2973,
+      "sha256": "373232831fc28f82e3706bb943648711d6b92027b763b1582bd6b21c8ded212d"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/.gitignore",
+      "bytes": 24,
+      "sha256": "0b8cf3dd43d5bb8e63a4b4a0604e411dfd6f02df9f9bed4a1657996879e6d4cb"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/ADC2025-S1-PRIMARY-RECEIPT.json",
+      "bytes": 422,
+      "sha256": "a152364df4778317b52141f299a608a8b6e94ca0b918824f888622dba4c6a281"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/AMENDMENT-01-PRIMARY-MEASUREMENT-BRANCHES.json",
+      "bytes": 1793,
+      "sha256": "7f7fb3f8403d2e7fc62000e16814e7015d311378fdccb21c32181fc756209608"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/AMENDMENT-02-ELIGIBLE-OBSERVATION-BOUNDARY.json",
+      "bytes": 1416,
+      "sha256": "57fc73d3d73ea85be91a9ad0e6d5f187d5a6e5b4a22f69e5fdf734a2f34c2a71"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/AMENDMENT-03-ASSAY-SCOPE-ASSUMPTION-CORRECTION.json",
+      "bytes": 829,
+      "sha256": "301809c5eb7f8164ff884423d95342bff5ad1a7be991dc464c2d5a4d765c1269"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/AMENDMENT-04-VALIDATOR-SELF-INPUT-REPAIR.json",
+      "bytes": 897,
+      "sha256": "6fc11644a8c733e0680fd8e39ae35927ec0d872dc7d187433029992bcc24bc5b"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/COVERAGE.json",
+      "bytes": 3043,
+      "sha256": "71e804fc1e84f9a5e8d0489f29ee488d471f072402db9ae08650b364ae042b8e"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/DECISION.json",
+      "bytes": 1499,
+      "sha256": "9f35d67f9c9fdf4bb53a8797411b13f5f9bd2b7b7a834a9e5a176ac98489fdcb"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/EVALUATED-SOURCE-CONDITIONS.json",
+      "bytes": 2182,
+      "sha256": "8e0d855c0c167c1ede6230aa972b9d177fe4726e57560a46bb9ff4632d292f09"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/PLAN-FROZEN.json",
+      "bytes": 2978,
+      "sha256": "4ff87d60e9477b4306f4ad770fa09ef8b4b257083d5552e4844a1f6395c3aa6f"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/PORTABILITY.json",
+      "bytes": 4016,
+      "sha256": "3e061667b07007ed971763ce136bd28a5ef65e808fc002b78438fa8dc5cb3b54"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/PRIMARY-IDENTITY-FOLLOWUP-ACCESS.json",
+      "bytes": 705,
+      "sha256": "f4be2790ac38ec58f6c9933a2f687ff99de31925be6b09cb188ec93c9a85fc46"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/PRIMARY-MEASUREMENT-SOURCE-RECEIPTS.json",
+      "bytes": 1508,
+      "sha256": "f3e90078e112d9a734b65c33744cdae4c150afde75b5f82c2eaecb80b5b8e145"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/PUBLIC-INPUT-CITATION-MAP.json",
+      "bytes": 6982,
+      "sha256": "85b8b98fb03906b5addf43c69aea6c11e1ba233200f74f3db9b14007c6b32661"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/REPORT.txt",
+      "bytes": 1162,
+      "sha256": "89bc3d252a679da78456485446669ce9b78bc6c790532f8253757cf5db0c6776"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/REUSED-SOURCE-RECEIPTS.json",
+      "bytes": 990,
+      "sha256": "5503e9e3f9d33b2ab163247095a143aee8cfdbc8e546c2ab2cced8c7a211e8cf"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/SCIENCE-FREEZE-INITIAL.json",
+      "bytes": 3218,
+      "sha256": "3a4d3a17b2ae8f66ef82a6777f52afc8669501d949a0435f759283d8a60831e5"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/SCIENCE-FREEZE.json",
+      "bytes": 3896,
+      "sha256": "27da5b6fdd81916bfa20acb978af171da23ed18fe971ffbe906d087aa7c3c50c"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/SEARCH-SOURCE-RECEIPTS.json",
+      "bytes": 2287,
+      "sha256": "724bda3b86f3fac6a4e32587ae8f1fbf7b8f155988bf19ae96991ffa49e2cc19"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/VALIDATION-INITIAL.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/VALIDATION.json",
+      "bytes": 1333,
+      "sha256": "55f7e25417979a03ef97f9afccdbc5c4c5600ff7b7505e3d137b6210caf31466"
+    },
+    {
+      "path": "endocrine/gpnmb_primary_measurement_gate/validate_gate.py",
+      "bytes": 1929,
+      "sha256": "c17f8f777aa72d1efdbc8531581dd4e8e8cd69a6900718f32059545c07cb7cab"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/.gitignore",
+      "bytes": 24,
+      "sha256": "0b8cf3dd43d5bb8e63a4b4a0604e411dfd6f02df9f9bed4a1657996879e6d4cb"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/ACTUAL-SOURCE-METADATA40.json",
+      "bytes": 37886,
+      "sha256": "c0fe6138fc7d93d1855a82d189c0ff9dd219e498e0783184169e48e8ca0ec5b0"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/DECISION.json",
+      "bytes": 3677,
+      "sha256": "6fe0358c239549804daed8fa7bb8eb21ee2006a4016b753f8c08e7220ed378cc"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/MANIFEST.json",
+      "bytes": 2863,
+      "sha256": "87fe00639c55d7c1e4be046253e1c7b8350c82be1fdb4a67b67261ee3f01d14d"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/METADATA-COMPLETENESS-SUMMARY.json",
+      "bytes": 1917,
+      "sha256": "9837576e371ee1cac7ef475fa5714652dc4d6c42c497579fc30c329efea325ba"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/METADATA-FIELD-AND-ROW-FREEZE.json",
+      "bytes": 5008,
+      "sha256": "f2a33b8d86ad2947fd9c51732e589884cef8121dbcc5da85a6f9c810167af756"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/PLAN-FROZEN.json",
+      "bytes": 3419,
+      "sha256": "44f54c69ff452ac7a63de1445e48efeddc68d2c25dac01af3be1f00c79b4b3e2"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/PORTABILITY.json",
+      "bytes": 1127,
+      "sha256": "c83100bef8bb373dc94e1a7d62e908c7af6339466a2ac6f4b1ff8ae6ca83d742"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/PRIMARY-RNA-PREPARATION-METHOD.json",
+      "bytes": 1477,
+      "sha256": "3610ba5fa12c710d43a66e2e445d663944d6d9807f8a81caace7ed0c737b1f54"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/REPORT.txt",
+      "bytes": 1787,
+      "sha256": "9a4d31808527e949152d4a8841da58e3e42075efa7d10c1bc10d7a325fbc6610"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/SOURCE-DIAGNOSTIC-UNCERTAINTY.json",
+      "bytes": 1054,
+      "sha256": "8b77f3f81e405a505b3882ed76ee04aacfc99708fc74a6833c0f18ca6807ea3d"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/SOURCE-RELEVANT-FOOTNOTES.json",
+      "bytes": 700,
+      "sha256": "aa49be753136ee82f24b105bde80c2d6b568779134efdbefe97bfffbe0248de7"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/TECHNICAL-METADATA-SENSITIVITY-AVAILABILITY.json",
+      "bytes": 6517,
+      "sha256": "afb515badc6bce45fed14ea5f614dabbcf3c645519c27953bbe3d820620119bc"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/VERIFICATION.json",
+      "bytes": 477,
+      "sha256": "74a32d5770ec0e1e17d68172fda22504bf1096a48f70f3bead342d71cab3b9a3"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/WORKBOOK-ACTUAL-HEADERS.json",
+      "bytes": 1100,
+      "sha256": "6c4835605685e25e363a3e06eb99e34e0ce55e3bb8e8817dd77169dd86073e01"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/WORKBOOK-HEADER-ONLY.json",
+      "bytes": 593,
+      "sha256": "911aa7c04f05c888754b8b004c99a2aad8af2fa655cb2210d8c33821ec4f24f7"
+    },
+    {
+      "path": "functional_new/gpnmb_confounding_metadata_gate/verify_metadata.py",
+      "bytes": 2136,
+      "sha256": "e8bedd11e3fff84d4cfa3f1fe8580526cb1922ff95606b2d682208454bd90751"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/ADDITIVE-INPUT-BINDINGS.json",
+      "bytes": 1705,
+      "sha256": "867e138dcb76a13d9cc90898c6d25fa124f9fbb6d20693144f369eda0fc99951"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/EXACT-INPUT-BINDINGS.json",
+      "bytes": 26820,
+      "sha256": "b48a0ab0403bc9f3a5be0b6d104d1ea8b09a0d65ef47fb854700f42990039091"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/FINAL-REVIEW.json",
+      "bytes": 7064,
+      "sha256": "2392d4ebbc6425c619255a5ab185c1bd03761a0e8b08ec17cbce824a3c9ddb7f"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/MANIFEST.json",
+      "bytes": 1736,
+      "sha256": "81a4fd41a643e6b24deffd8de1f180a27f35e2730624984506ef041ab6c407e7"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/METADATA-REPLAY.json",
+      "bytes": 19539,
+      "sha256": "e73eb4b48e4b98828d24568f5e19bfefab51f9ffc85cac641ad63c9b8facdf57"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/PLAN.json",
+      "bytes": 3604,
+      "sha256": "2d6bf6e1703397ee1693f6e54851b3fc33798ecd844fabac7a69f9a3302b3730"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/PORTABILITY.json",
+      "bytes": 1365,
+      "sha256": "49dbe42817e700ca124f9f870c77fda65b4e45d4a64b259292a0b306131ff5a6"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/REPORT.txt",
+      "bytes": 1863,
+      "sha256": "e7fd51f5fe263ebf6eb89706cf26741f220336b49adc79feb6aebe79297ff369"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/REVIEW-CLOSED.json",
+      "bytes": 500,
+      "sha256": "7302064016333a89c00afc13807e5bb9dd346bedb5b308b349cd46774e9eec28"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/REVIEW-WINDOW.json",
+      "bytes": 337,
+      "sha256": "a3a4213ba2442158ea335cfbf587de8483388a15728f524c60234337acf9c6f0"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/SCIENCE-FREEZE.json",
+      "bytes": 332,
+      "sha256": "eb7f1f253afe05a431bf6ddfc13e115a172c51b8d335b43bb3372c922f575c4d"
+    },
+    {
+      "path": "imprinting/gpnmb_analysis_contract_review/verify_contract.py",
+      "bytes": 6184,
+      "sha256": "fd982a3336f59985ac8b2d671328b316fd02a2a937db3d684f07644f78b92afe"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/.gitignore",
+      "bytes": 11,
+      "sha256": "a9f12d2905b28bc94d24e9a77d2acf67f57c376c7afe2b261c9ee233a677fc33"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/ALL-IDENTIFIABLE-NATIVE-CONDITION-REUSE.json",
+      "bytes": 39516,
+      "sha256": "b789d76657b48e4182f7fe9bf32044c81dda55567decf7944ec8acdbf1bca3d2"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/AMENDMENT-01-EXPOSURE-AND-SOURCE-SCOPE.json",
+      "bytes": 1216,
+      "sha256": "18df549fe7ddba911432859965d7c7ebbe7d7483eb33482de6314aef8a889d89"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/EVALUATED-PRIMARY-PRIOR-ART.json",
+      "bytes": 4398,
+      "sha256": "e340b3db78bad135089b5c50c7e673af07118b479748b7c12c01a856ab8f0439"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/MANIFEST.json",
+      "bytes": 2545,
+      "sha256": "d37f25e261c19ecee850c79b5145ddca91f867992d48d82863e4f10e1bdbf14d"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/PLAN.json",
+      "bytes": 3370,
+      "sha256": "1e635f9e3a2ca6e3f9186b2d891252cef59bb570915c411f033483d0dff1c514"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/PORTABILITY.json",
+      "bytes": 2423,
+      "sha256": "e78d4af26bf9bd0764fd72816cf4cb4673dd03f9e3a804391c634a3003585b66"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/REPORT.txt",
+      "bytes": 1805,
+      "sha256": "5908abc253a910c1353ae17eef6153ce4f56232ccc36705d1983af67cbc86803"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/REUSED-INPUT-BINDINGS.json",
+      "bytes": 2552,
+      "sha256": "874ba71203d3717673051df1e000f0c3accb206fbdb9703bf807c5765a2df4f9"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/SCIENCE-FREEZE.json",
+      "bytes": 457,
+      "sha256": "627ae97e26196aa610bfdd7498553db9ccb66aee4b6809b0e914b66bfd6d8da0"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/SOURCE-COVERAGE-STATUS.json",
+      "bytes": 2211,
+      "sha256": "247b945dcde2372ad1e8d97c7244c5f63e06828d33e14b5e0204f1e7bc89b1ce"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/SOURCE-DISCOVERY-RECEIPTS.json",
+      "bytes": 4605,
+      "sha256": "a0109cdc8747bfc946a5615b20ed3c937e68f8454c692fcf8152c0840669b07c"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/SOURCE-HELPER-ENVIRONMENT.json",
+      "bytes": 292,
+      "sha256": "59cc9fe91437346ecf614156c68ad57e34b94f24893c77f4feeb110c3886ccb2"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/SOURCE-VALUE-GATE-CLOSED.json",
+      "bytes": 662,
+      "sha256": "ba95f961dd8dbcbee7e66cab2f9d2f0430490b8758a1dbff8ae818c9c324b86a"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/VALIDATION.json",
+      "bytes": 3521,
+      "sha256": "13ac061df7f1026af45cd53f3006ed6f0213c43b8546eb332a64736106781a65"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/VALUE-AND-PROTOCOL-DECISION.json",
+      "bytes": 4915,
+      "sha256": "e657acd8d1586bf909d775a22aaa516c7840f7595ec72ee0cc6d3f00c7c56a06"
+    },
+    {
+      "path": "imprinting/gpnmb_comparative_value_gate/validate_gate.py",
+      "bytes": 2814,
+      "sha256": "2be3851a1fa8c1fa059db2779dfaaa38a0cd3d0db0df6b5a87207a5dc8cb55c3"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/.gitignore",
+      "bytes": 24,
+      "sha256": "0b8cf3dd43d5bb8e63a4b4a0604e411dfd6f02df9f9bed4a1657996879e6d4cb"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/AMENDMENT-01-UNCERTAIN-MLPS-CONTROL.json",
+      "bytes": 1127,
+      "sha256": "93c6d53f4f9396632e91af9d06f7b90b159d4cc2bae1e5e60324239a16ba4a6e"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/AMENDMENT-02-FREEZE.json",
+      "bytes": 528,
+      "sha256": "23b84d1f5bd40a11f29ac788aa4847f7cb76a78e5b3fc8234c0b3ae2b8c18769"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/AMENDMENT-02-SIGN-AND-RESAMPLING-INTERPRETATION.json",
+      "bytes": 3540,
+      "sha256": "7a8deb7c70dba1a5e0c692ec9368e506738ab54f3d174132b46634822b3d60b9"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/CONTRACT-FROZEN.json",
+      "bytes": 11160,
+      "sha256": "e2709d933df37d3f053978c7714dd6424ef94de7f844ed2970ad21cfc4019434"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/DEPENDENCY-GATE-BINDING.json",
+      "bytes": 20405,
+      "sha256": "d45fbe9147df5e82cbcfb2adfbb1ce7f0834246b55544b69ad55dcd2a18c1a4d"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/EXPOSURE-AND-READ-SCOPE.json",
+      "bytes": 950,
+      "sha256": "ef71eeec0899500c0cc0ff794906308eb5c367ea338568a6084283df26b68bab"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/FINAL-FREEZE.json",
+      "bytes": 2249,
+      "sha256": "8abf41c5e1e05c593c7cd6269f9406a878f6226f215089bc2e2f18ad77d06139"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/FROZEN-SPECIMEN-UNITS.json",
+      "bytes": 63140,
+      "sha256": "9662fb0538bd20f1f5ee861a5ca511cf04b569db7da4665913bc1c13c0bfd215"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/INPUT-LOCK.json",
+      "bytes": 4133,
+      "sha256": "65402cc54bf9885773ed895b2868717c2aacdfc48897959066756954c4221ec9"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/PREPARED-WIRING.json",
+      "bytes": 2789,
+      "sha256": "605f43114d1daff89691cd8132f5af43f307e1c7b14152a44ae797a380fdb8e0"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/REPORT.txt",
+      "bytes": 1807,
+      "sha256": "078165e1af313883243b70410b7076e422f756b340711be6ec1a7d9a91a93d8c"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/SCIENCE-FREEZE.json",
+      "bytes": 2050,
+      "sha256": "32765273d1e94f4bccbbc832baf08454d581b42559e90a58f306fab780d56c5b"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/VALIDATION.json",
+      "bytes": 705,
+      "sha256": "729a9410be47266e299bb78200e798a2952bb50090070b62ecd1efeab836b69b"
+    },
+    {
+      "path": "public_resource_omissions/gpnmb_exploratory_analysis_contract/prepare_schema.py",
+      "bytes": 6401,
+      "sha256": "7967e508dee382748fb981d78bb0880bc97907e95fe7ee4cbb3ada17601f7c5d"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/.gitignore",
+      "bytes": 18,
+      "sha256": "35740b6d3be41e8085fa77e0f4f2cfebd19344518e9cc9bfa8ad9cbdf1412fb7"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/AMENDMENT-01-EXPOSURE-AND-BOUNDARY.json",
+      "bytes": 890,
+      "sha256": "219ffc89d067b6b33158b18a1ef375f265193ed75a02ba92e13be94071d30242"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/AMENDMENT-02-FOUR-3SEQ-CORRECTION.json",
+      "bytes": 2846,
+      "sha256": "be0b2eb12d377b758207c6d171aa7e890b6997a1dd787c80662fe70caaa6cb5a"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/ARRAY-CONDITION-ROSTERS.json",
+      "bytes": 40686,
+      "sha256": "11c7d77f5e7d351deab9f09c1f4ad0015f189c3e59ec3ca85f18a7cf9eee0f17"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/ARRAY-PROBE-ANNOTATION.json",
+      "bytes": 8742,
+      "sha256": "ff42d3b76b46f56db19c387e81f5de2eccb85c0b5721ce968f372179399fe468"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/ARRAY-PROBE-INDEX-PRESENCE.json",
+      "bytes": 12046,
+      "sha256": "778d1989d6fa2714dde2da25af6213a1e9d3362f0058eba6dc255ed50c8f7a2a"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/CLOSED.json",
+      "bytes": 304,
+      "sha256": "97fd9bf4d0178f54d9bb8bae8ea1583c4feba41988158bd4fabc5997ec825130"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/COVERAGE.json",
+      "bytes": 2406,
+      "sha256": "6ca9fd2dbda17a3bca73370a38b39480f762219f658f1ddcd826c92b14ffdd12"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/GSE28866-ASSAY-AND-PEAK-ANNOTATION.json",
+      "bytes": 6415,
+      "sha256": "136a12aac7bc0c9e8d5e27ae3a5af2a1250193a52dd0ba8db75bd186a5c25e38"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/HOFVANDER-SCHEMA.json",
+      "bytes": 19781,
+      "sha256": "0b5c5fb9df8a9043393ac8d94912602174e7ae8dfa1ae405cf8a7bcee788098f"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/MANIFEST.json",
+      "bytes": 3145,
+      "sha256": "1f409eaaa84368446ec17ba4d8a9be8fa072ace15ce7c86146341ac9541f5f38"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/PLAN-FREEZE.json",
+      "bytes": 168,
+      "sha256": "b9f2a19c73308492b59e033157ac3352a227673f55eb5b354297af33940f7664"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/PLAN.json",
+      "bytes": 3002,
+      "sha256": "3fc68ba427b9056a4aa94473a0d2436eafbe0d35be349a19be561082d738dbb0"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/PORTABILITY.json",
+      "bytes": 938,
+      "sha256": "92790740b2963719dd3fe7025a0c700b1b93d3379616089999eda83fd0f22ab2"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/PRIOR-EXPOSURE-AND-FAMILY.json",
+      "bytes": 3012,
+      "sha256": "2b60ead7d0e07c5e3cf5c333e90071e207bb0db4216991ffe07fc10cd11463c4"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/READER-SUMMARY.txt",
+      "bytes": 2065,
+      "sha256": "697dee4f1eddf56696cedccf0ea63d57c1ad0c5157c961c70e83f3833d74641d"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/READINESS-DECISION.json",
+      "bytes": 2353,
+      "sha256": "c217f81be7e71d21ef793978c2442837cdabcf1f831373cb5fd044a2bc9ca001"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/REPORT.txt",
+      "bytes": 939,
+      "sha256": "636c266be869fbaf8c8b5a5fd57f3a57cbf67bc69aa46a6a91e4e1f8d63f1f85"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/SCIENCE-FREEZE.json",
+      "bytes": 347,
+      "sha256": "58d08254c0a6f216d5af20407b5ec49f9464307735e4ab965653c8be224378c1"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/TEMPO-FILTERED-SCHEMA-ONLY.json",
+      "bytes": 745,
+      "sha256": "a1e47df9cb9279c6cf7086c2b2f59407461546a442596af32acde7583bf25ac2"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/VALIDATION.json",
+      "bytes": 1163,
+      "sha256": "586355f82c4c691acad359d0946be7202fc1c72079b554405b319e633e5236e5"
+    },
+    {
+      "path": "rna_processing/gpnmb_all_condition_readiness/check_readiness.py",
+      "bytes": 8021,
+      "sha256": "da018dc5942525138dc8a94549d405bb8b25703b991a42c6c66e4a5de0185b4d"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/.gitignore",
+      "bytes": 18,
+      "sha256": "35740b6d3be41e8085fa77e0f4f2cfebd19344518e9cc9bfa8ad9cbdf1412fb7"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/ALL10-CONDITION-CROSSWALK.json",
+      "bytes": 5382,
+      "sha256": "aec2d8196d042b9b5157c21bddc724df13486c0c32155029e56ce3f9afac4578"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/CELLOSAURUS-ALIASES-RECEIPT.json",
+      "bytes": 1656,
+      "sha256": "22c6ed717b3704b9d18db8d3724eb02f4c95f9c196b726d631609981ae305f48"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/CELLOSAURUS-API-DOCUMENTATION-LINKS.json",
+      "bytes": 1425,
+      "sha256": "be5142acc4d1fc1db2b6c0f000d7365e7b1bc89473c1167746c2f2e67bd0815e"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/CELLOSAURUS-API-DOCUMENTATION-RECEIPT.json",
+      "bytes": 469,
+      "sha256": "6c2551392681aafeb83fdfe724096423d358714d4e8361a735397cc074da2d8b"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/CELLOSAURUS-DECLARED-ROUTES.json",
+      "bytes": 680,
+      "sha256": "be571f2ff578c90c7079be53e5fa7dcf66406aab2591b5e3cbd2acf2b4b6be52"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/CELLOSAURUS-FIELD-DOCUMENTATION-RECEIPT.json",
+      "bytes": 548,
+      "sha256": "3f7c605a2529d78396d753172059892041198e87ca9adc14af991bd7f397d6d4"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/CELLOSAURUS-IDENTITY-FIELDS.json",
+      "bytes": 3089,
+      "sha256": "b0351553a07554782e292c5d5f8f1aa820a5a721eac18e17a4281555f437165b"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/CELLOSAURUS-ROOT-RECEIPT.json",
+      "bytes": 517,
+      "sha256": "b1051ff4789690f40070c3839c185356e78145af00ae93c37d686a415da92b7d"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/CLOSED.json",
+      "bytes": 239,
+      "sha256": "202777b2257672f55f96bac6f11c5e88bd66aff510f8ac5be48e4b162ae0e4b3"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/COVERAGE.json",
+      "bytes": 1070,
+      "sha256": "ecc39fdc7cd28cf1470683d4a011c86f1fa3630f9b5e93991cd32f2365cf81d0"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/DECISION.json",
+      "bytes": 1443,
+      "sha256": "e2531d41c48bd6c2b4b2912da93114e639bb8710c85820f6b1ea7e5dd03312cb"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/DECLARED-SUPPLEMENT-METADATA.json",
+      "bytes": 4325,
+      "sha256": "22385c50b7e3e989f86877942cf1fb125a952cbdb867df4cf34e64a8f621abee"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/EVALUATED-CELL-RESOURCE-BRIDGES.json",
+      "bytes": 2798,
+      "sha256": "470259719c77279774a4a459b629c32deccc4dd7ca3c7e5f60c5039b8cb66b8a"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/MANIFEST.json",
+      "bytes": 3514,
+      "sha256": "0ac5ace70db30661801680c1155490fedac8df25a23aba6556a868490c280c98"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/PLAN-FREEZE.json",
+      "bytes": 204,
+      "sha256": "ec014da6a86d8775251d381ea502a390e43500fa72ed09115d8382a89a6255a6"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/PLAN.json",
+      "bytes": 3065,
+      "sha256": "b13e53c120b5be4fb4a577b72b540b9933424ef6312850a9c378772179af3d0c"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/PORTABILITY.json",
+      "bytes": 1629,
+      "sha256": "395ee8bf965a12eaa194936961b0f1b75fc91cb78d6c3e473c35ab52bd506245"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/PRIMARY-SUPPLEMENT-BRANCH-DISPOSITION.json",
+      "bytes": 883,
+      "sha256": "15de72c4a67ff49f448cf6643f0d9f57277209b9613861877895cfdc9774b569"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/REPORT.txt",
+      "bytes": 1049,
+      "sha256": "9cdc86efc02a4aa3bd5b48d68b6bd3566c2696cdf215f93cdae44cd3366249b2"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/REUSED-INPUT-BINDINGS.json",
+      "bytes": 3221,
+      "sha256": "20e26633ab40b021c67309631c2e8b49d8af48e46f1888ac86db1300ef78b498"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/SCIENCE-FREEZE.json",
+      "bytes": 325,
+      "sha256": "f74cd3ce45cb41a6661582a59697a29abed191206366a1bcdbe3d5245b94fef0"
+    },
+    {
+      "path": "rna_processing/gse221532_control_identity_bridge/VALIDATION.json",
+      "bytes": 1094,
+      "sha256": "c21c11d5959940aab8c569a881ae752165d19fc1f35fd108d92cdc2316f55499"
+    },
+    {
+      "path": "validation/normal-preflight-stage11.txt.gz",
+      "bytes": 7810,
+      "sha256": "3eace6b84793cb6e484b56a7f21f09827d8da8dcdefc8a1fa7adfda127b6ac50"
+    }
+  ],
+  "total_files": 176,
+  "total_bytes": 756369,
+  "source_commits": [
+    "6050ce9a568c6155326527ac01869b4fabc9b47b",
+    "97949f9ee2164604f7bba1f92225d25190deacc0",
+    "7bf0eeac12a2747b727fc91280cde69686f299aa",
+    "7beec03c0e28d7d133464d6bfd9e1149aefb53ec",
+    "1ef9f0b0328310cc2618c043ccdea5d06e2f0662",
+    "9c4f05f80ce709e7dde6201b33fcb639909faab6",
+    "f56ba68672e644fc802c61ad831e8fe885f1bf1b",
+    "ccf025e0266c0b583adffc6683daf256b088f591",
+    "485b9f019eece23de96c11fe54963e1797267e15",
+    "bedc21cedc337fffc4279f1e7da28e33edfc9041",
+    "ab18af9cce89c260297a14eb30dc072d4e125149"
+  ],
+  "prior_selected_sets_verified": [
+    {
+      "manifest": "PORTABLE-EXPORT.json",
+      "sha256": "7f4ab8a0acb81ac803662d1a084a02b886ddc5aa3129634ec8ed1ac15628375a",
+      "files_verified": 254
+    },
+    {
+      "manifest": "PORTABLE-EXPORT-STAGE2.json",
+      "sha256": "ea6d19209918f7f67e08e4a8246e1bb34879f834ca3cd682473569b19b5aa3e4",
+      "files_verified": 119
+    },
+    {
+      "manifest": "PORTABLE-EXPORT-STAGE3.json",
+      "sha256": "7c14b7dab10c1d8a40282d288d45da9e839e5a8e9d86174e0266cd6c5e26007c",
+      "files_verified": 135
+    },
+    {
+      "manifest": "PORTABLE-EXPORT-STAGE4.json",
+      "sha256": "9908cacf548a194657690c2d7cb8cf89ea67986d1e1a26d250bf18767de94452",
+      "files_verified": 64
+    },
+    {
+      "manifest": "PORTABLE-EXPORT-STAGE5.json",
+      "sha256": "da02faa01b2cddaafdfc1e960fb8302388bc70776b0cb35394ac686b79566f10",
+      "files_verified": 198
+    },
+    {
+      "manifest": "PORTABLE-EXPORT-STAGE6.json",
+      "sha256": "3c4fc2c62f129aa7639da62d7c29dd4d8eca29191ae171d2f58b9e47d4caf7c4",
+      "files_verified": 213
+    },
+    {
+      "manifest": "PORTABLE-EXPORT-STAGE7.json",
+      "sha256": "61a0e1c2119ab7a6c785e384922771e01dc95527037d04c0f7e9a5868994e689",
+      "files_verified": 90
+    },
+    {
+      "manifest": "PORTABLE-EXPORT-STAGE8.json",
+      "sha256": "d599c9fde5ad4600681f28b668edfbb7e7e69ee9ac01bfec694b147735a6e255",
+      "files_verified": 120
+    },
+    {
+      "manifest": "PORTABLE-EXPORT-STAGE9.json",
+      "sha256": "375820b29f160628a3a12a03d7073e12fe7a64134874e72939841cc47a9d07ab",
+      "files_verified": 253
+    },
+    {
+      "manifest": "PORTABLE-EXPORT-STAGE10.json",
+      "sha256": "6eab1c0a83413f6763ce29f830545e993efbeb72c8a6fb324629ee8c4bf7e09f",
+      "files_verified": 213
+    }
+  ],
+  "scope": "Selected actually evaluated compact source/readiness/prior/contract/review/authorization records. Self outside; raw originals stay ignored. Numerical outputs and prospective post-result review packets in private owned worktrees not included. No rawrecovery/fullreproduction/completecoverage/scientificreplication/publication claim."
+}
