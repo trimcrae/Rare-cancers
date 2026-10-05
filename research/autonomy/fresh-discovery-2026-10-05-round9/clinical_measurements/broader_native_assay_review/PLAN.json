@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-05T14:43:10.942022+00:00",
+  "deadline_utc": "2026-10-05T15:03:10.942022+00:00",
+  "owner": "clinical_measurements/broader_native_assay_review; integrating lead owns shared state",
+  "base_commit": "a0f8cc1a49feb362b379855b72644b8e756eaa94",
+  "source": "Actual retained 53-series GDS summary catalogue, SHA256 932cae6c1baeaf8c2884b0ef8d4395017f00909f7da1df2977e9026b0e658c75. Catalogue search is not source evaluation.",
+  "question": "Does a genuinely native EMC primary study identify donor/model, perturbation or serial condition, control/time and an orthogonal measured endpoint that supports one useful unanswered contrast beyond already-published assay results?",
+  "decision_changed": "Only a source-authenticated, controlled and clinically or biologically useful unanswered contrast would justify a separately frozen numerical stage reviewed by lead. Otherwise preserve scoped inconclusive/no-go and every unresolved eligibility gap.",
+  "selection_before_titles": "Inspect all 53 retained title/taxon/assay/count metadata fields. Rank exact native EMC/historical disease/model identities first, then genuinely ambiguous broader source designs with perturbation/time/orthogonal assays; select at most two actual new primary method/citation links distinct from owner after coordination. No favorable-result selection.",
+  "fields_allowed": "Accession, title, disease/model labels, taxon, assay, sample count, citation/primary URLs, original methods/design and all named condition/control identifiers. No outcome, gene or biochemical values.",
+  "eligibility": "Source-specific native human EMC donor/model identity, molecular/pathology limits, all EMC conditions, perturbation/time/control linkage, measured orthogonal assay, donor vs technical repeats, site/treatment/batch/model provenance. Engineered 293 or disputed/generic models cannot substitute.",
+  "strongest_alternatives": [
+    "Non-EMC models in broad sarcoma/reference-contaminated catalogue",
+    "Generic recovery/preparation term mistaken for dynamic experimental design",
+    "Unpaired conditions or technical repeats mistaken for independent EMC donors",
+    "Published assay result or model adaptation mistaken for new disease biology",
+    "RNA changes without orthogonal functional measurement or useful comparison"
+  ],
+  "disproof_stop": "No authentic native EMC controlled conditions or useful unanswered contrast; inaccessible/uninspected linked evidence remains pending/unavailable by demonstrated route rather than biological negativity. No inventory or failed-hypothesis paper.",
+  "reuse_exclusions": "GSE98824 all 30 WHIM conditions are source-authenticated triple-negative breast PDX, not EMC. Reuse verified R1\u2013R9; no new static RNA panel, clocks, IR, APA, chemokine, 13-case proliferation, washout rescue or portal repeats.",
+  "limits": {
+    "new_primary_links": 2,
+    "new_raw_cap_bytes": 8388608,
+    "free_floor_bytes": 10737418240,
+    "initial_free_bytes": 27120279552,
+    "numerical_stage": false,
+    "publication_or_outreach": false
+  },
+  "restrictions": "Denied FAP-tissue/glycan/structural-genomics/HLA/private-login/bypass remain closed. Quiet metadata/method source work only, no spend/GPU/outreach/PR/shared-root changes or push. Full catalogue/source originals ignored; compact evaluated records exported."
+}

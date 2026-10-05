@@ -1,0 +1,44 @@
+{
+  "utc": "2026-10-05T14:56:25.237607+00:00",
+  "primary_sha256": "ce629ddbff51402387deaa3be907c13dea72d1f28d4a20486ec09cad78b60127",
+  "selected_method_sections_only": [
+    {
+      "section_id": "Sec15",
+      "title": "Human patient samples",
+      "methods": [
+        "External sample cohorts were added to the Broad Institute\u2019s Molecular Classification of Cancer protocol (15\u2013370B) and reviewed and approved by the Dana-Farber Cancer Institute\u2019s (DFCI) Institutional Review Board (IRB). No subject recruitment or ascertainment was performed as part of the Broad protocol. Samples added to this protocol also underwent IRB review and approval at the institutions where the samples were originally collected. Specifically, DFCI IRB approved the following protocols: NSCLC (IRB protocol 98-063), MBC (IRB protocol 05-246), neuroblastoma (IRB protocols 11-104 and 17-104), ovarian cancer (IRB protocol 02-051), melanoma (IRB protocol 11-104), sarcoma (IRB protocol 17-104), GBM (IRB protocol 10-417) and CLL (IRB protocol 99-224), and the St Jude Children\u2019s Research Hospital IRB approved the following protocol: pediatric high-grade glioma (IRB protocol 97BANK).",
+        "The XPD 09-234 MAST (Molecular Analysis of Solid Tumor) protocol for creating the neuroblastoma O-PDX sample was reviewed and approved by the St Jude Children\u2019s Research Hospital IRB."
+      ]
+    },
+    {
+      "section_id": "Sec17",
+      "title": "Collection of fresh tissue for scRNA-Seq",
+      "methods": [
+        "Collection of fresh solid tumor tissue for NSCLC, ovarian cancer and MBC at Brigham and Women\u2019s Hospital (BWH)/DFCI was performed following protocols established to reduce the time elapsed between removal of the tumor tissue from the body, placement of the specimen in media and processing for scRNA-Seq. To this end, we established procedures between the hospital team (surgeon/clinical research coordinator/clinical pathologist), the coordinating team (project managers/pathology technician) and the processing team (staff scientists/research technicians) before procedure day. This included providing the hospital team with collection containers with appropriate media and predefining allocation priorities to ensure quick handling by the pathology technician of the sample received. On the day of the procedure, timely communication between the teams ensured quick specimen transfer from the hospital team to the research team, timely transport to the Broad Institute for processing, and immediate loading of the single cell suspension into the 10x Genomics Single-Cell Chromium Controller (as described in the section \u2018Dissociation workflow from fresh solid tumor samples\u2019 below).",
+        "In all cases, the tissue received from the hospital team was examined by the research pathology technician and, following procurement of a specimen for anatomic pathology review, the highest-quality portion (or core) was allocated for scRNA-Seq, placed in medium and transported to the Broad Institute for dissociation following the appropriate protocol (protocols are detailed for each tumor type below). Tissue quality was assessed based on visual examination and rapid pathology interpretation at the time of collection, and determined based on tumor content, necrosis, calcification, fat and hemorrhage.",
+        "For ovarian cancer ascites, ~300\u2009ml was usually received from the hospital team within 1\u2009h after being taken out of the body, and contained a vast majority of non-malignant (mainly immune) cells. Hence, all ascites samples were subjected to CD45+ cell depletion (below) to enrich for malignant cells.",
+        "For CLL, samples were generated from peripheral blood mononuclear cells isolated using density centrifugation (Ficoll-Paque) and stored in freezing medium (FBS\u2009+\u200910% DMSO) in liquid nitrogen until processing.",
+        "For O-PDX of neuroblastoma samples Foxn1\u2212/\u2212 nude mice (Charles River Laboratories) were orthotopically injected via ultrasound-guided para-adrenal injection with cells derived from a patient MYCN-amplified neuroblastoma (available as sample SJNBL046_X1 through the Childhood Solid Tumor Network)19,20. A portion of O-PDX tumor was flash-frozen for future snRNA-Seq, while the remainder underwent dissociation as described below."
+      ]
+    },
+    {
+      "section_id": "Sec18",
+      "title": "Preservation of tissue for snRNA-Seq",
+      "methods": [
+        "For those samples that we prospectively collected for snRNA-Seq (neuroblastoma HTAPP-244-SMP-451 and HTAPP-656-SMP-3481), freezing of tumor samples was performed as quickly as possible after sample collection using a standard biobanking technique and the dates when samples were frozen were recorded. (Other samples were obtained from tissue banks with a limited record on how they were frozen, which is a typical scenario.) Samples were placed in cryo-tubes without any liquid. Complete removal of liquid from the sample was accomplished by gently wiping it (not patting, as this would damage the tissue) on the side of the container, before placing in the cryotube. The tubes were then covered in dry ice and transferred to \u221280\u2009\u00b0C for long-term storage.",
+        "The other frozen samples from snRNA-Seq were obtained from tissue banks as follows: ovarian optimal cutting temperature compound (OCT)-frozen archival samples were obtained from the DFCI Gynecology Oncology Tissue Bank; sarcoma snap-frozen samples were obtained from the Boston Children\u2019s Hospital Tissue Bank; pediatric snap-frozen glioma samples were obtained from the St Jude Children\u2019s Research Hospital Biorepository; neuroblastoma snap-frozen samples were obtained from the St Jude Children\u2019s Research Hospital Biorepository and the Boston Children\u2019s Hospital Precision Link Biobank for Health Discovery; MBC OCT-frozen samples were obtained from the Center for Cancer Precision Medicine Bank; snap-frozen melanoma samples were obtained through the laboratory of Dr C. Yoon at BWH."
+      ]
+    },
+    {
+      "section_id": "Sec26",
+      "title": "Droplet-based sc/snRNA-Seq",
+      "methods": [
+        "For V2 10x technology, either 8,000 single cells or 10,000 single nuclei were loaded into each channel of a Chromium single-cell 3\u2032 Chip. For V3 10x technology, 8,000 single cells and 8,000 single nuclei were loaded. Single cells/nuclei were partitioned into droplets with gel beads in the Chromium Controller. After emulsions were formed, barcoded reverse transcription of RNA took place. This was followed by cDNA amplification, fragmentation and adapter and sample index attachment, all according to the manufacturer\u2019s recommendations. Libraries from four 10x channels were pooled together and sequenced on one lane of an Illumina HiSeq X, or on one flow cell of a NextSeq, with paired end reads as follows: read 1, 26\u2009nt; read 2, 55\u2009nt; index 1, 8\u2009nt; index 2, 0\u2009nt."
+      ]
+    }
+  ],
+  "source_boundaries": "No Results/Discussion outcomes, figure images, computational cell annotation results or gene-set rows evaluated.",
+  "specimen_identity_limit": "Human samples section lists generic sarcoma IRB17-104, not subtype-specific EMC authentication. St Jude O-PDX source is explicitly neuroblastoma.",
+  "public_release": "Source says counts matrices and metadata GSE140819/public toolbox; publicly linked outputs remain uninspected. Raw reads controlled dbGaP phs001983.v1.p1 and DUOS000111\u2013000114, not requested.",
+  "assay_value_decision": "Source aims at tumor processing/preparation protocols across fresh/frozen samples and RNA assays. Protocol-dependent representation is known study purpose, not a new EMC perturbation or orthogonal phenotype. Source-specific RNA preparation comparison cannot establish dependency, temporal tumor-state response or clinical benefit."
+}
