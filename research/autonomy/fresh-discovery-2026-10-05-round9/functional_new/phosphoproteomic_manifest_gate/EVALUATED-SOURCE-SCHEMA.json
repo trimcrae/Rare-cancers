@@ -1,0 +1,55 @@
+{
+  "utc": "2026-10-05T13:46:16.896212+00:00",
+  "question": "Source-linked publicclinical+processed phosphoprotein/totalproteinmanifest for1998 MASTER/CATCH/INFORM release, beforeoutcomes",
+  "evaluated_sources": [
+    {
+      "source": "InheritedbiorxivAPIv1",
+      "hash": "25962ffb10a7436e553e95b48664ee007dcd7eec9536a9fb056336490056e29a",
+      "scope": "Exactsource/title/author/correspondingKusterTUM identity; reported1998tumors only, noactualEMCconditions orfilemanifest",
+      "disposition": "verifiedreuse; no primarybody re-download"
+    },
+    {
+      "source": "PublicGitHub narrow repository discovery",
+      "scope": "TOPAS+phosphoproteomics1repository returned and assessed; exactpaper title0repository returned. Complete narrowmetadata scopes, notuniversalcode absence",
+      "disposition": "kusterlab/topas-pipeline genuineauthorlabsoftware; no direct2026papercitation established"
+    },
+    {
+      "source": "kusterlab/topas-pipeline README andfiletree",
+      "scope": "Documentation genuinelylinksTOPASportal/source. Treefiles scopedforclinicalmanifest/data candidates; examples areCPTACUCEC, METADATA_UCEC.xlsx andTOPASscores example, not1998clinicaldata. No example xlsx/outcome read.",
+      "disposition": "Usefulsource-link repair only; software is notclinical release"
+    },
+    {
+      "source": "kusterlab/TOPAS-portal README andfiletree",
+      "scope": "Publicclinical-proteomics portalcode. patient_annotation_path mapscohorttoexternalExcel; Sample name mandatory andmustmatch sample_annotation. INFORM configpaths arelocal placeholders, notpublished donorrecords. No1998releaseversion/sourceDOIorpublicprocesseddatafile authenticated. Adminpassword/login instructions applyadminonly; noneattempted.",
+      "disposition": "Assayschema/documentation evaluated; underlyingclinicalrecords remain unlocated/unverified fornewsource"
+    },
+    {
+      "source": "Authorlinked publicportal landing+genuine staticappscript",
+      "scope": "OrdinaryHTTPfile only, noUI/execution. Scriptcontainsanonymous metadata cohort_names/colnames routes. Other score/admin/mutation routes neverrequested.",
+      "disposition": "Genuinepublicschema route identified; nosource1998 attribution inferred"
+    },
+    {
+      "source": "Publicportal cohort_names API",
+      "scope": "Actualpublicresponse fourcohortstrings LUAD_CPTAC,BRCA_CPTAC,UCEC_CPTAC,CPTAC_PAN_Cancer",
+      "disposition": "Observedpubliclisting isCPTACnamedcohorts, notverified1998MASTER/CATCH/INFORM. Noindividuals/diagnoses/fusions/measurements read; notproofclinicalsource unavailableeverywhere"
+    },
+    {
+      "source": "Publicportal defaultcolnames API",
+      "scope": "Actualpublicresponse19schema dictionaries withdataField/dataType/visible/width; names includeclinicaldiagnosis/grade/site/treatment fields, notmeasurement/specimenrows",
+      "disposition": "Clinicalmetadata schemapubliclydescribed, butno new1998cohort/donor/assaycrosswalk supplied. Initial list-levelkeys[] interpretation correctedbeforefinalmanifest."
+    },
+    {
+      "source": "Independent exactCrossref DOI/citationrelations",
+      "scope": "ReviewerCrossref200 matchesDOI/title/author; relation{} andno clinicalprocesseddeposit relation.105citationreferencesnot105studies evaluated; onlyselectedBayer2025chemical-kinase methodtitle assessed asnotclinicalmanifest.",
+      "disposition": "Distinctsourceidentity/citationlink branch; no newmanifest link supplied. Reviewerfinalexactfreeze pending."
+    }
+  ],
+  "eligible_clinical_conditions": {
+    "EMC": "unresolved; noactualcase manifest/directRETsite+totalproteinlinked rows supplied",
+    "myxoid_liposarcoma": "unresolved; fixedcomparator retained, no rowsread",
+    "synovial_sarcoma": "unresolved; fixedcomparator retained, no rowsread",
+    "LGFMS_normal_context": "conditionalcoverage retained ifreleased; noassumedabsence",
+    "donor_condition_batch_treatment_overlap": "unresolved; no invented independentdonor n, no technicalreplicate counts"
+  },
+  "access_boundaries": "No primarypaper reopened; no deniedJATS/EPMC retry; noaccount/private/admin/token/outreach. Other publicapp cohorts notborrowed as authenticEMC ornew1998release."
+}

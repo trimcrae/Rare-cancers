@@ -1,0 +1,64 @@
+[
+  {
+    "utc": "2026-10-05T13:40:12.808736+00:00",
+    "key": "portal-readme",
+    "url": "https://api.github.com/repos/kusterlab/TOPAS-portal/readme",
+    "purpose": "Genuineauthor-linkedpublic documentation/filemanifest/accessschema only; no patient/kinase/phosphosite values or UI",
+    "status": 200,
+    "bytes": 12070,
+    "sha256": "249ef6197e518d1ad0382a22cdf8c22e489258f3917f742e3c2a9371e83e4fe7",
+    "file": "raw-cache/portal-readme.source",
+    "final_url": "https://api.github.com/repos/kusterlab/TOPAS-portal/readme",
+    "content_type": "application/json; charset=utf-8",
+    "documentation_excerpts": [
+      "The TOPAS portal allows exploration of proteome and phospho-proteome profiles of patients processed with our clinical-proteomics pipeline from LC/MS data. ",
+      "This app is deployed at https://topas-portal.kusterlab.org/",
+      "The `DB_PASSWORD` you can choose yourself and is needed to login to the admin tools panel in the portal.",
+      "    \"patient_annotation_path\": {",
+      "        \"INFORM\": \"METADATA.xlsx\"",
+      "        \"INFORM\": \"TOPAS_pipeline_results\"",
+      "        \"INFORM\": \"sample_annotation.csv\"",
+      "        \"INFORM\": 1",
+      "        \"INFORM\": 1",
+      "    \"meta_data_columns_config\": \"meta_columns_config.json\",",
+      "- `report_directory`: dictionary of `cohort_name -> path to a pipeline results folder` (https://github.com/kusterlab/topas-pipeline).",
+      "- `patient_annotation_path`: dictionary of `cohort_name -> excel file with meta data`.",
+      "The column 'Sample name' is mandatory and has to corresponds to the same record in `sample_annotation_path`. Additional columns containing metadata can be added freely.",
+      "- `meta_data_columns_config`: path to json file with additional metadata columns in `patient_annotation_path` with the following format:"
+    ]
+  },
+  {
+    "utc": "2026-10-05T13:40:12.809911+00:00",
+    "key": "portal-tree",
+    "url": "https://api.github.com/repos/kusterlab/TOPAS-portal/git/trees/HEAD?recursive=1",
+    "purpose": "Genuineauthor-linkedpublic documentation/filemanifest/accessschema only; no patient/kinase/phosphosite values or UI",
+    "status": 200,
+    "bytes": 52030,
+    "sha256": "d2302cc7038179a7ea73505b107211770fd4a9fbeedcba19f18fc8059394f2ec",
+    "file": "raw-cache/portal-tree.source",
+    "final_url": "https://api.github.com/repos/kusterlab/TOPAS-portal/git/trees/HEAD?recursive=1",
+    "content_type": "application/json; charset=utf-8",
+    "truncated": false,
+    "tree_entries_count": 206
+  },
+  {
+    "utc": "2026-10-05T13:40:12.810643+00:00",
+    "key": "portal-landing",
+    "url": "https://topas-portal.kusterlab.org/",
+    "purpose": "Genuineauthor-linkedpublic documentation/filemanifest/accessschema only; no patient/kinase/phosphosite values or UI",
+    "status": 200,
+    "bytes": 1015,
+    "sha256": "82d701d7b181845b05dfadd8be0ec3341b5d8d787f6dbb164a33d33eae16ae9a",
+    "file": "raw-cache/portal-landing.source",
+    "final_url": "https://topas-portal.kusterlab.org/master_topas-portal/",
+    "content_type": "text/html; charset=UTF-8",
+    "title": [
+      "TOPAS portal"
+    ],
+    "script_src": [
+      "/master_topas-portal/static/js/chunk-vendors.249ea08c.js",
+      "/master_topas-portal/static/js/app.1877d390.js"
+    ],
+    "login_access_tokens": []
+  }
+]

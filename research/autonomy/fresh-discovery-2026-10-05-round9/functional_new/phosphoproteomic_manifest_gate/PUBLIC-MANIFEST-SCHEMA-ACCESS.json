@@ -1,0 +1,60 @@
+[
+  {
+    "utc": "2026-10-05T13:43:33.614708+00:00",
+    "key": "public-cohort-names",
+    "url": "https://topas-portal.kusterlab.org/master_topas-portal_backend/cohort_names",
+    "scope": "Read-onlypublic cohortnames/columnschema only; no matrix/outcomevalues",
+    "status": 200,
+    "bytes": 73,
+    "sha256": "17b883dd4a125c32f8c97d0c200283b233b3463085bc6553dba1755503c21f7a",
+    "file": "raw-cache/public-cohort-names.source",
+    "cohort_names": [
+      "LUAD_CPTAC",
+      "BRCA_CPTAC",
+      "UCEC_CPTAC",
+      "CPTAC_PAN_Cancer"
+    ]
+  },
+  {
+    "utc": "2026-10-05T13:43:33.615674+00:00",
+    "key": "public-column-schema",
+    "url": "https://topas-portal.kusterlab.org/master_topas-portal_backend/colnames",
+    "scope": "Read-onlypublic cohortnames/columnschema only; no matrix/outcomevalues",
+    "status": 200,
+    "bytes": 2151,
+    "sha256": "c1ce0c6a335c974e2ab45ca9f7020f236d30fbf928989d810b3cbc5590c19a42",
+    "file": "raw-cache/public-column-schema.source",
+    "structure_only": {
+      "type": "list",
+      "entries_count": 19,
+      "entry_keys": [
+        "dataField",
+        "dataType",
+        "visible",
+        "width"
+      ]
+    },
+    "eligible_schema_names_only": [
+      "case_submitter_id",
+      "ethnicity",
+      "gender",
+      "race",
+      "age_at_diagnosis",
+      "ajcc_pathologic_stage",
+      "figo_stage",
+      "morphology",
+      "primary_diagnosis",
+      "tissue_or_organ_of_origin",
+      "tumor_focality",
+      "tumor_grade",
+      "year_of_diagnosis",
+      "residual_disease",
+      "treatment_outcome",
+      "treatment_type",
+      "progression_or_recurrence",
+      "residual_disease.1",
+      "site_of_resection_or_biopsy"
+    ],
+    "interpretation": "19schemaobjects only, notspecimenvalues; originalhelper list-levelkeys[] wasmisread as emptyresponse. Correctedbeforefinalmanifest."
+  }
+]

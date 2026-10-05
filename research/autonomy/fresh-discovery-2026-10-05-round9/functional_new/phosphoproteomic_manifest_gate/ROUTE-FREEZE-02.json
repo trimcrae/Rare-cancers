@@ -1,0 +1,13 @@
+{
+  "utc": "2026-10-05T13:43:09.672981+00:00",
+  "source": "Authorlinked publicportal landing staticapp script supplied read-onlymetadata routes",
+  "parent_authorization": "Ordinarypublic/API schema, no private/admin/credential/outcome endpoints",
+  "exact_routes": [
+    "https://topas-portal.kusterlab.org/master_topas-portal_backend/cohort_names",
+    "https://topas-portal.kusterlab.org/master_topas-portal_backend/colnames"
+  ],
+  "genuine_route_evidence": "literalpaths in portal-app.js afterlanding listed exactscriptURL; no guessedroute,UI or execution",
+  "fields": "Publiccohortidentifier strings and clinicalcolumn/schema names only. Filter eligible diagnosis/fusion/specimen/donor/site/date/treatment/batch/protein/phosphosite schema labels; no clinicalvalues,kinase/substrate/phosphosite cells,HLA/FAP/glycanfields or structuralmechanisms.",
+  "limits": "<=1MiB each response; stop403/login/account barrier/error or if response contains biologicalmeasurementrows; no credentials/cookies/tokens/private endpoint attempts. No1998source attribution fromcohortname alone.",
+  "deadline_utc": "2026-10-05T13:50:28Z"
+}
