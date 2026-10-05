@@ -1,0 +1,58 @@
+{
+  "utc": "2026-10-05T13:57:15.094606+00:00",
+  "source": {
+    "pmcid": "PMC4504541",
+    "doi": "10.1097/MD.0000000000001028",
+    "runtime_path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/diffusion_mri_gate/raw-cache/PMC4504541.xml",
+    "sha256": "7af0839846424ff8e5fbf060c36dccedaff09faa0086494de499e6c16811cde5",
+    "bytes": 56009,
+    "status": "reused ignored owner original, no raw copy"
+  },
+  "fields_frozen_in": "PLAN.json",
+  "selected_physical_methods": [
+    {
+      "section_id": "sec3",
+      "title": "Patients",
+      "physical_method_paragraphs": [
+        "The study was approved by the Institutional Ethics Committee of First Affiliated Hospital of Dalian Medical University (Dalian, China). Thirty-one consecutive patients were enrolled in this study and inspected conventional MR and IVIM-MR examination with 3.0-T MR imager from October 2013 to October 2014. Eight of these patients were excluded for further analysis: 4 patients did not receive surgery and there were no pathological results available; 1 tumor in the upper limb was close to artery and the quality of image was very poor; and for other 3 patients, there were no sufficient regions of interest (ROI) areas for IVIM analysis. As a result, only 23 STTs were further analyzed. Primary sites and clinical data of these tumors (11 female, 12 male; average age, 44 years; age range 16\u201385 years) were described in Table 1."
+      ]
+    },
+    {
+      "section_id": "sec4",
+      "title": "Conventional MR Imaging",
+      "physical_method_paragraphs": [
+        "MRI was performed using a 3.0-T MR imager (Signa, HDxt, 3.0 T; General Electric Healthcare, Milwaukee, WI) with surface coil (limbs with 3 inch coil, shoulder with shoulder coil or soft coil, and torso and hips with body coil). The conventional MR scanning sequences included spin echo (SE) T1WI (repetition time/echo time [TR/TE], 650 ms/min full; reconstruction matrix size, 288 \u00d7 224; slice thickness/slice spacing, 4\u20136 mm/0\u20131 mm), fast spin echo (FSE) T2WI (TR/TE, 3975 ms/68 ms; number of signals acquired, 4; reconstruction matrix size, 256 \u00d7 224; slice thickness/slice spacing, 4\u20136 mm/0\u20131 mm), fat suppression T2WI and PDWI (TR/TE, 2000 ms/42 ms; number of signals acquired, 3; reconstruction matrix size, 256 \u00d7 224; slice thickness/slice spacing, 4\u20136 mm/0\u20131 mm). If necessary, fat suppression T1WI was performed. Field of view (FOV), which could be changed according to the tumors\u2019 size, was 15 to 40 cm with slice thickness 4 to 6 mm and space 0 to 1 mm."
+      ]
+    },
+    {
+      "section_id": "sec5",
+      "title": "IVIM MR Imaging",
+      "physical_method_paragraphs": [
+        "IVIM scan was performed using spin-echo echo-planar imaging (SE-EPI) sequence (TR/TE, 8000 ms/min; NEX, 8; reconstruction matrix size, 128 \u00d7 128; slice thickness, slice spacing, and FOV similar to conventional scan; 10 b values [0, 10, 20, 30, 50, 100, 200, 300, 500, and 800 s/mm2]). In order to eliminate the influence of the anisotropy for the IVIM signal and the numerical measurement, 3 in 1 was applied. All patients were fixed on bed to prevent the influence of movement.",
+        "Based on IVIM theory, the bi-exponential model was expressed by the following equation:11",
+        "where Sb is the signal intensity in the pixel with diffusion gradient b, S0 the signal intensity in the pixel without diffusion gradient (b of 0 s/mm2), f the fractional perfusion related to the microcirculation, ADCslow the true diffusion coefficient as reflected by pure molecular diffusion, and ADCfast is the pseudo-diffusion coefficient representing perfusion-related diffusion or incoherent microcirculation."
+      ]
+    },
+    {
+      "section_id": "sec6",
+      "title": "Dynamic Contrast-Enhanced MR Imaging",
+      "physical_method_paragraphs": [
+        "Dynamic contrast-enhanced MR imaging was performed using 2-dimensional fast spoiled gradient echo sequence (2D FSPGR). The contrast agent gadolinium-DTPA (Magnevist, Berlex, New Jersey) was injected as 0.l mmol/kg, and 2.5 mL/s. And 10 mL saline was additionally injected at the same velocity."
+      ]
+    },
+    {
+      "section_id": "sec7",
+      "title": "Regions of Interest (ROI)",
+      "physical_method_paragraphs": [
+        "ROI was placed on the parenchyma of each tumor in DWI. Large cystic or necrotic areas and large vessels were not included. The mean ROI area was about 15.0 \u00b1 1.21 mm2. Three ROIs in each image and totally 9 ROIs in 3 consecutive images of IVIM were calculated for each patient. The different values (ADCstandard, ADCslow, ADCfast, and f) of STTs were measured in GE-ADW 4.4 workstation."
+      ]
+    }
+  ],
+  "graphical_roster": {
+    "table_id": "T1",
+    "filename": "medi-94-e1028-g001.jpg",
+    "status": "metadata filename only, not yet viewed; no endpoint images selected"
+  },
+  "source_pdf_filename": "medi-94-e1028.pdf",
+  "no_ADC_or_IVIM_endpoint_outcomes": true
+}
