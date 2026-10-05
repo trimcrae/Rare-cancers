@@ -1,0 +1,55 @@
+{
+  "utc": "2026-10-05T00:46:11.860751+00:00",
+  "plan": "AMENDMENT-02-DECISIVE-VALUE-CHECK.json",
+  "Hofvander": {
+    "N": 59,
+    "EMC": 13,
+    "comparison": 46,
+    "fixed_content_adjusted_EMC_coefficient": 0.7644774909185148,
+    "stratified_case_bootstrap10000_percentile95CI": [
+      0.10553531315561872,
+      1.4741056325009128
+    ],
+    "bootstrap_rank_failures": 0,
+    "leave_one_EMC_out_coefficients": [
+      0.7652360087518977,
+      0.7347528414875037,
+      0.7791637413466106,
+      0.7479547886289217,
+      0.9194860277997088,
+      0.8169500641308999,
+      0.6004465630107603,
+      0.9350793305056522,
+      0.6712679172896294,
+      0.6953485391825664,
+      0.7849403127077288,
+      0.8858305747931583,
+      0.6613773974524937
+    ],
+    "inference": "Case-bootstrap uncertainty, no equivalence or recruitment inference. No patientpooling acrosssources.",
+    "additional_sequencing_year_EMC_coefficient": 0.6243484117994819
+  },
+  "GSE24369": {
+    "N": 23,
+    "EMC": 6,
+    "comparison": 17,
+    "fixed_content_adjusted_EMC_coefficient": 1.0701636034609316,
+    "stratified_case_bootstrap10000_percentile95CI": [
+      0.351595801875804,
+      2.324643539271641
+    ],
+    "bootstrap_rank_failures": 0,
+    "leave_one_EMC_out_coefficients": [
+      1.2519439476354235,
+      1.0436226454026913,
+      1.4429745119998416,
+      0.8851315995219683,
+      1.0638298694499,
+      1.2168500321084235
+    ],
+    "inference": "Case-bootstrap uncertainty, no equivalence or recruitment inference. No patientpooling acrosssources."
+  },
+  "panels_changed": false,
+  "bootstrap_seed": 28052026,
+  "condition": "Withinarray assay normalizer/probe baseline differs fromTPM. Bothmodelsuseidentical fixedcellcontentgenes, not estimatedcellfractions."
+}

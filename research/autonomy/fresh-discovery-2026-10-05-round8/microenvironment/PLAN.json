@@ -1,0 +1,41 @@
+{
+  "utc": "2026-10-05T00:30:40.198878+00:00",
+  "status": "frozen-before-new-expression-results",
+  "base_commit": "80c40ed9fb1af0086bdfc9754c97b176490996e0",
+  "question": "Do EMC tissues show a reproducible myeloid-recruiting versus T-cell-recruiting transcript balance, beyond generic immune content, compared with all eligible sarcoma tissue comparators?",
+  "claim_scope": "Measured bulk transcript contrast, not a cell fraction, tumor-cell ligand localization, dependency, response, prognosis or proof of immune recruitment.",
+  "prior_art": "Dancsok2020 sparse absoluteEMCmacrophages and relativeCD163; pleural2022onequalitativeM2/CD8case; Indio2018M2deconvolution; Chaiboonchoe2026heterogeneity/deconvolution/two selectedmIFcases alreadypublished. R1failedBcellrisk rescue does notjustifyprognosis or newpaper. Explicitchemokinebalance mustpassfreshprimaryprior-artgate.",
+  "fixed_panels": {
+    "myeloid_recruitment": [
+      "CCL2",
+      "CSF1"
+    ],
+    "T_cell_recruitment": [
+      "CXCL9",
+      "CXCL10",
+      "CXCL11",
+      "CCL5"
+    ],
+    "leukocyte": [
+      "PTPRC"
+    ],
+    "myeloid_content": [
+      "LST1",
+      "AIF1",
+      "FCER1G"
+    ],
+    "T_cell_content": [
+      "CD3D",
+      "CD3E",
+      "CD3G"
+    ]
+  },
+  "proposed_added_information": "A consistent disease-associated recruitment-ligand balance after checking genericleukocyte/myeloid admixture would prioritize which ligand axis and compartment to measure directly; heterogeneity or knownM2prevalence alone is insufficient.",
+  "strongest_alternative": "Bulk cell/stroma content, probe efficiency/platform, FFPEblockage, histology and tumor-site mixture produce apparentligand balance; these measurements cannot aloneattribute ligand source to malignantcells.",
+  "analysis": "Perassay gene logexpression; mean myeloid-recruiting minus mean T-recruiting fixedpanel. HofvandercompleteeligibleEMCand prespecifiedallavailablemalignantsofttissuecomparators asdiscovery, rank-based comparisons and leave-one-EMC-out stability; independent GSE24369 allsourceEMC and comparators as confirmation. TempOall12 validate estimator and test consistency/contentcovariation, not outcome. Withincohort robustPTPRC/myeloid/Tcell adjustment and culturecontrasts onlywhere authenticidentity/sourceconditions qualify. No crossplatformabsolute pooling.",
+  "defeat": "Alreadypublishedligand contrast; no stableEMC-specificeffect vscomparators; effectexplainedbygenericcontent; directionsinconsistentacrossindependenttissuecohorts; crucialmarkersunmeasurable; no donorindependence or uncertainassaymapping => shelve withpendingretained.",
+  "completecoverage": "All12TempOlibraries andfullfiltered/probeobservations; allidentifiableEMC publishedIHC/RNArelevantchemokine/infiltrationconditions, broadercohortobservations, overlap; source-compatibleanalysesonly. Pendingaccessibleevidenceblocksclaimpromotion.",
+  "TempO_method_gate": "Reuseall12R1prefix diagnostics as actualsourceformat evidence;75%exactfraction isnotassayvalidity. Proposedcomplete50ntuniqueprobe count excludesambiguous/chimericsequences; assay-calibrate againstretained9500gene measurements in everylibrary beforeimmuneinterpretation. No fullrawpasswithoutsourcevalue/methodstagingdecision and leadnotice. Count unitsligatedprobePCRreads, notRNA molecules.",
+  "budget": "30minsource/valuepilot;64MiBsoftrawretainedincludingcopies;>=10GiBfree; full2.705GBcompressedraw maystreamwith explicitfinite-stageamendment ratherthanomit observations.",
+  "restrictions": "Ownmicroenvironmentpathonly; root/sharedinputsread-only; no GPU/paid/outreach/publication/PR/push/externalscientificwrites; no interruptedFAPtissue/glycan/structgen/HLA-reviewcontent; quietAPI/files; browser06-10NYban; TMEM266shelved."
+}
