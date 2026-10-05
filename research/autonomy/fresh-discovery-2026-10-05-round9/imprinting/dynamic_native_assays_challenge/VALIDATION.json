@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "Prospective pre-source plan exact",
+      "pass": true
+    },
+    {
+      "check": "New ignored catalogue/source hash GSE98824-source-metadata.txt",
+      "pass": true
+    },
+    {
+      "check": "New ignored catalogue/source hash broader-dynamic-cohort.json",
+      "pass": true
+    },
+    {
+      "check": "New ignored catalogue/source hash focused-dynamic-cohort.json",
+      "pass": true
+    },
+    {
+      "check": "New ignored catalogue/source hash geo-broader-dynamic-search.json",
+      "pass": true
+    },
+    {
+      "check": "New ignored catalogue/source hash geo-broader-dynamic-series-metadata.json",
+      "pass": true
+    },
+    {
+      "check": "Raw soft cap8MiB respected including originals",
+      "pass": true
+    },
+    {
+      "check": "All53 metadata returned for exactGEOquery",
+      "pass": true
+    },
+    {
+      "check": "All30 unique sample conditions, six models not donor count",
+      "pass": true
+    },
+    {
+      "check": "Complete five declaredconditions WHIM12",
+      "pass": true
+    },
+    {
+      "check": "Complete five declaredconditions WHIM2",
+      "pass": true
+    },
+    {
+      "check": "Complete five declaredconditions WHIM21",
+      "pass": true
+    },
+    {
+      "check": "Complete five declaredconditions WHIM30",
+      "pass": true
+    },
+    {
+      "check": "Complete five declaredconditions WHIM4",
+      "pass": true
+    },
+    {
+      "check": "Complete five declaredconditions WHIM6",
+      "pass": true
+    },
+    {
+      "check": "Exact officialseries30GSMlist and allcatalogue30titles agree",
+      "pass": true
+    },
+    {
+      "check": "Officialsource defines breastPDXpanel, not title-name inference",
+      "pass": true
+    },
+    {
+      "check": "Zero-copy ownerprimary hash",
+      "pass": true
+    },
+    {
+      "check": "Exact primary selected method Cell Culture",
+      "pass": true
+    },
+    {
+      "check": "Exact primary selected method Drugs",
+      "pass": true
+    },
+    {
+      "check": "Exact primary selected method Growth Suppression and Colony formation Assay",
+      "pass": true
+    },
+    {
+      "check": "Exact primary selected method CoLA",
+      "pass": true
+    },
+    {
+      "check": "Five explicit source cellmodels, not nativeEMC inferredfromTAF15",
+      "pass": true
+    },
+    {
+      "check": "No new endpointstage, source gateclosed",
+      "pass": true
+    },
+    {
+      "check": "Atleast10GiBfree",
+      "pass": true
+    }
+  ],
+  "new_raw_bytes": 1099085,
+  "free_bytes": 27121463296,
+  "scope": "Hash/metadata/condition/primarymethod replay only;53catalogue rows are not source evaluations, cellmodels not patient donors. No RNA matrix/response/withdrawal numerical outcome or globalpubliccoverage/publicationcertificate."
+}

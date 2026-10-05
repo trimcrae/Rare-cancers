@@ -1,0 +1,61 @@
+{
+  "schema": "independent-native-EMC-dynamic-assay-before-values-final-review/1",
+  "utc": "2026-10-05T14:36:50.609887+00:00",
+  "owner_scientific_commit": "499e4f1cc9a4727c0aff5c42b444cc6d4a078d3d",
+  "owner_final_science": {
+    "directory": "research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/dynamic_native_assays_source_gate",
+    "SCIENCE-FREEZE.json": "bcfba62141816765e8b12fa8beffd6775340715b209af3958c06f9cd8053281d",
+    "MANIFEST.json": "6d8feb1de4938f8a22d43290a93bcca372ee0b04c0d78107e45dfc49762d9410",
+    "file_count": 16,
+    "bytes": 29868
+  },
+  "decision": "Source-dependent NO-GO for the current native EMC withdrawal/recovery numerical stage. No publication-worthy finding.",
+  "material_corrections_needed": "None within the exact reviewed scope. Preserve the original before-values plans and source closures. No cancer histology was assigned from a model name, and no universal absence was inferred.",
+  "fixed_question": "Does an authenticated native EMC assay distinguish persistent from reversible response after actual treatment withdrawal, with baseline, exposure, recovery and matched untreated serial controls, beyond published terminal screens?",
+  "prior_art_reused": "Exact R1\u2013R9 decisions are bound. Existing 4/8/12-day exposure/DDR curves, the complete 40/221/24 compound-condition rosters (not 285 unique drugs or independent replicates), native/engineered/disputed model judgments, CAM/CIVO and clinical rechallenge retain verified limits. Two UCL pre/post-RT RNA donors lack public paired values and composition links; IMMUNOSARC has four EMC patients, but its three paired RNA and three paired blood subsets are not assumed to be the same people. Longer exposure is not washout. A clinical narrative or post-RT composition change does not establish intrinsic live-cell recovery.",
+  "new_independent_evaluated_source": {
+    "source": "GSE98824, BKM120 Treated PDXs",
+    "prospective_selection": "AMENDMENT-01 selected this source before new fields/outcomes because its 30 sample titles explicitly include washout and serial controls.",
+    "identity": "The official GEO description defines a triple-negative breast cancer PDX panel. Disease identity comes from that description, not the WHIM name. The source is unsuitable for native EMC. No unrelated gene, epigenetic, variant or mechanism material was interpreted.",
+    "all_conditions": "All 30 GSM labels agree with the official series sample list. Six WHIM model IDs each have 2-hour treatment, 50-hour treatment, 50-hour washout, 2-hour control and 50-hour control. These are model/time-condition libraries; neither 30 donors nor six independent patients was established.",
+    "assay_limits": "Expression arrays; the public RAW archive is declared but was not downloaded. Precise concentration, exposure before withdrawal and recovery duration cannot be inferred from the time labels. No live recovery endpoint or released all-condition proteomic assay was authenticated.",
+    "analytical_export": "EVALUATED-BROADER-SOURCE.json preserves every one of the 30 rows and controls.",
+    "contrary_evidence": "A genuine public washout/control source exists in another cancer. Its unsuitable disease identity does not imply that dynamic assays are intrinsically impossible or that all EMC data are absent."
+  },
+  "owner_selected_dynamic_primary": {
+    "source": "PMC4867652 / PMID27181033 / DOI10.1038/srep25895, alpha-Amanitin/TAF15",
+    "identity": "The complete Cell Culture methods list HCT116, HT29, HeLa, MCF7 and MKN45, without authentication as native EMC. Literal names were preserved; no additional cancer histologies were inferred. A TAF15 title or citation is not native TAF15::NR4A3 EMC identity.",
+    "method_checks": "Culture, growth, drug and colony-lysate methods were independently read. The owner\u2019s three culture/growth/expression sections match the primary after whitespace-only normalization.",
+    "public_expression": "The primary describes GSE65419 as MCF7 untreated bulk versus cisplatin-tolerant colony expression, with two biological replicates. That is not native EMC live withdrawal/recovery. No fresh GEO matrix or expression outcome was inspected.",
+    "value": "The primary already studies drug-tolerant relapse in its own models. Transferring that context or a terminal gene profile would not establish new EMC durability or dependency."
+  },
+  "strongest_alternatives": [
+    "Residual drug or incomplete washout; unequal exposure or media",
+    "Cell loss, growth rate, metabolic readout and baseline normalization mistaken for live recovery",
+    "Passage, purity, fixation, biopsy/resection composition and platform batch",
+    "Technical/time/library replication or source reuse counted as independent donors",
+    "Generic, engineered or disputed model identity and a known primary contrast mislabeled as new native EMC biology"
+  ],
+  "omission_and_coverage_scope": {
+    "broader_EPMC": "The unfielded query returned the first 100 of 4,016 hits and is partial/background-heavy. The TITLE_ABS refinement returned one old Moloney mouse-sarcoma title, unsuitable for human-native identity. These metadata returns are not completed clinical or method evaluation. Full catalogues remain ignored.",
+    "GEO": "All 53 series metadata records were retrieved for the exact broad sarcoma/washout/withdrawal/recovery query. Only GSE98824 cohort identity and its 30 condition labels were evaluated here. Other underlying relevant source/library conditions remain unexamined or pending; no 53-source analytical roster or no-EMC inference is exported.",
+    "owner": "Complete 185/185 and 65/65 query retrieval and 8/8 specific-alias titles are metadata scope. The 372/100 noisy alias query is partial. Public native immune, RT, CIVO, PDO and generic-source condition maps retain the pending statuses in the frozen COVERAGE.",
+    "restrictions": "Previously denied FAP-tissue, glycan, structural-genomics and HLA scientific scopes were not reopened. This is not a blanket ban on permitted native perturbation research. No access bypass, private/login route, spend, outreach, manuscript or publication.",
+    "conclusion_scope": "No new qualifying useful dataset was established in the exact evaluated/reused sources. This is not all-public native assay coverage, biological absence, data absence or search exhaustion."
+  },
+  "scientific_value": "A genuinely replicated untreated/exposure/withdrawal recovery source could guide dose/time/recovery measurements and distinguish durable from transient growth effects while testing drug carryover. The current identity, condition, public-output and useful-contrast gates fail. Metadata grouping, a citation or access repair, or failure of a hypothesis invented for this pilot does not make a worthwhile paper.",
+  "reopening_condition": "Authenticate native EMC donors/models and an explicit public all-case baseline/on-treatment/actual-withdrawal/recovery plus untreated-serial-control crosswalk. Establish endpoint units, carryover/growth/viability/batch controls, independent biological replication and donor overlap. Freeze one consequential unanswered contrast, statistic, uncertainty and disproof with lead/independent review before outcomes; resolve suitable pending conditions before promotion.",
+  "validation": {
+    "own_source_only_checks": 25,
+    "owner_frozen_export_hashes": 16,
+    "owner_prior_source_bindings": 7,
+    "owner_selected_primary_sections": 3,
+    "new_raw_bytes": 1099085,
+    "free_bytes": 27121463296,
+    "new_numeric_outcomes": 0,
+    "claim_scope": "Metadata/physicalmethod/condition/sourcebinding integrity, not numericalbiological validation, liveassayexecution orpublicationclearance."
+  },
+  "timing": "Reviewer source calls closed at 14:31:49 UTC, within 18 minutes from 14:13:55; owner calls closed at 14:31:40. Later final binding, validation and commit are assembly only. No images, UI or medical pixels were used.",
+  "preservation": "Original IG, MRI, oxygen and IVIM freezes are unchanged. Whole catalogues and originals remain ignored cache-only; exact raw recovery is not certified. Root alone integrates and pushes.",
+  "goal": "Goal unmet. No publication-worthy finding survives. Search not exhausted."
+}
