@@ -1,0 +1,84 @@
+{
+  "utc": "2026-10-05T17:09:19.774823+00:00",
+  "source": {
+    "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/model_population_processed_source_gate/raw/processed-counts-compressed-prefix.bin",
+    "bytes": 16384,
+    "sha256": "25330ed15c106b70cdaf6ddd37eaaf8968ccefc8134f07c1ca27ffc1ad38d35e"
+  },
+  "inspection": "Independent streaming gzip decompression one output byte at a time stopped immediately at first newline. No gene/count row was decompressed or inspected; no numerical endpoint.",
+  "header_raw": "\tNMFH-1\tUSZ-21_CIC1\tUSZ-21_LG1\tUSZ-21_UPS1\tUSZ-21_MFS2\tNMFH-1\tPM197\tOH931\tUSZ-20_SFT1\tUSZ-22_EMC2\r",
+  "normalized_header_fields": [
+    "",
+    "NMFH-1",
+    "USZ-21_CIC1",
+    "USZ-21_LG1",
+    "USZ-21_UPS1",
+    "USZ-21_MFS2",
+    "NMFH-1",
+    "PM197",
+    "OH931",
+    "USZ-20_SFT1",
+    "USZ-22_EMC2"
+  ],
+  "count_columns": 10,
+  "unique_model_labels": 9,
+  "duplicate_header_labels": {
+    "NMFH-1": 2
+  },
+  "GSM_title_missing_from_header": [
+    "USZ-20_REA1"
+  ],
+  "unique_title_to_GSM_links": [
+    {
+      "column_label": "USZ-21_CIC1",
+      "GSM": "GSM6883077",
+      "interpretation": "Literal exact title link only, not independently authenticated comparator disease or donor."
+    },
+    {
+      "column_label": "USZ-21_LG1",
+      "GSM": "GSM6883079",
+      "interpretation": "Literal exact title link only, not independently authenticated comparator disease or donor."
+    },
+    {
+      "column_label": "USZ-21_UPS1",
+      "GSM": "GSM6883073",
+      "interpretation": "Literal exact title link only, not independently authenticated comparator disease or donor."
+    },
+    {
+      "column_label": "USZ-21_MFS2",
+      "GSM": "GSM6883074",
+      "interpretation": "Literal exact title link only, not independently authenticated comparator disease or donor."
+    },
+    {
+      "column_label": "PM197",
+      "GSM": "GSM6883075",
+      "interpretation": "Literal exact title link only, not independently authenticated comparator disease or donor."
+    },
+    {
+      "column_label": "OH931",
+      "GSM": "GSM6883076",
+      "interpretation": "Literal exact title link only, not independently authenticated comparator disease or donor."
+    },
+    {
+      "column_label": "USZ-20_SFT1",
+      "GSM": "GSM6883081",
+      "interpretation": "Literal exact title link only, not independently authenticated comparator disease or donor."
+    },
+    {
+      "column_label": "USZ-22_EMC2",
+      "GSM": "GSM6883080",
+      "interpretation": "Literal exact title link only, not independently authenticated comparator disease or donor."
+    }
+  ],
+  "interpretation": [
+    "The public processed count file exists. Its ten count columns have nine distinct aliases and no GSM IDs; it cannot be assumed to represent all ten declared GSM records one-to-one.",
+    "Do not positionally assign the duplicate NMFH-1 column to missing REA1, treat it as a new independent replicate, impute missing counts as zero, silently deduplicate, or discard it to improve a contrast.",
+    "The unique USZ-22_EMC2 column matches prior GSM6883080, with previously authenticated native culture origin. This is a positive source and measurement-access lead, not an expression result.",
+    "All ambiguous columns and the missing source condition remain pending for an explicit source crosswalk; controls require exact disease and culture provenance and units before any numerical stage.",
+    "Schema ambiguity does not demonstrate file invalidity or no EMC measurements; actual count cells remain unread."
+  ],
+  "header_hash": "17ed8968f4aa9eaf8bd046b4535f3f9a87fd2df10bead2ddf3b74107fa4a9c8a",
+  "source_value_stage": "Before-values OFF for analysis; header/schema only",
+  "new_requests_reviewer": 0,
+  "new_raw_bytes_reviewer": 0
+}
