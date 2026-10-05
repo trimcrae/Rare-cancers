@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-05T15:41:19.853893+00:00",
+  "kind": "Operational timestamp correction; no source/science change",
+  "original_freeze_sha256": "a080e4395625d93eb9fee08250a291e81bb9e79d3af4eee8222a87de86e9f345",
+  "original_commit": "c5e188e8ddd660347fd1b26589f7edb97d5b5da3",
+  "affected_field": "source_work_closed_utc in DECISION-COVERAGE.json and FREEZE.json",
+  "original_value": "2026-10-05T15:40:30Z",
+  "correction": "The closure label was manually rounded beyond the artifact generation time. Use the actual machine-recorded freeze generation timestamp as the conservative completed-by time; no exact later source-work event is asserted.",
+  "source_work_completed_no_later_than_utc": "2026-10-05T15:40:17.377726+00:00",
+  "actual_clock_check_after_freeze": "2026-10-05 15:40:30 UTC",
+  "original_science_and_source_bindings_unchanged": true,
+  "new_source_requests_or_values": 0,
+  "no_new_review_or_binder_cycle": true
+}
