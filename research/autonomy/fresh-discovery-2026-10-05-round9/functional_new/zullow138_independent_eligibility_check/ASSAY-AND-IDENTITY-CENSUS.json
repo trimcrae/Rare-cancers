@@ -1,0 +1,49 @@
+{
+  "utc": "2026-10-05T19:11:40.361575+00:00",
+  "records": 138,
+  "source_identity_counts": {
+    "Source-labelled MLPS-derived clone preparation": 32,
+    "Source-labelled MLPS cancer-cell-line preparation": 36,
+    "Source-labelled mesenchymal stem-cell-line preparation": 48,
+    "Source-labelled MLPS native tumor": 12,
+    "Source-labelled ES/EWS-FLI1 native tumor": 10
+  },
+  "native_vs_culture_counts": {
+    "source_primary_tumor": 22,
+    "source_cancer_cell_line": 68,
+    "source_stem_cell_line": 48
+  },
+  "assay_by_source": [
+    {
+      "source": "cancer cell line",
+      "assay": "Declared genomic-source assay; unsuitable for direct bulk mRNA GPNMB measurement",
+      "records": 54
+    },
+    {
+      "source": "stem cell line",
+      "assay": "Declared genomic-source assay; unsuitable for direct bulk mRNA GPNMB measurement",
+      "records": 32
+    },
+    {
+      "source": "cancer cell line",
+      "assay": "Declared transcriptomic RNA-Seq; target annotation/units not inspected",
+      "records": 14
+    },
+    {
+      "source": "stem cell line",
+      "assay": "Declared transcriptomic RNA-Seq; target annotation/units not inspected",
+      "records": 16
+    },
+    {
+      "source": "primary tumor",
+      "assay": "Declared transcriptomic RNA-Seq; target annotation/units not inspected",
+      "records": 22
+    }
+  ],
+  "counts_are_preparations_not_donors": true,
+  "pending_identity_records": [],
+  "all116_culture_consequence": "No authenticated nativeEMC culture identity. Thirty culture preparations declare transcriptomicRNA assays and could be separate source-qualified non-EMC comparison/context only after target/assay/control follow-up; genomic source assays cannot replace mRNA. Not globallyexcluded evidence.",
+  "single_misleading_strategy_record": [
+    "GSM5429878"
+  ]
+}
