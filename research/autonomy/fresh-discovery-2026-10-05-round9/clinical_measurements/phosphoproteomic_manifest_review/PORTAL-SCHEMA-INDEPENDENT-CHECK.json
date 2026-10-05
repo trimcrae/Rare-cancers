@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-05T13:47:24.952285+00:00",
+  "source": {
+    "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/phosphoproteomic_manifest_gate/raw-cache/public-column-schema.source",
+    "bytes": 2151,
+    "sha256": "c1ce0c6a335c974e2ab45ca9f7020f236d30fbf928989d810b3cbc5590c19a42"
+  },
+  "schema_structure": "List of19dictionaries, each column definition; not an empty list. Top-level schema-property keys dataField,dataType,visible,width.",
+  "permitted_field_names": [
+    "case_submitter_id",
+    "ethnicity",
+    "gender",
+    "race",
+    "age_at_diagnosis",
+    "ajcc_pathologic_stage",
+    "figo_stage",
+    "morphology",
+    "primary_diagnosis",
+    "tissue_or_organ_of_origin",
+    "tumor_focality",
+    "tumor_grade",
+    "year_of_diagnosis",
+    "residual_disease",
+    "treatment_outcome",
+    "treatment_type",
+    "progression_or_recurrence",
+    "residual_disease.1",
+    "site_of_resection_or_biopsy"
+  ],
+  "value_scope": "Only column names/types, not any patient condition values, phosphosite/kinase data or excluded HLA/FAP fields.",
+  "material_correction": "Owner initial structure_only.keys=[] and eligible_schema_names_only=[] collapsed list-entry schema; independently identified19 definitions and relevant clinical fields. Owner asked to repair beforefinalfreeze or additive if already frozen.",
+  "inference": "Clinical metadata field schema is publicly available for this portal response, but no individual specimens or1998release provenance. Four returned cohort identifiers are CPTAC-labelled. A schema header is not a clinical sample manifest, all-EMC crosswalk or verified totalRET/phosphosite link.",
+  "numerical_stage": "NO-GO unchanged; no forced cohort/model transfer or scoring values."
+}
