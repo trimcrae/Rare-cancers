@@ -1,0 +1,44 @@
+{
+  "schema": "EMC-R9-clinical-trajectory-plan/1",
+  "frozen_utc": "2026-10-05T10:40:37.291264+00:00",
+  "base_commit": "08de5ae9631624052fa32ae9ee6567394bc4d80d",
+  "pilot_deadline_utc": "2026-10-05T11:03:47+00:00",
+  "question": "Do authenticated within-donor lesion measurement trajectories reveal divergent lesion growth under the same systemic-treatment change, beyond published best-response rates and known sunitinib interruption anecdotes?",
+  "decision_changed": "Whether aggregate RECIST SD/PR can conceal treatment-associated divergent lesions sufficiently to justify site-specific monitoring/local-treatment or resistance-biopsy testing in EMC. This is a descriptive design implication, not proven drug efficacy or molecular mechanism.",
+  "new_use_required": "Actual numerical lesion-level contrast across comparable dated intervals, with evidence beyond original authors conclusions and broad known indolence/heterogeneity. Recovery of a T-DXd response label, published response or source mapping is not a discovery.",
+  "prior_art": [
+    "R6 untreated kinetics/RT donor checks already shelved; untreated primary15.8\u219218cm arithmetic and concurrentRT+pazopanib lesion shrinkage not new.",
+    "R7 sunitinib2012 both source cases already report interruption/reintroduction and dose escalation; generic reversible sensitivity is prior art. Sunitinib2014/pazopanib2019 established response rates/partner association.",
+    "R8 adaptation threecabozantinibEMC donors and published one99cycle response; PGR/tamoxifen case and KIT/sunitinib/imatinib cases already described.",
+    "R8 T-DXd source has one author-labelled EMC enrollee, linkage pending. FDA panel failed; no revival of antigen/benefit claim.",
+    "Prior serial circulating/imaging/fusion sources retain original data/identity/condition limitations."
+  ],
+  "eligible_sources": "Original EMC-labelled clinical sarcoma/precision/phaseI/basket studies, appendices/individual processed tables, or authentic original case series with numerical lesion trajectories. Search exact disease, extraskeletal myxoid/myxoid chondrosarcoma, historical CHN/NR4A3, embedded sarcoma studies and citation trails. Include all identified EMC conditions, not selected responders.",
+  "measurement_gate": {
+    "identity": "Source-authenticated EMC NR4A3/fusion strongest. Author-label without molecular evidence separately pending identity; other myxoid/metaplastic/mesenchymal cancers not substituted.",
+    "donor_lesion": "Same actual donor and at least two uniquely linked lesions; donor/lesion/site identifiers required, overlapping publications not independent.",
+    "timing": "Exact numerical measurements at dated comparable pre/on/off or on/off/rechallenge intervals. A common baseline plus serial lesion observations can support descriptive slopes; no growth-modulation index from treatment durations/categorical SD/PR.",
+    "acquisition": "Modality, lesion definition and unidimensional/volumetric units/method comparable or explicitly unverified; source uncertainty/resolution needed for a robust discordance interpretation.",
+    "therapy": "Exact systemic/local exposures and changes for each interval; no isolated attribution where radiation/surgery/concurrent changed drugs confound.",
+    "reporting": "All eligible lesions and timepoints; new-lesion/non-target progression and reasons for discontinuation retained. No image inspection/digitization during ban, no invented values from drawings.",
+    "comparator": "Within-donor simultaneous lesion contrast, not different-patient prior-versus-new therapy rates. Observed association not causal mechanism.",
+    "statistics": "Compute only authenticated source arithmetic/rates with actual elapsed dates and comparable dimensions; no pooling incompatible assays, inferred RECIST, precision from plotted pixels, p-value on tiny unverified donors or response proportion from unlinked study groups."
+  },
+  "strongest_alternative": [
+    "Indolent natural history, spontaneous fluctuations or regression, measurement/acquisition differences and thresholding.",
+    "Selective target-lesion publication, lesion/site selection, concurrent RT/surgery or therapy dose changes, infection/non-malignant lesions.",
+    "Already-described same cases/author conclusions, uncertain subtype and repeated-donor reports."
+  ],
+  "disproof_and_stop": [
+    "No suitable source-linked numeric multi-lesion trajectory, or comparisons require invented dates/values/linkage: shelve this standalone question.",
+    "Discordance already established by original authors without new useful inference: do not call reanalysis discovery.",
+    "Any apparent result fails acquisition/treatment/identity/coverage or ordinary contrary-source checks: stop promotion; one finite follow-up only if exact feasible evidence could resolve value."
+  ],
+  "coverage": "All identifiable relevant EMC conditions in every newly evaluated eligible source plus verified R1\u2013R8 reuse; pending suitable public evidence blocks promotion. Access failure not biological absence.",
+  "limits": {
+    "new_raw_softcap": 67108864,
+    "free_floor": 10737418240,
+    "mode": "Quiet API/file work only, active06\u201310NY computer-use ban; no UI/screenshots/headless/image inspection. No paid/GPU/outreach/publication/PR/externalrecord edits or interrupted content bypass.",
+    "owner": "Only clinical_measurements path; explicit Codex author/committer; lead alone main/push."
+  }
+}
