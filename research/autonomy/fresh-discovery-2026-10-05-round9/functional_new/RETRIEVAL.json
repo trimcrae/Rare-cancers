@@ -1,0 +1,55 @@
+{
+  "queries": {
+    "emc-functional": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"NR4A3\" OR \"CHN-Tec\" OR \"EWS-TEC\") AND (perturbation OR organoid OR proteomic OR phosphoproteomic OR metabolism OR \"drug response\" OR \"ex vivo\" OR CRISPR) AND FIRST_PDATE:[2025-01-01 TO 2026-10-05]",
+    "sarcoma-functional-new": "sarcoma AND (\"phosphoproteomics\" OR \"metabolic profiling\" OR \"functional precision\" OR \"ex vivo perturbation\") AND FIRST_PDATE:[2025-01-01 TO 2026-10-05]",
+    "civo-metadata": "TITLE:\"Multiplexed Evaluation of Microdosed\""
+  },
+  "requests": [
+    {
+      "file": "raw-cache/emc-functional.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22extraskeletal+myxoid+chondrosarcoma%22+OR+%22extra-skeletal+myxoid+chondrosarcoma%22+OR+%22NR4A3%22+OR+%22CHN-Tec%22+OR+%22EWS-TEC%22%29+AND+%28perturbation+OR+organoid+OR+proteomic+OR+phosphoproteomic+OR+metabolism+OR+%22drug+response%22+OR+%22ex+vivo%22+OR+CRISPR%29+AND+FIRST_PDATE%3A%5B2025-01-01+TO+2026-10-05%5D&resultType=core&format=json&pageSize=1000",
+      "utc": "2026-10-05T10:45:44.280013+00:00",
+      "status": 200,
+      "content_type": "application/json;charset=UTF-8",
+      "content_length": null,
+      "bytes": 6026788,
+      "sha256": "bd4d1f3f2f1a134c4cf5b614fca03e2c4ddf4debdb07155a447fa48c6b694fe8",
+      "hit_count": 662,
+      "returned": 662
+    },
+    {
+      "file": "raw-cache/sarcoma-functional-new.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=sarcoma+AND+%28%22phosphoproteomics%22+OR+%22metabolic+profiling%22+OR+%22functional+precision%22+OR+%22ex+vivo+perturbation%22%29+AND+FIRST_PDATE%3A%5B2025-01-01+TO+2026-10-05%5D&resultType=core&format=json&pageSize=1000",
+      "utc": "2026-10-05T10:45:44.280878+00:00",
+      "status": 200,
+      "content_type": "application/json;charset=UTF-8",
+      "content_length": null,
+      "bytes": 3461821,
+      "sha256": "cc1f4797a4d172c4bbd29fc5d73ce4d96b3f5536b8b8490123e0eae42f508306",
+      "hit_count": 416,
+      "returned": 416
+    },
+    {
+      "file": "raw-cache/civo-metadata.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Multiplexed+Evaluation+of+Microdosed%22&resultType=core&format=json&pageSize=1000",
+      "utc": "2026-10-05T10:45:44.281467+00:00",
+      "status": 200,
+      "content_type": "application/json;charset=UTF-8",
+      "content_length": null,
+      "bytes": 9998,
+      "sha256": "99b79898510ae791084db8336247431df24dacc13c6ec8659eee8b66a25f8d68",
+      "hit_count": 1,
+      "returned": 1
+    },
+    {
+      "file": "raw-cache/qpop2025-supp.zip",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11929909/supplementaryFiles",
+      "utc": "2026-10-05T10:45:44.282135+00:00",
+      "status": 200,
+      "content_type": "application/zip",
+      "content_length": null,
+      "bytes": 3736459,
+      "sha256": "81d458855c3afdd9aa11f8367b4d600e056d458a6a959598af34cc36948ec85c"
+    }
+  ]
+}

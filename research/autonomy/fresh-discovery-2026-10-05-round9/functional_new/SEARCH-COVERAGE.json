@@ -1,0 +1,40 @@
+{
+  "queries": [
+    {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"NR4A3\" OR \"CHN-Tec\" OR \"EWS-TEC\") AND (perturbation OR organoid OR proteomic OR phosphoproteomic OR metabolism OR \"drug response\" OR \"ex vivo\" OR CRISPR) AND FIRST_PDATE:[2025-01-01 TO 2026-10-05]",
+      "hit_count": 662,
+      "returned": 662,
+      "source": {
+        "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/raw-cache/emc-functional.json",
+        "bytes": 6026788,
+        "sha256": "bd4d1f3f2f1a134c4cf5b614fca03e2c4ddf4debdb07155a447fa48c6b694fe8"
+      },
+      "scope": "complete discovery metadata returned, not complete primary-paper review"
+    },
+    {
+      "query": "sarcoma AND (\"phosphoproteomics\" OR \"metabolic profiling\" OR \"functional precision\" OR \"ex vivo perturbation\") AND FIRST_PDATE:[2025-01-01 TO 2026-10-05]",
+      "hit_count": 416,
+      "returned": 416,
+      "source": {
+        "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/raw-cache/sarcoma-functional-new.json",
+        "bytes": 3461821,
+        "sha256": "cc1f4797a4d172c4bbd29fc5d73ce4d96b3f5536b8b8490123e0eae42f508306"
+      },
+      "scope": "complete discovery metadata returned, not complete primary-paper review"
+    },
+    {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"EWS-TEC\" OR \"CHN-Tec\") AND (\"drug response\" OR \"drug sensitivity\" OR \"cell culture\" OR xenograft OR \"ex vivo\" OR organoid OR phosphoproteomic OR \"metabolic profiling\" OR perturbation)",
+      "hit_count": 166,
+      "returned": 166,
+      "source": {
+        "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/raw-cache/historical-functional.json",
+        "bytes": 1200009,
+        "sha256": "270806a01151f9afef080f697320b92e54425a2ff2135b7190b8dd2cfc2e906a"
+      },
+      "scope": "complete discovery metadata returned, not complete primary-paper review"
+    }
+  ],
+  "dates": "API catalogues as of2026-10-05; broad search hits can be full-text references or other NR4A3 diseases, not EMC participants",
+  "primary_candidates": "QPOP2025, ex-vivo integration2026, Gijsels living cultures2026, Cho18lines2024, CIVO2020 and serumNMR2025; pan-cancerphosphoproteomics2026 transferred to diagnostic owner before values",
+  "excluded_scope": "Interrupted FAP-tissue/glycan/structural-genomics/HLA reviews were not opened; review-only candidates and non-EMC abstracts are source leads, not functional evidence."
+}
