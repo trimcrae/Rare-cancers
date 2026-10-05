@@ -1,0 +1,102 @@
+{
+  "scope": "Only provisional R8ADC USZ23 mapping before freeze; previous neurosecretory authoritative GeneXML transcript mappings unaffected.",
+  "method_error": "Nuccore ESearch does not honor GeneID in this request: returned querytranslation uses numeric AllFields and unrelated mRNAs. Requests/translation retained; no accepted target expression inference uses these lists or sums.",
+  "invalid_for_scientific_inference": {
+    "ERBB2": {
+      "provisional_invalid_sum_TPM": 490.057868,
+      "mapping_status": "evaluatedcurrentmRNAmapping"
+    },
+    "TACSTD2": {
+      "provisional_invalid_sum_TPM": 137.100468,
+      "mapping_status": "evaluatedcurrentmRNAmapping"
+    },
+    "NECTIN4": {
+      "provisional_invalid_sum_TPM": 0.0,
+      "mapping_status": "evaluatedcurrentmRNAmapping"
+    },
+    "FOLR1": {
+      "provisional_invalid_sum_TPM": null,
+      "mapping_status": "pendingcurrentmRNAmapping"
+    },
+    "F3": {
+      "provisional_invalid_sum_TPM": null,
+      "mapping_status": "pendingcurrentmRNAmapping"
+    },
+    "MET": {
+      "provisional_invalid_sum_TPM": null,
+      "mapping_status": "pendingcurrentmRNAmapping"
+    }
+  },
+  "requests": [
+    {
+      "gene": "ERBB2",
+      "gene_id": "2064",
+      "query": "2064[GeneID] AND txid9606[Organism] AND srcdb_refseq[PROP] AND biomol_mrna[PROP]",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=2064%5BGeneID%5D+AND+txid9606%5BOrganism%5D+AND+srcdb_refseq%5BPROP%5D+AND+biomol_mrna%5BPROP%5D&idtype=acc&retmax=1000&retmode=json",
+      "utc": "2026-10-05T01:17:04.888118+00:00",
+      "querytranslation": "2064[All Fields] AND txid9606[Organism] AND srcdb_refseq[PROP] AND biomol_mrna[PROP]",
+      "sha256": "2b0dfbdc4361ece41910d4efc4fbf5c785f29bb9bcf7c4da762de0b02ce4288c",
+      "bytes": 3663,
+      "error": null
+    },
+    {
+      "gene": "TACSTD2",
+      "gene_id": "4070",
+      "query": "4070[GeneID] AND txid9606[Organism] AND srcdb_refseq[PROP] AND biomol_mrna[PROP]",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=4070%5BGeneID%5D+AND+txid9606%5BOrganism%5D+AND+srcdb_refseq%5BPROP%5D+AND+biomol_mrna%5BPROP%5D&idtype=acc&retmax=1000&retmode=json",
+      "utc": "2026-10-05T01:17:04.888953+00:00",
+      "querytranslation": "4070[All Fields] AND txid9606[Organism] AND srcdb_refseq[PROP] AND biomol_mrna[PROP]",
+      "sha256": "01e9ed418258e7c3bb152e98014bc51aa2bdaa98abc59d78043bedea1c08d503",
+      "bytes": 2529,
+      "error": null
+    },
+    {
+      "gene": "NECTIN4",
+      "gene_id": "81607",
+      "query": "81607[GeneID] AND txid9606[Organism] AND srcdb_refseq[PROP] AND biomol_mrna[PROP]",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=81607%5BGeneID%5D+AND+txid9606%5BOrganism%5D+AND+srcdb_refseq%5BPROP%5D+AND+biomol_mrna%5BPROP%5D&idtype=acc&retmax=1000&retmode=json",
+      "utc": "2026-10-05T01:17:04.889748+00:00",
+      "querytranslation": "81607[All Fields] AND txid9606[Organism] AND srcdb_refseq[PROP] AND biomol_mrna[PROP]",
+      "sha256": "5ec0178ffe60664542fee0afd0107da0d291e1fcd6aa79ef50922d3c4bd11360",
+      "bytes": 803,
+      "error": null
+    },
+    {
+      "gene": "FOLR1",
+      "gene_id": "2348",
+      "query": "2348[GeneID] AND txid9606[Organism] AND srcdb_refseq[PROP] AND biomol_mrna[PROP]",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=2348%5BGeneID%5D+AND+txid9606%5BOrganism%5D+AND+srcdb_refseq%5BPROP%5D+AND+biomol_mrna%5BPROP%5D&idtype=acc&retmax=1000&retmode=json",
+      "utc": "2026-10-05T01:17:05.304972+00:00",
+      "querytranslation": null,
+      "sha256": null,
+      "bytes": null,
+      "error": "HTTPError:HTTP Error 429: Too Many Requests"
+    },
+    {
+      "gene": "F3",
+      "gene_id": "2152",
+      "query": "2152[GeneID] AND txid9606[Organism] AND srcdb_refseq[PROP] AND biomol_mrna[PROP]",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=2152%5BGeneID%5D+AND+txid9606%5BOrganism%5D+AND+srcdb_refseq%5BPROP%5D+AND+biomol_mrna%5BPROP%5D&idtype=acc&retmax=1000&retmode=json",
+      "utc": "2026-10-05T01:17:05.402105+00:00",
+      "querytranslation": null,
+      "sha256": null,
+      "bytes": null,
+      "error": "HTTPError:HTTP Error 429: Too Many Requests"
+    },
+    {
+      "gene": "MET",
+      "gene_id": "4233",
+      "query": "4233[GeneID] AND txid9606[Organism] AND srcdb_refseq[PROP] AND biomol_mrna[PROP]",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=4233%5BGeneID%5D+AND+txid9606%5BOrganism%5D+AND+srcdb_refseq%5BPROP%5D+AND+biomol_mrna%5BPROP%5D&idtype=acc&retmax=1000&retmode=json",
+      "utc": "2026-10-05T01:17:05.576570+00:00",
+      "querytranslation": null,
+      "sha256": null,
+      "bytes": null,
+      "error": "HTTPError:HTTP Error 429: Too Many Requests"
+    }
+  ],
+  "correction": "Actual official NCBI Gene\u2192nuccore RefSeqRNA ELink per named gene ID, official UID\u2192human accession ESummary; retain only NM_/XM_ mRNA and exact baseaccession match to quant file.",
+  "old_result_sha256": "6851d5a75cdc7a1b0ca5795e7235f324d9ca8c4e8df59f83d642046e3bf376fc",
+  "old_result_cache_only": "source-cache/MODEL-invalid-field-results.json",
+  "decision_effect": "No tissue/array/source-universe/threshold change. No accepted culture result existed. No no-protein/no-ADC-response inference."
+}

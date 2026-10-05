@@ -1,0 +1,7384 @@
+{
+  "utc": "2026-10-05T01:30:38.146025+00:00",
+  "plan_sha256": "c00a4970c111998d62342194aff062513b38041cb92eecf523439d585782bbaf",
+  "panel": [
+    "ERBB2",
+    "TACSTD2",
+    "NECTIN4",
+    "FOLR1",
+    "F3",
+    "MET"
+  ],
+  "shared_source_hashes": {
+    "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz": "0255cd254762c6184a782d5b9a90aba6e545b6b2206e28f283455df2de4d62fc",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+    "research/autonomy/atlas-primary-provenance-2026-09-06/GSE24369.soft.gz": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+    "research/autonomy/atlas-original-array-source-2026-09-06/original-source-recovery.zip": "855cf60fd09b7206699f7b11053fafb39ceb93209b75ebeae59326cd2e0f66f4"
+  },
+  "RNA": {
+    "ERBB2": {
+      "feature": "ERBB2",
+      "all13_values": {
+        "104-92": 7.44,
+        "11881-19": 3.96,
+        "168-97": 14.82,
+        "3371-22": 18.44,
+        "3372-22": 19.61,
+        "4716-22": 11.37,
+        "4840-13": 17.97,
+        "5081-14": 12.2,
+        "5149-18": 6.01,
+        "5241-06": 44.52,
+        "536-00": 4.13,
+        "7931-19": 9.62,
+        "8102-22": 23.64
+      },
+      "primary9_values": {
+        "11881-19": 3.96,
+        "3371-22": 18.44,
+        "3372-22": 19.61,
+        "4716-22": 11.37,
+        "4840-13": 17.97,
+        "5149-18": 6.01,
+        "5241-06": 44.52,
+        "7931-19": 9.62,
+        "8102-22": 23.64
+      },
+      "primary_distribution": {
+        "n": 9,
+        "min": 3.96,
+        "median": 17.97,
+        "max": 44.52
+      },
+      "primary_ge1": 9,
+      "primary_ge5": 8,
+      "primary_contrasts": {
+        "Myxoid liposarcoma": {
+          "comparator_ids": [
+            "1031-14",
+            "2087-93",
+            "2440-01",
+            "2492-91",
+            "2723-11",
+            "3276-03",
+            "351-96",
+            "3531-14",
+            "362-94",
+            "4876-16",
+            "610-14",
+            "6161-13",
+            "7084-14",
+            "7368-16"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 3.96,
+            "median": 17.97,
+            "max": 44.52
+          },
+          "comparator": {
+            "n": 14,
+            "min": 2.85,
+            "median": 11.065,
+            "max": 21.15
+          },
+          "A": 0.6190476190476191,
+          "year_matched_A": 0.3333333333333333,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 2,
+              "A": 0.75,
+              "pair_count": 4
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 0.0,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.5439560439560439,
+          "primary_deletion_A": [
+            0.6875,
+            0.5892857142857143,
+            0.5803571428571429,
+            0.6339285714285714,
+            0.5892857142857143,
+            0.6875,
+            0.5714285714285714,
+            0.6607142857142857,
+            0.5714285714285714
+          ],
+          "conditional_bootstrap95": [
+            0.3412698412698413,
+            0.873015873015873
+          ],
+          "exploratory_one_sided_p": 0.1842900671814388
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "comparator_ids": [
+            "1076-04",
+            "1496-95",
+            "1731-00",
+            "1743-89",
+            "1838-04",
+            "2176-91",
+            "2433-02",
+            "2611-96",
+            "3252-04",
+            "3458-17",
+            "3490-00",
+            "6545-13",
+            "9562-17"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 3.96,
+            "median": 17.97,
+            "max": 44.52
+          },
+          "comparator": {
+            "n": 13,
+            "min": 17.91,
+            "median": 37.13,
+            "max": 77.86
+          },
+          "A": 0.09401709401709402,
+          "year_matched_A": 0.3157894736842105,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 7,
+              "A": 0.42857142857142855,
+              "pair_count": 14
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 0.0,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.0650887573964497,
+          "primary_deletion_A": [
+            0.10576923076923077,
+            0.09615384615384616,
+            0.09615384615384616,
+            0.10576923076923077,
+            0.09615384615384616,
+            0.10576923076923077,
+            0.038461538461538464,
+            0.10576923076923077,
+            0.09615384615384616
+          ],
+          "conditional_bootstrap95": [
+            0.0,
+            0.2564102564102564
+          ],
+          "exploratory_one_sided_p": 0.9997225684532186
+        },
+        "Synovial sarcoma": {
+          "comparator_ids": [
+            "1139-03",
+            "1145-08",
+            "1148-14",
+            "231-14",
+            "2430-90",
+            "2915-92",
+            "2991-93",
+            "3014-94",
+            "3234-92",
+            "3673-07",
+            "3827-99",
+            "3874-14",
+            "4111-04",
+            "4530-08",
+            "5279-11",
+            "591-10",
+            "6246-13",
+            "823-05"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 3.96,
+            "median": 17.97,
+            "max": 44.52
+          },
+          "comparator": {
+            "n": 18,
+            "min": 19.5,
+            "median": 56.345,
+            "max": 180.92
+          },
+          "A": 0.043209876543209874,
+          "year_matched_A": 0.10714285714285714,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 10,
+              "A": 0.15,
+              "pair_count": 20
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 8,
+              "A": 0.0,
+              "pair_count": 8
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.029914529914529916,
+          "primary_deletion_A": [
+            0.04861111111111111,
+            0.04861111111111111,
+            0.041666666666666664,
+            0.04861111111111111,
+            0.04861111111111111,
+            0.04861111111111111,
+            0.013888888888888888,
+            0.04861111111111111,
+            0.041666666666666664
+          ],
+          "conditional_bootstrap95": [
+            0.0,
+            0.13580246913580246
+          ],
+          "exploratory_one_sided_p": 0.9999935990782672
+        }
+      },
+      "IUT_p": 0.9999935990782672,
+      "all_source_category_context": {
+        "Angiofibroma of soft tissue": {
+          "n": 2,
+          "min": 11.32,
+          "median": 17.685000000000002,
+          "max": 24.05
+        },
+        "Angiolipoma": {
+          "n": 3,
+          "min": 2.93,
+          "median": 7.91,
+          "max": 10.19
+        },
+        "Angiosarcoma": {
+          "n": 8,
+          "min": 1.34,
+          "median": 5.24,
+          "max": 38.67
+        },
+        "Atypical lipomatous tumor": {
+          "n": 38,
+          "min": 5.1,
+          "median": 16.36,
+          "max": 44.44
+        },
+        "Benign fibrous histiocytoma": {
+          "n": 5,
+          "min": 4.76,
+          "median": 12.77,
+          "max": 17.16
+        },
+        "CD34-postive superficial fibroblastic tumor": {
+          "n": 7,
+          "min": 5.01,
+          "median": 21.06,
+          "max": 42.32
+        },
+        "Clear cell sarcoma": {
+          "n": 3,
+          "min": 14.51,
+          "median": 21.43,
+          "max": 24.02
+        },
+        "Cryptic liposarcoma": {
+          "n": 22,
+          "min": 6.05,
+          "median": 17.195,
+          "max": 46.64
+        },
+        "Dedifferentiated liposarcoma": {
+          "n": 20,
+          "min": 4.39,
+          "median": 17.165,
+          "max": 89.78
+        },
+        "Dermatofibrosarcoma protuberans": {
+          "n": 10,
+          "min": 45.16,
+          "median": 101.745,
+          "max": 152.92
+        },
+        "Desmoid": {
+          "n": 11,
+          "min": 8.73,
+          "median": 21.6,
+          "max": 24.99
+        },
+        "Desmoplastic fibroblastoma": {
+          "n": 2,
+          "min": 20.27,
+          "median": 24.189999999999998,
+          "max": 28.11
+        },
+        "Desmoplastic small round cell tumor": {
+          "n": 7,
+          "min": 18.21,
+          "median": 45.55,
+          "max": 107.37
+        },
+        "Endometrial stromal sarcoma": {
+          "n": 2,
+          "min": 21.56,
+          "median": 24.43,
+          "max": 27.3
+        },
+        "Epithelioid sarcoma": {
+          "n": 6,
+          "min": 5.47,
+          "median": 24.09,
+          "max": 38.83
+        },
+        "Ewing sarcoma": {
+          "n": 3,
+          "min": 11.02,
+          "median": 11.9,
+          "max": 44.46
+        },
+        "Extraskeletal myxoid chondrosarcoma": {
+          "n": 9,
+          "min": 3.96,
+          "median": 17.97,
+          "max": 44.52
+        },
+        "GIST": {
+          "n": 14,
+          "min": 0.72,
+          "median": 2.955,
+          "max": 15.39
+        },
+        "Granular cell tumor": {
+          "n": 2,
+          "min": 14.21,
+          "median": 14.690000000000001,
+          "max": 15.17
+        },
+        "Hamartomatous fibroma": {
+          "n": 2,
+          "min": 29.27,
+          "median": 30.435000000000002,
+          "max": 31.6
+        },
+        "Hibernoma": {
+          "n": 16,
+          "min": 1.58,
+          "median": 3.2,
+          "max": 5.65
+        },
+        "Inflammatory rhabdomyoblastic tumor": {
+          "n": 5,
+          "min": 6.76,
+          "median": 8.22,
+          "max": 10.64
+        },
+        "LMS": {
+          "n": 39,
+          "min": 1.14,
+          "median": 20.42,
+          "max": 47.47
+        },
+        "Lipoblastoma": {
+          "n": 7,
+          "min": 3.69,
+          "median": 18.63,
+          "max": 78.72
+        },
+        "Lipoma": {
+          "n": 20,
+          "min": 4.27,
+          "median": 11.315000000000001,
+          "max": 32.8
+        },
+        "Lipoma, spindle cell/pleomorphic": {
+          "n": 10,
+          "min": 4.54,
+          "median": 15.63,
+          "max": 28.08
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "min": 17.91,
+          "median": 37.13,
+          "max": 77.86
+        },
+        "MPNST": {
+          "n": 18,
+          "min": 2.49,
+          "median": 34.575,
+          "max": 325.18
+        },
+        "Melanoma": {
+          "n": 5,
+          "min": 2.74,
+          "median": 20.03,
+          "max": 48.25
+        },
+        "Myoepithelial tumor": {
+          "n": 2,
+          "min": 15.06,
+          "median": 21.485,
+          "max": 27.91
+        },
+        "Myxofibrosarcoma": {
+          "n": 60,
+          "min": 0.24,
+          "median": 15.335,
+          "max": 120.75
+        },
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "min": 2.85,
+          "median": 11.065,
+          "max": 21.15
+        },
+        "Myxoid pleomorphic liposarcoma": {
+          "n": 3,
+          "min": 6.66,
+          "median": 14.37,
+          "max": 27.24
+        },
+        "Myxoinflammatory fibroblastic sarcoma/hemosiderotic fibrolipomatous tumor": {
+          "n": 7,
+          "min": 8.68,
+          "median": 13.95,
+          "max": 18.0
+        },
+        "Myxoma Class 1": {
+          "n": 5,
+          "min": 18.54,
+          "median": 21.12,
+          "max": 31.95
+        },
+        "Myxoma Class 2": {
+          "n": 4,
+          "min": 21.36,
+          "median": 26.885,
+          "max": 29.89
+        },
+        "Neurofibroma": {
+          "n": 4,
+          "min": 36.67,
+          "median": 66.795,
+          "max": 119.35
+        },
+        "Neurofibroma, atypical": {
+          "n": 1,
+          "min": 58.43,
+          "median": 58.43,
+          "max": 58.43
+        },
+        "Neurofibroma, diffuse": {
+          "n": 1,
+          "min": 60.36,
+          "median": 60.36,
+          "max": 60.36
+        },
+        "Neurofibroma, plexiform": {
+          "n": 2,
+          "min": 5.58,
+          "median": 43.46,
+          "max": 81.34
+        },
+        "Nodular fasciitis": {
+          "n": 3,
+          "min": 9.6,
+          "median": 18.63,
+          "max": 22.98
+        },
+        "Ossifying fibromyxoid tumor": {
+          "n": 8,
+          "min": 10.38,
+          "median": 21.825,
+          "max": 57.47
+        },
+        "Osteosarcoma": {
+          "n": 2,
+          "min": 12.77,
+          "median": 15.275,
+          "max": 17.78
+        },
+        "Pleomorphic hyalinizing angiectatic tumor": {
+          "n": 2,
+          "min": 7.92,
+          "median": 9.094999999999999,
+          "max": 10.27
+        },
+        "Pleomorphic liposarcoma": {
+          "n": 8,
+          "min": 3.04,
+          "median": 14.155000000000001,
+          "max": 21.94
+        },
+        "Pseudomyogenic hemangioendothelioma": {
+          "n": 4,
+          "min": 16.88,
+          "median": 20.025,
+          "max": 32.18
+        },
+        "Rhabdomyosarcoma, NOS": {
+          "n": 1,
+          "min": 119.45,
+          "median": 119.45,
+          "max": 119.45
+        },
+        "Rhabdomyosarcoma, alveolar": {
+          "n": 7,
+          "min": 5.46,
+          "median": 16.19,
+          "max": 28.09
+        },
+        "Rhabdomyosarcoma, embryonal": {
+          "n": 11,
+          "min": 9.29,
+          "median": 29.8,
+          "max": 2314.2
+        },
+        "Rhabdomyosarcoma, sclerosing": {
+          "n": 2,
+          "min": 4.18,
+          "median": 6.734999999999999,
+          "max": 9.29
+        },
+        "Schwannoma": {
+          "n": 13,
+          "min": 58.98,
+          "median": 138.67,
+          "max": 294.16
+        },
+        "Sclerosing epithelioid fibrosarcoma": {
+          "n": 8,
+          "min": 6.76,
+          "median": 22.675,
+          "max": 57.92
+        },
+        "Sclerosing epithelioid fibrosarcoma-like": {
+          "n": 4,
+          "min": 20.28,
+          "median": 32.985,
+          "max": 41.2
+        },
+        "Solitary fibrous tumor": {
+          "n": 11,
+          "min": 29.18,
+          "median": 46.86,
+          "max": 101.58
+        },
+        "Spindle cell tumor NOS": {
+          "n": 12,
+          "min": 4.62,
+          "median": 23.695,
+          "max": 30.54
+        },
+        "Synovial chondromatosis": {
+          "n": 6,
+          "min": 9.64,
+          "median": 21.425,
+          "max": 22.64
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "min": 19.5,
+          "median": 56.345,
+          "max": 180.92
+        },
+        "Tenosynovial giant cell tumor": {
+          "n": 12,
+          "min": 1.92,
+          "median": 6.225,
+          "max": 17.15
+        },
+        "UPS": {
+          "n": 98,
+          "min": 0.3,
+          "median": 15.475,
+          "max": 54.81
+        },
+        "Undifferentiated round cell sarcoma": {
+          "n": 2,
+          "min": 8.84,
+          "median": 12.295,
+          "max": 15.75
+        }
+      },
+      "Holm6_IUT_exploratory_p": 1
+    },
+    "TACSTD2": {
+      "feature": "TACSTD2",
+      "all13_values": {
+        "104-92": 0.6,
+        "11881-19": 0.02,
+        "168-97": 0.15,
+        "3371-22": 1.91,
+        "3372-22": 0.07,
+        "4716-22": 0.25,
+        "4840-13": 0.16,
+        "5081-14": 2.26,
+        "5149-18": 0.37,
+        "5241-06": 0.41,
+        "536-00": 0.06,
+        "7931-19": 0.02,
+        "8102-22": 0.24
+      },
+      "primary9_values": {
+        "11881-19": 0.02,
+        "3371-22": 1.91,
+        "3372-22": 0.07,
+        "4716-22": 0.25,
+        "4840-13": 0.16,
+        "5149-18": 0.37,
+        "5241-06": 0.41,
+        "7931-19": 0.02,
+        "8102-22": 0.24
+      },
+      "primary_distribution": {
+        "n": 9,
+        "min": 0.02,
+        "median": 0.24,
+        "max": 1.91
+      },
+      "primary_ge1": 1,
+      "primary_ge5": 0,
+      "primary_contrasts": {
+        "Myxoid liposarcoma": {
+          "comparator_ids": [
+            "1031-14",
+            "2087-93",
+            "2440-01",
+            "2492-91",
+            "2723-11",
+            "3276-03",
+            "351-96",
+            "3531-14",
+            "362-94",
+            "4876-16",
+            "610-14",
+            "6161-13",
+            "7084-14",
+            "7368-16"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.02,
+            "median": 0.24,
+            "max": 1.91
+          },
+          "comparator": {
+            "n": 14,
+            "min": 0.0,
+            "median": 0.22999999999999998,
+            "max": 5.44
+          },
+          "A": 0.4444444444444444,
+          "year_matched_A": 0.4444444444444444,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 2,
+              "A": 0.5,
+              "pair_count": 4
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 0.4,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.4642857142857143,
+          "primary_deletion_A": [
+            0.48214285714285715,
+            0.39285714285714285,
+            0.46875,
+            0.4375,
+            0.4419642857142857,
+            0.42857142857142855,
+            0.42857142857142855,
+            0.48214285714285715,
+            0.4375
+          ],
+          "conditional_bootstrap95": [
+            0.20238095238095238,
+            0.6904761904761905
+          ],
+          "exploratory_one_sided_p": 0.6818659915737907
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "comparator_ids": [
+            "1076-04",
+            "1496-95",
+            "1731-00",
+            "1743-89",
+            "1838-04",
+            "2176-91",
+            "2433-02",
+            "2611-96",
+            "3252-04",
+            "3458-17",
+            "3490-00",
+            "6545-13",
+            "9562-17"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.02,
+            "median": 0.24,
+            "max": 1.91
+          },
+          "comparator": {
+            "n": 13,
+            "min": 0.1,
+            "median": 1.7,
+            "max": 31.65
+          },
+          "A": 0.13675213675213677,
+          "year_matched_A": 0.15789473684210525,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 7,
+              "A": 0.14285714285714285,
+              "pair_count": 14
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 0.2,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.17159763313609466,
+          "primary_deletion_A": [
+            0.15384615384615385,
+            0.0673076923076923,
+            0.15384615384615385,
+            0.14423076923076922,
+            0.14423076923076922,
+            0.1346153846153846,
+            0.1346153846153846,
+            0.15384615384615385,
+            0.14423076923076922
+          ],
+          "conditional_bootstrap95": [
+            0.0,
+            0.3247863247863248
+          ],
+          "exploratory_one_sided_p": 0.9979623105160762
+        },
+        "Synovial sarcoma": {
+          "comparator_ids": [
+            "1139-03",
+            "1145-08",
+            "1148-14",
+            "231-14",
+            "2430-90",
+            "2915-92",
+            "2991-93",
+            "3014-94",
+            "3234-92",
+            "3673-07",
+            "3827-99",
+            "3874-14",
+            "4111-04",
+            "4530-08",
+            "5279-11",
+            "591-10",
+            "6246-13",
+            "823-05"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.02,
+            "median": 0.24,
+            "max": 1.91
+          },
+          "comparator": {
+            "n": 18,
+            "min": 0.0,
+            "median": 0.33,
+            "max": 31.98
+          },
+          "A": 0.3734567901234568,
+          "year_matched_A": 0.32142857142857145,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 10,
+              "A": 0.4,
+              "pair_count": 20
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 8,
+              "A": 0.125,
+              "pair_count": 8
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.4081196581196581,
+          "primary_deletion_A": [
+            0.4131944444444444,
+            0.3229166666666667,
+            0.3923611111111111,
+            0.3645833333333333,
+            0.3784722222222222,
+            0.3576388888888889,
+            0.3506944444444444,
+            0.4131944444444444,
+            0.3680555555555556
+          ],
+          "conditional_bootstrap95": [
+            0.16666666666666666,
+            0.5987654320987654
+          ],
+          "exploratory_one_sided_p": 0.8600665421066891
+        }
+      },
+      "IUT_p": 0.9979623105160762,
+      "all_source_category_context": {
+        "Angiofibroma of soft tissue": {
+          "n": 2,
+          "min": 3.87,
+          "median": 4.140000000000001,
+          "max": 4.41
+        },
+        "Angiolipoma": {
+          "n": 3,
+          "min": 0.57,
+          "median": 1.24,
+          "max": 3.61
+        },
+        "Angiosarcoma": {
+          "n": 8,
+          "min": 0.21,
+          "median": 5.185,
+          "max": 102.94
+        },
+        "Atypical lipomatous tumor": {
+          "n": 38,
+          "min": 0.0,
+          "median": 2.045,
+          "max": 11.6
+        },
+        "Benign fibrous histiocytoma": {
+          "n": 5,
+          "min": 1.0,
+          "median": 3.38,
+          "max": 34.39
+        },
+        "CD34-postive superficial fibroblastic tumor": {
+          "n": 7,
+          "min": 6.45,
+          "median": 19.87,
+          "max": 165.54
+        },
+        "Clear cell sarcoma": {
+          "n": 3,
+          "min": 0.0,
+          "median": 0.67,
+          "max": 0.77
+        },
+        "Cryptic liposarcoma": {
+          "n": 22,
+          "min": 0.04,
+          "median": 1.495,
+          "max": 9.94
+        },
+        "Dedifferentiated liposarcoma": {
+          "n": 20,
+          "min": 0.05,
+          "median": 1.025,
+          "max": 14.4
+        },
+        "Dermatofibrosarcoma protuberans": {
+          "n": 10,
+          "min": 0.17,
+          "median": 1.2650000000000001,
+          "max": 119.33
+        },
+        "Desmoid": {
+          "n": 11,
+          "min": 0.64,
+          "median": 1.31,
+          "max": 4.24
+        },
+        "Desmoplastic fibroblastoma": {
+          "n": 2,
+          "min": 1.06,
+          "median": 2.49,
+          "max": 3.92
+        },
+        "Desmoplastic small round cell tumor": {
+          "n": 7,
+          "min": 0.3,
+          "median": 0.68,
+          "max": 8.26
+        },
+        "Endometrial stromal sarcoma": {
+          "n": 2,
+          "min": 0.25,
+          "median": 1.105,
+          "max": 1.96
+        },
+        "Epithelioid sarcoma": {
+          "n": 6,
+          "min": 0.19,
+          "median": 0.445,
+          "max": 8.4
+        },
+        "Ewing sarcoma": {
+          "n": 3,
+          "min": 0.0,
+          "median": 0.03,
+          "max": 0.96
+        },
+        "Extraskeletal myxoid chondrosarcoma": {
+          "n": 9,
+          "min": 0.02,
+          "median": 0.24,
+          "max": 1.91
+        },
+        "GIST": {
+          "n": 14,
+          "min": 0.0,
+          "median": 0.47,
+          "max": 3.09
+        },
+        "Granular cell tumor": {
+          "n": 2,
+          "min": 7.61,
+          "median": 8.2,
+          "max": 8.79
+        },
+        "Hamartomatous fibroma": {
+          "n": 2,
+          "min": 0.35,
+          "median": 3.215,
+          "max": 6.08
+        },
+        "Hibernoma": {
+          "n": 16,
+          "min": 0.0,
+          "median": 0.24,
+          "max": 0.86
+        },
+        "Inflammatory rhabdomyoblastic tumor": {
+          "n": 5,
+          "min": 0.51,
+          "median": 1.27,
+          "max": 3.55
+        },
+        "LMS": {
+          "n": 39,
+          "min": 0.03,
+          "median": 1.62,
+          "max": 131.82
+        },
+        "Lipoblastoma": {
+          "n": 7,
+          "min": 0.15,
+          "median": 0.32,
+          "max": 3.95
+        },
+        "Lipoma": {
+          "n": 20,
+          "min": 0.04,
+          "median": 1.375,
+          "max": 3.98
+        },
+        "Lipoma, spindle cell/pleomorphic": {
+          "n": 10,
+          "min": 0.21,
+          "median": 1.45,
+          "max": 6.05
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "min": 0.1,
+          "median": 1.7,
+          "max": 31.65
+        },
+        "MPNST": {
+          "n": 18,
+          "min": 0.04,
+          "median": 0.515,
+          "max": 21.73
+        },
+        "Melanoma": {
+          "n": 5,
+          "min": 0.25,
+          "median": 0.79,
+          "max": 0.99
+        },
+        "Myoepithelial tumor": {
+          "n": 2,
+          "min": 2.36,
+          "median": 2.46,
+          "max": 2.56
+        },
+        "Myxofibrosarcoma": {
+          "n": 60,
+          "min": 0.0,
+          "median": 0.86,
+          "max": 13.41
+        },
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "min": 0.0,
+          "median": 0.22999999999999998,
+          "max": 5.44
+        },
+        "Myxoid pleomorphic liposarcoma": {
+          "n": 3,
+          "min": 0.08,
+          "median": 0.46,
+          "max": 0.54
+        },
+        "Myxoinflammatory fibroblastic sarcoma/hemosiderotic fibrolipomatous tumor": {
+          "n": 7,
+          "min": 0.28,
+          "median": 1.85,
+          "max": 2.91
+        },
+        "Myxoma Class 1": {
+          "n": 5,
+          "min": 2.0,
+          "median": 3.07,
+          "max": 32.85
+        },
+        "Myxoma Class 2": {
+          "n": 4,
+          "min": 0.17,
+          "median": 2.21,
+          "max": 8.85
+        },
+        "Neurofibroma": {
+          "n": 4,
+          "min": 2.07,
+          "median": 5.34,
+          "max": 8.86
+        },
+        "Neurofibroma, atypical": {
+          "n": 1,
+          "min": 0.14,
+          "median": 0.14,
+          "max": 0.14
+        },
+        "Neurofibroma, diffuse": {
+          "n": 1,
+          "min": 0.15,
+          "median": 0.15,
+          "max": 0.15
+        },
+        "Neurofibroma, plexiform": {
+          "n": 2,
+          "min": 0.26,
+          "median": 0.33999999999999997,
+          "max": 0.42
+        },
+        "Nodular fasciitis": {
+          "n": 3,
+          "min": 1.06,
+          "median": 2.65,
+          "max": 5.23
+        },
+        "Ossifying fibromyxoid tumor": {
+          "n": 8,
+          "min": 0.08,
+          "median": 2.385,
+          "max": 9.9
+        },
+        "Osteosarcoma": {
+          "n": 2,
+          "min": 2.02,
+          "median": 3.0949999999999998,
+          "max": 4.17
+        },
+        "Pleomorphic hyalinizing angiectatic tumor": {
+          "n": 2,
+          "min": 1.39,
+          "median": 4.805000000000001,
+          "max": 8.22
+        },
+        "Pleomorphic liposarcoma": {
+          "n": 8,
+          "min": 0.18,
+          "median": 1.095,
+          "max": 5.62
+        },
+        "Pseudomyogenic hemangioendothelioma": {
+          "n": 4,
+          "min": 0.53,
+          "median": 1.49,
+          "max": 22.11
+        },
+        "Rhabdomyosarcoma, NOS": {
+          "n": 1,
+          "min": 0.59,
+          "median": 0.59,
+          "max": 0.59
+        },
+        "Rhabdomyosarcoma, alveolar": {
+          "n": 7,
+          "min": 0.07,
+          "median": 0.16,
+          "max": 0.48
+        },
+        "Rhabdomyosarcoma, embryonal": {
+          "n": 11,
+          "min": 0.0,
+          "median": 0.72,
+          "max": 96.85
+        },
+        "Rhabdomyosarcoma, sclerosing": {
+          "n": 2,
+          "min": 0.04,
+          "median": 0.075,
+          "max": 0.11
+        },
+        "Schwannoma": {
+          "n": 13,
+          "min": 0.36,
+          "median": 1.9,
+          "max": 17.23
+        },
+        "Sclerosing epithelioid fibrosarcoma": {
+          "n": 8,
+          "min": 0.0,
+          "median": 0.275,
+          "max": 6.53
+        },
+        "Sclerosing epithelioid fibrosarcoma-like": {
+          "n": 4,
+          "min": 0.7,
+          "median": 12.52,
+          "max": 23.91
+        },
+        "Solitary fibrous tumor": {
+          "n": 11,
+          "min": 0.11,
+          "median": 0.6,
+          "max": 7.17
+        },
+        "Spindle cell tumor NOS": {
+          "n": 12,
+          "min": 0.15,
+          "median": 1.23,
+          "max": 12.75
+        },
+        "Synovial chondromatosis": {
+          "n": 6,
+          "min": 0.76,
+          "median": 2.05,
+          "max": 4.82
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "min": 0.0,
+          "median": 0.33,
+          "max": 31.98
+        },
+        "Tenosynovial giant cell tumor": {
+          "n": 12,
+          "min": 0.18,
+          "median": 1.27,
+          "max": 5.31
+        },
+        "UPS": {
+          "n": 98,
+          "min": 0.0,
+          "median": 0.73,
+          "max": 371.67
+        },
+        "Undifferentiated round cell sarcoma": {
+          "n": 2,
+          "min": 0.11,
+          "median": 1.3099999999999998,
+          "max": 2.51
+        }
+      },
+      "Holm6_IUT_exploratory_p": 1
+    },
+    "NECTIN4": {
+      "feature": "NECTIN4",
+      "all13_values": {
+        "104-92": 0.0,
+        "11881-19": 0.06,
+        "168-97": 0.0,
+        "3371-22": 0.33,
+        "3372-22": 0.0,
+        "4716-22": 0.0,
+        "4840-13": 0.02,
+        "5081-14": 1.7,
+        "5149-18": 0.02,
+        "5241-06": 0.0,
+        "536-00": 0.0,
+        "7931-19": 0.0,
+        "8102-22": 0.21
+      },
+      "primary9_values": {
+        "11881-19": 0.06,
+        "3371-22": 0.33,
+        "3372-22": 0.0,
+        "4716-22": 0.0,
+        "4840-13": 0.02,
+        "5149-18": 0.02,
+        "5241-06": 0.0,
+        "7931-19": 0.0,
+        "8102-22": 0.21
+      },
+      "primary_distribution": {
+        "n": 9,
+        "min": 0.0,
+        "median": 0.02,
+        "max": 0.33
+      },
+      "primary_ge1": 0,
+      "primary_ge5": 0,
+      "primary_contrasts": {
+        "Myxoid liposarcoma": {
+          "comparator_ids": [
+            "1031-14",
+            "2087-93",
+            "2440-01",
+            "2492-91",
+            "2723-11",
+            "3276-03",
+            "351-96",
+            "3531-14",
+            "362-94",
+            "4876-16",
+            "610-14",
+            "6161-13",
+            "7084-14",
+            "7368-16"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.0,
+            "median": 0.02,
+            "max": 0.33
+          },
+          "comparator": {
+            "n": 14,
+            "min": 0.0,
+            "median": 0.08,
+            "max": 2.39
+          },
+          "A": 0.2976190476190476,
+          "year_matched_A": 0.16666666666666666,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 2,
+              "A": 0.375,
+              "pair_count": 4
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 0.0,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.29395604395604397,
+          "primary_deletion_A": [
+            0.29464285714285715,
+            0.22767857142857142,
+            0.32589285714285715,
+            0.32589285714285715,
+            0.3080357142857143,
+            0.3080357142857143,
+            0.32589285714285715,
+            0.32589285714285715,
+            0.23660714285714285
+          ],
+          "conditional_bootstrap95": [
+            0.08333333333333333,
+            0.5436507936507936
+          ],
+          "exploratory_one_sided_p": 0.9508794305360833
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "comparator_ids": [
+            "1076-04",
+            "1496-95",
+            "1731-00",
+            "1743-89",
+            "1838-04",
+            "2176-91",
+            "2433-02",
+            "2611-96",
+            "3252-04",
+            "3458-17",
+            "3490-00",
+            "6545-13",
+            "9562-17"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.0,
+            "median": 0.02,
+            "max": 0.33
+          },
+          "comparator": {
+            "n": 13,
+            "min": 0.0,
+            "median": 0.15,
+            "max": 1.95
+          },
+          "A": 0.23931623931623933,
+          "year_matched_A": 0.15789473684210525,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 7,
+              "A": 0.21428571428571427,
+              "pair_count": 14
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 0.0,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.25443786982248523,
+          "primary_deletion_A": [
+            0.25,
+            0.17307692307692307,
+            0.25961538461538464,
+            0.25961538461538464,
+            0.25,
+            0.25,
+            0.25961538461538464,
+            0.25961538461538464,
+            0.19230769230769232
+          ],
+          "conditional_bootstrap95": [
+            0.05128205128205128,
+            0.4658119658119658
+          ],
+          "exploratory_one_sided_p": 0.9817847324220483
+        },
+        "Synovial sarcoma": {
+          "comparator_ids": [
+            "1139-03",
+            "1145-08",
+            "1148-14",
+            "231-14",
+            "2430-90",
+            "2915-92",
+            "2991-93",
+            "3014-94",
+            "3234-92",
+            "3673-07",
+            "3827-99",
+            "3874-14",
+            "4111-04",
+            "4530-08",
+            "5279-11",
+            "591-10",
+            "6246-13",
+            "823-05"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.0,
+            "median": 0.02,
+            "max": 0.33
+          },
+          "comparator": {
+            "n": 18,
+            "min": 0.0,
+            "median": 0.055,
+            "max": 7.95
+          },
+          "A": 0.4166666666666667,
+          "year_matched_A": 0.26785714285714285,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 10,
+              "A": 0.125,
+              "pair_count": 20
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 8,
+              "A": 0.625,
+              "pair_count": 8
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.3995726495726496,
+          "primary_deletion_A": [
+            0.4027777777777778,
+            0.3506944444444444,
+            0.4479166666666667,
+            0.4479166666666667,
+            0.4201388888888889,
+            0.4201388888888889,
+            0.4479166666666667,
+            0.4479166666666667,
+            0.3645833333333333
+          ],
+          "conditional_bootstrap95": [
+            0.19753086419753085,
+            0.6481481481481481
+          ],
+          "exploratory_one_sided_p": 0.7704956258832958
+        }
+      },
+      "IUT_p": 0.9817847324220483,
+      "all_source_category_context": {
+        "Angiofibroma of soft tissue": {
+          "n": 2,
+          "min": 0.2,
+          "median": 0.31,
+          "max": 0.42
+        },
+        "Angiolipoma": {
+          "n": 3,
+          "min": 0.13,
+          "median": 0.16,
+          "max": 0.31
+        },
+        "Angiosarcoma": {
+          "n": 8,
+          "min": 0.08,
+          "median": 0.56,
+          "max": 30.08
+        },
+        "Atypical lipomatous tumor": {
+          "n": 38,
+          "min": 0.0,
+          "median": 0.26,
+          "max": 3.47
+        },
+        "Benign fibrous histiocytoma": {
+          "n": 5,
+          "min": 0.29,
+          "median": 0.87,
+          "max": 3.15
+        },
+        "CD34-postive superficial fibroblastic tumor": {
+          "n": 7,
+          "min": 0.0,
+          "median": 0.29,
+          "max": 1.46
+        },
+        "Clear cell sarcoma": {
+          "n": 3,
+          "min": 0.1,
+          "median": 2.44,
+          "max": 6.72
+        },
+        "Cryptic liposarcoma": {
+          "n": 22,
+          "min": 0.03,
+          "median": 0.94,
+          "max": 36.95
+        },
+        "Dedifferentiated liposarcoma": {
+          "n": 20,
+          "min": 0.0,
+          "median": 0.275,
+          "max": 10.11
+        },
+        "Dermatofibrosarcoma protuberans": {
+          "n": 10,
+          "min": 0.02,
+          "median": 0.155,
+          "max": 16.89
+        },
+        "Desmoid": {
+          "n": 11,
+          "min": 0.0,
+          "median": 0.03,
+          "max": 0.24
+        },
+        "Desmoplastic fibroblastoma": {
+          "n": 2,
+          "min": 0.07,
+          "median": 0.12000000000000001,
+          "max": 0.17
+        },
+        "Desmoplastic small round cell tumor": {
+          "n": 7,
+          "min": 0.07,
+          "median": 0.6,
+          "max": 4.9
+        },
+        "Endometrial stromal sarcoma": {
+          "n": 2,
+          "min": 0.0,
+          "median": 0.055,
+          "max": 0.11
+        },
+        "Epithelioid sarcoma": {
+          "n": 6,
+          "min": 0.06,
+          "median": 26.965,
+          "max": 69.54
+        },
+        "Ewing sarcoma": {
+          "n": 3,
+          "min": 0.0,
+          "median": 0.04,
+          "max": 0.26
+        },
+        "Extraskeletal myxoid chondrosarcoma": {
+          "n": 9,
+          "min": 0.0,
+          "median": 0.02,
+          "max": 0.33
+        },
+        "GIST": {
+          "n": 14,
+          "min": 0.0,
+          "median": 0.03,
+          "max": 0.79
+        },
+        "Granular cell tumor": {
+          "n": 2,
+          "min": 0.36,
+          "median": 0.625,
+          "max": 0.89
+        },
+        "Hamartomatous fibroma": {
+          "n": 2,
+          "min": 0.1,
+          "median": 0.115,
+          "max": 0.13
+        },
+        "Hibernoma": {
+          "n": 16,
+          "min": 0.04,
+          "median": 0.33,
+          "max": 1.03
+        },
+        "Inflammatory rhabdomyoblastic tumor": {
+          "n": 5,
+          "min": 0.0,
+          "median": 0.19,
+          "max": 1.31
+        },
+        "LMS": {
+          "n": 39,
+          "min": 0.05,
+          "median": 1.04,
+          "max": 35.32
+        },
+        "Lipoblastoma": {
+          "n": 7,
+          "min": 0.1,
+          "median": 0.12,
+          "max": 1.75
+        },
+        "Lipoma": {
+          "n": 20,
+          "min": 0.01,
+          "median": 0.14500000000000002,
+          "max": 6.22
+        },
+        "Lipoma, spindle cell/pleomorphic": {
+          "n": 10,
+          "min": 0.0,
+          "median": 0.23500000000000001,
+          "max": 0.5
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "min": 0.0,
+          "median": 0.15,
+          "max": 1.95
+        },
+        "MPNST": {
+          "n": 18,
+          "min": 0.02,
+          "median": 0.375,
+          "max": 10.47
+        },
+        "Melanoma": {
+          "n": 5,
+          "min": 0.5,
+          "median": 1.08,
+          "max": 2.99
+        },
+        "Myoepithelial tumor": {
+          "n": 2,
+          "min": 0.14,
+          "median": 0.22,
+          "max": 0.3
+        },
+        "Myxofibrosarcoma": {
+          "n": 60,
+          "min": 0.02,
+          "median": 1.3399999999999999,
+          "max": 32.99
+        },
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "min": 0.0,
+          "median": 0.08,
+          "max": 2.39
+        },
+        "Myxoid pleomorphic liposarcoma": {
+          "n": 3,
+          "min": 0.07,
+          "median": 0.14,
+          "max": 0.17
+        },
+        "Myxoinflammatory fibroblastic sarcoma/hemosiderotic fibrolipomatous tumor": {
+          "n": 7,
+          "min": 0.03,
+          "median": 0.55,
+          "max": 4.56
+        },
+        "Myxoma Class 1": {
+          "n": 5,
+          "min": 44.67,
+          "median": 72.32,
+          "max": 160.5
+        },
+        "Myxoma Class 2": {
+          "n": 4,
+          "min": 0.87,
+          "median": 11.255,
+          "max": 17.87
+        },
+        "Neurofibroma": {
+          "n": 4,
+          "min": 0.08,
+          "median": 0.195,
+          "max": 0.48
+        },
+        "Neurofibroma, atypical": {
+          "n": 1,
+          "min": 0.87,
+          "median": 0.87,
+          "max": 0.87
+        },
+        "Neurofibroma, diffuse": {
+          "n": 1,
+          "min": 0.02,
+          "median": 0.02,
+          "max": 0.02
+        },
+        "Neurofibroma, plexiform": {
+          "n": 2,
+          "min": 0.05,
+          "median": 0.125,
+          "max": 0.2
+        },
+        "Nodular fasciitis": {
+          "n": 3,
+          "min": 1.64,
+          "median": 1.71,
+          "max": 2.82
+        },
+        "Ossifying fibromyxoid tumor": {
+          "n": 8,
+          "min": 0.0,
+          "median": 0.135,
+          "max": 0.29
+        },
+        "Osteosarcoma": {
+          "n": 2,
+          "min": 0.09,
+          "median": 0.175,
+          "max": 0.26
+        },
+        "Pleomorphic hyalinizing angiectatic tumor": {
+          "n": 2,
+          "min": 1.18,
+          "median": 1.42,
+          "max": 1.66
+        },
+        "Pleomorphic liposarcoma": {
+          "n": 8,
+          "min": 0.0,
+          "median": 0.485,
+          "max": 6.08
+        },
+        "Pseudomyogenic hemangioendothelioma": {
+          "n": 4,
+          "min": 0.51,
+          "median": 1.85,
+          "max": 3.17
+        },
+        "Rhabdomyosarcoma, NOS": {
+          "n": 1,
+          "min": 0.66,
+          "median": 0.66,
+          "max": 0.66
+        },
+        "Rhabdomyosarcoma, alveolar": {
+          "n": 7,
+          "min": 0.12,
+          "median": 0.45,
+          "max": 0.78
+        },
+        "Rhabdomyosarcoma, embryonal": {
+          "n": 11,
+          "min": 0.02,
+          "median": 0.4,
+          "max": 10.12
+        },
+        "Rhabdomyosarcoma, sclerosing": {
+          "n": 2,
+          "min": 0.01,
+          "median": 0.07,
+          "max": 0.13
+        },
+        "Schwannoma": {
+          "n": 13,
+          "min": 0.0,
+          "median": 0.1,
+          "max": 2.66
+        },
+        "Sclerosing epithelioid fibrosarcoma": {
+          "n": 8,
+          "min": 0.0,
+          "median": 0.27,
+          "max": 1.99
+        },
+        "Sclerosing epithelioid fibrosarcoma-like": {
+          "n": 4,
+          "min": 0.0,
+          "median": 0.125,
+          "max": 0.6
+        },
+        "Solitary fibrous tumor": {
+          "n": 11,
+          "min": 0.0,
+          "median": 0.12,
+          "max": 0.42
+        },
+        "Spindle cell tumor NOS": {
+          "n": 12,
+          "min": 0.0,
+          "median": 0.41500000000000004,
+          "max": 9.9
+        },
+        "Synovial chondromatosis": {
+          "n": 6,
+          "min": 0.25,
+          "median": 3.65,
+          "max": 9.1
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "min": 0.0,
+          "median": 0.055,
+          "max": 7.95
+        },
+        "Tenosynovial giant cell tumor": {
+          "n": 12,
+          "min": 0.78,
+          "median": 4.575,
+          "max": 13.82
+        },
+        "UPS": {
+          "n": 98,
+          "min": 0.0,
+          "median": 1.08,
+          "max": 41.34
+        },
+        "Undifferentiated round cell sarcoma": {
+          "n": 2,
+          "min": 0.6,
+          "median": 1.385,
+          "max": 2.17
+        }
+      },
+      "Holm6_IUT_exploratory_p": 1
+    },
+    "FOLR1": {
+      "feature": "FOLR1",
+      "all13_values": {
+        "104-92": 0.71,
+        "11881-19": 0.26,
+        "168-97": 0.32,
+        "3371-22": 0.0,
+        "3372-22": 9.81,
+        "4716-22": 0.23,
+        "4840-13": 0.55,
+        "5081-14": 0.41,
+        "5149-18": 3.33,
+        "5241-06": 2.25,
+        "536-00": 5.78,
+        "7931-19": 0.1,
+        "8102-22": 1.46
+      },
+      "primary9_values": {
+        "11881-19": 0.26,
+        "3371-22": 0.0,
+        "3372-22": 9.81,
+        "4716-22": 0.23,
+        "4840-13": 0.55,
+        "5149-18": 3.33,
+        "5241-06": 2.25,
+        "7931-19": 0.1,
+        "8102-22": 1.46
+      },
+      "primary_distribution": {
+        "n": 9,
+        "min": 0.0,
+        "median": 0.55,
+        "max": 9.81
+      },
+      "primary_ge1": 4,
+      "primary_ge5": 1,
+      "primary_contrasts": {
+        "Myxoid liposarcoma": {
+          "comparator_ids": [
+            "1031-14",
+            "2087-93",
+            "2440-01",
+            "2492-91",
+            "2723-11",
+            "3276-03",
+            "351-96",
+            "3531-14",
+            "362-94",
+            "4876-16",
+            "610-14",
+            "6161-13",
+            "7084-14",
+            "7368-16"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.0,
+            "median": 0.55,
+            "max": 9.81
+          },
+          "comparator": {
+            "n": 14,
+            "min": 0.0,
+            "median": 0.595,
+            "max": 1.51
+          },
+          "A": 0.5833333333333334,
+          "year_matched_A": 0.8888888888888888,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 2,
+              "A": 0.75,
+              "pair_count": 4
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 1.0,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.5906593406593407,
+          "primary_deletion_A": [
+            0.6116071428571429,
+            0.6517857142857143,
+            0.53125,
+            0.6205357142857143,
+            0.6026785714285714,
+            0.53125,
+            0.53125,
+            0.6294642857142857,
+            0.5401785714285714
+          ],
+          "conditional_bootstrap95": [
+            0.30158730158730157,
+            0.8333333333333334
+          ],
+          "exploratory_one_sided_p": 0.26426477782110847
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "comparator_ids": [
+            "1076-04",
+            "1496-95",
+            "1731-00",
+            "1743-89",
+            "1838-04",
+            "2176-91",
+            "2433-02",
+            "2611-96",
+            "3252-04",
+            "3458-17",
+            "3490-00",
+            "6545-13",
+            "9562-17"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.0,
+            "median": 0.55,
+            "max": 9.81
+          },
+          "comparator": {
+            "n": 13,
+            "min": 0.0,
+            "median": 0.08,
+            "max": 0.7
+          },
+          "A": 0.8290598290598291,
+          "year_matched_A": 0.9473684210526315,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 7,
+              "A": 0.9285714285714286,
+              "pair_count": 14
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 1.0,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.863905325443787,
+          "primary_deletion_A": [
+            0.8269230769230769,
+            0.9086538461538461,
+            0.8076923076923077,
+            0.8269230769230769,
+            0.8173076923076923,
+            0.8076923076923077,
+            0.8076923076923077,
+            0.8509615384615384,
+            0.8076923076923077
+          ],
+          "conditional_bootstrap95": [
+            0.6153846153846154,
+            0.9829059829059829
+          ],
+          "exploratory_one_sided_p": 0.005166281590557565
+        },
+        "Synovial sarcoma": {
+          "comparator_ids": [
+            "1139-03",
+            "1145-08",
+            "1148-14",
+            "231-14",
+            "2430-90",
+            "2915-92",
+            "2991-93",
+            "3014-94",
+            "3234-92",
+            "3673-07",
+            "3827-99",
+            "3874-14",
+            "4111-04",
+            "4530-08",
+            "5279-11",
+            "591-10",
+            "6246-13",
+            "823-05"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.0,
+            "median": 0.55,
+            "max": 9.81
+          },
+          "comparator": {
+            "n": 18,
+            "min": 0.0,
+            "median": 0.0,
+            "max": 0.15
+          },
+          "A": 0.9104938271604939,
+          "year_matched_A": 1.0,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 10,
+              "A": 1.0,
+              "pair_count": 20
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 8,
+              "A": 1.0,
+              "pair_count": 8
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.938034188034188,
+          "primary_deletion_A": [
+            0.8993055555555556,
+            0.9861111111111112,
+            0.8993055555555556,
+            0.8993055555555556,
+            0.8993055555555556,
+            0.8993055555555556,
+            0.8993055555555556,
+            0.9131944444444444,
+            0.8993055555555556
+          ],
+          "conditional_bootstrap95": [
+            0.7438271604938272,
+            1.0
+          ],
+          "exploratory_one_sided_p": 0.00018848720569638732
+        }
+      },
+      "IUT_p": 0.26426477782110847,
+      "all_source_category_context": {
+        "Angiofibroma of soft tissue": {
+          "n": 2,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.0
+        },
+        "Angiolipoma": {
+          "n": 3,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.08
+        },
+        "Angiosarcoma": {
+          "n": 8,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.22
+        },
+        "Atypical lipomatous tumor": {
+          "n": 38,
+          "min": 0.0,
+          "median": 0.065,
+          "max": 8.85
+        },
+        "Benign fibrous histiocytoma": {
+          "n": 5,
+          "min": 0.0,
+          "median": 0.08,
+          "max": 0.28
+        },
+        "CD34-postive superficial fibroblastic tumor": {
+          "n": 7,
+          "min": 0.0,
+          "median": 0.28,
+          "max": 409.54
+        },
+        "Clear cell sarcoma": {
+          "n": 3,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.0
+        },
+        "Cryptic liposarcoma": {
+          "n": 22,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 5.31
+        },
+        "Dedifferentiated liposarcoma": {
+          "n": 20,
+          "min": 0.0,
+          "median": 0.10500000000000001,
+          "max": 1.99
+        },
+        "Dermatofibrosarcoma protuberans": {
+          "n": 10,
+          "min": 0.56,
+          "median": 1.4900000000000002,
+          "max": 3.39
+        },
+        "Desmoid": {
+          "n": 11,
+          "min": 0.0,
+          "median": 0.26,
+          "max": 0.7
+        },
+        "Desmoplastic fibroblastoma": {
+          "n": 2,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.0
+        },
+        "Desmoplastic small round cell tumor": {
+          "n": 7,
+          "min": 0.0,
+          "median": 0.09,
+          "max": 3.19
+        },
+        "Endometrial stromal sarcoma": {
+          "n": 2,
+          "min": 5.49,
+          "median": 17.665,
+          "max": 29.84
+        },
+        "Epithelioid sarcoma": {
+          "n": 6,
+          "min": 0.0,
+          "median": 0.07,
+          "max": 0.25
+        },
+        "Ewing sarcoma": {
+          "n": 3,
+          "min": 0.0,
+          "median": 14.02,
+          "max": 36.87
+        },
+        "Extraskeletal myxoid chondrosarcoma": {
+          "n": 9,
+          "min": 0.0,
+          "median": 0.55,
+          "max": 9.81
+        },
+        "GIST": {
+          "n": 14,
+          "min": 0.0,
+          "median": 0.9550000000000001,
+          "max": 14.13
+        },
+        "Granular cell tumor": {
+          "n": 2,
+          "min": 0.09,
+          "median": 0.125,
+          "max": 0.16
+        },
+        "Hamartomatous fibroma": {
+          "n": 2,
+          "min": 0.2,
+          "median": 0.505,
+          "max": 0.81
+        },
+        "Hibernoma": {
+          "n": 16,
+          "min": 0.0,
+          "median": 0.06,
+          "max": 0.56
+        },
+        "Inflammatory rhabdomyoblastic tumor": {
+          "n": 5,
+          "min": 0.0,
+          "median": 0.09,
+          "max": 2.68
+        },
+        "LMS": {
+          "n": 39,
+          "min": 0.0,
+          "median": 0.11,
+          "max": 11.38
+        },
+        "Lipoblastoma": {
+          "n": 7,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.24
+        },
+        "Lipoma": {
+          "n": 20,
+          "min": 0.0,
+          "median": 0.025,
+          "max": 0.55
+        },
+        "Lipoma, spindle cell/pleomorphic": {
+          "n": 10,
+          "min": 0.0,
+          "median": 0.055,
+          "max": 0.63
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "min": 0.0,
+          "median": 0.08,
+          "max": 0.7
+        },
+        "MPNST": {
+          "n": 18,
+          "min": 0.0,
+          "median": 0.41500000000000004,
+          "max": 3.03
+        },
+        "Melanoma": {
+          "n": 5,
+          "min": 0.0,
+          "median": 0.17,
+          "max": 0.61
+        },
+        "Myoepithelial tumor": {
+          "n": 2,
+          "min": 7.0,
+          "median": 11.27,
+          "max": 15.54
+        },
+        "Myxofibrosarcoma": {
+          "n": 60,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 20.44
+        },
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "min": 0.0,
+          "median": 0.595,
+          "max": 1.51
+        },
+        "Myxoid pleomorphic liposarcoma": {
+          "n": 3,
+          "min": 0.2,
+          "median": 0.29,
+          "max": 1.13
+        },
+        "Myxoinflammatory fibroblastic sarcoma/hemosiderotic fibrolipomatous tumor": {
+          "n": 7,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.1
+        },
+        "Myxoma Class 1": {
+          "n": 5,
+          "min": 0.0,
+          "median": 0.15,
+          "max": 0.3
+        },
+        "Myxoma Class 2": {
+          "n": 4,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.24
+        },
+        "Neurofibroma": {
+          "n": 4,
+          "min": 0.0,
+          "median": 0.29,
+          "max": 0.69
+        },
+        "Neurofibroma, atypical": {
+          "n": 1,
+          "min": 0.28,
+          "median": 0.28,
+          "max": 0.28
+        },
+        "Neurofibroma, diffuse": {
+          "n": 1,
+          "min": 0.06,
+          "median": 0.06,
+          "max": 0.06
+        },
+        "Neurofibroma, plexiform": {
+          "n": 2,
+          "min": 0.3,
+          "median": 0.32,
+          "max": 0.34
+        },
+        "Nodular fasciitis": {
+          "n": 3,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.0
+        },
+        "Ossifying fibromyxoid tumor": {
+          "n": 8,
+          "min": 0.0,
+          "median": 7.3,
+          "max": 43.24
+        },
+        "Osteosarcoma": {
+          "n": 2,
+          "min": 0.0,
+          "median": 12.35,
+          "max": 24.7
+        },
+        "Pleomorphic hyalinizing angiectatic tumor": {
+          "n": 2,
+          "min": 0.0,
+          "median": 0.08,
+          "max": 0.16
+        },
+        "Pleomorphic liposarcoma": {
+          "n": 8,
+          "min": 0.0,
+          "median": 0.09,
+          "max": 1.38
+        },
+        "Pseudomyogenic hemangioendothelioma": {
+          "n": 4,
+          "min": 0.0,
+          "median": 0.545,
+          "max": 0.68
+        },
+        "Rhabdomyosarcoma, NOS": {
+          "n": 1,
+          "min": 6.81,
+          "median": 6.81,
+          "max": 6.81
+        },
+        "Rhabdomyosarcoma, alveolar": {
+          "n": 7,
+          "min": 0.34,
+          "median": 3.31,
+          "max": 9.28
+        },
+        "Rhabdomyosarcoma, embryonal": {
+          "n": 11,
+          "min": 0.07,
+          "median": 3.98,
+          "max": 67.79
+        },
+        "Rhabdomyosarcoma, sclerosing": {
+          "n": 2,
+          "min": 0.0,
+          "median": 2.48,
+          "max": 4.96
+        },
+        "Schwannoma": {
+          "n": 13,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.43
+        },
+        "Sclerosing epithelioid fibrosarcoma": {
+          "n": 8,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.33
+        },
+        "Sclerosing epithelioid fibrosarcoma-like": {
+          "n": 4,
+          "min": 0.0,
+          "median": 2.2,
+          "max": 7.21
+        },
+        "Solitary fibrous tumor": {
+          "n": 11,
+          "min": 0.21,
+          "median": 1.72,
+          "max": 20.92
+        },
+        "Spindle cell tumor NOS": {
+          "n": 12,
+          "min": 0.0,
+          "median": 0.17,
+          "max": 4.83
+        },
+        "Synovial chondromatosis": {
+          "n": 6,
+          "min": 0.58,
+          "median": 0.76,
+          "max": 19.59
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.15
+        },
+        "Tenosynovial giant cell tumor": {
+          "n": 12,
+          "min": 0.0,
+          "median": 0.195,
+          "max": 0.77
+        },
+        "UPS": {
+          "n": 98,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 12.53
+        },
+        "Undifferentiated round cell sarcoma": {
+          "n": 2,
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.0
+        }
+      },
+      "Holm6_IUT_exploratory_p": 1
+    },
+    "F3": {
+      "feature": "F3",
+      "all13_values": {
+        "104-92": 4.58,
+        "11881-19": 3.52,
+        "168-97": 1.47,
+        "3371-22": 6.55,
+        "3372-22": 0.21,
+        "4716-22": 4.75,
+        "4840-13": 1.64,
+        "5081-14": 8.35,
+        "5149-18": 2.99,
+        "5241-06": 2.65,
+        "536-00": 1.21,
+        "7931-19": 6.28,
+        "8102-22": 3.46
+      },
+      "primary9_values": {
+        "11881-19": 3.52,
+        "3371-22": 6.55,
+        "3372-22": 0.21,
+        "4716-22": 4.75,
+        "4840-13": 1.64,
+        "5149-18": 2.99,
+        "5241-06": 2.65,
+        "7931-19": 6.28,
+        "8102-22": 3.46
+      },
+      "primary_distribution": {
+        "n": 9,
+        "min": 0.21,
+        "median": 3.46,
+        "max": 6.55
+      },
+      "primary_ge1": 8,
+      "primary_ge5": 2,
+      "primary_contrasts": {
+        "Myxoid liposarcoma": {
+          "comparator_ids": [
+            "1031-14",
+            "2087-93",
+            "2440-01",
+            "2492-91",
+            "2723-11",
+            "3276-03",
+            "351-96",
+            "3531-14",
+            "362-94",
+            "4876-16",
+            "610-14",
+            "6161-13",
+            "7084-14",
+            "7368-16"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.21,
+            "median": 3.46,
+            "max": 6.55
+          },
+          "comparator": {
+            "n": 14,
+            "min": 0.32,
+            "median": 5.88,
+            "max": 158.85
+          },
+          "A": 0.3333333333333333,
+          "year_matched_A": 0.3333333333333333,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 2,
+              "A": 0.5,
+              "pair_count": 4
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 0.2,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.34615384615384615,
+          "primary_deletion_A": [
+            0.33035714285714285,
+            0.3125,
+            0.375,
+            0.3125,
+            0.3482142857142857,
+            0.3392857142857143,
+            0.3392857142857143,
+            0.3125,
+            0.33035714285714285
+          ],
+          "conditional_bootstrap95": [
+            0.12698412698412698,
+            0.5714285714285714
+          ],
+          "exploratory_one_sided_p": 0.9103195095387854
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "comparator_ids": [
+            "1076-04",
+            "1496-95",
+            "1731-00",
+            "1743-89",
+            "1838-04",
+            "2176-91",
+            "2433-02",
+            "2611-96",
+            "3252-04",
+            "3458-17",
+            "3490-00",
+            "6545-13",
+            "9562-17"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.21,
+            "median": 3.46,
+            "max": 6.55
+          },
+          "comparator": {
+            "n": 13,
+            "min": 6.61,
+            "median": 27.91,
+            "max": 546.18
+          },
+          "A": 0.0,
+          "year_matched_A": 0.0,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 7,
+              "A": 0.0,
+              "pair_count": 14
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 0.0,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.005917159763313609,
+          "primary_deletion_A": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "conditional_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "exploratory_one_sided_p": 1.0
+        },
+        "Synovial sarcoma": {
+          "comparator_ids": [
+            "1139-03",
+            "1145-08",
+            "1148-14",
+            "231-14",
+            "2430-90",
+            "2915-92",
+            "2991-93",
+            "3014-94",
+            "3234-92",
+            "3673-07",
+            "3827-99",
+            "3874-14",
+            "4111-04",
+            "4530-08",
+            "5279-11",
+            "591-10",
+            "6246-13",
+            "823-05"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 0.21,
+            "median": 3.46,
+            "max": 6.55
+          },
+          "comparator": {
+            "n": 18,
+            "min": 0.21,
+            "median": 2.915,
+            "max": 33.08
+          },
+          "A": 0.5339506172839507,
+          "year_matched_A": 0.25,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 10,
+              "A": 0.0,
+              "pair_count": 20
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 8,
+              "A": 0.875,
+              "pair_count": 8
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.5405982905982906,
+          "primary_deletion_A": [
+            0.5243055555555556,
+            0.5034722222222222,
+            0.5972222222222222,
+            0.5173611111111112,
+            0.5520833333333334,
+            0.53125,
+            0.5520833333333334,
+            0.5034722222222222,
+            0.5243055555555556
+          ],
+          "conditional_bootstrap95": [
+            0.30864197530864196,
+            0.7654320987654321
+          ],
+          "exploratory_one_sided_p": 0.398507749626193
+        }
+      },
+      "IUT_p": 1.0,
+      "all_source_category_context": {
+        "Angiofibroma of soft tissue": {
+          "n": 2,
+          "min": 1.55,
+          "median": 22.535,
+          "max": 43.52
+        },
+        "Angiolipoma": {
+          "n": 3,
+          "min": 32.28,
+          "median": 59.3,
+          "max": 62.22
+        },
+        "Angiosarcoma": {
+          "n": 8,
+          "min": 6.66,
+          "median": 19.6,
+          "max": 646.81
+        },
+        "Atypical lipomatous tumor": {
+          "n": 38,
+          "min": 4.87,
+          "median": 53.465,
+          "max": 384.96
+        },
+        "Benign fibrous histiocytoma": {
+          "n": 5,
+          "min": 4.36,
+          "median": 15.56,
+          "max": 60.46
+        },
+        "CD34-postive superficial fibroblastic tumor": {
+          "n": 7,
+          "min": 2.42,
+          "median": 5.87,
+          "max": 19.22
+        },
+        "Clear cell sarcoma": {
+          "n": 3,
+          "min": 0.24,
+          "median": 2.43,
+          "max": 3.25
+        },
+        "Cryptic liposarcoma": {
+          "n": 22,
+          "min": 1.47,
+          "median": 21.335,
+          "max": 129.56
+        },
+        "Dedifferentiated liposarcoma": {
+          "n": 20,
+          "min": 3.81,
+          "median": 25.215,
+          "max": 268.59
+        },
+        "Dermatofibrosarcoma protuberans": {
+          "n": 10,
+          "min": 18.8,
+          "median": 47.835,
+          "max": 118.36
+        },
+        "Desmoid": {
+          "n": 11,
+          "min": 1.93,
+          "median": 6.84,
+          "max": 57.96
+        },
+        "Desmoplastic fibroblastoma": {
+          "n": 2,
+          "min": 10.39,
+          "median": 22.31,
+          "max": 34.23
+        },
+        "Desmoplastic small round cell tumor": {
+          "n": 7,
+          "min": 3.52,
+          "median": 23.29,
+          "max": 55.68
+        },
+        "Endometrial stromal sarcoma": {
+          "n": 2,
+          "min": 10.67,
+          "median": 33.485,
+          "max": 56.3
+        },
+        "Epithelioid sarcoma": {
+          "n": 6,
+          "min": 3.98,
+          "median": 15.57,
+          "max": 167.67
+        },
+        "Ewing sarcoma": {
+          "n": 3,
+          "min": 1.21,
+          "median": 7.0,
+          "max": 33.47
+        },
+        "Extraskeletal myxoid chondrosarcoma": {
+          "n": 9,
+          "min": 0.21,
+          "median": 3.46,
+          "max": 6.55
+        },
+        "GIST": {
+          "n": 14,
+          "min": 0.59,
+          "median": 5.785,
+          "max": 107.24
+        },
+        "Granular cell tumor": {
+          "n": 2,
+          "min": 5.6,
+          "median": 9.809999999999999,
+          "max": 14.02
+        },
+        "Hamartomatous fibroma": {
+          "n": 2,
+          "min": 8.4,
+          "median": 31.939999999999998,
+          "max": 55.48
+        },
+        "Hibernoma": {
+          "n": 16,
+          "min": 17.11,
+          "median": 41.78,
+          "max": 92.37
+        },
+        "Inflammatory rhabdomyoblastic tumor": {
+          "n": 5,
+          "min": 5.03,
+          "median": 8.84,
+          "max": 13.95
+        },
+        "LMS": {
+          "n": 39,
+          "min": 0.53,
+          "median": 17.88,
+          "max": 199.45
+        },
+        "Lipoblastoma": {
+          "n": 7,
+          "min": 1.99,
+          "median": 12.37,
+          "max": 83.31
+        },
+        "Lipoma": {
+          "n": 20,
+          "min": 4.32,
+          "median": 63.900000000000006,
+          "max": 110.39
+        },
+        "Lipoma, spindle cell/pleomorphic": {
+          "n": 10,
+          "min": 7.35,
+          "median": 37.06,
+          "max": 137.56
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "min": 6.61,
+          "median": 27.91,
+          "max": 546.18
+        },
+        "MPNST": {
+          "n": 18,
+          "min": 4.95,
+          "median": 19.735,
+          "max": 257.35
+        },
+        "Melanoma": {
+          "n": 5,
+          "min": 10.71,
+          "median": 27.13,
+          "max": 117.67
+        },
+        "Myoepithelial tumor": {
+          "n": 2,
+          "min": 43.56,
+          "median": 90.0,
+          "max": 136.44
+        },
+        "Myxofibrosarcoma": {
+          "n": 60,
+          "min": 1.27,
+          "median": 17.955,
+          "max": 368.39
+        },
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "min": 0.32,
+          "median": 5.88,
+          "max": 158.85
+        },
+        "Myxoid pleomorphic liposarcoma": {
+          "n": 3,
+          "min": 2.96,
+          "median": 11.54,
+          "max": 14.12
+        },
+        "Myxoinflammatory fibroblastic sarcoma/hemosiderotic fibrolipomatous tumor": {
+          "n": 7,
+          "min": 2.36,
+          "median": 42.11,
+          "max": 107.87
+        },
+        "Myxoma Class 1": {
+          "n": 5,
+          "min": 2.54,
+          "median": 10.39,
+          "max": 50.9
+        },
+        "Myxoma Class 2": {
+          "n": 4,
+          "min": 19.39,
+          "median": 30.285,
+          "max": 57.49
+        },
+        "Neurofibroma": {
+          "n": 4,
+          "min": 41.78,
+          "median": 63.455,
+          "max": 224.31
+        },
+        "Neurofibroma, atypical": {
+          "n": 1,
+          "min": 118.17,
+          "median": 118.17,
+          "max": 118.17
+        },
+        "Neurofibroma, diffuse": {
+          "n": 1,
+          "min": 98.21,
+          "median": 98.21,
+          "max": 98.21
+        },
+        "Neurofibroma, plexiform": {
+          "n": 2,
+          "min": 13.22,
+          "median": 68.63000000000001,
+          "max": 124.04
+        },
+        "Nodular fasciitis": {
+          "n": 3,
+          "min": 43.36,
+          "median": 50.03,
+          "max": 118.5
+        },
+        "Ossifying fibromyxoid tumor": {
+          "n": 8,
+          "min": 0.3,
+          "median": 28.14,
+          "max": 206.11
+        },
+        "Osteosarcoma": {
+          "n": 2,
+          "min": 5.28,
+          "median": 40.1,
+          "max": 74.92
+        },
+        "Pleomorphic hyalinizing angiectatic tumor": {
+          "n": 2,
+          "min": 30.29,
+          "median": 58.379999999999995,
+          "max": 86.47
+        },
+        "Pleomorphic liposarcoma": {
+          "n": 8,
+          "min": 4.95,
+          "median": 13.565,
+          "max": 237.55
+        },
+        "Pseudomyogenic hemangioendothelioma": {
+          "n": 4,
+          "min": 2.3,
+          "median": 10.315,
+          "max": 30.79
+        },
+        "Rhabdomyosarcoma, NOS": {
+          "n": 1,
+          "min": 17.12,
+          "median": 17.12,
+          "max": 17.12
+        },
+        "Rhabdomyosarcoma, alveolar": {
+          "n": 7,
+          "min": 3.9,
+          "median": 5.45,
+          "max": 11.36
+        },
+        "Rhabdomyosarcoma, embryonal": {
+          "n": 11,
+          "min": 6.97,
+          "median": 15.75,
+          "max": 184.82
+        },
+        "Rhabdomyosarcoma, sclerosing": {
+          "n": 2,
+          "min": 2.13,
+          "median": 8.865,
+          "max": 15.6
+        },
+        "Schwannoma": {
+          "n": 13,
+          "min": 19.26,
+          "median": 53.85,
+          "max": 191.79
+        },
+        "Sclerosing epithelioid fibrosarcoma": {
+          "n": 8,
+          "min": 0.95,
+          "median": 14.280000000000001,
+          "max": 202.5
+        },
+        "Sclerosing epithelioid fibrosarcoma-like": {
+          "n": 4,
+          "min": 3.76,
+          "median": 12.2,
+          "max": 33.71
+        },
+        "Solitary fibrous tumor": {
+          "n": 11,
+          "min": 6.81,
+          "median": 52.97,
+          "max": 274.81
+        },
+        "Spindle cell tumor NOS": {
+          "n": 12,
+          "min": 5.56,
+          "median": 13.205,
+          "max": 59.87
+        },
+        "Synovial chondromatosis": {
+          "n": 6,
+          "min": 12.48,
+          "median": 21.53,
+          "max": 57.29
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "min": 0.21,
+          "median": 2.915,
+          "max": 33.08
+        },
+        "Tenosynovial giant cell tumor": {
+          "n": 12,
+          "min": 4.86,
+          "median": 15.89,
+          "max": 24.69
+        },
+        "UPS": {
+          "n": 98,
+          "min": 1.2,
+          "median": 15.195,
+          "max": 221.43
+        },
+        "Undifferentiated round cell sarcoma": {
+          "n": 2,
+          "min": 1.48,
+          "median": 17.009999999999998,
+          "max": 32.54
+        }
+      },
+      "Holm6_IUT_exploratory_p": 1
+    },
+    "MET": {
+      "feature": "MET",
+      "all13_values": {
+        "104-92": 15.28,
+        "11881-19": 6.53,
+        "168-97": 15.05,
+        "3371-22": 2.0,
+        "3372-22": 13.93,
+        "4716-22": 3.54,
+        "4840-13": 1.78,
+        "5081-14": 11.42,
+        "5149-18": 24.92,
+        "5241-06": 20.43,
+        "536-00": 8.83,
+        "7931-19": 3.78,
+        "8102-22": 6.12
+      },
+      "primary9_values": {
+        "11881-19": 6.53,
+        "3371-22": 2.0,
+        "3372-22": 13.93,
+        "4716-22": 3.54,
+        "4840-13": 1.78,
+        "5149-18": 24.92,
+        "5241-06": 20.43,
+        "7931-19": 3.78,
+        "8102-22": 6.12
+      },
+      "primary_distribution": {
+        "n": 9,
+        "min": 1.78,
+        "median": 6.12,
+        "max": 24.92
+      },
+      "primary_ge1": 9,
+      "primary_ge5": 5,
+      "primary_contrasts": {
+        "Myxoid liposarcoma": {
+          "comparator_ids": [
+            "1031-14",
+            "2087-93",
+            "2440-01",
+            "2492-91",
+            "2723-11",
+            "3276-03",
+            "351-96",
+            "3531-14",
+            "362-94",
+            "4876-16",
+            "610-14",
+            "6161-13",
+            "7084-14",
+            "7368-16"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 1.78,
+            "median": 6.12,
+            "max": 24.92
+          },
+          "comparator": {
+            "n": 14,
+            "min": 0.39,
+            "median": 3.09,
+            "max": 11.53
+          },
+          "A": 0.7222222222222222,
+          "year_matched_A": 0.8888888888888888,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 2,
+              "A": 0.75,
+              "pair_count": 4
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 1.0,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.7912087912087912,
+          "primary_deletion_A": [
+            0.7142857142857143,
+            0.7589285714285714,
+            0.6875,
+            0.75,
+            0.7589285714285714,
+            0.6875,
+            0.6875,
+            0.7410714285714286,
+            0.7142857142857143
+          ],
+          "conditional_bootstrap95": [
+            0.49206349206349204,
+            0.9047619047619048
+          ],
+          "exploratory_one_sided_p": 0.04159375420648809
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "comparator_ids": [
+            "1076-04",
+            "1496-95",
+            "1731-00",
+            "1743-89",
+            "1838-04",
+            "2176-91",
+            "2433-02",
+            "2611-96",
+            "3252-04",
+            "3458-17",
+            "3490-00",
+            "6545-13",
+            "9562-17"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 1.78,
+            "median": 6.12,
+            "max": 24.92
+          },
+          "comparator": {
+            "n": 13,
+            "min": 0.44,
+            "median": 2.48,
+            "max": 13.2
+          },
+          "A": 0.7521367521367521,
+          "year_matched_A": 0.7894736842105263,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 7,
+              "A": 0.7142857142857143,
+              "pair_count": 14
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 5,
+              "A": 1.0,
+              "pair_count": 5
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.8047337278106509,
+          "primary_deletion_A": [
+            0.75,
+            0.7884615384615384,
+            0.7211538461538461,
+            0.7596153846153846,
+            0.7980769230769231,
+            0.7211538461538461,
+            0.7211538461538461,
+            0.7596153846153846,
+            0.75
+          ],
+          "conditional_bootstrap95": [
+            0.5213675213675214,
+            0.9316239316239316
+          ],
+          "exploratory_one_sided_p": 0.025676490691970567
+        },
+        "Synovial sarcoma": {
+          "comparator_ids": [
+            "1139-03",
+            "1145-08",
+            "1148-14",
+            "231-14",
+            "2430-90",
+            "2915-92",
+            "2991-93",
+            "3014-94",
+            "3234-92",
+            "3673-07",
+            "3827-99",
+            "3874-14",
+            "4111-04",
+            "4530-08",
+            "5279-11",
+            "591-10",
+            "6246-13",
+            "823-05"
+          ],
+          "EMC": {
+            "n": 9,
+            "min": 1.78,
+            "median": 6.12,
+            "max": 24.92
+          },
+          "comparator": {
+            "n": 18,
+            "min": 0.61,
+            "median": 5.525,
+            "max": 21.79
+          },
+          "A": 0.5493827160493827,
+          "year_matched_A": 0.5714285714285714,
+          "year_cells": [
+            {
+              "year": "2019",
+              "n_EMC": 2,
+              "n_comparator": 10,
+              "A": 0.5,
+              "pair_count": 20
+            },
+            {
+              "year": "2020",
+              "n_EMC": 1,
+              "n_comparator": 8,
+              "A": 0.75,
+              "pair_count": 8
+            },
+            {
+              "year": "2021",
+              "n_EMC": 1,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2022",
+              "n_EMC": 2,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            },
+            {
+              "year": "2023",
+              "n_EMC": 3,
+              "n_comparator": 0,
+              "A": null,
+              "pair_count": 0
+            }
+          ],
+          "all13_A": 0.6324786324786325,
+          "primary_deletion_A": [
+            0.5486111111111112,
+            0.5972222222222222,
+            0.5138888888888888,
+            0.5763888888888888,
+            0.5972222222222222,
+            0.4930555555555556,
+            0.5,
+            0.5694444444444444,
+            0.5486111111111112
+          ],
+          "conditional_bootstrap95": [
+            0.3084876543209878,
+            0.7777777777777778
+          ],
+          "exploratory_one_sided_p": 0.35252777733326934
+        }
+      },
+      "IUT_p": 0.35252777733326934,
+      "all_source_category_context": {
+        "Angiofibroma of soft tissue": {
+          "n": 2,
+          "min": 4.82,
+          "median": 7.215,
+          "max": 9.61
+        },
+        "Angiolipoma": {
+          "n": 3,
+          "min": 5.73,
+          "median": 9.39,
+          "max": 9.91
+        },
+        "Angiosarcoma": {
+          "n": 8,
+          "min": 6.95,
+          "median": 20.86,
+          "max": 53.41
+        },
+        "Atypical lipomatous tumor": {
+          "n": 38,
+          "min": 0.47,
+          "median": 8.594999999999999,
+          "max": 42.03
+        },
+        "Benign fibrous histiocytoma": {
+          "n": 5,
+          "min": 0.54,
+          "median": 2.04,
+          "max": 7.11
+        },
+        "CD34-postive superficial fibroblastic tumor": {
+          "n": 7,
+          "min": 1.27,
+          "median": 6.46,
+          "max": 18.72
+        },
+        "Clear cell sarcoma": {
+          "n": 3,
+          "min": 84.44,
+          "median": 103.26,
+          "max": 105.23
+        },
+        "Cryptic liposarcoma": {
+          "n": 22,
+          "min": 1.0,
+          "median": 8.3,
+          "max": 36.63
+        },
+        "Dedifferentiated liposarcoma": {
+          "n": 20,
+          "min": 0.86,
+          "median": 5.08,
+          "max": 27.34
+        },
+        "Dermatofibrosarcoma protuberans": {
+          "n": 10,
+          "min": 1.73,
+          "median": 4.38,
+          "max": 7.04
+        },
+        "Desmoid": {
+          "n": 11,
+          "min": 1.47,
+          "median": 4.92,
+          "max": 9.95
+        },
+        "Desmoplastic fibroblastoma": {
+          "n": 2,
+          "min": 14.52,
+          "median": 14.815,
+          "max": 15.11
+        },
+        "Desmoplastic small round cell tumor": {
+          "n": 7,
+          "min": 0.24,
+          "median": 0.92,
+          "max": 5.44
+        },
+        "Endometrial stromal sarcoma": {
+          "n": 2,
+          "min": 3.12,
+          "median": 5.245,
+          "max": 7.37
+        },
+        "Epithelioid sarcoma": {
+          "n": 6,
+          "min": 0.32,
+          "median": 23.655,
+          "max": 94.3
+        },
+        "Ewing sarcoma": {
+          "n": 3,
+          "min": 2.72,
+          "median": 2.72,
+          "max": 2.87
+        },
+        "Extraskeletal myxoid chondrosarcoma": {
+          "n": 9,
+          "min": 1.78,
+          "median": 6.12,
+          "max": 24.92
+        },
+        "GIST": {
+          "n": 14,
+          "min": 0.13,
+          "median": 0.575,
+          "max": 3.29
+        },
+        "Granular cell tumor": {
+          "n": 2,
+          "min": 44.53,
+          "median": 75.815,
+          "max": 107.1
+        },
+        "Hamartomatous fibroma": {
+          "n": 2,
+          "min": 10.11,
+          "median": 12.625,
+          "max": 15.14
+        },
+        "Hibernoma": {
+          "n": 16,
+          "min": 0.78,
+          "median": 2.145,
+          "max": 6.17
+        },
+        "Inflammatory rhabdomyoblastic tumor": {
+          "n": 5,
+          "min": 14.06,
+          "median": 23.89,
+          "max": 52.99
+        },
+        "LMS": {
+          "n": 39,
+          "min": 0.92,
+          "median": 8.43,
+          "max": 72.38
+        },
+        "Lipoblastoma": {
+          "n": 7,
+          "min": 0.51,
+          "median": 2.87,
+          "max": 8.1
+        },
+        "Lipoma": {
+          "n": 20,
+          "min": 1.3,
+          "median": 6.085,
+          "max": 14.38
+        },
+        "Lipoma, spindle cell/pleomorphic": {
+          "n": 10,
+          "min": 1.94,
+          "median": 5.345,
+          "max": 15.57
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "min": 0.44,
+          "median": 2.48,
+          "max": 13.2
+        },
+        "MPNST": {
+          "n": 18,
+          "min": 0.33,
+          "median": 6.265000000000001,
+          "max": 77.52
+        },
+        "Melanoma": {
+          "n": 5,
+          "min": 2.52,
+          "median": 18.45,
+          "max": 30.79
+        },
+        "Myoepithelial tumor": {
+          "n": 2,
+          "min": 14.83,
+          "median": 16.915,
+          "max": 19.0
+        },
+        "Myxofibrosarcoma": {
+          "n": 60,
+          "min": 0.11,
+          "median": 11.4,
+          "max": 173.87
+        },
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "min": 0.39,
+          "median": 3.09,
+          "max": 11.53
+        },
+        "Myxoid pleomorphic liposarcoma": {
+          "n": 3,
+          "min": 3.1,
+          "median": 4.8,
+          "max": 7.42
+        },
+        "Myxoinflammatory fibroblastic sarcoma/hemosiderotic fibrolipomatous tumor": {
+          "n": 7,
+          "min": 3.63,
+          "median": 4.69,
+          "max": 30.57
+        },
+        "Myxoma Class 1": {
+          "n": 5,
+          "min": 12.81,
+          "median": 42.57,
+          "max": 85.77
+        },
+        "Myxoma Class 2": {
+          "n": 4,
+          "min": 19.46,
+          "median": 50.7,
+          "max": 110.36
+        },
+        "Neurofibroma": {
+          "n": 4,
+          "min": 16.01,
+          "median": 18.81,
+          "max": 22.82
+        },
+        "Neurofibroma, atypical": {
+          "n": 1,
+          "min": 7.17,
+          "median": 7.17,
+          "max": 7.17
+        },
+        "Neurofibroma, diffuse": {
+          "n": 1,
+          "min": 66.0,
+          "median": 66.0,
+          "max": 66.0
+        },
+        "Neurofibroma, plexiform": {
+          "n": 2,
+          "min": 1.96,
+          "median": 9.13,
+          "max": 16.3
+        },
+        "Nodular fasciitis": {
+          "n": 3,
+          "min": 2.42,
+          "median": 6.17,
+          "max": 7.31
+        },
+        "Ossifying fibromyxoid tumor": {
+          "n": 8,
+          "min": 0.88,
+          "median": 3.695,
+          "max": 11.09
+        },
+        "Osteosarcoma": {
+          "n": 2,
+          "min": 5.29,
+          "median": 8.065,
+          "max": 10.84
+        },
+        "Pleomorphic hyalinizing angiectatic tumor": {
+          "n": 2,
+          "min": 3.35,
+          "median": 3.785,
+          "max": 4.22
+        },
+        "Pleomorphic liposarcoma": {
+          "n": 8,
+          "min": 0.24,
+          "median": 3.23,
+          "max": 26.99
+        },
+        "Pseudomyogenic hemangioendothelioma": {
+          "n": 4,
+          "min": 16.05,
+          "median": 29.915,
+          "max": 34.42
+        },
+        "Rhabdomyosarcoma, NOS": {
+          "n": 1,
+          "min": 10.26,
+          "median": 10.26,
+          "max": 10.26
+        },
+        "Rhabdomyosarcoma, alveolar": {
+          "n": 7,
+          "min": 1.78,
+          "median": 12.04,
+          "max": 38.27
+        },
+        "Rhabdomyosarcoma, embryonal": {
+          "n": 11,
+          "min": 0.21,
+          "median": 13.92,
+          "max": 38.48
+        },
+        "Rhabdomyosarcoma, sclerosing": {
+          "n": 2,
+          "min": 22.38,
+          "median": 30.125,
+          "max": 37.87
+        },
+        "Schwannoma": {
+          "n": 13,
+          "min": 6.8,
+          "median": 26.67,
+          "max": 82.03
+        },
+        "Sclerosing epithelioid fibrosarcoma": {
+          "n": 8,
+          "min": 0.43,
+          "median": 3.34,
+          "max": 15.52
+        },
+        "Sclerosing epithelioid fibrosarcoma-like": {
+          "n": 4,
+          "min": 0.65,
+          "median": 1.135,
+          "max": 5.41
+        },
+        "Solitary fibrous tumor": {
+          "n": 11,
+          "min": 0.78,
+          "median": 4.03,
+          "max": 25.29
+        },
+        "Spindle cell tumor NOS": {
+          "n": 12,
+          "min": 0.98,
+          "median": 8.255,
+          "max": 27.41
+        },
+        "Synovial chondromatosis": {
+          "n": 6,
+          "min": 1.96,
+          "median": 8.59,
+          "max": 19.67
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "min": 0.61,
+          "median": 5.525,
+          "max": 21.79
+        },
+        "Tenosynovial giant cell tumor": {
+          "n": 12,
+          "min": 1.71,
+          "median": 4.54,
+          "max": 54.65
+        },
+        "UPS": {
+          "n": 98,
+          "min": 0.26,
+          "median": 7.045,
+          "max": 754.9
+        },
+        "Undifferentiated round cell sarcoma": {
+          "n": 2,
+          "min": 0.24,
+          "median": 0.64,
+          "max": 1.04
+        }
+      },
+      "Holm6_IUT_exploratory_p": 1
+    }
+  },
+  "array": {
+    "ERBB2": {
+      "features": [
+        "8006906"
+      ],
+      "all42_sourcevalues": {
+        "GSM600928": {
+          "8006906": 7.524608
+        },
+        "GSM600929": {
+          "8006906": 7.509444
+        },
+        "GSM600930": {
+          "8006906": 7.500094
+        },
+        "GSM600931": {
+          "8006906": 7.595785
+        },
+        "GSM600932": {
+          "8006906": 7.582654
+        },
+        "GSM600933": {
+          "8006906": 7.689281
+        },
+        "GSM600934": {
+          "8006906": 6.64696
+        },
+        "GSM600935": {
+          "8006906": 8.166574
+        },
+        "GSM600936": {
+          "8006906": 7.295591
+        },
+        "GSM600937": {
+          "8006906": 7.70807
+        },
+        "GSM600938": {
+          "8006906": 7.502002
+        },
+        "GSM600939": {
+          "8006906": 7.245639
+        },
+        "GSM600940": {
+          "8006906": 7.938724
+        },
+        "GSM600941": {
+          "8006906": 7.828176
+        },
+        "GSM600942": {
+          "8006906": 8.199553
+        },
+        "GSM600943": {
+          "8006906": 8.117848
+        },
+        "GSM600944": {
+          "8006906": 8.260811
+        },
+        "GSM600945": {
+          "8006906": 8.33898
+        },
+        "GSM600946": {
+          "8006906": 7.499696
+        },
+        "GSM600947": {
+          "8006906": 8.066113
+        },
+        "GSM600948": {
+          "8006906": 7.845798
+        },
+        "GSM600949": {
+          "8006906": 8.110747
+        },
+        "GSM600950": {
+          "8006906": 8.156631
+        },
+        "GSM600951": {
+          "8006906": 8.079537
+        },
+        "GSM600952": {
+          "8006906": 7.805127
+        },
+        "GSM600953": {
+          "8006906": 7.876864
+        },
+        "GSM600954": {
+          "8006906": 7.966464
+        },
+        "GSM600955": {
+          "8006906": 7.975831
+        },
+        "GSM600956": {
+          "8006906": 7.834618
+        },
+        "GSM600957": {
+          "8006906": 7.968062
+        },
+        "GSM600958": {
+          "8006906": 7.489498
+        },
+        "GSM600959": {
+          "8006906": 6.433381
+        },
+        "GSM600960": {
+          "8006906": 6.763172
+        },
+        "GSM600961": {
+          "8006906": 7.294195
+        },
+        "GSM600962": {
+          "8006906": 7.988694
+        },
+        "GSM600963": {
+          "8006906": 8.312232
+        },
+        "GSM600964": {
+          "8006906": 8.01724
+        },
+        "GSM600965": {
+          "8006906": 7.661776
+        },
+        "GSM600966": {
+          "8006906": 7.889649
+        },
+        "GSM600967": {
+          "8006906": 7.335117
+        },
+        "GSM600968": {
+          "8006906": 7.65319
+        },
+        "GSM600969": {
+          "8006906": 7.509206
+        }
+      },
+      "all6_EMC_ids": [
+        "GSM600934",
+        "GSM600935",
+        "GSM600936",
+        "GSM600937",
+        "GSM600938",
+        "GSM600939"
+      ],
+      "contrasts": {
+        "LGFMS": {
+          "EMC": {
+            "n": 6,
+            "min": 6.64696,
+            "median": 7.3987964999999996,
+            "max": 8.166574
+          },
+          "comparator": {
+            "n": 17,
+            "min": 7.499696,
+            "median": 7.975831,
+            "max": 8.33898
+          },
+          "A": 0.1568627450980392,
+          "comparator_ids": [
+            "GSM600940",
+            "GSM600941",
+            "GSM600942",
+            "GSM600943",
+            "GSM600944",
+            "GSM600945",
+            "GSM600946",
+            "GSM600947",
+            "GSM600948",
+            "GSM600949",
+            "GSM600950",
+            "GSM600951",
+            "GSM600952",
+            "GSM600953",
+            "GSM600954",
+            "GSM600955",
+            "GSM600956"
+          ],
+          "per_probe_A": {
+            "8006906": 0.1568627450980392
+          }
+        },
+        "MFS": {
+          "EMC": {
+            "n": 6,
+            "min": 6.64696,
+            "median": 7.3987964999999996,
+            "max": 8.166574
+          },
+          "comparator": {
+            "n": 6,
+            "min": 6.433381,
+            "median": 7.3918465,
+            "max": 7.988694
+          },
+          "A": 0.5555555555555556,
+          "comparator_ids": [
+            "GSM600957",
+            "GSM600958",
+            "GSM600959",
+            "GSM600960",
+            "GSM600961",
+            "GSM600962"
+          ],
+          "per_probe_A": {
+            "8006906": 0.5555555555555556
+          }
+        },
+        "desmoid": {
+          "EMC": {
+            "n": 6,
+            "min": 6.64696,
+            "median": 7.3987964999999996,
+            "max": 8.166574
+          },
+          "comparator": {
+            "n": 6,
+            "min": 7.500094,
+            "median": 7.553630999999999,
+            "max": 7.689281
+          },
+          "A": 0.3611111111111111,
+          "comparator_ids": [
+            "GSM600928",
+            "GSM600929",
+            "GSM600930",
+            "GSM600931",
+            "GSM600932",
+            "GSM600933"
+          ],
+          "per_probe_A": {
+            "8006906": 0.3611111111111111
+          }
+        },
+        "SFT": {
+          "EMC": {
+            "n": 6,
+            "min": 6.64696,
+            "median": 7.3987964999999996,
+            "max": 8.166574
+          },
+          "comparator": {
+            "n": 5,
+            "min": 7.335117,
+            "median": 7.889649,
+            "max": 8.312232
+          },
+          "A": 0.23333333333333334,
+          "comparator_ids": [
+            "GSM600963",
+            "GSM600964",
+            "GSM600965",
+            "GSM600966",
+            "GSM600967"
+          ],
+          "per_probe_A": {
+            "8006906": 0.23333333333333334
+          }
+        },
+        "muscle_pools": {
+          "EMC": {
+            "n": 6,
+            "min": 6.64696,
+            "median": 7.3987964999999996,
+            "max": 8.166574
+          },
+          "comparator": {
+            "n": 2,
+            "min": 7.509206,
+            "median": 7.5811980000000005,
+            "max": 7.65319
+          },
+          "A": 0.3333333333333333,
+          "comparator_ids": [
+            "GSM600968",
+            "GSM600969"
+          ],
+          "per_probe_A": {
+            "8006906": 0.3333333333333333
+          }
+        }
+      },
+      "missing_gene_read": null
+    },
+    "TACSTD2": {
+      "features": [
+        "7916584"
+      ],
+      "all42_sourcevalues": {
+        "GSM600928": {
+          "7916584": 6.19641
+        },
+        "GSM600929": {
+          "7916584": 5.754407
+        },
+        "GSM600930": {
+          "7916584": 5.539381
+        },
+        "GSM600931": {
+          "7916584": 5.874422
+        },
+        "GSM600932": {
+          "7916584": 5.868258
+        },
+        "GSM600933": {
+          "7916584": 6.021691
+        },
+        "GSM600934": {
+          "7916584": 5.506635
+        },
+        "GSM600935": {
+          "7916584": 5.109163
+        },
+        "GSM600936": {
+          "7916584": 6.046637
+        },
+        "GSM600937": {
+          "7916584": 5.464983
+        },
+        "GSM600938": {
+          "7916584": 6.002173
+        },
+        "GSM600939": {
+          "7916584": 5.403025
+        },
+        "GSM600940": {
+          "7916584": 5.785147
+        },
+        "GSM600941": {
+          "7916584": 5.548649
+        },
+        "GSM600942": {
+          "7916584": 5.824916
+        },
+        "GSM600943": {
+          "7916584": 5.696187
+        },
+        "GSM600944": {
+          "7916584": 5.498249
+        },
+        "GSM600945": {
+          "7916584": 5.523507
+        },
+        "GSM600946": {
+          "7916584": 6.54627
+        },
+        "GSM600947": {
+          "7916584": 6.1967
+        },
+        "GSM600948": {
+          "7916584": 5.821622
+        },
+        "GSM600949": {
+          "7916584": 5.792581
+        },
+        "GSM600950": {
+          "7916584": 5.573324
+        },
+        "GSM600951": {
+          "7916584": 5.730957
+        },
+        "GSM600952": {
+          "7916584": 5.357066
+        },
+        "GSM600953": {
+          "7916584": 5.618381
+        },
+        "GSM600954": {
+          "7916584": 6.567573
+        },
+        "GSM600955": {
+          "7916584": 6.025205
+        },
+        "GSM600956": {
+          "7916584": 5.691009
+        },
+        "GSM600957": {
+          "7916584": 6.269709
+        },
+        "GSM600958": {
+          "7916584": 5.897942
+        },
+        "GSM600959": {
+          "7916584": 5.115801
+        },
+        "GSM600960": {
+          "7916584": 5.364241
+        },
+        "GSM600961": {
+          "7916584": 6.238527
+        },
+        "GSM600962": {
+          "7916584": 5.242052
+        },
+        "GSM600963": {
+          "7916584": 5.712687
+        },
+        "GSM600964": {
+          "7916584": 5.455962
+        },
+        "GSM600965": {
+          "7916584": 5.460249
+        },
+        "GSM600966": {
+          "7916584": 5.528602
+        },
+        "GSM600967": {
+          "7916584": 5.336214
+        },
+        "GSM600968": {
+          "7916584": 5.853922
+        },
+        "GSM600969": {
+          "7916584": 5.878642
+        }
+      },
+      "all6_EMC_ids": [
+        "GSM600934",
+        "GSM600935",
+        "GSM600936",
+        "GSM600937",
+        "GSM600938",
+        "GSM600939"
+      ],
+      "contrasts": {
+        "LGFMS": {
+          "EMC": {
+            "n": 6,
+            "min": 5.109163,
+            "median": 5.485809,
+            "max": 6.046637
+          },
+          "comparator": {
+            "n": 17,
+            "min": 5.357066,
+            "median": 5.730957,
+            "max": 6.567573
+          },
+          "A": 0.30392156862745096,
+          "comparator_ids": [
+            "GSM600940",
+            "GSM600941",
+            "GSM600942",
+            "GSM600943",
+            "GSM600944",
+            "GSM600945",
+            "GSM600946",
+            "GSM600947",
+            "GSM600948",
+            "GSM600949",
+            "GSM600950",
+            "GSM600951",
+            "GSM600952",
+            "GSM600953",
+            "GSM600954",
+            "GSM600955",
+            "GSM600956"
+          ],
+          "per_probe_A": {
+            "7916584": 0.30392156862745096
+          }
+        },
+        "MFS": {
+          "EMC": {
+            "n": 6,
+            "min": 5.109163,
+            "median": 5.485809,
+            "max": 6.046637
+          },
+          "comparator": {
+            "n": 6,
+            "min": 5.115801,
+            "median": 5.6310915,
+            "max": 6.269709
+          },
+          "A": 0.4722222222222222,
+          "comparator_ids": [
+            "GSM600957",
+            "GSM600958",
+            "GSM600959",
+            "GSM600960",
+            "GSM600961",
+            "GSM600962"
+          ],
+          "per_probe_A": {
+            "7916584": 0.4722222222222222
+          }
+        },
+        "desmoid": {
+          "EMC": {
+            "n": 6,
+            "min": 5.109163,
+            "median": 5.485809,
+            "max": 6.046637
+          },
+          "comparator": {
+            "n": 6,
+            "min": 5.539381,
+            "median": 5.87134,
+            "max": 6.19641
+          },
+          "A": 0.25,
+          "comparator_ids": [
+            "GSM600928",
+            "GSM600929",
+            "GSM600930",
+            "GSM600931",
+            "GSM600932",
+            "GSM600933"
+          ],
+          "per_probe_A": {
+            "7916584": 0.25
+          }
+        },
+        "SFT": {
+          "EMC": {
+            "n": 6,
+            "min": 5.109163,
+            "median": 5.485809,
+            "max": 6.046637
+          },
+          "comparator": {
+            "n": 5,
+            "min": 5.336214,
+            "median": 5.460249,
+            "max": 5.712687
+          },
+          "A": 0.5666666666666667,
+          "comparator_ids": [
+            "GSM600963",
+            "GSM600964",
+            "GSM600965",
+            "GSM600966",
+            "GSM600967"
+          ],
+          "per_probe_A": {
+            "7916584": 0.5666666666666667
+          }
+        },
+        "muscle_pools": {
+          "EMC": {
+            "n": 6,
+            "min": 5.109163,
+            "median": 5.485809,
+            "max": 6.046637
+          },
+          "comparator": {
+            "n": 2,
+            "min": 5.853922,
+            "median": 5.866282,
+            "max": 5.878642
+          },
+          "A": 0.3333333333333333,
+          "comparator_ids": [
+            "GSM600968",
+            "GSM600969"
+          ],
+          "per_probe_A": {
+            "7916584": 0.3333333333333333
+          }
+        }
+      },
+      "missing_gene_read": null
+    },
+    "NECTIN4": {
+      "features": [
+        "7921773"
+      ],
+      "all42_sourcevalues": {
+        "GSM600928": {
+          "7921773": 6.244999
+        },
+        "GSM600929": {
+          "7921773": 6.195585
+        },
+        "GSM600930": {
+          "7921773": 5.996111
+        },
+        "GSM600931": {
+          "7921773": 6.223392
+        },
+        "GSM600932": {
+          "7921773": 6.225235
+        },
+        "GSM600933": {
+          "7921773": 6.131073
+        },
+        "GSM600934": {
+          "7921773": 6.268951
+        },
+        "GSM600935": {
+          "7921773": 6.072848
+        },
+        "GSM600936": {
+          "7921773": 6.149085
+        },
+        "GSM600937": {
+          "7921773": 6.052076
+        },
+        "GSM600938": {
+          "7921773": 6.348587
+        },
+        "GSM600939": {
+          "7921773": 6.524424
+        },
+        "GSM600940": {
+          "7921773": 6.489142
+        },
+        "GSM600941": {
+          "7921773": 5.926286
+        },
+        "GSM600942": {
+          "7921773": 6.244999
+        },
+        "GSM600943": {
+          "7921773": 6.004962
+        },
+        "GSM600944": {
+          "7921773": 6.244999
+        },
+        "GSM600945": {
+          "7921773": 6.603803
+        },
+        "GSM600946": {
+          "7921773": 6.501899
+        },
+        "GSM600947": {
+          "7921773": 6.136796
+        },
+        "GSM600948": {
+          "7921773": 6.040755
+        },
+        "GSM600949": {
+          "7921773": 6.351425
+        },
+        "GSM600950": {
+          "7921773": 6.286309
+        },
+        "GSM600951": {
+          "7921773": 6.388313
+        },
+        "GSM600952": {
+          "7921773": 6.431954
+        },
+        "GSM600953": {
+          "7921773": 6.067522
+        },
+        "GSM600954": {
+          "7921773": 6.32459
+        },
+        "GSM600955": {
+          "7921773": 6.503599
+        },
+        "GSM600956": {
+          "7921773": 6.123673
+        },
+        "GSM600957": {
+          "7921773": 6.305355
+        },
+        "GSM600958": {
+          "7921773": 6.361876
+        },
+        "GSM600959": {
+          "7921773": 6.152341
+        },
+        "GSM600960": {
+          "7921773": 5.859035
+        },
+        "GSM600961": {
+          "7921773": 6.118704
+        },
+        "GSM600962": {
+          "7921773": 6.656227
+        },
+        "GSM600963": {
+          "7921773": 6.145135
+        },
+        "GSM600964": {
+          "7921773": 6.101551
+        },
+        "GSM600965": {
+          "7921773": 6.036146
+        },
+        "GSM600966": {
+          "7921773": 6.211728
+        },
+        "GSM600967": {
+          "7921773": 6.249796
+        },
+        "GSM600968": {
+          "7921773": 6.69678
+        },
+        "GSM600969": {
+          "7921773": 6.378928
+        }
+      },
+      "all6_EMC_ids": [
+        "GSM600934",
+        "GSM600935",
+        "GSM600936",
+        "GSM600937",
+        "GSM600938",
+        "GSM600939"
+      ],
+      "contrasts": {
+        "LGFMS": {
+          "EMC": {
+            "n": 6,
+            "min": 6.052076,
+            "median": 6.209018,
+            "max": 6.524424
+          },
+          "comparator": {
+            "n": 17,
+            "min": 5.926286,
+            "median": 6.286309,
+            "max": 6.603803
+          },
+          "A": 0.46078431372549017,
+          "comparator_ids": [
+            "GSM600940",
+            "GSM600941",
+            "GSM600942",
+            "GSM600943",
+            "GSM600944",
+            "GSM600945",
+            "GSM600946",
+            "GSM600947",
+            "GSM600948",
+            "GSM600949",
+            "GSM600950",
+            "GSM600951",
+            "GSM600952",
+            "GSM600953",
+            "GSM600954",
+            "GSM600955",
+            "GSM600956"
+          ],
+          "per_probe_A": {
+            "7921773": 0.46078431372549017
+          }
+        },
+        "MFS": {
+          "EMC": {
+            "n": 6,
+            "min": 6.052076,
+            "median": 6.209018,
+            "max": 6.524424
+          },
+          "comparator": {
+            "n": 6,
+            "min": 5.859035,
+            "median": 6.228847999999999,
+            "max": 6.656227
+          },
+          "A": 0.4444444444444444,
+          "comparator_ids": [
+            "GSM600957",
+            "GSM600958",
+            "GSM600959",
+            "GSM600960",
+            "GSM600961",
+            "GSM600962"
+          ],
+          "per_probe_A": {
+            "7921773": 0.4444444444444444
+          }
+        },
+        "desmoid": {
+          "EMC": {
+            "n": 6,
+            "min": 6.052076,
+            "median": 6.209018,
+            "max": 6.524424
+          },
+          "comparator": {
+            "n": 6,
+            "min": 5.996111,
+            "median": 6.2094885,
+            "max": 6.244999
+          },
+          "A": 0.6111111111111112,
+          "comparator_ids": [
+            "GSM600928",
+            "GSM600929",
+            "GSM600930",
+            "GSM600931",
+            "GSM600932",
+            "GSM600933"
+          ],
+          "per_probe_A": {
+            "7921773": 0.6111111111111112
+          }
+        },
+        "SFT": {
+          "EMC": {
+            "n": 6,
+            "min": 6.052076,
+            "median": 6.209018,
+            "max": 6.524424
+          },
+          "comparator": {
+            "n": 5,
+            "min": 6.036146,
+            "median": 6.145135,
+            "max": 6.249796
+          },
+          "A": 0.6666666666666666,
+          "comparator_ids": [
+            "GSM600963",
+            "GSM600964",
+            "GSM600965",
+            "GSM600966",
+            "GSM600967"
+          ],
+          "per_probe_A": {
+            "7921773": 0.6666666666666666
+          }
+        },
+        "muscle_pools": {
+          "EMC": {
+            "n": 6,
+            "min": 6.052076,
+            "median": 6.209018,
+            "max": 6.524424
+          },
+          "comparator": {
+            "n": 2,
+            "min": 6.378928,
+            "median": 6.537854,
+            "max": 6.69678
+          },
+          "A": 0.08333333333333333,
+          "comparator_ids": [
+            "GSM600968",
+            "GSM600969"
+          ],
+          "per_probe_A": {
+            "7921773": 0.08333333333333333
+          }
+        }
+      },
+      "missing_gene_read": null
+    },
+    "FOLR1": {
+      "features": [
+        "7942332"
+      ],
+      "all42_sourcevalues": {
+        "GSM600928": {
+          "7942332": 6.305652
+        },
+        "GSM600929": {
+          "7942332": 5.865168
+        },
+        "GSM600930": {
+          "7942332": 6.046996
+        },
+        "GSM600931": {
+          "7942332": 5.954475
+        },
+        "GSM600932": {
+          "7942332": 5.671228
+        },
+        "GSM600933": {
+          "7942332": 5.79085
+        },
+        "GSM600934": {
+          "7942332": 5.923994
+        },
+        "GSM600935": {
+          "7942332": 5.666712
+        },
+        "GSM600936": {
+          "7942332": 5.634241
+        },
+        "GSM600937": {
+          "7942332": 5.809996
+        },
+        "GSM600938": {
+          "7942332": 5.815862
+        },
+        "GSM600939": {
+          "7942332": 5.993228
+        },
+        "GSM600940": {
+          "7942332": 5.638395
+        },
+        "GSM600941": {
+          "7942332": 5.923994
+        },
+        "GSM600942": {
+          "7942332": 6.022716
+        },
+        "GSM600943": {
+          "7942332": 6.191536
+        },
+        "GSM600944": {
+          "7942332": 5.923994
+        },
+        "GSM600945": {
+          "7942332": 5.724443
+        },
+        "GSM600946": {
+          "7942332": 5.871661
+        },
+        "GSM600947": {
+          "7942332": 5.710744
+        },
+        "GSM600948": {
+          "7942332": 5.942027
+        },
+        "GSM600949": {
+          "7942332": 6.153511
+        },
+        "GSM600950": {
+          "7942332": 5.664509
+        },
+        "GSM600951": {
+          "7942332": 6.221989
+        },
+        "GSM600952": {
+          "7942332": 6.034875
+        },
+        "GSM600953": {
+          "7942332": 5.887531
+        },
+        "GSM600954": {
+          "7942332": 5.923994
+        },
+        "GSM600955": {
+          "7942332": 5.923994
+        },
+        "GSM600956": {
+          "7942332": 5.996229
+        },
+        "GSM600957": {
+          "7942332": 6.463524
+        },
+        "GSM600958": {
+          "7942332": 5.897785
+        },
+        "GSM600959": {
+          "7942332": 5.847485
+        },
+        "GSM600960": {
+          "7942332": 5.608367
+        },
+        "GSM600961": {
+          "7942332": 6.014316
+        },
+        "GSM600962": {
+          "7942332": 5.827573
+        },
+        "GSM600963": {
+          "7942332": 5.800783
+        },
+        "GSM600964": {
+          "7942332": 6.292074
+        },
+        "GSM600965": {
+          "7942332": 6.417296
+        },
+        "GSM600966": {
+          "7942332": 5.76682
+        },
+        "GSM600967": {
+          "7942332": 6.478381
+        },
+        "GSM600968": {
+          "7942332": 5.995271
+        },
+        "GSM600969": {
+          "7942332": 5.970337
+        }
+      },
+      "all6_EMC_ids": [
+        "GSM600934",
+        "GSM600935",
+        "GSM600936",
+        "GSM600937",
+        "GSM600938",
+        "GSM600939"
+      ],
+      "contrasts": {
+        "LGFMS": {
+          "EMC": {
+            "n": 6,
+            "min": 5.634241,
+            "median": 5.8129290000000005,
+            "max": 5.993228
+          },
+          "comparator": {
+            "n": 17,
+            "min": 5.638395,
+            "median": 5.923994,
+            "max": 6.221989
+          },
+          "A": 0.28431372549019607,
+          "comparator_ids": [
+            "GSM600940",
+            "GSM600941",
+            "GSM600942",
+            "GSM600943",
+            "GSM600944",
+            "GSM600945",
+            "GSM600946",
+            "GSM600947",
+            "GSM600948",
+            "GSM600949",
+            "GSM600950",
+            "GSM600951",
+            "GSM600952",
+            "GSM600953",
+            "GSM600954",
+            "GSM600955",
+            "GSM600956"
+          ],
+          "per_probe_A": {
+            "7942332": 0.28431372549019607
+          }
+        },
+        "MFS": {
+          "EMC": {
+            "n": 6,
+            "min": 5.634241,
+            "median": 5.8129290000000005,
+            "max": 5.993228
+          },
+          "comparator": {
+            "n": 6,
+            "min": 5.608367,
+            "median": 5.872635,
+            "max": 6.463524
+          },
+          "A": 0.3333333333333333,
+          "comparator_ids": [
+            "GSM600957",
+            "GSM600958",
+            "GSM600959",
+            "GSM600960",
+            "GSM600961",
+            "GSM600962"
+          ],
+          "per_probe_A": {
+            "7942332": 0.3333333333333333
+          }
+        },
+        "desmoid": {
+          "EMC": {
+            "n": 6,
+            "min": 5.634241,
+            "median": 5.8129290000000005,
+            "max": 5.993228
+          },
+          "comparator": {
+            "n": 6,
+            "min": 5.671228,
+            "median": 5.9098215,
+            "max": 6.305652
+          },
+          "A": 0.3055555555555556,
+          "comparator_ids": [
+            "GSM600928",
+            "GSM600929",
+            "GSM600930",
+            "GSM600931",
+            "GSM600932",
+            "GSM600933"
+          ],
+          "per_probe_A": {
+            "7942332": 0.3055555555555556
+          }
+        },
+        "SFT": {
+          "EMC": {
+            "n": 6,
+            "min": 5.634241,
+            "median": 5.8129290000000005,
+            "max": 5.993228
+          },
+          "comparator": {
+            "n": 5,
+            "min": 5.76682,
+            "median": 6.292074,
+            "max": 6.478381
+          },
+          "A": 0.26666666666666666,
+          "comparator_ids": [
+            "GSM600963",
+            "GSM600964",
+            "GSM600965",
+            "GSM600966",
+            "GSM600967"
+          ],
+          "per_probe_A": {
+            "7942332": 0.26666666666666666
+          }
+        },
+        "muscle_pools": {
+          "EMC": {
+            "n": 6,
+            "min": 5.634241,
+            "median": 5.8129290000000005,
+            "max": 5.993228
+          },
+          "comparator": {
+            "n": 2,
+            "min": 5.970337,
+            "median": 5.982804,
+            "max": 5.995271
+          },
+          "A": 0.08333333333333333,
+          "comparator_ids": [
+            "GSM600968",
+            "GSM600969"
+          ],
+          "per_probe_A": {
+            "7942332": 0.08333333333333333
+          }
+        }
+      },
+      "missing_gene_read": null
+    },
+    "F3": {
+      "features": [
+        "7917875"
+      ],
+      "all42_sourcevalues": {
+        "GSM600928": {
+          "7917875": 6.638318
+        },
+        "GSM600929": {
+          "7917875": 6.569432
+        },
+        "GSM600930": {
+          "7917875": 6.419085
+        },
+        "GSM600931": {
+          "7917875": 7.156425
+        },
+        "GSM600932": {
+          "7917875": 7.021225
+        },
+        "GSM600933": {
+          "7917875": 6.982269
+        },
+        "GSM600934": {
+          "7917875": 5.728249
+        },
+        "GSM600935": {
+          "7917875": 6.154232
+        },
+        "GSM600936": {
+          "7917875": 6.782231
+        },
+        "GSM600937": {
+          "7917875": 9.448954
+        },
+        "GSM600938": {
+          "7917875": 8.358803
+        },
+        "GSM600939": {
+          "7917875": 6.036251
+        },
+        "GSM600940": {
+          "7917875": 7.640711
+        },
+        "GSM600941": {
+          "7917875": 9.367033
+        },
+        "GSM600942": {
+          "7917875": 7.261201
+        },
+        "GSM600943": {
+          "7917875": 8.407161
+        },
+        "GSM600944": {
+          "7917875": 6.047623
+        },
+        "GSM600945": {
+          "7917875": 8.314079
+        },
+        "GSM600946": {
+          "7917875": 7.596396
+        },
+        "GSM600947": {
+          "7917875": 6.748571
+        },
+        "GSM600948": {
+          "7917875": 7.761868
+        },
+        "GSM600949": {
+          "7917875": 7.680341
+        },
+        "GSM600950": {
+          "7917875": 8.219523
+        },
+        "GSM600951": {
+          "7917875": 6.976403
+        },
+        "GSM600952": {
+          "7917875": 6.747286
+        },
+        "GSM600953": {
+          "7917875": 8.00179
+        },
+        "GSM600954": {
+          "7917875": 7.661069
+        },
+        "GSM600955": {
+          "7917875": 7.824127
+        },
+        "GSM600956": {
+          "7917875": 8.076052
+        },
+        "GSM600957": {
+          "7917875": 7.501327
+        },
+        "GSM600958": {
+          "7917875": 7.904708
+        },
+        "GSM600959": {
+          "7917875": 7.357629
+        },
+        "GSM600960": {
+          "7917875": 7.339871
+        },
+        "GSM600961": {
+          "7917875": 7.100177
+        },
+        "GSM600962": {
+          "7917875": 6.404345
+        },
+        "GSM600963": {
+          "7917875": 9.711329
+        },
+        "GSM600964": {
+          "7917875": 6.527177
+        },
+        "GSM600965": {
+          "7917875": 7.377471
+        },
+        "GSM600966": {
+          "7917875": 8.774906
+        },
+        "GSM600967": {
+          "7917875": 9.670754
+        },
+        "GSM600968": {
+          "7917875": 7.0191
+        },
+        "GSM600969": {
+          "7917875": 6.907597
+        }
+      },
+      "all6_EMC_ids": [
+        "GSM600934",
+        "GSM600935",
+        "GSM600936",
+        "GSM600937",
+        "GSM600938",
+        "GSM600939"
+      ],
+      "contrasts": {
+        "LGFMS": {
+          "EMC": {
+            "n": 6,
+            "min": 5.728249,
+            "median": 6.4682315,
+            "max": 9.448954
+          },
+          "comparator": {
+            "n": 17,
+            "min": 6.047623,
+            "median": 7.680341,
+            "max": 9.367033
+          },
+          "A": 0.35294117647058826,
+          "comparator_ids": [
+            "GSM600940",
+            "GSM600941",
+            "GSM600942",
+            "GSM600943",
+            "GSM600944",
+            "GSM600945",
+            "GSM600946",
+            "GSM600947",
+            "GSM600948",
+            "GSM600949",
+            "GSM600950",
+            "GSM600951",
+            "GSM600952",
+            "GSM600953",
+            "GSM600954",
+            "GSM600955",
+            "GSM600956"
+          ],
+          "per_probe_A": {
+            "7917875": 0.35294117647058826
+          }
+        },
+        "MFS": {
+          "EMC": {
+            "n": 6,
+            "min": 5.728249,
+            "median": 6.4682315,
+            "max": 9.448954
+          },
+          "comparator": {
+            "n": 6,
+            "min": 6.404345,
+            "median": 7.34875,
+            "max": 7.904708
+          },
+          "A": 0.3611111111111111,
+          "comparator_ids": [
+            "GSM600957",
+            "GSM600958",
+            "GSM600959",
+            "GSM600960",
+            "GSM600961",
+            "GSM600962"
+          ],
+          "per_probe_A": {
+            "7917875": 0.3611111111111111
+          }
+        },
+        "desmoid": {
+          "EMC": {
+            "n": 6,
+            "min": 5.728249,
+            "median": 6.4682315,
+            "max": 9.448954
+          },
+          "comparator": {
+            "n": 6,
+            "min": 6.419085,
+            "median": 6.8102935,
+            "max": 7.156425
+          },
+          "A": 0.4166666666666667,
+          "comparator_ids": [
+            "GSM600928",
+            "GSM600929",
+            "GSM600930",
+            "GSM600931",
+            "GSM600932",
+            "GSM600933"
+          ],
+          "per_probe_A": {
+            "7917875": 0.4166666666666667
+          }
+        },
+        "SFT": {
+          "EMC": {
+            "n": 6,
+            "min": 5.728249,
+            "median": 6.4682315,
+            "max": 9.448954
+          },
+          "comparator": {
+            "n": 5,
+            "min": 6.527177,
+            "median": 8.774906,
+            "max": 9.711329
+          },
+          "A": 0.2,
+          "comparator_ids": [
+            "GSM600963",
+            "GSM600964",
+            "GSM600965",
+            "GSM600966",
+            "GSM600967"
+          ],
+          "per_probe_A": {
+            "7917875": 0.2
+          }
+        },
+        "muscle_pools": {
+          "EMC": {
+            "n": 6,
+            "min": 5.728249,
+            "median": 6.4682315,
+            "max": 9.448954
+          },
+          "comparator": {
+            "n": 2,
+            "min": 6.907597,
+            "median": 6.9633485,
+            "max": 7.0191
+          },
+          "A": 0.3333333333333333,
+          "comparator_ids": [
+            "GSM600968",
+            "GSM600969"
+          ],
+          "per_probe_A": {
+            "7917875": 0.3333333333333333
+          }
+        }
+      },
+      "missing_gene_read": null
+    },
+    "MET": {
+      "features": [
+        "8135601"
+      ],
+      "all42_sourcevalues": {
+        "GSM600928": {
+          "8135601": 7.096829
+        },
+        "GSM600929": {
+          "8135601": 7.156398
+        },
+        "GSM600930": {
+          "8135601": 7.510054
+        },
+        "GSM600931": {
+          "8135601": 8.371292
+        },
+        "GSM600932": {
+          "8135601": 7.462774
+        },
+        "GSM600933": {
+          "8135601": 7.566936
+        },
+        "GSM600934": {
+          "8135601": 7.554879
+        },
+        "GSM600935": {
+          "8135601": 10.23895
+        },
+        "GSM600936": {
+          "8135601": 7.065392
+        },
+        "GSM600937": {
+          "8135601": 11.06791
+        },
+        "GSM600938": {
+          "8135601": 9.659346
+        },
+        "GSM600939": {
+          "8135601": 5.853893
+        },
+        "GSM600940": {
+          "8135601": 6.818752
+        },
+        "GSM600941": {
+          "8135601": 6.840048
+        },
+        "GSM600942": {
+          "8135601": 7.691589
+        },
+        "GSM600943": {
+          "8135601": 6.825162
+        },
+        "GSM600944": {
+          "8135601": 7.062413
+        },
+        "GSM600945": {
+          "8135601": 7.583619
+        },
+        "GSM600946": {
+          "8135601": 4.931251
+        },
+        "GSM600947": {
+          "8135601": 7.77871
+        },
+        "GSM600948": {
+          "8135601": 6.305067
+        },
+        "GSM600949": {
+          "8135601": 5.532684
+        },
+        "GSM600950": {
+          "8135601": 7.374541
+        },
+        "GSM600951": {
+          "8135601": 6.83445
+        },
+        "GSM600952": {
+          "8135601": 6.908964
+        },
+        "GSM600953": {
+          "8135601": 5.930931
+        },
+        "GSM600954": {
+          "8135601": 8.526056
+        },
+        "GSM600955": {
+          "8135601": 7.318864
+        },
+        "GSM600956": {
+          "8135601": 7.75746
+        },
+        "GSM600957": {
+          "8135601": 6.527086
+        },
+        "GSM600958": {
+          "8135601": 7.674798
+        },
+        "GSM600959": {
+          "8135601": 7.319478
+        },
+        "GSM600960": {
+          "8135601": 9.476957
+        },
+        "GSM600961": {
+          "8135601": 7.599059
+        },
+        "GSM600962": {
+          "8135601": 8.71768
+        },
+        "GSM600963": {
+          "8135601": 5.252551
+        },
+        "GSM600964": {
+          "8135601": 7.020553
+        },
+        "GSM600965": {
+          "8135601": 4.586799
+        },
+        "GSM600966": {
+          "8135601": 5.463851
+        },
+        "GSM600967": {
+          "8135601": 8.679201
+        },
+        "GSM600968": {
+          "8135601": 8.130923
+        },
+        "GSM600969": {
+          "8135601": 8.238552
+        }
+      },
+      "all6_EMC_ids": [
+        "GSM600934",
+        "GSM600935",
+        "GSM600936",
+        "GSM600937",
+        "GSM600938",
+        "GSM600939"
+      ],
+      "contrasts": {
+        "LGFMS": {
+          "EMC": {
+            "n": 6,
+            "min": 5.853893,
+            "median": 8.6071125,
+            "max": 11.06791
+          },
+          "comparator": {
+            "n": 17,
+            "min": 4.931251,
+            "median": 6.908964,
+            "max": 8.526056
+          },
+          "A": 0.7352941176470589,
+          "comparator_ids": [
+            "GSM600940",
+            "GSM600941",
+            "GSM600942",
+            "GSM600943",
+            "GSM600944",
+            "GSM600945",
+            "GSM600946",
+            "GSM600947",
+            "GSM600948",
+            "GSM600949",
+            "GSM600950",
+            "GSM600951",
+            "GSM600952",
+            "GSM600953",
+            "GSM600954",
+            "GSM600955",
+            "GSM600956"
+          ],
+          "per_probe_A": {
+            "8135601": 0.7352941176470589
+          }
+        },
+        "MFS": {
+          "EMC": {
+            "n": 6,
+            "min": 5.853893,
+            "median": 8.6071125,
+            "max": 11.06791
+          },
+          "comparator": {
+            "n": 6,
+            "min": 6.527086,
+            "median": 7.6369285,
+            "max": 9.476957
+          },
+          "A": 0.5833333333333334,
+          "comparator_ids": [
+            "GSM600957",
+            "GSM600958",
+            "GSM600959",
+            "GSM600960",
+            "GSM600961",
+            "GSM600962"
+          ],
+          "per_probe_A": {
+            "8135601": 0.5833333333333334
+          }
+        },
+        "desmoid": {
+          "EMC": {
+            "n": 6,
+            "min": 5.853893,
+            "median": 8.6071125,
+            "max": 11.06791
+          },
+          "comparator": {
+            "n": 6,
+            "min": 7.096829,
+            "median": 7.486414,
+            "max": 8.371292
+          },
+          "A": 0.6111111111111112,
+          "comparator_ids": [
+            "GSM600928",
+            "GSM600929",
+            "GSM600930",
+            "GSM600931",
+            "GSM600932",
+            "GSM600933"
+          ],
+          "per_probe_A": {
+            "8135601": 0.6111111111111112
+          }
+        },
+        "SFT": {
+          "EMC": {
+            "n": 6,
+            "min": 5.853893,
+            "median": 8.6071125,
+            "max": 11.06791
+          },
+          "comparator": {
+            "n": 5,
+            "min": 4.586799,
+            "median": 5.463851,
+            "max": 8.679201
+          },
+          "A": 0.8666666666666667,
+          "comparator_ids": [
+            "GSM600963",
+            "GSM600964",
+            "GSM600965",
+            "GSM600966",
+            "GSM600967"
+          ],
+          "per_probe_A": {
+            "8135601": 0.8666666666666667
+          }
+        },
+        "muscle_pools": {
+          "EMC": {
+            "n": 6,
+            "min": 5.853893,
+            "median": 8.6071125,
+            "max": 11.06791
+          },
+          "comparator": {
+            "n": 2,
+            "min": 8.130923,
+            "median": 8.1847375,
+            "max": 8.238552
+          },
+          "A": 0.5,
+          "comparator_ids": [
+            "GSM600968",
+            "GSM600969"
+          ],
+          "per_probe_A": {
+            "8135601": 0.5
+          }
+        }
+      },
+      "missing_gene_read": null
+    }
+  },
+  "older_array": {
+    "all16source_roster": [
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM89883",
+        "platform": "GPL3290",
+        "title": "STT3126-DFSP",
+        "characteristics_ch1": [
+          "CRH"
+        ],
+        "source_ch1": [
+          "CRH"
+        ],
+        "source_ch2": [
+          "STT3126-DFSP mRNA"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM89898",
+        "platform": "GPL3290",
+        "title": "STT3068-DFSP",
+        "characteristics_ch1": [
+          "CRH"
+        ],
+        "source_ch1": [
+          "CRH"
+        ],
+        "source_ch2": [
+          "STT3068-DFSP mRNA"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM89924",
+        "platform": "GPL3290",
+        "title": "STT3053-DFSP",
+        "characteristics_ch1": [
+          "CRH"
+        ],
+        "source_ch1": [
+          "CRH"
+        ],
+        "source_ch2": [
+          "STT3053-DFSP mRNA"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM91381",
+        "platform": "GPL3290",
+        "title": "STT2001c-GIST-Total RNA-WT",
+        "characteristics_ch1": [
+          "UHR"
+        ],
+        "source_ch1": [
+          "UHR"
+        ],
+        "source_ch2": [
+          "STT2001c-GIST-Total RNA"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM91397",
+        "platform": "GPL3290",
+        "title": "STT794b-GIST-Total RNA-PDGFRa",
+        "characteristics_ch1": [
+          "UHR"
+        ],
+        "source_ch1": [
+          "UHR"
+        ],
+        "source_ch2": [
+          "STT794b-GIST-Total RNA"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM91405",
+        "platform": "GPL3290",
+        "title": "STT94b-GIST-Total RNA-exon9",
+        "characteristics_ch1": [
+          "UHR"
+        ],
+        "source_ch1": [
+          "UHR"
+        ],
+        "source_ch2": [
+          "STT94b-GIST-Total RNA"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM98495",
+        "platform": "GPL3290",
+        "title": "STT3699-Myxoid Chondrosarcoma",
+        "characteristics_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch2": [
+          "STT3699-Myxoid Chondrosarcoma"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM98496",
+        "platform": "GPL3290",
+        "title": "STT3698-Myxoid Chondrosarcoma",
+        "characteristics_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch2": [
+          "STT3698-Myxoid Chondrosarcoma"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM98499",
+        "platform": "GPL3290",
+        "title": "STT3697-Myxoid Chondrosarcoma",
+        "characteristics_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch2": [
+          "STT3697-Myxoid Chondrosarcoma"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM98503",
+        "platform": "GPL3290",
+        "title": "STT3782-Myxoid chondrosarcoma",
+        "characteristics_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch2": [
+          "STT3782-Myxoid chondrosarcoma"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM98506",
+        "platform": "GPL3290",
+        "title": "STT3783-Myxoid chondrosarcoma",
+        "characteristics_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch2": [
+          "STT3783-Myxoid chondrosarcoma"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM98509",
+        "platform": "GPL3290",
+        "title": "STT3714-Myxoid Chondrosarcoma",
+        "characteristics_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch2": [
+          "STT3714-Myxoid Chondrosarcoma"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM98510",
+        "platform": "GPL3290",
+        "title": "STT3780-Myxoid chondrosarcoma",
+        "characteristics_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch2": [
+          "STT3780-Myxoid chondrosarcoma"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM98511",
+        "platform": "GPL3290",
+        "title": "STT1169-Myxoid Chondrosarcoma",
+        "characteristics_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch2": [
+          "STT1169-Myxoid Chondrosarcoma"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM98512",
+        "platform": "GPL3290",
+        "title": "STT2003-Myxoid Chondrosarcoma",
+        "characteristics_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch2": [
+          "STT2003-Myxoid Chondrosarcoma"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      },
+      {
+        "gse": "GSE4303",
+        "gsm": "GSM98513",
+        "platform": "GPL3290",
+        "title": "STT2528(2)-Myxoid Chondrosarcoma",
+        "characteristics_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch1": [
+          "CRH-mRNA"
+        ],
+        "source_ch2": [
+          "STT2528(2)-Myxoid Chondrosarcoma"
+        ],
+        "processing": [
+          "VALUE is Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm)"
+        ],
+        "VALUE_definition": [
+          "Log (base 2) of the ratio of the mean of Channel 2 (usually 635 nm) to Channel 1 (usually 532 nm) [log (base 2) (RAT2N_MEAN)].; Type: float; Scale: log_base_2"
+        ]
+      }
+    ],
+    "features": {
+      "ERBB2": [
+        "17325",
+        "24283",
+        "29764",
+        "33287",
+        "39673"
+      ],
+      "TACSTD2": [
+        "30584",
+        "37862",
+        "42294",
+        "41406"
+      ],
+      "NECTIN4": [
+        "41270"
+      ],
+      "FOLR1": [
+        "33482"
+      ],
+      "F3": [
+        "24341"
+      ],
+      "MET": [
+        "16262",
+        "20694",
+        "19806",
+        "42715"
+      ]
+    },
+    "all_source_values": {
+      "ERBB2": {
+        "GSM89883": {
+          "17325": 0.471,
+          "24283": 0.656,
+          "29764": -0.009,
+          "33287": 0.885,
+          "39673": 0.325
+        },
+        "GSM89898": {
+          "17325": 1.61,
+          "24283": 2.24,
+          "29764": 0.904,
+          "33287": 1.719,
+          "39673": 1.472
+        },
+        "GSM89924": {
+          "17325": 1.828,
+          "24283": 1.485,
+          "29764": 0.479,
+          "33287": 1.519,
+          "39673": 0.969
+        },
+        "GSM91381": {
+          "17325": -0.647,
+          "24283": -0.696,
+          "29764": -1.793,
+          "33287": -0.705,
+          "39673": -0.119
+        },
+        "GSM91397": {
+          "17325": -2.073,
+          "24283": -1.772,
+          "29764": -2.602,
+          "33287": -1.906,
+          "39673": -0.549
+        },
+        "GSM91405": {
+          "17325": -4.162,
+          "24283": -5.271,
+          "29764": null,
+          "33287": -2.041,
+          "39673": -1.216
+        },
+        "GSM98495": {
+          "17325": 0.052,
+          "24283": -0.007,
+          "29764": -1.277,
+          "33287": -0.239,
+          "39673": 0.08
+        },
+        "GSM98496": {
+          "17325": -0.709,
+          "24283": -0.802,
+          "29764": -3.145,
+          "33287": -0.735,
+          "39673": -0.95
+        },
+        "GSM98499": {
+          "17325": -1.129,
+          "24283": null,
+          "29764": null,
+          "33287": -0.772,
+          "39673": -1.257
+        },
+        "GSM98503": {
+          "17325": -0.064,
+          "24283": -0.961,
+          "29764": -4.156,
+          "33287": -0.079,
+          "39673": 0.991
+        },
+        "GSM98506": {
+          "17325": 0.379,
+          "24283": 0.568,
+          "29764": -3.944,
+          "33287": -0.053,
+          "39673": -0.375
+        },
+        "GSM98509": {
+          "17325": 0.883,
+          "24283": 1.045,
+          "29764": -0.549,
+          "33287": 1.543,
+          "39673": -0.057
+        },
+        "GSM98510": {
+          "17325": -0.942,
+          "24283": -3.491,
+          "29764": null,
+          "33287": -1.33,
+          "39673": -1.665
+        },
+        "GSM98511": {
+          "17325": 0.777,
+          "24283": 1.103,
+          "29764": -0.803,
+          "33287": 1.995,
+          "39673": 0.787
+        },
+        "GSM98512": {
+          "17325": -0.401,
+          "24283": -0.63,
+          "29764": -1.54,
+          "33287": 2.462,
+          "39673": -0.785
+        },
+        "GSM98513": {
+          "17325": -0.503,
+          "24283": -1.219,
+          "29764": -1.487,
+          "33287": -1.204,
+          "39673": -1.394
+        }
+      },
+      "TACSTD2": {
+        "GSM89883": {
+          "30584": null,
+          "37862": 0.731,
+          "41406": 1.769,
+          "42294": 1.866
+        },
+        "GSM89898": {
+          "30584": -4.786,
+          "37862": 0.287,
+          "41406": 1.241,
+          "42294": 1.233
+        },
+        "GSM89924": {
+          "30584": null,
+          "37862": 0.425,
+          "41406": 1.65,
+          "42294": 1.181
+        },
+        "GSM91381": {
+          "30584": -5.339,
+          "37862": 1.315,
+          "41406": 1.82,
+          "42294": 1.634
+        },
+        "GSM91397": {
+          "30584": null,
+          "37862": 0.976,
+          "41406": 1.03,
+          "42294": 1.184
+        },
+        "GSM91405": {
+          "30584": null,
+          "37862": 0.118,
+          "41406": 0.537,
+          "42294": 0.623
+        },
+        "GSM98495": {
+          "30584": null,
+          "37862": 1.135,
+          "41406": 1.594,
+          "42294": 1.383
+        },
+        "GSM98496": {
+          "30584": -4.084,
+          "37862": -0.888,
+          "41406": -0.589,
+          "42294": -0.547
+        },
+        "GSM98499": {
+          "30584": 0.8,
+          "37862": -1.284,
+          "41406": -1.41,
+          "42294": -1.594
+        },
+        "GSM98503": {
+          "30584": -4.837,
+          "37862": 0.918,
+          "41406": 1.291,
+          "42294": 0.845
+        },
+        "GSM98506": {
+          "30584": null,
+          "37862": 0.417,
+          "41406": 0.161,
+          "42294": 0.407
+        },
+        "GSM98509": {
+          "30584": -1.049,
+          "37862": -0.061,
+          "41406": 0.183,
+          "42294": 0.426
+        },
+        "GSM98510": {
+          "30584": null,
+          "37862": 0.429,
+          "41406": 0.783,
+          "42294": 0.38
+        },
+        "GSM98511": {
+          "30584": -6.072,
+          "37862": 1.257,
+          "41406": 1.796,
+          "42294": 1.944
+        },
+        "GSM98512": {
+          "30584": 0.889,
+          "37862": -0.904,
+          "41406": -0.923,
+          "42294": -1.131
+        },
+        "GSM98513": {
+          "30584": -6.481,
+          "37862": -0.119,
+          "41406": 0.3,
+          "42294": 0.507
+        }
+      },
+      "NECTIN4": {
+        "GSM89883": {
+          "41270": null
+        },
+        "GSM89898": {
+          "41270": -0.893
+        },
+        "GSM89924": {
+          "41270": -3.244
+        },
+        "GSM91381": {
+          "41270": null
+        },
+        "GSM91397": {
+          "41270": -2.215
+        },
+        "GSM91405": {
+          "41270": -0.218
+        },
+        "GSM98495": {
+          "41270": -7.994
+        },
+        "GSM98496": {
+          "41270": -3.595
+        },
+        "GSM98499": {
+          "41270": null
+        },
+        "GSM98503": {
+          "41270": -1.871
+        },
+        "GSM98506": {
+          "41270": null
+        },
+        "GSM98509": {
+          "41270": null
+        },
+        "GSM98510": {
+          "41270": null
+        },
+        "GSM98511": {
+          "41270": -1.111
+        },
+        "GSM98512": {
+          "41270": null
+        },
+        "GSM98513": {
+          "41270": null
+        }
+      },
+      "FOLR1": {
+        "GSM89883": {
+          "33482": -2.209
+        },
+        "GSM89898": {
+          "33482": 0.12
+        },
+        "GSM89924": {
+          "33482": -1.684
+        },
+        "GSM91381": {
+          "33482": -6.468
+        },
+        "GSM91397": {
+          "33482": null
+        },
+        "GSM91405": {
+          "33482": -2.848
+        },
+        "GSM98495": {
+          "33482": -0.54
+        },
+        "GSM98496": {
+          "33482": -1.11
+        },
+        "GSM98499": {
+          "33482": 0.623
+        },
+        "GSM98503": {
+          "33482": -0.018
+        },
+        "GSM98506": {
+          "33482": null
+        },
+        "GSM98509": {
+          "33482": 2.086
+        },
+        "GSM98510": {
+          "33482": -1.337
+        },
+        "GSM98511": {
+          "33482": -0.55
+        },
+        "GSM98512": {
+          "33482": 0.541
+        },
+        "GSM98513": {
+          "33482": 0.342
+        }
+      },
+      "F3": {
+        "GSM89883": {
+          "24341": -0.19
+        },
+        "GSM89898": {
+          "24341": -1.089
+        },
+        "GSM89924": {
+          "24341": 0.084
+        },
+        "GSM91381": {
+          "24341": 3.142
+        },
+        "GSM91397": {
+          "24341": null
+        },
+        "GSM91405": {
+          "24341": null
+        },
+        "GSM98495": {
+          "24341": -1.327
+        },
+        "GSM98496": {
+          "24341": -1.57
+        },
+        "GSM98499": {
+          "24341": null
+        },
+        "GSM98503": {
+          "24341": -1.523
+        },
+        "GSM98506": {
+          "24341": null
+        },
+        "GSM98509": {
+          "24341": -1.788
+        },
+        "GSM98510": {
+          "24341": -0.832
+        },
+        "GSM98511": {
+          "24341": -1.901
+        },
+        "GSM98512": {
+          "24341": -2.662
+        },
+        "GSM98513": {
+          "24341": -1.057
+        }
+      },
+      "MET": {
+        "GSM89883": {
+          "16262": -2.95,
+          "19806": -4.51,
+          "20694": null,
+          "42715": -9.243
+        },
+        "GSM89898": {
+          "16262": -2.324,
+          "19806": -3.098,
+          "20694": -2.42,
+          "42715": -2.824
+        },
+        "GSM89924": {
+          "16262": -2.856,
+          "19806": -2.67,
+          "20694": -2.649,
+          "42715": -3.004
+        },
+        "GSM91381": {
+          "16262": -2.37,
+          "19806": -2.558,
+          "20694": -2.893,
+          "42715": -3.991
+        },
+        "GSM91397": {
+          "16262": null,
+          "19806": -4.078,
+          "20694": -9.571,
+          "42715": -2.563
+        },
+        "GSM91405": {
+          "16262": -7.364,
+          "19806": -7.818,
+          "20694": null,
+          "42715": -2.857
+        },
+        "GSM98495": {
+          "16262": -2.069,
+          "19806": -2.465,
+          "20694": -2.203,
+          "42715": -0.951
+        },
+        "GSM98496": {
+          "16262": -2.039,
+          "19806": -1.813,
+          "20694": -1.484,
+          "42715": 1.292
+        },
+        "GSM98499": {
+          "16262": null,
+          "19806": -2.056,
+          "20694": -2.108,
+          "42715": 0.886
+        },
+        "GSM98503": {
+          "16262": -1.635,
+          "19806": -1.401,
+          "20694": -1.972,
+          "42715": -2.157
+        },
+        "GSM98506": {
+          "16262": null,
+          "19806": -6.434,
+          "20694": -3.962,
+          "42715": -3.792
+        },
+        "GSM98509": {
+          "16262": -2.049,
+          "19806": -2.075,
+          "20694": -3.237,
+          "42715": -0.425
+        },
+        "GSM98510": {
+          "16262": -4.668,
+          "19806": -3.221,
+          "20694": -1.28,
+          "42715": -0.721
+        },
+        "GSM98511": {
+          "16262": -1.516,
+          "19806": -1.52,
+          "20694": -1.813,
+          "42715": -0.195
+        },
+        "GSM98512": {
+          "16262": -1.373,
+          "19806": -1.735,
+          "20694": -1.495,
+          "42715": 1.042
+        },
+        "GSM98513": {
+          "16262": -1.723,
+          "19806": -1.48,
+          "20694": -1.571,
+          "42715": -0.206
+        }
+      }
+    },
+    "units": "tumor/reference_log2_ratios, historical mapping qualified, no abundance or independentdonor validation"
+  },
+  "3SEQ": {
+    "ERBB2": {
+      "all_peaks": [
+        {
+          "annotation": {
+            "peak": "21896",
+            "hg18_coords": "chr17:35137074-35137298_+",
+            "classification": "coding",
+            "gene_id": "NM_004448",
+            "gene_symbol": "ERBB2",
+            "peak_exon_gene_symbol": "ERBB2",
+            "differentially_expressed_cancer_type": ""
+          },
+          "values": {
+            "EMC_STT5525": 0.0,
+            "EMC_STT5526": 0.0,
+            "EMC_STT5527": 0.0,
+            "EMC_STT5592": 0.22810162,
+            "MLPS_STT5530": 0.0,
+            "MLPS_STT5531": 0.0,
+            "MLPS_STT5590": 0.174680707,
+            "MLPS_STT5591": 0.108699929,
+            "MLPS_STT5595": 0.0,
+            "MLPS_STT5596": 0.0,
+            "SS_STT3705": 0.0,
+            "SS_STT5532": 0.0,
+            "SS_STT5533": 0.0,
+            "STT5688_Fetal_normal_lung": 0.0,
+            "STT5601_Adult_normal_lung": 0.598366401,
+            "STT5603_Adult_normal_lung": 0.417810096,
+            "STT5609_Adult_normal_uterus": 0.10522197,
+            "STT5610_Adult_normal_colon": 0.234711381,
+            "STT5680_Fetal_normal_bowel": 0.744011785,
+            "STT5681_Fetal_normal_bowel": 0.778445296,
+            "STT5682_Fetal_normal_bowel": 0.581920124,
+            "STT5683_Fetal_normal_kidney": 0.0,
+            "STT5684_Fetal_normal_kidney": 0.733181293,
+            "STT5685_Fetal_normal_kidney": 0.834286126,
+            "STT5686_Fetal_normal_lung": 0.526371836,
+            "STT5687_Fetal_normal_lung": 0.464825836,
+            "STT5588_Fetal_normal_lung": 0.246413591,
+            "STT5692_Adult_normal_colon": 0.109440355,
+            "STT5693_Adult_normal_colon": 0.204159011,
+            "STT5694_Adult_normal_kidney": 0.188300449,
+            "STT5695_Adult_normal_kidney": 0.0,
+            "STT5696_Adult_normal_kidney": 0.0,
+            "STT5697_Adult_normal_lung": 0.241309064,
+            "STT5698_Adult_normal_lung": 0.410572838,
+            "STT5699_Adult_normal_lung": 0.136851038,
+            "STT5425_Adult_normal_breast": 0.298725451,
+            "STT5451_Adult_normal_breast": 0.151013123,
+            "STT5510_Adult_normal_breast": 0.374755688,
+            "STT5620_Adult_normal_breast": 0.104350998,
+            "STT5761_Adult_normal_breast": 0.226988062
+          }
+        },
+        {
+          "annotation": {
+            "peak": "21897",
+            "hg18_coords": "chr17:35137464-35138292_+",
+            "classification": "coding",
+            "gene_id": "NM_004448",
+            "gene_symbol": "ERBB2",
+            "peak_exon_gene_symbol": "ERBB2",
+            "differentially_expressed_cancer_type": "Breast_GIST_"
+          },
+          "values": {
+            "EMC_STT5525": 0.992587697,
+            "EMC_STT5526": 0.953899093,
+            "EMC_STT5527": 0.88777859,
+            "EMC_STT5592": 0.83030243,
+            "MLPS_STT5530": 1.007791422,
+            "MLPS_STT5531": 1.035615095,
+            "MLPS_STT5590": 0.709556385,
+            "MLPS_STT5591": 1.357661676,
+            "MLPS_STT5595": 1.232310102,
+            "MLPS_STT5596": 0.66004883,
+            "SS_STT3705": 1.024204087,
+            "SS_STT5532": 0.651758297,
+            "SS_STT5533": 1.101976999,
+            "STT5688_Fetal_normal_lung": 1.35897937,
+            "STT5601_Adult_normal_lung": 1.337987948,
+            "STT5603_Adult_normal_lung": 1.202662879,
+            "STT5609_Adult_normal_uterus": 0.952825459,
+            "STT5610_Adult_normal_colon": 0.626507944,
+            "STT5680_Fetal_normal_bowel": 1.543812004,
+            "STT5681_Fetal_normal_bowel": 1.533547583,
+            "STT5682_Fetal_normal_bowel": 1.487993943,
+            "STT5683_Fetal_normal_kidney": 1.621635719,
+            "STT5684_Fetal_normal_kidney": 2.069197162,
+            "STT5685_Fetal_normal_kidney": 1.796123406,
+            "STT5686_Fetal_normal_lung": 1.897860643,
+            "STT5687_Fetal_normal_lung": 1.66835265,
+            "STT5588_Fetal_normal_lung": 1.638233463,
+            "STT5692_Adult_normal_colon": 1.049715006,
+            "STT5693_Adult_normal_colon": 1.28474266,
+            "STT5694_Adult_normal_kidney": 1.430959524,
+            "STT5695_Adult_normal_kidney": 1.51288024,
+            "STT5696_Adult_normal_kidney": 1.482403489,
+            "STT5697_Adult_normal_lung": 1.264389159,
+            "STT5698_Adult_normal_lung": 1.420663478,
+            "STT5699_Adult_normal_lung": 1.148244638,
+            "STT5425_Adult_normal_breast": 1.684557292,
+            "STT5451_Adult_normal_breast": 2.260157463,
+            "STT5510_Adult_normal_breast": 2.072078002,
+            "STT5620_Adult_normal_breast": 2.09742911,
+            "STT5761_Adult_normal_breast": 2.002132501
+          }
+        },
+        {
+          "annotation": {
+            "peak": "21898",
+            "hg18_coords": "chr17:35138314-35138419_+",
+            "classification": "coding",
+            "gene_id": "NM_004448",
+            "gene_symbol": "ERBB2",
+            "peak_exon_gene_symbol": "ERBB2",
+            "differentially_expressed_cancer_type": "GIST_"
+          },
+          "values": {
+            "EMC_STT5525": 1.178931088,
+            "EMC_STT5526": 1.814326872,
+            "EMC_STT5527": 1.798768064,
+            "EMC_STT5592": 0.52264647,
+            "MLPS_STT5530": 1.809040967,
+            "MLPS_STT5531": 1.451900319,
+            "MLPS_STT5590": 0.509277399,
+            "MLPS_STT5591": 1.234593866,
+            "MLPS_STT5595": 1.829698524,
+            "MLPS_STT5596": 0.825778171,
+            "SS_STT3705": 1.16777233,
+            "SS_STT5532": 0.626189117,
+            "SS_STT5533": 2.203953999,
+            "STT5688_Fetal_normal_lung": 3.06524417,
+            "STT5601_Adult_normal_lung": 1.380597327,
+            "STT5603_Adult_normal_lung": 1.295820861,
+            "STT5609_Adult_normal_uterus": 1.036316216,
+            "STT5610_Adult_normal_colon": 0.598398955,
+            "STT5680_Fetal_normal_bowel": 1.163241534,
+            "STT5681_Fetal_normal_bowel": 1.358965522,
+            "STT5682_Fetal_normal_bowel": 1.470383927,
+            "STT5683_Fetal_normal_kidney": 2.411573762,
+            "STT5684_Fetal_normal_kidney": 1.317294441,
+            "STT5685_Fetal_normal_kidney": 1.366432235,
+            "STT5686_Fetal_normal_lung": 1.161716801,
+            "STT5687_Fetal_normal_lung": 1.250311869,
+            "STT5588_Fetal_normal_lung": 1.349662823,
+            "STT5692_Adult_normal_colon": 0.941441529,
+            "STT5693_Adult_normal_colon": 0.93557412,
+            "STT5694_Adult_normal_kidney": 1.69992656,
+            "STT5695_Adult_normal_kidney": 1.830156579,
+            "STT5696_Adult_normal_kidney": 2.209836647,
+            "STT5697_Adult_normal_lung": 0.829562226,
+            "STT5698_Adult_normal_lung": 0.913092757,
+            "STT5699_Adult_normal_lung": 0.913935456,
+            "STT5425_Adult_normal_breast": 2.317770717,
+            "STT5451_Adult_normal_breast": 3.926341188,
+            "STT5510_Adult_normal_breast": 1.146356937,
+            "STT5620_Adult_normal_breast": 1.175976029,
+            "STT5761_Adult_normal_breast": 0.805727691
+          }
+        }
+      ],
+      "peak_count": 3,
+      "group_sums": {
+        "EMC": {
+          "EMC_STT5525": 2.171518785,
+          "EMC_STT5526": 2.768225965,
+          "EMC_STT5527": 2.6865466540000003,
+          "EMC_STT5592": 1.58105052
+        },
+        "MLPS": {
+          "MLPS_STT5530": 2.816832389,
+          "MLPS_STT5531": 2.4875154139999998,
+          "MLPS_STT5590": 1.393514491,
+          "MLPS_STT5591": 2.700955471,
+          "MLPS_STT5595": 3.062008626,
+          "MLPS_STT5596": 1.485827001
+        },
+        "SS": {
+          "SS_STT3705": 2.1919764170000002,
+          "SS_STT5532": 1.277947414,
+          "SS_STT5533": 3.305930998
+        },
+        "unmatchednormal": {
+          "STT5688_Fetal_normal_lung": 4.42422354,
+          "STT5601_Adult_normal_lung": 3.3169516760000004,
+          "STT5603_Adult_normal_lung": 2.916293836,
+          "STT5609_Adult_normal_uterus": 2.094363645,
+          "STT5610_Adult_normal_colon": 1.45961828,
+          "STT5680_Fetal_normal_bowel": 3.451065323,
+          "STT5681_Fetal_normal_bowel": 3.670958401,
+          "STT5682_Fetal_normal_bowel": 3.5402979940000003,
+          "STT5683_Fetal_normal_kidney": 4.033209481,
+          "STT5684_Fetal_normal_kidney": 4.119672896,
+          "STT5685_Fetal_normal_kidney": 3.996841767,
+          "STT5686_Fetal_normal_lung": 3.5859492800000003,
+          "STT5687_Fetal_normal_lung": 3.383490355,
+          "STT5588_Fetal_normal_lung": 3.234309877,
+          "STT5692_Adult_normal_colon": 2.10059689,
+          "STT5693_Adult_normal_colon": 2.424475791,
+          "STT5694_Adult_normal_kidney": 3.319186533,
+          "STT5695_Adult_normal_kidney": 3.343036819,
+          "STT5696_Adult_normal_kidney": 3.6922401359999997,
+          "STT5697_Adult_normal_lung": 2.335260449,
+          "STT5698_Adult_normal_lung": 2.7443290730000003,
+          "STT5699_Adult_normal_lung": 2.199031132,
+          "STT5425_Adult_normal_breast": 4.30105346,
+          "STT5451_Adult_normal_breast": 6.337511774,
+          "STT5510_Adult_normal_breast": 3.593190627,
+          "STT5620_Adult_normal_breast": 3.3777561370000004,
+          "STT5761_Adult_normal_breast": 3.034848254
+        }
+      },
+      "unreadable_notabsence": false
+    },
+    "TACSTD2": {
+      "all_peaks": [
+        {
+          "annotation": {
+            "peak": "28728",
+            "hg18_coords": "chr1:58813527-58814818_-",
+            "classification": "coding",
+            "gene_id": "NM_002353",
+            "gene_symbol": "TACSTD2",
+            "peak_exon_gene_symbol": "TACSTD2",
+            "differentially_expressed_cancer_type": "HN_Bladder_GIST_"
+          },
+          "values": {
+            "EMC_STT5525": 0.265280221,
+            "EMC_STT5526": 0.0,
+            "EMC_STT5527": 0.203670377,
+            "EMC_STT5592": 0.0,
+            "MLPS_STT5530": 0.0,
+            "MLPS_STT5531": 0.192308895,
+            "MLPS_STT5590": 0.123517912,
+            "MLPS_STT5591": 0.108699929,
+            "MLPS_STT5595": 0.185777738,
+            "MLPS_STT5596": 0.0,
+            "SS_STT3705": 0.0,
+            "SS_STT5532": 0.361530455,
+            "SS_STT5533": 0.0,
+            "STT5688_Fetal_normal_lung": 0.401991519,
+            "STT5601_Adult_normal_lung": 1.886627198,
+            "STT5603_Adult_normal_lung": 1.66376276,
+            "STT5609_Adult_normal_uterus": 0.278391164,
+            "STT5610_Adult_normal_colon": 0.082983004,
+            "STT5680_Fetal_normal_bowel": 0.214777702,
+            "STT5681_Fetal_normal_bowel": 0.317798961,
+            "STT5682_Fetal_normal_bowel": 0.360891541,
+            "STT5683_Fetal_normal_kidney": 1.168512902,
+            "STT5684_Fetal_normal_kidney": 1.136669564,
+            "STT5685_Fetal_normal_kidney": 1.151424244,
+            "STT5686_Fetal_normal_lung": 0.866465828,
+            "STT5687_Fetal_normal_lung": 0.809038917,
+            "STT5588_Fetal_normal_lung": 0.55099754,
+            "STT5692_Adult_normal_colon": 0.109440355,
+            "STT5693_Adult_normal_colon": 0.091302685,
+            "STT5694_Adult_normal_kidney": 1.53554369,
+            "STT5695_Adult_normal_kidney": 1.814841192,
+            "STT5696_Adult_normal_kidney": 2.198759702,
+            "STT5697_Adult_normal_lung": 1.720216844,
+            "STT5698_Adult_normal_lung": 1.819937854,
+            "STT5699_Adult_normal_lung": 0.299825603,
+            "STT5425_Adult_normal_breast": 2.247400337,
+            "STT5451_Adult_normal_breast": 4.425998575,
+            "STT5510_Adult_normal_breast": 2.698687056,
+            "STT5620_Adult_normal_breast": 2.04751444,
+            "STT5761_Adult_normal_breast": 0.952268352
+          }
+        }
+      ],
+      "peak_count": 1,
+      "group_sums": {
+        "EMC": {
+          "EMC_STT5525": 0.265280221,
+          "EMC_STT5526": 0.0,
+          "EMC_STT5527": 0.203670377,
+          "EMC_STT5592": 0.0
+        },
+        "MLPS": {
+          "MLPS_STT5530": 0.0,
+          "MLPS_STT5531": 0.192308895,
+          "MLPS_STT5590": 0.123517912,
+          "MLPS_STT5591": 0.108699929,
+          "MLPS_STT5595": 0.185777738,
+          "MLPS_STT5596": 0.0
+        },
+        "SS": {
+          "SS_STT3705": 0.0,
+          "SS_STT5532": 0.361530455,
+          "SS_STT5533": 0.0
+        },
+        "unmatchednormal": {
+          "STT5688_Fetal_normal_lung": 0.401991519,
+          "STT5601_Adult_normal_lung": 1.886627198,
+          "STT5603_Adult_normal_lung": 1.66376276,
+          "STT5609_Adult_normal_uterus": 0.278391164,
+          "STT5610_Adult_normal_colon": 0.082983004,
+          "STT5680_Fetal_normal_bowel": 0.214777702,
+          "STT5681_Fetal_normal_bowel": 0.317798961,
+          "STT5682_Fetal_normal_bowel": 0.360891541,
+          "STT5683_Fetal_normal_kidney": 1.168512902,
+          "STT5684_Fetal_normal_kidney": 1.136669564,
+          "STT5685_Fetal_normal_kidney": 1.151424244,
+          "STT5686_Fetal_normal_lung": 0.866465828,
+          "STT5687_Fetal_normal_lung": 0.809038917,
+          "STT5588_Fetal_normal_lung": 0.55099754,
+          "STT5692_Adult_normal_colon": 0.109440355,
+          "STT5693_Adult_normal_colon": 0.091302685,
+          "STT5694_Adult_normal_kidney": 1.53554369,
+          "STT5695_Adult_normal_kidney": 1.814841192,
+          "STT5696_Adult_normal_kidney": 2.198759702,
+          "STT5697_Adult_normal_lung": 1.720216844,
+          "STT5698_Adult_normal_lung": 1.819937854,
+          "STT5699_Adult_normal_lung": 0.299825603,
+          "STT5425_Adult_normal_breast": 2.247400337,
+          "STT5451_Adult_normal_breast": 4.425998575,
+          "STT5510_Adult_normal_breast": 2.698687056,
+          "STT5620_Adult_normal_breast": 2.04751444,
+          "STT5761_Adult_normal_breast": 0.952268352
+        }
+      },
+      "unreadable_notabsence": false
+    },
+    "NECTIN4": {
+      "all_peaks": [
+        {
+          "annotation": {
+            "peak": "29596",
+            "hg18_coords": "chr1:159307384-159307790_-",
+            "classification": "coding",
+            "gene_id": "NM_030916",
+            "gene_symbol": "PVRL4",
+            "peak_exon_gene_symbol": "PVRL4",
+            "differentially_expressed_cancer_type": "HN_Bladder_"
+          },
+          "values": {
+            "EMC_STT5525": 0.0,
+            "EMC_STT5526": 0.0,
+            "EMC_STT5527": 0.0,
+            "EMC_STT5592": 0.0,
+            "MLPS_STT5530": 0.0,
+            "MLPS_STT5531": 0.0,
+            "MLPS_STT5590": 0.0,
+            "MLPS_STT5591": 0.0,
+            "MLPS_STT5595": 0.185777738,
+            "MLPS_STT5596": 0.0,
+            "SS_STT3705": 0.0,
+            "SS_STT5532": 0.0,
+            "SS_STT5533": 0.0,
+            "STT5688_Fetal_normal_lung": 0.455815538,
+            "STT5601_Adult_normal_lung": 0.307856973,
+            "STT5603_Adult_normal_lung": 0.397416673,
+            "STT5609_Adult_normal_uterus": 0.0,
+            "STT5610_Adult_normal_colon": 0.0,
+            "STT5680_Fetal_normal_bowel": 0.0,
+            "STT5681_Fetal_normal_bowel": 0.0,
+            "STT5682_Fetal_normal_bowel": 0.0,
+            "STT5683_Fetal_normal_kidney": 0.159014465,
+            "STT5684_Fetal_normal_kidney": 0.137337439,
+            "STT5685_Fetal_normal_kidney": 0.297296461,
+            "STT5686_Fetal_normal_lung": 0.094539173,
+            "STT5687_Fetal_normal_lung": 0.287423634,
+            "STT5588_Fetal_normal_lung": 0.311691278,
+            "STT5692_Adult_normal_colon": 0.0,
+            "STT5693_Adult_normal_colon": 0.204159011,
+            "STT5694_Adult_normal_kidney": 0.163072972,
+            "STT5695_Adult_normal_kidney": 0.236272198,
+            "STT5696_Adult_normal_kidney": 0.0,
+            "STT5697_Adult_normal_lung": 0.178218555,
+            "STT5698_Adult_normal_lung": 0.178582284,
+            "STT5699_Adult_normal_lung": 0.061201645,
+            "STT5425_Adult_normal_breast": 0.694175219,
+            "STT5451_Adult_normal_breast": 1.109715285,
+            "STT5510_Adult_normal_breast": 0.412960655,
+            "STT5620_Adult_normal_breast": 1.16667963,
+            "STT5761_Adult_normal_breast": 0.968364168
+          }
+        },
+        {
+          "annotation": {
+            "peak": "29597",
+            "hg18_coords": "chr1:159307815-159308146_-",
+            "classification": "coding",
+            "gene_id": "NM_030916",
+            "gene_symbol": "PVRL4",
+            "peak_exon_gene_symbol": "PVRL4",
+            "differentially_expressed_cancer_type": "Bladder_"
+          },
+          "values": {
+            "EMC_STT5525": 0.0,
+            "EMC_STT5526": 0.0,
+            "EMC_STT5527": 0.0,
+            "EMC_STT5592": 0.0,
+            "MLPS_STT5530": 0.0,
+            "MLPS_STT5531": 0.0,
+            "MLPS_STT5590": 0.123517912,
+            "MLPS_STT5591": 0.0,
+            "MLPS_STT5595": 0.0,
+            "MLPS_STT5596": 0.0,
+            "SS_STT3705": 0.0,
+            "SS_STT5532": 0.180765228,
+            "SS_STT5533": 0.229778088,
+            "STT5688_Fetal_normal_lung": 0.151938513,
+            "STT5601_Adult_normal_lung": 0.0,
+            "STT5603_Adult_normal_lung": 0.128938995,
+            "STT5609_Adult_normal_uterus": 0.0,
+            "STT5610_Adult_normal_colon": 0.0,
+            "STT5680_Fetal_normal_bowel": 0.0,
+            "STT5681_Fetal_normal_bowel": 0.120116717,
+            "STT5682_Fetal_normal_bowel": 0.161395604,
+            "STT5683_Fetal_normal_kidney": 0.159014465,
+            "STT5684_Fetal_normal_kidney": 0.137337439,
+            "STT5685_Fetal_normal_kidney": 0.257466288,
+            "STT5686_Fetal_normal_lung": 0.189078345,
+            "STT5687_Fetal_normal_lung": 0.0,
+            "STT5588_Fetal_normal_lung": 0.110199508,
+            "STT5692_Adult_normal_colon": 0.0,
+            "STT5693_Adult_normal_colon": 0.129121496,
+            "STT5694_Adult_normal_kidney": 0.133148524,
+            "STT5695_Adult_normal_kidney": 0.0,
+            "STT5696_Adult_normal_kidney": 0.0,
+            "STT5697_Adult_normal_lung": 0.10289453,
+            "STT5698_Adult_normal_lung": 0.116909548,
+            "STT5699_Adult_normal_lung": 0.0,
+            "STT5425_Adult_normal_breast": 0.188930564,
+            "STT5451_Adult_normal_breast": 0.0,
+            "STT5510_Adult_normal_breast": 0.173478174,
+            "STT5620_Adult_normal_breast": 0.313052995,
+            "STT5761_Adult_normal_breast": 0.0
+          }
+        }
+      ],
+      "peak_count": 2,
+      "group_sums": {
+        "EMC": {
+          "EMC_STT5525": 0.0,
+          "EMC_STT5526": 0.0,
+          "EMC_STT5527": 0.0,
+          "EMC_STT5592": 0.0
+        },
+        "MLPS": {
+          "MLPS_STT5530": 0.0,
+          "MLPS_STT5531": 0.0,
+          "MLPS_STT5590": 0.123517912,
+          "MLPS_STT5591": 0.0,
+          "MLPS_STT5595": 0.185777738,
+          "MLPS_STT5596": 0.0
+        },
+        "SS": {
+          "SS_STT3705": 0.0,
+          "SS_STT5532": 0.180765228,
+          "SS_STT5533": 0.229778088
+        },
+        "unmatchednormal": {
+          "STT5688_Fetal_normal_lung": 0.607754051,
+          "STT5601_Adult_normal_lung": 0.307856973,
+          "STT5603_Adult_normal_lung": 0.526355668,
+          "STT5609_Adult_normal_uterus": 0.0,
+          "STT5610_Adult_normal_colon": 0.0,
+          "STT5680_Fetal_normal_bowel": 0.0,
+          "STT5681_Fetal_normal_bowel": 0.120116717,
+          "STT5682_Fetal_normal_bowel": 0.161395604,
+          "STT5683_Fetal_normal_kidney": 0.31802893,
+          "STT5684_Fetal_normal_kidney": 0.274674878,
+          "STT5685_Fetal_normal_kidney": 0.554762749,
+          "STT5686_Fetal_normal_lung": 0.283617518,
+          "STT5687_Fetal_normal_lung": 0.287423634,
+          "STT5588_Fetal_normal_lung": 0.421890786,
+          "STT5692_Adult_normal_colon": 0.0,
+          "STT5693_Adult_normal_colon": 0.333280507,
+          "STT5694_Adult_normal_kidney": 0.29622149600000003,
+          "STT5695_Adult_normal_kidney": 0.236272198,
+          "STT5696_Adult_normal_kidney": 0.0,
+          "STT5697_Adult_normal_lung": 0.281113085,
+          "STT5698_Adult_normal_lung": 0.295491832,
+          "STT5699_Adult_normal_lung": 0.061201645,
+          "STT5425_Adult_normal_breast": 0.883105783,
+          "STT5451_Adult_normal_breast": 1.109715285,
+          "STT5510_Adult_normal_breast": 0.586438829,
+          "STT5620_Adult_normal_breast": 1.479732625,
+          "STT5761_Adult_normal_breast": 0.968364168
+        }
+      },
+      "unreadable_notabsence": false
+    },
+    "FOLR1": {
+      "all_peaks": [
+        {
+          "annotation": {
+            "peak": "15594",
+            "hg18_coords": "chr11:71584770-71584831_+",
+            "classification": "coding",
+            "gene_id": "NM_016729",
+            "gene_symbol": "FOLR1",
+            "peak_exon_gene_symbol": "FOLR1",
+            "differentially_expressed_cancer_type": "LungAdeno_"
+          },
+          "values": {
+            "EMC_STT5525": 0.578164837,
+            "EMC_STT5526": 0.163592345,
+            "EMC_STT5527": 0.352767441,
+            "EMC_STT5592": 0.197541798,
+            "MLPS_STT5530": 0.0,
+            "MLPS_STT5531": 0.0,
+            "MLPS_STT5590": 0.0,
+            "MLPS_STT5591": 0.188273799,
+            "MLPS_STT5595": 0.185777738,
+            "MLPS_STT5596": 0.194637781,
+            "SS_STT3705": 0.161940885,
+            "SS_STT5532": 0.571629841,
+            "SS_STT5533": 0.0,
+            "STT5688_Fetal_normal_lung": 0.911631075,
+            "STT5601_Adult_normal_lung": 2.236529061,
+            "STT5603_Adult_normal_lung": 1.942661838,
+            "STT5609_Adult_normal_uterus": 0.0,
+            "STT5610_Adult_normal_colon": 0.165966009,
+            "STT5680_Fetal_normal_bowel": 0.372005893,
+            "STT5681_Fetal_normal_bowel": 0.416096513,
+            "STT5682_Fetal_normal_bowel": 0.322791207,
+            "STT5683_Fetal_normal_kidney": 1.113101254,
+            "STT5684_Fetal_normal_kidney": 1.373374393,
+            "STT5685_Fetal_normal_kidney": 0.951813089,
+            "STT5686_Fetal_normal_lung": 1.13447007,
+            "STT5687_Fetal_normal_lung": 1.522990634,
+            "STT5588_Fetal_normal_lung": 0.92855756,
+            "STT5692_Adult_normal_colon": 0.0,
+            "STT5693_Adult_normal_colon": 0.18260537,
+            "STT5694_Adult_normal_kidney": 2.006084794,
+            "STT5695_Adult_normal_kidney": 1.919484413,
+            "STT5696_Adult_normal_kidney": 1.307356991,
+            "STT5697_Adult_normal_lung": 3.111602736,
+            "STT5698_Adult_normal_lung": 3.02010046,
+            "STT5699_Adult_normal_lung": 0.761954334,
+            "STT5425_Adult_normal_breast": 0.876034988,
+            "STT5451_Adult_normal_breast": 0.453039368,
+            "STT5510_Adult_normal_breast": 0.469781117,
+            "STT5620_Adult_normal_breast": 1.90136568,
+            "STT5761_Adult_normal_breast": 2.004704285
+          }
+        }
+      ],
+      "peak_count": 1,
+      "group_sums": {
+        "EMC": {
+          "EMC_STT5525": 0.578164837,
+          "EMC_STT5526": 0.163592345,
+          "EMC_STT5527": 0.352767441,
+          "EMC_STT5592": 0.197541798
+        },
+        "MLPS": {
+          "MLPS_STT5530": 0.0,
+          "MLPS_STT5531": 0.0,
+          "MLPS_STT5590": 0.0,
+          "MLPS_STT5591": 0.188273799,
+          "MLPS_STT5595": 0.185777738,
+          "MLPS_STT5596": 0.194637781
+        },
+        "SS": {
+          "SS_STT3705": 0.161940885,
+          "SS_STT5532": 0.571629841,
+          "SS_STT5533": 0.0
+        },
+        "unmatchednormal": {
+          "STT5688_Fetal_normal_lung": 0.911631075,
+          "STT5601_Adult_normal_lung": 2.236529061,
+          "STT5603_Adult_normal_lung": 1.942661838,
+          "STT5609_Adult_normal_uterus": 0.0,
+          "STT5610_Adult_normal_colon": 0.165966009,
+          "STT5680_Fetal_normal_bowel": 0.372005893,
+          "STT5681_Fetal_normal_bowel": 0.416096513,
+          "STT5682_Fetal_normal_bowel": 0.322791207,
+          "STT5683_Fetal_normal_kidney": 1.113101254,
+          "STT5684_Fetal_normal_kidney": 1.373374393,
+          "STT5685_Fetal_normal_kidney": 0.951813089,
+          "STT5686_Fetal_normal_lung": 1.13447007,
+          "STT5687_Fetal_normal_lung": 1.522990634,
+          "STT5588_Fetal_normal_lung": 0.92855756,
+          "STT5692_Adult_normal_colon": 0.0,
+          "STT5693_Adult_normal_colon": 0.18260537,
+          "STT5694_Adult_normal_kidney": 2.006084794,
+          "STT5695_Adult_normal_kidney": 1.919484413,
+          "STT5696_Adult_normal_kidney": 1.307356991,
+          "STT5697_Adult_normal_lung": 3.111602736,
+          "STT5698_Adult_normal_lung": 3.02010046,
+          "STT5699_Adult_normal_lung": 0.761954334,
+          "STT5425_Adult_normal_breast": 0.876034988,
+          "STT5451_Adult_normal_breast": 0.453039368,
+          "STT5510_Adult_normal_breast": 0.469781117,
+          "STT5620_Adult_normal_breast": 1.90136568,
+          "STT5761_Adult_normal_breast": 2.004704285
+        }
+      },
+      "unreadable_notabsence": false
+    },
+    "F3": {
+      "all_peaks": [
+        {
+          "annotation": {
+            "peak": "28973",
+            "hg18_coords": "chr1:94767307-94767918_-",
+            "classification": "coding",
+            "gene_id": "NM_001993",
+            "gene_symbol": "F3",
+            "peak_exon_gene_symbol": "F3",
+            "differentially_expressed_cancer_type": "HN_"
+          },
+          "values": {
+            "EMC_STT5525": 0.513712938,
+            "EMC_STT5526": 0.163592345,
+            "EMC_STT5527": 0.839754477,
+            "EMC_STT5592": 0.197541798,
+            "MLPS_STT5530": 1.611065957,
+            "MLPS_STT5531": 0.38461779,
+            "MLPS_STT5590": 0.494071649,
+            "MLPS_STT5591": 0.0,
+            "MLPS_STT5595": 0.415411651,
+            "MLPS_STT5596": 0.307749354,
+            "SS_STT3705": 0.161940885,
+            "SS_STT5532": 0.313094558,
+            "SS_STT5533": 0.229778088,
+            "STT5688_Fetal_normal_lung": 0.151938513,
+            "STT5601_Adult_normal_lung": 0.994928033,
+            "STT5603_Adult_normal_lung": 1.086459282,
+            "STT5609_Adult_normal_uterus": 0.297612673,
+            "STT5610_Adult_normal_colon": 0.568902816,
+            "STT5680_Fetal_normal_bowel": 0.411267989,
+            "STT5681_Fetal_normal_bowel": 0.646848317,
+            "STT5682_Fetal_normal_bowel": 0.703507126,
+            "STT5683_Fetal_normal_kidney": 0.795072324,
+            "STT5684_Fetal_normal_kidney": 0.70698774,
+            "STT5685_Fetal_normal_kidney": 0.681191769,
+            "STT5686_Fetal_normal_lung": 0.189078345,
+            "STT5687_Fetal_normal_lung": 0.23915092,
+            "STT5588_Fetal_normal_lung": 0.397329977,
+            "STT5692_Adult_normal_colon": 1.038242367,
+            "STT5693_Adult_normal_colon": 1.420336452,
+            "STT5694_Adult_normal_kidney": 0.515682017,
+            "STT5695_Adult_normal_kidney": 0.668278695,
+            "STT5696_Adult_normal_kidney": 0.54129722,
+            "STT5697_Adult_normal_lung": 1.615476897,
+            "STT5698_Adult_normal_lung": 1.248252389,
+            "STT5699_Adult_normal_lung": 0.362073814,
+            "STT5425_Adult_normal_breast": 0.999726576,
+            "STT5451_Adult_normal_breast": 1.661144349,
+            "STT5510_Adult_normal_breast": 0.837979194,
+            "STT5620_Adult_normal_breast": 0.542223693,
+            "STT5761_Adult_normal_breast": 0.287119711
+          }
+        }
+      ],
+      "peak_count": 1,
+      "group_sums": {
+        "EMC": {
+          "EMC_STT5525": 0.513712938,
+          "EMC_STT5526": 0.163592345,
+          "EMC_STT5527": 0.839754477,
+          "EMC_STT5592": 0.197541798
+        },
+        "MLPS": {
+          "MLPS_STT5530": 1.611065957,
+          "MLPS_STT5531": 0.38461779,
+          "MLPS_STT5590": 0.494071649,
+          "MLPS_STT5591": 0.0,
+          "MLPS_STT5595": 0.415411651,
+          "MLPS_STT5596": 0.307749354
+        },
+        "SS": {
+          "SS_STT3705": 0.161940885,
+          "SS_STT5532": 0.313094558,
+          "SS_STT5533": 0.229778088
+        },
+        "unmatchednormal": {
+          "STT5688_Fetal_normal_lung": 0.151938513,
+          "STT5601_Adult_normal_lung": 0.994928033,
+          "STT5603_Adult_normal_lung": 1.086459282,
+          "STT5609_Adult_normal_uterus": 0.297612673,
+          "STT5610_Adult_normal_colon": 0.568902816,
+          "STT5680_Fetal_normal_bowel": 0.411267989,
+          "STT5681_Fetal_normal_bowel": 0.646848317,
+          "STT5682_Fetal_normal_bowel": 0.703507126,
+          "STT5683_Fetal_normal_kidney": 0.795072324,
+          "STT5684_Fetal_normal_kidney": 0.70698774,
+          "STT5685_Fetal_normal_kidney": 0.681191769,
+          "STT5686_Fetal_normal_lung": 0.189078345,
+          "STT5687_Fetal_normal_lung": 0.23915092,
+          "STT5588_Fetal_normal_lung": 0.397329977,
+          "STT5692_Adult_normal_colon": 1.038242367,
+          "STT5693_Adult_normal_colon": 1.420336452,
+          "STT5694_Adult_normal_kidney": 0.515682017,
+          "STT5695_Adult_normal_kidney": 0.668278695,
+          "STT5696_Adult_normal_kidney": 0.54129722,
+          "STT5697_Adult_normal_lung": 1.615476897,
+          "STT5698_Adult_normal_lung": 1.248252389,
+          "STT5699_Adult_normal_lung": 0.362073814,
+          "STT5425_Adult_normal_breast": 0.999726576,
+          "STT5451_Adult_normal_breast": 1.661144349,
+          "STT5510_Adult_normal_breast": 0.837979194,
+          "STT5620_Adult_normal_breast": 0.542223693,
+          "STT5761_Adult_normal_breast": 0.287119711
+        }
+      },
+      "unreadable_notabsence": false
+    },
+    "MET": {
+      "all_peaks": [
+        {
+          "annotation": {
+            "peak": "10941",
+            "hg18_coords": "chr7:116224946-116225658_+",
+            "classification": "coding",
+            "gene_id": "NM_000245",
+            "gene_symbol": "MET",
+            "peak_exon_gene_symbol": "MET",
+            "differentially_expressed_cancer_type": "LungAdeno_GIST_"
+          },
+          "values": {
+            "EMC_STT5525": 0.296592303,
+            "EMC_STT5526": 0.612106505,
+            "EMC_STT5527": 0.788811978,
+            "EMC_STT5592": 0.11405081,
+            "MLPS_STT5530": 0.0,
+            "MLPS_STT5531": 0.543931696,
+            "MLPS_STT5590": 0.2139393,
+            "MLPS_STT5591": 0.521306545,
+            "MLPS_STT5595": 0.491521694,
+            "MLPS_STT5596": 0.307749354,
+            "SS_STT3705": 0.583886165,
+            "SS_STT5532": 0.0,
+            "SS_STT5533": 0.0,
+            "STT5688_Fetal_normal_lung": 0.728671508,
+            "STT5601_Adult_normal_lung": 0.624206954,
+            "STT5603_Adult_normal_lung": 0.768242726,
+            "STT5609_Adult_normal_uterus": 0.458651932,
+            "STT5610_Adult_normal_colon": 0.342147692,
+            "STT5680_Fetal_normal_bowel": 0.480257542,
+            "STT5681_Fetal_normal_bowel": 0.550443948,
+            "STT5682_Fetal_normal_bowel": 0.684743555,
+            "STT5683_Fetal_normal_kidney": 0.993045015,
+            "STT5684_Fetal_normal_kidney": 0.846604834,
+            "STT5685_Fetal_normal_kidney": 0.860363837,
+            "STT5686_Fetal_normal_lung": 0.551253367,
+            "STT5687_Fetal_normal_lung": 0.869609511,
+            "STT5588_Fetal_normal_lung": 0.679315391,
+            "STT5692_Adult_normal_colon": 0.409488312,
+            "STT5693_Adult_normal_colon": 0.555372552,
+            "STT5694_Adult_normal_kidney": 0.729284502,
+            "STT5695_Adult_normal_kidney": 0.945088793,
+            "STT5696_Adult_normal_kidney": 0.796767934,
+            "STT5697_Adult_normal_lung": 0.682525101,
+            "STT5698_Adult_normal_lung": 0.685027435,
+            "STT5699_Adult_normal_lung": 0.173104392,
+            "STT5425_Adult_normal_breast": 0.790353255,
+            "STT5451_Adult_normal_breast": 1.448466988,
+            "STT5510_Adult_normal_breast": 0.679302373,
+            "STT5620_Adult_normal_breast": 0.500449808,
+            "STT5761_Adult_normal_breast": 0.101512147
+          }
+        }
+      ],
+      "peak_count": 1,
+      "group_sums": {
+        "EMC": {
+          "EMC_STT5525": 0.296592303,
+          "EMC_STT5526": 0.612106505,
+          "EMC_STT5527": 0.788811978,
+          "EMC_STT5592": 0.11405081
+        },
+        "MLPS": {
+          "MLPS_STT5530": 0.0,
+          "MLPS_STT5531": 0.543931696,
+          "MLPS_STT5590": 0.2139393,
+          "MLPS_STT5591": 0.521306545,
+          "MLPS_STT5595": 0.491521694,
+          "MLPS_STT5596": 0.307749354
+        },
+        "SS": {
+          "SS_STT3705": 0.583886165,
+          "SS_STT5532": 0.0,
+          "SS_STT5533": 0.0
+        },
+        "unmatchednormal": {
+          "STT5688_Fetal_normal_lung": 0.728671508,
+          "STT5601_Adult_normal_lung": 0.624206954,
+          "STT5603_Adult_normal_lung": 0.768242726,
+          "STT5609_Adult_normal_uterus": 0.458651932,
+          "STT5610_Adult_normal_colon": 0.342147692,
+          "STT5680_Fetal_normal_bowel": 0.480257542,
+          "STT5681_Fetal_normal_bowel": 0.550443948,
+          "STT5682_Fetal_normal_bowel": 0.684743555,
+          "STT5683_Fetal_normal_kidney": 0.993045015,
+          "STT5684_Fetal_normal_kidney": 0.846604834,
+          "STT5685_Fetal_normal_kidney": 0.860363837,
+          "STT5686_Fetal_normal_lung": 0.551253367,
+          "STT5687_Fetal_normal_lung": 0.869609511,
+          "STT5588_Fetal_normal_lung": 0.679315391,
+          "STT5692_Adult_normal_colon": 0.409488312,
+          "STT5693_Adult_normal_colon": 0.555372552,
+          "STT5694_Adult_normal_kidney": 0.729284502,
+          "STT5695_Adult_normal_kidney": 0.945088793,
+          "STT5696_Adult_normal_kidney": 0.796767934,
+          "STT5697_Adult_normal_lung": 0.682525101,
+          "STT5698_Adult_normal_lung": 0.685027435,
+          "STT5699_Adult_normal_lung": 0.173104392,
+          "STT5425_Adult_normal_breast": 0.790353255,
+          "STT5451_Adult_normal_breast": 1.448466988,
+          "STT5510_Adult_normal_breast": 0.679302373,
+          "STT5620_Adult_normal_breast": 0.500449808,
+          "STT5761_Adult_normal_breast": 0.101512147
+        }
+      },
+      "unreadable_notabsence": false
+    }
+  },
+  "allocation": {
+    "ERBB2": {
+      "appreciable_context_pass": true,
+      "all3_marginal_matched_rank_pass": false,
+      "array_LGFMS_replication_pass": false,
+      "RNA_allocation_rule_pass": false,
+      "not_protein_or_benefit": true
+    },
+    "TACSTD2": {
+      "appreciable_context_pass": false,
+      "all3_marginal_matched_rank_pass": false,
+      "array_LGFMS_replication_pass": false,
+      "RNA_allocation_rule_pass": false,
+      "not_protein_or_benefit": true
+    },
+    "NECTIN4": {
+      "appreciable_context_pass": false,
+      "all3_marginal_matched_rank_pass": false,
+      "array_LGFMS_replication_pass": false,
+      "RNA_allocation_rule_pass": false,
+      "not_protein_or_benefit": true
+    },
+    "FOLR1": {
+      "appreciable_context_pass": false,
+      "all3_marginal_matched_rank_pass": false,
+      "array_LGFMS_replication_pass": false,
+      "RNA_allocation_rule_pass": false,
+      "not_protein_or_benefit": true
+    },
+    "F3": {
+      "appreciable_context_pass": false,
+      "all3_marginal_matched_rank_pass": false,
+      "array_LGFMS_replication_pass": false,
+      "RNA_allocation_rule_pass": false,
+      "not_protein_or_benefit": true
+    },
+    "MET": {
+      "appreciable_context_pass": true,
+      "all3_marginal_matched_rank_pass": false,
+      "array_LGFMS_replication_pass": false,
+      "RNA_allocation_rule_pass": false,
+      "not_protein_or_benefit": true
+    }
+  },
+  "limits": [
+    "Primary9 onlyknown-overlap-excluded, notgloballyindependentdonors;all13conditionsretained.",
+    "RNA/array/3SEQ/culture scales notpooled;RNA notcelllocalization/protein/ADCbenefit.",
+    "WholeGene/TF solubleisoform/normaladmixture means clinicaladdress unresolved.",
+    "FOLR1highoutliers knownDavis2017;HER2EMC phaseI condition/cMetIHC sourcepending;no novelty/globalcoverage claim."
+  ]
+}

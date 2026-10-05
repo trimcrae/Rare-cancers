@@ -1,0 +1,46 @@
+{
+  "schema": "emc-fixed-FDA-ADC-pilot/1",
+  "frozen_utc": "2026-10-05T01:05:22.440535+00:00",
+  "universe_sha256": "bf76dd9b7f85915fe2c2373df05cc9170d295395017353a703e8b2b73a28e572",
+  "question": "Among the complete source-audited FDA solidtumor ADCtarget panel, is there an appreciable/reproducibly elevated EMC transcript contrast adding useful disease-specific information for prioritized tissue-localization testing beyond prior expression screens?",
+  "fixed_panel": [
+    "ERBB2",
+    "TACSTD2",
+    "NECTIN4",
+    "FOLR1",
+    "F3",
+    "MET"
+  ],
+  "prior_exposure": "Previous surface work ERBB2flatboth/METone-moved-oneflat/NECTIN4unreadableolderinstrument; NECTIN4aliasPVRL4 sourceaudit needed. FOLR1highRNA outliers already Davis2017 DOI10.18632/oncotarget.15568(5RNA-evaluable metastaticEMC,2outliers). Prior allgene screen exists. This is exploratory source/contrast re-evaluation, not untouched blinded discovery; unchangedknownRNA/selectedhighcases are not contribution. No newtargetvalues read yet.",
+  "primary_sources": [
+    "Hofvander704columns/all13EMC conditions;primary9 after3known historical overlaps and1LR excluded, not provenindependent donors",
+    "GSE24369/all6EMC/all42sample controls",
+    "GSE4303/all10EMC/all16conditions, ratios descriptive only",
+    "GSE28866/all4EMC/allMLPS6/SS3 plus unmatched27normalcontext",
+    "Known authentic accessible V1-34/USZ22/USZ23 cultureconditions;source-gated currentofficialGeneRefSeq mapping, missing/historicalmapping limits"
+  ],
+  "primary_comparators": [
+    "Myxoid liposarcoma",
+    "Low-grade fibromyxoid sarcoma",
+    "Synovial sarcoma"
+  ],
+  "context_comparators": "Allsourcehistologies separately descriptive;GSE24369MFS/desmoid/SFT/musclepool;normalorgans unmatched, notsafety;no comparatorchosen aftervalues.",
+  "fixed_tests": {
+    "expression_context": "PrimaryRNA median>=5TPM and at least8/9primaryrows>=1TPM (allocationcontext, notproteinpositivity); allhigh/lowconditions preserved.",
+    "elevated_contrast": "A>=0.8 vsALLthreeprimaryhistologies marginal andavailableyearmatched; GSE24369LGFMS A>=0.8 in same direction. All13inclusion/singleprimarydeletion checks direction retained; no highcase/fusionsubset rescue.",
+    "metrics": "Allvalues/medianrange;half-tiesrankA;withinyearpairweightedA;cohortconditionalbootstrap95%CI seed20261005 B10000;one-sidedMannWhitney p exactunless ties; IUT=max3comparators thenHolm6 exploratorycorrection. No confirmatoryclaim from priorbroadscreen exposure.",
+    "probe_map": "AllunambiguousGPL6244 sourcegene assignmentclusters mapping officialacceptedaliases,medianpergene/sample;everycluster/ambiguity retained. GPL3290 cachedbridge provenancequalified;no expressiondependentprobechoice.3SEQ all exactsource-single-symbol peaks/sums;missingpeaks unavailable notzero."
+  },
+  "advance_gate": "Only a measuredRNA contrast passing frozenrule with a genuinelyuseful unanswered tissue-localization question after fullprimarypriorart/relevantpublicEMCcoverage and independentvaluechallenge. Protein/uptake/dependency/ADCbenefit never inferred.",
+  "strongest_alternative": "Bulkstromal/epithelial/normaladmixture, generalnonspecific expression, isoform/annotation/sourceyear confounding/unresolveddonoroverlap; solubleTF/receptor isoforms maynot be ADC-addressable surface.",
+  "shelve_gate": "Unchangedknownresult, failedappreciable/reproduciblecontrast, positiveRNAwithno usefulnoveladdition or suitablependingevidence blocks advancement. Failedinventedpanel notnegativepaper.",
+  "pilot_deadline_utc": "2026-10-05T01:35:22.440535+00:00",
+  "raw_source_cap_bytes": 67108864,
+  "disk_floor_gib": 10,
+  "restrictions": [
+    "Onlyexplicitownedpaths;leadcontrolsintegration/push",
+    "Nobrowser06-10NY;quietAPI/files",
+    "NorestrictedFAP/glycan/structgen/HLA bypass",
+    "Nopaid/GPU/outreach/publication/externalrecord/PR;TMEM266shelved"
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "utc": "2026-10-05T01:30:38.979773+00:00",
+  "decision": "SHELVE fixed FDA solid-tumor ADC-antigen allocation pilot",
+  "panel": [
+    "ERBB2",
+    "TACSTD2",
+    "NECTIN4",
+    "FOLR1",
+    "F3",
+    "MET"
+  ],
+  "summary": {
+    "ERBB2": {
+      "primary9_median_TPM": 17.97,
+      "primary9_ge1": 9,
+      "primary_A": {
+        "Myxoid liposarcoma": 0.6190476190476191,
+        "Low-grade fibromyxoid sarcoma": 0.09401709401709402,
+        "Synovial sarcoma": 0.043209876543209874
+      },
+      "LGFMS_array_A": 0.1568627450980392,
+      "USZ23_current_mRNA_TPM": 25.779180999999998,
+      "allocation_pass": false
+    },
+    "TACSTD2": {
+      "primary9_median_TPM": 0.24,
+      "primary9_ge1": 1,
+      "primary_A": {
+        "Myxoid liposarcoma": 0.4444444444444444,
+        "Low-grade fibromyxoid sarcoma": 0.13675213675213677,
+        "Synovial sarcoma": 0.3734567901234568
+      },
+      "LGFMS_array_A": 0.30392156862745096,
+      "USZ23_current_mRNA_TPM": 0.0,
+      "allocation_pass": false
+    },
+    "NECTIN4": {
+      "primary9_median_TPM": 0.02,
+      "primary9_ge1": 0,
+      "primary_A": {
+        "Myxoid liposarcoma": 0.2976190476190476,
+        "Low-grade fibromyxoid sarcoma": 0.23931623931623933,
+        "Synovial sarcoma": 0.4166666666666667
+      },
+      "LGFMS_array_A": 0.46078431372549017,
+      "USZ23_current_mRNA_TPM": 0.0,
+      "allocation_pass": false
+    },
+    "FOLR1": {
+      "primary9_median_TPM": 0.55,
+      "primary9_ge1": 4,
+      "primary_A": {
+        "Myxoid liposarcoma": 0.5833333333333334,
+        "Low-grade fibromyxoid sarcoma": 0.8290598290598291,
+        "Synovial sarcoma": 0.9104938271604939
+      },
+      "LGFMS_array_A": 0.28431372549019607,
+      "USZ23_current_mRNA_TPM": 4.692244,
+      "allocation_pass": false
+    },
+    "F3": {
+      "primary9_median_TPM": 3.46,
+      "primary9_ge1": 8,
+      "primary_A": {
+        "Myxoid liposarcoma": 0.3333333333333333,
+        "Low-grade fibromyxoid sarcoma": 0.0,
+        "Synovial sarcoma": 0.5339506172839507
+      },
+      "LGFMS_array_A": 0.35294117647058826,
+      "USZ23_current_mRNA_TPM": 1.351314,
+      "allocation_pass": false
+    },
+    "MET": {
+      "primary9_median_TPM": 6.12,
+      "primary9_ge1": 9,
+      "primary_A": {
+        "Myxoid liposarcoma": 0.7222222222222222,
+        "Low-grade fibromyxoid sarcoma": 0.7521367521367521,
+        "Synovial sarcoma": 0.5493827160493827
+      },
+      "LGFMS_array_A": 0.7352941176470589,
+      "USZ23_current_mRNA_TPM": 8.486305,
+      "allocation_pass": false
+    }
+  },
+  "validity": "Frozen6target rules and all eligible retained source EMC conditions evaluated; mapping QA repaired before accepted culture result. RNA estimates do not establish protein, addressability, dependency, normal safety or ADC response.",
+  "value": "Appreciable ERBB2/MET not comparator-reproducibly enriched; FOLR1 prior high-case finding/contrary array; others do not pass abundance/contrast. No publication-worthy contribution survived.",
+  "reopen_conditions": [
+    "Authenticated EMC tumor-cell membrane protein with relevant comparator/normal protein context and a useful question beyond existing outlier/ADC source.",
+    "Complete EMC-linked clinical HER2/response and c-Met source observations could revise clinical source coverage; do not rescue failed RNA thresholds.",
+    "A new prospectively justified source-qualified contrast with complete eligible public observations and external biological value."
+  ],
+  "remaining": "Search not exhausted. Pending sources/models/protein conditions retained; TMEM266 and previous questions remain shelved.",
+  "forbidden_extrapolations": [
+    "No negative therapeutic efficacy claim",
+    "No antigen/protein absence claim",
+    "No independent9donor/all-array replication claim",
+    "No manuscript/publication approval"
+  ]
+}
