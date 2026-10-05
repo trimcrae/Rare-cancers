@@ -1,0 +1,52 @@
+{
+  "utc": "2026-10-05T14:17:48.472773+00:00",
+  "status": "OFF; documentation/proposal only, root exactrequest review required beforeexecution",
+  "purpose": "Narrow old broader-public-source eligibility: do fourcurrentlylistedCPTAC namespaces expose explicitEMC/MLPS/SS diagnoses? Metadata resultalone neitherauthenticatesmolecularEMC norclinical1998release norprovesnootherEMCs.",
+  "method": "GET",
+  "genuine_method_and_template": "Originalapp.py unique_field_intereset, ApiRoutes.PATIENTS_METADATA_FIELD_VALUES; field-onlycolumnselection then dropna/unique/stringify/sorted/jsonify.",
+  "documented_index_rule": "Observed cohort_names response order and sourcefrontendindexOf(name) match backendintended names/index getter; livebackendrevision/configalignment conditional.",
+  "requests": [
+    {
+      "documented_zero_based_index": 0,
+      "observed_cohort_name": "LUAD_CPTAC",
+      "url": "https://topas-portal.kusterlab.org/master_topas-portal_backend/0/metadata/fields/primary_diagnosis"
+    },
+    {
+      "documented_zero_based_index": 1,
+      "observed_cohort_name": "BRCA_CPTAC",
+      "url": "https://topas-portal.kusterlab.org/master_topas-portal_backend/1/metadata/fields/primary_diagnosis"
+    },
+    {
+      "documented_zero_based_index": 2,
+      "observed_cohort_name": "UCEC_CPTAC",
+      "url": "https://topas-portal.kusterlab.org/master_topas-portal_backend/2/metadata/fields/primary_diagnosis"
+    },
+    {
+      "documented_zero_based_index": 3,
+      "observed_cohort_name": "CPTAC_PAN_Cancer",
+      "url": "https://topas-portal.kusterlab.org/master_topas-portal_backend/3/metadata/fields/primary_diagnosis"
+    }
+  ],
+  "field_mask": [
+    "primary_diagnosis only"
+  ],
+  "excluded": [
+    "IDs/wholepatientrecords for thisstage",
+    "treatmentoutcomes",
+    "all biochemical/site/protein/kinasevalues",
+    "unlistedcohorts",
+    "HLA/FAP/glycan/structural fields"
+  ],
+  "response_expected": "JSONarray ofunique diagnosisstrings, no identifiers/counts/treatment fields. Source doesnotreturn numberofpatients, so no denominator/donorcount inferred.",
+  "maximum_response_bytes_each": 65536,
+  "maximum_total_response_bytes": 262144,
+  "access_stop": "No credentials/cookies/tokens/account; stopredirect/login401/403 or anyerror; no retry/challengebypass. Stopbeforeusingbodyifresponse notJSONarray ofstrings or contains unexpected row/fieldstructure. Save rawonly ignored underauthorizedfinite stage and compactactualdiagnosisdispositions.",
+  "ambiguities_for_root": [
+    "Deployedbackendchoice/revision and cachedconfig-order consistency unknown",
+    "SQL separatepatientmetadata pathdictionary order notverified",
+    "Globalruntime/proxyaccess policy unknown; source decorators alone notpromiseanonymousaccess",
+    "FourCPTACcohorts notsource-linked1998release"
+  ],
+  "scientific_gate": "Even explicitlabels require sourceauthentication/allcondition/case-to-assay links andfixedcomparison priorart/use gate; no target/posthocsite hunt orpromotion onmetadata.",
+  "no_calls_executed": true
+}

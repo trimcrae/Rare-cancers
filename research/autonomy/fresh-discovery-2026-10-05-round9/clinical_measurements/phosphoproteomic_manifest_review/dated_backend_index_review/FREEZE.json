@@ -1,0 +1,70 @@
+{
+  "utc": "2026-10-05T14:20:23.575048+00:00",
+  "prior_docfreeze_sha256": "98ee5308e8aa232d394f38a88d1d2ef74814c1aedc2d25ed86d5014d1316af70",
+  "prior_sciencefreeze_sha256": "490da03d703fff7519096c2c0ef6ccc5175f74f784276985c2d3fe2a4c9dc1a1",
+  "scope": "Public backend schema/index implementation documentation only; no clinical/API/outcome call",
+  "bindings": [
+    {
+      "file": ".gitignore",
+      "bytes": 27,
+      "sha256": "1e0d2c1f806ce5efa459d1dc286e71c0b50f083b5f4f9ae87420722b38ff2be8"
+    },
+    {
+      "file": "ACCESS.json",
+      "bytes": 1962,
+      "sha256": "ebf3d0fa0f45e2ceaacc0f955bbced4d75d8ce3ada13f36f671d52856f21f2d0"
+    },
+    {
+      "file": "BACKEND-INDEX-MAPPING.json",
+      "bytes": 2735,
+      "sha256": "59c9ebf73c960ff0622f3a56c564f634066e8f7cab336538ed71d8c884baeed0"
+    },
+    {
+      "file": "EXACT-METADATA-REQUEST-PROPOSAL.json",
+      "bytes": 3034,
+      "sha256": "ab392f5cb5c35f9698c8a968823d6123d40fefb247de902723dbb9397a7565d4"
+    },
+    {
+      "file": "PLAN.json",
+      "bytes": 2884,
+      "sha256": "622f288f24f4a23d9d063bde75da065bab6ecaf4c834fa0188ebf2681e306cda"
+    },
+    {
+      "file": "PORTABILITY.json",
+      "bytes": 3904,
+      "sha256": "0927b35879481d01ce1cbc1b60eca16f4943a5dcb5421f5a5ea01ba472050d6e"
+    },
+    {
+      "file": "PROVIDER-DOCUMENT-ACCESS.json",
+      "bytes": 1485,
+      "sha256": "53c744b8ce5ea1ac2be9484539418dbcc2c7d66da2549566d42c802cf04c72a2"
+    },
+    {
+      "file": "PROVIDER-DOCUMENT-PLAN.json",
+      "bytes": 1265,
+      "sha256": "147ec4c5fff5cee2d518fa629626caa247240866fc6411ee62394a617456d2ce"
+    },
+    {
+      "file": "REPORT.txt",
+      "bytes": 1052,
+      "sha256": "da580415289859da33feeb6a22fef5c7e0f9a293696af5cc79c663a07c57b5ef"
+    },
+    {
+      "file": "ROOT-STAGE-BOUNDARY.json",
+      "bytes": 702,
+      "sha256": "535e273010adf78f9eb434cd7214c2d55776779c32eef5ba7c6b2a18f1d74266"
+    },
+    {
+      "file": "VERIFICATION.json",
+      "bytes": 5630,
+      "sha256": "3ca2a95bb8eec193fffdac5a57b79f729d994ee1e3c751ec9eee96a2cc0b5d52"
+    },
+    {
+      "file": "verify_backend_index_gate.py",
+      "bytes": 4914,
+      "sha256": "80d2d431dcfa8d65ec96365b851a7c7734ec013c991d22274a47503abd1eb3ee"
+    }
+  ],
+  "verification_checks": 61,
+  "decision": "Intended0-based mapping documented; runtimeauth/backendversion/configalignment conditional. Root separatelyauthorizesowner finite4field-onlydiagnosisrequests afterdocfreeze; independentnewresponsecheck willbeadditive, no data/biochemicalstage."
+}

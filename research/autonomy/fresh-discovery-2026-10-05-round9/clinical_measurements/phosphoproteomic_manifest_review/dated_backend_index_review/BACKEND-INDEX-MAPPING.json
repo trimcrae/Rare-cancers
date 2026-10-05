@@ -1,0 +1,38 @@
+{
+  "utc": "2026-10-05T14:17:48.472773+00:00",
+  "source_read_scope": "Only publicschema class and cohortindex/metadata loader/provider implementations; no actualconfigfile,secret/environment values,sourceexecution or biochemical/patient data.",
+  "mapping": [
+    {
+      "implementation": "CohortConfig",
+      "source": "config.py",
+      "get_names": "list(report_directory.keys()), preservingdictionary key order",
+      "get_name_index": "cached cohort_names.index(cohort_name)",
+      "get_directory_index": "enumerates report_directory.items()",
+      "get_directory": "list(report_directory.values())[int(index)]",
+      "limitation": "get_names reads currentconfiguration throughhelper whereas cachednames/provider may reflect previousload; liveconfiguration ordering/reload consistency unverified."
+    },
+    {
+      "implementation": "InMemoryCohortDataAPI + InMemoryProvider",
+      "sources": [
+        "in_memory.py",
+        "provider-in_memory.py"
+      ],
+      "load": "provider.load_tables obtains names from sameconfig; computes get_cohort_index(name); load_single_cohort passes name/index and checks stored data_layer cohort_name equals expectedname before replacingframe.",
+      "metadata": "patient_metadata_df indexed by int(cohort_index); patientannotation source path selectedby explicit cohortname key.",
+      "limitation": "Intended mapping verified inpublicsource, not a livebackendrevision/loadstate assertion."
+    },
+    {
+      "implementation": "SQLCohortDataAPI + SQLProvider",
+      "sources": [
+        "sql.py",
+        "provider-sql.py"
+      ],
+      "load": "provider.load_tables uses sameget_cohort_index(name); patientmetadata imported with cohort_id=index; getter selectsWHEREcohort_id=index.",
+      "metadata": "Importer selects get_patients_metadata_path(index); schema implements list(patient_annotation_path.values())[int(index)].",
+      "limitation": "Separatepatient_annotation_path dictionary order mustmatch report_directory order. No liveconfig alignment/backendchoice/revision verified. Couldnot claim actualpatientlabel/sourceidentity from code alone."
+    }
+  ],
+  "frontend_peer_scope": "CohortSelect owner provesindexOf(name) zero-based. Existing deployedappbundle responseforeach pushes cohort_names order toall_cohorts andfield-onlyGET transport. Exactpeerfrozenbindings pending; no duplicated sourcefetch.",
+  "authentication": "Originalsource routes show defaultGET and no specificauthenticationdecorator; runtimepublic/proxyauthorization untested. No credentials/token/login/private/admin calls.",
+  "source_condition": "This is four currentCPTAC-labelled publiccohort namespace, not1998MASTER/CATCH/INFORMrelease. No disease/model or donorindependence transfer."
+}

@@ -1,0 +1,46 @@
+{
+  "utc": "2026-10-05T14:10:15.740880+00:00",
+  "deadline_utc": "2026-10-05T14:21:24Z",
+  "parent_authorization": "New12minute documentation stage: public imported backend implementation/index mapping and directlyreferenced publicconfig schema allowed; no actualsecret/configcredentials,liveenvironment or patient/API calls.",
+  "prior_commit": "64fc5a43cdb120fa9fb8c34536debe17b7306a16",
+  "prior_dated_freeze_sha256": "98ee5308e8aa232d394f38a88d1d2ef74814c1aedc2d25ed86d5014d1316af70",
+  "question": "Do public schema/index-getter implementations map cohort_names response positions tointegercohort_index identically across the documented memory/SQL backends, enabling an exact diagnosis-only source-eligibility request for rootreview?",
+  "genuine_files": [
+    {
+      "repo_path": "flask-backend/config.py",
+      "url": "https://raw.githubusercontent.com/kusterlab/topas-portal/master/flask-backend/config.py",
+      "git_blob_sha": "b70b08f9bea0770e645d44468eba8dd2d2609ba7",
+      "expected_bytes": 3880
+    },
+    {
+      "repo_path": "flask-backend/topas_portal/data_api/in_memory.py",
+      "url": "https://raw.githubusercontent.com/kusterlab/topas-portal/master/flask-backend/topas_portal/data_api/in_memory.py",
+      "git_blob_sha": "9f5ae59735bcd8dbeaa7fdb3cbe01ab703e74146",
+      "expected_bytes": 6737
+    },
+    {
+      "repo_path": "flask-backend/topas_portal/data_api/sql.py",
+      "url": "https://raw.githubusercontent.com/kusterlab/topas-portal/master/flask-backend/topas_portal/data_api/sql.py",
+      "git_blob_sha": "8916352ca47271c82c6e59fa4a918c8c0f66ec01",
+      "expected_bytes": 12958
+    }
+  ],
+  "basis": "CohortDataAPI directly TYPE_CHECKING-imports config.CohortConfig; actualpublic authorrepo tree lists these codefiles/blobs. InMemory/SQL files implement the genuine protocol; review theirmetadata/index functions only.",
+  "read_mask": "Classschema cohortnames/indexgetter, constructor ordering and patientmetadata key access/response/exception behavior only. Skip secrets/password/token/environment/configvalues, admin/private/score/biochemical/structural/HLA/FAP/glycan handlers. No source execution/configfile read.",
+  "allowed_eventual_fields": [
+    "pseudonymouscase/donor/conditionIDs",
+    "diagnosis/entity",
+    "site",
+    "grade",
+    "year",
+    "type",
+    "batch"
+  ],
+  "excluded_fields": [
+    "treatmentoutcomes",
+    "allbiochemicalvalues"
+  ],
+  "before_values": "No patient/diagnosis/API calls. Frontend exactly CohortSelect.vue/PatientComponent.vue issourceowner branch, notduplicated. Actualliveauthorization remainsunknown; route provenance/specificrequest parameters/fieldmask/response bound go toroot BEFOREanycall.",
+  "storage": "<=8MiB additional source raw; alloriginals ignored,sharedzerocopy,free>=10GiB; originalscientific/doc freezes unchanged, Codexboth/no sharedwrites/push.",
+  "free_bytes": 27130466304
+}
