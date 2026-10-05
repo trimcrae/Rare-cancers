@@ -1,0 +1,35 @@
+{
+  "utc": "2026-10-05T11:05:30.456037+00:00",
+  "scope": "Prospective RET new-source PRIOR-ART and SCIENTIFIC VALUE only; not new-case identity/assay validation and not completed primary-source coverage review.",
+  "input_plan": {
+    "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/RET-PLAN-FROZEN.json",
+    "sha256": "a38aeadacce369d6258c77425f72c02cea39f2cc35b600155d7e849674862f65"
+  },
+  "prior_primary": {
+    "PMID": "24703573",
+    "DOI": "10.1016/j.ejca.2014.03.013",
+    "title": "Activity of sunitinib in extraskeletal myxoid chondrosarcoma.",
+    "cache_path": "../sources/ret_emc_prior.json",
+    "sha256": "d62aa04f1ab5e6fa0e5191ae310a92fd8525bf80e56464dc590ad10b274040a5",
+    "observation": "Primary abstract describes10progressive metastatic translocatedEMC patients, limited transcriptome/IHC/biochemical target analysis, and explicitly reports RET expressed AND activated. No site-specific peptide, antibody, specimen-condition or measured-sample denominator is exposed in the abstract.",
+    "short_primary_quote": "Among putative sunitinib targets, only RET was expressed and activated in analysed samples.",
+    "coverage_limit": "Full2014primary/direct assay/case tables unavailable in prior cloud receipt; no assumption that Y905/Y1062 were absent or that biochemical prior art was merely RNA. Two2012sunitinibcases are source-described continuation precursor, not independent2014replication.",
+    "excluded_scope": "Do not explore structural rearrangement mechanisms; diagnostic fusion labels only eligibility context."
+  },
+  "search": {
+    "receipts": "RET-PRIOR-QUERY-RECEIPTS.json",
+    "literal_EMC_plus_RET_phosphorylation_or_sunitinib_titleabstract": 35,
+    "literal_EMC_direct_site_or_activation_fulltext_metadata_hits": 3,
+    "interpretation": "Metadata query recovery, not full evaluation of every hit. Direct exactsite query misses general biochemical wording, so its sparse hits cannot support no published phosphorylation."
+  },
+  "scientific_validity_limits": [
+    "Direct-site abundance with matched total can support a sample-level comparative phosphorylation proxy; it is not calibrated fractional site occupancy without matched assay calibration.",
+    "Y905 and Y1062 are separate prespecified sites, with potentially different functional roles; phosphorylation alone does not show receptor dependence, a cell compartment, RET-exclusive kinase signal or clinical susceptibility.",
+    "No imputed phosphopeptide absence, RNA denominator substitution or TOPAS-only score substitution for direct RET site/total.",
+    "Bulk tissue mixture, donor repetitions, specimen-site/treatment and preanalytical handling remain source/assay comparability constraints assessed independently by radiotherapy."
+  ],
+  "value_decision": "Generic first RET activation or activity beyond known RNA is not novel. A complete fixed comparator phosphosite/total pattern might still be distinct, but must materially add a discriminating measurement beyond published limited activation; site and donor/case details, fullsource novelty comparison and eligible assay remain pending before values. A platform demonstration or richer cohort alone is not a disease discovery.",
+  "recommendation": "Retain original frozen plan, add a dated prior-art scope amendment before values clarifying already-published activation and exact distinct comparative endpoint/use; do not change sites/controls to hunt positive. No manuscript/promotion until all valid source/novelty/value gates pass.",
+  "decision": "PENDING authenticated new-source and distinct useful comparative measurement, not endorsed finding",
+  "methylation_scope": "Newer long-read/classifier gates remain separate and awaited; no DMR values read."
+}

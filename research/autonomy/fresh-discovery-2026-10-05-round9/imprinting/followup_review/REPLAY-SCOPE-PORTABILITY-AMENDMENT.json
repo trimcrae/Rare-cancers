@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-05T11:10:56.460074+00:00",
+  "original_FREEZE_sha256": "180b23ffe01bd11189abd862d658e12a50f11d161d6fa932522da54d342d453c",
+  "original_science_unchanged": true,
+  "replay_inventory_scope": "Original analyze_assay.py inventories all sources/ files at runtime. Later followup literature metadata files make a replay all_sources inventory a superset of historical ASSAY-GATE. This is additive provenance, not a changed methylation input.",
+  "exact_validation": "Compare original scientific/reference/interval/platform/mapping fields excluding UTC; require every original all_sources key, byte count and SHA256 unchanged. Any additional files must have explicit later retrieval receipts and remain outside original methylation assay analysis. Do not use full replay JSON byte equality or silently overwrite original binding.",
+  "postfreeze_inputs": "sources/ret_emc_prior.json and ret_emc_site.json, followup_review/RET-PRIOR-QUERY-RECEIPTS.json; they are not methylation data or original pilot inputs."
+}
