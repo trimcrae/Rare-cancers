@@ -1,0 +1,540 @@
+{
+  "review_utc": "2026-10-05T20:02:58.622810+00:00",
+  "gates": [
+    {
+      "owner": "radiotherapy",
+      "commit": "44775a9a5fb483bfdc07d7730b83c58f01775eaa",
+      "freeze_review_location": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/native_quantitative_imaging_question_gate/SCIENCE-FREEZE.json",
+      "freeze_repository_relative_location": "research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/native_quantitative_imaging_question_gate/SCIENCE-FREEZE.json",
+      "freeze_sha256": "28e2d38b7968141e0902a3b0dae07fd28a7da3dd6bec8dabf542a43bd8124e0e",
+      "checks": [
+        {
+          "check": "announced exact scientific freeze",
+          "expected_sha256": "28e2d38b7968141e0902a3b0dae07fd28a7da3dd6bec8dabf542a43bd8124e0e",
+          "actual_sha256": "28e2d38b7968141e0902a3b0dae07fd28a7da3dd6bec8dabf542a43bd8124e0e",
+          "pass": true
+        },
+        {
+          "path": ".gitignore",
+          "expected_sha256": "0b8cf3dd43d5bb8e63a4b4a0604e411dfd6f02df9f9bed4a1657996879e6d4cb",
+          "actual_sha256": "0b8cf3dd43d5bb8e63a4b4a0604e411dfd6f02df9f9bed4a1657996879e6d4cb",
+          "bytes": 24,
+          "pass": true
+        },
+        {
+          "path": "ALL-SOURCE-CONDITIONS-AND-COVERAGE.json",
+          "expected_sha256": "66231c2bdfc4660238f3a22e858c743eeab381c64fda0b6e4f8c07b73bd17922",
+          "actual_sha256": "66231c2bdfc4660238f3a22e858c743eeab381c64fda0b6e4f8c07b73bd17922",
+          "bytes": 8283,
+          "pass": true
+        },
+        {
+          "path": "AMENDMENT-01-EXTERNAL-RULE-SELECTION-AND-EXPOSURE.json",
+          "expected_sha256": "9ad949c9b44ae131ff8515f4cce58aa71b02b487d8bb9a4b5e48bcc1626b219c",
+          "actual_sha256": "9ad949c9b44ae131ff8515f4cce58aa71b02b487d8bb9a4b5e48bcc1626b219c",
+          "bytes": 953,
+          "pass": true
+        },
+        {
+          "path": "AMENDMENT-02-DUAL-TIME-PRIMARY-SELECTION.json",
+          "expected_sha256": "251ca582a6a77e986ab0c3ad797ef25f6d3037f89ec46120fb2e196ffabfc08d",
+          "actual_sha256": "251ca582a6a77e986ab0c3ad797ef25f6d3037f89ec46120fb2e196ffabfc08d",
+          "bytes": 1196,
+          "pass": true
+        },
+        {
+          "path": "DECISION.json",
+          "expected_sha256": "a4d852c557a3ff7185d338acbd3ec3485e7cdec170f3246287aa357d321f4315",
+          "actual_sha256": "a4d852c557a3ff7185d338acbd3ec3485e7cdec170f3246287aa357d321f4315",
+          "bytes": 2245,
+          "pass": true
+        },
+        {
+          "path": "DUAL-TIME-PRIMARY-SOURCE-RECEIPT.json",
+          "expected_sha256": "6294cd4364980cc647284039b8efeeedc7e65ae1379df3cf970f0d8b8d519f38",
+          "actual_sha256": "6294cd4364980cc647284039b8efeeedc7e65ae1379df3cf970f0d8b8d519f38",
+          "bytes": 437,
+          "pass": true
+        },
+        {
+          "path": "DUAL-TIME-SOURCE-METHOD-IDENTITY-CLAIM-GATE.json",
+          "expected_sha256": "e221844becb82f993a9d46a916f067ec62236c0f3744e7da92be3d36b4202671",
+          "actual_sha256": "e221844becb82f993a9d46a916f067ec62236c0f3744e7da92be3d36b4202671",
+          "bytes": 6802,
+          "pass": true
+        },
+        {
+          "path": "EXTERNAL-RULE-METADATA-RECEIPT.json",
+          "expected_sha256": "b963fd83dd3a6c7544bef2802a0360810c1387c417e44e7ae89cbae71eaa1bbd",
+          "actual_sha256": "b963fd83dd3a6c7544bef2802a0360810c1387c417e44e7ae89cbae71eaa1bbd",
+          "bytes": 818,
+          "pass": true
+        },
+        {
+          "path": "METADATA-QUERY-RECEIPT.json",
+          "expected_sha256": "2f3dc4eb89e328e8c56e0bdd92367af51f451b050472bba08ba99b3bd8d9834d",
+          "actual_sha256": "2f3dc4eb89e328e8c56e0bdd92367af51f451b050472bba08ba99b3bd8d9834d",
+          "bytes": 941,
+          "pass": true
+        },
+        {
+          "path": "OPERATIONAL-PATH-REPAIR.json",
+          "expected_sha256": "b8886a69a02a3de3e29b1fefbae65a6ae1c3acc86cbd0ffcc19c592d80afc85d",
+          "actual_sha256": "b8886a69a02a3de3e29b1fefbae65a6ae1c3acc86cbd0ffcc19c592d80afc85d",
+          "bytes": 412,
+          "pass": true
+        },
+        {
+          "path": "PLAN-FROZEN.json",
+          "expected_sha256": "78a0c8d6537669915b1e9fcc7827be0b54bc7b72f19bcc1d7e4b1afd3a0c775b",
+          "actual_sha256": "78a0c8d6537669915b1e9fcc7827be0b54bc7b72f19bcc1d7e4b1afd3a0c775b",
+          "bytes": 2383,
+          "pass": true
+        },
+        {
+          "path": "PORTABILITY.json",
+          "expected_sha256": "3684594a5e8f7701cc3de7ed2d701b594edfdfd93864499184e403e4aa221496",
+          "actual_sha256": "3684594a5e8f7701cc3de7ed2d701b594edfdfd93864499184e403e4aa221496",
+          "bytes": 1541,
+          "pass": true
+        },
+        {
+          "path": "REPORT.txt",
+          "expected_sha256": "8bee85cff090f9abb9c9943ea11e200d751b446289e4ea85bb1eadbb85c7fab7",
+          "actual_sha256": "8bee85cff090f9abb9c9943ea11e200d751b446289e4ea85bb1eadbb85c7fab7",
+          "bytes": 1889,
+          "pass": true
+        },
+        {
+          "path": "RETAINED-NATIVE2014-FDG-CLAIM-TEXT.json",
+          "expected_sha256": "ec2e72ed868eff6974fa7072bfb637e41cf0decebbad2c8a02bed83fc1130d54",
+          "actual_sha256": "ec2e72ed868eff6974fa7072bfb637e41cf0decebbad2c8a02bed83fc1130d54",
+          "bytes": 3663,
+          "pass": true
+        },
+        {
+          "path": "REUSED-SOURCE-DECISIONS.json",
+          "expected_sha256": "cf1da10994f39cc2b725a306ad40d3052f5a4bc771f49903cdcd5bd3f46dda80",
+          "actual_sha256": "cf1da10994f39cc2b725a306ad40d3052f5a4bc771f49903cdcd5bd3f46dda80",
+          "bytes": 2134,
+          "pass": true
+        },
+        {
+          "path": "VALIDATION.json",
+          "expected_sha256": "cd02da415deabcabbc34879d679fc2ad6623256b36ec4d947396cf95ecaf5cd1",
+          "actual_sha256": "cd02da415deabcabbc34879d679fc2ad6623256b36ec4d947396cf95ecaf5cd1",
+          "bytes": 1359,
+          "pass": true
+        },
+        {
+          "path": "validate_source_value_gate.py",
+          "expected_sha256": "3f8b484493d6375760b1f218502ff64efae7676eeb3a49f7afb9488f36230683",
+          "actual_sha256": "3f8b484493d6375760b1f218502ff64efae7676eeb3a49f7afb9488f36230683",
+          "bytes": 2536,
+          "pass": true
+        }
+      ],
+      "all_pass": true,
+      "inspection_scope": "Frozen compact source/identity/method/claim/use/coverage dispositions only. Original papers, matrices and endpoint cells not opened; no source requests."
+    },
+    {
+      "owner": "single_cell",
+      "commit": "c7d99ccbfc4bf2d91e4abd91d02087086147408f",
+      "freeze_review_location": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/new_native_proteomic_question_gate/SCIENCE-FREEZE.json",
+      "freeze_repository_relative_location": "research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/new_native_proteomic_question_gate/SCIENCE-FREEZE.json",
+      "freeze_sha256": "8e63d7a16a2796cbbc8ebdac1bb389546fcb57dab98e67fedd8141996a82085d",
+      "checks": [
+        {
+          "check": "announced exact scientific freeze",
+          "expected_sha256": "8e63d7a16a2796cbbc8ebdac1bb389546fcb57dab98e67fedd8141996a82085d",
+          "actual_sha256": "8e63d7a16a2796cbbc8ebdac1bb389546fcb57dab98e67fedd8141996a82085d",
+          "pass": true
+        },
+        {
+          "check": "manifest digest from scientific freeze",
+          "expected_sha256": "18d5fb6dcaa6e088697ceea8dc7e328fbc3bbf88c3c3cc803bfc9d3e9b123f5e",
+          "actual_sha256": "18d5fb6dcaa6e088697ceea8dc7e328fbc3bbf88c3c3cc803bfc9d3e9b123f5e",
+          "pass": true
+        },
+        {
+          "path": ".gitignore",
+          "expected_sha256": "b64efdbdbaef63286a589bd877bc91a6aea0d7d6b2d681d86819f573811cf5f7",
+          "actual_sha256": "b64efdbdbaef63286a589bd877bc91a6aea0d7d6b2d681d86819f573811cf5f7",
+          "bytes": 24,
+          "pass": true
+        },
+        {
+          "path": "AMENDMENT-01-SOURCE-ROUTES.json",
+          "expected_sha256": "aa5c8374a459f935fbc2e94c9295552483e062f82ab1c2a0962edc16b4c9924e",
+          "actual_sha256": "aa5c8374a459f935fbc2e94c9295552483e062f82ab1c2a0962edc16b4c9924e",
+          "bytes": 1115,
+          "pass": true
+        },
+        {
+          "path": "AMENDMENT-02-SECRETOME-SOURCE-BRANCH.json",
+          "expected_sha256": "86bc623ccc1f04ab0dddb0b0956b7331224da3709bc30f7ab3a3c55531f48bfa",
+          "actual_sha256": "86bc623ccc1f04ab0dddb0b0956b7331224da3709bc30f7ab3a3c55531f48bfa",
+          "bytes": 1438,
+          "pass": true
+        },
+        {
+          "path": "AMENDMENT-03-MATCHED-PROTEIN-SOURCE-QUESTION.json",
+          "expected_sha256": "e04d9af9349fb0da8e306ecc5402bc67ccf6b24bb396edae0f78128cd206da86",
+          "actual_sha256": "e04d9af9349fb0da8e306ecc5402bc67ccf6b24bb396edae0f78128cd206da86",
+          "bytes": 1534,
+          "pass": true
+        },
+        {
+          "path": "AMENDMENT-04-READ-SCOPE-EXPOSURE.json",
+          "expected_sha256": "053d519c92e82e9d96b25aa37b850bedd899d6eca51592ff6ae21bbe8067e6be",
+          "actual_sha256": "053d519c92e82e9d96b25aa37b850bedd899d6eca51592ff6ae21bbe8067e6be",
+          "bytes": 785,
+          "pass": true
+        },
+        {
+          "path": "CAM-DECLARED-SUPPLEMENT-LINKS.json",
+          "expected_sha256": "8e9e820fdda24db4b6996492a5abfc1aa76421e6d43b1d724f7a9c27028dff29",
+          "actual_sha256": "8e9e820fdda24db4b6996492a5abfc1aa76421e6d43b1d724f7a9c27028dff29",
+          "bytes": 307,
+          "pass": true
+        },
+        {
+          "path": "CAM-PRIMARY-SECTION-SCHEMA.json",
+          "expected_sha256": "502e0c91a9697fa2efbff8334f8fd59c9b190a5933b36722781c0bc08b3f6bf3",
+          "actual_sha256": "502e0c91a9697fa2efbff8334f8fd59c9b190a5933b36722781c0bc08b3f6bf3",
+          "bytes": 1379,
+          "pass": true
+        },
+        {
+          "path": "CAM-PRIMARY-SOURCE-RECEIPT.json",
+          "expected_sha256": "2ed1679b3b53db992208f76652179d24f3ae4590c7d9f64a8ef190024cffafbb",
+          "actual_sha256": "2ed1679b3b53db992208f76652179d24f3ae4590c7d9f64a8ef190024cffafbb",
+          "bytes": 412,
+          "pass": true
+        },
+        {
+          "path": "CAM-SELECTED-METHOD-OBSERVATIONS.json",
+          "expected_sha256": "fe2c0b4b44b95d29dcd09a3a7ca095a9167a9615c75154cc8be34f51c89cd9ae",
+          "actual_sha256": "fe2c0b4b44b95d29dcd09a3a7ca095a9167a9615c75154cc8be34f51c89cd9ae",
+          "bytes": 3160,
+          "pass": true
+        },
+        {
+          "path": "COVERAGE.json",
+          "expected_sha256": "9d9e4ae5be19eeb1b73acef5fc73ec1af06522d68e03a604980dadfb4e7de4a2",
+          "actual_sha256": "9d9e4ae5be19eeb1b73acef5fc73ec1af06522d68e03a604980dadfb4e7de4a2",
+          "bytes": 3183,
+          "pass": true
+        },
+        {
+          "path": "DECISION.json",
+          "expected_sha256": "0f979f82d19755dc800294e4566f351d623d4e11a7b42fd5c4eba9f172198652",
+          "actual_sha256": "0f979f82d19755dc800294e4566f351d623d4e11a7b42fd5c4eba9f172198652",
+          "bytes": 2116,
+          "pass": true
+        },
+        {
+          "path": "MATCHED-PROTEIN-ABSTRACT-IDENTITY-SCREEN.json",
+          "expected_sha256": "f466faecefeac4a3a29a3fd7d629ee28526021401a433cbd3ef4d4b5511141c7",
+          "actual_sha256": "f466faecefeac4a3a29a3fd7d629ee28526021401a433cbd3ef4d4b5511141c7",
+          "bytes": 786,
+          "pass": true
+        },
+        {
+          "path": "MATCHED-PROTEIN-DESIGN-AND-LINKED-ROUTE-FREEZE.json",
+          "expected_sha256": "c02d83ab035e22a4ee957069035a5f2afab18325cab40a07597ea9717c19bbab",
+          "actual_sha256": "c02d83ab035e22a4ee957069035a5f2afab18325cab40a07597ea9717c19bbab",
+          "bytes": 693,
+          "pass": true
+        },
+        {
+          "path": "MATCHED-PROTEIN-DOI-ACCESS-RECEIPT.json",
+          "expected_sha256": "7633a014e3e97306d18bdebc5ae2d68b972580582d5c47d50b1aec5757422fac",
+          "actual_sha256": "7633a014e3e97306d18bdebc5ae2d68b972580582d5c47d50b1aec5757422fac",
+          "bytes": 174,
+          "pass": true
+        },
+        {
+          "path": "MATCHED-PROTEIN-METADATA-RECEIPT.json",
+          "expected_sha256": "33f7602ded28e9cf043a38f2b4ad815700276aa5e5fa0e25c68eea8bd878bcb4",
+          "actual_sha256": "33f7602ded28e9cf043a38f2b4ad815700276aa5e5fa0e25c68eea8bd878bcb4",
+          "bytes": 506,
+          "pass": true
+        },
+        {
+          "path": "MATCHED-PROTEIN-PRIMARY-METADATA-PROJECTION.json",
+          "expected_sha256": "2174c3059acb214161b76c63c409de986523cc9e63ff1e3376f36006a686140b",
+          "actual_sha256": "2174c3059acb214161b76c63c409de986523cc9e63ff1e3376f36006a686140b",
+          "bytes": 517,
+          "pass": true
+        },
+        {
+          "path": "PLAN-FREEZE.json",
+          "expected_sha256": "59a3f183b3f0948e9d99483515cbc641ea76d19b927775c23326fbdc674c0920",
+          "actual_sha256": "59a3f183b3f0948e9d99483515cbc641ea76d19b927775c23326fbdc674c0920",
+          "bytes": 174,
+          "pass": true
+        },
+        {
+          "path": "PLAN.json",
+          "expected_sha256": "360543c37472ad0bf4453be289145930edc0bbe7899d83bf7521d496b72f6296",
+          "actual_sha256": "360543c37472ad0bf4453be289145930edc0bbe7899d83bf7521d496b72f6296",
+          "bytes": 4529,
+          "pass": true
+        },
+        {
+          "path": "PORTABILITY.json",
+          "expected_sha256": "73386586309bf3cde1f5c5a7b48a5f43b71d31a7c5ef2ffc6f68d13632efbddb",
+          "actual_sha256": "73386586309bf3cde1f5c5a7b48a5f43b71d31a7c5ef2ffc6f68d13632efbddb",
+          "bytes": 2265,
+          "pass": true
+        },
+        {
+          "path": "PRIOR-SCIENTIFIC-DECISION-RECONCILIATION.json",
+          "expected_sha256": "896107de89359bc8bce20d765f75d33825299ebadc93081e9e2a932e2689ff2d",
+          "actual_sha256": "896107de89359bc8bce20d765f75d33825299ebadc93081e9e2a932e2689ff2d",
+          "bytes": 4486,
+          "pass": true
+        },
+        {
+          "path": "REPORT.txt",
+          "expected_sha256": "963afa29e02b1336adc027456db62ff8b0872c4c55d88c0985a15d985cf07e54",
+          "actual_sha256": "963afa29e02b1336adc027456db62ff8b0872c4c55d88c0985a15d985cf07e54",
+          "bytes": 1423,
+          "pass": true
+        },
+        {
+          "path": "REUSED-INPUT-BINDINGS.json",
+          "expected_sha256": "b3e3efaec69f26071252005920f666d5a6cba77d7c508c06bac54995e7c75939",
+          "actual_sha256": "b3e3efaec69f26071252005920f666d5a6cba77d7c508c06bac54995e7c75939",
+          "bytes": 6530,
+          "pass": true
+        },
+        {
+          "path": "SOURCE-GATE-CLOSED.json",
+          "expected_sha256": "bf5973ae7cacedc8f5ab9521619d0919a09d2bfe63506361e549534c4b9cd3bc",
+          "actual_sha256": "bf5973ae7cacedc8f5ab9521619d0919a09d2bfe63506361e549534c4b9cd3bc",
+          "bytes": 286,
+          "pass": true
+        },
+        {
+          "path": "SOURCE-QUERY-RECEIPTS.json",
+          "expected_sha256": "6444709f1f812865ea028b24850e4ad0a8cb88f027b4b4b4396f2b674404ad92",
+          "actual_sha256": "6444709f1f812865ea028b24850e4ad0a8cb88f027b4b4b4396f2b674404ad92",
+          "bytes": 1737,
+          "pass": true
+        },
+        {
+          "path": "VALIDATION.json",
+          "expected_sha256": "170c9f22842be0685460628f856d7d61085df4150ef12123c62869b2833452f0",
+          "actual_sha256": "170c9f22842be0685460628f856d7d61085df4150ef12123c62869b2833452f0",
+          "bytes": 4978,
+          "pass": true
+        },
+        {
+          "path": "verify_gate.py",
+          "expected_sha256": "609114279a5aa6d8a6877381b72b77f854269bcc990db310e9d91fb386b1dfe5",
+          "actual_sha256": "609114279a5aa6d8a6877381b72b77f854269bcc990db310e9d91fb386b1dfe5",
+          "bytes": 3651,
+          "pass": true
+        }
+      ],
+      "all_pass": true,
+      "inspection_scope": "Frozen compact source/identity/method/claim/use/coverage dispositions only. Original papers, matrices and endpoint cells not opened; no source requests."
+    },
+    {
+      "owner": "diagnostic",
+      "commit": "615c2c07e77ae559f187fcbcf025d420cef60e98",
+      "freeze_review_location": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/new_native_nonrna_functional_question_gate/SCIENCE-FREEZE.json",
+      "freeze_repository_relative_location": "research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/new_native_nonrna_functional_question_gate/SCIENCE-FREEZE.json",
+      "freeze_sha256": "afdcfb22d7342b9e4ca41c33cf30edb7ca4d7c1e577f64b9f95be59d9765a859",
+      "checks": [
+        {
+          "check": "announced exact scientific freeze",
+          "expected_sha256": "afdcfb22d7342b9e4ca41c33cf30edb7ca4d7c1e577f64b9f95be59d9765a859",
+          "actual_sha256": "afdcfb22d7342b9e4ca41c33cf30edb7ca4d7c1e577f64b9f95be59d9765a859",
+          "pass": true
+        },
+        {
+          "path": ".gitignore",
+          "expected_sha256": "0b8cf3dd43d5bb8e63a4b4a0604e411dfd6f02df9f9bed4a1657996879e6d4cb",
+          "actual_sha256": "0b8cf3dd43d5bb8e63a4b4a0604e411dfd6f02df9f9bed4a1657996879e6d4cb",
+          "bytes": 24,
+          "pass": true
+        },
+        {
+          "path": "ALL-SOURCE-CONDITION-AND-ASSAY-DISPOSITIONS.json",
+          "expected_sha256": "32efe3412465d86a9014b85746262eb53eca00e345adb1b440fd6be2216329b7",
+          "actual_sha256": "32efe3412465d86a9014b85746262eb53eca00e345adb1b440fd6be2216329b7",
+          "bytes": 3031,
+          "pass": true
+        },
+        {
+          "path": "AMENDMENT-01-METABOLITE-ASSAY-SOURCE-FRONTIER.json",
+          "expected_sha256": "41f7c392f87268f87a90caa19f40747885116ec352fce0e1bda55b731783bcdd",
+          "actual_sha256": "41f7c392f87268f87a90caa19f40747885116ec352fce0e1bda55b731783bcdd",
+          "bytes": 1929,
+          "pass": true
+        },
+        {
+          "path": "AMENDMENT-02-ONE-PUBLISHED-SUPPLEMENT-SCHEMA.json",
+          "expected_sha256": "8c90c02f6805162bd24e721d09cd817b145ac2e974f368084ab9efeea2847e02",
+          "actual_sha256": "8c90c02f6805162bd24e721d09cd817b145ac2e974f368084ab9efeea2847e02",
+          "bytes": 929,
+          "pass": true
+        },
+        {
+          "path": "AUTHOR-LINKED-PUBLIC-DEPOSIT-ACCESS.json",
+          "expected_sha256": "2959e536d22f3e6da3d4391da5c0443f8d7e45179afcc1de178bdc2c9e9d9447",
+          "actual_sha256": "2959e536d22f3e6da3d4391da5c0443f8d7e45179afcc1de178bdc2c9e9d9447",
+          "bytes": 283,
+          "pass": true
+        },
+        {
+          "path": "COVERAGE.json",
+          "expected_sha256": "fd8d91966611e7e1309deda0b8dedf5dd9012f2ca60b7649b410b93d662bf436",
+          "actual_sha256": "fd8d91966611e7e1309deda0b8dedf5dd9012f2ca60b7649b410b93d662bf436",
+          "bytes": 2258,
+          "pass": true
+        },
+        {
+          "path": "DECISION.json",
+          "expected_sha256": "a57570a0345e213e0fe3f6a8c349027511347c01ac93a6e7e20885af6037809c",
+          "actual_sha256": "a57570a0345e213e0fe3f6a8c349027511347c01ac93a6e7e20885af6037809c",
+          "bytes": 2205,
+          "pass": true
+        },
+        {
+          "path": "EXACT-NONRNA-METHOD-COHORT-PROJECTION.json",
+          "expected_sha256": "1b456cd7084a59dbbdb9eba544aca1b9e809917f3f9931cbda0f4fa57993c4db",
+          "actual_sha256": "1b456cd7084a59dbbdb9eba544aca1b9e809917f3f9931cbda0f4fa57993c4db",
+          "bytes": 4976,
+          "pass": true
+        },
+        {
+          "path": "EXPOSURE-AND-PROJECTION-LIMITS.json",
+          "expected_sha256": "fa6af6983e38d4927eaa7ff21e88aa52d0324e04d30ce680e89dc83753a2f90a",
+          "actual_sha256": "fa6af6983e38d4927eaa7ff21e88aa52d0324e04d30ce680e89dc83753a2f90a",
+          "bytes": 1744,
+          "pass": true
+        },
+        {
+          "path": "FOCUSED-SEARCH-RECEIPTS.json",
+          "expected_sha256": "f2ad6dc3f25ae0d6bca2be06bdeecd468bba249fd9311fda8d3f6151bfacb6be",
+          "actual_sha256": "f2ad6dc3f25ae0d6bca2be06bdeecd468bba249fd9311fda8d3f6151bfacb6be",
+          "bytes": 3355,
+          "pass": true
+        },
+        {
+          "path": "PRIMARY-SELECTION-FROZEN.json",
+          "expected_sha256": "8a7d09f042f6ee1f984c3fc28b415555743ea56e06311e6158c726e40c849168",
+          "actual_sha256": "8a7d09f042f6ee1f984c3fc28b415555743ea56e06311e6158c726e40c849168",
+          "bytes": 2596,
+          "pass": true
+        },
+        {
+          "path": "PRIOR-DECISION-AND-CONDITION-REUSE.json",
+          "expected_sha256": "1c4ac53ed90a0c80e0ae1a80a33d1a9cf279881b31b598580bf7a8f1a2a1dcf2",
+          "actual_sha256": "1c4ac53ed90a0c80e0ae1a80a33d1a9cf279881b31b598580bf7a8f1a2a1dcf2",
+          "bytes": 3812,
+          "pass": true
+        },
+        {
+          "path": "PUBLISHED-SUPPLEMENT-IDENTITY-METADATA.json",
+          "expected_sha256": "1b43485536277d1be9af0f94b5b724a7617d6cae1472aba8fc12e4907afb2cb8",
+          "actual_sha256": "1b43485536277d1be9af0f94b5b724a7617d6cae1472aba8fc12e4907afb2cb8",
+          "bytes": 3051,
+          "pass": true
+        },
+        {
+          "path": "PUBLISHED-SUPPLEMENT-SCHEMA-ACCESS.json",
+          "expected_sha256": "cfd140d80f140658779ef3aac29eaee8b12c128a061e5940611684a3a1586b4d",
+          "actual_sha256": "cfd140d80f140658779ef3aac29eaee8b12c128a061e5940611684a3a1586b4d",
+          "bytes": 740,
+          "pass": true
+        },
+        {
+          "path": "REPORT.txt",
+          "expected_sha256": "2955b399a87a4d003f3cd78f13cf25a31fb648d0974df49394f1fd2df9056ba4",
+          "actual_sha256": "2955b399a87a4d003f3cd78f13cf25a31fb648d0974df49394f1fd2df9056ba4",
+          "bytes": 2408,
+          "pass": true
+        },
+        {
+          "path": "SELECTED-PRIMARY-ACCESS-RECEIPT.json",
+          "expected_sha256": "a5650b54990736078603dcafc63b581c58a2f5fe52b6b2234568e0043ee7995f",
+          "actual_sha256": "a5650b54990736078603dcafc63b581c58a2f5fe52b6b2234568e0043ee7995f",
+          "bytes": 485,
+          "pass": true
+        },
+        {
+          "path": "SELECTED-PRIMARY-METHOD-AND-IDENTITY-GATE.json",
+          "expected_sha256": "9d34394a0f8035b013f80088c31366a89788788f2526065df0d599e37bb3c940",
+          "actual_sha256": "9d34394a0f8035b013f80088c31366a89788788f2526065df0d599e37bb3c940",
+          "bytes": 15148,
+          "pass": true
+        },
+        {
+          "path": "SOURCE-GATE-PLAN.json",
+          "expected_sha256": "f97f2e9b4c9eec0f8094a58aecfc830791b7e61e2708f54e41d0c805e3854b8f",
+          "actual_sha256": "f97f2e9b4c9eec0f8094a58aecfc830791b7e61e2708f54e41d0c805e3854b8f",
+          "bytes": 2779,
+          "pass": true
+        },
+        {
+          "path": "SOURCE-HASHES-AND-PORTABILITY.json",
+          "expected_sha256": "11524929b192f54c07b236fd9471eb74e6b70d33fe4622ac59069290df9faa0a",
+          "actual_sha256": "11524929b192f54c07b236fd9471eb74e6b70d33fe4622ac59069290df9faa0a",
+          "bytes": 1233,
+          "pass": true
+        },
+        {
+          "path": "SUPPLEMENT-METHOD-REFERENCE-MAP.json",
+          "expected_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "actual_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "bytes": 3,
+          "pass": true
+        },
+        {
+          "path": "SUPPLEMENT-RESPONSE-DISPOSITION.json",
+          "expected_sha256": "153e78cdb4429f02f2e9dd90f241584736e97a3fc108ada1e286bc01d6b0e5e9",
+          "actual_sha256": "153e78cdb4429f02f2e9dd90f241584736e97a3fc108ada1e286bc01d6b0e5e9",
+          "bytes": 610,
+          "pass": true
+        },
+        {
+          "path": "SUPPLEMENT-XREF-IDENTITY-MAP.json",
+          "expected_sha256": "8230003ac1d0015e540177c7b0bbcfdcb575b5c0a6d21be1d15674ffd07fe806",
+          "actual_sha256": "8230003ac1d0015e540177c7b0bbcfdcb575b5c0a6d21be1d15674ffd07fe806",
+          "bytes": 198,
+          "pass": true
+        },
+        {
+          "path": "VALIDATION.json",
+          "expected_sha256": "8833eec1e9e53daf6c54277a3c03cecd0d3c4e45d4212e14daf4c486a1645efd",
+          "actual_sha256": "8833eec1e9e53daf6c54277a3c03cecd0d3c4e45d4212e14daf4c486a1645efd",
+          "bytes": 5263,
+          "pass": true
+        },
+        {
+          "path": "validate_gate.py",
+          "expected_sha256": "00add0bd4af4a43baf46cf4b7130e291c92a14f2a7a08a4ba262b6f5efb68220",
+          "actual_sha256": "00add0bd4af4a43baf46cf4b7130e291c92a14f2a7a08a4ba262b6f5efb68220",
+          "bytes": 4962,
+          "pass": true
+        },
+        {
+          "path": "MANIFEST.json",
+          "expected_sha256": "45191755bb7d7e4cd36a34a93822f4c5a2f3b19b0076eac20db5ca970725644b",
+          "actual_sha256": "45191755bb7d7e4cd36a34a93822f4c5a2f3b19b0076eac20db5ca970725644b",
+          "bytes": 4317,
+          "pass": true
+        }
+      ],
+      "all_pass": true,
+      "inspection_scope": "Frozen compact source/identity/method/claim/use/coverage dispositions only. Original papers, matrices and endpoint cells not opened; no source requests."
+    }
+  ],
+  "all_pass": true,
+  "total_checks": 72
+}
