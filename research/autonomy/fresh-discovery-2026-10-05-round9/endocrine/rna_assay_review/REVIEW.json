@@ -1,0 +1,56 @@
+{
+  "utc": "2026-10-05T11:25:35.878288+00:00",
+  "scope": "One bounded10min independent source/assay/value/coverage check of initial80966f4 plus additive source-count correction; no wholepaperreview, sampleexpressioncolumn/BEDbody or newretrieval",
+  "owner_initial_commit": "80966f46823b5197ad54947db83e943eaac18c7e",
+  "owner_MANIFEST_sha256": "a89f330edd1dde7870473a727cdbeddd6ef9eab3fc0aace6fb3d08d5ba9f045a",
+  "decision": "Endorse shelving current processed expression-peak APA endpoint; rawnearSite question remains potentiallysuitable pendingcalibration/completecoverage, not a negativeAPA finding",
+  "actual_verification": {
+    "exports": 32,
+    "newcacheinputs": 22,
+    "sharedmatrix_hash_only": true,
+    "original_QC_rows_fieldmatched": 93,
+    "EMC": 4,
+    "MLPS": 6,
+    "SS": 3,
+    "HEAD200": 11,
+    "HEAD403_pending": [
+      "GSM715472",
+      "GSM715483"
+    ],
+    "head_declared_compressed_bytes": 563852456,
+    "mismatches": 0,
+    "APA_or_geneexpression_values_inspected": false,
+    "annotation_rowcounts_reproduced": "No independent decoding/recount of fullmatrix annotation rows in this seat; reviewed owner seven-field-only code/annotationexamples and primary36048peakdefinition; no numericalcolumns inspected."
+  },
+  "method_findings": [
+    "Primary3SEQ is anchored oligo-dT, oppositeP5-end sequencing, readstarts upstream of tail rather than cleavagepositions; normalFFPEfragments and fragment-length effects unresolved perlibrary",
+    "Primarypeakcaller pooled66tumor libraries; same-strandreadstartswithin20bp clustered and outerstartcoordinates define intervals. These intervalbounds are not PASs. Codingclass means overlapwithanycodingexon, notterminalexon evidence. Normal-only sites can be absent from tumor-derived peak catalogue.",
+    "Originalnormalization divides by samplemean and square-roots values. Squaring returns a per-samplelinearlyscaled count, not rawinteger/moleculecounts; a hypothetical validcomplete within-gene ratio can cancel thatscale, but cannotrestore cleavageidentity/alleligiblesites/internalpriming/capture distributions. Current endpoint fails thosemeasurementgates.",
+    "MAAPER provides a favorable calibratedrawnearSite method, learning read-to-PAS distances in singlePASgenes with PolyA_DB, excluding introns from transcriptdistance. PublishedQuantSeq/10xvalidation is not validatedlegacyFFPE3SEQ transfer; library-specificdistance, strand/unique-read, annotation, terminalexon and internalpriming handling remain required.",
+    "GSE28866hg18 alignments cannot silently use preparedhg19/hg38PASannotations. No validlift/coordinatecompatibility established.",
+    "HofvanderprimaryFEGArawFASTQdeclaration is not verified publicBAM/APA access; releasepipeline reads*.genes.results and rewritesheadertranscript_id. Thatheaderdoesnotestablish isoformabundance. PublicTmV_25_Ano.csv remains uninspected/pending, notexcludedbyfilename."
+  ],
+  "coverage_and_value": "All4sourceEMC+9fixedmalignantcomparators and93QCretained; techpairsnotnewdonors, individualNR4A3/cross-studyidentityunproved. Othernative/Brenca/panel/culture/rawpaths haveexplicit suitability/pendinglimits; broadpriorartqueriespartial, noglobalabsence. Genericproliferation/mixture/FFPEshortUTRstate wouldnotalone be newusefulEMCknowledge. Complete compatibleassay and independentnative replication are needed before anypaper.",
+  "review_corrections": [
+    {
+      "class": "small source-count clarification",
+      "original_PLAN": "Other64tumours wording",
+      "corrected": "64totaluniquetumors/66libraries+27normal=93; afterfixed13remain51uniqueother/53otherlibraries",
+      "amendment_path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/AMENDMENT-02-LIBRARY-DENOMINATOR-CLARIFICATION.json",
+      "amendment_sha256": "83356f65654a817335e6a491ddb867a58a6a307f8757b5f269fc9fa152499059",
+      "original_plan_and_manifest_preserved": true
+    },
+    {
+      "class": "operational status clarification",
+      "original_COVERAGE": "R8Luthria sourcegateongoing",
+      "corrected": "R8cell_compartment_source_gate alreadyfrozen; freshGS001/GS002identity/matrixstillpending. Verifiedowneradditive03correctsoperational ongoingwording; initialcoverageandmanifestpreserved.",
+      "amendment_path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/AMENDMENT-03-FROZEN-LUTHRIA-STATUS.json",
+      "amendment_sha256": "c9a7969d70218cac8c16c43b9b4fd60bdb094329f07e969f380e566c5e41b156"
+    }
+  ],
+  "material_blockers": "None for bounded processedendpoint shelving; all future raw/reference/identity/replication pendingconditions blockpromotion. No declaredassayinvalidity, expressionabsence, endocrine/drug orclinicalbenefit finding.",
+  "final_additive_owner_commits": [
+    "6eb680fb916486a436da57c850b8b832c96cd2c7",
+    "6381cc8c5764368b510f9ccb6ab982c52429f3dd"
+  ]
+}
