@@ -1,0 +1,106 @@
+{
+  "schema": "emc-independent-ADC-culture-review/1",
+  "owner_freeze_sha256": "7c476a8ac912b9d8a5454d7af982a154344748c1707568b7c28c897158acef65",
+  "model_results_sha256": "764a22d98df9f6b7f9e19b0b4230e70de7294c951c79385724fddd57beab74ee",
+  "model_annotation_gate_sha256": "5ac35f6cf741403fa2e468fef718b43864f0048bf94a881b056f66524bcbd2de",
+  "read_only_source_bindings": {
+    "/workspace/Rare-cancers/research/autonomy/tmem266-all-cultures-2026-10-04/archs4-subset.zip": "f0bcd17e0c56ec038ea47ee14b7b57700333b46790d2cfb18a555cbf70ea4446",
+    "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/USZ23-RefSeq.quant.sf.gz": "d49822e6ca79a18c186b00c4faa4087b8582bbb72c0be218fcea2e997565507f",
+    "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets/source-cache/ADC-gene-RefSeqRNA-elink.json": "484c7a69272f774f5522132ad8c5612818cdbf37fe68ee631e2b6a5df2c4ff27",
+    "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets/source-cache/ADC-RefSeqRNA-summaries.json": "dc533350c396bfb7f57fc75642bb4a9d421dff696eddfb9956f8074b5da18b1c"
+  },
+  "arithmetic_status": "passed",
+  "all_condition_scope": [
+    "V1-34/GSM2113301",
+    "USZ22/GSM6883080",
+    "USZ23/GSM9037837"
+  ],
+  "results": {
+    "ERBB2": {
+      "ARCHS4_counts": [
+        {
+          "source_symbol": "ERBB2",
+          "values": {
+            "GSM2113301": 2709,
+            "GSM6883080": 1090
+          }
+        }
+      ],
+      "current_linked_mRNAs": 32,
+      "matched_quant_rows": 30,
+      "current_mapped_TPM_sum": 25.779180999999998
+    },
+    "TACSTD2": {
+      "ARCHS4_counts": [
+        {
+          "source_symbol": "TACSTD2",
+          "values": {
+            "GSM2113301": 11,
+            "GSM6883080": 5
+          }
+        }
+      ],
+      "current_linked_mRNAs": 1,
+      "matched_quant_rows": 1,
+      "current_mapped_TPM_sum": 0.0
+    },
+    "NECTIN4": {
+      "ARCHS4_counts": [
+        {
+          "source_symbol": "NECTIN4",
+          "values": {
+            "GSM2113301": 9,
+            "GSM6883080": 3
+          }
+        }
+      ],
+      "current_linked_mRNAs": 9,
+      "matched_quant_rows": 4,
+      "current_mapped_TPM_sum": 0.0
+    },
+    "FOLR1": {
+      "ARCHS4_counts": [
+        {
+          "source_symbol": "FOLR1",
+          "values": {
+            "GSM2113301": 0,
+            "GSM6883080": 0
+          }
+        }
+      ],
+      "current_linked_mRNAs": 4,
+      "matched_quant_rows": 4,
+      "current_mapped_TPM_sum": 4.692244
+    },
+    "F3": {
+      "ARCHS4_counts": [
+        {
+          "source_symbol": "F3",
+          "values": {
+            "GSM2113301": 10074,
+            "GSM6883080": 73
+          }
+        }
+      ],
+      "current_linked_mRNAs": 2,
+      "matched_quant_rows": 2,
+      "current_mapped_TPM_sum": 1.351314
+    },
+    "MET": {
+      "ARCHS4_counts": [
+        {
+          "source_symbol": "MET",
+          "values": {
+            "GSM2113301": 10514,
+            "GSM6883080": 2
+          }
+        }
+      ],
+      "current_linked_mRNAs": 9,
+      "matched_quant_rows": 5,
+      "current_mapped_TPM_sum": 8.486305
+    }
+  },
+  "limits": "Current official mRNA-associated accessions mapped by accession base, not all retired/historical transcript reconstruction; no mapped-row zero is whole-gene protein absence. Counts and TPM differ in units/assay and models are not independent clinical cohorts. Preliminary GeneID\u2192AllFields results invalid and superseded before freeze. No culture rescue of failed tissue gate.",
+  "identity_scope": "Previously verified authentic model identities reused; disputed MUG/HEMCS and generic chondrosarcoma models not substituted."
+}

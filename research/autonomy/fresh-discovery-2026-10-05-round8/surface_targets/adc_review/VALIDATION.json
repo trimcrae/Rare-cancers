@@ -1,0 +1,42 @@
+{
+  "schema": "emc-independent-ADC-validation/1",
+  "utc": "2026-10-05T01:42:06.505574+00:00",
+  "runtime": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "lxml": "6.1.1"
+  },
+  "checks": [
+    {
+      "command": "python check_adc.py --peer OWNER/adc_targets --freeze-sha 7c476a8ac912b9d8a5454d7af982a154344748c1707568b7c28c897158acef65",
+      "exit_code": 0,
+      "scope": "29 frozen owner artifacts, original tissue projections/annotations/controls/statistics/allocation; no bootstrap-draw regeneration"
+    },
+    {
+      "command": "python check_models.py --peer OWNER/adc_targets --freeze-sha 7c476a8ac912b9d8a5454d7af982a154344748c1707568b7c28c897158acef65",
+      "exit_code": 0,
+      "scope": "Final corrected six genes across all three accessible authenticated culture conditions and current official mapping gate"
+    },
+    {
+      "command": "python verify_sources.py --peer OWNER/adc_targets",
+      "exit_code": 0,
+      "scope": "31 label identities/eight independent original approval dates,58 transcript associations, raw primary hashes and21-row/six-reported-negative review count"
+    },
+    {
+      "command": "./scripts/preflight.sh",
+      "exit_code": 127,
+      "scope": "Unavailable in task sparse checkout; file absent. No full repository gate or publication suite passed here. Lead owns integration checks."
+    }
+  ],
+  "script_hashes": {
+    "check_adc.py": "3f093743d45e0164a03c186c7ef9aedaf1a1c5034579019087551866edd75a2c",
+    "check_models.py": "3d5cd0810315d74e6d0cbbb08f3effbf64c535a94f2f8d9913bf8ad7bd4b9e73",
+    "verify_sources.py": "d9b512860854e95d9b8b4f2938a57bf0d4efe3d1dd764c5db5c77eff347854dc"
+  },
+  "owner_final_commit": "a6a27a41d1a7ec585c8ce824c0f7cca75c0da69a",
+  "owner_final_freeze_sha256": "039abd80fda3a3deae4ee95c232952efcc1d0549c0af05a3ee98f53735c9a4b1",
+  "own_original_frozen_bytes": "Unchanged source gate17 artifacts and final review28 artifact manifest; additive erratum receipt retained.",
+  "scientific_status": "PASS bounded shelving review; no candidate, manuscript or publication promotion.",
+  "work_in_progress": "No retrieval or measurement subprocess running; scoped commit/integration receipts remain operational follow-through."
+}

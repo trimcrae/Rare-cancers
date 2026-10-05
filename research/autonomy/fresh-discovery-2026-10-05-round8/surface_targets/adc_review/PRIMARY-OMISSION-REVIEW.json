@@ -1,0 +1,116 @@
+{
+  "schema": "emc-ADC-independent-primary-omissions/1",
+  "utc": "2026-10-05T01:19:14.052195+00:00",
+  "search_cutoff": "2026-10-05",
+  "scope": "Primary measurement and embedded-EMC omission challenge for frozen six-ADC-antigen exploratory pilot; bounded source review, no claim of exhaustive evaluated literature",
+  "sources": [
+    {
+      "source": "Davis2017 PMID28423517 PMC5400622 DOI10.18632/oncotarget.15568",
+      "status": "evaluated",
+      "conditions": "All six male metastatic EMC patients; five RNA-QC passing observations, one inadequate RNA with prior archival EWSR1-NR4A3 FISH. Fresh metastatic biopsy5, archived metastatic sample1.",
+      "measurement": "Original main text and abstract report FOLR1 outlier overexpression in two of five RNA-evaluable patients. Case IDs and numerical values not recovered from the unassessed supplement.",
+      "interpretation": "Published RNA heterogeneity/outlier hypothesis and folate-targeting suggestion are prior art. No protein, accessible surface epitope, ADC efficacy or poor-RNA absence inference.",
+      "overlap": "Donor overlap with other expression cohorts unresolved.",
+      "raw_path": "source-cache/PMC5400622.xml",
+      "sha256": "6eaff4e3811e2a23210f2547d4b669d1bd30e55e7d7c1d3578e052c02c804ed3"
+    },
+    {
+      "source": "T-DXd phaseI PMID32213540 PMC8292921 DOI10.1158/2159-8290.CD-19-1014",
+      "status": "pending accessible analysis",
+      "conditions": "One author-labelled extraskeletal myxoid chondrosarcoma among22 other-cancer enrollment observations;60 enrolled59 treated overall. Main text does not link the pre-dose dropout to histology.",
+      "measurement": "Main text and Fig3 legend verified; figure describes Ex-labelled case-level central HER2/response data. Individual EMC IHC score, mutation, treatment status and response unextracted. Ordinary figure/bin404 retained.",
+      "interpretation": "Existing EMC trial enrollment must not be omitted. No EMC benefit/failure estimate or molecular authentication inferred from aggregate response counts.",
+      "overlap": "Unknown donor overlap with all other cohorts; main text supplies no NR4A3 confirmation.",
+      "raw_path": "source-cache/PMC8292921-BioC.xml",
+      "sha256": "57713e89b601f89d257fbdfa62912e53d116c9cf190093d1fed278ccb0851c9e"
+    },
+    {
+      "source": "Breast index2022 PMID35775709 PMC9248243 DOI10.32074/1591-951x-303",
+      "status": "evaluated",
+      "conditions": "One45-year-old woman, index breast tumor; review TableIa includes21 author-labelled cases, six rows explicitly HER2-negative.",
+      "measurement": "Index HER2/neu negative; unspecified IHC score, membrane extent and clone. EWSR1 FISH35%split, without demonstrated NR4A3 fusion partner.",
+      "interpretation": "A measured negative index case with incomplete canonical authentication; do not assign21 negative measurements or calculate authenticated EMC sensitivity.",
+      "overlap": "Review references are not separate molecular validations; duplicate reporting and identity unresolved.",
+      "raw_path": "source-cache/PMC9248243.xml",
+      "sha256": "d4aa522444870ed1597718fab8f596f252d158e162d006c8d494fa34537c9a29"
+    },
+    {
+      "source": "Militello2017 PMID28402910 PMC5389100 DOI10.1016/j.ijscr.2017.03.016",
+      "status": "evaluated",
+      "conditions": "One41-year-old woman, vacuum-assisted breast core biopsy; included as review row3.",
+      "measurement": "Original reports HER2 negativity and focal pankeratin positivity; author-labelled extra-skeletal myxoid chondrosarcoma. No EWSR1/NR4A3 evidence found in original main text.",
+      "interpretation": "Preserve reported negative measurement as identity-unresolved; no molecularly authenticated EMC denominator.",
+      "overlap": "Same case as breast review row3, not independent validation.",
+      "raw_path": "source-cache/PMC5389100.xml",
+      "sha256": "404724975e13a8256038c84c580e2760bfe158665bc8b09aa2ca2591c9b661d6"
+    },
+    {
+      "source": "Bhosale2010 PMID21347193 PMC3042019 DOI10.1159/000319423",
+      "status": "demonstrably unsuitable measurement",
+      "conditions": "One45-year-old woman, metaplastic breast carcinoma with predominant chondrosarcoma; misincluded as breast review row13.",
+      "measurement": "Original c-erbB2 negative. Cytokeratin/EMA-positive epithelial component and final primary diagnosis explicitly metaplastic carcinoma.",
+      "interpretation": "Useful mimic control; unsuitable as authenticated EMC HER2-negative measurement. Preserve the review discrepancy without external correction.",
+      "overlap": "Same case as breast review row13.",
+      "raw_path": "source-cache/PMC3042019.xml",
+      "sha256": "ac8e6007ee1f2c383cf9ecc960f09319f72ad09890ceff7a1cd83fd7ee1b3da0"
+    },
+    {
+      "source": "Platelet microvesicles2017 PMID28784104 PMC5547532 DOI10.1186/s12885-017-3515-y",
+      "status": "demonstrably unsuitable measurement",
+      "conditions": "20 localized soft-tissue sarcoma participants, including one grade2 EMC in eight grade2 tumors; blood microvesicles pre/post surgery,18 pooled post-R0 participants.",
+      "measurement": "CD142-positive circulating plasma microvesicles measured, alongside platelet/AnnexinV phenotypes. Case-linked EMC pre/post values not exposed in inspected main text.",
+      "interpretation": "Measured F3-related circulating compartment, not EMC tumor-cell accessible tissue factor protein. No tumor-localization inference or individual EMC effect estimate.",
+      "overlap": "Single EMC clinical donor; all linked numerical conditions remain unavailable in main text.",
+      "raw_path": "source-cache/PMC5547532.xml",
+      "sha256": "6d922ee98e69a585a79de84643f7085d2eadf3636f9c52939ffc82904bce6514"
+    },
+    {
+      "source": "SAMBA102 PMID36288393 PMC9843435 DOI10.1158/1078-0432.CCR-22-2509",
+      "status": "pending accessible analysis",
+      "conditions": "Table2 lists three extraskeletal myxoid chondrosarcoma patients in the phase-I ultrarare sarcoma population.",
+      "measurement": "Main source table evaluated. Individual ADC exposure, antigen measurement, molecular authentication and response linkage unresolved; supplement tables not assessed.",
+      "interpretation": "Broader clinical source containing EMC; not proof of ADC treatment or absence.",
+      "overlap": "Possible overlap with SAMBA101 at same center; do not sum as independent cases.",
+      "raw_path": "source-cache/PMC9843435.xml",
+      "sha256": "d86a3f1d931b9df47d35c0d53c538a9170d02c1ab988b514a70fa7dd28e4fdb5"
+    },
+    {
+      "source": "SAMBA101 PMID37058010 PMC10150251 DOI10.1158/1078-0432.CCR-22-3629",
+      "status": "pending accessible analysis",
+      "conditions": "75 first-line experimental patients explicitly include one EMC. Full587 cohort Table1 reports four extraskeletal chondrosarcomas, lacking a myxoid-specific individual crosswalk.",
+      "measurement": "Main text and baseline table evaluated; drug class/ADC response cannot be linked to EMC from inspected aggregate figures.",
+      "interpretation": "First-line EMC is identifiable, broader generic four-case label must not silently be called authenticated EMC. Individual antigen/clinical endpoints remain unresolved.",
+      "overlap": "Possible overlap with SAMBA102; repeated trial enrollments also reported.",
+      "raw_path": "source-cache/PMC10150251.xml",
+      "sha256": "e3e12d9bab6e666f5063c1b88ad6de8d9c32239bede2630a2ad132d13bece92a"
+    },
+    {
+      "source": "c-Met2003 PMID14605882 PMC12161975 DOI10.1007/s00432-003-0456-4",
+      "status": "unavailable evidence",
+      "conditions": "115 soft-tissue sarcomas in primary abstract; candidate returned by EMC fulltext-index query, but EMC membership/individual count unresolved.",
+      "measurement": "Aggregate c-Met IHC/ISH abstract evaluated; EPMC XML500 and official BioC returned nonarticle error payload.",
+      "interpretation": "Do not transfer87%aggregate sarcoma positivity to EMC. Primary EMC eligibility and localized antigen staining pending source access.",
+      "overlap": "Unresolved.",
+      "raw_path": null
+    },
+    {
+      "source": "Met2000 PMID10702398 PMC1876854 DOI10.1016/S0002-9440(10)64950-4",
+      "status": "unavailable evidence",
+      "conditions": "102 benign/malignant musculoskeletal tumors in primary abstract; EMC eligibility unresolved.",
+      "measurement": "Western/IHC and truncated intracellular Met fragment reported in aggregate; EPMC XML500, BioC nonarticle/error payload.",
+      "interpretation": "Full-length surface and intracellular truncated fragments cannot be conflated. No EMC inference from musculoskeletal aggregate.",
+      "overlap": "Unresolved.",
+      "raw_path": null
+    },
+    {
+      "source": "Other breast review measured HER2 rows2/8/15: Cong2018,Errahay2013,Gurleyik2009",
+      "status": "pending accessible analysis",
+      "conditions": "Three source-reported HER2-negative rows; original molecular identity and assay details unresolved.",
+      "measurement": "Review TableIa only; Gurleyik primary XML access500 retained in source-cache/breast-primary-contexts.json.",
+      "interpretation": "No authenticated EMC negative denominator; original reports remain review candidates.",
+      "overlap": "Already included in21-row review, not new donors."
+    }
+  ],
+  "unassessed_catalogue": "Primary-search metadata catalogue contains128 unique rows across seven target/ADC queries (NECTIN4 query zero indexed hits). Discovery/title inspection is not full-source evaluation. Relevant unresolved sources retain pending/unavailable status; missing EMC-linked values are never zeros.",
+  "decision_consequence": "No standalone finding can advance from these sources. Failed prospective panel permits shelving while pending relevant evidence remains visible; future positive or broader negative claims require completing eligible sources."
+}

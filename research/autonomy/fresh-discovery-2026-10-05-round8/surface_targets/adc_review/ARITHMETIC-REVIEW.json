@@ -1,0 +1,305 @@
+{
+  "schema": "emc-independent-ADC-arithmetic-review/1",
+  "peer_freeze": "SCIENCE-FREEZE.json",
+  "peer_freeze_sha256": "7c476a8ac912b9d8a5454d7af982a154344748c1707568b7c28c897158acef65",
+  "peer_file_bindings": {
+    ".gitignore": "1e0d2c1f806ce5efa459d1dc286e71c0b50f083b5f4f9ae87420722b38ff2be8",
+    "ALL-TISSUE-PROJECTIONS.tsv": "da9ee515b9fb0165dc6ea9f3d56437b502552c447ed080faa79942bf6cbf4fcf",
+    "ANNOTATION-AMENDMENT-01.txt": "02931d851bba6652f5259c8cdb36da8f511ea3240c05536b531577c4e112b87f",
+    "ANNOTATION.json": "f0ee86da7e8cbb55738b9f4a881ca3d775f1ddbf4230545f944154c77010553b",
+    "COVERAGE.json": "d1e67e2332d9d1ad307e3395d315f542ba066de07ac1ff97d3efd338e9cca8d3",
+    "DECISION.json": "714b6b4c200c8337c46d56c2e1e604f7f90690ae5715be0ab2919384f6fd44c7",
+    "DRUGSFDA-RECEIPT.json": "481bd974030e7e0bd174239d7e0abc307deb5a5d84afbb99296f9d2c921f99ac",
+    "FDA-SOURCE-GATE-RECEIPTS.json": "c7f9f09d2f700c1ce75c71bde3194c7161a95fead6533fa523e8db28eceabe0e",
+    "FDA-TABLES-AND-LINKS.json": "42fdc4d9a0a8536ba097f1e7271927051080162eb91e5c6653e3f0e8a8e35a88",
+    "FDA-UNIVERSE-FROZEN.json": "bf76dd9b7f85915fe2c2373df05cc9170d295395017353a703e8b2b73a28e572",
+    "GENE-MAPPING-RECEIPT.json": "46cc9c9ee5f72e6d6fba10630ba1df638d6ea732a7fefbbbc59d6a7b8dc38467",
+    "GENE-SUMMARY-RECEIPT.json": "a5a845eb63b17aaf063b9853e51af97bb69aea4c5fbc4de861c3020e8615e5b5",
+    "MODEL-MAPPING-QA-CORRECTION.json": "2c9d589856146e3b56a533cf7713346c9b01303786068e0a9f37b884d3b89c77",
+    "MODEL-MAPPING-REPAIR-ELINK-RECEIPT.json": "f1e807bea73e357c5155edfa1943a0595fa480dee726940ed5f119bb3d9caabd",
+    "MODEL-MAPPING-REPAIR-SUMMARY-RECEIPT.json": "81aec26923d5c8dab37dff73ea7e4ac4dc4fefb4daaf2c5131beeb05c666dc5b",
+    "MODEL-RESULTS.json": "764a22d98df9f6b7f9e19b0b4230e70de7294c951c79385724fddd57beab74ee",
+    "OPENFDA-LABEL-RECEIPT.json": "bc209d4669badae6f01680e86f80610d08786bc32e5622a638e320be9eb31c1f",
+    "PEER-SOURCE-GATES.json": "76bd48b87173a0f674d65f754ad2ca1e7fcfbf3f8307388f6c03d898bf900c0f",
+    "PLAN-FROZEN.json": "c00a4970c111998d62342194aff062513b38041cb92eecf523439d585782bbaf",
+    "PRIOR-ART-AND-COMPARTMENT.json": "f19cd6774499a08110d011e086005c994a20a8ebe572a2c1bf9e22b8e8762d09",
+    "REPORT.txt": "4731289df2768dff837e96178fce1eb3f323adbb6a927b20edd734199ae74f7f",
+    "RESULTS.json": "bbb47f5ccf24a62d7f1bd3d66ca458c3eca5693136f9d1b8fbe7400051b8de1e",
+    "SOURCE-GATE-PLAN.json": "a5397a1d0c66a006b401707c2088bef76e045372c468337373832bb6e969becb",
+    "SOURCE-PORTABILITY.json": "3610a1f5e02cd341bce3d6857467711c9f791e022200af7036972e1dba2e317d",
+    "VERIFICATION.json": "adb5ae1dcf3aa50facb818666e3ff363e8723e3def2c6bfb866e315618f5e1ba",
+    "analyze_panel.py": "449a985bd0f2a0be3b614e39fc353a544604bf006dbf6ca98e5b9ae771615402",
+    "finalize_packet.py": "c48597cbf4b98688a23ab18ed43dd14e8fe7347628e681ab4aed20b02d820514",
+    "freeze_plan.py": "a60f1f517c22624ab3a152242a05171a235183d05382f097d5a0e7569adf4ecb",
+    "model_panel.py": "f4efe6279340d42271b817701d274a238c9be6ab52eea53716875e35d95ff65a"
+  },
+  "original_input_bindings": {
+    "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz": "0255cd254762c6184a782d5b9a90aba6e545b6b2206e28f283455df2de4d62fc",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+    "research/autonomy/atlas-primary-provenance-2026-09-06/GSE24369.soft.gz": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+    "research/autonomy/atlas-original-array-source-2026-09-06/original-source-recovery.zip": "855cf60fd09b7206699f7b11053fafb39ceb93209b75ebeae59326cd2e0f66f4",
+    "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round8/neurosecretory/raw-cache/GSE28866_normalized.txt.gz": "11dae64b2d6b6e77846c3f14971fc9a313da86eb52a4b8b83df96c23eedc0ffd"
+  },
+  "source_checked_counts": {
+    "RNA_columns": 704,
+    "RNA_EMC_conditions": 13,
+    "RNA_primary_known_nonoverlap_rows": 9,
+    "array_conditions": 42,
+    "array_EMC_conditions": 6,
+    "older_array_conditions": 16,
+    "older_array_EMC_conditions": 10,
+    "3SEQ_source_columns": 93,
+    "3SEQ_EMC_conditions": 4,
+    "3SEQ_MLPS_controls": 6,
+    "3SEQ_SS_controls": 3,
+    "3SEQ_unmatched_normal_conditions": 27,
+    "genes": 6
+  },
+  "results": {
+    "ERBB2": {
+      "primary_TPM": {
+        "n": 9,
+        "min": 3.96,
+        "median": 17.97,
+        "max": 44.52
+      },
+      "n_ge1": 9,
+      "RNA_contrasts": {
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "A": 0.6190476190476191,
+          "matched_A": 0.3333333333333333,
+          "bootstrap95_owner": [
+            0.3412698412698413,
+            0.873015873015873
+          ]
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "A": 0.09401709401709402,
+          "matched_A": 0.3157894736842105,
+          "bootstrap95_owner": [
+            0.0,
+            0.2564102564102564
+          ]
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "A": 0.043209876543209874,
+          "matched_A": 0.10714285714285714,
+          "bootstrap95_owner": [
+            0.0,
+            0.13580246913580246
+          ]
+        }
+      },
+      "array_LGFMS_A": 0.1568627450980392,
+      "frozen_allocation_pass": false
+    },
+    "TACSTD2": {
+      "primary_TPM": {
+        "n": 9,
+        "min": 0.02,
+        "median": 0.24,
+        "max": 1.91
+      },
+      "n_ge1": 1,
+      "RNA_contrasts": {
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "A": 0.4444444444444444,
+          "matched_A": 0.4444444444444444,
+          "bootstrap95_owner": [
+            0.20238095238095238,
+            0.6904761904761905
+          ]
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "A": 0.13675213675213677,
+          "matched_A": 0.15789473684210525,
+          "bootstrap95_owner": [
+            0.0,
+            0.3247863247863248
+          ]
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "A": 0.3734567901234568,
+          "matched_A": 0.32142857142857145,
+          "bootstrap95_owner": [
+            0.16666666666666666,
+            0.5987654320987654
+          ]
+        }
+      },
+      "array_LGFMS_A": 0.30392156862745096,
+      "frozen_allocation_pass": false
+    },
+    "NECTIN4": {
+      "primary_TPM": {
+        "n": 9,
+        "min": 0.0,
+        "median": 0.02,
+        "max": 0.33
+      },
+      "n_ge1": 0,
+      "RNA_contrasts": {
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "A": 0.2976190476190476,
+          "matched_A": 0.16666666666666666,
+          "bootstrap95_owner": [
+            0.08333333333333333,
+            0.5436507936507936
+          ]
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "A": 0.23931623931623933,
+          "matched_A": 0.15789473684210525,
+          "bootstrap95_owner": [
+            0.05128205128205128,
+            0.4658119658119658
+          ]
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "A": 0.4166666666666667,
+          "matched_A": 0.26785714285714285,
+          "bootstrap95_owner": [
+            0.19753086419753085,
+            0.6481481481481481
+          ]
+        }
+      },
+      "array_LGFMS_A": 0.46078431372549017,
+      "frozen_allocation_pass": false
+    },
+    "FOLR1": {
+      "primary_TPM": {
+        "n": 9,
+        "min": 0.0,
+        "median": 0.55,
+        "max": 9.81
+      },
+      "n_ge1": 4,
+      "RNA_contrasts": {
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "A": 0.5833333333333334,
+          "matched_A": 0.8888888888888888,
+          "bootstrap95_owner": [
+            0.30158730158730157,
+            0.8333333333333334
+          ]
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "A": 0.8290598290598291,
+          "matched_A": 0.9473684210526315,
+          "bootstrap95_owner": [
+            0.6153846153846154,
+            0.9829059829059829
+          ]
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "A": 0.9104938271604939,
+          "matched_A": 1.0,
+          "bootstrap95_owner": [
+            0.7438271604938272,
+            1.0
+          ]
+        }
+      },
+      "array_LGFMS_A": 0.28431372549019607,
+      "frozen_allocation_pass": false
+    },
+    "F3": {
+      "primary_TPM": {
+        "n": 9,
+        "min": 0.21,
+        "median": 3.46,
+        "max": 6.55
+      },
+      "n_ge1": 8,
+      "RNA_contrasts": {
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "A": 0.3333333333333333,
+          "matched_A": 0.3333333333333333,
+          "bootstrap95_owner": [
+            0.12698412698412698,
+            0.5714285714285714
+          ]
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "A": 0.0,
+          "matched_A": 0.0,
+          "bootstrap95_owner": [
+            0.0,
+            0.0
+          ]
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "A": 0.5339506172839507,
+          "matched_A": 0.25,
+          "bootstrap95_owner": [
+            0.30864197530864196,
+            0.7654320987654321
+          ]
+        }
+      },
+      "array_LGFMS_A": 0.35294117647058826,
+      "frozen_allocation_pass": false
+    },
+    "MET": {
+      "primary_TPM": {
+        "n": 9,
+        "min": 1.78,
+        "median": 6.12,
+        "max": 24.92
+      },
+      "n_ge1": 9,
+      "RNA_contrasts": {
+        "Myxoid liposarcoma": {
+          "n": 14,
+          "A": 0.7222222222222222,
+          "matched_A": 0.8888888888888888,
+          "bootstrap95_owner": [
+            0.49206349206349204,
+            0.9047619047619048
+          ]
+        },
+        "Low-grade fibromyxoid sarcoma": {
+          "n": 13,
+          "A": 0.7521367521367521,
+          "matched_A": 0.7894736842105263,
+          "bootstrap95_owner": [
+            0.5213675213675214,
+            0.9316239316239316
+          ]
+        },
+        "Synovial sarcoma": {
+          "n": 18,
+          "A": 0.5493827160493827,
+          "matched_A": 0.5714285714285714,
+          "bootstrap95_owner": [
+            0.3084876543209878,
+            0.7777777777777778
+          ]
+        }
+      },
+      "array_LGFMS_A": 0.7352941176470589,
+      "frozen_allocation_pass": false
+    }
+  },
+  "arithmetic_status": "passed",
+  "uncertainty_scope": "Independently verified all raw values, source identities/annotation, rank-sum A, year weighting, all13/deletion sensitivity, Mann-Whitney/IUT/Holm6 and fixed allocation gates. Owner bootstrap intervals bounds checked; bootstrap draws not independently regenerated in this check. Confidence intervals remain cohort-conditional and donor independence unresolved.",
+  "models": "Model final source/readout validation is recorded separately, not implied by this tissue arithmetic check.",
+  "value": "No fixed candidate passes the prospectively frozen useful RNA contrast. Neither low expression nor failed specificity establishes absence of accessible protein or ADC benefit. Existing broad-screen/primary published findings limit novelty; failed invented panel alone is not a useful negative paper.",
+  "coverage": "Pending/unavailable primary case-linked protein/trial and other public EMC expression sources remain visible; no full-public-EMC completeness or exhaustion claim."
+}
