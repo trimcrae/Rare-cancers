@@ -1,0 +1,124 @@
+{
+  "id": "emc-r9-gpnmb-exploratory-all-condition-bulk-rna-contract",
+  "date": "2026-10-05",
+  "frozen_before_new_values_at": "2026-10-05T18:07:41.172536+00:00",
+  "planning_start": "2026-10-05T17:48:59Z",
+  "planning_reassessment": "2026-10-05T18:08:59Z",
+  "status": "Prospective planning/schema wiring only; explicit integrating-lead numerical authorization still required after source gates and independent contract review",
+  "gene": "GPNMB",
+  "question": "Do stable same-assay between-histotype GPNMB bulk-RNA differences distinguish native EMC from LGFMS, and secondarily MLPS, sufficiently to inform histotype-matched controls and compartment-localization sampling?",
+  "primary_comparison": "EMC versus LGFMS, same-assay Hofvander and GSE24369; comparator hierarchy chosen after known oldRNA exposure and disclosed exploratory",
+  "secondary_comparison": "EMC versus MLPS in Hofvander and source-described3SEQ; no substitution for absentLGFMS",
+  "context": "SS and source-compatible other histotypes/normal pools/cultures describe specificity/capture context; cannot become favorable substitute comparator",
+  "practical_addition": "A stable relative bulk-RNA pattern could change which histotype and tissue compartments a first GPNMB localization assay samples. It is not a claim of antigen positivity/negativity, tumor-intrinsic expression, accessible protein, dependency or therapy benefit.",
+  "worthwhile_finding": "A directionally and quantitatively stable same-assay primary contrast survives full13/primary12/known-overlap9 and available-year sensitivities, agrees with the complete sixEMC-versus17LGFMS independent-assay measurements, and is not solely a single specimen/probe/capture or verified existing primary-paper result. Uncertainty, unknown donor dependence and bulk-mixture interpretation remain explicit. Concordance alone is insufficient if it does not change a concrete sampling experiment or merely restates an important already published contrast.",
+  "defeat": [
+    "Primary LGFMS contrast does not reproduce across assays or reverses under prespecified specimen/year/probe sensitivities",
+    "Only oldselected9 or oneprobe/specimen supports apparent difference",
+    "Primary published evidence already answers the useful contrast",
+    "Source identity/annotation/preparation or capture artifact prevents meaningful same-assay interpretation",
+    "Compartment/purity confounding accounts for the claimed malignant-cell interpretation; no such intrinsic claim is authorized",
+    "Suitable accessible relevant nativeEMC measurements remain unevaluated: blocks promotion, not automatic biological falsification"
+  ],
+  "history": {
+    "known_values": "OldnineEMC GPNMB summaries already exposed; target/comparator/direction selection is post-exposure exploratory, not cold or confirmatory",
+    "original_BH": "Old enrichment BH family2694 genes; do not invert old enrichment p/q or use seven/two as that correction family",
+    "seven_ADC_contexts": [
+      "ERBB2",
+      "TACSTD2",
+      "NECTIN4",
+      "FOLR1",
+      "CD276",
+      "GPNMB",
+      "LRRC15"
+    ],
+    "five_previous_specific_questions": "First4 R8 FDA6 contrasts and originalCD276 LGFMS failure remain intact",
+    "LRRC15": "Prior oldnine bulk RNA abundance/specificity result negative for its administrative selection; not a universal protein/efficacy conclusion",
+    "no_rescue": "No target reranking, new antigen, selected high-case subgroup, cutpoint tuning or relabeled disease-wide ADCpanel claim"
+  },
+  "Hofvander": {
+    "source": "UniqueGPNMB symbol in pinnedTPM matrix, source metadata diagnoses",
+    "main": "All13 EMC native observations against all13 LGFMS/all14 MLPS; all19SS contextual, including its oneMet",
+    "primary_sensitivity": "EMC12 primary versus13LGFMS/14MLPS/18primarySS; sourcefootnotef defaultsprimary unlessLR/Met",
+    "known_overlap_sensitivity": "EMC9 primary without known cross-study overlap, excluding104-92/168-97/536-00 andLR5081-14; controls same exactprimaryeligible groups",
+    "no_independent_donor_claim": "Nine source specimens are not nine newly proven independent donors; all13 accountable and no source cohorts pooled",
+    "year_sensitivity": "Exact source year labels; available commonyears2019+2021 only forLGFMS/MLPS. Full13EMC seven, primary12 six, oldnine three matching-availableEMC; LGFMS12 andMLPS7 matching-available controls. Report each stratum paircount and pair-weighted rankeffect; unmatched specimens remain visible, not an all13 batchadjustment",
+    "confounding": "Actual40 EMC/LGFMS/MLPS ASCATpurity cellsNA; sourcefootnote restricts estimates to SNP-array-aberrant subset. EMCgradeNA13; comparatorgrade differs/missing. No valid sameRNA purity/grade adjustment. Sourcewide\u221280C/PE150/STAR2.7.10b/RSEM1.3.3/GRCh38.104 and>=5m mappedreads do not establish percase batch/capture/aliquot. Sex/year/QC and missingness reported, no new gene-optimized exclusion."
+  },
+  "GSE24369": {
+    "all_EMC": 6,
+    "primary_LGFMS": 17,
+    "all_source_context": "MFS6/desmoid6/SFT5/muscle-pools2;42source records",
+    "feature": [
+      "8131844"
+    ],
+    "unit": "DepositedRMAlog2, notTPM",
+    "rule": "Use all finite cells for fixed sourcefeature; report missingsample IDs and finite denominators, never imputezero. Allsix observations accounted; partial missingness cannot be called complete measurements.",
+    "independence": "Different assay/specimen labels, unknown full cross-study donor overlap; independent platform validation is not independent patient replication"
+  },
+  "GSE4303": {
+    "all_EMC": 10,
+    "features": [
+      "5535",
+      "10100",
+      "19562"
+    ],
+    "unit": "Depositedlog2tumor/reference ratio",
+    "reference_rule": "EMC CRH-mRNA versusDFSP3 CRH andGIST3UHR are separate reference/preparation context. No mixed-reference pooling and noEMC-GIST efficacy/abundance contrast; noLGFMS/MLPS directreplication",
+    "rule": "Every fixedunique sourceprobereported; medianallthree only ifsamefinitefixedfeature set percondition, otherwise composite missing and individual available probes retained. Historicalaccessionbridge provenance qualified."
+  },
+  "GSE28866": {
+    "assay": "Source-described3SEQ, notmicroarray",
+    "all_EMC": [
+      "EMC_STT5525",
+      "EMC_STT5526",
+      "EMC_STT5527",
+      "EMC_STT5592"
+    ],
+    "features": [
+      "10146",
+      "10147"
+    ],
+    "comparison": "MLPS6secondary/SS3context; noLGFMS. All27 source normalconditions retained descriptively and no organ-safety/selectivity claim",
+    "unit": "Read-depth-normalized square-root-compressed peakdensity on sourcehg18 annotation; notgeneTPM/linear counts",
+    "feature_rule": "Both exactGPNMB/GPNMB codingpeaks fixedbefore values. Report eachpeak plus medianofbothfinitefixedpeaks percondition; no summing transformed densities as gene counts. Any discordant peak direction/large sensitivity is capture/feature warning, not discardedunfavorablepeak. Missing/ambiguous annotation or value is notzero or transcriptabsence; require bothfinite for composite.",
+    "scope": "Fourcondition labels not automatically fourindependent donors or nonoverlap with oldSTTcohorts. Do not inspect source DEcancer-type field7 or choose favorablepeak."
+  },
+  "published_TempO": {
+    "source": "PeerJ S009 EMC_Gene-expression_Log2CPM, GPNMBrow7134 identity/sourceheader only",
+    "all_conditions": [
+      "Si01",
+      "Si02",
+      "Si05",
+      "Si09",
+      "Si10",
+      "Si14",
+      "Si15",
+      "Si16",
+      "Si17",
+      "Si19",
+      "Si20",
+      "Si22"
+    ],
+    "unit": "PublishedprocessedLog2CPM, notTPM or rederivedraw counts",
+    "scope": "Mandatoryconditionalnativecontext, noLGFMS comparator. Actualcase/condition/donor mapping gate retained. FailedR8raw-estimatorcalibration does not invalidate this publishedprocessedrow; no raw countingredo."
+  },
+  "estimands_and_uncertainty": {
+    "effect": "Within eachcompatible source, A_lower=P(EMCvalue<comparatorvalue)+0.5P(tie), recomputed only from subsequently authorized actual GPNMB cells. Median and allindividual sourcevalues plus median-difference onnative/deposited scale; RNAadditionalmedianlog2(1+TPM)shift. No pooledunits/effect/heterogeneity test",
+    "intervals": "Fixedseed20261005;10000 specimen-within-source/group bootstrap draws for A_lower and median-shift percentile95intervals. Conditional descriptive sampling uncertainty, not population/patient-level intervals. Unknown dependence and nonrandomselection can invalidate nominal coverage; duplicate donor maps, if authenticated, require explicit pre-outcome amendment/clusterdefinition",
+    "year": "Pairweighted rankeffect within2019+2021 commonstrata with exactmetadataeligible counts; no invented covariate regression or allspecimen adjustment",
+    "probe": "Each eligiblefixeduniqueprobe/peak independently reported; aggregate as above, no bestprobe selection",
+    "sensitivity": "Full13/12/9; everyEMC leave-one-specimen-out effectrange and exactremovedID withincompatibleprimary/secondarysources; perfeature direction/medianaggregation. Descriptive, no choosingfavorabledeletion",
+    "multiplicity": "No new nominal significance/p/q outputs in this exploratorypilot. Entireseven-target history and comparator/probe/sensitivity multiplicity disclosed; CIs are pointwise descriptive and cannot confer selection-adjusted significance. Never invertoldone-sidedenrichmentp/BHq."
+  },
+  "all_relevant_coverage": "Coreprocessed13/6/10/4plus12TempO conditions are explicit plannedmeasurements/context, not yetevaluated outcomes. BroaderBrenca12native/fivepairedpreps/sixarrays/current23mixed, Davis6/5QC, Zullow7/11, Nottley2pairedRTdonors, Filion/Sjogren/PGR/noncanonical/ACC targeted/1041mesenchymal/cell-resolved/cultures and2344input/26dataset ADC2025 roster remain separatelyevaluated-reused,pendingaccessible,unsuitableorunavailable at exact source-unit scope. Numeric subtype transfers and disputedmodels forbidden. Suitablepending blocks promotion even if boundedcorepilot authorized.",
+  "permission_gates": {
+    "challenge_value": "OriginalconditionalGO sourcevalue627ae97e26196aa610bfdd7498553db9ccb66aee4b6809b0e914b66bfd6d8da0, plus independent review of this exactcontractrequired",
+    "assay": "SC readiness58d08254c0a6f216d5af20407b5ec49f9464307735e4ab965653c8be224378c1; readinessnotfinitecells/effectvalidation",
+    "primary_omission": "RT primarysource27da5b6fdd81916bfa20acb978af171da23ed18fe971ffbe906d087aa7c3c50c; fullrosters/dataaccess pendingnotexclusion",
+    "confounding": "FB frozenmetadata gate mustbind exactsource before numericalpermission",
+    "broader": "FN broaderomission/TempOcase-unit gate mustbind before numericalpermission",
+    "lead": "Explicit integrating-lead authorization against exactfrozencontract andfinalgates; currentnumericalstageOFF"
+  },
+  "budget_and_scope": "Planning20min<=8MiBnew ignoredoriginals,>=10GiBfree; actualnewGET/raw0. No source/matrix/gene outcome read, costs/GPU/private/login/bypass/UI/outreach/publication/PR/shared/rootwrites. DeniedFAP-tissue/glycan/HLA/structural/fusion-formingtopology remainclosed; exactidentity/ordinaryantigenallowed."
+}

@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-05",
+  "prepared_at": "2026-10-05T18:01:18.680560+00:00",
+  "scope": "Headers/annotations/condition metadata/hash binding only; outcome extraction disabled",
+  "Hofvander": {
+    "matrix_header": "symbol",
+    "gene_symbol": "GPNMB",
+    "library_columns": 704,
+    "selected_condition_counts": {
+      "Extraskeletal myxoid chondrosarcoma": 13,
+      "Low-grade fibromyxoid sarcoma": 13,
+      "Myxoid liposarcoma": 14,
+      "Synovial sarcoma": 19
+    },
+    "sensitivity_counts": {
+      "all_conditions": {
+        "Extraskeletal myxoid chondrosarcoma": 13,
+        "Low-grade fibromyxoid sarcoma": 13,
+        "Myxoid liposarcoma": 14,
+        "Synovial sarcoma": 19
+      },
+      "primary_lesions": {
+        "Extraskeletal myxoid chondrosarcoma": 12,
+        "Low-grade fibromyxoid sarcoma": 13,
+        "Myxoid liposarcoma": 14,
+        "Synovial sarcoma": 18
+      },
+      "primary_non_known_overlap": {
+        "Extraskeletal myxoid chondrosarcoma": 9,
+        "Low-grade fibromyxoid sarcoma": 13,
+        "Myxoid liposarcoma": 14,
+        "Synovial sarcoma": 18
+      }
+    }
+  },
+  "arrays": {
+    "GPL6244_features": [
+      "8131844"
+    ],
+    "GPL3290_features": [
+      "5535",
+      "10100",
+      "19562"
+    ],
+    "all_EMC_counts": {
+      "GSE24369": 6,
+      "GSE4303": 10
+    },
+    "GSE4303_reference_rule": "CRH-mRNA EMC, CRH DFSP and UHR GIST kept separate; no primary LGFMS/MLPS replication or mixed-reference comparison"
+  },
+  "3SEQ": {
+    "features": [
+      "10146",
+      "10147"
+    ],
+    "condition_count": 4,
+    "aggregation": "Median of both finite fixed coding-peak values on deposited square-root-density scale, plus every per-peak output; never linear gene-count sum",
+    "comparators": "MLPS6 secondary/SS3 contextual; noLGFMS",
+    "annotation_only": [
+      {
+        "peak": "10146",
+        "hg18_coords": "chr7:23263996-23264168_+",
+        "classification": "coding",
+        "gene_id": "uc003swa.2",
+        "gene_symbol": "GPNMB",
+        "peak_exon_gene_symbol": "GPNMB"
+      },
+      {
+        "peak": "10147",
+        "hg18_coords": "chr7:23280200-23281244_+",
+        "classification": "coding",
+        "gene_id": "NM_002510",
+        "gene_symbol": "GPNMB",
+        "peak_exon_gene_symbol": "GPNMB"
+      }
+    ]
+  },
+  "TempO": "Published processed all12 Log2CPM conditional native context; noLGFMS comparison, source-unit/condition metadata pending; raw estimator failure irrelevant",
+  "finite_cell_completeness": "Not yet evaluated; nozero imputation or premature all-condition completeness",
+  "authorization": "Explicit integrating-lead authorization against frozen contract and final dependency hashes required before any numeric cells/statistics. This executable has no numeric extraction mode."
+}
