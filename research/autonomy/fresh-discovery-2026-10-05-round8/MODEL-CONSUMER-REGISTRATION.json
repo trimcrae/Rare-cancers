@@ -1,0 +1,67 @@
+{
+  "utc": "2026-10-05T01:16:31.108495+00:00",
+  "registry_path": "research/manuscripts/emc-systems-map.json",
+  "registry_before_sha256": "9c9126a77802f63c4f0510e9ef25e94572c0d1d39293e57383cb4beda9283fb9",
+  "registry_after_sha256": "3f7d5db38f8f43e4a02e0627dd6e5f775d8aa2c9b24ecca24856e7ba338fe4fb",
+  "scope": "Classify seven newly integrated query/exclusion consumers of the existing disputed cell-line record. Existing scientific identity and measurement decisions are unchanged.",
+  "added_consumers": [
+    {
+      "file": "research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/SEARCH-RECEIPTS.json",
+      "use": "Public source alias-query receipt",
+      "classification": "unaffected",
+      "why_unaffected": "The names are search terms only; no model measurement or EMC identity is inferred from query hits."
+    },
+    {
+      "file": "research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/search_sources.py",
+      "use": "Code defining public source alias queries",
+      "classification": "unaffected",
+      "why_unaffected": "The names specify source-discovery queries; accepted measured functional evidence remains authenticated patient-derived models."
+    },
+    {
+      "file": "research/autonomy/fresh-discovery-2026-10-05-round8/neurosecretory/COVERAGE-AMENDMENT-02.json",
+      "use": "Additive condition coverage limitation",
+      "classification": "unaffected",
+      "why_unaffected": "The model is explicitly identity-disputed and cannot support an EMC measurement or absence claim."
+    },
+    {
+      "file": "research/autonomy/fresh-discovery-2026-10-05-round8/neurosecretory/COVERAGE.json",
+      "use": "Source eligibility disposition",
+      "classification": "unaffected",
+      "why_unaffected": "The names denote unresolved excluded resources, never authenticated EMC observations."
+    },
+    {
+      "file": "research/autonomy/fresh-discovery-2026-10-05-round8/neurosecretory/finalize_packet.py",
+      "use": "Coverage report writer",
+      "classification": "unaffected",
+      "why_unaffected": "The names occur in explicit exclusion and identity-pending wording; no disputed model phenotype is analyzed."
+    },
+    {
+      "file": "research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/AMENDMENT-01.txt",
+      "use": "Prospective model exclusion amendment",
+      "classification": "unaffected",
+      "why_unaffected": "The text explicitly excludes disputed-line measurements from authentic EMC evidence."
+    },
+    {
+      "file": "research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/COVERAGE.json",
+      "use": "Model eligibility limitation",
+      "classification": "unaffected",
+      "why_unaffected": "The source is explicitly identity-disputed; none of its values are accepted as authentic EMC."
+    }
+  ],
+  "source_file_hashes": {
+    "research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/SEARCH-RECEIPTS.json": "f6cb1979fd8f7b96c4a56a6b36fe1c947a716b989b683d7b34fdbe919dfe4928",
+    "research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/search_sources.py": "c114b0f89f63d59f2908a033d330937b818c3beb6d744972c9eb8e81649dd7a4",
+    "research/autonomy/fresh-discovery-2026-10-05-round8/neurosecretory/COVERAGE-AMENDMENT-02.json": "e94aed6a42c7c1554b728255a3e1105970b7c9a31aef9f33a5474ca83f26a5a5",
+    "research/autonomy/fresh-discovery-2026-10-05-round8/neurosecretory/COVERAGE.json": "5702bf4f74a66aa82129d9177702a64c9e7caf652426606919e0a8fd1a38526e",
+    "research/autonomy/fresh-discovery-2026-10-05-round8/neurosecretory/finalize_packet.py": "02df0d12a26e39b0215c3a39e0453b204ea3b232bbc329875eb8e8100a3386c0",
+    "research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/AMENDMENT-01.txt": "e5fd67aa84e91cfff26265f6443b4456483051d0c751b807a1c8a8f150b84cc5",
+    "research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/COVERAGE.json": "698b587ba29e3ba6d480c1b6af7fbd8e0ccd3e96aebe4ce8032262bda6adea42"
+  },
+  "targeted_check_before": {
+    "exit_code": 1,
+    "registry_objects": 155,
+    "errors": 7,
+    "warnings": 0,
+    "errors_scope": "Seven unclassified name uses in the exact consumers listed above."
+  }
+}

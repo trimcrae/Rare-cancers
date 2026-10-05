@@ -1,0 +1,31 @@
+{
+  "utc": "2026-10-05T01:42:29.122230+00:00",
+  "scope": "Add two source-eligibility consumers after final ADC integration. No existing identity or measurement decision changed. Initial seven-consumer receipt remains immutable.",
+  "registry_before_sha256": "3f7d5db38f8f43e4a02e0627dd6e5f775d8aa2c9b24ecca24856e7ba338fe4fb",
+  "registry_after_sha256": "21e8bd74ef4a4cab8823f4be280df2cae3957ede5f5fcd86d68df994508ac82c",
+  "added": [
+    {
+      "consumer": {
+        "file": "research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets/COVERAGE.json",
+        "use": "ADC-panel model eligibility limitation",
+        "classification": "unaffected",
+        "why_unaffected": "The disputed model is explicitly unsuitable as an authenticated native EMC test replicate; no new panel phenotype from it is analyzed."
+      },
+      "sha256": "d1e67e2332d9d1ad307e3395d315f542ba066de07ac1ff97d3efd338e9cca8d3"
+    },
+    {
+      "consumer": {
+        "file": "research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets/finalize_packet.py",
+        "use": "ADC-panel coverage writer",
+        "classification": "unaffected",
+        "why_unaffected": "The name is emitted in an explicit diagnostic-identity exclusion; no disputed-model value is projected or accepted as EMC evidence."
+      },
+      "sha256": "c48597cbf4b98688a23ab18ed43dd14e8fe7347628e681ab4aed20b02d820514"
+    }
+  ],
+  "targeted_check_before": {
+    "exit": 1,
+    "errors": 2,
+    "warnings": 0
+  }
+}

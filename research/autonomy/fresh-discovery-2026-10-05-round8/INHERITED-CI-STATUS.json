@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-05T00:31:09.894030+00:00",
+  "commit": "80c40ed9fb1af0086bdfc9754c97b176490996e0",
+  "run_id": 37243651627,
+  "url": "https://github.com/trimcrae/Rare-cancers/actions/runs/37243651627",
+  "conclusion": "failure",
+  "gates_job": "success",
+  "pytest_job": "failure",
+  "scope": "Prior-main hosted suite, not new R8 evidence validation",
+  "summary": "4 failed, 12345 passed, 72 skipped, 49 warnings, 63 subtests passed in955.24s",
+  "failures": [
+    "systems/tests/test_systems_check.py::test_a_dead_code_pointer_still_fires_after_the_external_allowance - AssertionError: [K3]  `methylation_external_metrics.py` is named by 1 document(s) (research/autonomy/continuation-2026-10-02/methylation-publication/working-manuscript.md) and is in none of research/systems/scripts/.github/workflows/\u2026 \u2014 either a DEAD POINTER (an instruction the reader cannot follow, which is how CLAUDE.md \u00a76 came to name three exemplar files that exist on no ref) or a file in an EXTERNAL repository, which is fine and should say so in the sentence that names it",
+    "research/manuscripts/tests/test_line_citations.py::test_every_tracked_file_carrying_the_citation_syntax_is_enumerated_by_the_fixer - AssertionError: 1 tracked file(s) carry a `:NNNN` line citation and are INVISIBLE to `line_citations.py`, so `--fix` would rewrite the roadmap and say nothing about them:",
+    "research/modalities/tests/test_instrument_register_prefix.py::test_the_migration_is_idempotent_over_the_repo - AssertionError: research/autonomy/fresh-discovery-2026-10-04-round2/genomics/cbio-nr4a3-mutation-all-events.json would still be rewritten by --apply (1 occurrence(s)) -- the migration has not converged",
+    "systems/tests/test_a_claude_hook_is_not_a_dead_pointer.py::test_no_committed_document_names_a_dead_hook - AssertionError: K3 is flagging a name on the committed tree. If the file genuinely does not exist this is a real dead pointer and the DOCUMENT is what to fix; if it does exist, the directory model in CODE_DIRS is what to fix. Do NOT add a CODE_CITE_CLEARED phrase to silence a live citation."
+  ],
+  "original_log": {
+    "path": ".cache/emc-r8-ci/prior-main-failed-job.log",
+    "storage": "ignored local cache only",
+    "bytes": 2244767,
+    "sha256": "1f0fbb55a30058899621fe6f79fed8f2acb85d78ba6825d6431f10fd0ffde875"
+  },
+  "interpretation": "No full-suite/publication-readiness success asserted. Existing manuscript dead pointers and old artifact line/prefix handling are inherited baseline defects; record separately from R8 scientific outcome, do not weaken guards or mutate old frozen evidence as routine maintenance."
+}

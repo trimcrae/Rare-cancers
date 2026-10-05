@@ -1,0 +1,107 @@
+{
+  "utc": "2026-10-05T01:45:48.684535+00:00",
+  "actual_slots": 7,
+  "lead": 1,
+  "initial_distinct_workers": 6,
+  "launch_window_utc": "2026-10-05T00:25:22Z to 00:25:23Z",
+  "assignments": [
+    {
+      "worker": "/root/fapi_named",
+      "lane": "neurosecretory",
+      "worktree": "/workspace/emc-r6-fapi_named",
+      "branch": "codex/emc-r8-neurosecretory",
+      "output": "research/autonomy/fresh-discovery-2026-10-05-round8/neurosecretory"
+    },
+    {
+      "worker": "/root/fapi_broader",
+      "lane": "metabolism",
+      "worktree": "/workspace/emc-r6-fapi_broader",
+      "branch": "codex/emc-r8-metabolism",
+      "output": "research/autonomy/fresh-discovery-2026-10-05-round8/metabolism"
+    },
+    {
+      "worker": "/root/single_cell",
+      "lane": "microenvironment",
+      "worktree": "/workspace/emc-r6-single_cell",
+      "branch": "codex/emc-r8-microenvironment",
+      "output": "research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment"
+    },
+    {
+      "worker": "/root/radiotherapy",
+      "lane": "adaptation",
+      "worktree": "/workspace/emc-r6-radiotherapy",
+      "branch": "codex/emc-r8-adaptation",
+      "output": "research/autonomy/fresh-discovery-2026-10-05-round8/adaptation"
+    },
+    {
+      "worker": "/root/diagnostic",
+      "lane": "surface_targets",
+      "worktree": "/workspace/emc-r6-diagnostic",
+      "branch": "codex/emc-r8-surface_targets",
+      "output": "research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets"
+    },
+    {
+      "worker": "/root/challenge",
+      "lane": "methylation",
+      "worktree": "/workspace/emc-r6-challenge",
+      "branch": "codex/emc-r8-methylation",
+      "output": "research/autonomy/fresh-discovery-2026-10-05-round8/methylation"
+    }
+  ],
+  "reassignments": [
+    {
+      "worker": "/root/fapi_named",
+      "tasks": [
+        "Independent surface-panel challenge",
+        "Three-source neurosecretory model completion",
+        "Distinct fixed FDA ADC-antigen pilot"
+      ]
+    },
+    {
+      "worker": "/root/fapi_broader",
+      "tasks": [
+        "Independent microenvironment value/calibration challenge",
+        "Single bounded ordinary OA ascorbate access check"
+      ]
+    },
+    {
+      "worker": "/root/single_cell",
+      "tasks": [
+        "Independent metabolism challenge",
+        "Decisive fixed robustness and all12 TempO calibration stage"
+      ]
+    },
+    {
+      "worker": "/root/radiotherapy",
+      "tasks": [
+        "Independent methylation challenge",
+        "Distinct Luthria source gate",
+        "Final lead-reader/export integrity audit"
+      ]
+    },
+    {
+      "worker": "/root/diagnostic",
+      "tasks": [
+        "Independent neurosecretory challenge",
+        "Independent ADC universe/omission/model/outcome challenge"
+      ]
+    },
+    {
+      "worker": "/root/challenge",
+      "tasks": [
+        "Independent adaptation challenge",
+        "Independent fresh-compartment identity/source review"
+      ]
+    }
+  ],
+  "actual_full_TempO_stage_seconds": 1214.755825643,
+  "initial_pilot_minutes": 30,
+  "lead_authorized_larger_TempO_minutes": 45,
+  "raw_count_stage_complete": true,
+  "retained_FASTQ_bytes": 0,
+  "no_filler_utilization_tasks": true,
+  "model_effort": "Inherited; exact runtime model/effort not exposed",
+  "usage_cost_capacity": "Not exposed, not zero; no paid API fallback or GPU",
+  "free_bytes": 27487457280,
+  "restrictions": "Shared protocol and recorded storage/access/content/publication restrictions passed to every dispatch; quiet API/file work only."
+}
