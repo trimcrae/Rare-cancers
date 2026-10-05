@@ -1,0 +1,55 @@
+{
+  "id": "emc-r9-brenca-native-metadata-bridge-plan",
+  "date": "2026-10-05",
+  "started_at": "2026-10-05T16:22:44Z",
+  "plan_written_at": "2026-10-05T16:26:28.372344+00:00",
+  "pilot_reassessment_at": "2026-10-05T16:47:44Z",
+  "question": "Does an actually uninspected official BioSample/provider/isolate or author-linked metadata field explicitly bridge every identifiable Brenca native case/preparation and RNA library to its diagnostic partner label, beyond the already verified mixed PRJNA692081 audit?",
+  "claim_scope": "Source eligibility only. A metadata bridge would enable considering a new RNA association; it is not a disease finding or a rescue of the shelved R8 disease-wide panel.",
+  "prior_known_state": "Current prior records have 23 indexed RNA-Seq experiments/runs and 23 BioSamples; eight engineered EN/TN aliases are mapped and 15 aliases remain native versus NR4A3 control/preparation unresolved. The native paper has 12 cases7EWSR1/5TAF15 plus11engineered conditions; five additional matched frozen preparations may repeat native donors. No26-library assertion accepted without an actual source.",
+  "reuse_first": [
+    "R3 mirna_deposition complete mixed-project evaluation and dated correction",
+    "R7 complete native12 diagnostic label table and assay scope",
+    "R9 current23 SRA/BioSample/ENA original XML/TSV",
+    "R9 official CRO/migration/corrigendum linkage gates",
+    "Prior original SOURCE-GATES/SOURCE-AUDIT identity paragraphs only; TMEM266 remains shelved"
+  ],
+  "permitted_fields": [
+    "BioSample accession/SRA/ENA identifier",
+    "isolate/submitter sample alias",
+    "Owner organization/provider",
+    "public metadata links",
+    "direct native-case ID",
+    "preparation/FFPE/frozen and repeat-specimen link",
+    "explicit diagnostic EWSR1-NR4A3/TAF15-NR4A3/other partner label",
+    "library protocol/selection/layout/platform without sequence contents"
+  ],
+  "closed_fields": [
+    "RNA counts/outcomes/matrices",
+    "raw sequences or alignments",
+    "fusion formation/topology/coordinates or structural mechanisms",
+    "FAP-tissue/glycan/HLA science",
+    "personal contact metadata or outreach"
+  ],
+  "expected_new_input_if_present": "A concrete author/provider-linked public metadata document or an unprojected diagnostic case/preparation field, with an explicit identifier bridge; another numeric alias, generic tissue=EMC or institution name is insufficient.",
+  "source_route_rule": "Inspect retained original schema and actual outbound links first. No GET to unchanged SRA/BioSample/ENA/CRO URLs. At most an actually documented distinct public metadata pointer may be followed after recording its source and expected missing bridge. No guessed paths or unrelated ID matching.",
+  "coverage": "All23 indexed libraries/BioSamples, all12 native cases, all11 engineered source conditions, five paired frozen preparations and any actual newly linked condition; do not sum preparations into donors or assign remaining15 by subtraction.",
+  "utility_if_bridge_exists": "Before any RNA value, propose a separate concrete full-family or other independently justified RNA association, assess published partner-neural prior art and confounding, freeze the exact question and receive root review.",
+  "alternatives": [
+    "Aliases reflect library batches or engineered controls rather than patients",
+    "Owner/provider identity is not native-case identity",
+    "Additional frozen preparations repeat existing cases",
+    "Unrelated project IDs or numeric ordering create a false bridge",
+    "Published neural-program result consumes generic association novelty"
+  ],
+  "stop_conditions": [
+    "All relevant already-fetched metadata fields are generic and outbound links only repeat known project pointers",
+    "No genuine new author-linked metadata route exists",
+    "Source supplies no explicit case/preparation/partner-to-library link",
+    "Access is denied or restricted"
+  ],
+  "no_go_interpretation": "Verified source reuse with a specific unresolved bridge, not proof no public map exists or no partner-associated RNA biology exists. Suitable pending sources remain pending.",
+  "new_original_limit_bytes": 8388608,
+  "free_storage_floor_bytes": 10737418240,
+  "ownership": "Only this owned subtree; originals/shared caches read-only and cache-only; root alone integration/push. Codex author and committer."
+}
