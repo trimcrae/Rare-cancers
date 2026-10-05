@@ -1,0 +1,52 @@
+{
+  "id": "emc-r9-prospective-gpnmb-fixed-marker-rna-covariation",
+  "date": "2026-10-05",
+  "frozen_before_new_marker_outcomes_utc": "2026-10-05T20:17:44.624660+00:00",
+  "root_review_deadline": "2026-10-05T20:20:00+00:00",
+  "ownership": "/root/single_cell; only rna_processing/gpnmb_marker_covariation_pilot; root alone shared/main/push",
+  "question": "Within all 13 source-labelled native Hofvander EMC observations, does GPNMB RNA variation covary consistently with the fixed measured myeloid-marker RNAs or stromal-marker RNAs, sufficiently to prioritize which compartments and discordant specimens should be explicitly compared in a future localization experiment?",
+  "potential_use": "Beyond the already required malignant/myeloid/stromal localization controls, a robust marker-specific RNA pattern could guide which ordinary and high-GPNMB specimens should receive paired compartment measurement and which discordant specimen to retain as a falsifying control. It cannot establish a cell source or justify omitting a compartment. If it merely repeats expected generic myeloid covariation and does not change a concrete sampling comparison, scientific value fails even with a positive correlation.",
+  "primary_prior_art_and_exposure": "GPNMB target/family and historical seven-ADC selection are exploratory and already exposed, including adverse high LR5081-14 and weak/discordant MLPS/3SEQ. Prior R8 myeloid content panel included LST1,AIF1,FCER1G; their old bulk RNA values/summaries were inspected then. No assertion that other marker cells have never appeared in historical full matrix/old source workflows; exact new fixed-marker covariation has not been computed or read. Old adjusted ligand-panel findings remain shelved. Generic GPNMB/myeloid biology is expected; this is not cold target discovery or first cell-source evidence.",
+  "fixed_target": "GPNMB",
+  "myeloid_marker_order": [
+    "LST1",
+    "TYROBP",
+    "AIF1",
+    "CSF1R",
+    "CD68",
+    "FCER1G"
+  ],
+  "stromal_marker_order": [
+    "COL1A1",
+    "COL1A2",
+    "DCN",
+    "PDGFRA"
+  ],
+  "no_panel_change": "No gene added, removed, renamed or selected by outcomes. No fitted score, cutoff, gene ranking, subgroup rescue, dependency/protein/cell-abundance/clinical inference.",
+  "primary_units": "Deposited gene TPM, one observation per each of 13 exact native specimen labels, not independent-patient certainty. Ranks within this same assay only; no cross-assay pooling.",
+  "all13_primary": true,
+  "cohort_rule": "Use all13 in frozen source order; ignore earlier discovery/primary exclusion flags as filters in THIS primary analysis, while retaining their provenance. Keep LR5081-14/sample_id5081-14. No favorable specimen removal.",
+  "estimand": "For each of ten markers separately, Spearman rho = Pearson correlation of average tied ranks of GPNMB TPM and marker TPM. Exact floating-value ties receive average ranks. No p/q, no random resampling, no CI/population/significance interpretation. Spearman invariant to monotone log transform, so no extra log-statistic rescue.",
+  "sensitivities": [
+    "Every leave-one-specimen-out result for every marker in original thirteen-condition order, including high LR5081-14; omit no other observations selectively",
+    "Highlight the already exposed high LR5081-14 omission only as the corresponding prespecified leave-one-out sensitivity, not a new primary estimate or confirmation"
+  ],
+  "missing_rules": "Require one exact unique symbol row per GPNMB/marker, all13 exact columns, finite nonnegative TPM. Missing/ambiguous row or duplicate specimen makes that marker comparison unavailable with explicit reason; no alias guessing, zero substitution, finite-only selection or omitted cases. Constant GPNMB or constant marker ranks => undefined rho with explicit reason. All valid zero/tie observations retained.",
+  "disproof": "Marker associations that change sign or meaning under single-case removal, differ across markers, or covary with both marker families without a clear additional sampling comparison remain inconclusive/non-specific. A correlation alone cannot justify assigning GPNMB to myeloid/stromal cells. If the ordinary/high plus all-compartment comparison is unchanged, this is not a useful new contribution, regardless of sign. No universal minimum rho or post-result cutoff introduced.",
+  "strongest_alternatives": [
+    "Bulk tissue mixture, capture/normalization compositional effects, stromal content and unmeasured tumor purity; marker RNA is not measured cell abundance",
+    "Shared transcriptional regulation in malignant cells or other compartments; correlated marker transcripts do not authenticate cell identity or protein colocalization",
+    "Small thirteen-observation sample, high-case leverage, tied/low-expression values, sequencing-year/batch and donor history; no causal/prognostic certainty",
+    "Previously expected GPNMB/myeloid association may fail novelty/use even if internally consistent"
+  ],
+  "all_public_scope": "RT owns assay-specific all-six GSE24369 and ten GSE4303 replication/mapping; do not infer replication from probe presence. Allfour 3SEQ, all12 TempO and cultured-native conditions retain actual comparator/mapping/pairing/overlap pending statuses in reused coverage; these sources are not silently excluded. New questions or additional numerics need a pre-value amendment and root GO. Unknown overlap prevents independent-donor replication claims.",
+  "start_gate": "NO NEW GPNMB OR MARKER QUANTITIES until exact root GO referencing immutable plan hash. Hash/cache/schema checks only before approval. Useful-value NO or input failure ends this scoped pilot with negatives/inconclusive evidence, not global exhaustion.",
+  "resources": {
+    "new_originals": 0,
+    "network_requests": 0,
+    "derived_cap_bytes": 2097152,
+    "free_floor_bytes": 10737418240,
+    "free_at_freeze_bytes": 27037110272
+  },
+  "restrictions": "Quiet cached file work only; no UI, denied FAP/glycan/HLA/structural/fusion-forming topology/sequence/mechanism content, private/login/bypass/credentials/spend/GPU/outreach/publication/external edits/PR. Codex author and committer, no push."
+}
