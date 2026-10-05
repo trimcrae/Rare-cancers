@@ -1,0 +1,186 @@
+{
+  "schema": "emc-r8-adaptation-independent-review/1",
+  "utc": "2026-10-05T01:05:32.595130+00:00",
+  "reviewer": "Codex /root/challenge",
+  "reviewed_packet": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round8/adaptation",
+  "reviewed_commit": "f72a68021f6af7a05974dc4f4c5d05ba70e38e51",
+  "reviewed_files": {
+    "RESULTS.txt": {
+      "bytes": 8509,
+      "sha256": "dd6ade6a2da41ec112b9d0702af67574d7c26c0e6aeb00c734b87b276bd210ae"
+    },
+    "MEASUREMENTS.json": {
+      "bytes": 56365,
+      "sha256": "29f5cb55acb5b75ae3b961bbd478ee4cbe0715cb16e74a1d2b143ee657bc3d4a"
+    },
+    "COVERAGE.json": {
+      "bytes": 10733,
+      "sha256": "de48acea99c785b38d2826117b33cc2a877b4f420f135972a1862a2cc1af0ed9"
+    },
+    "DECISION.json": {
+      "bytes": 1891,
+      "sha256": "248b413b2d49867c71801200e3191a92bd6b81dc4c941834d9a40ba5b45a89ea"
+    },
+    "FREEZE.json": {
+      "bytes": 3051,
+      "sha256": "c63aa7ad56834eb5cd8c1c2010b789905eb988ed449279fde38e4f3cf535fcfc"
+    },
+    "REUSED-EVIDENCE.json": {
+      "bytes": 3676,
+      "sha256": "1fb53b03fb05b5702321bc14d8e003e3810c89315829b89b09073d5278ee7e78"
+    },
+    "SOURCE-HASHES.json": {
+      "bytes": 17352,
+      "sha256": "d422c8fc7abf45453fe0fe5ca63dab0300f1a7a8200bacc0453bd4bb552ce8e4"
+    },
+    "analyze_measurements.py": {
+      "bytes": 15322,
+      "sha256": "bc89bf843fcea0e135e00ec513c6c19f788d002fb66b1734562a4eced4f58dac"
+    }
+  },
+  "scope": "Read-only independent primary clinical observation, condition/pairing, arithmetic, prior-art, scientific-value and omission challenge. No fresh discovery retrieval or restricted structural-genomics source content inspected. This review does not certify exhaustive public coverage.",
+  "actual_validation": {
+    "independent_primary_read": "Parsed four-condition He/Wang clinical panel table, original KIT text and 20-row supplement, cabozantinib clinical/assay text and three supplementary PDFs, sunitinib original abstract, and PGR clinical/RNA text with original Table 1 image. Primary references and exact source bindings follow.",
+    "reproduction": "Executed frozen analyze_measurements.py with --output into reviewer-owned storage. Its 11 primary-hash/rowspan/count assertions passed; reproduced scientific JSON equals frozen MEASUREMENTS.json after removing the UTC field. This is a reproducibility check, not independent biological replication.",
+    "reproduction_output": {
+      "path": "sources/ADAPTATION-REPRODUCTION.json",
+      "bytes": 56365,
+      "sha256": "f1147282971b78903bea5eee254ff9e54bfe7d347bf3289ce938b22ac709751f",
+      "status": "ignored cache-only derived duplicate; preserved, not committed"
+    },
+    "owner_original_freeze_files": 19,
+    "owner_original_freeze_hash_mismatches": 0,
+    "own_original_methylation_freeze_files": 8,
+    "own_original_methylation_freeze_hash_mismatches": 0,
+    "visual_source_inspection": [
+      {
+        "source": ".cache/pgr2022-supp/po-6-e2200039-g004.jpg",
+        "observed_time_America_New_York": "2026-10-04T20:52:30.513491-04:00",
+        "basis": "Original published Table 1 image read; no number digitization."
+      },
+      {
+        "source": ".cache/cabozantinib2021-supp/ccr-21-2480_supps3.pdf",
+        "observed_time_America_New_York": "2026-10-04T20:59:33.654663-04:00",
+        "basis": "Supplement S3 rendered and read outside 06:00-10:00 computer-use ban; no number digitization.",
+        "local_render": {
+          "path": "sources/cabozantinib-S3-independent-review.png",
+          "bytes": 346970,
+          "sha256": "222d06f7a5df98ac664c7989579bd1b1094e2c10dd5a56411c25423208cf178c",
+          "status": "ignored cache only"
+        }
+      }
+    ]
+  },
+  "source_bindings": [
+    {
+      "path": ".cache/heterogeneity2022-epmc_xml.xml",
+      "bytes": 89500,
+      "sha256": "e624630e633d5c2bac81c749494b3b4e2c0da114ed772f131faae57e7711efce"
+    },
+    {
+      "path": ".cache/cabozantinib2021-bioc_xml.xml",
+      "bytes": 209195,
+      "sha256": "404069059108740a93630a3aaa2d4180f12ffa81337478e54f5df021651ad1ff"
+    },
+    {
+      "path": ".cache/cabozantinib2021-epmc_xml.xml",
+      "bytes": 145555,
+      "sha256": "734d5f0c7dd07bad47565543edae014080b94eb9cb0c8624258a0acad477d139"
+    },
+    {
+      "path": ".cache/kit2018-epmc_xml.xml",
+      "bytes": 50073,
+      "sha256": "371873864c4c94a3026a3c11a649730e4abd3f8b2eafb6c9cad74c06fc4c9d1f"
+    },
+    {
+      "path": ".cache/kit2018_supp/ijms-19-01855-s001.pdf",
+      "bytes": 135336,
+      "sha256": "2df9c83661e33aa30ff7041d2cc1ebde461b4c3e929e1256585870c8a908525c"
+    },
+    {
+      "path": ".cache/pgr2022-bioc_xml.xml",
+      "bytes": 45329,
+      "sha256": "6981ffbddec62e8f382052252240361aef85c1de042054f157913d23405eb489"
+    },
+    {
+      "path": ".cache/pgr2022-supp/po-6-e2200039-g004.jpg",
+      "bytes": 59203,
+      "sha256": "f8ff3426a76df2a9ee9a6708c5def85a6050578ded8b22f70a52fb3f9173dd47"
+    },
+    {
+      "path": ".cache/kinase_treatment-metadata.json",
+      "bytes": 1844633,
+      "sha256": "b41c424501c85c67957c7f13b96594b65bbaed86945e2c84720273be7fbc6f8e"
+    },
+    {
+      "path": ".cache/cabozantinib2021-supp/ccr-21-2480_supps1.pdf",
+      "bytes": 1325149,
+      "sha256": "0a60664455751c65dcc427a37d1211269223bd628aa351fa78925270592e7854"
+    },
+    {
+      "path": ".cache/cabozantinib2021-supp/ccr-21-2480_supps2.pdf",
+      "bytes": 555869,
+      "sha256": "33b818f51596cb3e8a48c921073f6d4c3e18ca8e71c4231277935aee13aae7b6"
+    },
+    {
+      "path": ".cache/cabozantinib2021-supp/ccr-21-2480_supps3.pdf",
+      "bytes": 1435073,
+      "sha256": "4296d0ca9cd7b640de853837d18bf443a8dd80f6005cdf51016ed15981097072"
+    }
+  ],
+  "source_portability": "Full papers, supplements, source metadata and review render remain ignored cache-only. Public primary URLs and chosen response hashes are recorded in owner SOURCE-RECEIPTS.json / SUPPLEMENT-RECEIPTS.json / SOURCE-HASHES.json. Recovery must compare hashes and versions; this review does not imply that cached originals are in Git.",
+  "independent_observation_checks": [
+    {
+      "source": "He et al. 2022 (including author Wang), PMC9330136; DOI 10.3389/fgene.2022.791675",
+      "all_conditions": "One donor, four table conditions: pre-treatment recurrent foot/tibia; axillary node; post-five-cycle doxorubicin/ifosfamide recurrent foot/tibia; femoral metastasis. Eight table rows correctly respect rowspans. Narrative inguinal versus table axillary node label is a retained source inconsistency, not repaired by the reviewer.",
+      "observed": "EGFR copy values 3.00 then 4.13; descriptive increase 1.13 and 37.666667%. MET 2.80 and MDM4 3.00 occur post chemotherapy; different FBXW7 observations do not establish clone continuity. Source mutation consequence labels are retained without reinterpretation.",
+      "limit": "No primary-lesion NGS, antiangiogenic exposure, paired RET assay or patient-specific copy-number/purity threshold. A clinical panel copy gain does not establish kinase activation, acquired TKI resistance or observed response to source-listed drugs. Spatial selection, purity and chemotherapy are sufficient alternatives."
+    },
+    {
+      "source": "Urbini et al. KIT 2018, PMC6073125; DOI 10.3390/ijms19061855",
+      "all_conditions": "All 20 clinical supplement rows checked: five WTS EWSR1::NR4A3 cases, fifteen additional targeted Sanger cases, and three protein blots. One KIT p.D579del case; additional hotspot assays are not whole-gene negative sequencing.",
+      "observed": "Mutant sample has reported approximately 9.8-fold KIT RNA versus the other four sequenced tumors; protein in all three blots and mild phosphorylation only in the mutant. Published patient responded to sunitinib and was not exposed to imatinib.",
+      "limit": "A selected 1/20 hotspot observation is not population prevalence or pan-EMC KIT wild-type status. Five RNA cases, three protein cases and twenty clinical cases are different assay denominators. No pretreatment/on-treatment/progression molecular pairs; overlap with the Italian sunitinib cohort remains unresolved. Findings and treatment association are published prior art."
+    },
+    {
+      "source": "O Sullivan Coyne et al. cabozantinib, PMC8776602; DOI 10.1158/1078-0432.CCR-21-2480; NCT01755195",
+      "all_conditions": "All three EMC cohort slots retained. Published case 1010003 has one documented PR after ten cycles and prolonged therapy; individual outcomes and biomarker identities of the other two EMC donors remain unknown. Do not make three responders from one case.",
+      "observed": "The 42-donor plasma analysis mixes histologies, with baseline, C1D1 3-6-hour post-dose and C2D1 measurements of sMET/HGF/VEGFA/sVEGFR2. Supplement S3 has pooled scatter and response-group boxplots, without histology or donor IDs. No EMC dot or marker trajectory can be authenticated from it.",
+      "limit": "No EMC assay crosswalk, tumor RET activity or acquired-resistance measurement. The one prior-TKI donor is not individually assigned to EMC. Visit availability and pooled response selection prevent a subtype-specific pharmacodynamic or mediation inference."
+    },
+    {
+      "source": "Stacchiotti et al. sunitinib 2014, PMID24703573",
+      "all_conditions": "Ten progressive advanced EMC cases; primary abstract reports six PR, two SD and two PD, with limited molecular assays. Full individual assay/condition tables are unavailable in the evaluated cloud source.",
+      "observed": "RET expression/activation is reported, and no secondary resistance was detected at median 8.5 months follow-up (range 2-28).",
+      "limit": "This observation cannot be repurposed as acquired-resistance biology or universal long-term absence of resistance. No authenticated pre/progression RET pair; absent accessible full text is pending evidence, not biological absence."
+    },
+    {
+      "source": "Wilbur et al. PGR::NR4A3 2022, PMC9489176; DOI 10.1200/PO.22.00039",
+      "all_conditions": "One 35-year-old female pregnancy-associated cellular EMC case TP_2274; recurrent resection RNA precedes tamoxifen. No independent second donor or post-treatment molecular condition.",
+      "observed": "Original Table 1 lists outlier RNA NR4A3, PGR and ESR1. Narrative separately lists ESR1/PGR/GREB1; both statements retained. PGR exon 2::NR4A3 exon 2 (5-prime UTR), focal NR4A3 four-copy gain and chromosome 11 three-copy gain are source observations, not evidence of RET adaptation.",
+      "limit": "The >3000 MI-ONCOSEQ comparison does not release exact case RNA values in a table for a new computation; no digitization or fusion-transcript assignment made. Hormonal mechanism and five-year tamoxifen course are already published. Pregnancy/delivery, repeated resection, tumor mixture and follow-up constrain a causal benefit interpretation."
+    }
+  ],
+  "omission_challenge": {
+    "condition_integrity": "The evaluated four-condition clinical panel, twenty KIT rows with 5/3 assay subsets, three cabozantinib EMC slots, ten sunitinib cases and one PGR donor do not create an eligible acquired-resistance RET pair. Unknown molecular and clinical mappings remain explicit.",
+    "reused_or_pending": "Prior authentic RT paired-RNA donors 9 and 29 have no public individual matrix or paired post-RT DNA; RT response definition is local-control/death based. Broader serial sarcoma/TKI/GEO catalogue eligibility, 2014 sunitinib and 2019 pazopanib full tables, pooled biomarker crosswalks and source-identification gaps remain pending. Counts of metadata hits do not certify individual source evaluation.",
+    "restriction": "Did not inspect PMC11285543 structural-variant matched-source contents or any interrupted FAP-tissue/glycan/structural-genomics/HLA task. Its gap is not a negative result.",
+    "promotion_gate": "Suitable accessible public EMC conditions not fully evaluated still block promotion. Shelving is consistent with incomplete coverage; no exhaustive negative statement is endorsed."
+  },
+  "scientific_value_and_novelty": {
+    "strongest_alternative": "Published baseline/spatial heterogeneity, chemotherapy selection, donor/lesion mismatch, sample mixture or pooled mixed-histology pharmacodynamics explains the apparent adaptation observations without an acquired RET-resistance mechanism.",
+    "new_useful_finding": "None in this bounded evaluated packet. Correctly parsing old published tables or drawing a novel assay-unlinked narrative is not a new measurement with practical EMC research value.",
+    "decision": "ENDORSE SHELVE for the standalone RET adaptation proposal. No material correction to reviewed source arithmetic, case/condition accounting or conservative final decision identified. Validity and added scientific value both fail promotion; no RET absence, antiangiogenic inefficacy or pan-EMC adaptation claim follows.",
+    "reopening": "Authenticated same-donor, same-lesion or documented matched tumor pre-exposure and acquired-progression samples with measured RET/pathway activity and suitable assay/purity controls; all relevant conditions and prior art evaluated; a concrete biological or therapeutic question beyond the already published cases."
+  },
+  "storage": {
+    "own_new_sources_bytes_including_copies": 10470230,
+    "free_bytes": 27505770496,
+    "raw_primary_sources_committed": false
+  },
+  "reciprocal_methylation_review": {
+    "path": "../adaptation/METHYLATION-INDEPENDENT-CHECK.json",
+    "sha256": "4ea28c32af9bff0539d19c3e366df151c4981966399ef8a0d441c5c65ac4ed10",
+    "result": "Accepts both immutable method/value amendments; all ten EMC, sixty-two controls, seventy-two paired-color IDAT mappings checked. Favorable SARC applicability and age-free stemTOC preserved; no biological array value inspected."
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schema": "emc-r8-methylation-additive-review-freeze/1",
+  "utc": "2026-10-05T01:06:34.389417+00:00",
+  "initial_owner_commit": "1ee3524902b2ce053be39e272507a89569e6bad3",
+  "original_freeze_preserved": {
+    "path": "PILOT-FREEZE.json",
+    "sha256": "9792e49bb61a60c115c6cf3bc515cbcdce9bb8364b9bc2be66ac0d846e3fd9a9"
+  },
+  "additive_records": {
+    "AMENDMENT-01.json": {
+      "bytes": 2954,
+      "sha256": "fe54e2a6c3970dfa9211cf53e83c8e858a76e443c4f021cf36f30f24abc58bdd"
+    },
+    "AMENDMENT-02-STEMTOC-REASSESSMENT.json": {
+      "bytes": 5499,
+      "sha256": "092b3e5eed2dcecc07c14d6d488153c8f950f1b8efda691b63854d8d2ad4f2bb"
+    },
+    "ADAPTATION-INDEPENDENT-REVIEW.json": {
+      "bytes": 13778,
+      "sha256": "1d67f9e5e26814d38af6034e1eeb7bdc575a857f8f57ca6d3269816ed2acb95e"
+    }
+  },
+  "reciprocal_review": {
+    "path": "../adaptation/METHYLATION-INDEPENDENT-CHECK.json",
+    "sha256": "4ea28c32af9bff0539d19c3e366df151c4981966399ef8a0d441c5c65ac4ed10"
+  },
+  "precedence": "Read both amendments alongside the immutable original METHOD/REPORT/DECISION: stemTOC validation includes32TCGA types including SARC; fifteen refers to a narrower endpoint. Missing individual age prevents an epiTOC2 rate but does not mathematically prevent a cumulative stemTOC score. The method-specific useful-state contrast is prospectively shelved for comparison/interpretation value rather than intrinsic method invalidity. No numerical methylation outcome was inspected.",
+  "complete_public_coverage": false,
+  "search_exhausted": false,
+  "source_cache": {
+    "path": "sources/",
+    "status": "ignored cache only; originals preserved, no full papers/raw original datasets in Git",
+    "retained_bytes_including_copies": 10470230,
+    "soft_cap_bytes": 67108864,
+    "free_bytes": 27505737728,
+    "large_matrix_staged": false
+  },
+  "validation": "All eight immutable methylation freeze bindings and nineteen adaptation freeze bindings verified unchanged; independent source/condition/value review and exact reproduction receipt in ADAPTATION-INDEPENDENT-REVIEW. Reciprocal reviewer binds original hashes and both amendments.",
+  "normal_repository_preflight": {
+    "status": "pending integrating lead validation",
+    "reason": "Intentionally sparse owned worker worktree does not materialize scripts/preflight.sh. Local JSON/artifact integrity, source/condition arithmetic and independent scientific reviews actually completed; no skipped suite represented as passed."
+  }
+}

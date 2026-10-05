@@ -1,0 +1,40 @@
+{
+  "utc": "2026-10-05T00:55:56.763286+00:00",
+  "kind": "Additive independent-review method-scope correction; original frozen records preserved",
+  "trigger": "Reciprocal radiotherapy review identified omitted broader stemTOC cancer-dataset scope; independently confirmed in original primary methods.",
+  "original_bindings": [
+    {
+      "path": "PILOT-FREEZE.json",
+      "bytes": 1408,
+      "sha256": "9792e49bb61a60c115c6cf3bc515cbcdce9bb8364b9bc2be66ac0d846e3fd9a9"
+    },
+    {
+      "path": "METHOD-APPLICABILITY.json",
+      "bytes": 2737,
+      "sha256": "970466d3b5783296afd3fb34a013079e31f4fc74638d18ee7e5fa1670be092cf"
+    },
+    {
+      "path": "REPORT.txt",
+      "bytes": 2866,
+      "sha256": "c654ca7a3eb912e1ef41d4731d12d1eed90d1083fded3eb9257d543db2f40f59"
+    },
+    {
+      "path": "DECISION.json",
+      "bytes": 2135,
+      "sha256": "a28620ef9a1330282091772691e8b09cf171bdda50260ecb13a6e7230c94c3b6"
+    }
+  ],
+  "primary_binding": {
+    "DOI": "10.1038/s41467-024-48649-8",
+    "PMCID": "PMC11101651",
+    "path": "sources/improved_counter_2024.xml",
+    "sha256": "da5b6b14ce973109f294c9edb6d78149dc2c221373b52b684b7e6d1993fb8202",
+    "status": "ignored cache only; receipt URL preserved"
+  },
+  "corrected_scope": "The stemTOC 2024 methods analyze 32 TCGA cancer types, INCLUDING SARC. The 15-type result concerns a narrower tumor-cell-of-origin-fraction endpoint, not the entire cancer dataset analysis. SARC inclusion does not establish an authenticated EMC specimen or EMC-specific clock validation.",
+  "source_quote": "We analyzed 32 cancer types (ACC, BLCA, BRCA, CESC, CHOL, COAD, DLBC, ESCA, GBM, HNSC, KICH, KIRC, KIRP, LAML, LGG, LIHC, LUAD, LUSC, MESO, PAAD, PCGP, PRAD, READ, SARC, SKCM, STAD, TGCT, THCA, THYM, UCEC, UCS, UVM).",
+  "supersedes": "Any reading of the original METHOD-APPLICABILITY contrary_or_improved_method or report as asserting that the newer counter was assessed only in 15 types or did not include any sarcoma. The 163-CpG epiTOC2 primary 2020 applicability statement concerns a different source and is unchanged.",
+  "scientific_consequence": "This is favorable method evidence: normal mesenchymal cell-line tests and broad TCGA-SARC analysis support methodological plausibility. Do not dismiss all mitotic counters as intrinsically invalid in sarcoma. Missing individual age/comparable controls in the EMC reference cohort, unresolved mixture/history/normalization alternatives, absence of independent EMC state linkage and suitable unevaluated public values still defeat the useful prespecified contrast.",
+  "decision": "SHELVE unchanged; no clock value was measured. New method scope does not produce a new useful EMC finding or complete source coverage.",
+  "validation": "Original section read independently; corrected32/SARC versus15endpoint distinction checked against source and reviewer. Original frozen hashes unchanged; no new retrieval, score calculation or matrix stage."
+}
