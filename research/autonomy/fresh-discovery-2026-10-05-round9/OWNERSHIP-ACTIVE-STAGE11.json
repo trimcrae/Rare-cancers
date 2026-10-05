@@ -1,0 +1,88 @@
+{
+  "utc": "2026-10-05T16:48:09.457587+00:00",
+  "owner": "/root/emc-cloud-round9",
+  "actual_slot_limit": 7,
+  "resources": {
+    "emc-round9-imprinting": {
+      "worker_id": "/root/challenge",
+      "reserved_utc": "2026-10-05T10:36:09.811471Z",
+      "status": "active_or_settling_imprinting/empirical_opportunity_challenge",
+      "worktree": "/workspace/emc-r6-challenge",
+      "receipt": null
+    },
+    "emc-round9-rna_processing": {
+      "worker_id": "/root/single_cell",
+      "reserved_utc": "2026-10-05T10:36:09.902514Z",
+      "status": "active_or_settling_rna_processing/empirical_opportunity_selection",
+      "worktree": "/workspace/emc-r6-single_cell",
+      "receipt": null
+    },
+    "emc-round9-endocrine": {
+      "worker_id": "/root/radiotherapy",
+      "reserved_utc": "2026-10-05T10:36:09.976228Z",
+      "status": "active_or_settling_endocrine/native_model_discovery_refresh",
+      "worktree": "/workspace/emc-r6-radiotherapy",
+      "receipt": null
+    },
+    "emc-round9-clinical_measurements": {
+      "worker_id": "/root/fapi_named",
+      "reserved_utc": "2026-10-05T10:36:10.057991Z",
+      "status": "active_or_settling_clinical_measurements/organoid_native_emc_review",
+      "worktree": "/workspace/emc-r6-fapi_named",
+      "receipt": null
+    },
+    "emc-round9-functional_new": {
+      "worker_id": "/root/fapi_broader",
+      "reserved_utc": "2026-10-05T10:36:10.147204Z",
+      "status": "active_or_settling_functional_new/organoid_native_emc_source_gate",
+      "worktree": "/workspace/emc-r6-fapi_broader",
+      "receipt": null
+    },
+    "emc-round9-public_resource_omissions": {
+      "worker_id": "/root/diagnostic",
+      "reserved_utc": "2026-10-05T10:36:10.219861Z",
+      "status": "active_or_settling_public_resource_omissions/liposomal_eribulin_pdx_review",
+      "worktree": "/workspace/emc-r6-diagnostic",
+      "receipt": null
+    }
+  },
+  "active_assignments": [
+    {
+      "worker": "single_cell",
+      "resource": "emc-round9-rna_processing",
+      "packet": "rna_processing/empirical_opportunity_selection",
+      "question": "At most two genuinely new useful empirical questions with actual accessible all-native data and defensible comparators; no outcome mining or old-panel rescue."
+    },
+    {
+      "worker": "challenge",
+      "resource": "emc-round9-imprinting",
+      "packet": "imprinting/empirical_opportunity_challenge",
+      "question": "Independent prior-art/value/coverage/confounding and actual computability challenge of empirical proposals."
+    },
+    {
+      "worker": "radiotherapy",
+      "resource": "emc-round9-endocrine",
+      "packet": "endocrine/native_model_discovery_refresh",
+      "question": "New native culture/PDX primary source eligibility; newly identified Jinno2026 PDX roster remains unavailable/pending, not proof of EMC presence or absence."
+    },
+    {
+      "worker": "diagnostic",
+      "resource": "emc-round9-public_resource_omissions",
+      "packet": "public_resource_omissions/liposomal_eribulin_pdx_review",
+      "question": "Independent actual native-model identity/all-condition availability review of Jinno2026; cached metadata only does not evaluate outcomes."
+    },
+    {
+      "worker": "fapi_broader",
+      "resource": "emc-round9-functional_new",
+      "packet": "functional_new/organoid_native_emc_source_gate",
+      "question": "New public native sarcoma organoid/tumoroid donor and processed measurement eligibility, beyond already evaluated models."
+    },
+    {
+      "worker": "fapi_named",
+      "resource": "emc-round9-clinical_measurements",
+      "packet": "clinical_measurements/organoid_native_emc_review",
+      "question": "Independent all-native EMC identity/donor/assay/omission review for new organoid resources."
+    }
+  ],
+  "scope": "Six retained writer resources and one integrating lead. Source-only/internal audits currently active or settling; no outcome-stage permission, worker release, lease expiry or campaign completion inferred."
+}
