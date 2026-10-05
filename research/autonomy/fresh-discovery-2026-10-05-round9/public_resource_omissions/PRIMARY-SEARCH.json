@@ -1,0 +1,41 @@
+{
+  "utc": "2026-10-05T10:41:24.162031+00:00",
+  "catalogue_scope": "Search-lead metadata only, not full primary eligibility or a scientific result. Full returned row catalogues remain cache-only; no global search-exhaustion claim.",
+  "full_rows_cache": {
+    "path": "source-cache/PRIMARY-SEARCH-full-rows.json",
+    "bytes": 823273,
+    "sha256": "1f0de6a6155d8dd4669311c50626043081fb13628752189e6e5c3f7ed9183845"
+  },
+  "queries": [
+    {
+      "key": "exact_multiomics",
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"extraosseous myxoid chondrosarcoma\") AND (proteom* OR spatial OR methylom* OR organoid OR \"long read\" OR \"single cell\")",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22extraskeletal+myxoid+chondrosarcoma%22+OR+%22extra-skeletal+myxoid+chondrosarcoma%22+OR+%22extraosseous+myxoid+chondrosarcoma%22%29+AND+%28proteom%2A+OR+spatial+OR+methylom%2A+OR+organoid+OR+%22long+read%22+OR+%22single+cell%22%29&format=json&resultType=core&pageSize=1000",
+      "bytes": 1063713,
+      "sha256": "0a3f5ed6cae2c32db2fe10b2eeae30a95decf9fc157f68e0658902f64bfa558c",
+      "hit_count": 135,
+      "returned_rows": 135,
+      "limit": "Complete returned metadata for this query"
+    },
+    {
+      "key": "recent_broader",
+      "query": "sarcoma AND (proteogenom* OR \"proteomic atlas\" OR \"spatial atlas\" OR \"long-read\" OR \"multi-omics\") AND FIRST_PDATE:[2025-01-01 TO 2026-10-05]",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=sarcoma+AND+%28proteogenom%2A+OR+%22proteomic+atlas%22+OR+%22spatial+atlas%22+OR+%22long-read%22+OR+%22multi-omics%22%29+AND+FIRST_PDATE%3A%5B2025-01-01+TO+2026-10-05%5D&format=json&resultType=core&pageSize=1000",
+      "bytes": 7852075,
+      "sha256": "633ab35310440572a46c823258a191e3e4da9fbc68130ca11117fee2820465dc",
+      "hit_count": 2802,
+      "returned_rows": 1000,
+      "limit": "Only first1000 of larger hit_count returned; query is incomplete"
+    },
+    {
+      "key": "EMCS_release",
+      "query": "(EMCS OR NR4A3) AND (dataset OR proteom* OR methylom* OR long-read) AND FIRST_PDATE:[2025-01-01 TO 2026-10-05]",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28EMCS+OR+NR4A3%29+AND+%28dataset+OR+proteom%2A+OR+methylom%2A+OR+long-read%29+AND+FIRST_PDATE%3A%5B2025-01-01+TO+2026-10-05%5D&format=json&resultType=core&pageSize=1000",
+      "bytes": 6873681,
+      "sha256": "5ebf19571d7357e6393bc379ded96df741ea89d5cd162459924ce935c662e0cc",
+      "hit_count": 736,
+      "returned_rows": 736,
+      "limit": "Complete returned metadata for this query"
+    }
+  ]
+}

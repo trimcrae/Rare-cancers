@@ -1,0 +1,41 @@
+{
+  "schema": "emc-ret-phosphoproteomic-prospective-question/1",
+  "utc": "2026-10-05T10:57:06.957203+00:00",
+  "source_candidate": {
+    "doi": "10.64898/2026.07.08.737171",
+    "epmc": "PPR1276017",
+    "title": "Prospective pan-cancer phosphoproteomics at clinical scale extends therapeutic options in precision oncology",
+    "reported_scope": "1,998 patient tumors in MASTER/CATCH/INFORM; 46 kinase TOPAS scores; no EMC identity or measurement values yet established"
+  },
+  "claim_to_test": "Among all independently source-authenticated patient EMC specimens in this release, is RET activation measurable beyond the previously reported RET RNA abundance, relative to fixed myxoid liposarcoma and synovial-sarcoma patient specimens assayed in compatible batches?",
+  "prior_art": "RET expression in EMC and RET-linked clinical agents are established prior evidence; the new source authors report kinase scoring and sarcoma pazopanib stratification. Neither is a new EMC-specific result. Prior R1-R8 bulk expression screens are reused, not rediscovered. The full primary source must be checked for an already reported EMC RET contrast before any new finding is promoted.",
+  "primary_assay": "If publicly released, uniquely RET-assigned phosphopeptides at canonical activating Y905 and/or Y1062 with matched total RET measurement; report each site separately. Prespecified phosphorylation/total-protein contrast is only identifiable where numerator and denominator are both measured without imputed absence. Published RET TOPAS score, if present, is a separate substrate-based supporting readout and cannot substitute for direct site measurement.",
+  "fixed_scope": [
+    "RET only; no exploratory selection among 46 kinases",
+    "All patient-linked authenticated EMC conditions, including repeated/metastatic/treated samples, remain in coverage",
+    "Fixed primary comparators: myxoid liposarcoma and synovial sarcoma; low-grade fibromyxoid sarcoma as descriptive contrary context if source-linked available",
+    "Patient/donor unit for inference; specimens retained individually; unknown donor overlap forbids independence claims",
+    "Normal tissue context retained if assayed and anatomically interpretable; absence of matched normal is a limitation, not tumor specificity"
+  ],
+  "authentication": "Primary pathology explicitly EMC or extraskeletal myxoid chondrosarcoma plus source molecular authentication where available. Generic myxoid chondrosarcoma, SARC codes, disputed cell models, or cohort abbreviations cannot be transferred to EMC; fusion/diagnostic metadata used for eligibility only, not structural-genomic mechanism analysis.",
+  "strongest_alternatives": [
+    "High RNA/total RET without receptor activation",
+    "RET substrate score driven by promiscuous kinases, no uniquely measured RET phosphosite",
+    "Tumor purity, non-neoplastic/stromal neural or vascular compartments, tissue mixture and site composition",
+    "Protein loading, platform/batch, phosphoenrichment sensitivity and pre-analytical handling",
+    "Treatment or sampling-site differences and repeated-donor pseudoreplication",
+    "A lineage-wide signal also present in relevant myxoid/other sarcoma comparators"
+  ],
+  "analysis_gate": "Freeze source hash/case roster/eligible assay rows before values. Use all eligible EMC observations. Summarize per-case direct-site and matched total-protein measurements, censoring/missingness and within-batch effect direction. Only estimate patient-level contrast if source denominators and sufficient independent patient comparators justify it. No generic post-hoc significant screen or optimized cutoff. Two direct sites are separate named outcomes; uncertainty and both unfavorable outcomes retained.",
+  "useful_addition": "A reproducible, source-authenticated direct phosphorylation contrast could prioritize a bounded tissue assay for RET activation beyond RNA. Bulk phosphoproteomics does not establish accessible protein, receptor dependency, drug sensitivity or patient benefit.",
+  "defeat_or_stop": [
+    "No public authenticated EMC crosswalk",
+    "No publicly released direct RET sites with matched total RET or valid distinct useful supporting assay",
+    "Source authors already report the same EMC-specific contrast",
+    "Missing donor/batch/comparator linkage makes a purported new contrast uninterpretable",
+    "All direct measurements unfavorable, too sparse or discordant across conditions",
+    "Suitable accessible evidence left pending blocks promotion"
+  ],
+  "storage": "Read-only shared inputs; new raw source soft cap 64 MiB and >=10 GiB free. Larger informative source requires exact finite lead-approved stage. No browser/UI/image inspection during NY06-10 ban.",
+  "prospective_status": "Frozen before any numerical EMC values in the new phosphoproteomic source. Source eligibility remains pending; this is a conditional question, not an assertion that EMC is present."
+}
