@@ -1,0 +1,37 @@
+{
+  "source": "PMID31419061 / DOI10.1002/prca.201900054",
+  "prior_design": "Actual originating tumor/model matched MS design authenticated by prior source metadata; individual EMC case/histology/pair/controls/release unknown. Generic sarcoma and intrinsic clusters do not authenticate native EMC.",
+  "evaluated_archive_queries": [
+    {
+      "query": "Exact DOI",
+      "archive": "PRIDE",
+      "status": "evaluated source-metadata query response",
+      "result": "HTTP200 JSON list with zero entries; no project accession, specimen condition or file links supplied"
+    },
+    {
+      "query": "Exact PMID",
+      "archive": "PRIDE",
+      "status": "evaluated source-metadata query response",
+      "result": "HTTP200 JSON list with zero entries; no project accession, specimen condition or file links supplied"
+    }
+  ],
+  "all_actual_condition_status": "No archive specimen/case/condition records returned; all actual potentially eligible source EMC native tumors/models and matched/orthogonal control conditions remain unidentified and pending, not excluded or assigned zero. No experimental/donor independence inference.",
+  "not_completed": [
+    {
+      "source": "ProteomeXchange/MassIVE or author-declared project accession not yet authenticated",
+      "status": "pending source-link/identity assessment",
+      "reason": "No genuine project pointer supplied by evaluated exact PRIDE queries; no guessed accession/alternate article route/broad catalogue query manufactured."
+    },
+    {
+      "source": "Primary publisher/fulltext methods",
+      "status": "unavailable through previously tested DOI403 route",
+      "reason": "Original source denial reused; no repeat or alternate article-copy route."
+    },
+    {
+      "source": "Public processed protein matrix, native EMC case/model pair and control manifest",
+      "status": "pending source linkage; suitable input not established",
+      "reason": "No release/accession/case labels from evaluated metadata responses. This is not evidence of missing protein or no publicdata."
+    }
+  ],
+  "limitations": "PRIDE keyword endpoint exactcitation indexing completeness is not established. Empty results are not all-archive exhaustion, a biological negative or a proof of absent author release."
+}

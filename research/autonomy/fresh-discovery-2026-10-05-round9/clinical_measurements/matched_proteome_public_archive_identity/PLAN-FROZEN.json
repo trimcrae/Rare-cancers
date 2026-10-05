@@ -1,0 +1,25 @@
+{
+  "frozen_at_utc": "2026-10-05T20:07:36.691654+00:00",
+  "deadline_utc": "2026-10-05T20:11:30+00:00",
+  "question": "Does an ordinary public archive metadata entry explicitly citing DOI10.1002/prca.201900054 or PMID31419061 expose native EMC case/model/pair identity or declared processed release?",
+  "primary_title": "Species-Specific Quantitative Proteomics Profiles of Sarcoma Patient-Derived Models Closely Reflect Their Primary Tumors.",
+  "routes": [
+    {
+      "url": "https://www.ebi.ac.uk/pride/ws/archive/v2/search/projects?keyword=10.1002%2Fprca.201900054&pageSize=100",
+      "cap": 1048576
+    },
+    {
+      "url": "https://www.ebi.ac.uk/pride/ws/archive/v2/search/projects?keyword=31419061&pageSize=100",
+      "cap": 1048576
+    }
+  ],
+  "transport": "Anonymous ordinary metadata GET,10-second timeout, sequential, no retries. Any403/401/login/challenge stops host; no alternative fullarticle/provider. At most2 calls selected here, third only a directly declared projectmetadata followup after separatefreeze.",
+  "mask": "Only project accession/title, publication DOI/PMID matching, native histology/case/model/specimen-condition labels, assay and declared processed-file schemas; no outcomes/quantities/peptide sequences/full matrix bodies.",
+  "prior": "SC matched design gate reused; DOI primarypublisher403 remains immutable, no alternate journalcopy. Existing PRIDE exactsearch API contract had ordinary200 success in R9, current DOI/PMID queries are new authorreleasedarchive branch.",
+  "resources": {
+    "raw_cap": 2097152,
+    "derived_cap": 2097152,
+    "minimum_free": 10737418240
+  },
+  "decision": "NumericalstageOFF; generic sarcoma or intrinsicclusters do not establish native EMC/pairing/independence. Missing hit is not no release or no EMC."
+}
