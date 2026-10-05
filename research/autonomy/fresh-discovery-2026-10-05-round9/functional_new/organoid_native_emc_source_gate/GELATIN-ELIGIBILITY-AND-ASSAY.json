@@ -1,0 +1,54 @@
+{
+  "utc": "2026-10-05T16:49:13.957258+00:00",
+  "source": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/organoid_native_emc_source_gate/raw-cache/PMC12686348.xml",
+  "sha256": "44f395ee6ba2733db5d1f4d1e27e508e5c232574748a2fd6ddc3d49c6f1eb9d2",
+  "native_patient_count": 3,
+  "all_named_conditions": [
+    {
+      "source_method_id": "sec4",
+      "patient": "1",
+      "literal_diagnosis": "dedifferentiated liposarcoma (DDLPS)",
+      "source_confidence": "Named native diagnosis in patient methods; no molecular authentication upgrade",
+      "handling": "Organoid tissue collected at residual mass excision2024-03-29 after prior resections/systemic therapy; no tumor response used",
+      "EMC_eligibility": "source-labelled other entity, not authenticatedEMC"
+    },
+    {
+      "source_method_id": "sec5",
+      "patient": "2",
+      "literal_diagnosis": "dedifferentiated and well-differentiated liposarcoma (DDLPS/WDLPS)",
+      "source_confidence": "Named native diagnoses in patient methods; not two independent donors",
+      "handling": "Two masses resected2024-08-09; exact mass-to-model mapping unlocated. Later adjuvant treatment does not establish precollection treatment",
+      "EMC_eligibility": "source-labelled other entities, not authenticatedEMC"
+    },
+    {
+      "source_method_id": "sec6",
+      "patient": "3",
+      "literal_diagnosis": "leiomyosarcoma (LMS), FNCLCC grade3",
+      "source_confidence": "Named native diagnosis in patient methods; no molecular authentication upgrade",
+      "handling": "Tumor collected for organoid generation at2024-04-22 surgery; source says chemotherapy not administered. No recurrence endpoint used",
+      "EMC_eligibility": "source-labelled other entity, not authenticatedEMC"
+    },
+    {
+      "source_method_id": "sec7",
+      "model": "93T449",
+      "RRID": "CVCL_U614",
+      "literal_diagnosis": "liposarcoma cell line",
+      "native_donor_count": "Not counted as another independent native donor; source patient linkage not supplied",
+      "EMC_eligibility": "source-labelled liposarcoma comparator, not nativeEMC"
+    }
+  ],
+  "measurement_schema": {
+    "formats": [
+      "2D patient-derived cells",
+      "BME organoids",
+      "20percent-gelatin organoids"
+    ],
+    "establishment": "Fresh surgical tissue after pathologist diagnosis confirmation; primary2D culture before embedding, no three-format-by-donor matrix reconstructed.",
+    "oxygen_consumption": "XF CellMitoStressTest OCR normalized to cellularDNA; technical wells not donors. Protocol mentionsXFe24 and96-well plate, inconsistency retained; no units/outcomes or matched per-donor counts inferred.",
+    "optical_phenotype": "ODT refractive index/volume and presumedlipidstructure counts per identifiable superficial cell, days0\u201310; not direct lipid chemistry or EMC phenotype.",
+    "culture_additives": "Growth medium agents are not a measured therapeutic response panel; no target-dependency inference.",
+    "release": "Datasets reasonable-request to correspondingauthors, no public processed measurement table authenticated from maintext. GenuineTableS1 andsuppzip named but uninspected; no outreach."
+  },
+  "source_specific_decision": "NO-GO for nativeEMC comparison from this explicit three-patient/one-LPS-line primary roster. These methods are other-entity evidence; no ECM/EWS identity inferred from organoid terminology.",
+  "pending": "SupplementaryTableS1/schema not read; no blanket full-source or allpublicEMC absence. Numerical andRNA/Western/IHC result tables remain closed."
+}

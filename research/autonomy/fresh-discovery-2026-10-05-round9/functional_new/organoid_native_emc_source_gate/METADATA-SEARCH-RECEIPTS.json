@@ -1,0 +1,29 @@
+{
+  "utc": "2026-10-05T16:43:00.606392+00:00",
+  "queries": [
+    {
+      "key": "exact_emc_organoid",
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"extraosseous myxoid chondrosarcoma\") AND (organoid OR tumoroid OR \"living biobank\")",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22extraskeletal+myxoid+chondrosarcoma%22+OR+%22extra-skeletal+myxoid+chondrosarcoma%22+OR+%22extraosseous+myxoid+chondrosarcoma%22%29+AND+%28organoid+OR+tumoroid+OR+%22living+biobank%22%29&format=json&resultType=core&pageSize=100",
+      "status": 200,
+      "bytes": 144984,
+      "sha256": "1f65fff94e373396b734e0c5d9696d72aa33c869559a891907fbb100698dcbdd",
+      "hit_count": 24,
+      "returned": 24,
+      "cache": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/organoid_native_emc_source_gate/raw-cache/exact_emc_organoid.json",
+      "scope": "Titles/DOIs/PMID/PMC/year/source links only; abstracts and outcomes not evaluated."
+    },
+    {
+      "key": "recent_sarcoma_organoid",
+      "query": "TITLE_ABS:(sarcoma) AND TITLE_ABS:(organoid OR tumoroid OR \"living biobank\") AND FIRST_PDATE:[2024-01-01 TO 2026-10-05]",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%28sarcoma%29+AND+TITLE_ABS%3A%28organoid+OR+tumoroid+OR+%22living+biobank%22%29+AND+FIRST_PDATE%3A%5B2024-01-01+TO+2026-10-05%5D&format=json&resultType=core&pageSize=100",
+      "status": 200,
+      "bytes": 427578,
+      "sha256": "83ea91b1d17cde26b792fa594747e6630f2f0945ee566db0b64431fd84c4564f",
+      "hit_count": 45,
+      "returned": 45,
+      "cache": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/organoid_native_emc_source_gate/raw-cache/recent_sarcoma_organoid.json",
+      "scope": "Titles/DOIs/PMID/PMC/year/source links only; abstracts and outcomes not evaluated."
+    }
+  ]
+}
