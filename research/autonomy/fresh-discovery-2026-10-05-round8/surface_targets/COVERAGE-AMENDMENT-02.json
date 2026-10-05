@@ -1,0 +1,96 @@
+{
+  "original_surface_commit": "ba6f0841b4adbc50d768d73ccbfc7db5b496235d",
+  "original_surface_freeze_sha256": "5315fde004ab1c306209c96e871ee106efe31308d1ca036b2aafae737c2830d3",
+  "own_amendment": "AMENDMENT-02.txt",
+  "peer_review_freeze_path": "research/autonomy/fresh-discovery-2026-10-05-round8/neurosecretory/peer_review/FREEZE.json",
+  "peer_review_freeze_sha256": "c9b7d236802c774869705cfae3be8ddb90bc7bb00a49d7c28bb3dfdae682037c",
+  "peer_artifact_bindings": {
+    "PLAN.txt": {
+      "sha256": "d7ab5892f7f6608dfbebeb004f6888497c83a359b1bc581c05d5b1ab38228fe7",
+      "bytes": 630
+    },
+    "SURFACE-3SEQ-ADDENDUM.json": {
+      "sha256": "7d51a175c0e9d504e93fc30ee30e3120a0337b05cc60fd06c89e9ecf10b32d22",
+      "bytes": 11516
+    },
+    "SURFACE-REVIEW.json": {
+      "sha256": "e12e3ba3dd7b39e53b63f840835cd13bac37c22c048ff1c765091879166d2ea9",
+      "bytes": 4107
+    },
+    "review_surface.py": {
+      "sha256": "590fd22fea27baa97412d23859a89770fcf5d97fae266644233800abee39be5e",
+      "bytes": 10811
+    }
+  },
+  "source_sha256": "11dae64b2d6b6e77846c3f14971fc9a313da86eb52a4b8b83df96c23eedc0ffd",
+  "source_storage": "Read-only zero-copy source in peer ignored raw-cache; no duplicate or raw export.",
+  "source": "GSE28866/3SEQ",
+  "all_EMC_conditions": [
+    "EMC_STT5525",
+    "EMC_STT5526",
+    "EMC_STT5527",
+    "EMC_STT5592"
+  ],
+  "condition_count": 4,
+  "target_peaks": {
+    "DLL3": 0,
+    "SEZ6": 1,
+    "NCAM1": 3
+  },
+  "EMC_source_normalized_peak_sums": {
+    "DLL3": {},
+    "SEZ6": {
+      "EMC_STT5525": 0.0,
+      "EMC_STT5526": 0.231354513,
+      "EMC_STT5527": 0.0,
+      "EMC_STT5592": 0.11405081
+    },
+    "NCAM1": {
+      "EMC_STT5525": 3.5894409290000002,
+      "EMC_STT5526": 1.473464515,
+      "EMC_STT5527": 1.8149453549999999,
+      "EMC_STT5592": 0.520126203
+    }
+  },
+  "comparators": {
+    "DLL3": {},
+    "SEZ6": {
+      "MLPS": {
+        "n": 6,
+        "median": 0.0,
+        "A": 0.5416666666666666
+      },
+      "SS": {
+        "n": 3,
+        "median": 0.583886165,
+        "A": 0.25
+      },
+      "normal_context": {
+        "n": 27,
+        "median": 0.178218555,
+        "A": 0.3148148148148148
+      }
+    },
+    "NCAM1": {
+      "MLPS": {
+        "n": 6,
+        "median": 1.8882815069999999,
+        "A": 0.5416666666666666
+      },
+      "SS": {
+        "n": 3,
+        "median": 4.659474793,
+        "A": 0.0
+      },
+      "normal_context": {
+        "n": 27,
+        "median": 1.2799408520000002,
+        "A": 0.4351851851851852
+      }
+    }
+  },
+  "status": "Evaluated additive all-four-condition source, independently projected by peer and exact rows/contrasts source-checked here.",
+  "gene_absence_policy": "DLL3 has no exact source peak; this is unavailable coverage, not RNA/protein absence. SEZ6 and NCAM1 measured peaks preserved including zeros.",
+  "decision": "Original SHELVE unchanged; SEZ6 A0.25 versus synovial in this assay, NCAM1 remains nonspecific; no biological/clinical rescue.",
+  "still_pending": "All named pending tissue, historical prior-art, model and donor/assay gaps in original COVERAGE.json remain; this adds one source only. No full public EMC coverage or global exhaustion."
+}
