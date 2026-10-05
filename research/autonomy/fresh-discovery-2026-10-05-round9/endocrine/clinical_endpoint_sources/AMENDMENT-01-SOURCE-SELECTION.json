@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-05T15:18:57.882418+00:00",
+  "source_selection_before_new_endpoint_values": [
+    {
+      "source": "Agaram2014",
+      "pmid": "24746215",
+      "pmcid": "PMC4015728",
+      "doi": "10.1016/j.humpath.2014.01.007",
+      "reason": "R2 preserves individual clinical table timing gap; actual clinical source schema may resolve it. Previous EPMC500/PMCchallenge not repeated. Ordinary NCBI BioC one request; only clinical METHODS and table headers/case identifier fields, entire table outcomes and genomic passages excluded."
+    },
+    {
+      "source": "PeerJ21497",
+      "pmid": "42465974",
+      "pmcid": "PMC13374579",
+      "doi": "10.7717/peerj.21497",
+      "reason": "Existing retained primary XML at shared source directory. RNA/IHC provenance errors already evaluated and not reopened; purely clinical table headers/method/time-origin/data-availability schema read could settle endpoint suitability without biological values."
+    }
+  ],
+  "no_new_numeric_authorization": true,
+  "safe_parser": "Table headers only; no td data cells, no Results/Abstract passages, no BioC infonXML output. Case IDs only from an authenticated named-case column; count/material schema permitted. Genomic/structural content excluded."
+}

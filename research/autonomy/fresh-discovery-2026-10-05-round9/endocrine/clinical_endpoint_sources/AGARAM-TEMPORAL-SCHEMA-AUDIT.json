@@ -1,0 +1,23 @@
+{
+  "method": "Lexical time-field suitability audit only; no recurrence/status/duration values, case labels, event counts, comparisons, or survival statistics projected. Date/unit-bearing check is input-schema evidence, not numerical clinical analysis.",
+  "columns": {
+    "combined_LR_DR": {
+      "any_digit_in_cell": false,
+      "any_explicit_date_pattern": false,
+      "any_explicit_month_year_day_unit": false,
+      "values_not_exported": true
+    },
+    "final_followup_status": {
+      "any_digit_in_cell": false,
+      "any_explicit_date_pattern": false,
+      "any_explicit_month_year_day_unit": false,
+      "values_not_exported": true
+    },
+    "duration_months": {
+      "any_digit_in_cell": true,
+      "any_explicit_date_pattern": false,
+      "any_explicit_month_year_day_unit": false,
+      "values_not_exported": true
+    }
+  }
+}
