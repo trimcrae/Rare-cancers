@@ -1,0 +1,80 @@
+{
+  "source": {
+    "pmcid": "PMC5117798",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5117798/fullTextXML",
+    "utc": "2026-10-05T13:21:28.811094+00:00",
+    "purpose": "Actual oxygen-electrode cohort identity/library/source-availability gate, no pO2/gene/prognostic values read",
+    "http": 200,
+    "bytes": 122777,
+    "sha256": "1e8b527d4fe099369ff36b8e9ef93ba2fff9c0d24d1c359491385055917cfc69",
+    "path": "raw/PMC5117798.xml"
+  },
+  "oxygenation_source_methods": [
+    "The test cohort was built around the original material of 42 STS patients investigated by Nordsmark et al (2001 and by Bentzen et al (2003) in which hypoxia was measured using Eppendorf method between 1993 and 2001. Four patients were excluded because of benign histology and 8 patients because ofto lack of available tissue samples. The remaining 30 patients were matched 1 : 2 to the Aarhus Sarcoma Registry (ASR), a recently validated comprehensive clinical population-based database (Maretty-Nielsen et al, 2013).",
+    "The matching was done based on histological type, age at diagnosis, sex, and year of diagnosis. Exact match was not possible, but the cases that were \u2018best possible matches', according to the above-mentioned order of criteria, were manually selected. Inclusion was restricted to high-grade, localised STS with stored formalin-fixed, paraffin-embedded (FFPE) tissue samples taken before any treatment and with sufficient tissue for high-quality mRNA analysis. This resulted in a test cohort of 55 patients. For inclusion and exclusion criteria, see Figure 1.",
+    "Diagram of patient selection of test and validation cohort. ARS=Aarhus sarcoma registry; OTM=oxygen tension measurement; STS=soft tissue sarcoma. *Nordsmark et al. British Journal of Cancer, 2001 and Bentzen et al. Radiotherapy and Oncology, 2003.",
+    "The validation cohort was chosen among all patients treated with curatively intended surgery and postoperative radiation therapy for localised STS between 1998 and 2008. Patients without pretreatment FFPE tissue samples, as well as tissue samples with insufficient mRNA quality were excluded. This resulted in a cohort of 77 patients. Power calculation for the validation cohort was based on an expected hazard ratio (HR) of 2.0 between the more hypoxic and the less hypoxic patient groups. Based on this calculation, 66 patients were needed to detect this difference with 80% power.",
+    "FFPE tissue samples taken at the time of biopsy or surgery were used for investigation of the hypoxia-induced genes. These tissue samples represented different histological types: undifferentiated pleomorphic sarcoma (UPS; n=51), liposarcoma (n=28), leiomyosarcoma (n=16), synovial sarcoma (n=14), malignant peripheral nerve sheath tumour (n=8), fibrosarcoma (n=7), extra osseous osteosarcoma (n=3), rhabdomyosarcoma (n=3), and extra-osseous Ewing/PNET (n=2). Information about time from tissue collection to fixation and fixation times was not available. Samples were excluded if haematoxylin and eosin (HE) staining showed either >90% necrotic or 100% normal tissue. A specialised sarcoma pathologist reviewed all HE staining for estimation of the degree of necrosis."
+  ],
+  "histology_roster": [
+    {
+      "source": "methods",
+      "histologic_label": "undifferentiated pleomorphic sarcoma",
+      "n": 51
+    },
+    {
+      "source": "methods",
+      "histologic_label": "liposarcoma",
+      "n": 28
+    },
+    {
+      "source": "methods",
+      "histologic_label": "leiomyosarcoma",
+      "n": 16
+    },
+    {
+      "source": "methods",
+      "histologic_label": "synovial sarcoma",
+      "n": 14
+    },
+    {
+      "source": "methods",
+      "histologic_label": "malignant peripheral nerve sheath tumour",
+      "n": 8
+    },
+    {
+      "source": "methods",
+      "histologic_label": "fibrosarcoma",
+      "n": 7
+    },
+    {
+      "source": "methods",
+      "histologic_label": "extra osseous osteosarcoma",
+      "n": 3
+    },
+    {
+      "source": "methods",
+      "histologic_label": "rhabdomyosarcoma",
+      "n": 3
+    },
+    {
+      "source": "methods",
+      "histologic_label": "extra-osseous Ewing/PNET",
+      "n": 2
+    }
+  ],
+  "supplement_source_labels": [
+    {
+      "tag": "self-uri",
+      "link": "bjc2016310a.pdf",
+      "label": ""
+    }
+  ],
+  "roster_sum": 132,
+  "limits": [
+    "Full132 methods roster expands Table1 Others39; no explicit EMC author label.",
+    "Original42 measured oxygen cohort and original30 retained cohort not separately histology-mapped here.",
+    "Source sixteen electrode/RNA-linked cases require actual individual identity map; no pO2/gene/prognostic values analyzed.",
+    "Generic/historical fibrosarcoma cannot authenticate or exclude an unlisted EMC without original source pathology."
+  ]
+}

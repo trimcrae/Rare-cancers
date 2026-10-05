@@ -1,0 +1,129 @@
+{
+  "utc": "2026-10-05T13:30:53.228119+00:00",
+  "scope": "Bounded pre-value oxygenation source/assay/identity/use gate; not global exhaustion or completed public clinical-oxygen roster coverage.",
+  "mandatory_EMC_conditions": [
+    {
+      "source": "PMC13536671 / PMID42321847 / DOI10.1186/s40644-026-01069-x",
+      "nominal_EMC_cases": 1,
+      "source_conditions": [
+        "Baseline18F-FMISO whole-lesion SUVmax and adjacent normal-muscle SUVmax",
+        "Biopsy HIF1alpha/CAIX/PLOD2 pixel IHC within two weeks",
+        "Ancillary FDG PET present for Subjects1,2,3,5, missing for4"
+      ],
+      "all_subject_ids": [
+        "Subject1",
+        "Subject2",
+        "Subject3",
+        "Subject4",
+        "Subject5"
+      ],
+      "status": "PENDING source diagnosis-to-subject map; all five candidate rows retained masked",
+      "assay_suitability": "Actual oxygen-sensitive tracer uptake surrogate and IHC proxies; not calibrated pO2 or spatially/time-matched cross-calibration",
+      "molecular_authentication": "Source pathologist diagnosis; NR4A3 fusion confirmation not established in inspected methods",
+      "comparison": "Matched muscle ROI actually measured; no useful unreported within-donor treatment/metastasis comparison authenticated",
+      "public_access": "Main table accessible, per-subject histology link absent from inspected labels/schema; author PPTX declared but attempted ordinary publisher mapping403/unverified"
+    },
+    {
+      "source": "PMC5846059 / PMID29235571 / DOI10.1038/bjc.2017.430",
+      "nominal_EMC_cases": 4,
+      "printed_histotype": "Extraskeletal myxoid chrondrosarcoma",
+      "source_conditions": [
+        "Pre-RT surgical tumor FFPE triplicate1mm spatial cores, duplicate stained sections",
+        "HIF1alpha nuclear percent-positive tumor cells",
+        "CAIX membrane percent-positive tumor cells",
+        "GLUT1 tumor staining/context"
+      ],
+      "case_ids": null,
+      "all_four_case_marker_core_status": "PENDING individually for each of the four EMC cases; four baseline cases does not prove four complete marker profiles or twelve assessable cores",
+      "assay_denominators": {
+        "whole_cohort": 203,
+        "HIF1alpha": 165,
+        "CAIX": 183,
+        "GLUT1": 179,
+        "EMC_specific_per_marker": null
+      },
+      "normal_and_fresh_conditions": "Fresh tumor/matched normal/FFPE/blood collection is source-confirmed, actual paired normal marker/RNA assays and donor mapping not established",
+      "generic_histotype_conditions": {
+        "Other": 13,
+        "Unknown": 1,
+        "status": "PENDING underlying diagnosis, not silently non-EMC"
+      },
+      "status": "UNAVAILABLE EVIDENCE/current source-file access unresolved for individual case/core/marker labels and potential paired assays",
+      "public_access": "Five XLSX declared by JATS; article-bin520, official collection timeout, inferred publisher URL proxy403, OAmetadata404; no workbook obtained. Do not equate failed route with absence."
+    }
+  ],
+  "additional_evaluated_sources": [
+    {
+      "source": "PMC6321736 / PMID30513863 / DOI10.3390/ijms19123842",
+      "assay": "Frozen bulk HIF1alpha mRNA/protein ELISA, not oxygen tension",
+      "conditions": "114STS and19adjacent normal muscles in source mRNA cohort; generic otherSTS16mRNA/12protein subtype identities not mapped",
+      "status": "No explicit EMC authenticated; generic cases pending, unsuitable for direct oxygenation claim; no gene/protein endpoint values analyzed"
+    },
+    {
+      "source": "PMC5117798 / PMID27701385 / DOI10.1038/bjc.2016.310",
+      "assay": "Cites actual Eppendorf oxygen measurements in original42STS1993–2001; downstream FFPE gene cohort is not oxygen assay",
+      "conditions": "Original42→30 tissue-available cases; matched test55+validation77, complete nine named histotypes132 in methods",
+      "status": "No explicit EMC in132 author-labelled roster; seven generic fibrosarcoma/historical identity limits remain unresolved. Original42/30 and16oxygen-linked individual histotype/case maps pending, no endpoint values analyzed",
+      "roster_expansion": "Table1 Others39 expands in complete methods roster, not a separate untyped39 source."
+    },
+    {
+      "source": "PMC9511430 / PMID36185052 / DOI10.21037/qims-22-75",
+      "assay": "Candidate DCE-versus-HIF tissue context, not direct oxygen measurement",
+      "status": "UNAVAILABLE EVIDENCE official fullTextXML500; eligibility/pairing unestablished, no unchanged retry/no values"
+    }
+  ],
+  "remaining_actual_clinical_source_rosters_pending": [
+    {
+      "source": "Maseide2004 PMID15240538 DOI10.1158/1078-0432.CCR-03-0541",
+      "need": "Whole clinical CAIX histotype/specimen roster and actual assay calibration/controls"
+    },
+    {
+      "source": "TMA validation2008 PMID18180112 DOI10.1016/j.prp.2007.10.009",
+      "need": "Full tissue subtype and specimen/assay coverage"
+    },
+    {
+      "source": "Rajendran2003 PMID12632200 DOI10.1007/s00259-002-1096-7",
+      "need": "FMISO tissue histotypes/individual condition mapping and tracer assay context"
+    },
+    {
+      "source": "Brizel1996 PMID8640781",
+      "need": "Actual measured oxygen cohort histotypes/conditions"
+    },
+    {
+      "source": "RT+hyperthermia1996 PMID8968082",
+      "need": "Actual oxygen source cohort/conditions mapping"
+    },
+    {
+      "source": "Nordsmark1992 PMID7928495 DOI10.1016/0360-3016(92)90950-m",
+      "need": "Actual pretreatment oxygen histotype/conditions"
+    },
+    {
+      "source": "Oxygen variation1995 PMID7607933 DOI10.1016/0360-3016(95)00106-9",
+      "need": "Whole measured oxygen roster/time/track conditions"
+    },
+    {
+      "source": "Oxygen/proliferation1996 PMID8690636 DOI10.1016/0360-3016(96)00132-0",
+      "need": "Tissue oxygen paired assay/identity"
+    },
+    {
+      "source": "Nordsmark2001/Bentzen2003 original references in ELECTRODE-PRIMARY-CITATION-LINKS.json",
+      "need": "Actual original42/30/16 individual histotype and oxygen/RNA condition map"
+    },
+    {
+      "source": "HIF2006 PMID17103226 DOI10.1007/s00428-006-0304-4; HIF2017 PMID28404817 DOI10.1136/jclinpath-2016-204149",
+      "need": "Complete clinical histotypes/specimens and source assay suitability"
+    },
+    {
+      "source": "Limb perfusion2012 PMID22946472 DOI10.3109/02656736.2012.705945",
+      "need": "Native tumor histotype/oxygen-condition identity and whether relevant EMC measured"
+    },
+    {
+      "source": "MRIHIF PMID36462043 DOI10.1007/s00330-022-09296-z; PMID33416975 DOI10.1007/s00330-020-07526-w",
+      "need": "Source whole histotype and biopsy/library pairing before any eligible numerical assessment"
+    }
+  ],
+  "search_coverage": "Exact alias14/14 and broad fulltext historical aliases150/150 returned; relevant source titles70/70 and specific older titles6/6+7/7 returned. Returned bibliographic records are not all clinically evaluated cohorts. Broader CAIX1466/100, directO23243/100, PET391/100, lactate15549/100, NR4A3814/100 remain partial and noisy. Searches can match references or unrelated normal/experimental disease context.",
+  "overlap": "FMISO/VorteX/older cohorts have no verified cross-cohort donor linkage; do not infer independence or pool assays.",
+  "restrictions": "No new FAP-tissue/glycan/structural-genomics/HLA-review content analysis; experimental model lead exact scope clarified separately; other-owner perfusion/circulating assays remain distinct.",
+  "promotion": "Blocked by all relevant suitable pending identity/access/assay/value evidence; no numerical endpoint stage or finding."
+}
