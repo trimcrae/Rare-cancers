@@ -1,0 +1,47 @@
+{
+  "utc": "2026-10-05T14:14:11.300069+00:00",
+  "scope": "Published method design and source identity/condition linkage only; no viability/rank, synergy, protein or clinical response numbers",
+  "assay": {
+    "primary_material": "Freshly excised tissue digested; cells immediately treated or cultured. Established PDC means logarithmic growth beyond third passage. Patient-specific passage, purity, prior therapy and preparation crosswalk not publicly established.",
+    "panel": "12 drugs, three subject-response dose levels IC0/IC10/IC20; panel includes cytotoxic/epigenetic/kinase agents. These are design levels, not measured EMC responses.",
+    "design": "155 OACD experimental combinations in technical duplicates; dose-response assays run in parallel. Technical duplicates are not independent patients.",
+    "readout": "CellTiter-Glo luminescent viability at 48 h; normalized cell viability is regression input. Raw luminescence, normalized assay input, fitted second-order predicted outputs and drug ranks are distinct quantities.",
+    "dose_and_control_limits": "Individual per-sample actual concentrations, normalization denominator/control input, failed-condition/missingness, replicate covariance and raw condition matrix not recovered. General design is not an actual EMC dose/replicate/control record.",
+    "quality": "Methods name Z-factor and strictly standardized mean difference; no native EMC quality or LOD inference, no numerical outcome inspection."
+  },
+  "native_specific_non_EMC_conditions": [
+    {
+      "source": "Fig2 and primary clinical case paragraph",
+      "case": "Author SFT hSC06 and hSC31",
+      "conditions": "Clinical liver/brain resection and ex vivo testing reported; exact Fig1 hSC06S/L suffix relationship unresolved. Published case/platform efficacy remains prior art, no response values inspected."
+    },
+    {
+      "source": "Fig3 masked case identity and primary definition",
+      "case": "hSC21 HES",
+      "conditions": "Hepatic embryonal sarcoma case clinical/QPOP linkage, explicitly different diagnosis; no response values."
+    },
+    {
+      "source": "Fig5 masked case headers",
+      "cases": [
+        "hSC23 WDLPS",
+        "hSC40 DDLPS",
+        "hSC51 ESS"
+      ],
+      "conditions": "Representative native-derived perturbation identities, explicitly source non-EMC categories; no viability or synergy outputs read."
+    },
+    {
+      "source": "Primary RNA methods/results identity only",
+      "case": "hSC40 established DDLPS PDC and LPS141 DDLPS line",
+      "conditions": "Untreated, AZD5153, pazopanib, combination; sequencing in three biological replicates per source caption. GSE282752 is a source-named RNA deposit for these reported conditions, not evidence of an EMC transcriptome. No gene values or fresh GEO retrieval."
+    },
+    {
+      "source": "Primary ChIP and culture identity only",
+      "case": "hSC43 early-passage PDC, source Fig1 LMS",
+      "conditions": "Assay-specific native culture ID, not transfer of hSC40 DDLPS identity or EMC. Source assay has separate conditions from RNA. No protein/gene outcome inspected."
+    }
+  ],
+  "other_models": "T778 WDLPS, FU-DDLS-1/LPS141/LP6 source DDLPS, MLS402 source myxoid liposarcoma, ASC52telo immortalized adipose stem-cell context remain separate; prior FU-DDLS-1 identity caution preserved. Page8 blots LPS141/FU-DDLS-1/MLS402/T778 are not native EMC. DDLPS mouse xenografts are not EMC.",
+  "public_data": "Phenotypic drug-sensitivity dataset is corresponding-author reasonable request only. Public figures include plotted known QPOP response/rank summaries, but no authenticated EMC case or all-condition raw/matched clinical matrix identified. Source repair does not make it new data.",
+  "native_EMC_measured_conditions": null,
+  "null_semantics": "No authenticated EMC condition established, not proof actual EMC absent from cohort or no assays exist."
+}

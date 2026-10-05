@@ -1,0 +1,101 @@
+{
+  "utc": "2026-10-05T14:17:00.519118+00:00",
+  "scope": "Immutable input/categorical case/condition/hash and decision checks. No drug-rank, viability, protein or clinical outcome values.",
+  "checks": [
+    {
+      "check": "immutable_owner_inputs_exact",
+      "passed": true,
+      "detail": 8
+    },
+    {
+      "check": "cache_derivative_bindings",
+      "passed": true,
+      "detail": 16
+    },
+    {
+      "check": "previous_freezes_preserved",
+      "passed": true,
+      "detail": 180
+    },
+    {
+      "check": "all45_unique_source_labels",
+      "passed": true,
+      "detail": 45
+    },
+    {
+      "check": "source_categorical_counts",
+      "passed": true,
+      "detail": {
+        "DDLPS": 14,
+        "WDLPS": 7,
+        "LMS": 6,
+        "SFT": 4,
+        "GIST": 2,
+        "Others": 12
+      }
+    },
+    {
+      "check": "boundary_hSC09_WDLPS",
+      "passed": true,
+      "detail": "Adjudicated against exact annotation and independent review; no drug-rank values"
+    },
+    {
+      "check": "two_named_Other_sources",
+      "passed": true,
+      "detail": "Source Fig3/Fig5 header identities and primary definitions, not numerical response"
+    },
+    {
+      "check": "all10_generic_Other_pending",
+      "passed": true,
+      "detail": "Not source-level confirmed exclusions or authenticated EMC"
+    },
+    {
+      "check": "unit_groups_no_independent_donor_count",
+      "passed": true,
+      "detail": "Exact legend defines three visible groups; unassigned star/06S-L context retained"
+    },
+    {
+      "check": "no_new_values_or_numerical_stage",
+      "passed": true,
+      "detail": "Source eligibility only"
+    },
+    {
+      "check": "no_promotion_or_exhaustion",
+      "passed": true,
+      "detail": "NO-GO source-dependent"
+    },
+    {
+      "check": "post_ban_inspection_clock",
+      "passed": true,
+      "detail": "America/New_York10:00:02DST clock before image/OCR"
+    },
+    {
+      "check": "zero_new_network_sources",
+      "passed": true,
+      "detail": "Cached originals reused; no new deposit/source retrieval"
+    },
+    {
+      "check": "storage_budget",
+      "passed": true,
+      "detail": {
+        "retained_bytes": 9531363,
+        "free_bytes": 27129061376
+      }
+    },
+    {
+      "check": "originals_OCR_images_untracked",
+      "passed": true,
+      "detail": "No full source, image, OCR or matrix Git export"
+    },
+    {
+      "check": "identity_only_crop_replay",
+      "passed": true,
+      "detail": {
+        "recipes": 4,
+        "actual_utc": "2026-10-05T14:17:00.233260+00:00"
+      }
+    }
+  ],
+  "passed": true,
+  "failures": 0
+}
