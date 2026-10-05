@@ -1,0 +1,83 @@
+{
+  "utc": "2026-10-05T13:10:16.375477+00:00",
+  "observations": [
+    {
+      "source": "PMC5510859",
+      "doi": "10.1371/journal.pone.0181339",
+      "status": "verified evaluation reused",
+      "EMC": "2authorpathology-labelled native EMC in40cases; no molecularNR4A3 linkage provided",
+      "conditions": "MRIbeforeprocedure; previoussurgery/chemo/RT not explicitly excluded, so not proven treatment-naive.10MLPS/3MFS comparator labels among17malignant/23benign.",
+      "measurement": "3T b0/400/800 wholevolumeADC/texture, individualS1numericrows exist buthistotypecrosswalkabsent",
+      "identity_gate": "Peer schemaS1all40A1–A40unique/B-Mlabels,nohistotypecolumns/strings; noA-ID incasebody/figurecaptions. Noage/sex/volume inference allowed.",
+      "overlap": "2019explicit40subjects reused2017;2020explicit44subject reuse earlierstudy, donorlinks notreleased.",
+      "remaining_status": "pending accessible analysis",
+      "remaining": "SuitablepublishedindividualADCrows cannotbeassignedEMC; required subtype-crosswalk unlocated, not assumedaccessible or negative."
+    },
+    {
+      "source": "PMC6427044",
+      "doi": "10.1038/s41598-019-41230-0",
+      "status": "evaluated",
+      "EMC": "3authorpathEMCconditions:2training/1validation Tab2ESMCfootnote explicitlyextraskeletalmyxoidchondrosarcoma",
+      "donor_unit": "239MRIexaminations/236patients. Source randomization100/139 referscohortunits;3ESMCcounts are not proven3 independentdonors. Follow-upsame-lesion excluded, multiplelesions possible.",
+      "conditions": "SamsungMay2011–Dec2016, explicitly excludesprevioussurgery/chemo/RT",
+      "measurement": "Philips3T b0/400/800 ADCmean/min largestaxial enhancingROI; avoidsnecrosis/cysts/calcification/peripheralpartialvolume. Not2017wholevolumeADC.",
+      "overlap": "Sourceexplicit40subjects overlapref26=2017PMC5510859 whole40cases. Identitymap missing; neither3+2independence nor1provennewdonor inferred.",
+      "remaining_status": "pending accessible analysis",
+      "remaining": "Noindividualhistotype/ADCtable/crosswalk inmainXML. SolepublicsuppDOCX schema remainsuninspected: malformedDOI-y attemptnotaccess evidence; canonicalDOI-0 EPMCsupplementAPI timedout. Publicimagesuninspectedduringban; individualdata unlocated."
+    },
+    {
+      "source": "PMC4504541",
+      "doi": "10.1097/MD.0000000000001028",
+      "status": "evaluated",
+      "EMC": "BodyvascularinterpretationmentionsEMC, but actualenrolment/count/individualidentity unverified; clinicalTable1isgraphic",
+      "conditions": "DalianOct2013–Oct2014,31enrolled23analyzed afterpathology/ROIquality exclusions; previoustherapy notcase-linked",
+      "measurement": "GE3T IVIM10b-values0,10,20,30,50,100,200,300,500,800; ADCstandard/slow/fast/f,9technicalROIs across3slices perpatient, parenchymalROIs avoidingcysts/necrosis/vessels",
+      "remaining_status": "pending accessible analysis",
+      "remaining": "Table1graphic/publicimages uninspectedduringban; cannotco-occurrence→EMCmeasuredf/ADC. No numericaldataorcasecount inferred."
+    },
+    {
+      "source": "PMC10231763",
+      "doi": "10.1371/journal.pone.0286417",
+      "status": "evaluated",
+      "EMC": "1authorpathEMC among125native preop cases, surgicalhistology",
+      "conditions": "Jan2009–Aug2019; explicitly excludesneoadjuvanttherapy beforeMRI. Dedicated3TSiemensnativeb0/800ADC withwholemassVOI",
+      "measurement": "WholevolumeDWI/ADC features normalized/resampled forradiomics; cannot assume standardizedradiomicfeatureequalsnativeADCinmm²/s. Casehistotype-to-numericADC linknotlocated.",
+      "overlap": "ALL125patients reusedpreviousref22=2021PMC8316538 DOI10.1038/s41598-021-94826-w; explicit samecohort, notindependent newEMC.",
+      "supporting_schema": "All5sourcecaptions inspected: MRIparameters,LASSO,RFhyperparameters,GridSearchCV,ensemblehyperparameters. MainDataAvailability points to paper/SI; supplementpayloaduninspected, no identifiedpatientnumericcrosswalk.",
+      "remaining_status": "pending accessible analysis",
+      "remaining": "PublicSI payload/rawhistotypecrosswalk uninspected/unlocated; source native1 measuredcase retained. Unknownshared donor withsameinstitutionpostopseries."
+    },
+    {
+      "source": "PMC10342739",
+      "doi": "10.3390/jcm12134369",
+      "status": "evaluated",
+      "EMC": "1authorpathEMCdonor Table2;2EMC-associated postoperative-change lesions and0recurrenttumour lesions Table3",
+      "conditions": "StMarySeoul Jan2010–Oct2021 postexcision/reconstruction;37patients/76lesions, recurrent40/postchanges36. Serialexamsafteradditionalreconstruction cancontribute, notindependentlesions/donors. EMC-specificage/site/therapy/molecularidentity unresolved.",
+      "measurement": "3TSiemens b0/800 monoexponentialADC; manualsolid-enhancingROI excludingedge/cyst/necrosis; quantitativeADC measured atcohortlevel, noEMC-specificnumericrow orcaption inmain",
+      "scope": "Bothpostoperative-change lesions are relevant non-tumour/denominator contexts; cannotapplynative-tumourcutoffasiftheywererecurrentEMC. Benignlesions pathologicallyorclinicallyconfirmed; specificEMC verificationrouteunlinked.",
+      "overlap": "Sameinstitution/author/scanner context asnative125cohort, periods overlap; noindividualcrosswalk proves independence/shareddonor.",
+      "remaining_status": "pending accessible analysis",
+      "remaining": "IndividualEMC-associatedlesionADC values/conditions notlocated; no inferencefromoverallcohortvalues or otherhistotype figureexamples."
+    },
+    {
+      "source": "PMC10797984",
+      "doi": "10.1186/s40644-023-00645-9",
+      "status": "demonstrably unsuitable measurement",
+      "EMC": "5authorEMC among198highgradeSTS;1explicitgrade2EMClocalrecurrence patientrow retained",
+      "conditions": "Jan2010–Jun2020 aftercurative surgery, grade2/3superficialtrunk/extremity, excludesinitialrecurrence/metastasis/positive margin; postoperativesurveillanceMRI+US",
+      "measurement": "Methods conventionalT1/T2/contrastMRI andultrasound; noDWI/ADCmethod orbodyterms. SourceactualEMCsurveillance doesnot supplyADC assay.",
+      "overlap": "Institutional/period clinical overlaps withotherSeoulseries unresolved; noADCnumericaladdition."
+    },
+    {
+      "source": "PMC5820899",
+      "doi": "10.4103/1793-5482.181116",
+      "status": "demonstrably unsuitable measurement",
+      "EMC": "1authorfalcine myxoidchondrosarcoma case; canonicalNR4A3 molecularauthentication notreported ininspectedsource",
+      "conditions": "Primaryfalcine brainlesion preoperative qualitativeDWI, postsurgicalMRI described; nativecanonicalsofttissueEMC identity confidenceunresolved",
+      "measurement": "QualitativeDWI signal/calcificationcontext, no numericADC/b-value/ROIlinkedmeasurement. Noimagesread.",
+      "remaining": "Not a numericADCobservation, noqualitativedescription convertedinto value or subtype classifier."
+    }
+  ],
+  "before_values": "No new caseADC/texture values inspected; counts/diagnosis/methods/schema only",
+  "donor_overlap": "Knownwhole-cohort reuse keptseparatefromunknowncase/donor maps. TechnicalROI, sequences, lesions, exams andmodels are not donors."
+}
