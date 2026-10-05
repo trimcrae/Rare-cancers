@@ -1,0 +1,38 @@
+{
+  "utc": "2026-10-05T14:24:15.035397+00:00",
+  "stage_start": "2026-10-05T14:22:05Z",
+  "source_gate_stop_by": "2026-10-05T14:37:05Z",
+  "owner": "/root/radiotherapy",
+  "independent_source_value_challenger": "/root/diagnostic",
+  "status": "Candidate source/method question only, not an accepted numerical plan or finding. Stop if no actual linked assay or useful unreported contrast exists.",
+  "prior_indexes_read": [
+    "round3/REPORT.txt",
+    "round7/clinical_linkage/RESULTS.txt",
+    "round7/functional_models/RESULTS.txt",
+    "round8/INDEX.txt",
+    "round8/metabolism/DECISION.json",
+    "round9/INDEX.txt",
+    "round9/functional_new/telomere_phenotype_gate/REPORT.txt reused restriction"
+  ],
+  "candidate_question": "Can actually public matched direct proliferative-fraction and mitotic-count measurements in native EMC test whether mitotic-snapshot grading alone represents current cycling state, beyond already published prognosis/grade associations? Source-specific assay/compartment/condition linkage and novelty must first establish a useful measurement question; no generic marker panel.",
+  "first_source": "PMC6011095 original2018 comparative imaging/pathology13author-labelled EMC; already retained for distinct MRI source gate, reused zero-copy. Only primary pathological-assay methods and table headers/identity fields may be inspected now, all Ki67/MIB1/mitotic/clinical numerical outcomes closed. Native identity at authors confidence, no genotype-transfer.",
+  "source_binding": {
+    "path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/diffusion_mri_gate/raw-cache/PMC6011095.xml",
+    "bytes": 72490,
+    "sha256": "9057d045f67dee41c7b7f117e20656b854f35d802a78859d915c24a4af5e7059"
+  },
+  "acceptance_requirements": [
+    "Direct tumour-cell Ki67/MIB1 fraction and mitotic count both measured in explicitly linked native EMC case/condition/compartment; technical fields not donors.",
+    "Published useful per-case/ROI linked measurements rather than narrative exemplars or grade category only, unit denominator/field area and controls distinguishable.",
+    "Concrete measurement-changing inference not already source conclusion or general fact that Ki67/mitoses measure different cell-cycle durations. Sufficient independent native conditions/comparison, not one case.",
+    "Independent before-values prior-art/assay/value challenge agrees worthwhile question. All eligible public EMC conditions/sources accounted before any later promotion."
+  ],
+  "strongest_alternatives": [
+    "Generic phase-duration differences already established and no EMC-specific useful new inference.",
+    "Different ROIs/hotspots/fixation/therapy sampling or mitotic field area vs fraction prevents meaningful matched interpretation.",
+    "Ki67 stromal positivity/technical staining and mitotic grade bins do not supply tumour-cell current proliferation.",
+    "Source already publishes same grade/partner/proliferation contrast or only aggregate unlinked markers."
+  ],
+  "defeat": "No published linked direct assay or useful unanswered contrast: do not propose numerical study or manufacture absence/negative paper. Record exact source gap and retain campaign open.",
+  "restrictions": "No values, structural-genomics/formation, HLA,FAP,glycan, private/paid,outreach,paper,UI/source duplication. No MRI/perfusion/oxygen/circulating/staticRNA repeat. <=8MiBnewraw and>=10GiBfree; root alone shared state/main."
+}
