@@ -1,0 +1,39 @@
+{
+  "start_utc": "2026-10-05T20:15:10.179434+00:00",
+  "readiness_deadline_utc": "2026-10-05T20:20:00+00:00",
+  "question": "Within all6nativeEMC GSE24369RMAlog2profiles, does GPNMB track fixed measured myeloid-markerRNA or stromal-markerRNA strongly enough to change selection of discordant/co-varying native specimens for future paired RNA/localization measurement?",
+  "fixed_primary_GPNMB": true,
+  "fixed_marker_genes": {
+    "myeloid": [
+      "LST1",
+      "TYROBP",
+      "AIF1",
+      "CSF1R",
+      "CD68",
+      "FCER1G"
+    ],
+    "stromal": [
+      "COL1A1",
+      "COL1A2",
+      "DCN",
+      "PDGFRA"
+    ]
+  },
+  "source": "OriginalGSE24369SOFT/GPL6244annotation/all42sourceprobeIDs only inreadiness. NativeGSM600934\u2013GSM600939 exactlyall6; no sample-expression values untilrootGO.",
+  "mapping_rule": "UseoriginaldepositedGPL6244gene-assignment gene-symbolfield only. Retain everymappedprobe understatus: unambiguoussingle-gene eligible if measuredinall42sourcevectors, ambiguousmulti-gene retained excludedfromaggregate, unmeasuredannotationIDs retainedexcluded\u2014notimputedzero. Exactapprovedsymbols, nosilentmodernalias rescue. DuplicateprobeIDs mustbechecked.",
+  "aggregation_after_GO": "Median RMAlog2 across all eligible unambiguous probes for eachgene/sample, keeping eachprobe result/sensitivity accessible; no best/favorableprobe. Report per-probe and median-aggregate Spearman GPNMB-vs eachfixedmarker. Constant/tied ranks handled explicitly: average ranks; constantvectorrho undefined.",
+  "statistics_after_GO": "Per-gene Spearman only, all10markers fixed. Fixedleave-one-out(all6omissions) andall-probe sensitivity; no p/q/cutoff/ranking/multiplepaneloptimization or cell-abundance score. Unknownarray/TPMdonor independence retained; no replication-independence claim.",
+  "decision_changing_use": "Only if cross-assay/LOO/per-probe coherence discriminates preexisting observations, select specimens spanning GPNMB-high/marker-low versus co-high axes for SAME-materialpaired RNA+spatial protein/cell-context measurement, retaining contrary conditions; do not interpret coexpression ascellidentity/abundance, membraneprotein/dependency/drugresponse. Mustpassindependentvaluegate; ifthis addsnothingbeyond alreadyfixed localizationdesign, no numericalstage.",
+  "strongest_disproof": [
+    "Gene mapping incomplete/ambiguous or suitablemeasuredprobe missing",
+    "Differentmarkers/probes disagree or leave-one-out reverses associations, variance ties/constant values make n6 inference inadequate",
+    "Even technically coherent covariance wouldnotchange concretefuture specimen/control selection relative tocurrent ordinary/highEMC allcompartmentrecipe",
+    "SuitablepublicEMCconditions pending inbroadercoverage prevent finding promotion"
+  ],
+  "all_public_EMC_followthrough": "Core13Hof/6array/10GSE4303/4GSE28866 andothernative/culture conditions stayseparate reused/pending/evaluated; thispilot is arrayreplication\u2014not all source closure. No publication before meaningfulvalue/coverage/independentreview.",
+  "exposure": "GPNMB selected based on alreadyexposedR2/Stage11RNA contrast. Priorphenotypes known. Tenmarkers fixedbyrootbeforevalues; no fullyblindhypothesisclaim.",
+  "restrictions": "All inheriteddeniedFAP/glycan/HLA/fusiontopology/genomicbodies closed; no UI/login/private/bypass/spendGPU/outreach/publication/sharedwrites orpush. Probeannotation/sourceidentity only; fulloriginals cache-only/no copies.",
+  "max_derived_bytes": 2097152,
+  "free_floor_bytes": 10737418240,
+  "free_bytes": 27037343744
+}
