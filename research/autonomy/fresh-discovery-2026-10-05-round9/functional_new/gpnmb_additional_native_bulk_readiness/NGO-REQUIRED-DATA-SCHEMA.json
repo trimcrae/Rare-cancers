@@ -1,0 +1,7 @@
+{
+  "source_sha256": "91e4d145f2c440e5c572b6e458a6ba5870cbbde53fa11d51e388f1a40b6d9379",
+  "selected_section": "Data Requirements",
+  "actual_source_declarations": "## \ud83d\udcc2 Data Requirements\n\n### Required Data Files\n\nThe scripts expect the following data files in their respective directories:\n\n**UMAP/ directory:**\n- `SWISARC_all_samples_nokeep_SCTransform_pca_33_0.5_umap.rda`\n- `merge_tumor_harmony_SCTransform_pca_40_0.2.rda`\n\n**TPM/ directory:**\n- `salmon.merged.gene_tpm_1.tsv`\n- `salmon.merged.gene_tpm_2.tsv`\n- `salmon.merged.gene_tpm_3.tsv`\n\n**Counts/ directory:**\n- `salmon.merged.gene_counts_1.tsv`\n- `salmon.merged.gene_counts_2.tsv`\n- `salmon.merged.gene_counts_3.tsv`\n\n**Metadata/ directory:**\n- `RNAseq_sample_plan_SWISARC.txt`\n- `Survival_table_SWISARC.txt`\n\n### Data Format Requirements\n\n- **Expression matrices**: Tab-separated files with genes as rows and samples as columns\n- **Metadata files**: Tab-separated files with sample information\n- **Seurat objects**: RDS/RDA files containing pre-computed UMAP embeddings\n",
+  "actual_public_data_link_in_section": false,
+  "scope": "Input filenames and assay data-shape requirements only, not data availability or authentic per-case contents."
+}

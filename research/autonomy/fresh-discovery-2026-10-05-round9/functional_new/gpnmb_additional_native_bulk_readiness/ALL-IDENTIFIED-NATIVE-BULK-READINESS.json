@@ -1,0 +1,82 @@
+{
+  "utc": "2026-10-05T19:03:47.636211+00:00",
+  "scope": "Finite source readiness; no new gene outcomes/statistics",
+  "source_records": [
+    {
+      "source": "Zullow2022/native RNA",
+      "eligible_EMC_conditions": "7 published RNA observations;11 clinical specimen IDs individually retained in ZULLOW-PRIMARY-RNA-PROVENANCE; mapping between them unresolved.",
+      "status": "verified evaluation reused; additional declared public GSE179720 source metadata evaluated; EMC processed evidence unlocated/pending",
+      "current_evidence": "All138GSM metadata received.22 native transcriptomic RNA declarations comprise12explicitMLPS and10ES/EWS-FLI1-labelled cases.116culture preparations outside native-tissue population.",
+      "readiness": false,
+      "reason": "No EMC identity-to-file map in the inspected declared deposit. RAW.tar and ReadsPerGene filenames do not authenticate GPNMB count cells/annotation or normalized units.",
+      "comparators": "12source-labelledMLPS nativeRNAfile declarations exist; no LGFMS native comparator authenticated in this deposit. Do not cross-pool assays by raw file declaration.",
+      "donor_and_conditions": "GEO source_name primary tumor does not establish treatment-naive status, donor independence or clinical table alignment. No shared-code/row-position transfer.",
+      "reopening": "A genuine author/source-linked EMC case-to-processed-count/probe mapping and full eligible condition/control/annotation schema."
+    },
+    {
+      "source": "Ngo2025/external1041",
+      "eligible_EMC_conditions": "EMCS legend in external1041bulk cohort; individual EMC count/IDs, sources, donor overlap and file columns unresolved.",
+      "status": "verified evaluation reused; new author documentation/schema evaluated; suitable bulk source mapping remains pending",
+      "current_evidence": "Actual primary EGA policy and author figure-repo link reused. Exact public repo tree/README verified; tree contains only scripts/docs, no required TPM/count/metadata files.",
+      "readiness": false,
+      "reason": "README names local salmon gene TPM/count tables and RNAseq_sample_plan_SWISARC.txt but does not release/authenticate those inputs or external1041 case manifest. No accession tokens or genuine external data link found in inspected README.",
+      "comparators": "External within-source LGFMS/MLPS/control identities, complete eligible EMC observations and cohort harmonization unverified.",
+      "donor_and_conditions": "8EpSspecimens/7patients and4spatial conditions not nativeEMC authentication; cannot transfer to externalbulk.",
+      "reopening": "Actual public source-linked external1041 clinical sample manifest + processed RNA assay/annotation/units; all eligible EMC conditions and controls."
+    },
+    {
+      "source": "Davis2017",
+      "eligible_EMC_conditions": "All6male metastatic EMC clinical cases;5QC-passing RNA,5fresh biopsies+1archival source. One QCfailure notzero.",
+      "status": "verified evaluation reused; selected cached primaryRNA methods evaluated; GPNMB processed case/control evidence unlocated/pending",
+      "readiness": false,
+      "reason": "TruSeqRNA/2ugtotalRNA and Bioanalyzer integrity method verified; no public whole-gene GPNMB case/control file/units/columns authenticated from retained primary/supp filename schema. No RNA measurement inferred from somatic gene mention.",
+      "comparators": "Within-source full numerical mRNA comparator map and native treatment/preparation linkage unresolved.",
+      "donor_and_conditions": "Metastatic conditions distinct from primary tissue; no independence from other datasets established without actual crosswalk.",
+      "reopening": "Public source-linked full-gene measurement/annotation with all5QC-passing profiles and explicitQC6th case/control/time/handling conditions."
+    },
+    {
+      "source": "Brenca2019/PRJNA692081",
+      "eligible_EMC_conditions": "All12native clinical rows7EWS/5TAF+5matched frozen preparations4EWS/1TAF, not17donors.11engineered design kept separate.",
+      "status": "verified evaluation reused; native processed assay bridge pending/unavailable through previously tested CROroutes",
+      "readiness": false,
+      "reason": "Current23depositedsample records include8knownengineered and15unresolved; native12/preservedpaired library aliases not authenticated. No suitable processed GPNMB matrix; no rawread work authorized.",
+      "comparators": "Engineered11conditions not native histotype controls. FFPE/culture reference22 versus frozen reference3 capture recipe remains source-qualified; allTAFmale/morphology/grade/purity alternatives retained.",
+      "reopening": "Actual public individual case-to-run/preparation manifest and compatible native processed mRNA/GPNMB annotation, with allconditions/comparators."
+    },
+    {
+      "source": "Filion2009",
+      "eligible_EMC_conditions": "3nativeexpressionarrays;3displayedWestern specimens with1arrayoverlap+4additionalWesternconditions.",
+      "status": "verified evaluation reused; target probe/processed native specimen mapping pending",
+      "readiness": false,
+      "reason": "Western specimens not mRNA replication. Array annotation/usable GPNMB probe and processed specimen/control link unverified.",
+      "reopening": "Actual public array/probe + all3native case/control/units link."
+    },
+    {
+      "source": "Sjogren2003",
+      "eligible_EMC_conditions": "2different-fusionnativeEMCmicroarray specimens versusMLPS.",
+      "status": "verified evaluation reused; unavailable through previously tested primary routes; annotation/case map unresolved",
+      "readiness": false,
+      "reason": "No repeat500/challenge route. No measured GPNMB negative inferred from inaccessible source.",
+      "reopening": "Genuine newly available primary/processed probe+complete2case/control crosswalk."
+    },
+    {
+      "source": "Nottley2025",
+      "eligible_EMC_conditions": "Donors9/29eachpre/postRT tissueRNA;4conditions not4donors.",
+      "status": "verified evaluation reused; whole-gene per-donor processed source/accession unlocated/pending",
+      "readiness": false,
+      "reason": "Published selected differential genes do not authenticate full GPNMB profiles; RT conditions cannot be pooled untreated primary samples.",
+      "reopening": "Actual source-linked4condition full-gene profile/time/handling/count/control map."
+    },
+    {
+      "source": "Other identified native sources in frozen broader gate",
+      "eligible_EMC_conditions": "Crombe4 pointer;Indio/Stacchiotti12treatment-naive7EWS/5TAF;onePGRcase;Racanelli14caseIDs;168/97customfusionarray;Barresi unusualNR4A2case.",
+      "status": "verified evaluation reused, source-specific unresolved/pending or demonstrably unsuitable endpoint",
+      "readiness": false,
+      "reason": "Source conditions retained individually in NATIVE-TISSUE-SOURCE-CONDITIONS. Racanelli targetedfusion endpoint and168/97customjunction array do not establish whole-gene GPNMB measurement. Otherpublicwhole-gene maps unlocated; Barresi request-only/noncanonicalidentity not transferred.",
+      "reopening": "Source-specific genuine full-gene annotation/case/control bridge without denied content/private access."
+    }
+  ],
+  "broader_coverage_reference": "REUSED-SOURCE-BINDINGS.json pins frozen BROADER-COHORT-OMISSIONS and complete NATIVE-TISSUE-SOURCE-CONDITIONS. No source omitted because of size or unfavorable prospect.",
+  "already_separately_owned": "13Hof/6GSE24369/10GSE20196/4GSE28866 target readiness handledSC and latestnumericalpilot separately; cultures FN, not pooled with native tissue; currentoutputs notread.",
+  "no_universal_veto": "Absence of protein/same-donor causal evidence does not defeat a source-qualified RNA-only descriptive association. Missing native assay/condition mapping prevents computing these specific additional sources."
+}

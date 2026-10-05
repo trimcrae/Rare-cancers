@@ -1,0 +1,23 @@
+{
+  "utc": "2026-10-05T18:54:50.524781+00:00",
+  "source": "Actual retained GSE179720 record/source-linked official GEO accession",
+  "route": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE179720&targ=gsm&form=text&view=brief",
+  "prior_route_check": "Retained R2 series record covers Series fields only; scoped filename search found no earlier GSE179720 GSM metadata receipt or cached sample-level record. No unchanged failed route repeated.",
+  "allowed_fields": [
+    "Sample_geo_accession",
+    "Sample_title",
+    "Sample_source_name_ch1",
+    "Sample_characteristics_ch1",
+    "Sample_library_strategy",
+    "Sample_library_source",
+    "Sample_library_selection",
+    "Sample_platform_id",
+    "Sample_supplementary_file"
+  ],
+  "mask": "Project only source labels/assay/condition/processed filenames. No table rows, gene values, sequence reads, mechanisms or outcomes.",
+  "cap_bytes": 8388608,
+  "timeout_seconds": 25,
+  "attempts": 1,
+  "auth": "Anonymous ordinary public GET; no token/cookie/login/config access.",
+  "stopping_rule": "HTML/barrier/schema mismatch, timeout or cap stops this route. No alternate worker/request retry; raw ignored. Numerical stage remains OFF."
+}
