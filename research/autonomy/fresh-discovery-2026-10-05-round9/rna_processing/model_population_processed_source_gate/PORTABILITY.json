@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-05T17:14:34.896088+00:00",
+  "git_exports": "Compact evaluated accession/condition/schema/decisions/scripts/receipts only. Original series/BioSample metadata and unread compressed count-prefix bytes ignored; no full query catalogue.",
+  "cache_only": [
+    {
+      "path": "raw/GSE221532-BioSample-ten.xml",
+      "bytes": 15494,
+      "sha256": "02497ef08e1ba182af7687eb4ce7871d4aec08d2b1b0abb51ebae61b24ad6316",
+      "recovery": "Ordinary exact URL in matching source receipts; version/availability may change. Compressed prefix incomplete; full file hash unknown."
+    },
+    {
+      "path": "raw/GSE221532-series-brief.txt",
+      "bytes": 4006,
+      "sha256": "e89ee7c1963beee4ccb6e448b912e5d723797068ec5e9c08b9ba42da2b146286",
+      "recovery": "Ordinary exact URL in matching source receipts; version/availability may change. Compressed prefix incomplete; full file hash unknown."
+    },
+    {
+      "path": "raw/GSE299349-series-brief.txt",
+      "bytes": 5249,
+      "sha256": "94891546aa3a4185b16819c7e75c505604f5b9b0c011971bb0d3b0337a2d1ca0",
+      "recovery": "Ordinary exact URL in matching source receipts; version/availability may change. Compressed prefix incomplete; full file hash unknown."
+    },
+    {
+      "path": "raw/processed-counts-compressed-prefix.bin",
+      "bytes": 16384,
+      "sha256": "25330ed15c106b70cdaf6ddd37eaaf8968ccefc8134f07c1ca27ffc1ad38d35e",
+      "recovery": "Ordinary exact URL in matching source receipts; version/availability may change. Compressed prefix incomplete; full file hash unknown."
+    }
+  ],
+  "cache_only_total_bytes": 41133,
+  "full_processed_file": "Not downloaded; source file651838B publicly declared and HEAD/Range checked. No full-file completeness/hash certificate or compatible data calibration.",
+  "replay": "python replay_schema.py after restoring exact compressed prefix and existing ten-GSM source roster. It stops at first newline and inspects no numeric gene row. Previous extraction decompressed a bounded buffer but only first header was inspected/exported; the replay provides strict header-only parsing.",
+  "other_originals": "Prior full papers/matrices/read streams retained at unchanged ignored/shared paths; no recopy or recovery certificate for whole corpus."
+}

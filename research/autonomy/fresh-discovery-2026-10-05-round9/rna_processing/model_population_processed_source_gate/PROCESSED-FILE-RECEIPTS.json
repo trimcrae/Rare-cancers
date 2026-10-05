@@ -1,0 +1,33 @@
+{
+  "utc": "2026-10-05T17:06:09.081342+00:00",
+  "receipts": [
+    {
+      "operation": "HEAD",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE221nnn/GSE221532/suppl/GSE221532_201222_raw_counts.tsv.gz",
+      "status": 200,
+      "final_url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE221nnn/GSE221532/suppl/GSE221532_201222_raw_counts.tsv.gz",
+      "headers": {
+        "last-modified": "Wed, 21 Dec 2022 20:49:06 GMT",
+        "accept-ranges": "bytes",
+        "content-length": "651838",
+        "content-type": "application/x-gzip"
+      }
+    },
+    {
+      "operation": "GET bounded compressed prefix/header only",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE221nnn/GSE221532/suppl/GSE221532_201222_raw_counts.tsv.gz",
+      "status": 206,
+      "final_url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE221nnn/GSE221532/suppl/GSE221532_201222_raw_counts.tsv.gz",
+      "headers": {
+        "last-modified": "Wed, 21 Dec 2022 20:49:06 GMT",
+        "content-length": "16384",
+        "content-range": "bytes 0-16383/651838",
+        "content-type": "application/x-gzip"
+      },
+      "retained_prefix_bytes": 16384,
+      "prefix_sha256": "25330ed15c106b70cdaf6ddd37eaaf8968ccefc8134f07c1ca27ffc1ad38d35e",
+      "full_source_hash_unknown": true,
+      "note": "If server ignored Range, reader closed after16384compressed bytes; this does not certify full-file completeness."
+    }
+  ]
+}

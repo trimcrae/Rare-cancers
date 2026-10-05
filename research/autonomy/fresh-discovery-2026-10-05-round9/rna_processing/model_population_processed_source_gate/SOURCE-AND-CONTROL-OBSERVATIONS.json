@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-05T17:14:34.896088+00:00",
+  "observations": [
+    {
+      "source": "GSE221532 official series-only brief",
+      "claim": "Public processed counts file declared for exact10 existing culture GSMs; sample-level supplementary NONE did not rule it out.",
+      "file": "GSE221532_201222_raw_counts.tsv.gz",
+      "HEAD_bytes": 651838,
+      "access": "HEAD200 and Range206 prefix; not full file completeness or full-source hash verification."
+    },
+    {
+      "source": "Actual processed header",
+      "claim": "Ten columns, nine unique aliases, eight unique exact title-to-GSM correspondences. USZ22_EMC2 unique column is source-qualified native EMC through prior origin/fusion eligibility, not name alone. Two NMFH-1 columns remain ambiguous; source USZ20_REA1 title absent.",
+      "forbidden_inferences": [
+        "Do not replace second NMFH-1 by REA1",
+        "Do not drop/deduplicate columns",
+        "Do not infer two donors or technical replication",
+        "Do not assign order to GSMs",
+        "Do not equate similar names with USZ20_EMC1"
+      ]
+    },
+    {
+      "source": "Exact10 current official BioSample records",
+      "claim": "All ten literal source_name/cell_type sarcoma tumor and treatment no treatment. Does not resolve comparator histotypes or duplicated processed columns. Extraction protocols previously establish cultured-model RNA."
+    },
+    {
+      "source": "GSE299349 official series-only brief",
+      "claim": "Existing68 GSM links including GSM9037837/USZ23 remain public; series declares RAW.tar. File name does not prove raw reads, compatible processed counts, all68 roles, normalization or donor identity.",
+      "restriction_scope": "Only accession/sample/type/file declarations inspected; no source title/summary/mechanism body/sequence/topology or tar contents."
+    }
+  ],
+  "numeric_gene_outcomes_read": 0,
+  "full_matrix_or_raw_read_downloads": 0
+}
