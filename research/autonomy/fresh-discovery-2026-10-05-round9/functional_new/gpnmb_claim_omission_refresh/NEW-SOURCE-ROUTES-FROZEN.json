@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-05T21:34:51.143742+00:00",
+  "routes": [
+    {
+      "name": "new-Cell-primary",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13428302/fullTextXML",
+      "cap": 16777216,
+      "source": "PMID42349383/DOI10.1016/j.cell.2026.06.002 exactmetadata neworiginalsource",
+      "field_mask": "Only accepted JATSidentity/articlecitation, sectionheading schema and exact clinical/cohort/assay identity or directdataavailability fields; no wholebody, outcomes/quantities, mechanism/DNA/HLA/FAP/glycan."
+    },
+    {
+      "name": "two-new-IHC-PubMed-metadata",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=42791032,42269880&retmode=xml",
+      "cap": 1048576,
+      "source": "Actual current querymetadata two2026primaryIDs; no known duplicate or deniedroutes per RTcoordination",
+      "field_mask": "Articlecitation, structured methods-only text if labeled, exact histotype-name-only abstract projection; no target-positive quantities/resulttext or outcomecomparison."
+    }
+  ],
+  "timeout_seconds": 10,
+  "stop": "403/401/error/no acceptedarticle source stop without retries or alternatecopy. No gene numeric results/stats. Publiccatalogues/fullprimary raw ignored."
+}
