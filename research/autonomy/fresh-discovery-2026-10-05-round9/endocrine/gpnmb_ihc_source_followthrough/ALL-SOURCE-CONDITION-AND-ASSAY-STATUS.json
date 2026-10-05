@@ -1,0 +1,40 @@
+{
+  "utc": "2026-10-05T21:58:47.845230+00:00",
+  "studies": [
+    {
+      "pmid": "42791032",
+      "source_cases": 115,
+      "native_units": null,
+      "condition_groups": "ALL115-UTERINE-METHOD-ROSTER.json",
+      "material_role": "uterine diagnostic IHC specimens; precise case IDs/compartments/overlap unknown",
+      "measurement_status": "Methods and complete advertised category counts evaluated; native/generic12 identity/clone/compartment/value rows pending, body unavailable403",
+      "equivalent_RNA_contrast": "not established from IHC methods/diagnostic cohort; no RNA abundance or actual EMC-LGFMS contrast projected"
+    },
+    {
+      "pmid": "40189028",
+      "source_cases": 13,
+      "native_units": null,
+      "condition_groups": "13 archival TFE3-labelled non-renal mesenchymal tumors, unspecified subgroup sizes; OFMT/PEComa diagnosis literals appear in abstract but neither is an authenticated EMC label",
+      "material_role": "whole-slide GPNMB IHC, H-scores; archival RNA-NGS panel selection, no public GPNMB RNA expression evidence or normalization established",
+      "measurement_status": "citation/labelledMethods/diagnosis names evaluated; complete individual histotype/compartment/control/score matrix pending, body unavailable403",
+      "equivalent_RNA_contrast": "IHC H-scores/diagnostic RNA-NGS eligibility do not establish GPNMB bulkRNA contrast"
+    },
+    {
+      "pmid": "40389121",
+      "source_cases": 934,
+      "native_units": null,
+      "condition_groups": "Johns Hopkins pathology archive cases2021\u20132025, full histotype/normal-control/material matrix unknown",
+      "material_role": "retrospective GPNMB IHC, full clone/scoring/localization rules unassessed",
+      "measurement_status": "prior cached metadata and pure clinicalMethods sentence reused; full native/histotype/compartment values remain unavailable/pending after old publisher403",
+      "equivalent_RNA_contrast": "unassessed complete original analyses; no equivalence/absence inferred from abstract-name null"
+    }
+  ],
+  "cross_study_overlap": "Unknown.934/115/13 are cases/materials, not independently authenticated donors. Do not sum into donor total or pool ordinal IHC with TPM/RMA/IC50.",
+  "not_evaluated_as_outcomes": [
+    "new stain scores/proportions",
+    "native gene values/statistics",
+    "drug or CAR effects",
+    "inferred tumor/stromal cell identity or abundance",
+    "protein membrane localization/accessibility or therapeutic dependency"
+  ]
+}

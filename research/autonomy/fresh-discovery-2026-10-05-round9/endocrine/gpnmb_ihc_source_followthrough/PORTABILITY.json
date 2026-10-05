@@ -1,0 +1,57 @@
+{
+  "utc": "2026-10-05T22:04:52.700548+00:00",
+  "cache_only": [
+    {
+      "path": "raw-cache/OFMT40189028-canonical-primary.response",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "storage": "ignored cache-only error/source-script original; notexport"
+    },
+    {
+      "path": "raw-cache/uterine42791032-canonical-primary.response",
+      "bytes": 6180,
+      "sha256": "da4eb19c0dbae92823b94e15905c1bc3a37739b9ee6a1ff1136c1261e2d81bac",
+      "storage": "ignored cache-only error/source-script original; notexport"
+    },
+    {
+      "path": "raw-cache/verify-case-unit-first-launch.py",
+      "bytes": 4027,
+      "sha256": "b8d0e3bd929532b95240be7d59b3b3a8f4a54143594a9e992053844134049647",
+      "storage": "ignored cache-only error/source-script original; notexport"
+    }
+  ],
+  "new_raw_bytes_including_preserved_first_parser": 10207,
+  "raw_cap_bytes": 67108864,
+  "derived_cap_bytes": 4194304,
+  "borrowed_cached_originals": [
+    {
+      "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/gpnmb_claim_omission_refresh/raw-cache/two-new-IHC-PubMed-metadata.source",
+      "bytes": 28366,
+      "sha256": "0bc11b9aeb1c7c109522a08bdf6ea47f38f282711cc46c4ca1a3d2a57e2ead4b",
+      "role": "42791032 accepted original PubMed XML; only target article citation/Methods/diagnosis literals evaluated",
+      "copied": false,
+      "scope": "read-only existing original/receipt; no full-source export"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/gpnmb_claim_omission_refresh/raw-cache/OFMT-PubMed.source",
+      "bytes": 11260,
+      "sha256": "b0e64602e6cdf09a9785692cd925fe0a6d3f5aa4609cd27daa2dac7412080f9f",
+      "role": "40189028 accepted original PubMed XML; citation/Methods and diagnosis literals only",
+      "copied": false,
+      "scope": "read-only existing original/receipt; no full-source export"
+    },
+    {
+      "path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/gpnmb_primary_measurement_gate/raw-cache/gpnmb_pathology2025_core.json",
+      "bytes": 7253,
+      "sha256": "f4efda2f41145f32fc59d92760cf4353b19efbc8be76ba023cd137d48b4599e2",
+      "role": "40389121 earlier accepted official metadata, unstructured abstract pure934case method only",
+      "copied": false,
+      "scope": "read-only existing original/receipt; no full-source export"
+    }
+  ],
+  "free_bytes": 26988421120,
+  "free_floor_bytes": 10737418240,
+  "original_sources_cloud_availability": "Whole metadata originals outside Git; remote clone needs independently preserved exacthashinputs. Compact actually evaluated source fields,casecounts and receipts portable; no automatic new request/private retry authorized.",
+  "replay": "python verify_case_unit_gate.py --packet PACKET --pubmed-uterine ORIGINAL1 --pubmed-ofmt ORIGINAL2 --prior-core ORIGINAL3 --output OUTPUT.json",
+  "no_cleanup": true
+}

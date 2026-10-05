@@ -1,0 +1,62 @@
+{
+  "utc": "2026-10-05T21:50:18.560044+00:00",
+  "science_stop_utc": "2026-10-05T22:15:00Z",
+  "primary_question": "Do these actual published tissue IHC studies contain native EMC/LGFMS case/material/compartment or RNA measurements, or already establish the narrow EMC\u2013LGFMS GPNMB RNA contrast/use, requiring all-condition followthrough or qualification of its interpretation?",
+  "sources": [
+    {
+      "pmid": "42791032",
+      "doi": "10.1111/his.70288",
+      "prior_scope": "115uterine cases/12genericrare histotypes from prior metadata; whole roster unresolved"
+    },
+    {
+      "pmid": "40189028",
+      "doi": "10.1016/j.humpath.2025.105768",
+      "prior_scope": "13OFMT from methods-only existing abstract; control/native roster unresolved"
+    },
+    {
+      "pmid": "40389121",
+      "doi": "10.1016/j.humpath.2025.105799",
+      "prior_scope": "original source metadata cached, publisherDOI route403; no retry or alternative body"
+    }
+  ],
+  "prospective_fields": [
+    "exact diagnoses/author native specimen/model names, donor and case-condition units",
+    "all explicit EMC and LGFMS cases including negative/inconclusive controls; ambiguous generic sarcoma remains pending",
+    "IHC antibody clone/vendor/compartment/scoring/threshold/ROI/replicate/processing/therapy and donor overlap",
+    "ordinary RNA assay/deposit and explicit published EMC\u2013LGFMS contrast or use, separate from protein results",
+    "data-availability/fullcase roster and accessible rawprocessed measurement condition crosswalk"
+  ],
+  "prevalue_rule": "Reuse masked Methods/citation source fields first; no new stain/gene outcome matrices or gene-statistic expansion. If eligible native measurements emerge, add source-bound all-case/units/use/alternative/disproof freeze and contact challenger before literal source values where feasible. Published protein diagnostic comparisons are prior art, not equivalent RNA observations.",
+  "meaningful_consequence": "Native protein compartment controls can qualify bulk-mixture interpretation; an actually equivalent RNA comparison/use can defeat novelty. Generic stain positivity, other-histotype diagnostic accuracy or missing protein cannot settle the narrow RNA hypothesis.",
+  "strongest_alternatives": [
+    "different material/donor/time/compartment across RNA and IHC",
+    "tumor-cell versus macrophage/stromal expression not resolved by bulk or unlocalized stain",
+    "different ordinal thresholds/antibody/scoring/storage/site/selection",
+    "controls not native/authenticated; same archival donor duplicated across studies",
+    "protein contrast is not RNA contrast or cell surface accessibility/dependence"
+  ],
+  "defeat_or_stop": [
+    "no explicit native/control identity crosswalk",
+    "source already fully evaluated/reused unchanged",
+    "article access403/paywall/login/challenge or source fields unsafe/unseparable",
+    "eligible accessible measurement remains pending: blocks promotion, not negative measurement"
+  ],
+  "new_request_manifest": [
+    {
+      "stage": "canonical DOI/link/source-availability metadata",
+      "route": "Crossref official API exact2DOIs only if cachedPubMed IDs/fullsource state indicate it adds needed authenticated source link"
+    },
+    {
+      "stage": "declared canonical primary",
+      "route": "one ordinary official publisher/DOI source pernew study only if no prior403/paywall/denial; never alternative copy afterdenial"
+    }
+  ],
+  "maximum_new_calls": 4,
+  "timeout_seconds": 10,
+  "raw_cap_bytes": 67108864,
+  "derived_cap_bytes": 4194304,
+  "free_floor_bytes": 10737418240,
+  "free_start_bytes": 26995675136,
+  "source_exposure_before_plan": "Old R2 gene-selection contrast and GPNMB prior art known; source titles/cohort counts/403receipt/methods-only rosters previously exposed. No new original IHC outcome cells read here, no fullyblind claim.",
+  "bans": "No FAP-tissue/glycan/HLA/structuralgenomics/fusion-topology/sequence/CNA/STR/inferred malignant class/biochemical epitope/mechanism fields; ordinary separable clinical diagnosis/protein/RNA only. No rawmatrix/statistics/reranking, paid/private/login/credentials/bypass/spendGPUUI/outreach/publication/externalrecord/PR/sharedmainpush."
+}
