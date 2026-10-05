@@ -1,0 +1,23 @@
+{
+  "analyzed_utc": "2026-10-05T15:27:56.945178+00:00",
+  "all_native_source_rows": 11,
+  "explicit_surgery_case_ids": [
+    "1",
+    "7",
+    "10"
+  ],
+  "explicit_surgery_count": 3,
+  "individual_terminal_event_or_ordinary_censor_unknown_count": 8,
+  "common_origin_explicit": false,
+  "origin_search_scope": "Clinical METHODS/RESULTS/DISCUSSION/CONCLUSION paragraphs, not denied mechanism fields; exact permitted definition pattern plus manual source inspection",
+  "six_month_cif": null,
+  "six_month_bounds": null,
+  "bootstrap_run": false,
+  "survival_curve_reconstruction_performed": false,
+  "clinical_failure_count": null,
+  "decision": "STOP event-time numerical estimation: explicit common origin and eight final event/censor states missing. Complete surgery is not progression.",
+  "published_context": "Original authors explicitly map later distant relapse in patients1/7/10 after surgery and already discuss its interpretation; do not recast that published follow-up as a new finding.",
+  "scope_limits": "Counts are source schema observations, not survival probabilities, absence of failure or an efficacy result. Non-identifiability does not demonstrate the published KM estimate was biased or that surgery worsens outcome.",
+  "all11_source_inputs_retained": true,
+  "independence": "One selected institutional/rare-cancer-network series, not all EMC. No pooling or donor independence across reports assumed."
+}

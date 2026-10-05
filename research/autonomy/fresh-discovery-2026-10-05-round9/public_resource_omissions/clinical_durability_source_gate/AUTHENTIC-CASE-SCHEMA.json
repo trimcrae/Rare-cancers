@@ -1,0 +1,105 @@
+{
+  "utc": "2026-10-05T15:23:19.900759+00:00",
+  "source": "PMC3879193; actual recovered original exact R7 hash",
+  "all11": [
+    {
+      "source_case_id": "1",
+      "identity": "NR4A3 rearrangement yes in original source row; diagnosis used solely for eligibility",
+      "endpoint_cell_status": "uninspected in this new gate; source values already evaluated in R7, no new statistic"
+    },
+    {
+      "source_case_id": "2",
+      "identity": "NR4A3 rearrangement yes in original source row; diagnosis used solely for eligibility",
+      "endpoint_cell_status": "uninspected in this new gate; source values already evaluated in R7, no new statistic"
+    },
+    {
+      "source_case_id": "3",
+      "identity": "NR4A3 rearrangement yes in original source row; diagnosis used solely for eligibility",
+      "endpoint_cell_status": "uninspected in this new gate; source values already evaluated in R7, no new statistic"
+    },
+    {
+      "source_case_id": "4",
+      "identity": "NR4A3 rearrangement yes in original source row; diagnosis used solely for eligibility",
+      "endpoint_cell_status": "uninspected in this new gate; source values already evaluated in R7, no new statistic"
+    },
+    {
+      "source_case_id": "5",
+      "identity": "NR4A3 rearrangement yes in original source row; diagnosis used solely for eligibility",
+      "endpoint_cell_status": "uninspected in this new gate; source values already evaluated in R7, no new statistic"
+    },
+    {
+      "source_case_id": "6",
+      "identity": "NR4A3 rearrangement yes in original source row; diagnosis used solely for eligibility",
+      "endpoint_cell_status": "uninspected in this new gate; source values already evaluated in R7, no new statistic"
+    },
+    {
+      "source_case_id": "7",
+      "identity": "NR4A3 rearrangement yes in original source row; diagnosis used solely for eligibility",
+      "endpoint_cell_status": "uninspected in this new gate; source values already evaluated in R7, no new statistic"
+    },
+    {
+      "source_case_id": "8",
+      "identity": "NR4A3 rearrangement yes in original source row; diagnosis used solely for eligibility",
+      "endpoint_cell_status": "uninspected in this new gate; source values already evaluated in R7, no new statistic"
+    },
+    {
+      "source_case_id": "9",
+      "identity": "NR4A3 rearrangement yes in original source row; diagnosis used solely for eligibility",
+      "endpoint_cell_status": "uninspected in this new gate; source values already evaluated in R7, no new statistic"
+    },
+    {
+      "source_case_id": "10",
+      "identity": "NR4A3 rearrangement yes in original source row; diagnosis used solely for eligibility",
+      "endpoint_cell_status": "uninspected in this new gate; source values already evaluated in R7, no new statistic"
+    },
+    {
+      "source_case_id": "11",
+      "identity": "NR4A3 rearrangement yes in original source row; diagnosis used solely for eligibility",
+      "endpoint_cell_status": "uninspected in this new gate; source values already evaluated in R7, no new statistic"
+    }
+  ],
+  "other_individual_source_ids": {
+    "Davis2017": [
+      "MO-1023",
+      "MO-1088",
+      "MO-1180",
+      "MO-1222",
+      "MO-1381",
+      "MO-1582"
+    ],
+    "Sunitinib2012": [
+      "case1",
+      "case2"
+    ],
+    "Temozolomide2017": [
+      "patient2"
+    ]
+  },
+  "limits": "Do not sum these rows as independent donors. Cases across Italian anthracycline/sunitinib/pazopanib series may overlap; Davis dates conflict; same-line prior interval and progression/death/censor reasons incomplete. Source years or age/site similarity do not prove independence.",
+  "time_origin_and_competing_event_schema": {
+    "table2_headers": [
+      "Patient ID",
+      "Gender",
+      "Age at time of chemotherapy (years)",
+      "Diagnosis",
+      "NR4A3 rearrangement",
+      "Site of primary tumor",
+      "Staging at time of initial diagnosis",
+      "Site of relapse at the time of chemotherapy",
+      "RECIST evaluation",
+      "PFS"
+    ],
+    "methods_failure": "PFS failure is RECIST progression or death; OS failure any death",
+    "surgery_censoring": "Both PFS and OS censored at complete surgery if treatment stopped without progression; alive patients censored at last contact",
+    "footnote": "Asterisk identifies surgery after chemotherapy and censoring at surgical resection. Individual endpoint symbols/values remain uninspected.",
+    "missing_individual_columns": [
+      "explicit chemotherapy-start date",
+      "line of therapy",
+      "death date",
+      "last contact date",
+      "reason and date of nonsurgical discontinuation",
+      "complete postoperative recurrence/event history"
+    ],
+    "common_elapsed_origin": "Not explicitly stated in the safe Methods sentences; must authenticate before any proposed event-time calculation. Conventional PFS interpretation alone is not a substitute."
+  }
+}
