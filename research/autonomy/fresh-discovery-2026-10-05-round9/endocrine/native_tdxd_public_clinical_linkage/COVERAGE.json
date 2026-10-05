@@ -1,0 +1,114 @@
+{
+  "utc": "2026-10-05T21:33:19.668773+00:00",
+  "scope": "specific native EMC enrollee in actual first-phase T-DXd study and distinct official public case-linkage sources",
+  "all_identifiable_native_EMC_units": 1,
+  "identity_level": "author pathology label; no new molecular authentication",
+  "case_conditions": [
+    {
+      "audit_label": "J101-author-EMC-enrollee-1",
+      "condition": "enrollment and native diagnosis",
+      "source_role": "R8 primary source and official CTGov",
+      "status": "evaluated/reused",
+      "observation": "One author-labelled extraskeletal myxoid chondrosarcoma; registry spelling myxoide retained. No individual patient identifier or NR4A3 authentication supplied. Internal audit label is not a public patient code.",
+      "case_patient_id": null,
+      "new_measurement_value": null
+    },
+    {
+      "audit_label": "J101-author-EMC-enrollee-1",
+      "condition": "local HER2 eligibility at enrollment",
+      "source_role": "primary Methods",
+      "status": "pending individual mapping",
+      "observation": "Local testing determined HER2 enrollment status. Exact EMC protein score, specimen, assay, sampling date and protein-versus-clinical-genotype eligibility branch unknown; no genotype sequence/DNA analysis.",
+      "case_patient_id": null,
+      "new_measurement_value": null
+    },
+    {
+      "audit_label": "J101-author-EMC-enrollee-1",
+      "condition": "retrospective central HER2 testing",
+      "source_role": "primary Methods and Fig3 caption",
+      "status": "pending individual mapping",
+      "observation": "Study central IHC/ISH of archived FFPE after enrollment, HercepTest Dako. Case score/specimen/time not extracted or mapped; no same-section or same-sampling-time inference.",
+      "case_patient_id": null,
+      "new_measurement_value": null
+    },
+    {
+      "audit_label": "J101-author-EMC-enrollee-1",
+      "condition": "administered dose and treatment status",
+      "source_role": "primary cohort protocol, R8 dropout qualification",
+      "status": "pending individual mapping",
+      "observation": "Relevant cohort protocol6.4mg/kg IV every3weeks. Actual EMC receipt/dose/start-date/stop-date unknown;60enrolled59treated source does not map dropout to histology.",
+      "case_patient_id": null,
+      "new_measurement_value": null
+    },
+    {
+      "audit_label": "J101-author-EMC-enrollee-1",
+      "condition": "baseline/postbaseline response evaluability",
+      "source_role": "primary Fig3 caption",
+      "status": "pending individual mapping",
+      "observation": "Aggregate absence of baseline measurable disease or postbaseline assessment cannot assign EMC evaluability. No selected favorable or unfavorable response inferred.",
+      "case_patient_id": null,
+      "new_measurement_value": null
+    },
+    {
+      "audit_label": "J101-author-EMC-enrollee-1",
+      "condition": "response/time course and censoring",
+      "source_role": "official registry pooled result schemas",
+      "status": "unsuitable at released aggregate granularity; individual pending",
+      "observation": "All12 registry result measures are arm-level; outcomes in percentages/participants/months do not identify the EMC participant. No actual response/PFS/OS/date/clinical-safety cells inspected or assigned.",
+      "case_patient_id": null,
+      "new_measurement_value": null
+    }
+  ],
+  "sources": [
+    {
+      "source": "retained primary DOI10.1158/2159-8290.CD-19-1014/PMID32213540/PMC8292921",
+      "status": "verified reuse plus bounded Methods/caption evaluation",
+      "coverage": "one native author-labelled EMC entry, all6condition states retained",
+      "overlap": "same DS8201-A-J101 as registry; no additional donor; cross-study overlap unknown"
+    },
+    {
+      "source": "official NCT02564900 posted results",
+      "status": "evaluated identity/schema; unsuitable individual-crosswalk granularity",
+      "coverage": "all12 measures/all14 repeated EMC description mentions inspected at safe identity/schema level; one case, not14",
+      "overlap": "same exact trial/participant context as primary; full292 study versus60publication subgroup, not independent validation"
+    },
+    {
+      "source": "sponsor study listing",
+      "status": "evaluated study-specific link row",
+      "coverage": "NCT02564900/JapicCTI152978/jRCT2080222926; no case matrix"
+    },
+    {
+      "source": "sponsor PLS EN",
+      "status": "unavailable via declared public route/authentication redirect; access stopped",
+      "coverage": "HEAD only; search-index snippet explicitly says aggregate averages, not individual results; no PDF/GET/login/copy"
+    },
+    {
+      "source": "jRCT2080222926",
+      "status": "unavailable route-specific503",
+      "coverage": "one source-linked officialGET; no retry or alternative mirror"
+    },
+    {
+      "source": "official IPD/CSR declaration",
+      "status": "not publicly released in inspected registry; request-only",
+      "coverage": "Vivli request criteria explicitly declared; no request/private access; no universal CSR absence claim"
+    },
+    {
+      "source": "EMA initial EPAR/FDA2019 multidisciplinary review/PMDA2020 clinical overview",
+      "status": "evaluated bounded identity text audit; native individual-case crosswalk remains pending/unestablished",
+      "coverage": "3genuine public PDFs, no exact named EMC diagnosis in extracted text. Report pages/figures not fully reviewed; token absence does not establish no case/no clinical measurement."
+    },
+    {
+      "source": "ClinicalTrials.gov protocol/SAP",
+      "status": "declared available, not downloaded; unsuitable to solve current individual-result gap without explicit case-table promise",
+      "coverage": "24,822,735B protocol/SAP metadata only; no declared CSR or patient results listing"
+    },
+    {
+      "source": "old primary scientific figure/bin and R9 supplementary route",
+      "status": "verified-reuse failures; individual Fig3 values pending",
+      "coverage": "404scientificfigure and296B nonZIP original receipts preserved; no retries or alternate copies"
+    }
+  ],
+  "donor_independence": "Repeated descriptions, publication/registry/regulatory views of same trial do not create independent patients. No individual dates or cross-study overlap map. Other tumor arms are not native EMC controls.",
+  "pending_blocks_promotion": true,
+  "broader_public_EMC_coverage": "All R1-R9 prior clinical/source decisions retained via exact reuse anchors. Current finite source pilot does not claim all T-DXd reports/figures/IPD or all EMC clinical literature exhausted. Suitable individual primary cells remain pending; no published result advances."
+}
