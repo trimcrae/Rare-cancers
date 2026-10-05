@@ -1,0 +1,136 @@
+{
+  "utc": "2026-10-05T19:09:16.909721+00:00",
+  "sources": [
+    {
+      "label": "ARCHS4",
+      "source": {
+        "path": "/workspace/Rare-cancers/research/autonomy/tmem266-all-cultures-2026-10-04/archs4-subset.zip",
+        "sha256": "f0bcd17e0c56ec038ea47ee14b7b57700333b46790d2cfb18a555cbf70ea4446",
+        "condition_columns": [
+          "GSM2113301",
+          "GSM6883080"
+        ]
+      },
+      "header": [
+        "",
+        "GSM2113301",
+        "GSM6883080"
+      ],
+      "identifier_rows": 67186,
+      "identifier_namespace_counts": {
+        "symbol_or_other": 44735,
+        "Ensembl_gene": 22451
+      },
+      "identifier_projection_bytes": 704397,
+      "identifier_catalogue_sha256": "ce0cadc5ca2f21a7ecb4abc9aa031895080275acbc71a1bd739cf4c00b01f5fe",
+      "identifier_catalogue_cache_only": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/gpnmb_culture_identifier_capture/identifier-cache/ARCHS4.first-column-identifiers.txt",
+      "matched_fixed_GPNMB_identifiers": [
+        {
+          "source_row_number": 7248,
+          "identifier": "GPNMB",
+          "matching_rule": "exactofficialsymbol",
+          "current_accession": null,
+          "exact_current_version": null
+        }
+      ],
+      "numeric_fields_inspected": 0,
+      "scope": "Firstcolumn/Nameidentifiers only; no numeric fields or expression interpretation. Missingmatchnotgeneabsence."
+    },
+    {
+      "label": "USZ23",
+      "source": {
+        "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/USZ23-RefSeq.quant.sf.gz",
+        "sha256": "d49822e6ca79a18c186b00c4faa4087b8582bbb72c0be218fcea2e997565507f",
+        "condition": "GSM9037837"
+      },
+      "header": [
+        "Name",
+        "Length",
+        "EffectiveLength",
+        "TPM",
+        "NumReads"
+      ],
+      "identifier_rows": 162218,
+      "identifier_namespace_counts": {
+        "RefSeq_RNA": 162218
+      },
+      "identifier_projection_bytes": 2282880,
+      "identifier_catalogue_sha256": "264d9b7efe0a8d9027d2324dffb7465e51bbcb7e87babc38fc1c182fee504c42",
+      "identifier_catalogue_cache_only": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/gpnmb_culture_identifier_capture/identifier-cache/USZ23.first-column-identifiers.txt",
+      "matched_fixed_GPNMB_identifiers": [
+        {
+          "source_row_number": 1573,
+          "identifier": "NM_001005340.2",
+          "matching_rule": "currentRefSeqaccessionbase",
+          "current_accession": "NM_001005340.2",
+          "exact_current_version": true
+        },
+        {
+          "source_row_number": 45035,
+          "identifier": "NM_002510.3",
+          "matching_rule": "currentRefSeqaccessionbase",
+          "current_accession": "NM_002510.3",
+          "exact_current_version": true
+        },
+        {
+          "source_row_number": 82213,
+          "identifier": "XM_005249578.3",
+          "matching_rule": "currentRefSeqaccessionbase",
+          "current_accession": "XM_005249578.4",
+          "exact_current_version": false
+        },
+        {
+          "source_row_number": 114704,
+          "identifier": "XM_017011678.2",
+          "matching_rule": "currentRefSeqaccessionbase",
+          "current_accession": "XM_017011678.3",
+          "exact_current_version": false
+        }
+      ],
+      "numeric_fields_inspected": 0,
+      "scope": "Firstcolumn/Nameidentifiers only; no numeric fields or expression interpretation. Missingmatchnotgeneabsence."
+    },
+    {
+      "label": "USZ22",
+      "source": {
+        "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/gpnmb_culture_identifier_capture/raw-cache/USZ22-fullcounts.tsv.gz",
+        "sha256": "0cac20dc5652b9dd9c65554442d8753ed3e23251cbdad064f73ffd594013eb7d",
+        "condition": "GSM6883080",
+        "actual_compressed_bytes": 651838
+      },
+      "header": [
+        "",
+        "NMFH-1",
+        "USZ-21_CIC1",
+        "USZ-21_LG1",
+        "USZ-21_UPS1",
+        "USZ-21_MFS2",
+        "NMFH-1",
+        "PM197",
+        "OH931",
+        "USZ-20_SFT1",
+        "USZ-22_EMC2"
+      ],
+      "identifier_rows": 54507,
+      "identifier_namespace_counts": {
+        "symbol_or_other": 54507
+      },
+      "identifier_projection_bytes": 489961,
+      "identifier_catalogue_sha256": "7848d3d214198bd41facff6769eeada72d354924a286bf8a6f5014dd902f0967",
+      "identifier_catalogue_cache_only": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/gpnmb_culture_identifier_capture/identifier-cache/USZ22.first-column-identifiers.txt",
+      "matched_fixed_GPNMB_identifiers": [
+        {
+          "source_row_number": 9957,
+          "identifier": "GPNMB",
+          "matching_rule": "exactofficialsymbol",
+          "current_accession": null,
+          "exact_current_version": null
+        }
+      ],
+      "numeric_fields_inspected": 0,
+      "scope": "Firstcolumn/Nameidentifiers only; no numeric fields or expression interpretation. Missingmatchnotgeneabsence."
+    }
+  ],
+  "expression_values_inspected": 0,
+  "not_complete_historical_gene_capture": "Onlycurrentsevenofficialbases/symbol/GeneID evaluated; historicalretiredaccessions and quantificationindex remainunresolved withoutsourcesupportedmapping."
+}

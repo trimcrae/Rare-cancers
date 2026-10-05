@@ -1,0 +1,20 @@
+import pathlib,json,hashlib,shutil,zipfile,gzip,datetime
+B=pathlib.Path(__file__).resolve().parent
+checks=[]
+def j(n):return json.loads((B/n).read_text())
+def c(n,o):checks.append({'check':n,'pass':bool(o)})
+p=j('PLAN-FROZEN.json');a=pathlib.Path(p['authorization_path']);c('rootauthhash',hashlib.sha256(a.read_bytes()).hexdigest()==p['authorization_sha256']);c('priorfreezehash',hashlib.sha256((B.parent/'gpnmb_native_culture_input_gate/FREEZE.json').read_bytes()).hexdigest()==p['source_gate_freeze'])
+f=j('SOURCE-BINDINGS.json');prior=json.loads((B.parent/'gpnmb_native_culture_input_gate/FREEZE.json').read_text())
+for x in prior['files']:
+ q=B.parent/'gpnmb_native_culture_input_gate'/x['name'];c('oldimmutable '+x['name'],q.stat().st_size==x['bytes'] and hashlib.sha256(q.read_bytes()).hexdigest()==x['sha256'])
+x=j('IDENTIFIER-PROJECTION.json');s={q['label']:q for q in x['sources']}
+for q in x['sources']:
+ path=pathlib.Path(q['source']['path']);c('actualsourcehash '+q['label'],hashlib.sha256(path.read_bytes()).hexdigest()==q['source']['sha256']);i=pathlib.Path(q['identifier_catalogue_cache_only']);c('identifierprojectionhash '+q['label'],i.stat().st_size==q['identifier_projection_bytes'] and hashlib.sha256(i.read_bytes()).hexdigest()==q['identifier_catalogue_sha256']);c('zeroquantfields '+q['label'],q['numeric_fields_inspected']==0)
+c('allthreeinputs',set(s)=={'ARCHS4','USZ22','USZ23'});c('ARCHS4exactoneGPNMBsymbol',len(s['ARCHS4']['matched_fixed_GPNMB_identifiers'])==1 and s['ARCHS4']['matched_fixed_GPNMB_identifiers'][0]['identifier']=='GPNMB');c('USZ22exactoneGPNMBsymbol',len(s['USZ22']['matched_fixed_GPNMB_identifiers'])==1 and s['USZ22']['matched_fixed_GPNMB_identifiers'][0]['identifier']=='GPNMB');c('USZ22EMCcolumnunique',s['USZ22']['header'].count('USZ-22_EMC2')==1);c('USZ22duplicateNMFHretained',s['USZ22']['header'].count('NMFH-1')==2)
+m=s['USZ23']['matched_fixed_GPNMB_identifiers'];c('USZ23fouruniqueBaseIDs',len(m)==4 and len({q['identifier'].split('.')[0] for q in m})==4);c('twoexactNMandtwoolderXM',sum(q['exact_current_version'] for q in m)==2 and sum(not q['exact_current_version'] for q in m)==2)
+h=j('CONDITION-CAPTURE-AND-REMAINING-GAPS.json');c('allthreecultureconditions',len(h['conditions'])==3 and {q['GSM'] for q in h['conditions']}=={'GSM2113301','GSM6883080','GSM9037837'});c('threecurrentbasesnotmatched',len(h['conditions'][2]['current_accessions_without_matching_base'])==3)
+a=j('USZ22-SOURCE-ACCESS.json');c('declaredGET200651838',a['status']==200 and a['bytes']==651838 and a['url']==p['sources'][2]['url']);d=j('DECISION.json');c('no numericalstageorpromotion',d['numerical_stage'] is False and d['promotion'] is False)
+b=j('BUDGET-AND-BOUNDARY-RECEIPT.json');c('retainedrawunder2MiB',b['new_retained_raw_bytes']<=p['caps']['new_raw_bytes']);c('derivedunder8MiB',b['new_identifier_catalogue_bytes']<=p['caps']['new_derived_bytes']);c('free10GiB',shutil.disk_usage(B).free>=p['caps']['minimum_free_bytes']);c('zeroexpressionvalues',x['expression_values_inspected']==0 and b['new_numeric_fields_inspected']==0)
+r=j('OPTIONAL-XREF-ACCESS.json');c('optionalXMLneveraccepted',r['accepted_retained_XML_bytes']==0 and bool(r.get('error')));c('optionalcurrentxrefpending',j('OFFICIAL-XREF-CAPTURE.json')['status']=='officialxrefnotacceptedpending')
+result={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'identifier_and_scientific_scope_checks':checks,'all_identifier_checks_pass':all(q['pass'] for q in checks),'optional_transport_cap_check':{'pass':False,'reason':'One extra oversize-sentinel byte read above256KiBoptionalcap, zeroacceptedXML; explicitexceptionnotunqualifiedPASS'},'no_network_in_verifier':True,'note':'No quantities evaluated; exacttarget-IDpresence is capture, not expression/prevalence/benefit.'}
+(B/'VERIFICATION.json').write_text(json.dumps(result,indent=2)+'\n');assert result['all_identifier_checks_pass'];print(str(len(checks))+' identifier/source checks PASS; optionaltransportcap exception1byte, zeroXMLaccepted')

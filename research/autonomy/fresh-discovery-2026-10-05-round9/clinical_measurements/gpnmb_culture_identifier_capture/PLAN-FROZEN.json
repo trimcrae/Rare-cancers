@@ -1,0 +1,53 @@
+{
+  "utc": "2026-10-05T19:08:17.453492+00:00",
+  "authorization_path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round9/GPNMB-CULTURE-IDENTIFIER-SOURCE-AUTHORIZATION.json",
+  "authorization_sha256": "c836223a8760097dba2b7690db5d9ea86412d7604ed60d49e9acdcbc0ae0c247",
+  "deadline_utc": "2026-10-05T19:17:08.851389+00:00",
+  "question": "Can exact GPNMB gene/transcript identifiers be captured in the three authenticated native culture input sources before numerical interpretation?",
+  "conditions": [
+    "V1-34/GSM2113301",
+    "USZ22/GSM6883080",
+    "USZ23/GSM9037837"
+  ],
+  "source_gate_freeze": "5559e166365a33a5b032db8632875840c83dc092fc3e66d91356453600737a2d",
+  "sources": [
+    {
+      "name": "ARCHS4-cached-subset",
+      "path": "/workspace/Rare-cancers/research/autonomy/tmem266-all-cultures-2026-10-04/archs4-subset.zip",
+      "sha256": "f0bcd17e0c56ec038ea47ee14b7b57700333b46790d2cfb18a555cbf70ea4446",
+      "projection": "Archiveheader+firstcolumnonly; exactfixedGPNMBsymbol/identitynamespace; otheridentifiercatalogueignored, numericfieldsdiscardedbeforeinspection."
+    },
+    {
+      "name": "USZ23-cached-RefSeq",
+      "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/USZ23-RefSeq.quant.sf.gz",
+      "sha256": "d49822e6ca79a18c186b00c4faa4087b8582bbb72c0be218fcea2e997565507f",
+      "projection": "Nameonly; exactcurrentsevenaccessions/baseversions/presenceonly. Nosum/TPM/Length/NumReads fields inspected."
+    },
+    {
+      "name": "USZ22-fullcount-declared",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE221nnn/GSE221532/suppl/GSE221532_201222_raw_counts.tsv.gz",
+      "method": "GET",
+      "cap": 1048576,
+      "projection": "Bytehash/gzipheader/firstcolumnnamespaceonly; noquantities. Previous HEAD651838/Range206firstline reused; nofailedroute repeated."
+    }
+  ],
+  "fixed_current_GPNMB_accessions": [
+    "XM_054357089.1",
+    "XM_054357088.1",
+    "XM_047419776.1",
+    "XM_017011678.3",
+    "XM_005249578.4",
+    "NM_002510.3",
+    "NM_001005340.2"
+  ],
+  "gene_id": "10457",
+  "symbol": "GPNMB",
+  "optional_official_xref": "Onlyif firstcolumnnamespace needs actualgene-IDcrossreference: separatelydatedfreeze exactNCBIGeneannotationroute\u2264256KiBtotal; no expression orsequence body. No xrefcall selected yet.",
+  "caps": {
+    "new_raw_bytes": 2097152,
+    "new_derived_bytes": 8388608,
+    "minimum_free_bytes": 10737418240
+  },
+  "stop_rule": "No target-IDmatch is missingmapping, nothistoricalgeneabsence. Unsupportednamespace/annotation remainspending. Stopscientificworkatdeadline, no comparison/values.",
+  "free_bytes": 27056660480
+}
