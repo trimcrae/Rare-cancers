@@ -1,0 +1,1489 @@
+{
+  "utc": "2026-10-05T16:31:02.090720+00:00",
+  "sources": [
+    {
+      "key": "BioSample",
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/intron_retention_gate/raw/biosample-current-efetch.xml",
+      "bytes": 37335,
+      "sha256": "d339c3f6d54632dbb2a56405ddab78798c8bbff8b11577f8345758932fcd8a33"
+    },
+    {
+      "key": "SRA",
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/intron_retention_gate/raw/sra-current-efetch.xml",
+      "bytes": 171420,
+      "sha256": "b0c0de2646cf6b5ad1beffbe82c963ec56dff226b35480bf90ce7f7cb4f68f3a"
+    },
+    {
+      "key": "prior23",
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/intron_retention_gate/ALL23-CURRENT-IDENTITY-ASSAY-ROSTER.json",
+      "bytes": 34906,
+      "sha256": "c31046f7d1da2fe6e1be42e70693c59eb14b7e1719845c58babd4fad65f5124a"
+    },
+    {
+      "key": "primary",
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/intron_retention_gate/raw/Brenca2019-primary.xml",
+      "bytes": 145636,
+      "sha256": "e453b80e71292bb19c1f3287d08108bef44e7a0e88207e6f99bbd3a52a010b68"
+    },
+    {
+      "key": "primary_methods",
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/intron_retention_gate/PRIMARY-LIBRARY-METHOD-OBSERVATIONS.json",
+      "bytes": 3302,
+      "sha256": "29626a4f7523b5558baac75987c5872c28333b34bd83d04f40fcf40b2d79b294"
+    }
+  ],
+  "scope": "EveryoriginalBioSample attribute/ID/link andSRAidentity/librarymethod field; no rawfile URLs/readcount/basecount/sequence/outcome fields selected. No duplicate request.",
+  "rows": [
+    {
+      "BioSample": "SAMN17313492",
+      "SRA_sample": "SRS8030419",
+      "experiment": "SRX9848843",
+      "runs": [
+        "SRR13435263"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313492"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "428"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030419"
+        }
+      ],
+      "isolate": "s_428",
+      "BioSample_attributes": {
+        "isolate": "s_428",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_428",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313491",
+      "SRA_sample": "SRS8030417",
+      "experiment": "SRX9848842",
+      "runs": [
+        "SRR13435264"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313491"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "386"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030417"
+        }
+      ],
+      "isolate": "s_386",
+      "BioSample_attributes": {
+        "isolate": "s_386",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_386",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "verified engineered TN",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313490",
+      "SRA_sample": "SRS8030416",
+      "experiment": "SRX9848841",
+      "runs": [
+        "SRR13435265"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313490"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "385"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030416"
+        }
+      ],
+      "isolate": "s_385",
+      "BioSample_attributes": {
+        "isolate": "s_385",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_385",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "verified engineered TN",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313481",
+      "SRA_sample": "SRS8030415",
+      "experiment": "SRX9848840",
+      "runs": [
+        "SRR13435266"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313481"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "314"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030415"
+        }
+      ],
+      "isolate": "s_314",
+      "BioSample_attributes": {
+        "isolate": "s_314",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_314",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313480",
+      "SRA_sample": "SRS8030414",
+      "experiment": "SRX9848839",
+      "runs": [
+        "SRR13435267"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313480"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "301"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030414"
+        }
+      ],
+      "isolate": "s_301",
+      "BioSample_attributes": {
+        "isolate": "s_301",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_301",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313489",
+      "SRA_sample": "SRS8030413",
+      "experiment": "SRX9848838",
+      "runs": [
+        "SRR13435268"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313489"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "367"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030413"
+        }
+      ],
+      "isolate": "s_367",
+      "BioSample_attributes": {
+        "isolate": "s_367",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_367",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "verified engineered TN",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313488",
+      "SRA_sample": "SRS8030412",
+      "experiment": "SRX9848837",
+      "runs": [
+        "SRR13435269"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313488"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "366"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030412"
+        }
+      ],
+      "isolate": "s_366",
+      "BioSample_attributes": {
+        "isolate": "s_366",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_366",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313487",
+      "SRA_sample": "SRS8030411",
+      "experiment": "SRX9848836",
+      "runs": [
+        "SRR13435270"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313487"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "365"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030411"
+        }
+      ],
+      "isolate": "s_365",
+      "BioSample_attributes": {
+        "isolate": "s_365",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_365",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313486",
+      "SRA_sample": "SRS8030410",
+      "experiment": "SRX9848835",
+      "runs": [
+        "SRR13435271"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313486"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "363"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030410"
+        }
+      ],
+      "isolate": "s_363",
+      "BioSample_attributes": {
+        "isolate": "s_363",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_363",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "verified engineered EN",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313485",
+      "SRA_sample": "SRS8030409",
+      "experiment": "SRX9848834",
+      "runs": [
+        "SRR13435272"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313485"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "318"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030409"
+        }
+      ],
+      "isolate": "s_318",
+      "BioSample_attributes": {
+        "isolate": "s_318",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_318",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "verified engineered TN",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313484",
+      "SRA_sample": "SRS8030408",
+      "experiment": "SRX9848833",
+      "runs": [
+        "SRR13435273"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313484"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "317"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030408"
+        }
+      ],
+      "isolate": "s_317",
+      "BioSample_attributes": {
+        "isolate": "s_317",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_317",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "verified engineered EN",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313483",
+      "SRA_sample": "SRS8030407",
+      "experiment": "SRX9848832",
+      "runs": [
+        "SRR13435274"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313483"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "316"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030407"
+        }
+      ],
+      "isolate": "s_316",
+      "BioSample_attributes": {
+        "isolate": "s_316",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_316",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "verified engineered EN",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313502",
+      "SRA_sample": "SRS8030406",
+      "experiment": "SRX9848831",
+      "runs": [
+        "SRR13435275"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313502"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "484"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030406"
+        }
+      ],
+      "isolate": "s_484",
+      "BioSample_attributes": {
+        "isolate": "s_484",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_484",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313501",
+      "SRA_sample": "SRS8030405",
+      "experiment": "SRX9848830",
+      "runs": [
+        "SRR13435276"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313501"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "483"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030405"
+        }
+      ],
+      "isolate": "s_483",
+      "BioSample_attributes": {
+        "isolate": "s_483",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_483",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313500",
+      "SRA_sample": "SRS8030404",
+      "experiment": "SRX9848829",
+      "runs": [
+        "SRR13435277"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313500"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "480"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030404"
+        }
+      ],
+      "isolate": "s_480",
+      "BioSample_attributes": {
+        "isolate": "s_480",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_480",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313482",
+      "SRA_sample": "SRS8030403",
+      "experiment": "SRX9848828",
+      "runs": [
+        "SRR13435278"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313482"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "315"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030403"
+        }
+      ],
+      "isolate": "s_315",
+      "BioSample_attributes": {
+        "isolate": "s_315",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_315",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "verified engineered EN",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313499",
+      "SRA_sample": "SRS8030402",
+      "experiment": "SRX9848827",
+      "runs": [
+        "SRR13435279"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313499"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "479"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030402"
+        }
+      ],
+      "isolate": "s_479",
+      "BioSample_attributes": {
+        "isolate": "s_479",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_479",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313498",
+      "SRA_sample": "SRS8030401",
+      "experiment": "SRX9848826",
+      "runs": [
+        "SRR13435280"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313498"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "476"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030401"
+        }
+      ],
+      "isolate": "s_476",
+      "BioSample_attributes": {
+        "isolate": "s_476",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_476",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313497",
+      "SRA_sample": "SRS8030400",
+      "experiment": "SRX9848825",
+      "runs": [
+        "SRR13435281"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313497"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "475"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030400"
+        }
+      ],
+      "isolate": "s_475",
+      "BioSample_attributes": {
+        "isolate": "s_475",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_475",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313496",
+      "SRA_sample": "SRS8030399",
+      "experiment": "SRX9848824",
+      "runs": [
+        "SRR13435282"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313496"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "472"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030399"
+        }
+      ],
+      "isolate": "s_472",
+      "BioSample_attributes": {
+        "isolate": "s_472",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_472",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313495",
+      "SRA_sample": "SRS8030398",
+      "experiment": "SRX9848823",
+      "runs": [
+        "SRR13435283"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313495"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "471"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030398"
+        }
+      ],
+      "isolate": "s_471",
+      "BioSample_attributes": {
+        "isolate": "s_471",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_471",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313494",
+      "SRA_sample": "SRS8030397",
+      "experiment": "SRX9848822",
+      "runs": [
+        "SRR13435284"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313494"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "430"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030397"
+        }
+      ],
+      "isolate": "s_430",
+      "BioSample_attributes": {
+        "isolate": "s_430",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_430",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    },
+    {
+      "BioSample": "SAMN17313493",
+      "SRA_sample": "SRS8030396",
+      "experiment": "SRX9848821",
+      "runs": [
+        "SRR13435285"
+      ],
+      "sample_name_ids": [
+        {
+          "attributes": {
+            "db": "BioSample",
+            "is_primary": "1"
+          },
+          "value": "SAMN17313493"
+        },
+        {
+          "attributes": {
+            "db_label": "Sample name"
+          },
+          "value": "429"
+        },
+        {
+          "attributes": {
+            "db": "SRA"
+          },
+          "value": "SRS8030396"
+        }
+      ],
+      "isolate": "s_429",
+      "BioSample_attributes": {
+        "isolate": "s_429",
+        "age": "missing",
+        "biomaterial_provider": "CRO Aviano",
+        "sex": "missing",
+        "tissue": "EMC"
+      },
+      "title": "Human sample from Homo sapiens",
+      "Owner_institution": "CRO Aviano",
+      "BioSample_Comment_count": 0,
+      "all_public_record_links": [
+        {
+          "tag": "Link",
+          "attributes": {
+            "type": "entrez",
+            "target": "bioproject",
+            "label": "PRJNA692081"
+          },
+          "value": "692081"
+        }
+      ],
+      "library_name": "LIB_429",
+      "design": "Stranded Total RNA",
+      "library_strategy": "RNA-Seq",
+      "prior_identity": {
+        "status": "unresolved native tumor versus engineered NR4A3 control; clinical case/partner/preparation unknown",
+        "method": "Inherited source-author verified mapping, no transfer from numeric order",
+        "native_case_id": null,
+        "native_partner": null,
+        "FFPE_frozen": null
+      },
+      "native_case_partner_preparation_link": "unknown; genericEMClabel and numeric alias do not assignnative source or case/partner/preservation",
+      "reported_sample_unit": "oneexplicitexperiment/sample/run metadata association here, notindependent donor"
+    }
+  ],
+  "new_native_mappings": 0,
+  "pending": "All15unresolved genericaliases andall5matchedfrozen native-prep source assignments; known8engineered source-author mappings reused, not rederived fromBioSample tissueEMC."
+}
