@@ -1,0 +1,39 @@
+{
+  "schema": "emc-r9-older-oxygenation-independent-before-values-review-plan/1",
+  "utc": "2026-10-05T13:40:41.686568+00:00",
+  "owner": "/root/radiotherapy",
+  "scientific_owner": "/root/single_cell",
+  "question": "Do the exact Bentzen2003/Nordsmark2001 clinical primaries authenticate all EMC donor/conditions with paired FMISO PET/polarographic pO2 and a useful unanswered calibration or measurement comparison beyond published global proxy discordance?",
+  "before_values": true,
+  "source_selection": [
+    "Bentzen2003 RadiotherOncol67:339\u2013344 namedbyoriginalPMC5117798 bib2",
+    "Nordsmark2001 BJC84:1070\u20131075 namedbyoriginalPMC5117798 bib25"
+  ],
+  "citation_provenance": {
+    "repo_path": "research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/oxygenation_measurement_gate/ELECTRODE-PRIMARY-CITATION-LINKS.json",
+    "sha256": "d492c5e92e998240622c1a6a9ddd8fde3e6a8ae07af2d0972e0df7831fd21236"
+  },
+  "prior_current_gate": {
+    "repo_path": "research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/oxygenation_measurement_gate/RESULTS.txt",
+    "sha256": "b490e3122a53af3fa8ea352fe99633954ca4385e174cae46a7322dcced41b9ca",
+    "scope": "ExistingFMISOoneEMC/fivewithoutdiagnosis-rowmap;VorteXfourbaselineEMCnotfourassessableprofiles;globalmarkercalibration/discordancepriorart reused, no newendpointvalues."
+  },
+  "gate": [
+    "Exactdiagnostic label/authconfidence andallnativeEMCdonor/conditionrows; genericmyxoidCHS/Other unresolved",
+    "Actualsame-donor PET/needle/time/treatment/site/units threshold maps; nohistotypetocaseinference",
+    "Needletracks/individualreadings/cores/repeatlesionsnotdonors; spatialmismatch betweenPETvolumeandneedletrajectory explicitlydefined",
+    "Actualmeasurementunits andoxygen/pET normalization/cutoffs fromprimaryprotocol; noFMISOuptake==pO2assumption",
+    "Originalsourcecalibrationconclusions/contraryconditions andsourcecohortreuse preserved; noalreadyreportedgeneraldiscordance relabelledEMCbiology",
+    "Beforeanynumericendpoints, a source-supported finiteallcaseplan/fixedcomparators/statistic/uncertainty/strongestdisproof mustsurvive valuegate"
+  ],
+  "strongest_alternatives": [
+    "Spatial/temporal sampling andthreshold differences explain apparentdiscordance",
+    "Needleinjury/necrosis/perfusion ortracerkinetics notoxygen-independenttumorbiology",
+    "Cohort/sharedpatientreuse andhistologicmisidentification",
+    "Theauthorsalreadyreportthesamecalibrationlimitation",
+    "Onlyoneunlinked/descriptiveEMCcase ornoindependentreplication/usefuladdition"
+  ],
+  "defeat": "NoexplicitEMCidentitypair; no same-donor condition links/protocol; numericprofiles onlyunlabelledfigures; primaryalreadyanswerssamecontrast; no usefulindependentunreportedcontribution; suitablepublicidentity/conditiondata pending. No oxygenabsence/globalexhaustion inferred.",
+  "review_scope": "One15minute gate13:39\u201313:54; ownerretrievesordinarypublicsources, reviewerzero-copy; nofailedrouteduplication orendpointread. Qualitativeprimarycalibrationconclusions maybereadwithcase/aggregateendpointnumbersmasked.",
+  "limits": "<=16MiBnewraw/>=10GiBfree;originalsignored,noimages/OCR/UI/headless/privateaccess/outreach/spend/manuscript/rootwrites/push. NoFAP/glycan/structural/HLA/mutationmechanisms or experimentalmodelbypass. Codex both. Preservealloldfreezes."
+}

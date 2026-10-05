@@ -1,0 +1,54 @@
+{
+  "scope": "Before-values source structure, cohort/protocol counts and qualitative published calibration only.",
+  "inputs": [
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/oxygenation_measurement_gate/primary_oxygen_linkage_followup/raw/nordsmark2001-primary-xml.xml",
+      "bytes": 63870,
+      "sha256": "1c09b970fb4df27699a4cbde52b076089c5bd3bf32aecf243256cbc801e15e15"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/oxygenation_measurement_gate/primary_oxygen_linkage_followup/raw/bentzen2003-metadata.json",
+      "bytes": 5671,
+      "sha256": "98979f06835594d43e7040c9515d83c1f1a8350453be48c2b6074b6a65acff37"
+    }
+  ],
+  "nordsmark": {
+    "archive_preformat_characters": 29189,
+    "body_child_tags": [
+      "preformat"
+    ],
+    "patients": 33,
+    "source_recurrent_conditions": 2,
+    "minimum_tracks": 3,
+    "median_tracks": 5,
+    "track_range": [
+      3,
+      7
+    ],
+    "earlier_overlapping_cohorts": [
+      21,
+      25
+    ],
+    "isotope_not_patient_count": "31PMRS is phosphorus-31 spectroscopy, not 31 donors.",
+    "literal_alias_counts": {
+      "extraskeletal": 0,
+      "extra-skeletal": 0,
+      "myxoid": 0,
+      "chondrosarcoma": 0,
+      "chordoid": 0
+    },
+    "interpretation": "Provided archive preformat is real readable source text; absent structured sections/tables is not absent body. No explicit EMC label, not proven zero EMC."
+  },
+  "bentzen": {
+    "suspected_tumors": 13,
+    "completed_electrode_after_PET": 11,
+    "all_13_histology_counts": {
+      "STS": 7,
+      "benign": 6
+    },
+    "composition_of_11_paired_subset": "Not authenticated from abstract; cannot assign all7STS to paired subset.",
+    "published_qualitative_conclusion": "In this setting FMISO did not reflect electrode-defined hypoxia; not a new EMC-specific finding or universal FMISO failure."
+  },
+  "case_pO2_PET_or_genetic_endpoints_accessed": false,
+  "errors": []
+}
