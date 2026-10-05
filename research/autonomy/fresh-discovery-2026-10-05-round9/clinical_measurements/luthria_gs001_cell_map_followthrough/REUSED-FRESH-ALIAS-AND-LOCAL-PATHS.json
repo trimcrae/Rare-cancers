@@ -1,0 +1,67 @@
+{
+  "source_path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round8/cell_compartment_source_gate/.cache/fresh-sarc.ipynb",
+  "sha256": "ead9dad3752dbc7059b3812e62eca1b7994e4b28ee6e0ebfca304cdd777a01c1",
+  "scope": "Reused code alias/read-save metadata lines only; no outputs/classification/CNA logic inspected",
+  "safe_lines": [
+    {
+      "source_cell": 9,
+      "source_line": 1,
+      "safe_text": "pat_list = ['Sarcoma167GEX', 'Sarcoma322GEX', 'Sarcoma559GEX',"
+    },
+    {
+      "source_cell": 9,
+      "source_line": 3,
+      "safe_text": "              'SarcomaS914GEX', 'SarcomaS956GEX' ,'gs001_sarc_scseq', 'gs002_sarc_scseq']"
+    },
+    {
+      "source_cell": 10,
+      "source_line": 2,
+      "safe_text": "%R -i pat_list"
+    },
+    {
+      "source_cell": 12,
+      "source_line": 6,
+      "safe_text": "object.list <- lapply(pat_list, function (x) Read10X_h5(paste0(\"../cellbender/\",pat,\"/\",pat,'_filtered.h5'), "
+    },
+    {
+      "source_cell": 13,
+      "source_line": 8,
+      "safe_text": "    x <- CreateSeuratObject(counts = object.list[[i]], project = pat_list[[i]], min.cells = 1, min.features = 1)  "
+    },
+    {
+      "source_cell": 13,
+      "source_line": 11,
+      "safe_text": "# seu_raw.list <- lapply(pat_list, function (x) readRDS(paste0('data/', x, '/data_', x, '_cb_raw.rds')))"
+    },
+    {
+      "source_cell": 14,
+      "source_line": 4,
+      "safe_text": "    saveRDS(seu_raw.list[[i]], file = paste0('data/', pat_list[[i]], '/data_', pat_list[[i]], '_cb_raw.rds'))"
+    },
+    {
+      "source_cell": 17,
+      "source_line": 4,
+      "safe_text": "    seu_raw.list[[i]][['patient']] <- pat_list[[i]]"
+    },
+    {
+      "source_cell": 18,
+      "source_line": 5,
+      "safe_text": "    writeMM(seu_raw.list[[i]]@assays$RNA@counts, paste0('data/', pat_list[[i]], '/matrix_', pat_list[[i]], '_raw.mtx'))"
+    },
+    {
+      "source_cell": 21,
+      "source_line": 4,
+      "safe_text": "for pat in pat_list:"
+    },
+    {
+      "source_cell": 26,
+      "source_line": 3,
+      "safe_text": "    pat <- pat_list[[i]]"
+    },
+    {
+      "source_cell": 29,
+      "source_line": 3,
+      "safe_text": "    pat <- pat_list[[i]]"
+    }
+  ]
+}

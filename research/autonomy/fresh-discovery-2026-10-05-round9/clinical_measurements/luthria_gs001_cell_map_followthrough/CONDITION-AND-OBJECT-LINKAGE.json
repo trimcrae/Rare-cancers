@@ -1,0 +1,50 @@
+{
+  "sources": [
+    {
+      "name": "PostNumbatAssignments/ContactTracing/AnnotatedTutorial/AllCellsAnnotated_Seu_to_H5AD.R",
+      "sha256": "36612c378f28ac7a3e9e49908f19473ee50c1113c146f6ee8e01e77e8953370d"
+    },
+    {
+      "name": "PreProcessing/Integration.R.ipynb",
+      "sha256": "0b395a3b75ae4853c8aee5f9e6cce66e710f7fc40852f83fcbcaa96f1e9d7553"
+    }
+  ],
+  "conditions": [
+    {
+      "condition": "GS001",
+      "code_alias": "gs001_sarc_scseq",
+      "native_source_confidence": "Author fresh sarcoma S1/unsortedscRNA and exact codealias verified previously; EMC histology not printed in inspected fields, not classifiednonEMC.",
+      "donor_treatment_capture": "Fresh surgical tissue processed immediately; overlap with sequentialfrozen/otherpatients unresolved. No source-linked individual previoustherapy/time/age/sex/clinicalID here. One alias is not an independentdonor.",
+      "cell_library_map": "PriorS1 links fresh alias/assay/QC; no GSM/BioSample/barcode-to-nativeEMC diagnostic release map. LocalCellBenderh5/rawRDS/matrixpaths in oldsourcecode not actualpublicfiles.",
+      "status": "pending_source_identity_and_public_fresh_cellmap_not_known_available_matrix",
+      "values": "Unopened/notmeasured"
+    },
+    {
+      "condition": "GS002",
+      "code_alias": "gs002_sarc_scseq",
+      "native_source_confidence": "Code-only additionalfresh label; absentS1/displayedquality cohort. Actual reported specimen/diagnosis/donorcondition unresolved.",
+      "cell_library_map": "No namedGEO/BioSample/cellmatrixlink authenticated.",
+      "status": "pending_actual_specimen_and_public_measurement_linkage",
+      "values": "Unopened/notmeasured"
+    },
+    {
+      "condition": "Eight frozen native specimens",
+      "code_aliases": [
+        "Sarcoma167GEX",
+        "Sarcoma322GEX",
+        "Sarcoma559GEX",
+        "Sarcoma708GEX",
+        "SarcomaS408GEX",
+        "SarcomaS410GEX",
+        "SarcomaS914GEX",
+        "SarcomaS956GEX"
+      ],
+      "native_source_confidence": "Prior all21 libraryaudit sourceUPS/INS; sixdonors with X/Y pre/post repeats. NotauthenticatedEMC.",
+      "status": "evaluated_reused_source_nonEMC_for_this_disease_question"
+    }
+  ],
+  "new_code_link": "Integration.R.ipynb lists exactlyeightfrozenaliases then saveRDS data/sarcoma_all/data_sarcoma_all_merged_obj.rds. AllCellsAnnotated_Seu_to_H5AD.R reads identical localpath, aligns rownames/barcodes andexports h5Seurat/H5AD; schema does not documentpublicdownload ornativeGS001 pathology/cellcrosswalk.",
+  "runtime_limit": "Same literalproducer/consumerpath is sourcecode linkage only. Actual localobjectcontents/runtime/modification and allcells export cannot be inferred from name/order; neither completepublicmatrixabsence nor GS001 exclusion established.",
+  "barcode_limit": "Row-order/barcode alignment safeguards softwarematching within unknownobject; does not measure identity or authenticate pathology. No inferred malignant-cell or compartment classifications accepted.",
+  "other_relevant_conditions": "All other native/public/compartment contexts retained in frozen GPNMB broadercoveragee080d83e; noTempO12 vsfreshcellassay substitution. Published processedTempO is separate nativebulk context."
+}

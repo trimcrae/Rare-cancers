@@ -1,0 +1,184 @@
+[
+  {
+    "source": "PostNumbatAssignments/ContactTracing/AnnotatedTutorial/AllCellsAnnotated_Seu_to_H5AD.R",
+    "source_sha256": "36612c378f28ac7a3e9e49908f19473ee50c1113c146f6ee8e01e77e8953370d",
+    "git_blob_verified": true,
+    "notebook_output_cells_present": 0,
+    "notebook_outputs_inspected": false,
+    "safe_source_lines": [
+      {
+        "source_cell": 0,
+        "source_line": 34,
+        "text": "all_cells_rds <- \"data/sarcoma_all/data_sarcoma_all_merged_obj.rds\""
+      },
+      {
+        "source_cell": 0,
+        "source_line": 126,
+        "text": "  all_meta <- all_cells@meta.data"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 127,
+        "text": "  all_meta$barcode <- rownames(all_meta)"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 133,
+        "text": "    by = \"barcode\","
+      },
+      {
+        "source_cell": 0,
+        "source_line": 137,
+        "text": "  rownames(merged_df) <- merged_df$barcode"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 138,
+        "text": "  merged_df <- merged_df[rownames(all_cells@meta.data), , drop = FALSE]"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 140,
+        "text": "  if (!identical(rownames(merged_df), rownames(all_cells@meta.data))) {"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 141,
+        "text": "    stop(\"Merged metadata row order no longer matches the full all-cells Seurat object.\")"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 160,
+        "text": "  all_cells_rds,"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 162,
+        "text": "  output_h5seurat,"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 163,
+        "text": "  output_h5ad = sub(\"\\\\.h5Seurat$\", \".h5ad\", output_h5seurat),"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 166,
+        "text": "  dir.create(dirname(output_h5seurat), recursive = TRUE, showWarnings = FALSE)"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 169,
+        "text": "  all_cells <- readRDS(all_cells_rds)"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 179,
+        "text": "  # Export to h5Seurat, then convert to h5ad."
+      },
+      {
+        "source_cell": 0,
+        "source_line": 180,
+        "text": "  SaveH5Seurat(all_cells, filename = output_h5seurat, overwrite = TRUE)"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 181,
+        "text": "  Convert(output_h5seurat, dest = \"h5ad\", overwrite = TRUE)"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 183,
+        "text": "  default_h5ad <- sub(\"\\\\.h5Seurat$\", \".h5ad\", output_h5seurat)"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 184,
+        "text": "  if (!identical(normalizePath(default_h5ad, mustWork = FALSE), normalizePath(output_h5ad, mustWork = FALSE))) {"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 185,
+        "text": "    if (file.exists(output_h5ad)) {"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 186,
+        "text": "      file.remove(output_h5ad)"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 188,
+        "text": "    ok <- file.rename(default_h5ad, output_h5ad)"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 190,
+        "text": "      stop(sprintf(\"Failed to move '%s' to '%s'.\", default_h5ad, output_h5ad))"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 199,
+        "text": "  all_cells_rds = all_cells_rds,"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 201,
+        "text": "  output_h5seurat = output_h5seurat,"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 202,
+        "text": "  output_h5ad = output_h5ad"
+      }
+    ],
+    "metadata_field_names_schema_only": [],
+    "read_save_literal_strings": [
+      "\\\\.h5Seurat$",
+      ".h5ad",
+      "h5ad",
+      "\\\\.h5Seurat$",
+      ".h5ad",
+      "Failed to move ",
+      " to ",
+      "."
+    ],
+    "restricted_or_gene_or_classification_lines_skipped": 60,
+    "limit": "Metadata field schema is not cell classification validity or diagnosis. Direct path strings/local objects do not prove public files."
+  },
+  {
+    "source": "PreProcessing/Integration.R.ipynb",
+    "source_sha256": "0b395a3b75ae4853c8aee5f9e6cce66e710f7fc40852f83fcbcaa96f1e9d7553",
+    "git_blob_verified": true,
+    "notebook_output_cells_present": 0,
+    "notebook_outputs_inspected": false,
+    "safe_source_lines": [
+      {
+        "source_cell": 0,
+        "source_line": 26,
+        "text": "pat_list <- c('Sarcoma167GEX', 'Sarcoma322GEX', 'Sarcoma559GEX', 'Sarcoma708GEX', 'SarcomaS408GEX', 'SarcomaS410GEX', 'SarcomaS914GEX', 'SarcomaS956GEX')"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 45,
+        "text": "    pat <- pat_list[[i]]"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 66,
+        "text": "    pat <- pat_list[[i]]"
+      },
+      {
+        "source_cell": 0,
+        "source_line": 99,
+        "text": "saveRDS(seu,paste0(\"data/sarcoma_all/data_sarcoma_all_merged_obj.rds\"))"
+      }
+    ],
+    "metadata_field_names_schema_only": [],
+    "read_save_literal_strings": [
+      "data/sarcoma_all/data_sarcoma_all_merged_obj.rds"
+    ],
+    "restricted_or_gene_or_classification_lines_skipped": 22,
+    "limit": "Metadata field schema is not cell classification validity or diagnosis. Direct path strings/local objects do not prove public files."
+  }
+]
