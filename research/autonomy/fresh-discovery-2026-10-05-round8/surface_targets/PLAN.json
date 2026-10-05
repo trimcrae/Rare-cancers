@@ -1,0 +1,60 @@
+{
+  "schema": "emc-r8-surface-plan/1",
+  "frozen_utc": "2026-10-05T00:33:26.363188+00:00",
+  "owner": "/root/diagnostic",
+  "base_commit": "80c40ed9fb1af0086bdfc9754c97b176490996e0",
+  "claim": "Does a fixed neuroendocrine-lineage surface-antigen RNA panel nominate a previously unreported, reproducible EMC tissue-localization experiment beyond established neuroendocrine differentiation?",
+  "panel": [
+    "DLL3",
+    "SEZ6",
+    "NCAM1"
+  ],
+  "selection": "Panel assigned biologically before this pilot. Existing broad discovery-table rows for SEZ6 and NCAM1 were exposed during prior-work search before this freeze: SEZ6 median0.48TPM, NCAM1 median10.63TPM with negative LGFMS/synovial contrasts. This is exploratory re-evaluation and source reuse, not blinded independent discovery or a new confirmatory three-gene experiment. No new expression values read yet.",
+  "prior_art": {
+    "neural_EMC": "Filion2009 already reports neural differentiation and selected genes; full383-probe supplement availability/novelty unresolved for panel.",
+    "CD56": "Published CD56-positive EMC observations exist: PMID35488288 molecularly confirmed cellular EMC; PMID24713246 aggregate5/5 CD56-positive, case molecular identity unresolved; PMID27591381 focal positive lung case with molecular identity unresolved. PMID24185117 two vulvar PLAG1-positive NR4A3/EWSR1-negative tumors are not automatically authenticated EMC. Known CD56 positivity is not discovery.",
+    "DLL3_SEZ6": "Focused full-text-index query six hits requires source eligibility check; no direct EMC DLL3/SEZ6 measurement shown in the inspected indexed abstracts. No first-ever claim."
+  },
+  "specific_addition": "A consistent, appreciable transcript signal for an unreported panel member across authenticated EMC specimens, separable from relevant sarcomas in two assays, could justify prioritized tumor-cell localization testing. RNA alone does not show accessible antigen, dependency, safety or treatment efficacy. Failure of an invented broad panel hypothesis is not a negative paper.",
+  "strongest_alternatives": [
+    "Neuroendocrine lineage in EMC does not imply SCLC target expression.",
+    "NCAM1 expression is nonspecific and could be carried by neural or immune compartments; bulk admixture and low tumor fraction can confound all genes.",
+    "RNA measurements cannot establish membrane localization, isoform accessibility or protein abundance.",
+    "Known CD56 measurements and neural signature are prior art, rather than a new application inferred from terminology.",
+    "Sequencing year, reference design, gene annotation and unresolved donor overlap can create apparent validation."
+  ],
+  "sources": {
+    "RNAseq": "All704 Hofvander columns, all13 author-labelled EMC specimens (12primary+1recurrence). Primary9 exclude three documented historical overlaps and recurrence; retain all13 sensitivity with labels. Reuse exact metadata-manifest and hashes. No additional molecular confirmation invented.",
+    "array": "All42 GSE24369 specimens:6EMC,17LGFMS,6MFS,6desmoid,5SFT,2pooled muscle. All uniquely assigned GPL6244 clusters, median within gene/sample fixed when >1; cluster-specific contrasts also report.",
+    "older_array": "All10 author-labelled EMC GSE4303 ratio conditions retained if unambiguous annotation supports panel. Ratios conditional on CRH reference; GIST UHR cannot validate tumor abundance. No favorable-probe selection.",
+    "coverage": "Refresh primary papers/supplements/citations plus reuse prior verified EMC tissue, authenticated model and broader-deposit identity gates. Generic chondrosarcoma, disputed models, uncertain donor identities stay separate; suitable accessible pending measurements block advancement."
+  },
+  "comparators": {
+    "primary_RNA": [
+      "Myxoid liposarcoma",
+      "Low-grade fibromyxoid sarcoma",
+      "Synovial sarcoma"
+    ],
+    "primary_array": "LGFMS anchor; MFS,desmoid,SFT separately as contrary/context comparisons",
+    "broad_RNA": "Every eligible diagnostic category descriptive; malignant reference policy reused from CSPG4 benchmark, no selection by gene values.",
+    "normal": "Array muscle pools descriptive, not donor replication; known normal neural antigen context required for any advance, not a safety conclusion."
+  },
+  "analysis": {
+    "metrics": [
+      "Per-gene exact observed signal, median/range, counts\u22651 and\u22655TPM (allocation context only)",
+      "Probability of superiority half ties; bootstrap95%CI within cohorts seed20261005 B10000",
+      "Sequencing-year matched A and individual EMC deletion; recurrence/overlap inclusion sensitivity",
+      "Array all clusters and source-scale values, no cross-platform abundance pooling"
+    ],
+    "multiplicity": "Three assigned genes plus prior thousands-gene screen exposure. One-sided three-primary-comparator intersection-union p and Holm across3 shown if computed, always exploratory; no p-value validates novelty.",
+    "allocation_rule": "Potential new localization lead only if RNA median\u22655TPM and each primary EMC\u22651TPM, A\u22650.8 versus all three primary histologies marginal/year-matched, consistent array direction and A\u22650.8 versus LGFMS, no contradiction from complete relevant measured EMC evidence or primary prior art. This operational rule is experiment allocation, not biological absence or a clinical cutoff.",
+    "stop": "If appreciable unreported reproducible contrast fails, or identity/coverage/novelty cannot be established, shelve this claim; no post-hoc switch to a selected high case, fusion subgroup, threshold or renamed panel. Preserve individual high observations.",
+    "decisive_followup": "Complete bounded three-gene RNA/array source projection and panel prior-art eligibility; only source-backed promising contrast justifies staged extra work."
+  },
+  "restrictions": [
+    "Owned R8surface_targets path only; main read-only.",
+    "No UI/browser; quiet publicAPI/files only.",
+    "No paid/GPU/outreach/publication/PR or restricted-lane bypass.",
+    "Shared raw sources read-only with no new duplicates; raw/new full sources ignored; \u226510GiB free and64MiB source softcap."
+  ]
+}

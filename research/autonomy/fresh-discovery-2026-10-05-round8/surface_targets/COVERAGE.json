@@ -1,0 +1,172 @@
+{
+  "utc": "2026-10-05T00:45:04.002567+00:00",
+  "scope": "Fixed exploratory DLL3/SEZ6/NCAM1 RNA panel; shelved, no full-public-corpus claim.",
+  "evaluated": [
+    {
+      "source": "Hofvander2026 doi10.1158/1078-0432.CCR-25-3740",
+      "conditions": 13,
+      "primary": 12,
+      "recurrence": 1,
+      "primary_without_known_historical_overlap": 9,
+      "all_comparator_columns_projected": 691,
+      "measurement": "All three exact gene rows across all704 source columns; all eligible histologies context; primary three sarcoma contrasts/year/deletion checks",
+      "identity": "Source clinical diagnosis, not newly molecularly authenticated or donor-independent",
+      "rows": "MEASUREMENTS.tsv/ SPECIMEN-ROSTER.json"
+    },
+    {
+      "source": "GSE24369 PMID21536545 doi10.1158/1078-0432.CCR-11-0145",
+      "EMC": 6,
+      "LGFMS": 17,
+      "MFS": 6,
+      "desmoid": 6,
+      "SFT": 5,
+      "muscle_pools": 2,
+      "measurement": "All42 samples and all unique assigned panel features. Pool/technical RNA not new donors; cross-cohort overlap unestablished."
+    },
+    {
+      "source": "GSE4303 doi10.1002/path.1792",
+      "EMC_conditions": 10,
+      "other_source_columns": 6,
+      "panel_features": 4,
+      "potential_EMC_feature_cells": 40,
+      "missing_EMC_feature_cells": 9,
+      "measurement": "All potential source cells retained; ratio/ref/mapping limits, not abundance validation. STT2528 recurrence and STT3714/STT3696 mismatch unchanged."
+    },
+    {
+      "source": "ARCHS4 retained subset",
+      "conditions": [
+        "V1-34/GSM2113301",
+        "USZ22/GSM6883080"
+      ],
+      "identity": "Verified prior culture/fusion evaluation reused; one library each, technical runs not donors.",
+      "measurement": "All3 panel symbol rows, all67186 matrix rows checked for denominators; no repeated donor pooling."
+    },
+    {
+      "source": "GSM9037837_USZ23_EMC3.RefSeq.quant.sf.gz",
+      "conditions": [
+        "USZ23_EMC3"
+      ],
+      "measurement": "All currently official mapped panel RefSeq rows,2/5/9respectively. Historical identifier completeness unproven; zeros are mapped-row measurements only.",
+      "overlap": "USZ20 donor independence unresolved."
+    }
+  ],
+  "verified_reuse": [
+    {
+      "source": "Wang2022 molecularly confirmed cellular EMC CD56-positive",
+      "original": "PMC9052449 PMID35488288",
+      "observations": 1,
+      "overlap": "Preprint same patient; later cohort overlap unknown",
+      "binding": {
+        "path": "research/autonomy/fresh-discovery-2026-10-04-round6/diagnostic/OBSERVATIONS.json",
+        "sha256": "d592848aa032178bf4dbf513a5bcf9e1120f9742c96f17723094baa2eb0f5580"
+      }
+    },
+    {
+      "source": "Filion2009 neural biology/source methods and missing full list",
+      "conditions": "Three fusion-positive expression-array tumors plus published-only additional tumors; no panel row newly analyzed",
+      "binding": {
+        "path": "research/autonomy/fresh-discovery-2026-10-04-round2/regulatory/filion2009-source-evaluation.json",
+        "sha256": "2ab8def2e185f0100a668d9549e775377a376ceb075c0f2ad14688fdffdfce79"
+      }
+    },
+    {
+      "source": "Previously evaluated model identities and unavailable endpoints",
+      "binding": {
+        "path": "research/autonomy/tmem266-all-cultures-2026-10-04/COVERAGE.md",
+        "sha256": "bd96982e3c23f3ece35a51c9c20c85a7d8c79aabc3224256dc8402852ea9b84d"
+      },
+      "restriction": "Reuses identity/source availability only; TMEM266 science remains shelved."
+    },
+    {
+      "source": "DLK1-lane broader tissue/source identity census",
+      "binding": {
+        "path": "research/autonomy/fresh-discovery-2026-10-04-round3/dlk1/COVERAGE.txt",
+        "sha256": "82cc2f28946fc777d6bc4afc8e6742c2b7105d5970b5ddf3f8f6508bca9d9a79"
+      },
+      "restriction": "Reuse source identity/availability only, never DLK1 measurements as this panel outcomes."
+    },
+    {
+      "source": "2025ADC broad cohort PMC12528890 contains no authenticated EMC in prior source review",
+      "binding": {
+        "path": "research/autonomy/discovery-2026-10-03/ROUND2-SOURCE-AUDIT.txt",
+        "sha256": "77c0adc973197388df022d92809cc099642602c401db320ff4c1229ba1f162f5"
+      }
+    }
+  ],
+  "pending_or_unavailable": [
+    {
+      "source": "PMID24713246 five-case CD56-positive aggregate",
+      "status": "Primary abstract evaluated;5/5prior art, individual molecular identity/donor linkage/full conditions unavailable."
+    },
+    {
+      "source": "PMID27591381 pulmonary CD56 focal positive",
+      "status": "Primary abstract evaluated; identity authentication/full linked assays pending."
+    },
+    {
+      "source": "PMID24185117 vulvar PLAG1-positive NR4A3/EWSR1-negative two tumors",
+      "status": "Author-labelled NCAM1 observations; canonical EMC identity unestablished, not confirmed non-EMC or authenticated EMC replication."
+    },
+    {
+      "source": "Filion2009 full383-probe S1/S2; Sjogren2003 original two-array study",
+      "status": "Prior source attempts unavailable; current panel measurements/novelty lists not evaluated. No gene absence."
+    },
+    {
+      "source": "Brenca2019 PRJNA692081",
+      "status": "12tumor+11engineered libraries in earlier metadata; individual aliases15unresolved,8engineered mapped; full panel RNA not reprocessed, genuine tissue and conditions pending, not excluded."
+    },
+    {
+      "source": "PeerJ21497 PRJNA1357027",
+      "status": "12molecular EMC TempO-Seq samples; filtered s009selected matrix differs from unfiltered public gene measurements. Panel not evaluated; source and donor overlap pending."
+    },
+    {
+      "source": "Zullow2022 GSE179720",
+      "status": "Seven declared EMC RNA observations/11clinical rows; individual gene matrix-to-specimen mapping unresolved, not excluded."
+    },
+    {
+      "source": "Nottley2025 UCL",
+      "status": "Two EMC donors9/29paired pre/post-RT RNA; prior evaluation recovered no individual numerical source matrix; panel conditions unavailable/pending, not zero."
+    },
+    {
+      "source": "Crombe2024 GSE262937",
+      "status": "Four EMC RNA observations reported, source approval/public access pending in prior attempt; no panel evaluation."
+    },
+    {
+      "source": "GSE71119",
+      "status": "All136source metadata verified previously;57Other/undifferentiated diagnoses insufficient to exclude EMC. No biological values transferred under guessed identity."
+    },
+    {
+      "source": "Epithelioid multiomics2025 PMC12728484",
+      "status": "Own33EpS/3EERT and8EpSscRNA conditions evaluated as other entities; external1041mesenchymal tumors containEMCSlegend, exact EMC RNA/identity/overlap/supplements pending. No unsupported blanket no-EMC exclusion."
+    },
+    {
+      "source": "USZ20/NCC-EMC1-C1",
+      "status": "Authentic model identity reused; no usable public panel measurement recovered previously. Unavailable/pending not zero."
+    },
+    {
+      "source": "Other broader RNA/count/model and public marker studies",
+      "status": "Not all remapped for this failed panel; suitable accessible pending evidence blocks any promotion."
+    }
+  ],
+  "unsuitable_for_authentic_EMC_inference": [
+    {
+      "source": "GSE6481",
+      "reason": "Prior all105sample audit found19MLPS and noEMC; earlier mislabel corrected, no EMC validation."
+    },
+    {
+      "source": "GSE11185/GDS3481",
+      "conditions": [
+        "GSM281775",
+        "GSM281776",
+        "GSM281777",
+        "GSM281778"
+      ],
+      "reason": "Four engineered293conditions, noEMCdonors; reuse source-supported gate, not patient validation."
+    },
+    {
+      "source": "MUG-EMCS and H-EMC-SS/HEMCSS",
+      "reason": "Disputed/generic model identity; no authenticated EMC panel values used, no forced histology reassignment."
+    }
+  ],
+  "searched_but_not_fully_evaluated": "Large core title/metadata searches358+563+24+217hits are discovery catalogs, not all studied or complete case rosters. Focused precise DLL3/SEZ6 query6hits, fiveavailablePMC main XML releases searched; conference abstracts do not link separate target and EMC sections. DOI10.1007/s00428-022-03333-4 abstract is other diagnosis, no fulltextgene comparison recovered.",
+  "consequence": "No claim advances. Missing accessible source evaluation blocks complete positive/negative statements. Shelving is warranted by failed fixed useful contrast and prior art, not by assumed biological absence or exhaustive search."
+}

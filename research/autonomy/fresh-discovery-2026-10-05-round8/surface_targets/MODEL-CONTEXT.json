@@ -1,0 +1,258 @@
+{
+  "utc": "2026-10-05T00:40:30.539883+00:00",
+  "amendment_sha256": "e5fd67aa84e91cfff26265f6443b4456483051d0c751b807a1c8a8f150b84cc5",
+  "sources": [
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/tmem266-all-cultures-2026-10-04/archs4-subset.zip",
+      "bytes": 359106,
+      "sha256": "f0bcd17e0c56ec038ea47ee14b7b57700333b46790d2cfb18a555cbf70ea4446",
+      "scope": "shared retained source reused read-only",
+      "matrix_rows": 67186,
+      "all_row_denominators": {
+        "GSM2113301": 40794510,
+        "GSM6883080": 28727977
+      },
+      "limitations": "Rounded Kallisto estimated counts. One library per culture; no independent technical-run donors, no biological confidence intervals."
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/USZ23-RefSeq.quant.sf.gz",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9037nnn/GSM9037837/suppl/GSM9037837_USZ23_EMC3.RefSeq.quant.sf.gz",
+      "bytes": 1821812,
+      "sha256": "d49822e6ca79a18c186b00c4faa4087b8582bbb72c0be218fcea2e997565507f",
+      "scope": "earlier known source recovered, exact original hash agrees"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/DLL3-gene.xml",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=gene&id=10683&retmode=xml",
+      "bytes": 319303,
+      "sha256": "11b66faabb6cb4ce60e69b4e5d92827270d2bff844819c54f59a7bb574371ec5",
+      "scope": "official current RefSeq mapping, historical completeness unresolved"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/SEZ6-gene.xml",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=gene&id=124925&retmode=xml",
+      "bytes": 581023,
+      "sha256": "4f4003668789c99153cf41637591397eb8a0bc2f1bc3c728c863ea8c6c5593eb",
+      "scope": "official current RefSeq mapping, historical completeness unresolved"
+    },
+    {
+      "path": "research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/NCAM1-gene.xml",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=gene&id=4684&retmode=xml",
+      "bytes": 3450024,
+      "sha256": "0698196f23b4ee85e664791bb6c177bf4f3d2be07e1526ee945fa0a9244e0f85",
+      "scope": "official current RefSeq mapping, historical completeness unresolved"
+    }
+  ],
+  "panel": {
+    "DLL3": {
+      "ARCHS4_exact_symbol_rows": [
+        {
+          "GSM2113301": 22,
+          "GSM6883080": 4
+        }
+      ],
+      "row_count": 1,
+      "CPM_only_if_unique": {
+        "GSM2113301": 0.5392882522672781,
+        "GSM6883080": 0.13923709281722133
+      },
+      "USZ23_current_identifier_rows": [
+        {
+          "Name": "NM_016941.4",
+          "Length": "2341",
+          "EffectiveLength": "2071.855",
+          "TPM": "0.085536",
+          "NumReads": "1.487"
+        },
+        {
+          "Name": "NM_203486.3",
+          "Length": "2004",
+          "EffectiveLength": "1734.855",
+          "TPM": "0.584942",
+          "NumReads": "8.513"
+        }
+      ],
+      "USZ23_current_accessions": [
+        "NM_016941",
+        "NM_203486"
+      ],
+      "USZ23_current_mapped_sum_TPM": 0.6704779999999999,
+      "USZ23_mapping_limitation": "All identified current RefSeq rows retained; retired identifiers not fully reconciled, no full gene-absence statement; cultured gene TPM not tissue/protein."
+    },
+    "SEZ6": {
+      "ARCHS4_exact_symbol_rows": [
+        {
+          "GSM2113301": 11,
+          "GSM6883080": 0
+        }
+      ],
+      "row_count": 1,
+      "CPM_only_if_unique": {
+        "GSM2113301": 0.26964412613363903,
+        "GSM6883080": 0.0
+      },
+      "USZ23_current_identifier_rows": [
+        {
+          "Name": "NM_001098635.2",
+          "Length": "4190",
+          "EffectiveLength": "3894.855",
+          "TPM": "0.000000",
+          "NumReads": "0.000"
+        },
+        {
+          "Name": "NM_001290202.2",
+          "Length": "4072",
+          "EffectiveLength": "3776.855",
+          "TPM": "0.000000",
+          "NumReads": "0.000"
+        },
+        {
+          "Name": "NM_178860.5",
+          "Length": "4206",
+          "EffectiveLength": "3910.855",
+          "TPM": "0.000000",
+          "NumReads": "0.000"
+        },
+        {
+          "Name": "XM_011524315.2",
+          "Length": "4084",
+          "EffectiveLength": "3788.855",
+          "TPM": "0.000000",
+          "NumReads": "0.000"
+        },
+        {
+          "Name": "XM_011524317.3",
+          "Length": "4100",
+          "EffectiveLength": "3804.855",
+          "TPM": "0.000000",
+          "NumReads": "0.000"
+        }
+      ],
+      "USZ23_current_accessions": [
+        "NM_001098635",
+        "NM_001290202",
+        "NM_178860",
+        "XM_011524315",
+        "XM_011524317",
+        "XM_054315026",
+        "XM_054315027"
+      ],
+      "USZ23_current_mapped_sum_TPM": 0.0,
+      "USZ23_mapping_limitation": "All identified current RefSeq rows retained; retired identifiers not fully reconciled, no full gene-absence statement; cultured gene TPM not tissue/protein."
+    },
+    "NCAM1": {
+      "ARCHS4_exact_symbol_rows": [
+        {
+          "GSM2113301": 670,
+          "GSM6883080": 2
+        }
+      ],
+      "row_count": 1,
+      "CPM_only_if_unique": {
+        "GSM2113301": 16.4237785917762,
+        "GSM6883080": 0.06961854640861066
+      },
+      "USZ23_current_identifier_rows": [
+        {
+          "Name": "NM_000615.7",
+          "Length": "5789",
+          "EffectiveLength": "5519.855",
+          "TPM": "21.586288",
+          "NumReads": "999.600"
+        },
+        {
+          "Name": "NM_001076682.4",
+          "Length": "4751",
+          "EffectiveLength": "4481.855",
+          "TPM": "0.000000",
+          "NumReads": "0.000"
+        },
+        {
+          "Name": "NM_001242607.2",
+          "Length": "5897",
+          "EffectiveLength": "5627.855",
+          "TPM": "11.088239",
+          "NumReads": "523.511"
+        },
+        {
+          "Name": "NM_001242608.2",
+          "Length": "4646",
+          "EffectiveLength": "4376.855",
+          "TPM": "3.586352",
+          "NumReads": "131.685"
+        },
+        {
+          "Name": "NM_001386289.1",
+          "Length": "4673",
+          "EffectiveLength": "4403.855",
+          "TPM": "0.000000",
+          "NumReads": "0.000"
+        },
+        {
+          "Name": "NM_001386290.1",
+          "Length": "5816",
+          "EffectiveLength": "5546.855",
+          "TPM": "0.000000",
+          "NumReads": "0.000"
+        },
+        {
+          "Name": "NM_001386291.1",
+          "Length": "4643",
+          "EffectiveLength": "4373.855",
+          "TPM": "0.000000",
+          "NumReads": "0.000"
+        },
+        {
+          "Name": "NM_001386292.1",
+          "Length": "5786",
+          "EffectiveLength": "5516.855",
+          "TPM": "0.212644",
+          "NumReads": "9.842"
+        },
+        {
+          "Name": "NM_181351.5",
+          "Length": "5819",
+          "EffectiveLength": "5549.855",
+          "TPM": "20.392434",
+          "NumReads": "949.448"
+        }
+      ],
+      "USZ23_current_accessions": [
+        "NM_000615",
+        "NM_001076682",
+        "NM_001242607",
+        "NM_001242608",
+        "NM_001386289",
+        "NM_001386290",
+        "NM_001386291",
+        "NM_001386292",
+        "NM_001400603",
+        "NM_001400604",
+        "NM_001400605",
+        "NM_001400606",
+        "NM_001400607",
+        "NM_001400608",
+        "NM_001400609",
+        "NM_001400610",
+        "NM_001400611",
+        "NM_001400612",
+        "NM_001400613",
+        "NM_001400614",
+        "NM_001400615",
+        "NM_001400616",
+        "NM_001400617",
+        "NM_001400618",
+        "NM_001400619",
+        "NM_001400620",
+        "NM_001400621",
+        "NM_001400622",
+        "NM_001400623",
+        "NM_001400624",
+        "NM_181351"
+      ],
+      "USZ23_current_mapped_sum_TPM": 56.865957,
+      "USZ23_mapping_limitation": "All identified current RefSeq rows retained; retired identifiers not fully reconciled, no full gene-absence statement; cultured gene TPM not tissue/protein."
+    }
+  },
+  "donor_overlap": "USZ23 independence from USZ20 unknown; V1-34/USZ22 single source libraries. No pooling tissue/culture counts or cohorts."
+}

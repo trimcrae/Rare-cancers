@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-05T00:45:57.805203+00:00",
+  "status": "passed within scoped source/projection limits",
+  "checks": [
+    "Frozen pre-new-value plan hash and all four shared original hashes verified in analyze.py",
+    "704 unique RNA columns equal original clinical manifest;9primary/13totalEMC",
+    "Unique projection keys;2302cells =2112RNA+126RMA+64oldratio;39RNAEMCcells",
+    "All42array specimens retained;unique exact gene annotations",
+    "All16oldratio specimens/10EMC conditions retained;missing is not zero",
+    "model_context.py exact source-bound offline replay agrees across bothARCHS4 libraries and all mappedRefSeq rows",
+    "recover_sources.py verifies every17retained public source input without redownload",
+    "AllJSON valid;raw originals ignored;free\u226510GiB andownraw<64MiB"
+  ],
+  "limits": "Checks are reproducibility/identity bookkeeping, not independent biological validation or full coverage."
+}
