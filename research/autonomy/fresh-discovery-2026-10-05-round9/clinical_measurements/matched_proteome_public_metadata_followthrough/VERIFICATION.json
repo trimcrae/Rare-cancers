@@ -1,0 +1,82 @@
+{
+  "status": "PARTIAL: source/hash/budget checks pass; durablestopmarker timing FAIL; identityprojectionunfinished",
+  "checks": [
+    {
+      "name": "plannedURIexact",
+      "pass": true
+    },
+    {
+      "name": "oneanonymousrequest",
+      "pass": true
+    },
+    {
+      "name": "sockettimeout10",
+      "pass": true
+    },
+    {
+      "name": "overallbound10declared",
+      "pass": true
+    },
+    {
+      "name": "complete200JSON",
+      "pass": true
+    },
+    {
+      "name": "rawsourcehash",
+      "pass": true
+    },
+    {
+      "name": "rawsourcebytes",
+      "pass": true
+    },
+    {
+      "name": "rawbelow32MiB",
+      "pass": true
+    },
+    {
+      "name": "sourcefinishedbeforecutoff",
+      "pass": true
+    },
+    {
+      "name": "durablestopmarkerbeforecutoff",
+      "pass": false
+    },
+    {
+      "name": "free>=10GiB",
+      "pass": true
+    },
+    {
+      "name": "zeroquantities",
+      "pass": true
+    },
+    {
+      "name": "identityunfinishedexplicit",
+      "pass": true
+    },
+    {
+      "name": "sourceproofhash emc-proteomecentral-followthrough-assignment.json",
+      "pass": true
+    },
+    {
+      "name": "sourceproofhash SCIENCE-FREEZE.json",
+      "pass": true
+    },
+    {
+      "name": "sourceproofhash SOURCE-DOCUMENTED-CONSTRUCTS.json",
+      "pass": true
+    },
+    {
+      "name": "sourceproofhash FREEZE.json",
+      "pass": true
+    },
+    {
+      "name": "derivedbelow2MiB",
+      "pass": true
+    }
+  ],
+  "number_checks": 18,
+  "passed": 17,
+  "failed": 1,
+  "scope": "Archivedreceipt/sourcehash/authorization/timing checks only. No sourcecontents/projectidentity/protein measurements reinterpreted aftercutoff.",
+  "network_calls_during_verification": 0
+}
