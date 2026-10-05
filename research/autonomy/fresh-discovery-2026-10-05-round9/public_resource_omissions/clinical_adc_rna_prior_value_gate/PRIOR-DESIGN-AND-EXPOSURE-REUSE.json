@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-05",
+  "five_completed_specific_questions": [
+    {
+      "genes": [
+        "ERBB2",
+        "TACSTD2",
+        "NECTIN4",
+        "FOLR1"
+      ],
+      "source": "research/autonomy/fresh-discovery-2026-10-05-round8/adc_targets",
+      "decision": "Specific RNA-plus-replication contribution rule not met; reuse all retained high/negative/inconclusive native and culture conditions, known clinical enrollee and unresolved IHC/response crosswalk."
+    },
+    {
+      "gene": "CD276",
+      "sources": [
+        "research/autonomy/atlas-hofvander-validation-2026-09-06/results/CD276.json",
+        "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/CD276.json"
+      ],
+      "decision": "Previously evaluated native RNA specificity/replication failed LGFMS comparator; no recomputation."
+    }
+  ],
+  "two_prior_flags_only": [
+    {
+      "gene": "GPNMB",
+      "allocated": "False"
+    },
+    {
+      "gene": "LRRC15",
+      "allocated": "False"
+    }
+  ],
+  "exact_source": "/workspace/Rare-cancers/research/autonomy/discovery-2026-10-03/round2-surface-discovery.tsv",
+  "sha256": "4a1ab07eff5aa9ae3746ec432bad525e77cd478db2156adf6346d49218487dc8",
+  "headers_only": [
+    "gene",
+    "median_EMC_TPM",
+    "minimum_EMC_TPM",
+    "Myxoid liposarcoma_A",
+    "Myxoid liposarcoma_matched_A",
+    "Myxoid liposarcoma_p",
+    "Myxoid liposarcoma_p_method",
+    "Myxoid liposarcoma_median_TPM",
+    "Myxoid liposarcoma_median_log2_contrast",
+    "Low-grade fibromyxoid sarcoma_A",
+    "Low-grade fibromyxoid sarcoma_matched_A",
+    "Low-grade fibromyxoid sarcoma_p",
+    "Low-grade fibromyxoid sarcoma_p_method",
+    "Low-grade fibromyxoid sarcoma_median_TPM",
+    "Low-grade fibromyxoid sarcoma_median_log2_contrast",
+    "Synovial sarcoma_A",
+    "Synovial sarcoma_matched_A",
+    "Synovial sarcoma_p",
+    "Synovial sarcoma_p_method",
+    "Synovial sarcoma_median_TPM",
+    "Synovial sarcoma_median_log2_contrast",
+    "intersection_union_p",
+    "BH_q",
+    "allocated"
+  ],
+  "prior_design": "Original broad surface-gene allocation used primary9 source EMC specimens, MLPS14/LGFMS13/synovial18, marginal and year-matched comparisons; donor independence not proved by nine. One-sided MW, max-of-three intersection-union p, BH over original gene universe.",
+  "administrative_rule": {
+    "BH_q_max": 0.05,
+    "A_min_all_marginal_and_year_matched": 0.85,
+    "median_EMC_TPM_min": 5,
+    "minimum_EMC_TPM_min": 1,
+    "median_log2_contrast_min_each": 1
+  },
+  "rule_meaning": "Research allocation, not a clinical cutoff or biological absence. Which numeric clause failed for either gene remains uninspected in this pilot.",
+  "followthrough_limit": "Old GSE24369 replication was allocated-hit follow-through, so False does not establish complete individual gene array replication or all public native context coverage.",
+  "publication_novelty": "Our unpublished table is prior exposure/reusable evidence, not primary published prior art. A useful claim may use validated existing data, but must be distinct from five completed failed questions and consequential beyond clinical target names.",
+  "exposure_truth": "Prior broad results and R8 values had historical campaign exposure. This current gate read only exact gene/allocated/headers and allowed design/source/decision fields, no new numeric RNA fields or matrices."
+}
