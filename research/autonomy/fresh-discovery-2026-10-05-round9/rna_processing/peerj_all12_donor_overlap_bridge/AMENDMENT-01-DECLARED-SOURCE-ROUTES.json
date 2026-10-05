@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-05",
+  "frozen_before_request_at": "2026-10-05T19:03:05.928675+00:00",
+  "routes": [
+    [
+      "supplement-archive",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13374579/supplementaryFiles",
+      6291456
+    ],
+    [
+      "all12-biosample",
+      "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=biosample&id=SAMN53073768,SAMN53073767,SAMN53073758,SAMN53073765,SAMN53073763,SAMN53073760,SAMN53073759,SAMN53073757,SAMN53073766,SAMN53073761,SAMN53073764,SAMN53073762&retmode=xml",
+      1048576
+    ]
+  ],
+  "supplement_scope": "Actual declared S001 clinical variable table: only table headers/first-column clinical variable labels/explicit specimen IDs if any. No Cox HR/p-values or gene tables/image pixels opened. Full archive ignored; do not extract S002,S003-008 or S009 gene cells.",
+  "biosample_scope": "All12 exact known SAMN fields for patient/specimen/source archive/age/sex/site/treatment/disease/sample material/collection; no outcomes or sequence/target/mechanism. Existing R8 ENA accession crosswalk reused; no duplicate ENA/source requery.",
+  "cache_gate": "No retained archive or all12 BioSample originals found in prior known TempO source/cache folders; original successful archive receipt defines genuine route. No unchanged failed route retried.",
+  "retrieval_selection": "Two declared primary/source branches, no broad search or new cases."
+}
