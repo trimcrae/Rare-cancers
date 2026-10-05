@@ -1,0 +1,47 @@
+{
+  "utc": "2026-10-05T14:32:16.065586+00:00",
+  "question": "Can these four documented public diagnosis-only routes establish eligible EMC conditions for the original full-condition protein-adjusted RET comparison?",
+  "approach": "Exact anonymous GET for indexed routes 0 through 3; every returned diagnosis label evaluated without patient, assay or outcome fields. Requests and source decision completed 14:22 UTC, within the 12-minute stage.",
+  "finding": "Four accessible diagnosis-string lists, containing carcinoma annotations and missing-diagnosis markers, do not authenticate an EMC specimen or release a linked phosphosite and total-protein measurement. No new biological finding.",
+  "decision": "SOURCE NO-GO for numerical biological stage; campaign continues.",
+  "coverage": [
+    {
+      "scope": "all four literal diagnosis endpoints",
+      "status": "evaluated",
+      "detail": "200 JSON string lists; counts 2,9,2,10 are unique labels, not donors; no cap, redirect, retry, credentials or additional endpoint."
+    },
+    {
+      "scope": "eight source-named carcinoma labels",
+      "status": "unsuitable for EMC/comparator gate at annotation scope",
+      "detail": "Seventeen label occurrences across routes, not seventeen patients."
+    },
+    {
+      "scope": "empty string and Not Reported",
+      "status": "unresolved/pending identity",
+      "detail": "Empty label in all four; Not Reported in routes 1 and 3. Six marker occurrences, not missing patients or a missingness rate."
+    },
+    {
+      "scope": "unreturned missing values and individual conditions",
+      "status": "pending/unavailable through this endpoint",
+      "detail": "Handler dropna/unique removes missing values and donor multiplicity. No specimen/site/date/treatment/batch/technical-repeat or individual diagnosis mapping."
+    },
+    {
+      "scope": "named cohort and 1998-tumor release provenance",
+      "status": "pending unresolved",
+      "detail": "Frontend index order is documented, but SQL patient annotation dictionary order and deployed memory/SQL runtime/config/version are unknown. No CPTAC label transfer to MASTER/CATCH/INFORM."
+    },
+    {
+      "scope": "EMC phosphosite plus matched total-protein measurements and fixed MLPS/SS controls",
+      "status": "pending source availability/authentication; not accessed",
+      "detail": "No eligible linked clinical release or assay schema for this comparison from these diagnosis routes."
+    }
+  ],
+  "strongest_limits": [
+    "Diagnosis-only labels are not a patient roster or molecular authentication.",
+    "No named-cohort absence claim is supported by literal index labels.",
+    "Label-set equality does not establish donor overlap or replication.",
+    "RET activation in EMC is published prior art from 2014; a generic activation claim cannot become novel through access repair."
+  ],
+  "reopening": "A genuine public source-linked specimen/donor/condition manifest, direct RET phosphosites with matched total RET and fixed sarcoma comparators, adequate batch and treatment context, and an independently challenged useful comparison beyond prior activation. New metadata or numerical stages require a finite before-access plan.",
+  "restrictions_preserved": "No numerical protein, phosphosite, kinase or treatment-outcome cells; no patient/fullmetadata routes, live configuration, authentication bypass, denied content, outreach or publication. No exhaustion or efficacy claim."
+}
