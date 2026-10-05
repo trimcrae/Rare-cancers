@@ -1,0 +1,60 @@
+{
+  "utc": "2026-10-05T13:30:55.962201+00:00",
+  "values_scope": "No new physiological outcome values or images read. Methods/histology/protocol/schema only.",
+  "sources": [
+    {
+      "source": "PMC11717864",
+      "all_emc_conditions": 2,
+      "unit": "165 source-defined patients, each initial single STT; two pathology labels identify two source-level patients, not two recovered kinetic records. Cross-study donor independence not demonstrated.",
+      "authentication": "Surgical WHO2020 author-label EMC; neither molecular NR4A3 confirmation nor individual case identifiers recovered.",
+      "treatment": "Prior surgery at same site excluded; previous chemotherapy/radiotherapy not explicitly excluded by inspected methods. EMC-specific treatment/site/grade/dates unknown.",
+      "acquisition": "3T Skyra; gadoterate 0.1mmol/kg at1.3mL/s+20mL flush; CS-VIBE4.35\u20135.26s/volume,60measurements; early adjacent-artery AIF and extrema-selected ROI; delayed Tofts optimal-slice/hotspot per-patient maxima.",
+      "units": "TTE/TTP seconds, maximum slope percent/second, iAUC60; Ktrans/Kep perminute, ve dimensionless; iAUC model/sequence-specific. These are not endothelial cell counts, direct oxygen, or independently measured flow.",
+      "comparators": "111malignant/54benign includes MFS32, myxoidLPS6 and malignantSFT1; parent liposarcoma/adipocytic rows not doublecounted. Generic UPS15 and EWSR1-non-ETS round-cell4 retain author-specific pathology confidence; no conversion to EMC or definitive molecular exclusions.",
+      "availability": "Individual dataset reasonable-request only; public tables cohort/diagnostic summaries, not EMC-linked kinetic/endothelial pairs. No supplementary-material node in retrieved XML; no assertion all possible routes exhausted.",
+      "inference": "Neither actual case-level kinetic values nor paired CD31/CD34 vessel count+area recovered; no numerical comparison authorized."
+    },
+    {
+      "source": "PMC11107050",
+      "all_explicit_emc_conditions": 0,
+      "unit": "92 pathologically classified patients31benign/61malignant; four technical slices averaged per case and25 model parameters are not independent specimens.",
+      "authentication_gaps": "Complete public histology table has no explicit EMC. Fibrosarcoma14 and generic UPS12 not individually molecular-resolved; do not infer absence of EMC from generic labels or bone/site category.",
+      "treatment": "Explicit no chemotherapy/radiotherapy before surgery; previous surgery/recurrent histories otherwise unresolved.",
+      "acquisition": "3T Skyra; gadoteridol0.1mmol/kg at2mL/s+20mLflush; VIBE8s/scan,40scans320s; solid1\u20135cm2 ROIs on four typical slices, mean parameter, per-case AIF.",
+      "units": "Tofts/extendedTofts Ktrans/Kep perminute, ve/vp mL/mL; ATH/CC/DP model-derived F and PS mL/min/mL, MTTseconds,Epercent. Model-fitting assumptions distinguish F from independent flow goldstandard.",
+      "comparators": "Includes MLPS6,MFS9,malignantSFT2; heterogeneous tumor groups and exclusion of poor-vascular adipocytic lesions limit external applicability.",
+      "availability": "Individual dataset reasonable-request only; one public DOCX methods/supplement with duplicate JATS listings remains uninspected/pending, not absent.",
+      "inference": "No identifiable EMC measurement or same-donor endothelial pairing."
+    },
+    {
+      "source": "PMC4504541",
+      "all_emc_conditions": null,
+      "unit": "23 retained STTs/31enrolled,Dalian2013\u20132014;9 technicalROIs/patient, not9donors.",
+      "authentication": "EMC in discussion cannot establish enrolment; Table1 graphic public/uninspected during computer ban.",
+      "acquisition": "IVIM multiparameter model, excludes cysts/necrosis/large vessels; GdDTPA0.1mmol/kg2.5mL/s+10mLsaline for separate contrast sequence.",
+      "inference": "IVIM fast-component/fraction is model proxy, not direct microvessel count/oxygen/delivery; actual EMC identity/value schema still pending.",
+      "availability": "Owner finite genuine OAmetadataAPI404 recovered no filelink; does not prove graphic/PDF unavailable. No images/OCR/values reviewed."
+    },
+    {
+      "source": "PMC3956242 PMID24649135",
+      "authentication": "Primary abstract CD34 endothelial MVD in malignant bone tumors; generic chondrosarcoma unverified for EMC, bone site neither authenticates nor automatically excludes EMC.",
+      "condition": "Biopsy or pre-chemotherapy surgical specimens per scoped abstract.",
+      "availability": "Owner ordinary primaryXML500; assay values, per-case identity and pairing uninspected. No repeat."
+    },
+    {
+      "source": "PMID11213831 DOI10.1007/s004280000327",
+      "authentication": "Primary abstract explicitly MFS and myxoid/round-cellLPS, not an authenticated EMC series.",
+      "condition": "Representative sections CD31 intratumoral MVD; morphological progression comparison priorart.",
+      "inference": "Different histotypes cannot transfer their vessel counts or establish EMC physiological discordance."
+    },
+    {
+      "source": "PMC10646632 PMID37750840 DOI10.1259/bjr.20230410",
+      "title": "Detecting residual soft tissue sarcoma after unplanned excision; model-free analysis of dynamic contrast-enhanced MRI at short-term follow-up",
+      "discovery": "New actually identifiable primary title in owner broad exact-alias metadata, not previously assessed primarybody in this gate.",
+      "availability": "Ordinary primary XML500; distinct BioC HTTP200 returned an error/help body, not XML/fulltext. No accepted primary measurement.",
+      "identity": "Actual EMC enrolment, individual/subtype kinetic linkage, treatment interval, control and overlap unresolved; no eligibility inferred from query co-occurrence.",
+      "condition": "Title identifies postoperative/residual setting; cannot presume native or untreated conditions, actual protocol unverified.",
+      "inference": "Pending source/assay/identity gate, not a negative measured outcome or authentic novel contrast."
+    }
+  ]
+}
