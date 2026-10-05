@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-05T17:44:37.236334+00:00",
+  "kind": "Exact exposure and search boundary correction",
+  "action": "Initial broad rg over R2 packet unintentionally returned only GPNMB gene-label match lines from genomics/crosscohort-results.json and genomics/davis-extracted-tables.json.",
+  "observed": "Only match path/line and literal GPNMB gene label; no numerical GPNMB outcome, DNA/variant/structural mechanism/sequence/table body inspected.",
+  "correction": "Stopped that search immediately. All later source searches explicitly limited to permitted expression/source/probe/platform identity contexts. No new access rejection or implied authorization to denied content.",
+  "condition_count_clarification": "Root confirms all4 GSE28866 conditionIDs retained; old3sequencing role label does not authorize droppingfourth. Exactassayidentity pending source-level reconciliation."
+}
