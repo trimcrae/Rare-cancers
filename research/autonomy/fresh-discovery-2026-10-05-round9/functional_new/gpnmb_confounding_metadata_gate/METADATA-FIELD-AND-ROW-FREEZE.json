@@ -1,0 +1,204 @@
+{
+  "utc": "2026-10-05T17:55:18.639416+00:00",
+  "before_values": true,
+  "source_workbook_sha256": "976f13c1a69915cdb05af27b9a56d3f40a27df2e2da3dbc085ca66d25b8bc08c",
+  "case_selection_manifest": "/workspace/Rare-cancers/research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json",
+  "case_selection_manifest_sha256": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+  "literal_rows": {
+    "Extraskeletal myxoid chondrosarcoma": [
+      {
+        "sample_id": "104-92",
+        "s1_row": 189
+      },
+      {
+        "sample_id": "11881-19",
+        "s1_row": 190
+      },
+      {
+        "sample_id": "168-97",
+        "s1_row": 191
+      },
+      {
+        "sample_id": "3371-22",
+        "s1_row": 192
+      },
+      {
+        "sample_id": "3372-22",
+        "s1_row": 193
+      },
+      {
+        "sample_id": "4716-22",
+        "s1_row": 194
+      },
+      {
+        "sample_id": "4840-13",
+        "s1_row": 195
+      },
+      {
+        "sample_id": "5081-14",
+        "s1_row": 196
+      },
+      {
+        "sample_id": "5149-18",
+        "s1_row": 197
+      },
+      {
+        "sample_id": "5241-06",
+        "s1_row": 198
+      },
+      {
+        "sample_id": "536-00",
+        "s1_row": 199
+      },
+      {
+        "sample_id": "7931-19",
+        "s1_row": 200
+      },
+      {
+        "sample_id": "8102-22",
+        "s1_row": 201
+      }
+    ],
+    "Low-grade fibromyxoid sarcoma": [
+      {
+        "sample_id": "1076-04",
+        "s1_row": 319
+      },
+      {
+        "sample_id": "1496-95",
+        "s1_row": 320
+      },
+      {
+        "sample_id": "1731-00",
+        "s1_row": 321
+      },
+      {
+        "sample_id": "1743-89",
+        "s1_row": 322
+      },
+      {
+        "sample_id": "1838-04",
+        "s1_row": 323
+      },
+      {
+        "sample_id": "2176-91",
+        "s1_row": 324
+      },
+      {
+        "sample_id": "2433-02",
+        "s1_row": 325
+      },
+      {
+        "sample_id": "2611-96",
+        "s1_row": 326
+      },
+      {
+        "sample_id": "3252-04",
+        "s1_row": 327
+      },
+      {
+        "sample_id": "3458-17",
+        "s1_row": 328
+      },
+      {
+        "sample_id": "3490-00",
+        "s1_row": 329
+      },
+      {
+        "sample_id": "6545-13",
+        "s1_row": 330
+      },
+      {
+        "sample_id": "9562-17",
+        "s1_row": 331
+      }
+    ],
+    "Myxoid liposarcoma": [
+      {
+        "sample_id": "1031-14",
+        "s1_row": 425
+      },
+      {
+        "sample_id": "2087-93",
+        "s1_row": 426
+      },
+      {
+        "sample_id": "2440-01",
+        "s1_row": 427
+      },
+      {
+        "sample_id": "2492-91",
+        "s1_row": 428
+      },
+      {
+        "sample_id": "2723-11",
+        "s1_row": 429
+      },
+      {
+        "sample_id": "3276-03",
+        "s1_row": 430
+      },
+      {
+        "sample_id": "351-96",
+        "s1_row": 431
+      },
+      {
+        "sample_id": "3531-14",
+        "s1_row": 432
+      },
+      {
+        "sample_id": "362-94",
+        "s1_row": 433
+      },
+      {
+        "sample_id": "4876-16",
+        "s1_row": 434
+      },
+      {
+        "sample_id": "610-14",
+        "s1_row": 435
+      },
+      {
+        "sample_id": "6161-13",
+        "s1_row": 436
+      },
+      {
+        "sample_id": "7084-14",
+        "s1_row": 437
+      },
+      {
+        "sample_id": "7368-16",
+        "s1_row": 438
+      }
+    ]
+  },
+  "columns": {
+    "A": "Sample* identifier",
+    "B": "Diagnosisa source original",
+    "C": "Revised diagnosis, eligibility only",
+    "F": "Age at diagnosis",
+    "G": "Sex",
+    "H": "Sitec",
+    "K": "Graded",
+    "M": "Samplef preparation/primaryLR/Met",
+    "S": "ASCAT ploidy/purityk: purity-only secondcomponent; do not export/use first ploidy component",
+    "V": "Commentsl source specimen/archive/sequencing notes only; suppress cytogenetic/structural/gene-mechanism text",
+    "W": "UniqMappedReadsMillion RNA library coverage QC, not gene outcome"
+  },
+  "supplemental_manifest_fields": [
+    "sequencing_year",
+    "source_group",
+    "source_label",
+    "known_overlap",
+    "primary_lesion",
+    "exclusion_reason"
+  ],
+  "frozen_sensitivities": {
+    "all_native_EMC": "all13",
+    "primary_EMC": "all12 except LR5081-14",
+    "known_historical_overlap_excluded_EMC": "nine defaultprimary excluding104-92/168-97/536-00 and LR5081-14",
+    "controls": "all13LGFMS/all14MLPS defaultprimary per sourcefootnote, same sourceeligibility; no selection on purity/grade/year"
+  },
+  "metadata_only_summary": "Per-group actual available/missing/NA/source-cell status, labels and observed metadata ranges; no GPNMB or othergene values, no RNA statistic, regression or inferred purity. If comparison needed, retain all rows including missing metadata; no convenience exclusion.",
+  "source_footnotes": "Read only original d/f/k definitions for grade/sample/purity, plus primary source RNA-method/capture descriptions at already evaluated source scope. No unrelated footnotes or gene/structural content."
+}

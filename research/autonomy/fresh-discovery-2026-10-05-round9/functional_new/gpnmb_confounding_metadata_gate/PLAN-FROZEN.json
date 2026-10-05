@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-05T17:51:50.495489+00:00",
+  "deadline_utc": "2026-10-05T18:11:50.495489+00:00",
+  "question": "Can actual source-labelled specimen purity, grade and capture/batch metadata distinguish stable native EMC versus fixed LGFMS/MLPS bulk-RNA association from technical or mixture confounding?",
+  "stage": "Source/metadata only; no GPNMB/othergene values, matrices, RNA statistics or clinical response outcomes.",
+  "source_workbook": "/workspace/Rare-cancers/research/autonomy/atlas-hofvander-source-2026-09-06/ccr-25-3740_supplementary_table_s1_suppts1.xlsx",
+  "source_sha256": "976f13c1a69915cdb05af27b9a56d3f40a27df2e2da3dbc085ca66d25b8bc08c",
+  "first_read_mask": "Workbook/sheet/header names and original source footnotes only; no unrelated data columns/cells. Then freeze literal metadata field list before specimen numeric/categorical metadata projection.",
+  "row_rule": "All source diagnosis-labelled EMC rows accounted, all13 expected; original diagnosis never expression-derived subclass. Default-primary Samplef blank by originalfootnote. Preserve all13 EMC,12primary and9known-historical-overlap-excluded sensitivity; no convenience removal. Fixed close controls originaldiagnosis LGFMS/MLPS defaultprimary, with all nonprimary samehistology rows retained as context and exact original eligibility mapping reconciled.",
+  "allowed_metadata": "Case/source identifier, originaldiagnosis, preparation/primaryLR/Met, source-year/library/capture/preservation/batch, sex/age/grade if genuine source, actual source-labelled purity/percentage/cellularcontent or missing cells. Histotype/capture metadata only; no gene-expression, cytogenetic, structural, HLA/glycan/FAP fields.",
+  "comparison_plan": "For exact frozen rows/fields, report actual cell availability/completeness and labels/ranges only if needed; no regression, effect statistic, p-value, ranks, derived purity or imputation. Missingfield versus explicitNA versus missingcase linkage distinct.",
+  "strongest_alternatives": [
+    "Different tissue cellularity/stromal admixture, grade, treatment/site or capture/preparation/sourceyear alignment withhistotype",
+    "Source-level capture description mistaken for per-specimen metadata",
+    "Different aliquot or DNA-based purity mistaken for same RNA material",
+    "Known-overlap or technicalpreparation mistaken for independent donors",
+    "Missing covariates converted to absence of confounding or a convenient exclusion"
+  ],
+  "scientific_rule": "No direct same-material tumor/stromal attribution is a real limit, not a universal bar to RNA-only descriptive histotype association. A fully mixture-dependent unstable contrast defeats proposeduse; stable source-qualified descriptiveness still must be evaluated with all conditions and uncertainty.",
+  "coverage": "All identifiable public EMC sourcecondition/assay/overlap records apply; native12+5paired/arrays/3SEQ/cultures pending maps preserved. SC ownsprobe/platform, RT primaryproteinmeasurement, diagnostic analysiscontract, challengevalue, FNbroadercoverage; no duplicate source retrieval.",
+  "restriction": "<=8MiBnewignoredoriginals/free>=10GiB. Quietfiles/APIs; no UI/private/login/credentials/bypass/spend/GPU/outreach/publication/PR/rootwrites/mainpush. DeniedFAP/glycan/HLA/structural/fusionformation remainclosed; originalfreezesimmutable; Codexboth.",
+  "initial_free_bytes": 27074789376,
+  "new_raw_bytes": 0
+}
