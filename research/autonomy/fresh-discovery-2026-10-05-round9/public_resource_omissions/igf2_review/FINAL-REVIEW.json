@@ -1,0 +1,50 @@
+{
+  "schema": "independent-IGF2-final-source-priorart-value-review/1",
+  "utc": "2026-10-05T11:44:06.810244+00:00",
+  "decision": "PASS bounded source-dependent shelving before RNA; no new publication-worthy finding or clinical/protein absence claim",
+  "owner_root": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/igf2_gate",
+  "bindings": {
+    "original_commit": "31188dc0fd3c7ca820762a40fc9440765a5ce957",
+    "original_freeze_sha256": "626911f76f2d821ed872bd80e8e6c9bf936929c91d043f542fb4327d44ce0c1c",
+    "original_science_files_verified": 22,
+    "original_cache_inputs_verified": 28,
+    "observations_sha256": "f4de2af6f421940bf4638724693f366d611663e97f93e8eb34c55ca4dc34ab6c",
+    "coverage_sha256": "d30be8eae84a80e910571da9a4ed411756bddd977833659869ca06311f05947e",
+    "decision_sha256": "db0b2ba7a285957b5573c9db4a55919c5ccff8d5a7b5be6431d2343158001b04",
+    "additive_commit": "8be6962bdd3790c7da5672a0c43b360856a207cf",
+    "condition_amendment_sha256": "e0329ef872fee112ffbeffe3a26de2520743701bee1612443ef2cf3383950a5d",
+    "amendment_freeze_sha256": "a33059d5817f5b3d6158de261db9995f22dce96a002cd0784449898ee773a013"
+  },
+  "primary_checks": {
+    "Steigen2009": {
+      "DOI": "10.1038/modpathol.2009.48",
+      "PDF_sha256": "a35e61fb830ec381a88b315631703c2843615df4e5c11a02dd094a3f310d9c66",
+      "complete_EMC_scope": "All eight author-diagnosed EMC cases in the published aggregate row: zero above the overexpression cutoff. No individual case IDs, NR4A3 authentication, serum/hypoglycemia link or individual staining scores provided.",
+      "assay": "Intensity category0\u20133 multiplied by extent category0\u20134;0\u20135 negative and cutoff6 positive. Duplicate interpretable TMA cores use the higher score, not independent observations. FFPE surgical0.6-mm duplicate cores and expert pathology review are source context.",
+      "antibody": "Rabbit polyclonal Abcam ab9574 at1:100 recognizes both author-named IGF-II forms; staining is not size-resolved circulating IGF-II or syndrome diagnosis. No mechanism inference.",
+      "published_controls": "Independently verified SFT20/25, synovial sarcoma34/80 and myxoid liposarcoma13/33 high-staining rows; these comparisons are original prior art, not a new disease finding.",
+      "interpretation": "Zero cutoff-positive cases does not mean all eight have zero staining, absent protein, no secreted ligand or no NICTH. Small unlinked archival cohort cannot establish contemporary EMC sensitivity or protein/RNA discordance."
+    },
+    "NICTH145_100": {
+      "DOI": "10.1210/clinem/dgae879",
+      "XML_sha256": "92b26ad394916e394389ad7bdf40324e819913234dc517804ffa3c85345b123a",
+      "supplement_sha256": "536ceac1fb313108bb4862a1edeef458d8f06407ff6f8e5b3ee11318894833e1",
+      "clinical_sampling": "145 referred suspected cases,110 Japanese institutions, June2015\u2013January2023; hypoglycemia screening excluded drugs, endogenous hyperinsulinemia and hormone deficiencies. Sera frozen at\u221220\u00b0C before referral; no all-patient fasting/time-of-day identity inferred.",
+      "assay": "Western molecular-weight assay classifies100 big-IGF-II cases and45 normal-weight cases; IGF-II ELISA and IHC/RNA are distinct measurements. Existing approximate7.5/15-kDa assay distinction recorded without processing/glycan mechanism or image-based quantification.",
+      "complete_roster": "All thirteen main Table2 pathology rows independently extracted and sum100. Seven Not-known diagnoses remain unresolved; unknown-origin adenocarcinoma is a separately named epithelial label. One of two lung-cancer-labelled diagnoses is imaging-only. No all-other-cases histological or molecular verification claim.",
+      "controls": "The45 normal-weight cases are hypoglycemic suspected NICTH, not healthy or normoglycemic controls. Their subtype crosswalk is unresolved. CT masses61.3% has31 assessed cases, not45; big-group CT denominator100. Lab row denominators vary.",
+      "all_reported_conditions": "Postoperative sera within14 days for25 remission-selected cases:21SFT,2liposarcoma,2phyllodes. These are a subset of100, not25 new independent donors or an unbiased response denominator. Eleven tumor/margin tissue pairs are SFT surgical contexts, not EMC or another independent cohort. All published supplement location/size bins were inspected as source conditions, not selected for favorable response.",
+      "interpretation": "No explicit EMC in the roster does not establish no EMC enrollment or no EMC syndrome. Unknown diagnoses and unlinked normal-weight cases remain possible eligibility gaps; no transfer of SFT clinical or RNA states to EMC."
+    }
+  },
+  "single_correction_batch": "Owner appended exact source-bound clinical diagnostic/CT/control amendment, preserving original22 frozen scientific bytes. Imaging-only lung diagnosis, unknown categories, actual CT denominator, control meaning, timing and selected subset are now explicit. No remaining material issue within this review scope.",
+  "validity": "Current packet does not establish an authenticated individual EMC tumor/blood/size-assay/clinical link, matched RNA/protein comparison, donor overlap or disease-state denominator. Separate archival IHC, referred hypoglycemia cohort and legacy RNA specimens cannot be pooled or treated as paired observations.",
+  "value": "A generic IGF2 bulk-RNA contrast or restatement of the published low-threshold EMC/high-SFT IHC contrast would not add a clinically useful endocrine assay state. Published SFT diagnostic/postoperative biomarker results are prior art. The owner correctly stops before RNA rather than interpreting ligand expression as circulating protein or NICTH. This is bounded shelving of the proposed question, not rejection of every future IGF2/EMC question.",
+  "pending": "Historical1999 source/access failures, generic lung diagnosis, other unlinked cases and fourteen archival co-occurrence hits remain pending/unavailable in owner coverage. This review did not independently read every primary historical case or every source-search hit. Suitable pending public evidence blocks promotion; no complete literature or universal absence claim.",
+  "reopening": "Public source-authenticated EMC endocrine or consequential contrary case with full dates/conditions/donor links, orthogonal measured serum/tumor assay and a distinct useful prospective comparison beyond prior art; all eligible/contrary public conditions and overlap then evaluated. No restricted processing/glycan mechanism needed or authorized.",
+  "restriction_and_storage": "Quiet cached file/text checks only, no retrieval or retained raw duplicate; no gene values, UI/screenshots/headless/image inspection, restricted FAP/glycan/structural/HLA review, spend/outreach/publication/PR/root changes. More than10GiB free; new raw bytes0. Existing public_resource_omissions initial/final freezes preserved.",
+  "source_verification_artifact": {
+    "path": "SOURCE-VERIFICATION.json",
+    "sha256": "4ede13861c60c627f7f47ebd5c1fc82dadf5eacbebe592aaa607e671748e11ae"
+  }
+}

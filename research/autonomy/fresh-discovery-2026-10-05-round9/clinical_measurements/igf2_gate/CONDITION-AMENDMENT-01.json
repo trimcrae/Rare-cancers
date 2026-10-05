@@ -1,0 +1,42 @@
+{
+  "utc": "2026-10-05T11:41:00.802521+00:00",
+  "type": "Additive clinical diagnostic/condition coverage clarification; original freeze/science preserved",
+  "trigger": "Diagnostic independent review single correction batch",
+  "original_commit": "31188dc0fd3c7ca820762a40fc9440765a5ce957",
+  "original_freeze_sha256": "626911f76f2d821ed872bd80e8e6c9bf936929c91d043f542fb4327d44ce0c1c",
+  "primary_source": {
+    "doi": "10.1210/clinem/dgae879",
+    "path": "source-cache/NICTH145.xml",
+    "sha256": "92b26ad394916e394389ad7bdf40324e819913234dc517804ffa3c85345b123a"
+  },
+  "supersedes": "Specific diagnostic/CT/control interpretation in OBSERVATIONS/COVERAGE/REPORT; no earlier valid observation or decision revoked",
+  "Table2": {
+    "literal_lung_cancer_row": [
+      "Lung cancer",
+      "2",
+      "2.0%"
+    ],
+    "footnote_a_exact": "One case was diagnosed based on imaging study.",
+    "diagnostic_gaps": [
+      "Not known7 diagnoses remain unresolved",
+      "One of2lungcancer-labelled cases imaging-only; no individual ID/pathology crosswalk",
+      "Cancerofunknownorigin(adenocarcinoma)1 retains author epithelial label and separately unresolved primaryorigin/individual diagnostic records"
+    ],
+    "interpretation": "Do not characterize all93other big-group diagnoses as histologicallyverified or molecularlyauthenticated; no hiddenEMC identity, absence or clinicaldenominator inferred."
+  },
+  "Table1_CT": {
+    "normal_weight_IGFII_group_total_cases": 45,
+    "published_mass_lesion_CT_percent": 61.3,
+    "normal_group_cases_with_CT_data": 31,
+    "big_weight_IGFII_group_cases_with_CT_data": 100,
+    "big_group_published_mass_lesion_percent": 100,
+    "limits": "CT percentage denominator31 is not45; no missingCT diagnosis assigned or additional calculated ratio. Normal-form group is hypoglycemic suspectedNICTH with normal-weightIGFII, not healthy or normoglycemic controls."
+  },
+  "conditions": {
+    "serum_collection": "145cases Jun2015–Jan2023,110clinical institutions, frozen at−20°C before referral",
+    "postoperative": "25serum cases selected for successful resection/remission; within14days surgery;21SFT,2liposarcoma,2phyllodes. Subset of confirmedgroup,notindependent extra donors; no unbiased response rate.",
+    "tumour_margin": "11SFT surgical contexts; notEMC replication or additional pooled independent donors"
+  },
+  "source_followthrough": "Assayidentity/diagnostic/denominator clarification only; no new gene values, images, numerical contrast or processing/glycan mechanism",
+  "decision": "Unchanged SHELVE beforeRNA, no newpublicationworthy finding; suitablepublic pending/unavailable conditions retained; widercampaigncontinues"
+}

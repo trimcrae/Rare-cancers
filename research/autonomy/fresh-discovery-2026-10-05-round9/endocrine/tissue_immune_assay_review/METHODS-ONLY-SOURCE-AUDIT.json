@@ -1,0 +1,118 @@
+{
+  "schema": "emc-r9-prevalue-tissue-assay-method-source-audit/1",
+  "owner_plan": {
+    "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/tissue_immune_gate/PLAN.json",
+    "bytes": 3647,
+    "sha256": "c0e82de204a458dffc355d42a423a585b8ec6702cbaafc36c2ca6a980e9e8db1"
+  },
+  "retained_new_primary_cache_only": {
+    "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/tissue_immune_gate/raw-cache/umakoshi2023-primary.xml",
+    "bytes": 104243,
+    "sha256": "bd02cbff5ebca3fde9e16993d0a4705b3b631e8a95470de255afbab80cf7217a"
+  },
+  "new_primary_methods_only": {
+    "Sec3": {
+      "title": "Case collection",
+      "paragraphs": [
+        "Seventy-five cases of soft-tissue sarcoma, evaluated according to the FNCLCC grading system, were enrolled. These cases were managed at Akita University Hospital (Akita, Japan) between 2004 and 2017. The general characteristics of the 75 patients are shown in Table 1. No patients received preoperative chemotherapy or radiotherapy, and all underwent marginal or extended resection. The clinicopathological characteristics were obtained from clinical records; however, some cases were re-diagnosed according to the current WHO pathological classification (5th edition) due to changes in classification, terms, and criteria over the last 20 years. Collected histological subtypes included well-differentiated liposarcoma, myxoid liposarcoma, round cell liposarcoma, dedifferentiated liposarcoma, pleomorphic liposarcoma, myxofibrosarcoma, conventional leiomyosarcoma, poorly differentiated leiomyosarcoma, synovial sarcoma, extraskeletal myxoid chondrosarcoma, and undifferentiated pleomorphic sarcoma. Disease-free survival (DFS) was measured from the date of surgery to the date of recurrence or the date when the patient was last known to be disease-free. Ethical approval was obtained from the Ethics Committee of Akita University, Graduate School of Medicine (Reference No. 2652). Informed consent was obtained in the form of opt-out on the website. This study was performed in accordance with the Declaration of Helsinki."
+      ]
+    },
+    "Sec4": {
+      "title": "Immunohistochemistry (IHC)",
+      "paragraphs": [
+        "Tissue sections (thickness: 4 \u03bcm) were cut and stained by a Ventana Discovery XT autostainer (Ventana Medical Systems, Tucson, AZ, USA). The staining antibodies were: mouse monoclonal anti-human CD68 (Clone PG-M1, 1:100; Dako, Japan), a pan-macrophage marker, anti-mouse/rat /human CD163 (Clone EPR19518, 1:500, abcam, Cambridge, UK), and anti-human CD204 (Clone SRA-E5, 1:500; Trans Genic Inc., Japan), a TAM marker."
+      ]
+    },
+    "Sec5": {
+      "title": "IHC evaluation",
+      "paragraphs": [
+        "All IHC slides were scanned at an absolute magnification of 20 \u00d7 using a pathology digital imaging system (Nanozoomer virtual slide system, Hamamatsu Photonics, Shizuoka, Japan). For each slide, five representative fields (0.2 mm2) containing intratumoral and marginal areas were selected, and the number of positive cells was counted manually (Fig. 1a). The selected intratumoral and marginal areas were almost same for the CD68, CD163, and CD204-stained slides. The marginal area is the non-sarcoma area adjacent to the sarcoma. For most sarcomas, the histological findings identified a non-sarcomatous area bordering the sarcomatous area, which was designated as the \u201cmarginal area\u201d. In cases where the border between sarcoma and non-sarcoma was unclear, we carefully distinguished atypical cells from preexisting tissue, and designated the non-sarcoma area around the sarcoma margin as the \u201cmarginal area\u201d. The total number of CD68-, CD163-, or CD204-positive cells in the five tumor fields was recorded (Fig. 1b,c). There were two cases in which the marginal specimen did not include normal tissue; in these cases, the marginal tumor area was used instead of the marginal normal area. Both cases involved an atypical lipomatous tumor."
+      ]
+    },
+    "Sec6": {
+      "title": "Statistical analysis",
+      "paragraphs": [
+        "Shapiro\u2013Wilk test showed the number of macrophages are not normal distribution, therefore, the non-parametric analyses described below were performed. The number, distribution, and type of macrophage was assessed using the Friedmann rank sum test with Bonferroni correction, and the Wilcoxon signed rank test (Table 2). The correlation between the number of intratumoral/marginal macrophages of each phenotype was assessed using Spearman\u2019s rank correlation analysis (Fig. 2). Clinical factors and macrophage type were assessed using the Mann\u2013Whitney U test, the Kruskal\u2013Wallis test, and the Steel\u2013Dwass test (Table 3, Fig. 3). The log-rank test and a Cox proportional hazards regression model were also used. All statistical analyses were performed using EZR (Saitama Medical Centre, Jichi Medical University), which is based on R (The R Foundation for Statistical Computing, Vienna, Austria, version 4.1.2), and R commander29. P values of < 0.05 were considered significant. Correlation coefficients between 0.4 and 0.7 were defined as intermediate, whereas those > 0.7 were defined as strong."
+      ]
+    }
+  },
+  "new_source_matched_T_cell_assay": false,
+  "retained_multiplex_primary_cache_only": {
+    "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/tissue_immune_gate/raw-cache/smolle2021-primary.xml",
+    "bytes": 148476,
+    "sha256": "a56c0b75a7282a9d7fd02befb88fb8a8de590be576ec13d7697d9c93d37937fd"
+  },
+  "multiplex_primary_methods_only": {
+    "s0002-s2001-s3002": {
+      "title": "Construction of Tissue Microarrays",
+      "paragraphs": [
+        "One-hundred eighty-eight paraffin-embedded tumor samples were reevaluated by two specialized soft tissue tumor pathologists (IB and BLA). Representative areas with high tumor-cell abundance were marked on the FFPE specimens. Subsequently, paraffin blocks were punched within the marked areas of interest into seven cores of 4 \u00b5m thickness per tumor on average. Per tumor, six cores (\u00b1 3 cores) on average were created, resulting in a total of 1266 cores analyzed. The cores were transferred to a recipient paraffin block to construct the TMAs. 3\u20135 \u00b5m sections were cut from each TMA-paraffin block to perform multiplex immunohistochemistry. A simplification of the entire data analysis workflow is visible in Figure 2.Figure 2.Flow-chart depicting the data analysis workflow"
+      ]
+    },
+    "s0002-s2001-s3003": {
+      "title": "Multiplex Immunohistochemistry",
+      "paragraphs": [
+        "Multiplex immunohistochemistry (MP-IHC) with six antibodies and DAPI was performed, using the following reagents: CD4 (EPR6855, Abcam plc, Cambridge, UK), CD8 (C8/144B, Abcam plc, Cambridge, UK), CD20 (L26, Abcam plc, Cambridge, UK), CD3 (LN10, Leica Biosystems Inc., Vienna, Austria), CD45RO (UCHL1, Cell Signaling Technology Europe, B.V., Leiden, The Netherlands), CD68 (PG-M1, Dako Agilent Pathology Solutions, Agilent, Vienna, Austria). Tyramide-signal-amplification (TSA) kit (Akoya Biosciences, Marlborough, USA) technique was used for MP-IHC."
+      ]
+    },
+    "s0002-s2001-s3004": {
+      "title": "Staining, Scanning & Image Analysis",
+      "paragraphs": [
+        "Staining of all 5 TMA slides was performed with the autostainer system Bond RX (Leica Biosystems Inc., Vienna, Austria). Slides were then scanned with the Vectra\u00ae 3 (Akoya Biosystems, Marlborough, USA; software version 3.0.7) microscope. Whole-slide scans were taken at 4x magnification to locate and select individual TMA cores. Multispectral images of identified TMA cores were then recorded at 20x magnification, resulting into one image color channel for each stained antibody. Images were processed with inForm software (Akoya Biosystems, Marlborough, USA; software version 2.4.8), including spectral unmixing and removal of autofluorescence.",
+        "Resulting multispectral images were evaluated using HALO\u00ae Image Analysis Platform (Indica Labs, Albuquerque, NM, US; Version 3.1.1076.342). Single recorded images at 20x magnification are stitched together into a continuous field of view of the whole TMA slide. Individual cells were then identified using the DAPI nucleus staining by setting a threshold for nucleus size, roundness and signal intensity. For the six fluorescence-labeled markers, thresholds were set according to staining intensity of the entire cell. Based on the predefined marker combinations, seven different cell phenotypes were differentiated in all TMA cores: T-cells (CD3+), helper T-cells (CD3+, CD4+), cytotoxic T-cells (CD3+, CD8+), helper memory T-cells (CD3+, CD4+, CD45RO+), cytotoxic memory T-cells (CD3+, CD8+, CD45RO+), B-cells (CD20+), and macrophages (CD68+; Figure 3A & 3B). Finally, phenotypes were automatically counted in each TMA core individually and later combined for cores of the same patient. These phenotype abundances, represented as percentages of the total number of cells in each TMA core, constitute the final MP-IHC features used for subsequent analysis.Figure 3A & B.Multispectral image of two undifferentiated pleomorphic sarcomas at different magnifications (clockwise: x12; x20; x40; x60; x80). Note the high positivity for CD68+ in sample depicted in panel B in comparison to panel A."
+      ]
+    }
+  },
+  "multiplex_source_identity": "Generic other-histotype subset unresolved; no EMC eligibility assigned by this reviewer",
+  "multiplex_source_CD68_CD3_assay": "Potentially matched phenotype percentages, not absolute density; source patient-core aggregation rule remains unstated",
+  "older_extraction_verified_reuse": {
+    "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04/microenvironment/dancsok-supplement-extracted.json",
+    "bytes": 88985,
+    "sha256": "74b67d7da273bff95f714ef77c0546f3452d176f9a0c238df94ab566bcc4930d"
+  },
+  "older_source_scoring_and_ratio_definitions": [
+    " Immunohistochemical scores are based on the mean scores of duplicate tissue microarray cores. CD47 was scored by percentage of positive tumor cell staining; CD68, CD163, and SIRP\u03b1 were scored by the count of positive macrophages per mm2 tumor tissue. All variables in the model are treated as continuous except for grade, which was binned as 1, 2+3, or unknown. Bold font indicates significant p-values. * Cannot be calculated; no events in Grade 1 group.",
+    "Figure S1. Comparison of tumor-associated macrophages to tumor-infiltrating lymphocytes across malignant and benign mesenchymal tumors. (A) Boxplots depicting comparative counts of CD68+ macrophages (white), CD163+ macrophages (light grey), and tumor-infiltrating lymphocytes (TILs; dark grey). Boxes represent the first through third quartiles, horizontal line indicates median, and whiskers indicate range. Extreme outliers are indicated as dots. (B) Adjusted mean ratio of CD68/TIL, based on counts of positive-staining immune cells per mm\u00b2 tumor tissue, scored from tissue microarray cores. Scores were adjusted by adding 1 to all values prior to calculation of the ratio in order to eliminate 0 values. Error bars represent 95% confidence interval of the mean. ***p<0.001, *p<0.01, ns, not significant."
+  ],
+  "older_full_macrophage2020_primary_cache": "Unavailable in current portable checkout; no new full-primary reproduction claimed",
+  "recovered_Tcell2019_primary_bindings": [
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/tissue_immune_challenge/source-cache/dancsok2019.pdf",
+      "bytes": 1762978,
+      "sha256": "5ae254dc77584ba11d265c530b45f610e69dff957d23f67f22de2c2bc97a69b4"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/tissue_immune_challenge/source-cache/dancsok2019-text.txt",
+      "bytes": 79548,
+      "sha256": "1450b4093ef6b3f0c04e1ff3cd269504f6f1caf3f1568a5cdf5daa6b28126396"
+    }
+  ],
+  "Tcell2019_methods_only_excerpt": "\ncharged glass slides (Thermo Fisher Scienti\ufb01c Inc.,             and EGD). Replicate cores were scored separately, with the\nWaltham, MA), and incubated for 1 h at 60 \u00b0C.                   pathologist blinded to replicates and \ufb01nal histological\n                                                                diagnosis, and the mean score from all replicates was cal-\nImmunohistochemistry                                            culated. Tumor-in\ufb01ltrating lymphocytes were counted\n                                                                directly from hematoxylin- and eosin-stained tissue\nImmunohistochemical staining was performed on serial tis-       microarray slides (Fig. S1A, B). Lymphocyte biomarkers\nsue microarray sections. All tissue microarray blocks were      (tumor-in\ufb01ltrating lymphocyte counts, CD8, CD4, FOXP3,\nbatch cut within 6 months of staining in order to prevent PD-   CD56, PD-1, TIM-3, and LAG-3) were scored by counting\nL1 degradation [50]. All Vancouver General Hospital tissue      the number of positive-staining lymphocytes per\nmicroarrays were stained within 7 days of batch cutting, and    tissue microarray core (Fig. S1C\u2013J). Different core sizes\nMount Sinai Hospital tissue microarray blocks were cut          were normalized by dividing scores by the area of the\nimmediately prior to shipping to UBC for staining.              respective core, to give tumor-in\ufb01ltrating lymphocytes per\nAll antibodies, except for PD-L1, were applied using the        mm2. PD-L1 immunopositivity was scored in both the\nVentana DISCOVERY\u00ae ULTRA semiautomated staining                 tumor fraction (by the percentage of positive sarcoma\nsystem (Ventana Medical Systems Inc., Tucson, AZ), as           cells) and the lymphocyte fraction (by the count of\ndescribed previously [47]. Brie\ufb02y, heat-induced antigen         positive lymphocytes). All immunohistochemical markers\nretrieval was performed using the standard cell conditioning    were scored for cytomembranous positivity, except for\n1 (Ventana) protocol. Slides were incubated with primary        FOXP3 (a transcription factor), which was scored for\nantibodies (described in Table S1) in DISCOVERY antibody        nuclear positivity.\ndiluent (Ventana) for 2 h at room temperature. For CD4,\nCD8, CD56, and FOXP3, slides were incubated for 16 min at       Statistical analysis",
+  "Tcell2019_marker_identity": "Morphological H&E TIL separate from positive-staining CD8/CD4 lymphocytes; no assayed CD3 in inspected methods; published CD68/TIL index cannot be relabelled CD68/CD3",
+  "reuse_scope_bindings": [
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04-round3/immune/RESULTS.md",
+      "bytes": 9129,
+      "sha256": "b7e0d78c911c953ce82797258cb8604e7046d88214925f77262ba8e4a63fc2a7"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/REPORT.txt",
+      "bytes": 4240,
+      "sha256": "ce78ceba15d1dd222babdb72d591b56a31b2244a6b4cd6e3774fd762aa40397c"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/DECISION.json",
+      "bytes": 2911,
+      "sha256": "be10af6f607f8cf5b2d05596ecfa26576ead4a15f212c5027fbeac66579fd0e4"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COVERAGE.json",
+      "bytes": 11879,
+      "sha256": "7dbe9c215c13a393b95168f580b5cdc3f3c92262698d53ca02190f7d440737b1"
+    }
+  ],
+  "new_EMC_numeric_cell_count_outcomes_inspected": false,
+  "results_tables_read": false,
+  "images_or_downloads": false,
+  "errors": []
+}

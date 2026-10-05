@@ -1,0 +1,50 @@
+{
+  "source": "Dancsok2019 mainmethodspp1773–1774,suppTable1 andFigS1 caption; Dancsok2020 verifiedR1 extraction",
+  "Dancsok2019": {
+    "material": "FFPE surgical specimens, UBC/Vancouver/MountSinai and Norwegian GIST tissue microarrays",
+    "core_diameters_mm": [
+      0.6,
+      1.0
+    ],
+    "sections_um": 4,
+    "technical_replicates": "Duplicate/triplicate source TMAs; replicate cores scored separately, blinded to replicates and final diagnosis; mean all replicates, not independent donors",
+    "count_units": "Positive-staining lymphocytes counted percore and divided by respective core area; cells/mm² of tissue. H&E TIL counted morphologically, independently of marker-positive subsets. No normalisation to viable tumour-cell number supplied.",
+    "CD8": {
+      "clone": "C8/144",
+      "dilution": "1:200",
+      "identity": "positive-staining lymphocytes by pathologist morphology; serial IHC sections"
+    },
+    "CD3": "Not in source assayed panel; cannot relabel H&E TIL as CD3 or CD8",
+    "CD68_CD163": "Not assayed in this earlier T-cell source",
+    "preservation": "FFPE; all blocks batchcut within6months; Vancouver stained within7days, MountSinai cut immediately before shipping; different core diameters normalised by area",
+    "condition_metadata": "Clinical subset with grade/therapy/outcomes only; main body660 vsTable2heading665 discrepancy retained. No authenticated EMC donor/site/grade/therapy/NR4A3 map.",
+    "spatial_identity": "No co-registration or mutually-exclusive CD68/CD163/CD8 populations established; marker-density ratio is operational index, not verified cell fraction",
+    "supplement": "6pages; S1 antibody details,S2 non-sarcoma roster,S3 pooled grade/neoadjuvant/molecular-driver models; figure captions checked, images/plots not inspected",
+    "CD4_detail_discrepancy": "TableS1 lists SP35, FigS1caption says4B12; not used to infer a CD8/CD3/EMC result"
+  },
+  "Dancsok2020_reuse": {
+    "source": "R1 microenvironment validated cohort/extracted supplement; no new download or arithmetic",
+    "all_EMC": 6,
+    "macrophage_evaluable": 5,
+    "matched_morphological_TIL": 4,
+    "published_aggregate_scope": "CD68 median0cells/mm²(n5),CD163median5(n5),adjusted meanCD68:TILratio0.3(n4); prior art, not reconstructed individual counts",
+    "ratio_method": "Published FigS1caption adjusts every value by+1. Cannot recalculate a no-pseudocount CD68:CD3/CD8 ratio from aggregate plot or unmatched donor values.",
+    "CD68": {
+      "clone": "KP1",
+      "dilution": "1:1000"
+    },
+    "CD163": {
+      "clone": "10D6",
+      "dilution": "1:500"
+    },
+    "technical_replicates": "Duplicatecores averaged, macrophages/mm²; no percase crosswalk",
+    "overlap": "Same investigator/biobank source context supports overlap caution, not evidence that all2020matchedTIL EMC donors are identifiable among2019reported1072. No independent replication assumed."
+  },
+  "alternatives": [
+    "Near-zero T-cell denominator inflates a relative index without substantial macrophage density.",
+    "CD68 andCD163 can overlap; neither their sum nor a marker-density ratio proves a mutually-exclusive cell fraction.",
+    "Morphological H&E TIL includes lymphocyte subsets and is not a CD3/CD8-specific denominator.",
+    "Myxoid lowcellularity, corearea/ROI selection, site/grade/previousRT/chemotherapy and surgical vs metastatic biopsy can explain differences.",
+    "Separate serial sections/unequal core evaluability and reused donors prevent fabricated paired ratios or independent precision."
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "schema": "emc-r9-independent-broader-imprinting-source-assay-value-review/1",
+  "date": "2026-10-05",
+  "target_scientific_commit": "7edd0186e8fde1c0e919738f4ea16bb308e6898f",
+  "owner_root": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting",
+  "frozen_later_gate_sha256": "522b901399ace5f980a8b04d64d94ae729bcf0db3c4545b7f1ab17af05750239",
+  "later_decision_sha256": "56cf0869981b01eca2c427352ba8f3b3c9dcf97f8f6a2994ab0fc3d3f86f66dc",
+  "original_freeze_preserved_sha256": "180b23ffe01bd11189abd862d658e12a50f11d161d6fa932522da54d342d453c",
+  "amendment03_sha256": "c30c5493acc9f5abc000abd051599af7d089fdcc38853ac2bc996644afe22e24",
+  "decision": "ENDORSE bounded current shared-array exact-assay SHELVE; broader human functional IG/CGI and independently authenticated regional EMC measurements remain pending. No material blocker in this review scope.",
+  "validation": {
+    "frozen_later_exports": 6,
+    "retained_source_inputs": 15,
+    "archive_member_exact_derivations": 3,
+    "complete_local_primer_pairs": 4,
+    "HM450_annotation_rows": 486427,
+    "EPIC_annotation_rows": 866553,
+    "reference_EMC_conditions": 10,
+    "potential_fixed_controls": 62,
+    "mismatches": 0,
+    "independent_script": "review_assay.py",
+    "exact_measurement_audit": "SOURCE-ASSAY-AUDIT.json"
+  },
+  "primary_source_findings": [
+    {
+      "source": "PMC3493531; DOI10.1371/journal.pone.0049462",
+      "check": "Original primary text separately names two human IG pyrosequencing assays approximately14kb upstream of MEG3. TableS5 binary Word strings place the exact mapped F/R sequences in distinct IG-DMR(1)/(2) rows. Both source assays interrogate five CpGs; the full PCR envelope is not the exact five-site output or entire functional DMR boundary.",
+      "independent_geometry_0based_halfopen": [
+        [
+          100809340,
+          100809436
+        ],
+        [
+          100811069,
+          100811161
+        ]
+      ],
+      "scope": "Human HCC/adjacent-liver primary assay prior art; no native EMC data. Published allele-expression experiments cannot be transferred to an EMC array beta."
+    },
+    {
+      "source": "PMC5008286; DOI10.18632/oncotarget.6965",
+      "check": "Original methods explicitly describe two PCR rounds and TableS2 separates first/second F/R and universal-biotin tail. IG1 outer pair maps locally. IG2 outerF maps, outerR does not; innerR maps while authenticated innerF genomic placement remains unresolved. No outerF/innerR hybrid interval may be accepted.",
+      "independent_IG1_outer_geometry_0based_halfopen": [
+        100809302,
+        100809439
+      ],
+      "IG2_status": "Incomplete source-supported mapping; broader functional assay/context pending, not a zero-region or biological negative.",
+      "scope": "Human osteosarcoma/normal-bone context and separate mouse experiments; neither defines an EMC condition or justifies mouse-human boundary transfer."
+    },
+    {
+      "source": "PMC9798676; DOI10.1186/s13148-022-01410-8",
+      "check": "Primary methods name fourteen-q MEG3/DLK1:IG-DMR among seven imprinted loci measured by ASMM RTQ-PCR. Exact SD5 workbook row/next row identify F/R separately from methylated/unmethylated probe sequences. All four sequences were distinguished; only F/R define the candidate envelope.",
+      "independent_geometry_0based_halfopen": [
+        100809288,
+        100809455
+      ],
+      "scope": "Human reprogrammed iPSC/culture-history prior art, not a native tumor control. Methylated/unmethylated assay signals do not identify parental allele without separate linkage; an array beta does not reproduce that probe-PCR endpoint."
+    }
+  ],
+  "assay_and_annotation_findings": {
+    "independent_mapping": "Expanded IUPAC sequence variants independently, normalized C-to-T or G-to-A conversions and searched both orientations including overlapping matches. Reproduced every source primer placement and candidate envelope. Uniqueness is local to the official retained75kb hg38 chr14 segment, not whole-genome specificity or a validated PCR design.",
+    "array_zero_scope": "All four complete candidate PCR envelopes contain zero CpG probes in the complete HM450 and EPIC annotations. No beta matrix was loaded. This supports failure of those exact candidate assays; it cannot establish absence of probes throughout the biological IG-DMR/CGI, absence of methylation, impossibility of another assay or absence of a useful EMC state.",
+    "row_alignment": "Retained official InfiniumAnnotation index explicitly defines coherent files as row-aligned to manufacturer ordering and CpG_beg as0-based. Independent streaming checked equal ordering/coordinate row lengths and unique probe IDs at both platforms; no chromosome/assembly offset or coordinate widening was used.",
+    "nearby_favorable_pending_evidence": "EPIC cg27281850 at100810948/mapQ15 and cg06442344 at100810966/mapQ11 are outside the complete HCCIG2 envelope. Mapping quality is reported, not accepted as genome-wide specificity, SNP/cross-reactivity masking or functional-region validation. Their possible broader CGI applicability remains pending rather than being dismissed or silently accepted.",
+    "original_coordinate_precision": "Additive amendment03 correctly notes mainTable1IG100345582 agrees with rounded Table3 start/end midpoint100345581.5, while Table3 printed midpoint and TableS1 printed boundaries are discordant. Original freeze remains preserved; this later review does not repeat the first gate's independent review."
+  },
+  "coverage_and_value": {
+    "all10_scope": "All ten reference EMC rows remain explicit: nine HM450 and one EPIC, primary FFPE, no newly pooled donor count. Existing identity metadata is reused; this review independently verifies the coverage/platform inventory and shared annotation applicability, not original specimen histology.",
+    "controls": "All62 fixed potential primary-FFPE control records remain inventory, not an evaluated numerical or matched causal comparison. Source/slide/purity/site/lineage and independent replication are unresolved for a new regional-state interpretation.",
+    "Case21": "Published Case21 identity/age/mitotic annotations are reused. GSE279837-to-manuscript specimen binding and reference-cohort biological overlap remain limited; GSE243075 is unrelated. One reference EPIC plus Case21 is not a new replicated all10 assay cohort.",
+    "validity": "The limited source and exact-envelope coverage statements reproduce. Current shared joint IG-plus-somatic-DMR route is not supported by these assays. Complete broader functional boundaries, appropriate measurement quality, source binding and all eligible EMC conditions remain unresolved.",
+    "scientific_value": "A nearby low-mapQ EPIC pair in at most a narrow source subset, or a technically computable general DNAm score, would not by itself guide a distinct useful native-EMC regulatory measurement beyond published other-sarcoma regional states or diagnostic classes. Lack of ages alone is not the defeat. Potential value could return with a primary-supported regional assay, independently replicated native cases and a prospectively discriminating lineage/mixture/batch comparison.",
+    "no_inference": "No allelic imprinting, miRNA expression, regulatory causality, therapeutic effect, negative EMC methylation or exhausted-search claim."
+  },
+  "reopening": "Authenticate a primary human functional regional measurement and probe specificity/quality, all relevant EMC specimen/condition/donor linkage and appropriate independent native comparators. Freeze one useful discrimination before disease values, obtain lead-approved finite stage if needed, and preserve broader pending routes without enlarging boundaries to obtain favorable measurements.",
+  "limits": "One bounded retained-source/annotation batch. No duplicate source retrieval, matrix values, rendering, full-paper review, whole-public evidence census or claim that all pending evidence has been assessed. Published non-EMC source context was read only for assay definitions, not quantitatively reanalysed or transferred to EMC. Original metadata authentication/older assays reused with exact bindings."
+}

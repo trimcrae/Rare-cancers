@@ -1,0 +1,27 @@
+{
+  "query": "(TITLE:EWSR1 OR TITLE:TAF15 OR TITLE:\"EWS protein\" OR TITLE:\"FET proteins\" OR TITLE:\"EWS-FLI1\") AND (splicing OR \"intron retention\" OR \"RNA binding\")",
+  "requests": [
+    {
+      "file": "raw-cache/brenca2019-supp.zip",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6766969/supplementaryFiles",
+      "utc": "2026-10-05T11:21:45.433914+00:00",
+      "scope": "primarymetadata/library/case eligibility or priorart only; no EMCIRdata",
+      "status": 200,
+      "content_type": "application/zip",
+      "bytes": 11691659,
+      "sha256": "92a1b755f1ef25b5f356b4aaf3dd25d456993c0054ad05d83d83741da8836fab"
+    },
+    {
+      "file": "raw-cache/endogenous-rbp-metadata.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE%3AEWSR1+OR+TITLE%3ATAF15+OR+TITLE%3A%22EWS+protein%22+OR+TITLE%3A%22FET+proteins%22+OR+TITLE%3A%22EWS-FLI1%22%29+AND+%28splicing+OR+%22intron+retention%22+OR+%22RNA+binding%22%29&resultType=core&format=json&pageSize=1000",
+      "utc": "2026-10-05T11:21:45.434898+00:00",
+      "scope": "primarymetadata/library/case eligibility or priorart only; no EMCIRdata",
+      "status": 200,
+      "content_type": "application/json;charset=UTF-8",
+      "bytes": 6288418,
+      "sha256": "1a7c969949eb0ce4ba9cdc8027a090d435eeaa087f9d4683ec6c5f590792ec0f",
+      "hit_count": 770,
+      "returned": 770
+    }
+  ]
+}

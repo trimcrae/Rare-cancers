@@ -1,0 +1,134 @@
+{
+  "primary_sha256": "e453b80e71292bb19c1f3287d08108bef44e7a0e88207e6f99bbd3a52a010b68",
+  "primary_methods_relevant_paragraph": [
+    "Tumor sections with >70% tumor nuclei were used for transcriptional analysis. Total RNA was isolated from FFPE EMC as in 22 and from frozen samples as in 3. RNA from cell cultures was extracted using the TRIzol reagent (ThermoFisher Scientific, Waltham, MA, USA). RNA\u2010sequencing (RNA\u2010Seq) was used for transcriptional profiling. For FFPE samples and cell cultures RNA\u2010Seq libraries were prepared as in 22 and sequenced on a Hiseq1000 Illumina apparatus to an average of 70\u2010million paired\u2010end reads per sample. Raw sequence data quality was assessed using the FastQC software (http://www.bioinformatics.babraham.ac.uk/projects/fastqc/). STAR, HTSeq, and DEseq2 were used for read mapping, quantification, gene\u2010level exploratory, and differential expression analysis 23, 24, 25. Raw and processed sequencing data are available at http://opendocuments.cro.it/cod/handle/item/9167.",
+    "For fresh\u2010frozen samples libraries were prepared and analyzed as in 3. "
+  ],
+  "library_assignment": {
+    "FFPE_and_cultures": "Brenca2016 GIST PMID26606880 DOI10.1002/path.4677 ref22",
+    "fresh_frozen": "Stacchiotti2014 PMID24703573 DOI10.1016/j.ejca.2014.03.013 ref3",
+    "actual_capture_or_depletion_recipes": "Not inspected in these referenced papers; not inferred from abstract or generic SRA labels"
+  },
+  "native_roster": [
+    [
+      "CASE #",
+      "NR4A3 partner",
+      "Gender",
+      "Age at the diagnosis",
+      "Tumor site"
+    ],
+    [
+      "1",
+      "EWSR1",
+      "F",
+      "48",
+      "Upper leg"
+    ],
+    [
+      "2",
+      "EWSR1",
+      "M",
+      "48",
+      "Groin"
+    ],
+    [
+      "3",
+      "EWSR1",
+      "M",
+      "55",
+      "Upper leg"
+    ],
+    [
+      "4",
+      "EWSR1",
+      "M",
+      "57",
+      "Upper leg"
+    ],
+    [
+      "5",
+      "EWSR1",
+      "F",
+      "60",
+      "Upper leg"
+    ],
+    [
+      "6",
+      "EWSR1",
+      "M",
+      "71",
+      "Buttock"
+    ],
+    [
+      "7",
+      "EWSR1",
+      "M",
+      "76",
+      "Upper leg"
+    ],
+    [
+      "8",
+      "TAF15",
+      "M",
+      "50",
+      "Buttock"
+    ],
+    [
+      "9",
+      "TAF15",
+      "M",
+      "62",
+      "Lower leg"
+    ],
+    [
+      "10",
+      "TAF15",
+      "M",
+      "58",
+      "Buttock"
+    ],
+    [
+      "11",
+      "TAF15",
+      "M",
+      "39",
+      "Lower leg"
+    ],
+    [
+      "12",
+      "TAF15",
+      "M",
+      "50",
+      "Lower leg"
+    ]
+  ],
+  "native_donors": 12,
+  "FFPE_conditions": 12,
+  "paired_frozen_conditions": {
+    "n": 5,
+    "EWSR1": 4,
+    "TAF15": 1,
+    "not_new_donors": true,
+    "individual_case_map": "not established"
+  },
+  "engineered_conditions": {
+    "n": 11,
+    "EWSR1_NR4A3": 4,
+    "TAF15_NR4A3": 4,
+    "NR4A3": 3,
+    "not_native_donors": true,
+    "prior_mapping": "Eight fusion cultures resolved; three NR4A3 plus twelve tumors not individually linked to source case/partner/specimen."
+  },
+  "supplement_array_relevant_excerpts": [
+    "Targeted transcriptional array analysis was performed on a subset of EMC for which suitable material was available (3 EWSR1 and 3 TAF15). Total RNA (200 ng) was retro-transcribed and amplified using the Sigma TransPlex Whole Transcriptome Amplification Kit. cDNA labeling was performed with Agilent SureTag DNA labeling Kit. cDNA libraries were hybridized to Agilent SurePrint G3 Human Gene Expression 8x60K Microarrays. The Agilent Image Analysis Software was used to extract raw data and Biomedical Genomics Workbench was used for data analysis.",
+    "Chromatin Affinity Purification was performed on tBJ/ER cell models engineered by retroviral infection to ectopically express Strep-tagged NR4A3, EWSR1-NR4A3 or TAF15-NR4A3. Three-10 cm plates at 80% confluence were used per ChAP-qPCR. Chromatin cross-linking was performed as previously described ADDIN ZOTERO_ITEM CSL_CITATION {\"citationID\":\"qVrLL1Sb\",\"properties\":{\"formattedCitation\":\"[59]\",\"plainCitation\":\"[59]\",\"noteIndex\":0},\"citationItems\":[{\"id\":1014,\"uris\":[\"http://zotero.org/users/2473868/items/8JQIWAAJ\"],\"uri\":[\"http://zotero.org/users/2473868/items/8JQIWAAJ\"],\"itemData\":{\"id\":1014,\"type\":\"article-journal\",\"title\":\"c-Myc target gene specificity is determined by a post-DNAbinding mechanism\",\"container-title\":\"Proceedings of the National Academy of Sciences of the United States of America\",\"page\":\"13887-13892\",\"volume\":\"95\",\"issue\":\"23\",\"source\":\"PubMed\",\"abstract\":\"Uncertainty as to which member of a family of DNA-binding transcription factors regulates a specific promoter in intact cells is a problem common to many investigators. Determining target gene specificity requires both an analysis of protein binding to the endogenous promoter as well as a characterization of the functional consequences of transcription factor binding. By using a formaldehyde crosslinking procedure and Gal4 fusion proteins, we have analyzed the timing and functional consequences of binding of Myc and upstream stimulatory factor (USF)1 to endogenous cellular genes. We demonstrate that the endogenous cad promoter can be immunoprecipitated with antibodies against Myc and USF1. We further demonstrate that although both Myc and USF1 can bind to cad, the cad promoter can respond only to the Myc transactivation domain. We also show that the amount of Myc bound to the cad promoter fluctuates in a growth-dependent manner. Thus, our data analyzing both DNA binding and promoter activity in intact cells suggest that cad is a Myc target gene. In addition, we show that Myc binding can occur at many sites in vivo but that the position of the binding site determines the functional consequences of this binding. Our data indicate that a post-DNA-binding mechanism determines Myc target gene specificity. Importantly, we have demonstrated the feasibility of analyzing the binding of site-specific transcription factors in vivo to single copy mammalian genes.\",\"ISSN\":\"0027-8424\",\"note\":\"PMID: 9811896\\nPMCID: PMC24949\",\"journalAbbreviation\":\"Proc. Natl. Acad. Sci. U.S.A.\",\"language\":\"eng\",\"author\":[{\"family\":\"Boyd\",\"given\":\"K. E.\"},{\"family\":\"Wells\",\"given\":\"J.\"},{\"family\":\"Gutman\",\"given\":\"J.\"},{\"family\":\"Bartley\",\"given\":\"S. M.\"},{\"family\":\"Farnham\",\"given\":\"P. J.\"}],\"issued\":{\"date-parts\":[[\"1998\",11,10]]}}}],\"schema\":\"https://github.com/citation-style-language/schema/raw/master/csl-citation.json\"} [59] with minor modifications. Formaldehyde was added directly to cell culture media at a final concentration of 1% for 5 min at room temperature (RT). Cross-linking reaction was stopped by cold PBS rinsing and addition of 0.125M glycine (5 min at RT). After additional rinsing, cells were scraped in PBS supplemented with protease inhibitor cocktail (Complete Protease Inhibitor, Roche), pooled and collected by centrifugation at 4 \u00b0C (10 min at 1000 rpm). Cells were then swelled in 1 ml lysis buffer [5 mM Pipes pH 8.0, 85 mM KCl, 0.5% NP40] supplemented with protease inhibitors (Complete, Roche) and incubated on for 3 min at 4\u00b0C. Nuclei were collected by microcentrifugation (5 min at 3000 rpm), resuspended in 1 ml sonication buffer [1% SDS, 10 mM EDTA, 50 mM Tris\u22c5HCl pH 8.1] and incubated for 30 min, rocking in cold room. Chromatin was sheared with a Covaris M220 Focused-ultrasonicator (Covaris Inc., Woburn MA, USA) for 30 min to a fragment size of 100\u20131000 bp (Peak Power: 50 W; Duty factor: 20%; Cycles/burst: 200; Temperature: 8\u00b0C). Sheared DNA (30 \u00b5g in 500 \u00b5l) was pre-cleared with 50 \u00b5l of SP sepharose\u00ae Fast Flow (GE Healthcare, Chicago, IL, USA) (2 h at 4\u00b0C). Pre-cleared chromatin (450 \u00b5l) was precipitated by addition of 50 \u00b5l of 50% slurry Strep-Tactin sepharose (IBA Lifesciences, Goettingen, Germany) (1 h at 4\u00b0C). Fifty \u00b5l of pre-cleared chromatin were saved as total input and processed with the eluted sample beginning at the crosslink reversal step. Complexes were washed 5 times in wash buffer 1 [150 mM NaCl, 2 mM EDTA, 20 mM Tris\u22c5HCl pH 8.1, 0.1% SDS, 1% TritonX100] , 4 times in wash buffer 2 [500 mM NaCl, 2 mM EDTA, 20 mM Tris\u22c5HCl pH 8.1, 0.1% SDS, 1% TritonX100] , once in TE [10 mM Tris HCl pH 8.1; 1 mM EDTA]. Finally, samples were eluted in 400 \u00b5l Elution Buffer [1% SDS, 100 mM NaHCO3] (1 h rocking at RT). Cross-links were reversed by addition of NaCl to a final concentration of 200 mM (16 h at 65\u00b0C). RNA and proteins were removed by addition of RNase A (20 \u03bcg/sample) and proteinase K (100 \u03bcg/sample) (2 h at 45\u00b0C). Samples were extracted with phenol:chloroform:isoamyl alcohol (25:24:1) and then precipitated with 1/10th vol of 3 M sodium acetate (pH 5.3) and 2 vol of ethanol in the presence of glycogen (15 \u03bcg/sample). Pellets were collected by microcentrifugation, resuspended in 40 \u03bcl of H2O, and analyzed by qPCR. Total input samples were resuspended in 40 \u03bcl of H2O and then diluted 1:30 before PCR."
+  ],
+  "array_context": {
+    "n": 6,
+    "EWSR1": 3,
+    "TAF15": 3,
+    "donor_map": "unresolved subset; not six new donors",
+    "assay": "Amplified total-RNA Agilent8x60K gene-expression array; unsuitable for native intron-retention measurement"
+  },
+  "confounding_context": "EWSR1 includes two women and five men; TAF15 all five men. Tumor sites differ across small groups. >70% nuclei enrichment does not measure residual tumor/stromal RNA or morphology/growth contributions. None of these alternatives is already demonstrated to cause an IR difference."
+}

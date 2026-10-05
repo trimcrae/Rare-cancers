@@ -1,0 +1,134 @@
+{
+  "utc": "2026-10-05T11:35:24.174996+00:00",
+  "Steigen2009": {
+    "doi": "10.1038/modpathol.2009.48",
+    "PDF_sha256": "a35e61fb830ec381a88b315631703c2843615df4e5c11a02dd094a3f310d9c66",
+    "Table1b_EMC": {
+      "diagnosis_literal": "Extraskeletal myxoid chondrosarcoma",
+      "cases": 8,
+      "IGF2_overexpression_cases": 0,
+      "source_case_ids": "not released; all8 represented only by aggregate diagnosis row; no invented specimen IDs",
+      "molecular_authentication": "NR4A3/fusion status not supplied for this row",
+      "clinical_hypoglycemia_and_blood": "not linked",
+      "interpretation": "All8 below this assay overexpression cutoff; not absent protein/absence of syndrome"
+    },
+    "assay": "Rabbit polyclonal Abcam ab9574,1:100,Ventana DiscoveryXT,DABMap,4micron TMA sections; author states antibody recognizes both prohormone15kDa and smaller7.5kDa IGF2. Tissue immunostaining therefore does not identify a circulating molecular-weight state.",
+    "score": "Intensity0–3 multiplied by stained-cell category0–4; negative0–5,positive cutoff6. Duplicate interpretable cores consolidated using higher score, not independent donors. Individual EMC scores and donor/clinical crosswalk missing.",
+    "published_comparator_rows": [
+      {
+        "diagnosis_literal": "Solitary fibrous tumor",
+        "cases": 25,
+        "IGF2_overexpression_cases": 20,
+        "published_percent": 80
+      },
+      {
+        "diagnosis_literal": "Synovial sarcoma",
+        "cases": 80,
+        "IGF2_overexpression_cases": 34,
+        "published_percent": 43
+      },
+      {
+        "diagnosis_literal": "Myxoid liposarcoma",
+        "cases": 33,
+        "IGF2_overexpression_cases": 13,
+        "published_percent": 39
+      },
+      {
+        "diagnosis_literal": "Chondrosarcoma",
+        "cases": 51,
+        "IGF2_overexpression_cases": 17,
+        "published_percent": 33
+      }
+    ],
+    "normal_controls": "No same-donor EMC blood/normal-tissue ligand-state comparator exposed; these tumour-type rows are already published comparisons",
+    "overlap": "Donor overlap with legacy RNA cohorts,NICTH cohorts or R1507 unestablished; no pooling"
+  },
+  "NICTH2025": {
+    "doi": "10.1210/clinem/dgae879",
+    "source_sha256": "92b26ad394916e394389ad7bdf40324e819913234dc517804ffa3c85345b123a",
+    "supplement_sha256": "536ceac1fb313108bb4862a1edeef458d8f06407ff6f8e5b3ee11318894833e1",
+    "sample_stage": "June2015–January2023,145 frozen sera from suspected cases across110 clinical institutions; drug/endogenous-hyperinsulinism/hormone-deficiency exclusion screening",
+    "assay": "Circulating IGFII Western molecular-weight analysis:7.5kDa-only normal form vs bands around15kDa classified bigIGFII;IGFII Alpco ELISA distinct from tumour staining or bulkRNA. No band/intensity images inspected.",
+    "published_groups": {
+      "big_IGFII_cases": 100,
+      "normal_form_hypoglycemic_cases": 45,
+      "big_group_pathology_rows": [
+        [
+          "Solitary fibrous tumor",
+          "44",
+          "44.0"
+        ],
+        [
+          "Hepatic cell carcinoma",
+          "13",
+          "13.0"
+        ],
+        [
+          "Gastrointestinal stromal tumor",
+          "11",
+          "11.0"
+        ],
+        [
+          "Gastric cancer",
+          "8",
+          "8.0"
+        ],
+        [
+          "Colon cancer",
+          "3",
+          "3.0"
+        ],
+        [
+          "Hemangiopericytoma",
+          "3",
+          "3.0"
+        ],
+        [
+          "Liposarcoma",
+          "3",
+          "3.0"
+        ],
+        [
+          "Phyllodes tumor",
+          "2",
+          "2.0"
+        ],
+        [
+          "Lung cancera",
+          "2",
+          "2.0"
+        ],
+        [
+          "Neuroendocrine tumor",
+          "2",
+          "2.0"
+        ],
+        [
+          "Ovarian carcinosarcoma",
+          "1",
+          "1.0"
+        ],
+        [
+          "Cancer of unknown origin (adenocarcinoma)",
+          "1",
+          "1.0"
+        ],
+        [
+          "Not known",
+          "7",
+          "7.0"
+        ]
+      ],
+      "unresolved": "NotKnown7 big-group diagnoses; all45 normal-form group lack released subtype crosswalk. No explicitEMC in Table2 is not proof none enrolled."
+    },
+    "postoperative_conditions": "25paired surgical cases are subset of100,not25independent newdonors:21SFT,2liposarcoma,2phyllodes perTableS1. TableS2 retains all tumour location/size bins.11paired tumour/margin tissue cases are SFT subset,notEMC replication. RepresentativeFigS3 tumour/blood states are SFT/unlinked case context,notEMC.",
+    "prior_art": "Authors already report diagnostic and postoperative miR483 use versusIGFII/IGFI ratio; normal-form hypoglycemic group malnutrition alternative. No newRNA outcomes computed or copied into a gene comparison."
+  },
+  "R1507": {
+    "doi": "10.1002/cncr.28728",
+    "source_sha256": "b85a65ed0381684aef7661c8a93d1613975d9ef31a3b5e776d1287603c73f4f3",
+    "diagnostic_scope": "Central histologic eligibility and actual EMC-labelled treated subgroup discussed; table1 literal EMC/MLS12 and Other22 grouping does not release clean individual EMC denominator/crosswalk here. Do not infer donor IDs or split counts from32%SD.",
+    "hormones": "Serum totalIGF1 ELISA before first dose,24hafter,before2nd/6th/12th doses; no individual EMC donor/IGF2/bigIGFII/syndrome crosswalk. Not a baseline ligand-state cohort.",
+    "contrary": "All4confirmed PRs assigned toOS2,RMS1,ASPS1; published EMC categoricalSD context cannot establishIGF2dependency or NICTH. No response rate/growth calculation or efficacy claim."
+  }
+}
