@@ -1,0 +1,94 @@
+[
+  {
+    "source": "PMC9249098",
+    "section_id": "S12",
+    "section_title": "Data and code availability",
+    "paragraphs": []
+  },
+  {
+    "source": "PMC9249098",
+    "section_id": "S14",
+    "section_title": "Mice",
+    "paragraphs": [
+      "C57Bl/6J wild type, Cas9-mice and p53KO mice (002101) were purchased from The Jackson Laboratory. Eight-week-old female mice were used as tumor recipients. Animal experiments were performed in accordance with the guidelines of the Cedars-Sinai Medical Center Institutional Animal Care and Use Committee."
+    ]
+  },
+  {
+    "source": "PMC9249098",
+    "section_id": "S15",
+    "section_title": "Human cell lines",
+    "paragraphs": [
+      "The human 293T cell line for viral preparation and the human sarcoma cell lines (HT1080 and GCT) were purchased from ATCC. TC32 cells were a gift from Dr. Mona Batish at the University of Delaware. Human sarcoma cell lines were grown in DMEM supplemented with glutamine, 10% fetal bovine serum (Gibco), 100 IU/mL penicillin and 100ug/mL streptomycin (Gibco). Cells were cultured in an incubator at 37\u00b0C and 5% CO2."
+    ]
+  },
+  {
+    "source": "PMC9249098",
+    "section_id": "S19",
+    "section_title": "Harvesting of mouse and human sarcoma cells ",
+    "paragraphs": [
+      "Sarcomas were grown in mice until approximately 1 \u00d7 1 \u00d7 1 cm in size. Tumors were resected and enzymatically digested. Where applicable, tumor cells were FACS-sorted based on the expression of the fluorescent marker dsRED.",
+      "Human sarcoma samples were minced and then enzymatically and mechanically digested using the 37C_h_TDK_2 protocol on the Miltenyi gentleMACS with Tumor Dissociation Kit for Human cells (Miltenyi Biotec, Auburn, CA). Cell suspensions were washed in DPBS with 0.04% BSA and filtered through 70 \u03bcm strainers (Bioland Scientific LLC, Paramount, CA). Red blood cells were lysed with ACK buffer prior to staining with the following surface antibodies: anti-CD45 Pacific Blue, anti-CD11b APC, anti-CD163 PE, anti-CD3 FITC, anti-CD4 PE, anti-CD8 APC, anti-CD56 APC Cy7, anti-CD19 FITC (all purchased from Biolegend)."
+    ]
+  },
+  {
+    "source": "PMC9249098",
+    "section_id": "S23",
+    "section_title": "Bulk RNA sequencing and analysis",
+    "paragraphs": [
+      "Library preparation and mRNA-sequencing of the mouse sarcoma cells silenced for the expression of Mif was conducted at the Cedars-Sinai Center for Bioinformatics and Functional Genomics. Quality control of FASTQ files was performed with FastQC and adaptor sequences were trimmed with Trimmomatic. Transcript abundances were quantified using the mm10 transcriptome and salmon (Patro et al., 2017), then aggregated to gene-level counts with tximeta (Love et al., 2020). Genes were pre-filtered for those genes expressed (at least 10 counts) in at least 3 samples, and then tested for differential expression using DESeq2 (Love et al., 2014). p values were adjusted using the Benjamini-Hochberg procedure. For pathway analysis, gene lists ranked by p value were used as input to Gene Set Variation Analysis as implemented in the GSVA R package (Hanzelmann et al., 2013)."
+    ]
+  },
+  {
+    "source": "PMC9249098",
+    "section_id": "S26",
+    "section_title": "Single-cell RNA sequencing and analysis",
+    "paragraphs": [
+      "For each tumor, sarcoma cells were seeded onto 3D scaffolds as described above, implanted subcutaneously into sex- and age-matched mice via a small incision on the shoulder, and allowed to grow for 3 weeks. Tumors were harvested, minced and then enzymatically and mechanically digested using the 37C_m_TDK_2 protocol on the Miltenyi gentleMACS with Tumor Dissociation Kit for Mouse (Miltenyi Biotec, Auburn, CA). Cell suspensions were washed in DPBS with 0.04% BSA and filtered through 70 \u03bcm strainers (Bioland Scientific LLC, Paramount, CA). Red blood cells were lysed with ACK buffer. To enrich the cell suspension for immune cells, samples were stained with anti-CD45 antibody conjugated to magnetic particles using the CD45 EasySep selection kit (Stemcell Technologies, Vancouver, BC), and separated into positive and negative fractions using a magnet. CD45-enriched cell suspensions were each tagged with a unique TotalSeq-A Hashtag reagent (BioLegend, San Diego, CA)\u2014an antibody-conjugated oligo barcode. Final cell suspensions were washed 3 times in PBS, filtered through 40 \u03bcm Bel-Art FlowMi strainers (Bel-Art/SP Scienceware, Wayne, NJ), counted, and pooled into a single sample at a concentration of 1,000 cells/uL. The cell suspension was loaded into the Chromium Controller (10x Genomics, Pleasanton, CA) for cell lysing and mRNA capture, with the Chromium Single Cell 3\u2019 Reagent Kit (v3 chemistry). Sequencing libraries were prepared using the same kit according to standard protocol and sequenced by the Cedars Sinai Genomics Core on the NovaSeq 6,000 (Illumina, San Diego, CA) at 400M reads per library. Sequencing data were demultiplexed, and then converted to read counts using the Cell Ranger (10X Genomics) pipeline.",
+      "Read count data from Cell Ranger were imported for use with the Seurat R package (version 3) (Stuart et al., 2019), which was used for all subsequent analysis. HTODemux was used to call sample identities for each cell, and to exclude likely cell doublets bearing more than one hashtag. Low quality cells (with < 200 genes or with mitochondrial gene counts >10%) were removed. Gene expression values were normalized and scaled with SCTransform. Cell nearest neighbors were calculated using the first 30 principal components of the gene expression data. Cell clusters were identified using the Louvain algorithm for modularity optimization, and marker genes were calculated for each cluster."
+    ],
+    "scope_note": "Scoringtail excluded from inference/export, actual incidental exposure recordedAM02"
+  },
+  {
+    "source": "PMC8508483",
+    "section_id": "sec2dot1-cancers-13-04841",
+    "section_title": "2.1. TMAs and Antibodies",
+    "paragraphs": [
+      "Soft tissue sarcoma tissue microarrays (#SO2084, SO2083a, MC805, SO809c, SS1001, and SO2084), were purchased via BioCat GmbH (Heidelberg, Germany). The slides were baked for 2 h at 60 \u00b0C prior to storage and shipping. The anti-5T4 rabbit monoclonal antibody (ab134162) and isotype control antibody (ab172730) were ordered from Abcam. OmniMap Rb HRP (cat.nr. 760-4311), ChromoMap DAB kit (cat.nr. 760-159), Hematoxylin (cat.nr. 760-20210), and Bluing Reagent (cat.nr. 760-2037) were purchased from Ventana Medical Systems."
+    ]
+  },
+  {
+    "source": "PMC8508483",
+    "section_id": "sec2dot2-cancers-13-04841",
+    "section_title": "2.2. Immunohistochemistry",
+    "paragraphs": [
+      "Immunohistochemical staining (IHC) was performed at Cerba Research/Histalim (Montpellier, France), using the validated staining protocol #332 on the Roche Ventana Discovery XT platform. In brief, sections were deparaffinized and subjected to antigen retrieval for 64 min at 95 \u00b0C (CC1 long) in Tris-EDTA buffer pH 7.8. The sections were subsequently incubated for 12 h at room temperature with 2.8 \u03bcg/mL of the anti-5T4 antibody (ab134162) or isotype control antibody (ab172730). Antibody binding was visualized using the OmniMap Rb HRP (1:400, 16 min) and the ChromoMap DAB kit (Ventana Medical Systems, Oro Valley, AZ, USA). Sections were counterstained with hematoxylin and bluing reagent. The slides were digitalized with the Hamamatsu Nanozoomer."
+    ]
+  },
+  {
+    "source": "PMC8508483",
+    "section_id": "notes5",
+    "section_title": "Data Availability Statement",
+    "paragraphs": [
+      "Data is contained within the article and Supplementary Table S1: Patient information and IHC scores."
+    ]
+  },
+  {
+    "source": "PMC8508483",
+    "table_id": "cancers-13-04841-t002",
+    "projection": "First subtype-label column ONLY, no5T4count/intensity/proportion columns",
+    "literal_histotype_labels": [
+      "Synovial sarcoma",
+      "Fibrosarcoma",
+      "Dermatofibrosarcoma protuberans",
+      "Leiomyosarcoma",
+      "Rhabdomyosarcoma",
+      "Undifferentiated pleiomorphic sarcoma",
+      "Angiosarcoma",
+      "Mixed liposarcoma",
+      "Well-differentiated liposarcoma",
+      "Myxoid/round cell liposarcoma",
+      "Conventional liposarcoma",
+      "Pleiomorphic liposarcoma"
+    ]
+  }
+]
