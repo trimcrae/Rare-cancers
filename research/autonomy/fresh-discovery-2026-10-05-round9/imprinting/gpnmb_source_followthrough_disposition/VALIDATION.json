@@ -1,0 +1,76 @@
+{
+  "utc": "2026-10-05T19:22:18.024006+00:00",
+  "checks": [
+    {
+      "artifact": "RT-EXACT-PRIOR-ART-BINDING.json",
+      "checks": 22,
+      "all_pass": true
+    },
+    {
+      "artifact": "SC-ALL12-SOURCE-BRIDGE-BINDING.json",
+      "checks": 25,
+      "all_pass": true
+    },
+    {
+      "artifact": "FB-ALL138-ELIGIBILITY-BINDING.json",
+      "checks": 12,
+      "all_pass": true
+    },
+    {
+      "artifact": "FB-ALL138-SCOPED-DISPOSITION-REPLAY.json",
+      "checks": 4,
+      "all_pass": true
+    },
+    {
+      "artifact": "UNCHANGED-PRIOR-DECISION-VERIFICATION.json",
+      "checks": 8,
+      "all_pass": true
+    },
+    {
+      "artifact": "SOURCE-FREEZE-DIGEST-VERIFICATION.json",
+      "checks": 6,
+      "all_pass": true
+    },
+    {
+      "artifact": "FN-ALL-THREE-CULTURE-SOURCE-BINDINGS.json:gpnmb_culture_identifier_capture",
+      "checks": 17,
+      "all_pass": true
+    },
+    {
+      "artifact": "FN-ALL-THREE-CULTURE-SOURCE-BINDINGS.json:gpnmb_native_culture_input_gate",
+      "checks": 19,
+      "all_pass": true
+    },
+    {
+      "artifact": "RT-INDEPENDENT-ALL138-OMISSION-BINDING.json",
+      "checks": 13,
+      "all_pass": true
+    },
+    {
+      "artifact": "SC-CACHED-IDENTIFIER-XREF-BINDING.json",
+      "checks": 14,
+      "all_pass": true
+    }
+  ],
+  "total_passed_checks": 140,
+  "all_pass": true,
+  "new_originals": 0,
+  "new_network_requests": 0,
+  "new_gene_values_or_statistics": 0,
+  "free_bytes": 27049295872,
+  "minimum_free_bytes": 10737418240,
+  "free_floor_pass": true,
+  "packet_bytes_before_freeze": 74875,
+  "validation_scope": "Exact frozen derived-source hashes and all12/all138 source identity/status checks; no original-source reauthentication, calculation or whole numerical replay. Original independent replay remains reused.",
+  "timing": {
+    "fixed_science_deadline_utc": "2026-10-05T19:27:17Z",
+    "last_selected_source_read_clock_check_utc": "2026-10-05T19:26:44Z",
+    "last_source_binding_serialized_utc": "2026-10-05T19:27:25.404271Z",
+    "archival_serialization_overrun_seconds": 8.404271,
+    "failed_assertion": "An attempted science_closed timestamp was set from final archival assembly, after the cutoff, and its deadline assertion failed. That attempted scientific timestamp was not written.",
+    "correction": "No source review or outcomes were extended after that last source read; remaining work is archival serialization of the already assessed source disposition. Exact semantic-review completion was not separately clock-pinned, so strict last-reasoning deadline compliance is not independently asserted.",
+    "no_science_extension_or_new_data": true
+  },
+  "archival_utc": "2026-10-05T19:29:11.965834+00:00",
+  "initial_helper_failure": "A guessed DECISION.json filename was absent; no source read or output mutation occurred. Actual COVERAGE-AND-DECISION.json was identified and reviewed; the source-only fields were read in the final minute."
+}
