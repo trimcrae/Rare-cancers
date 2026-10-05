@@ -1,0 +1,972 @@
+{
+  "reviewed_utc": "2026-10-05T22:08:57.326841+00:00",
+  "owner_commit": "dc271e13601793bbc57f7c73a3d8023d5f007408",
+  "source_root": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/gpnmb_generic68_role_followthrough",
+  "science_freeze_sha256": "f7b1705aaff90ab485e41772d4b485eed268d004671c693b6cea257b2512a358",
+  "all25_export_hash_checks": [
+    {
+      "name": ".gitignore",
+      "expected": "0b8cf3dd43d5bb8e63a4b4a0604e411dfd6f02df9f9bed4a1657996879e6d4cb",
+      "actual": "0b8cf3dd43d5bb8e63a4b4a0604e411dfd6f02df9f9bed4a1657996879e6d4cb",
+      "bytes": 24,
+      "matches": true
+    },
+    {
+      "name": "ADDITIVE-CURRENT-READINESS-BARRIERS.json",
+      "expected": "816fc59b3d439d72d8cf8447de1cdd8d96e88035b4af7825d24b9944a9a31922",
+      "actual": "816fc59b3d439d72d8cf8447de1cdd8d96e88035b4af7825d24b9944a9a31922",
+      "bytes": 1664,
+      "matches": true
+    },
+    {
+      "name": "ALL68-BIOSAMPLE-IDENTITY-CONDITION-FIELDS.json",
+      "expected": "0e0a1b8c38c83eca525f100b8d2292cde6ab9db0ce96461205e77b9cce77dcf8",
+      "actual": "0e0a1b8c38c83eca525f100b8d2292cde6ab9db0ce96461205e77b9cce77dcf8",
+      "bytes": 76304,
+      "matches": true
+    },
+    {
+      "name": "ALL68-DECLARED-BIOSAMPLE-METADATA-LINKS.json",
+      "expected": "1cbd9232865e5967e5486416451d14d41d47a8c942f2f8351d7a94f0340bd8ef",
+      "actual": "1cbd9232865e5967e5486416451d14d41d47a8c942f2f8351d7a94f0340bd8ef",
+      "bytes": 10553,
+      "matches": true
+    },
+    {
+      "name": "ALL68-EVALUATED-ROLE-DISPOSITIONS.json",
+      "expected": "704a41d6c0357461db864a1b777d8311d59921c962afc79fcd56283babd45ff9",
+      "actual": "704a41d6c0357461db864a1b777d8311d59921c962afc79fcd56283babd45ff9",
+      "bytes": 96076,
+      "matches": true
+    },
+    {
+      "name": "AMENDMENT-01-RETAINED-IDENTITY-CLASSIFICATION.json",
+      "expected": "ea6e96fdfbedef917d4d219026a8457884a5aab226e00679d79998e70e1d40f0",
+      "actual": "ea6e96fdfbedef917d4d219026a8457884a5aab226e00679d79998e70e1d40f0",
+      "bytes": 2119,
+      "matches": true
+    },
+    {
+      "name": "BIOSAMPLE-ACCESS-RECEIPT.json",
+      "expected": "b48424ff25f5a2e99a32f51844052305943d4a0d5343ef3ed36016702bb2f41b",
+      "actual": "b48424ff25f5a2e99a32f51844052305943d4a0d5343ef3ed36016702bb2f41b",
+      "bytes": 1500,
+      "matches": true
+    },
+    {
+      "name": "BIOSAMPLE-ROUTE-FROZEN.json",
+      "expected": "af573da5c62de8e5467506a48b71732bef91d5c97589b55c977dda14398e73d2",
+      "actual": "af573da5c62de8e5467506a48b71732bef91d5c97589b55c977dda14398e73d2",
+      "bytes": 2845,
+      "matches": true
+    },
+    {
+      "name": "COVERAGE.json",
+      "expected": "313bfd2d1015347ccda631dda3c59d59ef88ef80f044fa0f8940944d590ecda7",
+      "actual": "313bfd2d1015347ccda631dda3c59d59ef88ef80f044fa0f8940944d590ecda7",
+      "bytes": 2463,
+      "matches": true
+    },
+    {
+      "name": "DECISION.json",
+      "expected": "df3d71e02840372f91a053edb23bc87d82a5eceae5189e47e0191eddb44a1ba4",
+      "actual": "df3d71e02840372f91a053edb23bc87d82a5eceae5189e47e0191eddb44a1ba4",
+      "bytes": 2460,
+      "matches": true
+    },
+    {
+      "name": "PLAN-FROZEN.json",
+      "expected": "3cc48ee121f4fb82045a8f71be22afee97a27ecbb9a6c296c3884c5ec8c753a7",
+      "actual": "3cc48ee121f4fb82045a8f71be22afee97a27ecbb9a6c296c3884c5ec8c753a7",
+      "bytes": 1814,
+      "matches": true
+    },
+    {
+      "name": "PORTABILITY.json",
+      "expected": "c4c23aae74cd9d7534588027be62e43b98fd06f8a0f06625d180f566394f0619",
+      "actual": "c4c23aae74cd9d7534588027be62e43b98fd06f8a0f06625d180f566394f0619",
+      "bytes": 2643,
+      "matches": true
+    },
+    {
+      "name": "PRIMARY-AVAILABILITY-QUERY-FROZEN.json",
+      "expected": "d81c7a68ff4b63948dc57b846c93a37c0715ed4a95baf7aeffe6a3492ae475a7",
+      "actual": "d81c7a68ff4b63948dc57b846c93a37c0715ed4a95baf7aeffe6a3492ae475a7",
+      "bytes": 703,
+      "matches": true
+    },
+    {
+      "name": "PRIMARY-AVAILABILITY-RECEIPT.json",
+      "expected": "8d9d5fcf180bf4c5d52c5ec5b9c1f08e236ff811a2f0c2b02e84d6ffd9190195",
+      "actual": "8d9d5fcf180bf4c5d52c5ec5b9c1f08e236ff811a2f0c2b02e84d6ffd9190195",
+      "bytes": 1360,
+      "matches": true
+    },
+    {
+      "name": "PRIOR-STATUS-REUSE.json",
+      "expected": "7689f1b1d03f6b68c219e0ee1610ad39fc494534292bea77e47e450fa73fdf26",
+      "actual": "7689f1b1d03f6b68c219e0ee1610ad39fc494534292bea77e47e450fa73fdf26",
+      "bytes": 4759,
+      "matches": true
+    },
+    {
+      "name": "REPORT.txt",
+      "expected": "f6bed98efe8781aceb4f87a56d0b4aff52eb6825de8e84f1c01e09239c2a2637",
+      "actual": "f6bed98efe8781aceb4f87a56d0b4aff52eb6825de8e84f1c01e09239c2a2637",
+      "bytes": 2785,
+      "matches": true
+    },
+    {
+      "name": "RETAINED-GEO-WHITELIST-REPLAY.json",
+      "expected": "09354683f754ae6dfa6579eed72c3a11a510f31714f8e23e7b0354c538b71c45",
+      "actual": "09354683f754ae6dfa6579eed72c3a11a510f31714f8e23e7b0354c538b71c45",
+      "bytes": 18631,
+      "matches": true
+    },
+    {
+      "name": "RETAINED-SERIES-PUBLICATION-LINKS.json",
+      "expected": "12136a796d92065cf9821e32a9c9d1c39691db4ad80561318289145031e2e834",
+      "actual": "12136a796d92065cf9821e32a9c9d1c39691db4ad80561318289145031e2e834",
+      "bytes": 703,
+      "matches": true
+    },
+    {
+      "name": "VALIDATION.json",
+      "expected": "04f9873c0ea41bbff376a3af573b93ae69b92ab84dee818f8d75a7b1faf6bd94",
+      "actual": "04f9873c0ea41bbff376a3af573b93ae69b92ab84dee818f8d75a7b1faf6bd94",
+      "bytes": 83666,
+      "matches": true
+    },
+    {
+      "name": "add_cached_readiness_witness.py",
+      "expected": "ed7163cfcae6b620f24d5646d65070c59b2ec6a6b95d3c6dcd33595e1143f160",
+      "actual": "ed7163cfcae6b620f24d5646d65070c59b2ec6a6b95d3c6dcd33595e1143f160",
+      "bytes": 8674,
+      "matches": true
+    },
+    {
+      "name": "assemble_role_disposition.py",
+      "expected": "0d87a447338a8e089c8e14f3239a6e4a3cdce87303e359dc669091d34682e8af",
+      "actual": "0d87a447338a8e089c8e14f3239a6e4a3cdce87303e359dc669091d34682e8af",
+      "bytes": 6889,
+      "matches": true
+    },
+    {
+      "name": "check_biosample_metadata.py",
+      "expected": "1657ea90cbe289397d434e317d5a54164dcb7a8683dcd657541f99b2ef344470",
+      "actual": "1657ea90cbe289397d434e317d5a54164dcb7a8683dcd657541f99b2ef344470",
+      "bytes": 4200,
+      "matches": true
+    },
+    {
+      "name": "check_primary_metadata.py",
+      "expected": "79d2ae3d658b4651b26c2dce04838f14c69bfd907cb905719038a72ec40d1e9a",
+      "actual": "79d2ae3d658b4651b26c2dce04838f14c69bfd907cb905719038a72ec40d1e9a",
+      "bytes": 2366,
+      "matches": true
+    },
+    {
+      "name": "validate_cached_sources.py",
+      "expected": "9eb1f75e33448600667baf4712b1ac3b6213871b59636d7723327be18406a95d",
+      "actual": "9eb1f75e33448600667baf4712b1ac3b6213871b59636d7723327be18406a95d",
+      "bytes": 5815,
+      "matches": true
+    },
+    {
+      "name": "write_final_science.py",
+      "expected": "8c76ab24702369ed0485e3bf9160b6a86ff14948c6e135861e25fd8c4df1ed72",
+      "actual": "8c76ab24702369ed0485e3bf9160b6a86ff14948c6e135861e25fd8c4df1ed72",
+      "bytes": 12108,
+      "matches": true
+    }
+  ],
+  "independent_all68_source_identity_recount": {
+    "records": 68,
+    "source_status_counts": {
+      "Source-labelled non-EMC": 67,
+      "EMC already evaluated": 1
+    },
+    "per_field_comparison_checks": [
+      {
+        "GSM": "GSM9037835",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037835",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037835",
+        "field": "cell_type",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037836",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037836",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037836",
+        "field": "cell_type",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037837",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037837",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037837",
+        "field": "cell_type",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037838",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037838",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037838",
+        "field": "cell_type",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037839",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037839",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037839",
+        "field": "cell_type",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037840",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037840",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037840",
+        "field": "cell_type",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037841",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037841",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037842",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037842",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037843",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037843",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037844",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037844",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037845",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037845",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037846",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037846",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037847",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037847",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037848",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037848",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037849",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037849",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037850",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037850",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037851",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037851",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037852",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037852",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037853",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037853",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037854",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037854",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037855",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037855",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037856",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037856",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037857",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037857",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037858",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037858",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037859",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037859",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037860",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037860",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037861",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037861",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037862",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037862",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037863",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037863",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037864",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037864",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037865",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037865",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037866",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037866",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037867",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037867",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037868",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037868",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037869",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037869",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037870",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037870",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037871",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037871",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037872",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037872",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037873",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037873",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037874",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037874",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037875",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037875",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037876",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037876",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037877",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037877",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037878",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037878",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037879",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037879",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037880",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037880",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037881",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037881",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037882",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037882",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037883",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037883",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037884",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037884",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037885",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037885",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037886",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037886",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037887",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037887",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037888",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037888",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037889",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037889",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037890",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037890",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037891",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037891",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037892",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037892",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037893",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037893",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037894",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037894",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037895",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037895",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037896",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037896",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037897",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037897",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037898",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037898",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037899",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037899",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037900",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037900",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037901",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037901",
+        "field": "tissue",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037902",
+        "field": "source_name",
+        "equal": true
+      },
+      {
+        "GSM": "GSM9037902",
+        "field": "tissue",
+        "equal": true
+      }
+    ],
+    "histotype62": {
+      "myxofibrosarcoma": 14,
+      "synovial sarcoma": 12,
+      "undifferentiated pleomorphic sarcoma": 13,
+      "malignant peripheral nerve sheath tumor": 11,
+      "leiomyosarcoma": 12
+    },
+    "known_EMC": [
+      [
+        "GSM9037837",
+        "USZ-23_EMC3"
+      ]
+    ]
+  },
+  "material_correction": "The earlier62generic disease pending classification overlooked already retained GEOsource_name/tissue labels. All62 are source-labelled MFS14/SS12/UPS13/MPNST11/LMS12, with officialBioSample literal confirmation. This corrects source-label eligibility only; not independentpathology/donor/model/condition/capture authentication. SourceGSM9037835 aliasUSZ-20_REA1 is not priorCICshorthand; no alias subtype transfer.",
+  "current_readiness_witness": {
+    "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/gpnmb_generic68_role_followthrough/raw-cache/CURRENT-NATIVE-READINESS-WITNESS.json",
+    "sha256": "06bb4aae3aea27f71504e8ec82e28f934a9486d232abae49bf6347c5acecbeb3",
+    "cache_only": true,
+    "bytes": 32019,
+    "source_bindings": [
+      {
+        "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/intron_retention_gate/ALL23-CURRENT-IDENTITY-ASSAY-ROSTER.json",
+        "expected": "c31046f7d1da2fe6e1be42e70693c59eb14b7e1719845c58babd4fad65f5124a",
+        "actual": "c31046f7d1da2fe6e1be42e70693c59eb14b7e1719845c58babd4fad65f5124a",
+        "matches": true
+      },
+      {
+        "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/gpnmb_broader_coverage_gate/NATIVE-TISSUE-SOURCE-CONDITIONS.json",
+        "expected": "2f3370ca376557762017e0578c6e7eb66673741e42a69cc47c1684b9cbb5e0c8",
+        "actual": "2f3370ca376557762017e0578c6e7eb66673741e42a69cc47c1684b9cbb5e0c8",
+        "matches": true
+      },
+      {
+        "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/gpnmb_additional_native_bulk_readiness/NGO-DATA-AVAILABILITY.json",
+        "expected": "1ad9d4f40e9de95f7d6796e4c6651d485b3e87a3182cb6e57c8ecad0f8897dce",
+        "actual": "1ad9d4f40e9de95f7d6796e4c6651d485b3e87a3182cb6e57c8ecad0f8897dce",
+        "matches": true
+      },
+      {
+        "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/gpnmb_additional_native_bulk_readiness/ZULLOW-PUBLIC-NATIVE-DECLARATIONS.json",
+        "expected": "0b85bfe4daf8669d6349156f67dedcd8f8a26b0121ff66a07985a437a107a455",
+        "actual": "0b85bfe4daf8669d6349156f67dedcd8f8a26b0121ff66a07985a437a107a455",
+        "matches": true
+      },
+      {
+        "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/gpnmb_additional_native_bulk_readiness/DAVIS-RNA-ASSAY-SCHEMA.json",
+        "expected": "ad29f5155f5228e6cb99020e5838cda5e66b54cca91731f23e827f6a37c44108",
+        "actual": "ad29f5155f5228e6cb99020e5838cda5e66b54cca91731f23e827f6a37c44108",
+        "matches": true
+      },
+      {
+        "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/gpnmb_additional_native_bulk_readiness/ZULLOW-EXPLICIT-IDENTITY-CHARACTERISTICS.json",
+        "expected": "219341213f3031908b1b8a7bb9e1865de209c259320bdfc8e8472ee9f965b484",
+        "actual": "219341213f3031908b1b8a7bb9e1865de209c259320bdfc8e8472ee9f965b484",
+        "matches": true
+      },
+      {
+        "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/additional_native_bulk_empirical/SCIENCE-FREEZE.json",
+        "expected": "35302bf9d0d182d5517a07b9ca8250d9a781a6ce852d34da07fdc5d74dde905e",
+        "actual": "35302bf9d0d182d5517a07b9ca8250d9a781a6ce852d34da07fdc5d74dde905e",
+        "matches": true
+      }
+    ],
+    "portable_small_barrier_artifact_sha256": "816fc59b3d439d72d8cf8447de1cdd8d96e88035b4af7825d24b9944a9a31922",
+    "recovery": "Ownercommitted add_cached_readiness_witness.py and exact committed/reused sourcebinding records; cached witness is not itself promised Gitportable or identical future publicresponse."
+  },
+  "Brenca_specific_judgment": "All23 mixedRNA runs/46 publicURL pointers are accessible RNA, not budget/convenience unsuitable.8 engineeredroles resolved,15 aliases lack actual12native-case/5matched-preparation/control bridge; source processedCRO handle unavailable through recordedtimeout503/migration scopes. No accepted authentic perconditionGPNMB feature presently awaits counting. Direct publicidentity/run/preparation manifest could unlock meaningful withinEMC evaluation withoutLGFMS; current gap is source-role readiness, not protein/comparator veto or negativeexpression.12+5preparationsnot17donors;PAIRED librarynotpaired tissue/culture.",
+  "other_readiness": "Davis5QC/6clinical whole-genefile bridgeunlocated; Zullow22processedprimaries12MLPS10ES notpublished7EMC; Ngoactualsuppbundle unacceptedtimeout; Filion/Nottley othernativecase/probe/fullprocessed sources specificallyunlocated. These are unresolved/unavailable source bridges, not newlyready authGPNMB quantities silently skipped.",
+  "decision": "No additional source-labelledEMC among62/68 beyond alreadyevaluatedUSZ23. No identified suitableaccessible nativeGPNMB percondition feature remains unevaluated in checked inputs. Preserve narrow publicationworthyRNAvalueYES, qualify these actual readiness boundaries and source-role/overlap/capture limits, no globalabsence/exhaustion or absolute no-unknown-source publicationstandard.",
+  "new_own_requests_or_quantities": 0
+}
