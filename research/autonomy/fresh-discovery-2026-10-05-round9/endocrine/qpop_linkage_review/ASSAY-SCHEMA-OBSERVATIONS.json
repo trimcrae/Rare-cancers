@@ -1,0 +1,42 @@
+{
+  "primary_sha256": "3e4493823655e8f5b31b7df88e48e0a20ee0e1f743ae0dfab06c17be8d60aca1",
+  "inspected_sections": [
+    "Sec11",
+    "Sec12",
+    "Sec13",
+    "Sec14",
+    "Sec15",
+    "Sec16",
+    "notes2",
+    "_adda93_"
+  ],
+  "PDC": "Freshly excised digested tissue; isolated cells used immediately or cultured; establishment defined as logarithmic growth beyond passage3. Case-specific immediate/cultured status and malignant purity not established by generic protocol.",
+  "QPOP_input": {
+    "drug_panel_size": 12,
+    "dose_levels": [
+      "IC0",
+      "IC10",
+      "IC20"
+    ],
+    "OACD_combinations": 155,
+    "technical_replicates": 2,
+    "duration_hours": 48,
+    "readout": "CellTiter-Glo luminescent viability; normalized scores enter second-order regression. No tumor-specific cell identification from ATP viability alone."
+  },
+  "separate_validation_protocol": {
+    "seeding": "2500 cells/well, 384-well plate, 24h before treatment",
+    "serial_dilution_range_uM": [
+      0.0001,
+      100
+    ],
+    "technical_replicates": 4,
+    "duration_hours": 48,
+    "readout": "CellTiter-Glo; single-drug fitted IC50 or fixed-ratio/matrix combination models; these method parameters are not inspected outcome values."
+  },
+  "output": "Predicted corresponding viabilities for permutations and drug-combination ranks; figure1g one-drug ranks are not released per-well raw viability, independent biological replicates or clinical effect.",
+  "controls": "IC0 dose-level and normalized viability mentioned. Exact per-sample vehicle/untreated normalization, culture purity, dose table and time-condition crosswalk not supplied in the inspected fields. Technical duplicates/quadruplicates are not donors.",
+  "model_identity": "Sec14 source labels T778 WDLPS, FU-DDLS-1/LPS141/LP6 DDLPS, MLS402 MLPS; existing model cautions preserved. ASC52telo is hTERT-immortalized adipose mesenchymal stem cell, not independent disease-normal donor safety control. No native EMC authentication transfers from these models.",
+  "supplement": "Eight nonempty text page segments; page8 lists LPS141, FU-DDLS-1, MLS402, T778. Erratum supersedes original seven-page description, not original bytes. Protein-intensity/outcome values not inspected.",
+  "data_availability": "Phenotypic drug sensitivity dataset upon reasonable request; RNA GSE282752 is a different measurement type; detailed Optim.AI software code proprietary/unavailable.",
+  "clinical_units": "45successful sample profiles/51collected, 14outcome-evaluable patients/27treatment outcomes and ex-vivo subgroups are different units. Diagnosis-sample-assay-condition-clinical time map remains unresolved."
+}
