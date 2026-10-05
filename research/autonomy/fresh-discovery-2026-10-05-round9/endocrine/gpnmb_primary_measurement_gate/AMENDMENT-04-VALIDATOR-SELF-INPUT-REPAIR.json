@@ -1,0 +1,11 @@
+{
+  "utc": "2026-10-05T18:02:42.211276+00:00",
+  "initial_validation": "Initial stdout redirection created an empty VALIDATION.json before the JSON glob check, causing JSONDecodeError. The command continued to the initial wrapper; that initial wrapper was not a successful scientific validation.",
+  "preserved": [
+    "VALIDATION-INITIAL.log",
+    "SCIENCE-FREEZE-INITIAL.json"
+  ],
+  "correction": "Exclude validation output files from the script input glob, then verify all scientific JSON and exact source/cache dependencies. No source interpretation, gate, source bytes, counts or outcomes changed.",
+  "scope": "Operational validator self-input repair only; initial failed receipt and original wrapper retained.",
+  "initial_failure_error": "JSONDecodeError: Expecting value: line1 column1; empty redirected validator stdout preserved byte-for-byte as .log rather than falsely valid JSON"
+}
