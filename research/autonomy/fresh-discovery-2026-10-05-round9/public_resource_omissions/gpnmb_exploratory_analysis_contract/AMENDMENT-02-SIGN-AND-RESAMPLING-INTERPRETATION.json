@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-05",
+  "appended_before_new_outcomes_at": "2026-10-05T18:22:19.804611+00:00",
+  "kind": "Immutable pre-value estimand and uncertainty clarification requested by independent reviewer and integrating lead",
+  "original_contract_sha256": "e2709d933df37d3f053978c7714dd6424ef94de7f844ed2970ad21cfc4019434",
+  "original_control_amendment_sha256": "93c6d53f4f9396632e91af9d06f7b90b159d4cc2bae1e5e60324239a16ba4a6e",
+  "median_shift_sign": {
+    "definition": "Median EMC value minus median comparator value, on each specified deposited/native measurement scale. For the additional Hofvander log2(1+TPM) shift, median transformed EMC value minus median transformed comparator value.",
+    "interpretation": "A negative shift means lower observed bulk RNA or assay feature signal in EMC. A_lower remains P(EMC < comparator) + 0.5 P(tie), so a larger A_lower and a negative median shift point in the same lower-EMC direction.",
+    "no_conversion": "No pooled units, transformed-density count interpretation, old p/q inversion or new data calculation is authorized by this clarification."
+  },
+  "specimen_resampling_ranges": {
+    "definition": "The pre-specified fixed-seed, 10000-draw, within-source and within-histotype specimen bootstrap produces conditional empirical 2.5th-to-97.5th percentile resampling ranges for A_lower and the EMC-minus-comparator median shift.",
+    "label": "Conditional empirical specimen-resampling 95% range; not a population confidence interval or selection-adjusted significance.",
+    "dependence_and_selection": "Source conditions are not proven independent donors. Unknown within-source or cross-study donor dependence, nonrandom specimen selection, and post-exposure target/comparator/direction selection are not resolved by specimen resampling. Nominal population coverage is not claimed. No cohorts are pooled.",
+    "boundary_degeneracy": "At complete observed rank separation, all bootstrap draws may retain that separation and produce a degenerate boundary range for A_lower. Such a range describes the observed empirical support only; it does not establish zero population uncertainty, universal separation or a certain biological difference.",
+    "finite_and_missing": "Finite-cell completeness remains unevaluated; original fixed-feature and missing-not-zero rules remain unchanged."
+  },
+  "year_uncertainty": {
+    "decision": "Descriptive point estimates and exact stratum/pair counts only; no year-matched resampling range or confidence interval.",
+    "definition": "For the already fixed, matching-available 2019 and 2021 strata, report each stratum A_lower and exact EMC/comparator counts, and the overall pair-weighted A_lower: sum(n_EMC_year * n_comparator_year * A_lower_year) divided by sum(n_EMC_year * n_comparator_year), over strata with both groups available.",
+    "limits": "Preserve the existing 13/12/9 source subsets and the available-year denominators. Unmatched specimens remain visible. This is not adjustment of all 13 observations, a regression, an independent donor analysis or a pooled-year uncertainty claim."
+  },
+  "scope_preserved": "No target, probe, peak, comparator, threshold, cohort, source or outcome values added or changed. Original contract and control amendment remain intact; this amendment only makes sign and uncertainty interpretation explicit.",
+  "numerical_authorization": "OFF. Final independent contract decision and explicit integrating-lead instruction remain required before new expression values, estimates or statistics."
+}
