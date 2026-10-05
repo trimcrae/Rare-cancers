@@ -1,0 +1,32 @@
+{
+  "started_utc": "2026-10-05T14:56:01.397519+00:00",
+  "finished_utc": "2026-10-05T14:56:52.487590+00:00",
+  "head": "06490aa32737650518938aa0b58cf49c4593cab7",
+  "exit_code": 0,
+  "command": [
+    "bash",
+    "scripts/preflight.sh"
+  ],
+  "reason": "Required retry after including the registration receipt itself in disputed-model exclusion-use classification. Source freezes unchanged, both prior failed runs preserved.",
+  "scope": "Fastpreflight only; pytest skipped; no full-suite/scientific/publication clearance.",
+  "prior_failed_receipts": [
+    {
+      "path": "NORMAL-PREFLIGHT-STAGE6.json",
+      "sha256": "c05ed74e2f8922390200d8beae1e98f4fc9b6cd15847961cb304d293d420f846"
+    },
+    {
+      "path": "NORMAL-PREFLIGHT-STAGE6-RETRY.json",
+      "sha256": "f298c43df6c95b872795b132b9897ec1105ca32514fdfca68e1c17abda8a9cd0"
+    }
+  ],
+  "model_registration_sha256": "65bd06b7ac41bb18819d31553a9f84aff18ede8869fca1d92f20b1ab066e5243",
+  "log_bytes": 73281,
+  "log_sha256": "9e06cb64ff968a0d6e58b0cea73adc77c817c1b8aea874f997d3a0fd8732f301",
+  "tracked_log": {
+    "path": "validation/normal-preflight-stage6-retry2.txt.gz",
+    "bytes": 7810,
+    "sha256": "137b9d8d05597162d99f58e00494fee6e75c3bc5bac9a5824ade8220871235d2",
+    "encoding": "gzip",
+    "decompressed_sha256": "9e06cb64ff968a0d6e58b0cea73adc77c817c1b8aea874f997d3a0fd8732f301"
+  }
+}
