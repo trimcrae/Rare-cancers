@@ -1,0 +1,88 @@
+{
+  "utc": "2026-10-05T17:51:49.290812+00:00",
+  "owner": "/root/emc-cloud-round9",
+  "actual_slot_limit": 7,
+  "resources": {
+    "emc-round9-imprinting": {
+      "worker_id": "/root/challenge",
+      "reserved_utc": "2026-10-05T10:36:09.811471Z",
+      "status": "active_source_value_readiness_imprinting/gpnmb_comparative_value_gate",
+      "worktree": "/workspace/emc-r6-challenge",
+      "receipt": null
+    },
+    "emc-round9-rna_processing": {
+      "worker_id": "/root/single_cell",
+      "reserved_utc": "2026-10-05T10:36:09.902514Z",
+      "status": "active_source_value_readiness_rna_processing/gpnmb_all_condition_readiness",
+      "worktree": "/workspace/emc-r6-single_cell",
+      "receipt": null
+    },
+    "emc-round9-endocrine": {
+      "worker_id": "/root/radiotherapy",
+      "reserved_utc": "2026-10-05T10:36:09.976228Z",
+      "status": "active_source_value_readiness_endocrine/gpnmb_primary_measurement_gate",
+      "worktree": "/workspace/emc-r6-radiotherapy",
+      "receipt": null
+    },
+    "emc-round9-clinical_measurements": {
+      "worker_id": "/root/fapi_named",
+      "reserved_utc": "2026-10-05T10:36:10.057991Z",
+      "status": "active_source_value_readiness_clinical_measurements/gpnmb_broader_coverage_gate",
+      "worktree": "/workspace/emc-r6-fapi_named",
+      "receipt": null
+    },
+    "emc-round9-functional_new": {
+      "worker_id": "/root/fapi_broader",
+      "reserved_utc": "2026-10-05T10:36:10.147204Z",
+      "status": "active_source_value_readiness_functional_new/gpnmb_confounding_metadata_gate",
+      "worktree": "/workspace/emc-r6-fapi_broader",
+      "receipt": null
+    },
+    "emc-round9-public_resource_omissions": {
+      "worker_id": "/root/diagnostic",
+      "reserved_utc": "2026-10-05T10:36:10.219861Z",
+      "status": "active_source_value_readiness_public_resource_omissions/gpnmb_exploratory_analysis_contract",
+      "worktree": "/workspace/emc-r6-diagnostic",
+      "receipt": null
+    }
+  },
+  "active_assignments": [
+    {
+      "worker": "challenge",
+      "resource": "emc-round9-imprinting",
+      "packet": "imprinting/gpnmb_comparative_value_gate",
+      "question": "Primary prior-art/value gate for exposed old GPNMB contrast; concrete conditional permission for one exploratory follow-up, not a discovery."
+    },
+    {
+      "worker": "single_cell",
+      "resource": "emc-round9-rna_processing",
+      "packet": "rna_processing/gpnmb_all_condition_readiness",
+      "question": "All 13 Hofvander native conditions, six GSE24369, ten GSE4303, all four GSE28866 source-described 3SEQ conditions; exact specimen, overlap, assay/probe and compatible-control readiness without gene outcomes."
+    },
+    {
+      "worker": "radiotherapy",
+      "resource": "emc-round9-endocrine",
+      "packet": "endocrine/gpnmb_primary_measurement_gate",
+      "question": "Authenticate all relevant primary published native EMC GPNMB measurements/compartments, including broader studies and 2025 pathology/ADC-expression primary rosters."
+    },
+    {
+      "worker": "diagnostic",
+      "resource": "emc-round9-public_resource_omissions",
+      "packet": "public_resource_omissions/gpnmb_exploratory_analysis_contract",
+      "question": "One prospective exploratory all-condition analysis contract and source-only wiring; no numerical authorization until value/source/readiness gates."
+    },
+    {
+      "worker": "fapi_broader",
+      "resource": "emc-round9-functional_new",
+      "packet": "functional_new/gpnmb_confounding_metadata_gate",
+      "question": "Actual specimen-level purity, grade, capture and overlap metadata completeness; discriminate stable bulk association from technical or mixture artifact without gene outcomes."
+    },
+    {
+      "worker": "fapi_named",
+      "resource": "emc-round9-clinical_measurements",
+      "packet": "clinical_measurements/gpnmb_broader_coverage_gate",
+      "question": "Independent omissions, broader public native EMC models/conditions, fresh-compartment source mapping, suitability and unresolved donor/assay gaps."
+    }
+  ],
+  "scope": "Actual six scoped workers plus integrating lead at checkpoint creation. Original resources/worktrees retained, no lease expiry/release or independent numerical authorization inferred."
+}

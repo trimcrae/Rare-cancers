@@ -1,0 +1,200 @@
+{
+  "utc": "2026-10-05T17:46:22.638512+00:00",
+  "verified_push": {
+    "verified_utc": "2026-10-05T17:13:18.061290+00:00",
+    "method": "Exact Git object transfer using configured gh API; fast-forward-only PATCH force=false",
+    "base_remote_sha": "0709402c86fc999c51eec24a8243c0a51bd5a812",
+    "verified_remote_sha": "72a785b40e2320bfc2a6176e89d31e1d347aca69",
+    "commits_verified": 23,
+    "blobs_verified": 234,
+    "payload_bytes": 1905227,
+    "all_original_commit_tree_blob_hashes_matched": true,
+    "git_smart_http_attempts": "Unauthenticated client could not obtain credential; configured gh helper attempt returned HTTP401. Neither moved remote main.",
+    "scope": "Authorized repository integration only. No force, alternate identity, interactive login, credential disclosure or scientific access restriction bypass."
+  },
+  "logs": [
+    {
+      "original": {
+        "path": "/workspace/Rare-cancers/.cache/emc-r9-validation/transfer-stage9.log",
+        "bytes": 1959,
+        "sha256": "aa98be4065a4f72d65eebcfddc7f4c2a121c693705e87e9a1387b6c5501cd677"
+      },
+      "portable": {
+        "path": "validation/transfer-stage9.log.gz",
+        "bytes": 821,
+        "sha256": "308637fbdb63f55ca39e2762b30deeb9449b5c3d9a20d683a210ce8f5c4462f2"
+      }
+    },
+    {
+      "original": {
+        "path": "/workspace/Rare-cancers/.cache/emc-r9-validation/transfer-stage9-recovery.log",
+        "bytes": 2838,
+        "sha256": "cbec45f60ee474ac093c4068bba46cf36ceae73338da26ac682d8ea43a54b3c9"
+      },
+      "portable": {
+        "path": "validation/transfer-stage9-recovery.log.gz",
+        "bytes": 1192,
+        "sha256": "e3fd0625b0824c2097c823ce89dd9d701b0b3028668487470d150872e52434a1"
+      }
+    }
+  ],
+  "failed_dependency": {
+    "commit": "8bd5891ce85de2ee32ba1ebe7f54a0934335ea4e",
+    "tree": "7bbd5adc16ea490a57b162ef0f41519dc18239fa",
+    "parent": "0a40746babcc59a3c2c50535d3fcd7882d64c2d6",
+    "error": "HTTP422 missing tree reported during commit POST, including one bounded continuation. Fresh read-only tree/parent GETs returned exact SHA; missing commit GET returned404. Initial transfer moved no reference. Cause unproved."
+  },
+  "implementation_error": {
+    "error": "A canonical-root helper assumed cached recovery response contained full tree data and raised KeyError(tree) before its POST. Corrected to verified local original git ls-tree entries; no source mutation or ref update from this error."
+  },
+  "canonical_root_recovery": {
+    "request_bytes": 2513,
+    "request_sha256": "6282533b74a1fae717db4a1e384fdcddb73f64c962062e39b47057ece57ca75d",
+    "response_bytes": 158,
+    "response_sha256": "012e9a787efda6807761269e1cc7805ec0467fde8ff1a9d4ff54e5c17f796751",
+    "original_root_entries": [
+      {
+        "path": ".claude",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "e7eeefda7865f4eeddd1f26a2cfddb8aa6d78b53"
+      },
+      {
+        "path": ".gitattributes",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "04a46615ab2b7e3600fe616c4f8366e5657ada12"
+      },
+      {
+        "path": ".githooks",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "d0ebc6a3a9f926a9ba9225543aae14febfaf0c09"
+      },
+      {
+        "path": ".github",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "2a09a7e4a9f3787aaf07c9b47b6b52fdc6699f08"
+      },
+      {
+        "path": ".gitignore",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8404d10db48ccc9b77dfdd3f11dba85c5133d60f"
+      },
+      {
+        "path": ".zenodo.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "b627f8e22bcfba360c9212acc11e52249ebfd8ed"
+      },
+      {
+        "path": "AGENTS.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "0f0e66fb3fe6a7870f9440d99cd4596db8c9bdd0"
+      },
+      {
+        "path": "CITATION.cff",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8f91ca61036f83f7896920348f9d8234a0ed16aa"
+      },
+      {
+        "path": "CLAUDE-history.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c195606e3e4cefb637f90dcc1c31929c464a890d"
+      },
+      {
+        "path": "CLAUDE.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5f109e6a7c59f315eae2fb7fb417f2df82fc94d2"
+      },
+      {
+        "path": "CONTRIBUTING.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "cfa233913bab4c87de8eee51db30bd891596e57b"
+      },
+      {
+        "path": "LICENSE",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+      },
+      {
+        "path": "MEDICAL_DISCLAIMER.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8df3b70d6732c22cc79a716a332807bfc9c8837d"
+      },
+      {
+        "path": "README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "da6349b5e5dd5373dfd8f805946a74faee481678"
+      },
+      {
+        "path": "STRATEGY.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "31352ab9961e2c1153120bd2eeff846724672852"
+      },
+      {
+        "path": "archive",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "310d994c01bf8b20f701fa82fc2c7ba1892fb0a8"
+      },
+      {
+        "path": "deploy",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "0c72b962d8a8ce0287d74b7eba3d9a55c32c79d7"
+      },
+      {
+        "path": "research",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "2b2ba4e312ad889f476ecfcab3f548cab056c473"
+      },
+      {
+        "path": "results",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "da8a671040a8226e0213ecf0f273fa66e4e09370"
+      },
+      {
+        "path": "scratchpad",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "abf7f77a01bfd7bbdc09c5165dfac4712d189817"
+      },
+      {
+        "path": "scripts",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "3631ab3e1a0adab251374cc9fa8f44d363420d3f"
+      },
+      {
+        "path": "site",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "b833a5bace1612355a2c74c7183fcac0f54bc953"
+      },
+      {
+        "path": "systems",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "a69937d787cee7de56bccd674ec16097fe4271fe"
+      }
+    ],
+    "tree_sha_exact": "7bbd5adc16ea490a57b162ef0f41519dc18239fa",
+    "base_tree_used": false,
+    "scope": "Same original Git tree, recreated through configured authorized repository API; no change to evidence, author, identity, access or scientific content restrictions."
+  },
+  "scope": "Original transfer failure and recovery preserved additively. Subsequent all-object exact SHA verification and force=false main update succeeded; this verifies repository integration only, not scientific replication or publication readiness."
+}
