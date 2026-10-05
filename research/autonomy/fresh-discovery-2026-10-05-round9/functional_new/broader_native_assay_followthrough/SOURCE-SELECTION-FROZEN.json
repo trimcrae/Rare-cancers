@@ -1,0 +1,33 @@
+{
+  "utc": "2026-10-05T14:44:07.541869+00:00",
+  "before_source_methods_or_outcomes": true,
+  "catalogue_sha256": "932cae6c1baeaf8c2884b0ef8d4395017f00909f7da1df2977e9026b0e658c75",
+  "selection_basis": "Only title/taxon/assay/sample-count fields inspected. No newly explicit native EMC cohort. Exactly two human sources have broader tissue/assay identity requiring actual method reads. They are eligibility challenges, not presumed native EMC.",
+  "sources": [
+    {
+      "gse": "GSE140819",
+      "title": "A single-cell and single-nucleus RNA-Seq toolbox for fresh and frozen human tumors",
+      "sample_count_metadata_only": 40,
+      "owner": "fapi_named independent genuine primary/method source branch",
+      "why": "Mixed human native tissues and fresh/frozen assay comparisons could contain eligible native EMC technical/orthogonal context. First establish all specimen/donor labels and actual design; static expression or technical assay demonstration alone is outside the proposed useful biological contrast.",
+      "route": "Existing catalogue source samples/citation links, then ordinary genuine official GEO series brief and actual linked primary methods/data availability only. Avoid previously evaluated source byte retrieval or unchanged failures."
+    },
+    {
+      "gse": "GSE135323",
+      "title": "Tissue-engineered bone tumor as a reproducible human in vitro model for studies of anti-cancer drugs",
+      "sample_count_metadata_only": 132,
+      "owner": "fapi_broader",
+      "why": "Actual drug/control and tissue-engineered orthogonal design warrants checking all original model identities before excluding by bone title. Generic/disputed bone models are never imported as authentic native EMC.",
+      "route": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE135323&targ=self&form=text&view=brief",
+      "field_mask": [
+        "Series accession/title/type/overall_design",
+        "all sample accession and title labels",
+        "linked citation/primary accession/data availability",
+        "source identity/model/organism, treatment/control/time, technical replication and assay schema from actual methods only"
+      ],
+      "excluded": "No Series summary results, expression tables, numeric perturbation/biochemical outcomes, score matrices or mechanism selection."
+    }
+  ],
+  "other_catalogue_entries": "Title screening does not evaluate all underlying conditions; unreconciled sources remain pending. GSE98824 known all30 breast-PDX labels reused, not re-fetched.",
+  "stop": "At most these two source-method branches in original20min/16MiB stage. No newly authenticated useful native EMC comparison means scoped inconclusive/source NO-GO; retain suitable pending evidence and reopen only on actual identity+assay+control map."
+}
