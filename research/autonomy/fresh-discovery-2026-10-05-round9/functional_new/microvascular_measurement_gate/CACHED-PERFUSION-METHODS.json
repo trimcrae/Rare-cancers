@@ -1,0 +1,83 @@
+[
+  {
+    "source_path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/diffusion_mri_gate/raw-cache/PMC4504541.xml",
+    "sha256": "7af0839846424ff8e5fbf060c36dccedaff09faa0086494de499e6c16811cde5",
+    "methods_eligibility_selected": [
+      {
+        "id": "sec3",
+        "title": "Patients",
+        "paragraphs": [
+          "The study was approved by the Institutional Ethics Committee of First Affiliated Hospital of Dalian Medical University (Dalian, China). Thirty-one consecutive patients were enrolled in this study and inspected conventional MR and IVIM-MR examination with 3.0-T MR imager from October 2013 to October 2014. Eight of these patients were excluded for further analysis: 4 patients did not receive surgery and there were no pathological results available; 1 tumor in the upper limb was close to artery and the quality of image was very poor; and for other 3 patients, there were no sufficient regions of interest (ROI) areas for IVIM analysis. As a result, only 23 STTs were further analyzed. Primary sites and clinical data of these tumors (11 female, 12 male; average age, 44 years; age range 16\u201385 years) were described in Table 1."
+        ]
+      },
+      {
+        "id": "sec6",
+        "title": "Dynamic Contrast-Enhanced MR Imaging",
+        "paragraphs": [
+          "Dynamic contrast-enhanced MR imaging was performed using 2-dimensional fast spoiled gradient echo sequence (2D FSPGR). The contrast agent gadolinium-DTPA (Magnevist, Berlex, New Jersey) was injected as 0.l mmol/kg, and 2.5 mL/s. And 10 mL saline was additionally injected at the same velocity."
+        ]
+      },
+      {
+        "id": "sec7",
+        "title": "Regions of Interest (ROI)",
+        "paragraphs": [
+          "ROI was placed on the parenchyma of each tumor in DWI. Large cystic or necrotic areas and large vessels were not included. The mean ROI area was about 15.0 \u00b1 1.21 mm2. Three ROIs in each image and totally 9 ROIs in 3 consecutive images of IVIM were calculated for each patient. The different values (ADCstandard, ADCslow, ADCfast, and f) of STTs were measured in GE-ADW 4.4 workstation."
+        ]
+      }
+    ],
+    "no_ADC_values_or_images_inspected": true
+  },
+  {
+    "source_path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/diffusion_mri_gate/raw-cache/PMC11717864.xml",
+    "sha256": "0f47f744af037905658c93823e992c78fc6afa4a5db27d1ae56429497194068b",
+    "methods_eligibility_selected": [
+      {
+        "id": null,
+        "title": "Study Patients",
+        "paragraphs": [
+          "Between June 2018 and June 2023, 634 patients, aged 18 years or older, clinically suspected of having STTs were examined using DCE-MRI with the CS technique.",
+          "Among the 634 patients, cases of prior surgery at the same site (n = 369), lack of surgical confirmation (n = 7), adipocytic tumors without apparent vascularity (n = 19), cystic masses inadequate for DCE evaluation (n = 4), lymph node or soft-tissue metastasis (n = 7), intermediate grade tumors (n = 15), and superficial malignancies such as melanoma or squamous cell carcinoma (n = 48) were excluded. Finally, 165 patients (69 female and 96 male; mean age, 61 years; age range, 22\u201387 years) with an initial single STT were included. According to the World Health Organization (WHO) pathological classification of STTs (2020), all STTs in this study were divided into benign and malignant groups. In total, 111 and 54 patients had malignant and benign STTs, respectively.",
+          "The medical records of all patients were reviewed to collect data on age, sex, and pathological results, including final diagnosis and F\u00e9d\u00e9ration Nationale des Centres de Lutte Contre Le Cancer (FNCLCC) grading for malignant STTs."
+        ]
+      },
+      {
+        "id": null,
+        "title": "Post-Processing of DCE Images",
+        "paragraphs": [
+          "DCE-MRI data were transferred to a post-processing workstation. Quantitative parameters of the early arterial phase were obtained using noncommercial prototype software (DCE toolbox, Siemens Healthineers, Erlangen, Germany). Furthermore, conventional DCE parameters were determined using Tissue 4D software during the delayed arterial phase."
+        ]
+      },
+      {
+        "id": null,
+        "title": "DCE-MR Images",
+        "paragraphs": [
+          "Post-processing and analysis of DCE-MRI data were performed by one vendor scientist and two radiologists."
+        ]
+      },
+      {
+        "id": null,
+        "title": "Analysis of Early Arterial Phase",
+        "paragraphs": [
+          "Ultrafast DCE images were uploaded to the software and motion correction was performed. For the pharmacokinetic model of quantitative data, it is necessary to determine the arterial input function (AIF). AIF was measured from an artery within the FOV adjacent to the tumor in each patient. Next, we set the threshold at which the volume of interest (VOI) was analyzed, and care was taken not to omit the tumor. The breast model in the software was used to quantify the curve characteristics of the early arterial phase [8]. To select the ROI for analysis, we identified the minimum value on the time-to-enhancement (TTE, seconds) map and the maximum value on the maximum slope (MS, %/s) map by referring to conventional images and DWIs. TTE, time-to-peak (TTP) after enhancement, in seconds, the initial area under the curve 60 s after enhancement (iAUC60), and MS were measured in the selected ROI."
+        ]
+      },
+      {
+        "id": null,
+        "title": "Analysis of Delayed Arterial Phase",
+        "paragraphs": [
+          "We selected an optimal slice by referring to conventional images and DWIs and then applied a VOI to contain the mass. The VOI was drawn almost in line with the outer boundary of the mass according to a previous report [9]. Based on the color pattern within each given VOI, several ROIs were applied to the regions of greatest presumed hyperperfusion (red). The total pixel areas of the ROIs and VOIs were dependent on the tumor size and the size of the regions with the greatest presumed hyperperfusion.",
+          "After applying VOI or ROI, voxel-wise perfusion maps, including volume transfer constant between blood plasma and extracellular/extravascular space (EES) (Ktrans, min\u22121), rate constant between EES and the blood plasma (Kep, Ktrans/Ve, min\u22121), volume of EES per unit volume of tissue (Ve), and initial area under the concentration curve (iAUC) were obtained using a dedicated software (Tissue 4D; Siemens Healthcare) by applying Tofts model [10]. For each patient, the maximum DCE parameter values were used for analysis.",
+          "Additionally, time-concentration curves (TCCs) were obtained using Tissue 4D. The TCC plots were classified into four types: 1) Type I, an increase in concentration with time regardless of the shape of the early arterial phase, 2) Type II, an initial increase in concentration followed by a plateau, 3) Type III, an initial increase in concentration followed by a slight decrease or slow washout, and 4) Type IV, an initial increase in concentration followed by rapid washout."
+        ]
+      },
+      {
+        "id": null,
+        "title": "Availability of Data and Material",
+        "paragraphs": [
+          "The datasets generated or analyzed during the study are available from the corresponding author on reasonable request."
+        ]
+      }
+    ],
+    "no_ADC_values_or_images_inspected": true
+  }
+]

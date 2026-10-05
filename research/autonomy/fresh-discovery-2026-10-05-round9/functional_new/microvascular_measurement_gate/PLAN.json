@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-05T13:05:04.156756+00:00",
+  "question": "Do authenticated EMC same-donor/same-compartment or matched-condition direct perfusion and endothelial microvessel measurements reveal reproducible delivery-versus-vascularity discordance, with an informative practical nextmeasurement beyond published static peripheral/gradual enhancement and myxoid histology?",
+  "before_values": "No perfusion/count values selected or inspected; source/assay/identity/prior-art first. No ADC values or medicalimages read. Radiotherapy MRIowner caches reused read-only, fapi_named authenticates overlapping4504541/6427044 sources.",
+  "measured_endpoints": "DCE kineticMRI, quantitativeCTperfusion/ASL, oractual endothelialCD31/CD34microvessel count/usablearea. SourceIVIMperfusion f/Dstar can be recorded asmodel-derivedproxies only ifqualifyingassay/sourcecontrols, not assumed directflow.",
+  "not_surrogates": "Staticenhancement, ADC, angiogenicRNA, tumorcellCD34expression do not establish vascularflow/density. Ktrans depends permeability/flow/extracellularvolume; MVD is structuralendothelialcount, notfunction.",
+  "all_conditions": "EveryidentifiableEMC donor/lesion/specimen/ROI/timepoint/treatment andsameprotocolcomparators retained. Pathology/molecularconfidence actualsourcelevel; genericmyxoid/CHS unresolved. Cores/ROIs/serialsamples not independentdonors; crossstudyoverlap explicit.",
+  "contrast_before_values": "Sourcequalifiedsame-donor center/periphery orpre/post treatment paired perfusion/count comparison, with samecondition/compartment andactualtimestamps. Require availablepairedmatrix andcontrols; no unlinked crosscohortdensity/perfusion pooling. If no genuine pairedsource, identify a source-backed nextmeasurement rather than compute selectedsubtype diagnosticcontrast alreadysettled.",
+  "practical_use": "A robust discordance wouldchoose perfusion measurement versus endothelialcount/ROI design for assessing drugdelivery and sampling; no antiangiogenic efficacy or dependency inferred.",
+  "controls_units": "Retainpublishedparameterunits, contrast timing/dose/arterialinput, ROI/area/countdenominator, normalization andpreparation. Includeall sourceEMC andmatchedmyxoid/lowgrade/lineagecontrols; no favorableROI/case/comparator selection. Area-weighted donor aggregation ifactualcounts/area supportit, sourcecompartments separate.",
+  "strongest_alternatives": [
+    "Myxoidextracellularmatrix contrastdiffusion/permeability rather thanbloodflow",
+    "Necrosis/cellularity/grade/site/treatment andarterialinput/temporalresolution",
+    "ROI/hotspot/core placement andendothelialvs tumor-cellmarkerstaining",
+    "Staticenhancement orIVIMmodel fit mistaken for validatedperfusion",
+    "Differentdonor/compartment/date preparation orcrossstudyduplicatecases"
+  ],
+  "defeat": "No authenticpaired/controlledassay input, numericalrowscase/condition-unmapped oronlyimages, prospectiveclaim alreadyauthorspriorart, comparisons fail independent source/protocol/control/value checks. Suitableaccessiblependingdata blocks promotion.",
+  "timecap": "Initial20min source/valuepilot by13:22:57UTC from firstclock. A completedpilot is notcampaign completion; report concrete distinctsource-backed followup. Larger dataset/stage requires leadamendment.",
+  "restrictions": "Ownsubtreeonly; originalsimmutable,fullsources/catalogues ignored,>=10GiBfree/64MiBcombinedownedraw. Quietfiles/APIs before14UTC; noUI/screenshots/browser/headless/medicalimages. No FAP/glycan/structural-genomics/HLAdenial reopening, no TMEM266 revival. No spend/privateaccess/outreach/publication/PR/sharedwrite/push; Codexauthor+committer."
+}

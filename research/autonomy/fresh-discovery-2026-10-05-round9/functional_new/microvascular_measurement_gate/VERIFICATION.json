@@ -1,0 +1,69 @@
+{
+  "scope": "Source/eligibility/assay prior-value verification only. No ADC/perfusion/MVD biological outcomes inspected or computed.",
+  "checks": [
+    {
+      "check": "source hash",
+      "file": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/microvascular_measurement_gate/raw-cache/endothelial_sarcoma-metadata.json",
+      "pass": true
+    },
+    {
+      "check": "source hash",
+      "file": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/microvascular_measurement_gate/raw-cache/paired_sarcoma-metadata.json",
+      "pass": true
+    },
+    {
+      "check": "source hash",
+      "file": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/microvascular_measurement_gate/raw-cache/direct_abstract-metadata.json",
+      "pass": true
+    },
+    {
+      "check": "source hash",
+      "file": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/microvascular_measurement_gate/raw-cache/exact_vascular-metadata.json",
+      "pass": true
+    },
+    {
+      "check": "source hash",
+      "file": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round9/functional_new/microvascular_measurement_gate/raw-cache/PMC11107050.xml",
+      "pass": true
+    },
+    {
+      "check": "source hash",
+      "file": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/diffusion_mri_gate/raw-cache/PMC4504541.xml",
+      "pass": true
+    },
+    {
+      "check": "source hash",
+      "file": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/diffusion_mri_gate/raw-cache/PMC11717864.xml",
+      "pass": true
+    },
+    {
+      "check": "complete histology rows exactly reproduce",
+      "source": "PMC11717864.xml",
+      "pass": true
+    },
+    {
+      "check": "165macrocount accountability with24nested subtypecounts removed",
+      "pass": true,
+      "source_total_with_nested": 189
+    },
+    {
+      "check": "two explicitly labelled EMC cases only",
+      "pass": true
+    },
+    {
+      "check": "complete histology rows exactly reproduce",
+      "source": "PMC11107050.xml",
+      "pass": true
+    },
+    {
+      "check": "92full histology counts",
+      "pass": true,
+      "sum": 92
+    },
+    {
+      "check": "18scoped metadata-abstract evaluations not whole-catalogue review",
+      "pass": true
+    }
+  ],
+  "passed": true
+}

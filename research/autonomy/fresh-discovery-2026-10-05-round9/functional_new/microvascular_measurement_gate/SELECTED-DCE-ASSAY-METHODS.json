@@ -1,0 +1,40 @@
+[
+  {
+    "source": "PMC11717864.xml",
+    "sha256": "0f47f744af037905658c93823e992c78fc6afa4a5db27d1ae56429497194068b",
+    "section": null,
+    "title": "Analysis of Early Arterial Phase",
+    "paragraphs": [
+      "Ultrafast DCE images were uploaded to the software and motion correction was performed. For the pharmacokinetic model of quantitative data, it is necessary to determine the arterial input function (AIF). AIF was measured from an artery within the FOV adjacent to the tumor in each patient. Next, we set the threshold at which the volume of interest (VOI) was analyzed, and care was taken not to omit the tumor. The breast model in the software was used to quantify the curve characteristics of the early arterial phase [8]. To select the ROI for analysis, we identified the minimum value on the time-to-enhancement (TTE, seconds) map and the maximum value on the maximum slope (MS, %/s) map by referring to conventional images and DWIs. TTE, time-to-peak (TTP) after enhancement, in seconds, the initial area under the curve 60 s after enhancement (iAUC60), and MS were measured in the selected ROI."
+    ]
+  },
+  {
+    "source": "PMC11717864.xml",
+    "sha256": "0f47f744af037905658c93823e992c78fc6afa4a5db27d1ae56429497194068b",
+    "section": null,
+    "title": "Analysis of Delayed Arterial Phase",
+    "paragraphs": [
+      "We selected an optimal slice by referring to conventional images and DWIs and then applied a VOI to contain the mass. The VOI was drawn almost in line with the outer boundary of the mass according to a previous report [9]. Based on the color pattern within each given VOI, several ROIs were applied to the regions of greatest presumed hyperperfusion (red). The total pixel areas of the ROIs and VOIs were dependent on the tumor size and the size of the regions with the greatest presumed hyperperfusion.",
+      "After applying VOI or ROI, voxel-wise perfusion maps, including volume transfer constant between blood plasma and extracellular/extravascular space (EES) (Ktrans, min\u22121), rate constant between EES and the blood plasma (Kep, Ktrans/Ve, min\u22121), volume of EES per unit volume of tissue (Ve), and initial area under the concentration curve (iAUC) were obtained using a dedicated software (Tissue 4D; Siemens Healthcare) by applying Tofts model [10]. For each patient, the maximum DCE parameter values were used for analysis.",
+      "Additionally, time-concentration curves (TCCs) were obtained using Tissue 4D. The TCC plots were classified into four types: 1) Type I, an increase in concentration with time regardless of the shape of the early arterial phase, 2) Type II, an initial increase in concentration followed by a plateau, 3) Type III, an initial increase in concentration followed by a slight decrease or slow washout, and 4) Type IV, an initial increase in concentration followed by rapid washout."
+    ]
+  },
+  {
+    "source": "PMC11107050.xml",
+    "sha256": "33623e7839d51ade7662f92f37fe94ce328b0a0e36b01dec4e73d94008104b80",
+    "section": "Sec4",
+    "title": "MRI acquisition",
+    "paragraphs": [
+      "The MRI examinations were obtained using a 3.0 T MRI scanner (MAGNETOM Skyra; Siemens Healthcare, Erlangen, Germany). To identify lesions and assess morphological traits, we first administered conventional MRI series such as spin-echo T1-weighted imaging (T1WI), T2-weighted imaging (T2WI), and fat-suppressed T2WI. We used multi-flip angle T1-weighted imaging technology to obtain T1 relaxation times (TRs) at three different flip angles (5\u00b0, 10\u00b0, and 15\u00b0) before contrast injection. Table S1 displays the MRI sequence parameters. T1WI three-dimensional volumetric interpolated breath-hold examination sequence was employed for DCE - MRI scans. The DCE images were taken on axial plane. The total acquisition time of VIBE sequence is 320 s, and the time resolution of each scan is 8 s; a total of 40 scans are obtained. In order to maintain a stable injection rate, we used an auto-injector for intravenous injection of gadoteridol (ProHance; Eisai, Tokyo, Japan) at a dose of 0.1mmol/kg at a rate of 2mL/s. Following that, at the same pace, we administered 20mL of physiological saline."
+    ]
+  },
+  {
+    "source": "PMC11107050.xml",
+    "sha256": "33623e7839d51ade7662f92f37fe94ce328b0a0e36b01dec4e73d94008104b80",
+    "section": "Sec6",
+    "title": "DCE-MR image analysis",
+    "paragraphs": [
+      "We included time-signal intensity curve (TIC) types and quantitative evaluations in the DCE-MRI data analysis. Based on the previously described approach, the TIC types were characterized as having no evident upward trend or consistently increasing (type I), rapidly increasing then flattening (type II), or rapidly increasing and dropping (type III) [22]. The region of interest (ROI) of the DCE-MRI image was positioned in the solid portion of the lesion based on regular MRI findings and enhancing features of the lesion. According to the size of the solid portions of the lesion, the ROIs spanned areas of change ranging from 1 to 5 cm2. Necrotic, cystic, and hemorrhagic areas were avoided when drawing the ROIs. For each patient, two experienced radiologists manually chose ROIs in four typical slices, and the average value was determined as the parameter value. Image processing was conducted using commercially accessible software (MItalytics, FITPU Healthcare, Singapore). The software allows for the selection of a unique arterial input function for each patient case and employs a constrained nonlinear optimization approach to match the different models. In total, we obtained 25 independent and derived qDCE parameters. The TOFTS model was used to derive the following parameters: Ktrans (min\u2212 1), reverse reflux rate constant (Kep; min\u2212 1), and extravascular extracellular volume (Ve; mL/mL). Similarly, the EXTOFTS model was used to calculate Ktrans, Kep, Ve, and volume fraction of plasma (Vp; mL/mL). The ATH, CC, and DP model were used to obtain the parameters of Ve, Vp, F (mL/min/mL), PS (mL/min/mL), mean transit time (MTT; s), and extraction fraction (E; %). Supplementary Material A1 mathematically describes the parameter fitting with the equations of the tissue concentration-time curve Ctiss(t) used to fit pharmacokinetic models."
+    ]
+  }
+]

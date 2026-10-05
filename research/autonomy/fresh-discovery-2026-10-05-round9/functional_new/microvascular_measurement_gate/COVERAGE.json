@@ -1,0 +1,73 @@
+{
+  "utc": "2026-10-05T13:21:23.853212+00:00",
+  "scope": "Public quantitative perfusion/endothelial MVD source/assay gate; all identified eligible conditions remain accountable; no assay values or images inspected.",
+  "conditions": [
+    {
+      "source": "PMC11717864",
+      "source_cases": 2,
+      "identity": "WHO2020 author-labelled extraskeletal myxoid chondrosarcoma, not independently molecular-authenticated",
+      "assays": "Quantitative early DCE and delayed Tofts kinetics in165initial singleSTTs; all2EMC cases eligible at source-level enrollment",
+      "unit": "2reported cases; no individual case identifiers or linked values. Not2 inferred measurement rows or proven independent donors across sources.",
+      "preparation_conditions": "DCECS MRI, source-specific hotspot maxima, excludes prior same-site surgery; prior chemotherapy/radiotherapy not explicitly excluded in inspected eligibility methods. No endothelial vessel assay supplied.",
+      "status": "evaluated enrollment/assay/methods; individual quantitative observations unavailable/request-only; public aggregate outputs unsuitable for an EMC-specific paired comparison",
+      "gaps": "EMC percase kinetic vectors, paired spatial compartments, endothelial count/area, treatment/site/grade/scan-to-specimen interval, source-donor crosswalk"
+    },
+    {
+      "source": "PMC4504541",
+      "source_cases": null,
+      "identity": "EMC mentioned in vascular discussion does not authenticate enrollment; graphical Table1 not inspected during computer-use ban",
+      "assays": "IVIM fastcomponent/fraction model proxies plus contrast sequence, not direct bloodflow or endothelial density",
+      "conditions": "23patients after31enrolled,9technical ROIs perpatient, excludesnecrosis/cysts/largevessels; Dalian2013\u201314",
+      "status": "evaluated methods; actualEMC enrollment/percase conditions pending accessible graphical roster inspection after14UTC",
+      "gaps": "Source-confirmed EMC count/case correspondence; public individual vascular observations if any; not asserted numericabsence"
+    },
+    {
+      "source": "PMC11107050",
+      "identity": "No explicitEMC in complete92table; Fibrosarcoma14 identity unresolved rather than inferred nonEMC",
+      "assays": "Actual DCE kinetic models with flow/permeability/volume/MTT units; source-qualified fitted flow is not independent perfusion goldstandard",
+      "conditions": "31benign61malignant, Jan2017\u2013Sep2022, no chemotherapy/radiotherapy before surgery, excludespoorvascular adipocytic/motion/intermediate tumors; average fourtypicalslices/percaseAIF,8s temporalresolution,gadoteridol2mL/s",
+      "status": "complete table and methods evaluated; source-explicit EMCCases0; generic14identity unresolved; individual dataset request-only",
+      "gaps": "No genericcase-to-EMC linkage or individualpaired endothelial observations; linkedpublicdocx methods/supplement not inspected, no numericabsence claim",
+      "explicit_emc_labels": 0
+    },
+    {
+      "source": "PMC6427044 plus reusedPMC5510859",
+      "source_cases": 3,
+      "identity": "3authorEMC cases2training1validation in MRI cohort; not3 independent newdonors",
+      "assays": "ADCdiffusion not directvascular measurement; no endothelial count/area established from scoped methods",
+      "overlap": "40subjects explicitlyreused from2017; individual EMC cross-donor mapping unavailable",
+      "status": "reused independent enrollment/overlap review; unsuitablefor currentvascular statistic without new authenticassay crosswalk"
+    },
+    {
+      "source": "PMC8519635",
+      "status": "unavailable primary XML ordinaryendpoint500 retained, no repeated access attempts",
+      "identity": "BroaderSTT quantitativeperfusion/diffusion title, EMCassay/source linkage unverified"
+    },
+    {
+      "source": "PMC3956242 PMID24649135",
+      "status": "evaluated primaryabstract actualCD34 MVD inmalignantbone tumors; primary XML500, EMCeligibility pending/unavailable currentroute",
+      "identity": "Generic CHS cannot be accepted asEMC or automatically excluded by bone site"
+    },
+    {
+      "source": "PMID11213831",
+      "status": "evaluated abstract explicitMFS andmyxoid/roundLPS CD31MVD comparator priorart; no authenticEMC supplied by abstract",
+      "identity": "Source-specific otherhistotypes; not EMC transfer"
+    },
+    {
+      "source": "15exactdiseasevascular metadata records",
+      "status": "all15evaluated only scopedabstract assay sentences; diagnostics/tumor-cell CD31/CD34/reviews do not supply endothelialcount/area; no fullpaper completeness asserted"
+    },
+    {
+      "source": "newDCE/HIF studies PMID36185052/36462043/33416975",
+      "status": "pending source-assay-identity gate under oxygenation owner; notduplicated and not assumed perfusion/MVD paired evidence"
+    }
+  ],
+  "discovery_coverage": {
+    "broad_exact_alias_fulltextquery": "318hits100returned;218unreturned metadata records unassessed",
+    "broad_paired_sarcoma_query": "811hits100returned;711unreturned metadata records unassessed; referencecontamination observed",
+    "narrow_disease_titleabstract_query": "15hits15returned; metadata assay-sentence scope evaluated for all15",
+    "narrow_myxoid_endothelial_query": "3hits3returned; scopedmetadataabstract eligibility evaluated for all3; onlyone additionalprimary retrieval attempted",
+    "full_catalogues": "Ignored, no unevaluated wholecatalogue export or assertion all candidates evaluated"
+  },
+  "overlap_and_missingness": "No sum across sources presented as uniqueEMC donors. TechnicalROIs/slices are notindependent patients. Request-only individual data is access-unresolved, no outreachauthorized. Public graphical/supplement conditions remain uninspected/pending, not absent."
+}
