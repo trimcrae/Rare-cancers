@@ -1,0 +1,82 @@
+{
+  "utc": "2026-10-05T20:55:41.443201+00:00",
+  "owner": "/root/emc-cloud-round9",
+  "actual_slot_limit": 7,
+  "resources": {
+    "emc-round9-imprinting": {
+      "worker_id": "/root/challenge",
+      "reserved_utc": "2026-10-05T10:36:09.811471Z",
+      "status": "completed independent prospective NO-GO; deadlineFAIL preserved, no new values, retained",
+      "worktree": "/workspace/emc-r6-challenge",
+      "receipt": null
+    },
+    "emc-round9-rna_processing": {
+      "worker_id": "/root/single_cell",
+      "reserved_utc": "2026-10-05T10:36:09.902514Z",
+      "status": "completed immutable marker plan, root NO-GO and exact independent archival binder; no numeric pilot ran, retained",
+      "worktree": "/workspace/emc-r6-single_cell",
+      "receipt": null
+    },
+    "emc-round9-endocrine": {
+      "worker_id": "/root/radiotherapy",
+      "reserved_utc": "2026-10-05T10:36:09.976228Z",
+      "status": "completed fixed array readiness and additive mapping/timing correction; no numeric pilot ran, retained",
+      "worktree": "/workspace/emc-r6-radiotherapy",
+      "receipt": null
+    },
+    "emc-round9-clinical_measurements": {
+      "worker_id": "/root/fapi_named",
+      "reserved_utc": "2026-10-05T10:36:10.057991Z",
+      "status": "completed distinct archive metadata scopes with unfinished original projection and markerFAIL; lead separately resolved request echo, no assay values, retained",
+      "worktree": "/workspace/emc-r6-fapi_named",
+      "receipt": null
+    },
+    "emc-round9-functional_new": {
+      "worker_id": "/root/fapi_broader",
+      "reserved_utc": "2026-10-05T10:36:10.147204Z",
+      "status": "completed cached public API fallback prerequisite; no requests or assay values, retained",
+      "worktree": "/workspace/emc-r6-fapi_broader",
+      "receipt": null
+    },
+    "emc-round9-public_resource_omissions": {
+      "worker_id": "/root/diagnostic",
+      "reserved_utc": "2026-10-05T10:36:10.219861Z",
+      "status": "completed fixed-marker source coverage review; no new marker values, retained",
+      "worktree": "/workspace/emc-r6-diagnostic",
+      "receipt": null
+    }
+  },
+  "assignments": [
+    {
+      "worker": "diagnostic",
+      "resource": "emc-round9-public_resource_omissions",
+      "status": "completed fixed-marker source coverage review; no new marker values, retained"
+    },
+    {
+      "worker": "single_cell",
+      "resource": "emc-round9-rna_processing",
+      "status": "completed immutable marker plan, root NO-GO and exact independent archival binder; no numeric pilot ran, retained"
+    },
+    {
+      "worker": "radiotherapy",
+      "resource": "emc-round9-endocrine",
+      "status": "completed fixed array readiness and additive mapping/timing correction; no numeric pilot ran, retained"
+    },
+    {
+      "worker": "challenge",
+      "resource": "emc-round9-imprinting",
+      "status": "completed independent prospective NO-GO; deadlineFAIL preserved, no new values, retained"
+    },
+    {
+      "worker": "fapi_broader",
+      "resource": "emc-round9-functional_new",
+      "status": "completed cached public API fallback prerequisite; no requests or assay values, retained"
+    },
+    {
+      "worker": "fapi_named",
+      "resource": "emc-round9-clinical_measurements",
+      "status": "completed distinct archive metadata scopes with unfinished original projection and markerFAIL; lead separately resolved request echo, no assay values, retained"
+    }
+  ],
+  "scope": "Actual assigned or completed scoped tasks. Resources retained; no guessed lease release or false running-process claim."
+}

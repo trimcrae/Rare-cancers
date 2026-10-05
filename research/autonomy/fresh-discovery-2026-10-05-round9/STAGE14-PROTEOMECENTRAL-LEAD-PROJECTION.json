@@ -1,0 +1,60 @@
+{
+  "utc": "2026-10-05T20:52:16.457438+00:00",
+  "science_stop_utc": "2026-10-05T20:52:16.457438+00:00",
+  "plan": "STAGE14-PROTEOMECENTRAL-LEAD-PROJECTION-PLAN.json",
+  "source_commit": "a1b2161253c1ddd33aee8ea9a231f3bb22b31c9c",
+  "source": {
+    "cache_path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/matched_proteome_public_metadata_followthrough/raw-cache/metadata.source",
+    "bytes": 1070,
+    "sha256": "3547eef779683b3f1a8a9fadb889599d83879409402a287f24369b3f3e6487e6",
+    "new_requests": 0
+  },
+  "projection": {
+    "datasets": [],
+    "query": {
+      "search": "10.1002/prca.201900054",
+      "publication": null,
+      "resultType": "resultset",
+      "pageNumber": 1,
+      "pageSize": 100
+    },
+    "result_set": {
+      "n_available_pages": 0,
+      "n_available_rows": 0,
+      "n_rows_returned": 0,
+      "page_number": 1,
+      "page_size": 100,
+      "datasets_title_list": [
+        "dataset identifier",
+        "title",
+        "repository",
+        "species",
+        "SDRF",
+        "files (raw/total)",
+        "instrument",
+        "publications",
+        "lab head",
+        "announce date",
+        "keywords"
+      ]
+    },
+    "status": {
+      "status": "OK",
+      "status_code": 200,
+      "error_code": null,
+      "description": "Sent 0 datasets"
+    }
+  },
+  "decision": "The literal DOI occurs in query.search, which echoes the request. The datasets array is empty; no project citation, accession, native specimen/model/pair/control or released file was returned.",
+  "limits": "Only one documented generic-search page was requested. Server citation-field matching/index completeness are not established; query.publication is separately projected. This does not prove no release/no EMC, and is not a negative assay finding. Other archive/publication-native evidence remains pending.",
+  "consequence": "Close the candidate DOI-match ambiguity without scientific promotion or numerical authorization. Future exact publication-field semantics or genuine source-linked accession may justify a distinct metadata check. No unchanged request retry, denied scope or other config/value/body inspection.",
+  "exposure": "Source owner reported literal DOI before lead plan, so this is not a globally blind source check. Original unfinished owner projection and late stop-marker FAIL retained separately.",
+  "checks": {
+    "source_byte_hash": true,
+    "JSON_object_shape": true,
+    "no_project_records_in_returned_datasets": true,
+    "request_echo_exact_DOI": true,
+    "new_retrievals": 0,
+    "assay_quantities_inspected": 0
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "utc": "2026-10-05T20:43:22.714301+00:00",
+  "original_read_only_reconciliations": {
+    "massive": {
+      "utc": "2026-10-05T20:23:13.060268+00:00",
+      "owner": "/root/emc-cloud-round9",
+      "resource": "emc-round9-clinical_measurements",
+      "worker": "/root/fapi_named",
+      "retained_resource_verified": {
+        "worker_id": "/root/fapi_named",
+        "reserved_utc": "2026-10-05T10:36:10.057991Z",
+        "status": "completed archive source follow-through; retained",
+        "worktree": "/workspace/emc-r6-fapi_named",
+        "receipt": null
+      },
+      "new_packet": "clinical_measurements/matched_proteome_massive_metadata_identity",
+      "deadline_utc": "2026-10-05T20:32:00+00:00",
+      "scope": "Distinct exact-citation project metadata on uninspected MassIVE/ProteomeCentral public archive only; not an alternate article or blocked file. At most three ordinary project-metadata requests, ten-second timeout, twoMiB raw/derived total. No quantities, sequence, genomic bodies, login, bypass, outreach or spend. Preserve previous PRIDE queries/indexing uncertainty. Other scopes unchanged. Coordinator currently held by exactfixedSHAstage13 transfer; this read-only reconciliation is scratch-only, shared mutation deferred to release. No false global exhaustion or publication claim."
+    },
+    "proteomecentral": {
+      "utc": "2026-10-05T20:35:00.506769+00:00",
+      "owner": "/root/emc-cloud-round9",
+      "resource": "emc-round9-clinical_measurements",
+      "worker": "/root/fapi_named",
+      "retained_resource_verified": {
+        "worker_id": "/root/fapi_named",
+        "reserved_utc": "2026-10-05T10:36:10.057991Z",
+        "status": "completed archive source follow-through; retained",
+        "worktree": "/workspace/emc-r6-fapi_named",
+        "receipt": null
+      },
+      "new_packet": "clinical_measurements/matched_proteome_proteomecentral_metadata_gate",
+      "deadline_utc": "2026-10-05T20:40:00+00:00",
+      "scope": "Genuinely uninspected official ProteomeCentral public metadata schema and supported exact-citation lookup only, at most three ordinary ten-second requests,512KiBrawtotal/twoMiBderived. No guessed project accession or query parameter, full catalogue inspection, article copy, quantities, sequence, genomic bodies, login, bypass, outreach or spend. ExactDOI/PMID previous archive queries remain immutable, indexing incompleteness retained. Read-only same-owner reconciliation while exactfixedSHAstage13transfer holds Coordinator; shared update deferred to release."
+    },
+    "focused_followthrough": {
+      "utc": "2026-10-05T20:41:32.129443+00:00",
+      "owner": "/root/emc-cloud-round9",
+      "deadline_utc": "2026-10-05T20:47:00+00:00",
+      "assignments": [
+        {
+          "worker": "fapi_broader",
+          "resource": "emc-round9-functional_new",
+          "packet": "functional_new/proteomecentral_documented_config_projection",
+          "scope": "Cache-only existing publicpc.js and config source structure; API_URL and documented client-selected namespace only, no other config values, credentials or requests."
+        },
+        {
+          "worker": "fapi_named",
+          "resource": "emc-round9-clinical_measurements",
+          "packet": "clinical_measurements/matched_proteome_public_metadata_followthrough",
+          "scope": "Cached documented client config/citation route, then at most one genuine declared anonymousmetadata request if schema allows; no guessed URLs/parameters/accessions/credential inspection/articlecopies. Source cap32MiB ignored raw,2MiB compactderived, exactDOI/PMID metadata projection only. Entire publicprojectmetadata may be streamed only through directlydeclareddatasets endpoint if needed, with exactcitation filtering and no unrelated project contents displayed or committed. No values/peptides/sequences/genomic bodies/matrices; deniedhost stop no bypass."
+        }
+      ],
+      "source": "e958de90f3c669e13481c24740f855eca3ec21ec",
+      "scope": "Different focused prerequisite/follow-through to finish an admitted feasible public-source ambiguity; original freezes/failed top-level projection immutable. Same owned scopes verified read-only while exact-SHA transfer holds Coordinator; shared update deferred. All user restrictions retained; metadata not a scientific finding and no numeric authorization."
+    }
+  },
+  "coordinator_update_after_verified_stage13_push": true,
+  "actual_slot_limit": 7,
+  "resources": {
+    "emc-round9-imprinting": {
+      "worker_id": "/root/challenge",
+      "reserved_utc": "2026-10-05T10:36:09.811471Z",
+      "status": "completed independent source-specific NO-GO, timingFAIL preserved; no new values",
+      "worktree": "/workspace/emc-r6-challenge",
+      "receipt": null
+    },
+    "emc-round9-rna_processing": {
+      "worker_id": "/root/single_cell",
+      "reserved_utc": "2026-10-05T10:36:09.902514Z",
+      "status": "completed covariation prospective plan, source-specific NO-GO and exact archival peer binder; no new values",
+      "worktree": "/workspace/emc-r6-single_cell",
+      "receipt": null
+    },
+    "emc-round9-endocrine": {
+      "worker_id": "/root/radiotherapy",
+      "reserved_utc": "2026-10-05T10:36:09.976228Z",
+      "status": "completed fixed array readiness with additive mapping/timing correction; no new values",
+      "worktree": "/workspace/emc-r6-radiotherapy",
+      "receipt": null
+    },
+    "emc-round9-clinical_measurements": {
+      "worker_id": "/root/fapi_named",
+      "reserved_utc": "2026-10-05T10:36:10.057991Z",
+      "status": "active distinct declared ProteomeCentral metadata follow-through; at most one new genuine metadata request",
+      "worktree": "/workspace/emc-r6-fapi_named",
+      "receipt": null
+    },
+    "emc-round9-functional_new": {
+      "worker_id": "/root/fapi_broader",
+      "reserved_utc": "2026-10-05T10:36:10.147204Z",
+      "status": "active distinct cached public ProteomeCentral API_URL/client-selection prerequisite",
+      "worktree": "/workspace/emc-r6-fapi_broader",
+      "receipt": null
+    },
+    "emc-round9-public_resource_omissions": {
+      "worker_id": "/root/diagnostic",
+      "reserved_utc": "2026-10-05T10:36:10.219861Z",
+      "status": "completed fixed marker coverage/source metadata review; no new values",
+      "worktree": "/workspace/emc-r6-diagnostic",
+      "receipt": null
+    }
+  },
+  "scope": "Original same-owner read-only reconciliations retained; shared mutations occurred only after transfer lock released. No scientific result or numerical authorization from source metadata.",
+  "after_initial_scoped_integration": {
+    "utc": "2026-10-05T20:47:35.415321+00:00",
+    "focused_followthrough": {
+      "utc": "2026-10-05T20:41:32.129443+00:00",
+      "owner": "/root/emc-cloud-round9",
+      "deadline_utc": "2026-10-05T20:47:00+00:00",
+      "assignments": [
+        {
+          "worker": "fapi_broader",
+          "resource": "emc-round9-functional_new",
+          "packet": "functional_new/proteomecentral_documented_config_projection",
+          "scope": "Cache-only existing publicpc.js and config source structure; API_URL and documented client-selected namespace only, no other config values, credentials or requests."
+        },
+        {
+          "worker": "fapi_named",
+          "resource": "emc-round9-clinical_measurements",
+          "packet": "clinical_measurements/matched_proteome_public_metadata_followthrough",
+          "scope": "Cached documented client config/citation route, then at most one genuine declared anonymousmetadata request if schema allows; no guessed URLs/parameters/accessions/credential inspection/articlecopies. Source cap32MiB ignored raw,2MiB compactderived, exactDOI/PMID metadata projection only. Entire publicprojectmetadata may be streamed only through directlydeclareddatasets endpoint if needed, with exactcitation filtering and no unrelated project contents displayed or committed. No values/peptides/sequences/genomic bodies/matrices; deniedhost stop no bypass."
+        }
+      ],
+      "source": "e958de90f3c669e13481c24740f855eca3ec21ec",
+      "scope": "Different focused prerequisite/follow-through to finish an admitted feasible public-source ambiguity; original freezes/failed top-level projection immutable. Same owned scopes verified read-only while exact-SHA transfer holds Coordinator; shared update deferred. All user restrictions retained; metadata not a scientific finding and no numeric authorization."
+    },
+    "cache_config_science_closed": true,
+    "project_metadata_source_stop_requested_at_fixed_cutoff": true
+  }
+}
