@@ -1,0 +1,88 @@
+{
+  "utc": "2026-10-05T15:53:49.171665+00:00",
+  "owner": "/root/emc-cloud-round9",
+  "actual_slot_limit": 7,
+  "resources": {
+    "emc-round9-imprinting": {
+      "worker_id": "/root/challenge",
+      "reserved_utc": "2026-10-05T10:36:09.811471Z",
+      "status": "active_or_settling_imprinting/gse9309_eligibility_challenge",
+      "worktree": "/workspace/emc-r6-challenge",
+      "receipt": null
+    },
+    "emc-round9-rna_processing": {
+      "worker_id": "/root/single_cell",
+      "reserved_utc": "2026-10-05T10:36:09.902514Z",
+      "status": "active_or_settling_rna_processing/gse9309_eligibility_followthrough",
+      "worktree": "/workspace/emc-r6-single_cell",
+      "receipt": null
+    },
+    "emc-round9-endocrine": {
+      "worker_id": "/root/radiotherapy",
+      "reserved_utc": "2026-10-05T10:36:09.976228Z",
+      "status": "active_or_settling_endocrine/bcl2_native_assay_context",
+      "worktree": "/workspace/emc-r6-radiotherapy",
+      "receipt": null
+    },
+    "emc-round9-clinical_measurements": {
+      "worker_id": "/root/fapi_named",
+      "reserved_utc": "2026-10-05T10:36:10.057991Z",
+      "status": "active_or_settling_clinical_measurements/fusion_partner_rna_coverage_review",
+      "worktree": "/workspace/emc-r6-fapi_named",
+      "receipt": null
+    },
+    "emc-round9-functional_new": {
+      "worker_id": "/root/fapi_broader",
+      "reserved_utc": "2026-10-05T10:36:10.147204Z",
+      "status": "active_or_settling_functional_new/fusion_partner_rna_value_review",
+      "worktree": "/workspace/emc-r6-fapi_broader",
+      "receipt": null
+    },
+    "emc-round9-public_resource_omissions": {
+      "worker_id": "/root/diagnostic",
+      "reserved_utc": "2026-10-05T10:36:10.219861Z",
+      "status": "active_or_settling_public_resource_omissions/fusion_partner_rna_source_gate",
+      "worktree": "/workspace/emc-r6-diagnostic",
+      "receipt": null
+    }
+  },
+  "actual_assignments": [
+    {
+      "worker": "diagnostic",
+      "resource": "emc-round9-public_resource_omissions",
+      "packet": "public_resource_omissions/fusion_partner_rna_source_gate",
+      "question": "Source/value gate for exploratory fusion-partner differences across the entire previously fixed R8 antigen panel; exact labels and useful novelty before subgroup values."
+    },
+    {
+      "worker": "fapi_broader",
+      "resource": "emc-round9-functional_new",
+      "packet": "functional_new/fusion_partner_rna_value_review",
+      "question": "Independent novelty/value/confounding challenge; settle previous apoptosis sources first, no outcome mining."
+    },
+    {
+      "worker": "fapi_named",
+      "resource": "emc-round9-clinical_measurements",
+      "packet": "clinical_measurements/fusion_partner_rna_coverage_review",
+      "question": "Independent all-native donor/partner/assay/condition coverage, exact source annotations and overlap; no unknown-partner assignment or new gene values."
+    },
+    {
+      "worker": "single_cell",
+      "resource": "emc-round9-rna_processing",
+      "packet": "rna_processing/gse9309_eligibility_followthrough",
+      "question": "Complete actual sample-metadata/primary accession eligibility beyond earlier title-only frame; no outcome matrix."
+    },
+    {
+      "worker": "challenge",
+      "resource": "emc-round9-imprinting",
+      "packet": "imprinting/gse9309_eligibility_challenge",
+      "question": "Independent all-142 sample identity/condition/assay/overlap challenge; pooled paper counts cannot transfer to accession."
+    },
+    {
+      "worker": "radiotherapy",
+      "resource": "emc-round9-endocrine",
+      "packet": "endocrine/bcl2_native_assay_context",
+      "question": "Published native BCL2 protein method/control context and contrary evidence; no positivity-as-dependence or new stain matrix."
+    }
+  ],
+  "scope": "Six distinct source/value/coverage roles plus one integrating lead; retained resources, no expiry/release or process inferred from historical status. Final source packets may be settling after source-work closure."
+}
