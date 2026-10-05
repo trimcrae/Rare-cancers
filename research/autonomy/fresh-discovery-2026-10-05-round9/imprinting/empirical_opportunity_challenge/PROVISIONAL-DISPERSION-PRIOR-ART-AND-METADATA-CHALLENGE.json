@@ -1,0 +1,73 @@
+{
+  "utc": "2026-10-05T16:46:47.065965+00:00",
+  "candidate": "Exploratory between-specimen bulk-transcriptome dispersion in native EMC versus fixed same-source fusion sarcomas; no new values inspected.",
+  "inputs": [
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/raw/Hofvander2026-primary.xml",
+      "bytes": 117671,
+      "sha256": "aefc3c367d8ec4b937bf7988a2d952a6109738fbbd39ec5d4a7fc36dd36e6484"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/intron_retention_gate/raw/Brenca2019-primary.xml",
+      "bytes": 145636,
+      "sha256": "e453b80e71292bb19c1f3287d08108bef44e7a0e88207e6f99bbd3a52a010b68"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/atlas-hofvander-source-2026-09-06/ccr-25-3740_supplementary_table_s1_suppts1.xlsx",
+      "bytes": 138248,
+      "sha256": "976f13c1a69915cdb05af27b9a56d3f40a27df2e2da3dbc085ca66d25b8bc08c"
+    }
+  ],
+  "primary_prior_art": [
+    {
+      "source": "Hofvander2026 primary",
+      "allowed_selected_sections": [
+        "RNA-seq",
+        "Unsupervised gene expression analysis",
+        "Global gene expression",
+        "Selected outlier/classifier conclusion paragraphs"
+      ],
+      "finding": "Original study already computes sample-specific silhouette S-scores relative to own and other diagnosis groups; within-type low scores motivate outlier review. This is closely related existing clustering/cohesion prior art. Pure within-type dispersion is mathematically distinct from silhouette separation/cohesion and cannot be declared identical or automatically novel.",
+      "method": "Uniform STAR/RSEM gene quantification; log-transformed TPM; top-quarter variable protein-coding genes; unsupervised tSNE/hierarchical clustering; source sequencing-year batch assessment."
+    },
+    {
+      "source": "Brenca2019 primary",
+      "allowed_selected_sections": [
+        "Tumor series",
+        "Whole transcriptome sequencing and gene functional annotation",
+        "EWSR1 and TAF15-rearranged EMC feature a different gene expression pattern"
+      ],
+      "finding": "Twelve centrally reviewed NR4A3-FISH EMC tumors, seven EWSR1/five TAF15, have already published partner-associated transcriptional programs. Authors use >70% tumor nuclei and report similar matched FFPE/frozen tissue results. This does not prove no further quantitative comparison is useful, but already motivates partner-aware model sampling."
+    }
+  ],
+  "favorable_metadata_correction": {
+    "inspection": "Existing cached original S1 workbook header rows only; no row-level S-score, CINSARC, clinical outcome, expression, ploidy/purity or genomic observations inspected.",
+    "sheet": "Sheet1",
+    "rows": 721,
+    "columns": 24,
+    "eligible_future_metadata_headers": [
+      "Sample*",
+      "Diagnosisa",
+      "Revised diagnosis",
+      "Age at diagnosis",
+      "Sex",
+      "Sitec",
+      "Sized",
+      "Depthd",
+      "Graded",
+      "Samplef",
+      "Fusiong",
+      "UniqMappedReadsMillion"
+    ],
+    "mixture_quality_header": "ASCAT ploidy/purityk",
+    "already_published_related_endpoint_headers": [
+      "S-scoreh",
+      "Clusteringi"
+    ],
+    "meaning": "Cleaned current metadata omits grade, fusion and purity fields, while the source table advertises them. Their actual donor-level completeness/suitability remains unexamined here, not absent in the primary source. Any future metadata extraction must restrict allowed covariates and avoid genomic mechanism/formation content."
+  },
+  "scientific_value_challenge": "Between-patient bulk-RNA dispersion alone does not measure within-patient spatial heterogeneity or tissue-to-culture fidelity. Known partner effects already motivate multiple models. A worthwhile new question must state the practical decision changed beyond this prior art, and separate source, mixture, grade, mean-expression and capture alternatives without threshold or gene selection after values.",
+  "exposure": "Primary published qualitative transcriptome program conclusions and some published summary counts/statistics were read for prior-art assessment. Initial selected global-RNA/method paragraphs also displayed incidental non-EMC copy-number context. No structural mechanism analysis, denied task science body, genetic formation question, new RNA row values, dispersion endpoint or phenotype calculation was opened.",
+  "numerical_stage": "OFF; no matrix rows or endpoints read",
+  "new_raw_bytes": 0
+}
