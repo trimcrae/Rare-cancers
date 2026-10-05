@@ -1,0 +1,131 @@
+{
+  "utc": "2026-10-05T01:03:38.785731+00:00",
+  "reviewer": "single_cell/microenvironment worker; independent read-only source/decision review",
+  "input_bindings": [
+    {
+      "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/MANIFEST.json",
+      "bytes": 4665,
+      "sha256": "b501161fce53c95f0cfb86513e343721a8fe6c20b7b80a898dbd020d68fe467e"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/PLAN.json",
+      "bytes": 3818,
+      "sha256": "c9fe8cb5e84a06393ab4a39be9ddb575a0ddff87817b3806e767f61d9c44e198"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/RESULTS.txt",
+      "bytes": 3835,
+      "sha256": "a5d0c73f1a22cf86e6cccc0fb1ae7acb9ee44af0327d5944a3dcab6f3f6e71d2"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/DECISION.json",
+      "bytes": 1923,
+      "sha256": "5bf6a92a5a9ba9424cf86bcd8f6d7c9854218998043060bed422fcb95164092b"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/COVERAGE.json",
+      "bytes": 13094,
+      "sha256": "a6e62cb4e4d31283fe748edbe5a065c29472ba6092b98cdcd27cbc46d21b4bb0"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/COMPLETE-SCREEN-ROSTER.json",
+      "bytes": 26623,
+      "sha256": "74897c80a89b0a8729d46b762c80ba0788243d33b30b50b11e0af4f80aafa243"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/REUSED-MEASUREMENTS.json",
+      "bytes": 4595,
+      "sha256": "ea71610773303c0d67ab29bd44bc53e591eb43d409b37e021028f7b8bbd0638c"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/PRIMARY-ELIGIBILITY-EXCERPTS.json",
+      "bytes": 9898,
+      "sha256": "d0e39feef630bcfa4d6cbe497b845102f5ec7b162c5789daac9c5ca963ff1f98"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_broader/research/autonomy/fresh-discovery-2026-10-05-round8/metabolism/RNA-SOURCE-CONTEXT.json",
+      "bytes": 10453,
+      "sha256": "0d2bded036bc5bc410314b0960fd23bfd96438e2e0a1b23deb120b68cb2da03a"
+    }
+  ],
+  "validation": {
+    "manifest_files": 28,
+    "hash_mismatches": [],
+    "complete_roster_counts": {
+      "Bangerter40": 40,
+      "Iwata_Iwata2025-s5.xlsx": 221,
+      "Iwata_Iwata2025-s6.xlsx": 24
+    },
+    "focused_NCC_exact_source_checks": [
+      {
+        "drug": "5-Aminolevulinic acid HCl",
+        "source_row": 5,
+        "all_exported_source_fields_exact": true
+      },
+      {
+        "drug": "Arsenic (III) oxide",
+        "source_row": 16,
+        "all_exported_source_fields_exact": true
+      },
+      {
+        "drug": "Artemether",
+        "source_row": 17,
+        "all_exported_source_fields_exact": true
+      },
+      {
+        "drug": "Conoidin A",
+        "source_row": 50,
+        "all_exported_source_fields_exact": true
+      },
+      {
+        "drug": "PRIMA-1",
+        "source_row": 166,
+        "all_exported_source_fields_exact": true
+      },
+      {
+        "drug": "Sorafenib",
+        "source_row": 188,
+        "all_exported_source_fields_exact": true
+      },
+      {
+        "drug": "Sorafenib Tosylate",
+        "source_row": 189,
+        "all_exported_source_fields_exact": true
+      }
+    ],
+    "USZ_sorafenib_ordinal_exact": true,
+    "primary_checks": [
+      {
+        "id": "PMC10094087",
+        "source_hash_verified": true,
+        "exact_primary_excerpts_checked": 1
+      },
+      {
+        "id": "PMC11713734",
+        "source_hash_verified": true,
+        "exact_primary_excerpts_checked": 2
+      },
+      {
+        "id": "PMC5667900",
+        "source_hash_verified": true,
+        "exact_primary_excerpts_checked": 2
+      },
+      {
+        "id": "PMC5933935",
+        "source_hash_verified": true,
+        "exact_primary_excerpts_checked": 1
+      }
+    ],
+    "all13_plus6_RNA_identity_records_retained": true
+  },
+  "scientific_review": {
+    "decision_endorsed": "Shelve standalone lipid-redox/ferroptosis paper; no useful new measured EMC mechanism established; public search not exhausted",
+    "strongest_alternative": "Sorafenib freebase/tosylate and USZ ordinal results are unmatched formulation/dose/exposure viability; kinase effects/general cytotoxicity remain. No lipid or rescue endpoint can be inferred.",
+    "positive_and_negative_conditions": "All40/221/24 literal conditions retained; seven NCC descriptive label-selected observations plus unfavorable USZ none retained. Literal canonical-alias absence is not complete target or chemical coverage.",
+    "assay_and_donor": "Two screened patient-derived models, not245NCC donors; technicalreplicates/selectiveIC50 endpoints cannotcreate independentvalidation. Six-day USZ dose context known, NCC screening dose/exposure remains unacquired.",
+    "other_sources": "Other-cancer GPX4/rescue evidence and UPS mouse toxicity are prior-art/alternative controls. CAM fluorescence, PPARG transcription, disputed cell models and bulk RNA do not authenticate native EMC lipid-redox dependence.",
+    "pending_vs_excluded": "CTRP full model/condition crosswalk, generic organoid/model/CIVO mapping and ascorbate/MRI histology/access remain unresolved; acquired main-source exclusions do not close all underlying broader screens.",
+    "limitations": "Focused extracts are source-exact; this review did not newly retrieve every linked underlying experiment or cure source access/identity gaps. No complete biological negative, dependency, efficacy, prognosis, safety or target ranking endorsed."
+  },
+  "ownership": "Only owned microenvironment peer review written. Metabolism originals unchanged; no duplicate retrieval, restricted-topic source reading or shared-state mutation."
+}
