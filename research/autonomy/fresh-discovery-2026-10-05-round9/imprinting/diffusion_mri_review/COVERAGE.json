@@ -1,0 +1,78 @@
+{
+  "utc": "2026-10-05T13:08:36.801744+00:00",
+  "complete_public_EMC_outcome_coverage": false,
+  "relevance": "All authentic clinical EMCdiffusion/ADCobservations, pertinent myxoid controls and externaldecisionrule cohorts including recurrent/treated/post-surgical conditions as interpretation-changing evidence; not pooling identicalmetrics or ignoringconditional applicability.",
+  "evaluated_source_scope": [
+    {
+      "source": "PMC5510859",
+      "status": "evaluated",
+      "scope": "Primarymethod/qualitativepriorart andall40identityrows;2EMC/10MLPS/3MFS featurevaluesunlinked,pending; notADCoutcomeevaluation",
+      "conditions": "40subjects40myxoidtumors23benign17malignant,DWIbeforeprocedure;priorhistorynotexplicitlyexcluded;2authorpathologyEMCwithout specificrawIDs/NR4A3confirmationintheinspectedmethods"
+    },
+    {
+      "source": "PMC6427044",
+      "status": "evaluated",
+      "scope": "Primarymethods/casecounts/reuse only;3ESMCconditions2train1val,nofeaturecrosswalk currentlyidentified",
+      "conditions": "239MRI/236patients,100train139val,excludedpriorintervention butdonoridentityuncertain;all40prior2017subjectsoverlap, no additiveindependent2+3"
+    },
+    {
+      "source": "PMC7205250",
+      "status": "evaluated",
+      "scope": "Externalcutoffpopulation/ADCROI/b/subgroupmethods anddiagnosticinventoryonly; no relevantnumericoutcomes",
+      "conditions": "95small<5cmdeepcases,explicitprevious-therapyexclusion;44subjects reusedpriornomogramstudy;2fibromyxoidsarcomasnotnecessarilyLGFMS"
+    },
+    {
+      "source": "PMID17520732",
+      "status": "unavailable evidence",
+      "scope": "Originalabstract/method/qualitativeconclusionread;fullpublisherPDF403;fullmyxoidcohort23of44casehistologies/crosswalkunresolved",
+      "conditions": "LSDWIb5/1000,pooledbenign/malignantmyxoidmatrixADC influencepriorart notnewEMCdata"
+    },
+    {
+      "source": "PMC6011095",
+      "status": "demonstrably unsuitable measurement",
+      "scope": "For proposedpublishedprocessedADCcontrast only, independentlyreadmethods/tableheaders;13authorEMCcases/10MRIconventionalT1/T2/contrast, noADCcolumn/sequence reported",
+      "conditions": "Do not infer raw/unreleasedDWI absence or dismiss generalclinicalimagingevidence"
+    },
+    {
+      "source": "PMC4110079",
+      "status": "demonstrably unsuitable measurement",
+      "scope": "For proposedpublishedprocessedADCcontrast only, independentmethods/headers;13pathEMC,7MRIstudies4primary+3recurrent,CTHU/FDGcolumns",
+      "conditions": "Primary/recurrent/metastatic/therapyconditionsnotindependentADCdonors; no overallimagingabsence"
+    },
+    {
+      "source": "PMID39256245",
+      "status": "verified evaluation reused",
+      "scope": "Owner public2024method/headers gate; reviewer doesnotclaimfullsourceauthentication",
+      "conditions": "Subscription/fullmethods andpercase linkage pending; no publicpreviewmissingtermconvertedtoactualmissingmeasurement"
+    },
+    {
+      "source": "PMID38557577",
+      "status": "pending accessible analysis",
+      "scope": "Externalqueryauthenticatedprimarymetadata DOI10.1097/rlu.0000000000005146, nonmyxoidcellular EMC2024 candidate; owner/omissionpeergatingactualdiffusionmeasurement",
+      "conditions": "Potential contraryhistologiccellularity context; do not assume identityoverlap with other2024source"
+    },
+    {
+      "source": "PMC10231763",
+      "status": "verified evaluation reused",
+      "scope": "Omissionpeer primarysourceeligibility/methods/reuse observation, hash-verified original, no ADC values. OneauthorEMC among125nativepreoperativecases; no individual diagnostic-featurecrosswalk authenticated.",
+      "conditions": "Untreatedpreop3TSiemensb0/800whole-massVOI; all125 explicitlyreuseprior2021PMC8316538(ref22), notindependentcohort. Original2021sourcecrosswalk pending; fivepublic2023supplementscaptionedparameter/modelhyperparameters, not identifiedsubtype-linkeddata.",
+      "consequence": "Could bear onsource-specificdiagnosticrule, but samepersonreuse, wholevolume/textureunits and missingcrosswalk mustresolve beforevalues. No globaldataabsenceclaim."
+    },
+    {
+      "source": "PMC10342739",
+      "status": "verified evaluation reused",
+      "scope": "Omissionpeer primarysourcecohort/conditioneligibility observation, hash-verified original; no percaseADCvalues/crosswalk.",
+      "conditions": "OneEMCdonor incohort; Table3 zero recurrentEMC tumor observations andTWOpostoperative-change lesions.3T b0/800enhancing-solidROI,StMary2010\u20132021. Possibleoverlapwithnative125cohortunknown.",
+      "consequence": "Retain both nontumor postoperative conditions as relevant clinical/therapy/scar comparators and limits. They cannot be counted as recurrent malignantEMC ADCmeasurements or zero-valued tumorobservations. Differentpostsurgicalindication/ROI limits applicabilityofnativeuntreatedthreshold; notsilentlyomitted."
+    },
+    {
+      "source": "PMC8316538",
+      "status": "pending accessible analysis",
+      "scope": "Identifiedactualsource reusedby2023all125cohort, notan additional independentEMCdataset. Original crosswalk/source-linked measuredADC rule eligibility pending owner/omissionpeer; no numerical values.",
+      "conditions": "Do not pool2021/2023orclaim untreatedROIconditions identical fromsharedsamepersons alone."
+    }
+  ],
+  "owner_omission_scope": "OtherbroaderMRI/ADCcohorts andallcases handledseparately byowner/fapi_named; thisreview doesnotassertglobalexhaustion or completeallpublicnumericalcoverage.",
+  "new_source_inventory_not_discovery": true,
+  "no_ADC_feature_cells_or_subtype_rates": true
+}
