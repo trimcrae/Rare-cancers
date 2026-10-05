@@ -1,0 +1,41 @@
+{
+  "id": "emc-r9-gpnmb-cache-only-gene-identifier-xref",
+  "date": "2026-10-05",
+  "frozen_at": "2026-10-05T19:18:18.275762+00:00",
+  "scientific_deadline": "2026-10-05T19:25:30+00:00",
+  "ownership": "/root/single_cell; rna_processing/gpnmb_cached_gene_identifier_xref only; root integrates/main/pushes",
+  "question": "Can already verified cached ordinary annotation fields explicitly authenticate GPNMB to Ensembl gene identifier, then establish only exact identifier presence in current ARCHS4 first-column identifiers without count access?",
+  "purpose": "Resolve a real source/annotation prerequisite. Symbol-only match cannot rule out extra Ensembl gene row; no RNA amount or numerical authorization follows.",
+  "allowed_sources": "Previously verified GPL6244/GPL3290 original annotation/cache fields, oldHofvander/3SEQ fixedGPNMB coding annotations, officialHWT2.0 gene/probe annotation headers, existing cached explicit ordinary gene/transcript crosswalk metadata only. Reuse hashes and source provenance, no repository-wide body search.",
+  "allowed_fields": [
+    "GPNMB exact gene symbol",
+    "Entrez Gene ID",
+    "Explicit Ensembl gene ID",
+    "Explicit Ensembl transcript ID",
+    "Field name/source schema and exact original source hash",
+    "Only matching identifier presence and count in ARCHS4 first column if valid gene-level xref obtained"
+  ],
+  "closed_fields": [
+    "All numeric matrix/count/TPM fields or new gene outcomes",
+    "Genomic coordinates/CNA/STR/mechanisms/DNA/sequence bodies",
+    "Other target outcomes or broad ranking",
+    "Full ARCHS4 identifier inventory export"
+  ],
+  "no_inference": "No remembered Ensembl ID, numeric pattern guessing, transcript-to-gene equivalence without explicit cached relationship, version truncation or multirow pooling. A transcript ID alone doesnot authenticate a geneID. Capture duplicate/ambiguous mappings; no zero/absence inference.",
+  "steps": [
+    "Verify existing source annotation hashes and inspect header/field schema only",
+    "Project exactGPNMB allowed geneidentity fields, preserving field type/explicit gene-versus-transcript semantics",
+    "Only if correct unique gene-level xref supplied, inspect ARCHS4 matching first-column names/counts; no count fields or broadidentifier export",
+    "Otherwise retain unresolved xref/alternate-row coverage; no network or rerouting failed NCBIGeneXML request"
+  ],
+  "stop": "End by19:25:30UTC and no morethan8minutes. No qualifying cached ordinary xref =>pending, not absence. No new-source query or numerical permission.",
+  "budgets": {
+    "network": 0,
+    "new_raw_originals": 0,
+    "derived_cap_bytes": 2097152,
+    "free_floor_bytes": 10737418240,
+    "free_at_freeze_bytes": 27050283008
+  },
+  "restrictions": "All denied FAP-tissue/glycan/HLA/structural/fusion-formation/topology/CNA/STR/sequence bodies stayclosed. Quiet files only, no UI/images/private/login/bypass/credentials/spend/GPU/outreach/publication/external edits/PR/push. Codexauthor+committer; rootonlymain/shared.",
+  "exposure": "Old authorized GPNMB numericpilot already exposed; this independentsource prerequisite reads no new quantities and cannot promote/reopenit."
+}
