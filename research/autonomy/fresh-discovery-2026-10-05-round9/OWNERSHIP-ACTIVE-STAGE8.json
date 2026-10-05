@@ -1,0 +1,50 @@
+{
+  "utc": "2026-10-05T15:02:03.938626+00:00",
+  "owner": "/root/emc-cloud-round9",
+  "actual_slot_limit": 7,
+  "resources": {
+    "emc-round9-imprinting": {
+      "worker_id": "/root/challenge",
+      "reserved_utc": "2026-10-05T10:36:09.811471Z",
+      "status": "read_only53series_context_handoff_and_conditional_candidate_omission_challenge; nofreshsourcecallsplanned",
+      "worktree": "/workspace/emc-r6-challenge",
+      "receipt": null
+    },
+    "emc-round9-rna_processing": {
+      "worker_id": "/root/single_cell",
+      "reserved_utc": "2026-10-05T10:36:09.902514Z",
+      "status": "read_only185source_context_handoff_and_conditional_candidate_omission_challenge; nofreshsourcecallsplanned",
+      "worktree": "/workspace/emc-r6-single_cell",
+      "receipt": null
+    },
+    "emc-round9-endocrine": {
+      "worker_id": "/root/radiotherapy",
+      "reserved_utc": "2026-10-05T10:36:09.976228Z",
+      "status": "active_native_primary_followthrough_on_unreconciled185records; settledQPOP_proliferationgates_locallyintegrated",
+      "worktree": "/workspace/emc-r6-radiotherapy",
+      "receipt": null
+    },
+    "emc-round9-clinical_measurements": {
+      "worker_id": "/root/fapi_named",
+      "reserved_utc": "2026-10-05T10:36:10.057991Z",
+      "status": "active_broader_native_assay_independent_source_value_omission_review",
+      "worktree": "/workspace/emc-r6-fapi_named",
+      "receipt": null
+    },
+    "emc-round9-functional_new": {
+      "worker_id": "/root/fapi_broader",
+      "reserved_utc": "2026-10-05T10:36:10.147204Z",
+      "status": "active_broader_native_assay_followthrough_on_unreconciled53series; settleddiagnosisgate_locallyintegrated",
+      "worktree": "/workspace/emc-r6-fapi_broader",
+      "receipt": null
+    },
+    "emc-round9-public_resource_omissions": {
+      "worker_id": "/root/diagnostic",
+      "reserved_utc": "2026-10-05T10:36:10.219861Z",
+      "status": "active_native_primary_followthrough_independent_source_value_omission_review",
+      "worktree": "/workspace/emc-r6-diagnostic",
+      "receipt": null
+    }
+  },
+  "scope": "Allsix writer resources retained under one integrating lead. Actualfreshsource work bytwo owner/reviewer pairs; two context providers must not manufacturework to fill slots. No expiry/release/closure inferred."
+}
