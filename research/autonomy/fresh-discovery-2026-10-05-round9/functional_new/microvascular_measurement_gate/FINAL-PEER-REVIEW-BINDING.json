@@ -1,0 +1,79 @@
+{
+  "utc": "2026-10-05T13:32:45.908721+00:00",
+  "review_owner": "/root/fapi_named",
+  "review_commit": "0606ee5cb653cd2b084b8b06f4add24361b446ec",
+  "original_owner_commit": "1988d3af3da651392b1fedd37f367853baf20c4b",
+  "original_owner_manifest_sha256": "271fb11f507538d3a172f097a555973375bcd09c53c21884602b81e7308caef9",
+  "pdf_followup_additive_freeze_sha256": "d732fc3206f0e39ebbf24a48eebb1997b7ec861622c7966a23df12b03fa79842",
+  "peer_freeze": {
+    "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/FREEZE.json",
+    "sha256": "c53fac73ede21fff60a4fc13c56b89e17fcd9c5cf24d52e8985aa148c6e60c68"
+  },
+  "peer_exports": [
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/.gitignore",
+      "bytes": 27,
+      "sha256": "1e0d2c1f806ce5efa459d1dc286e71c0b50f083b5f4f9ae87420722b38ff2be8"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/ALTERNATE-SOURCE-RETRIEVAL.json",
+      "bytes": 603,
+      "sha256": "5d7f5e0b69556c7eafc1dba06522d54a99e7be0a1b55c800bd95447e58d6a487"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/COVERAGE-AND-OVERLAP.json",
+      "bytes": 2622,
+      "sha256": "4ad736196c2d7dfb7dca4ac4dcb22da73b1607f4d7eaa3ecf95acab9ea7d65ed"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/FINAL-REVIEW.json",
+      "bytes": 3655,
+      "sha256": "559d218a3372348fee5a874c9a45e4af1a316959d98e243629d5f9d573eabeaa"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/OWNER-PLAN-BINDING.json",
+      "bytes": 361,
+      "sha256": "87bb91ee8877b71bf1123fcd93cad33d165a2ad8067fa423230944e2bac849b9"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/PORTABILITY.json",
+      "bytes": 3875,
+      "sha256": "821d6cda57bebda0dc8d82fa7b3740c044600ec71f94ca9deec7429235b711da"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/REPORT.txt",
+      "bytes": 1657,
+      "sha256": "5859d698ed640124043d4c11be6bd6da417d62f5a17443115b3017e2239c8b4a"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/REVIEW-PLAN.json",
+      "bytes": 2765,
+      "sha256": "8add7efe5cb04e862f9bbdeac57a76e2e6f94aa8d84ad59e636f963308046aaf"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/SOURCE-ASSAY-CONDITIONS.json",
+      "bytes": 6039,
+      "sha256": "91edb1bfae9e594c22da0241c35407a04d7a44c9a435339f9a2f92d19f3d452c"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/SOURCE-RETRIEVAL.json",
+      "bytes": 302,
+      "sha256": "66574997eaf8b8e9c0f2e9be8427e5ebdc8f1a8d795cc030368db42ecceb586a"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/VERIFICATION.json",
+      "bytes": 5950,
+      "sha256": "f3d9c7dcea9e1e14311276e95affc71d365f1739f2c9f613a8eb929c35c395da"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/microvascular_review/verify_microvascular_gate.py",
+      "bytes": 5521,
+      "sha256": "fc5aa59a76dde7b1b149d1b7c2fc0c6fabdf00befd1a25bfee4f8ac0e357f3d9"
+    }
+  ],
+  "independent_owner_check": "All12peer frozen exports exactlymatch; all18originalowner exports unchanged; reviewer47checks verify actualsource roster/protocol and7sharedcache hashes with zero physiological outcomes/images. Nofullrepository gate orpush claimed.",
+  "scientific_decision": "Independent source/method/value PASS bounded NO-GO before values; no useful new vascularfinding; noownercorrection required.",
+  "material_limits": "Two explicit WHOsource-labelled EMC cases have no public individualkinetic/vesselcount link. Mean-vs-hotspot maxima, kineticmodel and bolus/AIF/sampling differences prevent pooling. TechnicalROI/model outputs are not independentdonors; source-defineddiagnosticCD34tumorstaining notvesselcount. Priorchemo/RT ambiguity andallpublicgraphical/docx/genericcase gaps preserved.",
+  "new_omission": "10646632 postoperative/residualDCE remainspending afterinvalid/unavailablecurrentAPI; no EMC or quantitative observation inferred.",
+  "ownership": "Allsource/sharedreviews read-only; writerowns onlyfunctional_new/microvascular_measurement_gate additive receipts. Originalfreeze preserved."
+}
