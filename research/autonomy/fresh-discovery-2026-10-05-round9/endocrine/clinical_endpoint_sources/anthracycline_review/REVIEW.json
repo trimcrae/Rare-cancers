@@ -1,0 +1,143 @@
+{
+  "utc": "2026-10-05T15:32:28.914595+00:00",
+  "decision": "ENDORSE_SOURCE_SPECIFIC_SHELVE; NO IDENTIFIED NUMERICAL OR STANDALONE CLINICAL VALUE STAGE",
+  "owner_science_freeze": {
+    "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/clinical_durability_source_gate/SCIENCE-FREEZE.json",
+    "bytes": 3525,
+    "sha256": "ed3b203f212c6ce8727c8208d50801b55dd1bc1de526b8fcaddab0ec95839ee4"
+  },
+  "owner_artifact_integrity": {
+    "checked": 17,
+    "mismatches": 0,
+    "items": [
+      {
+        "path": ".gitignore",
+        "match": true
+      },
+      {
+        "path": "ALL11-SOURCE-INPUTS.json",
+        "match": true
+      },
+      {
+        "path": "AMENDMENT-01-AGGREGATE-EXPOSURE.json",
+        "match": true
+      },
+      {
+        "path": "ANALYSIS-FROZEN.json",
+        "match": true
+      },
+      {
+        "path": "AUTHENTIC-CASE-SCHEMA.json",
+        "match": true
+      },
+      {
+        "path": "CACHED-BROADER-TRIAL-SCHEMAS.json",
+        "match": true
+      },
+      {
+        "path": "COVERAGE.json",
+        "match": true
+      },
+      {
+        "path": "DECISION.json",
+        "match": true
+      },
+      {
+        "path": "MEASUREMENT-GATE-RESULTS.json",
+        "match": true
+      },
+      {
+        "path": "PLAN-FROZEN.json",
+        "match": true
+      },
+      {
+        "path": "PORTABILITY.json",
+        "match": true
+      },
+      {
+        "path": "PRIOR-SOURCE-BINDINGS.json",
+        "match": true
+      },
+      {
+        "path": "PROPOSED-DECISIVE-STAGE.json",
+        "match": true
+      },
+      {
+        "path": "REPORT.txt",
+        "match": true
+      },
+      {
+        "path": "REUSED-ALL-CONDITION-SCOPE.json",
+        "match": true
+      },
+      {
+        "path": "SOURCE-RECOVERY-RECEIPT.json",
+        "match": true
+      },
+      {
+        "path": "analyze_durability_gate.py",
+        "match": true
+      }
+    ]
+  },
+  "bound_inputs": [
+    {
+      "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/clinical_durability_source_gate/ANALYSIS-FROZEN.json",
+      "bytes": 4818,
+      "sha256": "4da6016f55efa11c34258e65d664a0391b8f2a20af6569ef8db18b0430517a1a"
+    },
+    {
+      "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/clinical_durability_source_gate/ALL11-SOURCE-INPUTS.json",
+      "bytes": 8216,
+      "sha256": "333e847748b5555a446f5fa7defc23d21535f352d01788994b7d7f202a95a463"
+    },
+    {
+      "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/clinical_durability_source_gate/MEASUREMENT-GATE-RESULTS.json",
+      "bytes": 1429,
+      "sha256": "004fa6f6d612fcf94700b3b027b3b8714a2303d133984e6a316fb8d8fa03cb10"
+    },
+    {
+      "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/clinical_durability_source_gate/analyze_durability_gate.py",
+      "bytes": 5494,
+      "sha256": "d4c189184fc6a108715f8eea6bc741096c9ec25aec4c370b0024e04ce68f0e9c"
+    },
+    {
+      "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/clinical_durability_source_gate/raw-cache/PMC3879193.xml",
+      "bytes": 72851,
+      "sha256": "390e456b36664c767f2b06d5bc6c5ffc2afcf5f2d1074727dd5c06fc248bf8c7"
+    }
+  ],
+  "review_fields": "Original clinical source Methods definition, all11 full Table2 literal rows/asterisk footnote and allowed postoperative clinical paragraph; exact owner all-row map versus primary, prior-art external-control suggestion; no source expansion",
+  "source_and_units": {
+    "cases": "All11 native author EMC, each source NR4A3 rearrangement yes. One advanced chemotherapy cohort, not all EMC.",
+    "source_pfs_header": "PFS, with no unit printed in header; months supported by cohort clinical statement. No claim of invalid units.",
+    "source_surgery_censor": "Table2 footnote explicitly maps asterisk to surgery after chemotherapy/censoring at resection; exact caseIDs1,7,10.",
+    "remaining_eight": "Plain durations lack row-specific terminal progression/death versus ordinary last-contact censor label; best RECIST is not substituted for that coding.",
+    "common_origin": "Explicit treatment-start interval origin not authenticated in the inspected clinical Methods/definition. Conventional interpretation is possible, but frozen rule does not impute it. Missing terminal coding independently blocks all11 risk-set identification.",
+    "post_surgery": "Source explicitly provides three later distant-relapse conditions from surgery; already reported by original authors. Not an added independent recurrence result.",
+    "case_independence": "Single selected network/institutional series; possible later Italian anthracycline/sunitinib/clinical cohort overlap unresolved. No donor pooling or external replication."
+  },
+  "estimand_challenge": {
+    "surgery": "An intercurrent treatment change, not progression/death. A fully observed first-surgery-versus-first-failure pathway could be analyzed descriptively; it would not estimate hypothetical no-surgery tumor PFS or drug efficacy. Surgery does not prevent future disease progression.",
+    "unknowns": "No valid all11 six-month CIF, bootstrap or source-finite bound launched under original rule. Unknown durations/status/origin cannot be turned into failures, zeros, independent censoring or assumed post-surgery trajectories.",
+    "published_KM": "The source may have used clinical data not represented in the table; missing public mapping does not establish that published KM was wrong or biased.",
+    "clinical_consequence": "No numerically identified empirical result demonstrates external-control bias, treatment inferiority or surgery harm."
+  },
+  "independent_value_judgment": "The author suggestion of use as future external controls is a genuine existing claim, but this small selected series does not release the data needed for a discriminating empirical revision. Its surgical censorship and postoperative relapses were already published. Merely repeating informative-censoring caution or presenting a trivial unknown-state bound would not add useful EMC evidence. A credible source-dependent question remains open if actual histories and eligibility/covariates become public.",
+  "limits_and_exposure": {
+    "own_source_exposure": "Before review freeze: R7 verified aggregate responses/surgery censorship and owner surgery-ID/postoperative-link messages. After review freeze: all11 original PFS and RECIST literal cells, Methods cohort aggregate definitions and permitted postoperative clinical paragraph inspected for source audit. No claim of endpoint blinding after that audit; no survival probabilities or efficacy statistics computed.",
+    "combined_team": "R7 previous full-source exposure remains explicit. No globally blinded or novel-publication claim.",
+    "audit_failure_preserved": "Initial source-quote equality failed solely on NBSP/newline layout in Table/Figure references; normalized whitespace validation passes. Initial validation/correction retained; no source or scientific interpretation changed.",
+    "coverage": "This review covers exact11-row source/estimand/value scope, not a new all-public-EMC systematic review. Owner broader eligible/pending coverage remains operative; no source omitted from an advancing claim because nothing advances."
+  },
+  "reopening": "Public authentic individual treatment-origin, event/censor type, surgery dates, longitudinal post-surgery progression/death and last assessment plus source baseline/line/selection covariates, donor-overlap resolution, and a prospectively consequential external-control comparison beyond reported facts. All relevant EMC conditions and independent omission/value check required; no automatic paper promotion.",
+  "no_new_sources_or_raw_copies": true,
+  "all_prior_science_freezes_unchanged": {
+    "own_natural_history_files_checked": 15,
+    "mismatches": 0
+  },
+  "campaign_exhausted": false,
+  "TMEM266": "shelved",
+  "material_blocker_found_in_owner_frozen_interpretation": false,
+  "scientific_scope_closed": true
+}
