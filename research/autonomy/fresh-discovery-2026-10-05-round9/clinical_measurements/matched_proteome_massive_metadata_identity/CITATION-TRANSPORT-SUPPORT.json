@@ -1,0 +1,34 @@
+{
+  "server_query_transport_constructs": [
+    "this.server_params = this.getServerParameters(tableXML);",
+    "var service = this.server_URL;",
+    "var query = encodeURIComponent(decodeURIComponent(location.hash));",
+    "query: query",
+    "type: \"GET\",",
+    "url: service,",
+    "console.log(\"Error updating table with query: [\" + text + \"].\");",
+    "var service = attributes.table.server_URL;",
+    "// build service URL",
+    "var url = service + \"?\";",
+    "type: \"PUT\",",
+    "alert( \"Error updating result row with query: [\" +",
+    "var service = table_object.server_URL;",
+    "var query = encodeURIComponent(decodeURIComponent(location.hash));",
+    "query: query",
+    "type: \"GET\",",
+    "url: service,",
+    "success: function(table_object, service, parameters) {",
+    "a.href = window.URL.createObjectURL(new Blob([output_string], {type: 'text/tsv'}));",
+    "}(table_object, service, parameters),",
+    "console.log(\"Error updating table with query: [\" + text + \"].\");"
+  ],
+  "public_project_helper_citation_parameter_constructs": [
+    "\"<block id='datasets' type='table_ss' orFilterable='true' pagesize='30' server_URL='./QueryDatasets'>\\n\" +",
+    "\"\\t<parameters>\\n\" +",
+    "\"\\t\\t<parameter name='target'></parameter>\\n\" +",
+    "\"\\t</parameters>\\n\" +",
+    "\"\\t\\t<column type='html_list' field='publications' label='Publications' width='27' autoHideSentinel='false' tooltip='Dataset publications'/>\\n\" +",
+    "link.target = \"_blank\";"
+  ],
+  "scope": "Only source-provided method/URL/query/service/schema construction; no rowcells, values, sequences or assignments of biologicaldata."
+}

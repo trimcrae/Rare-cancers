@@ -1,0 +1,17 @@
+{
+  "documented_hash_query_constructs": [
+    "// read location hash, apply any pre-render selections encoded there",
+    "// determine if any actual keys are in the location hash",
+    "// a location hash key represents a filter if it is an ID",
+    "var query = encodeURIComponent(decodeURIComponent(location.hash));",
+    "url += encodeURIComponent(parameter) + \"=\" +",
+    "encodeURIComponent(parameters[parameter]) + \"&\";",
+    "// then write the sorting history into the location hash",
+    "location.hash = encodeURIComponent(JSON.stringify(hash));",
+    "key.name = fieldname + \"_input\";",
+    "// first, save the current filter state into the location hash",
+    "location.hash = encodeURIComponent(JSON.stringify(hash));",
+    "var query = encodeURIComponent(decodeURIComponent(location.hash));"
+  ],
+  "unresolved": "No assumption that arbitrary JSON field/value or rawcitation hash has supported exact server semantics; inherited helper/renderer parsing may be required."
+}

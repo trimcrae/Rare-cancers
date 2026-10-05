@@ -1,0 +1,25 @@
+{
+  "frozen_at_utc": "2026-10-05T20:30:29.071895+00:00",
+  "route": {
+    "url": "https://massive.ucsd.edu/ProteoSAFe/QueryDatasets?query=%2523%257B%2522publications_input%2522%253A%252231419061%2522%257D&target=",
+    "purpose": "Third/final anonymous projectmetadata request: exactPMID31419061 via source-declared Publications filter; no biochemical fields inspected",
+    "cap": 524288,
+    "timeout_seconds": 10
+  },
+  "source_evidence": {
+    "landing_sha256": "55881443ad3026153537cb9da9c783d9be39a61f074294e6234024310137a26e",
+    "handler_sha256": "fbc4e7a66999a749530e75ad0c36bedaa3576a21414010ae787e59d7514ab39a",
+    "server_URL": "./QueryDatasets",
+    "publication_field": "publications",
+    "plain_filter_name_rule": "fieldname + _input",
+    "text_hash_rule": "hash[element.name]=element.value;location.hash=encodeURIComponent(JSON.stringify(hash))",
+    "transport_rule": "GET query=encodeURIComponent(decodeURIComponent(location.hash)),jQuery querystringencodesparameter; target blank from declaredserverparameters"
+  },
+  "field_mask": [
+    "dataset/archiveaccession",
+    "title",
+    "publications citation only",
+    "safe nativehistotype/case/model/pair/control labels ifexplicitlyavailable"
+  ],
+  "limits": "No queryindexcompleteness/exactserversemantics assumed; unexpectedshape or unfiltered catalogue means unresolved, no fullcatalogue rowscrape. No protein counts, sequences, filedownload or biochemical values."
+}
