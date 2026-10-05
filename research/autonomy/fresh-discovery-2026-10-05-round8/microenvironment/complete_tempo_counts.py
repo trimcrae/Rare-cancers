@@ -7,7 +7,7 @@ benchmark determines whether this estimator can support the fixed contrast.
 """
 from pathlib import Path
 from collections import Counter, defaultdict
-import csv, gzip, hashlib, io, json, time, datetime, urllib.request
+import csv, gzip, hashlib, io, json, time, datetime, urllib.request,sys
 import numpy as np
 import openpyxl
 from scipy.stats import spearmanr
@@ -33,6 +33,9 @@ def write(name,obj):
     (P/name).write_text(json.dumps(obj,indent=2,allow_nan=False)+'\n')
 
 
+manifest_receipt=json.loads((P/'MANIFEST-SOURCE-RECEIPT.json').read_text())
+assert hashlib.sha256((P/'raw/HWT2.0-manifest.xlsx').read_bytes()).hexdigest()==manifest_receipt['sha256'],'Changed officialmanifest requires source-version reconciliation'
+assert hashlib.sha256(FILTERED.read_bytes()).hexdigest()=='20165fd3ff09ec2d5a24b3c20b78515f42a3309119f248ed055c7484deb45e75','Changed publishedcontrolsource requires reconciliation'
 w=openpyxl.load_workbook(P/'raw/HWT2.0-manifest.xlsx',read_only=True,data_only=True)
 it=w.active.iter_rows(values_only=True);h=next(it);assert list(h[:5])==['Probe Name','Gene Symbol','Entrez ID','ENSEMBL Gene ID','Probe Sequence']
 probes=list(it);w.close();assert len(probes)==22537
@@ -44,7 +47,20 @@ for i,row in enumerate(probes):
 runs=list(csv.DictReader(RUNS.open(),delimiter='\t'));assert len(runs)==12
 source_gate=json.loads((P/'TEMPO-SOURCE-GATE.json').read_text());assert len({r['sample_alias'] for r in runs})==12
 receipts=[];vectors={}
-for run in sorted(runs,key=lambda r:r['sample_alias']):
+calibrate_only='--calibrate-only' in sys.argv
+if calibrate_only:
+    receipts=json.loads((P/'COMPLETE-TEMPO-SOURCE-RECEIPTS.json').read_text())
+    assert len(receipts)==12 and all(r['complete'] for r in receipts)
+    for run in runs:
+        matches=[r for r in receipts if r['run']==run['run_accession'] and r['sample']==run['sample_alias']]
+        assert len(matches)==1
+        receipt=matches[0];source=P/receipt['count_output']
+        assert receipt['compressed_bytes']==int(run['fastq_bytes']) and receipt['compressed_md5']==run['fastq_md5']
+        assert hashlib.sha256(source.read_bytes()).hexdigest()==receipt['count_sha256']
+        counts=np.load(source,allow_pickle=False)['counts'];assert len(counts)==22537 and (counts>=0).all()
+        assert int(counts.sum())==receipt['classes']['unique_full_probe']
+        vectors[receipt['sample']]=counts
+for run in ([] if calibrate_only else sorted(runs,key=lambda r:r['sample_alias'])):
     sample=run['sample_alias'];url='https://'+run['fastq_ftp'];counts=np.zeros(len(probes),dtype=np.int64)
     receipt={'sample':sample,'run':run['run_accession'],'biosample':run['sample_accession'],'url':url,'utc_start':timestamp(),
              'expected_bytes':int(run['fastq_bytes']),'expected_md5':run['fastq_md5'],'FASTQ_retained_bytes':0,'complete':False}
@@ -110,7 +126,7 @@ perlib=[]
 for j,sample in enumerate(order):
     pvals=np.array([published[g][j] for g in available]);cvals=np.array([logs[g][j] for g in available])
     perlib.append({'sample':sample,'control_genes':len(available),'Spearman_within_library':float(spearmanr(pvals,cvals).statistic),
-                   'control_unassigned_zero_gene_counts':sum(gene_counts[g][j]==0 for g in available)})
+                   'control_unassigned_zero_gene_counts':int(sum(gene_counts[g][j]==0 for g in available))})
 variance=np.array([np.var(published[g],ddof=1) for g in available]);cut=np.quantile(variance,.75)
 variable=[g for g,v in zip(available,variance) if v>=cut]
 correlations=[float(spearmanr(published[g],logs[g]).statistic) for g in variable if np.ptp(logs[g])>0]
@@ -120,7 +136,8 @@ out={'utc':timestamp(),'all12_complete':True,'actual_control_genes':len(availabl
      'median_crosssample_Spearman':float(np.median(correlations)),'calibration_passed_frozen_benchmarks':adequate,
      'biological_interpretation_allowed':adequate,'thresholds':'Eachlibrarywithin-geneSpearman>=.90;medianpublished-variablegenecrosssampleSpearman>=.80. Estimatorallocation benchmark, notassayvalidity.',
      'normalization':'Unique-assignedprobePCRreads summedpergene andCPM; log2(CPM+.5). PublishedUQ/global/batchprocessingcancreate differences, no causal inference fromfailedmapping.',
-     'elapsed_stage_seconds':time.monotonic()-START}
+     'elapsed_stage_seconds':(max(r['elapsed_stage_seconds'] for r in receipts) if calibrate_only else 0)+time.monotonic()-START,
+     'implementation_retry':'JSONnumpyint serialization fixed; calibration-only mode verifies all12 source/count receipts and reruns unchanged frozen calibration. No FASTQredownload, newthreshold, genechange or subset.' if calibrate_only else None}
 write('TEMPO-CALIBRATION.json',out)
 if adequate:
     target={g:{'probe_count':len(genes[g]),'raw_gene_counts':list(map(int,gene_counts[g])),'sum_probe_log2_CPMplus05':list(map(float,logs[g])),

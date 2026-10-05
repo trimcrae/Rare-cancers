@@ -1,0 +1,103 @@
+{
+  "utc": "2026-10-05T01:22:09.011862+00:00",
+  "all12_complete": true,
+  "actual_control_genes": 9490,
+  "masked_target_genes": [
+    "AIF1",
+    "CCL2",
+    "CCL5",
+    "CD3D",
+    "CD3E",
+    "CD3G",
+    "CSF1",
+    "CXCL10",
+    "CXCL11",
+    "CXCL9",
+    "FCER1G",
+    "LST1",
+    "PTPRC"
+  ],
+  "per_library": [
+    {
+      "sample": "Si01",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.9062602475564924,
+      "control_unassigned_zero_gene_counts": 3586
+    },
+    {
+      "sample": "Si02",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.905885569725082,
+      "control_unassigned_zero_gene_counts": 4147
+    },
+    {
+      "sample": "Si05",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.8732120184330464,
+      "control_unassigned_zero_gene_counts": 5194
+    },
+    {
+      "sample": "Si09",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.8431412016907384,
+      "control_unassigned_zero_gene_counts": 5075
+    },
+    {
+      "sample": "Si10",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.858239825903712,
+      "control_unassigned_zero_gene_counts": 4821
+    },
+    {
+      "sample": "Si14",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.9564799428059898,
+      "control_unassigned_zero_gene_counts": 692
+    },
+    {
+      "sample": "Si15",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.9521676300826174,
+      "control_unassigned_zero_gene_counts": 1837
+    },
+    {
+      "sample": "Si16",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.9559633036565951,
+      "control_unassigned_zero_gene_counts": 819
+    },
+    {
+      "sample": "Si17",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.9620081801240624,
+      "control_unassigned_zero_gene_counts": 420
+    },
+    {
+      "sample": "Si19",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.9463411689308631,
+      "control_unassigned_zero_gene_counts": 1917
+    },
+    {
+      "sample": "Si20",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.9598352252916074,
+      "control_unassigned_zero_gene_counts": 223
+    },
+    {
+      "sample": "Si22",
+      "control_genes": 9490,
+      "Spearman_within_library": 0.9636035169615509,
+      "control_unassigned_zero_gene_counts": 55
+    }
+  ],
+  "published_top_variance_control_genes": 2373,
+  "nonconstant_control_gene_correlations": 2373,
+  "median_crosssample_Spearman": 0.976952822135941,
+  "calibration_passed_frozen_benchmarks": false,
+  "biological_interpretation_allowed": false,
+  "thresholds": "Eachlibrarywithin-geneSpearman>=.90;medianpublished-variablegenecrosssampleSpearman>=.80. Estimatorallocation benchmark, notassayvalidity.",
+  "normalization": "Unique-assignedprobePCRreads summedpergene andCPM; log2(CPM+.5). PublishedUQ/global/batchprocessingcancreate differences, no causal inference fromfailedmapping.",
+  "elapsed_stage_seconds": 1218.581063001,
+  "implementation_retry": "JSONnumpyint serialization fixed; calibration-only mode verifies all12 source/count receipts and reruns unchanged frozen calibration. No FASTQredownload, newthreshold, genechange or subset."
+}

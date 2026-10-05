@@ -1,0 +1,124 @@
+{
+  "utc": "2026-10-05T01:34:18.408097+00:00",
+  "question": "Unchanged measuredmyeloidversusTcellrecruitmentligandtranscriptbalance aftercontentchecks inEMC",
+  "coverage_scope": "Datedboundedsource/valueandcomplete12countstage, notexhaustioncertificate. All evaluatedsourceconditions retained; relevantpublicRNA/IHC/genericidentity/properallocationgapsremainexplicit andblockpromotion. Noarticle/letterdraft.",
+  "sources": [
+    {
+      "source": "Hofvander2026 bulk704",
+      "status": "evaluated measuredfixedpanel",
+      "conditions": "All13sourceEMCtissues, all704observations/all46fixedclosestmalignantcomparators;13unique patientgroups,3knownhistoricalMDBcohortoverlaps and1LR retained;12primary/9nonoverlapping-primary sensitivity",
+      "results": "UnadjustedA.587,p.346;fullfixedcontentcoef+.7645 bootstrapCI[.1055,1.4741]. PeerRNA-LGFMS-onlyCIcrosseszero; onlyjointmyeloid/T adjustment supports positiveCI. HistoricalexactGSE24369donorlinkageunproved.",
+      "artifact": "HOFVANDER-FIXED-CONTRAST.json;HOFVANDER-EMC-IDENTITY-COVERAGE.json;DECISIVE-ROBUSTNESS-RESULTS.json;AMENDMENT04"
+    },
+    {
+      "source": "GSE24369 original42array",
+      "status": "evaluated measuredfixedpanel",
+      "conditions": "All6EMC/17LGFMS/6MFS/5SFT/6desmoid/2pooledskeletalmusclereferences. All42unambiguousreleasedcommonprobe mappings/values exported. Source0trialantagonist inference.",
+      "results": "LGFMSunadjustedA.8529,p.00987;fullcoef1.0702 bootstrapCI[.3516,2.3246]. All28LGFMS/MFS/SFTtumouradjustedcoef1.0331 tCI[-.0196,2.0859];MFSadjustedcoef-1.6487wideCI;SFT/desmoid/pooledmusclewide. Noselectivityclaim.",
+      "artifact": "GSE24369-FIXED-CONTRAST.json;GSE24369-ADDITIONAL-CONTROL-DIAGNOSTICS.json"
+    },
+    {
+      "source": "GSE28866 Brunner2012 3SEQ",
+      "status": "evaluated sixfixedligandcontrast;fullcontentmodel pending",
+      "conditions": "All4EMCsourceSTT5525/5526/5527/5592;all93processedlibraries=64tumours+2technicalduplicate libraries+27unmatchednormalorgans. Sourceauthorhistology, unknowncrossstudyoverlap/fusion;4conditionsnotcultures. All6MLPS+3SS and16other tumourgroup labels reported.",
+      "results": "Source12/13fixedmarkerscodingpeaks;CD3Gretainedcodingpeakmissingnotzero. Coreall6ligandbalanceA.6944,p.330vs9closestcontrols;meanperpeakA.8056,p.106. No markerdrop/substitute/fullcontentfit. Sourceunitsnormalizedsquare-root3primepeakdensity, notTPM;no crossplatformpooling.",
+      "pending": "Public54511unfilteredpeakcounts are sourcelinked; HEAD403 size/accessunresolved atattempt. Fullgene/peakannotation andCD3Gcoverageunfinished, notnonEMC/biologicalabsence.",
+      "artifact": "GSE28866-FIXED-PANEL-OBSERVATIONS.json;GSE28866-UNFILTERED-SIZE-RECEIPT.json;AMENDMENTS04/05"
+    },
+    {
+      "source": "Chaiboonchoe2026 TempO PeerJ21497",
+      "status": "all12complete literalprobePCRcounts;estimatorbenchmarkfailed, missinggeneRNAinferencepending",
+      "conditions": "All12Si01/02/05/09/10/14/15/16/17/19/20/22;81,123,915reads;2,704,945,123compressedbytes;EVERYENAmd5/bytes/readclass/vectorhash accounted;0FASTQretained.9500processedS9genes13panel9missingnotzero;22537officialprobes/all17fixedtargetprobes uniquelysourcecovered.",
+      "results": "9490sourcecontrolgenes13targets masked;threeper-libraryrho<.90:Si05.8732,Si09.8431,Si10.8582;other9.9059–.9636. Favorablevariable-controlmedian.9769528221 preserved. Proposeduniqueexactestimatorunacceptedunderfrozenplan, NOTinvalidassay;no favorablelibrarysubset, no maskedtargetbiology.",
+      "pending": "Proper source-protocol-aware errors/ambiguity/chimeras allocation andtarget-specificvalidation before13missing/low markerRNA interpretation;freshfullstream requires sameordinaryURL/hashchecks. Published9500/9909retainedcountdiscrepancy unresolved.",
+      "artifact": "TEMPO-SOURCE-GATE.json;COMPLETE-TEMPO-SOURCE-RECEIPTS.json;TEMPO-CALIBRATION.json;COUNT-Si*.npz;AMENDMENTS03/06/08"
+    },
+    {
+      "source": "Dancsok2020 PMC7153829 DOI10.1080/2162402X.2020.1747340",
+      "status": "verifiedevaluationreused publishedpriorart",
+      "conditions": "6EMCsource;5macrophageevaluable,4matchedTIL;twoTMAcorestechnicalnotdonors. CD68median0/CD163median5cells/mm2;heterogeneousCD47perEMCdenominator/crosswalknotprinted.",
+      "results": "Sparseabsolute/relativeM2alreadyreported;notnewEMCmacrophageorcheckpointfinding. No ligandgene/protein/localizationcontrast.",
+      "artifact": "PRIOR-EVALUATION-REUSE.json;R1microenvironmentCOVERAGE/RESULTS"
+    },
+    {
+      "source": "Indio2018 DOI10.1200/JCO.2018.36.15_suppl.11561;Stacchiotti2019 DOI10.1016/S1470-2045(19)30319-5",
+      "status": "verifiedpriorartreused;individualmappingpending",
+      "conditions": "12treatmentnaive7EWSR1/5TAF15,22CIBERSORTcelltypes/3IHCdescribed;relativeM2published. Possibleclinical2019overlap/individualRNAcondition/outcomecrosswalkunresolved.",
+      "results": "Relativedeconvolutionnotabsoluteprotein/cellcounts;no newlyacquired13ligand/contentRNAcontrast or prognosis reconstructed.",
+      "artifact": "PRIOR-EVALUATION-REUSE.json;R1coverage"
+    },
+    {
+      "source": "Ogata2022 PMC9527174 DOI10.1111/1759-7714.14613",
+      "status": "verifiedpriorimmuneIHCcontextreused",
+      "conditions": "One34Fpleuralmetastaticbiopsy;qualitativeCD163predominant/fewCD8,CD4FOXP3absent/PDL1negative sourceIHC.",
+      "results": "Onecasequalitativeimmunecontext, no fixedligand/pairedprimary/cultureRNAmeasurements or mechanism. InterruptedHLAreviewcontents excluded.",
+      "artifact": "R1microenvironmentcoverage;R8radiotherapyconditionreuse message"
+    },
+    {
+      "source": "DAngelo2015 DOI10.1016/j.humpath.2014.11.001;Umakoshi2023 DOI10.1038/s41598-023-28024-1;Rosenbaum2026 DOI10.1158/1078-0432.CCR-25-3419",
+      "status": "reusedcontextwithindividualIHC/condition/provenance pending",
+      "conditions": "Dangelo secondary1EMClowCD4/CD8/absentFOXP3 plus2PDL1negative;primaryattempt500—notprimaryreconfirmed. Umakoshi1EMC/75CD68/163/204intratumor/margin,EMCnumericrowsunfinished. Rosenbaumindexed1EMCimmune-depletednonresponder;patient/regimen/timecrosswalkunfinished;potentialoverlapsunresolved.",
+      "results": "No perEMCgeneRNApanel/cellsource/prognosisvalidation inferred;unknownconditionsretained. Failedprimaryroutes notuniversalunavailability.",
+      "artifact": "R1coverage;PRIOR-EVALUATION-REUSE.json"
+    },
+    {
+      "source": "fmTLS2026 PMC13255587 DOI10.3390/cancers18111685",
+      "status": "publicprimary/all9supplementtables+captionsevaluated;individualdataprivacyrestricted",
+      "conditions": "219primarylimb/trunk1990–2020 surgery/noinitialmet/no neoadjuvant;EMCamongcombined39Other/15subtypes,exactEMCcountunknown.126RNAof146extractable after20QCfailure;4microdissectedregionsCT/PT/R1/NTnotmappedperEMC.",
+      "results": "PublicaggregatedIHC/RNAclassification ispriorart. Individualdatasets explicitlynotpublicprivacy/regulatory;no EMCprevalence/prognosis/ligands inferred or private/outreachrequest. Publicsupptablescomplete;figexamplehistotypesUPS/LGFMS/ASPS/DDLPSnotEMC.",
+      "artifact": "TLS2026-PUBLIC-COVERAGE-OBSERVATIONS.json;TLS2026-SOURCE-RECEIPT.json;TLS2026-SUPPLEMENT-COMPLETE-RECEIPT.json"
+    },
+    {
+      "source": "GSE4303 original2005 bulkarrays",
+      "status": "reusedsourceidentity/assaygate;fixedpanelmeasurements pending accessibleanalysis",
+      "conditions": "10authorEMC/26other-tumourstudy,36metadatarecords onmultipleplatforms;recoveredGPL3290matrix16sourceconditions. GeneprobesoriginalGB_LISTcDNAaccessions;13genecompleteunambiguoussourceprobecrosswalknotexecuted.",
+      "results": "Twochannel log2tumour/commonCRGreference, notTPM/normals;do notassumeall10EMC represented by16matrixcolumns. Nofixedgenebiologicalnegative or source-size exclusion. HistoricalMDBoverlap mayapply;exactcrosswalkunproved.",
+      "artifact": "Sharedoriginal-source-recovery.zip SHA855cf60fd09b7206699f7b11053fafb39ceb93209b75ebeae59326cd2e0f66f4;sourcefullcachedread-onlynotcopied"
+    },
+    {
+      "source": "Brenca2019 nativeRNA+engineeredcontrols",
+      "status": "verifiedsourceconditionreuse;fixedligandmatrix pending",
+      "conditions": "12nativeEMC7EWSR1/5TAF15centrallyreviewedNR4A3FISH;5matchedfrozen4EWSR1/1TAF15individualmappingnotshown;separateengineeredtBJ/ERnotnativeEMC,11librariesnot11donors.",
+      "results": "No13fixedpanelvaluesacquired;separateengineeredmodels cannotestablish nativecellsource. OriginalsourcefullRNAcondition/culturemappingnotclosed.",
+      "artifact": "PRIOR-EVALUATION-REUSE.json;R7brenca-source-evaluation.json"
+    },
+    {
+      "source": "NativeEMCcultureRNA sourcecontext",
+      "status": "eligibleavailablecontexts;fixed13geneanalysis pending/notexecuted atstageclose",
+      "conditions": "V1-34/GSM2113301onefusion-supportedEWSR1–NR4A3cultureexperiment/twotechnicalruns,USZ22/GSM6883080TAF15–NR4A3,USZ23/GSM9037837nativeEWSR1–NR4A3readsupport;USZ20overlapunresolved. No newgenes/TPM/targetvaluesinspected. NCC/USZ20fullgeneRNAunlocatednotassumed absent.",
+      "results": "ARCHS4roundedestimatedcounts/rawRefSeqquant available read-only;fullfixedcurrent+historicalmappingunfinished. No absolutebulk/culturepooling or cultureRNA→tissueprotein/secretion/localization/dependency.",
+      "artifact": "AMENDMENTS07/08;SOURCE-CONTEXT-BINDINGS.json"
+    },
+    {
+      "source": "Nottley/UCLpostRT2026;PGR2022 tissueRNA",
+      "status": "verifiedotherworkereligibilityreused;differentcondition/sourcepanel unavailable",
+      "conditions": "Nottley2pre/postRTdonors9/29,tissueRNA94DE/44sharedpublishedgenes,no publicperdonormatrix/accession or tissue/culturepair. PGRone recurrenttissuequalitativeESR1/PGR/NR4A3outliers;no fixedligandpanel.",
+      "results": "DifferentRNAconditionsheldassay/compartment/matrixgaps, notnegativegenes.",
+      "artifact": "R8radiotherapysource/valuepacket anddirectreuse message"
+    },
+    {
+      "source": "GSE213065/GSE212527/GSE212526;Ngo2025;BO1122026;broadercellresources",
+      "status": "verifiedeligibilityreused;genericdonor/publicresourcegaps pending",
+      "conditions": "Prior87/7/4metadata+22sheetsevaluatednoEMC;Ngoallsc/spatialEpS,EMConlybulk. LatestBO112authoritative16source-nonEMC/10pending6donors,old010/011numerictransferwithdrawn. CASSISexpandedroster/CellSARCTxprimarymappingnotclosed;Luthriafreshspecimen/newparentgateongoingotherownedworker.",
+      "results": "No authenticatedpublicEMCcellresolvedmalignantversusstromalligandsource acquired;notabsence/noEMCbiologicalnegative. No freshretrievalduplicates.",
+      "artifact": "PRIOR-EVALUATION-REUSE.json;BO112correctedamendment;R6spatialCOVERAGE;R8parentcell_compartment_source_gate"
+    },
+    {
+      "source": "GSE6481 mis-citedEMCvalidation",
+      "status": "verifiedeligibilityfailure reused",
+      "conditions": "All105originalrecordsnoneEMC;19group isMLPS. Publishedfigure/countscontradictnamedsource, intendedalternativeunresolved.",
+      "results": "CannotrelabelforEMC;no reanalysisnecessary.",
+      "artifact": "R2h1fxRESULTS;PRIOR-EVALUATION-REUSE.json"
+    },
+    {
+      "source": "Restrictedinterruptedtaskboundaries",
+      "status": "excluded scopecontents, not scientific negative",
+      "conditions": "FAPtissue/glycan/structural-genomics/HLAreviewcontentsnotreopened;no access/private/UIbypass. No newgene/outcomecontentfrominterruptedtasks.",
+      "results": "Cannotclaimglobalcompletepublicevidence/absence;allrestrictionandownershipstandards preserved.",
+      "artifact": "PLAN.json;R8ROUND-CONTRACT/operatingprotocol/handoff"
+    }
+  ],
+  "prior_art_search": "Focusedexactdiseasealiases+ligand/immune174uniquehitscomplete174/174, titleabstractimmune31/31 complete; broaderNR4A3/EMCS queries652/909first100partial. Metadataenumerationisnotevaluationofallunderlyingmeasurements. Interrupted-topicmetadata notscientificallyfollowed.",
+  "promotion_blocked": true,
+  "scientific_negative": false
+}
