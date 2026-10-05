@@ -1,0 +1,63 @@
+{
+  "utc": "2026-10-05T00:52:42.319112+00:00",
+  "reviewed_commit": "ba6f0841b4adbc50d768d73ccbfc7db5b496235d",
+  "reviewed_freeze_sha256": "5315fde004ab1c306209c96e871ee106efe31308d1ca036b2aafae737c2830d3",
+  "all_frozen_artifact_hashes_verified": 21,
+  "bound_source_hashes": {
+    "research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz": "0255cd254762c6184a782d5b9a90aba6e545b6b2206e28f283455df2de4d62fc",
+    "research/autonomy/atlas-primary-provenance-2026-09-06/GSE24369.soft.gz": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37",
+    "research/autonomy/atlas-original-array-source-2026-09-06/original-source-recovery.zip": "855cf60fd09b7206699f7b11053fafb39ceb93209b75ebeae59326cd2e0f66f4",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/metadata-manifest.json": "2dfb58418fdcbd00970602c1b5b06dde10a2d872e90031032c7427e836449db2",
+    "/workspace/Rare-cancers/research/autonomy/tmem266-all-cultures-2026-10-04/archs4-subset.zip": "f0bcd17e0c56ec038ea47ee14b7b57700333b46790d2cfb18a555cbf70ea4446",
+    "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/USZ23-RefSeq.quant.sf.gz": "d49822e6ca79a18c186b00c4faa4087b8582bbb72c0be218fcea2e997565507f",
+    "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/DLL3-gene.xml": "11b66faabb6cb4ce60e69b4e5d92827270d2bff844819c54f59a7bb574371ec5",
+    "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/SEZ6-gene.xml": "4f4003668789c99153cf41637591397eb8a0bc2f1bc3c728c863ea8c6c5593eb",
+    "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/NCAM1-gene.xml": "0698196f23b4ee85e664791bb6c177bf4f3d2be07e1526ee945fa0a9244e0f85"
+  },
+  "actual_checks": [
+    "All704 RNA originals, all13EMC/9primary-after-known-exclusions, rankA/yearcells/all13sensitivity/all9deletions/one-sided p/IUT/Holm reproduced independently.",
+    "All42original array specimens/exactsource annotation and6EMC-versus-four-comparator A reproduced independently.",
+    "MEASUREMENTS2302cells incl39RNA EMC,126array cells,40olderEMC gene/spot observations; fiveDLL3/fourSEZ6missing retained.",
+    "CurrentUSZ23 transcript rows/mapped sums and allretained model source hashes checked.",
+    "All4source-authenticated3SEQ EMC condition projection for frozen3gene panel added without download or rawcopy."
+  ],
+  "array_checks": {
+    "DLL3": {
+      "LGFMS_A": 0.4019607843137255,
+      "features": [
+        "8028719"
+      ]
+    },
+    "SEZ6": {
+      "LGFMS_A": 0.6862745098039216,
+      "features": [
+        "8013833"
+      ]
+    },
+    "NCAM1": {
+      "LGFMS_A": 0.3137254901960784,
+      "features": [
+        "7943892"
+      ]
+    }
+  },
+  "Holm_IUT": {
+    "SEZ6": 0.2589241496414827,
+    "DLL3": 1,
+    "NCAM1": 1
+  },
+  "high_SEZ6_preserved": {
+    "11881-19": 84.05,
+    "3372-22": 68.61,
+    "5149-18": 41.46,
+    "536-00": 37.89
+  },
+  "coverage_validity": "Original packet explicitly pending other datasets/prior supplement lists/identity gaps; it is a scoped shelved checkpoint, not complete-coverage certificate. Additive3SEQ closes that source only.",
+  "value_judgment": "No standalone useful finding survives: NCAM1/CD56 already published, unfavorable LGFMS/synovial contrasts; DLL3/SEZ6 fail appreciable common expression/relevant cross-assay gate. HighSEZ6 observations remain real, not proteinabsence or subgroup/actionability proof.",
+  "decision": "PASS bounded negative/shelved checkpoint, with additive3SEQ coverage; no publication/novelty/clinical approval.",
+  "limits": [
+    "Bootstrap algorithm/conditional interpretation reviewed; this review does not independently reproduce every10000draw CI.",
+    "ARCHS4 model exact rows/source hashes checked by original worker offline replay; currentGene mapping not historical fullgene coverage.",
+    "No protein/accessibility/binding/dependency/response or proven nine globally independent donors; no global exhaustion."
+  ]
+}

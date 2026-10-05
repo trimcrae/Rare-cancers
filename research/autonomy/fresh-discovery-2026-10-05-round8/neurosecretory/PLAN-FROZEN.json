@@ -1,0 +1,57 @@
+{
+  "schema": "emc-neurosecretory-pilot/1",
+  "frozen_utc": "2026-10-05T00:29:11.260043+00:00",
+  "base_commit": "80c40ed9fb1af0086bdfc9754c97b176490996e0",
+  "owner": "/root/fapi_named",
+  "question": "Do authenticated EMC specimens exhibit the norepinephrine uptake/vesicular storage transporter combination SLC6A2 with SLC18A1 or SLC18A2 beyond generic neural differentiation, in a way that would justify specific measurement follow-up?",
+  "rationale": "MIBG uptake/storage requires distinct machinery beyond INSM1/CHRNA6/synaptophysin. Existing SSTR2 expression results are heterogeneous, array-discordant and not a validated broad address; reuse them rather than relabeling as discovery. Transporter co-expression is one useful unanswered contrast; transcript results alone cannot demonstrate uptake, plasma-membrane availability, protein or benefit.",
+  "primary_tests": {
+    "genes": [
+      "SLC6A2",
+      "SLC18A1",
+      "SLC18A2"
+    ],
+    "context_genes": [
+      "SSTR2",
+      "INSM1",
+      "CHRNA6",
+      "TH",
+      "DBH",
+      "DDC"
+    ],
+    "primary_comparators": [
+      "MPNST",
+      "Schwannoma",
+      "Neurofibroma",
+      "Myxoid liposarcoma",
+      "Low-grade fibromyxoid sarcoma",
+      "Synovial sarcoma"
+    ],
+    "analysis": "All authenticated EMC specimen rows and conditions, donor-resolved source-specific descriptive RNA values, gene-wise distributions and rank ordering versus each prespecified histology. No invented positivity or uptake cutoff. Independently measured protein or clinical uptake needed to advance beyond exploratory RNA contrast; absence of RNA assay/probe is not absence of transcript.",
+    "selection": "No outcome-dependent filtering. Include previously excluded discovery-overlap/lesion rows descriptively with overlap/condition flags; keep independent primary comparisons separate. No pooling sources or unknown donors."
+  },
+  "prior_results_to_reuse": [
+    "research/modalities/aso-delivery-antigen.json",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/results/SSTR2.json",
+    "research/autonomy/atlas-hofvander-validation-2026-09-06/replication-results/SSTR2.json",
+    "research/autonomy/fresh-discovery-2026-10-04-round2/genomics/nr4a2-hspa8-metadata.json",
+    "research/autonomy/fresh-discovery-2026-10-04-round2/clinical/oliveira2000-full-paragraphs.json"
+  ],
+  "source_gate": [
+    "Literature search exact/historical EMC names, NR4A3 and noncanonical NR4A2 with SSTR/catecholamine/transporter/MIBG/DOTATATE aliases; source/assay/donor/negative provenance first",
+    "Reuse verified public Hofvander2026/GSE24369/GSE4303/GSE28866 identity records; resolve actual source availability/probe coverage before outcomes; no code-based subtype transfers",
+    "All newly identified suitable public EMC conditions must be evaluated or kept pending; pending accessible measurements block promotion"
+  ],
+  "advance_conditions": "An independently corroborated transporter-specific EMC contrast not already published, not explained equally by generic neural-marker differentiation/nerve admixture/assay cohort confounding, and useful beyond established diagnostic markers. Stronger protein/uptake measurements preferred. Complete relevant public EMC coverage and independent value/validity challenge required.",
+  "shelve_conditions": "No suitable newly informative measured contrast, unchanged prior result, isolated author-labelled/noncanonical case, unstable donor/assay comparison, or absent protein/uptake validation. Preserve negative/inconclusive and explicitly distinguish accessible pending from unavailable.",
+  "pilot_deadline_utc": "2026-10-05T00:59:11.260043+00:00",
+  "retained_raw_soft_cap_bytes": 67108864,
+  "storage_floor_gib": 10,
+  "restrictions": [
+    "No browser/computer use06:00-10:00NY; quiet API/files only",
+    "No interrupted FAP/glycan/structural-genomics/HLA restriction bypass",
+    "No paid/GPU/outreach/publication/external records/PR",
+    "No manuscript without actual useful contribution; TMEM266 shelved",
+    "Owned path only; no push/root edits; caches preserved"
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "scope": "Bounded catecholamine uptake/storage contrast, not global evidence exhaustion",
+  "sources": [
+    {
+      "source": "Hofvander2026",
+      "status": "evaluated",
+      "conditions": 13,
+      "disposition": "All13 author-labelled EMC RNA rows; nine primary rows after3known historical discovery overlaps and1LR excluded from primary subset. All13 retained individually. Unknown additional donor overlap remains. Canonical fusion status not authenticated per row by reused metadata.",
+      "record": "RNA-RESULTS.json"
+    },
+    {
+      "source": "GSE24369/GPL6244",
+      "status": "evaluated",
+      "conditions": 6,
+      "disposition": "All6 EMC biopsies, exact single-gene probes on all9 frozen genes, original RMA signals; all17LGFMS comparator rows. Unknown cross-study overlap, no independent-donor assertion.",
+      "record": "ARRAY-RESULTS.json"
+    },
+    {
+      "source": "GSE4303/GPL3290",
+      "status": "evaluated",
+      "conditions": 10,
+      "disposition": "All10 verified author-EMC source conditions retained;9SLC6A2 values,1missing;10SLC18A2 values;SLC18A1 probe not mapped, unsuitable for gene read. Six heterogeneous comparator conditions descriptive only. Exact-symbol mapping reused, not new annotation.",
+      "record": "ARRAY-RESULTS.json"
+    },
+    {
+      "source": "GSE28866/3SEQ",
+      "status": "evaluated",
+      "conditions": 4,
+      "disposition": "All4 verified EMC libraries, one exact SLC18A2 symbol peak. SLC6A2/SLC18A1 absent from exact-symbol peak table, demonstrably unsuitable measurement for these two genes; not biological absence. All6MLPS/3SS/27normal context libraries retained.",
+      "record": "3SEQ-RESULTS.json"
+    },
+    {
+      "source": "Barresi2025 DOI10.1007/s00428-025-04352-7",
+      "status": "unavailable evidence",
+      "conditions": 1,
+      "disposition": "Public primary abstract/preview evaluated: author-EMC HSPA8::NR4A2 neuroendocrine phenotype, noncanonical NR4A3-negative. SSTR2 keyword/references are not assay results. Full detailed measurement and raw transcriptome request-only; no access/outreach authorized. Cannot count as canonical EMC receptor-positive evidence.",
+      "record": "FOCUSED-SOURCE-EXTRACTS.json"
+    },
+    {
+      "source": "SSTR2 previous cohorts",
+      "status": "verified evaluation reused",
+      "disposition": "SSTR2 heterogeneous/flat, older-array discordance and limited normal context; unchanged prior outcomes not discovery.",
+      "record": "VERIFIED-REUSE.json"
+    },
+    {
+      "source": "Oliveira2000 and older neural-marker studies; INSM1/CHRNA6",
+      "status": "verified evaluation reused",
+      "disposition": "Published neural/neuroendocrine differentiation and diagnostic markers are prior art, do not authenticate catecholamine uptake machinery. Individual specimen overlap with later cohorts not fully resolved.",
+      "record": "PRIOR-ART-OBSERVATIONS.json"
+    },
+    {
+      "source": "Sj\u00f6gren2003 PMID12598313/PMC1868116",
+      "status": "unavailable evidence",
+      "conditions": 2,
+      "disposition": "Indexed abstract documents two different-fusion EMC microarray observations compared with MLPS; already-published neural program. Full primary source API500 then official-host reCAPTCHA; no transporter-specific available measurement or full assay mapping authenticated, no negative gene inference.",
+      "record": "PMC1868116-ALTERNATE-RECEIPT.json"
+    },
+    {
+      "source": "Exact vesicular query four results",
+      "status": "evaluated",
+      "disposition": "NR4A review refers to neuronalVMAT2; conference contains separate EMC and postmortem brainVMAT2 abstracts; radiogenomics review has neuroblastomaSLC6A2/FDOPA versus EMC MR. Conference PMC7102355 returns only brief index, detailed abstract unavailable; not evidence of an EMC observation.",
+      "record": "LITERATURE-DISPOSITIONS.json"
+    },
+    {
+      "source": "Broad NR4A3/VMAT/catecholamine search",
+      "status": "pending accessible analysis",
+      "disposition": "Broad initial query is truncated and manyhits are other cancers/VMAT radiation modality; retained as exploratory discovery search only. No claim every indexed source evaluated/no suitable remaining public source. Exact disease/vesicular/clinical focused queries complete; secretory106 records metadata/abstract gate, not full-text assay audit.",
+      "record": "SOURCE-QUERIES.json"
+    },
+    {
+      "source": "Broader known identity-pending RNA/model resources fromR6/R7",
+      "status": "pending accessible analysis",
+      "disposition": "Generic BO112 donor identities, disputedHEMCSS/MUG-EMCS and broader raw/panel crosswalks not silently accepted as EMC; no new identity or ligand-uptake measurements established here. Identity-pending cannot be pooled.",
+      "record": "/handoff/CONTINUE-IN-CLOUD.txt"
+    }
+  ],
+  "promotion_blockers": [
+    "Unresolved relevant source identities/body/assay mappings and pending broader source gate; no full public-EMC coverage certificate.",
+    "Protein/tumour-cell localization and clinical uptake not measured."
+  ],
+  "donor_rule": "Conditions are not summed as independent donors; known overlap excluded from primary subset only, all conditions retained."
+}
