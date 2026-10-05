@@ -1,0 +1,56 @@
+{
+  "stage": "Official annotation metadata, no expression or sequence",
+  "source_access": [
+    {
+      "utc": "2026-10-05T18:52:55.883521+00:00",
+      "name": "GPNMB-Gene-identity",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=gene&id=10457&retmode=json",
+      "cap": 262144,
+      "operation": "GET publicannotationmetadata only",
+      "status": 200,
+      "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=gene&id=10457&retmode=json",
+      "bytes": 3698,
+      "sha256": "aff1499b7a5f4821fb2f9bb6db25438a011c5e71ec28a732f371b86838f89d99",
+      "cache_path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/gpnmb_native_culture_input_gate/raw-cache/GPNMB-Gene-identity.json"
+    },
+    {
+      "utc": "2026-10-05T18:52:55.891752+00:00",
+      "name": "GPNMB-official-RefSeqRNA-links",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=gene&db=nuccore&linkname=gene_nuccore_refseqrna&retmode=json&id=10457",
+      "cap": 262144,
+      "operation": "GET publicannotationmetadata only",
+      "status": 200,
+      "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=gene&db=nuccore&linkname=gene_nuccore_refseqrna&retmode=json&id=10457",
+      "bytes": 262,
+      "sha256": "a52afae341d3e077192bd95583cb2e0b8a236953020fbdf7542b0ccbeb4d2ed8",
+      "cache_path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/gpnmb_native_culture_input_gate/raw-cache/GPNMB-official-RefSeqRNA-links.json"
+    }
+  ],
+  "gene_identity": {
+    "uid": "10457",
+    "name": "GPNMB",
+    "description": "glycoprotein nmb",
+    "status": "",
+    "organism": {
+      "scientificname": "Homo sapiens",
+      "commonname": "human",
+      "taxid": 9606
+    }
+  },
+  "refseq_linkage": {
+    "GeneID": "10457",
+    "expected_source": "gene",
+    "target_database": "nuccore",
+    "linkname": "gene_nuccore_refseqrna",
+    "uids": [
+      "2462612028",
+      "2462612026",
+      "2217365319",
+      "2217365318",
+      "2217365317",
+      "1677499436",
+      "1677473106"
+    ]
+  },
+  "identity_link_gate_pass": true
+}

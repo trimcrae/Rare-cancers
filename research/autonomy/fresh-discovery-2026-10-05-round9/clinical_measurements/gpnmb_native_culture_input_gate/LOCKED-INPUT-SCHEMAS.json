@@ -1,0 +1,91 @@
+{
+  "ARCHS4": {
+    "source": {
+      "path": "/workspace/Rare-cancers/research/autonomy/tmem266-all-cultures-2026-10-04/archs4-subset.zip",
+      "bytes": 359106,
+      "sha256": "f0bcd17e0c56ec038ea47ee14b7b57700333b46790d2cfb18a555cbf70ea4446",
+      "scope": "Compressedsharedoriginalhash/readfirstmatrixheaderonly"
+    },
+    "member": "matrix.tsv",
+    "header": [
+      "",
+      "GSM2113301",
+      "GSM6883080"
+    ],
+    "original_request": {
+      "url": "https://maayanlab.cloud/sigpy/data/samples",
+      "payload": {
+        "gsm_ids": [
+          "GSM2113301",
+          "GSM6883080",
+          "GSM9037837"
+        ],
+        "species": "human"
+      },
+      "bytes": 51,
+      "sha256": "ed51d7926f339e0806956f846df6a722a252bd566401d306eb75119f19823a59",
+      "response": {
+        "task_id": "0d2fc727-c015-49d4-a184-d81d5016e094"
+      }
+    },
+    "request_scope": "Earlieractualsigpy/data/samples request namesallthreeGSMs; retainedsubsethasONLYtwoheaders. HistoricaltaskIDnotused/no newpoll/query. TwoheadersnotglobalabsenceofUSZ23RNA.",
+    "GPNMB_row_presence": "Not inspected; pending exactgeneidentifier/prospective rowcapture stage",
+    "gene_key": "Blankfirstcolumnheader; originalR8script usesliteralgenesymbolrowlookup; namespace/uniqueGPNMBrow mustbeverifiedbeforemeasurements",
+    "row_count_reused": 67186,
+    "denominators_reused": {
+      "GSM2113301": 40794510,
+      "GSM6883080": 28727977
+    },
+    "units": "RoundedKallistoestimatedcounts, notliteralalignedreads/TPM; conditionalcounts-per-million usingreusedallrowlibrarydenominators only iffixedanalysis laterauthorized. Library-normalizedcontext notsource-independenttissue scale."
+  },
+  "USZ22_deposited_rawcounts": {
+    "public_declared_url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE221nnn/GSE221532/suppl/GSE221532_201222_raw_counts.tsv.gz",
+    "declared_compressed_bytes": 651838,
+    "source_receipts": {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/model_population_processed_source_gate/PROCESSED-FILE-RECEIPTS.json",
+      "bytes": 1420,
+      "sha256": "ccca2fe48718bdc9ba086b585c5842e8bf4f8a349ce66c7d587b1cb2873fee2d",
+      "scope": "ReusedHEAD200/Range206firstline only"
+    },
+    "compressed_prefix_sha256": "25330ed15c106b70cdaf6ddd37eaaf8968ccefc8134f07c1ca27ffc1ad38d35e",
+    "full_source_hash": null,
+    "header": [
+      "",
+      "NMFH-1",
+      "USZ-21_CIC1",
+      "USZ-21_LG1",
+      "USZ-21_UPS1",
+      "USZ-21_MFS2",
+      "NMFH-1",
+      "PM197",
+      "OH931",
+      "USZ-20_SFT1",
+      "USZ-22_EMC2\r"
+    ],
+    "unique_EMC_column": 10,
+    "literal_header_alias": "USZ-22_EMC2",
+    "GSM": "GSM6883080",
+    "body_status": "No completefilebodydownload/geneidentifier/value read in thisgate; rownamespace/version/GPNMBcapture and librarynormalization pending",
+    "raw_unit": "SourceGSMmetadataDragenRNAalignmentGRCh38/Salmonquantification/tximportrawgenecounts; no annotationrelease/scaling optiongiven.  header doesnotauthenticate geneannotation/version/effectivelengths orTPMcomparability. Do not reuseARCHS4denominator for independentdepositedcountquantification.",
+    "unresolved_controls": "BothNMFH-1columns retained ambiguous; USZ20_REA1 source titlemissing. No reorder/rename/deduplication/implicitdonorassignment."
+  },
+  "USZ23_RefSeq": {
+    "source": {
+      "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/USZ23-RefSeq.quant.sf.gz",
+      "bytes": 1821812,
+      "sha256": "d49822e6ca79a18c186b00c4faa4087b8582bbb72c0be218fcea2e997565507f",
+      "scope": "Readcompressedsourcehash/headeronly,no transcriptbody/valueinspection"
+    },
+    "public_declared_url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9037nnn/GSM9037837/suppl/GSM9037837_USZ23_EMC3.RefSeq.quant.sf.gz",
+    "header": [
+      "Name",
+      "Length",
+      "EffectiveLength",
+      "TPM",
+      "NumReads"
+    ],
+    "schema": "Transcript/accessionName,Length,EffectiveLength,TPM,NumReads; headerformatdoesnotaloneauthenticatepipelineversion/RefSeqannotationrelease.",
+    "GPNMB_capture": "Seven currenthuman officialRefSeqmRNAaccessions authenticated in separateannotationrecord; actualquantidentifier match/uniquehistoricalversions/missingretiredtranscripts uninspected. Nosumaccepted.",
+    "unit_policy": "TranscriptTPM mayallowgene-associatedsumafterfixedmapping/capturecheck, notinferredcompletegeneTPM; historicalindexdifferscurrentannotation. No count/TPM/tissuepooling."
+  }
+}
