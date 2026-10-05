@@ -1,0 +1,39 @@
+{
+  "created_utc": "2026-10-05T22:25:43.322950+00:00",
+  "scope": "Archival file-specific whitespace policy; scientific stage already closed 2026-10-05T22:22:23.290690+00:00. No source, plotting, numerical or visual work in this amendment.",
+  "initial_scientific_commit": "e9dc8faa03fa452c96c5c652d8e65348270057a9",
+  "initial_diff_check": {
+    "command": "git diff --cached --check",
+    "exit_code": 2,
+    "reason": "Standard Matplotlib SVG path-coordinate lines contain renderer-generated trailing spaces; valid CSV-dialect TSV uses CRLF. The shell continued to commit after failed check instead of gating the mutation. This historical failure is preserved.",
+    "future_requirement": "Propagate failed git check exit status before committing."
+  },
+  "file_specific_policy": {
+    "GPNMB-CORE-EVIDENCE.svg": "-whitespace, limited to generated SVG",
+    "PLOT-DATA.tsv": "Default blank-at-eol/blank-at-eof/space-before-tab retained; cr-at-eol permits valid TSV CRLF"
+  },
+  "settled_original_patch_check": {
+    "command": "git diff HEAD^ HEAD --check",
+    "exit_code": 0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0
+  },
+  "original_scientific_bindings_unchanged": {
+    "SCIENCE-FREEZE.json": "185134d32718ea44b0779bf14b53e64ef7a211c61f2e17545105e67b2ced6468",
+    "MANIFEST.json": "aac59f4533856101b6858bbc935f0936bafa703f5adfdd11fd3369dc1ea19dad",
+    "GPNMB-CORE-EVIDENCE.svg": "266dd06ab5200cedbc10059e631134aa036b1aaddd0214f94d51a18835d4a68e",
+    "PLOT-DATA.tsv": "c9ba218a3d4415ed64d2513b648f5d3e5bf126d5c9a91e0f7ba91be91aea530d"
+  },
+  "lead_independent_visual_receipt": {
+    "reported_utc": "2026-10-05T22:21:57+00:00",
+    "reported_America_New_York": "2026-10-05T18:21:57-04:00",
+    "scope": "Lead reported all49 points visible, LR5081-14 diamond/annotation clear, TPM logarithmic display and deposited RMAlog2 separate, median bars legible. No correction needed. Root binds independent receipt separately."
+  },
+  "preview": {
+    "path": "research/autonomy/fresh-discovery-2026-10-05-round9/rna_processing/gpnmb_core_evidence_figure/preview/GPNMB-CORE-EVIDENCE.png",
+    "sha256": "ebf734759b1b814e682337a64f0b317c680dbb0b1a849a6961e34b57f3b33e24",
+    "ignored": true
+  },
+  "scientific_bytes_rewritten": false,
+  "new_statistics_or_inference": false
+}
