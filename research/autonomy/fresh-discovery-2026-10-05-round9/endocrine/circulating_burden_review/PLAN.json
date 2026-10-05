@@ -1,0 +1,39 @@
+{
+  "schema": "emc-r9-circulating-burden-independent-prevalue-review-plan/1",
+  "utc": "2026-10-05T13:16:43.820700+00:00",
+  "owner": "/root/radiotherapy",
+  "scientific_owner": "/root/diagnostic",
+  "scope": "Independent source identity/allconditions/donor overlap, assay interpretation and publication value of a newly proposed public circulating-burden gate; no numerical case biomarkers inspected.",
+  "question": "Can a genuinely new public, case-linked serial tumor-specific measurement, with same-donor disease burden and treatment/sample timing, answer a useful unanswered EMC monitoring contrast beyond prior published total-cfDNA decline or a single diagnostic measurement?",
+  "before_values": true,
+  "source_selection": "Owner-cached ordinary primary routes for pending Tsoi2021Other12/SuppTableii, Bui2023all30trial roster, AndersonPMID38905450allTable1 and management2024PMC11545914. No duplicate retrieval and no new search fishing.",
+  "prior_records": [
+    {
+      "repo_path": "research/autonomy/fresh-discovery-2026-10-04-round3/liquid_biomarker/RESULTS.txt",
+      "sha256": "90b612a0e7251de1ddeb3d8e2dc5fa7e8173256447dbeb90b91a3528e6efa1f0"
+    },
+    {
+      "repo_path": "research/autonomy/fresh-discovery-2026-10-04-round3/liquid_biomarker/COVERAGE.txt",
+      "sha256": "d42a0c6db61b699eae94aab456027d672a22cae3da2abe61e2cc4473ba803f30"
+    }
+  ],
+  "eligibility": "Exact source EMC diagnosis with molecular/pathology confidence preserved; generic extraskeletal chondrosarcoma or panelNR4A3target list not automatically measuredEMC. All EMC donor/condition observations in eligible advancing sources and source controls retained, including baselineonly, unlinked, negative and adverse/disease-progressive states.",
+  "assay_gate": [
+    "A tumor-informed molecular target demonstrably present in the same donor tumor, or independently established tumor-specific analyte; totalcfDNA/CRP/albumin/routinebloodmarkers not tumor-specific by label",
+    "At least two source-linked conditions with actual disease change or a meaningful timing contrast; source burden metric/unit/time and bloodsample timing relative to treatment declared",
+    "Sample-specific analyte unit, assay coverage/input/LOD and technical control sufficient to interpret detection/nondetection; no inferred threshold from one observed detection",
+    "Matched normalbloodcell/CH or other tumor-origin controls where relevant; DNAnegative without an assayed known target not absent shedding",
+    "Lesions/draws/technicalreplicates are conditions, not independent donors; donor overlap and earlier/later reports explicit"
+  ],
+  "useful_conditional_endpoint": "A prospectively specified, donor-level discordance/concordance of tumor-specific measurements with measured burden through actual change, explaining an experimental measurement requirement beyond known cfDNA confounding; no optimized threshold or therapy prediction. Numerical statistic/controls must be source-supported and separately frozen by owner before values.",
+  "strongest_alternatives": [
+    "Published authors already report the exact serial relation or decline",
+    "Normal-cell DNA change from surgery/inflammation/preanalytics rather than tumor burden",
+    "Target coverage/input/sampleLOD or clonalhematopoiesis confounds nondetection/detection",
+    "Source identity discrepancy, posthoc sample-to-histology crosswalk or cohort/donor duplication",
+    "No independent serial native EMC replication or clinically meaningful measurement addition"
+  ],
+  "defeat": "No authenticated public case-linked serial tumor-specific data/timing/burden, no interpretable detectability controls, source already answers same contrast, aggregate/figure-only/reconstructed values, or suitable accessible public observations remain pending. This defeats the current proposed stage, not EMC shedding biology.",
+  "no_rescue": "A diagnostic matrix without serial conditions is a separate scientific question requiring a dated before-values rationale and controls; it is not automatic rescue. No normal-cell marker repackaged as tumor-specific.",
+  "limits": "Finite15minute focused review once owner files available; no whole-paper review, case biomarker values/images/UI/new downloads, denied tumorformation/topology/glycan/hyaluronic/FAP/HLA sources/fields, spend/outreach/publication/rootmutation/push. Keep >=10GiBfree and original freezes unchanged. Codex author and committer."
+}
