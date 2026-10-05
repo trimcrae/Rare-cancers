@@ -1,0 +1,100 @@
+{
+  "source": {
+    "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/TEMPO-SOURCE-GATE.json",
+    "bytes": 6343,
+    "sha256": "a21335eefc935230520885767622ade9237bd4517d22fd41a2e381ec47a51aca",
+    "scope": "Si/run/BioSample identities only"
+  },
+  "primary": {
+    "path": "/workspace/Rare-cancers/research/autonomy/peerj21497-source-2026-09-06/article.xml",
+    "bytes": 219239,
+    "sha256": "2d9a6ee4ed417860867eb954e0b0a4fa3fa3042787f5af3c0a1fea9bb5fbe768",
+    "scope": "Selected source design/participant/TempO normalization methods and clinical Table1 metadata"
+  },
+  "conditions": [
+    {
+      "sample_alias": "Si22",
+      "run_accession": "SRR35940654",
+      "sample_accession": "SAMN53073768",
+      "experiment_accession": "SRX30989939"
+    },
+    {
+      "sample_alias": "Si20",
+      "run_accession": "SRR35940655",
+      "sample_accession": "SAMN53073767",
+      "experiment_accession": "SRX30989938"
+    },
+    {
+      "sample_alias": "Si02",
+      "run_accession": "SRR35940656",
+      "sample_accession": "SAMN53073758",
+      "experiment_accession": "SRX30989937"
+    },
+    {
+      "sample_alias": "Si17",
+      "run_accession": "SRR35940647",
+      "sample_accession": "SAMN53073765",
+      "experiment_accession": "SRX30989946"
+    },
+    {
+      "sample_alias": "Si15",
+      "run_accession": "SRR35940649",
+      "sample_accession": "SAMN53073763",
+      "experiment_accession": "SRX30989944"
+    },
+    {
+      "sample_alias": "Si09",
+      "run_accession": "SRR35940652",
+      "sample_accession": "SAMN53073760",
+      "experiment_accession": "SRX30989941"
+    },
+    {
+      "sample_alias": "Si05",
+      "run_accession": "SRR35940653",
+      "sample_accession": "SAMN53073759",
+      "experiment_accession": "SRX30989940"
+    },
+    {
+      "sample_alias": "Si01",
+      "run_accession": "SRR35940657",
+      "sample_accession": "SAMN53073757",
+      "experiment_accession": "SRX30989936"
+    },
+    {
+      "sample_alias": "Si19",
+      "run_accession": "SRR35940646",
+      "sample_accession": "SAMN53073766",
+      "experiment_accession": "SRX30989947"
+    },
+    {
+      "sample_alias": "Si10",
+      "run_accession": "SRR35940651",
+      "sample_accession": "SAMN53073761",
+      "experiment_accession": "SRX30989942"
+    },
+    {
+      "sample_alias": "Si16",
+      "run_accession": "SRR35940648",
+      "sample_accession": "SAMN53073764",
+      "experiment_accession": "SRX30989945"
+    },
+    {
+      "sample_alias": "Si14",
+      "run_accession": "SRR35940650",
+      "sample_accession": "SAMN53073762",
+      "experiment_accession": "SRX30989943"
+    }
+  ],
+  "source_patients": 12,
+  "patient_count_confidence": "Primary calls final cohort12 patients; all12 Si library columns. Individual Si-to-clinical-row/donor/purity/treatment linkage not shown by aggregated Table1; cross-cohort overlap unresolved. Do not infer partner from four EWSR1-negative cases.",
+  "cohort": "Archival FFPE2008-04-21 to2018-06-19; Siriraj/Columbia; two-pathologist WHO review; initial22,15 informative,one outlier excluded,two prognostic-record exclusions; selected final12. Selection and preservation affect generalization. No same-assay LGFMS/MLPS controls.",
+  "processing": "Whole-transcriptome targeted TempO probes; UQ-normalized log2CPM; published9909genes vs released9500 discrepancy; library units notTPM. Source S009 GPNMB row7134/header independently authenticated by single_cell; values unopened.",
+  "processed_source": {
+    "path": "/workspace/Rare-cancers/research/autonomy/tmem266-tissue-2026-10-03/peerj-source-s009.xlsx",
+    "sha256": "20165fd3ff09ec2d5a24b3c20b78515f42a3309119f248ed055c7484deb45e75",
+    "bytes": 1423709,
+    "status": "suitable published processed native context pending prospective numerical evaluation"
+  },
+  "raw_reconstruction": "Old raw-estimator benchmark failure does not invalidate the published processed row; no raw stage reopened.",
+  "purity_treatment": "No numeric purity or per-Si pre-treatment assignment recovered in inspected source fields; treatment metadata collected but unresolved per processed column."
+}
