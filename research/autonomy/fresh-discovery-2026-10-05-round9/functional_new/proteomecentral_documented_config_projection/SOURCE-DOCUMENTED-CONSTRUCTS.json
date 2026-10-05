@@ -1,0 +1,181 @@
+{
+  "sources": [
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/matched_proteome_proteomecentral_metadata_gate/raw-cache/stage-02.source",
+      "url": "https://proteomecentral.proteomexchange.org/javascript/js/pc.js",
+      "bytes": 64414,
+      "sha256": "b637719e1e8498837d13fecce6bd853362aa758c2d21564e493fbc60d9bbd8f9"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/matched_proteome_proteomecentral_metadata_gate/raw-cache/stage-03.source",
+      "url": "https://proteomecentral.proteomexchange.org/proxi_config.json",
+      "bytes": 148,
+      "sha256": "e644a7ccb31e4ffedfbea66d65ca1b17228a4b8d3c3350053ad3856828776d2d"
+    }
+  ],
+  "pc_js_lines": [
+    {
+      "line": 42,
+      "text": "    fetch(\"./proxi_config.json\")"
+    },
+    {
+      "line": 43,
+      "text": "\t.then(response => response.json())"
+    },
+    {
+      "line": 44,
+      "text": "\t.then(config => {"
+    },
+    {
+      "line": 45,
+      "text": "            if (config.API_URL) {"
+    },
+    {
+      "line": 46,
+      "text": "\t\t_api['datasets'] = config.API_URL +\"datasets\";"
+    },
+    {
+      "line": 49,
+      "text": "\t    else {"
+    },
+    {
+      "line": 50,
+      "text": "\t\t_api['datasets'] = \"/api/proxi/v0.1/datasets\";"
+    },
+    {
+      "line": 51,
+      "text": "\t\t_api['libraries'] = \"/api/proxi/v0.1/libraries\";"
+    },
+    {
+      "line": 52,
+      "text": "\t    }"
+    },
+    {
+      "line": 62,
+      "text": "        .catch(error => {"
+    },
+    {
+      "line": 64,
+      "text": "            _api['datasets'] = \"/api/proxi/v0.1/datasets\";"
+    },
+    {
+      "line": 65,
+      "text": "            _api['libraries'] = \"/api/proxi/v0.1/libraries\";"
+    },
+    {
+      "line": 86,
+      "text": "    const searchParams = new URLSearchParams(window.location.search);"
+    },
+    {
+      "line": 87,
+      "text": "    searchParams.forEach((value, key) => {"
+    },
+    {
+      "line": 88,
+      "text": "\t_api['query'][key] = value;"
+    },
+    {
+      "line": 286,
+      "text": "    if (filter == 'search' && value.length < 3)"
+    },
+    {
+      "line": 310,
+      "text": "    var apiurl = _api[call] + '?src=PCUI&resultType=resultset';"
+    },
+    {
+      "line": 315,
+      "text": "\t\t    if (value)"
+    },
+    {
+      "line": 316,
+      "text": "\t\t\tapiurl += \"&\" + filter + '=' + encodeURIComponent(value);"
+    },
+    {
+      "line": 340,
+      "text": "            else if (_api.query[q])"
+    },
+    {
+      "line": 341,
+      "text": "\t\tapiurl += \"&\" + q + '=' + encodeURIComponent(_api.query[q]);"
+    },
+    {
+      "line": 346,
+      "text": "    fetch(apiurl)"
+    },
+    {
+      "line": 348,
+      "text": "\t    if (response.ok) return response.json();"
+    },
+    {
+      "line": 359,
+      "text": "\t\t    if (q == 'pageNumber' && data.query[q] == 1)"
+    },
+    {
+      "line": 361,
+      "text": "\t\t    if (q == 'pageSize' && data.query[q] == 100)"
+    },
+    {
+      "line": 370,
+      "text": "\t    if (data['result_set']['n_rows_returned'] == 0 && data['result_set']['n_available_rows'] > 0) {"
+    },
+    {
+      "line": 371,
+      "text": "\t\tget_PXdata(\"pageNumber\",\"1\",\"set\");"
+    },
+    {
+      "line": 788,
+      "text": "\t    if (f == 'publications')"
+    },
+    {
+      "line": 789,
+      "text": "\t\ttd.innerHTML = value;"
+    },
+    {
+      "line": 867,
+      "text": "            span.setAttribute('onclick', 'get_PXdata(\"pageNumber\",\"'+p+'\",\"set\");');"
+    },
+    {
+      "line": 884,
+      "text": "    span.setAttribute('onchange', 'get_PXdata(\"pageSize\",this.value,\"set\");');"
+    },
+    {
+      "line": 1280,
+      "text": "                            if (term['accession'] == 'MS:1000879') {"
+    },
+    {
+      "line": 1283,
+      "text": "\t\t\t\tlink.href = 'https://pubmed.ncbi.nlm.nih.gov/' + term['value'];"
+    },
+    {
+      "line": 1286,
+      "text": "                            else if (term['accession'] == 'MS:1001922') {"
+    },
+    {
+      "line": 1289,
+      "text": "\t\t\t\tlink.href = 'https://dx.doi.org/' + term['value'];"
+    },
+    {
+      "line": 1467,
+      "text": "        'publications' : ["
+    },
+    {
+      "line": 1470,
+      "text": "\t    '|MS:1000879|',"
+    },
+    {
+      "line": 1471,
+      "text": "\t    '|MS:1001922|',"
+    }
+  ],
+  "selection": "Direct top-level config.API_URL; no environment or nested namespace selection documented in cached client.",
+  "API_URL_only_projection": null,
+  "fallback_datasets_path": "/api/proxi/v0.1/datasets",
+  "source_derived_metadata_uri": "https://proteomecentral.proteomexchange.org/api/proxi/v0.1/datasets",
+  "base_resultset_query": "?src=PCUI&resultType=resultset",
+  "citation_fields": {
+    "publication_terms_DOI": "MS:1001922",
+    "publication_terms_PMID": "MS:1000879"
+  },
+  "filter_semantics": "Client forwards URL query values with URI encoding. Free-text search minimum3 characters; no exact DOI/PMID server-side predicate established. Publication term fields support exact local citation matching if an actual accepted metadata response contains them.",
+  "pagination": "pageNumber/pageSize query names documented; client omits defaults1/100 from displayed URL. No completeness claim or metadata request made."
+}

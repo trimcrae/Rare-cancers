@@ -1,0 +1,5 @@
+Question: Is the public client datasets metadata endpoint constructible from the cached config and source?
+
+Finding: Yes. The client directly checks top-level config.API_URL, then explicitly falls back to /api/proxi/v0.1/datasets when missing or when config loading fails. The cached API_URL is absent. No nested environment selector is documented, so other config values were not projected. The actual source-derived URI is https://proteomecentral.proteomexchange.org/api/proxi/v0.1/datasets.
+
+The client documents publication DOI and PMID term fields and free-text search/pagination transport. It does not prove an exact server-side citation predicate or metadata completeness. Original top-level-null work remains unchanged. This source-only clarification made zero requests and establishes no EMC specimen, assay or finding. Paired metadata access is a separate authorized task.
