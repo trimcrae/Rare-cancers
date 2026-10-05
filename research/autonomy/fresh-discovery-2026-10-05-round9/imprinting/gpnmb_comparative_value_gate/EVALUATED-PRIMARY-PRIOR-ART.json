@@ -1,0 +1,77 @@
+{
+  "utc": "2026-10-05T17:50:45.863768+00:00",
+  "cards": [
+    {
+      "pmid": "34656365",
+      "doi": "10.1016/j.currproblcancer.2021.100794",
+      "primary": "Pestana et al2021, RNA target expression in soft tissue sarcoma",
+      "source_file": "raw-cache/gpnmb_sarcoma_primary.json",
+      "source_sha256": "3d07211e7ca5037209d032913bf813412e4acb99d67bb7ab7103dfb3c67f9e47",
+      "inspected": "Official primary abstract cohort/method and qualitative GPNMB finding; full primary unavailable in EPMC/PMC metadata, not fetched",
+      "cohort": {
+        "DDLPS": 50,
+        "ULMS": 27,
+        "STLMS": 53,
+        "UPS": 44,
+        "MFS": 17,
+        "SS": 10,
+        "MPNST": 5
+      },
+      "assay": "TCGA RNAseq; public bulk expression, no EMC/LGFMS/MLPS in enumerated primary cohort",
+      "reported_GPNMB_conclusion": "GPNMB highly expressed in most studied sarcomas except SS",
+      "novelty": "Published broad sarcoma context, not authenticated direct EMC/LGFMS/MLPS contrast; cannot extrapolate most-sarcoma claim to missing diseases",
+      "missing": "Full figures/supplement donor/normalization/specimen handling and direct native-disease comparison not evaluated; absence not inferred"
+    },
+    {
+      "pmid": "19833906",
+      "pmcid": "PMC2801651",
+      "doi": "10.2215/cjn.03390509",
+      "primary": "Pahl et al2010 human monocyte/macrophage expression",
+      "source_file": "raw-cache/gpnmb_sarcoma_primary.json",
+      "source_sha256": "3d07211e7ca5037209d032913bf813412e4acb99d67bb7ab7103dfb3c67f9e47",
+      "inspected": "Primary abstract human compartment/cohort and qualitative gene/protein conclusion only used",
+      "cohort": "21 stable dialysis patients and22 controls; intact monocytes and derived macrophages, not tumors/EMC",
+      "measurement": "HGFIN/GPNMB gene and protein expression in purified/derived myeloid cells",
+      "use": "Human nonmalignant cells can contribute GPNMB signal; supports composition alternative, does not measure EMC fraction or malignant cells",
+      "numerical_endpoints": "Incidentally exposed by whole-abstract helper, excluded from current inference; no derived statistics"
+    },
+    {
+      "pmid": "36054938",
+      "pmcid": "PMC9437813",
+      "doi": "10.1016/j.ebiom.2022.104239",
+      "primary": "Xiong et al2022 human/mouse GBM scRNA/bulk/spatial and compartment validation",
+      "source_file": "raw-cache/gpnmb_compartment.json",
+      "source_sha256": "598760796837777c92450cde67fb63c3e6f0bee9fb61a39aa95d18a47f7469e1",
+      "inspected": "Primary abstract cell-compartment methods and qualitative macrophage-derived GPNMB conclusion only used, not signaling/functional mechanism",
+      "measurement": "scRNA/bulk/spatial expression, flow/immunofluorescent validation",
+      "use": "GPNMB-high macrophage compartment in another human malignancy is a concrete alternative to assigning bulk RNA to malignant sarcoma cells; not native EMC localization or oxygen/lineage evidence"
+    },
+    {
+      "pmid": "32596059",
+      "pmcid": "PMC7307565",
+      "doi": "10.7717/peerj.9394",
+      "primary": "Stockwin2020 ASPS transcriptome meta-analysis",
+      "source_file": "raw-cache/gpnmb_sarcoma_primary.json",
+      "source_sha256": "3d07211e7ca5037209d032913bf813412e4acb99d67bb7ab7103dfb3c67f9e47",
+      "inspected": "Primary abstract expression-method context; no full mechanism body, GSE values or figures inspected",
+      "use": "Published ASPS GPNMB RNA and mesenchymal expression context is not EMC/LGFMS/MLPS native comparative prior art",
+      "pending": "Underlying broader-control source case membership/overlap and any eligible EMC measurements remain with primary-source owner; no native exclusion from ASPS title"
+    }
+  ],
+  "supporting_primary_roster_pending": [
+    {
+      "pmid": "41046759",
+      "pmcid": "PMC12528890",
+      "doi": "10.1016/j.esmoop.2025.105837",
+      "owner": "/root/radiotherapy",
+      "field": "actual EMC/LGFMS/MLPS conditions, GPNMB bulk/compartment source results and overlap"
+    },
+    {
+      "pmid": "40389121",
+      "doi": "10.1016/j.humpath.2025.105799",
+      "owner": "/root/radiotherapy",
+      "field": "large pathology GPNMB actual native histotypes/compartments/controls"
+    }
+  ],
+  "clinical_ADC_premise": "Reuse diagnostic clinical title/citation sources; no duplicate GETs, no efficacy endpoints or RNA-to-drug-response inference."
+}

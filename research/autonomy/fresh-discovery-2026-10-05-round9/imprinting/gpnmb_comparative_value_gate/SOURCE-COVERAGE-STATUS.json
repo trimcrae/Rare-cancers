@@ -1,0 +1,38 @@
+{
+  "utc": "2026-10-05T17:50:45.863768+00:00",
+  "source_selection": "Only four actually selected primary abstracts evaluated. Query titles/citations are not full primary condition evaluation. All broad catalogues remain ignored.",
+  "queries": [
+    {
+      "file": "raw-cache/gpnmb_mimic_exact.json",
+      "total": 71,
+      "returned": 50,
+      "unreturned": 21,
+      "status": "metadata discovery; direct relevant primary selected only; rest pending"
+    },
+    {
+      "file": "raw-cache/gpnmb_sarcoma_primary.json",
+      "total": 11,
+      "returned": 11,
+      "unreturned": 0,
+      "status": "all11titlecards screened; selected actual primary cards evaluated; rest full eligibility pending"
+    },
+    {
+      "file": "raw-cache/lgfms_expression.json",
+      "total": 84,
+      "returned": 50,
+      "unreturned": 34,
+      "status": "metadata discovery; 34unreturned and unselected primary conditions pending; no old LGFMS absence claim"
+    },
+    {
+      "file": "raw-cache/gpnmb_compartment.json",
+      "total": 37,
+      "returned": 37,
+      "unreturned": 0,
+      "status": "one selected human tumor compartment primary evaluated, other source conditions pending"
+    }
+  ],
+  "native_RNA_reuse": "13Hofvander/12primary/oneLR/three known cross-study overlap labels;6GSE24369;10GSE4303 tumor/reference ratios;ALL4GSE28866 FFPE3SEQ, not three; source IDs not complete donor independence proof. Per-condition records retained in ALL-IDENTIFIABLE-NATIVE-CONDITION-REUSE.",
+  "other_native": "Brenca12FFPE+5matchedfrozen not17donors, Davis6native/5QC, Zullow7RNA/11clinical, Nottley2donors/fourprepostconditions, targeted fusion panels assay-unsuitable for broadGPNMB if no validated probe, TempO/cultures and all prior unavailable/pending source contexts remain as reused records. No protein/paired-donor universal requirement.",
+  "supporting_current_gates": "Single_cell actual GPNMB annotation/probe/readiness; radiotherapy primary native/broader GPNMB published measurements ongoing, new result not assumed.",
+  "promotion_block": "Any suitable relevant accessible public conditions unexamined prevent publication promotion. Gate failure is scoped, not global target absence/exhaustion."
+}
