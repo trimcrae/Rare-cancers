@@ -1,0 +1,121 @@
+{
+  "canonical_models": {
+    "Bangerter40": "USZ20-EMC1",
+    "Iwata221_and24": "NCC-EMC1-C1"
+  },
+  "all_screen_rows": {
+    "USZ20-EMC1": 40,
+    "NCC-EMC1-C1_screen": 221,
+    "NCC-EMC1-C1_selected_IC50": 24
+  },
+  "name_only_audit": {
+    "scope": "Finite known direct-family name/alias audit, not complete pharmacology universe or chemical-binding proof; incidental downstream/offtarget BCL2 effects do not create selective comparators.",
+    "families": [
+      {
+        "candidate_family_for_source_gate_only": "BCL2_selective_candidates",
+        "matches": {
+          "bangerter40": [
+            {
+              "source_row": null,
+              "panel": "B",
+              "panel_row": 3,
+              "drug": "Venetoclax",
+              "cas": null,
+              "matched_aliases": [
+                "Venetoclax"
+              ]
+            }
+          ],
+          "iwata221": [
+            {
+              "source_row": 217,
+              "panel": null,
+              "panel_row": null,
+              "drug": "Venetoclax (ABT-199, GDC-0199)",
+              "cas": "1257044-40-8",
+              "matched_aliases": [
+                "Venetoclax",
+                "ABT199",
+                "GDC0199",
+                "ABT199GDC0199"
+              ]
+            }
+          ],
+          "iwata24_IC50_names_only": []
+        }
+      },
+      {
+        "candidate_family_for_source_gate_only": "BCL2_BCLxL_broader_candidates",
+        "matches": {
+          "bangerter40": [],
+          "iwata221": [],
+          "iwata24_IC50_names_only": []
+        }
+      },
+      {
+        "candidate_family_for_source_gate_only": "BCLxL_selective_candidates",
+        "matches": {
+          "bangerter40": [],
+          "iwata221": [],
+          "iwata24_IC50_names_only": []
+        }
+      },
+      {
+        "candidate_family_for_source_gate_only": "MCL1_candidates",
+        "matches": {
+          "bangerter40": [],
+          "iwata221": [],
+          "iwata24_IC50_names_only": []
+        }
+      },
+      {
+        "candidate_family_for_source_gate_only": "other_legacy_BCL_family_candidates",
+        "matches": {
+          "bangerter40": [],
+          "iwata221": [],
+          "iwata24_IC50_names_only": []
+        }
+      }
+    ],
+    "numerical_stage": false
+  },
+  "selected_validation": {
+    "selected_drugs": [
+      "carfilzomib",
+      "doxorubicin",
+      "venetoclax"
+    ],
+    "models": [
+      "USZ20-EMC1",
+      "USZ22-EMC2"
+    ],
+    "source": "Primary prose and Fig6a\u2013h",
+    "format": "96 wells,1000 cells/well,triplicates as reported",
+    "exposure": "6 days",
+    "no_80_row_matrix": "Only USZ20 underwent40-drug screen; both models have selected validation, not40\u00d72 independent response matrix"
+  },
+  "native_condition_coverage": [
+    {
+      "model": "USZ20-EMC1",
+      "conditions": "All40 screen rows source/name evaluated; selected carfilzomib/doxorubicin/venetoclax validation and combinations reused published prior art."
+    },
+    {
+      "model": "USZ22-EMC2",
+      "conditions": "Selected published validation and combinations retained; not another40-row screen. Different male/female donor from USZ20 per verified source coverage; later DDR reuse does not create another donor."
+    },
+    {
+      "model": "NCC-EMC1-C1",
+      "conditions": "All221 measured screen rows legitimate native evidence. Venetoclax row217 CAS1257044-40-8; absent from selected24 IC50 does not mean inactivity. Exact screening dose/duration/readout/raw replicates remain unverified in reused snapshot."
+    },
+    {
+      "model": "USZ23",
+      "conditions": "Distinct source model context; donor crosswalk unresolved, not independent BCL2 validation inferred."
+    },
+    {
+      "model": "H-EMC-SS",
+      "conditions": "Identity-disputed model remains separate; not substituted for authentic NCC."
+    }
+  ],
+  "global_donor_overlap": "No new NCC/USZ clinical crosswalk; named lines not claimed globally independent donors. Technical replicates remain technical.",
+  "all_relevant_future_public_conditions": "Suitable public data with compatible exposure or paired protein/apoptosis assays remain pending if found; these source-specific name lists do not exhaust public EMC."
+}
