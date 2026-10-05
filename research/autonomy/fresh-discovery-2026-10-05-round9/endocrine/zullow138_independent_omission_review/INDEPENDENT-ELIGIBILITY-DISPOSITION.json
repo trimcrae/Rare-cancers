@@ -1,0 +1,92 @@
+{
+  "utc": "2026-10-05T19:21:37.726426+00:00",
+  "native_EMC_explicitly_identified": [],
+  "source_primary_groups": {
+    "MLPS Primary Tumor": [
+      "GSM5429866",
+      "GSM5429867",
+      "GSM5429868",
+      "GSM5429869",
+      "GSM5429870",
+      "GSM5429871",
+      "GSM5429872",
+      "GSM5429873",
+      "GSM5429874",
+      "GSM5429875",
+      "GSM5429876",
+      "GSM5429877"
+    ],
+    "ES Primary Tumor": [
+      "GSM5429902",
+      "GSM5429903",
+      "GSM5429904",
+      "GSM5429905",
+      "GSM5429906",
+      "GSM5429907",
+      "GSM5429908",
+      "GSM5429909",
+      "GSM5429910",
+      "GSM5429911"
+    ]
+  },
+  "unresolved_cancer_model_labels": {
+    "3AA3": [
+      "GSM5429774",
+      "GSM5429775",
+      "GSM5429776",
+      "GSM5429777",
+      "GSM5429778",
+      "GSM5429779",
+      "GSM5429780",
+      "GSM5429781",
+      "GSM5429782",
+      "GSM5429783",
+      "GSM5429822",
+      "GSM5429823",
+      "GSM5429840",
+      "GSM5429841",
+      "GSM5429842",
+      "GSM5429843"
+    ],
+    "1BD5": [
+      "GSM5429784",
+      "GSM5429785",
+      "GSM5429786",
+      "GSM5429787",
+      "GSM5429788",
+      "GSM5429789",
+      "GSM5429790",
+      "GSM5429791",
+      "GSM5429792",
+      "GSM5429793",
+      "GSM5429820",
+      "GSM5429821",
+      "GSM5429836",
+      "GSM5429837",
+      "GSM5429838",
+      "GSM5429839"
+    ]
+  },
+  "condition_identity": "All138title/source/cellline strings retained exactly; MLPS-numeric suffixes/3AA3/1BD5 perturbation strings are condition labels, not unique donors or new model existence. No engineered mechanism/clinical independence inferred.",
+  "explicit_stem_cell_labels": "MSCs-hTERT/MSCs-AD source records remain distinct from native EMC; no RNA/native identity transfer.",
+  "false_RNAstrategy_record": [
+    {
+      "GSM": "GSM5429878",
+      "identity_labels": [
+        "cell line: MSCs-hTERT"
+      ],
+      "title": "20210309_HJZCR085_CandR_hTERT_MSC_DMSO_base_BRG1_S1_aligned_reads",
+      "geo_accession": "GSM5429878",
+      "source": "stem cell line",
+      "molecule": "genomic DNA",
+      "library_selection": "cDNA",
+      "library_source": "genomic",
+      "library_strategy": "RNA-Seq",
+      "series_id": "GSE179720"
+    }
+  ],
+  "RNA_rule": "For bulk RNA readiness molecule=polyA RNA and library_source=transcriptomic. RNASeqstrategy alone fails for GSM5429878. DNA-labelled records remain metadata-only exclusions from RNA gene measurement, no genomic analysis.",
+  "omission_verdict": "No omitted AUTHENTICATED native EMC record discovered amongall138 safe labels. Generic model identity uncertainties remain pending, rather than conclusive source-wide noEMC or invented negative.",
+  "all_condition_coverage": "Every GSM accounted, no conveniencecase subset; patient/donor overlap unknown and no all138independence.",
+  "prior_knowledge": "Lead disclosed22/116counts before review, retained as exposure; independent original extraction provides same counts and stronger molecule/library distinction."
+}
