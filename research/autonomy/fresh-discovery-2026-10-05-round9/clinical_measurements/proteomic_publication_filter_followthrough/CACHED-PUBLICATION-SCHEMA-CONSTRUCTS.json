@@ -1,0 +1,95 @@
+{
+  "source_path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/matched_proteome_proteomecentral_metadata_gate/raw-cache/stage-02.source",
+  "source_sha256": "b637719e1e8498837d13fecce6bd853362aa758c2d21564e493fbc60d9bbd8f9",
+  "read_mask": "Only actualpublication/reference/APIroute sourcecode constructs, no datasetresponse or biochemicalvalues",
+  "constructs": [
+    {
+      "line": 45,
+      "source_construct": "if (config.API_URL) {"
+    },
+    {
+      "line": 46,
+      "source_construct": "_api['datasets'] = config.API_URL +\"datasets\";"
+    },
+    {
+      "line": 47,
+      "source_construct": "_api['libraries'] = config.API_URL +\"libraries\";"
+    },
+    {
+      "line": 50,
+      "source_construct": "_api['datasets'] = \"/api/proxi/v0.1/datasets\";"
+    },
+    {
+      "line": 51,
+      "source_construct": "_api['libraries'] = \"/api/proxi/v0.1/libraries\";"
+    },
+    {
+      "line": 64,
+      "source_construct": "_api['datasets'] = \"/api/proxi/v0.1/datasets\";"
+    },
+    {
+      "line": 65,
+      "source_construct": "_api['libraries'] = \"/api/proxi/v0.1/libraries\";"
+    },
+    {
+      "line": 248,
+      "source_construct": "link.append(\"PRIDE Publication Notification Page for this dataset\");"
+    },
+    {
+      "line": 788,
+      "source_construct": "if (f == 'publications')"
+    },
+    {
+      "line": 1032,
+      "source_construct": "'Publication List' : [  // more here....todo"
+    },
+    {
+      "line": 1033,
+      "source_construct": "'||{publications}'"
+    },
+    {
+      "line": 1269,
+      "source_construct": "else if (head == 'Publication List') {"
+    },
+    {
+      "line": 1282,
+      "source_construct": "link.target = 'pubmed';"
+    },
+    {
+      "line": 1283,
+      "source_construct": "link.href = 'https://pubmed.ncbi.nlm.nih.gov/' + term['value'];"
+    },
+    {
+      "line": 1284,
+      "source_construct": "link.append(' [ pubmed ]');"
+    },
+    {
+      "line": 1288,
+      "source_construct": "link.target = 'doi';"
+    },
+    {
+      "line": 1289,
+      "source_construct": "link.href = 'https://dx.doi.org/' + term['value'];"
+    },
+    {
+      "line": 1290,
+      "source_construct": "link.append(' [ DOI: '+term['value']+' ]');"
+    },
+    {
+      "line": 1361,
+      "source_construct": "link.target = 'doi';"
+    },
+    {
+      "line": 1362,
+      "source_construct": "link.href = 'https://dx.doi.org/' + arrit['value'];"
+    },
+    {
+      "line": 1467,
+      "source_construct": "'publications' : ["
+    },
+    {
+      "line": 1712,
+      "source_construct": "'Publication': 'publication',"
+    }
+  ]
+}

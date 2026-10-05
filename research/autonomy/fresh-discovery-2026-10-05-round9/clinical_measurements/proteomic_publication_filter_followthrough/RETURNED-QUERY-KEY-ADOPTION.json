@@ -1,0 +1,8 @@
+{
+  "lines": [
+    350,
+    362
+  ],
+  "source_code": "\t})\n        .then(data => {\n\t    var newurl = window.location.href.split('?')[0];\n\t    newurl += \"?view=\" + _px_settings['data_mode'];\n\t    for (var q in data['query']) {\n\t\tif (data.query[q]) {\n\t\t    _api['query'][q] = data.query[q];\n\t\t    if (q == 'resultType')\n\t\t\tcontinue;\n\t\t    if (q == 'pageNumber' && data.query[q] == 1)\n\t\t\tcontinue;\n\t\t    if (q == 'pageSize' && data.query[q] == 100)\n\t\t\tcontinue;",
+  "scope": "Onlybackend-returnedquerykeys adoptedbyclient; no datasetvalue objects."
+}

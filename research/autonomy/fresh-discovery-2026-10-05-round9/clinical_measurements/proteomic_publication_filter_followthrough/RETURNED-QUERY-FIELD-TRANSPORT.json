@@ -1,0 +1,43 @@
+{
+  "source_sha256": "b637719e1e8498837d13fecce6bd853362aa758c2d21564e493fbc60d9bbd8f9",
+  "generic_returned_query_filter_transport": [
+    {
+      "line": 312,
+      "source_code": "for (var q in _api.query) {"
+    },
+    {
+      "line": 313,
+      "source_code": "if (filter == q) {"
+    },
+    {
+      "line": 316,
+      "source_code": "apiurl += \"&\" + filter + '=' + encodeURIComponent(value);"
+    },
+    {
+      "line": 319,
+      "source_code": "apiurl +=  \"&\" + filter + '=' + encodeURIComponent(value.trim());"
+    },
+    {
+      "line": 323,
+      "source_code": "apiurl += ',' + encodeURIComponent(v.trim());"
+    },
+    {
+      "line": 337,
+      "source_code": "apiurl +=  \"&\" + filter + '=' + allvalues;"
+    },
+    {
+      "line": 341,
+      "source_code": "apiurl += \"&\" + q + '=' + encodeURIComponent(_api.query[q]);"
+    },
+    {
+      "line": 354,
+      "source_code": "for (var q in data['query']) {"
+    },
+    {
+      "line": 904,
+      "source_code": "for (var q in _api.query) {"
+    }
+  ],
+  "meaning": "The generic setter transports keys already present in _api.query. Returned query keys are adopted only when their values are truthy; the earlier publication:null therefore does not prove client adoption or supported citation semantics. The source-reported field was tested once under explicit lead authorization; LibraryDetails mapping is not dataset-filter evidence.",
+  "archival_clarification": "Records the truthy/null boundary already established before SOURCE-STOP; no new source inspection."
+}

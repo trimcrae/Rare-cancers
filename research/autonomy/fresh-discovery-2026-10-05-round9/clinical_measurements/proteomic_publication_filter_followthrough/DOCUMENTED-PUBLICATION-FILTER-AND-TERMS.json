@@ -1,0 +1,34 @@
+{
+  "scope": "Publicclient literalpublicationquery/displaymapping and citationterm semantics; no projectdata/outcomevalues",
+  "source_sha256": "b637719e1e8498837d13fecce6bd853362aa758c2d21564e493fbc60d9bbd8f9",
+  "source_excerpts": [
+    {
+      "lines": [
+        770,
+        805
+      ],
+      "source_code": "\t\ttd.style.textAlign = 'center';\n\t\tspan = document.createElement(\"a\");\n\t\tspan.style.fontWeight = \"normal\";\n\t\tspan.setAttribute('onclick', 'get_PXdata(\"'+ff+'\",\"'+value+'\",\"set\");');\n\t\tspan.title = 'filter table by '+f+' = '+value;\n\t    }\n\t    else if (f == 'SDRF' && value) {\n\t\tif (pxid) {\n                    span = document.createElement(\"a\");\n                    span.href = \"?click=sdrf&pxid=\"+pxid;\n\t\t}\n\t\tspan.className = \"buttonfake\";\n\t\t//td.className = \"current\";\n                //span.title = 'view SDRF info and details for this dataset';\n\t\tspan.title = value;\n\t\tvalue = f;\n\t    }\n\n\t    if (f == 'publications')\n\t\ttd.innerHTML = value;\n\t    else {\n\t\tspan.innerHTML = highlight(value);\n\t\ttd.append(span);\n\t    }\n\n            tr.append(td);\n\t}\n\ttable.append(tr);\n    }\n\n    results_node.append(table);\n    results_node.append(document.createElement(\"br\"));\n    if (data['result_set']['n_rows_returned'] > 10)\n\tresults_node.append(add_page_controls(data,null));\n    results_node.append(document.createElement(\"br\"));\n    results_node.append(document.createElement(\"br\"));"
+    },
+    {
+      "lines": [
+        1268,
+        1296
+      ],
+      "source_code": "\n                else if (head == 'Publication List') {\n                    for (var arrit of value) {\n                        var tr = document.createElement(\"tr\");\n                        var td = document.createElement(format);\n\n                        var br = false;\n\t\t\tvar link = null;\n                        for (var term of arrit['terms']) {\n                            if (br)\n                                td.append(document.createElement(\"br\"));\n\n                            if (term['accession'] == 'MS:1000879') {\n\t\t\t\tvar link = document.createElement(\"a\");\n\t\t\t\tlink.target = 'pubmed';\n\t\t\t\tlink.href = 'https://pubmed.ncbi.nlm.nih.gov/' + term['value'];\n\t\t\t\tlink.append(' [ pubmed ]');\n\t\t\t    }\n                            else if (term['accession'] == 'MS:1001922') {\n\t\t\t\tvar link = document.createElement(\"a\");\n\t\t\t\tlink.target = 'doi';\n\t\t\t\tlink.href = 'https://dx.doi.org/' + term['value'];\n\t\t\t\tlink.append(' [ DOI: '+term['value']+' ]');\n\t\t\t    }\n                            else if (term['value']) {\n                                td.append(term['value']);\n                                br = true;\n                            }\n                            else"
+    },
+    {
+      "lines": [
+        1678,
+        1732
+      ],
+      "source_code": "\t\t'Source': 'source',\n\t\t'Number of Entries': 'n_entries',\n\t\t'Mass Modifications': 'mass_modifications',\n\t\t'Instruments': 'instruments',\n\t\t'Fragmentation Type': 'fragmentation_type',\n\t\t'Version': 'version_tag'\n\t    },\n\t    'Keyword List': 'keywords'\n\t};\n    else\n\tskeleton = {\n\t    'Summary' : {\n\t\t'Title': 'title',\n\t\t'Description': 'description',\n\t\t'Species': 'species',\n\t\t'Source': 'source',\n\t\t'Number of Entries': 'n_entries',\n\t\t'Mass Modifications': 'mass_modifications',\n\t\t'Instruments': 'instruments',\n\t\t'Fragmentation Type': 'fragmentation_type',\n\t\t'Version': 'version_tag',\n\t\t'Documentation URL': 'documentation_url'\n\t    },\n\t    'Keyword List': 'keywords',\n            'Contact List' : {\n                'Lab Head': 'lab_head_full_name',\n                'Affiliation': 'lab_head_affiliation',\n                'Email': 'lab_head_email',\n                'Submitter': 'submitter_full_name',\n                'Submitter Affiliation': 'submitter_affiliation',\n                'Submitter Email': 'submitter_email'\n\t    },\n            'Library Details' : {\n                'Release Date': 'release_date',\n\t\t'Publication': 'publication',\n\t\t'Intended Sample Type': 'intended_sample_type',\n\t\t'Intended Workflow': 'intended_workflow',\n\t\t'Library Type': 'library_type',\n\t\t'Library Building Protocol': 'library_building_protocol',\n\t\t'Library Building Software': 'library_building_software',\n\t\t'Provenance': 'provenance_information',\n\t\t'QC Score': 'QC_score',\n\t\t'QC Report URL': 'QC_report_url',\n\t\t'Converted to mzSpecLib': 'converted_to_mzSpecLib',\n\t\t'Metadata Quality Score': 'metadata_quality_score'\n            },\n            'File Details' : {\n\t\t'Local Filename': 'local_filename',\n\t\t'Local md5 Checksum': 'local_md5_checksum',\n\t\t'Original Filename': 'original_filename',\n\t\t'Original md5 Checksum': 'original_md5_checksum',\n\t\t'Source URL': 'source_url'\n            },\n            'Record Info' : {\n\t\t'Library Record id': 'library_record_id',"
+    },
+    {
+      "lines": [
+        300,
+        344
+      ],
+      "source_code": "    wait.style.padding = 0;\n    var span = document.createElement(\"h3\");\n    span.style.position = \"relative\";\n    span.style.top = \"-8px\";\n    span.style.display = \"inline\";\n    span.append(\"Loading...\");\n    wait.append(span);\n    results_node.append(wait);\n\n\n    var apiurl = _api[call] + '?src=PCUI&resultType=resultset';\n    if (filter) {\n\tfor (var q in _api.query) {\n\t    if (filter == q) {\n\t\tif (action == 'set') {\n\t\t    if (value)\n\t\t\tapiurl += \"&\" + filter + '=' + encodeURIComponent(value);\n\t\t}\n\t\telse if (action == 'add') {\n                    apiurl +=  \"&\" + filter + '=' + encodeURIComponent(value.trim());\n\t\t    if (_api.query[q]) {\n\t\t\tfor (var v of _api.query[q].split(',')) {\n\t\t\t    if (v.trim() != value.trim())\n\t\t\t\tapiurl += ',' + encodeURIComponent(v.trim());\n\t\t\t}\n\t\t    }\n\t\t}\n                else if (action == 'remove') {\n                    var allvalues = '';\n                    var comma = '';\n                    for (var v of _api.query[q].split(',')) {\n                        if (v != value) {\n                            allvalues += comma + encodeURIComponent(v.trim());\n                            comma = ',';\n\t\t\t}\n                    }\n                    if (allvalues)\n\t\t\tapiurl +=  \"&\" + filter + '=' + allvalues;\n                }\n\t    }\n            else if (_api.query[q])\n\t\tapiurl += \"&\" + q + '=' + encodeURIComponent(_api.query[q]);\n\n\t}\n    }"
+    }
+  ]
+}

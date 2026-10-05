@@ -1,0 +1,32 @@
+{
+  "frozen_at_utc": "2026-10-05T21:25:03.339280+00:00",
+  "route": {
+    "url": "https://proteomecentral.proteomexchange.org/api/proxi/v0.1/datasets?src=PCUI&resultType=resultset&publication=31419061&pageNumber=1&pageSize=100",
+    "method": "GET",
+    "purpose": "Third/final boundedpublication-field metadata probe: literalbackend-reported query.publication + verifiedPMID, actualdeclaredendpoint. No genericsearch repeated. Localpublicationterms mustauthenticate anyreturnedrecord; semantics not presumed.",
+    "cap": 16777216,
+    "timeout_seconds": 10
+  },
+  "source_evidence": {
+    "actual_endpoint": "Cachedclientexplicitfallback /api/proxi/v0.1/datasets",
+    "field": "RootSTAGE14 actualmetadata response query.publication null; not inventednewfield",
+    "transport": "Actualclientliteralquery URIencoding; returnedtruthyquerykeys adopted, nulladoptionlimitpreserved",
+    "citation_value": "VerifiedprimaryPMID31419061; PMIDs represented by publicationtermMS:1000879",
+    "not_evidence": "LibraryDetails Publication mapping excluded; no sourceargument that thisalone establishesdatasetfilter or exactmatch semantics"
+  },
+  "metadata_hypothesis": "If actualpublicationfilter selects thispaper, returnedprojectpublications should explicitly identifyPMID31419061 or DOI10.1002/prca.201900054. Queryecho or unsupportedstatus withoutactualterm failsauthentication.",
+  "use": "Potentialarchiveaccession/nativecase/model/pair/fileidentity; no biologicaldiscovery frommetadata",
+  "alternatives": [
+    "APIfield echoedbut noteffective",
+    "Onlypartialindex/citationlinking",
+    "Genericmodel/sarcoma project not nativeEMC"
+  ],
+  "disproof": "No actualmatchingpublicationterms or nativecondition/releaseidentity leavesHOLD/NO-GO beforevalues, not noEMC/norelease",
+  "safe_mask": [
+    "Metadataquery/status/pagination",
+    "Returnedprojectaccession/title",
+    "Publicationterms only",
+    "Explicitnativecase/model/pair/filelabels whenactuallypresent"
+  ],
+  "scope": "One metadata request only; all source-specificnegative/inconclusive/failedroute limits retained. No biochemicalquantities/sequence/matrix/private/APIcredentials/articlecopy."
+}
