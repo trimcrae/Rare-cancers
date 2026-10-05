@@ -1,0 +1,209 @@
+{
+  "utc": "2026-10-05T14:07:29.545845+00:00",
+  "status": "PASS bounded documentation verification",
+  "checks": [
+    {
+      "check": "app primarysource sha",
+      "pass": true
+    },
+    {
+      "check": "app gitblob matches publictree",
+      "pass": true
+    },
+    {
+      "check": "protocol primarysource sha",
+      "pass": true
+    },
+    {
+      "check": "protocol gitblob matches publictree",
+      "pass": true
+    },
+    {
+      "check": "source app.route patients",
+      "pass": true
+    },
+    {
+      "check": "default GET no explicit methods patients",
+      "pass": true
+    },
+    {
+      "check": "no handler auth decorator patients",
+      "pass": true
+    },
+    {
+      "check": "source app.route patientsmetadata",
+      "pass": true
+    },
+    {
+      "check": "default GET no explicit methods patientsmetadata",
+      "pass": true
+    },
+    {
+      "check": "no handler auth decorator patientsmetadata",
+      "pass": true
+    },
+    {
+      "check": "source app.route patients_meta_fields",
+      "pass": true
+    },
+    {
+      "check": "default GET no explicit methods patients_meta_fields",
+      "pass": true
+    },
+    {
+      "check": "no handler auth decorator patients_meta_fields",
+      "pass": true
+    },
+    {
+      "check": "source app.route unique_field_intereset",
+      "pass": true
+    },
+    {
+      "check": "default GET no explicit methods unique_field_intereset",
+      "pass": true
+    },
+    {
+      "check": "no handler auth decorator unique_field_intereset",
+      "pass": true
+    },
+    {
+      "check": "source app.route get_patientslist_by_fieldname",
+      "pass": true
+    },
+    {
+      "check": "default GET no explicit methods get_patientslist_by_fieldname",
+      "pass": true
+    },
+    {
+      "check": "no handler auth decorator get_patientslist_by_fieldname",
+      "pass": true
+    },
+    {
+      "check": "source app.route cohort_names",
+      "pass": true
+    },
+    {
+      "check": "default GET no explicit methods cohort_names",
+      "pass": true
+    },
+    {
+      "check": "no handler auth decorator cohort_names",
+      "pass": true
+    },
+    {
+      "check": "one requested field only",
+      "pass": true
+    },
+    {
+      "check": "unique filtered string JSONresponse",
+      "pass": true
+    },
+    {
+      "check": "no global before_request decorator in module",
+      "pass": true
+    },
+    {
+      "check": "cohort names configuration-interface delegation",
+      "pass": true
+    },
+    {
+      "check": "imported wrapper only Protocol",
+      "pass": true
+    },
+    {
+      "check": "replicate vs donor contract remains explicit",
+      "pass": true
+    },
+    {
+      "check": "original scientificfreeze hash unchanged",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport .gitignore",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport ACCESS.json",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport BEFORE-VALUES-ASSAY-ELIGIBILITY.json",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport COVERAGE.json",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport EXACT-DOI-CITATION-GATE.json",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport FINAL-REVIEW.json",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport PLAN.json",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport PORTABILITY.json",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport PORTAL-SCHEMA-INDEPENDENT-CHECK.json",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport REPORT.txt",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport REUSED-RET-PRIORART-AND-VALUE.json",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport VERIFICATION.json",
+      "pass": true
+    },
+    {
+      "check": "original frozenexport verify_source_gate.py",
+      "pass": true
+    },
+    {
+      "check": "sharedsource rosterdoc-PatientTable.vue",
+      "pass": true
+    },
+    {
+      "check": "sharedsource rosterdoc-routes.py",
+      "pass": true
+    },
+    {
+      "check": "sharedsource portal-tree.source",
+      "pass": true
+    },
+    {
+      "check": "sharedsource public-cohort-names.source",
+      "pass": true
+    },
+    {
+      "check": "sharedsource public-column-schema.source",
+      "pass": true
+    },
+    {
+      "check": "8MiB sourcecap",
+      "pass": true
+    },
+    {
+      "check": "free10GiB",
+      "pass": true
+    }
+  ],
+  "checks_count": 49,
+  "clinical_API_calls": 0,
+  "code_execution": false,
+  "biochemical_or_treatment_outcome_values_inspected": 0,
+  "no_auth_guarantee": "Source decorators only; deployed access not tested",
+  "index_mapping": "Unresolved; no guessed or instantiated index request",
+  "full_repo_gates": "Pending integrating lead, not workerpassed"
+}

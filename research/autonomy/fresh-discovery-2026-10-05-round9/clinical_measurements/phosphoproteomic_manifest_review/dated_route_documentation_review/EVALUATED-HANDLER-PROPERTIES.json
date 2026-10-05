@@ -1,0 +1,57 @@
+{
+  "utc": "2026-10-05T14:06:20.270439+00:00",
+  "source": {
+    "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/phosphoproteomic_manifest_review/dated_route_documentation_review/source-cache/app.py",
+    "bytes": 27895,
+    "sha256": "1329fa7fa220e14068e3565c55f53ec928eae0c878021c833bf46b3bd8784c64"
+  },
+  "exact_documented_routes": [
+    {
+      "enum": "PATIENTS_METADATA_FIELD_VALUES",
+      "pattern": "/<int:cohort_index>/metadata/fields/<string:fieldname>",
+      "source_function": "unique_field_intereset",
+      "source_lines": "610\u2013618",
+      "http_method": "Flask route decorator does not specify methods; defaultGET, with framework HEAD/OPTIONS behavior. No mutation requested.",
+      "response": "Selects exactly patientsmetadata_df[fieldname]; dropsmissing, takesunique values, converts each tostr, sorts, jsonify JSONlist. Source field-only behavior, not a full patient frame.",
+      "allowed_candidate_field": "primary_diagnosis is public19-column-schema label; field availability in any particular cohort still unverified.",
+      "denied": "No treatment_outcome, scores, protein/phosphosite/biochemical values; no actual call."
+    },
+    {
+      "enum": "PATIENTS_METADATA_FIELDS",
+      "pattern": "/<int:cohort_index>/metadata/fields",
+      "source_function": "patients_meta_fields",
+      "http_method": "Source defaultGET",
+      "response": "Sorted metadata column names; does not itself supply specimenvalues or resolve1998cohort. No call."
+    },
+    {
+      "enum": "PATIENTS_BY_FIELD_INTEREST",
+      "pattern": "/<int:cohort_index>/metadata/fields/<string:fieldname>/patients/<string:field_interest>",
+      "source_function": "get_patientslist_by_fieldname",
+      "http_method": "Source defaultGET",
+      "response": "Filters callerfield by comma-split requestedstrings and returnsSample-name column list. These are sampleidentifiers, not independently verified donor IDs. No call or diagnosisstring guess."
+    },
+    {
+      "enum": "PATIENTS",
+      "pattern": "/<int:cohort_index>/patients",
+      "source_function": "patients",
+      "response": "utils.df_to_json whole patientmetadataframe; unsuitable for allowed fieldmask because excludedfields may be returned. No call."
+    },
+    {
+      "enum": "PATIENTS_METADATA",
+      "pattern": "/<int:cohort_index>/metadata",
+      "source_function": "patientsmetadata",
+      "response": "Merges sampleannotation and patientmetadata, replaces missing withn.d., serializes whole frame; unsuitable for allowedmask. No call."
+    }
+  ],
+  "authentication": {
+    "source_scope": "Relevant handlers have app.route and optional cache decorators, no route-specific authentication decorator. No app.before_request guard found in inspected module AST.",
+    "unresolved": "Deployment reverse-proxy/server authorization and runtime access policy not established bypubliccode; no guarantee endpoints are anonymously accessible. Publiccohort_names response does not prove patient-route access."
+  },
+  "index_mapping": {
+    "source": "cohort_names delegates to cohorts_db.config.get_cohort_names(); relevant patienthandlers pass integercohort_index through cohortDB API.",
+    "imported_wrapper": "CohortDataAPI is a Protocol declaration, not concretebackend/index implementation. Documents sampleannotation includesreplicates while patientmetadata doesnot includereplicates, but this is APIcontract only.",
+    "status": "Unresolved exact index/name mapping for four currentlylisted CPTACcohorts. No endpoint/cohort index guessed; settings/configuration values were not read or used."
+  },
+  "code_selection_QA": "Initial route-prefix selector overselected unused genomics/entity implementation snippets; none were analysed for biological/mechanistic evidence, executed, or used for eligibility. Accepted route record uses exact enum names and required handlers only. No HLA/FAP/glycan/structural mechanism task reopened.",
+  "identity_value": "A diagnosis-only route could resolve whether currentCPTACmetadata contains explicitEMClabels only after exactmapping/access/source and root request review. It cannot establish molecularauthentication,1998clinicalrelease, site/totalRET data, kinaseactivation or clinicalbenefit."
+}

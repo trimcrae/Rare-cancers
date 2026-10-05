@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-05T13:59:50.235470+00:00",
+  "deadline_utc": "2026-10-05T14:09:45Z",
+  "parent_scientific_freeze": "490da03d703fff7519096c2c0ef6ccc5175f74f784276985c2d3fe2a4c9dc1a1",
+  "prior_commit": "0e2ab7dc8f7d2fb95ae335948a8b255a78f7bc97",
+  "question": "Documentation-only establish HTTPmethod, authentication/authorization, response format and cohort-index mapping for genuinelypublic diagnosis-only metadata; no patient/outcome/APIcall before root exactrequestreview.",
+  "genuine_doc_candidate": {
+    "repo_path": "flask-backend/app.py",
+    "url": "https://raw.githubusercontent.com/kusterlab/topas-portal/master/flask-backend/app.py",
+    "git_blob_sha": "ae4497e5b9feb98a693e9d1463aa1f44ec29800b",
+    "expected_bytes": 27895,
+    "basis": "Actualauthorportal publictree declares file/blob; paired PatientTable/routes enum docs require imported handler; source functions inspected only after ownership/no-duplicate coordination."
+  },
+  "permitted_fields": [
+    "pseudonymous case/donor/condition IDs",
+    "diagnosis/entity",
+    "site",
+    "grade",
+    "year",
+    "type",
+    "batch"
+  ],
+  "excluded": [
+    "treatment outcomes",
+    "all biochemical/kinase/phosphosite/protein values",
+    "credentials/config/token/private/admin/login",
+    "unlistedcohorts",
+    "HLA/FAP/glycan/structuralgenomic mechanismfields"
+  ],
+  "source_read_mask": "Only route decorators/imports/GET methods/authrequirements/server fieldmask/response serialization/cohort-list indexing and genuinely imported public helper/frontend references; skip admin/config/secrets/outcome handlers and source values.",
+  "stopping_rule": "No cohort index guessing, no patient/metadata calls, no method/auth proof by guessing routes. Flag ambiguities to integrating root. Documentation existence is not actualEMCidentity,1998source relation orfinding. If server returns excludeddata and no documented field-only mask, no call proposed.",
+  "storage": "<=8MiB newraw ifnotcached; originals ignored, free>=10GiB; preserve all prior science bytes and freezes; Codexboth/no sharedstate orpush.",
+  "free_bytes": 27140632576
+}

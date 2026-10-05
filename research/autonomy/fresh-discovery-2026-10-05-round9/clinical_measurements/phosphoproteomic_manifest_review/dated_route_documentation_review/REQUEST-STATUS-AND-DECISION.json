@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-05T14:06:20.270439+00:00",
+  "decision": "Documentation gate complete with ambiguity; NO patient/diagnosis/outcome call authorized or executed by reviewer.",
+  "candidate_template_only": "GET https://topas-portal.kusterlab.org/master_topas-portal_backend/<verified-cohort-index>/metadata/fields/primary_diagnosis",
+  "parameters": "cohort_index must be verified against actualfourpublicCPTAClisting; fieldname must match documented primary_diagnosis and serverfield-only route. No substitute cohort, no guessing numericindex.",
+  "fieldmask": "Diagnosis/entity only for this candidate; eventual pseudonymous IDs/site/grade/year/type/batch require separately exactdocumented requests. Exclude all treatmentoutcomes and biochemicalvalues.",
+  "known_response": "Source function returnsJSONsortedunique strings ofonefield, no patientIDlink inthisresponse. Same labels may be generic/author-specific; source authentication remains necessary.",
+  "blocking_ambiguities": [
+    "Runtimeanonymous access/auth not proven bycode alone; root must review before request and stopiflogin401/403",
+    "Concretebackend integerindex-to-listedname mapping not established in reviewerbranch",
+    "Public metadatafield existence is not a case/conditionmanifest or new1998sourceprovenance",
+    "Currentfourcohorts are CPTAC-labelled; no transfer toMASTER/CATCH/INFORM"
+  ],
+  "value": "May improve narrower old broader-source clinical eligibility if trueexplicitEMCdiagnosis appears andsourcecontext is authenticated. A routing/schema discovery alone is not a scientificfinding.",
+  "before_any_call": "Integrating root must review a fully instantiated publiclydocumented metadata-only request with verified mapping, exactURL/fieldmask/responsebound and authstopcondition. No call now and no private/config/token orpatientbulkdata request.",
+  "science": "Originalphosphoproteomic/RET/perfusion/MRI/telomere findings/decisions remainunchanged. No biochemical values or publicationclaim."
+}
