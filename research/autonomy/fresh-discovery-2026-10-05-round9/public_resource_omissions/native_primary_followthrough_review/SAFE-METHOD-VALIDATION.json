@@ -1,0 +1,71 @@
+{
+  "utc": "2026-10-05T15:00:36.352954+00:00",
+  "bindings": [
+    {
+      "path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/native_primary_followthrough/raw-cache/PMC9481662-bioc.xml",
+      "bytes": 59619,
+      "sha256": "c88103d60bc3fdbd27db5aca58d45915434bd1a69535a1fa7a9edeed26d029d0"
+    },
+    {
+      "path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/native_primary_followthrough/raw-cache/PMC4847145-bioc.xml",
+      "bytes": 130431,
+      "sha256": "5fe99bec350b655ccfcd021aaca8299004f06d24d077caf8f75cb99a64872d02"
+    }
+  ],
+  "safe_reader": "Only infon type/section_type values and METHODS paragraph text. TABLE/RESULTS/FIG/ABSTRACT text and infon XML never accessed by this checker.",
+  "method_prerequisite_checks": {
+    "GRM1_IHC_materials": 15,
+    "GRM1_TMA_materials": 3,
+    "GRM1_whole_section_materials": 12,
+    "GRM1_prior_qPCR_EMC_controls": 3,
+    "qPCR_technical_triplicates": true,
+    "CMF_only_recurrence_pairs_not_EMC": true,
+    "older_EMC_materials": 16,
+    "older_panel_markers": 6,
+    "older_one_representative_section_per_case": true,
+    "literal_older_section_unit": "4-mm; unresolved source conversion/unit, not corrected"
+  },
+  "passage_type_counts": {
+    "PMC9481662-bioc.xml": {
+      "('TITLE', 'front')": 1,
+      "('ABSTRACT', 'abstract')": 1,
+      "('INTRO', 'title_1')": 1,
+      "('INTRO', 'paragraph')": 3,
+      "('METHODS', 'title_1')": 1,
+      "('METHODS', 'paragraph')": 3,
+      "('RESULTS', 'title_1')": 1,
+      "('RESULTS', 'paragraph')": 6,
+      "('DISCUSS', 'title_1')": 1,
+      "('DISCUSS', 'paragraph')": 6,
+      "('SUPPL', 'title_1')": 1,
+      "('SUPPL', 'footnote')": 2,
+      "('REF', 'title')": 1,
+      "('REF', 'ref')": 29,
+      "('FIG', 'fig_caption')": 6,
+      "('TABLE', 'table_caption')": 1,
+      "('TABLE', 'table')": 1,
+      "('TABLE', 'table_footnote')": 1
+    },
+    "PMC4847145-bioc.xml": {
+      "('TITLE', 'front')": 1,
+      "('ABSTRACT', 'abstract')": 1,
+      "('INTRO', 'paragraph')": 4,
+      "('METHODS', 'title_1')": 1,
+      "('METHODS', 'paragraph')": 2,
+      "('RESULTS', 'title_1')": 1,
+      "('RESULTS', 'title_2')": 4,
+      "('RESULTS', 'paragraph')": 10,
+      "('DISCUSS', 'title_1')": 1,
+      "('DISCUSS', 'paragraph')": 12,
+      "('DISCUSS', 'footnote')": 1,
+      "('REF', 'ref')": 87,
+      "('FIG', 'fig_caption')": 7,
+      "('TABLE', 'table_caption')": 5,
+      "('TABLE', 'table')": 5,
+      "('TABLE', 'table_footnote')": 11
+    }
+  },
+  "marker_outcome_values_inspected": 0,
+  "passed": true,
+  "scope_limit": "Counts are study-material/assay conditions, not distinct donors or same-case pairing. Outcome blindness applies to this independent read only; owner accidental exposure is preserved separately."
+}

@@ -1,0 +1,37 @@
+{
+  "utc": "2026-10-05T15:00:36.414770+00:00",
+  "records": [
+    {
+      "source": "GRM1 study PMC9481662",
+      "assay": "GRM1 tissue IHC",
+      "material_count": 15,
+      "preparation": {
+        "TMA_single_core": 3,
+        "whole_section": 12
+      },
+      "identity": "Author/pathology reviewed EMC native materials, not independently molecularly reauthenticated here",
+      "readout_design": "Percentage positive tumor cells and weak/moderate/strong intensity; 4 micrometre sections, per-iteration cerebellum positive and negative control",
+      "missing": "Individual case/donor IDs, preservation/decalcification and assay counterpart map not established for all EMC conditions"
+    },
+    {
+      "source": "GRM1 study PMC9481662",
+      "assay": "Previously performed RT-qPCR native EMC controls",
+      "material_count": 3,
+      "preparation": "Freshly frozen comparator tissue; technical triplicates, housekeeping-normalized comparative Ct",
+      "identity": "Author-labeled native EMC control materials",
+      "missing": "Pairing/overlap with 15 IHC materials not established; no 18-donor claim, no RNA-to-accessible-protein inference"
+    },
+    {
+      "source": "Mimic IHC study PMC4847145",
+      "assay": "Six-marker native EMC tissue IHC",
+      "material_count": 16,
+      "preparation": "One representative section per case; BioC literal4-mm thickness retained as unresolved conversion/unit",
+      "identity": "Author diagnoses reviewed by two pathologists and routine H&E; independent molecular confirmation not established from permitted method fields",
+      "readout_design": "Extent categories negative<5%,5\u201310%,10\u201350%,>50%; semiquantitative intensity0\u20133, parallel positive/negative controls",
+      "missing": "Public individual co-stain/compartment matrix and tissue/donor/condition map not established; per-marker diagnostic summaries do not reconstruct same-case combinations"
+    }
+  ],
+  "controls": "GRM1 histologic mimic cohorts, cerebellum and per-iteration negative controls; older chordoid meningioma/chordoma/chordoid glioma and skeletal myxoid/cartilage mimics. Scope matches source diagnosis labels, not generic-to-EMC transfer.",
+  "contrary_conditions": "Five recurrence pairs are CMF only; not native EMC longitudinal controls. Single-core and whole-section EMC materials remain distinct, no homogeneous compartment assumption.",
+  "overlap": "Both studies use Stanford archives, with other institutions; donor/case overlap unresolved. No 31/34 independent-donor sum, no matching by institutional label."
+}
