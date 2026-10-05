@@ -1,0 +1,22 @@
+{
+  "created_utc": "2026-10-05T21:30:19.384584+00:00",
+  "amendment": "04 ordinary public exact-disease/vendor source-linkage search",
+  "queries": [
+    "\"extraskeletal myxoid\" \"single cell\" transcriptome",
+    "\"extraskeletal myxoid\" \"Xenium\" OR \"CosMx\" OR \"Visium\" OR \"spatial transcriptomics\"",
+    "\"soft tissue sarcoma\" \"Xenium\" dataset"
+  ],
+  "fields": [
+    "public primary/repository URL",
+    "literal native pathology/histotype/specimen labels",
+    "ordinary RNA assay/deposit schema"
+  ],
+  "not_authorized": [
+    "GPNMB values",
+    "inferred malignancy",
+    "all denied scopes",
+    "images/UI"
+  ],
+  "initial_tool_error": "Tool call using search_query returned empty isError=true; no accepted source or access rejection. Read actual tool description, new correctly specified system2_search_query, no failed source-route retry.",
+  "stop": "21:44:02 UTC"
+}

@@ -1,0 +1,38 @@
+{
+  "created_utc": "2026-10-05T21:27:41.016694+00:00",
+  "amendment": "03 new primary source branches before body access",
+  "original_plan_sha256": "30357ef8e3a3160a2d34481b11d044bc3141e0faeda2495e141ba8003a725478",
+  "source_branches": [
+    {
+      "pmid": "41977488",
+      "pmcid": "PMC13073760",
+      "doi": "10.3390/ijms27073309",
+      "title": "Mesenchymal Tissue-Driven Gene Programs Identify EMP3 as a Key Biomarker of Aggressiveness in Undifferentiated Sarcomas.",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13073760/fullTextXML"
+    },
+    {
+      "pmid": "41869350",
+      "pmcid": "PMC12999908",
+      "doi": "10.3389/fimmu.2026.1783216",
+      "title": "Distinct immunologic patterns of response and resistance to anti-PD-1/PD-L1-based immunotherapy in patients with soft tissue sarcoma.",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12999908/fullTextXML"
+    }
+  ],
+  "permitted_fields": [
+    "source disease/histotype/donor/specimen/condition labels",
+    "ordinary RNA assay/capture and source-method fields",
+    "author cell annotation schema and exact specimen linkage",
+    "processed file/deposit/data-availability links"
+  ],
+  "excluded_fields": [
+    "new GPNMB or other gene/protein quantities",
+    "clinical response/outcome values",
+    "inferred malignant classification",
+    "DNA/CNA/STR/sequence/mechanism fields",
+    "denied FAP-tissue/glycan/HLA/structural-genomics/fusion-topology task content"
+  ],
+  "stop": "21:44:02 UTC; no processed outcome stage unless authentic source and independent value challenge plus immutable detailed method",
+  "unchanged_failure_policy": "No repeated failed route; no private or bypass route",
+  "existing_catalogues": "Full metadata catalogues cache-only, partial title search is not clinical coverage",
+  "exposure_boundary": "Earlier cached five GEO summaries were printed too broadly and displayed unrelated qualitative mechanistic/source context, no new GPNMB quantities. This amendment narrows body parsing to permitted fields before new retrieval."
+}

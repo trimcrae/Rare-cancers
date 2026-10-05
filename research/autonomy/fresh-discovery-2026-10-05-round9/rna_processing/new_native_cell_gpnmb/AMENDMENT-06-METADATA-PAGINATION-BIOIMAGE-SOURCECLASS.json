@@ -1,0 +1,19 @@
+{
+  "created_utc": "2026-10-05T21:32:42.136870+00:00",
+  "amendment": "06 remaining metadata pagination and distinct BioImage Archive source class",
+  "branches": [
+    {
+      "id": "new-source-query1-page2",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3Asarcoma+OR+TITLE_ABS%3Achondrosarcoma%29+AND+%28TITLE_ABS%3AXenium+OR+TITLE_ABS%3ACosMx+OR+TITLE_ABS%3AMERFISH+OR+TITLE_ABS%3A%22single+cell%22+OR+TITLE_ABS%3A%22single-cell%22+OR+TITLE_ABS%3A%22spatial+transcriptomics%22%29+AND+FIRST_PDATE%3A%5B2024-01-01+TO+2026-10-05%5D&format=json&resultType=lite&pageSize=100&cursorMark=AoIIQC%2Fnfig1MTMxNDI0Mg%3D%3D",
+      "scope": "Complete remaining current168 metadata titles only; no body/gene results"
+    },
+    {
+      "id": "biostudies-bioimages-sarcoma",
+      "url": "https://www.ebi.ac.uk/biostudies/api/v1/search?query=sarcoma&collection=bioimages&pageSize=100",
+      "scope": "Distinct broad BioImage Archive collection source class, not unchanged exactEMC query; labels/assay/deposit links only"
+    }
+  ],
+  "no_outcomes": true,
+  "stop": "21:44:02 UTC",
+  "limits": "All remaining unreviewed bodies/case maps pending, not catalogue-based eligibility or absence; do not open mechanism/denied task sources."
+}

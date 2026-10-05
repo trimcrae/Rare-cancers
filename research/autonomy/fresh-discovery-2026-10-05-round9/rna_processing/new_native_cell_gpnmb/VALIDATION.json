@@ -1,0 +1,29 @@
+{
+  "checks": [
+    "originalplan hash matches30357",
+    "no tracked raw or full catalogues",
+    "two newprimary hashes match receipts",
+    "selected fiveGEO condition count equals original n_samples",
+    "newraw<64MiB",
+    "free>=10GiB",
+    "noGPNMBcell outcomes accessed",
+    "actualclosurebefore21:44:02"
+  ],
+  "source_checks": [
+    {
+      "plan_sha256": "30357ef8e3a3160a2d34481b11d044bc3141e0faeda2495e141ba8003a725478",
+      "matches": true
+    },
+    {
+      "source": "PMC13073760",
+      "matches": true
+    },
+    {
+      "source": "PMC12999908",
+      "matches": true
+    }
+  ],
+  "raw_budget_pass": true,
+  "free_pass": true,
+  "status": "PASS"
+}
