@@ -1,0 +1,176 @@
+{
+  "utc": "2026-10-05T01:28:33.295525+00:00",
+  "question": "Were all12 source libraries completed and are estimator calibration metrics reproducible?",
+  "all12_count_vector_hash_and_class_accounting_pass": true,
+  "compressed_bytes_expected_ENA_MD5_all12_match": true,
+  "total_reads": 81123915,
+  "total_compressed_bytes": 2704945123,
+  "per_library": [
+    {
+      "sample": "Si01",
+      "source_control_Spearman": 0.9062602475564924,
+      "meets_frozen_estimator_benchmark_090": true
+    },
+    {
+      "sample": "Si02",
+      "source_control_Spearman": 0.905885569725082,
+      "meets_frozen_estimator_benchmark_090": true
+    },
+    {
+      "sample": "Si05",
+      "source_control_Spearman": 0.8732120184330464,
+      "meets_frozen_estimator_benchmark_090": false
+    },
+    {
+      "sample": "Si09",
+      "source_control_Spearman": 0.8431412016907384,
+      "meets_frozen_estimator_benchmark_090": false
+    },
+    {
+      "sample": "Si10",
+      "source_control_Spearman": 0.858239825903712,
+      "meets_frozen_estimator_benchmark_090": false
+    },
+    {
+      "sample": "Si14",
+      "source_control_Spearman": 0.9564799428059898,
+      "meets_frozen_estimator_benchmark_090": true
+    },
+    {
+      "sample": "Si15",
+      "source_control_Spearman": 0.9521676300826174,
+      "meets_frozen_estimator_benchmark_090": true
+    },
+    {
+      "sample": "Si16",
+      "source_control_Spearman": 0.9559633036565951,
+      "meets_frozen_estimator_benchmark_090": true
+    },
+    {
+      "sample": "Si17",
+      "source_control_Spearman": 0.9620081801240624,
+      "meets_frozen_estimator_benchmark_090": true
+    },
+    {
+      "sample": "Si19",
+      "source_control_Spearman": 0.9463411689308631,
+      "meets_frozen_estimator_benchmark_090": true
+    },
+    {
+      "sample": "Si20",
+      "source_control_Spearman": 0.9598352252916074,
+      "meets_frozen_estimator_benchmark_090": true
+    },
+    {
+      "sample": "Si22",
+      "source_control_Spearman": 0.9636035169615509,
+      "meets_frozen_estimator_benchmark_090": true
+    }
+  ],
+  "source_control_coverage": {
+    "released_source_rows": 9500,
+    "present_fixed_target_names_masked": [
+      "CCL2",
+      "CD3D",
+      "CD3E",
+      "FCER1G"
+    ],
+    "unmatched_source_gene_labels_not_imputed": [
+      36951,
+      37316,
+      37681,
+      38412,
+      38777,
+      39873
+    ],
+    "interpretation": "Six numeric source gene labels are unmatched; no alias, date conversion or zero was inferred."
+  },
+  "published_variable_control_genes": 2373,
+  "median_crosssample_control_Spearman": 0.976952822135941,
+  "frozen_all12_estimator_benchmark_pass": false,
+  "interpretation": "The raw reads are complete. This exact-probe estimator did not meet its prespecified all-library allocation benchmark. This is not invalid-assay evidence, a missing-gene zero, a negative EMC measurement or exhaustion of valid mapping methods. No fixed target expression or ligand-score interpretation was calculated in this peer replay.",
+  "coverage": "Suitable complete raw data remain pending proper mapping/analysis; this blocks promotion of a ligand claim.",
+  "bindings": [
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si01.npz",
+      "bytes": 23993,
+      "sha256": "5ad077b8cd7de3a0135164fb72f221e5855a5fbbaf8b35718f6076bbc31fdf1b"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si02.npz",
+      "bytes": 21164,
+      "sha256": "42f520b268a256b714f057a91d5a8d80e287f2c6b8c62f3f96579fe7be470fb0"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si05.npz",
+      "bytes": 17586,
+      "sha256": "0ce95f241d0e72a91f595cc8ae48899031b14bba40eae5d0974a5d59be628505"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si09.npz",
+      "bytes": 15716,
+      "sha256": "be486ac54632b61e1e230cf4f67c1b09d9bc4485728911470199f7a77fc4d252"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si10.npz",
+      "bytes": 16771,
+      "sha256": "4ed7fe30134947c58f91c331c370078b11a52a604f221d595536a9ca9e9ae00a"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si14.npz",
+      "bytes": 31840,
+      "sha256": "456a91e11c755ba4dc01c13cea2d7ae7f4e751f7887df47d9628a418abdaba52"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si15.npz",
+      "bytes": 26985,
+      "sha256": "6e4b387ccbac62dd0ab58e5b8ae3aabd670767755784f38625fc72f7171eab52"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si16.npz",
+      "bytes": 32204,
+      "sha256": "3daba1c225126895b160d6e676ce5c513d33a07a2c3eb3b412d126e005590a6f"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si17.npz",
+      "bytes": 33428,
+      "sha256": "5797803879799295161b2cb715cd6f2c996baf6ae763a810e43700162a5c4cda"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si19.npz",
+      "bytes": 25972,
+      "sha256": "be5435f3a71c13a3df552e459e31813b739b14fe8d9b6f6591ce479fb0e6d3ca"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si20.npz",
+      "bytes": 35879,
+      "sha256": "4d4a2eac1e1fab1c4be1b3ccd16e4bf55d60f2cd359cee0747ababc7281aa0c8"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COUNT-Si22.npz",
+      "bytes": 36335,
+      "sha256": "35a646e3c070c1e4f3b88fefe511d9a2883822ca174c57fdb6af375545c696e6"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/COMPLETE-TEMPO-SOURCE-RECEIPTS.json",
+      "bytes": 15655,
+      "sha256": "371024c9c9d1e38d638e475ccaf2ec5560dbb2ea7c8212b257b70db3a71c68f9"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/TEMPO-CALIBRATION.json",
+      "bytes": 3191,
+      "sha256": "b99eb34da2715b36426ebc094877b1f6101860904c4a62decdb939b96790470b"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/raw/HWT2.0-manifest.xlsx",
+      "bytes": 2483450,
+      "sha256": "0dcceee852b5ceec2807641b1c55b3f57e33ffa7687b584d4d4a3806d6752da0"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/tmem266-tissue-2026-10-03/peerj-source-s009.xlsx",
+      "bytes": 1423709,
+      "sha256": "20165fd3ff09ec2d5a24b3c20b78515f42a3309119f248ed055c7484deb45e75"
+    }
+  ],
+  "source_control_genes_after_target_mask": 9490
+}

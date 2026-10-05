@@ -1,0 +1,419 @@
+{
+  "utc": "2026-10-05T01:14:47.569216+00:00",
+  "question": "Independent fixed-score and source replay plus content-adjustment dependence.",
+  "source_replay": {
+    "Hofvander_704x13_gene_values": true,
+    "array_42x13_released_probe_values": true,
+    "array_unique_original_GPL6244_and_common_probe_mapping": true,
+    "all13_EMC_and46_unique_comparator_donors": true,
+    "array_six_EMC_vs17_LGFMS": true
+  },
+  "Hofvander_fixed_covariate_models": [
+    {
+      "N": 59,
+      "EMC": 13,
+      "fixed_covariates": [],
+      "EMC_coefficient": 0.32348870332102225,
+      "OLS_t95CI_descriptive": [
+        -0.39453868440735923,
+        1.0415160910494037
+      ],
+      "design_rank": 2,
+      "condition_number": 2.5525309274760817,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 59,
+      "EMC": 13,
+      "fixed_covariates": [
+        "leukocyte"
+      ],
+      "EMC_coefficient": 0.43582091098764897,
+      "OLS_t95CI_descriptive": [
+        -0.30303177324731434,
+        1.1746735952226124
+      ],
+      "design_rank": 3,
+      "condition_number": 7.175691656723268,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 59,
+      "EMC": 13,
+      "fixed_covariates": [
+        "myeloid_content"
+      ],
+      "EMC_coefficient": 0.6185724053642703,
+      "OLS_t95CI_descriptive": [
+        -0.10548306496017823,
+        1.3426278756887187
+      ],
+      "design_rank": 3,
+      "condition_number": 17.611308824798485,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 59,
+      "EMC": 13,
+      "fixed_covariates": [
+        "T_content"
+      ],
+      "EMC_coefficient": 0.32749970059166034,
+      "OLS_t95CI_descriptive": [
+        -0.39968367517928716,
+        1.0546830763626078
+      ],
+      "design_rank": 3,
+      "condition_number": 3.4905326909535064,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 59,
+      "EMC": 13,
+      "fixed_covariates": [
+        "leukocyte",
+        "myeloid_content"
+      ],
+      "EMC_coefficient": 0.6369851968414966,
+      "OLS_t95CI_descriptive": [
+        -0.07977153567263195,
+        1.3537419293556252
+      ],
+      "design_rank": 4,
+      "condition_number": 22.539622108544645,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 59,
+      "EMC": 13,
+      "fixed_covariates": [
+        "leukocyte",
+        "T_content"
+      ],
+      "EMC_coefficient": 0.5155945672345759,
+      "OLS_t95CI_descriptive": [
+        -0.23055312434574649,
+        1.2617422588148983
+      ],
+      "design_rank": 4,
+      "condition_number": 8.304197815233481,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 59,
+      "EMC": 13,
+      "fixed_covariates": [
+        "myeloid_content",
+        "T_content"
+      ],
+      "EMC_coefficient": 0.7757701281927305,
+      "OLS_t95CI_descriptive": [
+        0.06537568325166898,
+        1.486164573133792
+      ],
+      "design_rank": 4,
+      "condition_number": 20.537275823048173,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 59,
+      "EMC": 13,
+      "fixed_covariates": [
+        "leukocyte",
+        "myeloid_content",
+        "T_content"
+      ],
+      "EMC_coefficient": 0.7644774909185148,
+      "OLS_t95CI_descriptive": [
+        0.04704241488544425,
+        1.4819125669515854
+      ],
+      "design_rank": 5,
+      "condition_number": 23.663931915606707,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    }
+  ],
+  "GSE24369_fixed_covariate_models": [
+    {
+      "N": 23,
+      "EMC": 6,
+      "fixed_covariates": [],
+      "EMC_coefficient": 1.2216508774509813,
+      "OLS_t95CI_descriptive": [
+        0.5138846395244218,
+        1.9294171153775408
+      ],
+      "design_rank": 2,
+      "condition_number": 2.4658957221502544,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 23,
+      "EMC": 6,
+      "fixed_covariates": [
+        "leukocyte"
+      ],
+      "EMC_coefficient": 0.9724458351092103,
+      "OLS_t95CI_descriptive": [
+        -0.11699077845723538,
+        2.061882448675656
+      ],
+      "design_rank": 3,
+      "condition_number": 59.072243526179534,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 23,
+      "EMC": 6,
+      "fixed_covariates": [
+        "myeloid_content"
+      ],
+      "EMC_coefficient": 1.4362512023100757,
+      "OLS_t95CI_descriptive": [
+        0.4142315473972178,
+        2.4582708572229337
+      ],
+      "design_rank": 3,
+      "condition_number": 117.21208500491059,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 23,
+      "EMC": 6,
+      "fixed_covariates": [
+        "T_cell_content"
+      ],
+      "EMC_coefficient": 0.9546110828640577,
+      "OLS_t95CI_descriptive": [
+        0.16430372403444737,
+        1.744918441693668
+      ],
+      "design_rank": 3,
+      "condition_number": 102.56397992816532,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 23,
+      "EMC": 6,
+      "fixed_covariates": [
+        "leukocyte",
+        "myeloid_content"
+      ],
+      "EMC_coefficient": 0.9859081943318082,
+      "OLS_t95CI_descriptive": [
+        0.05158031407994301,
+        1.9202360745836735
+      ],
+      "design_rank": 4,
+      "condition_number": 200.66802347737755,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 23,
+      "EMC": 6,
+      "fixed_covariates": [
+        "leukocyte",
+        "T_cell_content"
+      ],
+      "EMC_coefficient": 1.1867251810019923,
+      "OLS_t95CI_descriptive": [
+        0.07549432086009866,
+        2.2979560411438857
+      ],
+      "design_rank": 4,
+      "condition_number": 166.91061750853905,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 23,
+      "EMC": 6,
+      "fixed_covariates": [
+        "myeloid_content",
+        "T_cell_content"
+      ],
+      "EMC_coefficient": 1.4291506358251094,
+      "OLS_t95CI_descriptive": [
+        0.4953690335939738,
+        2.3629322380562447
+      ],
+      "design_rank": 4,
+      "condition_number": 176.46143106935872,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    {
+      "N": 23,
+      "EMC": 6,
+      "fixed_covariates": [
+        "leukocyte",
+        "myeloid_content",
+        "T_cell_content"
+      ],
+      "EMC_coefficient": 1.0701636034609316,
+      "OLS_t95CI_descriptive": [
+        0.0701925020374593,
+        2.070134704884404
+      ],
+      "design_rank": 5,
+      "condition_number": 369.6881319342647,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    }
+  ],
+  "Hofvander_fixed_sensitivities": {
+    "Hofvander_nonoverlapping_primary9": {
+      "N": 55,
+      "EMC": 9,
+      "fixed_covariates": [
+        "leukocyte",
+        "myeloid_content",
+        "T_content"
+      ],
+      "EMC_coefficient": 1.0303724029847567,
+      "OLS_t95CI_descriptive": [
+        0.15051607598246786,
+        1.9102287299870455
+      ],
+      "design_rank": 5,
+      "condition_number": 24.121543088451663,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    },
+    "Hofvander_EMC_vs_LGFMS_only": {
+      "N": 26,
+      "EMC": 13,
+      "fixed_covariates": [
+        "leukocyte",
+        "myeloid_content",
+        "T_content"
+      ],
+      "EMC_coefficient": 0.5192532781459365,
+      "OLS_t95CI_descriptive": [
+        -0.6716881512513142,
+        1.7101947075431871
+      ],
+      "design_rank": 5,
+      "condition_number": 32.36820339639091,
+      "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+    }
+  },
+  "fixed_ligand_score_decomposition": {
+    "Hofvander": {
+      "myeloid_ligand": {
+        "N": 59,
+        "EMC": 13,
+        "fixed_covariates": [
+          "leukocyte",
+          "myeloid_content",
+          "T_content"
+        ],
+        "EMC_coefficient": 0.20673922974968206,
+        "OLS_t95CI_descriptive": [
+          -0.5192069923452723,
+          0.9326854518446365
+        ],
+        "design_rank": 5,
+        "condition_number": 23.663931915606707,
+        "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+      },
+      "T_ligand": {
+        "N": 59,
+        "EMC": 13,
+        "fixed_covariates": [
+          "leukocyte",
+          "myeloid_content",
+          "T_content"
+        ],
+        "EMC_coefficient": -0.557738261168832,
+        "OLS_t95CI_descriptive": [
+          -1.3769705688453189,
+          0.26149404650765484
+        ],
+        "design_rank": 5,
+        "condition_number": 23.663931915606707,
+        "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+      }
+    },
+    "GSE24369": {
+      "myeloid_recruitment": {
+        "N": 23,
+        "EMC": 6,
+        "fixed_covariates": [
+          "leukocyte",
+          "myeloid_content",
+          "T_cell_content"
+        ],
+        "EMC_coefficient": 1.3643653531557625,
+        "OLS_t95CI_descriptive": [
+          0.2512425294767071,
+          2.477488176834818
+        ],
+        "design_rank": 5,
+        "condition_number": 369.6881319342647,
+        "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+      },
+      "T_cell_recruitment": {
+        "N": 23,
+        "EMC": 6,
+        "fixed_covariates": [
+          "leukocyte",
+          "myeloid_content",
+          "T_cell_content"
+        ],
+        "EMC_coefficient": 0.29420174969483137,
+        "OLS_t95CI_descriptive": [
+          -0.17374412127795363,
+          0.7621476206676163
+        ],
+        "design_rank": 5,
+        "condition_number": 369.6881319342647,
+        "interpretation": "Post-result diagnostic, conditional association; no recruitment or cell-source inference."
+      }
+    }
+  },
+  "caution": "All diagnostics are declared after initial results. Model variants are not additional discoveries or independent validation. RNA and array cohort donor overlap is unresolved. Source values are transcripts, not immune recruitment or cell fractions.",
+  "bindings": [
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/PLAN.json",
+      "bytes": 3748,
+      "sha256": "b41d0e67a39c30bb7734d9a316dd88f731a4c318ac70396acb90631137651a75"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/AMENDMENT-01-COMPARATOR-FREEZE.json",
+      "bytes": 1023,
+      "sha256": "f807ceaa48e69a83fa966c24d66f4a14b6c49a547b3e78ffddb5e21613696e67"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/AMENDMENT-02-DECISIVE-VALUE-CHECK.json",
+      "bytes": 1777,
+      "sha256": "ad35d904bdd915e64e4201f2c9da607c21999715c0ae9d63e0ea4cbed396d335"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/AMENDMENT-03-COMPLETE-TEMPO-STAGE.json",
+      "bytes": 2444,
+      "sha256": "e037c381e6fc7a35977ff83e532b1afdb79541ba3ba8bac986359b8ea12c9f00"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/HOFVANDER-FIXED-CONTRAST.json",
+      "bytes": 599797,
+      "sha256": "1401354e0b9061d984773e36996f1c9556b99711b91bdb92234a6fd9ad1ca007"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/GSE24369-FIXED-CONTRAST.json",
+      "bytes": 115224,
+      "sha256": "f94e2054d542c0953ad6b08ea7da774a072be5fa9880ca95be414f139ec1f3e2"
+    },
+    {
+      "path": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-05-round8/microenvironment/DECISIVE-ROBUSTNESS-RESULTS.json",
+      "bytes": 1772,
+      "sha256": "ab71eda1de59d0e242340ee5c2e70620dcf8efd6acd96c213c42c34056688176"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/atlas-hofvander-source-2026-09-06/tpm_matrix.tsv.gz",
+      "bytes": 23652488,
+      "sha256": "0255cd254762c6184a782d5b9a90aba6e545b6b2206e28f283455df2de4d62fc"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/atlas-primary-provenance-2026-09-06/GSE24369.soft.gz",
+      "bytes": 20240336,
+      "sha256": "98c83c8ca23b7052cf0d4d0099a7bf1af6c3c972276038c3a633e2a5349b3c37"
+    }
+  ]
+}
