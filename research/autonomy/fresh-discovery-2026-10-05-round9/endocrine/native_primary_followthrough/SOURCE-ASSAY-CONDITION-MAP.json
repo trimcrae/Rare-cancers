@@ -1,0 +1,56 @@
+{
+  "utc": "2026-10-05T14:55:06.234315+00:00",
+  "scope": "Allsource-defined nativeEMCassaymaterialgroups, no inventedindividualcase rows oroutcomes; groupcounteligibility notcomplete specimen-levelnumerical evaluation.",
+  "records": [
+    {
+      "source": "PMC9481662 / PMID35650682",
+      "primary_DOI": "10.1097/PAS.0000000000001921",
+      "original_sha256": "c88103d60bc3fdbd27db5aca58d45915434bd1a69535a1fa7a9edeed26d029d0",
+      "eligibility": "Native surgically archived author-pathology EMC comparator material; H&E diagnostic review. No new molecular authentication.",
+      "conditions": [
+        {
+          "assay": "GRM1 IHC",
+          "source_case_count": 15,
+          "preparation": "12whole sections and3single-core TMA materials by source counts; cores0.6\u20132.0mm selected morphologically, FFPE4um sections",
+          "control": "Rabbit monoclonal JM11\u201361,1:500, citrate pressure-cooker retrieval; cerebellum positive and negative controls for each iteration. Tumor-cell extent and weak/moderate/strong intensity scoring. Antibody label/procedure only, no epitope/functional interpretation.",
+          "case_ids": "Not released in inspected main methods/table schema. All15eligible source materials included at cohort scope, no selected specimen or invented row.",
+          "region_time_therapy": "Case-specific region/fixation/decalcification/treatment status/technical repeat mapping unresolved; full section vsTMA not equal technical sampling."
+        },
+        {
+          "assay": "Prior GRM1 RT-qPCR comparator controls",
+          "source_case_count": 3,
+          "preparation": "Fresh frozen; Hs00168250_m1 target; TBP/ACTB/HPRT1 endogenous controls, triplicate reactions, comparativeCt",
+          "case_ids": "Three source-labelled EMC controls, no named donor/case map here. Prior source cited; actual native identity/overlap/pairing with15IHC unresolved.",
+          "public_case_assay_link": "Cannot treat3qPCR+15IHC as18independent EMC or aspaired same-donor measurements. Three technical reactions not donors."
+        }
+      ],
+      "public_map": "Main tableT1 bytumor type,total cases,GRM1positive/negative summaries. No individual case row in that table. Source supplementary/prior qPCR maps not inspected; suitable accessible maps remain pending.",
+      "paired_condition_warning": "Five primary/recurrence pairs mentioned inmethods belong chondromyxoid fibroma, notEMC. Do not transfer paired design.",
+      "prior_art_and_value": "Source title/declared design alreadydiagnosticGRM1discrimination versusmimics. Authentic tissue/protein assay is real, but no useful unreported nativeEMC paired contrast/case-linked measurement established. IHC is notsurface accessibility,function or receptor activity.",
+      "status": "evaluated methods/identity/schema only; exposed numerical cells acknowledged, no outcomeanalysis. Pending supplement/prior qPCR crosswalk."
+    },
+    {
+      "source": "PMC4847145 / PMID19194275",
+      "primary_DOI": "10.1097/PAS.0b013e318194c566",
+      "original_sha256": "5fe99bec350b655ccfcd021aaca8299004f06d24d077caf8f75cb99a64872d02",
+      "eligibility": "16native author-pathology EMC archived cases, H&E review bytwoauthors, ambiguousradiological identity cases excluded; sourcecohorts Stanford/Emory. No newgenotypic authentication.",
+      "conditions": [
+        {
+          "assay": "Six direct IHC labels D2-40,S100,pankeratin,EMA,brachyury,GFAP",
+          "source_case_count": 16,
+          "preparation": "One representative FFPEsectionpercase, parallelpositive/negativecontrols. Semiquantitativeextent bins<5%,5\u201310%,10\u201350%,>50%; intensity0\u20133. Procedure thresholds are not observed outcomes.",
+          "technical_vs_donor": "Six stainspercase are repeated assay conditions, not96independent donors. Source tables report aggregate cohort positivity/meanextent/intensity, notsame-cell costaining or independentreplicates.",
+          "case_ids": "Individual case IDs/complete case-by-marker outcome matrix not released in inspected main table schema; all16source cases covered atcohort eligibility scope.",
+          "region_time_therapy": "Case/sectionmatching forrepresentativeROI/preservation/site/therapy and temporalconditions notlinked here.",
+          "unit_caveat": "BioC methodliteral says4-mm sections. This likely text-conversion/unitissue remains unresolved; do not silently correct or use physical-area inference. Native assayidentity/control schema remains distinct from unitvalidation."
+        }
+      ],
+      "public_map": "TablesT1procedureantibodyclone/dilution/retrieval/source;T2cohortdemographics;T3cohortbyantibody stainednumbers/means;T4diagnosticperformance;T5summarydiagnosticmarkerpatterns. Noindividual case-ID table identified. Nofigureimaging oradditionalrawassaydata accessed.",
+      "prior_art_and_value": "Authorstitle/designalreadydifferential-diagnosticmarkerpanelcomparison. Anonymousaggregate co-occurrence cannot support an unreported per-donor/cellcompartmentcontrast. Diagnosticlabel only; no glycan/epitope,targetability orfunction inference.",
+      "status": "evaluated methods/identity/schema only; exposed numericalcells acknowledged,nooutcomeanalysis. Individual public/case-condition map pending."
+    }
+  ],
+  "overlap": "Bothprimariesinclude Stanfordarchives; exactdonorIDs/date/pairing unavailable. IHC15/qPCR3/older16notpooled,sumorindependentcohort.",
+  "assay_and_value_decision": "Currentnew paired/experimental numericalproposalNO-GO: realnativeIHC/RTqPCRmethods butpubliccase linkage/replicatedusefulunansweredcontrastnotestablished. Previouslypublisheddiagnosticcomparisons arepriorart,notnewfindings.",
+  "accidental_exposure": "AMENDMENT-03-UNINTENDED-OUTCOME-EXPOSURE.json authoritative; ownerreviewnotfullyblinded, quantitativeoutcomesnotanalyzed."
+}
