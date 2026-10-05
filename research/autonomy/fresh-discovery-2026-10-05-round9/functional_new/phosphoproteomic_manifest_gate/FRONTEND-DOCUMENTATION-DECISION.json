@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-05T14:18:47.515343+00:00",
+  "question": "Does actualsource/deployedfrontend map publiccohort_names order tocohort index andusefield-onlyGET transport?",
+  "source_records": "ExactCohortSelect1295B+PatientComponent1674B matchmanifestgitblobs; existingdeployedscriptfe555\u2026 reused withbeforeinspection scopefreeze.",
+  "observed": [
+    "CohortSelect selectsindexOf(name) inVuexall_cohorts, emits/commitsname+index.",
+    "PatientComponent onlydelegates displaytabs toOverview/PatientReport; no transportthere.",
+    "DeployedcachedfetchAllCohorts GETscohort_names andcopiesresponsearrayinorder toall_cohorts. Samecompiledcomponent uses0-basedindexOf.",
+    "Deployedfield-specific GET pathusescohortIndex+fieldname andassignsreturnedarray; no percallauthoptions shown."
+  ],
+  "mapping_scope": "Sourcefront-end observedresponseorder0LUAD_CPTAC/1BRCA_CPTAC/2UCEC_CPTAC/3CPTAC_PAN_Cancer. Thisdoesnotauthenticate servermetadata dictionaryorder orcohort/clinicalprovenance ofindexresponses.",
+  "material_backend_caveat": "PeerfoundSQLpatient_annotation_path(index) uses separate dictionary; ordering consistency withreport_directory unknown. MemoryvsSQLactualdeploymentandconfigalignment remainunverified; no liveconfig authorized.",
+  "authorization": "Root separatelyapproved exact4anonymousdiagnosis-only literalroutechecks afterthisdocumentationstage finalized. Actualdiagnosisstrings wouldbeeligibleindexed responses, never proofnamedcohort/1998/donoridentity byindexalone. No suchcallmadeinthisstage.",
+  "access_limits": "Publicsourcehandlers defaultGET/unique requestedfield butdeployedauth/version/globalclient unknown. Anonymousmetadata stage muststopon401/403/login/reCAPTCHA/unexpectedshape/cap/redirect authprivatehost, no retry/config/token.",
+  "decision": "Source-level frontendmapping andfieldreadschema clarified; no actualclinicalroster/assayfinding. Metadata stage separateandprospective; alloriginalgates/16exports unchanged.",
+  "outcome_values_read": 0,
+  "patient_calls": 0,
+  "new_downloads": 2
+}

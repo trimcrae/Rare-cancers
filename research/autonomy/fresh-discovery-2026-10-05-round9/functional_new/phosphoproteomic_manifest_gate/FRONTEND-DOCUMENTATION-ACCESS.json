@@ -1,0 +1,55 @@
+[
+  {
+    "utc": "2026-10-05T14:10:25.711666+00:00",
+    "url": "https://raw.githubusercontent.com/kusterlab/topas-portal/master/vue-frontend/src/components/partials/CohortSelect.vue",
+    "repo_file": "vue-frontend/src/components/partials/CohortSelect.vue",
+    "scope": "Exact2publicfrontenddocs source-schema/index/transport only, noexecution/APIcalls",
+    "status": 200,
+    "file": "raw-cache/frontenddoc-CohortSelect.vue",
+    "bytes": 1295,
+    "sha256": "f7d77f03d2ecec4a63647a57657d08bbe971705bebdaa85e69c31ea356b72388",
+    "git_blob_sha": "fad2c27fb730360b1c371dc30090fbe44052bab5",
+    "selected_schema_lines": [
+      "      v-model=\"cohortName\"",
+      "      class=\"cohort\"",
+      "      :items=\"all_cohorts\"",
+      "      label=\"Cohort\"",
+      "      @change=\"updateCohort\"",
+      "import { mapGetters, mapState } from 'vuex'",
+      "  name: 'CohortSelect',",
+      "    cohortName: ''",
+      "      all_cohorts: state => state.all_cohorts",
+      "      return this.$store.state.cookieAccepted",
+      "    cohortIndex: function () {",
+      "      return this.all_cohorts.indexOf(this.cohortName)",
+      "    this.loadDefaultCohort()",
+      "    this.updateCohort()",
+      "    setCohortIndex (newValue) {",
+      "      this.$store.commit('setCohortIndex', newValue)",
+      "    loadDefaultCohort () {",
+      "      this.cohortName = this.$store.state.cohortName",
+      "    updateCohort () {",
+      "      if (!this.cohortName || this.cohortName.length === 0) return",
+      "      this.$emit('select-cohort', { dataSource: this.cohortName, cohortIndex: this.cohortIndex })",
+      "      this.setCohortIndex({ cohortName: this.cohortName, cohortIndex: this.cohortIndex })"
+    ]
+  },
+  {
+    "utc": "2026-10-05T14:10:25.713303+00:00",
+    "url": "https://raw.githubusercontent.com/kusterlab/topas-portal/master/vue-frontend/src/components/PatientComponent.vue",
+    "repo_file": "vue-frontend/src/components/PatientComponent.vue",
+    "scope": "Exact2publicfrontenddocs source-schema/index/transport only, noexecution/APIcalls",
+    "status": 200,
+    "file": "raw-cache/frontenddoc-PatientComponent.vue",
+    "bytes": 1674,
+    "sha256": "9d614b9ce7fe910467b824c199eb77d952c012d06c06143f20b81c1a1e4479d8",
+    "git_blob_sha": "4e1e01345b45bb77d70adf774771fcf002728107",
+    "selected_schema_lines": [
+      "        <patientreport-component />",
+      "import PatientreportComponent from './PatientReportComponent.vue'",
+      "import OverviewComponent from './OverviewComponent.vue'",
+      "    PatientreportComponent,",
+      "    allPlots: ['Patient Report', 'Cohort statistics'],"
+    ]
+  }
+]

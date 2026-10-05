@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-05T14:14:32.136096+00:00",
+  "source_sha256": "fe5551295d40a833a5782b018cbe94a5f706785e757edce97c4e1e9bd8223d5b",
+  "scope": "Exactcacheddeployed cohort_names GET\u2192Vuexall_cohorts orderedassignment andindexOf only; noexecution/newfile/APIpatientcalls/values",
+  "selected_fragments": [
+    {
+      "meaning": "Observeddeployedsource GET responsearray copiedinorder toVuexall_cohorts",
+      "excerpt": "async fetchAllCohorts({state:t,rootState:e}){if(t.loading)return;t.loading=!0;const a=await P().get(\"/master_topas-portal_backend/cohort_names\"),o=[];a.data.forEach((t=>{o.push(t)})),t.all_cohorts=o,t.loading=!1}"
+    },
+    {
+      "meaning": "Observeddeployedsource selectedname mapsby0-basedindexOf inactualresponseorderedarray",
+      "excerpt": "cohortIndex:function(){return this.all_cohorts.indexOf(this.cohortName)}"
+    },
+    {
+      "meaning": "Deployedclient calls GET field-specificmetadata route andusesreturnedarray; no percallauthheaders/scorefields shown",
+      "excerpt": "e=await P().get(`/master_topas-portal_backend/${this.cohortIndex}/metadata/fields/${t}`),this.metadataTypeFields=e.data"
+    }
+  ],
+  "field_transport": "Exactdeployedfield-specific GET path/responseassignment identified inexistingcache. Globalclient/deployedauth stillunknown; noendpointcalled.",
+  "limitations": "GlobalHTTPclient setup/live deploymentauthorization notassessed. Actualfourpubliccohortname response remainsseparatefrom1998release.",
+  "preliminary_derivative": "Earlier broadall_cohorts fragmenthelper includedunneededUI source context; fullpreliminary output preservedignored asdeployedmapping-preliminary-fragments.json; finalexportonlyexact2methodfragments."
+}
