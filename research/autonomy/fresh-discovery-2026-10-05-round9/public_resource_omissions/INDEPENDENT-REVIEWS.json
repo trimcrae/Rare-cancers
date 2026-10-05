@@ -1,0 +1,37 @@
+{
+  "schema": "R9-public-resource-independent-review-operational-receipt/1",
+  "utc": "2026-10-05T11:26:11.760226+00:00",
+  "scientific_checkpoint_commit": "dd7b6c7a6c2add8360c3f22936f8067ffe261276",
+  "scientific_freeze": {
+    "path": "SCIENCE-FREEZE.json",
+    "sha256": "73ae0545cde59168163f72315f077560b964a7d4778595a5e5b12edba4254f29",
+    "unchanged_artifacts": 34
+  },
+  "reviews": [
+    {
+      "reviewer": "radiotherapy",
+      "path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/proteomic_omission_review/REVIEW.json",
+      "sha256": "998e2bc50b336b58845bbd6d612c49314b7231dd7b0281e0dfc0760dd1014e12",
+      "scoped_commit": "8be86da1e5ad471238bdc0e22d7d1eb073b4faf1",
+      "scope": "New phosphoproteomic source/condition/EMC-identity/assay interpretation and retained metadata omission routes. All eleven owner RET artifacts and fourteen cache inputs verified. No numerical outcome read.",
+      "decision": "Endorses source-dependent shelving; no new EMC measurement or biological-negative conclusion. Prior-art/value delegated separately."
+    },
+    {
+      "reviewer": "challenge",
+      "path": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/followup_review/FINAL-RET-METHYLATION-PRIOR-VALUE-REVIEW.json",
+      "sha256": "dd677cf63c3f2e3d6cb8b716e351d2f5f554a1763a93c5350a5571ae64a6686e",
+      "scoped_commit": "3ee81fa4edf54e64debe13d2dd267f65e441f640",
+      "scope": "RET primary prior-art/value plus newer methylation eligibility/value; twenty-five RET and ten methylation frozen artifact/cache bindings matched. Independently all eighteen original nanoDx rows and original forty-sample/thirty-four-patient classifier conditions.",
+      "decision": "Endorses pending-source numerical shelving and material published RET-activation correction; no first-activation, new methylation or locus-absence finding."
+    }
+  ],
+  "scope_limit": "Review scopes stay distinct. ORIEN finite-source metadata/private-access gate was source-hash/script verified by owner; these receipts do not claim an independent new ORIEN biological analysis or full re-review of every R1-R8 public source. No promotion is proposed.",
+  "final_status": "All requested independent RET and methylation reviews completed. Scientific source/hash/value outputs remain frozen and unchanged. Campaign not exhausted; all suitable pending evidence and reopening criteria retained.",
+  "storage": {
+    "raw_bytes": 84952062,
+    "approved_raw_cap_bytes": 94371840,
+    "free_bytes": 27238297600,
+    "originals": "Ignored cache-only; no new retrieval after science freeze"
+  },
+  "operations": "No push/root/shared-state mutation; scoped Codex author and committer for commits. Lead integrates and verifies main/push."
+}
