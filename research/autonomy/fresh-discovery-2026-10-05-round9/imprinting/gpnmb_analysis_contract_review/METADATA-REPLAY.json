@@ -1,0 +1,905 @@
+{
+  "utc": "2026-10-05T18:19:58.276468+00:00",
+  "scope": "Only source identity/annotation/metadata counts, no expression cells/effects",
+  "year_context": [
+    {
+      "scope": "all_conditions",
+      "comparator": "Low-grade fibromyxoid sarcoma",
+      "common_years": [
+        "2019",
+        "2021"
+      ],
+      "EMC_by_year": {
+        "2019": 6,
+        "2021": 1
+      },
+      "control_by_year": {
+        "2019": 7,
+        "2021": 5
+      },
+      "available_EMC": 7,
+      "available_controls": 12,
+      "pair_count_not_independent_donors": 47,
+      "uncertain_MLPS_omission": null
+    },
+    {
+      "scope": "all_conditions",
+      "comparator": "Myxoid liposarcoma",
+      "common_years": [
+        "2019",
+        "2021"
+      ],
+      "EMC_by_year": {
+        "2019": 6,
+        "2021": 1
+      },
+      "control_by_year": {
+        "2019": 2,
+        "2021": 5
+      },
+      "available_EMC": 7,
+      "available_controls": 7,
+      "pair_count_not_independent_donors": 17,
+      "uncertain_MLPS_omission": {
+        "omit": "2492-91",
+        "available_control_count": 6,
+        "pair_count": 16
+      }
+    },
+    {
+      "scope": "primary_lesions",
+      "comparator": "Low-grade fibromyxoid sarcoma",
+      "common_years": [
+        "2019",
+        "2021"
+      ],
+      "EMC_by_year": {
+        "2019": 5,
+        "2021": 1
+      },
+      "control_by_year": {
+        "2019": 7,
+        "2021": 5
+      },
+      "available_EMC": 6,
+      "available_controls": 12,
+      "pair_count_not_independent_donors": 40,
+      "uncertain_MLPS_omission": null
+    },
+    {
+      "scope": "primary_lesions",
+      "comparator": "Myxoid liposarcoma",
+      "common_years": [
+        "2019",
+        "2021"
+      ],
+      "EMC_by_year": {
+        "2019": 5,
+        "2021": 1
+      },
+      "control_by_year": {
+        "2019": 2,
+        "2021": 5
+      },
+      "available_EMC": 6,
+      "available_controls": 7,
+      "pair_count_not_independent_donors": 15,
+      "uncertain_MLPS_omission": {
+        "omit": "2492-91",
+        "available_control_count": 6,
+        "pair_count": 14
+      }
+    },
+    {
+      "scope": "primary_non_known_overlap",
+      "comparator": "Low-grade fibromyxoid sarcoma",
+      "common_years": [
+        "2019",
+        "2021"
+      ],
+      "EMC_by_year": {
+        "2019": 2,
+        "2021": 1
+      },
+      "control_by_year": {
+        "2019": 7,
+        "2021": 5
+      },
+      "available_EMC": 3,
+      "available_controls": 12,
+      "pair_count_not_independent_donors": 19,
+      "uncertain_MLPS_omission": null
+    },
+    {
+      "scope": "primary_non_known_overlap",
+      "comparator": "Myxoid liposarcoma",
+      "common_years": [
+        "2019",
+        "2021"
+      ],
+      "EMC_by_year": {
+        "2019": 2,
+        "2021": 1
+      },
+      "control_by_year": {
+        "2019": 2,
+        "2021": 5
+      },
+      "available_EMC": 3,
+      "available_controls": 7,
+      "pair_count_not_independent_donors": 9,
+      "uncertain_MLPS_omission": {
+        "omit": "2492-91",
+        "available_control_count": 6,
+        "pair_count": 8
+      }
+    }
+  ],
+  "pair_count_unit": "Descriptive eligible ordered EMC-control pairs; never independent biological observations",
+  "checks": [
+    {
+      "check": "contract:freeze hash",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "contract:.gitignore",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "contract:AMENDMENT-01-UNCERTAIN-MLPS-CONTROL.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "contract:CONTRACT-FROZEN.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "contract:EXPOSURE-AND-READ-SCOPE.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "contract:FROZEN-SPECIMEN-UNITS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "contract:INPUT-LOCK.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "contract:PREPARED-WIRING.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "contract:REPORT.txt",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "contract:VALIDATION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "contract:prepare_schema.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:freeze hash",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:.gitignore",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:AMENDMENT-01-EXPOSURE-AND-BOUNDARY.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:AMENDMENT-02-FOUR-3SEQ-CORRECTION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:ARRAY-CONDITION-ROSTERS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:ARRAY-PROBE-ANNOTATION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:ARRAY-PROBE-INDEX-PRESENCE.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:CLOSED.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:COVERAGE.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:GSE28866-ASSAY-AND-PEAK-ANNOTATION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:HOFVANDER-SCHEMA.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:PLAN-FREEZE.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:PLAN.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:PORTABILITY.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:PRIOR-EXPOSURE-AND-FAMILY.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:READINESS-DECISION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:REPORT.txt",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:TEMPO-FILTERED-SCHEMA-ONLY.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:VALIDATION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "readiness:check_readiness.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:freeze hash",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:.gitignore",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:ADC2025-S1-PRIMARY-RECEIPT.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:AMENDMENT-01-PRIMARY-MEASUREMENT-BRANCHES.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:AMENDMENT-02-ELIGIBLE-OBSERVATION-BOUNDARY.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:AMENDMENT-03-ASSAY-SCOPE-ASSUMPTION-CORRECTION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:AMENDMENT-04-VALIDATOR-SELF-INPUT-REPAIR.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:COVERAGE.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:DECISION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:EVALUATED-SOURCE-CONDITIONS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:PLAN-FROZEN.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:PORTABILITY.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:PRIMARY-IDENTITY-FOLLOWUP-ACCESS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:PRIMARY-MEASUREMENT-SOURCE-RECEIPTS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:PUBLIC-INPUT-CITATION-MAP.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:REPORT.txt",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:REUSED-SOURCE-RECEIPTS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:SCIENCE-FREEZE-INITIAL.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:SEARCH-SOURCE-RECEIPTS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:VALIDATION-INITIAL.log",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:VALIDATION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary:validate_gate.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:freeze hash",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:.gitignore",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:ACCESS-AND-READ-SCOPE.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:BO112-CORRECTED26-CONDITIONS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:BROADER-COHORT-OMISSIONS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:CULTURE-COVERAGE-CORRECTION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:DECISION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:EXTERNAL-STAGE-BINDINGS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:METHOD-REPAIR.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:NATIVE-TISSUE-SOURCE-CONDITIONS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:PLAN-FROZEN.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:REPORT.txt",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:SOURCE-BINDINGS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:TEMPO12-CONDITION-COVERAGE.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:VERIFICATION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:build_gate.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "broader:verify_gate.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:freeze hash",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:.gitignore",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:ACTUAL-SOURCE-METADATA40.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:DECISION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:METADATA-COMPLETENESS-SUMMARY.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:METADATA-FIELD-AND-ROW-FREEZE.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:PLAN-FROZEN.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:PORTABILITY.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:PRIMARY-RNA-PREPARATION-METHOD.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:REPORT.txt",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:SOURCE-DIAGNOSTIC-UNCERTAINTY.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:SOURCE-RELEVANT-FOOTNOTES.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:TECHNICAL-METADATA-SENSITIVITY-AVAILABILITY.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:VERIFICATION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:WORKBOOK-ACTUAL-HEADERS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:WORKBOOK-HEADER-ONLY.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "confounding:verify_metadata.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "exact prospectively frozen contract",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "exact MLPS source-confidence amendment",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "all59 distinct source sample aliases",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:104-92",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:11881-19",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:168-97",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:3371-22",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:3372-22",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:4716-22",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:4840-13",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:5081-14",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:5149-18",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:5241-06",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:536-00",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:7931-19",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:8102-22",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:1076-04",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:1496-95",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:1731-00",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:1743-89",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:1838-04",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:2176-91",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:2433-02",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:2611-96",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:3252-04",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:3458-17",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:3490-00",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:6545-13",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:9562-17",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:1031-14",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:2087-93",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:2440-01",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:2492-91",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:2723-11",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:3276-03",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:351-96",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:3531-14",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:362-94",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:4876-16",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:610-14",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:6161-13",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:7084-14",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "source/contract metadata:7368-16",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "40 explicitly absent source purity cells",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "all13 EMC grade source NA",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "2492-91 revised Unclear source",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "other39 blank revised diagnosis",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "all/primary/nonknownoverlap counts",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "known exclusions exact",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "GPNMB preselected unique probe sets",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "all58 original array conditions",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "all FOUR3SEQ exact EMC aliases",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "both fixed coding features",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "3SEQ source-labelled sixMLPS threeSS controls",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "all twelve published TempO aliases",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "recorded year overlap:all_conditions:Low-grade fibromyxoid sarcoma",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "recorded year overlap:all_conditions:Myxoid liposarcoma",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "recorded year overlap:primary_lesions:Low-grade fibromyxoid sarcoma",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "recorded year overlap:primary_lesions:Myxoid liposarcoma",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "recorded year overlap:primary_non_known_overlap:Low-grade fibromyxoid sarcoma",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "recorded year overlap:primary_non_known_overlap:Myxoid liposarcoma",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "available EMC years7/6/3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "LGFMS available controls12",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "MLPS base available controls7 and unclearomit6",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "free floor",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "all_pass": true,
+  "new_network_or_raw_bytes": 0,
+  "expression_outcomes_read": false,
+  "free_bytes": 27067797504
+}
