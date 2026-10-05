@@ -1,0 +1,17 @@
+{
+  "emc-diffusion": {
+    "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"extraskeletal myxoid\") AND (diffusion OR \"apparent diffusion\" OR ADC OR DWI)",
+    "hitCount": 93,
+    "returned": 93
+  },
+  "broader-myxoid-diffusion": {
+    "query": "(myxoid AND (sarcoma OR liposarcoma OR myxofibrosarcoma OR fibromyxoid)) AND (\"apparent diffusion\" OR diffusion-weighted OR ADC)",
+    "hitCount": 1306,
+    "returned": 1000
+  },
+  "sarcoma-threshold-priorart": {
+    "query": "(\"soft tissue\" AND (tumor OR tumour)) AND (ADC OR \"apparent diffusion\") AND (myxoid OR threshold OR cutoff OR cut-off)",
+    "hitCount": 3865,
+    "returned": 1000
+  }
+}

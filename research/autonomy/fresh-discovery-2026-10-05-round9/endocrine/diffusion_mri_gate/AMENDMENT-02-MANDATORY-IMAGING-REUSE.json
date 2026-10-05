@@ -1,0 +1,58 @@
+{
+  "schema": "emc-r9-diffusion-mandatory-imaging-reuse-amendment/1",
+  "utc": "2026-10-05T13:13:14.399273+00:00",
+  "original_science_freeze_sha256": "824cfa7debf390d1c0e078ac389d79bdedcffe469eb63bb0a0dad274987a00a1",
+  "reason": "Integrating lead identified mandatory prior evaluated imaging source records after the initial focused freeze. This additive amendment restores their explicit coverage; no originals or numeric ADC values retrieved, no initial plan/results altered.",
+  "authoritative_reader_instruction": "Read this amendment with REPORT/COVERAGE. The original finite gate did not itself enumerate the priorR3 cohort trail; these statuses supplement it and remain binding.",
+  "reused_frozen_records": [
+    {
+      "repo_path": "research/autonomy/fresh-discovery-2026-10-04-round3/imaging_discovery/RESULTS.txt",
+      "sha256": "d1663ab9e8a94cd3f943e43e768ae5c0306c5c0c5c45a3c910b2ce444c163e53",
+      "bytes": 4554
+    },
+    {
+      "repo_path": "research/autonomy/fresh-discovery-2026-10-04-round3/imaging_discovery/COVERAGE.txt",
+      "sha256": "04018d6cb4594dea846120e4088f83f1c3cc8556e05d9847d03512bcf03f7ff3",
+      "bytes": 5357
+    }
+  ],
+  "conditions": [
+    {
+      "source": "TCIA Soft-tissue-Sarcoma DOI10.7937/K9/TCIA.2015.7GO2GSKS",
+      "status": "verified evaluation reused; all51 individual histologies noexplicitEMC/chondrosarcoma",
+      "scope": "PretreatmentPET/CT andT1/T2MRI; MFH/myxoidfibrosarcoma andmixoidliposarcoma notEMC; noDICOMretrieval ornewADCanalysis."
+    },
+    {
+      "source": "QIN-SARCOMA DOI10.7937/K9/TCIA.2016.fXL9sESs",
+      "status": "verified evaluation reused; publiccollection but15patients/38studies/2168series lack admittinghistology/treatment-event crosswalk",
+      "scope": "Allconditions previously retained. Meyer2013 sixteenclinical/elevenMRI lacksEMC; Huang2016 all20histologies noexplicitEMC butgenericclasses/noarchivecrosswalk. Identitypending, nothiddenEMC exclusion. Publicimageavailability doesnotauthenticatecase."
+    },
+    {
+      "source": "Benhabib2025 DOI10.1002/jmri.29691/PMC12063761",
+      "status": "verified evaluation reused;12EMC among322 malignantmyxoidlesions, individualmeasurements unavailable/unlinked",
+      "scope": "Allprimarytables/figurecaptions/originalDOCXsupppreviouslyevaluated; pooledmalignantmyxoidmetrics, noEMCsamplecrosswalk/accession. TwelveconditionsnotnewADCprofiles; no knownindependentdonortotal."
+    },
+    {
+      "source": "Crombe2024 DOI10.1038/s41698-024-00616-8/PMC11161510",
+      "status": "verified evaluation reused;6MRIEMC/4RNAEMC measurements performed butindividualcrosswalk/rawMRI/radiomics request-only",
+      "scope": "Priorall14pagesmainsupp+5reportingsummary and5publicOneDrivelinks evaluated; all5returned403, notabsence. GSE262937returned unapprovedGEOHTML; no privatepath/token/outreach. Currentno freshavailabilityrequest orRNA/ADCnumbers."
+    },
+    {
+      "source": "Multimodal2024 DOI10.1038/s41698-024-00695-7/PMC11377835",
+      "status": "verified evaluation reused;4EMC among287cases,2train/2test;controlledMSK individualdata",
+      "scope": "Priorprimary+14pagesupp evaluated; no individualEMC image/feature/outcomecrosswalk. Fourunlabelledexampleimages notEMCbyinference. Softwareavailability notmeasurementrelease."
+    },
+    {
+      "source": "Stacchiotti2012 DOI10.1186/2045-3329-2-22/PMC3534218",
+      "status": "verified publishedpriorart reused;bothmolecularlysupportedEMC donor/conditions alreadyreported",
+      "scope": "PET/CT sunitinibresponse/interruption/restart published, notADC ornewfinding. Predecessor/laterexpandedcohorts notindependent automatically."
+    },
+    {
+      "source": "CPTAC-SAR305slides/88cases;R2Ashburner44(enhancement34)/Kandoussi30(MRI14)/Minami35",
+      "status": "priorverifiedscopes/access/identity gaps reused unchanged",
+      "scope": "CPTAC-SARmanifest noexplicitEMC, notradiologynegative. R2individualfeature/outcomecrosswalk andMinamifullmethodsaccess gaps remain; staticenhancement/PETmeasurements donot substituteADC."
+    }
+  ],
+  "scientific_consequence": "Current numericalstage remainsNO-GO; no newfinding. Missingpublicsubtypecrosswalk/request-only/controlled/orfailedaccess conditions remain gaps. No campaignwideexhaustion or allpublicADCabsence claim. No independentpooling of namedcohortcounts.",
+  "denied_scopes": "Noimages/DICOM/UI/digitization/FAPtissue/HLA/glycan/structuralwork."
+}

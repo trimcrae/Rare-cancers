@@ -1,0 +1,159 @@
+{
+  "schema": "emc-r9-diffusion-all-identified-conditions/1",
+  "scope": "Finite initial25minute primary/source pilot and independent omissionreview; not a complete corpus/exhaustion claim. All sources identified as potentially material are explicitly disposed below; pending suitable public fields block promotion.",
+  "unit": "Sources/conditions overlap; NEVER sum these as independent EMC donors. Histologylabels preserveconfidence. Grade/site/therapy/sequence/units/technicalROI links notinvented.",
+  "eligible_ADC_values_inspected": false,
+  "source_records": [
+    {
+      "source": "PMC5510859/PMID28708850/DOI10.1371/journal.pone.0181339",
+      "status": "evaluated source/method/S1identity; eligible subtype values pending-unlinked",
+      "conditions": "40sourcecases;17malignant incl2pathlabelEMC,10MLPS,3MFS,2MPNST and23benign. All40public rowsA1\u2013A40 retained in peer identity audit.",
+      "native_EMC_conditions": 2,
+      "donors": "Sourcecase count; genotype and exact donor/condition link not authenticated from publicS1.",
+      "assay": "3T b0/400/800 whole-volume ADC histogram/texture; source meanADC not ROImin.",
+      "therapy": "Imaging beforeprocedure, not proof of treatment-naive; previous therapy remains unknown.",
+      "linkage": "S1 IDs andB/M only. No subtype strings/columns; no A1\u2013A40 IDs in mainbody/captions. Do not infer identity from age/sex/volume/images.",
+      "grade_site_ROI_uncertainty": "Subtype-specific grade/site/ROI/units/protocol-to-ID crosswalk unavailable; technical ROI not donors.",
+      "stage": "No ADC/texture cell parsed; crosswalk required before any cutoff calculation."
+    },
+    {
+      "source": "PMC6427044",
+      "status": "evaluated histotype/method/overlap; eligible values pending-unlinked",
+      "conditions": "239MRIexams/236people,100training+139internalrandomvalidation. Table2 reports2training+1validationESMC (sourcefootnoteEMC).",
+      "native_EMC_conditions": 3,
+      "donors": "3sourceEMCconditions, not3proven independent donors.",
+      "assay": "3T b0/400/800 mean/min largest axial contrast-enhancingROI; not whole-volume2017histogram.",
+      "therapy": "Source exclusionprevious surgery/chemo/RT; untreated perprimarymethods.",
+      "linkage": "No individual EMC\u2013ADC row crosswalk identified. Public supplement timedout; remains pending.",
+      "overlap": "EXPLICIT40subjects overlap2017ref26=whole2017cohort size; do notadd3+2 as independent. Validation internal random holdout, not external."
+    },
+    {
+      "source": "PMC6011095",
+      "status": "evaluated unsuitable published numericADC contrast",
+      "conditions": "All13native pathlabelEMC clinicalcases,7preopCT/10conventionalMRI.",
+      "native_EMC_conditions": 13,
+      "assay": "3TGE conventionalMRI T1/T2/enhancement; allcaseTable1 noADC column. No DWI/ADC described inmethods.",
+      "therapy": "Preoperative current imaging; priorhistory notborrowed as treatment-naive.",
+      "uncertainty": "NoADC-to-grade/site/therapy/donor inference."
+    },
+    {
+      "source": "PMC4110079",
+      "status": "priorall13/all4tables reused pluscurrent methods/schema; unsuitable recordedADCcontrast",
+      "conditions": "13pathprovenEMC;4primaryMRI and3localrecurrenceMRIconditions. NoADCmethods/header/body identified.",
+      "native_EMC_conditions": 13,
+      "assay": "ConventionalMRI/CTHU/FDG, notADC.",
+      "overlap": "No independent pooled totals asserted; samepatient primary/recurrence notnewdonor."
+    },
+    {
+      "source": "PMID39256245/DOI10.1007/s00256-024-04800-6",
+      "status": "priorpublic30rows reused; newpublicpreview/table2 evaluated; fullmethods/sourceADC request-only/unavailable",
+      "conditions": "30patientrows priorR2,17pretreatmentimaging/14MRI; publicsite-aggregateTable2 noADC schema.",
+      "native_EMC_conditions": 30,
+      "linkage": "No MRI/patient/outcomecrosswalk; dataavailableuponrequest, no outreachauthorized. Unseen fullmethods cannot be calledADCabsent.",
+      "overlap": "Bostonpriorcohort overlapunresolved."
+    },
+    {
+      "source": "PMC9831112",
+      "status": "evaluated published qualitative contrary condition; no textual numericADCobserved",
+      "conditions": "Onevulvar/perineal/thigh-adductormass donor, multifocal extent; authorpathlabelEMC. DWIhigh/ADCmaplow labelledsuspiciousmalignancy.",
+      "native_EMC_conditions": 1,
+      "assay": "Qualitativemap/signal, not numericADC. Imageb-values exist but no images inspected; technical ROI/units/grade pernumberunavailable.",
+      "therapy": "Current diagnosticimaging; prior therapy notinferred."
+    },
+    {
+      "source": "PMC7769219",
+      "status": "evaluated published qualitative contrary condition; no textual numericADCobserved",
+      "conditions": "One donor,two pelvic/extrapelvic lesions. 3T qualitative low-signal septa/restricted diffusion, hemorrhage/heterogeneity.",
+      "native_EMC_conditions": 2,
+      "donors": 1,
+      "assay": "No perlesionADCnumber observed inbody/captions; noimages inspected.",
+      "therapy": "Diagnosticimaging beforepublished localtreatment; no treatmentADCchange assigned."
+    },
+    {
+      "source": "PMC10756670",
+      "status": "evaluated qualitative high-DWI/high-ADCmap condition; numericmeasurement unsuitable currenttext",
+      "conditions": "Onebuttock/ischiorectalfossamass donor authorEMC.",
+      "native_EMC_conditions": 1,
+      "assay": "Qualitative highsignalDWIandADCtext; no numericADC/units/ROI matchedrow.",
+      "uncertainty": "No presumed sensitivity/clinicalerror fromsignal."
+    },
+    {
+      "source": "PMC11226283",
+      "status": "evaluated qualitative no-restriction condition; identity confidence limited",
+      "conditions": "Oneauthor-labelled extraskeletal falcine myxoidchondrosarcoma; no diffusion restriction.",
+      "native_EMC_conditions": "unconfirmed canonicalEMC",
+      "assay": "No numericADC observed; bvalues/ROI unknown.",
+      "identity": "Intracranialauthorlabel, NR4A3 authentication notestablished here; no genericcartilaginous label converted tocanonicalEMC."
+    },
+    {
+      "source": "PMC9131214;PMC12750061",
+      "status": "partialevaluated authorintracranialcases/priorcaseMRI schema; numericADC/identity unresolved",
+      "conditions": "EachoneauthorintracranialEMC case plus literature tables; no native canonicalEMC denominator inferred fromlabel alone.",
+      "assay": "ConventionalMRI table schemas; percaseADCmapping/technicalparameters notestablished. Figures notexamined.",
+      "overlap": "Literature casereviews reuse donors, not independent new cohort."
+    },
+    {
+      "source": "PMC12962739",
+      "status": "evaluated diffusion searchfalse-positive for tumorADC",
+      "conditions": "OneauthorEMC donor metastaticcardiactumorembolicstroke.",
+      "assay": "Intracavitaryspread/brainstroke diffusion context doesnot establishADCofEMCtumor."
+    },
+    {
+      "source": "PMC10908772",
+      "status": "unavailable EPMCXML routeHTTP500; possiblefloor-mouthEMC ADCconditions pending",
+      "conditions": "Candidatebytitlemetadata only; no acquiredfullsource, no quantitative/qualitativeabsence inference.",
+      "access": "No unchangedretry/challenge bypass."
+    },
+    {
+      "source": "PMC4504541",
+      "status": "partialevaluated IVIMmethods/body; actualenrollment/count/individualcrosswalk pending",
+      "conditions": "DalianOct2013\u2013Oct2014;31enrolled23analyzed afterpathology/ROIquality exclusions; actualEMC enrollment remains unverified fromdiscussion.",
+      "assay": "GE3T IVIM10b-values0/10/20/30/50/100/200/300/500/800;9technicalROIs across3slices perpatient, parenchymalROIs avoidcysts/necrosis/vessels. Tablesgraphicuninspected, no values assigned."
+    },
+    {
+      "source": "PMC8316538;PMC10231763",
+      "status": "2023methods/roster evaluated byomissionpeer; publicmeasurementcrosswalk pending",
+      "conditions": "125untreated Jan2009\u2013Aug2019;1authorpathEMC in2023roster; ALL125 explicitlyreuse2021ref22=PMC8316538.",
+      "native_EMC_conditions": 1,
+      "assay": "3TSiemens b0/800 wholemassVOI; normalized/resampled radiomics doesnot automatically equal native physicalADC inmm\u00b2/s. Fivepublicsuppcaptions onlyMRIparameters/LASSO/RF/GridSearchCV/ensembleparams; payload uninspected, no identifiedsubtype-casecrosswalk.",
+      "overlap": "Same125not independent replication; cannotborrowsameROI cutoffs fromdifferentbprotocols."
+    },
+    {
+      "source": "PMC10342739",
+      "status": "evaluated byomissionpeer eligibility/lesionroster; no identifiedEMCnumericcrosswalk",
+      "conditions": "Table2oneEMCdonor; Table3zeroEMCrecurrenttumor/twoEMCpostoperative-change lesions; entire37people/76lesions. Serialpostreconstructionexams/lesions notindependentdonors.",
+      "native_EMC_conditions": 0,
+      "EMC_history_donors": 1,
+      "postoperative_change_conditions": 2,
+      "assay": "3Tb0/800 solid-enhancingROI ADC,2010\u20132021 postreconstructionStMary.",
+      "uncertainty": "Non-tumor postoperativeconditions are unfavorable relevantobservations, not nativeEMCtumor values; no universalnativetumorcutoffapplication. Potentialoverlapnative125 unresolved."
+    },
+    {
+      "source": "PMC10797984",
+      "status": "evaluated byomissionpeer unsuitableADCcontrast",
+      "conditions": "5authorEMChighgradeSTSsurveillance among198, oneexplicitgrade2EMClocalrecurrencerow; noDWI/ADCmethod. Jan2010\u2013Jun2020aftercurativesurgery,initialrecurrence/metastasis/positivemarginexcluded.",
+      "EMC_history_conditions": 5,
+      "assay": "MRI/shorttermUSclinical surveillance, notADCmatchedmeasurement."
+    },
+    {
+      "source": "PMC5820899",
+      "status": "evaluated byomissionpeer qualitativeDWI only; quantitativeidentity unresolved",
+      "conditions": "Olderauthorfalcinecase; no numericADC/protocol, molecularcanonicalEMCunknown.",
+      "overlap": "Mayrepeat laterintracranialreviewcase; noindependenceclaim."
+    },
+    {
+      "source": "PMC11717864;PMC10119252;PMC13574881",
+      "status": "partialevaluated methods/tableheaders; fullhistotypeeligibility/individualcrosswalk pending",
+      "conditions": "BroaderultrafastDCE, postsurgeryDWI and23STSpre/postneoadjuvantADCsourcecandidates. NoEMCvalueparsed or silentlyexcluded.",
+      "assay": "Technicalprotocols heterogeneous and source-specific; no EMClink/provenabsence inferred frombodysearch alone."
+    },
+    {
+      "source": "PMID38557577/DOI10.1097/rlu.0000000000005146",
+      "status": "metadataidentified contrarynonmyxoid-cellular EMC2024; primaryADCeligibility pending",
+      "conditions": "Source titlemetadata, notmeasuredauthenticatedADCobservation."
+    }
+  ],
+  "search_scope_file": "SEARCH-SCOPE.json",
+  "search_limitations": "93/93 directFULLTEXTquerytitles inspected;1306broaderhits and3865thresholdhits onlyfirst1000 each. Manyreference/ADC-antibody-drug falsepositives. Querycompleteness != fullprimaryevaluation. Omissionpeerseparate62/67completequeries and306/100partial retained initsownfreeze.",
+  "suitable_accessible_pending_blocks_promotion": true
+}

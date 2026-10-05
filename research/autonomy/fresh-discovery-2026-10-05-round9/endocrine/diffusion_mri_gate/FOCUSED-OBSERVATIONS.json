@@ -1,0 +1,72 @@
+{
+  "schema": "emc-r9-diffusion-focused-primary-observations/1",
+  "eligible_numeric_ADC_values_inspected": false,
+  "exact_source_excerpts": [
+    {
+      "source": "PMC9831112.xml",
+      "excerpt": "Diffusion-weighted imaging (DWI) showed a hyperintense signal in the perineum and part of the adductor magnus muscle, and apparent diffusion coefficient (ADC) maps showed areas of hypointense signals, findings that were suspicious for malignancy (Figure 3).",
+      "scope": "Published qualitative MRI language only, not numeric ADC or a reconstructed effect."
+    },
+    {
+      "source": "PMC10756670.xml",
+      "excerpt": "Diffusion-weighted imaging (DWI) and apparent diffusion coefficient (ADC) images showed a high signal ( Figure 2C ).",
+      "scope": "Published qualitative MRI language only, not numeric ADC or a reconstructed effect."
+    },
+    {
+      "source": "PMC11226283.xml",
+      "excerpt": "There was no diffusion restriction or susceptibility-weighted imaging blooming.",
+      "scope": "Published qualitative MRI language only, not numeric ADC or a reconstructed effect."
+    },
+    {
+      "source": "PMC7769219.xml",
+      "excerpt": "Signal intensity was predominantly slightly higher than fat on T2-weighted images, with internal low-signal septa, showing restricted diffusion and minimal contrast-enhancement.",
+      "scope": "Published qualitative MRI language only, not numeric ADC or a reconstructed effect."
+    }
+  ],
+  "S1": {
+    "cache_path": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/diffusion_mri_review/raw-cache/PMC5510859-S1-primary.xlsx",
+    "sha256": "6627b6a41ce57d626595367ba89d69f1e536dc05843c11abb5ef059e2273b737",
+    "bytes": 21069,
+    "primary_xml_path": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/diffusion_mri_review/raw-cache/PMC5510859.xml",
+    "primary_sha256": "5c793ad1f1d2da8c2ae3c8981bab660a9ff11197b532afa05844344e15b68664",
+    "rows": 40,
+    "B_M_counts": {
+      "benign": 23,
+      "malignant": 17
+    },
+    "header_names": [
+      "ID",
+      "benign/malignant",
+      "B/M",
+      "age",
+      "sex",
+      "volume",
+      "n-th order statistical moments",
+      "mean",
+      "SD",
+      "skewness",
+      "Kurtosis",
+      "Regional features",
+      "intensity_variability",
+      "size_zone_variability",
+      "Local features",
+      "Energy",
+      "Entropy",
+      "Correlation",
+      "Contrast",
+      "Homogeneity",
+      "Variance",
+      "Max Probability"
+    ],
+    "case_ADC_values": "not accessed",
+    "all_named_subtype_conditions": "2EMC/10MLPS/3MFS remain unlinked; S1 no subtype string or column and body/captions no explicit A1\u2013A40 mapping",
+    "source_confidence": "Pathology-labelled, not molecularly authenticated here. Imaging pre-procedure, prior therapy unknown."
+  },
+  "core_sources": {
+    "PMC6011095": "13pathology-labelled native EMC, allcase schema;7CT/10conventionalMRI3T; no DWI/ADC described in publishedmethods orADCcasecolumn.",
+    "PMC4110079": "All13 pathology-labelled native EMC andall4tables reused;4primaryMRI+3recurrenceMRI conventional. No ADC inmethods/headers; CT/SUVnotADC.",
+    "PMID39256245": "All30 previously evaluated patient rows reused;17pretreatmentimaging/14MRI. Current public table2 schema has no ADC and source DataAvailableUponRequest. Fullmethods unseen; no claim whole paper lacksADC."
+  },
+  "2019_overlap": "PMC6427044 explicitly40subject reuse from2017ref26,239MRIexams/236people,2train+1validation authorESMC conditions; distinct largest axial enhancing ROI mean/min, same3T b0/400/800 is not whole-volume compatibility or independent pooling.",
+  "published_prior_art": "2007 and2017 explicitly describe myxoid matrix/meanADC ambiguity;2020 small-deep mean enhancingROI rules include myxoid subgroup caveats. No universal routine threshold established. No new diagnostic error/benefit inferred."
+}
