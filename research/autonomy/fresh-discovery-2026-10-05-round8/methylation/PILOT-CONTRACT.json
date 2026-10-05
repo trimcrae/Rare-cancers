@@ -1,0 +1,27 @@
+{
+  "utc": "2026-10-05T00:29:24.537892+00:00",
+  "owner": "/root/challenge",
+  "base_commit": "80c40ed9fb1af0086bdfc9754c97b176490996e0",
+  "initial_pilot_minutes": 30,
+  "concrete_question": "Do all authenticated public primary EMC methylation arrays show a lower cumulative mitotic-associated methylation signature (primary candidate epiTOC2, exact published probes/formula subject to applicability authentication) than source/array-matched primary FFPE translocation-associated soft-tissue sarcomas, and does any contrast survive supplier/array batch and tumor-purity controls sufficiently to justify a useful new EMC epigenetic-state observation?",
+  "novelty_required": "A measured reproducible signature contrast with interpretable cancer applicability, beyond the already published EMC diagnostic methylation class/flat CNV; no de novo cluster or partner/outcome subgroup without metadata.",
+  "comparison_selection_before_values": {
+    "EMC": "All 10 GSE140686 reference EMC plus every authenticated relevant condition discovered in other public methylation studies; validation sample 54 is reclassified SEF, not an additional EMC.",
+    "primary_controls": "All available same-study primary FFPE sarcoma records in the fixed histologic classes synovial sarcoma, myxoid liposarcoma, low-grade fibromyxoid sarcoma and sclerosing epithelioid fibrosarcoma; contrast within shared array platform and supplier/slide where available, without selecting controls by observed scores.",
+    "technical_controls": "All primary FFPE sarcoma metadata used to diagnose platform/batch/supplier/purity comparability; normal tissue only for signature calibration context, never substitute EMC.",
+    "age": "No age/proliferation causal interpretation; absence of individual age or independently measured mitotic state may defeat interpretable burden comparison.",
+    "donors": "Source-defined independent cases only, preserve repeated conditions and cross-study overlap uncertainties."
+  },
+  "strongest_alternative": "Apparent EMC difference reflects age, cell-type lineage, tumor mixture, supplier/array batch or invalid transport of a normal-tissue mitotic clock into fusion-driven sarcoma; low score is not proof of low current proliferation.",
+  "defeat_rule": "Shelve if no cancer/sarcoma-applicable signature with sufficient shared probes/formula, no matched controls or source-independent corroboration, age/purity/batch could fully explain the contrast, no orthogonal or useful state interpretation, prior art already establishes it, or remaining suitable EMC evidence is unevaluated. A descriptor alone is not publication-worthy.",
+  "staged_cost": "First metadata/primary-method/novelty/source-size gate only; no biological methylation values before this freeze. Retained raw soft cap64MiB, >=10GiB free. Notify lead before larger matrix download; exact signature and finite streamed/subset analysis require additive stage contract, no invisible EMC omission.",
+  "coverage": "All identifiable relevant public EMC methylation specimens/conditions, including historical diagnoses and larger sarcoma collections; statuses explicit. A discovery catalogue is not evaluation.",
+  "restrictions": [
+    "quiet APIs/files only",
+    "no GPU/spend/outreach/publication/PR/root edits/push",
+    "no interrupted restricted FAP/glycan/structural-genomics/HLA content",
+    "preserve sources and old branches/caches",
+    "TMEM266 shelved"
+  ],
+  "free_bytes": 27664637952
+}

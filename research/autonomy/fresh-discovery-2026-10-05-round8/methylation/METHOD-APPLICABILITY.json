@@ -1,0 +1,27 @@
+{
+  "utc": "2026-10-05T00:47:39.853521+00:00",
+  "primary_candidate": {
+    "DOI": "10.1186/s13073-020-00752-3",
+    "PMCID": "PMC7315560",
+    "source_sha256": "bb25cbd5b5d782d21108bd7783984f47457ccbcf2238d135fd8380a73562e4a1",
+    "probes": 163,
+    "model": "CpG-specific de novo methylation probabilities and fetal-ground-state beta values fitted in healthy blood; assumes largely tissue-independent parameters. Cumulative TNSC can be estimated without age, but R=TNSC/age cannot.",
+    "assay_gate": "Built on450K probes; exact common-probe coverage in these processed450K/EPIC matrices, fitted coefficients and normalization transport not evaluated. No score calculated.",
+    "validation": "Normal adult tissue and listed TCGA cancers, not EMC or sarcoma in this primary validation. This is not proof of inability to apply in sarcoma.",
+    "limits": [
+      "Cumulative average over cell histories is not current proliferation or clinical aggressiveness.",
+      "Individual ages absent in10 referenceEMC and62 fixed controls, preventing rate or age-adjusted contrast.",
+      "Tumor-mixture, fetal baseline and methylation-transmission assumptions remain material."
+    ]
+  },
+  "contrary_or_improved_method": {
+    "DOI": "10.1038/s41467-024-48649-8",
+    "PMCID": "PMC11101651",
+    "source_sha256": "da5b6b14ce973109f294c9edb6d78149dc2c221373b52b684b7e6d1993fb8202",
+    "method": "stemTOC371CpGs selected using fibroblast/endothelial/smooth-muscle cell-line population doublings with cell-cycle inhibition; fetal ground-state and immune-fraction adjustments.",
+    "useful_contrary_evidence": "Shows mesenchymal-cell methodological plausibility and reduction of non-mitotic chronological-age confounding, so generic claims that all clocks are age-only or intrinsically unusable in sarcoma would be wrong.",
+    "unresolved": "Authors explicitly retain weighted bulk-cell/history confounding;15 cancer-type validation does not include authenticated EMC. Switching clocks after this failed prespecified interpretation is not allowed as a rescue.",
+    "quote": "Even if the CpGs making up the counter are not cell-type specific, it is clear that different cell types in a bulk-sample may have different mitotic ages, hence the mitotic age estimate reflects a weighted average over the mitotic ages of each cell type with the weights reflecting their cell-type proportions."
+  },
+  "scientific_value": "A new numerical descriptor could be computed with sufficient inputs, but without interpretable replication or orthogonal/clinical link it would not yet change an EMC researcher's next measurement beyond established diagnostic epigenetic classes. No causal age/proliferation, lineage, or treatment inference is justified."
+}
