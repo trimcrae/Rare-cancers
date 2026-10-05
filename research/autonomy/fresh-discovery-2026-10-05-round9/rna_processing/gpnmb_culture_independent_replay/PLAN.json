@@ -1,0 +1,27 @@
+{
+  "created_utc": "2026-10-05T21:37:39.875195+00:00",
+  "owner": "single_cell",
+  "scope": "One fixed culture-context target re-extraction, no discovery/newtargets/network",
+  "hard_science_stop": "2026-10-05T21:44:02+00:00",
+  "allowed_features": {
+    "ARCHS4": "Only uniqueGPNMB row and GSM2113301/GSM6883080 estimatedcount lexemes, exact header/source units",
+    "USZ22deposit": "UniqueGPNMB row, column10 USZ-22_EMC2; same-column full finite/nonnegative published-count entries only for54507-row denominator sum and share",
+    "USZ23": "Only NM_001005340.2,NM_002510.3,XM_005249578.3,XM_017011678.2 NumReads/TPM and fixedPARTIALsubtotals"
+  },
+  "before_owner_fullrows": "Independently extract originals before reading result fullrows where feasible; protocol fixed first",
+  "known_exposure": "Owner prospective feature/row/column summary already exposed: ARCHS4row7248, USZ22row9957/column10, fourfixedUSZ23NM/XMIDs; oldGPNMB bulkseven-target history exposed. Not globallyblind verification.",
+  "checks": [
+    "Exact originalsha/hash and source plan bindings",
+    "oneGPNMB symbol occurrence/columnidentity and literal number preservation",
+    "fullreported-count denominator finite/nonnegative count/sum/share, not TPM or true molecule total",
+    "four transcript version IDs NumReads/TPM exact lexemes, partialsubtotal not whole-gene total",
+    "USZ22deposit and ARCHS4 sameGSM/context not independent model/donor",
+    "No cross-assay pooling/normalization/inferredprotein/dependency/clinicaleffect",
+    "missing/null distinct from numeric0, no hidden droppedrows",
+    "all frozenownerfile hashes/fields agree or explicitfailure, never rewriteownerbytes"
+  ],
+  "limits": "No whole3kcore replay; no matrixgene outcomes beyond fixedtargets and permitted same-column denominator; no mechanisms/sequence/CNA/STR or inferredcellclass",
+  "data_budget": "Zero network/neworiginals, derived<=4MiB; free>=10GiB",
+  "disproof": "Any identity/hash/targetlexeme/denominator/subtotal mismatch fails exact extraction validation until traced; unavailable source remains explicitpending, no forcedPASS",
+  "value": "Verification only; challenge owns useful scientific contribution, no paperpromotion"
+}

@@ -1,0 +1,121 @@
+{
+  "created_utc": "2026-10-05T21:39:15.140099+00:00",
+  "source_bindings": [
+    {
+      "context": "ARCHS4",
+      "path": "/workspace/Rare-cancers/research/autonomy/tmem266-all-cultures-2026-10-04/archs4-subset.zip",
+      "sha256": "f0bcd17e0c56ec038ea47ee14b7b57700333b46790d2cfb18a555cbf70ea4446"
+    },
+    {
+      "context": "USZ22",
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/gpnmb_culture_identifier_capture/raw-cache/USZ22-fullcounts.tsv.gz",
+      "sha256": "0cac20dc5652b9dd9c65554442d8753ed3e23251cbdad064f73ffd594013eb7d"
+    },
+    {
+      "context": "USZ23",
+      "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/USZ23-RefSeq.quant.sf.gz",
+      "sha256": "d49822e6ca79a18c186b00c4faa4087b8582bbb72c0be218fcea2e997565507f"
+    }
+  ],
+  "independent_before_owner_fullrows": true,
+  "ARCHS4": {
+    "header": [
+      "",
+      "GSM2113301",
+      "GSM6883080"
+    ],
+    "source_data_rows": 67186,
+    "symbol_hits": [
+      {
+        "line": 7248,
+        "data_row": 7247,
+        "identifier": "GPNMB",
+        "lexemes": {
+          "GSM2113301": "598",
+          "GSM6883080": "257"
+        }
+      }
+    ],
+    "units": "rounded Kallisto estimated counts, no crossculture normalization/TPM/molecule total",
+    "unique_symbol": true,
+    "whole_gene_capture_not_proved": true
+  },
+  "USZ22": {
+    "header": [
+      "",
+      "NMFH-1",
+      "USZ-21_CIC1",
+      "USZ-21_LG1",
+      "USZ-21_UPS1",
+      "USZ-21_MFS2",
+      "NMFH-1",
+      "PM197",
+      "OH931",
+      "USZ-20_SFT1",
+      "USZ-22_EMC2"
+    ],
+    "source_data_rows": 54507,
+    "same_column_finite_nonnegative_rows": 54507,
+    "invalid": [],
+    "GPNMB_hits": [
+      {
+        "line": 9957,
+        "data_row": 9956,
+        "identifier": "GPNMB",
+        "column_index_zero_based": 10,
+        "column": "USZ-22_EMC2",
+        "lexeme": "4311"
+      }
+    ],
+    "reported_count_sum_decimal": "34616070.69",
+    "per_million_reported_count_share_decimal": "124.5375316744247150137767413",
+    "units": "deposited gene count; denominator all reported same-column counts, not TPM/true molecules/read total",
+    "same_GSM_as_ARCHS4": "GSM6883080",
+    "header_duplicate_control_label": "NMFH-1 duplicate, not repaired/ordered/controltyped; uniqueUSZ22column exact",
+    "whole_condition_control_map_not_repaired": true
+  },
+  "USZ23": {
+    "header": [
+      "Name",
+      "Length",
+      "EffectiveLength",
+      "TPM",
+      "NumReads"
+    ],
+    "fixed_features_in_prespecified_order": [
+      {
+        "line": 1573,
+        "data_row": 1572,
+        "Name": "NM_001005340.2",
+        "TPM_lexeme": "1.309374",
+        "NumReads_lexeme": "26.548"
+      },
+      {
+        "line": 45035,
+        "data_row": 45034,
+        "Name": "NM_002510.3",
+        "TPM_lexeme": "12.439087",
+        "NumReads_lexeme": "248.452"
+      },
+      {
+        "line": 82213,
+        "data_row": 82212,
+        "Name": "XM_005249578.3",
+        "TPM_lexeme": "0.000000",
+        "NumReads_lexeme": "0.000"
+      },
+      {
+        "line": 114704,
+        "data_row": 114703,
+        "Name": "XM_017011678.2",
+        "TPM_lexeme": "0.000000",
+        "NumReads_lexeme": "0.000"
+      }
+    ],
+    "all_four_unique_finite_nonnegative": true,
+    "partial_TPM_subtotal_decimal": "13.748461",
+    "partial_NumReads_subtotal_decimal": "275.000",
+    "units": "source Salmon transcriptTPM and NumReads, fixedPARTIALfour-feature subtotal, not whole-gene completeness or geneTPM",
+    "no_length_or_effective_length_projection": true
+  }
+}
