@@ -1,0 +1,196 @@
+{
+  "utc": "2026-10-05T11:14:44.700479+00:00",
+  "source_checks": {
+    "all_original_sources_hashed": 20,
+    "mismatches": 0
+  },
+  "primer_mapping": {
+    "IG-DMR": {
+      "start": 100809337,
+      "end": 100809645,
+      "placements": [
+        {
+          "sequence": "CCTACCACTGAACTGGGTTTGCCAGT",
+          "start": 100809337,
+          "end": 100809363,
+          "orientation": "direct"
+        },
+        {
+          "sequence": "CTGAAATTCTGCAGTAGGAATTGC",
+          "start": 100809621,
+          "end": 100809645,
+          "orientation": "direct"
+        }
+      ]
+    },
+    "MEG3-US": {
+      "start": 100824114,
+      "end": 100824611,
+      "placements": [
+        {
+          "sequence": "GGAGCATCCCACCTGAGGCCTGGGGCTCCC",
+          "start": 100824114,
+          "end": 100824144,
+          "orientation": "direct"
+        },
+        {
+          "sequence": "GCAAGCTCCACAGGCTGTAAAGGGGGTGTT",
+          "start": 100824581,
+          "end": 100824611,
+          "orientation": "direct"
+        }
+      ]
+    },
+    "MEG3-promoter": {
+      "start": 100825619,
+      "end": 100825858,
+      "placements": [
+        {
+          "sequence": "GCCAGGCAGGGTGAATTCAGGCACAATGTGTG",
+          "start": 100825826,
+          "end": 100825858,
+          "orientation": "reverse_complement"
+        },
+        {
+          "sequence": "AACTGGTTCCCAGATGTAAGCCAGAGGCTGTC",
+          "start": 100825619,
+          "end": 100825651,
+          "orientation": "reverse_complement"
+        }
+      ]
+    }
+  },
+  "platforms": {
+    "HM450": {
+      "all_rows": 486427,
+      "selected": {
+        "IG-DMR": [],
+        "MEG3-US": [
+          {
+            "Probe_ID": "cg00764369",
+            "position": 100824218,
+            "strand": "+",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg10515315",
+            "position": 100824379,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg15991553",
+            "position": 100824529,
+            "strand": "-",
+            "mapQ": 60
+          }
+        ],
+        "MEG3-promoter": [
+          {
+            "Probe_ID": "cg04304932",
+            "position": 100825790,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg04576764",
+            "position": 100825811,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg12967319",
+            "position": 100825659,
+            "strand": "+",
+            "mapQ": 60
+          }
+        ]
+      }
+    },
+    "EPIC": {
+      "all_rows": 866553,
+      "selected": {
+        "IG-DMR": [],
+        "MEG3-US": [
+          {
+            "Probe_ID": "cg00764369",
+            "position": 100824218,
+            "strand": "+",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg10515315",
+            "position": 100824379,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg15991553",
+            "position": 100824529,
+            "strand": "-",
+            "mapQ": 60
+          }
+        ],
+        "MEG3-promoter": [
+          {
+            "Probe_ID": "cg04304932",
+            "position": 100825790,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg04576764",
+            "position": 100825811,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg12967319",
+            "position": 100825659,
+            "strand": "+",
+            "mapQ": 60
+          }
+        ]
+      }
+    }
+  },
+  "primary_main_table_locations": [
+    {
+      "region": "IG-DMR",
+      "chr": "14",
+      "location": "100345582"
+    },
+    {
+      "region": "MEG3-US",
+      "chr": "14",
+      "location": "100360453"
+    },
+    {
+      "region": "MEG3",
+      "chr": "14",
+      "location": "100361829"
+    }
+  ],
+  "all_metadata_counts": {
+    "EMC": 10,
+    "comparison_inventory": 62
+  },
+  "Case21": {
+    "DOI": "10.1007/s00428-024-03977-4",
+    "Case21_identity": "verified evaluation reused fromR2",
+    "GSE279837_Case21_values": "pending accessible analysis",
+    "Case19_Case30_identity": "pending accessible analysis; clustering does not authenticateEMC",
+    "age_and_mitotic_annotations": "SourceS2Case21 age35and>5/10HPF; descriptive published case, not replicated age-adjusted cohort.",
+    "donor_overlap": "Cases1/2samepatient primary/recurrence; oldreference10reuseGSE140686; Case21/reference cohort biological overlap not proven or excluded. No pooled11-independent-donor assertion.",
+    "accession_conflict": "PrimaryGSE243075points unrelated363salivary tumors; GSE279837correctly titled30METcollection but exact manuscript-to-GEO IDAT binding remains limited."
+  },
+  "limits": [
+    "Independent replay matches exact primary genomic-sequence envelopes and all selected probe identities.",
+    "Sequence uniqueness is local to a75kb official reference; original corresponding genomic sequences are not a new PCR design.",
+    "Zero IG-envelope probes does not establish no broader IG-DMR/adjacent measurement. Human broader primary interval definition remains pending.",
+    "Probe coordinates/mapQ alone do not authenticate SNP/cross-reactivity, biological methylation or allelic imprinting.",
+    "Postfreeze added sources are excluded from original20-source binding; no byte-level equality is claimed for owner current inventory."
+  ],
+  "methylation_values_inspected": false,
+  "raw_copies_downloads": 0
+}

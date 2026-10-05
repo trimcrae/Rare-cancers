@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-05T11:17:30.227754+00:00",
+  "primary_source": {
+    "path": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/PMC3038880.xml",
+    "sha256": "eb3f5b7e78708cc52ecf7d6c019c444ce99b0072d267e6e14bdc99a83a86f957"
+  },
+  "supplement_text": {
+    "path": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/human_imprint_DMR_suppS1.txt",
+    "sha256": "2a65abccb7db7fb90714df107ba943c401178f49cbde152ca12750ebd7ce85ee"
+  },
+  "exact_IG_table_fields": {
+    "TableS1_printed_location": "chr14:100347146\u2013100348387",
+    "TableS3_start": 100345428,
+    "TableS3_finish": 100345735,
+    "TableS3_printed_midpoint": 100347422,
+    "main_Table1_location": 100345582,
+    "calculated_mean_of_S3_start_finish": 100345581.5
+  },
+  "source_agreement": "MainTable1 location matches rounded midpoint of TableS3 start/finish. TableS3 printed midpoint and TableS1 interval disagree. Coordinate conflict is real but these are not three mutually discordant independent assays.",
+  "assembly_caution": "No original-source assembly harmonization or guessed interval substitution performed. Exact hg38 envelope is determined by genomic sequences, not by treating old coordinates as hg38.",
+  "sequence_caution": "Supplement describes corresponding genomic DNA sequences for locating bisulfite primer sequences. Placement envelope is not a new PCR design, entire control DMR or genome-wide specificity assay."
+}
