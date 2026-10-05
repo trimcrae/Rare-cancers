@@ -1,0 +1,107 @@
+{
+  "utc": "2026-10-05T19:32:49.744573+00:00",
+  "conditions": [
+    {
+      "model": "USZ20-EMC1",
+      "condition": "Complete40singleagent screen includingvenetoclax",
+      "assay": "384wellULA/800cells/50ul;3log6dosecurves;libraryrange33pMto200uM;6days;ATPvehicle-normalized;AUCsummary",
+      "status": "All40literalordinalmeasurements alreadyevaluatedandhash-reused; notnewdrugresponsefinding",
+      "limits": "Methodspassage5/results6disagreement; ordinalcategory\u2260IC50/dosecurve; no40x2screen"
+    },
+    {
+      "model": "USZ20-EMC1",
+      "condition": "Selectedsingle-agent venetoclax validation",
+      "source": "Primarydrugmethod+Fig6A/E; nativepublishedqualclaimDiscussion",
+      "dose_design": "6-pointlogresponse,10uMhighest/4.7pMlowestdeclared; exactvectoruninspected",
+      "exposure": "day6ATPendpoint;drug24hafterplating",
+      "format": "96well,1000cells/well,triplicates; Fig6authorcalls sarco-spheres",
+      "readout": "CellTiterGlo2.0wholewellATP; no dependency/apoptosis inference",
+      "controls": "Drugmethod384screen explicitlyvehicle-onlymaxDMSO0.2%; selectedvalidationvehicle/negativecontrol rawlayoutnotindividuallyreleased/authenticated here",
+      "technical_replication": "Triplicatesreported; biologicalrepeatcount/rawindependentreplicatesunverified",
+      "status": "Verifiedpriorqualitativevalidationnegative/conditioncoverage reused; completepublishedcurve quantities/rawdose data pending/uninspected"
+    },
+    {
+      "model": "USZ20-EMC1",
+      "condition": "Venetoclax+carfilzomib combination and pairedsingleagentcurves",
+      "source": "Resultsdirectprose+Fig6A/E; scoresB/F agree",
+      "dose_design": "5-pointlogdesign;venetoclaxandcarfilzomib1uMto100pMdeclared; Fig6fixedaddeddoses 1\u00a0\u00b5M or 0.1\u00a0\u00b5M carfilzomib",
+      "exposure": "6days",
+      "readout": "ATPresponse mean\u00b1SDpublished; doseinteraction scoresZIP/Loewe/Bliss/HSA",
+      "interaction_estimand": "Model-specificresponse above eachsource-defined score null; highercomboviabilityeffect alone is not synergy. Actual fulldosegrid/zero rows/normalization/rawtechnicaluncertainty notauthenticatedhere.",
+      "status": "Publishedmodel-specificsynergistic/additivebehavior alreadyknown; graphicalmeasurements public/uninspected; processedfullmatrix/rawreplicatesunlocated"
+    },
+    {
+      "model": "USZ20-EMC1",
+      "condition": "Doxorubicin+carfilzomib combination and pairedsingleagentcurves",
+      "source": "Resultsdirectprose+Fig6C/G; scoresD/H agree",
+      "dose_design": "5-pointlogdesign;doxorubicin10uMto1nMdeclared;Fig6fixedaddeddoses 1\u00a0\u00b5M or 0.1\u00a0\u00b5M carfilzomib",
+      "exposure": "6days",
+      "interaction_estimand": "SamefourfamilyZIP/Loewe/Bliss/HSA; comparatorcondition not anotherindependentmodel",
+      "status": "Publishedsource context/controlsreused; no freshresponsevalues"
+    },
+    {
+      "model": "USZ20-EMC1",
+      "condition": "Venetoclax+doxorubicin pair",
+      "source": "Discussionaloneassertspair; contradictedbyResults/actualFig6schema",
+      "status": "Unresolvedsourcepairing; not authenticated measuredpair. No inventedconditions/numericaltest."
+    },
+    {
+      "model": "USZ22-EMC2",
+      "condition": "Selectedsingle-agent venetoclax validation",
+      "source": "Primarydrugmethod+Fig6A/E; nativepublishedqualclaimDiscussion",
+      "dose_design": "6-pointlogresponse,10uMhighest/4.7pMlowestdeclared; exactvectoruninspected",
+      "exposure": "day6ATPendpoint;drug24hafterplating",
+      "format": "96well,1000cells/well,triplicates; Fig6authorcalls sarco-spheres",
+      "readout": "CellTiterGlo2.0wholewellATP; no dependency/apoptosis inference",
+      "controls": "Drugmethod384screen explicitlyvehicle-onlymaxDMSO0.2%; selectedvalidationvehicle/negativecontrol rawlayoutnotindividuallyreleased/authenticated here",
+      "technical_replication": "Triplicatesreported; biologicalrepeatcount/rawindependentreplicatesunverified",
+      "status": "Verifiedpriorqualitativevalidationnegative/conditioncoverage reused; completepublishedcurve quantities/rawdose data pending/uninspected"
+    },
+    {
+      "model": "USZ22-EMC2",
+      "condition": "Venetoclax+carfilzomib combination and pairedsingleagentcurves",
+      "source": "Resultsdirectprose+Fig6A/E; scoresB/F agree",
+      "dose_design": "5-pointlogdesign;venetoclaxandcarfilzomib1uMto100pMdeclared; Fig6fixedaddeddoses 1\u00a0\u00b5M or 0.1\u00a0\u00b5M carfilzomib",
+      "exposure": "6days",
+      "readout": "ATPresponse mean\u00b1SDpublished; doseinteraction scoresZIP/Loewe/Bliss/HSA",
+      "interaction_estimand": "Model-specificresponse above eachsource-defined score null; highercomboviabilityeffect alone is not synergy. Actual fulldosegrid/zero rows/normalization/rawtechnicaluncertainty notauthenticatedhere.",
+      "status": "Publishedmodel-specificsynergistic/additivebehavior alreadyknown; graphicalmeasurements public/uninspected; processedfullmatrix/rawreplicatesunlocated"
+    },
+    {
+      "model": "USZ22-EMC2",
+      "condition": "Doxorubicin+carfilzomib combination and pairedsingleagentcurves",
+      "source": "Resultsdirectprose+Fig6C/G; scoresD/H agree",
+      "dose_design": "5-pointlogdesign;doxorubicin10uMto1nMdeclared;Fig6fixedaddeddoses 1\u00a0\u00b5M or 0.1\u00a0\u00b5M carfilzomib",
+      "exposure": "6days",
+      "interaction_estimand": "SamefourfamilyZIP/Loewe/Bliss/HSA; comparatorcondition not anotherindependentmodel",
+      "status": "Publishedsource context/controlsreused; no freshresponsevalues"
+    },
+    {
+      "model": "USZ22-EMC2",
+      "condition": "Venetoclax+doxorubicin pair",
+      "source": "Discussionaloneassertspair; contradictedbyResults/actualFig6schema",
+      "status": "Unresolvedsourcepairing; not authenticated measuredpair. No inventedconditions/numericaltest."
+    },
+    {
+      "model": "NCC-EMC1-C1",
+      "condition": "All221singleagentmeasurements, venetoclax row217/CAS1257044-40-8",
+      "status": "All221literalnormalizedscreenmeasurementsand24selectedIC50values previouslyevaluated; nativelegitimatecondition; no freshvaluesopened",
+      "assay_qualification": "221dose/duration/readout/vehicle/rawreplicates notacquired inverifiedsource snapshot. Selected24IC50nM lacksvenetoclax; omissionnotinactivity.",
+      "comparison_consequence": "Cannot pool %screen endpoints withUSZordinal/AUC/validateddosecurves or claimNCCconfirms/refutesdose-compatibleinteraction withoutactualexposure/controlbridge."
+    },
+    {
+      "model": "USZ23 andbroaderauthenticcultures/models",
+      "condition": "No source-linkednativevenetoclax/comboresponse condition authenticatedbyreusedgates",
+      "status": "Native model contexts retainedpendingcondition-specific response/assayschema; notexcludedbytitle/notmeasuredzero",
+      "other_resources": "QPOP45genericidentity/GenPharmandGhentrosters keepprior source-confidence/accessgaps; no unchanged retries or hypotheticalresponse transfer."
+    },
+    {
+      "model": "H-EMC-SS/HEMCSS",
+      "condition": "Publishedresponses inidentity-disputed historicalmodel",
+      "status": "Verifiedidentityqualificationreused; not substitutedforauthenticnativeEMC. Source response notnegated or pooled."
+    }
+  ],
+  "global_overlap": "USZ20/USZ22distinctsource donors; laterUSZ22reuse notnewdonor. NCC/USZglobalclinicalcrosswalk unresolved; technicalreplicates notdonors.",
+  "RNA_or_IHC": "BCL2RNA/IHCexpression notdependence; no universalproteinpairingveto.",
+  "new_response_quantities": 0
+}
