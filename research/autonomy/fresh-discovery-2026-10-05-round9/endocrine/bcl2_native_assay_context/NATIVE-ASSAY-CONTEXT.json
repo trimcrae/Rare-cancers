@@ -1,0 +1,134 @@
+{
+  "utc": "2026-10-05T15:48:49.556899+00:00",
+  "purpose": "Native-EMC BCL2 protein measurement context only; no fresh marker-outcome matrix or pharmacology values",
+  "source_groups": [
+    {
+      "source": "2009 APMIS PMID19594492/PMC2774148 DOI10.1111/j.1600-0463.2009.02461.x",
+      "binding": {
+        "path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/bcl2_native_assay_context/raw-cache/PMC2774148.xml",
+        "bytes": 70511,
+        "sha256": "2e5110ec4a84991f230b4a55bed136a265afb3a450db91583612c68ac757aa4d"
+      },
+      "material_groups": [
+        {
+          "source_label": "extraskeletal myxoid chondrosarcoma, conventional",
+          "n_material_cases": 2,
+          "individual_ids": null
+        },
+        {
+          "source_label": "extraskeletal myxoid chondrosarcoma, anaplastic",
+          "n_material_cases": 1,
+          "individual_ids": null
+        }
+      ],
+      "identity": "Author/pathology archive review; source does not give a case-linked molecular confirmation in inspected methods. Do not upgrade to authenticated molecular subtype or assign individual donor links.",
+      "assay": {
+        "member_label": "BCL2 oncoprotein / bcl-2, not BCL2L1/BCL-xL or MCL1",
+        "clone": "124",
+        "supplier": "Dako",
+        "dilution": "1:50; source explicitly adjusted from routine1:400 due to heat-labile staining",
+        "compartment": "cytoplasmic reaction",
+        "scoring": "Semiquantitative0=no,+=weak,++=moderate/intense; focal/diffuse/varying pattern. Percentage estimated by counting100cells if possible. No validated diagnostic cutoff or functional-dependence threshold.",
+        "visualization": "Dako EnVision/DAB on TechMate; slides1hour room temperature, humidity to prevent drying",
+        "positive_control": "Lymph node in antibody Table1. Source notes weak lymphocytic reaction in some materials, presumably over-decalcification; material-specific allocation unresolved.",
+        "negative_control": "Not authenticated from inspected BCL2 method scope; no manufactured omitted-primary control",
+        "preservation": "Archival slides/paraffin blocks. Individual fixation/decalcification/therapy/time/compartment linkage unresolved; do not assign technical deficiency to a specific EMC case."
+      },
+      "diagnostic_comparators": [
+        {
+          "source_type": "Chordoma",
+          "n": 5
+        },
+        {
+          "source_type": "Chondromyxoid fibroma",
+          "n": 5
+        },
+        {
+          "source_type": "Chondroblastoma",
+          "n": 5
+        },
+        {
+          "source_type": "Chondrosarcoma, bone/cartilaginous context",
+          "n": 25,
+          "grade_strata": {
+            "I": 10,
+            "II": 12,
+            "III": 3
+          }
+        }
+      ],
+      "family_measurements": "No BCL2L1/MCL1 antibody assay authenticated here; other diagnostic markers are not family controls.",
+      "outcome_scope": "Only existing qualitative BCL2 prior-art prose read, including authors caution. Fresh stain-result table2 columns remain closed. Individual EMC stain category/percentage and counterpart marker co-occurrence not evaluated; pending if a future quantitative claim advances.",
+      "technical_replication": "Source groups3pathologycases; counted100cells/sections are technical sampling, not100patients. No multicore donor design assumed.",
+      "overlap": "Exact historical donor IDs/cross-study overlap absent; no pooling with pediatric case or native models.",
+      "status": "evaluated for exact reagent/material/scoring/control context; quantitative per-case matrix pending and not used"
+    },
+    {
+      "source": "Pediatric2025 PMID40704268/PMC12285907 DOI10.7759/cureus.86605",
+      "binding": {
+        "path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/bcl2_native_assay_context/raw-cache/PMC12285907.xml",
+        "bytes": 41046,
+        "sha256": "28038b0bc4f064a380243f842598ea41b3fbdf65faf6c554229944d8f8e303c7"
+      },
+      "material_groups": [
+        {
+          "source_label": "12-year-old girl/right-thigh biopsy, author diagnosis EMC with rhabdoid differentiation",
+          "n_donors": 1,
+          "assayed_condition": "Initial biopsy IHC in case presentation",
+          "other_specimen_link": "Additional IHC panel named later, but BCL2 not explicitly repeated/condition crosswalk not authenticated"
+        }
+      ],
+      "identity": "Author diagnostic label retained; case-method sentences do not state NR4A3/EWSR1 molecular confirmation. S100/CD99/FLI1/BCL2 positivity alone does not distinguish molecularly authentic EMC from mimics.",
+      "assay": {
+        "exact_published_claim": "IHC performed, positivity for S100, CD99, FLI1 and BCL2.",
+        "member_label": "BCL2",
+        "clone": null,
+        "dilution": null,
+        "compartment": null,
+        "scoring_or_threshold": null,
+        "positive_negative_controls": null,
+        "denominator_intensity": null,
+        "fixation": null
+      },
+      "status": "evaluated published qualitative diagnostic observation; detailed assay/controls and molecular identity unresolved",
+      "clinical_or_drug_link": "No same-biopsy BCL2-selective drug-condition measurement map authenticated; no efficacy or dependence inference."
+    },
+    {
+      "source": "Known Bangerter2022/23 PMC9813045 DOI10.1007/s13577-022-00818-x",
+      "binding": {
+        "path": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round9/endocrine/bcl2_native_assay_context/raw-cache/bangerter-historical-primary.txt",
+        "bytes": 29246,
+        "sha256": "3f8cd7e434a9ccd2a6dd8b3e6016ab891ddd8c029177b488270a347753c43cd0"
+      },
+      "material_groups": [
+        {
+          "source_label": "USZ20-EMC1",
+          "role": "known native established culture context"
+        },
+        {
+          "source_label": "USZ22-EMC2",
+          "role": "known second native established culture context"
+        }
+      ],
+      "status": "verified primary-source identity reused; retained main-text method/protein-assay absence gate evaluated",
+      "protein_link": "No BCL2 literal/IHC/antibody/Western method in hash-identical retained main text; this scope does not prove no protein assay anywhere in figures/supplements. No protein/drug same-material/time crosswalk authenticated here.",
+      "screen_ownership": "Canonical drug names/assay conditions and published response data owned by fapi_broader/fapi_named; no response cells or drug-class comparison opened here.",
+      "interpretation": "Venetoclax screen naming does not establish BCL2 protein expression or functional priming; ordinal ATP viability cannot be pooled with cytoplasmic IHC."
+    }
+  ],
+  "older_reuse_disposition": {
+    "phase7_chordoid_mimic16": "Actual six-marker source-method panel does not include BCL2. Its16EMC cases are not BCL2-negative; no stain result invented.",
+    "Oliveira2000": "Retained clinical/IHC paragraphs refer18 IHC tumors among23 cases but contain no BCL2 method/claim. AntibodyTable1 full panel not authenticated from available Table2 record here; cannot call all23/18 BCL2-tested or BCL2-negative.",
+    "Oliveira_McGrory": "Known15Mayo duplicate patients; no pooling.",
+    "Meis117": "Retained publisher page has no BCL2 token, but page access is not full assay evaluation; protein method/material crosswalk pending, not absence.",
+    "OkamotoHisaoka18": "Genuine citation PMID11679947/DOI10.1053/hupa.2001.28226; BCL2 assay not authenticated in current retained methods. No additional body route opened in this finite stage."
+  },
+  "source_specific_contrary_limits": [
+    "Assay positive-control lymph node and author technical heat/decalcification caution show presence is not tumor-specific functional necessity or a simple cross-source intensity scale.",
+    "Antibody specificity label does not measure occupancy/mitochondrial priming/protein complexes or BCL2L1/MCL1 reserve.",
+    "Ordinary diagnostic positivity can coexist with missing drug selectivity/class-control/matched protein-time links.",
+    "BCL2-positive author case has no source-linked molecular or antibody/control detail; diagnostic marker labels alone cannot authenticate native EMC identity.",
+    "No paired same-model/time tumor protein and selective inhibitor/control contrast has been authenticated; drug-screen response alone does not fill it."
+  ],
+  "standalone_value": "Context for a separate pharmacology gate, not new protein/positivity finding or publication. Cannot repair absent BH3 class controls; no RNA/stain/IC50 pooling."
+}

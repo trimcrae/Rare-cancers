@@ -1,0 +1,64 @@
+{
+  "utc": "2026-10-05T15:37:57.036124+00:00",
+  "pilot_start_utc": "2026-10-05T15:35:08Z",
+  "pilot_stop_utc": "2026-10-05T15:55:08Z",
+  "scope": "Native-EMC BCL2 tissue-protein source/method/condition/diagnostic-control context for independently owned pharmacology source gate, not a positivity or IHC-outcome paper.",
+  "pharmacology_context": "Venetoclax source-name coverage exists in native USZ20/NCC1 screens; actual response values are not opened here. Missing class controls and incompatible assays cannot be repaired by BCL2 protein staining.",
+  "questions": [
+    "What native case/material, antibody, compartment, scoring/threshold, fixation and positive/negative diagnostic controls does the source actually establish for BCL2?",
+    "Does any same-material/time/model protein crosswalk support measurement interpretation of a drug-class comparison, beyond prior diagnostic positivity?",
+    "What source-specific negative/inconclusive or alias/family ambiguity prevents BCL2 staining from implying dependence?"
+  ],
+  "prospective_branches": [
+    {
+      "branch": "verified pathology reuse and actual panel check",
+      "inputs": "Phase7 older mimic BioC, existing Oliveira/Mayo and verified clinical/pathology records. Do not assume BCL2 was assayed merely because IHC mentioned. No new biological matrices."
+    },
+    {
+      "branch": "at most one additional primary native BCL2 assay-method source",
+      "selection": "Exact disease+BCL2 or exact existing Okamoto/Hisaoka18 citation source metadata; choose source-authenticated protein methods/all native material/control group over generic stain statement, before any drug values. Ordinary public source only, no repeated failed route."
+    }
+  ],
+  "fields": [
+    "all native EMC case/material groups",
+    "original diagnosis and confirmation limits",
+    "BCL2 family member exact label",
+    "clone/dilution/retrieval/FFPE section",
+    "cytoplasmic/nuclear/unspecified compartment",
+    "tumor-cell denominator or semiquantitative scoring",
+    "positivity cutoff/extent/intensity",
+    "internal/parallel antibody controls",
+    "independent mimic/normal comparators",
+    "technical cores/sections versus donors",
+    "same-source and cross-source overlap",
+    "drug-condition/protein pairing if actually explicit"
+  ],
+  "value_standard": "Measured BCL2 may establish presence at the assay/time/compartment, not antiapoptotic occupancy, functional priming or dependency. A public same-model/time functional perturbation or selective class comparison would be needed for dependence; no rescue of absent controls. BCL2, BCL2L1/BCL-XL and MCL1 are separate proteins and inhibitors are not interchangeable.",
+  "defeat": "Generic already-published positivity, absent specific target/assay/control identity, no same-material drug link, family mismatch, or missing contrary/class controls means context-only/no standalone claim.",
+  "exposure": "Prior R1\u2013R9 published IHC/drug facts may already be known. Current task reads methods/prior-art/context; no invented fully blinded claim. Fresh outcome matrices, raw drug endpoints and ordinal-stain/RNA/IC50 pooling are OFF.",
+  "all_public_coverage": "All identifiable native material/conditions in an advancing source; other known relevant source gaps retained pending. This finite context review is not all-literature body coverage or campaign exhaustion.",
+  "restrictions": {
+    "new_raw_cap_bytes": 8388608,
+    "free_floor_bytes": 10737418240,
+    "quiet_files_API_only": true,
+    "images": false,
+    "restricted_tasks_closed": [
+      "FAP-tissue",
+      "glycan",
+      "structural-genomics",
+      "HLA"
+    ],
+    "no": [
+      "paid",
+      "login",
+      "outreach",
+      "bypass",
+      "GPU",
+      "spend",
+      "publication",
+      "PR",
+      "root edit",
+      "push"
+    ]
+  }
+}
