@@ -1,0 +1,157 @@
+{
+  "utc": "2026-10-05T13:46:48.852829+00:00",
+  "scope": "Source identity/count/hash/decision boundary checks only; no biomarker case outcomes, no gene values, no restricted mechanisms or images",
+  "checks": [
+    {
+      "check": "retained_raw_exact_hashes",
+      "passed": true,
+      "detail": {
+        "files": 17,
+        "bytes": 24519481
+      }
+    },
+    {
+      "check": "zero_copy_reuse_bindings",
+      "passed": true,
+      "detail": 7
+    },
+    {
+      "check": "prior_freezes_and_frozen_artifacts_preserved",
+      "passed": true,
+      "detail": {
+        "freeze_files": 8,
+        "artifact_bindings": 134
+      }
+    },
+    {
+      "check": "peer_science_exact_hash_bindings",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "check": "management_five_printed_identity_columns_only",
+      "passed": true,
+      "detail": [
+        {
+          "id": "RT-7418",
+          "diagnosis": "Well differentiated liposarcoma"
+        },
+        {
+          "id": "RT-7860",
+          "diagnosis": "Pleomorphic liposarcoma"
+        },
+        {
+          "id": "RT-7707",
+          "diagnosis": "Myxofibrosarcoma"
+        },
+        {
+          "id": "RT-7421",
+          "diagnosis": "Undifferentiated pleomorphic sarcoma"
+        },
+        {
+          "id": "RT-6736",
+          "diagnosis": "Osteosarcoma"
+        }
+      ]
+    },
+    {
+      "check": "management_no_denominator_transfer",
+      "passed": true,
+      "detail": "Five cases do not close larger methods universe"
+    },
+    {
+      "check": "TF_supplement_clinical_roster",
+      "passed": true,
+      "detail": {
+        "Leiomyosarcoma": 34,
+        "Liposarcoma": 29,
+        "Undifferentiated pleomorphic sarcoma": 21,
+        "Synovial sarcoma": 15,
+        "Angiosarcoma": 13,
+        "Others": 80
+      }
+    },
+    {
+      "check": "TF_cohort_reconciliation",
+      "passed": true,
+      "detail": {
+        "cohort": 192,
+        "Others": 80,
+        "old48": "Preserved only as corrected historical error in AMENDMENT01"
+      }
+    },
+    {
+      "check": "pleural_Other_identity_scope",
+      "passed": true,
+      "detail": {
+        "Other": 36,
+        "cohort": 98,
+        "remaining_identity": "Unresolved, not excluded"
+      }
+    },
+    {
+      "check": "Hsp70_generic_sarcoma_stage_scope",
+      "passed": true,
+      "detail": {
+        "eight_generic_metastatic_samples": true,
+        "EMC_identity": "Unresolved"
+      }
+    },
+    {
+      "check": "Hsp70_pretreatment_population_scope",
+      "passed": true,
+      "detail": "Cross-sectional pretreatment population; no serial patient trace established"
+    },
+    {
+      "check": "Hsp70_actual_advertised_data_scope",
+      "passed": true,
+      "detail": {
+        "patient_dataset": "Corresponding-author reasonable request",
+        "supplement": "Two analytical figures; no advertised patient identity/serial matrix",
+        "no_outreach": true
+      }
+    },
+    {
+      "check": "DataCite_exact_related_DOI_Pending-Tsoi-DataCite",
+      "passed": true,
+      "detail": "Indexed query scope only, not data/EMC absence"
+    },
+    {
+      "check": "DataCite_exact_related_DOI_Pending-Bui-DataCite",
+      "passed": true,
+      "detail": "Indexed query scope only, not data/EMC absence"
+    },
+    {
+      "check": "DataCite_exact_related_DOI_Pending-Anderson-DataCite",
+      "passed": true,
+      "detail": "Indexed query scope only, not data/EMC absence"
+    },
+    {
+      "check": "no_new_outcomes_or_numeric_stage",
+      "passed": true,
+      "detail": "Clinical metadata only; previous R3 results status-only reused"
+    },
+    {
+      "check": "no_promotion_or_exhaustion",
+      "passed": true,
+      "detail": "Specific pending suitable evidence blocks promotion"
+    },
+    {
+      "check": "budget",
+      "passed": true,
+      "detail": 24519481
+    },
+    {
+      "check": "storage_floor",
+      "passed": true,
+      "detail": 27142303744
+    },
+    {
+      "check": "no_tracked_raw_or_catalogues",
+      "passed": true,
+      "detail": "Raw originals and all three full query catalogues ignored"
+    }
+  ],
+  "passed": true,
+  "failed": 0
+}
