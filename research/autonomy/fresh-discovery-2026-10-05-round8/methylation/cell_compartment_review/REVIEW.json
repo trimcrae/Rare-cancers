@@ -1,0 +1,164 @@
+{
+  "schema": "emc-r8-cell-compartment-independent-review/1",
+  "utc": "2026-10-05T01:21:31.233803+00:00",
+  "reviewer": "Codex /root/challenge",
+  "reviewed_commit": "dc3873e3750405391afa7ad451a9a7bbdf0c414f",
+  "reviewed_owner_packet": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round8/cell_compartment_source_gate",
+  "reviewed_files": {
+    "PLAN.json": {
+      "path": "../../cell_compartment_source_gate/PLAN.json",
+      "bytes": 4289,
+      "sha256": "6dff73bced36b2c1ce897b8ef09ff0ccbc8c678a6b88b37f8b89b3bc039794ad"
+    },
+    "AMENDMENT-01-SERIES-DIRECTION.json": {
+      "path": "../../cell_compartment_source_gate/AMENDMENT-01-SERIES-DIRECTION.json",
+      "bytes": 1066,
+      "sha256": "b3968c325ef2fc434bd5c124853109dd55acee992a5d31121ce0b75de2c3acae"
+    },
+    "REPORT.txt": {
+      "path": "../../cell_compartment_source_gate/REPORT.txt",
+      "bytes": 2968,
+      "sha256": "efb2ac751436d6f2dd1e5e5d3e503108f258be9ac93956f12a5d894d1eb4c102"
+    },
+    "COVERAGE.json": {
+      "path": "../../cell_compartment_source_gate/COVERAGE.json",
+      "bytes": 7746,
+      "sha256": "3810a79775ebd6ea54d0796451e87652518384bd8cc374e19ce6609a51db6d58"
+    },
+    "DECISION.json": {
+      "path": "../../cell_compartment_source_gate/DECISION.json",
+      "bytes": 2095,
+      "sha256": "bc634ffe20cd02ff407dc0e5787337ee7dbb02421a154c662d9a33f839256a23"
+    },
+    "OBSERVATIONS.json": {
+      "path": "../../cell_compartment_source_gate/OBSERVATIONS.json",
+      "bytes": 57089,
+      "sha256": "69d80ab86d60e485d2fe9d010af4ae33efeef3de486a43a69c0ee8683f2dc869"
+    },
+    "FREEZE.json": {
+      "path": "../../cell_compartment_source_gate/FREEZE.json",
+      "bytes": 6755,
+      "sha256": "96877ef56de2338a466ec27238bf856f4ed876d322110c89af22173346fdde5f"
+    }
+  },
+  "own_prospective_plan": {
+    "path": "PLAN.json",
+    "bytes": 3376,
+    "sha256": "d5679e1157c693df51f6cfba182acc21bd62707737ba939ee23d5df1513ed35f"
+  },
+  "own_empirical_audit": {
+    "path": "INDEPENDENT-SOURCE-AUDIT.json",
+    "bytes": 33602,
+    "sha256": "45ae4dc03dcece89ab923344b6228d434fe128bf81f2afb0fae56146d686d161"
+  },
+  "own_reproduction_script": {
+    "path": "audit_source_gate.py",
+    "bytes": 7674,
+    "sha256": "c5702cc4268eb74d48969a4606475e925f2faabe3ee541ee619687e7d616c723"
+  },
+  "primary_refs": {
+    "Luthria2024": {
+      "DOI": "10.1158/1078-0432.CCR-23-2976",
+      "PMCID": "PMC11443197",
+      "PMID": "39083415",
+      "original": {
+        "path": "round6/single_cell/sources/archival_singlecell_2024_PMC11443197.json",
+        "bytes": 129282,
+        "sha256": "cac87b9edd8de0f5be14e71545b75fa7e7d0ddb7b9ad674dbca32867bb260566"
+      },
+      "format_note": "Original is XML despite .json suffix; parsed as article XML. Cache-only, not committed."
+    },
+    "GEO_superseries": {
+      "path": "round6/single_cell/sources/GSE243381.json",
+      "bytes": 2207,
+      "sha256": "64e688a996b9d302ae072717a3f057c1645c37c7ca82655b241df1d9611e251c"
+    },
+    "S1": {
+      "source": "Publisher original ccr-23-2976_supplementary_table_s1_suppts1.xlsx within retained EuropePMC supplementary ZIP",
+      "sha256": "b86146e56f3021972c4a07e78f7de11dbebba727ec1b74573a857323ea98fe8a"
+    },
+    "author_repository": {
+      "url": "https://github.com/IzarLab/sarcoma-sn",
+      "tree_commit": "7f66cf8766f31ff65bbdf92c6d482fe12aa05483",
+      "inspected_files": [
+        "README.md",
+        "PreProcessing/01_seurat_analysis-fresh-sarc.ipynb",
+        "PreProcessing/1.3_figure1_table1.ipynb"
+      ],
+      "scope": "Static code and selected quality-only outputs, no cell gene-expression/CNA outcome analysis."
+    }
+  },
+  "scope": "Independent original S1/primary identity-assay-deposit sections, selected author source code and quality displays, named21 prior source records and official hierarchy audit. No downloads, source-body copies, raw matrix or numerical CSPG4 value. Not exhaustive public source or literature evaluation.",
+  "source_identity_checks": [
+    {
+      "condition": "GS001",
+      "actual_source": "S1 has single cell, unsorted; no WGS/TCR. Quality values 5015 cells before and2929 after filtering; median detected features508 before and648 after; mitochondrial fractions4.940374787 before and4.776119403 after. No diagnosis column or sample-linked GSM/BioSample accession.",
+      "author_link": "Quality notebook cells13-15 display gs001_sarc_scseq with corresponding counts and rounded metrics. Together with GS001 labels in the manuscript-linked repository this supports an assay/code alias link. It does not authenticate EMC diagnosis, a public matrix or an independent donor.",
+      "status": "pending accessible analysis"
+    },
+    {
+      "condition": "GS002",
+      "actual_source": "Both selected notebooks include gs002_sarc_scseq as a fresh code alias and the quality script includes a fresh.merge directive. GS002 is absent from S1 and the inspected displayed QC tables; one display explicitly removes this code label.",
+      "limit": "Cannot establish an actual second case, technical replicate, additional condition, donor independence, EMC diagnosis or public matrix from source code alone.",
+      "status": "pending accessible analysis"
+    },
+    {
+      "condition": "All eight frozen specimens",
+      "actual_source": "S1 contains S167,S322,S559,S708,S408,S410,S914,S956. Independently extracted row counts sum75716 postfilter cells, matching the primary report. Existing verified5UPS/3INS dispositions reused; no EMC reclassification from expression.",
+      "overlap": "Six native source patient IDs with pairedX/Y. Primary methods discuss accessible fresh/sequential-frozen tissue; fresh GS001 therefore cannot automatically become a ninth independent donor."
+    },
+    {
+      "condition": "All21 named libraries",
+      "actual_source": "The prior committed roster contains every exact named library. Each source record is explicitly UPS or INS; all21 source hashes match original cache and prior receipt hashes. Child rosters equal the named superseries set:8snRNA,8lpWGS,5TCR.",
+      "limit": "Repeated assays and specimens do not create21 independent patients. TCR child labels and original metadata quirks are retained; no KRAS/STK11 mutation inferred from malformed metadata field names. Only metadata identities examined for lpWGS; no structural-genomics outcome content used."
+    }
+  ],
+  "hierarchy_and_count_correction": {
+    "actual": "GSE243381 is SuperSeries of GSE243377(lpWGS), GSE243379(TCR) and GSE243380(snRNA). Each child explicitly states SubSeries ofGSE243381. Both directions checked against original sources.",
+    "amendment": "Owner AMENDMENT-01-SERIES-DIRECTION correctly supersedes inherited prospective PLAN/lead parent243380 wording without changing the question. Original PLAN remains intact.",
+    "counts": "Primary and eight individual RNA sample identities report5UPS/3INS. Child summary reports4UPS/4INS. Preserve this source inconsistency rather than fabricate a reclassification or silently harmonize. Both reported classes are non-EMC; this discrepancy does not identify the separate fresh case."
+  },
+  "deposit_checks": {
+    "named_roster": "No source-supported GS001/GS002 accession or fresh matrix link in the checked21-library roster; exact public linkage remains unidentified.",
+    "author_tree": "Nontruncated tree inspected for released-object/source-link inventory; selected preprocessing files refer to local CellBender/Seurat/RDS paths. A path or embedded processing instruction does not constitute an authenticated public specimen deposit. Other scientific notebook contents were not reviewed.",
+    "alias_queries": "All three indexed GS001/GS002 hits are unrelated piglet gut records inGSE277706, not sarcoma. Exact underscore aliases were not indexed; this is not a universal repository absence claim.",
+    "project_queries": "PRJNA1018225/PRJNA1018223 queries returned0 plus PhraseNotFound. These indexed queries do not cover every child project or establish absence of controlled-access reads. No access restriction bypass or outreach performed.",
+    "pending": "Exact fresh pathology, donor/condition, GSM/BioSample and analyzable per-cell matrix crosswalk remain pending, not unavailable merely because a released accession was unidentified."
+  },
+  "measurement_and_scientific_value": {
+    "eligible_EMC_condition_established": false,
+    "no_measured_CSPG4_result": true,
+    "useful_future_question": "An authenticated EMC per-cell assay could inform whether bulk CSPG4 arises from malignant cells or admixed stromal/pericyte/smooth-muscle compartments and guide cell-specific protein testing. This remains conditional, not a new finding or biological absence.",
+    "strongest_alternative": "Different histology or unlinked pathology, mixture/dissociation, ambientRNA/doublets, low gene capture and cell identity inferred only from CNA/embedding. A gene symbol, generic sarcoma label, filename or shared code cannot authenticate EMC.",
+    "if_reopened": "Before outcomes, freeze all eligible EMC donors/conditions, controls, gene/annotation mapping and cell-class assignment; assess capture/dropout and ambient/doublet/mixture sensitivity. Preserve all cell categories and no-detection conditions, donor overlap and assay limitations; RNA does not establish surface protein, accessible epitope, efficacy or safety. Complete all relevant public EMC measurements and primary localization prior art before promotion.",
+    "novelty_value": "Published quality/stress metrics and new source-availability clarification do not themselves add an EMC compartment measurement. Submitted-letter compartment rationale does not substitute for patient identity or analyzable data. No useful new publication-worthy finding survives this bounded gate."
+  },
+  "decision": {
+    "verdict": "ENDORSE SHELVE source-dependent CSPG4 compartment analysis for now",
+    "reason": "No fresh EMC diagnosis or exact publicly analyzable matrix linkage established. GS001 andGS002 eligibility remains inconclusive; not excluded as non-EMC and no negative CSPG4 claim.",
+    "material_blocker_in_final_owner_scope": false,
+    "reopen": "Exact source-supported EMC pathology/fusion identity with specimen-condition-deposit-cellmatrix mapping and interpretable malignant/stromal annotation; then prospective useful analysis with complete public conditions.",
+    "coverage_complete_for_promotion": false,
+    "search_exhausted": false
+  },
+  "actual_validation": {
+    "owner_immutable_files_checked": 18,
+    "owner_raw_cache_hashes_checked": 15,
+    "hash_mismatches": 0,
+    "prior_named_original_GSM_hashes_checked": 21,
+    "independent_audit_assertions": "Exact S1 archive extraction; all9S1rows;8frozen sum75716;21unique libraries/individualnonEMC metadata;3child reciprocaldirection and exact21union; nontruncated author tree; all3 unrelated alias hits. Independent script passed.",
+    "manual_check": "Original primary identity/assay/availability/selection paragraphs and all printed S1 fields read; selected QC-only notebook displays compared. Owner method not rerun as a substitute for independent checks.",
+    "original_methylation_freeze_bindings_unchanged": 8,
+    "normal_repository_preflight": "Pending integrating lead gate; scripts/preflight.sh absent from this intentionally sparse worker worktree."
+  },
+  "storage_and_restrictions": {
+    "new_original_source_bytes_retained_by_reviewer": 0,
+    "owner_new_cache_bytes_including_archive_and_copy": 2731133,
+    "free_bytes": 27491737600,
+    "no_matrix_download": true,
+    "no_restricted_science_body_review": true,
+    "no_spend_outreach_external_records_publication_root_edits_or_push": true,
+    "computer_use": "Quiet file/code review only; no source images/browser/screenshot/headless tests used."
+  },
+  "portability": "All full original inputs remain ignored owner/prior cache only; own compact selected observations/script and source URLs/hashes committed. Owner receipts preserve public recovery methods, frozen author commit and response versions. Recovery must compare source hashes; original cache is not implied to exist in a Git export."
+}

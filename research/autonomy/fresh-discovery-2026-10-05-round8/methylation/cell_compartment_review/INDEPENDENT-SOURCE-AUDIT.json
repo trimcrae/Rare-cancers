@@ -1,0 +1,885 @@
+{
+  "scope": "Independent metadata/assay/source linkage only; no gene expression outcomes",
+  "owner_input_base": "/workspace/emc-r6-radiotherapy/research/autonomy/fresh-discovery-2026-10-05-round8/cell_compartment_source_gate",
+  "prior_input_base": "/workspace/emc-r6-single_cell/research/autonomy/fresh-discovery-2026-10-04-round6/single_cell",
+  "owner_cache_bindings": [
+    {
+      "path": ".cache/Supplementary-Table-S1.xlsx",
+      "bytes": 11099,
+      "sha256": "b86146e56f3021972c4a07e78f7de11dbebba727ec1b74573a857323ea98fe8a"
+    },
+    {
+      "path": ".cache/supplementaryFiles.zip",
+      "bytes": 1362048,
+      "sha256": "6a1ab9f4a3e360715602e41ed255505ad7b1c91c29ce3e40a2f99622b6d69a07"
+    },
+    {
+      "path": ".cache/GSE243380-self.txt",
+      "bytes": 2601,
+      "sha256": "14d001dba550ef1267b991412aa87a99ebda75f73513e61a4116408244c483c9"
+    },
+    {
+      "path": ".cache/GSE243377-self.txt",
+      "bytes": 2553,
+      "sha256": "02d3e04bff0dad736a35a636768a5b490e16c31970d1b733918a07c133081f28"
+    },
+    {
+      "path": ".cache/GSE243379-self.txt",
+      "bytes": 2458,
+      "sha256": "7c3d82ce2d7481b492a54c5caca57e458e3ef98239060f4ba8cc82ecde05e65f"
+    },
+    {
+      "path": ".cache/github-README.md",
+      "bytes": 461,
+      "sha256": "368b67af14b18918d0a3faad540e193cc5d9a54d08c06f5eeb4dd49a1c60950d"
+    },
+    {
+      "path": ".cache/github-tree.json",
+      "bytes": 14905,
+      "sha256": "f024290e97d3e0a98765b850ab6d1399bcf29caae79712f29819e81d62ff66a2"
+    },
+    {
+      "path": ".cache/fresh-sarc.ipynb",
+      "bytes": 203778,
+      "sha256": "ead9dad3752dbc7059b3812e62eca1b7994e4b28ee6e0ebfca304cdd777a01c1"
+    },
+    {
+      "path": ".cache/quality-table.ipynb",
+      "bytes": 1105841,
+      "sha256": "abe9b6584bde554b5f6a0fcd4d0071b291a465029b210d3a2319fb8c75746b3b"
+    },
+    {
+      "path": ".cache/gds-fresh-labels.xml",
+      "bytes": 866,
+      "sha256": "dfc73151dee95061d7ee3df644136d5922e3b7d23dc1adcb7678c4a79b2a411d"
+    },
+    {
+      "path": ".cache/gds-fresh-label-summary.json",
+      "bytes": 12079,
+      "sha256": "15bc134970d2a4c88d2d4fa3dd3d023a3857fba71175414337655ab94ff512ca"
+    },
+    {
+      "path": ".cache/biosample-project.xml",
+      "bytes": 562,
+      "sha256": "397215fcf3835155f49df8d93df64772c4710977157fe5257f602a762d7f9f79"
+    },
+    {
+      "path": ".cache/sra-project.xml",
+      "bytes": 562,
+      "sha256": "397215fcf3835155f49df8d93df64772c4710977157fe5257f602a762d7f9f79"
+    }
+  ],
+  "prior_derived_bindings": [
+    {
+      "path": "GSM-ELIGIBILITY-OBSERVATIONS.json",
+      "bytes": 280550,
+      "sha256": "6e0a5e8fbe00fa9ebe0e5e6735a6946b6da47e95a3af212ba456e755fda0466d"
+    },
+    {
+      "path": "GSM-SOURCE-RECEIPTS.json",
+      "bytes": 41573,
+      "sha256": "dd87a023478c06eabb526f31943107d8613e193ce93e99326507990eb28b1472"
+    },
+    {
+      "path": "COVERAGE.json",
+      "bytes": 6177,
+      "sha256": "ac7b3743bad2548640fae72f3d86a1ae66d8a97bc34e34ffba23ffdd560107a7"
+    }
+  ],
+  "S1_all_rows": [
+    {
+      "sample": "GS001",
+      "processing": "single cell, unsorted",
+      "WGS_assay_label": "N",
+      "TCR_assay_label": "N",
+      "pre_filter_cells": 5015,
+      "post_filter_cells": 2929,
+      "diagnosis_in_table": null
+    },
+    {
+      "sample": "S167",
+      "processing": "single nuclei, processed with RNAse inhibitor",
+      "WGS_assay_label": "ulp-WGS",
+      "TCR_assay_label": "Y",
+      "pre_filter_cells": 15014,
+      "post_filter_cells": 12751,
+      "diagnosis_in_table": null
+    },
+    {
+      "sample": "S322",
+      "processing": "single nuclei, processed with RNAse inhibitor",
+      "WGS_assay_label": "ulp-WGS",
+      "TCR_assay_label": "Y",
+      "pre_filter_cells": 14276,
+      "post_filter_cells": 11371,
+      "diagnosis_in_table": null
+    },
+    {
+      "sample": "S559",
+      "processing": "single nuclei, processed with RNAse inhibitor",
+      "WGS_assay_label": "ulp-WGS",
+      "TCR_assay_label": "Y",
+      "pre_filter_cells": 10488,
+      "post_filter_cells": 7092,
+      "diagnosis_in_table": null
+    },
+    {
+      "sample": "S708",
+      "processing": "single nuclei, processed with RNAse inhibitor",
+      "WGS_assay_label": "ulp-WGS",
+      "TCR_assay_label": "Y",
+      "pre_filter_cells": 14588,
+      "post_filter_cells": 12366,
+      "diagnosis_in_table": null
+    },
+    {
+      "sample": "S408",
+      "processing": "single nuclei, processed with RNAse inhibitor",
+      "WGS_assay_label": "ulp-WGS",
+      "TCR_assay_label": "N",
+      "pre_filter_cells": 24795,
+      "post_filter_cells": 17415,
+      "diagnosis_in_table": null
+    },
+    {
+      "sample": "S410",
+      "processing": "single nuclei, processed with RNAse inhibitor",
+      "WGS_assay_label": "ulp-WGS",
+      "TCR_assay_label": "N",
+      "pre_filter_cells": 3202,
+      "post_filter_cells": 1745,
+      "diagnosis_in_table": null
+    },
+    {
+      "sample": "S914",
+      "processing": "single nuclei, processed with RNAse inhibitor",
+      "WGS_assay_label": "ulp-WGS",
+      "TCR_assay_label": "Y",
+      "pre_filter_cells": 16259,
+      "post_filter_cells": 12544,
+      "diagnosis_in_table": null
+    },
+    {
+      "sample": "S956",
+      "processing": "single nuclei, processed with RNAse inhibitor",
+      "WGS_assay_label": "ulp-WGS",
+      "TCR_assay_label": "N",
+      "pre_filter_cells": 12029,
+      "post_filter_cells": 432,
+      "diagnosis_in_table": null
+    }
+  ],
+  "frozen_post_filter_cell_total": 75716,
+  "S1_exact_archive_extraction_verified": true,
+  "named_library_count": 21,
+  "named_library_metadata": [
+    {
+      "accession": "GSM7784763",
+      "source_sha256": "1076a42430a20b5f14f6aa06d05f5d3e3a3e7aabf34682afd7fe8013a13161e3",
+      "title": [
+        "lp-WGS Sarcoma167_S130_L001"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Intimal Sarcomas (INS) of the Pulmonary Artery",
+        "patient id: X",
+        "pre/post io: Pre IO",
+        "tumor pathology: Intimal Sarcomas (INS)",
+        "sequencing technique: lp-WGS",
+        "tcr-seq: yes"
+      ],
+      "library_strategy": [
+        "WGS"
+      ]
+    },
+    {
+      "accession": "GSM7784764",
+      "source_sha256": "04a5e2b14dde2286f9206b5e41fe6aeafc9edf0d2b0d7586ea88eb0c1796e746",
+      "title": [
+        "lp-WGS Sarcoma322_S133_L001"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: Y",
+        "pre/post io: Post IO",
+        "tumor pathology: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: lp-WGS",
+        "tcr-seq: yes"
+      ],
+      "library_strategy": [
+        "WGS"
+      ]
+    },
+    {
+      "accession": "GSM7784765",
+      "source_sha256": "e70e83a245bbd9262d022a064ba7fea7304c845174c60e77a5b030e41d60c80a",
+      "title": [
+        "lp-WGS Sarcoma559_S132_L001"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Intimal Sarcomas (INS) of the Pulmonary Artery",
+        "patient id: S559",
+        "pre/post io: Pre IO",
+        "tumor pathology: Intimal Sarcomas (INS)",
+        "sequencing technique: lp-WGS",
+        "tcr-seq: yes"
+      ],
+      "library_strategy": [
+        "WGS"
+      ]
+    },
+    {
+      "accession": "GSM7784766",
+      "source_sha256": "c1c390a738adba0d7ee57a4bd29ba3aa77a9bded56750c0be0b969186b7c5ca1",
+      "title": [
+        "lp-WGS Sarcoma708_S131_L001"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: S708",
+        "pre/post io: Pre IO",
+        "tumor pathology: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: lp-WGS",
+        "tcr-seq: yes"
+      ],
+      "library_strategy": [
+        "WGS"
+      ]
+    },
+    {
+      "accession": "GSM7784767",
+      "source_sha256": "38958649f1221e1940d13376b58678e1a07ce137c2f040a69645e50842d9ac03",
+      "title": [
+        "lp-WGS SarcomaS408_S121_L002"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: S408",
+        "pre/post io: Post tx",
+        "tumor pathology: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: lp-WGS",
+        "tcr-seq: no"
+      ],
+      "library_strategy": [
+        "WGS"
+      ]
+    },
+    {
+      "accession": "GSM7784768",
+      "source_sha256": "cf95f8885d79c9acd48a1a12d878296d8bd9774ef3a3977b5cc99c57eb18ab30",
+      "title": [
+        "lp-WGS SarcomaS410_S123_L002"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Intimal Sarcomas (INS) of the Pulmonary Artery",
+        "patient id: X",
+        "pre/post io: Post IO",
+        "tumor pathology: Intimal Sarcomas (INS)",
+        "sequencing technique: lp-WGS",
+        "tcr-seq: no"
+      ],
+      "library_strategy": [
+        "WGS"
+      ]
+    },
+    {
+      "accession": "GSM7784769",
+      "source_sha256": "2f7df47f21cb6d9d362051be565e5bcb4a1562e7a3b743c62568358233dded16",
+      "title": [
+        "lp-WGS SarcomaS914_S120_L002"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: Y",
+        "pre/post io: Pre IO",
+        "tumor pathology: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: lp-WGS",
+        "tcr-seq: yes"
+      ],
+      "library_strategy": [
+        "WGS"
+      ]
+    },
+    {
+      "accession": "GSM7784770",
+      "source_sha256": "51d38fd16ae4d8c76c73df2631f72da06c937ea1bd67af1eda4b7dfbbb8a4711",
+      "title": [
+        "lp-WGS SarcomaS956_S119_L002"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: S956",
+        "pre/post io: Post IO",
+        "tumor pathology: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: lp-WGS",
+        "tcr-seq: no"
+      ],
+      "library_strategy": [
+        "WGS"
+      ]
+    },
+    {
+      "accession": "GSM7784788",
+      "source_sha256": "70622ba798b9943e52b07f3e7490823e9ada0491f0982dd35cfce40171d909f0",
+      "title": [
+        "Sarcoma167_S130_L001"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Intimal Sarcomas (INS) of the Pulmonary Artery",
+        "patient id: X",
+        "stk11 mutation status: Pre IO",
+        "kras mutation status: Intimal Sarcomas (INS)",
+        "sequencing technique: snRNA-seq"
+      ],
+      "library_strategy": [
+        "OTHER"
+      ]
+    },
+    {
+      "accession": "GSM7784789",
+      "source_sha256": "7e538dbd6eb34ed749f0ee821eb684197ad0b7202f4ceaed3b59a571d7364fcd",
+      "title": [
+        "Sarcoma322_S133_L001"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: Y",
+        "stk11 mutation status: Post IO",
+        "kras mutation status: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: snRNA-seq"
+      ],
+      "library_strategy": [
+        "OTHER"
+      ]
+    },
+    {
+      "accession": "GSM7784790",
+      "source_sha256": "b1936cbd544f4f400bfa74ce2f45ccd348184e27ca266b0a59dae10169c9f564",
+      "title": [
+        "Sarcoma559_S132_L001"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Intimal Sarcomas (INS) of the Pulmonary Artery",
+        "patient id: S559",
+        "stk11 mutation status: Pre IO",
+        "kras mutation status: Intimal Sarcomas (INS)",
+        "sequencing technique: snRNA-seq"
+      ],
+      "library_strategy": [
+        "OTHER"
+      ]
+    },
+    {
+      "accession": "GSM7784791",
+      "source_sha256": "cf5a422e28b9b84872cc16f49cd5bfd11f5c0e2493d14e4013f55226c075d239",
+      "title": [
+        "Sarcoma708_S131_L001"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: S708",
+        "stk11 mutation status: Pre IO",
+        "kras mutation status: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: snRNA-seq"
+      ],
+      "library_strategy": [
+        "OTHER"
+      ]
+    },
+    {
+      "accession": "GSM7784792",
+      "source_sha256": "73f12df07ee28eb144280ceac800ee2bff9a0098cac5bae0ddd6936a36a0d5e8",
+      "title": [
+        "SarcomaS914_S120_L002"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: Y",
+        "stk11 mutation status: Pre IO",
+        "kras mutation status: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: snRNA-seq"
+      ],
+      "library_strategy": [
+        "OTHER"
+      ]
+    },
+    {
+      "accession": "GSM7784793",
+      "source_sha256": "22535940aa889d8839c797d115f4bf9218e70e25eb2b641063ab0a6efde6c921",
+      "title": [
+        "Sarcoma167"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Intimal Sarcomas (INS) of the Pulmonary Artery",
+        "patient id: X",
+        "stk11 mutation: Pre IO",
+        "kras mutation status: Intimal Sarcomas (INS)",
+        "sequencing technique: snRNA-seq",
+        "tcr-seq: yes"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ]
+    },
+    {
+      "accession": "GSM7784794",
+      "source_sha256": "a5243ffb40a73566a51762d2f1b3d164bf5a443f6ba90e57f39d28a35f1b9185",
+      "title": [
+        "Sarcoma322"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: Y",
+        "stk11 mutation: Post IO",
+        "kras mutation status: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: snRNA-seq",
+        "tcr-seq: yes"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ]
+    },
+    {
+      "accession": "GSM7784795",
+      "source_sha256": "45d618f2cd4d45c0fd20f3842c3d5a44c8e3ba57b502e4b03df36718fad32c03",
+      "title": [
+        "Sarcoma559"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Intimal Sarcomas (INS) of the Pulmonary Artery",
+        "patient id: S559",
+        "stk11 mutation: Pre IO",
+        "kras mutation status: Intimal Sarcomas (INS)",
+        "sequencing technique: snRNA-seq",
+        "tcr-seq: yes"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ]
+    },
+    {
+      "accession": "GSM7784796",
+      "source_sha256": "91b887f237b8424093ed639e52711915d08cffb3fb5567ad320bd5246d386b84",
+      "title": [
+        "Sarcoma708"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: S708",
+        "stk11 mutation: Pre IO",
+        "kras mutation status: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: snRNA-seq",
+        "tcr-seq: yes"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ]
+    },
+    {
+      "accession": "GSM7784797",
+      "source_sha256": "597f215628caf7c765b98368f456e199c509e0f5f23281ce6a990f55a87ce5dc",
+      "title": [
+        "SarcomaS408"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: S408",
+        "stk11 mutation: Post tx",
+        "kras mutation status: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: snRNA-seq",
+        "tcr-seq: no"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ]
+    },
+    {
+      "accession": "GSM7784798",
+      "source_sha256": "aae3dd56b20911e6f06ee38ffecbacb61af67576f1a7baa06f199fe79a02212e",
+      "title": [
+        "SarcomaS410"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Intimal Sarcomas (INS) of the Pulmonary Artery",
+        "patient id: X",
+        "stk11 mutation: Post IO",
+        "kras mutation status: Intimal Sarcomas (INS)",
+        "sequencing technique: snRNA-seq",
+        "tcr-seq: no"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ]
+    },
+    {
+      "accession": "GSM7784799",
+      "source_sha256": "0b3cd6c63d264d10243f3551f3ea5d85cf22ff12c3a1d80f51944852d23ff773",
+      "title": [
+        "SarcomaS914"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: Y",
+        "stk11 mutation: Pre IO",
+        "kras mutation status: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: snRNA-seq",
+        "tcr-seq: yes"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ]
+    },
+    {
+      "accession": "GSM7784800",
+      "source_sha256": "0af8076ccfc58f1cefc3d4023a3a3fe53d6b72b5f3a35e48fd2cedc845c689ac",
+      "title": [
+        "SarcomaS956"
+      ],
+      "source_name_ch1": [
+        "Sarcoma"
+      ],
+      "characteristics_ch1": [
+        "metastatic site: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "patient id: S956",
+        "stk11 mutation: Post IO",
+        "kras mutation status: Undifferentiated Polymorphic Sarcoma (UPS)",
+        "sequencing technique: snRNA-seq",
+        "tcr-seq: no"
+      ],
+      "library_strategy": [
+        "RNA-Seq"
+      ]
+    }
+  ],
+  "named_original_source_hashes_checked": 21,
+  "named_original_source_receipts": [
+    {
+      "id": "GSM7784763",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784763&targ=self&form=text&view=full",
+      "path": "sources/GSM7784763.json",
+      "sha256": "1076a42430a20b5f14f6aa06d05f5d3e3a3e7aabf34682afd7fe8013a13161e3",
+      "bytes": 3557
+    },
+    {
+      "id": "GSM7784764",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784764&targ=self&form=text&view=full",
+      "path": "sources/GSM7784764.json",
+      "sha256": "04a5e2b14dde2286f9206b5e41fe6aeafc9edf0d2b0d7586ea88eb0c1796e746",
+      "bytes": 3574
+    },
+    {
+      "id": "GSM7784765",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784765&targ=self&form=text&view=full",
+      "path": "sources/GSM7784765.json",
+      "sha256": "e70e83a245bbd9262d022a064ba7fea7304c845174c60e77a5b030e41d60c80a",
+      "bytes": 3560
+    },
+    {
+      "id": "GSM7784766",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784766&targ=self&form=text&view=full",
+      "path": "sources/GSM7784766.json",
+      "sha256": "c1c390a738adba0d7ee57a4bd29ba3aa77a9bded56750c0be0b969186b7c5ca1",
+      "bytes": 3576
+    },
+    {
+      "id": "GSM7784767",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784767&targ=self&form=text&view=full",
+      "path": "sources/GSM7784767.json",
+      "sha256": "38958649f1221e1940d13376b58678e1a07ce137c2f040a69645e50842d9ac03",
+      "bytes": 3579
+    },
+    {
+      "id": "GSM7784768",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784768&targ=self&form=text&view=full",
+      "path": "sources/GSM7784768.json",
+      "sha256": "cf95f8885d79c9acd48a1a12d878296d8bd9774ef3a3977b5cc99c57eb18ab30",
+      "bytes": 3560
+    },
+    {
+      "id": "GSM7784769",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784769&targ=self&form=text&view=full",
+      "path": "sources/GSM7784769.json",
+      "sha256": "2f7df47f21cb6d9d362051be565e5bcb4a1562e7a3b743c62568358233dded16",
+      "bytes": 3576
+    },
+    {
+      "id": "GSM7784770",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784770&targ=self&form=text&view=full",
+      "path": "sources/GSM7784770.json",
+      "sha256": "51d38fd16ae4d8c76c73df2631f72da06c937ea1bd67af1eda4b7dfbbb8a4711",
+      "bytes": 3579
+    },
+    {
+      "id": "GSM7784788",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784788&targ=self&form=text&view=full",
+      "path": "sources/GSM7784788.json",
+      "sha256": "70622ba798b9943e52b07f3e7490823e9ada0491f0982dd35cfce40171d909f0",
+      "bytes": 3731
+    },
+    {
+      "id": "GSM7784789",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784789&targ=self&form=text&view=full",
+      "path": "sources/GSM7784789.json",
+      "sha256": "7e538dbd6eb34ed749f0ee821eb684197ad0b7202f4ceaed3b59a571d7364fcd",
+      "bytes": 3748
+    },
+    {
+      "id": "GSM7784790",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784790&targ=self&form=text&view=full",
+      "path": "sources/GSM7784790.json",
+      "sha256": "b1936cbd544f4f400bfa74ce2f45ccd348184e27ca266b0a59dae10169c9f564",
+      "bytes": 3734
+    },
+    {
+      "id": "GSM7784791",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784791&targ=self&form=text&view=full",
+      "path": "sources/GSM7784791.json",
+      "sha256": "cf5a422e28b9b84872cc16f49cd5bfd11f5c0e2493d14e4013f55226c075d239",
+      "bytes": 3750
+    },
+    {
+      "id": "GSM7784792",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784792&targ=self&form=text&view=full",
+      "path": "sources/GSM7784792.json",
+      "sha256": "73f12df07ee28eb144280ceac800ee2bff9a0098cac5bae0ddd6936a36a0d5e8",
+      "bytes": 3752
+    },
+    {
+      "id": "GSM7784793",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784793&targ=self&form=text&view=full",
+      "path": "sources/GSM7784793.json",
+      "sha256": "22535940aa889d8839c797d115f4bf9218e70e25eb2b641063ab0a6efde6c921",
+      "bytes": 4020
+    },
+    {
+      "id": "GSM7784794",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784794&targ=self&form=text&view=full",
+      "path": "sources/GSM7784794.json",
+      "sha256": "a5243ffb40a73566a51762d2f1b3d164bf5a443f6ba90e57f39d28a35f1b9185",
+      "bytes": 4037
+    },
+    {
+      "id": "GSM7784795",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784795&targ=self&form=text&view=full",
+      "path": "sources/GSM7784795.json",
+      "sha256": "45d618f2cd4d45c0fd20f3842c3d5a44c8e3ba57b502e4b03df36718fad32c03",
+      "bytes": 4023
+    },
+    {
+      "id": "GSM7784796",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784796&targ=self&form=text&view=full",
+      "path": "sources/GSM7784796.json",
+      "sha256": "91b887f237b8424093ed639e52711915d08cffb3fb5567ad320bd5246d386b84",
+      "bytes": 4039
+    },
+    {
+      "id": "GSM7784797",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784797&targ=self&form=text&view=full",
+      "path": "sources/GSM7784797.json",
+      "sha256": "597f215628caf7c765b98368f456e199c509e0f5f23281ce6a990f55a87ce5dc",
+      "bytes": 4044
+    },
+    {
+      "id": "GSM7784798",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784798&targ=self&form=text&view=full",
+      "path": "sources/GSM7784798.json",
+      "sha256": "aae3dd56b20911e6f06ee38ffecbacb61af67576f1a7baa06f199fe79a02212e",
+      "bytes": 4025
+    },
+    {
+      "id": "GSM7784799",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784799&targ=self&form=text&view=full",
+      "path": "sources/GSM7784799.json",
+      "sha256": "0b3cd6c63d264d10243f3551f3ea5d85cf22ff12c3a1d80f51944852d23ff773",
+      "bytes": 4041
+    },
+    {
+      "id": "GSM7784800",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM7784800&targ=self&form=text&view=full",
+      "path": "sources/GSM7784800.json",
+      "sha256": "0af8076ccfc58f1cefc3d4023a3a3fe53d6b72b5f3a35e48fd2cedc845c689ac",
+      "bytes": 4044
+    }
+  ],
+  "series_direction": [
+    {
+      "source": "GSE243380-self.txt",
+      "selected_metadata": [
+        "^SERIES = GSE243380",
+        "!Series_title = Profiling of Sarcomas from Archival Tissues [snRNA-Seq]",
+        "!Series_summary = We performed single nuclei RNA-sequencing (snRNA-seq) with matched T cell receptor sequencing (TCR-seq), and pool matched low pass whole genome sequencing (WGS) of eight specimens from six patients, encompassing four undifferentiated polymorphic sarcomas (UPS)  and four intimal sarcomas (INS), and paired specimens from two patients (one UPS and INS each) treated with immune checkpoint blockade (ICB).",
+        "!Series_sample_id = GSM7784793",
+        "!Series_sample_id = GSM7784794",
+        "!Series_sample_id = GSM7784795",
+        "!Series_sample_id = GSM7784796",
+        "!Series_sample_id = GSM7784797",
+        "!Series_sample_id = GSM7784798",
+        "!Series_sample_id = GSM7784799",
+        "!Series_sample_id = GSM7784800",
+        "!Series_relation = SubSeries of: GSE243381",
+        "!Series_relation = BioProject: https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1018225"
+      ]
+    },
+    {
+      "source": "GSE243377-self.txt",
+      "selected_metadata": [
+        "^SERIES = GSE243377",
+        "!Series_title = Profiling of Sarcomas from Archival Tissues [lp-WGS]",
+        "!Series_summary = We performed single nuclei RNA-sequencing (snRNA-seq) with matched T cell receptor sequencing (TCR-seq), and pool matched low pass whole genome sequencing (WGS) of eight specimens from six patients, encompassing four undifferentiated polymorphic sarcomas (UPS)  and four intimal sarcomas (INS), and paired specimens from two patients (one UPS and INS each) treated with immune checkpoint blockade (ICB).",
+        "!Series_sample_id = GSM7784763",
+        "!Series_sample_id = GSM7784764",
+        "!Series_sample_id = GSM7784765",
+        "!Series_sample_id = GSM7784766",
+        "!Series_sample_id = GSM7784767",
+        "!Series_sample_id = GSM7784768",
+        "!Series_sample_id = GSM7784769",
+        "!Series_sample_id = GSM7784770",
+        "!Series_relation = SubSeries of: GSE243381",
+        "!Series_relation = BioProject: https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1018219"
+      ]
+    },
+    {
+      "source": "GSE243379-self.txt",
+      "selected_metadata": [
+        "^SERIES = GSE243379",
+        "!Series_title = Profiling of Sarcomas from Archival Tissues [TCR-Seq]",
+        "!Series_summary = We performed single nuclei RNA-sequencing (snRNA-seq) with matched T cell receptor sequencing (TCR-seq), and pool matched low pass whole genome sequencing (WGS) of eight specimens from six patients, encompassing four undifferentiated polymorphic sarcomas (UPS)  and four intimal sarcomas (INS), and paired specimens from two patients (one UPS and INS each) treated with immune checkpoint blockade (ICB).",
+        "!Series_sample_id = GSM7784788",
+        "!Series_sample_id = GSM7784789",
+        "!Series_sample_id = GSM7784790",
+        "!Series_sample_id = GSM7784791",
+        "!Series_sample_id = GSM7784792",
+        "!Series_relation = SubSeries of: GSE243381",
+        "!Series_relation = BioProject: https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1018224"
+      ]
+    }
+  ],
+  "author_repo_commit": "7f66cf8766f31ff65bbdf92c6d482fe12aa05483",
+  "child_rosters_equal_named_superseries_roster": true,
+  "author_repo_tree_complete": true,
+  "static_fresh_code": [
+    {
+      "source": "fresh-sarc.ipynb",
+      "selected_static_cells": [
+        {
+          "cell": 9,
+          "cell_type": "code",
+          "source": "pat_list = ['Sarcoma167GEX', 'Sarcoma322GEX', 'Sarcoma559GEX',\n              'Sarcoma708GEX', 'SarcomaS408GEX', 'SarcomaS410GEX', \n              'SarcomaS914GEX', 'SarcomaS956GEX' ,'gs001_sarc_scseq', 'gs002_sarc_scseq']\ndoublet_rate = 0.11"
+        }
+      ]
+    },
+    {
+      "source": "quality-table.ipynb",
+      "selected_static_cells": [
+        {
+          "cell": 1,
+          "cell_type": "code",
+          "source": "doublet_rate = 0.11\npat_list <- c('Sarcoma167GEX', 'Sarcoma322GEX', 'Sarcoma559GEX',\n              'Sarcoma708GEX', 'SarcomaS408GEX', 'SarcomaS410GEX', \n              'SarcomaS914GEX', 'SarcomaS956GEX' ,'gs001_sarc_scseq', 'gs002_sarc_scseq')\n\nobject.list <- lapply(pat_list, function (x) readRDS(paste0('data/', x, '/data_', x, '_cb_raw.rds')))\n                      "
+        },
+        {
+          "cell": 10,
+          "cell_type": "code",
+          "source": "seu_filtered.list <- lapply(X = object.list, FUN = function(x) {\n    \n    pat <- Project(x)\n    if (pat != 'gs001_sarc_scseq'& pat != 'gs002_sarc_scseq'){\n        x@meta.data$sample_type = \"frozen\"\n    }\n    else {\n        x@meta.data$sample_type = \"fresh\"\n    }\n    print(pat)\n\n    doublets <- read.table(paste0('data/', pat, '/doublets_', pat, '_raw.txt'), header = T)\n    x@meta.data$predicted_doublets  <- doublets$predicted_doublets\n    x@meta.data$doublet_scores <- doublets$doublet_scores\n\n    # remove intermediate files\n#     system(paste0('rm data/', pat, '/matrix_', pat, '_raw.mtx'))\n#     system(paste0('rm data/', pat, '/doublets_', pat, '_raw.txt'))\n\n    # Subset:\n    #   1. unique genes: between 200 and 7500\n    #   2. gene counts: between 400 and 40000\n    #   3. mitochondrial genes: < 10%\n    #   4. no doublets\n    minFeature <- 300\n    maxFeature <- 7500\n    minCount <- 600\n    maxCount <- 40000\n    maxMT <- 10\n    #x <- subset(x, subset = nFeature_RNA > minFeature & nFeature_RNA < maxFeature & nCount_RNA > minCount &\n                #nCount_RNA < maxCount & percent.mt < maxMT & predicted_doublets == F)\n    \n \n})"
+        },
+        {
+          "cell": 33,
+          "cell_type": "code",
+          "source": "names <- c('Sarc\\n167', 'Sarc\\n322', 'Sarc\\n559',\n              'Sarc\\n708', 'Sarc\\nS408','Sarc\\nS410', \n              'Sarc\\nS914', 'Sarc\\nS956' ,'GS001', 'GS002')\n\npats <- c('Sarcoma167GEX', 'Sarcoma322GEX', 'Sarcoma559GEX',\n              'Sarcoma708GEX', 'SarcomaS408GEX', 'SarcomaS410GEX', \n              'SarcomaS914GEX', 'SarcomaS956GEX' ,'gs001_sarc_scseq', 'gs002_sarc_scseq') \nidkey <- data.frame(\"orig\" =  pats, \"new\" = names)\n\n\nfilt.combined@meta.data$samp.ident.recode <- dplyr::recode(\n  filt.combined$orig.ident,\n  !!!setNames(as.character(names), pats)\n)\nfilt.combined@meta.data\nIdents(object = filt.combined) <- \"samp.ident.recode\""
+        },
+        {
+          "cell": 34,
+          "cell_type": "code",
+          "source": "options(repr.plot.width = 7, repr.plot.height = 5)\nfilt.combined <- subset(x = filt.combined, subset = orig.ident != \"gs002_sarc_scseq\")\ncols = list('#00b6e0','#ff6948','#ff6948','#ff6948','#ff6948','#ff6948','#ff6948','#ff6948','#ff6948')\nVlnPlot(filt.combined, features = c(\"nFeature_RNA\"), pt.size = 0.0, group.by = \"samp.ident.recode\", cols= cols) + \n        NoLegend() + ggtitle(\"Genes Expressed By Cell\")  +  \n     theme(axis.text.x = element_text(angle = 0, hjust=0.5)) +  geom_boxplot(width=0.1, fill=\"white\")"
+        }
+      ]
+    }
+  ],
+  "exact_alias_query_hits": [
+    {
+      "accession": "GSE277706",
+      "title": "An interdisciplinary research pipeline, representing the infant gut environment, to evaluate gut health benefits of early life nutrition ingredients",
+      "summary": "- Background: Optimized diets during the first period of life may be most effective for improving gut and overall health. Here, we set up an interdisciplinary research pipeline to evaluate gut health benefits of early life nutrition ingredients through advanced integration of in vitro and modeling technologies that represent the infant gut environment. - Methods: In our InTESTine platform (TM), biopts of piglet gut tissue (Jejunum or Colon) were exposed (0-6h) to various infant/piglet-formula-milk based food matrices (-/+ prebiotics; -/+ predigestion by infant/piglet fecal microbiome). RNA expression of the piglet gut tissue biopts was measured by RNAseq. - Results: To be published in various papers. - Conclusion: To be published in various papers.",
+      "taxon": "Sus scrofa domesticus",
+      "entrytype": "GSE",
+      "gse": "277706"
+    },
+    {
+      "accession": "GSM8527975",
+      "title": "J.2FL.0.0.6h.gs002",
+      "summary": "jejunum",
+      "taxon": "Sus scrofa domesticus",
+      "entrytype": "GSM",
+      "gse": "277706"
+    },
+    {
+      "accession": "GSM8527955",
+      "title": "J.0.0.0.6h.gs001",
+      "summary": "jejunum",
+      "taxon": "Sus scrofa domesticus",
+      "entrytype": "GSM",
+      "gse": "277706"
+    }
+  ],
+  "alias_query_limit": "Three piglet gut records are unrelated name collisions; no diagnosis can transfer from GS001/GS002. The indexed query and absent exact underscore aliases do not prove universal data absence.",
+  "project_query_limit": "Owner queries contain PRJNA1018225 and PRJNA1018223 only; returned0 with PhraseNotFound. Index results do not authenticate absence or cover every child BioProject.",
+  "disposition": "GS001 diagnosis/deposit unresolved; GS002 static code alias not an authenticated second donor. No eligible EMC compartment measurement established in this bounded source gate."
+}
