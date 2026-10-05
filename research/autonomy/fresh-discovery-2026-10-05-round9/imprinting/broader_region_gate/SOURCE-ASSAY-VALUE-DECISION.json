@@ -1,0 +1,183 @@
+{
+  "utc": "2026-10-05T11:29:24.903066+00:00",
+  "schema": "emc-r9-broader-human-region-source-value-gate/1",
+  "original_freeze_unchanged": "180b23ffe01bd11189abd862d658e12a50f11d161d6fa932522da54d342d453c",
+  "prospective_PLAN_sha256": "55d5eff0ca8c94fe0f523e3fc6144fc18ea4143a0e8459fbcd193c04da32a0b4",
+  "scope": "12minute bounded primary source/assay applicability followthrough; source retrieval and candidate geometry stopped after approximately12minutes; final documentation only thereafter. No disease methylation numerical values.",
+  "primary_sources": [
+    {
+      "PMCID": "PMC3493531",
+      "DOI": "10.1371/journal.pone.0049462",
+      "status": "evaluated human regional assay definitions andTableS5 primers",
+      "context": "Primary human pairedHCC/adjacentliver plus cell-line measurements with independent allele-expression analysis by originalauthors. Explicitly TWOIG-DMRs approximately14kb upstream ofMEG3 plus three MEG3-DMR assays. These are independent primary region/assay evidence, not anEMC observation.",
+      "assembly": "No guessed printed-genome lift. Published bisulfite sequences mapped locally to exact officialhg38reference under declared conversion normalization.",
+      "validated_candidate_geometry": "HCCIG1chr14:100809340\u2013100809436;IG2chr14:100811069\u20131008111610based halfopen. Both paired primers uniquely match within retrieved75kb. These candidate amplicon envelopes do not define entire functional CGI boundaries."
+    },
+    {
+      "PMCID": "PMC5008286",
+      "DOI": "10.18632/oncotarget.6965",
+      "status": "evaluated exact humanOS bisulfite assayTableS2",
+      "context": "Human normalbone/OS and age/site/context effects, with twoIG-DMRs and oneMEG3DMR. Mouse experiments separate, never imported as human bounds.",
+      "candidate_geometry": "IG1outerPCRpair100809302\u2013100809439; IG2outerF100810847\u2013100810876maps, outerR has no exact converted-reference placement. InnerRmaps100811130\u2013100811155; a hybrid outerF/innerR envelope is not accepted. Published innerF has universal-tail/context issue and was not authenticated as genomic segment; no mismatch rescue.",
+      "limits": "Primary figure-levelCGI/controlregion coverage outside exact paired assay remains pending; no imagebrowser/rendering permitted or used. Source authors already published other-sarcoma regional state/age/outcomes\u2014not newEMCpriorfindings."
+    },
+    {
+      "PMCID": "PMC9798676",
+      "DOI": "10.1186/s13148-022-01410-8",
+      "status": "evaluated human namedIG-DMR methylationPCRTableSD5",
+      "context": "Urine-derived/reprogrammed humaniPSCs, culturemedia/oxygen/passages/chondrogenicdifferentiation effects. Supports culture/history concern, not nativeEMCcontrol.",
+      "candidate_geometry": {
+        "start": 100809288,
+        "end": 100809455
+      },
+      "limits": "Allele-specific methylation probePCR endpoint cannot be inferred from an arraybeta; no iPSC-nativeEMC equivalence or protein/miRNA claim."
+    },
+    {
+      "PMCID": "PMC2579639",
+      "DOI": "10.1210/jc.2007-2633",
+      "status": "pending accessible primary regional analysis",
+      "reason": "OrdinaryEPMCprimaryXML500; no unchangedretry or bypass. Bibliographic humanpituitaryIG-DMR evidence not technical absence or fully evaluated regional assay."
+    }
+  ],
+  "actual_assay_check": "Full row-aligned HM450486427/EPIC866553 annotations contain zero probes in all four complete independently defined candidate bisulfite-PCR envelopes above. This covers exact candidate assays only. Neither biologicalDMRboundaries nor all possible public assays are exhausted.",
+  "favorable_unresolved_evidence": "BroaderIG2 genuinely exists. TwoEPICprobes cg27281850at100810948/mapQ15 andcg06442344at100810966/mapQ11 lie near/within a possible broaderCGI context, outside the fully authenticated HCCIG2 envelope. They are not accepted as validatedIG-DMR measures or dismissed as absent. Complete sourcefunctional-boundary, genome-wide specificity/SNP/cross-reactivity masking and platform assay validity remain pending. HM450no equivalent probes in these documented paired candidates; nineof10referenceEMC areHM450, oneEPIC plus oneCase21EPICwith sourcebindinglimitation.",
+  "value_gate": "No current reliable shared all10referenceEMCIG+somaticDMR assay and no independently authenticated nativeEMCIGreplication. A nearbyEPICpair alone in one referenceEMC and knownCase21 does not establish a useful comparable regional disease-state measurement across source/slide/purity/site/lineage. All10EMC+62potential primaryFFPEcontrols andCase21/validation54/ambiguouscases remain in original coverage, unchanged; numerical arrays stay accessibleunevaluated. Missingage alone is not disproof; actual assay/independent useful comparator limits determine current route decision.",
+  "decision": "SHELVE current exact shared-array assay routes; broader human functionalCGI/IG-DMR routes and actual long-read regionalEMCmeasurements remainPENDING. Original broader scientific question open, not impossible/not methylationnegative.",
+  "reopening": "Authenticate exact primaryhumanfunctionalIGregion/measurement including probe specificity and source conditions, actual all-eligibleEMC/appropriate nativecomparators and independent replication, freeze one new useful regulatory-measurement contrast beforevalues; lead finite stage before larger source. Do not widen regions to obtain favorable data or infer imprinting/miRNA/causality.",
+  "source_geometry_limits": "Candidate converted-primer envelopes do not establish whole functional CGI/DMR boundaries. Methylation-specific probe CpG sites were not treated as allele or regional output. Unmapped/multi-placed primers prevent envelope acceptance; no hybrid outer/inner PCR-round envelope.",
+  "sources": [
+    {
+      "path": "../sources/PMC3493531.xml",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/PMC3493531.xml",
+      "sha256": "1450ef3eedfce2fbdf65b72b85735b234cf3963b54a655c27f0145065ce5a714",
+      "bytes": 120801,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/PMC9798676.xml",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/PMC9798676.xml",
+      "sha256": "e58f0054bddb04703496b23e23640b0c62a24f11193931f7a868591cce66a974",
+      "bytes": 116326,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/PMC5008286.xml",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/PMC5008286.xml",
+      "sha256": "f769084a1112113151935a2556e12f210a2502a60b139078424aa326c55ee512",
+      "bytes": 129166,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/PMC3493531-broader-supp.zip",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/PMC3493531-broader-supp.zip",
+      "sha256": "7ae4c599ed4a0623164d837e58520cc71a16d509b34c19bb7bb9128a528e0681",
+      "bytes": 6951982,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/PMC9798676-broader-supp.zip",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/PMC9798676-broader-supp.zip",
+      "sha256": "0e07d021aadfa1965470dc3a67735a9acd53fc02f583348a70cef1a0c790002b",
+      "bytes": 2863279,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/PMC5008286-broader-supp.zip",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/PMC5008286-broader-supp.zip",
+      "sha256": "acd458c5651e52336444204ce6c5366a129919d5fab2dc1fd7ee198bb29a2abb",
+      "bytes": 1282052,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/HCC_DMR_primers.doc",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/HCC_DMR_primers.doc",
+      "sha256": "0065d256c7ca167560a265e8f44733d1c2a7aa943538b27ddcdd3dc03a626fa7",
+      "bytes": 50176,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/human_iPSC_ASMM_primers.xlsx",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/human_iPSC_ASMM_primers.xlsx",
+      "sha256": "6adb60fd0334c9457acd4078530f70052b0707e454b1ca1ba8a582f75ed4f052",
+      "bytes": 14665,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/OS_DMR_supp.pdf",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/OS_DMR_supp.pdf",
+      "sha256": "b236a240ba8e166b31117c748e2e5e6fbbdff88a52dfd703967a69de2ac4d75a",
+      "bytes": 1051738,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/OS_DMR_supp.txt",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/OS_DMR_supp.txt",
+      "sha256": "d26232a92a93a274233ec14dc447db3ecdbc2f4975b928d77a9e566b40f627a8",
+      "bytes": 22052,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/chr14_hg38_DMR_reference.json",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/chr14_hg38_DMR_reference.json",
+      "sha256": "057f5f238be4f0b04d6c8979da3d5689e25f8654958617814d1e3dc641304640",
+      "bytes": 75161,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/HM450.hg38.coord.tsv.gz",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/HM450.hg38.coord.tsv.gz",
+      "sha256": "bedd968a41a2f287e18d94c86f34d46fd640086bd3c43639bd0a878ea64f3a40",
+      "bytes": 3064215,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/EPIC.hg38.coord.tsv.gz",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/EPIC.hg38.coord.tsv.gz",
+      "sha256": "08904e7dd06f0df739951eec6b672723021f2a25d704ead436145eff650703e7",
+      "bytes": 5505138,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/HM450.ordering.tsv.gz",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/HM450.ordering.tsv.gz",
+      "sha256": "e5106a34e970f61b36fc70661239c4a1176c816f13af6a5dde61db9b2af9ae44",
+      "bytes": 4583238,
+      "cache_only": true
+    },
+    {
+      "path": "../sources/EPIC.ordering.tsv.gz",
+      "local_cache": "/workspace/emc-r6-challenge/research/autonomy/fresh-discovery-2026-10-05-round9/imprinting/sources/EPIC.ordering.tsv.gz",
+      "sha256": "a55f9587ec0228406bb731a56bebb54bbde7f898d53c2afcfdd50b1b3e950d01",
+      "bytes": 7756709,
+      "cache_only": true
+    }
+  ],
+  "archive_transforms": [
+    {
+      "archive": "../sources/PMC3493531-broader-supp.zip",
+      "member": "pone.0049462.s005.doc",
+      "derived": "../sources/HCC_DMR_primers.doc",
+      "transform": "BinaryLatin1 embedded Word table strings; explicit namedPyrosequencing row context/F/R labels read; no installed Wordconverter or images used.",
+      "member_bytes_verified": true
+    },
+    {
+      "archive": "../sources/PMC9798676-broader-supp.zip",
+      "member": "13148_2022_1410_MOESM5_ESM.xlsx",
+      "derived": "../sources/human_iPSC_ASMM_primers.xlsx",
+      "transform": "Stdlib zip+XML sharedStrings/sheet cell values for named14q32MEG3/DLK1:IG-DMR methylationPCR only.",
+      "member_bytes_verified": true
+    },
+    {
+      "archive": "../sources/PMC5008286-broader-supp.zip",
+      "member": "oncotarget-07-21298-s001.pdf",
+      "derived": "../sources/OS_DMR_supp.pdf",
+      "transform": "Exact retained archive member, pdftotext -layout toOS_DMR_supp.txt; no image rendering or browser. TextTableS2 primers only, no EMC values.",
+      "member_bytes_verified": true
+    }
+  ],
+  "restrictions": "QuietAPI/files/no rendering; no restricted structural/fusion mechanisms/HLA/FAP/glycan task content, spend/GPU/outreach/publication. No5GBmatrix stage.",
+  "retained_new_raw_bytes": 41597771,
+  "free_bytes": 27236917248,
+  "minimum_free_bytes": 10737418240,
+  "softcap_bytes": 67108864
+}
