@@ -1,0 +1,29 @@
+{
+  "utc": "2026-10-05T11:01:05.230275+00:00",
+  "cache_only": "sources/ ignored, complete original papers/searchcatalogues/annotations never Git; preserve current cache",
+  "source_urls_hashes": "Individual retrieval receipts plus ASSAY-GATE all-source byte/SHA256 map",
+  "supplement_recovery": {
+    "archive": "sources/PMC3038880-supp.zip",
+    "member": "1756-8935-4-1-S1.PDF",
+    "pdf": "sources/human_imprint_DMR_suppS1.pdf",
+    "text": "sources/human_imprint_DMR_suppS1.txt",
+    "transform": "pdftotext -layout original.pdf output.txt; no rendering/browser",
+    "actual_member_hash_matches_pdf": true
+  },
+  "annotation_alignment": "Official captured index explicitly row-aligns coherent files to manufacturer ordering and defines CpG_beg as0based. All gzip rows/counts/uniqueIDs checked. Exact source hashes required on replay, not equivalent path/branch name.",
+  "replay": "python analyze_assay.py --output NEW-OWNED-OUTPUT.json; use original source cache, compare content ignoring UTC; source re-download may change and requires hash/version comparison, not silent rebinding.",
+  "reuse": "REUSED-BINDINGS.json exact Git bytes from08de5ae9631624052fa32ae9ee6567394bc4d80d; no cached raw copies of reused evidence",
+  "normal_gate": "Parent integrating lead owns full normal preflight; sparse worker has not claimed it passed",
+  "checks": {
+    "source_receipts": 18,
+    "source_hashes": 20,
+    "primers": 6,
+    "HM450_rows": 486427,
+    "EPIC_rows": 866553,
+    "all_EMC": 10,
+    "all_controls": 62,
+    "raw_bytes": 28831951,
+    "free_bytes": 27349798912,
+    "errors": []
+  }
+}

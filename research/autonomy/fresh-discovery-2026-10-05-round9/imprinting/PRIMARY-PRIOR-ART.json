@@ -1,0 +1,41 @@
+{
+  "utc": "2026-10-05T10:59:32.709134+00:00",
+  "sources": [
+    {
+      "PMCID": "PMC3038880",
+      "DOI": "10.1186/1756-8935-4-1",
+      "status": "evaluated original assay and supplementary primer/coordinate tables",
+      "findings": "Human quantitative pyroseq50assays,8adult tissues,50blood donors and8normal/cancer lines: germline and paternal somaticDMRs broadly35\u201365% stable across adult tissues despite expression; culture instability. Supports regional DNAm plausibility, not array beta normal range or allelic-output inference.",
+      "limits": "S1 genomic sequence positions/main table/S3 assay-coordinate discrepancy retained; primary sequences mapped, no assumed oldassembly lift. Arrays cover six MEG3-envelope probes but not this IG-envelope."
+    },
+    {
+      "PMCID": "PMC5008286",
+      "DOI": "10.18632/oncotarget.6965",
+      "status": "evaluated original osteosarcoma regional methylation evidence",
+      "findings": "Human3DMRs in8normalbones/32OS; regional methylation and age-dependent patterns, matched output and imprinted/global controls. Published other-sarcoma14qstate findings are prior art, not EMC evidence.",
+      "limits": "Cannot relabel array mean deviation as loss of imprinting or miRNA output. Normal range not universal0.5; age/tissue/culture effects and regional differences matter."
+    },
+    {
+      "PMCID": "PMC5433149",
+      "DOI": "10.1186/s13045-017-0465-4",
+      "status": "evaluated original multi-cohort osteosarcoma14q32 study",
+      "findings": "19OSlines27K and TARGET80clinical450K, multiple cohorts with measured miRNAs. Opposite probe association directions inside/outside functional MEG3 regions;27K lacksIG coverage.",
+      "limits": "No EMC assay; whole-locus averaging and methylation-to-miRNA interpretation unsupported without measured matched outputs."
+    },
+    {
+      "PMCID": "PMC11201930",
+      "DOI": "10.3390/cells13121001",
+      "status": "evaluated original thyroid-cell-line regional methylation study",
+      "findings": "EPIC regional MEG3 hypermethylation amid widerDLK1-DIO3 hypomethylation illustrates averaging problem.",
+      "limits": "Cultured thyroid lines and perturbations are not primary EMC controls; no evidence of EMC regulatory state."
+    }
+  ],
+  "novelty_decision": "A useful EMC-specific regional state is not established or excluded. Assay/locus mapping defeats original joint array contrast before disease values. Narrowing to available somatic probes would not automatically create a useful new claim; lineage, purity and batch alternatives and lack of independent regional EMC assay remain unresolved.",
+  "forbidden_inferences": [
+    "Bulk beta does not establish allelic imprinting/LOI",
+    "No inferred mature-miRNA abundance/transcription",
+    "No regulatory causality",
+    "No lineage invented from clustering",
+    "No missing measurements as zero"
+  ]
+}

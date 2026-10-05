@@ -1,0 +1,60 @@
+[
+  {
+    "name": "emc_locus.json",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22extraskeletal+myxoid+chondrosarcoma%22+OR+%22extra-skeletal+myxoid+chondrosarcoma%22%29+AND+%28DLK1+OR+DIO3+OR+MEG3+OR+%2214q32%22+OR+imprint%2A+OR+methylat%2A%29&format=json&resultType=core&pageSize=1000",
+    "method": "GET",
+    "utc": "2026-10-05T10:40:11.667078+00:00",
+    "cap": 4194304,
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22extraskeletal+myxoid+chondrosarcoma%22+OR+%22extra-skeletal+myxoid+chondrosarcoma%22%29+AND+%28DLK1+OR+DIO3+OR+MEG3+OR+%2214q32%22+OR+imprint%2A+OR+methylat%2A%29&format=json&resultType=core&pageSize=1000",
+    "headers": {
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "bytes": 1443226,
+    "sha256": "dddddb5cdbf86050486d2df328730b230d311d13a9598a66da3be4135c3aaa7d",
+    "path": "sources/emc_locus.json"
+  },
+  {
+    "name": "sarcoma_locus.json",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28sarcoma+OR+chondrosarcoma%29+AND+%28%22DLK1-DIO3%22+OR+%22DLK1+DIO3%22+OR+%22MEG3-DMR%22+OR+%22IG-DMR%22%29&format=json&resultType=core&pageSize=1000",
+    "method": "GET",
+    "utc": "2026-10-05T10:40:11.669622+00:00",
+    "cap": 4194304,
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28sarcoma+OR+chondrosarcoma%29+AND+%28%22DLK1-DIO3%22+OR+%22DLK1+DIO3%22+OR+%22MEG3-DMR%22+OR+%22IG-DMR%22%29&format=json&resultType=core&pageSize=1000",
+    "headers": {
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "bytes": 576357,
+    "sha256": "016cd3a70958c6acb6751da2cb42d056db79e52477de27270b0c6ebfa731bd2d",
+    "path": "sources/sarcoma_locus.json"
+  },
+  {
+    "name": "human_dmr.json",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22IG-DMR%22+OR+%22MEG3-DMR%22%29+AND+%28human+OR+chromosome%29+AND+%28%22450K%22+OR+Infinium+OR+coordinate%2A+OR+%2214q32%22%29&format=json&resultType=core&pageSize=1000",
+    "method": "GET",
+    "utc": "2026-10-05T10:40:11.670274+00:00",
+    "cap": 4194304,
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28%22IG-DMR%22+OR+%22MEG3-DMR%22%29+AND+%28human+OR+chromosome%29+AND+%28%22450K%22+OR+Infinium+OR+coordinate%2A+OR+%2214q32%22%29&format=json&resultType=core&pageSize=1000",
+    "headers": {
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "bytes": 3380035,
+    "sha256": "f784c456ef46932c5cbfe1107da1ed1afc5c96e9f29e3ceced8b618b4bd55524",
+    "path": "sources/human_dmr.json"
+  },
+  {
+    "name": "sarcoma_imprinting.json",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=sarcoma+AND+%28MEG3+OR+%2214q32%22%29+AND+%28methylat%2A+OR+imprint%2A%29&format=json&resultType=core&pageSize=1000",
+    "method": "GET",
+    "utc": "2026-10-05T10:40:11.670817+00:00",
+    "cap": 4194304,
+    "status": "oversize_pending",
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=sarcoma+AND+%28MEG3+OR+%2214q32%22%29+AND+%28methylat%2A+OR+imprint%2A%29&format=json&resultType=core&pageSize=1000",
+    "headers": {
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "bytes_observed_at_least": 4194305
+  }
+]

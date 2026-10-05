@@ -1,0 +1,344 @@
+{
+  "schema": "emc-r9-value-masked-DMR-assay-gate/1",
+  "utc": "2026-10-05T10:57:22.478364+00:00",
+  "human_primary": "PMC3038880 Supplementary Table1 genomic sequences",
+  "reference": {
+    "genome": "hg38",
+    "chrom": "chr14",
+    "start": 100790000,
+    "end": 100865000
+  },
+  "intervals": {
+    "IG-DMR": {
+      "chr": "chr14",
+      "start": 100809337,
+      "end": 100809645,
+      "primers": [
+        {
+          "start": 100809337,
+          "end": 100809363,
+          "orientation": "direct",
+          "sequence": "CCTACCACTGAACTGGGTTTGCCAGT"
+        },
+        {
+          "start": 100809621,
+          "end": 100809645,
+          "orientation": "direct",
+          "sequence": "CTGAAATTCTGCAGTAGGAATTGC"
+        }
+      ],
+      "definition": "Envelope of uniquely mapped original genomic F/R sequences, 0-based half-open; not the entire biological DMR or a PCR design."
+    },
+    "MEG3-US": {
+      "chr": "chr14",
+      "start": 100824114,
+      "end": 100824611,
+      "primers": [
+        {
+          "start": 100824114,
+          "end": 100824144,
+          "orientation": "direct",
+          "sequence": "GGAGCATCCCACCTGAGGCCTGGGGCTCCC"
+        },
+        {
+          "start": 100824581,
+          "end": 100824611,
+          "orientation": "direct",
+          "sequence": "GCAAGCTCCACAGGCTGTAAAGGGGGTGTT"
+        }
+      ],
+      "definition": "Envelope of uniquely mapped original genomic F/R sequences, 0-based half-open; not the entire biological DMR or a PCR design."
+    },
+    "MEG3-promoter": {
+      "chr": "chr14",
+      "start": 100825619,
+      "end": 100825858,
+      "primers": [
+        {
+          "start": 100825826,
+          "end": 100825858,
+          "orientation": "reverse_complement",
+          "sequence": "GCCAGGCAGGGTGAATTCAGGCACAATGTGTG"
+        },
+        {
+          "start": 100825619,
+          "end": 100825651,
+          "orientation": "reverse_complement",
+          "sequence": "AACTGGTTCCCAGATGTAAGCCAGAGGCTGTC"
+        }
+      ],
+      "definition": "Envelope of uniquely mapped original genomic F/R sequences, 0-based half-open; not the entire biological DMR or a PCR design."
+    }
+  },
+  "platforms": {
+    "HM450": {
+      "ordering_rows": 486427,
+      "coordinate_rows": 486427,
+      "region_probes": {
+        "IG-DMR": [],
+        "MEG3-US": [
+          {
+            "Probe_ID": "cg00764369",
+            "position": 100824218,
+            "strand": "+",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg10515315",
+            "position": 100824379,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg15991553",
+            "position": 100824529,
+            "strand": "-",
+            "mapQ": 60
+          }
+        ],
+        "MEG3-promoter": [
+          {
+            "Probe_ID": "cg04304932",
+            "position": 100825790,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg04576764",
+            "position": 100825811,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg12967319",
+            "position": 100825659,
+            "strand": "+",
+            "mapQ": 60
+          }
+        ]
+      },
+      "nearest_IG_probes": [
+        {
+          "Probe_ID": "cg04195941",
+          "position": 100804479,
+          "distance_to_envelope_midpoint": 5012,
+          "mapQ": 60
+        },
+        {
+          "Probe_ID": "cg11110759",
+          "position": 100816345,
+          "distance_to_envelope_midpoint": 6854,
+          "mapQ": 60
+        },
+        {
+          "Probe_ID": "cg12197579",
+          "position": 100821338,
+          "distance_to_envelope_midpoint": 11847,
+          "mapQ": 60
+        },
+        {
+          "Probe_ID": "cg13551098",
+          "position": 100823132,
+          "distance_to_envelope_midpoint": 13641,
+          "mapQ": 60
+        },
+        {
+          "Probe_ID": "cg13709211",
+          "position": 100823857,
+          "distance_to_envelope_midpoint": 14366,
+          "mapQ": 60
+        }
+      ]
+    },
+    "EPIC": {
+      "ordering_rows": 866553,
+      "coordinate_rows": 866553,
+      "region_probes": {
+        "IG-DMR": [],
+        "MEG3-US": [
+          {
+            "Probe_ID": "cg00764369",
+            "position": 100824218,
+            "strand": "+",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg10515315",
+            "position": 100824379,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg15991553",
+            "position": 100824529,
+            "strand": "-",
+            "mapQ": 60
+          }
+        ],
+        "MEG3-promoter": [
+          {
+            "Probe_ID": "cg04304932",
+            "position": 100825790,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg04576764",
+            "position": 100825811,
+            "strand": "-",
+            "mapQ": 60
+          },
+          {
+            "Probe_ID": "cg12967319",
+            "position": 100825659,
+            "strand": "+",
+            "mapQ": 60
+          }
+        ]
+      },
+      "nearest_IG_probes": [
+        {
+          "Probe_ID": "cg27281850",
+          "position": 100810948,
+          "distance_to_envelope_midpoint": 1457,
+          "mapQ": 15
+        },
+        {
+          "Probe_ID": "cg06442344",
+          "position": 100810966,
+          "distance_to_envelope_midpoint": 1475,
+          "mapQ": 11
+        },
+        {
+          "Probe_ID": "cg11849493",
+          "position": 100812671,
+          "distance_to_envelope_midpoint": 3180,
+          "mapQ": 8
+        },
+        {
+          "Probe_ID": "cg04195941",
+          "position": 100804479,
+          "distance_to_envelope_midpoint": 5012,
+          "mapQ": 60
+        },
+        {
+          "Probe_ID": "cg16814322",
+          "position": 100814712,
+          "distance_to_envelope_midpoint": 5221,
+          "mapQ": 60
+        }
+      ]
+    }
+  },
+  "mapping_limits": [
+    "Uniqueness is established within the retrieved 75kb chr14 reference segment, not by genome-wide primer specificity testing.",
+    "Original printed location, main table and assay-coordinate table disagree for IG-DMR; no guessed assembly or outcome-dependent coordinate extension is used.",
+    "Zero probes concerns this exact primary-sequence envelope. It is not absence of probes from the whole locus or absence of EMC methylation.",
+    "Nearby EPIC probes outside the envelope cannot replace it without a new primary-supported assay contract; mapQ is reported rather than treated as full probe-quality authentication.",
+    "MEG3 probes have position/sequence checks, but SNP/cross-reactivity masks, preprocessing portability and biological values were not evaluated after the joint gate failed."
+  ],
+  "all_sources": {
+    "sources/EPIC.hg38.coord.tsv.gz": {
+      "sha256": "08904e7dd06f0df739951eec6b672723021f2a25d704ead436145eff650703e7",
+      "bytes": 5505138,
+      "cache_only": true
+    },
+    "sources/EPIC.ordering.tsv.gz": {
+      "sha256": "a55f9587ec0228406bb731a56bebb54bbde7f898d53c2afcfdd50b1b3e950d01",
+      "bytes": 7756709,
+      "cache_only": true
+    },
+    "sources/HM450.hg38.coord.tsv.gz": {
+      "sha256": "bedd968a41a2f287e18d94c86f34d46fd640086bd3c43639bd0a878ea64f3a40",
+      "bytes": 3064215,
+      "cache_only": true
+    },
+    "sources/HM450.ordering.tsv.gz": {
+      "sha256": "e5106a34e970f61b36fc70661239c4a1176c816f13af6a5dde61db9b2af9ae44",
+      "bytes": 4583238,
+      "cache_only": true
+    },
+    "sources/PMC11201930.xml": {
+      "sha256": "dfb975073efb0eca17a574a1fb5d458331c81231c3e3e572b1261b1159401d09",
+      "bytes": 96369,
+      "cache_only": true
+    },
+    "sources/PMC3038880-supp.zip": {
+      "sha256": "f956f3aa2d48105cdf2701c67b664322bfb61396231240650d4d1ab2d03ec781",
+      "bytes": 709348,
+      "cache_only": true
+    },
+    "sources/PMC3038880.xml": {
+      "sha256": "eb3f5b7e78708cc52ecf7d6c019c444ce99b0072d267e6e14bdc99a83a86f957",
+      "bytes": 142091,
+      "cache_only": true
+    },
+    "sources/PMC5008286.xml": {
+      "sha256": "f769084a1112113151935a2556e12f210a2502a60b139078424aa326c55ee512",
+      "bytes": 129166,
+      "cache_only": true
+    },
+    "sources/PMC5433149.xml": {
+      "sha256": "c0ac98df078d61b6325808c642dea8a649d90bfd77926e1d23522c18935609b4",
+      "bytes": 194053,
+      "cache_only": true
+    },
+    "sources/annotation_hg19_legacy.html": {
+      "sha256": "c662367d2862c2e5a29945c503a316089a14da3f4667b5c48e2eb61d404f924e",
+      "bytes": 11848,
+      "cache_only": true
+    },
+    "sources/chr14_hg38_DMR_reference.json": {
+      "sha256": "057f5f238be4f0b04d6c8979da3d5689e25f8654958617814d1e3dc641304640",
+      "bytes": 75161,
+      "cache_only": true
+    },
+    "sources/emc_locus.json": {
+      "sha256": "dddddb5cdbf86050486d2df328730b230d311d13a9598a66da3be4135c3aaa7d",
+      "bytes": 1443226,
+      "cache_only": true
+    },
+    "sources/emc_locus_titleabstract.json": {
+      "sha256": "5b32d3279aa991039054ab35df0fde4e397536ed432b7e3c0ffc6ed79ea58a0c",
+      "bytes": 328,
+      "cache_only": true
+    },
+    "sources/human_dmr.json": {
+      "sha256": "f784c456ef46932c5cbfe1107da1ed1afc5c96e9f29e3ceced8b618b4bd55524",
+      "bytes": 3380035,
+      "cache_only": true
+    },
+    "sources/human_imprint_DMR_suppS1.pdf": {
+      "sha256": "2e5d50c3c1bccf7677922d5e9cdc87f4dc4d2ba6eaf81d2f7bb93bade26e12dd",
+      "bytes": 489018,
+      "cache_only": true
+    },
+    "sources/human_imprint_DMR_suppS1.txt": {
+      "sha256": "2a65abccb7db7fb90714df107ba943c401178f49cbde152ca12750ebd7ce85ee",
+      "bytes": 41365,
+      "cache_only": true
+    },
+    "sources/infinium_annotation.html": {
+      "sha256": "d975e0500ca823044ea7263903f7202d2be65d3b2cca792a63bc7d15f1862c00",
+      "bytes": 32416,
+      "cache_only": true
+    },
+    "sources/infinium_annotation_index.html": {
+      "sha256": "cfd478054d6441c7273f5aba3e31b20fdad42780453d2ec6f3bd44411cf68425",
+      "bytes": 421,
+      "cache_only": true
+    },
+    "sources/sarcoma_imprinting_lite.json": {
+      "sha256": "fbc78c4e8db5e34ac06eeabbf266a0760b80c3685eff645151a27c262771394e",
+      "bytes": 601449,
+      "cache_only": true
+    },
+    "sources/sarcoma_locus.json": {
+      "sha256": "016cd3a70958c6acb6751da2cb42d056db79e52477de27270b0c6ebfa731bd2d",
+      "bytes": 576357,
+      "cache_only": true
+    }
+  },
+  "methylation_values_inspected": false,
+  "decision": "SHELVE original joint IG+MEG3 array contrast; suitable independent regional measurements remain pending."
+}
