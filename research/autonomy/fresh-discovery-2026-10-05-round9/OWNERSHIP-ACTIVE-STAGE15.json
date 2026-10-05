@@ -1,0 +1,82 @@
+{
+  "utc": "2026-10-05T20:16:38.125841+00:00",
+  "owner": "/root/emc-cloud-round9",
+  "actual_slot_limit": 7,
+  "resources": {
+    "emc-round9-imprinting": {
+      "worker_id": "/root/challenge",
+      "reserved_utc": "2026-10-05T10:36:09.811471Z",
+      "status": "independent prospective usefulness/alternative/disproof decision before numerical authorization",
+      "worktree": "/workspace/emc-r6-challenge",
+      "receipt": null
+    },
+    "emc-round9-rna_processing": {
+      "worker_id": "/root/single_cell",
+      "reserved_utc": "2026-10-05T10:36:09.902514Z",
+      "status": "prospective fixed ordinary-RNA hypothesis and original-source plan; no values yet",
+      "worktree": "/workspace/emc-r6-single_cell",
+      "receipt": null
+    },
+    "emc-round9-endocrine": {
+      "worker_id": "/root/radiotherapy",
+      "reserved_utc": "2026-10-05T10:36:09.976228Z",
+      "status": "prospective original array identity/measurement plan; no values yet",
+      "worktree": "/workspace/emc-r6-radiotherapy",
+      "receipt": null
+    },
+    "emc-round9-clinical_measurements": {
+      "worker_id": "/root/fapi_named",
+      "reserved_utc": "2026-10-05T10:36:10.057991Z",
+      "status": "completed archive source follow-through; retained",
+      "worktree": "/workspace/emc-r6-fapi_named",
+      "receipt": null
+    },
+    "emc-round9-functional_new": {
+      "worker_id": "/root/fapi_broader",
+      "reserved_utc": "2026-10-05T10:36:10.147204Z",
+      "status": "reserved for independent original-source extraction only if useful pilot proceeds; waiting, no computation",
+      "worktree": "/workspace/emc-r6-fapi_broader",
+      "receipt": null
+    },
+    "emc-round9-public_resource_omissions": {
+      "worker_id": "/root/diagnostic",
+      "reserved_utc": "2026-10-05T10:36:10.219861Z",
+      "status": "independent relevant evidence and prior-art omission check reusing source decisions",
+      "worktree": "/workspace/emc-r6-diagnostic",
+      "receipt": null
+    }
+  },
+  "assignments": [
+    {
+      "worker": "single_cell",
+      "resource": "emc-round9-rna_processing",
+      "status": "prospective fixed ordinary-RNA hypothesis and original-source plan; no values yet"
+    },
+    {
+      "worker": "radiotherapy",
+      "resource": "emc-round9-endocrine",
+      "status": "prospective original array identity/measurement plan; no values yet"
+    },
+    {
+      "worker": "challenge",
+      "resource": "emc-round9-imprinting",
+      "status": "independent prospective usefulness/alternative/disproof decision before numerical authorization"
+    },
+    {
+      "worker": "diagnostic",
+      "resource": "emc-round9-public_resource_omissions",
+      "status": "independent relevant evidence and prior-art omission check reusing source decisions"
+    },
+    {
+      "worker": "fapi_broader",
+      "resource": "emc-round9-functional_new",
+      "status": "reserved for independent original-source extraction only if useful pilot proceeds; waiting, no computation"
+    },
+    {
+      "worker": "fapi_named",
+      "resource": "emc-round9-clinical_measurements",
+      "status": "completed archive source follow-through; retained"
+    }
+  ],
+  "scope": "Actual assigned or completed scoped tasks. Resources retained; no guessed lease release or false running-process claim."
+}

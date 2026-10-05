@@ -1,0 +1,79 @@
+{
+  "utc": "2026-10-05T19:54:16.212858+00:00",
+  "owner": "/root/emc-cloud-round9",
+  "actual_slot_limit": 7,
+  "active_assignments": [
+    {
+      "worker": "radiotherapy",
+      "resource": "emc-round9-endocrine",
+      "packet": "endocrine/native_quantitative_imaging_question_gate",
+      "status": "active source pilot; published rule exclusions defeat provisional imaging question; no new values",
+      "deadline_utc": "2026-10-05T20:03:50+00:00"
+    },
+    {
+      "worker": "diagnostic",
+      "resource": "emc-round9-public_resource_omissions",
+      "packet": "public_resource_omissions/new_native_nonrna_functional_question_gate",
+      "status": "active new source identity/assay/claim gate; PMID41081835 selected, native evidence not assumed",
+      "deadline_utc": "2026-10-05T20:04:00+00:00"
+    },
+    {
+      "worker": "single_cell",
+      "resource": "emc-round9-rna_processing",
+      "packet": "rna_processing/new_native_proteomic_question_gate",
+      "status": "active new source identity/assay/claim gate; PMID41794909 selected, native evidence not assumed"
+    },
+    {
+      "worker": "challenge",
+      "resource": "emc-round9-imprinting",
+      "packet": "imprinting/fresh_frontier_value_challenge",
+      "status": "prospective protocol prepared; waiting immutable gates, not running calculations",
+      "deadline_hard_cap_utc": "2026-10-05T20:20:00+00:00"
+    }
+  ],
+  "all_retained_resources": {
+    "emc-round9-imprinting": {
+      "worker_id": "/root/challenge",
+      "reserved_utc": "2026-10-05T10:36:09.811471Z",
+      "status": "prospective protocol prepared; waiting immutable gates, not running calculations",
+      "worktree": "/workspace/emc-r6-challenge",
+      "receipt": null
+    },
+    "emc-round9-rna_processing": {
+      "worker_id": "/root/single_cell",
+      "reserved_utc": "2026-10-05T10:36:09.902514Z",
+      "status": "active new source identity/assay/claim gate; PMID41794909 selected, native evidence not assumed",
+      "worktree": "/workspace/emc-r6-single_cell",
+      "receipt": null
+    },
+    "emc-round9-endocrine": {
+      "worker_id": "/root/radiotherapy",
+      "reserved_utc": "2026-10-05T10:36:09.976228Z",
+      "status": "active source pilot; published rule exclusions defeat provisional imaging question; no new values",
+      "worktree": "/workspace/emc-r6-radiotherapy",
+      "receipt": null
+    },
+    "emc-round9-clinical_measurements": {
+      "worker_id": "/root/fapi_named",
+      "reserved_utc": "2026-10-05T10:36:10.057991Z",
+      "status": "completed distinct venetoclax source/value gates retained, awaiting exact main integration",
+      "worktree": "/workspace/emc-r6-fapi_named",
+      "receipt": null
+    },
+    "emc-round9-functional_new": {
+      "worker_id": "/root/fapi_broader",
+      "reserved_utc": "2026-10-05T10:36:10.147204Z",
+      "status": "completed distinct venetoclax source/value gates retained, awaiting exact main integration",
+      "worktree": "/workspace/emc-r6-fapi_broader",
+      "receipt": null
+    },
+    "emc-round9-public_resource_omissions": {
+      "worker_id": "/root/diagnostic",
+      "reserved_utc": "2026-10-05T10:36:10.219861Z",
+      "status": "active new source identity/assay/claim gate; PMID41081835 selected, native evidence not assumed",
+      "worktree": "/workspace/emc-r6-diagnostic",
+      "receipt": null
+    }
+  },
+  "scope": "Three distinct source-backed scientific pilots plus an independent prospective value/omission challenge. Other two completed source/value lanes retained; no fabricated occupancy or running-computation claim. New measurement quantities not yet authorized; scientific goal unmet, search not exhausted."
+}
