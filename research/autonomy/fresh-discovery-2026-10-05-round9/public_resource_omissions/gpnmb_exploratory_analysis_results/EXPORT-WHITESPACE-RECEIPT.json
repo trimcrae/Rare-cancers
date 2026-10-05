@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-05",
+  "verified_at": "2026-10-05T18:46:44.819895+00:00",
+  "kind": "Operational export whitespace correction; no scientific change",
+  "science_commit": "708f1d5e5b1b03fe5da0402214f41113c208ed41",
+  "science_freeze_sha256": "b8caf2621882801d922f47d8ff96259e343b1db026af168e463a1ea2fefec461",
+  "original_check": {
+    "command": "git diff --check HEAD^ HEAD -- [owned results directory]",
+    "exit_code": 2,
+    "warning_count": 283,
+    "scope": "All warnings are trailing empty final fields in MEASUREMENTS.tsv; initial staged check did not pass and the shell continued to the science commit.",
+    "first_warning": "research/autonomy/fresh-discovery-2026-10-05-round9/public_resource_omissions/gpnmb_exploratory_analysis_results/MEASUREMENTS.tsv:2: trailing whitespace."
+  },
+  "tsv_schema": {
+    "columns": 11,
+    "data_rows": 297,
+    "empty_final_missing_reason_fields": 283,
+    "interpretation": "An empty final field is intentional for measured finite cells; its delimiter is a valid trailing tab. The remaining 14 rows retain explicit source-null or unavailable-composite missing reasons."
+  },
+  "additive_attribute": {
+    "path": ".gitattributes",
+    "bytes": 42,
+    "sha256": "d7338d4311ea5770c8004bc26977f3ad50e925d9e148c2d86258bde615837746",
+    "rule": "MEASUREMENTS.tsv whitespace=-blank-at-eol",
+    "scope": "Only this TSV end-of-line empty-field delimiter is exempted; no scientific bytes altered."
+  },
+  "settled_check": {
+    "same_committed_science_range_exit_code": 0,
+    "stdout_bytes": 0,
+    "science_files_unchanged": 18,
+    "measurement_sha256": "ea14de5aab1022a4b99431786e7e054456e87f704592d4e5a6f08636f4775cab"
+  },
+  "no_new_outcome_computation": true,
+  "original_freeze_preserved": true
+}
