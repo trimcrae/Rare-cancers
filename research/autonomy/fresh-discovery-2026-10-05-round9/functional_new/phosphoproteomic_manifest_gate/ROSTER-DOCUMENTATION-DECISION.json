@@ -1,0 +1,41 @@
+{
+  "utc": "2026-10-05T14:05:30.670011+00:00",
+  "original_manifest_sha256": "36a96dea16f024e9b6a7cdfd36ccc4ea63745e7c80ae68a0fc54a7bcaf5f85ed",
+  "source_access_scope": "Exactly2publicauthorrepo files acquired andhashmatched; sourceinspectiononly, noAPIroster calls. Request/inspection stoppedbefore original12minute limit; peer-source review/receiptfinalization separate, no addedsource requests.",
+  "source_fields": {
+    "PatientTable.vue": [
+      "Sample name",
+      "Entity",
+      "Batch_No",
+      "TMT_channel"
+    ],
+    "transport": "PatientTable accepts dataSource prop; no fetch/auth/HTTPmethod shown",
+    "ApiRoutes_class": {
+      "PATIENTS": "/<int:cohort_index>/patients",
+      "PATIENTS_METADATA": "/<int:cohort_index>/metadata",
+      "PATIENTS_METADATA_FIELDS": "/<int:cohort_index>/metadata/fields",
+      "PATIENTS_METADATA_FIELD_VALUES": "/<int:cohort_index>/metadata/fields/<string:fieldname>",
+      "PATIENTS_BY_FIELD_INTEREST": "/<int:cohort_index>/metadata/fields/<string:fieldname>/patients/<string:field_interest>"
+    }
+  },
+  "required_parameters": "Integercohort_index plus literalclinicalfieldname; fieldnamesexist inoriginal19column definitions, e.g.primary_diagnosis. No index/name mapping or acceptedmetadatarequest inferred.",
+  "expected_eligible_mask": [
+    "sample/case identifier",
+    "diagnosis/Entity",
+    "grade",
+    "site/specimen",
+    "year/date",
+    "treatment_type",
+    "batch/TMT_channel",
+    "donor/repeatcondition identifiers ifactuallysource-linked"
+  ],
+  "excluded_fields": "No treatment_outcome/response, kinase/phosphosite/protein numericalcells, HLA/FAP/glycanfields, genomicstructuralmechanisms, credentials/config/admin/token/private routes.",
+  "byte_scope": "Code-only originals7913B, no actualpatientresponse size known; potential publicmetadata stage would needfiniteleadapproved responsecap andsource-field projection proof.",
+  "provenance": "FouractualpublicCPTACnamedcohorts only; not1998 MASTER/CATCH/INFORM. Sharedlabsoftware doesnotestablishsourcecitation oruniqueEMCdonors.",
+  "source_qualification": "These2docs alone donot proveGET/auth/live-deployment orcohortindex mapping/response fieldprojection. Reviewerowns distinct importedhandler documentation, notnewpatientdata. No routeprobed.",
+  "decision": "Documentationroutecandidates recovered; rostereligibility remains pending. APIpatientcall staysOFF until exactpublicreadrole/parameters/projection/genuinecohortmapping andseparatefinite stage authorized. Codeinventory isnotfinding.",
+  "new_source_access_count": 2,
+  "api_patient_calls": 0,
+  "outcome_values_read": 0,
+  "original16exports_unchanged": true
+}
