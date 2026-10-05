@@ -1,0 +1,135 @@
+{
+  "plan_sha256": "57755d9f101659f1dc274ca6726ae3966631eebb445876a76d56df975c544a7a",
+  "screen_denominator": 221,
+  "IC50_denominator": 24,
+  "USZ20_denominator": 40,
+  "NCC_screen_selected": [
+    {
+      "drug": "(S)-crizotinib",
+      "cas": "1374356-45-2",
+      "viability_percent": 10.518404211242393,
+      "sd_percentage_points": 9.058006165744617,
+      "sheet": "Sheet1",
+      "source_row": 4,
+      "descriptive_mean_minus_brigatinib_percentage_points": "0.420028511717996"
+    },
+    {
+      "drug": "Brigatinib (AP26113)",
+      "cas": "1197953-54-0",
+      "viability_percent": 10.098375699524397,
+      "sd_percentage_points": 5.716040181205781,
+      "sheet": "Sheet1",
+      "source_row": 33,
+      "descriptive_mean_minus_brigatinib_percentage_points": "0E-15"
+    },
+    {
+      "drug": "Ceritinib (LDK378)",
+      "cas": "1032900-25-6",
+      "viability_percent": 76.061114148455,
+      "sd_percentage_points": 1.2600855351539835,
+      "sheet": "Sheet1",
+      "source_row": 43,
+      "descriptive_mean_minus_brigatinib_percentage_points": "65.962738448930603"
+    },
+    {
+      "drug": "Ceritinib dihydrochloride",
+      "cas": "1380575-43-8",
+      "viability_percent": 5.405013633805911,
+      "sd_percentage_points": 7.158746808411072,
+      "sheet": "Sheet1",
+      "source_row": 44,
+      "descriptive_mean_minus_brigatinib_percentage_points": "-4.693362065718486"
+    },
+    {
+      "drug": "Crizotinib (PF-02341066)",
+      "cas": "877399-52-5",
+      "viability_percent": -1.6909532097620548,
+      "sd_percentage_points": 1.544852819737526,
+      "sheet": "Sheet1",
+      "source_row": 52,
+      "descriptive_mean_minus_brigatinib_percentage_points": "-11.7893289092864518"
+    },
+    {
+      "drug": "Crizotinib hydrochloride",
+      "cas": "1415560-69-8",
+      "viability_percent": 51.535101485965015,
+      "sd_percentage_points": 4.821196830154392,
+      "sheet": "Sheet1",
+      "source_row": 53,
+      "descriptive_mean_minus_brigatinib_percentage_points": "41.436725786440618"
+    }
+  ],
+  "NCC_IC50_selected": [
+    {
+      "drug": "Brigatinib",
+      "cas": "1197953-54-0",
+      "ic50_nM": 1.73,
+      "sheet": "IC50 values",
+      "source_row": 7,
+      "descriptive_reported_IC50_over_brigatinib": "1",
+      "exact_screen_CAS_crosswalk": "Brigatinib (AP26113)"
+    },
+    {
+      "drug": "Ceritinib",
+      "cas": "1380575-43-8",
+      "ic50_nM": 85.1,
+      "sheet": "IC50 values",
+      "source_row": 8,
+      "descriptive_reported_IC50_over_brigatinib": "49.19075144508670520231213873",
+      "exact_screen_CAS_crosswalk": "Ceritinib dihydrochloride"
+    },
+    {
+      "drug": "Crizotinib",
+      "cas": "877399-52-5",
+      "ic50_nM": 208,
+      "sheet": "IC50 values",
+      "source_row": 10,
+      "descriptive_reported_IC50_over_brigatinib": "120.2312138728323699421965318",
+      "exact_screen_CAS_crosswalk": "Crizotinib (PF-02341066)"
+    },
+    {
+      "drug": "S-Crizotinib",
+      "cas": "1374356-45-2",
+      "ic50_nM": 2289,
+      "sheet": "IC50 values",
+      "source_row": 26,
+      "descriptive_reported_IC50_over_brigatinib": "1323.121387283236994219653179",
+      "exact_screen_CAS_crosswalk": "(S)-crizotinib"
+    }
+  ],
+  "USZ20_ordinal_separate": [
+    {
+      "source_model": "USZ20-EMC1",
+      "source_figure": "Fig5",
+      "literal_figure_drug": "Ceritinib",
+      "source_CAS": null,
+      "ordinal_source_category": "moderate",
+      "chemical_identity_verified": false
+    },
+    {
+      "source_model": "USZ20-EMC1",
+      "source_figure": "Fig5",
+      "literal_figure_drug": "Crizotinib",
+      "source_CAS": null,
+      "ordinal_source_category": "low",
+      "chemical_identity_verified": false
+    }
+  ],
+  "missing_fixed_names": [
+    {
+      "fixed_name": "alectinib",
+      "status": "No named NCC221 source condition; not a measured nonresponse."
+    },
+    {
+      "fixed_name": "lorlatinib",
+      "status": "No named NCC221 source condition; not a measured nonresponse."
+    },
+    {
+      "fixed_name": "ensartinib",
+      "status": "No named NCC221 source condition; not a measured nonresponse."
+    }
+  ],
+  "unit_limits": "Reported source summaries only; shared exposure/control compatibility remains unverified. Ratios/differences are arithmetic descriptions, not potency ranking, inferential statistics or target/class evidence. Enantiomers/salts not collapsed.",
+  "new_network": 0,
+  "no_gene_values": true
+}

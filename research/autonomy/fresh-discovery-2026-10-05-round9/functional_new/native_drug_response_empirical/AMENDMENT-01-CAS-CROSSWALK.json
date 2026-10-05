@@ -1,0 +1,35 @@
+{
+  "utc": "2026-10-05T21:22:43.072635+00:00",
+  "original_plan_sha256": "57755d9f101659f1dc274ca6726ae3966631eebb445876a76d56df975c544a7a",
+  "reason": "Original plan incorrectly copied Crizotinib hydrochloride CAS into its IC50 crosswalk. The actual source Crizotinib IC50 row uses base CAS877399-52-5. Script raised KeyError before emitting an output or showing quantities. Original immutable plan retained; correction based solely on prior name/CAS source projection.",
+  "failed_pre_output_check": "KeyError1415560-69-8; no result file written",
+  "actual_name_CAS_projection": [
+    {
+      "drug": "Brigatinib",
+      "cas": "1197953-54-0",
+      "source_row": 7
+    },
+    {
+      "drug": "Ceritinib",
+      "cas": "1380575-43-8",
+      "source_row": 8
+    },
+    {
+      "drug": "Crizotinib",
+      "cas": "877399-52-5",
+      "source_row": 10
+    },
+    {
+      "drug": "S-Crizotinib",
+      "cas": "1374356-45-2",
+      "source_row": 26
+    }
+  ],
+  "fixed_IC50_CAS": [
+    "1197953-54-0",
+    "1380575-43-8",
+    "877399-52-5",
+    "1374356-45-2"
+  ],
+  "scope": "Same four named IC50 compounds, no extra genes/drugs/outcome-driven selection; no salt merge."
+}

@@ -1,0 +1,84 @@
+{
+  "utc": "2026-10-05T21:21:49.080782+00:00",
+  "deadline_utc": "2026-10-05T21:44:02+00:00",
+  "question": "Does the published native NCC brigatinib response extend to the fixed available ALK-directed scaffold/formulation comparison, or remain compound-specific in the reported source?",
+  "prior_art": "Brigatinib is already highlighted in Iwata2025. This is not a newly nominated drug, ranking, dependency claim or refutation of an author ALK claim; no author ALK-dependency assertion verified. Prior whole-screen values were already evaluated, so this is exploratory reuse, not blinded discovery.",
+  "practical_consequence": "Only a reproducible source-compatible discordance could prioritize a discriminating matched brigatinib versus ceritinib/crizotinib follow-up in additional native models, rather than selecting generic ALK perturbation from drug names. One-model source summaries alone do not clear publication value.",
+  "fixed_NCC_screen_conditions": [
+    {
+      "drug": "(S)-crizotinib",
+      "cas": "1374356-45-2",
+      "source_row": 4
+    },
+    {
+      "drug": "Brigatinib (AP26113)",
+      "cas": "1197953-54-0",
+      "source_row": 33
+    },
+    {
+      "drug": "Ceritinib (LDK378)",
+      "cas": "1032900-25-6",
+      "source_row": 43
+    },
+    {
+      "drug": "Ceritinib dihydrochloride",
+      "cas": "1380575-43-8",
+      "source_row": 44
+    },
+    {
+      "drug": "Crizotinib (PF-02341066)",
+      "cas": "877399-52-5",
+      "source_row": 52
+    },
+    {
+      "drug": "Crizotinib hydrochloride",
+      "cas": "1415560-69-8",
+      "source_row": 53
+    }
+  ],
+  "fixed_IC50_CAS": [
+    "1197953-54-0",
+    "1380575-43-8",
+    "1415560-69-8",
+    "1374356-45-2"
+  ],
+  "fixed_USZ20_conditions": [
+    "Ceritinib",
+    "Crizotinib"
+  ],
+  "missing_fixed_family": [
+    "alectinib",
+    "lorlatinib",
+    "ensartinib"
+  ],
+  "formulation_rule": "No salts/enantiomers collapsed. S-crizotinib selectivity is unverified here and is not assumed ALK-equivalent. CAS matching governs literal IC50 crosswalk, not display-name identity.",
+  "endpoints": "NCC reported screening viability percent and source SD, separately reported nM IC50; USZ20 ordinal source category separately. Never pooled across assays or normalized into common potency.",
+  "permitted_calculation": "Literal selected means/SD/IC50/ordinal extraction; fixed each IC50/brigatinib ratio and screen mean difference versus brigatinib, explicitly descriptive and not an inferential/compatible-exposure claim. No rank, refit, p value, CI or arbitrary cutoff.",
+  "compatibility_gate": "NCC exact dose, duration, control, readout and raw replicate hierarchy unverified; no drug-class or target interpretation until authenticated. Source SD is not donor uncertainty and IC50 CI unavailable.",
+  "all_model_coverage": "USZ20 full40 native, USZ22 distinct selected validation has no authenticated selected-family condition; NCC native221 plus selected24, USZ23/old cultures/native CIVO and generic ex-vivo statuses retained in prior records. Missing measured conditions remain pending, not resistance.",
+  "strongest_alternative": "Different exposure, assay normalization, dose-curve construction, off-target effects, formulations or stereoselectivity could explain response differences. Broad phenotype in one model is not disease-wide or clinical efficacy.",
+  "defeat": "No authenticated common condition/control schema or no reproducible distinct contrast beyond published highlights defeats promotion. All relevant accessible suitable pending conditions block advancement.",
+  "inputs": [
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04/functional/reused-Bangerter-all40-measured-ordinal-and-complete-source-overlap-final.json",
+      "sha256": "7103ba6ddff229bff9cbace1a7a9713be9348f1a42d4316f21e73c56cc9ad353"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04/functional/reused-Iwata-complete221-screen-and24-IC50-literal-measurements-final.json",
+      "sha256": "24c36f1ae8f28aadaccad61ed73fca0764d84a7a39d3b9311f50bdb618246a1b"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04/functional/RESULTS.txt",
+      "sha256": "ae76bb27057122ec0e45e107c558d58a3f7f6f8431d157ebc4fc1f4012c3d528"
+    },
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/fresh-discovery-2026-10-04/functional/COVERAGE.txt",
+      "sha256": "880fd9aa52b108bafb3725b1136dc4715c489aab935ea413f8590084b36b4c84"
+    }
+  ],
+  "raw_cap_bytes": 67108864,
+  "derived_cap_bytes": 4194304,
+  "free_bytes": 27028017152,
+  "new_network": 0,
+  "scientific_stop_before_archival": true
+}
