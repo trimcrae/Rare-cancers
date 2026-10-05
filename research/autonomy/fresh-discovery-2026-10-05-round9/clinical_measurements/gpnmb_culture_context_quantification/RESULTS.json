@@ -1,0 +1,102 @@
+{
+  "measured_at_utc": "2026-10-05T21:35:31.434171+00:00",
+  "plan_sha256": "34cebb0bfccc01514122d3f6b45d71b87275661f9a0e42f56b604b4506efcae3",
+  "network_requests": 0,
+  "sources": [
+    {
+      "path": "/workspace/Rare-cancers/research/autonomy/tmem266-all-cultures-2026-10-04/archs4-subset.zip",
+      "sha256": "f0bcd17e0c56ec038ea47ee14b7b57700333b46790d2cfb18a555cbf70ea4446"
+    },
+    {
+      "path": "/workspace/emc-r6-diagnostic/research/autonomy/fresh-discovery-2026-10-05-round8/surface_targets/source-cache/USZ23-RefSeq.quant.sf.gz",
+      "sha256": "d49822e6ca79a18c186b00c4faa4087b8582bbb72c0be218fcea2e997565507f"
+    },
+    {
+      "path": "/workspace/emc-r6-fapi_named/research/autonomy/fresh-discovery-2026-10-05-round9/clinical_measurements/gpnmb_culture_identifier_capture/raw-cache/USZ22-fullcounts.tsv.gz",
+      "sha256": "0cac20dc5652b9dd9c65554442d8753ed3e23251cbdad064f73ffd594013eb7d"
+    }
+  ],
+  "conditions": [
+    {
+      "model": "V1-34",
+      "GSM": "GSM2113301",
+      "assay": "ARCHS4 rounded Kallisto estimated counts",
+      "source_row_number": 7248,
+      "identifier": "GPNMB",
+      "source_column": 1,
+      "reported_value": "598",
+      "units": "rounded estimated count; not aligned reads or TPM",
+      "normalized_quantity": null,
+      "capture": "Unique exact symbol; mixed namespace and historical capture limits retained"
+    },
+    {
+      "model": "USZ22",
+      "GSM": "GSM6883080",
+      "assay": "ARCHS4 rounded Kallisto estimated counts",
+      "source_row_number": 7248,
+      "identifier": "GPNMB",
+      "source_column": 2,
+      "reported_value": "257",
+      "units": "rounded estimated count; not aligned reads or TPM",
+      "normalized_quantity": null,
+      "capture": "Unique exact symbol; mixed namespace and historical capture limits retained"
+    },
+    {
+      "model": "USZ22",
+      "GSM": "GSM6883080",
+      "assay": "Deposited Dragen/Salmon tximport raw gene-count column",
+      "source_row_number": 9957,
+      "identifier": "GPNMB",
+      "source_column": 10,
+      "reported_gene_count": "4311",
+      "full_reported_feature_rows": 54507,
+      "invalid_or_negative_reported_counts": 0,
+      "denominator_reported_count_sum": "34616070.69",
+      "per_million_reported_count_share": "124.5375316744247150137767413",
+      "denominator_scope": "Sum of all 54,507 deposited reported gene-count entries in the one USZ22 column; not read total, TPM, molecule fraction or validated detectability",
+      "library_reuse": "Same GSM/library as ARCHS4 USZ22, not independent replicate",
+      "capture": "Unique symbol; annotation release/scaling options not fully specified; ambiguous other controls not repaired"
+    },
+    {
+      "model": "USZ23",
+      "GSM": "GSM9037837",
+      "assay": "Deposited RefSeq transcript quantification",
+      "features": [
+        {
+          "source_row_number": 1573,
+          "Name": "NM_001005340.2",
+          "reported_TPM": "1.309374",
+          "reported_NumReads": "26.548",
+          "version_status": "exact current NM version"
+        },
+        {
+          "source_row_number": 45035,
+          "Name": "NM_002510.3",
+          "reported_TPM": "12.439087",
+          "reported_NumReads": "248.452",
+          "version_status": "exact current NM version"
+        },
+        {
+          "source_row_number": 82213,
+          "Name": "XM_005249578.3",
+          "reported_TPM": "0.000000",
+          "reported_NumReads": "0.000",
+          "version_status": "historical XM version with source-qualified current accession-base association"
+        },
+        {
+          "source_row_number": 114704,
+          "Name": "XM_017011678.2",
+          "reported_TPM": "0.000000",
+          "reported_NumReads": "0.000",
+          "version_status": "historical XM version with source-qualified current accession-base association"
+        }
+      ],
+      "partial_four_feature_TPM_subtotal": "13.748461",
+      "partial_four_feature_NumReads_subtotal": "275.000",
+      "capture": "PARTIAL four-feature capture, never complete whole-gene TPM. Three current accession bases unmatched and retired/historical index completeness unresolved; missing is not zero.",
+      "normalized_across_contexts": false
+    }
+  ],
+  "completed_utc": "2026-10-05T21:35:31.632768+00:00",
+  "limitations": "No assay pooling, cross-platform magnitude/ranking, culture threshold, tissue replication, protein/compartment/dependency/clinical inference. Other authentic models unlocated processed GPNMB inputs remain pending."
+}
