@@ -648,3 +648,5 @@ triggers not yet integrated into the curated sections above — review + fold in
   below: check `/status` on an interactive research session to see whether it is already running Opus 5.5 —
   if not, this is a same-or-better-biology-performance, lower-cost upgrade available now, not a hypothetical.
   https://www.anthropic.com/news/claude-opus-5-5
+
+- 2026-10-09: OpenFE v1.13.0 released 2026-10-08 (Boresch restraints/structural analysis in ABFE; new HybridTopology check requiring >=4 mapped heavy atoms; Python 3.14). Check the mapping check against our RBFE networks before upgrading. https://github.com/OpenFreeEnergy/openfe/releases

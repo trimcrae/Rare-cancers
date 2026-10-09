@@ -670,3 +670,18 @@ this session's egress this week).*
 - **Tooling (d):** no verified spot-price move; aggregator figures are not OUR $/ns. RTX 5090 stays UNPRICEABLE without an OpenMM/OpenFE throughput measurement. Rates live in research/compute/pricing.md.
 
 Captured: nothing new to capture to method-watch / IDEAS / cheap-gpu-plan.
+
+
+## 2026-10-09 — weekly field-scan (quiet week, one library bump)
+
+**Takeaway:** Quiet week. One verified delta: OpenFE v1.13.0 released 2026-10-08. No new NR4A/EMC, ternary-prediction, fusion-neoantigen or ASO-delivery item.
+
+- **NR4A/EMC:** searches returned only older known papers (e.g. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6766969/). Nothing new on ligands/degraders. PPR1319933 action item still open.
+- **Degrader methodology:** only the already-tracked AF3/Boltz-1 PROTAC benchmark (https://research.chalmers.se/publication/549487). No new model found.
+- **Non-degrader routes:** nothing new for EMC. Already-tracked SYT-SSX TCR and DSRCT fusion-neoantigen work resurfaced (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11821884/). ASO delivery: only a generic 2026-09-28 summary, no actionable candidate.
+- **Tooling (a):** OpenFE v1.13.0 (08 Oct): Python 3.14, user-defined Boresch restraints and structural analysis in ABFE, a HybridTopology check requiring >=4 mapped heavy atoms (could reject mappings in our RBFE nets), task-based execution tweaks. https://github.com/OpenFreeEnergy/openfe/releases Boltz v2.2.1 unchanged. Others not re-checked (UNKNOWN, assumed unchanged).
+- **Tooling (b):** no newer model than Opus 5.5 found this week (not exhaustively searched).
+- **Tooling (c):** not searched this week; UNKNOWN.
+- **Tooling (d):** not searched this week; UNKNOWN. RTX 5090 stays UNPRICEABLE. Rates in research/compute/pricing.md.
+
+Captured: OpenFE v1.13.0 to method-watch.md.
