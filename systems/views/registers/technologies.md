@@ -244,7 +244,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 
 **Why it matters.** It collapses the per-target cost of opening a cryptic pocket from GPU-days to pennies, which decides whether a cryptic-pocket druggability survey is a focused target class or proteome-scale. For this program it is an orthogonal, unbiased cross-check on a biased sampling result.
 
-> ⏳ **14 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+> ⏳ **15 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
 >
 > - `TRG-GENERATIVE-ENSEMBLE` · *Mavchen 1: A Conformational Ensemble Platform for Protein Ligand Pose Prediction That Substantially Outperforms Static Structure Prediction in a Category-Stratified Benchmark* (PPR, 2026-07-29) — seen 2026-08-08
 > - `TRG-GENERATIVE-ENSEMBLE` · *UniFlow: Unifying protein conformational ensemble generation and machine-learned force fields with a scalable normalizing Flow* (PPR, 2026-07-20) — seen 2026-08-08
@@ -254,7 +254,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 > - `TRG-CRYPTIC-POCKET-PREDICTION` · *UniPocket: Unified Ligand and Cryptic Pocket Prediction from Protein Language Model Embeddings* (ACM BCB, 2026-07-28) — seen 2026-08-21
 > - `TRG-GENERATIVE-ENSEMBLE` · *PHASE: encoding global protein ensembles with local Hamiltonians and all-atom backmapping* (arXiv, 2026-08-24) — seen 2026-08-28
 > - `TRG-GENERATIVE-ENSEMBLE` · *TopoFlow: Evolutionarily Conditioned Flow Matching for Protein Conformational Ensemble Generation* (PPR, 2026-09-24) — seen 2026-10-02
-> - …and 6 more
+> - …and 7 more
 
 **What the state assessment rests on:**
 - The detection arm landed: a sequence-only generative ensemble model detects the site and opens it to a druggable state in a minority of frames, concordant in direction with an experimental NMR ensemble.
@@ -286,7 +286,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 
 **Why it matters.** Two independent site-transfer routes both place the site at zero in regime, and two disjoint scoring functions disagree in orientation at a median far above their centroid separation. So the non-convergence belongs to the system, not to one scoring function — and a single better docking program is therefore not the trigger. Every pose-conditional claim in the program depends on this.
 
-> ⏳ **63 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+> ⏳ **65 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
 >
 > - `TRG-POSE-ORIENTATION-CONVERGENCE` · *Exploring the neuroprotective mechanism of lumbrokinase against ischemic stroke based on network pharmacology, molecular docking and experimental validation* (J Ethnopharmacol, 2026-06-19) — seen 2026-08-08
 > - `TRG-POSE-ORIENTATION-CONVERGENCE` · *Neuroprotective effects of aqueous extract of Pterocarpus mildbraedii Harms. on some biochemical markers in Alzheimer's disease using an AlCl&lt;sub&gt;3&lt;/sub&gt;-induced rat model: Integrated ADMET, network pharmacology, molecular docking, and in vivo experimental validation* (J Ethnopharmacol, 2026-06-09) — seen 2026-08-08
@@ -296,7 +296,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 > - `TRG-POSE-ORIENTATION-CONVERGENCE` · *Integrative screening of plant volatiles through transient receptor potential channel docking, olfactometry, and field validation in Bemisia tabaci* (Pest Manag Sci, 2026-04-16) — seen 2026-08-08
 > - `TRG-POSE-ORIENTATION-CONVERGENCE` · *Mechanisms of Qing-Shen-Du formula in treating diabetic kidney disease: Integrating network pharmacology, molecular docking, molecular dynamics, transcriptomics, and experimental validation* (J Chromatogr B Analyt Technol Biomed Life Sci, 2026-07-27) — seen 2026-08-08
 > - `TRG-POSE-ORIENTATION-CONVERGENCE` · *[(Bromomethyl)phenyl]methyl-Conjugated Chalcone Derivatives as Potential Lung Cancer Inhibitors: Structure Modification, Molecular Docking, Molecular Dynamics and In Vitro Validation* (Int J Mol Sci, 2026-07-08) — seen 2026-08-08
-> - …and 55 more
+> - …and 57 more
 
 **What the state assessment rests on:**
 - Nothing is currently scanning for this — it was registered as a revival trigger with no corresponding literature query.
@@ -360,7 +360,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 
 **Why it matters.** The standing exposure cutoff fails that positive control, so anything it adjudicates inherits a demonstrated false negative and only a threshold-free rank survives. A criterion that passes the control makes the whole covalent screen readable again rather than rank-only.
 
-> ⏳ **24 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+> ⏳ **25 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
 >
 > - `TRG-COVALENT-EXPOSURE-CRITERION` · *Substituted cysteine accessibility method (SCAM) in membrane transporters studies: Learn from lactose permease* (Biochimie, 2026-05-30) — seen 2026-08-08
 > - `TRG-COVALENT-EXPOSURE-CRITERION` · *Fine-tuning thiosemicarbazones with heterocyclic substituents: identification of styryl-dependent cysteine reactivity and potent anti-cancer activity* (Chem Sci, 2026-07-15) — seen 2026-08-08
@@ -370,7 +370,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 > - `TRG-COVALENT-EXPOSURE-CRITERION` · *Cysteine-mapping efforts offer new tools for drug development and discovery: Research groups are characterizing cysteine binding and reactivity traits to provide important new starting points for drug design* (Cancer Cytopathol, 2026-06-01) — seen 2026-08-08
 > - `TRG-COVALENT-EXPOSURE-CRITERION` · *Correction: Assessment of solvent exposure of native cysteines in human Hsp90 using thiol-reactive functional tags* (Org Biomol Chem, 2026-06-10) — seen 2026-08-08
 > - `TRG-COVALENT-EXPOSURE-CRITERION` · *A Global Ligandability Map of Tryptoline Butynamide Stereoprobes Identifies Covalent Inhibitors of the Actin Maturation Protease* (J Am Chem Soc, 2026-05-20) — seen 2026-08-08
-> - …and 16 more
+> - …and 17 more
 
 **What the state assessment rests on:**
 - Nothing is currently scanning for this.
@@ -527,7 +527,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 
 **Why it matters.** A glue has no linker, so it has no covalent axis and no designed exit vector — it removes several of this program's hardest sub-problems at once. It is also the modality most likely to arrive from someone else's screen rather than from this program's design, which is why it is watched rather than built.
 
-> ⏳ **7 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+> ⏳ **8 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
 >
 > - `TRG-GLUE-PROSPECTIVE-DESIGN` · *Discovery of molecular glue degrader for treatment of IMiDs-resistant multiple myeloma based on GLUT-mediated tumor targeting strategy* (Bioorg Chem, 2026-07-28) — seen 2026-08-08
 > - `TRG-GLUE-PROSPECTIVE-DESIGN` · *Discovery of CDK4-selective molecular glue degraders by high-throughput proteomics* (PPR, 2026-06-22) — seen 2026-08-08
@@ -536,6 +536,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 > - `TRG-GLUE-PROSPECTIVE-DESIGN` · *MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction* (PPR, 2026-08-13) — seen 2026-08-21
 > - `TRG-GLUE-PROSPECTIVE-DESIGN` · *Direct-to-Biology Strategy Accelerates CRBN-Targeting Molecular Glue Degrader Discovery* (PPR, 2026-09-08) — seen 2026-09-11
 > - `TRG-GLUE-PROSPECTIVE-DESIGN` · *Discovery of a molecular glue inhibitor that stabilises a non-productive Kalirin-Rac1 complex* (PPR, 2026-09-11) — seen 2026-09-18
+> - `TRG-GLUE-PROSPECTIVE-DESIGN` · *A scalable, high-throughput glue perturbation screening platform for molecular glue discovery* (iScience, 2026-09-19) — seen 2026-10-09
 
 **What the state assessment rests on:**
 - Generative interface-design methods are advancing; none is demonstrated prospectively on an out-of-training neosubstrate interface.
@@ -761,7 +762,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 
 **Why it matters.** Delivery is the single remaining gate on the most structurally sound route in the portfolio, and it is engineering rather than biology. The honest bottleneck is not that delivery cannot be simulated — it is that no validated way to deliver an oligonucleotide to an EMC tumour exists. A single characterised EMC surface antigen or a working soft-tissue-sarcoma conjugate would change this route's standing more than any predictor could.
 
-> ⏳ **17 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+> ⏳ **19 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
 >
 > - `TRG-OLIGO-DELIVERY-PREDICTOR` · *The biodistribution and effect of post-exposure neutralising monoclonal antibody treatment in a mouse model of SARS-CoV-2 infection with viral spread to the brain* (PPR, 2026-05-29) — seen 2026-08-08
 > - `TRG-OLIGO-DELIVERY-PREDICTOR` · *A Mechanistic PBPK-PD Framework to Predict Clinical Success of Tuberculosis Treatments Across Populations: A Proof- of-Concept Study* (PPR, 2026-05-25) — seen 2026-08-08
@@ -771,7 +772,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 > - `TRG-OLIGO-DELIVERY-PREDICTOR` · *PBPK model of carbamazepine and its metabolite for bioequivalence assessment: prioritizing early exposure and single-dose study designs* (Eur J Pharm Biopharm, 2026-09-02) — seen 2026-09-04
 > - `TRG-OLIGO-DELIVERY-PREDICTOR` · *PBPK-Based Prediction of Oliceridine Exposure in Breast Milk and Relative Infant Dose During the First 24 h After Cesarean Delivery* (J Clin Pharmacol, 2026-09-01) — seen 2026-09-04
 > - `TRG-OLIGO-DELIVERY-PREDICTOR` · *Moxifloxacin-Mediated Downregulation of Intestinal P-Glycoprotein Alters the Pharmacokinetics of Dabigatran Etexilate: Mechanistic Insights in Rats and PBPK Model-Informed Dose Optimization* (Pharmaceutics, 2026-08-20) — seen 2026-09-04
-> - …and 9 more
+> - …and 11 more
 
 **What the state assessment rests on:**
 - Conjugate and targeted-nanoparticle platforms are advancing generally; none is demonstrated in a non-hepatic solid tumour at the required scope.
@@ -870,7 +871,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 
 **Why it matters.** This program is one person with no bench, and its binding constraint after money is attention. An agent that can hold a long thread would change what a solo program can attempt rather than merely how fast it goes. It is also the dependency this repository is best placed to notice arriving, because it is already operated this way.
 
-> ⏳ **72 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+> ⏳ **81 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
 >
 > - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *Autonomous biomedical research with an artificial intelligence agent* (Science, 2026-07-09) — seen 2026-08-08
 > - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *A Modular and Affordable Self-Driving Laboratory for Vision-Guided Optimization of Metal Electrodeposition* (ACS Appl Mater Interfaces, 2026-06-30) — seen 2026-08-08
@@ -880,7 +881,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 > - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *Research on Reinforcement Learning-Based Autonomous Navigation and Obstacle Avoidance Methods for AGVs in Unknown Hospital Environments* (Sensors (Basel), 2026-05-29) — seen 2026-08-08
 > - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *From Experimental Planning to Autonomous Discovery: The Changing Role of Design of Experiments in Nanotechnology* (Chimia (Aarau), 2026-05-27) — seen 2026-08-08
 > - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *Toward Intelligent Sensing Systems: Non-Equilibrium Materials as Platforms for AI-Enabled Autonomous Discovery* (Sensors (Basel), 2026-05-12) — seen 2026-08-08
-> - …and 64 more
+> - …and 73 more
 
 **What the state assessment rests on:**
 - Agents already execute this repository's compute lanes, monitoring and document generation.
@@ -979,7 +980,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 
 **Why it matters.** The junction oligonucleotide's predicted specificity currently rests on a deliberately conservative heuristic, and its potency ranking on a local-fold proxy. A calibrated model would let both be re-graded on evidence rather than on caution — which could move the route in either direction, and that is the point.
 
-> ⏳ **35 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+> ⏳ **36 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
 >
 > - `TRG-ASO-EFFICACY-ACCESSIBILITY` · *Sequence determinants of efficient exon 44 skipping in Duchenne muscular dystrophy define design principles for steric-blocking antisense oligonucleotides* (PPR, 2026-07-01) — seen 2026-08-08
 > - `TRG-ASO-EFFICACY-ACCESSIBILITY` · *FENNEC: Fine-Tuned Ensemble Neural Networks Accelerate Chemically Modified siRNA Design and Screening* (PPR, 2026-06-14) — seen 2026-08-08
@@ -989,7 +990,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 > - `TRG-ASO-EFFICACY-ACCESSIBILITY` · *Systemic delivery of cationic liposome-mediated siRNA EGFR enhances therapeutic efficacy in a human colorectal cancer model* (PPR, 2026-03-31) — seen 2026-08-08
 > - `TRG-ASO-EFFICACY-ACCESSIBILITY` · *A generative-AI framework for target-Specific MicroRNAs towards RNAi-based drug design* (PPR, 2026-05-11) — seen 2026-08-08
 > - `TRG-ASO-OFFTARGET-PREDICTOR` · *ASOCompass: Context- and Chemistry-Aware Activity Prediction for Transferable Antisense Oligonucleotide Screening* (PPR, 2026-08-07) — seen 2026-08-14
-> - …and 27 more
+> - …and 28 more
 
 **What the state assessment rests on:**
 - No calibrated cleavage-activity predictor is established for this design class.
@@ -1020,7 +1021,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 
 **Why it matters.** It is the one thing that reopens the shelved CALVADOS single-chain arm, and that arm was closed by RESOLUTION rather than by failure -- it ran to its prespecified standard, both controls passed, and it returned a bounded null that excludes only partner differences larger than its own separation threshold. ⛔ Re-running the same arm with more sampling is NOT this capability and is forbidden by that arm's own prespecification: the reason to reopen is resolution, never repetition. ⚠ Fan-out one is the honest size -- nothing else in the portfolio waits on it, and the route it serves was parked on expected value.
 
-> ⏳ **44 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+> ⏳ **45 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
 >
 > - `TRG-CONDENSATE-PARTNER-RESOLUTION` · *Engineering short-sequence elements for condensate-like assemblies by de novo design* (Synth Syst Biotechnol, 2026-07-18) — seen 2026-09-04
 > - `TRG-CONDENSATE-PARTNER-RESOLUTION` · *Hydrodynamic simulation of viscoelastic phase separation via coupled Model-H and Oldroyd-B equations* (J Chem Phys, 2026-09-01) — seen 2026-09-04
@@ -1030,7 +1031,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 > - `TRG-CONDENSATE-PARTNER-RESOLUTION` · *A Thermodynamic Model on Liquid-Liquid Interfacial Adsorption* (Langmuir, 2026-08-01) — seen 2026-09-04
 > - `TRG-CONDENSATE-PARTNER-RESOLUTION` · *Programmable Multiphasic Condensates Formed via Evaporation-Induced Phase Separation of Minimal Peptide Model* (Adv Mater, 2026-07-14) — seen 2026-09-04
 > - `TRG-CONDENSATE-PARTNER-RESOLUTION` · *Structural and Thermodynamic Properties of CnEOm Micelles and Monolayers Reproduced by a Coarse-Grained Force Field Based on a Polarizable Water Model* (J Chem Inf Model, 2026-08-01) — seen 2026-09-04
-> - …and 36 more
+> - …and 37 more
 
 **What the state assessment rests on:**
 - The CLASS of model exists and works here: CALVADOS 2 is installed and validated two-sidedly -- the package's own shipped single-IDR example reproduces end to end, and the directional control moves nu by more than the arm's separation threshold. A residue-resolution phase-behaviour force field is a usable instrument today (INS-CALVADOS-SINGLE-CHAIN).
