@@ -1,20 +1,10 @@
-# NR4A3 method-watch — week of October 2
+# NR4A3 method-watch — week of October 9
 
-Two clinical items worth a look, both from news feeds (leads, not confirmed — primary sources
-still to be read). Nothing new on NR4A3/EMC itself.
+Mixed week for the vaccine route, no NR4A3/EMC advance. News items below are press leads, not confirmed; primary sources still to be read.
 
-- **Vepdegestrant (Veppanu) reported FDA-approved** (Breast Cancer.org, 9/24). If confirmed, a
-  targeted protein degrader clearing a regulator is the strongest precedent yet for the NR4A3
-  degrader route's modality, though the target class differs. The Astellas setidegrasib Phase III
-  start (last week's item) is a second degrader pivotal trial.
-- **UTRxMYCN M1-14 reported to receive two FDA designations in soft tissue sarcoma** (OncLive,
-  10/1). Filed under the oligonucleotide feed; check the source to see whether it is an
-  oligonucleotide and what the designations are, since that bears on the ASO route's delivery gate.
-- **Personalized-vaccine coverage is heavy**: a kidney cancer vaccine report (nine patients, none
-  recurred, ScienceAlert, 10/1) plus Moderna market news. Merck's INTerpath-009 Phase 3 (V940 +
-  pembrolizumab, lung) was updated on ClinicalTrials.gov 9/28. All bear on the junction-vaccine
-  route's precedent; none is EMC-specific.
-- Sarcoma-adjacent: NCCN introduced first-ever guidelines for pediatric bone sarcoma (News-Medical,
-  10/2).
-- Quiet: no new tool or model releases, no new individual-eligible compute funding, and the
-  literature hits were keyword noise.
+- **Cancer-vaccine results split** (STAT, 10/6; MimiVax, 10/8; Roswell Park, 10/7). STAT describes divergent vaccine trial results. Clear Trials Arena reports MimiVax's pivotal Phase IIb as disappointing. Local TV reports a Roswell Park glioblastoma vaccine trial with longer survival for some patients. OncLive (10/8) reports durable T-cell responses to an individualized neoantigen vaccine in resected HPV-negative head and neck cancer. Together they bear on the junction-vaccine route's precedent, mixed rather than clean.
+- **Fusion-breakpoint vaccine precedent in the literature:** a durable clinical and immunologic response to an off-the-shelf EWSR1-FLI1 peptide vaccine in metastatic Ewing sarcoma (PMC13452805, Aug 2026). It is the closest fusion-junction precedent in this week's digest and is worth reading for the vaccine manuscript.
+- **Vepdegestrant reported as the first FDA-approved PROTAC** (Oncodaily, 10/3; repeat of last week's lead). If confirmed, it is degrader-modality precedent, though the target class differs.
+- **Sarcoma:** UTRxMYCN M1-14 FDA designations in soft tissue sarcoma (OncLive, 10/1; check whether it is an oligonucleotide). Perspective Therapeutics reportedly won Fast Track for PSV359 in a rare sarcoma (Dealroom, 10/9).
+- Registry sweep found no trials recruiting in EMC or fusion-driven sarcoma.
+- Quiet: no new tool or model releases this week, no confirmed individual-eligible compute funding, and the literature hits were keyword noise.
