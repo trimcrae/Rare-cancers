@@ -685,3 +685,17 @@ Captured: nothing new to capture to method-watch / IDEAS / cheap-gpu-plan.
 - **Tooling (d):** not searched this week; UNKNOWN. RTX 5090 stays UNPRICEABLE. Rates in research/compute/pricing.md.
 
 Captured: OpenFE v1.13.0 to method-watch.md.
+
+
+## 2026-10-16 — weekly field-scan (quiet week)
+
+**Takeaway:** Quiet week. No new NR4A/EMC, ternary-prediction, fusion-neoantigen or ASO-delivery item found; no library bumps on the stack.
+
+- **NR4A/EMC:** only older known papers resurfaced (e.g. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6766969/). Nothing new on ligands/degraders. PPR1319933 gapmer preprint action item still open.
+- **Degrader methodology:** only the already-tracked AF3/Boltz-1 PROTAC benchmark (https://research.chalmers.se/publication/549487). No new model found.
+- **Non-degrader routes:** not searched in depth this week; UNKNOWN.
+- **Tooling (a):** OpenFE v1.13.0 (08 Oct) still latest; Boltz v2.2.1 (08 Sep) still latest. https://github.com/OpenFreeEnergy/openfe/releases Others not re-checked (UNKNOWN).
+- **Tooling (b):** no official newer model than Opus 5.5 verified; only unverified press/market chatter about a possible new Claude model (not captured).
+- **Tooling (c), (d):** not searched this week; UNKNOWN. RTX 5090 stays UNPRICEABLE. Rates in research/compute/pricing.md.
+
+Captured: nothing new to capture.
