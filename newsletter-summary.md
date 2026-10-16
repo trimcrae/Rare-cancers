@@ -1,10 +1,11 @@
-# NR4A3 method-watch — week of October 9
+# NR4A3 method-watch — week of October 16
 
-Mixed week for the vaccine route, no NR4A3/EMC advance. News items below are press leads, not confirmed; primary sources still to be read.
+Vaccine news is the story again, and it is mixed. Nothing new on NR4A3/EMC. All items below are press or registry leads, not confirmed; primary sources still to be read.
 
-- **Cancer-vaccine results split** (STAT, 10/6; MimiVax, 10/8; Roswell Park, 10/7). STAT describes divergent vaccine trial results. Clear Trials Arena reports MimiVax's pivotal Phase IIb as disappointing. Local TV reports a Roswell Park glioblastoma vaccine trial with longer survival for some patients. OncLive (10/8) reports durable T-cell responses to an individualized neoantigen vaccine in resected HPV-negative head and neck cancer. Together they bear on the junction-vaccine route's precedent, mixed rather than clean.
-- **Fusion-breakpoint vaccine precedent in the literature:** a durable clinical and immunologic response to an off-the-shelf EWSR1-FLI1 peptide vaccine in metastatic Ewing sarcoma (PMC13452805, Aug 2026). It is the closest fusion-junction precedent in this week's digest and is worth reading for the vaccine manuscript.
-- **Vepdegestrant reported as the first FDA-approved PROTAC** (Oncodaily, 10/3; repeat of last week's lead). If confirmed, it is degrader-modality precedent, though the target class differs.
-- **Sarcoma:** UTRxMYCN M1-14 FDA designations in soft tissue sarcoma (OncLive, 10/1; check whether it is an oligonucleotide). Perspective Therapeutics reportedly won Fast Track for PSV359 in a rare sarcoma (Dealroom, 10/9).
-- Registry sweep found no trials recruiting in EMC or fusion-driven sarcoma.
-- Quiet: no new tool or model releases this week, no confirmed individual-eligible compute funding, and the literature hits were keyword noise.
+- **BioNTech mRNA cancer vaccine misses PFS in head and neck** (Reuters and Clinical Trials Arena, 10/13; GenomeWeb says overall survival is still being tracked). A Phase II/III in HPV16+ head and neck cancer, which the registry lists as BNT113 plus pembrolizumab. Bears on the junction-vaccine route as a cautionary precedent for mRNA vaccines.
+- **Personalized neoantigen vaccine, ovarian cancer Phase 1** (Nature, 10/14; CancerNetwork, 10/15 calls the combination feasible). Early safety-level evidence for the individualized-vaccine modality. Worth reading the paper.
+- **Degrader dealmaking:** Pfizer's reported $500M Enodia pact (Fierce, 10/13) and a WSJ piece on big-pharma degrader spending (10/15). Industry momentum only; no clinical readout for a transcription-factor target.
+- **Sarcoma:** FDA reportedly awarded Sloan-Kettering $1.5M for rare-sarcoma drug target discovery (AllSci, 10/13). First NCCN pediatric bone sarcoma guidelines (Medical Daily, 10/10). No EMC-specific item.
+- **Other cancer results, none bearing on his routes:** FDA approval of atezolizumab plus chemo in stage III dMMR colon cancer (10/8–10/9); Zepzelca approval withdrawn in small cell lung cancer (10/9).
+- Registry sweep: no trial recruiting in EMC or a fusion-driven sarcoma.
+- Quiet: no new tool or model release this week, no individual-eligible compute funding, and the literature hits were keyword noise or already seen.
