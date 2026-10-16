@@ -322,6 +322,44 @@
    ],
    "signals_recorded": 18,
    "abstracts_fetched": 14
+  },
+  {
+   "date": "2026-10-16",
+   "mode": "scan",
+   "triggers": 32,
+   "queries": 135,
+   "new_hits": 13,
+   "appended": 11,
+   "errors": [
+    "TRG-COFOLD-TERNARY-ASSEMBLY arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22ternary+complex%22+AND+all%3A%22structure+prediction%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-COFOLD-TERNARY-ASSEMBLY arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3APROTAC+AND+all%3A%22interface%22+AND+all%3Aprediction&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=protac&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-TERNARY-GEN-NO-SITES arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22ternary+complex%22+AND+all%3Agenerative&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-TERNARY-GEN-NO-SITES arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22induced+proximity%22+AND+all%3A%22structure+prediction%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "chemrxiv: DROPPED FOR THIS RUN after 3 consecutive failures (last: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden). Every ChemRxiv query below was SKIPPED -- this run's preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result is not a reading of absence.",
+    "TRG-FEP-CRYPTIC-POCKET arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22binding+free+energy%22+AND+all%3Acryptic&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-FEP-CRYPTIC-POCKET arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22free+energy+perturbation%22+AND+all%3A%22induced+fit%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-TERNARY-ALCHEMICAL-VALIDATED arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3APROTAC+AND+all%3A%22free+energy%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-TERNARY-ALCHEMICAL-VALIDATED arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3Acooperativity+AND+all%3Aalchemical&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-ATOM-MAPPER-FLOOR arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22atom+mapping%22+AND+all%3A%22free+energy%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-ATOM-MAPPER-FLOOR arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22maximum+common+substructure%22+AND+all%3Aalchemical&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Too Many Requests",
+    "TRG-CHARGE-CHANGE-FEP arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22finite-size+correction%22+AND+all%3A%22binding+free+energy%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-GENERATIVE-ENSEMBLE arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22Boltzmann+generator%22+AND+all%3Aprotein&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-CRYPTIC-POCKET-PREDICTION arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22cryptic+pocket%22+AND+all%3Aprediction&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-ENDPOINT-SELECTIVITY-READOUT arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22molecular+dynamics%22+AND+all%3Aselectivity+AND+all%3A%22statistical+power%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Too Many Requests",
+    "TRG-GLUE-PROSPECTIVE-DESIGN arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22molecular+glue%22+AND+all%3Adesign&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Too Many Requests",
+    "TRG-VIRTUAL-CELL-NO-LINE arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22perturbation+prediction%22+AND+all%3A%22single-cell%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Too Many Requests",
+    "TRG-VIRTUAL-CELL-NO-LINE arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22virtual+cell%22+AND+all%3Amodel&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-OLIGO-DELIVERY-PREDICTOR arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22endosomal+escape%22+AND+all%3Aprediction&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-CLOUD-WET-LAB arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22self-driving+laboratory%22+AND+all%3Abiology&sortBy=submittedDate&sortOrder=descending&max_results=15 :: The read operation timed out",
+    "TRG-AUTONOMOUS-RESEARCH-AGENT arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22AI+scientist%22+AND+all%3A%22end-to-end%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error",
+    "TRG-COVALENT-EXPOSURE-CRITERION arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3Acovalent+AND+all%3Acysteine+AND+all%3Aprediction&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Too Many Requests",
+    "TRG-ANTITARGET-PANEL-PROTOCOL arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3Aselectivity+AND+all%3Adocking+AND+all%3Abenchmark&sortBy=submittedDate&sortOrder=descending&max_results=15 :: The read operation timed out",
+    "TRG-CONDENSATE-PARTNER-RESOLUTION arxiv: GET failed after 3 tries: https://export.arxiv.org/api/query?search_query=all%3A%22coarse-grained%22+AND+all%3A%22phase+separation%22+AND+all%3A%22disordered%22&sortBy=submittedDate&sortOrder=descending&max_results=15 :: HTTP Error 429: Unknown Error"
+   ],
+   "signals_recorded": 13,
+   "abstracts_fetched": 3
   }
  ],
  "hits": {
@@ -408,6 +446,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13594704",
     "first_seen": "2026-09-25",
     "age_days_at_first_seen": 15
+   },
+   "PMC13657626": {
+    "id": "PMC13657626",
+    "title": "Large-scale prospective evaluation of co-folding across hundreds of Mac1\u2013ligand complexes and three virtual screens",
+    "date": "2026-10-16",
+    "venue": "Elife",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13657626",
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 0
    }
   },
   "TRG-TERNARY-GEN-NO-SITES": {
@@ -798,6 +846,17 @@
     "first_seen": "2026-10-09",
     "age_days_at_first_seen": 4,
     "abstract": "Generating diverse, all-atom protein conformations remains challenging, especially for recovering alternative functional states and modeling conformational ensembles. We present trFlow, an ultrafast approach for generating all-atom conformations using geometry-guided flow matching. trFlow leverages three core innovations: (1) a hybrid single- and multi-step sampling scheme that balances accuracy and speed; (2) a decoupled representation-generation architecture that maximizes computational efficiency; and (3) fine-tuning on NMR ensembles to better capture conformational heterogeneity. Extensive benchmarking across dual-conformation proteins, NMR ensembles, and a CASP16 dynamic target shows that trFlow outperforms competing methods in recovering challenging states and reproducing experimental heterogeneity, while being an order of magnitude faster than existing all-atom approaches. These results establish trFlow as a practical and scalable framework for large-scale generation of all-atom conformational ensembles."
+   },
+   "arXiv/2609.33726v2": {
+    "id": "arXiv/2609.33726v2",
+    "title": "Robust Biomolecular Complex Design Across Protein Conformational Landscapes",
+    "date": "2026-09-27",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2609.33726v2",
+    "is_preprint": true,
+    "first_seen": "2026-10-16",
+    "duplicate_of_title": true
    }
   },
   "TRG-CRYPTIC-POCKET-PREDICTION": {
@@ -2010,6 +2069,28 @@
     "first_seen": "2026-10-02",
     "age_days_at_first_seen": 3,
     "abstract": "Artificial Intelligence Virtual Cells (AIVCs) are envisioned as scientific agents that simulate cellular responses, explain underlying mechanisms, and support hypothesis-driven discovery. Existing AIVC benchmarks, however, operate primarily at the simulation layer, motivating complementary evaluation of how models interpret experimental evidence and formulate biological hypotheses. We introduce OmniVCBench, a figure-centric, source-traceable benchmark for the interpretation component of an AIVC. It contains 6,077 curated single- and multi-subfigure question--answer pairs derived from figures and experimental contexts in the scientific literature. Guided by Bloom's taxonomy, we instantiate interpretation-layer counterparts of the AIVC Predict--Explain--Discover agenda through three scientific reasoning tasks. We further introduce AIVC-Judge, a task-conditioned MLLM-as-a-judge framework with category-specific, reference-aware rubrics for evaluating open-ended responses. A complementary Model-Derived Hard-Negative Mining (MDHNM) strategy converts plausible errors observed during model inference into MCQ distractors for lower-cost evaluation. Within the evaluated heterogeneous model pool, MCQ accuracy correlates positively with AIVC-Judge scores, providing a complementary view of performance alongside open-response evaluation. Code and data demo are available at https://anonymous.4open.science/r/OmniVCBench."
+   },
+   "MED/42844355": {
+    "id": "MED/42844355",
+    "title": "Generalizable perturbation prediction",
+    "date": "2026-10-01",
+    "venue": "Nat Methods",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42844355",
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 15
+   },
+   "PPR/PPR1342592": {
+    "id": "PPR/PPR1342592",
+    "title": "A split-control criterion for few-shot adaptation in single-cell perturbation prediction",
+    "date": "2026-10-13",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1342592",
+    "is_preprint": true,
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 3,
+    "abstract": "Few-shot adaptation can help or harm single-cell perturbation prediction, but conventional evaluation shares a control estimate between calibration responses and held-out targets. We show how methods carry control error into their predictions and derive its contribution to score inflation. Nested control-depth experiments support inverse-depth scaling of inner-product inflation; correlation inflation also depends on the control noise-to-signal ratio. Independent-control scoring changed the rank of 40 of 52 configuration-dataset entries. We introduce SafeDelta, a split-control criterion that uses calibration data to decide whether to adapt. Across six datasets, mean gated gain was non-negative under the original two-control evaluation. On a deep plate, fixed predictions and decisions retained positive mean gains under three additional independent control references. The same reproducibility principle identified a fibrosis programme that localises to scar in human liver. These results inform adaptation decisions and control-depth planning."
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -5571,6 +5652,50 @@
     "first_seen": "2026-10-09",
     "age_days_at_first_seen": 5,
     "abstract": "Data-driven mechanistic hypotheses are essential to scientific discovery because they explain how underlying processes produce observed phenomena. AI agents and AI scientists increasingly support scientific data analysis. However, their ability to turn empirical findings into mechanistic hypotheses remains insufficiently examined. To address this gap, we introduce MechHypoBench, the first benchmark for evaluating whether AI agents and AI scientists can generate such hypotheses from empirical data. It combines paper-derived mechanisms from 14 scientific fields with real-world datasets containing 17.98 million records. The construction retains the observational complexity of empirical data while providing a specified underlying mechanism. Agents analyze the observations and propose open-form hypotheses. We develop an evaluation framework that assesses open-form mechanistic hypotheses through their consequences under withheld conditions. Experiments with general agents and AI scientists reveal a substantial gap between generated hypotheses and the underlying mechanisms."
+   },
+   "arXiv/2610.21082v1": {
+    "id": "arXiv/2610.21082v1",
+    "title": "Sci$\u03a0$vot: Benchmarking Principal-Investigator Judgment at Pivotal Moments of Scientific AutoResearch Agents",
+    "date": "2026-10-15",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.21082v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 1
+   },
+   "arXiv/2610.18272v1": {
+    "id": "arXiv/2610.18272v1",
+    "title": "JevGPT: Thinking Fast and Slow in Autonomous Research",
+    "date": "2026-10-13",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.18272v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 3
+   },
+   "arXiv/2610.13194v1": {
+    "id": "arXiv/2610.13194v1",
+    "title": "JANUS: Enhancing Long-Horizon Autonomous Research with Co-Evolving World Models",
+    "date": "2026-10-09",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.13194v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 7
+   },
+   "arXiv/2610.18449v1": {
+    "id": "arXiv/2610.18449v1",
+    "title": "Autonomous Science Bench: Evaluating AI Agents for Autonomous Scientific Discovery",
+    "date": "2026-10-13",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.18449v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 3
    }
   },
   "TRG-POSE-ORIENTATION-CONVERGENCE": {
@@ -6303,6 +6428,30 @@
     "first_seen": "2026-10-09",
     "age_days_at_first_seen": 4,
     "abstract": "Abstract      Alzheimer\u2019s disease (AD) is a progressive neurodegenerative disorder that is the leading cause of dementia in older people. Donepezil is an acetylcholinesterase inhibitor used for symptomatic management of AD. Due to its high efficacy, low hepatic toxicity, prolonged half-life, and enhanced bioavailability, it was used as a reference. In this study, a series of donepezil derivatives   (MH-1 to MH-5)   were designed through structural modification at the benzyl moiety and systematically investigated along with the reference using density functional theory, time-dependent DFT, molecular docking, and in silico pharmacokinetics analysis. The geometry optimization and electronic structure calculations were performed using the B3LYP/6-311G (d, p) level. Frontier molecular orbital analysis indicated reduced energy in   MH-1   and   MH-2   , while the optical study shows that all derivatives   (MH-1 to MH-5)   demonstrate a bathochromic shift. The molecular docking of all derivatives and the   reference   against the acetylcholinesterase receptor 4EY7 indicates strong predicted affinities, where   MH-1   ,   MH-2   , and   MH-4   show binding energy equivalent to the reference (-12.2 kcal/mol). A 300 ns molecular dynamics simulation of the AChE   MH-4   complex showed a stable trajectory, as indicated by RMSD/RMSF profiles. Binding free energy calculated using MM-GBSA combined with the Interaction Entropy approximation yielded \u0394G = -13.04\u2009\u00b1\u20093.73 kcal/mol, confirming favourable and thermodynamically stable binding. Moreover, the results of the ADME analysis indicated good oral absorption and blood-brain barrier penetration. Toxicity assessment predicted favourable safety profiles for most of the derivatives, except for a few that show potential concerns. In summary, all these results indicate that   MH-4   has an encouraging physicochemical and computationally predicted bioactive profile for anti-Alzheimer drug development."
+   },
+   "PPR/PPR1341151": {
+    "id": "PPR/PPR1341151",
+    "title": "Hypolipidemic Mechanisms of Mimosa pudica: Network Pharmacology, Molecular Docking, Molecular Dynamics (MD) Simulation, Density Functional Theory (DFT), and In Vitro Validation",
+    "date": "2026-10-13",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1341151",
+    "is_preprint": true,
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 3,
+    "abstract": "Abstract      Background  Hyperlipidemia is a primary cardiovascular risk factor, and current synthetic therapies carry significant adverse effects.   Mimosa pudica   has reported lipid-lowering properties; however, the molecular mechanisms underlying this activity remain unclear. Aim  To investigate the putative hypolipidemic mechanisms of   Mimosa pudica   phytoconstituents using integrated computational approaches, supported by preliminary in vivo cytoprotective evidence from a crude whole-plant extract. Methods  Network pharmacology, molecular docking, (Schr\u00f6dinger Glide SP), 100 ns all-atom MD simulation (GROMACS), DFT analysis, and LC-MS characterization were employed. preliminary in vivo activity of crude Soxhlet   Mimosa pudica   extract (yield: 13.52g) was assessed by MTT-based cytoprotection in FFA-induced HepG2 cells. The computational analysis was based on individual predicted phytoconstituents; the in vitro experiment employed a chemically unstandardized crude extract the in silico in vivo connection is therefore indirect. Result  Ten hub genes including PPARG, IL6, AKT1, and HIF1A were identified, enriched in HIF-1 and PPAR signaling pathways. Cianidanol showed favorable predicted binding to PPAR\u03b1 (\u2212\u20098.047 kcal/mol), surpassing fenofibrate (\u2212\u20097.798 kcal/mol); quercetin showed predicted binding to HMGCR (\u2212\u20097.912 kcal/mol). MD simulation indicated stable complex dynamics (RMSD\u2009~\u20090.20 nm), and DFT identified C3-OH and C4\u2009=\u2009O as principal reactive sites of quercetin. LC-MS tentatively identified cianidanol (m/z 611.33) and kaempferol/luteolin (m/z 285.04). The crude extract showed concentration-dependent cytoprotection, significant at 200 \u00b5g/mL (p\u2009 Mimosa pudica   phytoconstituents. While the MTT assay offers preliminary cellular support, it does not directly assess lipid accumulation, HMGCR activity, or PPAR\u03b1 activation. Chemical standardization, mechanistic in vitro endpoints, and in vivo validation are needed to substantiate these predictions."
+   },
+   "PPR/PPR1339430": {
+    "id": "PPR/PPR1339430",
+    "title": "Anti-Pneumonia Components of <em>Polygonatum odoratum</em>: An Integrated LC-QTOF-MS, Network Pharmacology and Molecular Docking Study with <em>in vitro </em>Validation",
+    "date": "2026-10-14",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1339430",
+    "is_preprint": true,
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 2,
+    "abstract": "Polygonatum odoratum is widely consumed as a functional food and is traditionally used for respiratory complaints, yet the material basis of its anti-pneumonia activity and the effect of extraction solvent on that activity remain unclear. Here, untargeted LC-QTOF-MS profiling of the aqueous extract was combined with TCMSP database mining to screen potential active components, and their core targets and binding modes were predicted by network pharmacology and molecular docking. Of 38 potential active components screened by oral bioavailability and drug-likeness, 28 were mapped to 123 pneumonia-related targets. IL6, AKT1, IL1B, TNF, TGFB1, TP53, MMP9, PIK3CG, HIF1A and CASP3 occupied hub positions in the PPI network and were enriched in the IL-17, TNF and PI3K-Akt pathways. Molecular docking of 7 representative components against 9 core targets gave 24 systems with binding energies all below \u22124.8 kcal/mol, and different components frequently occupied the same binding pocket, indicating a multi-component, multi-target mode of action. Critically, all nine docking targets were functionally interrogated in LPS/IFN-\u03b3-stimulated MLE-12 cells: the 50% methanol extract significantly improved 9 of 10 indicators, outperforming the aqueous extract on all 10, with significant differences in p-AKT and p-CREB (P &lt; 0.05). Medium-lipophilic homoisoflavonoids are therefore the principal material basis of the anti-pneumonia activity, and hydroalcoholic extraction better retains them. These findings support the use of P. odoratum as a functional food ingredient for respiratory health."
    }
   },
   "TRG-COVALENT-EXPOSURE-CRITERION": {
@@ -7461,6 +7610,16 @@
     "first_seen": "2026-10-09",
     "age_days_at_first_seen": 8,
     "abstract": "We present SOP-Multi-  \u03c0 , an enhanced version of the two-bead-per-amino-acid resolution Self-Organized Polymer (SOP) model designed to investigate the conformational dynamics of Intrinsically Disordered Proteins (IDPs) and their phase behavior in biomolecular condensates. The original SOP-IDP and SOP-Multi models work well for chains in good solvents that predominantly adopt expanded conformations. However, they fail to reproduce the single-chain properties and phase-separation behavior of IDPs such as hnRNPA1 and its variants, which have a distinct pattern of aromatic residues. We therefore reparameterized the SOP-IDP force field to explicitly capture  \u03c0 \u2013  \u03c0 and cation\u2013  \u03c0 interactions at the coarse-grained (CG) resolution. These interactions are weak but important for biomolecular recognition and for driving and stabilizing biomolecular condensates. Dimensionless rescaling prefactors (  \u03bb  ij ) were applied exclusively to the aromatic  \u03c0 \u2013  \u03c0 (Phe, Tyr, Trp) and cation\u2013  \u03c0 (Arg/Lys with Phe, Tyr, Trp) pairs. They were optimized iteratively against experimental radii of gyration of the hnRNPA1 low-complexity domain (A1-LCD) and its 16 aromatic and charge mutants. This restored a physically meaningful Tyr  > Phe interaction hierarchy, and the Pearson correlation for  R  g improved from  r = 0.07 (SOP-IDP) to  r = 0.83 (RMSD = 0.08 nm). The same parameters, without further tuning, gave  r = 0.93 for 34 additional IDPs (24\u2013198 residues) and reproduced Flory scaling (  \u03bd \u2248 0.588). We back-mapped microsecond-scale CG ensembles to all-atom representations and computed SAXS and Kratky profiles for direct comparison with experiments on IDPs and on the multidomain proteins hnRNPA1, TDP-43, G3BP1, and FUS. In direct-coexistence slab simulations, the model captures the phase behavior of A1-LCD condensates and their variants, with critical temperatures that correlate strongly with experiment (  r = 0.88) but are somewhat underestimated in absolute terms. The model is implemented in LAMMPS, and a detailed user manual is provided for setting up single-chain and multi-chain condensate simulations of full-length multidomain proteins."
+   },
+   "MED/42831523": {
+    "id": "MED/42831523",
+    "title": "Polymer-residue accessibility shapes sequence dependence of critical temperatures for phase separation",
+    "date": "2026-10-01",
+    "venue": "J Chem Phys",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42831523",
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 15
    }
   },
   "TRG-FUSION-JUNCTION-CLINICAL": {
@@ -8099,6 +8258,46 @@
     "url": "https://europepmc.org/article/PMC/PMC13617806",
     "first_seen": "2026-10-02",
     "duplicate_of_title": true
+   },
+   "MED/42843342": {
+    "id": "MED/42843342",
+    "title": "Fusion-loop-engineered Zika mRNA vaccine elicits convergent B cell immunodominance to uncouple protection from ADE in macaques",
+    "date": "2026-10-07",
+    "venue": "Cell Rep Med",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42843342",
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 9
+   },
+   "PMC13652353": {
+    "id": "PMC13652353",
+    "title": "A Zika virus vaccine with E protein fusion loop mutations protects via CD8&lt;sup&gt;+&lt;/sup&gt; T cells",
+    "date": "2026-08-26",
+    "venue": "Nat Microbiol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13652353",
+    "first_seen": "2026-10-16",
+    "duplicate_of_title": true
+   },
+   "MED/42839664": {
+    "id": "MED/42839664",
+    "title": "Neoadjuvant Dual Immunotherapy in T4 Locally Advanced Deficient Mismatch Repair Gastric or Esophagogastric Junction (EGJ) Adenocarcinoma",
+    "date": "2026-10-06",
+    "venue": "Int J Cancer",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42839664",
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 10
+   },
+   "MED/42834115": {
+    "id": "MED/42834115",
+    "title": "Perioperative immunotherapy for resectable gastric and gastro-oesophageal junction adenocarcinoma: overall survival results",
+    "date": "2026-10-05",
+    "venue": "Nat Rev Gastroenterol Hepatol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42834115",
+    "first_seen": "2026-10-16",
+    "age_days_at_first_seen": 11
    }
   }
  }

@@ -8,12 +8,12 @@ canonical_for: []
 purpose: "Unrefereed preprints matching a named reopening trigger, grouped by the blocker they would reopen — a leading indicator for the forecast bands in the blocker register."
 scope: "Preprints only (Europe PMC SRC:PPR, arXiv, ChemRxiv). The published corpus is on the trigger-scan board."
 audience: [maintainers, autonomous research agents]
-date: 2026-10-09
+date: 2026-10-16
 last_verified: unverified
 ---
 # Preprint pipeline — what is coming, by blocker
 
-**Last run: 2026-10-09** (UTC date stamp from the runner).
+**Last run: 2026-10-16** (UTC date stamp from the runner).
 
 ⛔ **EVERYTHING HERE IS UNREFEREED, TITLE-MATCHED AND UNREAD.** A preprint is the weakest lead this repository records. It cannot move a forecast band, it is not evidence, and nothing here may be cited. Its value is WARNING — it is the earliest point at which a capability becomes visible, often months before the journal version.
 
@@ -27,6 +27,12 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-10-15 | [Sci$Π$vot: Benchmarking Principal-Investigator Judgment at Pivotal Moments of Scientific AutoResearch Agents](http://arxiv.org/abs/2610.21082v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-10-14 | [Anti-Pneumonia Components of <em>Polygonatum odoratum</em>: An Integrated LC-QTOF-MS, Network Pharmacology and](https://europepmc.org/article/PPR/PPR1339430) | PPR | `TRG-POSE-ORIENTATION-CONVERGENCE` ⚠ |
+| 2026-10-13 | [JevGPT: Thinking Fast and Slow in Autonomous Research](http://arxiv.org/abs/2610.18272v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-10-13 | [Autonomous Science Bench: Evaluating AI Agents for Autonomous Scientific Discovery](http://arxiv.org/abs/2610.18449v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-10-13 | [Hypolipidemic Mechanisms of Mimosa pudica: Network Pharmacology, Molecular Docking, Molecular Dynamics (MD) Si](https://europepmc.org/article/PPR/PPR1341151) | PPR | `TRG-POSE-ORIENTATION-CONVERGENCE` ⚠ |
+| 2026-10-09 | [JANUS: Enhancing Long-Horizon Autonomous Research with Co-Evolving World Models](http://arxiv.org/abs/2610.13194v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-10-07 | [DrugTargetWorld: A Synthetic Biobank for Training and Benchmarking AI Scientists](http://arxiv.org/abs/2610.09558v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-10-07 | [A Society of Researchers: Designing Institutions for Populations of Autonomous Research Agents](http://arxiv.org/abs/2610.10468v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-10-05 | [Substituent Effects on Electronic Properties and Acetylcholinesterase Inhibitory Potential of Donepezil Analog](https://europepmc.org/article/PPR/PPR1333889) | PPR | `TRG-POSE-ORIENTATION-CONVERGENCE` ⚠ |
@@ -165,6 +171,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-02-17 | [RNAiSpline: A Deep learning model for siRNA efficacy prediction](https://europepmc.org/article/PPR/PPR1223467) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Anti-Pneumonia Components of <em>Polygonatum odoratum</em>: An Integrated LC-QTOF-MS, Network Pharmacology and Molecular Docking Study with <em>in vitro </em>Validation** — PPR, 2026-10-14
+
+> Polygonatum odoratum is widely consumed as a functional food and is traditionally used for respiratory complaints, yet the material basis of its anti-pneumonia activity and the effect of extraction solvent on that activity remain unclear. Here, untargeted LC-QTOF-MS profiling of the aqueous extract was combined with TCMSP database mining to screen potential active components, and their core targets and binding modes were predicted by network pharmacology and molecular docking. Of 38 potential active components screened by oral bioavailability and drug-likeness, 28 were mapped to 123 pneumonia-related targets. IL6, AKT1, IL1B, TNF, TGFB1, TP53, MMP9, PIK3CG, HIF1A and CASP3 occupied hub positions in the PPI network and were enriched in the IL-17, TNF and PI3K-Akt pathways. Molecular docking of 7 representative components against 9 core targets gave 24 systems with binding energies all below −4.8 kcal/mol, and different components frequently occupied the same binding pocket, indicating a multi-component, multi-target mode of action. Critically, all nine docking targets were functionally interrogated in LPS/IFN-γ-stimulated MLE-12 cells: the 50% methanol extract significantly improved 9 of 10 indicators, outperforming the aqueous extract on all 10, with significant differences in p-AKT and p-CREB (P &lt; 0.05). Medium-lipophilic homoisoflavonoids are therefore the principal materi
+
+**Hypolipidemic Mechanisms of Mimosa pudica: Network Pharmacology, Molecular Docking, Molecular Dynamics (MD) Simulation, Density Functional Theory (DFT), and In Vitro Validation** — PPR, 2026-10-13
+
+> Abstract      Background  Hyperlipidemia is a primary cardiovascular risk factor, and current synthetic therapies carry significant adverse effects.   Mimosa pudica   has reported lipid-lowering properties; however, the molecular mechanisms underlying this activity remain unclear. Aim  To investigate the putative hypolipidemic mechanisms of   Mimosa pudica   phytoconstituents using integrated computational approaches, supported by preliminary in vivo cytoprotective evidence from a crude whole-plant extract. Methods  Network pharmacology, molecular docking, (Schrödinger Glide SP), 100 ns all-atom MD simulation (GROMACS), DFT analysis, and LC-MS characterization were employed. preliminary in vivo activity of crude Soxhlet   Mimosa pudica   extract (yield: 13.52g) was assessed by MTT-based cytoprotection in FFA-induced HepG2 cells. The computational analysis was based on individual predicted phytoconstituents; the in vitro experiment employed a chemically unstandardized crude extract the in silico in vivo connection is therefore indirect. Result  Ten hub genes including PPARG, IL6, AKT1, and HIF1A were identified, enriched in HIF-1 and PPAR signaling pathways. Cianidanol showed favorable predicted binding to PPARα (− 8.047 kcal/mol), surpassing fenofibrate (− 7.798 kcal/mol); quercetin showed predicted binding to HMGCR (− 7.912 kcal/mol). MD simulation indicated stable complex dyn
 
 **DrugTargetWorld: A Synthetic Biobank for Training and Benchmarking AI Scientists** — arXiv, 2026-10-07
 
@@ -716,6 +730,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-10-13 | [A split-control criterion for few-shot adaptation in single-cell perturbation prediction](https://europepmc.org/article/PPR/PPR1342592) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-29 | [A biological-response compound representation allows chemical perturbation prediction across cell lines](https://europepmc.org/article/PPR/PPR1330700) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-29 | [OmniVCBench: Benchmarking Evidence-Grounded Multimodal Reasoning Towards AI Virtual Cells](http://arxiv.org/abs/2609.37773v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-28 | [DRIFT: Disentangled Responsive-Invariant Flow Transport for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2609.35106v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -769,6 +784,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**A split-control criterion for few-shot adaptation in single-cell perturbation prediction** — PPR, 2026-10-13
+
+> Few-shot adaptation can help or harm single-cell perturbation prediction, but conventional evaluation shares a control estimate between calibration responses and held-out targets. We show how methods carry control error into their predictions and derive its contribution to score inflation. Nested control-depth experiments support inverse-depth scaling of inner-product inflation; correlation inflation also depends on the control noise-to-signal ratio. Independent-control scoring changed the rank of 40 of 52 configuration-dataset entries. We introduce SafeDelta, a split-control criterion that uses calibration data to decide whether to adapt. Across six datasets, mean gated gain was non-negative under the original two-control evaluation. On a deep plate, fixed predictions and decisions retained positive mean gains under three additional independent control references. The same reproducibility principle identified a fibrosis programme that localises to scar in human liver. These results inform adaptation decisions and control-depth planning.
 
 **A biological-response compound representation allows chemical perturbation prediction across cell lines** — PPR, 2026-09-29
 
@@ -1037,6 +1056,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-10-13 | [A split-control criterion for few-shot adaptation in single-cell perturbation prediction](https://europepmc.org/article/PPR/PPR1342592) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-09-29 | [A biological-response compound representation allows chemical perturbation prediction across cell lines](https://europepmc.org/article/PPR/PPR1330700) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-09-29 | [OmniVCBench: Benchmarking Evidence-Grounded Multimodal Reasoning Towards AI Virtual Cells](http://arxiv.org/abs/2609.37773v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-09-28 | [DRIFT: Disentangled Responsive-Invariant Flow Transport for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2609.35106v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
@@ -1087,6 +1107,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-04-21 | [AblateCell: A Reproduce-then-Ablate Agent for Virtual Cell Repositories](http://arxiv.org/abs/2604.19606v2) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**A split-control criterion for few-shot adaptation in single-cell perturbation prediction** — PPR, 2026-10-13
+
+> Few-shot adaptation can help or harm single-cell perturbation prediction, but conventional evaluation shares a control estimate between calibration responses and held-out targets. We show how methods carry control error into their predictions and derive its contribution to score inflation. Nested control-depth experiments support inverse-depth scaling of inner-product inflation; correlation inflation also depends on the control noise-to-signal ratio. Independent-control scoring changed the rank of 40 of 52 configuration-dataset entries. We introduce SafeDelta, a split-control criterion that uses calibration data to decide whether to adapt. Across six datasets, mean gated gain was non-negative under the original two-control evaluation. On a deep plate, fixed predictions and decisions retained positive mean gains under three additional independent control references. The same reproducibility principle identified a fibrosis programme that localises to scar in human liver. These results inform adaptation decisions and control-depth planning.
 
 **A biological-response compound representation allows chemical perturbation prediction across cell lines** — PPR, 2026-09-29
 
@@ -1350,6 +1374,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-10-13 | [A split-control criterion for few-shot adaptation in single-cell perturbation prediction](https://europepmc.org/article/PPR/PPR1342592) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-29 | [A biological-response compound representation allows chemical perturbation prediction across cell lines](https://europepmc.org/article/PPR/PPR1330700) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-29 | [OmniVCBench: Benchmarking Evidence-Grounded Multimodal Reasoning Towards AI Virtual Cells](http://arxiv.org/abs/2609.37773v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-28 | [DRIFT: Disentangled Responsive-Invariant Flow Transport for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2609.35106v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -1404,6 +1429,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**A split-control criterion for few-shot adaptation in single-cell perturbation prediction** — PPR, 2026-10-13
+
+> Few-shot adaptation can help or harm single-cell perturbation prediction, but conventional evaluation shares a control estimate between calibration responses and held-out targets. We show how methods carry control error into their predictions and derive its contribution to score inflation. Nested control-depth experiments support inverse-depth scaling of inner-product inflation; correlation inflation also depends on the control noise-to-signal ratio. Independent-control scoring changed the rank of 40 of 52 configuration-dataset entries. We introduce SafeDelta, a split-control criterion that uses calibration data to decide whether to adapt. Across six datasets, mean gated gain was non-negative under the original two-control evaluation. On a deep plate, fixed predictions and decisions retained positive mean gains under three additional independent control references. The same reproducibility principle identified a fibrosis programme that localises to scar in human liver. These results inform adaptation decisions and control-depth planning.
 
 **A biological-response compound representation allows chemical perturbation prediction across cell lines** — PPR, 2026-09-29
 
@@ -1708,6 +1737,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-10-05 | [trFlow: ultrafast all-atom protein conformational ensemble generation via conditional flow matching](https://europepmc.org/article/PPR/PPR1335423) | PPR | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
 | 2026-10-01 | [Auditable Algebraic Counting Field for Cryptic-Pocket Detection from Apo Structures](http://arxiv.org/abs/2610.00988v1) | arXiv | `TRG-CRYPTIC-POCKET-PREDICTION` ⚠ |
 | 2026-09-27 | [Robust Biomolecular Complex Design Across Protein Conformational Landscapes](http://arxiv.org/abs/2609.33726v1) | arXiv | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
+| 2026-09-27 | [Robust Biomolecular Complex Design Across Protein Conformational Landscapes](http://arxiv.org/abs/2609.33726v2) | arXiv | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
 | 2026-09-24 | [TopoFlow: Evolutionarily Conditioned Flow Matching for Protein Conformational Ensemble Generation](https://europepmc.org/article/PPR/PPR1328191) | PPR | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
 | 2026-09-24 | [Kryptix-1: Conformational Ensemble Sampling Substantially Improves Cryptic Pocket Detection Relative to Static](https://europepmc.org/article/PPR/PPR1327307) | PPR | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
 | 2026-09-24 | [Kryptix-1: Conformational Ensemble Sampling Substantially Improves Cryptic Pocket Detection Relative to Static](https://europepmc.org/article/PPR/PPR1327307) | PPR | `TRG-CRYPTIC-POCKET-PREDICTION` ⚠ |
