@@ -699,3 +699,17 @@ Captured: OpenFE v1.13.0 to method-watch.md.
 - **Tooling (c), (d):** not searched this week; UNKNOWN. RTX 5090 stays UNPRICEABLE. Rates in research/compute/pricing.md.
 
 Captured: nothing new to capture.
+
+
+## 2026-10-23 — weekly field-scan (quiet week)
+
+**Takeaway:** Quiet week. No new NR4A/EMC, ternary-prediction, fusion-neoantigen or ASO-delivery item found; no library bumps on the stack.
+
+- **NR4A/EMC:** only older known papers resurfaced (e.g. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6766969/). Nothing new on ligands/degraders. PPR1319933 gapmer preprint action item still open.
+- **Degrader methodology:** only older known work (Amgen cooperativity https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10344917/; docking-based ternary https://pmc.ncbi.nlm.nih.gov/articles/PMC10240388). No new model found.
+- **Non-degrader routes:** not searched this week; UNKNOWN.
+- **Tooling (a):** OpenFE v1.13.0 (08 Oct) and Boltz v2.2.1 (08 Sep) still latest on GitHub releases. Others not re-checked (UNKNOWN).
+- **Tooling (b):** no confirmed newer model than Opus 5.5 found; only unverified press chatter about a possible new Claude model (not captured).
+- **Tooling (c), (d):** not searched this week; UNKNOWN. RTX 5090 stays UNPRICEABLE. Rates in research/compute/pricing.md.
+
+Captured: nothing new to capture.
