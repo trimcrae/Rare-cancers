@@ -360,6 +360,21 @@
    ],
    "signals_recorded": 13,
    "abstracts_fetched": 3
+  },
+  {
+   "date": "2026-10-23",
+   "mode": "scan",
+   "triggers": 32,
+   "queries": 135,
+   "new_hits": 41,
+   "appended": 27,
+   "errors": [
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=protac&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "chemrxiv: DROPPED FOR THIS RUN after 3 consecutive failures (last: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden). Every ChemRxiv query below was SKIPPED -- this run's preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result is not a reading of absence."
+   ],
+   "signals_recorded": 41,
+   "abstracts_fetched": 22
   }
  ],
  "hits": {
@@ -562,6 +577,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13649183",
     "first_seen": "2026-10-09",
     "duplicate_of_title": true
+   },
+   "MED/42899573": {
+    "id": "MED/42899573",
+    "title": "Chemically Induced Proximity for Targeted Protein O-GlcNAcylation",
+    "date": "2026-10-01",
+    "venue": "Acc Chem Res",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42899573",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 22
    }
   },
   "TRG-FEP-CRYPTIC-POCKET": {
@@ -856,7 +881,8 @@
     "url": "http://arxiv.org/abs/2609.33726v2",
     "is_preprint": true,
     "first_seen": "2026-10-16",
-    "duplicate_of_title": true
+    "duplicate_of_title": true,
+    "abstract": "Proteins populate conformational ensembles, yet structure-based biomolecular design typically optimizes candidates against a single target conformation. Consequently, a candidate that fits one state can lose favorable interactions or develop steric clashes when the target adopts another. We introduce FlexEvo, a model-agnostic evolutionary framework that adapts candidates once at inference time from a single target conformation to improve compatibility with alternative natural conformations unseen during adaptation, without retraining the source model or requiring a conformational ensemble. FlexEvo casts cross-state adaptation as geometry-constrained bi-objective optimization, balancing preservation of input-state interactions against robustness to plausible conformational perturbations. To limit the search space and reduce invalid structural edits, geometry-derived FlexBoxes define protected anchor regions, adaptable regions for local exploration, and forbidden regions for clash avoidance. A unified all-atom representation supports topology-preserving adaptation across diverse binder categories, while Pareto selection preserves nondominated candidates across the two objectives. We evaluate FlexEvo across multiple generation baselines and nine representative binder categories spanning diverse molecular sizes and structural topologies. FlexEvo reduces the category-balanced mean relative performance degradation from 47.8% to 4.4%, while adding only 1.4--3.1 minutes of adaptation per sample. These results establish single-state inference-time adaptation as a practical route toward robust biomolecular complex design across protein conformational landscapes."
    }
   },
   "TRG-CRYPTIC-POCKET-PREDICTION": {
@@ -1391,6 +1417,48 @@
     "url": "https://europepmc.org/article/PMC/PMC13628600",
     "first_seen": "2026-10-09",
     "age_days_at_first_seen": 20
+   },
+   "MED/42898950": {
+    "id": "MED/42898950",
+    "title": "Rational design and synthesis of a novel cereblon ligand class enabling selective molecular glue and potent PROTAC",
+    "date": "2026-10-19",
+    "venue": "RSC Med Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42898950",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 4
+   },
+   "MED/42865110": {
+    "id": "MED/42865110",
+    "title": "The ternary complex structure as a foundation for structure-guided molecular glue design",
+    "date": "2026-10-13",
+    "venue": "Essays Biochem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42865110",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 10
+   },
+   "MED/42869914": {
+    "id": "MED/42869914",
+    "title": "Leveraging high-throughput proteomics and AI-based protein folding to accelerate VAV1 molecular glue discovery",
+    "date": "2026-09-12",
+    "venue": "Nat Commun",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42869914",
+    "first_seen": "2026-10-23",
+    "duplicate_of_title": true
+   },
+   "PPR/PPR1344515": {
+    "id": "PPR/PPR1344515",
+    "title": "DNA-Encoded Library-Guided Discovery of a First-in-Class Molecular Glue of the NOS1AP-SCRIB Complex in Alzheimer\u2019s Disease Patient-Derived Neurons",
+    "date": "2026-10-18",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1344515",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 5,
+    "abstract": "NOS1AP is an adaptor for neuronal nitric oxide synthase that engages several partner proteins and is implicated in Alzheimer\u2019s disease. Efforts to drug NOS1AP have sought to disrupt these; we instead report pharmacological stabilization of one interaction. Affinity selection of a 1.4-billion-member DNA-encoded library identified a benzimidazole-5-carboxamide chemotype, optimized by fragment-directed SAR to NOSTRA with submicromolar NOS1AP binding affinity. Of six interactions, NOSTRA enhanced only SCRIB binding, with a cooperativity factor of 30, predominantly through a 14-fold slowing of dissociation; native mass spectrometry resolved a NOS1AP:NOSTRA:SCRIB ternary complex. In healthy human iPSC-derived cortical neurons, NOSTRA engaged the endogenous complex and activated Rac1 without cytotoxicity; in Alzheimer\u2019s patient-derived neurons, it lowered the A\u03b242/A\u03b240 ratio and p-tau217, reduced neurofilament light and improved network activity. With an in vitro ADME profile consistent with CNS exposure, NOSTRA is the first molecular glue for a NOS1AP complex, establishing interaction stabilization as a viable NOS1AP pharmacology.  Table of Contents"
    }
   },
   "TRG-VIRTUAL-CELL-NO-LINE": {
@@ -2091,6 +2159,88 @@
     "first_seen": "2026-10-16",
     "age_days_at_first_seen": 3,
     "abstract": "Few-shot adaptation can help or harm single-cell perturbation prediction, but conventional evaluation shares a control estimate between calibration responses and held-out targets. We show how methods carry control error into their predictions and derive its contribution to score inflation. Nested control-depth experiments support inverse-depth scaling of inner-product inflation; correlation inflation also depends on the control noise-to-signal ratio. Independent-control scoring changed the rank of 40 of 52 configuration-dataset entries. We introduce SafeDelta, a split-control criterion that uses calibration data to decide whether to adapt. Across six datasets, mean gated gain was non-negative under the original two-control evaluation. On a deep plate, fixed predictions and decisions retained positive mean gains under three additional independent control references. The same reproducibility principle identified a fibrosis programme that localises to scar in human liver. These results inform adaptation decisions and control-depth planning."
+   },
+   "PMC13661255": {
+    "id": "PMC13661255",
+    "title": "scLDM: a conditional diffusion framework for single-cell perturbation prediction",
+    "date": "2026-10-01",
+    "venue": "Bioinformatics",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13661255",
+    "first_seen": "2026-10-23",
+    "duplicate_of_title": true
+   },
+   "PPR/PPR1345330": {
+    "id": "PPR/PPR1345330",
+    "title": "Genetic Perturbation Prediction Models Fail Out-of-Distribution: A Rigorous Benchmark and Systematic Evaluation",
+    "date": "2026-10-19",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1345330",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 4,
+    "abstract": "Perturbation prediction models - which forecast transcriptional responses to gene inactivation - are increasingly proposed as  in silico surrogates for genome-scale drug discovery screens. Yet, rigorous evaluation of whether these models genuinely generalize beyond their training distribution has been lacking. Existing benchmarks rely predominantly on random train-test splits, obscuring systematic failure modes that only emerge under realistic out-of-distribution (OOD) conditions. Here we introduce EL-PERTURB (Extrapolative Learning for PERTURBation Prediction), a benchmarking framework that stress-tests 20 perturbation prediction models spanning six architecture classes on both essential gene and genome-wide Perturb- seq screens, using a novel stratified OOD splitting strategy that partitions train and test sets into functionally distinct regions of transcriptional space. We find that model performance degrades substantially under OOD conditions, and that architectural complexity - including single-cell foundation model embeddings - confers no reliable advantage over well-tuned simpler baselines. EL-PERTURB establishes a rigorous benchmark for perturbation effect prediction across a gradient of generalization difficulty, providing a guide for building models that can genuinely serve as surrogates for wet-lab screening."
+   },
+   "PPR/PPR1344574": {
+    "id": "PPR/PPR1344574",
+    "title": "SubcellPert: Benchmarking Subcellular Perturbation Prediction",
+    "date": "2026-10-17",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1344574",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 6,
+    "abstract": "A  bstract    Perturbations change both RNA abundance and intracellular organization, but gene-count predictors omit the positions needed to model spatial responses. To address this limitation, we introduce  SubcellPert , a benchmark for perturbation-response prediction at single-RNA-molecule resolution. It comprises 14 imaging datasets with 13.88 million cells and 3.65 billion RNA molecules. Given source observations and a directed condition change, models generate target RNA populations in normalized two-dimensional coordinates. Two independently trained tasks separate abundance from localization:  Oracle predicts coordinates given exact target counts;  Joint predicts both. Eight baselines span source resampling, classical transport, and frozen foundation-model adapters. Fixed perturbation and cellular-context hold-outs evaluate abundance error, target-gene coverage, and conditional spatial error. Through within-dataset analyses, we find context-dependent gains from spatial features in condition decoding. Interpreting spatial responses requires distinguishing changes within spatial clusters from population composition, and RNA fractions from enrichment relative to compartment geometry. Through comprehensive experiments, we find that Gaussian transport achieves the lowest Oracle spatial error on eight of eleven cellular-context OOD datasets. Audits show that better centroid accuracy can accompany worse radial distributions, and that 19 of 190 Joint adapter fits retain source counts after validation. SubcellPert opens a spatial frontier for virtual cell research, laying the groundwork for predictive models that capture both the molecular composition and intracellular organization of cellular responses. The code is available at  https://github.com/king159/SubcellPert ."
+   },
+   "arXiv/2610.25021v1": {
+    "id": "arXiv/2610.25021v1",
+    "title": "Synergy-Aware Residual Flow Matching for Single-Cell Perturbation Prediction",
+    "date": "2026-10-18",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.25021v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 5,
+    "abstract": "Predicting single-cell responses to genetic and chemical perturbations is important for understanding regulatory mechanisms and prioritizing therapeutic interventions. Existing methods have made progress by modeling perturbation-conditioned expression shifts with neural networks, graph priors, foundation-model representations, or distributional generative models. However, combinatorial perturbation prediction remains challenging because much of the response can be explained by additive single-perturbation effects, while the biologically informative signal often lies in a smaller non-additive residual induced by perturbation interactions. Directly generating the full post-perturbation expression profile may therefore allocate substantial capacity to the dominant additive component and underemphasize synergy-specific structure. To address this issue, we propose \\textbf{SynGeneFlow}, a synergy-aware flow matching framework that anchors the source distribution at an additive prior and learns a residual flow toward the true perturbed state. SynGeneFlow further incorporates perturbation-conditioned gene interaction modeling, where a static gene-gene mask provides biological structure and a perturbation-dependent deformation bias dynamically modulates gene-gene coupling. To preserve population-level response structure, we align both endpoint distributions and biological residual distributions with MMD-based regularization. We evaluate SynGeneFlow on genetic and drug perturbation benchmarks under observed-single, held-out, and cross-modality settings. The results demonstrate that residualizing flow matching around additive perturbation effects provides a biologically grounded and robust framework for single-cell perturbation response prediction."
+   },
+   "arXiv/2610.13966v1": {
+    "id": "arXiv/2610.13966v1",
+    "title": "MRFlow: Mechanism-Structured Residual Flow Matching for Virtual Cell Perturbation Prediction",
+    "date": "2026-09-10",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.13966v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 43,
+    "abstract": "Predicting cellular responses to chemical and genetic perturbations is a central test for AI virtual cells, yet many single-cell models reduce each condition to an average expression shift. This target is misaligned with perturbation biology: rare states, resistant subpopulations, and context-dependent effect sizes may coexist under the same intervention. MRFlow treats virtual-cell prediction as conditional transport between empirical single-cell measures. Control and perturbed cells are embedded in a variational latent state space, greedy low-cost supervision is constructed over detached minibatch states, and a conditional flow-matching vector field transports control populations toward perturbed populations. The field decomposes into a mechanism-structured affine dictionary, which recombines shared latent response operators with a low-rank condition-specific correction, and a spectrally controlled residual field for nonlinear cell-level variation. Genetic perturbations are encoded through a regulatory-graph GCN, chemical perturbations through Morgan fingerprints, and both enter the same conditional dynamics interface. Across eight gene and drug perturbation benchmarks, MRFlow attains the highest composite score while preserving competitive raw performance on differential-expression and distributional metrics. The results support latent distribution transport as a principled and empirically effective formulation for perturbation-aware virtual cell modeling."
+   },
+   "arXiv/2608.15288v2": {
+    "id": "arXiv/2608.15288v2",
+    "title": "D2R2: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction",
+    "date": "2026-08-15",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2608.15288v2",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 69,
+    "abstract": "Predicting single-cell transcriptomic responses to genetic perturbations is central to functional genomics and virtual-cell modeling. Existing approaches, however, typically predict an entire expression profile as a whole, leaving the order in which individual gene responses are generated unmodeled. To address this problem, we introduce \\textbf{$D^{2}R^{2}$} (\\textbf{D}iscrete \\textbf{D}iffusion with \\textbf{R}egulation \\textbf{R}einforcement), which reformulates perturbation prediction as regulation-guided gene-wise progressive generation. A Masked Discrete Diffusion Model represents expression as ordinal tokens and reconstructs a fully masked profile step by step, allowing generated gene responses to condition those that remain masked. A Regulatory Policy Module initializes the generation policy from a gene regulatory network inferred from control cells and adapts it to the perturbation and current partially generated state. Then, group-relative policy optimization refines only the ordering policy using final perturbation-effect agreement as reward. Across Norman19 and VCC-H1, $D^{2}R^{2}$ achieves the best performance on all five metrics on Norman19 and remains competitive on H1. Controlled ablations holding the generator and generation budget fixed show that biological-prior ordering improves over random ordering and is more reliable than uncertainty-based heuristics, whereas reversing the biological-prior ordering degrades every metric. Biological analyses further show that the refined policy prioritizes regulatory genes early while promoting perturbation-specific transcription factors and responsive genes. These results establish gene generation order as an effective, controllable, and biologically interpretable dimension of single-cell perturbation prediction."
+   },
+   "arXiv/2610.04475v1": {
+    "id": "arXiv/2610.04475v1",
+    "title": "VCLMU: Mechanism-Centric Virtual Cell World Modeling for Perturbation Response",
+    "date": "2026-10-03",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.04475v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 20,
+    "abstract": "Predicting cellular responses to genetic perturbations is a central capability for virtual cells and a key step toward computational modeling of biological interventions. Most existing models directly map an unperturbed molecular profile and perturba- tion to the resulting observation without explicitly representing the latent cellular transition induced by the intervention. We introduce a mechanism-centric virtual cell world model that represents cellular state as a set of Latent Mechanism Units (LMUs) and treats genetic perturbations as actions on these latent states. Each LMU combines a reusable identity grounded in multimodal biological evidence with an observation-specific state, allowing a perturbation to induce mechanism- specific stochastic transitions before decoding the resulting transcriptional response. We train VCLMU through two-stage pretraining, first on around 200K pseudo-bulk perturbation profiles and then on gene-aligned single-cell perturbation data. Across six perturbation-disjoint benchmarks, VCLMU consistently improves perturbation- specific response recovery over strong baselines while maintaining competitive global response accuracy. We further analyze learned LMUs through enrichment between perturbation responses and LMU gene sets and show that they capture structured biological response programs. These results support mechanism-level latent state transition as a useful formulation for virtual cell models that aim to predict and interpret cellular responses to biological interventions."
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -2647,6 +2797,48 @@
     "first_seen": "2026-10-09",
     "age_days_at_first_seen": 8,
     "abstract": "Previously, we demonstrated the biosafety of polyethylene glycol-coated iron oxide nanoparticles (MAG@PEG) in a cellular model of viral oncogenesis, supporting their further preclinical evaluation. Herein, we evaluated the safety and biodistribution of MAG@PEG in tumor-bearing mice and assessed the influence of an external magnetic field on nanoparticle distribution. Animals were randomly assigned to three groups: G1, control (PBS); G2, MAG@PEG (10 mg/kg); and G3, MAG@PEG (10 mg/kg) with magnetic exposure for 1 h. Doses were administered intraperitoneally weekly for 1 month. Results showed that animal behavior and body weight were unaffected by MAG@PEG, while tumor growth was significantly reduced only in G2. Biodistribution studies based on tissue magnetization revealed higher magnetic iron levels in the stomach followed by the spleen, lungs, and tumors, particularly in G2. Histological analysis detected Prussian blue-positive staining mainly in the spleen and in lymphoid-associated structures in the lung, stomach and intestine, while a fraction of MAG@PEG remained within the peritoneal cavity. Serum biochemistry showed no evidence of nephrotoxicity. Furthermore, hemocompatibility studies using human blood samples demonstrated that MAG@PEG was non-hemolytic according to the ASTM F756 standard. Taken together, the biodistribution, histological, biochemical, and hemocompatibility findings provide a comprehensive preclinical assessment of the biosafety of MAG@PEG and identify the route of administration and magnetic targeting as key determinants of nanoparticle biodistribution."
+   },
+   "PMC13590434": {
+    "id": "PMC13590434",
+    "title": "From Prediction to Decision Making: PBPK and QSP as Regulatory-Grade NAMs",
+    "date": "2026-09-20",
+    "venue": "Clin Pharmacol Ther",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13590434",
+    "first_seen": "2026-10-23",
+    "duplicate_of_title": true
+   },
+   "MED/42892494": {
+    "id": "MED/42892494",
+    "title": "Glycyrrhizic acid alters [&lt;sup&gt;99m&lt;/sup&gt;Tc]Tc-PSMA biodistribution and tumour progression in a DMBA-induced breast cancer model",
+    "date": "2026-10-17",
+    "venue": "Eur J Pharm Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42892494",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 6
+   },
+   "PMC13673068": {
+    "id": "PMC13673068",
+    "title": "Toward a Platform PBPK Model to Characterize the Plasma and Tissue Disposition of Unconjugated Antisense Oligonucleotides and GalNAc-Conjugated Small Interfering RNAs in Preclinical Species and Human",
+    "date": "2026-10-15",
+    "venue": "Clin Pharmacol Ther",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13673068",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 8
+   },
+   "PPR/PPR1348556": {
+    "id": "PPR/PPR1348556",
+    "title": "PBPK Model-Based Prediction of Optimal Rosuvastatin Dosing with Concomitant Ticagrelor in Elderly Patients Considering ABCG2 Genetic Variant",
+    "date": "2026-10-21",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1348556",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 2,
+    "abstract": "Aims:   Rosuvastatin is commonly co-administered with ticagrelor in patients with acute coronary syndrome. Ticagrelor inhibits breast cancer resistance protein (BCRP/ABCG2), increasing rosuvastatin exposure and potentially the risk of rhabdomyolysis. This risk may be further influenced by age and the ABCG2 c.421C>A variant. We aimed to predict optimal rosuvastatin dosing with ticagrelor in elderly patients stratified by ABCG2 genotype using physiologically based pharmacokinetic (PBPK) modelling Methods PBPK models for rosuvastatin and ticagrelor were developed and validated in PK-Sim using clinical data from healthy adults, elderly patients, and individuals with wild-type or homozygous ABCG2 c.421C>A genotypes. Key parameters, including BCRP catalytic activity and age-dependent declines in CYP2C9 and CYP3A4 activity, were optimized. The drug-drug interaction model incorporated competitive BCRP inhibition by ticagrelor. Rosuvastatin steady-state exposure was simulated with half or quarter standard doses during ticagrelor co-administration, and exposure matching approach was used to identify optimal dosing. Results The PBPK models demonstrated good predictive performance across populations and genotypes. In young adults with the wild-type genotype, halving the rosuvastatin dose resulted in an AUC fold change of 1.44, supporting a half-dose strategy. In young homozygous variant carriers, half-dose co-administration produced comparable exposure (AUC fold change 0.78). In elderly wild-type individuals, a four-fold dose reduction achieved comparable exposure (AUC fold change 1.06), whereas elderly variant carriers required only a half-dose reduction (1.12). Conclusions PBPK modelling supported age- and ABCG2 genotype-specific rosuvastatin dosing with ticagrelor. Elderly wild-type patients may require a further dose reduction to minimise toxicity while maintaining therapeutic exposure."
    }
   },
   "TRG-VECTOR-DELIVERY-SOLID-TUMOUR": {},
@@ -3504,6 +3696,26 @@
     "first_seen": "2026-10-09",
     "age_days_at_first_seen": 5,
     "abstract": "Hyperbolic embeddings are widely used in deep learning to represent hierarchical data, and a substantial body of work reports empirical advantages over Euclidean representations. In recent years, however, a critical literature has accumulated suggesting that some of these advantages reflect poorly tuned baselines or implicit regularization rather than geometry itself. The present paper examines this question through a series of controlled experiments designed to separate the regimes in which hyperbolicity is expected to help from those in which it is not.On the theoretical side, we record a simple invariance: any diffeomorphism, including the Poincar\\'e exponential map, preserves the closure of a dense function class in the uniform topology on compact subsets of the latent space. This indicates that a purely capacity-based advantage of hyperbolic layers over Euclidean layers of matched parameter count is not available through reparametrization alone, and that any observed empirical difference on flat data must be sought in optimization-theoretic or regularization-based mechanisms rather than in approximation theory.On the experimental side, we report four findings. First, a positive control on a synthetic perfect binary tree shows that a hyperbolic encoder can preserve the tree metric strictly better than a Euclidean encoder of matched capacity, with the advantage growing monotonically with tree depth: from roughly three hundredths of a point of Spearman correlation at depth five to roughly nine hundredths at depth seven, with p-values below one part in ten thousand. Second, a positive control on real biological data---the seed trie of the Huesken siRNA library, a balanced four-ary tree of depth seven constructed from the seven-nucleotide seed regions of two thousand three hundred and sixty one siRNAs---shows the same qualitative advantage: roughly five to nine hundredths of a point of Spearman correlation over a capacity-matched Euclidean encoder, again with p-values below one part in ten thousand. Third, on the secondary-structure tree of a real mRNA (PCSK9, of length three thousand six hundred and thirty seven nucleotides and tree diameter three hundred and twenty seven), the hyperbolic encoder either fails numerically without target rescaling or, once target distances are rescaled to match the well-conditioned regime, ties with a Euclidean encoder of matched capacity. Fourth, on the siRNA efficacy prediction task itself (PCSK9, one hundred and one samples; Huesken, two thousand three hundred and sixty one samples), the hyperbolic layer shows no advantage specific to its geometry: the modest gain observed on Huesken structural features is reproduced by a non-hyperbolic radial projection into the unit ball, and is not reproduced by the element-wise hyperbolic tangent or by clipping.We read these observations as evidence that hyperbolic layers are a specialized tool: they help on balanced trees of moderate depth, whether synthetic or real, but not on long thin biological hierarchies and not on effectively flat tasks such as siRNA efficacy prediction. All four trees studied here are exact tree metrics and therefore have vanishing Gromov hyperbolicity; the relevant diagnostic for whether hyperbolicity helps is instead the aspect ratio of the tree, defined as the ratio of its depth to its diameter. This refines the standard picture and suggests a set of practical controls---radial, capacity, shape, and stability---that any claim of a geometric advantage should report."
+   },
+   "MED/42905853": {
+    "id": "MED/42905853",
+    "title": "Single-nucleotide polymorphism-directed design of allele-specific antisense oligonucleotides for spinocerebellar ataxia type 3",
+    "date": "2026-10-21",
+    "venue": "Sci Transl Med",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42905853",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 2
+   },
+   "MED/42872320": {
+    "id": "MED/42872320",
+    "title": "In silico design and molecular docking evaluation of antisense oligonucleotides targeting IDO1 mRNA in the context of depression",
+    "date": "2026-10-14",
+    "venue": "Nucleosides Nucleotides Nucleic Acids",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42872320",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 9
    }
   },
   "TRG-EMC-FUNCTIONAL-MODEL": {
@@ -4208,6 +4420,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13640556",
     "first_seen": "2026-10-09",
     "duplicate_of_title": true
+   },
+   "MED/42864407": {
+    "id": "MED/42864407",
+    "title": "Computational design and translational development of TCR-mimic scFv antibodies for peptide-HLA neoantigen targeting",
+    "date": "2026-10-12",
+    "venue": "NPJ Drug Discov",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42864407",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 11
    }
   },
   "TRG-NR4A3-DIRECT-MATTER": {
@@ -4671,6 +4893,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13604907",
     "first_seen": "2026-10-02",
     "age_days_at_first_seen": 12
+   },
+   "MED/42861524": {
+    "id": "MED/42861524",
+    "title": "Machine Learning-Based Recurrence and Survival Prediction in a Large Institutional Upper Extremity Soft Tissue Sarcoma Cohort",
+    "date": "2026-10-12",
+    "venue": "J Surg Oncol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42861524",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 11
    }
   },
   "TRG-FEM1B-LINKER-BEARING-STRUCTURE": {
@@ -5662,7 +5894,8 @@
     "url": "http://arxiv.org/abs/2610.21082v1",
     "is_preprint": true,
     "first_seen": "2026-10-16",
-    "age_days_at_first_seen": 1
+    "age_days_at_first_seen": 1,
+    "abstract": "Large language model (LLM) agents can keep scientific experiments running for months with little human supervision, but reliable autonomous research also requires scientific judgment. Evaluating scientific judgment is difficult because research decisions are open-ended and depend on project context. We construct Sci$\u03a0$vot, a 248-case benchmark of scientific judgment based on human corrections. The benchmark draws on records from six months of research in which senior researchers ran LLM agents on 26 projects across six scientific fields and repeatedly intervened to correct the agents' research judgments. In each case, an agent chooses between the original LLM plan and the human-corrected alternative, using only the project record available before the correction as context. We compare LLM and human performance and examine the effects of reasoning effort, access to the project record, and reconsideration. At medium reasoning effort with the project record, models systematically prefer the original LLM plan over the human-corrected alternative. Four of five frontier models perform below chance on the selected cases. The highest accuracy in the project condition across the tested models and reasoning effort settings is 63.5%, compared with 73.4% for fresh researchers. At medium effort, every model achieves lower accuracy with the project record than without it, and reconsideration does not consistently improve overall accuracy. Even with a human-corrected alternative available, frontier models struggle with the selected research decisions, while Sci$\u03a0$vot supports systematic evaluation of scientific judgment for LLM agents."
    },
    "arXiv/2610.18272v1": {
     "id": "arXiv/2610.18272v1",
@@ -5673,7 +5906,8 @@
     "url": "http://arxiv.org/abs/2610.18272v1",
     "is_preprint": true,
     "first_seen": "2026-10-16",
-    "age_days_at_first_seen": 3
+    "age_days_at_first_seen": 3,
+    "abstract": "Autonomous research agents must acquire and reason over evidence within a limited budget. Yet relevant sources can remain uninspected or unused, leaving a gap between retrieval coverage and the evidence that informs research. The challenge is to align fast local judgments with changing evidence needs and feed their findings back into research decisions. We introduce JevGPT, a dual-system architecture for autonomous research that couples fast evidence processing with deliberative research planning. System Two sets evidence objectives and integrates findings, while System One locates support, assesses relevance, and guides further inspection. Independent source judgments run in parallel; selected original passages inform the next research step. Experiments on fixed-corpus question answering and document ranking show that JevGPT achieves leading task performance, with faster completion and lower cost than comparably effective research agents. Evidence analysis shows broader source inspection and greater coverage of supporting documents in the research loop, highlighting efficient evidence processing as a route to more capable autonomous research."
    },
    "arXiv/2610.13194v1": {
     "id": "arXiv/2610.13194v1",
@@ -5684,7 +5918,8 @@
     "url": "http://arxiv.org/abs/2610.13194v1",
     "is_preprint": true,
     "first_seen": "2026-10-16",
-    "age_days_at_first_seen": 7
+    "age_days_at_first_seen": 7,
+    "abstract": "Long-horizon autonomous research has shown promise in accelerating scientific progress through sustained cycles of hypothesis generation, implementation, and validation. However, this Generate-Execute-Feedback paradigm relies on reactive trial-and-error, where costly and time-consuming executions introduce severe feedback delays, throttling evolutionary progress under explosively expanding search space. To address this challenge, we propose JANUS, a framework that unifies future outcomes forecasting and past experience reflection through a Predict-Verify-Evolve loop driven by a co-evolving world model. Within an evolving graph, the research agent proposes candidates while world model scores them by forecasting value improvement, information gain, and exploration utility, then accordingly selects, refines, or prunes branches prior to execution. After receiving ground-truth feedback, JANUS distills experience into evolving skills: hierarchical skills for research agent, exploration-strategy skills for world model, and their coordination protocols. This mechanism enables continual co-evolution: the research agent sharpens candidate generation while the world model refines its predictive judgment over extended horizons. Extensive evaluations on MLS-Bench-Lite and real research tasks demonstrate that JANUS significantly outperforms state-of-the-art baselines, achieving both higher evolving efficiency and ceiling."
    },
    "arXiv/2610.18449v1": {
     "id": "arXiv/2610.18449v1",
@@ -5695,7 +5930,108 @@
     "url": "http://arxiv.org/abs/2610.18449v1",
     "is_preprint": true,
     "first_seen": "2026-10-16",
-    "age_days_at_first_seen": 3
+    "age_days_at_first_seen": 3,
+    "abstract": "AI agents for autonomous scientific discovery must decide which experiments to run under a limited budget. Most benchmarks for science agents provide fixed datasets, while others that support active experimentation largely rely on simulation. We introduce Autonomous Science Bench, an initial release comprising six budgeted design-build-test-learn campaigns grounded in published experiments across biology, chemistry, and materials science. Agents select batches of designs, receive measurements from a lab service, and use the results to guide subsequent experiments before delivering a predictive model. Success requires passing two calibrated gates: a discovery gate, which evaluates the designs the agent measured, and a learning gate, which evaluates its model's ranking of held-out designs. In a pilot evaluation of eight agent-model configurations and 144 trials, the best configuration succeeds in 67% of trials, while the hardest campaign is solved in only three of 24 attempts. The two gates reveal different weaknesses: some agents build accurate rankings but find too few promising designs, while others find promising designs but fail to predict which unseen designs will perform well. These differences are obscured by overall success rates alone. We release version 0.1 of the campaigns, lab runtime, and public leaderboard at https://yibow.me/autonomous-science-bench."
+   },
+   "MED/42899772": {
+    "id": "MED/42899772",
+    "title": "Beyond Scalar Objectives: Expert-Feedback-Driven Autonomous Experimentation for Scientific Discovery at the Nanoscale",
+    "date": "2026-10-01",
+    "venue": "ACS Nano",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42899772",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 22
+   },
+   "MED/42887310": {
+    "id": "MED/42887310",
+    "title": "Research note: approach rather than avoidance: behavioral responses of broiler chicks repeatedly exposed to an autonomous mobile robot",
+    "date": "2026-10-14",
+    "venue": "Poult Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42887310",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 9
+   },
+   "MED/42864384": {
+    "id": "MED/42864384",
+    "title": "The rise of agentic AI in drug discovery from static tools to autonomous virtual scientists",
+    "date": "2026-10-12",
+    "venue": "NPJ Drug Discov",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42864384",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 11
+   },
+   "MED/42905768": {
+    "id": "MED/42905768",
+    "title": "Can autonomous Agentic-AI systems accelerate drug discovery and development in the next decade?",
+    "date": "2026-09-01",
+    "venue": "Brief Bioinform",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42905768",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 52
+   },
+   "arXiv/2610.25069v1": {
+    "id": "arXiv/2610.25069v1",
+    "title": "Auto-MD-bench: Evaluating Autoresearch Agents for Real-World Medical Tasks",
+    "date": "2026-10-18",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.25069v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 5,
+    "abstract": "Autonomous agents are increasingly capable of developing machine learning (ML) models end to end. In medical practice, however, strong performance on the target metric does not fully characterize how good the models are in real-world use cases. For example, medical ML models should also provide well-calibrated risk estimates and remain robust across patient populations. Yet autonomous model development is typically guided by task objectives that emphasize simple predictive discrimination (e.g. AUROC). This raises a key question: are these objectives sufficient to guide agents toward models that meet the broader requirements of real-world medical use? In this study, we introduce Auto-MD-bench, a benchmark of 15 real-world medical tasks from 10 clinical datasets, spanning survival analysis, classification and sequential prediction, with external validation across cohorts, hospitals and time periods. We evaluate four agents: AIDE, AI Scientist v2, Codex, and Autoresearch. The strongest agents achieve competitive primary scores, yet their predicted risks are less calibrated than those of the simple baseline models, which could lead to severe medical accidents. Moreover, models with nearly identical primary scores can exhibit markedly different calibration, while performance varies substantially across population shifts. These findings show that primary task performance alone is insufficient to assess autonomous clinical modeling and multiple different metrics widely used in healthcare practice need to be taken into consideration."
+   },
+   "arXiv/2610.31372v1": {
+    "id": "arXiv/2610.31372v1",
+    "title": "RIDAR: Safeguarding Research Integrity in Autonomous Research Agents via Automated Detection and Runtime Intervention",
+    "date": "2026-10-22",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.31372v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 1,
+    "abstract": "Autonomous research agents are increasingly used to automate large portions of scientific research, yet they are prone to research integrity violations (RIVs): behaviors that compromise the validity, reproducibility, or faithfulness of the research process. We present RIDAR, a framework for automated RIV detection and runtime intervention. First, we introduce RIVT, a comprehensive taxonomy of 14 RIV types spanning the full research lifecycle. Building on RIVT, we present RIDAR-post-hoc, a framework to detect RIVs within agent trajectories. RIDAR-post-hoc achieves 85.2% F1 performance on RIV-Gold, a benchmark for RIV detection with 60 expert-annotated trajectories. Applying RIDAR-post-hoc to RIV-Wild, a dataset of 300 agent trajectories across 50 distinct research tasks, we detect 3,964 RIV instances in 99.7% of trajectories, revealing the prevalence of RIVs in current agents. Finally, we present RIDAR-runtime, a framework for dynamically detecting and correcting RIVs during agent runtime. RIDAR-runtime effectively reduces agent RIVs remaining at task completion by 36.8%. We will release our code and data to facilitate future research."
+   },
+   "arXiv/2610.25211v1": {
+    "id": "arXiv/2610.25211v1",
+    "title": "NeuroAct: Advancing EEG Analysis and Decoding via Dual-Loop Autonomous Research",
+    "date": "2026-10-18",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.25211v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 5,
+    "abstract": "EEG analysis and decoding underpin brain-computer interfaces, cognitive assessment, and sleep monitoring. Fixed pipelines and reward-driven search do not explicitly determine how signal structure, representations, predictor behavior, and training dynamics contribute to performance or generalization gaps, leaving intervention choice underdetermined. We introduce NeuroAct, an autonomous research agent framework for EEG analysis and decoding. NeuroAct implements dual-loop autonomous research across EEG foundation models, task-specific predictors, and model combinations. In an inner loop, research, development, and review roles use evidence on signal structure, representations, predictor behavior, and training dynamics to test hypotheses, select analyses or interventions, and refine candidates using performance, stability, and cost feedback. An outer loop distills outcomes into conditional, testable recommendations with task and model conditions, then validates and revises them on subsequent tasks.We evaluate four settings: (A) EEG General Analysis, (B) Cross-task Model Optimization, (C) Single-task Open Research, and (D) Collaborative Prediction. In Setting A, NeuroAct's 80.88 macro-average exceeds BrainAgent's 63.13 by 17.75 points. In Setting B, NeuroAct raises EEGPT's mean balanced accuracy (BA) by 7.34 points and HBN Pearson's (r) from 0.6894 to 0.7362; in Setting C, it improves ADFTD BA by 16.33 points; and in Setting D, it raises Workload BA from 79.69% to 85.02%. Experience reuse raises BCIC-IV-2a BA from 34.66% to 50.81% while reducing LLM tokens by 64.02%, indicating recommendations improve cross-task performance. NeuroAct enables evidence-guided EEG research improved by cross-task experience."
+   },
+   "arXiv/2610.24944v1": {
+    "id": "arXiv/2610.24944v1",
+    "title": "Epi: Towards a Persistent, Self-Improving Agent for Autonomous Research",
+    "date": "2026-10-18",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.24944v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 5,
+    "abstract": "We present \u00c9pi, an autonomous research agent that sustains investigations across model sessions and evolves its methods through accumulated experience. \u00c9pi combines persistent research history, hierarchical memory, branching and independent review to maintain research continuity, learn from experiments, and explore and revisit alternative approaches. Its experiments run across session boundaries, and a fixed verifier evaluates their outputs. \u00c9pi produced 120 record-setting results, comprising 20 numerical bound records across 12 families and 100 construction records across eight families. These include an approximately 84-fold narrower interval for the $n$-queens constant and a more than 3.6-million-fold narrower rigorous interval for the quartic Feigenbaum attractor dimension. Exact dual certificates establish that the Cohn-Elkies linear-programming bound cannot be sharp in dimensions 10 and 11. Beyond numerical improvements, \u00c9pi gives a computer-assisted proof of Tuza's conjecture for split graphs with an eight-vertex clique part and at most three triangle-active neighborhood types, with arbitrary multiplicities. We extend this research process to algorithmic coding with \u00c9pi-turbo, a lightweight configuration that develops executable solvers for tasks including vehicle routing, scheduling and production planning. On 30 FrontierOR tasks, \u00c9pi-turbo achieves a 5.4% higher total benchmark score than Codex at 64% of its model cost, using the same underlying model and reasoning effort. \u00c9pi is designed to support human understanding by connecting computational results to explicit methods and mathematical arguments that researchers can examine and build upon."
+   },
+   "arXiv/2610.24601v1": {
+    "id": "arXiv/2610.24601v1",
+    "title": "TCMScience: An Autonomous Scientist for Traditional Chinese Medicine",
+    "date": "2026-10-17",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.24601v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 6,
+    "abstract": "Traditional Chinese medicine (TCM) research connects classical texts, medicinal entities, molecular assays, computational predictions, and clinical studies. An autonomous research agent must preserve the inferential boundaries between these evidence types while coordinating analysis across heterogeneous resources. We introduce TCMScience, a scientific knowledge-discovery agent that separates language-model proposals from execution and release authority. Its architecture combines a trusted kernel, a scientific compiler, and claim-support contracts: plans are compiled into typed operations, execution is bounded by explicit permissions, and candidate findings are checked against source provenance, study design, and claim scope before release. The full capability registry contains 117 public-source connectors with 444 typed operations across 29 domains and 150 native tools across 12 domains; the TCM data hub catalogs 136 databases, 76 dataset specifications, and 84,294 formula-source records. These resources support model-independent workflows through browser and local execution interfaces. In a network-pharmacology analysis of Gegen Qinlian Tang, replacing the whole-proteome background with the assayed-protein background changed the number of significant pathways from 66 to zero; incorporating inactive screening records identified nine pathways, including drug-metabolism signals retained as mechanistic hypotheses. A governance ablation over 121 constructed erroneous outputs spanning 26 classes released 121 errors without governance, 57 with the domain layer, seven with the kernel, and zero with both layers. All 10 compliant controls were retained. These results establish complementary control of known failure modes and show how explicit evidence contracts change the conclusions an agent is permitted to report."
    }
   },
   "TRG-POSE-ORIENTATION-CONVERGENCE": {
@@ -6452,6 +6788,80 @@
     "first_seen": "2026-10-16",
     "age_days_at_first_seen": 2,
     "abstract": "Polygonatum odoratum is widely consumed as a functional food and is traditionally used for respiratory complaints, yet the material basis of its anti-pneumonia activity and the effect of extraction solvent on that activity remain unclear. Here, untargeted LC-QTOF-MS profiling of the aqueous extract was combined with TCMSP database mining to screen potential active components, and their core targets and binding modes were predicted by network pharmacology and molecular docking. Of 38 potential active components screened by oral bioavailability and drug-likeness, 28 were mapped to 123 pneumonia-related targets. IL6, AKT1, IL1B, TNF, TGFB1, TP53, MMP9, PIK3CG, HIF1A and CASP3 occupied hub positions in the PPI network and were enriched in the IL-17, TNF and PI3K-Akt pathways. Molecular docking of 7 representative components against 9 core targets gave 24 systems with binding energies all below \u22124.8 kcal/mol, and different components frequently occupied the same binding pocket, indicating a multi-component, multi-target mode of action. Critically, all nine docking targets were functionally interrogated in LPS/IFN-\u03b3-stimulated MLE-12 cells: the 50% methanol extract significantly improved 9 of 10 indicators, outperforming the aqueous extract on all 10, with significant differences in p-AKT and p-CREB (P &lt; 0.05). Medium-lipophilic homoisoflavonoids are therefore the principal material basis of the anti-pneumonia activity, and hydroalcoholic extraction better retains them. These findings support the use of P. odoratum as a functional food ingredient for respiratory health."
+   },
+   "MED/42904790": {
+    "id": "MED/42904790",
+    "title": "Molecular Targets and Potential Mechanisms of Luteolin Against Cervical Carcinoma: Integrative Approach Combining Network Pharmacology, Molecular Docking, Molecular Dynamics Simulations, and In Vitro Validation",
+    "date": "2026-10-01",
+    "venue": "Chem Biodivers",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42904790",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 22
+   },
+   "MED/42889895": {
+    "id": "MED/42889895",
+    "title": "Exploring the Molecular Mechanism of Ganoderic Acid B for Insomnia Based on Metabolomics, Network Pharmacology, Molecular Docking, and Experimental Validation",
+    "date": "2026-09-28",
+    "venue": "ACS Omega",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42889895",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 25
+   },
+   "MED/42872658": {
+    "id": "MED/42872658",
+    "title": "Integrative Network Pharmacology, Molecular docking and Experimental Validation Uncover the Mechanism of Detoxifying Fumigation and Washing Granules against Hemorrhoids",
+    "date": "2026-10-12",
+    "venue": "Comb Chem High Throughput Screen",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42872658",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 11
+   },
+   "MED/42883148": {
+    "id": "MED/42883148",
+    "title": "Can Molecular Docking Predict Guest Orientation in \u03b2-Cyclodextrin? A Cross-Docking and DFT Refinement Study",
+    "date": "2026-09-23",
+    "venue": "Molecules",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42883148",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 30
+   },
+   "PMC13665827": {
+    "id": "PMC13665827",
+    "title": "Can Molecular Docking Predict Guest Orientation in \u03b2-Cyclodextrin? A Cross-Docking and DFT Refinement Study",
+    "date": "2026-09-23",
+    "venue": "Molecules",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13665827",
+    "first_seen": "2026-10-23",
+    "duplicate_of_title": true
+   },
+   "PPR/PPR1347908": {
+    "id": "PPR/PPR1347908",
+    "title": "Morroniside Ameliorates Hyperuricemic Nephropathy in Mice: Integrated Evidence from Transcriptomic Reanalysis, Molecular Docking, and Experimental Validation",
+    "date": "2026-10-22",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1347908",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 1,
+    "abstract": "Abstract    Persistent hyperuricemia can promote renal injury through sustained inflammatory signaling. We investigated whether morroniside (MOR) ameliorates hyperuricemic nephropathy (HN) and whether its effects are associated with NF-\u03baB p65/NLRP3 signaling. Molecular docking and reanalysis of the independent kidney transcriptomic dataset GSE190205 were combined with studies in potassium oxonate/adenine-induced HN mice and uric acid-challenged HK-2 cells. Transcriptomic reanalysis showed enrichment of TNF-\u03b1/NF-\u03baB, NOD-like receptor, inflammasome-related and pyroptosis-associated programs in untreated HN kidneys. MOR reduced serum uric acid, serum creatinine and urinary albumin-to-creatinine ratio, improved renal histopathology, and decreased inflammatory mediators and levels of phosphorylated NF-\u03baB p65, NLRP3, caspase-1, IL-1\u03b2 and IL-18. Bay 11-7082 produced broadly concordant effects, and combined treatment further suppressed inflammatory signaling in HK-2 cells.These findings indicate that MOR attenuates renal inflammation and injury in HN in association with suppression of NF-\u03baB p65/NLRP3-related signaling."
+   },
+   "arXiv/2610.26009v1": {
+    "id": "arXiv/2610.26009v1",
+    "title": "ProtGlycanDock: Towards Accurate Protein-Glycan Docking with Tailored Dataset, Benchmark and Model",
+    "date": "2026-10-19",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.26009v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 4,
+    "abstract": "Performing accurate protein-glycan docking is critical to understanding protein-glycan interactions which govern many biological processes. However, this important task is hampered by the lack of tailored datasets, benchmarks and models for protein-glycan docking. To fill this blank, we first curate a standard benchmark ProtGlycanDock for training and evaluating protein-glycan docking models under both protein and glycan generalization settings. On this benchmark, we evaluate ten models in three categories, physics-based docking methods, machine-learning-based docking models and molecular structure prediction models. To obtain more precise binding poses, we further propose two finetuning techniques to inject the knowledge of glycan conformations into a general-purpose molecular structure prediction model. These two techniques respectively augment model inputs with glycan topological features and refine glycan binding pose with a glycan energy loss. Benchmark results show the superiority of AlphaFold 3 among existing methods, and the two proposed finetuning techniques can be well combined to achieve a state-of-the-art model for protein-glycan docking. Also, we perform stratified benchmark analysis and case studies to better understand the strengths and weaknesses of current models, providing insights for future model improvements. We maintain datasets at https://huggingface.co/datasets/ProtGlycanDock/ProtGlycanDock and source codes at https://github.com/kasawa1234/ProtGlycanDock"
    }
   },
   "TRG-COVALENT-EXPOSURE-CRITERION": {
@@ -6808,6 +7218,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13638132",
     "first_seen": "2026-10-09",
     "duplicate_of_title": true
+   },
+   "MED/42864242": {
+    "id": "MED/42864242",
+    "title": "Thiol reactivity: lost in the crowd?",
+    "date": "2026-10-12",
+    "venue": "Trends Biochem Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42864242",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 11
    }
   },
   "TRG-ANTITARGET-PANEL-PROTOCOL": {
@@ -7078,6 +7498,28 @@
     "url": "https://europepmc.org/article/MED/42815794",
     "first_seen": "2026-10-02",
     "age_days_at_first_seen": 2
+   },
+   "PMC13682368": {
+    "id": "PMC13682368",
+    "title": "The barcoded binding assay: Multiplexed profiling of chaperone binding selectivity for hydrophobic substrates",
+    "date": "2026-09-30",
+    "venue": "Cell Stress Chaperones",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13682368",
+    "first_seen": "2026-10-23",
+    "duplicate_of_title": true
+   },
+   "PPR/PPR1346973": {
+    "id": "PPR/PPR1346973",
+    "title": "Evaluating the Predictive Contribution of Receptor-Specific Docking Interactions to Aminergic GPCR Selectivity",
+    "date": "2026-10-21",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1346973",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 2,
+    "abstract": "Abstract    Molecular docking is often combined with ligand-based models to provide receptor-specific interaction information. In this study, we investigated whether such interactions improve the prediction of binding selectivity among aminergic G protein-coupled receptor (GPCR) anti-targets using a stepwise approach. Native redocking successfully reproduced the crystallographic binding poses of the 5-HT2B, histamine H1, and muscarinic M2 receptors, but not those of the dopamine D2 and \u03b11A-adrenergic receptors. In virtual screening against property-matched decoys, H1 and M2 showed moderate discrimination between active and decoy compounds, with ROC-AUC values of 0.717 and 0.704, respectively. In contrast, 5-HT2B performed near chance (ROC-AUC = 0.525), despite highly accurate pose reconstruction (RMSD = 0.14 \u00c5). Structural comparison revealed only four identical ligand-contacting residues across the three receptors: Asp3x32, Ser3x36, Trp6x48, and Tyr7x42. We then examined 35 compounds with experimentally measured binding affinities at H1 and M2, comprising 19 promiscuous and 16 H1-selective compounds. The conserved Asp3x32 salt bridge was observed in 15/16 H1-selective and 12/19 promiscuous compounds docked to H1, compared with 3/16 and 5/19, respectively, at M2. Despite these differences in receptor\u2013ligand interactions, incorporating docking-derived features into Morgan fingerprint-based classifiers did not consistently improve predictive performance under scaffold-grouped cross-validation. Compared with the ligand-only baseline (AUROC = 0.661), adding anchor interactions yielded a modest improvement (\u0394AUROC = +0.020; 95% bootstrap interval: \u22120.029 to 0.088), whereas shell and extended-pocket contacts reduced performance (\u0394AUROC = \u22120.062; 95% bootstrap interval: \u22120.154 to \u22120.010). The complete interaction fingerprint also provided no clear improvement (\u0394AUROC = \u22120.029; 95% bootstrap interval: \u22120.118 to 0.036). Overall, these findings highlight that accurate pose reconstruction and structurally interpretable receptor\u2013ligand interactions do not necessarily translate into improved ligand-based predictions of binding selectivity. Validation using larger datasets and independent receptor systems will be needed to determine whether docking-derived interactions provide predictive benefits beyond ligand-based descriptors."
    }
   },
   "TRG-CONDENSATE-PARTNER-RESOLUTION": {
@@ -7620,6 +8062,36 @@
     "url": "https://europepmc.org/article/MED/42831523",
     "first_seen": "2026-10-16",
     "age_days_at_first_seen": 15
+   },
+   "MED/42905560": {
+    "id": "MED/42905560",
+    "title": "Enhancing simulations of disordered protein ensembles with chemical shift restraints in coarse-grained models",
+    "date": "2026-10-21",
+    "venue": "Proc Natl Acad Sci U S A",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42905560",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 2
+   },
+   "MED/42895685": {
+    "id": "MED/42895685",
+    "title": "Coarse-grained force field parameters for natural product-based small molecules: from structural mapping to pharmaceutical applications",
+    "date": "2026-10-19",
+    "venue": "J Mol Model",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42895685",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 4
+   },
+   "MED/42867132": {
+    "id": "MED/42867132",
+    "title": "Correction: Simulation of protein structure using a coarse-grained potential incorporating the backbone dihedral interactions",
+    "date": "2026-10-13",
+    "venue": "Phys Chem Chem Phys",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42867132",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 10
    }
   },
   "TRG-FUSION-JUNCTION-CLINICAL": {
@@ -8298,6 +8770,48 @@
     "url": "https://europepmc.org/article/MED/42834115",
     "first_seen": "2026-10-16",
     "age_days_at_first_seen": 11
+   },
+   "MED/42855228": {
+    "id": "MED/42855228",
+    "title": "XIAP inhibition augments personalized neoantigen vaccine-driven antitumor immunity in orthotopic hepatocellular carcinoma",
+    "date": "2026-10-09",
+    "venue": "J Immunother Cancer",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42855228",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 14
+   },
+   "PPR/PPR1344108": {
+    "id": "PPR/PPR1344108",
+    "title": "Discovery of frameshift-associated TCRs following personalized neoantigen vaccination in a patient with osteosarcoma",
+    "date": "2026-10-15",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1344108",
+    "is_preprint": true,
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 8,
+    "abstract": "Personalized antigen-directed immunotherapies, including personalized cancer vaccines, are emerging as promising therapeutic modalities for a range of cancer types. Immune monitoring can be used to evaluate the efficacy of a vaccine in stimulating the immune response pre- and post-vaccination; however, such approaches typically stop short of identifying which T cell receptors (TCRs) are functionally driving therapeutic responses. Here, we present a case report of immune monitoring and subsequent TCR discovery experiments following administration of personalized cancer vaccines in a patient with locally recurrent osteosarcoma. Whole PBMCs were stimulated with vaccine peptides (>16 AA)  in vitro for 11 days, after which IFN\u03b3 ELISPOT identified total T cell responses for 12 of 15 tested peptides post-vaccination.  In vitro expanded samples were submitted for 10x single-cell TCR sequencing, from which 26 TCRs were chosen for generation of TCR-T cells based on clonal expansion and culture specificity. Of the generated TCR-T cells, 25 produced functional TCRs, 4 of which were specific to vaccine peptides. However, downstream testing revealed each was MHC class-II restricted. To address this, we repeated the  in vitro stimulations with co-cultures of isolated CD8  + T cells with autologous dendritic cells, and cultures of whole PBMCs with anti-MHC class-II blocking antibody. These cultures yielded 10 additional TCRs, 2 of which were responsive to a vaccine peptide containing a MAP2 frameshift mutation. These findings demonstrate an effective approach for leveraging post-vaccination expanded antigen-specific T cell populations for discovery of novel T cell receptors for downstream cellular therapies.   Graphical Abstract"
+   },
+   "MED/42901134": {
+    "id": "MED/42901134",
+    "title": "Thermosensitive and tumor-targeted asparaginase fusion protein enables metabolic-immunotherapy for solid tumors",
+    "date": "2026-10-16",
+    "venue": "Biomaterials",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42901134",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 7
+   },
+   "MED/42867382": {
+    "id": "MED/42867382",
+    "title": "Claudin 18.2: From a Tight Junction Protein to a Breakthrough Target in Solid Tumor Immunotherapy",
+    "date": "2026-10-13",
+    "venue": "Biomarkers",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42867382",
+    "first_seen": "2026-10-23",
+    "age_days_at_first_seen": 10
    }
   }
  }
