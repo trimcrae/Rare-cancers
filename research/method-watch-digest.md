@@ -18,29 +18,29 @@ news feed may be cited as a medical fact — repo rule, CLAUDE.md §7.
 
 #### individualized neoantigen therapy / therapeutic cancer vaccine (phase 2-3)
 *Unlocks:* a pivotal readout, approval or halt for an individualized neoantigen therapy → re-grade the EWSR1::NR4A3 junction-vaccine route's precedent and feasibility (vaccine-construct.json); it is the modality that route assumes
+- 🆕 **2026-10-30** — Immune Modulatory DC Vaccine Against Brain Tumor (PHASE1 · NOT_YET_RECRUITING · Shenzhen Geno-Immune Medical Institute) — https://clinicaltrials.gov/study/NCT03914768
+- 🆕 **2026-10-30** — A Study of Pembrolizumab (MK-3475) With or Without Intismeran Autogene (V940) in Participants With Non-small Cell Lung Cancer (V940-009/INTerpath-009) (PHASE3 · RECRUITING · Merck Sharp & Dohme LLC) — https://clinicaltrials.gov/study/NCT06623422
+- 🆕 **2026-10-30** — A DNAJB1-PRKACA Fusion Kinase Peptide Vaccine Combined With Glutamine Antagonist DRP-104, Nivolumab, and Ipilimumab in Patients With Advanced Stage Fibrolamellar Carcinoma (FLC) (PHASE1 · RECRUITING · Sidney Kimmel Comprehensive Cancer Center at Johns Hopkins) — https://clinicaltrials.gov/study/NCT07430202
 - 🆕 **2026-10-28** — A First-In-Human Trial of pTTL in Advanced Colorectal Cancer (PHASE1/PHASE2 · ACTIVE_NOT_RECRUITING · Neogap Therapeutics AB) — https://clinicaltrials.gov/study/NCT05908643
 - 🆕 **2026-10-28** — A Clinical Trial Investigating the Safety, Tolerability, and Therapeutic Effects of BNT113 in Combination With Pembrolizumab Versus Pembrolizumab Alone for Patients With a Form of Head and Neck Cancer Positive for Human Papilloma Virus 16 and Expressing the Protein PD-L1 (PHASE2/PHASE3 · ACTIVE_NOT_RECRUITING · BioNTech SE) — https://clinicaltrials.gov/study/NCT04534205
 - 🆕 **2026-10-27** — TMV Vaccine Alone or With Toripalimab-tpzi for Recurrent Head and Neck Squamous Cell Carcinoma (PHASE1 · RECRUITING · Metaclipse Therapeutics Corporation) — https://clinicaltrials.gov/study/NCT07898124
-- 🆕 **2026-10-27** — Adjuvant Therapeutic Cancer Vaccine (AST-201, pUMVC3-hIGFBP-2) in Patients With Advanced Ovarian Cancer (PHASE2 · NOT_YET_RECRUITING · Aston Sci. Inc.) — https://clinicaltrials.gov/study/NCT05794659
-- 🆕 **2026-10-26** — Exploratory Study of Personalized mRNA Vaccine in Patients With Refractory Rhabdomyosarcoma (EARLY_PHASE1 · RECRUITING · Xinxin Zhang) — https://clinicaltrials.gov/study/NCT06932861
-- 🆕 **2026-10-23** — Personalized Neoantigen Vaccine in Combination With Durvalumab (MEDI4736) in Extensive Stage Small Cell Lung Cancer (PHASE2 · ACTIVE_NOT_RECRUITING · Washington University School of Medicine) — https://clinicaltrials.gov/study/NCT04397003
 
 #### antisense / siRNA / oligonucleotide in SOLID tumours (phase 1-3)
 *Unlocks:* an oligonucleotide reaching a solid-tumour endpoint in humans → re-grade the fusion-junction ASO route's dominant gate (delivery), which is the whole reason that route is parked
 - **2026-10-15** — Danvatirsen Monotherapy Followed by Combination With Venetoclax in Relapsed/Refractory MDS & AML (PHASE1 · RECRUITING · Montefiore Medical Center) — https://clinicaltrials.gov/study/NCT05986240
-- **2026-09-30** — Vortosiran for VTE Prevention (PHASE2 · NOT_YET_RECRUITING · Ribocure Pharmaceuticals AB) — https://clinicaltrials.gov/study/NCT07850453
 - **2026-09-30** — PRE-ISPY Phase I/II Oncology Platform Program (PHASE1/PHASE2 · RECRUITING · QuantumLeap Healthcare Collaborative) — https://clinicaltrials.gov/study/NCT05868226
+- **2026-09-30** — Vortosiran for VTE Prevention (PHASE2 · NOT_YET_RECRUITING · Ribocure Pharmaceuticals AB) — https://clinicaltrials.gov/study/NCT07850453
 - **2026-09-25** — Trabedersen (OT-101) With Pembrolizumab for Newly Diagnosed Advanced NSCLC and Positive PD-L1 (PHASE1/PHASE2 · ACTIVE_NOT_RECRUITING · University of Nebraska) — https://clinicaltrials.gov/study/NCT06579196
 - **2026-09-04** — iExosomes in Treating Participants With Metastatic Pancreas Cancer With KrasG12D Mutation (PHASE1/PHASE2 · RECRUITING · M.D. Anderson Cancer Center) — https://clinicaltrials.gov/study/NCT03608631
 
 #### targeted protein degrader / molecular glue (clinical)
 *Unlocks:* clinical validation or failure of a degrader against a transcription-factor-class target → re-grade the NR4A3 degrader route's clinical precedent
+- 🆕 **2026-10-30** — A Study With NKT3964 for Adults With Advanced/Metastatic Solid Tumors (PHASE1 · RECRUITING · NiKang Therapeutics, Inc.) — https://clinicaltrials.gov/study/NCT06586957
 - 🆕 **2026-10-29** — A Phase 1/1b Study of PRT13722 in Participants With Advanced HR+/HER2- Breast Cancer (PHASE1 · NOT_YET_RECRUITING · Prelude Therapeutics Incorporated) — https://clinicaltrials.gov/study/NCT07905001
-- 🆕 **2026-10-27** — TACTIVE-U: A Study to Learn About the Study Medicine (Vepdegestrant) When Given With Other Medicines in People With Advanced or Metastatic Breast Cancer (Sub-Study B) (PHASE1/PHASE2 · TERMINATED · Pfizer) — https://clinicaltrials.gov/study/NCT05573555
-- 🆕 **2026-10-27** — TACTIVE-U: A Study to Learn About the Study Medicine (Vepdegestrant) When Given With Other Medicines in People With Advanced or Metastatic Breast Cancer. (Sub-Study C) (PHASE1/PHASE2 · TERMINATED · Pfizer) — https://clinicaltrials.gov/study/NCT06125522
 - 🆕 **2026-10-27** — TNG462-C103: Study to Evaluate the Safety, Tolerability, and Antitumor Activity of Vopimetostat in Combination With ERAS-0015 in PDAC and NSCLC Patients (PHASE1/PHASE2 · NOT_YET_RECRUITING · Tango Therapeutics, Inc.) — https://clinicaltrials.gov/study/NCT07897734
-- 🆕 **2026-10-21** — Treatment of Chinese Participants With B-Cell Malignancies With BGB-16673, a Bruton Tyrosine Kinase-Targeted Protein-Degrader (PHASE1/PHASE2 · RECRUITING · BeOne Medicines) — https://clinicaltrials.gov/study/NCT05294731
-- 🆕 **2026-10-21** — Study of PF-07248144 in Advanced or Metastatic Solid Tumors (PHASE2 · RECRUITING · Pfizer) — https://clinicaltrials.gov/study/NCT04606446
+- 🆕 **2026-10-27** — TACTIVE-U: A Study to Learn About the Study Medicine (Vepdegestrant) When Given With Other Medicines in People With Advanced or Metastatic Breast Cancer. (Sub-Study C) (PHASE1/PHASE2 · TERMINATED · Pfizer) — https://clinicaltrials.gov/study/NCT06125522
+- 🆕 **2026-10-27** — TACTIVE-U: A Study to Learn About the Study Medicine (Vepdegestrant) When Given With Other Medicines in People With Advanced or Metastatic Breast Cancer (Sub-Study B) (PHASE1/PHASE2 · TERMINATED · Pfizer) — https://clinicaltrials.gov/study/NCT05573555
+- 🆕 **2026-10-21** — Tacabrutideg and Sonrotoclax, With Response-Guided Obinutuzumab, for the Treatment of Chronic Lymphocytic Leukemia (CLL)/Small Lymphocytic Lymphoma (SLL) (PHASE2 · NOT_YET_RECRUITING · Fred Hutchinson Cancer Center) — https://clinicaltrials.gov/study/NCT07887061
 
 #### sarcoma / fusion-driven sarcoma — any interventional trial
 *Unlocks:* ANY trial recruiting in EMC or a fusion-driven sarcoma → a real-world route for a patient, and a possible collaborator/model source; fold into the registry (emc-clinical-registry.json) after reading the record
@@ -54,11 +54,11 @@ news feed may be cited as a medical fact — repo rule, CLAUDE.md §7.
 - 🆕 **2026-10-26** — FDA Approves Talazoparib/Enzalutamide for HRR Gene-Altered Metastatic Prostate Cancer - CancerNetwork — https://news.google.com/rss/articles/CBMivAFBVV95cUxNWXltM3ZRenh1M3FIaEtzQjlPZXVSOFZjUERfU1lhcDF1d2MzZlUyeVYzQmNWekpVblk2WE9jVlVISFFkU0ZjNGJUWkxBanJtSGZXajg4RmNRa08xR2VZWW1EdnItVGZTU0ZieFlCTU93Mk1BT2hMM0EtcWpCbWhiZ0RJNXlEUlJzN2ZSdWhXc21XeTNib1lZZ1k3ZkVtX2MyMHRMbm9JeDJxZTRRZHZBcGxUMkhKZXJFQ08xdg?oc=5
 - 🆕 **2026-10-22** — ESMO: After leak, Merck and Moderna post phase 3 cancer vaccine data early - Fierce Biotech — https://news.google.com/rss/articles/CBMilgFBVV95cUxQLWNXOEVpSWw4cHJ1cWVRRV9vWl95cGpIVnMyeUNLZXRTQzRNNDUxTnNNUTY5dU5FSl9iV2RVVlozZFJhbWNoME02NmNMMnhITjNIREM3S0FFejYtT0JHUWJQZkhoR3dqbUhfdkRMcDZMU2NWUHN1X0FxcDBkWkJidTlPZkRhZ0lfYTMyNmhLWXFiRWFiTFE?oc=5
 - 🆕 **2026-10-26** — Takeda, Innovent's gastric cancer ADC delivers Phase III survival benefit, advances toward approval - AllSci — https://news.google.com/rss/articles/CBMiiAFBVV95cUxPb2RTUHJOVUlCMmlKZXV3amg5aUN0Tlp4eUktWHRCcWxoQnljMGw5bDZ1aTlpR1hpRm9KUmFZclJhT2UzUGM0V3BDWmJjb2xtRVJ6LUlBU0dzR3JJZlFGcElwSVRacG0zQnlmZll2N0VKRFhVaENnRFFTR3R4RWJ1dUN6ZlNmZzI2?oc=5
-- 🆕 **2026-10-29** — Geron’s Rytelo stumbles in phase 3 as Novartis gears up for post-JAK inhibitor blood cancer bid - Fierce Pharma — https://news.google.com/rss/articles/CBMitwFBVV95cUxPOThnSFBNTEpsWTZicmltZWtFX2dfM0NUZmdsaXRjZjlUYnVSem4wMC1nRnN1TE9VMFY0UlNJNVl5bzFEUFVBczV6blVObVRMMmJET2hMdDFSa0JkSk9FWFUwbFFNTFN1UEo3YnlsSElrS2RaNkVfWDBsbUU1R0NZeUxXYTFqdDgxaGFOZTBvaEE0NDYwOUl0NG1JX0pONl9mT3BNYkNiWGhBZTNzVjNBZUpmX1VxbUk?oc=5
 - 🆕 **2026-10-26** — Biontech And Dualitybio Announce Topline Results Of Global Phase 3 Clinical Trial for Breast Cancer - TradingView — https://news.google.com/rss/articles/CBMi_gFBVV95cUxPTlJBeWJwbVBhbGlnNWJoS0RzVnFqOVphZTlWaUFoTzNSeEV6QVZlc01NZDJMYzN0cmRCTmNSTkt0cUdwdEYyYUVfeUVwMUZUM2hOd0NrTjFKQmlZdXJyQ250MjFVVUFmSmZLQ1ladUx2Yno1cWY4VldXVWFsZXJkUExYZVk3aVJvUHJQNVJsdG5CS0hRMkZCR1JGUVFCeV9kLUs1Yi1xelZsaDhZVTZfT1VzcVgxdUNveDlPVDROUWdTNnl0aGVyREJVSGlFbDhGMjhDaHV6emxzazI5c19jY0NPZ1E5cnJ4dmdKVWhOS2xBNV9hYk9SQWRTQm9GZw?oc=5
+- 🆕 **2026-10-29** — Geron’s Rytelo stumbles in phase 3 as Novartis gears up for post-JAK inhibitor blood cancer bid - Fierce Pharma — https://news.google.com/rss/articles/CBMitwFBVV95cUxPOThnSFBNTEpsWTZicmltZWtFX2dfM0NUZmdsaXRjZjlUYnVSem4wMC1nRnN1TE9VMFY0UlNJNVl5bzFEUFVBczV6blVObVRMMmJET2hMdDFSa0JkSk9FWFUwbFFNTFN1UEo3YnlsSElrS2RaNkVfWDBsbUU1R0NZeUxXYTFqdDgxaGFOZTBvaEE0NDYwOUl0NG1JX0pONl9mT3BNYkNiWGhBZTNzVjNBZUpmX1VxbUk?oc=5
 - 🆕 **2026-10-23** — ESMO 2026: Tango trips on sinking response rates in pancreatic cancer but will move to Phase 3 - BioSpace — https://news.google.com/rss/articles/CBMi0AFBVV95cUxPU2Q2aUttMlRDVnFIM3czd3RCQXBaUmhIUlFtZ09oaDZhazl3NWlKajR2TXBsdjROZFNrMUVSZXItbzVyVkR1RG4xT2MzTXBGVlNXS3lfWHFiX2xwS0d4SGFMZUlrdVZER0tQdWdvbVhkRF9OSFFIYl9OajN6RzliOTFnM0oybDJVanVqNDVUQjRUb2FFV25RaURDbnRGTUlUWjk4ejJtZmd3VVM2OC1KNEg4ekhneHpNX1VsQU5zZ2ZMNnlUeFBWcmhWSFFwZllr?oc=5
 - 🆕 **2026-10-22** — The BioPharm Brief: Kidney Approval, Retinal Cell Therapy, and a Breast Cancer Trial Shift - BioPharm International — https://news.google.com/rss/articles/CBMiygFBVV95cUxPbm1DY2RmRTRUNkNXcTlZTjhuSE1hM1ZlWDNjNl9Ga3dXbHFIVGlhRlpERXJVaEdVWHJVRnp1YWxUMDJqdnFNbmN0UEhueGM5eEtzMWY4RHZVbHdpWXNoVmpncEUwM0hnY3RKS0h5M0F3eDBKZmRLandmTzgwZUVsM2RkNUxMemwxMjYyWHJyVUs4enBYVV9ZOHExSlFOVlpsU2V4cmVYQjlRb3RDU3V5czNhbGQ4MS1CTVhrenlXeWF0RXdsRjBiU1dn?oc=5
-- _…and 17 more in window (not listed)._
+- _…and 16 more in window (not listed)._
 
 #### cancer vaccines / individualized neoantigen therapy
 *Unlocks:* neoantigen-therapy news → direct precedent for the junction-vaccine route (the route's premise is that an individualized neoantigen approach can work); read the primary source, then re-grade
@@ -80,8 +80,8 @@ news feed may be cited as a medical fact — repo rule, CLAUDE.md §7.
 - 🆕 **2026-10-19** — Merck KGaA’s $1.1B Silence Therapeutics Buyout Brings RNA Drug for Rare Blood Cancer - MedCity News — https://news.google.com/rss/articles/CBMiywFBVV95cUxQZGtadzBGVG14Q1BvMTdtZFBmdnEzdklUZzFjdUJ1eGtBeHZQdWtwMXFHZHg0clFpVldvcU5wVTRFXzQ3NlladFhwNGZBQlgzeUFuOW5lUTFZb1pBclF3STJlVFdYY2N2d3A1VXVuX19YYXJKRm5JbGJ2Z1lqLTVwb1dRcGZUdjl5R25wLXNJQ2xqc3NMLXM2SUd5enoyaGFnQlhmYjFSa29JWnFQU01Qak1yVjQ1X0otYnVpQ3Fvb1U3SDhDNzhMVjNURQ?oc=5
 - 🆕 **2026-10-20** — Merck buys Silence and its siRNA pipeline for $1.3bn - pharmaphorum — https://news.google.com/rss/articles/CBMiggFBVV95cUxPWEZqVTRXdmMtQ3IwZ3lySTNNMWlNUVNEYU1GS1E3ZXhTQ0FOSHZ6TVdscThiM3MwYlFiT2xwcnNDMVFuWmNDZ2VRSVhidXE4U2M0WVA4OE1uNklCQmVXd1Zpb203aE1pblRhd21MZENyZW1UZDhGNmdqbWlnSDdhTnJR?oc=5
 - 🆕 **2026-10-27** — Novartis Rare Disease Therapy Valuation Takes $1.9B Hit After Trial Failure - GenomeWeb — https://news.google.com/rss/articles/CBMiswFBVV95cUxNVmpqLXkyQUx1UEt1Yk5jbndXNEJWTHZ1TWVWUnN5bUZhRmJoQTFHWHpCck9kM0gxNzRLV1NkaENyQXNpVDF3X0NXaGptQ2N6N2ZOeUZWSU9XdnFwRUxBOVN1MlNlVUpyZms3UXYtNXQxWnF6N0U4Y045QTUwZ3pmeW52aHFFTzV0V1VUX29UY2ZXRXN2SWxOdURtTjhySHNpaEdZaThUZzFmOVZyRTVrRy1tUQ?oc=5
+- 🆕 **2026-10-20** — Merck KGaA spends $1.3bn to buy siRNA specialist Silence Therapeutics - Pharmaceutical Technology — https://news.google.com/rss/articles/CBMitwFBVV95cUxPWUUyUjJVTkEwOUNVMXkzYmVxY3JyZXBKN2w1NGF3ejZJS0Q5dzlkdTVPUmROUEVDYk1xWG1uZ1FuUWpRaHl3bU02NGdtaE5VbXczdmhHQkNvNGFaOXRNYzJuc2JrcWFSQzBReExHVXZOX09ndzNnVE5NWV8xcldaZG5vdkxvbC1NYjlXWmtpOS1fT2ZmYzFqaU9jeVJTYVZzM19kSU5mMVQxVXY1TUZpenNsUExtME0?oc=5
 - 🆕 **2026-10-19** — Merck KGaA buys Silence in $1.3B deal after siRNA drug’s phase 2 blood cancer win - RamaOnHealthcare — https://news.google.com/rss/articles/CBMirgFBVV95cUxNSnZ3R09PaEJRdTNMVGhEZXpaZUxrSFllaHZPdTZkdmU5R2x5cG5NRUZJSWljLWdBc2FJaXcxSzZnc0pybG0zSHozbWVsT2g0RDB3ek9SQVg0RFBlSHZYYThHbjZEWnhkUVFjN2JqR05xODJRdU9xdVVSX3JoYlRJLXFLZG5ITUFIZVN1NWduTzlhOHBWbGNJdWdIRnRsUTdxMEJKbzZ0THJnQTVjZ2c?oc=5
-- 🆕 **2026-10-19** — Acquisition of Silence Therapeutics to Strengthen Rare Disease Pipeline - Merck Group — https://news.google.com/rss/articles/CBMie0FVX3lxTE1hempRQkRPUHpFWWZiOUxhV3JldGlHQlpLRnlOc2pKXzJGT2xveWxnajkxMTN6LTNtWGVsa0lXbXhQY0x0aDkyaDQ4ZXJNSlFWZlBnbFU5eHBXVFVLeHc5Sk4wU3VVRUhsa0kzUXpVeFFOWDRVamlmaE4zNA?oc=5
 - _…and 17 more in window (not listed)._
 
 #### targeted protein degradation (clinical)
@@ -93,8 +93,7 @@ news feed may be cited as a medical fact — repo rule, CLAUDE.md §7.
 - 🆕 **2026-10-28** — Monte Rosa Therapeutics Announces Milestone Achievement Associated with Second Phase 2 Clinical Study Initiation for VAV1-directed Molecular Glue Degrader MRT-6160 (DDY391) - Yahoo Finance — https://news.google.com/rss/articles/CBMipwFBVV95cUxOVU0xM3VLd2VMbC05OVhoRUI4S1RZVENPR2FlcVk0SFNObG1HeHFyZy1xTXE1WEU5TnJiTHZLa1RQT0pSX0lLT3ZWM09CYnUwSG1Wb3gzYXV3Q2gyY2Y2akhXZFduR0hTa3A3ZUlySVlWcF9kOVBiRVRJVEx0YU1Yc0IyR0RnaTNuUlZIUEw3bEtPaWxES2tneUxvYUcxcE8wbEZJUldlMA?oc=5
 - 🆕 **2026-10-20** — Amphista doses first patient in AML trial of protein degrader - Pharmafile — https://news.google.com/rss/articles/CBMilAFBVV95cUxQTmM4a3c1WDFSaDRXWFZMbFRhWV9tTnpMRENtcXI1WENFSThoVXk2U2VsLWhpckJnVTVuWmpFekxuWmE3aU84RC1JRld2aXNVVjJDTnpiN0FlTlpMSndKM29NRmNIeVdsY08wRU1zRXo2Rk9aRC01aExGTGRxVGdlUG43TjdtVW1PZnlOUzliMnFHcnN6?oc=5
 - 🆕 **2026-10-19** — Big Pharma Is Pouring Billions Into a New Class of ‘Protein Degrader’ Drugs - tovima.com — https://news.google.com/rss/articles/CBMiowFBVV95cUxQU3dYRzF1SnJvREZzdWhaUkg5NTZ2QTYtZ1VxSF9EN0Vnd1ljeUJvNWlEWDhzZmNXdmJqUmxBXzlRUUZSRE5Da1g0Y0RqS1pkaWJyb2hBV20tMmZpU1Fsc3liWUgtMU5kTjNDbUdVUHJvX2x0anl5VUVXLTVuZ1hoaGdLWWdWSlpmdnVZVXFRWExVUm5HWk1EM2xTTWRIVHJPRDdz?oc=5
-- 🆕 **2026-10-20** — Lycia shoots for $250M IPO to advance protein degrader portfolio - FirstWord Pharma — https://news.google.com/rss/articles/CBMiU0FVX3lxTE52M2NpV1d4UWo1YjJfVzhYU2w1cDFRWlJnV1VJSnZ4S2hjTThxWlNpZ0czU1NfNTJHOVJTRTVXQm1kc3FfUjBnVlJ2aUVGVlFqNU9z?oc=5
-- _…and 11 more in window (not listed)._
+- 🆕 **2026-10-29** — C4 Therapeutics Unveils Expansion of Discovery Platform Capabilities Utilizing Target-Centric Approach to Accelerate the Identification of Novel Molecular Glue Degraders - The Manila Times — https://news.google.com/rss/articles/CBMi4AJBVV95cUxQczVkQ3B3RC1tc0x4WW15eEdsWjZHbHd1bnpGMDh5OEppRXl2NVVXbVJyTkVJYU1XYnVSbUVKZEtDdU1jVmxaNFB4QURHUlc4WldveGJZZ1VnWlVIcTAxbk1MU0k0TXhxQ0RkRXlBTDlsMUtIdjIzRHBmeWEyTVZUcGR5cDZGcGRzMV83OUNyd2JQamJJdG9uRm84aGg2bzZJcUtQVXpBRnV0eXo1Y3BsWlhDTFhUdEVtSndqRHZPWmhhd1EyWVpFS2o1MVp2dnFWU21rRXFDOWdzQXg3WDlZVmFfQjdLOVpaOVN1MExSZkNuLXNFVnEySF9BYS14Rkg0MUpRTWdpSUdZSXlFVnlPX05BSHhsa1F2cDVRZXlsemtCbng3YmhPeFFXVXYyNDlzUnlSUXFtOVRYUzJXWVFYLXhSa1JGT2NMbjJtY1JOdzE3cURUT3h3TFJtczZLU29G0gHmAkFVX3lxTFBWdkZTUGhlaGoyanFhTlFKNDN2OHhreVN3dzFTRUp3S1VCY1RDMTVXU2lWWmtvSXJzcGxQM1k5d0tzYXBEUkg4VEFqUDVhTUg2bnRrZkdFR0EyNDYyc1BQbXd0LUxyREZrY1VPOEF2MWdGZGVMR1FURmVuVDFkWV91bEpaZnhaZlhCeUVtQ0cwSUc4NVphQnJpb01WeTlGbUFod0FhVmF3WmlVRkc3YmxvUDVKOTJCUE5aXzZYbkh0ZEtUeFVEYkRtR2VxR01rdjl2MGJ4YlU0SlRKemNyYUxMQmFySk5FN2pIRzJyUG9hZzRTMWpLODYwQ1hsNTJVb2hPTW94YTNtRGZQTkZZNEREeGE4cVJOQUpSeUY4eGlFTXY1YjFZWXJ4Q0hsT2g1bDJBdlVLWXRQaGtWTXRLRXFRWVNRYVNnSjZuVllfUmU2aEliS2pnQkN5WmZVclo2QVZfbGlzU0E?oc=5
 
 #### sarcoma treatment news
 *Unlocks:* sarcoma treatment news → the disease area itself; anything touching EMC or a fusion-driven sarcoma goes into the registry after reading the primary source
@@ -106,18 +105,18 @@ news feed may be cited as a medical fact — repo rule, CLAUDE.md §7.
 - 🆕 **2026-10-29** — Wider Surgical Margins May Not Mean Better Cancer Control, Finds Large-Scale Treatment Trial | Newswise - Newswise — https://news.google.com/rss/articles/CBMiwwFBVV95cUxQeURYUldQel8zaHpuTDdHVnk5UkRxUUZQaWpuSnB0V2R1cExkNkJvYkZoZUtac2xMRm1QSUhiRTA2Qlp1cDRfbHQ4VzRaUUcwMWRSa2pnOU9aZWdvWWVRRHI4LTNBcGwzOVBzeG14dkxpWkJrMjdQdnZuRkJGbjVrYm84Q2pELXpKamtqLWZoRG9wSmc3ay1hTFhfOTVsMjhtRktnNzVpbkNOZjlCUDdIVnM2SmM5RDk0b3ZxVXowa3BNSWvSAcMBQVVfeXFMUHlEWFJXUHpfM2h6bkw3R1Z5OVJEcVFGUGlqbkpwdFdkdXBMZDZCb2JGaGVLWnNsTEZtUElIYkUwNkJadXA0X2x0OFc0WlFHMDFkUmtqZzlPWmVnb1llUURyOC0zQXBsMzlQc3hteHZMaVpCazI3UHZ2bkZCRm41a2JvOENqRC16Smprai1maERvcEpnN2stYUxYXzk1bDI4bUZLZzc1aW5DTmY5QlA3SFZzNkpjOUQ5NG92cVV6MGtwTUlr?oc=5
 - 🆕 **2026-10-28** — Close Surgical Margins May Suffice in Pediatric Sarcoma Trial - Bioengineer.org — https://news.google.com/rss/articles/CBMijwFBVV95cUxNMHFqekUzbURFVmtid2s4eTZuM1JIRjZZbWxQeHFPZ1ZlSGcxU0tiQi1IMTZUVnlyMkhtUkNMZTRycjBpdlRwN0o3MVVQTDFINnVPcVF4WFBpX2tQaE9qYmJybDA4c2FjWlhEeFFWdkw2My1pQWhTYkdvTVNVVjdIQUpfMWk1U3J1V0FMajNWMA?oc=5
 - 🆕 **2026-10-29** — Can TIL Therapy Deliver Lasting Responses in Advanced Sarcoma? - Targeted Oncology — https://news.google.com/rss/articles/CBMimwFBVV95cUxPb2xmblUzcWhQelNyX2lnM3V4VkxSbVBYdWJHMXAxZzUyT3ZabzJNdS1QZUtEbTFRWXcxbVNEUWgwV3BVZVFHUzAyczRvWUVHM2dMUVBHNmhRdXJma2l5emU0VERxbWsxdzZ6dGRhQnh2ejM5ZnFZQUV1dHY0TnJfd25DbTVpUE5panFqLXhkaFFVZ0lLeXRndTJ5QQ?oc=5
-- _…and 15 more in window (not listed)._
+- _…and 16 more in window (not listed)._
 
 #### regulatory approvals in oncology (via news; FDA's own RSS endpoint is UNKNOWN)
 *Unlocks:* an oncology approval → a modality cleared a regulator, which is the strongest available precedent signal for any route using it; confirm against the regulator's own notice before citing
+- 🆕 **2026-10-19** — Commissioner's National Priority Voucher (CNPV) Pilot Program - U.S. Food and Drug Administration (.gov) — https://news.google.com/rss/articles/CBMikAFBVV95cUxQUWk0TnM5QUY4aEM2SlItbjczWDRQRGQ0c1dMTmNRdnZxSGdmZk9oRk9DRG9TQkx0d3lzZWQtbngzWGlTcnRYbDZQeS0tSXFieHhFQzZ5LVRzN2xiMFV5akl4Ymh5aVpMWmQxbTRXVE5Lbk1nd0d5QS1KTEtTQlN2YWl6Tk1oeEtuSVRSM0lCLUY?oc=5
 - 🆕 **2026-10-19** — GSK’s Jemperli scores FDA approval in rectal cancer, backed by high complete response rate - Fierce Pharma — https://news.google.com/rss/articles/CBMiuAFBVV95cUxQemktSi15XzNDRmNKcmVyOTU2VVhCSHZPOWR1TllkUkRFV2VvU0pmYXFUU1M2aktPMTRNMFcyY0dBU0hvRGNnOEFKN3Q3X3JQT19BMlk4dHNuR25SN2xhTWRWMXBEcHhPLU5WYXUxbFF2M1VXTnZzYnhfX2JOendwRXhSRlpsMGFyZkE5SUZqNGRJRUhocnpDdjd0Ykc5SDg5NXZ0SHFxWnV6Z0JvTTJLZVBzb2ZxTXkx?oc=5
 - 🆕 **2026-10-21** — Giredestrant Approval Expected in Late 2026 - Breast Cancer.org — https://news.google.com/rss/articles/CBMid0FVX3lxTE1pSVlDZXBUYmRfTG1tSGJnQ3JnWVJsaFpxcVVOX1dDWkEtX3hWTjFTY0hGaWNCdlJtZGhORDlJc3ludk9tOWg1dlBzU0dzSU1iMGFQcV9Yc1E0bDFSamlQb0w3aVlLbk9MVWJid043Tkgzb085aERN?oc=5
-- 🆕 **2026-10-19** — Commissioner's National Priority Voucher (CNPV) Pilot Program - U.S. Food and Drug Administration (.gov) — https://news.google.com/rss/articles/CBMikAFBVV95cUxQUWk0TnM5QUY4aEM2SlItbjczWDRQRGQ0c1dMTmNRdnZxSGdmZk9oRk9DRG9TQkx0d3lzZWQtbngzWGlTcnRYbDZQeS0tSXFieHhFQzZ5LVRzN2xiMFV5akl4Ymh5aVpMWmQxbTRXVE5Lbk1nd0d5QS1KTEtTQlN2YWl6Tk1oeEtuSVRSM0lCLUY?oc=5
 - 🆕 **2026-10-20** — FDA Approves Dostarlimab for Rectal Cancer - Oncology News Central — https://news.google.com/rss/articles/CBMitgFBVV95cUxQcTByX1IyVzFlckpvWmxiR1NKTzVsbk1GOXAzNkV2SXVuQUhSTFgtZzFTcDFySXEwOFBUVGpmdnNQdUlVTDhtUEtFMFowRUNRbGhxcFpGWkV2aE4zNXNIeUxaQ2FIb1F3a2p0TzkzMU1CeW5Fbzl1Wk5Fd3ZBR0xMODlVQVdMX3Rmd2lCSXYtRmRNZm8yX3ZGNFVIUnAtSFViSi11TUhXUzcxeEVpZm9UbEFlMzV6dw?oc=5
-- 🆕 **2026-10-29** — Melanoma vaccine awaits FDA approval after late-stage trial - KOLD — https://news.google.com/rss/articles/CBMilwFBVV95cUxQSkdLTlFGOHdQTzE1R21palU5RFBDdklfVFJLNnl1OHNZbzdwWThfMWVGSTg2Q250dmNpQXg5WW9KZGFIclFuT1JkakdmU1N2U3U0Z1doaXptRllTY1VSY0xIenNOQ1RuNGhiblctSmRVVThTLWFSdTAweGMxRl9PaUpuU0pxSDlrMEJ1cUwxYktVcl9SQkFF0gGrAUFVX3lxTE9VeWtYblp5VEVQampFel9XcndBUmJDeHc4bjBpWENGdlNWcEg5QTUzWVNMZ0daTHJaM0RSMklVbEpOLWJpSTNWbktCRjZuUmFuNGpJUjJ1dHJfUlROZnZrd3p4NU9LNUtQbVhlMVpLT0gwQXpSTnRWdjJSOHRLclptbWt0b2J2bTlFNXhjU2pXclFlUFRET0Z2aEpqTzVYeDNSMzRmZXk0emZyNA?oc=5
 - 🆕 **2026-10-19** — FDA Approves Dostarlimab for Rectal Cancer - Medscape — https://news.google.com/rss/articles/CBMikgFBVV95cUxPcW02UEVJWkpmbTdPNzJCR1B6aUNlUXpndldENHlOel9SaDF0STF2MTk2VW5lV1d3WHJZMDZEVWRhRnl2OHBvOGwyZ1VNYy1SdVU3bF9YLTdMM0dwZGZlRXlDUVlER0hnVTRaZHAzckhXYnRNY00td1lsaFBxeEFlTjZiYkljRDdPSHhFZHFTbUJCQQ?oc=5
+- 🆕 **2026-10-29** — Melanoma vaccine awaits FDA approval after late-stage trial - KOLD — https://news.google.com/rss/articles/CBMilwFBVV95cUxQSkdLTlFGOHdQTzE1R21palU5RFBDdklfVFJLNnl1OHNZbzdwWThfMWVGSTg2Q250dmNpQXg5WW9KZGFIclFuT1JkakdmU1N2U3U0Z1doaXptRllTY1VSY0xIenNOQ1RuNGhiblctSmRVVThTLWFSdTAweGMxRl9PaUpuU0pxSDlrMEJ1cUwxYktVcl9SQkFF0gGrAUFVX3lxTE9VeWtYblp5VEVQampFel9XcndBUmJDeHc4bjBpWENGdlNWcEg5QTUzWVNMZ0daTHJaM0RSMklVbEpOLWJpSTNWbktCRjZuUmFuNGpJUjJ1dHJfUlROZnZrd3p4NU9LNUtQbVhlMVpLT0gwQXpSTnRWdjJSOHRLclptbWt0b2J2bTlFNXhjU2pXclFlUFRET0Z2aEpqTzVYeDNSMzRmZXk0emZyNA?oc=5
 - 🆕 **2026-10-27** — Recon: FDA approves treatments for prostate cancer, Crohn’s disease; US judge refuses to halt Lilly weight-loss drug ads - RAPS — https://news.google.com/rss/articles/CBMi5wFBVV95cUxPbEpLRXo5NkpWczVpNW9pWjZ1RzZoZXZBd1ROakxuOXdJNm11VkQtTkxfclJDT1RiamhBWG9HeENENUFyeE95Qnc2YkNoWXJIQ1B5TTZ4cHJ5eDhLVTItd2J6SFVKOWdxd2JTMVJRY0RueDJaa180bFREdVVVZkdLWVRKQ1YzWGh4UXdLTkJqTE03RVVGSmR4NWNfNlpXNVNtTVlGOWhpVjN1R3UzREdmdmpVcEZuTlRUTC1xbTZOTGFZaHFSLTlSSThMY0xQWjg2WTRZNHlVelNRV0ZpaVdubEI1MXdTdFU?oc=5
-- 🆕 **2026-10-19** — Alpha Tau Medical Gets FDA Approval to Expand Brain Cancer Trial - Yahoo Finance — https://news.google.com/rss/articles/CBMikAFBVV95cUxQR2RNRVBkVUlaamljZ1pFTWpaekFoS2tuZ29rTnZsRzg1T2xDTkdfV0FkaHd6bnlRMU96R0MwZkd4aExqSXBrbExXZHk5eXRmYm9tamNDNHAya0JkQ0JfMmJXREJfRURLNHNWNjdjVXpqWXdyZ1llcmVmY29hZFBBenlpdUo2b1JEc1FtNWNiOXY?oc=5
+- 🆕 **2026-10-27** — FDA Approves Virus-Based Treatment Combination for Advanced Melanoma - https://news.cancerconnect.com/ — https://news.google.com/rss/articles/CBMiogFBVV95cUxQVjM0b0I0WnZlQ3h2VzNiYllmb0l4eHRaRWZycmoyMy1MTUJvSm43QnlXYVE3Y2oyOXVCZ1BabXFjR2dmN2FqcUZvMFVzcjlzMC1FRUJtQkFrMVhvMDQ4MXY5YUYwR3RDUlRGRzI4UHdrYS10R3JoMkt6TnpIT0dvSmRjNk5YaWZiZW1fcWxHUGdhWU83bGVrTlBmTndCbmRmbnc?oc=5
 - _…and 17 more in window (not listed)._
 
 ## Literature watch
@@ -146,13 +145,13 @@ news feed may be cited as a medical fact — repo rule, CLAUDE.md §7.
 - 🆕 **2026-07-18** — Engineering short-sequence elements for condensate-like assemblies by de novo design. (MED:PMC13400440)
 - 🆕 **2026-08-26** — Evaluating the outputs of ARAE-based molecular generative model for synthetic accessibility and BTK inhibition. (MED:MED/42667712)
 - 🆕 **2026-08-11** — New Structures of Human Formylglycine-generating Enzyme Reveal Features Important for Catalysis, Disease and Structure-based Drug Design. (MED:MED/42580400)
+- 🆕 **2026-10-01** — Evaluating generative models for structure-based drug discovery from de novo design to lead optimization. (MED:MED/42957731)
 - 🆕 **2026-10-27** — Pretrained graph transformer-driven de novo design and machine learning prioritization of computationally predicted ENR-InhA (InhA) inhibitors with potential relevance to drug-resistant &lt;i&gt;Mycobacterium tuberculosis&lt;/i&gt;. (MED:MED/42944782)
-- 🆕 **2026-10-27** — DRAGON-3D: an electron-density-aware generative model for dual-target drug molecule generation. (MED:MED/42935351)
 
 ### cryptic-pocket / dynamics-based druggability
 *Unlocks:* robust cryptic-pocket prediction → re-grade the NR4A3 LBD undruggability prior without GPU MD
 - 🆕 **2026-07-26** — Glycoprotein nonmetastatic B as a pharmacological target in cancer: structural mechanisms, druggability, and therapeutic translation. (MED:MED/42503372)
-- 🆕 **2026-10-01** — Therapeutic Potential of Marine Natural Products Against Alzheimer’s Disease: Molecular Mechanisms, Druggability Evaluation and Clinical Translation Barriers (PMC:PMC13706534)
+- 🆕 **2026-10-10** — Therapeutic Potential of Marine Natural Products Against Alzheimer's Disease: Molecular Mechanisms, Druggability Evaluation and Clinical Translation Barriers. (MED:PMC13706534)
 - 🆕 **2026-10-22** — Advancing interleukin druggability: beyond ligandability toward therapeutic efficacy. (MED:MED/42913932)
 - 🆕 **2026-10-01** — Uncovering hidden druggable sites: computational approaches to allosteric and cryptic pocket discovery-from molecular dynamics to AI. (MED:MED/42821008)
 - 🆕 **2026-10-01** — From Undruggable to Actionable: Redefining Druggability Through Emerging Therapeutic Modalities. (MED:MED/42811638)
@@ -163,9 +162,9 @@ news feed may be cited as a medical fact — repo rule, CLAUDE.md §7.
 - 🆕 **2027-01-01** — Measuring Membrane Protein Dynamics in Plant Roots Using Fluorescence Correlation Spectroscopy. (MED:MED/42814360)
 - 🆕 **2026-09-09** — Deep generative models in biological sequence and structure analysis and design. (MED:MED/42716354)
 - **2026-06-13** — Conformational ensemble-guided hapten design for improved immunorecognition of phenylbutazone in herbal tea by lateral flow immunoassay. (MED:MED/42287989)
+- 🆕 **2026-11-01** — Subzero-Temperature NMR Observation of Protein Dynamics and Ligand Binding Enabled by Encapsulation Within Coordination Cages. (MED:MED/42957983)
 - 🆕 **2026-11-01** — Quantum Generative Diffusion Model: A Fully Quantum-Mechanical Model for Generating Quantum State Ensemble. (MED:MED/42531111)
 - 🆕 **2026-07-03** — A deep learning and generative modeling pipeline for mining and engineering alkaline-stsable xylanases. (MED:MED/42398548)
-- **2026-06-17** — Automating the roter interaction analysis system for medication counseling: A transformer-based deep learning approach with generative AI-augmented data. (MED:MED/42323210)
 
 ### in-silico oligonucleotide / nanoparticle tumour-delivery prediction
 *Unlocks:* usable in-silico delivery/biodistribution/endosomal-escape predictor → score the B7-H3-targeted junction-siRNA/AOC delivery and re-grade the ASO route feasibility
@@ -173,7 +172,7 @@ news feed may be cited as a medical fact — repo rule, CLAUDE.md §7.
 - 🆕 **2026-08-11** — Design of liquid crystalline nanoparticles: Linking composition to membrane interactions and siRNA delivery. (MED:PMC13499094)
 - **2026-06-29** — Peptide coacervate-mediated siRNA delivery for dual PD-1/PD-L1 blockade to enhance colorectal cancer immunotherapy. (MED:MED/42391989)
 - 🆕 **2026-09-17** — Precise pH-triggered cleavage of PEG-lipid conjugates drives endosomal escape of siRNA from fusogenic lipid-based nanoparticles. (MED:MED/42754061)
-- 🆕 **2026-10-01** — Beyond Targeted Delivery: The Emerging Immunomodulatory Landscape of Antibody-Oligonucleotide Conjugates (PMC:PMC13705038)
+- 🆕 **2026-10-19** — Beyond Targeted Delivery: The Emerging Immunomodulatory Landscape of Antibody-Oligonucleotide Conjugates. (MED:PMC13705038)
 - 🆕 **2026-10-29** — Glycosylated hypoxic tumour-derived extracellular vesicles as a targeted siRNA delivery system to remodel the immunosuppressive microenvironment in pancreatic cancer. (MED:MED/42925099)
 
 ### oligonucleotide tumour-delivery TECHNOLOGY / candidate (AOC, TPP, sarcoma-targeted, EMC surface antigen)
@@ -223,12 +222,12 @@ news feed may be cited as a medical fact — repo rule, CLAUDE.md §7.
 
 ### remote-controlled / cloud robotic wet lab (solo-affordable, cell-assay scope)
 *Unlocks:* a solo-affordable, cell-assay-capable remote/cloud robotic wet lab → re-grade the whole 'no wet lab' operating regime; scope+price the cheapest decisive experiment (junction-ASO knockdown + parental-sparing, aso-paper §4) and ask trimcrae before committing spend. Flips the EXECUTION gate, not the EMC-cell-line/reagent (material) gate
+- 🆕 **2026-09-18** — Optimization of culture read times using full microbiology laboratory automation. (MED:PMC13712942)
 - **2026-06-26** — Rapid Centrifugation for Coagulation Testing: A Multianalyzer Validation Study Harmonizing Preanalytical Protocols for Total Laboratory Automation. (MED:PMC13555175)
 - 🆕 **2026-07-07** — When Brownian Motion Meets Clinical Laboratory Automation: A DLS-Inspired Autocorrelation Function for Characterizing Workflow Performance in Sample Processing. (MED:PMC13361612)
 - **2026-06-01** — Self-driving lab for the data-driven design of single-chain polymer nanoparticles. (MED:PMC13367449)
 - **2026-06-20** — An autonomous lab for data-driven homogeneous catalysis. (MED:PMC13439374)
 - **2026-05-13** — Total Laboratory Automation Versus Manual Processing in Urine Culture Inoculation and Interpretation: A Hospital Experience. (MED:PMC13206222)
-- **2026-05-01** — AXIS: a Lab-in-the-Loop machine learning approach for automated detection of macromolecular crystals. (MED:PMC13134493)
 
 ### NR4A3 / EWSR1::NR4A3 direct EMC advances
 *Unlocks:* any direct chemical/biological matter against NR4A3 or the fusion → fold into the relevant route memo immediately
@@ -240,7 +239,7 @@ news feed may be cited as a medical fact — repo rule, CLAUDE.md §7.
 - 🆕 **2026-10-18** — Stem cells inhibit cigarette smoke extract-induced dendritic cells activation and alleviate chronic obstructive pulmonary disease. (MED:MED/42893666)
 
 ## Tool / model release watch
-- 🆕 `google-deepmind/alphafold3` — v3.0.4 (2026-07-28) _(AF3 weights/code availability)_
+- 🆕 `google-deepmind/alphafold3` — v3.0.5 (2026-10-30) _(AF3 weights/code availability)_
 - `jwohlwend/boltz` — v2.2.1 (2025-09-08) _(open AF3-class structure+affinity)_
 - `chaidiscovery/chai-lab` — v0.6.1 (2025-03-18) _(open AF3-class folding)_
 - `RosettaCommons/RFdiffusion` — v1.1.0 (2023-04-03) _(de-novo binder design)_
@@ -258,18 +257,18 @@ solicitation — the detail page's eligibility is authoritative over this coarse
 
 ### AI research — open to INDIVIDUALS / unrestricted (the actionable set)
 *Why it matters:* a solo unaffiliated researcher could apply directly — the OSTP 'individual scientists' path; the one to act on
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with the Californian Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00081, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364178
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with the Chesapeake Watershed Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00082, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364179
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with the Great Plains Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00076, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364177
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with the Great Lakes-Northern Forest Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00083, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364180
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with the Colorado Plateau Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00084, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364181
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with Great Basin Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00044, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364185
 - 🆕 **10/27/2026** — Climate Program Office FY 2027 - Super Intelligence/Machine Learning Innovation to Advance NOAA's Earth System Science and Support Hazard Resilience (DOC-DOCNOAAERA, NOAA-OAR-CPO-2027-33392, closes 02/09/2027) — https://www.grants.gov/search-results-detail/364160
 - 🆕 **10/14/2026** — Cooperative Agreement for Affiliated Partner with the Great Lakes-Northern Forest Cooperative Ecosystem Studies Unit (CESU) (DOI-USGS1, G27AS00079, closes 11/14/2026) — https://www.grants.gov/search-results-detail/364075
 - 🆕 **10/01/2026** — Cooperative Agreement for Affiliated Partner with the Southern Appalachian Cooperative Ecosystem Studies Unit (CESU) (DOI-USGS1, G27AS00165, closes 10/30/2026) — https://www.grants.gov/search-results-detail/364016
 - 🆕 **09/30/2026** — FY 2027 Continuation of Solicitation for the Office of Science Financial Assistance Program (PAMS-SC, DE-FOA-0003665, closes 09/30/2027) — https://www.grants.gov/search-results-detail/363993
 - 🆕 **09/21/2026** — Fiscal Year (FY) 2027 Department of War Multidisciplinary Research Program of the University Research Initiative (MURI) (DOD-ONR, N0001426SF002, closes 04/09/2027) — https://www.grants.gov/search-results-detail/363906
 - 🆕 **09/21/2026** — Fiscal Year (FY) 2027 Department of War (DoW) Multidisciplinary Research Program of the University Research Initiative (MURI) (DOD-AMC, W911NF26S1000, closes 04/09/2027) — https://www.grants.gov/search-results-detail/363905
-- 🆕 **09/21/2026** — Fiscal Year (FY) 2027 Department of War (DoW) Multidisciplinary Research Program of the University Research Initiative (MURI) (DOD-AFOSR, NOFOAFRLAFOSR20260002, closes 04/09/2027) — https://www.grants.gov/search-results-detail/363899
-- 🆕 **08/31/2026** — Air Force Basic Research Sciences Conference and Workshop Support (DOD-AFOSR, FA955026S0002, closes 08/31/2029) — https://www.grants.gov/search-results-detail/363745
-- 🆕 **08/28/2026** — Defense Sciences Office (DSO) Office-wide BAA (DOD-DARPA-DSO, HR001126S0015, closes 08/27/2027) — https://www.grants.gov/search-results-detail/363738
-- 🆕 **08/17/2026** — ONR FY27 NOFO for Young Investigator Program (DOD-ONR, N0001426SF004, closes 10/30/2026) — https://www.grants.gov/search-results-detail/363632
-- 🆕 **08/17/2026** — Engineering (ENG): Electrical, Communications, and Computing Systems (ECCS) (NSF, 26-514, closes 10/05/2076) — https://www.grants.gov/search-results-detail/363613
-- 🆕 **08/06/2026** — U.S. National Science Foundation State and Regional Artificial Intelligence Infrastructure Hubs: (NSF, 26-513, closes 11/04/2026) — https://www.grants.gov/search-results-detail/363481
 
 ### compute / GPU / HPC — open to INDIVIDUALS / unrestricted
 *Why it matters:* directly funds the GPU/compute bottleneck AND is individual-eligible
@@ -288,18 +287,18 @@ solicitation — the detail page's eligibility is authoritative over this coarse
 
 ### AI research (Science & Tech) — ALL eligibilities (firehose / early-warning)
 *Why it matters:* early warning of the OSTP-directed wave even where eligibility isn't (yet) individual — watch for individual-open successors
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with the Californian Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00081, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364178
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with the Chesapeake Watershed Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00082, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364179
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with the Great Plains Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00076, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364177
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with the Great Lakes-Northern Forest Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00083, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364180
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with the Colorado Plateau Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00084, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364181
+- 🆕 **10/30/2026** — Cooperative Agreement for affiliated Partner with Great Basin Cooperative Ecosystem Studies Unit (DOI-USGS1, G27AS00044, closes 11/30/2026) — https://www.grants.gov/search-results-detail/364185
 - 🆕 **10/29/2026** — AFRL/AFOSR Fiscal Year (FY) 2027 University Center for High-Speed Aerothermoelasticity (DOD-AFOSR, FA955027S0001, closes 04/02/2027) — https://www.grants.gov/search-results-detail/364172
 - 🆕 **10/28/2026** — AFRL/AFOSR-Taiwan NSTC Frontiers in Materials and Nanostructures: AI-Driven Discovery, Quantum Geometry, and Energy-Efficient Information Technologies 2027-2030 (DOD-AFOSR, FA955027S0002, closes 02/19/2027) — https://www.grants.gov/search-results-detail/364165
 - 🆕 **10/27/2026** — Climate Program Office FY 2027 - Super Intelligence/Machine Learning Innovation to Advance NOAA's Earth System Science and Support Hazard Resilience (DOC-DOCNOAAERA, NOAA-OAR-CPO-2027-33392, closes 02/09/2027) — https://www.grants.gov/search-results-detail/364160
 - 🆕 **10/14/2026** — Cooperative Agreement for Affiliated Partner with the Great Lakes-Northern Forest Cooperative Ecosystem Studies Unit (CESU) (DOI-USGS1, G27AS00079, closes 11/14/2026) — https://www.grants.gov/search-results-detail/364075
 - 🆕 **10/01/2026** — Cooperative Agreement for Affiliated Partner with the Southern Appalachian Cooperative Ecosystem Studies Unit (CESU) (DOI-USGS1, G27AS00165, closes 10/30/2026) — https://www.grants.gov/search-results-detail/364016
 - 🆕 **09/30/2026** — FY 2027 Continuation of Solicitation for the Office of Science Financial Assistance Program (PAMS-SC, DE-FOA-0003665, closes 09/30/2027) — https://www.grants.gov/search-results-detail/363993
-- 🆕 **09/21/2026** — Fiscal Year (FY) 2027 Department of War Multidisciplinary Research Program of the University Research Initiative (MURI) (DOD-ONR, N0001426SF002, closes 04/09/2027) — https://www.grants.gov/search-results-detail/363906
-- 🆕 **09/21/2026** — Fiscal Year (FY) 2027 Department of War (DoW) Multidisciplinary Research Program of the University Research Initiative (MURI) (DOD-AMC, W911NF26S1000, closes 04/09/2027) — https://www.grants.gov/search-results-detail/363905
-- 🆕 **09/21/2026** — Fiscal Year (FY) 2027 Department of War (DoW) Multidisciplinary Research Program of the University Research Initiative (MURI) (DOD-AFOSR, NOFOAFRLAFOSR20260002, closes 04/09/2027) — https://www.grants.gov/search-results-detail/363899
-- 🆕 **09/08/2026** — Air Force Fiscal Year 2027 Young Investigator Program (YIP) (DOD-AFOSR, FA955026S0003, closes 12/04/2026) — https://www.grants.gov/search-results-detail/363829
-- 🆕 **08/31/2026** — Air Force Basic Research Sciences Conference and Workshop Support (DOD-AFOSR, FA955026S0002, closes 08/31/2029) — https://www.grants.gov/search-results-detail/363745
-- 🆕 **08/28/2026** — Defense Sciences Office (DSO) Office-wide BAA (DOD-DARPA-DSO, HR001126S0015, closes 08/27/2027) — https://www.grants.gov/search-results-detail/363738
 
 ---
 _Next: if any 🆕 line crosses its trigger, act per research/method-watch.md and open the
