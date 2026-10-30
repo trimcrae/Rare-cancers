@@ -8,12 +8,12 @@ canonical_for: []
 purpose: "Unrefereed preprints matching a named reopening trigger, grouped by the blocker they would reopen — a leading indicator for the forecast bands in the blocker register."
 scope: "Preprints only (Europe PMC SRC:PPR, arXiv, ChemRxiv). The published corpus is on the trigger-scan board."
 audience: [maintainers, autonomous research agents]
-date: 2026-10-23
+date: 2026-10-30
 last_verified: unverified
 ---
 # Preprint pipeline — what is coming, by blocker
 
-**Last run: 2026-10-23** (UTC date stamp from the runner).
+**Last run: 2026-10-30** (UTC date stamp from the runner).
 
 ⛔ **EVERYTHING HERE IS UNREFEREED, TITLE-MATCHED AND UNREAD.** A preprint is the weakest lead this repository records. It cannot move a forecast band, it is not evidence, and nothing here may be cited. Its value is WARNING — it is the earliest point at which a capability becomes visible, often months before the journal version.
 
@@ -27,7 +27,13 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-10-29 | [Collaborative AI agents for autonomous experimental research with solid-state quantum spins](http://arxiv.org/abs/2610.40589v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-10-29 | [Letting AI Formulate the Research Question: Autonomous Research Agents](http://arxiv.org/abs/2610.39620v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-10-28 | [Population-scale genome-wide prioritization of targets for allele-specific antisense oligonucleotide therapy d](https://europepmc.org/article/PPR/PPR1352365) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
+| 2026-10-24 | [Sequence architecture of RNA reveals key molecular signatures driving RNA phase separation](https://europepmc.org/article/PPR/PPR1349697) | PPR | `TRG-CONDENSATE-PARTNER-RESOLUTION` ⚠ |
+| 2026-10-23 | [Coral Discovery: The Division of Cognitive Labor in Autonomous Research](http://arxiv.org/abs/2610.33281v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-10-22 | [RIDAR: Safeguarding Research Integrity in Autonomous Research Agents via Automated Detection and Runtime Inter](http://arxiv.org/abs/2610.31372v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-10-22 | [RIDAR: Safeguarding Research Integrity in Autonomous Research Agents via Automated Detection and Runtime Inter](http://arxiv.org/abs/2610.31372v2) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-10-22 | [Morroniside Ameliorates Hyperuricemic Nephropathy in Mice: Integrated Evidence from Transcriptomic Reanalysis,](https://europepmc.org/article/PPR/PPR1347908) | PPR | `TRG-POSE-ORIENTATION-CONVERGENCE` ⚠ |
 | 2026-10-21 | [Evaluating the Predictive Contribution of Receptor-Specific Docking Interactions to Aminergic GPCR Selectivity](https://europepmc.org/article/PPR/PPR1346973) | PPR | `TRG-ANTITARGET-PANEL-PROTOCOL` ⚠ |
 | 2026-10-19 | [ProtGlycanDock: Towards Accurate Protein-Glycan Docking with Tailored Dataset, Benchmark and Model](http://arxiv.org/abs/2610.26009v1) | arXiv | `TRG-POSE-ORIENTATION-CONVERGENCE` ⚠ |
@@ -180,6 +186,30 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-02-17 | [RNAiSpline: A Deep learning model for siRNA efficacy prediction](https://europepmc.org/article/PPR/PPR1223467) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Collaborative AI agents for autonomous experimental research with solid-state quantum spins** — arXiv, 2026-10-29
+
+> An autonomous research laboratory could conduct an entire study, from formulating questions to preparing manuscripts. Artificial intelligence (AI) offers one route towards this goal. Recent AI systems take on several research roles, but may draw conclusions that the evidence does not support. Here, we present an autonomous research laboratory in which agents based on large language models assess one another's work and can stop or redirect investigations. They can generate and reject research questions, require separate theoretical checks and conduct experiments designed to challenge their claims. We demonstrate these capabilities by investigating ensembles of quantum spins in diamond. The agents derived the minimum number of calibration settings needed to predict responses to a defined family of microwave pulse sequences. They checked the result computationally and designed experiments to distinguish competing predictions. An initial experiment agreed with the theoretical predictions, but repeated reference measurements showed that the signal was drifting during data collection. The agents therefore treated the result as inconclusive and revised the measurement protocol without relaxing the acceptance criteria. The revised experiment met those criteria and supported the theoretical predictions. This study demonstrates that collaborating AI agents can select research questions, 
+
+**Letting AI Formulate the Research Question: Autonomous Research Agents** — arXiv, 2026-10-29
+
+> Systems such as The AI Scientist have shown that AI agents can carry out and write up research, but in those demonstrations humans chose the research area and selected the outputs to show. We study letting the AI formulate the research question itself, and we report every run. Our system gives an off-the-shelf coding agent an instruction document and two skills: one for formulating the question, in which the agent diverges from recent technologies into problems of other fields, screens its candidates for known failure modes and obtains a critique from a different model; and one for peer review, in which a reviewer from another model family reruns the study from its records before the agent revises the paper. Over 13 development runs, changes to the one or two sentences that set the research area coincided with large shifts in what the candidate questions and the chosen papers were about, which led us to the area of a new technology applied to a societal problem. We froze the system after a pilot run and report five consecutive runs: the pilot, counted by a disclosed amendment to the pre-registration, and four pre-registered runs. All five runs went from question formulation to a revised, re-computable paper, with local computation on a laptop and no research input from humans, and external AI reviewers reading only the papers judged them at or near workshop level. We release th
+
+**Population-scale genome-wide prioritization of targets for allele-specific antisense oligonucleotide therapy design** — PPR, 2026-10-28
+
+> Background: Allele-specific antisense oligonucleotides (ASOs) are increasingly used to selectively suppress transcripts containing pathogenic gain-of-function or dominant negative (GOF/DN) variants. However, most current approaches rely on patient-specific target selection of SNVs  in cis with the disease-causing variant. This individualized approach may limit broader ASO applicability and could exacerbate inequities in access. Population-level selection of ASO-targetable SNVs is an alternative approach not previously explored at scale.  Methods:  For a curated set of >400 disease genes with putative toxic GOF/DN mechanisms, we applied a greedy algorithm to identify ASO-targetable SNVs that maximize population coverage in the 1000 Genomes Project dataset. Population coverage was evaluated across ″superpopulation″ ancestry groups and assessed in multiple diverse replication datasets. For each prioritized SNV we attempted to design allele-specific 15-mer and 20-mer ASOs meeting standard chemistry and sequence criteria. The presence of prioritized SNVs was assessed in two local cohorts with GOF/DN disorders: infants with epilepsy diagnosed by rapid short-read genome sequencing, and children with long-read genome sequencing data generated for bespoke ASO development.  Results:  We identified 7,927 SNVs (median 17.5 per gene) achieving a median cumulative heterozygous population cov
+
+**Sequence architecture of RNA reveals key molecular signatures driving RNA phase separation** — PPR, 2026-10-24
+
+> Biomolecular condensates are dynamic membraneless assemblies that organize various cellular processes through liquid–liquid phase separation (LLPS). RNA is an active regulator of biomolecular condensates and influence their formation through sequence-encoded features. Despite its established role in condensate formation, no computational framework exists to identify underlying signatures to predict LLPS-associated RNAs. We develop an interpretable hybrid framework to distinguish reviewed, experimentally supported LLPS-associated RNAs from background RNAs. We uncover biologically meaningful sequence properties associated with condensate participation. Each RNA is represented by 167 handcrafted descriptors capturing composition, k-mer usage, sequence complexity, repeat organization and dinucleotide autocorrelation together with 640-dimensional contextual embeddings from RNA-FM. These representations are integrated through cross-validated stacking with neural-network meta-learner. The framework achieves an AUC-ROC of 0.935, AUC-PR of 0.944 and MCC of 0.782. Feature statistics, ablation analysis and SHAP interpretation reveal a distributed sequence architecture dominated by altered local k-mer usage with additional contributions from low-complexity burden, repeat-associated organization and long-range dinucleotide pattern. Biological case studies including MALAT1 and TMPO-AS1 furth
+
+**Coral Discovery: The Division of Cognitive Labor in Autonomous Research** — arXiv, 2026-10-23
+
+> A research community is only as strong as the way it divides its cognitive labour. The philosopher Philip Kitcher argued that researchers should not all pursue the most promising approach. Credit rules, not a central plan, keep some of them on other lines. We bring this question to autonomous research, where Large Language Model agents improve programs against a deterministic grader. Agents that share only a score follow the leader and converge onto one approach. Coral Discovery gives the community a direction board. A verifier labels every attempt with a direction, the mechanism earning the score, and a method, one change within it. Per direction, the board tracks how much each eval improves the score, adds an exploration bonus for little-tried directions, prices the option of opening a new direction, and suggests how many agents each direction deserves. Credit is earned against a direction's own best, so a lagging direction keeps its agents. Agents finish their lines, then treat the board as advice. We test on nine tasks with the same model and budget, without grader access except for Kernel. Coral Discovery beats the strongest open autonomous multi-agent system on 6 tasks, ties on 1, and loses on 2. Against published numbers, it is best or tied on 4. It improves the reported Kernel result from 1103 to 1095 cycles and passes 1103 at eval 275, under half of the 596 used before
+
+**RIDAR: Safeguarding Research Integrity in Autonomous Research Agents via Automated Detection and Runtime Intervention** — arXiv, 2026-10-22
+
+> Autonomous research agents are increasingly used to automate large portions of scientific research, yet they are prone to research integrity violations (RIVs): behaviors that compromise the validity, reproducibility, or faithfulness of the research process. We present RIDAR, a framework for automated RIV detection and runtime intervention. First, we introduce RIVT, a comprehensive taxonomy of 14 RIV types spanning the full research lifecycle. Building on RIVT, we present RIDAR-post-hoc, a framework to detect RIVs within agent trajectories. RIDAR-post-hoc achieves 85.2% F1 performance on RIV-Gold, a benchmark for RIV detection with 60 expert-annotated trajectories. Applying RIDAR-post-hoc to RIV-Wild, a dataset of 300 agent trajectories across 50 distinct research tasks, we detect 3,964 RIV instances in 99.7% of trajectories, revealing the prevalence of RIVs in current agents. Finally, we present RIDAR-runtime, a framework for dynamically detecting and correcting RIVs during agent runtime. RIDAR-runtime effectively reduces agent RIVs remaining at task completion by 36.8%. We will release our code and data to facilitate future research.
 
 **RIDAR: Safeguarding Research Integrity in Autonomous Research Agents via Automated Detection and Runtime Intervention** — arXiv, 2026-10-22
 
@@ -791,6 +821,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-10-25 | [Centered cross-context perturbation transfer on the public 2025 Virtual Cell Challenge benchmark](https://europepmc.org/article/PPR/PPR1350549) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-10-19 | [Genetic Perturbation Prediction Models Fail Out-of-Distribution: A Rigorous Benchmark and Systematic Evaluatio](https://europepmc.org/article/PPR/PPR1345330) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-10-18 | [Synergy-Aware Residual Flow Matching for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2610.25021v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-10-17 | [SubcellPert: Benchmarking Subcellular Perturbation Prediction](https://europepmc.org/article/PPR/PPR1344574) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -851,6 +882,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Centered cross-context perturbation transfer on the public 2025 Virtual Cell Challenge benchmark** — PPR, 2026-10-25
+
+> Predicting transcriptional responses across cellular contexts requires transferring both expression direction and differential-expression priority. We developed a compact numerical method that combines public perturbation summaries with a differential-expression kernel fitted to H1 CRISPRi training targets. The method centers an independent KOLF2.1J source on known training targets, transfers its response signs and magnitude ranks, and uses isotonic regression to render predicted expression means. We evaluated the frozen model retrospectively on the released public TEST100 of the 2025 Virtual Cell Challenge, using an external KOLF source released in 2026. The model achieved DES 0.371834, PDS 0.8614, and MAE 0.302206. With reconstructed historical anchors, its composite score was 0.341344, compared with the archived champion score of 0.340052, a difference of +0.001292. The comparison showed higher DES and lower PDS, with zero normalized MAE contributions for both methods. Source centering also improved development PDS across all three TRAIN folds and official VALIDATION. These results demonstrate a practical numerical approach to cross-context perturbation transfer and differential-expression ranking.
 
 **Genetic Perturbation Prediction Models Fail Out-of-Distribution: A Rigorous Benchmark and Systematic Evaluation** — PPR, 2026-10-19
 
@@ -1152,6 +1187,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-10-25 | [Centered cross-context perturbation transfer on the public 2025 Virtual Cell Challenge benchmark](https://europepmc.org/article/PPR/PPR1350549) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-10-19 | [Genetic Perturbation Prediction Models Fail Out-of-Distribution: A Rigorous Benchmark and Systematic Evaluatio](https://europepmc.org/article/PPR/PPR1345330) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-10-18 | [Synergy-Aware Residual Flow Matching for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2610.25021v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-10-17 | [SubcellPert: Benchmarking Subcellular Perturbation Prediction](https://europepmc.org/article/PPR/PPR1344574) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
@@ -1209,6 +1245,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-04-21 | [AblateCell: A Reproduce-then-Ablate Agent for Virtual Cell Repositories](http://arxiv.org/abs/2604.19606v2) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Centered cross-context perturbation transfer on the public 2025 Virtual Cell Challenge benchmark** — PPR, 2026-10-25
+
+> Predicting transcriptional responses across cellular contexts requires transferring both expression direction and differential-expression priority. We developed a compact numerical method that combines public perturbation summaries with a differential-expression kernel fitted to H1 CRISPRi training targets. The method centers an independent KOLF2.1J source on known training targets, transfers its response signs and magnitude ranks, and uses isotonic regression to render predicted expression means. We evaluated the frozen model retrospectively on the released public TEST100 of the 2025 Virtual Cell Challenge, using an external KOLF source released in 2026. The model achieved DES 0.371834, PDS 0.8614, and MAE 0.302206. With reconstructed historical anchors, its composite score was 0.341344, compared with the archived champion score of 0.340052, a difference of +0.001292. The comparison showed higher DES and lower PDS, with zero normalized MAE contributions for both methods. Source centering also improved development PDS across all three TRAIN folds and official VALIDATION. These results demonstrate a practical numerical approach to cross-context perturbation transfer and differential-expression ranking.
 
 **Genetic Perturbation Prediction Models Fail Out-of-Distribution: A Rigorous Benchmark and Systematic Evaluation** — PPR, 2026-10-19
 
@@ -1505,6 +1545,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-10-25 | [Centered cross-context perturbation transfer on the public 2025 Virtual Cell Challenge benchmark](https://europepmc.org/article/PPR/PPR1350549) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-10-19 | [Genetic Perturbation Prediction Models Fail Out-of-Distribution: A Rigorous Benchmark and Systematic Evaluatio](https://europepmc.org/article/PPR/PPR1345330) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-10-18 | [Synergy-Aware Residual Flow Matching for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2610.25021v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-10-17 | [SubcellPert: Benchmarking Subcellular Perturbation Prediction](https://europepmc.org/article/PPR/PPR1344574) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -1566,6 +1607,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Centered cross-context perturbation transfer on the public 2025 Virtual Cell Challenge benchmark** — PPR, 2026-10-25
+
+> Predicting transcriptional responses across cellular contexts requires transferring both expression direction and differential-expression priority. We developed a compact numerical method that combines public perturbation summaries with a differential-expression kernel fitted to H1 CRISPRi training targets. The method centers an independent KOLF2.1J source on known training targets, transfers its response signs and magnitude ranks, and uses isotonic regression to render predicted expression means. We evaluated the frozen model retrospectively on the released public TEST100 of the 2025 Virtual Cell Challenge, using an external KOLF source released in 2026. The model achieved DES 0.371834, PDS 0.8614, and MAE 0.302206. With reconstructed historical anchors, its composite score was 0.341344, compared with the archived champion score of 0.340052, a difference of +0.001292. The comparison showed higher DES and lower PDS, with zero normalized MAE contributions for both methods. Source centering also improved development PDS across all three TRAIN folds and official VALIDATION. These results demonstrate a practical numerical approach to cross-context perturbation transfer and differential-expression ranking.
 
 **Genetic Perturbation Prediction Models Fail Out-of-Distribution: A Rigorous Benchmark and Systematic Evaluation** — PPR, 2026-10-19
 

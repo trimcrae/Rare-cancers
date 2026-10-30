@@ -375,6 +375,21 @@
    ],
    "signals_recorded": 41,
    "abstracts_fetched": 22
+  },
+  {
+   "date": "2026-10-30",
+   "mode": "scan",
+   "triggers": 32,
+   "queries": 135,
+   "new_hits": 38,
+   "appended": 14,
+   "errors": [
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=protac&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "chemrxiv: DROPPED FOR THIS RUN after 3 consecutive failures (last: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden). Every ChemRxiv query below was SKIPPED -- this run's preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result is not a reading of absence."
+   ],
+   "signals_recorded": 38,
+   "abstracts_fetched": 7
   }
  ],
  "hits": {
@@ -587,6 +602,26 @@
     "url": "https://europepmc.org/article/MED/42899573",
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 22
+   },
+   "PMC13692737": {
+    "id": "PMC13692737",
+    "title": "Chemically Induced Proximity in Biological Modulation",
+    "date": "2026-08-24",
+    "venue": "ACS Bio Med Chem Au",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13692737",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 67
+   },
+   "PMC13689810": {
+    "id": "PMC13689810",
+    "title": "Chemically Induced Proximity for Targeted Protein O-GlcNAcylation",
+    "date": "2026-10-01",
+    "venue": "Acc Chem Res",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13689810",
+    "first_seen": "2026-10-30",
+    "duplicate_of_title": true
    }
   },
   "TRG-FEP-CRYPTIC-POCKET": {
@@ -1107,6 +1142,26 @@
     "url": "https://europepmc.org/article/PMC/PMC13358106",
     "first_seen": "2026-09-04",
     "duplicate_of_title": true
+   },
+   "MED/42937015": {
+    "id": "MED/42937015",
+    "title": "Kinetic signatures of RAS-BRAF engagement reveal isoform selectivity, oncogenic amplification, and mutation-dependent inhibitor resistance",
+    "date": "2026-10-27",
+    "venue": "FEBS J",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42937015",
+    "first_seen": "2026-10-30",
+    "duplicate_of_title": true
+   },
+   "PMC13693665": {
+    "id": "PMC13693665",
+    "title": "RAF isoform selectivity of MEK inhibitors and rational design of a covalent ARAF-MEK inhibitor",
+    "date": "2026-10-23",
+    "venue": "Sci Adv",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13693665",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 7
    }
   },
   "TRG-OBSERVED-CRL-E2UB-GEOMETRY": {},
@@ -1459,6 +1514,26 @@
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 5,
     "abstract": "NOS1AP is an adaptor for neuronal nitric oxide synthase that engages several partner proteins and is implicated in Alzheimer\u2019s disease. Efforts to drug NOS1AP have sought to disrupt these; we instead report pharmacological stabilization of one interaction. Affinity selection of a 1.4-billion-member DNA-encoded library identified a benzimidazole-5-carboxamide chemotype, optimized by fragment-directed SAR to NOSTRA with submicromolar NOS1AP binding affinity. Of six interactions, NOSTRA enhanced only SCRIB binding, with a cooperativity factor of 30, predominantly through a 14-fold slowing of dissociation; native mass spectrometry resolved a NOS1AP:NOSTRA:SCRIB ternary complex. In healthy human iPSC-derived cortical neurons, NOSTRA engaged the endogenous complex and activated Rac1 without cytotoxicity; in Alzheimer\u2019s patient-derived neurons, it lowered the A\u03b242/A\u03b240 ratio and p-tau217, reduced neurofilament light and improved network activity. With an in vitro ADME profile consistent with CNS exposure, NOSTRA is the first molecular glue for a NOS1AP complex, establishing interaction stabilization as a viable NOS1AP pharmacology.  Table of Contents"
+   },
+   "MED/42911697": {
+    "id": "MED/42911697",
+    "title": "Discovery of LG-NE-29: An Orally Bioavailable GSPT1 Molecular Glue Degrader Effective in Glioblastoma Xenograft Models",
+    "date": "2026-10-01",
+    "venue": "J Med Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42911697",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 29
+   },
+   "PMC13661599": {
+    "id": "PMC13661599",
+    "title": "Leveraging high-throughput proteomics and AI-based protein folding to accelerate VAV1 molecular glue discovery",
+    "date": "2026-09-12",
+    "venue": "Nat Commun",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13661599",
+    "first_seen": "2026-10-30",
+    "duplicate_of_title": true
    }
   },
   "TRG-VIRTUAL-CELL-NO-LINE": {
@@ -2241,6 +2316,18 @@
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 20,
     "abstract": "Predicting cellular responses to genetic perturbations is a central capability for virtual cells and a key step toward computational modeling of biological interventions. Most existing models directly map an unperturbed molecular profile and perturba- tion to the resulting observation without explicitly representing the latent cellular transition induced by the intervention. We introduce a mechanism-centric virtual cell world model that represents cellular state as a set of Latent Mechanism Units (LMUs) and treats genetic perturbations as actions on these latent states. Each LMU combines a reusable identity grounded in multimodal biological evidence with an observation-specific state, allowing a perturbation to induce mechanism- specific stochastic transitions before decoding the resulting transcriptional response. We train VCLMU through two-stage pretraining, first on around 200K pseudo-bulk perturbation profiles and then on gene-aligned single-cell perturbation data. Across six perturbation-disjoint benchmarks, VCLMU consistently improves perturbation- specific response recovery over strong baselines while maintaining competitive global response accuracy. We further analyze learned LMUs through enrichment between perturbation responses and LMU gene sets and show that they capture structured biological response programs. These results support mechanism-level latent state transition as a useful formulation for virtual cell models that aim to predict and interpret cellular responses to biological interventions."
+   },
+   "PPR/PPR1350549": {
+    "id": "PPR/PPR1350549",
+    "title": "Centered cross-context perturbation transfer on the public 2025 Virtual Cell Challenge benchmark",
+    "date": "2026-10-25",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1350549",
+    "is_preprint": true,
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 5,
+    "abstract": "Predicting transcriptional responses across cellular contexts requires transferring both expression direction and differential-expression priority. We developed a compact numerical method that combines public perturbation summaries with a differential-expression kernel fitted to H1 CRISPRi training targets. The method centers an independent KOLF2.1J source on known training targets, transfers its response signs and magnitude ranks, and uses isotonic regression to render predicted expression means. We evaluated the frozen model retrospectively on the released public TEST100 of the 2025 Virtual Cell Challenge, using an external KOLF source released in 2026. The model achieved DES 0.371834, PDS 0.8614, and MAE 0.302206. With reconstructed historical anchors, its composite score was 0.341344, compared with the archived champion score of 0.340052, a difference of +0.001292. The comparison showed higher DES and lower PDS, with zero normalized MAE contributions for both methods. Source centering also improved development PDS across all three TRAIN folds and official VALIDATION. These results demonstrate a practical numerical approach to cross-context perturbation transfer and differential-expression ranking."
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -2839,6 +2926,56 @@
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 2,
     "abstract": "Aims:   Rosuvastatin is commonly co-administered with ticagrelor in patients with acute coronary syndrome. Ticagrelor inhibits breast cancer resistance protein (BCRP/ABCG2), increasing rosuvastatin exposure and potentially the risk of rhabdomyolysis. This risk may be further influenced by age and the ABCG2 c.421C>A variant. We aimed to predict optimal rosuvastatin dosing with ticagrelor in elderly patients stratified by ABCG2 genotype using physiologically based pharmacokinetic (PBPK) modelling Methods PBPK models for rosuvastatin and ticagrelor were developed and validated in PK-Sim using clinical data from healthy adults, elderly patients, and individuals with wild-type or homozygous ABCG2 c.421C>A genotypes. Key parameters, including BCRP catalytic activity and age-dependent declines in CYP2C9 and CYP3A4 activity, were optimized. The drug-drug interaction model incorporated competitive BCRP inhibition by ticagrelor. Rosuvastatin steady-state exposure was simulated with half or quarter standard doses during ticagrelor co-administration, and exposure matching approach was used to identify optimal dosing. Results The PBPK models demonstrated good predictive performance across populations and genotypes. In young adults with the wild-type genotype, halving the rosuvastatin dose resulted in an AUC fold change of 1.44, supporting a half-dose strategy. In young homozygous variant carriers, half-dose co-administration produced comparable exposure (AUC fold change 0.78). In elderly wild-type individuals, a four-fold dose reduction achieved comparable exposure (AUC fold change 1.06), whereas elderly variant carriers required only a half-dose reduction (1.12). Conclusions PBPK modelling supported age- and ABCG2 genotype-specific rosuvastatin dosing with ticagrelor. Elderly wild-type patients may require a further dose reduction to minimise toxicity while maintaining therapeutic exposure."
+   },
+   "MED/42946268": {
+    "id": "MED/42946268",
+    "title": "A structure-based virtual screening-driven discovery pharmaceutics platform for cancer therapeutics development: FDA 505(b)(2) repurposing of netupitant as a BMX-targeted nanomedicine using quality-by-design lipid nanoparticles and model-informed PBPK translation",
+    "date": "2026-10-27",
+    "venue": "Int J Pharm",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42946268",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 3
+   },
+   "PMC13708575": {
+    "id": "PMC13708575",
+    "title": "Integrating PBPK Simulation and In Vitro Pharmacodynamics to Model Efavirenz-Associated Hepatic Oxidative Stress in Pregnancy",
+    "date": "2026-10-02",
+    "venue": "Pharmaceutics",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13708575",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 28
+   },
+   "MED/42919949": {
+    "id": "MED/42919949",
+    "title": "Development and translational application of a rat-to-human PBPK model for isopropoxate to support forensic exposure reconstruction and risk assessment",
+    "date": "2026-10-23",
+    "venue": "Arch Toxicol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42919949",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 7
+   },
+   "PMC13708068": {
+    "id": "PMC13708068",
+    "title": "PBPK Modeling of CES1-Activated Prodrugs Across Different Age Groups: Simultaneous Prodrug-Metabolite Prediction for Oseltamivir, Enalapril, and Cilazapril",
+    "date": "2026-09-23",
+    "venue": "Pharmaceutics",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13708068",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 37
+   },
+   "PMC13712836": {
+    "id": "PMC13712836",
+    "title": "Physiologically based pharmacokinetic (PBPK) model to predict the magnitude of drug-drug interaction between vincristine and the azole antifungals isavuconazole, posaconazole, and voriconazole in children",
+    "date": "2026-07-22",
+    "venue": "Antimicrob Agents Chemother",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13712836",
+    "first_seen": "2026-10-30",
+    "duplicate_of_title": true
    }
   },
   "TRG-VECTOR-DELIVERY-SOLID-TUMOUR": {},
@@ -3716,6 +3853,48 @@
     "url": "https://europepmc.org/article/MED/42872320",
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 9
+   },
+   "PMC13613245": {
+    "id": "PMC13613245",
+    "title": "Design of Lipopeptides and dsRNA-Lipopeptide Complexes for Sprayable RNAi-Based Plant Protection",
+    "date": "2026-11-01",
+    "venue": "J Pept Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13613245",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": -2
+   },
+   "MED/42955746": {
+    "id": "MED/42955746",
+    "title": "Improved Efficacy and Tolerability of Antisense Oligonucleotide with Guanidine-Bridged Nucleic Acid",
+    "date": "2026-10-29",
+    "venue": "Nucleic Acid Ther",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42955746",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 1
+   },
+   "MED/42912628": {
+    "id": "MED/42912628",
+    "title": "Revealing Nanomedicine Design Principles for Efficient siRNA Delivery to the Central Nervous System",
+    "date": "2026-10-01",
+    "venue": "Biomacromolecules",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42912628",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 29
+   },
+   "PPR/PPR1352365": {
+    "id": "PPR/PPR1352365",
+    "title": "Population-scale genome-wide prioritization of targets for allele-specific antisense oligonucleotide therapy design",
+    "date": "2026-10-28",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1352365",
+    "is_preprint": true,
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 2,
+    "abstract": "Background: Allele-specific antisense oligonucleotides (ASOs) are increasingly used to selectively suppress transcripts containing pathogenic gain-of-function or dominant negative (GOF/DN) variants. However, most current approaches rely on patient-specific target selection of SNVs  in cis with the disease-causing variant. This individualized approach may limit broader ASO applicability and could exacerbate inequities in access. Population-level selection of ASO-targetable SNVs is an alternative approach not previously explored at scale.  Methods:  For a curated set of >400 disease genes with putative toxic GOF/DN mechanisms, we applied a greedy algorithm to identify ASO-targetable SNVs that maximize population coverage in the 1000 Genomes Project dataset. Population coverage was evaluated across \u2033superpopulation\u2033 ancestry groups and assessed in multiple diverse replication datasets. For each prioritized SNV we attempted to design allele-specific 15-mer and 20-mer ASOs meeting standard chemistry and sequence criteria. The presence of prioritized SNVs was assessed in two local cohorts with GOF/DN disorders: infants with epilepsy diagnosed by rapid short-read genome sequencing, and children with long-read genome sequencing data generated for bespoke ASO development.  Results:  We identified 7,927 SNVs (median 17.5 per gene) achieving a median cumulative heterozygous population coverage of 88.9% across 408 disease genes. More than two-thirds of genes (70.6%) reached \u226580% coverage using a median of only four prioritized SNVs. Coverage was consistently high for all \u2033superpopulation\u2033 ancestry groups, with median coverage proportions of \u226585%. Prioritized SNVs generalized to independent ancestrally diverse replication datasets, achieving median coverage of 86.4% in the Human Genome Diversity Project and 90.3% in the  All of Us Research Program . Many prioritized targets were compatible with established ASO design principles, enabling generation of candidate allele-specific 15-mer and 20-mer ASOs at scale for future experimental validation. The presence of prioritized targets in the rapid short-read sequencing cohort, and the overlap between prioritized targets and manually curated long-read genome sequencing targets, supports the clinical relevance of population-informed target selection. All SNV targets and candidate allele-specific ASO sequences are available at hawk-eye.research.sickkids.ca/knockdown.  Conclusions:  Prioritization of common SNV targets may facilitate the development of ASO therapies with broader population coverage, helping move the field beyond single-patient applications and toward more equitable opportunities for access."
    }
   },
   "TRG-EMC-FUNCTIONAL-MODEL": {
@@ -3842,6 +4021,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13555175",
     "first_seen": "2026-09-18",
     "age_days_at_first_seen": 84
+   },
+   "PMC13712942": {
+    "id": "PMC13712942",
+    "title": "Optimization of culture read times using full microbiology laboratory automation",
+    "date": "2026-09-18",
+    "venue": "J Clin Microbiol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13712942",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 42
    }
   },
   "TRG-JUNCTION-PHLA": {
@@ -4430,6 +4619,26 @@
     "url": "https://europepmc.org/article/MED/42864407",
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 11
+   },
+   "PMC13714282": {
+    "id": "PMC13714282",
+    "title": "A structure-informed deep learning framework for modeling TCR-peptide-HLA interactions",
+    "date": "2026-09-25",
+    "venue": "Nat Commun",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13714282",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 35
+   },
+   "PMC13584625": {
+    "id": "PMC13584625",
+    "title": "Mapping the TCR-Peptide-HLA Interface through Hydrogen-Deuterium Exchange Mass Spectrometry",
+    "date": "2026-09-01",
+    "venue": "Anal Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13584625",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 59
    }
   },
   "TRG-NR4A3-DIRECT-MATTER": {
@@ -4616,6 +4825,16 @@
     "url": "https://europepmc.org/article/MED/42790627",
     "first_seen": "2026-10-02",
     "age_days_at_first_seen": 7
+   },
+   "MED/42929040": {
+    "id": "MED/42929040",
+    "title": "NOR-1 is an upstream regulator of Ca2+ homeostasis and calmodulin kinase II-dependent arrhythmogenesis",
+    "date": "2026-10-26",
+    "venue": "Cardiovasc Res",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42929040",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 4
    }
   },
   "TRG-EMC-EXPRESSION-DATASET": {
@@ -6032,6 +6251,114 @@
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 6,
     "abstract": "Traditional Chinese medicine (TCM) research connects classical texts, medicinal entities, molecular assays, computational predictions, and clinical studies. An autonomous research agent must preserve the inferential boundaries between these evidence types while coordinating analysis across heterogeneous resources. We introduce TCMScience, a scientific knowledge-discovery agent that separates language-model proposals from execution and release authority. Its architecture combines a trusted kernel, a scientific compiler, and claim-support contracts: plans are compiled into typed operations, execution is bounded by explicit permissions, and candidate findings are checked against source provenance, study design, and claim scope before release. The full capability registry contains 117 public-source connectors with 444 typed operations across 29 domains and 150 native tools across 12 domains; the TCM data hub catalogs 136 databases, 76 dataset specifications, and 84,294 formula-source records. These resources support model-independent workflows through browser and local execution interfaces. In a network-pharmacology analysis of Gegen Qinlian Tang, replacing the whole-proteome background with the assayed-protein background changed the number of significant pathways from 66 to zero; incorporating inactive screening records identified nine pathways, including drug-metabolism signals retained as mechanistic hypotheses. A governance ablation over 121 constructed erroneous outputs spanning 26 classes released 121 errors without governance, 57 with the domain layer, seven with the kernel, and zero with both layers. All 10 compliant controls were retained. These results establish complementary control of known failure modes and show how explicit evidence contracts change the conclusions an agent is permitted to report."
+   },
+   "MED/42952149": {
+    "id": "MED/42952149",
+    "title": "The Rise of Agentic AI and Self-Driving Laboratories: Reshaping Drug Discovery, Development, and Precision Medicine",
+    "date": "2026-11-01",
+    "venue": "Drug Dev Res",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42952149",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": -2
+   },
+   "MED/42952144": {
+    "id": "MED/42952144",
+    "title": "Autonomous Discovery of Multi-Material Metamaterials With Programmable Multimodal Thermal Responses via Reinforcement Learning",
+    "date": "2026-10-28",
+    "venue": "Adv Mater",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42952144",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 2
+   },
+   "PMC13689909": {
+    "id": "PMC13689909",
+    "title": "Beyond Scalar Objectives: Expert-Feedback-Driven Autonomous Experimentation for Scientific Discovery at the Nanoscale",
+    "date": "2026-10-01",
+    "venue": "ACS Nano",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13689909",
+    "first_seen": "2026-10-30",
+    "duplicate_of_title": true
+   },
+   "PMC13696172": {
+    "id": "PMC13696172",
+    "title": "Research note: approach rather than avoidance: behavioral responses of broiler chicks repeatedly exposed to an autonomous mobile robot",
+    "date": "2026-10-14",
+    "venue": "Poult Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13696172",
+    "first_seen": "2026-10-30",
+    "duplicate_of_title": true
+   },
+   "MED/42937834": {
+    "id": "MED/42937834",
+    "title": "Knowledge-Guided Autonomous Discovery of Microenvironment-Tuned Metal-Organic Framework Photocatalysts",
+    "date": "2026-09-01",
+    "venue": "J Am Chem Soc",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42937834",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 59
+   },
+   "PMC13685808": {
+    "id": "PMC13685808",
+    "title": "Can autonomous Agentic-AI systems accelerate drug discovery and development in the next decade?",
+    "date": "2026-09-01",
+    "venue": "Brief Bioinform",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13685808",
+    "first_seen": "2026-10-30",
+    "duplicate_of_title": true
+   },
+   "arXiv/2610.40589v1": {
+    "id": "arXiv/2610.40589v1",
+    "title": "Collaborative AI agents for autonomous experimental research with solid-state quantum spins",
+    "date": "2026-10-29",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.40589v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 1,
+    "abstract": "An autonomous research laboratory could conduct an entire study, from formulating questions to preparing manuscripts. Artificial intelligence (AI) offers one route towards this goal. Recent AI systems take on several research roles, but may draw conclusions that the evidence does not support. Here, we present an autonomous research laboratory in which agents based on large language models assess one another's work and can stop or redirect investigations. They can generate and reject research questions, require separate theoretical checks and conduct experiments designed to challenge their claims. We demonstrate these capabilities by investigating ensembles of quantum spins in diamond. The agents derived the minimum number of calibration settings needed to predict responses to a defined family of microwave pulse sequences. They checked the result computationally and designed experiments to distinguish competing predictions. An initial experiment agreed with the theoretical predictions, but repeated reference measurements showed that the signal was drifting during data collection. The agents therefore treated the result as inconclusive and revised the measurement protocol without relaxing the acceptance criteria. The revised experiment met those criteria and supported the theoretical predictions. This study demonstrates that collaborating AI agents can select research questions, derive theoretical results and test their predictions experimentally."
+   },
+   "arXiv/2610.39620v1": {
+    "id": "arXiv/2610.39620v1",
+    "title": "Letting AI Formulate the Research Question: Autonomous Research Agents",
+    "date": "2026-10-29",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.39620v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 1,
+    "abstract": "Systems such as The AI Scientist have shown that AI agents can carry out and write up research, but in those demonstrations humans chose the research area and selected the outputs to show. We study letting the AI formulate the research question itself, and we report every run. Our system gives an off-the-shelf coding agent an instruction document and two skills: one for formulating the question, in which the agent diverges from recent technologies into problems of other fields, screens its candidates for known failure modes and obtains a critique from a different model; and one for peer review, in which a reviewer from another model family reruns the study from its records before the agent revises the paper. Over 13 development runs, changes to the one or two sentences that set the research area coincided with large shifts in what the candidate questions and the chosen papers were about, which led us to the area of a new technology applied to a societal problem. We froze the system after a pilot run and report five consecutive runs: the pilot, counted by a disclosed amendment to the pre-registration, and four pre-registered runs. All five runs went from question formulation to a revised, re-computable paper, with local computation on a laptop and no research input from humans, and external AI reviewers reading only the papers judged them at or near workshop level. We release the system, the five papers and the records needed to reproduce them."
+   },
+   "arXiv/2610.33281v1": {
+    "id": "arXiv/2610.33281v1",
+    "title": "Coral Discovery: The Division of Cognitive Labor in Autonomous Research",
+    "date": "2026-10-23",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.33281v1",
+    "is_preprint": true,
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 7,
+    "abstract": "A research community is only as strong as the way it divides its cognitive labour. The philosopher Philip Kitcher argued that researchers should not all pursue the most promising approach. Credit rules, not a central plan, keep some of them on other lines. We bring this question to autonomous research, where Large Language Model agents improve programs against a deterministic grader. Agents that share only a score follow the leader and converge onto one approach. Coral Discovery gives the community a direction board. A verifier labels every attempt with a direction, the mechanism earning the score, and a method, one change within it. Per direction, the board tracks how much each eval improves the score, adds an exploration bonus for little-tried directions, prices the option of opening a new direction, and suggests how many agents each direction deserves. Credit is earned against a direction's own best, so a lagging direction keeps its agents. Agents finish their lines, then treat the board as advice. We test on nine tasks with the same model and budget, without grader access except for Kernel. Coral Discovery beats the strongest open autonomous multi-agent system on 6 tasks, ties on 1, and loses on 2. Against published numbers, it is best or tied on 4. It improves the reported Kernel result from 1103 to 1095 cycles and passes 1103 at eval 275, under half of the 596 used before. It sets a new Polyominoes state of the art, 91.78 against 87.0. Direction labels show that the leading scores rest on directions a score-only community never entered. Code will be released shortly."
+   },
+   "arXiv/2610.31372v2": {
+    "id": "arXiv/2610.31372v2",
+    "title": "RIDAR: Safeguarding Research Integrity in Autonomous Research Agents via Automated Detection and Runtime Intervention",
+    "date": "2026-10-22",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.31372v2",
+    "is_preprint": true,
+    "first_seen": "2026-10-30",
+    "duplicate_of_title": true,
+    "abstract": "Autonomous research agents are increasingly used to automate large portions of scientific research, yet they are prone to research integrity violations (RIVs): behaviors that compromise the validity, reproducibility, or faithfulness of the research process. We present RIDAR, a framework for automated RIV detection and runtime intervention. First, we introduce RIVT, a comprehensive taxonomy of 14 RIV types spanning the full research lifecycle. Building on RIVT, we present RIDAR-post-hoc, a framework to detect RIVs within agent trajectories. RIDAR-post-hoc achieves 85.2% F1 performance on RIV-Gold, a benchmark for RIV detection with 60 expert-annotated trajectories. Applying RIDAR-post-hoc to RIV-Wild, a dataset of 300 agent trajectories across 50 distinct research tasks, we detect 3,964 RIV instances in 99.7% of trajectories, revealing the prevalence of RIVs in current agents. Finally, we present RIDAR-runtime, a framework for dynamically detecting and correcting RIVs during agent runtime. RIDAR-runtime effectively reduces agent RIVs remaining at task completion by 36.8%. We will release our code and data to facilitate future research."
    }
   },
   "TRG-POSE-ORIENTATION-CONVERGENCE": {
@@ -6862,6 +7189,66 @@
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 4,
     "abstract": "Performing accurate protein-glycan docking is critical to understanding protein-glycan interactions which govern many biological processes. However, this important task is hampered by the lack of tailored datasets, benchmarks and models for protein-glycan docking. To fill this blank, we first curate a standard benchmark ProtGlycanDock for training and evaluating protein-glycan docking models under both protein and glycan generalization settings. On this benchmark, we evaluate ten models in three categories, physics-based docking methods, machine-learning-based docking models and molecular structure prediction models. To obtain more precise binding poses, we further propose two finetuning techniques to inject the knowledge of glycan conformations into a general-purpose molecular structure prediction model. These two techniques respectively augment model inputs with glycan topological features and refine glycan binding pose with a glycan energy loss. Benchmark results show the superiority of AlphaFold 3 among existing methods, and the two proposed finetuning techniques can be well combined to achieve a state-of-the-art model for protein-glycan docking. Also, we perform stratified benchmark analysis and case studies to better understand the strengths and weaknesses of current models, providing insights for future model improvements. We maintain datasets at https://huggingface.co/datasets/ProtGlycanDock/ProtGlycanDock and source codes at https://github.com/kasawa1234/ProtGlycanDock"
+   },
+   "PMC13694897": {
+    "id": "PMC13694897",
+    "title": "Neuroprotective effects of &lt;i&gt;Entandrophragma cylindricum&lt;/i&gt; (Meliaceae) extract against \"Odontol''-induced cognitive and depressive disorders: An integrated HPLC, molecular docking and experimental validation",
+    "date": "2026-10-12",
+    "venue": "IBRO Neurosci Rep",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13694897",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 18
+   },
+   "PMC13700694": {
+    "id": "PMC13700694",
+    "title": "Integrated UHPLC-MS/MS Metabolomics, Network Pharmacology, Molecular Docking, and Experimental Validation Reveal the Anti-Inflammatory Mechanisms of &lt;i&gt;Pyrus pyrifolia&lt;/i&gt; Peel Extract",
+    "date": "2026-10-02",
+    "venue": "Antioxidants (Basel)",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13700694",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 28
+   },
+   "MED/42921222": {
+    "id": "MED/42921222",
+    "title": "Strategic development of benzimidazole-derived glycosidase modulators for antihyperglycemic intervention: a comprehensive medicinal study integrating molecular docking, biological evaluation, &lt;i&gt;in vivo&lt;/i&gt; validation and pharmacokinetic assessment",
+    "date": "2026-10-02",
+    "venue": "RSC Med Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42921222",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 28
+   },
+   "MED/42912915": {
+    "id": "MED/42912915",
+    "title": "Multiparadigm Benchmark of Molecular Docking: From Physics to Co-Folding and Hybrid Models",
+    "date": "2026-10-01",
+    "venue": "J Chem Inf Model",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42912915",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 29
+   },
+   "PMC13663860": {
+    "id": "PMC13663860",
+    "title": "Pose Reproduction, Cross Docking, Database Enrichment, and Reverse Docking Benchmarks for DOCK6, Vina, and AutoDock 4 with Emphasis on Approved Drugs",
+    "date": "2026-10-01",
+    "venue": "J Chem Inf Model",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13663860",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 29
+   },
+   "PMC13685473": {
+    "id": "PMC13685473",
+    "title": "Molecular Targets and Potential Mechanisms of Luteolin Against Cervical Carcinoma: Integrative Approach Combining Network Pharmacology, Molecular Docking, Molecular Dynamics Simulations, and In Vitro Validation",
+    "date": "2026-10-01",
+    "venue": "Chem Biodivers",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13685473",
+    "first_seen": "2026-10-30",
+    "duplicate_of_title": true
    }
   },
   "TRG-COVALENT-EXPOSURE-CRITERION": {
@@ -7228,6 +7615,46 @@
     "url": "https://europepmc.org/article/MED/42864242",
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 11
+   },
+   "MED/42937983": {
+    "id": "MED/42937983",
+    "title": "A Two-Step Synthesis of Covalent Genetically Encoded Libraries of Peptide-Derived Macrocycles Enables the Use of Electrophiles with Diverse Reactivity",
+    "date": "2026-10-01",
+    "venue": "J Am Chem Soc",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42937983",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 29
+   },
+   "MED/42937909": {
+    "id": "MED/42937909",
+    "title": "Sulfonyl-Imidazopyridines Decouple Reactivity from Stability for Ligandability Mapping and Covalent Inhibitor Discovery",
+    "date": "2026-10-01",
+    "venue": "J Am Chem Soc",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42937909",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 29
+   },
+   "MED/42911693": {
+    "id": "MED/42911693",
+    "title": "Direct S,S Coordination Suppresses Pt(II)-Thiol Reactivity to Mitigate Nephrotoxicity and Enable Chemo-Photodynamic Therapy against Metastatic Triple-Negative Breast Cancer",
+    "date": "2026-10-01",
+    "venue": "J Med Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42911693",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 29
+   },
+   "MED/42917428": {
+    "id": "MED/42917428",
+    "title": "Vicinal Halothiolcarbonates as Pseudo-Ambident Electrophiles: Carbamate Synthesis, Unified Thiol Reactivity, and Architecture-Dependent Antibacterial Activity of Ciprofloxacin Glycoconjugates",
+    "date": "2026-09-01",
+    "venue": "J Org Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42917428",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 59
    }
   },
   "TRG-ANTITARGET-PANEL-PROTOCOL": {
@@ -8092,6 +8519,68 @@
     "url": "https://europepmc.org/article/MED/42867132",
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 10
+   },
+   "MED/42914231": {
+    "id": "MED/42914231",
+    "title": "Multi-spectroscopy and coarse-grained model reveal self-assembly mechanisms of glycosylated flaxseed protein-ethyl cellulose nanoparticles to enhance curcumin bioaccessibility",
+    "date": "2026-09-10",
+    "venue": "Food Res Int",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42914231",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 50
+   },
+   "PMC13699997": {
+    "id": "PMC13699997",
+    "title": "Mitigating Freezing Artifacts in Polar Coarse-Grained Water through Rebalancing Electrostatic and van der Waals Interactions: A Case Study of the pSPICA Force Field",
+    "date": "2026-10-01",
+    "venue": "J Phys Chem B",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13699997",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 29
+   },
+   "MED/42917563": {
+    "id": "MED/42917563",
+    "title": "A Coarse-Grained Model for Small Organic Molecules with Optimized Lennard-Jones Parameters",
+    "date": "2026-09-01",
+    "venue": "J Phys Chem B",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42917563",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 59
+   },
+   "PMC13602889": {
+    "id": "PMC13602889",
+    "title": "Developing Explicit Base Stacking Potentials for the IsRNA2+ Coarse-Grained RNA Force Field Using Iterative Reweighting",
+    "date": "2026-09-01",
+    "venue": "J Chem Theory Comput",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13602889",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 59
+   },
+   "MED/42917450": {
+    "id": "MED/42917450",
+    "title": "MOFF2: A Transferable Coarse-Grained Protein Force Field for Predictive Condensate Simulations",
+    "date": "2026-09-01",
+    "venue": "J Chem Theory Comput",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42917450",
+    "first_seen": "2026-10-30",
+    "duplicate_of_title": true
+   },
+   "PPR/PPR1349697": {
+    "id": "PPR/PPR1349697",
+    "title": "Sequence architecture of RNA reveals key molecular signatures driving RNA phase separation",
+    "date": "2026-10-24",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1349697",
+    "is_preprint": true,
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 6,
+    "abstract": "Biomolecular condensates are dynamic membraneless assemblies that organize various cellular processes through liquid\u2013liquid phase separation (LLPS). RNA is an active regulator of biomolecular condensates and influence their formation through sequence-encoded features. Despite its established role in condensate formation, no computational framework exists to identify underlying signatures to predict LLPS-associated RNAs. We develop an interpretable hybrid framework to distinguish reviewed, experimentally supported LLPS-associated RNAs from background RNAs. We uncover biologically meaningful sequence properties associated with condensate participation. Each RNA is represented by 167 handcrafted descriptors capturing composition, k-mer usage, sequence complexity, repeat organization and dinucleotide autocorrelation together with 640-dimensional contextual embeddings from RNA-FM. These representations are integrated through cross-validated stacking with neural-network meta-learner. The framework achieves an AUC-ROC of 0.935, AUC-PR of 0.944 and MCC of 0.782. Feature statistics, ablation analysis and SHAP interpretation reveal a distributed sequence architecture dominated by altered local k-mer usage with additional contributions from low-complexity burden, repeat-associated organization and long-range dinucleotide pattern. Biological case studies including MALAT1 and TMPO-AS1 further connect these patterns with experimentally characterized modes of multivalent RNA\u2013protein assembly. Together, the results show how interpretable machine learning can move beyond prediction to identify sequence features that generate mechanistic hypotheses for RNA-mediated condensation."
    }
   },
   "TRG-FUSION-JUNCTION-CLINICAL": {
@@ -8812,6 +9301,36 @@
     "url": "https://europepmc.org/article/MED/42867382",
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 10
+   },
+   "PMC13710372": {
+    "id": "PMC13710372",
+    "title": "Fusion-loop-engineered Zika mRNA vaccine elicits convergent B cell immunodominance to uncouple protection from ADE in macaques",
+    "date": "2026-10-07",
+    "venue": "Cell Rep Med",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13710372",
+    "first_seen": "2026-10-30",
+    "duplicate_of_title": true
+   },
+   "MED/42914698": {
+    "id": "MED/42914698",
+    "title": "A novel anti-PD-1/VEGF bispecific fusion protein with enhanced VEGF binding capacity and developability for synergistic immunotherapy",
+    "date": "2026-10-22",
+    "venue": "Biochem Biophys Res Commun",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42914698",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 8
+   },
+   "PMC13700275": {
+    "id": "PMC13700275",
+    "title": "Neoadjuvant immunotherapy for locally advanced resectable gastric and gastroesophageal junction adenocarcinoma: a systematic review and meta-analysis",
+    "date": "2026-07-29",
+    "venue": "BMC Surg",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13700275",
+    "first_seen": "2026-10-30",
+    "age_days_at_first_seen": 93
    }
   }
  }
