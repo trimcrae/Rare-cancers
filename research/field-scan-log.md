@@ -713,3 +713,18 @@ Captured: nothing new to capture.
 - **Tooling (c), (d):** not searched this week; UNKNOWN. RTX 5090 stays UNPRICEABLE. Rates in research/compute/pricing.md.
 
 Captured: nothing new to capture.
+
+
+## 2026-10-30 — weekly field-scan (quiet week)
+
+**Takeaway:** Quiet week. No new NR4A/EMC, ternary-prediction, fusion-neoantigen or ASO-delivery result; only a reported RunPod price rise and an OpenMM 8.6.1 listing, both unverified against primary sources.
+
+- **NR4A/EMC:** only older known papers resurfaced (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6766969/). Nothing new on ligands/degraders.
+- **Degrader methodology:** only older known work (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10344917/). No new model found.
+- **Non-degrader routes:** no new fusion-neoantigen or oligo-delivery item. Sarcoma neoantigen-vaccine trial NCT07648069 (posted Jun 2026, personalized, not fusion-specific): https://clinicaltrials.gov/study/NCT07648069. Does not apply to EMC specifically. ASO delivery: nothing found.
+- **Tooling (a):** GitHub release pages unreachable from this session (repo scope), so OpenFE/Boltz not re-checked: UNKNOWN (last logged OpenFE v1.13.0, Boltz v2.2.1). OpenMM 8.6.1 (11 Sep) seen on a PyPI mirror, unverified: https://www.piwheels.org/project/openmm/ Others UNKNOWN.
+- **Tooling (b):** no confirmed model newer than Opus 5.5; secondary sources mention Haiku 5.5 (7 Oct) and unconfirmed Opus 6 rumours. Not verified on anthropic.com.
+- **Tooling (c):** not searched; UNKNOWN.
+- **Tooling (d):** tracker reports a RunPod rate rise 5→12 Oct (unverified): https://pricingsaas.com/companies/runpod/diffs/2026W42 Vast figures conflict across sources; no dated October move. RTX 5090 stays UNPRICEABLE. Rates in research/compute/pricing.md.
+
+Captured: method-watch (OpenMM 8.6.1 listing), cheap-gpu-plan (RunPod rise, for human review).

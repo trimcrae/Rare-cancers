@@ -650,3 +650,5 @@ triggers not yet integrated into the curated sections above — review + fold in
   https://www.anthropic.com/news/claude-opus-5-5
 
 - 2026-10-09: OpenFE v1.13.0 released 2026-10-08 (Boresch restraints/structural analysis in ABFE; new HybridTopology check requiring >=4 mapped heavy atoms; Python 3.14). Check the mapping check against our RBFE networks before upgrading. https://github.com/OpenFreeEnergy/openfe/releases
+
+- 2026-10-30 OpenMM 8.6.1 (11 Sep 2026) listed on a PyPI mirror, 8.6.0 in Aug; UNVERIFIED against official release notes; check for default/bug changes before our next pin bump. https://www.piwheels.org/project/openmm/

@@ -450,3 +450,5 @@ Appended by the weekly field-scan Routine. Provider choice is trimcrae's decisio
   operational difference from every provider already in the waterfall — flagging only, not recommending; this
   is trimcrae's call on whether the payment/trust model is even worth evaluating.
   https://lium.io/ · https://getdeploying.com/gpus/nvidia-h100
+
+- 2026-10-30 ⚠ for human review: third-party tracker logs a RunPod on-demand rate rise 5→12 Oct 2026 across most GPUs (4090/A100/H100); UNVERIFIED against RunPod's own page. Impact on our $/ns UNKNOWN until re-priced; rates live in research/compute/pricing.md. https://pricingsaas.com/companies/runpod/diffs/2026W42
