@@ -652,3 +652,5 @@ triggers not yet integrated into the curated sections above — review + fold in
 - 2026-10-09: OpenFE v1.13.0 released 2026-10-08 (Boresch restraints/structural analysis in ABFE; new HybridTopology check requiring >=4 mapped heavy atoms; Python 3.14). Check the mapping check against our RBFE networks before upgrading. https://github.com/OpenFreeEnergy/openfe/releases
 
 - 2026-10-30 OpenMM 8.6.1 (11 Sep 2026) listed on a PyPI mirror, 8.6.0 in Aug; UNVERIFIED against official release notes; check for default/bug changes before our next pin bump. https://www.piwheels.org/project/openmm/
+
+- 2026-11-06 AIMS-Fold (NeurIPS 2026 listing): inference-time guidance layer on Boltz-2, no retraining, attractive AND repulsive constraints; tested on 4 PROTAC ternary complexes only (tiny n; posting date unverified). Could steer ternary generation toward/away from selectivity-relevant poses. https://neurips.cc/virtual/2026/161145

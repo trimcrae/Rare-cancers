@@ -728,3 +728,18 @@ Captured: nothing new to capture.
 - **Tooling (d):** tracker reports a RunPod rate rise 5→12 Oct (unverified): https://pricingsaas.com/companies/runpod/diffs/2026W42 Vast figures conflict across sources; no dated October move. RTX 5090 stays UNPRICEABLE. Rates in research/compute/pricing.md.
 
 Captured: method-watch (OpenMM 8.6.1 listing), cheap-gpu-plan (RunPod rise, for human review).
+
+
+## 2026-11-06 — weekly field-scan (quiet week)
+
+**Takeaway:** Quiet week. One new method item (AIMS-Fold, Boltz-2 constraint guidance for PROTAC ternaries); no new NR4A/EMC, fusion-neoantigen or ASO-delivery result; no library bump.
+
+- **NR4A/EMC:** only older known papers resurfaced (https://pmc.ncbi.nlm.nih.gov/articles/PMC6766969). Nothing new.
+- **Degrader methodology:** AIMS-Fold, inference-time guidance on Boltz-2, 4 PROTAC test cases, date unverified: https://neurips.cc/virtual/2026/161145 Otherwise the tracked AF3/Boltz-1 benchmark: https://research.chalmers.se/publication/549487
+- **Non-degrader routes:** nothing new. Fusion-breakpoint peptide vaccine PerVision (NCT06094101, Tübingen, fusion-driven sarcomas, HLA-independent, recruiting; EMC eligibility UNKNOWN): https://www.centerwatch.com/clinical-trials/listings/NCT06094101/personalized-vaccination-in-fusion-sarcoma-patients-pervision . ASO delivery: nothing found.
+- **Tooling (a):** OpenFE v1.13.0 (08 Oct) still latest (verified): https://github.com/OpenFreeEnergy/openfe/releases Others not re-checked (UNKNOWN).
+- **Tooling (b):** no verified model newer than Opus 5.5; only unconfirmed rumours (Fable 5.2 demos). We are on the top verified tier. Check anthropic.com/news.
+- **Tooling (c):** not searched; UNKNOWN.
+- **Tooling (d):** no dated November price snapshot found; secondary sources conflict (Vast 4090 floor $0.13 vs $0.27–0.36/hr). RTX 5090 stays UNPRICEABLE (no throughput measurement). Rates in research/compute/pricing.md.
+
+Captured: method-watch (AIMS-Fold).
