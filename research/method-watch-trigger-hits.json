@@ -390,6 +390,21 @@
    ],
    "signals_recorded": 38,
    "abstracts_fetched": 7
+  },
+  {
+   "date": "2026-11-06",
+   "mode": "scan",
+   "triggers": 32,
+   "queries": 135,
+   "new_hits": 17,
+   "appended": 14,
+   "errors": [
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=protac&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "chemrxiv: DROPPED FOR THIS RUN after 3 consecutive failures (last: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden). Every ChemRxiv query below was SKIPPED -- this run's preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result is not a reading of absence."
+   ],
+   "signals_recorded": 17,
+   "abstracts_fetched": 7
   }
  ],
  "hits": {
@@ -486,6 +501,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13657626",
     "first_seen": "2026-10-16",
     "age_days_at_first_seen": 0
+   },
+   "MED/42962292": {
+    "id": "MED/42962292",
+    "title": "Sequence Scanning Improves Accuracy for Antibody-Antigen and Molecular Glue Ternary Complex Cofolding",
+    "date": "2026-11-01",
+    "venue": "ChemMedChem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42962292",
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 5
    }
   },
   "TRG-TERNARY-GEN-NO-SITES": {
@@ -918,6 +943,18 @@
     "first_seen": "2026-10-16",
     "duplicate_of_title": true,
     "abstract": "Proteins populate conformational ensembles, yet structure-based biomolecular design typically optimizes candidates against a single target conformation. Consequently, a candidate that fits one state can lose favorable interactions or develop steric clashes when the target adopts another. We introduce FlexEvo, a model-agnostic evolutionary framework that adapts candidates once at inference time from a single target conformation to improve compatibility with alternative natural conformations unseen during adaptation, without retraining the source model or requiring a conformational ensemble. FlexEvo casts cross-state adaptation as geometry-constrained bi-objective optimization, balancing preservation of input-state interactions against robustness to plausible conformational perturbations. To limit the search space and reduce invalid structural edits, geometry-derived FlexBoxes define protected anchor regions, adaptable regions for local exploration, and forbidden regions for clash avoidance. A unified all-atom representation supports topology-preserving adaptation across diverse binder categories, while Pareto selection preserves nondominated candidates across the two objectives. We evaluate FlexEvo across multiple generation baselines and nine representative binder categories spanning diverse molecular sizes and structural topologies. FlexEvo reduces the category-balanced mean relative performance degradation from 47.8% to 4.4%, while adding only 1.4--3.1 minutes of adaptation per sample. These results establish single-state inference-time adaptation as a practical route toward robust biomolecular complex design across protein conformational landscapes."
+   },
+   "arXiv/2611.05055v1": {
+    "id": "arXiv/2611.05055v1",
+    "title": "Ablating Design Choices for Protein Ensemble Generators Across Structural Regimes",
+    "date": "2026-11-03",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.05055v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 3,
+    "abstract": "Generative models of protein conformational ensembles inherit much of their design from structure prediction for folded proteins. Ordered and disordered proteins, however, occupy distinct structural regimes, and we investigate how design choices hold up across them. Using a minimal C$\u03b1$ flow-matching model, we ablate choices of architecture, sequence conditioning, rigid-body alignment and training source, and evaluate each variant against experimental SAXS and NMR chemical-shift data partitioned into ordered, disordered, multi-domain and transitional proteins. Mixture-of-experts routing, a static pair representation and a disorder probe have no detectable effect, a smaller protein language model performs worse on ordered proteins but not on disordered ones, and alignment in the loss degrades agreement with SAXS. Replacing coarse-grained simulations of disordered proteins with fragment-assembled ensembles improves agreement with chemical shifts at a cost to SAXS, while an equal mixture of the two keeps most of the gain at a smaller cost. This points to the training data, rather than the architecture, as the main constraint."
    }
   },
   "TRG-CRYPTIC-POCKET-PREDICTION": {
@@ -2328,6 +2365,54 @@
     "first_seen": "2026-10-30",
     "age_days_at_first_seen": 5,
     "abstract": "Predicting transcriptional responses across cellular contexts requires transferring both expression direction and differential-expression priority. We developed a compact numerical method that combines public perturbation summaries with a differential-expression kernel fitted to H1 CRISPRi training targets. The method centers an independent KOLF2.1J source on known training targets, transfers its response signs and magnitude ranks, and uses isotonic regression to render predicted expression means. We evaluated the frozen model retrospectively on the released public TEST100 of the 2025 Virtual Cell Challenge, using an external KOLF source released in 2026. The model achieved DES 0.371834, PDS 0.8614, and MAE 0.302206. With reconstructed historical anchors, its composite score was 0.341344, compared with the archived champion score of 0.340052, a difference of +0.001292. The comparison showed higher DES and lower PDS, with zero normalized MAE contributions for both methods. Source centering also improved development PDS across all three TRAIN folds and official VALIDATION. These results demonstrate a practical numerical approach to cross-context perturbation transfer and differential-expression ranking."
+   },
+   "PPR/PPR1357659": {
+    "id": "PPR/PPR1357659",
+    "title": "RELAY: Relational In-Context Learning for Cellular Perturbation Prediction",
+    "date": "2026-11-03",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1357659",
+    "is_preprint": true,
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 3,
+    "abstract": "Cellular responses to perturbations vary across multiple experimental variables, such as perturbation identity, cell type, donor, and dose, defining a multidimensional condition space in which each measured population occupies one coordinate. Existing methods predict unmeasured conditions using explicit representations of these variable values, generalizing unseen values therefore depends on the availability and quality of such representations. We present RELAY, a relational in-context model that predicts unmeasured coordinates from measured responses at related coordinates. For each target, RELAY uses measured control--perturbed pairs from conditions that share one or more experimental variables with the target, such as the same perturbation in another cell type. The model receives only which variables are shared, not their values, and uses these demonstrations to predict the target response. We evaluate RELAY on chemical, genetic, and cytokine perturbation datasets under two settings: unseen combinations, where test values are individually observed during training but not in their target combinations, and unseen variable values, where test values are introduced only through context at inference. RELAY outperforms existing in-context methods on unseen variable values and supervised perturbation-prediction methods on unseen combinations. All resources will be open sourced, including code and data."
+   },
+   "PPR/PPR1354896": {
+    "id": "PPR/PPR1354896",
+    "title": "Single-cell perturbation prediction near experimental reproducibility with GENESIS",
+    "date": "2026-11-01",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1354896",
+    "is_preprint": true,
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 5,
+    "abstract": "Single-cell perturbation atlases now measure cellular responses across millions of cells, but the number of possible combinations of biological contexts, perturbations, doses and other experimental variables make exhaustive measurements infeasible. Here, we present GENESIS (Generative ENErgy-based Single-cell Intervention Simulator), a generative framework that predicts single-cell response distributions directly from the covariates defining an experimental condition. GENESIS uses a lightweight neural network trained with the energy score, a strictly proper scoring rule for distributions. We introduce an experiment-calibrated evaluation framework in which prediction error is interpreted relative to the reproducibility of repeated measurements of the same condition. Across the Tahoe-100M small-molecule atlas and a large PBMC cytokine atlas, GENESIS significantly outperforms existing generative models and statistical baselines and approaches experimental reproducibility on independently repeated conditions. Importantly, GENESIS remains accurate when trained on only a fraction of the available experimental conditions or cells, and generated profiles recover experimentally observed context-dependent transcriptional programs. At comparable training-cell budgets, GENESIS achieves more accurate predictions when measurements span more experimental conditions rather than profiling fewer conditions more deeply. Together, these findings suggest a complementary strategy for perturbation studies: broader, lower-depth measurements can expand experimental coverage, while GENESIS augments sparsely sampled populations and predicts responses in unmeasured conditions."
+   },
+   "arXiv/2611.02335v2": {
+    "id": "arXiv/2611.02335v2",
+    "title": "Attribution-based diagnostics for single-cell foundation models",
+    "date": "2026-11-02",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.02335v2",
+    "is_preprint": true,
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 4,
+    "abstract": "Single-cell RNA foundation models (scFMs) are increasingly used for in-silico biological discovery, yet predictive performance alone does not reveal whether their decisions rely on biologically meaningful signals or model-specific shortcuts. We systematically investigate post-hoc attribution of downstream predictions across two tasks: cell-type annotation using pretrained Cell2Sentence and scGPT models, and perturbation prediction using scGPT+STATE in a controlled setting. For cell annotation, we use attribution to assess whether predictions rely on established marker genes and how their relevance varies with model architecture, expression rank, and the surrounding cellular context. For perturbation prediction, we compare attribution patterns with known regulatory ground-truth in a synthetic setting to assess what they reveal about the model's learned computations. Across these tasks, attribution reveals biological feature use, contextual interactions, contributions from different input pathways, learning progression, associations with prediction quality, and potential pitfalls that are not fully captured by standard performance metrics. Experiments with complete and limited regulatory knowledge further demonstrate that conclusions drawn from attribution depend strongly on the choice of biological reference, baseline, and null model. Together, these findings highlight the value of attribution as a flexible post-hoc diagnostic for understanding model behavior, identifying potential issues, and informing the development of scFMs."
+   },
+   "arXiv/2610.41399v1": {
+    "id": "arXiv/2610.41399v1",
+    "title": "scAnyOmics: Foundation-Model Distillation for Any-to-Any Completion of Multi-omics Virtual Cells",
+    "date": "2026-10-30",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.41399v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 7,
+    "abstract": "Recent advances in single-cell technologies have enabled the profiling of multiple molecular modalities, including transcriptomics, proteomics, and chromatin accessibility, providing a more comprehensive understanding of cellular states. However, integrating heterogeneous modalities and predicting missing molecular information remain challenging, particularly when paired measurements are limited. Here, we introduce scAnyOmics, a generative framework that distills knowledge from a frozen single-cell foundation model into a multimodal student model. scAnyOmics integrates scRNA-seq, protein-marker measurements, and scATAC-seq into a shared representation, enabling cross-modal prediction and reconstruction of missing modalities. We assembled 690,880 cells from six publicly available studies, covering both paired and partially paired multi-omics measurements, to systematically evaluate its predictive performance. We further evaluated scAnyOmics on held-out donor data, where it outperformed baseline methods across multiple evaluation metrics. Beyond cross-modal reconstruction, we explored its applications in cell-type annotation, perturbation-response prediction, and biological age estimation. Overall, scAnyOmics provides a unified framework for integrating incomplete single-cell multi-omics data and transferring pretrained biological knowledge, supporting the development of virtual cell models across diverse cellular contexts and experimental platforms."
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -2975,6 +3060,36 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PMC/PMC13712836",
     "first_seen": "2026-10-30",
+    "duplicate_of_title": true
+   },
+   "MED/42969733": {
+    "id": "MED/42969733",
+    "title": "GenMAS: A Machine Learning-Based Modeling and Assessment Strategy for ADMET Profiling and its Application in PBPK Simulation",
+    "date": "2026-11-01",
+    "venue": "Mol Pharm",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42969733",
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 5
+   },
+   "MED/42969721": {
+    "id": "MED/42969721",
+    "title": "Experimental and Computational Characterization of Human Serum Albumin Recognition by Ga(III)-NOTA Dendrimer Nanomicelles with Distinct PET Biodistribution Profiles",
+    "date": "2026-11-01",
+    "venue": "Mol Pharm",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42969721",
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 5
+   },
+   "PMC13733367": {
+    "id": "PMC13733367",
+    "title": "Development, Early Verification and Application of a North American Pediatric PBPK Model, Comparison With the North European Pediatric Population",
+    "date": "2026-10-01",
+    "venue": "CPT Pharmacometrics Syst Pharmacol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13733367",
+    "first_seen": "2026-11-06",
     "duplicate_of_title": true
    }
   },
@@ -3895,6 +4010,16 @@
     "first_seen": "2026-10-30",
     "age_days_at_first_seen": 2,
     "abstract": "Background: Allele-specific antisense oligonucleotides (ASOs) are increasingly used to selectively suppress transcripts containing pathogenic gain-of-function or dominant negative (GOF/DN) variants. However, most current approaches rely on patient-specific target selection of SNVs  in cis with the disease-causing variant. This individualized approach may limit broader ASO applicability and could exacerbate inequities in access. Population-level selection of ASO-targetable SNVs is an alternative approach not previously explored at scale.  Methods:  For a curated set of >400 disease genes with putative toxic GOF/DN mechanisms, we applied a greedy algorithm to identify ASO-targetable SNVs that maximize population coverage in the 1000 Genomes Project dataset. Population coverage was evaluated across \u2033superpopulation\u2033 ancestry groups and assessed in multiple diverse replication datasets. For each prioritized SNV we attempted to design allele-specific 15-mer and 20-mer ASOs meeting standard chemistry and sequence criteria. The presence of prioritized SNVs was assessed in two local cohorts with GOF/DN disorders: infants with epilepsy diagnosed by rapid short-read genome sequencing, and children with long-read genome sequencing data generated for bespoke ASO development.  Results:  We identified 7,927 SNVs (median 17.5 per gene) achieving a median cumulative heterozygous population coverage of 88.9% across 408 disease genes. More than two-thirds of genes (70.6%) reached \u226580% coverage using a median of only four prioritized SNVs. Coverage was consistently high for all \u2033superpopulation\u2033 ancestry groups, with median coverage proportions of \u226585%. Prioritized SNVs generalized to independent ancestrally diverse replication datasets, achieving median coverage of 86.4% in the Human Genome Diversity Project and 90.3% in the  All of Us Research Program . Many prioritized targets were compatible with established ASO design principles, enabling generation of candidate allele-specific 15-mer and 20-mer ASOs at scale for future experimental validation. The presence of prioritized targets in the rapid short-read sequencing cohort, and the overlap between prioritized targets and manually curated long-read genome sequencing targets, supports the clinical relevance of population-informed target selection. All SNV targets and candidate allele-specific ASO sequences are available at hawk-eye.research.sickkids.ca/knockdown.  Conclusions:  Prioritization of common SNV targets may facilitate the development of ASO therapies with broader population coverage, helping move the field beyond single-patient applications and toward more equitable opportunities for access."
+   },
+   "MED/42973380": {
+    "id": "MED/42973380",
+    "title": "Rational design of polycationic, biodegradable nanogels for intracellular siRNA delivery to microglia",
+    "date": "2026-11-03",
+    "venue": "J Mater Chem B",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42973380",
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 3
    }
   },
   "TRG-EMC-FUNCTIONAL-MODEL": {
@@ -6359,6 +6484,38 @@
     "first_seen": "2026-10-30",
     "duplicate_of_title": true,
     "abstract": "Autonomous research agents are increasingly used to automate large portions of scientific research, yet they are prone to research integrity violations (RIVs): behaviors that compromise the validity, reproducibility, or faithfulness of the research process. We present RIDAR, a framework for automated RIV detection and runtime intervention. First, we introduce RIVT, a comprehensive taxonomy of 14 RIV types spanning the full research lifecycle. Building on RIVT, we present RIDAR-post-hoc, a framework to detect RIVs within agent trajectories. RIDAR-post-hoc achieves 85.2% F1 performance on RIV-Gold, a benchmark for RIV detection with 60 expert-annotated trajectories. Applying RIDAR-post-hoc to RIV-Wild, a dataset of 300 agent trajectories across 50 distinct research tasks, we detect 3,964 RIV instances in 99.7% of trajectories, revealing the prevalence of RIVs in current agents. Finally, we present RIDAR-runtime, a framework for dynamically detecting and correcting RIVs during agent runtime. RIDAR-runtime effectively reduces agent RIVs remaining at task completion by 36.8%. We will release our code and data to facilitate future research."
+   },
+   "PMC13718556": {
+    "id": "PMC13718556",
+    "title": "Scalable Thermoset Informatics Integrated with Autonomous Experimentation for On-Demand Discovery",
+    "date": "2026-10-09",
+    "venue": "Chem Mater",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13718556",
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 28
+   },
+   "PMC13658227": {
+    "id": "PMC13658227",
+    "title": "The rise of agentic AI in drug discovery from static tools to autonomous virtual scientists",
+    "date": "2026-10-12",
+    "venue": "NPJ Drug Discov",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13658227",
+    "first_seen": "2026-11-06",
+    "duplicate_of_title": true
+   },
+   "arXiv/2611.03721v1": {
+    "id": "arXiv/2611.03721v1",
+    "title": "Counterexample-driven autonomous research with application to excess radiated energy in a Z-pinch",
+    "date": "2026-11-01",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.03721v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 5,
+    "abstract": "Recent breakthroughs in artificial-intelligence-assisted mathematics show that open-ended machine search can outperform human mathematicians, yet transferring this paradigm to physics requires refactoring the research workflow. We introduce Simjecture, an open-source framework in which language-model agents pursue human-defined physical conjectures. The framework tackles two central challenges in this transfer: first, because physics is empirical and no model is final, it structures inquiry around counterexample-driven falsification and prospective hypothesis repair; second, because physical theories must interact with the real world, it uses computational physics as an executable testbed while separating the qualification of numerical instruments from scientific claim review so solvers and diagnostics can be adapted within a recorded investigation. We apply the framework in an 82.6 h investigation to tackle the long-standing problem of radiated energy exceeding the imploding-shell kinetic energy in a Z-pinch. The investigation reveals competing effects of energy conversion, retention, and release timing. Stronger coherent helical deformation increases resistive conversion while reducing radiation and increasing retained energy. A broader trailing-plasma profile delays the later radiation maximum and recovers much of its early bolometric deficit, with a spectral response that changes during the pulse. These results provide new insight into energy conversion in high-energy-density plasma physics and demonstrate a new paradigm for physics research."
    }
   },
   "TRG-POSE-ORIENTATION-CONVERGENCE": {
@@ -7249,6 +7406,38 @@
     "url": "https://europepmc.org/article/PMC/PMC13685473",
     "first_seen": "2026-10-30",
     "duplicate_of_title": true
+   },
+   "MED/42973294": {
+    "id": "MED/42973294",
+    "title": "Yindan Xinnaotong Soft Capsule Ameliorates Parkinson's Disease and is Associated with Modulation of the AKT/MDM2/p53 Pathway: Network Pharmacology, Molecular Docking, and Experimental Validation",
+    "date": "2026-10-22",
+    "venue": "CNS Neurol Disord Drug Targets",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42973294",
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 15
+   },
+   "MED/42962331": {
+    "id": "MED/42962331",
+    "title": "Unlocking anti-tyrosinase and anti-melanogenic peptides from Torreya grandis meal hydrolysates via molecular docking, MD simulation, and experimental validation",
+    "date": "2026-10-28",
+    "venue": "Bioorg Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42962331",
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 9
+   },
+   "PPR/PPR1354092": {
+    "id": "PPR/PPR1354092",
+    "title": "Does Short Molecular Dynamics Rescoring Improve the Ranking of p38 <i>\u03b1</i> Inhibitors over Docking? A Replicate Benchmark",
+    "date": "2026-10-30",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1354092",
+    "is_preprint": true,
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 7,
+    "abstract": "Rescoring docked ligands with molecular dynamics (MD) and end point free energy methods such as MM/GBSA is widely used, but its benefit over docking for series of close analogs is uncertain. We compared AutoDock Vina scores with Md based MM/GBSA energies for 29 neutral p38  \u03b1 kinase inhibitors (PDB 3FLY) from the Open Force Field protein-ligand bench- mark, whose IC50 values from a single publication span 3.8 kcal/mol in estimate \u0394G. Each ligand was docked with three random seeds and simulated in two independent 20 ns replicas started from the benchmark pose (AMBER99SB-ILDN, GAFF2, TIP3L; GROMACS). MM/GBSA energies were calculated from 251 frames per trajectory without an entropy term. All 58 simulations remained stable with the ligand bound. Vina scores correlated weakly with experimental \u0394G (Spearman  \u03c1 = 0.28 98% CI -0.15 to 0.62), as did replica averaged MM/GBSA energies (  \u03c1 = 0.24 -0.18 to 0.62). The difference was -0.03 (-0.50 to 0.43), so the methods were not distinguishable. Independent replicas of the same ligand differed by 3.3 kcal/mol on average, comparable to the experimental range. Raising the interior dielectric constant from 1 to 2 gave a nearly identical ranking (  \u03c1 = 0.96 between the two sets of scores;  \u03c1 = 0.37 against experiment, -0.04 to 0.69). In an exploratory analysis, ligands size alone correlated with affinity (  \u03c1 = 0.60, 0.28 to 0.82), whereas neither computed score tracked size. For this narrow range series, short MD rescoring gave no measurable improvement over docking, and replica variability limited its resolution."
    }
   },
   "TRG-COVALENT-EXPOSURE-CRITERION": {
@@ -7655,6 +7844,16 @@
     "url": "https://europepmc.org/article/MED/42917428",
     "first_seen": "2026-10-30",
     "age_days_at_first_seen": 59
+   },
+   "MED/42970437": {
+    "id": "MED/42970437",
+    "title": "A substituted cysteine accessibility protocol to probe orthosteric and non-canonical ligand binding to ion channels",
+    "date": "2026-11-02",
+    "venue": "STAR Protoc",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42970437",
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 4
    }
   },
   "TRG-ANTITARGET-PANEL-PROTOCOL": {
@@ -8581,6 +8780,16 @@
     "first_seen": "2026-10-30",
     "age_days_at_first_seen": 6,
     "abstract": "Biomolecular condensates are dynamic membraneless assemblies that organize various cellular processes through liquid\u2013liquid phase separation (LLPS). RNA is an active regulator of biomolecular condensates and influence their formation through sequence-encoded features. Despite its established role in condensate formation, no computational framework exists to identify underlying signatures to predict LLPS-associated RNAs. We develop an interpretable hybrid framework to distinguish reviewed, experimentally supported LLPS-associated RNAs from background RNAs. We uncover biologically meaningful sequence properties associated with condensate participation. Each RNA is represented by 167 handcrafted descriptors capturing composition, k-mer usage, sequence complexity, repeat organization and dinucleotide autocorrelation together with 640-dimensional contextual embeddings from RNA-FM. These representations are integrated through cross-validated stacking with neural-network meta-learner. The framework achieves an AUC-ROC of 0.935, AUC-PR of 0.944 and MCC of 0.782. Feature statistics, ablation analysis and SHAP interpretation reveal a distributed sequence architecture dominated by altered local k-mer usage with additional contributions from low-complexity burden, repeat-associated organization and long-range dinucleotide pattern. Biological case studies including MALAT1 and TMPO-AS1 further connect these patterns with experimentally characterized modes of multivalent RNA\u2013protein assembly. Together, the results show how interpretable machine learning can move beyond prediction to identify sequence features that generate mechanistic hypotheses for RNA-mediated condensation."
+   },
+   "MED/42974986": {
+    "id": "MED/42974986",
+    "title": "A self-consistent model for phase separation and active processes in biomolecular condensates",
+    "date": "2026-11-01",
+    "venue": "J Chem Phys",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42974986",
+    "first_seen": "2026-11-06",
+    "duplicate_of_title": true
    }
   },
   "TRG-FUSION-JUNCTION-CLINICAL": {
@@ -9331,6 +9540,26 @@
     "url": "https://europepmc.org/article/PMC/PMC13700275",
     "first_seen": "2026-10-30",
     "age_days_at_first_seen": 93
+   },
+   "MED/42962941": {
+    "id": "MED/42962941",
+    "title": "Neoantigen evolution in cancer: immunoediting, immune escape, and future vaccine strategies",
+    "date": "2026-10-30",
+    "venue": "Biochim Biophys Acta Rev Cancer",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42962941",
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 7
+   },
+   "MED/42962153": {
+    "id": "MED/42962153",
+    "title": "A Pilot Trial of N-803: Patients With Synovial Sarcoma and Myxoid/Round Cell Liposarcoma Previously Treated With Adoptive Cellular Therapy",
+    "date": "2026-09-01",
+    "venue": "Oncology (Williston Park)",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42962153",
+    "first_seen": "2026-11-06",
+    "age_days_at_first_seen": 66
    }
   }
  }
