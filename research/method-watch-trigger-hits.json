@@ -405,6 +405,21 @@
    ],
    "signals_recorded": 17,
    "abstracts_fetched": 7
+  },
+  {
+   "date": "2026-11-13",
+   "mode": "scan",
+   "triggers": 32,
+   "queries": 135,
+   "new_hits": 31,
+   "appended": 25,
+   "errors": [
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=protac&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "chemrxiv: DROPPED FOR THIS RUN after 3 consecutive failures (last: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden). Every ChemRxiv query below was SKIPPED -- this run's preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result is not a reading of absence."
+   ],
+   "signals_recorded": 31,
+   "abstracts_fetched": 14
   }
  ],
  "hits": {
@@ -511,6 +526,38 @@
     "url": "https://europepmc.org/article/MED/42962292",
     "first_seen": "2026-11-06",
     "age_days_at_first_seen": 5
+   },
+   "MED/43019419": {
+    "id": "MED/43019419",
+    "title": "A trapped catalytic product acts as molecular glue for innate immune signalosome assembly",
+    "date": "2026-11-12",
+    "venue": "Science",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43019419",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 1
+   },
+   "PPR/PPR1364588": {
+    "id": "PPR/PPR1364588",
+    "title": "GluePlex: harnessing a co-folding model to predict molecular-glueinduced CRBN-neosubstrate ternary complex structures",
+    "date": "2026-11-11",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1364588",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 2,
+    "abstract": "Abstract    Molecular glue degraders act through a single induced geometry, and predicting that geometry in silico is the step that would allow degrader design to become rational rather than empirical. However, current co-folding performance on structurally novel neosubstrates remains uncertain. Here, we assembled 52 cereblon (CRBN) target\u2013compound pairs with published ternary structures and stratified them by training-set exposure. On the 13 novel pairs, plain Boltz-2 co-folding produced an acceptable pose in 12 of 39 independent runs, with a median DockQ (protein-interface accuracy score) of 0.01. GluePlex combines ligand-free, restrained protein\u2013protein docking with two passes of template-guided Boltz-2 co-folding. It increased success to 23 of 39 runs, with a median DockQ of 0.43 and 19 rank-1 successes among them. Ablation analysis, which tests the contribution of pipeline components by removing or replacing them, attributed most of this gain to docking and template transfer. Despite this improvement, ligand accuracy remained limited: the CRBN-binding warhead had a median root-mean-square deviation (RMSD) of 0.7 \u00c5, compared with 2.8 \u00c5 for the distal moiety, whose placement remained inaccurate even when the protein interface was correct. Exploratory ligand truncations rescued some complexes but worsened others. The parent model\u2019s target\u2013ligand confidence helped identify cases likely to benefit, although these comparisons assume that truncation preserves the parent\u2019s ternary geometry. Changing the docked conformer affected individual compounds without improving overall success, supporting the use of multiple conformers. Across configurations and truncations, an acceptable pose was recovered for 12 of 13 novel families while the remaining 1 can be recovered by plain co-folding, but no single configuration solved them all. In general, GluePlex improves prediction of novel CRBN ternary complexes, while model ranking and distal ligand placement remain key limitations."
+   },
+   "MED/43018143": {
+    "id": "MED/43018143",
+    "title": "Beyond AlphaFold 3: a standardised benchmark of open-source co-folding models for antibody-antigen complexes, from docking accuracy to interaction specificity",
+    "date": "2026-11-12",
+    "venue": "MAbs",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43018143",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 1
    }
   },
   "TRG-TERNARY-GEN-NO-SITES": {
@@ -647,6 +694,17 @@
     "url": "https://europepmc.org/article/PMC/PMC13689810",
     "first_seen": "2026-10-30",
     "duplicate_of_title": true
+   },
+   "PPR/PPR1364737": {
+    "id": "PPR/PPR1364737",
+    "title": "DiffTernary: a Diffusion Model for Molecular Glue Ternary Complex Docking",
+    "date": "2026-11-11",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1364737",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 2,
+    "abstract": "Molecular glues (MGs) modulate protein function by inducing or stabilizing protein interactions. However, accurately modeling MG ternary complexes remains challenging. Here, we present DiffTernary, a diffusion-based docking method for the joint prediction of relative protein arrangement and MG binding pose. We introduce Ternary-PDB, a dataset of 76,702 experimentally determined ternary complexes curated from the Protein Data Bank using structural filters and a release cutoff aligned with AlphaFold 3 (AF3). When trained on this dataset, DiffTernary achieved acceptable protein-protein interaction (PPI) predictions (DockQ > 0.23) for 50.0% of MGBench complexes with a single prediction, compared with 51.1% for AF3. In comparisons with AF3, OpenFold3, ESMFold2, Protenix-v1 and Protenix-v2, DiffTernary ranked second with a best-of-25 PPI prediction success rate of 78.4%, behind ESMFold2 (90.9%) and ahead of AF3 (72.7%). A separate DiffTernary model trained on TernaryDB achieved a mean DockQ of 0.306 on the 94 complexes in the TernaryDB MGD test set with a single prediction, compared with 0.228 for DeepTernary. Confidence-based selection among 40 samples yielded acceptable PPI predictions for 41.5% of complexes, compared with 30.9% for DeepTernary. An E2Former variant increased training and sampling throughput 6.90-fold and 4.37-fold, respectively, under the evaluated configurations. Together, DiffTernary and Ternary-PDB provide an efficient docking approach for MG complex prediction and a valuable structural resource for MG discovery and design."
    }
   },
   "TRG-FEP-CRYPTIC-POCKET": {
@@ -742,6 +800,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13580551",
     "first_seen": "2026-09-18",
     "duplicate_of_title": true
+   },
+   "MED/43006955": {
+    "id": "MED/43006955",
+    "title": "Predicting Ternary Complex Stability through Binding Free-Energy Calculations in the Geometric Route",
+    "date": "2026-11-01",
+    "venue": "J Chem Theory Comput",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43006955",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 12
    }
   },
   "TRG-ATOM-MAPPER-FLOOR": {
@@ -955,6 +1023,18 @@
     "first_seen": "2026-11-06",
     "age_days_at_first_seen": 3,
     "abstract": "Generative models of protein conformational ensembles inherit much of their design from structure prediction for folded proteins. Ordered and disordered proteins, however, occupy distinct structural regimes, and we investigate how design choices hold up across them. Using a minimal C$\u03b1$ flow-matching model, we ablate choices of architecture, sequence conditioning, rigid-body alignment and training source, and evaluate each variant against experimental SAXS and NMR chemical-shift data partitioned into ordered, disordered, multi-domain and transitional proteins. Mixture-of-experts routing, a static pair representation and a disorder probe have no detectable effect, a smaller protein language model performs worse on ordered proteins but not on disordered ones, and alignment in the loss degrades agreement with SAXS. Replacing coarse-grained simulations of disordered proteins with fragment-assembled ensembles improves agreement with chemical shifts at a cost to SAXS, while an equal mixture of the two keeps most of the gain at a smaller cost. This points to the training data, rather than the architecture, as the main constraint."
+   },
+   "arXiv/2611.09548v1": {
+    "id": "arXiv/2611.09548v1",
+    "title": "CoMoFlow: Controllable Protein Conformational Ensemble Generation via Explicit Collective-Mode Modeling",
+    "date": "2026-11-06",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.09548v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 7,
+    "abstract": "Protein conformational ensemble generation aims to efficiently characterize the structural variations accessible to a protein beyond a single static structure. Recent flow-based methods efficiently generate conformational ensembles, but they model coordinated structural variation implicitly, which can limit ensemble fidelity and hinder direct control. To address this limitation, we propose CoMoFlow, a controllable framework for generating protein backbone conformational ensembles by explicitly modeling collective variation. CoMoFlow constructs protein-specific collective modes from the equilibrium structure, learns the distribution of their coefficients across the molecular dynamics (MD) ensemble, and uses sampled collective variations to guide SE(3) flow matching through feature conditioning and prior recentering. Experiments on ATLAS and de novo proteins show that CoMoFlow improves reconstruction of MD conformational distributions and coordinated structural variation relative to strong flow-based baselines, while enabling direct control over targeted conformational changes."
    }
   },
   "TRG-CRYPTIC-POCKET-PREDICTION": {
@@ -2413,6 +2493,50 @@
     "first_seen": "2026-11-06",
     "age_days_at_first_seen": 7,
     "abstract": "Recent advances in single-cell technologies have enabled the profiling of multiple molecular modalities, including transcriptomics, proteomics, and chromatin accessibility, providing a more comprehensive understanding of cellular states. However, integrating heterogeneous modalities and predicting missing molecular information remain challenging, particularly when paired measurements are limited. Here, we introduce scAnyOmics, a generative framework that distills knowledge from a frozen single-cell foundation model into a multimodal student model. scAnyOmics integrates scRNA-seq, protein-marker measurements, and scATAC-seq into a shared representation, enabling cross-modal prediction and reconstruction of missing modalities. We assembled 690,880 cells from six publicly available studies, covering both paired and partially paired multi-omics measurements, to systematically evaluate its predictive performance. We further evaluated scAnyOmics on held-out donor data, where it outperformed baseline methods across multiple evaluation metrics. Beyond cross-modal reconstruction, we explored its applications in cell-type annotation, perturbation-response prediction, and biological age estimation. Overall, scAnyOmics provides a unified framework for integrating incomplete single-cell multi-omics data and transferring pretrained biological knowledge, supporting the development of virtual cell models across diverse cellular contexts and experimental platforms."
+   },
+   "MED/43008172": {
+    "id": "MED/43008172",
+    "title": "Virtual metrology for process perturbation prediction in lithographic alignment marks using a physics-guided directed attention network",
+    "date": "2026-10-19",
+    "venue": "Appl Opt",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43008172",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 25
+   },
+   "PMC13734124": {
+    "id": "PMC13734124",
+    "title": "Single-cell perturbation prediction near experimental reproducibility with GENESIS",
+    "date": "2026-11-01",
+    "venue": "bioRxiv",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13734124",
+    "first_seen": "2026-11-13",
+    "duplicate_of_title": true
+   },
+   "PPR/PPR1361473": {
+    "id": "PPR/PPR1361473",
+    "title": "A Survey of AI Virtual Cells: Representation Learning, Perturbation Prediction, and Intervention Design",
+    "date": "2026-11-09",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1361473",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 4,
+    "abstract": "Predicting cellular responses to genetic and chemical interventions supports disease research and therapeutic discovery. Experimental screening is costly, limiting coverage of interventions and cellular contexts. This survey reviews artificial intelligence virtual cells (AIVC) through the progression from state representation learning to perturbation prediction and intervention design. We describe how state representations support response modeling and how learned responses guide intervention selection across previously untested interventions and diverse cellular contexts. We summarize data resources, representative model families, evaluation strategies, and multimodal, temporal, and spatial extensions, then discuss generalization and experimental feedback. A curated resource collection is available at https://github.com/ttruan2426-dot/Awesome-Single-Cell-Perturbation-Prediction."
+   },
+   "arXiv/2611.11217v1": {
+    "id": "arXiv/2611.11217v1",
+    "title": "scBIG++: Learning Across Genes and Cells to Predict Single-Cell Perturbation Responses",
+    "date": "2026-11-08",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.11217v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 5,
+    "abstract": "Predicting single-cell transcriptional responses to genetic and chemical interventions supports gene-function discovery and regulatory analysis. Existing studies often focus only on highly variable genes, restricting the expression changes available for downstream analysis. Cells exposed to the same intervention can also show heterogeneous expression responses, with coordinated gene programs active to different degrees. We propose scBIG++, a full-gene perturbation prediction framework that models this heterogeneity by connecting expression-adaptive gene modules with population-conditioned generation. To preserve shared gene structure while accommodating cellular variation, Gene-Relation Clustering organizes genes into common windows, within which Dynamic SoftSub learns expression-dependent submodule memberships. This shared organization enables Set-GCAE to exchange information about corresponding gene groups across control cells, placing individual representations in their source-population context. The cell representations initialize a latent flow, while their pooled summary and the perturbation representation condition response generation. Generated states are decoded into expression profiles covering all assayed protein-coding genes retained after preprocessing, supporting comprehensive analysis of perturbation-induced expression changes. Experiments across six genetic and chemical settings spanning 6,539--19,451 genes demonstrate competitive perturbation-effect recovery and full-gene expression reconstruction under unseen targets and combinations, cross-cell-line transfer, and held-out compounds. Our implementation is available at https://github.com/ttruan2426-dot/scBIG."
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -3091,6 +3215,48 @@
     "url": "https://europepmc.org/article/PMC/PMC13733367",
     "first_seen": "2026-11-06",
     "duplicate_of_title": true
+   },
+   "MED/43014115": {
+    "id": "MED/43014115",
+    "title": "Multimodal synthetic approaches to a pyrazole-based derivative: preliminary antibacterial screening, &lt;sup&gt;131&lt;/sup&gt;I-radiolabeling, and biodistribution in an inflammation model",
+    "date": "2026-11-09",
+    "venue": "Bioorg Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43014115",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 4
+   },
+   "MED/42982197": {
+    "id": "MED/42982197",
+    "title": "Placental and lactational transfer of lead across the perinatal continuum: a proof-of-concept extended PBPK model calibrated with longitudinal data from two independent human birth cohorts",
+    "date": "2026-11-04",
+    "venue": "Toxicol Appl Pharmacol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42982197",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 9
+   },
+   "MED/42981627": {
+    "id": "MED/42981627",
+    "title": "In vivo biodistribution of SPIO-labeled allogeneic adipose-derived mesenchymal stem cells transplanted into knee joint in a rat knee osteoarthritis model",
+    "date": "2026-11-02",
+    "venue": "Tissue Cell",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42981627",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 11
+   },
+   "PPR/PPR1358155": {
+    "id": "PPR/PPR1358155",
+    "title": "Multiparametric CEST MRI\u2013Guided Intranasal Theranostic Liposomes for Quantitative Biodistribution and Response Prediction in Glioblastoma",
+    "date": "2026-11-04",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1358155",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 9,
+    "abstract": "Abstract    Glioblastoma (GBM) treatment is limited by the blood-brain-barrier(BBB) and lack of non-invasive methods to track drug delivery and therapeutic response simultaneously. We developed a theranostic strategy utilizing multiparametric chemical exchange saturation transfer(CEST) MRI to guide the nose-to-brain delivery of mucus-penetrating liposomes encapsulating gemcitabine and iohexol(1:1; Gem/Ioh-Lipo). These multiple CEST contrast indicated drug-specific signals (gemcitabine 2.4 ppm, iohexol 4.3 ppm and liposome\u2009\u2212\u20093.5 ppm), demonstrating that >\u200970% intranasal dose reached the frontal cortex from the olfactory bulb.Importantly, CEST at 4.3 ppm strongly correlated with tumor response(R\u00b2 > 0.9), indicating the prognostic value of image-guidance. Another CEST contrast (APTw at 3.5 ppm) indicated the tumor response, intranasal Gem/Ioh-Lipo produced an 8.6-fold tumor volume reduction versus drug-free liposomes (P"
    }
   },
   "TRG-VECTOR-DELIVERY-SOLID-TUMOUR": {},
@@ -4020,6 +4186,16 @@
     "url": "https://europepmc.org/article/MED/42973380",
     "first_seen": "2026-11-06",
     "age_days_at_first_seen": 3
+   },
+   "MED/43017903": {
+    "id": "MED/43017903",
+    "title": "Advances in siRNA delivery for breast cancer therapy: from molecular design to therapeutic application",
+    "date": "2026-11-12",
+    "venue": "J Drug Target",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43017903",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 1
    }
   },
   "TRG-EMC-FUNCTIONAL-MODEL": {
@@ -4764,6 +4940,18 @@
     "url": "https://europepmc.org/article/PMC/PMC13584625",
     "first_seen": "2026-10-30",
     "age_days_at_first_seen": 59
+   },
+   "PPR/PPR1362463": {
+    "id": "PPR/PPR1362463",
+    "title": "Unveiling immune targets via TriStageHLA: high-throughput screening of peptide presentation, peptide\u2013HLA binding, and immunogenicity",
+    "date": "2026-11-09",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1362463",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 4,
+    "abstract": "High-throughput screening of HLA class I epitopes underpins neoantigen vaccine design, T cell therapies, and pathogen immune monitoring, yet proteome-scale prioritization remains challenging under severe class imbalance. We present TriStageHLA, a compact three-stage framework that decomposes epitope discovery into peptide-only screening (PRE), allele-specific binding/presentation prediction (BIND), and immunogenicity prediction (IM). PRE performs early pruning via a LoRA-adapted ESM-2 classifier; BIND integrates quantitative binding affinity and eluted ligand data with a dual-branch architecture combining global cross-attention and local motif extraction; IM is fine-tuned on curated human T-cell assay data with a decoupled LoRA head. Trained on IEDB-derived datasets with per-allele balancing and allele-discordant supervision, TriStageHLA-BIND achieves AUROC of 96.2% and AUPRC of 95.2% on combined BA/EL evaluation, while TriStageHLA-IM reaches AUROC of 81.4\\% and AUPRC of 73.8\\% on held-out immunogenicity data, improving over the strongest immunogenicity baselines ImmuneApp (70.7% / 63.6%) and BigMHC-IM (60.1% / 51.5%). With substantially fewer trainable parameters than prior models, TriStageHLA enables efficient, calibrated epitope prioritization across binding, presentation, and immunogenicity. Code and pretrained weights are available at https://github.com/SkywalkerLuke/TriStageHLA."
    }
   },
   "TRG-NR4A3-DIRECT-MATTER": {
@@ -5247,6 +5435,16 @@
     "url": "https://europepmc.org/article/MED/42861524",
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 11
+   },
+   "MED/43016761": {
+    "id": "MED/43016761",
+    "title": "Clinical outcomes and toxicity after proton- versus photon-based spatially fractionated radiotherapy for soft-tissue sarcoma: a retrospective cohort",
+    "date": "2026-10-28",
+    "venue": "Front Oncol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43016761",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 16
    }
   },
   "TRG-FEM1B-LINKER-BEARING-STRUCTURE": {
@@ -6516,6 +6714,88 @@
     "first_seen": "2026-11-06",
     "age_days_at_first_seen": 5,
     "abstract": "Recent breakthroughs in artificial-intelligence-assisted mathematics show that open-ended machine search can outperform human mathematicians, yet transferring this paradigm to physics requires refactoring the research workflow. We introduce Simjecture, an open-source framework in which language-model agents pursue human-defined physical conjectures. The framework tackles two central challenges in this transfer: first, because physics is empirical and no model is final, it structures inquiry around counterexample-driven falsification and prospective hypothesis repair; second, because physical theories must interact with the real world, it uses computational physics as an executable testbed while separating the qualification of numerical instruments from scientific claim review so solvers and diagnostics can be adapted within a recorded investigation. We apply the framework in an 82.6 h investigation to tackle the long-standing problem of radiated energy exceeding the imploding-shell kinetic energy in a Z-pinch. The investigation reveals competing effects of energy conversion, retention, and release timing. Stronger coherent helical deformation increases resistive conversion while reducing radiation and increasing retained energy. A broader trailing-plasma profile delays the later radiation maximum and recovers much of its early bolometric deficit, with a spectral response that changes during the pulse. These results provide new insight into energy conversion in high-energy-density plasma physics and demonstrate a new paradigm for physics research."
+   },
+   "MED/42983087": {
+    "id": "MED/42983087",
+    "title": "An AI-native experimental laboratory for autonomous biomolecular operations",
+    "date": "2026-11-04",
+    "venue": "Nature",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42983087",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 9
+   },
+   "arXiv/2611.17114v1": {
+    "id": "arXiv/2611.17114v1",
+    "title": "Designing Institutions for Autonomous AI",
+    "date": "2026-11-12",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.17114v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 1,
+    "abstract": "As autonomous AI agents increasingly interact in persistent populations, their collective capabilities and alignment depend not only on individual models, but also on the institutions governing their interactions. Yet AI research has largely focused on individual agents. In this Perspective, we argue that institutional design must become a distinct focus of AI research. Drawing on institutional political economy, social epistemology and organizational theory, we develop seven principles for designing AI institutions that sustain cooperation, enable reliable collective judgments and remain accountable to legitimate human purposes. These address reciprocal contributions, accountable authority, functional differentiation, epistemic pluralism, criticism and correction, human direction, and institutional adaptation. We illustrate their application through machine science, where autonomous research challenges institutions developed around human capabilities and constraints. We then propose an experimental research programme in which matched populations of AI agents operate under alternative institutional arrangements, and describe MoltJournal, an API-first journal for autonomous research agents, as an illustration of how such institutions can be made programmable and observable. Together, these contributions establish institutional design as a research agenda concerned not only with aligning autonomous agents, but with understanding how institutions can transform them into capable, reliable and accountable collectives."
+   },
+   "arXiv/2611.03721v2": {
+    "id": "arXiv/2611.03721v2",
+    "title": "Counterexample-driven autonomous research with application to excess radiated energy in a Z-pinch",
+    "date": "2026-11-01",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.03721v2",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "duplicate_of_title": true,
+    "abstract": "Recent breakthroughs in artificial-intelligence-assisted mathematics show that open-ended machine search can outperform human mathematicians, yet transferring this paradigm to physics requires refactoring the research workflow. We introduce Simjecture, an open-source framework in which language-model agents pursue human-defined physical conjectures. The framework tackles two central challenges in this transfer: first, because physics is empirical and no model is final, it structures inquiry around counterexample-driven falsification and prospective hypothesis repair; second, because physical theories must interact with the real world, it uses computational physics as an executable testbed while separating the qualification of numerical instruments from scientific claim review so solvers and diagnostics can be adapted within a recorded investigation. We apply the framework in a 136.3 h investigation to tackle the long-standing problem of radiated energy exceeding the imploding-shell kinetic energy in a Z-pinch. The investigation reveals competing effects of energy conversion, retention, and release timing. Stronger coherent helical deformation increases resistive conversion while reducing radiation and increasing retained energy. In a matched fine-grid test, broadening the trailing-plasma profile delays the later radiation maximum by 1.80 ns and recovers an early 153 J bolometric deficit to within 0.08% by 44 ns, with a spectral response that shifts during the pulse. These results provide new insight into energy conversion in high-energy-density plasma physics and demonstrate a new paradigm for physics research."
+   },
+   "arXiv/2610.30468v3": {
+    "id": "arXiv/2610.30468v3",
+    "title": "SplatLab: Autonomous Scientific Discovery for 3DGS Research",
+    "date": "2026-10-21",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.30468v3",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 23,
+    "abstract": "Scientific discovery requires more than generating hypotheses: ideas must be grounded in prior work, translated into executable methods, experimentally validated, challenged by counterevidence, and communicated through reproducible findings. Despite recent advances in autonomous research agents, closing this entire loop remains challenging in rapidly evolving computer-vision fields with complex training pipelines and expensive evaluations. We introduce SplatLab, an autonomous scientific discovery system for 3D Gaussian Splatting (3DGS) that integrates literature understanding, hypothesis generation, implementation, experimental refinement, falsification, and manuscript writing into a unified research pipeline. Given a research prompt, a target-paper URL, or no input at all, SplatLab identifies research opportunities, proposes novel methods, trains and ablates candidates across Mip-NeRF 360 and LLFF, and produces manuscripts grounded in verifiable experimental evidence. Unlike prior systems, SplatLab performs discovery over verified baseline implementations using domain-aligned modification scaffolds. A cascade-weighted Elo tournament evolves candidate methods using measured GPU performance and verbal-gradient feedback, while a standing falsifier incorporates adversarial stress testing directly into selection. An integrity audit binds reported claims to logged experiments, and reviewer-driven feedback can initiate further experimentation rather than merely revising text. SplatLab discovers methods achieving PSNR improvements of +0.18 to +3.78 dB over matched baselines, including +3.78 dB on astrophotographic nebula rendering, a previously unexplored setting for 3DGS. By closing the loop between scientific reasoning, executable experimentation, and evidence-backed communication, SplatLab compresses months of researcher effort into days of mostly autonomous compute."
+   },
+   "arXiv/2611.09934v1": {
+    "id": "arXiv/2611.09934v1",
+    "title": "Causal Discovery Bench: Can LLMs Autonomously Conduct Effective Experiments?",
+    "date": "2026-10-13",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.09934v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 31,
+    "abstract": "As large language model (LLM) agents get actively adopted for autonomous research, they must not only reason over existing evidence, but also design informative experiments, allocate resources, analyze sequential observations, and decide when to stop and make conclusions. Yet these capabilities remain poorly measured. We introduce Causal-Discovery-Bench (https://github.com/mshen1019/causal-discovery-bench), a verifiable sandbox with configurable structural equation models and resource constraints to evaluate sequential experimental design and causal discovery without domain-semantic cues. Across 3,802 episodes with 13 models from 5 vendors, we analyze agent behavior along 40 metrics in seven families. Agents' performance exhibits a four-level difficulty hierarchy spanning single-experiment design, sequential exploration of causal relationships, resource-aware experimentation balancing cost and statistical power, and autonomous resolution of conflicting evidence. We identify a substantial performance gap between causal inference from correctly curated evidence and navigating causal discovery through autonomous experimentation: Analyzing agents' action trajectories attributes 94.5% of their mistakes to experimental design rather than to inference, which is further consolidated with ablation studies. Relaxing resource constraints alone does not reliably resolve failures in sequential discovery. In contrast, basic statistical tools substantially improve performance across multiple model families, while advanced tools provide little additional benefit when models lack prerequisite lower-level capabilities."
+   },
+   "arXiv/2610.18272v2": {
+    "id": "arXiv/2610.18272v2",
+    "title": "JevGPT: Thinking Fast and Slow in Autonomous Research",
+    "date": "2026-10-13",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2610.18272v2",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "duplicate_of_title": true,
+    "abstract": "Autonomous research agents must acquire and reason over evidence within a limited budget. Yet relevant sources can remain uninspected or unused, leaving a gap between retrieval coverage and the evidence that informs research. The challenge is to align fast local judgments with changing evidence needs and feed their findings back into research decisions. We introduce JevGPT, a dual-system architecture for autonomous research that couples fast evidence processing with deliberative research planning. System Two sets evidence objectives and integrates findings, while System One locates support, assesses relevance, and guides further inspection. Independent source judgments run in parallel; selected original passages inform the next research step. Experiments on fixed-corpus question answering and document ranking show that JevGPT achieves leading task performance, with faster completion and lower cost than comparably effective research agents. Evidence analysis shows broader source inspection and greater coverage of supporting documents in the research loop, highlighting efficient evidence processing as a route to more capable autonomous research."
+   },
+   "arXiv/2611.12933v1": {
+    "id": "arXiv/2611.12933v1",
+    "title": "Auditable Human-Agent Teams for Autonomous X-ray Experimentation",
+    "date": "2026-11-06",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.12933v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 7,
+    "abstract": "Closed-loop autonomous experimentation can accelerate scientific discovery, but implementation effort limits accessibility. Agentic systems may lower this barrier, although sustained operation on physical instruments remains largely unexplored. Here, using coding-agent infrastructure grounded in validated scientific methods, we demonstrate autonomous synchrotron X-ray experiments on nanoparticle superlattices under evolving, human-defined objectives. Complete human-agent and agent-agent transcripts enable an audit that reconstructs decision provenance and characterizes the division of cognitive labor. Across three experiments, 61-67% of messages involved interpretation or judgment, while the share of methodological and scientific contributions increased from 46% in the setup-focused first experiment to 56-61% in later experiments. Provenance showed that 59-68% of error corrections involved multiple participants and that about half of all decisions incorporated the input of another participant. These results may guide design principles for multi-agent scientific systems and inform future agent harnesses, model training, and accessible autonomous experimentation."
    }
   },
   "TRG-POSE-ORIENTATION-CONVERGENCE": {
@@ -7438,6 +7718,46 @@
     "first_seen": "2026-11-06",
     "age_days_at_first_seen": 7,
     "abstract": "Rescoring docked ligands with molecular dynamics (MD) and end point free energy methods such as MM/GBSA is widely used, but its benefit over docking for series of close analogs is uncertain. We compared AutoDock Vina scores with Md based MM/GBSA energies for 29 neutral p38  \u03b1 kinase inhibitors (PDB 3FLY) from the Open Force Field protein-ligand bench- mark, whose IC50 values from a single publication span 3.8 kcal/mol in estimate \u0394G. Each ligand was docked with three random seeds and simulated in two independent 20 ns replicas started from the benchmark pose (AMBER99SB-ILDN, GAFF2, TIP3L; GROMACS). MM/GBSA energies were calculated from 251 frames per trajectory without an entropy term. All 58 simulations remained stable with the ligand bound. Vina scores correlated weakly with experimental \u0394G (Spearman  \u03c1 = 0.28 98% CI -0.15 to 0.62), as did replica averaged MM/GBSA energies (  \u03c1 = 0.24 -0.18 to 0.62). The difference was -0.03 (-0.50 to 0.43), so the methods were not distinguishable. Independent replicas of the same ligand differed by 3.3 kcal/mol on average, comparable to the experimental range. Raising the interior dielectric constant from 1 to 2 gave a nearly identical ranking (  \u03c1 = 0.96 between the two sets of scores;  \u03c1 = 0.37 against experiment, -0.04 to 0.69). In an exploratory analysis, ligands size alone correlated with affinity (  \u03c1 = 0.60, 0.28 to 0.82), whereas neither computed score tracked size. For this narrow range series, short MD rescoring gave no measurable improvement over docking, and replica variability limited its resolution."
+   },
+   "MED/43018143": {
+    "id": "MED/43018143",
+    "title": "Beyond AlphaFold 3: a standardised benchmark of open-source co-folding models for antibody-antigen complexes, from docking accuracy to interaction specificity",
+    "date": "2026-11-12",
+    "venue": "MAbs",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43018143",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 1
+   },
+   "MED/42977417": {
+    "id": "MED/42977417",
+    "title": "Antarctic krill-derived antifreeze peptides mitigate freeze-thaw-induced quality deterioration in squid: peptidomic profiling, molecular docking, and synthetic peptide validation",
+    "date": "2026-09-29",
+    "venue": "Food Res Int",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42977417",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 45
+   },
+   "PMC13753654": {
+    "id": "PMC13753654",
+    "title": "Targeting TLR2 to Overcome Autophagy-Dependent Chemoresistance in Gastric Cancer: Integrating Molecular Docking, Mechanistic Validation, and Therapeutic Evaluation",
+    "date": "2026-11-01",
+    "venue": "J Biochem Mol Toxicol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13753654",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 12
+   },
+   "MED/42977243": {
+    "id": "MED/42977243",
+    "title": "Methylparaben exposure and Keratoconus: A mechanistic study integrating Mendelian randomization, network toxicology, molecular docking, and experimental validation",
+    "date": "2026-11-04",
+    "venue": "Food Chem Toxicol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42977243",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 9
    }
   },
   "TRG-COVALENT-EXPOSURE-CRITERION": {
@@ -7854,6 +8174,16 @@
     "url": "https://europepmc.org/article/MED/42970437",
     "first_seen": "2026-11-06",
     "age_days_at_first_seen": 4
+   },
+   "MED/42995257": {
+    "id": "MED/42995257",
+    "title": "Altered protein cysteine reactivity in senescent cells is a vulnerability for senolysis to ameliorate aging",
+    "date": "2026-11-06",
+    "venue": "Nat Aging",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42995257",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 7
    }
   },
   "TRG-ANTITARGET-PANEL-PROTOCOL": {
@@ -8790,6 +9120,16 @@
     "url": "https://europepmc.org/article/MED/42974986",
     "first_seen": "2026-11-06",
     "duplicate_of_title": true
+   },
+   "MED/42986105": {
+    "id": "MED/42986105",
+    "title": "Global coarse-grained simulation of hierarchical self-assembly in ABn dendron-like giant molecules: Phase behavior, molecular packing, and the role of rigidity",
+    "date": "2026-11-01",
+    "venue": "J Chem Phys",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42986105",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 12
    }
   },
   "TRG-FUSION-JUNCTION-CLINICAL": {
@@ -9560,6 +9900,48 @@
     "url": "https://europepmc.org/article/MED/42962153",
     "first_seen": "2026-11-06",
     "age_days_at_first_seen": 66
+   },
+   "PMC13737393": {
+    "id": "PMC13737393",
+    "title": "Moderna/Merck-first out of the gate with a personal neoantigen cancer vaccine-who else is in the race and what strategy(ies) will win?",
+    "date": "2026-10-28",
+    "venue": "Immunooncol Technol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13737393",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 16
+   },
+   "MED/42995072": {
+    "id": "MED/42995072",
+    "title": "Retraction notice to \"Advancing personalized immunotherapy for melanoma: Integrating immunoinformatics in multi-epitope vaccine development, neoantigen identification via NGS, and immune simulation evaluation\" [Computers in Biology and Medicine 188 (2025) 109885]",
+    "date": "2026-11-06",
+    "venue": "Comput Biol Med",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42995072",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 7
+   },
+   "PPR/PPR1364379": {
+    "id": "PPR/PPR1364379",
+    "title": "A dominant antigen is necessary but not sufficient for effective neoantigen vaccination in murine mesothelioma",
+    "date": "2026-11-11",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1364379",
+    "is_preprint": true,
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 2,
+    "abstract": "Abstract      Neoantigen vaccines have emerged as a promising strategy for personalised cancer treatment, however the features of neoantigen vaccines that confer effective tumour protection remain poorly defined. Further, their application for low tumour mutation burden (TMB) cancers has been largely unexplored. We hypothesised that vaccines targeting spontaneously immunogenic neoantigens would provide superior protection to neoantigens that induce   de novo   T-cell responses post vaccination. We also hypothesised that increasing the breadth of neoantigen targets or including a dominant antigen would enhance vaccine efficacy. In a mouse model of the low TMB cancer mesothelioma, only vaccines that combine a dominant antigen, spontaneously recognised antigens, and neoantigens with vaccine-inducible T-cell responses conferred protection, however immunoediting of only the dominant antigen was sufficient for vaccine failure. This study highlights potential antigen dominance hierarchies that can influence vaccine efficacy and demonstrates the feasibility of neoantigen vaccines in mesothelioma, with potential implications for other low TMB tumours."
+   },
+   "PMC13740796": {
+    "id": "PMC13740796",
+    "title": "Development and validation of a habitat-based radiomics fusion model for predicting immunotherapy response in advanced NSCLC: a multicenter retrospective study",
+    "date": "2026-09-28",
+    "venue": "J Thorac Dis",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13740796",
+    "first_seen": "2026-11-13",
+    "age_days_at_first_seen": 46
    }
   }
  }
