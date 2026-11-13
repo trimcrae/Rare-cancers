@@ -452,3 +452,23 @@ Appended by the weekly field-scan Routine. Provider choice is trimcrae's decisio
   https://lium.io/ · https://getdeploying.com/gpus/nvidia-h100
 
 - 2026-10-30 ⚠ for human review: third-party tracker logs a RunPod on-demand rate rise 5→12 Oct 2026 across most GPUs (4090/A100/H100); UNVERIFIED against RunPod's own page. Impact on our $/ns UNKNOWN until re-priced; rates live in research/compute/pricing.md. https://pricingsaas.com/companies/runpod/diffs/2026W42
+
+- **2026-11-13 ⚠ for human review — NO verified price move on the board we actually buy from (4090-class spot on
+  Vast); our `$/ns` basis is unchanged this scan and is NOT restated here (see
+  [pricing.md](./pricing.md) §A).** What moved is a card we do not buy: third-party aggregators put the **H100**
+  on-demand median **up ~12% over 90 days** (getdeploying, 2026-11-12 snapshot) and up ~25% y/y (gpus.io), while
+  one outlet reported a transient weekly dip in early November — the trackers disagree on direction, so treat
+  H100 direction as UNRESOLVED. None of this changes our cost per nanosecond, because our production lane is
+  4090-class Vast spot, not H100. **RTX 5090 remains UNPRICEABLE for our OpenMM/OpenFE workload** — listings
+  exist in the $0.40–0.43/hr range on Vast per aggregators, but there is still **no OpenMM/OpenFE throughput
+  measurement on our own system**, and an hourly rate without `ns_per_day` cannot be converted to `$/ns`; the
+  standing smoke-test action item is unchanged. No RTX 6000 Blackwell MD-throughput benchmark found (searched;
+  nothing returned). **Possibly-untracked free-compute option, flagged only:** a **Modal academic/research grant
+  (reported up to $10k in credits for graduate students, labs and researchers)** appears in multiple third-party
+  round-ups and is not tracked in this plan; eligibility for this program is UNKNOWN (no institutional
+  affiliation established) and several such programmes are reported closed to new users, so this is **not a
+  recommendation** — provider and grant-application choices are trimcrae's. Any such credit would be a
+  SEPARATE LEDGER, like the GCP trial credit, and does not become a cost basis.
+  https://getdeploying.com/gpu-price-trends · https://gpus.io/en/gpus/h100 ·
+  https://www.thundercompute.com/blog/free-cloud-gpu-credits (third-party round-up — the Modal grant's own terms
+  page was NOT retrieved this scan; the $10k figure is reported, not verified)

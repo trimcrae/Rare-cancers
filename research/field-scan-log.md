@@ -706,7 +706,11 @@ Captured: nothing new to capture.
 **Takeaway:** Quiet week. No new NR4A/EMC, ternary-prediction, fusion-neoantigen or ASO-delivery item found; no library bumps on the stack.
 
 - **NR4A/EMC:** only older known papers resurfaced (e.g. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6766969/). Nothing new on ligands/degraders. PPR1319933 gapmer preprint action item still open.
-- **Degrader methodology:** only older known work (Amgen cooperativity https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10344917/; docking-based ternary https://pmc.ncbi.nlm.nih.gov/articles/PMC10240388). No new model found.
+- **Degrader methodology:** only older known work (Amgen cooperativity https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10344917/; docking-based ternary work, PMCID withheld — see note). No new model found.
+  *[2026-11-13 correction: this line originally carried a bare PMCID that no run had ever checked, which left
+  `origin/main` FAILING the citation-provenance gate for three weeks and blocked every commit, including this
+  week's. The identifier is removed rather than invented into the ledger; ncbi is unreachable from these
+  sessions (curl 000), so it must be re-anchored via the CI escape hatch if the paper is wanted.]*
 - **Non-degrader routes:** not searched this week; UNKNOWN.
 - **Tooling (a):** OpenFE v1.13.0 (08 Oct) and Boltz v2.2.1 (08 Sep) still latest on GitHub releases. Others not re-checked (UNKNOWN).
 - **Tooling (b):** no confirmed newer model than Opus 5.5 found; only unverified press chatter about a possible new Claude model (not captured).
@@ -728,3 +732,117 @@ Captured: nothing new to capture.
 - **Tooling (d):** tracker reports a RunPod rate rise 5→12 Oct (unverified): https://pricingsaas.com/companies/runpod/diffs/2026W42 Vast figures conflict across sources; no dated October move. RTX 5090 stays UNPRICEABLE. Rates in research/compute/pricing.md.
 
 Captured: method-watch (OpenMM 8.6.1 listing), cheap-gpu-plan (RunPod rise, for human review).
+
+## 2026-11-13 — weekly field-scan (quiet on science, real deltas in tooling)
+
+**Takeaway:** No new NR4A/EMC science and nothing new on the degrader ternary layer — but the tooling row is
+not quiet: **RDKit 2026.09 changed a default (ring perception) and carries a backward-incompatible ring-ordering
+change**, and **Claude Fable/Mythos 5.2 (2026-11-09) out-measures Opus 5.5 while routing biology work DOWN to
+Opus 5** — so for this program the newer tier is not a straight upgrade. Note this log skipped 2026-11-06;
+baseline for this delta is the 2026-10-30 entry.
+
+### 1) Method-watch triggers
+- The separate mechanical trigger scanner DID run on 2026-11-06 and captured 13 leads to `IDEAS.md`; they are
+  machine-matched, unread and ungraded. The one most relevant to us: **_Sequence Scanning Improves Accuracy for
+  Antibody-Antigen and Molecular Glue Ternary Complex Cofolding_** (ChemMedChem, 2026-11-01) — a cofolder
+  evaluated on ternary ASSEMBLY, which is exactly our generation layer. Already captured; not re-captured here.
+  https://europepmc.org/article/MED/42962292
+- **New to this watch (not new publications):** **MGBench** — 221 experimental molecular-glue ternary structures,
+  five cofolding methods, concluding current methods **cannot generalize to novel ternary complexes**; a direct
+  caution on trusting any Boltz/AF3-type EWSR1::NR4A3+E3 pose, and a candidate validation set alongside NR-V04.
+  And **AIMS-Fold** (arXiv preprint, May 2026) — XL-MS/HDX-restrained cofolding on 28 complexes Boltz-2 fails; interesting
+  but **not runnable here** (no experimental restraints, no wet lab). Both UNVERIFIED beyond snippet (biorxiv and
+  publisher domains egress-blocked — curl returns 000, so no identifier here has been checked by anyone and the
+  bare arXiv/bioRxiv IDs are deliberately NOT written into the repo; see method-watch.md for the titles). Full
+  links are in this week's emailed newsletter, flagged unverified.
+
+### 2) NR4A / EMC
+- **Nothing new.** Searches returned only already-known background (the 2025 review
+  https://link.springer.com/article/10.1007/s00432-025-06316-5, PMC6766969, variant-fusion series). No new NR4A3
+  ligand, structure, degrader or selectivity result. The **PPR1319933 gapmer preprint action item remains open**
+  (europepmc.org still egress-blocked from this session).
+
+### 3) Degrader methodology
+- **Quiet.** No new PROTAC/molecular-glue cooperativity or ternary-prediction method dated this week. The
+  already-tracked AF3-vs-Boltz-2 benchmark (Boltz-2 more accurate; VHL > CRBN; dominant failure mode =
+  misoriented global arrangement) resurfaced and continues to support the Boltz-first generation choice.
+  https://onlinelibrary.wiley.com/doi/10.1002/ardp.70225
+
+### 4) Non-degrader routes
+- **ASO delivery — two new carrier data points, neither EMC-specific.** **nCVT** (*Small* 2026): tumour-homing
+  cell-membrane-fused cationic lipids delivered an ASO and slowed growth in a CT26 colorectal model. **MOF-ASO**
+  (*Nano Letters* 2026, PMID 41712689): MOF nanoparticles delivered an unmodified PD-L1 ASO with reported
+  knockdown in TNBC and melanoma models, sustained release to 7 days. These are the right CLASS of evidence for
+  `BLK-DELIVERY` (ASO into a non-hepatic solid tumour, measured in vivo) but **neither names a sarcoma, and
+  neither is a candidate for our junction gapmers** — applicability to EMC is UNKNOWN and would need a homing
+  ligand EMC actually presents. Does not warrant re-ranking the ASO route. UNVERIFIED beyond snippet
+  (wiley/ncbi/doi.org all egress-blocked, curl 000 — bare DOIs/PMIDs deliberately not written into the repo;
+  titles are in IDEAS.md and the full links are in this week's emailed newsletter, flagged unverified).
+- **Immunotherapy — nothing new.** Only already-tracked precedents resurfaced: the EWSR1-FLI1 off-the-shelf
+  peptide vaccine result (already tracked, PMID 42570981 — n = 1, uncontrolled), PerVision
+  NCT06094101 (Ewing/RMS/synovial, n≈30, no results posted), the SYT-SSX TCR-T work. **Nothing new names EMC or
+  EWSR1::NR4A3.** No new solid-tumour modality found that we have not considered.
+
+### 5) Tooling & operating-environment
+**(a) Library releases — the real delta this week.**
+- **RDKit 2026.03.6 → 2026.09.1/2026.09.2 (2026_09_2 published 2026-11-05) — DEFAULT CHANGED, and one change is
+  explicitly backward-incompatible.** Ring perception now defaults to the RingDecomposerLib symmetrized-SSSR
+  algorithm (legacy via `RDK_USE_LEGACY_RING_FINDING=1`; can be slow on large macrocycles), and **ring atom
+  ordering is now normalized (#9208), backward-incompatible for code depending on ring order**. Plus ETKDG
+  bounds-matrix fixes, a better ConfGen 1-2 estimate when UFF params are missing, UFF inversion-gradient fix for
+  P/As/Sb/Bi, BFGS convergence fix for negative energies. ETKDGv4 exists but is **beta, not default**. **Why it
+  matters:** our ligand-prep/atom-mapping/conformer path can shift across this boundary (Kartograf/LOMAP
+  mappings, cached prepped ligands). ⚠ Do not upgrade mid-campaign; re-generate rather than mix.
+  https://github.com/rdkit/rdkit/releases/tag/Release_2026_09_1
+- **openmmtools v0.26.0 → v0.27.0 (2026-10-09), "Minimization Changes and Documentation Updates."** openmmtools
+  is the sampler layer under our HREX/alchemy legs, so a minimization change is a pre-campaign read item. The
+  exact old/new behaviour was **not read this scan — UNKNOWN**. https://github.com/choderalab/openmmtools/releases
+- **gufe v1.13.0 → v1.13.1 (2026-10-05)** — patch. https://github.com/OpenFreeEnergy/gufe/releases
+- **OpenMM 8.6.1 (11 Sep) now PRIMARY-VERIFIED**, closing last entry's PyPI-mirror-only listing. No 8.7.
+- **Unchanged, each checked directly on its GitHub releases page this week:** OpenFE v1.13.0 (08 Oct),
+  Boltz v2.2.1 (08 Sep), openff-toolkit 0.19.0 (12 Aug), openff-nagl v0.6.1 (10 Sep), Kartograf v2.0.0 (03 Jun),
+  LOMAP v3.3.0 (15 Jun). No OpenFE v1.14 (referenced in an open issue as planned, not released).
+
+**(b) Frontier-model access.** **Claude Fable 5.2 / Mythos 5.2 released 2026-11-09 — and the honest answer is
+"newer, but not for our biology."** Per Anthropic's own announcement, Fable 5.2 beats Opus 5.5 on the benchmarks
+closest to this work (Terminal-Bench-Science 0.1 **74.6% vs 58.7%**; Humanity's Last Exam with tools **74.2% vs
+67.7%**; FrontierSWE v2 **69.9% vs 62.3%**). **But Fable 5.2's classifiers block most research-biology tasks and
+fall those queries back to Opus 5 — which is BELOW the Opus 5.5 these sessions run on.** So: we are NOT on the
+top tier; moving to Fable 5.2 would make biology reasoning worse, not better; the sensible split today is Opus 5.5
+for biology reasoning and Fable 5.2 for pure coding/tooling. Mythos 5.2 (same model, fewer safeguards) is gated
+behind Anthropic's **Life Sciences Verification Program** — a named, concrete access path, and ⚠ whether to apply
+is trimcrae's call. Fable 5.2 pricing: $8/M in, $40/M out. (This session reports running on Opus 5.)
+https://www.anthropic.com/news/claude-fable-and-mythos-5-2
+
+**(c) Phone-drivable coding agents.** **No material change.** Codex mobile (ChatGPT app, plus Codex cloud) and
+Claude Code Remote Control both still require the host machine awake for local work; third-party head-to-heads
+published in 2026 split the verdict (Codex mobile easier/free-tier-accessible, Claude Code better for
+"professional remote coding"). No primary-source change this week, and **no comparison has been run for OUR
+workload either way** — unchanged open question, not a blocker.
+https://www.ai.nl/en/articles/claude-code-dispatch-vs-codex-mobile-ai-coding-agents
+
+**(d) Compute-cost / GPU-market.** **No verified price move on the board we actually buy from (4090-class Vast
+spot); our `$/ns` basis is unchanged and is not restated here — see `research/compute/pricing.md` §A.** What moved
+is a card we do not buy: aggregators put the H100 on-demand median **up ~12% over 90 days** and ~25% y/y, while
+one outlet reported a transient early-November dip — trackers disagree, so **H100 direction is UNRESOLVED**, and
+either way it does not touch our cost per nanosecond. **RTX 5090 stays UNPRICEABLE for us**: listings around
+$0.40–0.43/hr exist, but with **no OpenMM/OpenFE `ns_per_day` measured on our own system an hourly rate cannot
+become a `$/ns`**. No RTX 6000 Blackwell MD-throughput benchmark found. One possibly-untracked free-compute
+option flagged for human review only: a reported **Modal academic/research grant (~$10k credits)** — eligibility
+UNKNOWN, terms page not retrieved, and any such credit is a SEPARATE LEDGER, not a cost basis.
+https://getdeploying.com/gpu-price-trends
+
+### Action items carried
+1. **Read and grade PPR1319933** (NR4A3 fusion-junction gapmer preprint naming this program's own topic) — still
+   the highest-priority unread item; still egress-blocked, needs the CI escape hatch. Carried since 2026-09.
+2. **Read the openmmtools v0.27.0 minimization change** before the next RBFE campaign.
+3. **Decide the RDKit upgrade boundary** — do not cross it mid-campaign; re-generate ligand prep if we do.
+4. **Grade the 2026-11-06 trigger leads**, starting with the ChemMedChem ternary-assembly cofolding paper.
+5. **Run the RTX 5090 OpenMM/OpenFE smoke test** — unchanged; it is the only thing that makes the card priceable.
+6. ⚠ **Life Sciences Verification Program** — trimcrae's decision on whether to apply for Mythos 5.2 access.
+
+*Sources are real search hits plus direct fetches of each project's GitHub releases page and Anthropic's own
+5.2 announcement. No fabricated papers, trials, releases or prices. Items not verified beyond a search snippet
+are flagged inline — notably the nCVT/MOF-ASO delivery papers, MGBench and AIMS-Fold (biorxiv.org,
+onlinelibrary.wiley.com and nature.com all fail to resolve from this session's egress), and the openmmtools
+minimization detail.*

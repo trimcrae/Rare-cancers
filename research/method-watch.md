@@ -652,3 +652,62 @@ triggers not yet integrated into the curated sections above — review + fold in
 - 2026-10-09: OpenFE v1.13.0 released 2026-10-08 (Boresch restraints/structural analysis in ABFE; new HybridTopology check requiring >=4 mapped heavy atoms; Python 3.14). Check the mapping check against our RBFE networks before upgrading. https://github.com/OpenFreeEnergy/openfe/releases
 
 - 2026-10-30 OpenMM 8.6.1 (11 Sep 2026) listed on a PyPI mirror, 8.6.0 in Aug; UNVERIFIED against official release notes; check for default/bug changes before our next pin bump. https://www.piwheels.org/project/openmm/
+
+- **2026-11-13 — RDKit 2026.03.6 → 2026.09.1/2026.09.2 (2026_09_2 published 2026-11-05): a DEFAULT CHANGED and
+  there is a backward-incompatible change, so this is not a routine bump.** Ring perception now uses the
+  RingDecomposerLib-based symmetrized-SSSR algorithm **by default** (legacy restorable via
+  `RDK_USE_LEGACY_RING_FINDING=1` / `Chem.SetUseLegacyRingFinding(True)`; the new algorithm can be slow on some
+  large macrocycles), and **ring atom ordering is now normalized (#9208), explicitly backward-incompatible for
+  code that depends on ring order.** Also: UFF inversion-term gradient corrected for P/As/Sb/Bi centres (#9229,
+  energies and minimizations for those atoms may change — not our ligand chemistry, but recorded), BFGS
+  gradient-convergence denominator fixed for negative energies (#9298), ConfGen 1-2 distance estimate improved
+  when UFF atom params are missing (#9465), several ETKDG bounds-matrix fixes (#9403/#9404/#9460/#9461), and
+  tautomer canonical tie-breaking no longer disfavors stereochemistry (#9518). ETKDGv4 exists but is **beta and
+  NOT default**. **Why it matters to us:** anything in our ligand-prep / atom-mapping / conformer path that keys
+  off ring perception or ring atom order can change between RDKit 2026.03 and 2026.09 — relevant to Kartograf /
+  LOMAP mappings and to any cached ligand prep. ⚠ Do not upgrade mid-campaign; if we upgrade, re-generate rather
+  than mix prepped ligands across the boundary. Verified against the GitHub release notes directly.
+  https://github.com/rdkit/rdkit/releases/tag/Release_2026_09_1
+- **2026-11-13 — openmmtools v0.26.0 → v0.27.0 (2026-10-09), titled "Minimization Changes and Documentation
+  Updates"; gufe v1.13.0 → v1.13.1 (2026-10-05, patch).** openmmtools is the sampler layer our HREX/alchemy legs
+  sit on, so a change described as touching **minimization** is worth reading before the next RBFE campaign
+  rather than after — the specific old/new minimization behaviour was NOT read this scan (UNKNOWN; release-note
+  body not retrieved). Flagging as a pre-campaign read item, not as a known-breaking change.
+  https://github.com/choderalab/openmmtools/releases · https://github.com/OpenFreeEnergy/gufe/releases
+- **2026-11-13 — OpenMM 8.6.1 (11 Sep) now PRIMARY-VERIFIED on the OpenMM GitHub releases page**, closing the
+  2026-10-30 capture that rested only on a PyPI-mirror listing. Still the latest; no 8.7. Unchanged and
+  primary-checked this scan: OpenFE v1.13.0 (08 Oct), Boltz v2.2.1 (08 Sep), openff-toolkit 0.19.0 (12 Aug),
+  openff-nagl v0.6.1 (10 Sep), Kartograf v2.0.0 (03 Jun), LOMAP v3.3.0 (15 Jun).
+  https://github.com/openmm/openmm/releases
+- **2026-11-13 — Claude Fable 5.2 / Mythos 5.2 released 2026-11-09; this is the first model since Opus 5.5
+  (2026-09-22) that changes the frontier-model row, and the answer is NOT a simple "upgrade".** Per Anthropic's
+  own announcement, Fable 5.2 out-measures Opus 5.5 by a wide margin on the benchmarks most like our work —
+  Terminal-Bench-Science 0.1 74.6% vs 58.7%, Humanity's Last Exam (with tools) 74.2% vs 67.7%, FrontierSWE v2
+  69.9% vs 62.3% — and Mythos 5.2 is the same underlying model with fewer safeguards. **But for this program's
+  bio work the newer tier is not straightforwardly better:** Fable 5.2's classifiers block most research-biology
+  tasks and those queries **fall back to Opus 5**, which is BELOW the Opus 5.5 these sessions already run on. So
+  on today's access, staying on Opus 5.5 for biology reasoning remains the right call, while Fable 5.2 is the
+  better choice for pure coding/tooling work. **The access path to the top tier for this work is named and
+  concrete: Anthropic's Life Sciences Verification Program**, which is what gates Mythos 5.2. ⚠ **For human
+  review — whether to apply to the Life Sciences Verification Program is trimcrae's decision, not this scan's;
+  captured as an option, not a recommendation.** Pricing (Fable 5.2 standard): $8/M input, $40/M output.
+  https://www.anthropic.com/news/claude-fable-and-mythos-5-2
+- **2026-11-13 — two ternary-cofolding items NEW TO THIS WATCH (not new publications; surfaced for the first
+  time by this scan) that bear directly on the ternary GENERATION layer.** (1) **MGBench** (bioRxiv preprint):
+  compiles **221 experimentally determined non-covalent molecular-glue-engaged ternary complex structures** and
+  benchmarks five cofolding methods, concluding that **current methods remain unable to generalize to novel
+  ternary complexes** — if that holds it is a direct caution on reading any Boltz/AF3-type ternary pose of
+  EWSR1::NR4A3 + E3 as reliable, and the 221-structure set is a candidate validation set alongside NR-V04.
+  (2) **AIMS-Fold** (arXiv preprint, May 2026): structural-proteomics-guided cofolding (XL-MS / HDX-MS
+  restraints), reported tested on 28 PROTAC/glue/antibody complexes **that Boltz-2 fails to predict** — the
+  restraint idea is interesting but we have no experimental XL-MS/HDX for our system and no wet lab, so it is
+  probably not runnable here; recorded so the reason is on the record rather than rediscovered.
+  ⚠ **Both are UNVERIFIED beyond the search snippet — biorxiv.org and the publisher domains are egress-blocked
+  from this session; read via the CI escape hatch before either is relied on.**
+  ⛔ **Deliberately recorded WITHOUT their bare arXiv/bioRxiv identifiers.** Both are known to this scan only
+  through a search snippet; arxiv.org, biorxiv.org and the publisher domains are all unreachable from this
+  session (curl returns 000), so NOBODY has checked either identifier and the citation-provenance gate is right
+  to refuse them. Titles are recorded instead so the items can be found and anchored properly: *"Comparative
+  assessment of co-folding methods for molecular glue ternary structure prediction"* (MGBench, bioRxiv) and the
+  structural-proteomics-guided cofolding preprint reported as AIMS-Fold (arXiv, May 2026). Anchor them via the
+  CI escape hatch before either is cited anywhere that matters.
