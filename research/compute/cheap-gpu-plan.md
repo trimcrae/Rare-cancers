@@ -472,3 +472,33 @@ Appended by the weekly field-scan Routine. Provider choice is trimcrae's decisio
   https://getdeploying.com/gpu-price-trends · https://gpus.io/en/gpus/h100 ·
   https://www.thundercompute.com/blog/free-cloud-gpu-credits (third-party round-up — the Modal grant's own terms
   page was NOT retrieved this scan; the $10k figure is reported, not verified)
+- **2026-11-20 — ⚠ for human review. No verified move in our cost per nanosecond this week, and this lane could
+  not be primary-verified at all.** Every GPU-provider domain (vast.ai, runpod.io, lambda.ai, modal.com,
+  salad.com, together.ai, crusoe.ai, coreweave.com, aws.amazon.com) is egress-blocked from these sessions, so
+  **zero provider-page prices were read** and every figure found was aggregator-sourced. On the board we actually
+  buy from (4090-class Vast spot), four trackers gave four different medians — **UNRESOLVED** — while the floor
+  that feeds our gate was reported unchanged week-over-week. **Our `$/ns` basis is unmoved and is not restated
+  here; see `research/compute/pricing.md` §A.** Action for trimcrae if this lane is to be real: allow `vast.ai`
+  / `cloud.vast.ai` in the session network policy, or route the price check through the CI escape hatch.
+- **2026-11-20 — ⚠ for human review. The only directional price signal found this week points UP, and it is not
+  our lane.** Crusoe is reported to be raising on-demand datacentre-class rates on **2026-12-01** (H100, H200 and
+  B300 all up). We do not buy datacentre-class on-demand, so this does not touch our cost per nanosecond; it is
+  logged only because it is the single dated move anyone reported. No price **cut** was found at RunPod, Lambda,
+  Modal, Salad, Together, CoreWeave, AWS or GCP. A reported Lambda table effective 2026-11-16 did not match a
+  logged-in price two days earlier — **UNRESOLVED**. Aggregator A100 spot figures span a 4× range; do not plan
+  against any of them. UNVERIFIED (aggregators). https://markaicode.com/pricing/crusoe-pricing/
+- **2026-11-20 — ⚠ for human review. Nothing new is PRICEABLE for us.** **RTX 5090** stays **UNPRICEABLE**:
+  trackers put its hourly rate near 4090 levels but **no OpenMM or GROMACS ns/day figure for the card exists in
+  any source found**, and an hourly rate without a throughput measurement cannot become a `$/ns`. **B300** is now
+  listed in cloud price tables and is **UNPRICEABLE on the same grounds**. NVIDIA announced **Rubin HPC** at
+  SC26, explicitly pitched at scientific simulation, but it **arrives 2028** and has no bearing on current cost.
+  The only thing that makes the 5090 priceable is unchanged and cheap: **one short timed OpenMM run on a single
+  rented 5090 host.** UNVERIFIED (press coverage; nvidianews unreachable).
+- **2026-11-20 — ⚠ for human review, and the highest-leverage unexplored item in this lane. Researcher compute
+  grants are a bigger move on our cost per nanosecond than any spot-price fluctuation found this week.** No NEW
+  programme was announced in the window, but of the existing ones most are gated behind an accredited institution
+  (NVIDIA Academic Grant and NSF ACCESS both require faculty status or an institutional email, so they are out),
+  while **Modal's research/academic credit (reported ~$10k) and Lambda's Research Grant (reported up to $5k)
+  plausibly do not require faculty affiliation**. Neither was verified against its own terms page — eligibility
+  is **UNKNOWN**. ⚠ Any such credit is a **SEPARATE LEDGER, not a cost basis** (CLAUDE.md §6), and whether to
+  apply is trimcrae's decision. UNVERIFIED (aggregator list). https://github.com/eric-prog/GPU-Grants

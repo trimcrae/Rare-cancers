@@ -788,3 +788,56 @@ dispatch; the run history that says whether the scan fired lives in
 - **2026-11-13 — trigger `TRG-POSE-ORIENTATION-CONVERGENCE` matched: A pose-prediction protocol validated on ORIENTATION, not only on location.** ⚠ **Unvalidated lead — machine-matched on the trigger's own queries, not read and not graded.** **Would reopen:** _(no mapping recorded)_. Hit: [*Targeting TLR2 to Overcome Autophagy-Dependent Chemoresistance in Gastric Cancer: Integrating Molecular Docking, Mechanistic Validation, and Therapeutic Evaluation*](https://europepmc.org/article/PMC/PMC13753654) (J Biochem Mol Toxicol, 2026-11-01, PMC13753654) . If it holds: Check the paper reports an ORIENTATION metric (symmetry-corrected RMSD or an interaction-fingerprint agreement) on held-out receptors. A pocket-identification success rate is not this. Trigger definition + queries: [`research/method-watch-triggers.json`](./method-watch-triggers.json).
 - **2026-11-13 — trigger `TRG-COVALENT-EXPOSURE-CRITERION` matched: A solvent-exposure or thiol-reactivity criterion that calls covalent-site engageability on a state-matched model.** ⚠ **Unvalidated lead — machine-matched on the trigger's own queries, not read and not graded.** **Would reopen:** _(no mapping recorded)_. Hit: [*Altered protein cysteine reactivity in senescent cells is a vulnerability for senolysis to ameliorate aging*](https://europepmc.org/article/MED/42995257) (Nat Aging, 2026-11-06, MED/42995257) . If it holds: Check the criterion was applied to a conformational state, not to a single apo structure — and that its known-answer set includes a cysteine that is buried in apo and engageable in practice. Trigger definition + queries: [`research/method-watch-triggers.json`](./method-watch-triggers.json).
 - **2026-11-13 — trigger `TRG-CONDENSATE-PARTNER-RESOLUTION` matched: A phase-behaviour model or measurement that separates EMC fusion partners.** ⚠ **Unvalidated lead — machine-matched on the trigger's own queries, not read and not graded.** **Would reopen:** routes `RT-PARTNER-STRAT`, `RT-FET-LC-LIGAND`. Hit: [*Global coarse-grained simulation of hierarchical self-assembly in ABn dendron-like giant molecules: Phase behavior, molecular packing, and the role of rigidity*](https://europepmc.org/article/MED/42986105) (J Chem Phys, 2026-11-01, MED/42986105) . If it holds: Re-run the partner comparison on the new force field, or read the stratified measurement, and state whether the 0.06 floor moved. ⛔ A hit is evidence about RESOLUTION; it is not evidence that the partners differ, and the re-grade must not be allowed to slide from one to the other. **Owed to (once read and graded, record the outcome in `research/literature/citation-debt.json`):** `research/modalities/emc-condensate-calvados-findings.md`. Trigger definition + queries: [`research/method-watch-triggers.json`](./method-watch-triggers.json).
+- **2026-11-20 — ★ NEW ROUTE CLASS: a splice-modulating ORAL SMALL MOLECULE against the fusion transcript, with
+  clinical data in a fusion-driven cancer. REM-422** (Remix Therapeutics), described as a first-in-class oral
+  small-molecule **MYB mRNA degrader**, reported updated Phase 1/2 ARIA data at ENA 2026 on **2026-11-19**:
+  69 enrolled as of 2026-08-24; at the 24 mg RP2D a reported ORR of 57% (4/7 evaluable biomarker-positive);
+  across doses 10 partial responses in 32 biomarker-positive patients against 0 in biomarker-negative; MYB mRNA
+  and protein reduction reported in on-treatment biopsies. **Why this is the week's most important item for our
+  route map:** adenoid cystic carcinoma is fusion-driven (MYB::NFIB), and this is an orally dosed small molecule
+  lowering the fusion-driven transcription factor's *transcript* with biopsy-level target engagement — the same
+  therapeutic objective as our fusion-junction ASO route, **but with no delivery gate at all**, which is exactly
+  what `BLK-DELIVERY` blocks us on. **Applicability to EMC / EWSR1::NR4A3 is UNKNOWN**: the mechanism is
+  RNA-processing/splice modulation of MYB specifically and nothing shows it generalizes to NR4A3. ⚠ **May warrant
+  re-ranking the ASO route against a splice-modulator route — for human review; this scan does not re-rank.**
+  UNVERIFIED (company press release, small n, short follow-up, not peer-reviewed).
+  https://www.globenewswire.com/news-release/2026/11/19/3406452/0/en/remix-therapeutics-announces-updated-positive-rem-422-phase-1-data-in-adenoid-cystic-carcinoma-at-2026-eortc-nci-aacr-symposium.html
+- **2026-11-20 — a pharmacological lever on the junction-peptide PRESENTATION bottleneck.** A bioRxiv preprint
+  posted **2026-11-13** reports small-molecule molecular glues that **increase MHC class-I presentation of
+  neoantigens the tumour otherwise displays poorly**. Our EWSR1::NR4A3 junction-peptide routes (vaccine, TCR-T)
+  are presentation-limited, and this acts on that bottleneck rather than on the antigen — a combination lever we
+  had not tracked. Not sarcoma, not fusion-specific; **applicability to EMC UNKNOWN**. UNVERIFIED (snippet only).
+  [bioRxiv link WITHHELD from the repo: the DOI is unanchored and no one has opened the preprint; the full link is in this week's emailed newsletter, flagged unverified]
+- **2026-11-20 — a fusion-AGNOSTIC surface route with fresh sarcoma clinical data: ADCE-D01** (Adcendo), a
+  uPARAP-targeted ADC, late-breaking ADCElerate1 Phase 1 data at ENA 2026 on **2026-11-19**: in the Q2W arm a
+  reported ORR of 30% (8/27 evaluable, 5 confirmed), DCR 85%, median follow-up 3.4 months, 12 soft-tissue
+  sarcoma subtypes enrolled, FDA Fast Track and Orphan Drug in STS. Why it matters: an ADC active across STS
+  histologies ignores the fusion entirely, so it is a route that does not depend on anything our pipeline
+  predicts. **Applicability to EMC UNKNOWN — no per-histology breakdown was obtainable and uPARAP expression in
+  EMC is unknown to us; that expression question is the cheap first check.** UNVERIFIED (press release).
+  https://www.prnewswire.com/news-releases/adcendo-aps-announces-phase-1-clinical-data-showing-compelling-safety--antitumor-activity-with-adce-d01-in-advanced-soft-tissue-sarcoma-in-late-breaking-oral-presentation-at-2026-eortc-nci-aacr-symposium-on-molecular-targets-and--302942395.html
+- **2026-11-20 — new to the tracker, not new publications: two fusion-silencing / fusion-immunotherapy items the
+  board was missing.** (1) **dCas9-KRAB epigenetic silencing of EWSR1-FLI1 delivered as RNP in non-viral
+  polymeric nanoparticles** (Molecular Therapy, online 2026-08-31) — a non-degrader fusion-silencing route that
+  carries its own delivery vehicle, directly analogous to our ASO lane and worth reading against it.
+  https://www.sciencedirect.com/science/article/pii/S1525001626007665 (2) **NCT07695311, "EWSR1 Immunotherapy in
+  Ewing Sarcoma and DSRCT"** (± pembrolizumab; NOT_YET_RECRUITING, estimated start 2026-10) — the closest
+  registered clinical precedent for an EWSR1-fusion-directed immunotherapy and **not EMC**.
+  https://clinicaltrials.gov/study/NCT07695311 Both UNVERIFIED (sciencedirect and clinicaltrials.gov both
+  egress-blocked this session — clinicaltrials.gov is usually reachable and was not).
+- **2026-11-20 — ASO delivery (`BLK-DELIVERY`): nothing moved the gate this week.** No in-window paper, preprint
+  or abstract reported in vivo measured knockdown in a non-hepatic solid tumour. Two items just outside the
+  window inform conjugate chemistry but do NOT clear the gate, because neither is tumour-targeted: a bioRxiv
+  preprint posted **2026-11-02** on cell-resolved in vivo pharmacodynamic profiling of ASO chemical conjugates
+  (palmitate conjugation reported to give the broadest extrahepatic activity, Malat1 knockdown readout),
+  [bioRxiv link WITHHELD from the repo: the DOI is unanchored and no one has opened the preprint; the full link is in this week's emailed newsletter, flagged unverified] ; and a *J Control Release* review dated
+  **2026-11-10** naming intrathecal C16-siRNA and TfR1-directed antibody-oligo conjugates as the most advanced
+  extrahepatic routes, https://www.sciencedirect.com/science/article/pii/S0168365926008357 . Both UNVERIFIED.
+  **The gate stands; the ASO route is not re-ranked on this.**
+- **2026-11-20 — possible data source for the NR4A3 fusion-variant question.** Caris reported a pan-cancer fusion
+  landscape at AMP 2026 (coverage 2026-11-17): >700,000 whole-tumour transcriptomes, fusion transcripts in
+  503,460 tumours (72.1%), and >91% of actionable fusion pairs absent from ClinVar/CIViC. If a sarcoma or NR4A3
+  breakdown is obtainable it could supply frequency and co-alteration context for the **TAF15::NR4A3 vs
+  EWSR1::NR4A3** split that tracks TKI response. No sarcoma/NR4A3 breakdown was in the coverage — applicability
+  **possible but unconfirmed**. UNVERIFIED (fetch blocked).
+  https://www.insideprecisionmedicine.com/topics/molecular-dx/amp-2026-700000-whole-tumor-transcriptomes-reveal-gene-fusion-targets/

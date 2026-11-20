@@ -711,3 +711,75 @@ triggers not yet integrated into the curated sections above — review + fold in
   assessment of co-folding methods for molecular glue ternary structure prediction"* (MGBench, bioRxiv) and the
   structural-proteomics-guided cofolding preprint reported as AIMS-Fold (arXiv, May 2026). Anchor them via the
   CI escape hatch before either is cited anywhere that matters.
+- **2026-11-20 — openmmtools v0.27.0 → v0.27.1 (2026-11-13), and last week's UNKNOWN on the v0.27.0
+  minimization change is now RESOLVED.** v0.27.0's bullet reads "Replacing Fire Minimization with
+  `LocalEnergyMinimizer` when using the `MultiStateSampler`" — i.e. replica minimization now uses upstream
+  OpenMM's local minimizer instead of FIRE. v0.27.1 is a bugfix on top: minimizing replicas with
+  `MultiStateSampler` "was unintendedly not sharing the same context, hence the process was having a much
+  larger memory footprint than desired" (PR #821). **Why it matters:** `MultiStateSampler` is the sampler under
+  our HREX/alchemy legs, so (i) the minimizer swap is a pre-campaign read item that changes the starting
+  structure of every replica, and (ii) the memory fix is cost-relevant — a smaller footprint is what decides
+  whether a leg fits on a 4090-class card. ⚠ Do not cross this boundary mid-campaign; it closes carried action
+  item #2 from 2026-11-13. https://github.com/choderalab/openmmtools/releases/tag/0.27.1
+- **2026-11-20 — the rest of the stack is unchanged, each checked directly on its GitHub releases page this
+  week:** OpenFE v1.13.0 (08 Oct), OpenMM 8.6.1 (11 Sep), gufe v1.13.1 (05 Oct), openff-toolkit 0.19.0
+  (12 Aug), openff-nagl v0.6.1 (10 Sep), Kartograf v2.0.0 (03 Jun), LOMAP v3.3.0 (15 Jun), RDKit
+  Release_2026_09_2 (05 Nov), Boltz v2.2.1 (08 Sep). No OpenFE v1.14, no Boltz 3 on the release page.
+- **2026-11-20 — four ternary-layer methods NEW TO THIS WATCH, all UNVERIFIED beyond a search snippet
+  (biorxiv.org, nature.com, pubs.acs.org and researchsquare.com are all egress-blocked from these sessions, so
+  no one has opened any of them).** Listed because they bear directly on the generation and ranking layers:
+  (1) **DiffTernary** (bioRxiv preprint, posted 2026-11-09) — a diffusion model for molecular-glue ternary
+  docking, evaluated on MGBench, shipping a claimed 76,702-structure **Ternary-PDB** set; if that set is real it
+  is far larger than anything we hold and is a candidate training/retrospective-control resource alongside
+  NR-V04. One snippet figure (a 90.9% best-of-25 for a model named "ESMFold2") looks anomalous and should be
+  treated as suspect until read. [bioRxiv link WITHHELD from the repo: the DOI is unanchored and no one has opened the preprint; the full link is in this week's emailed newsletter, flagged unverified]
+  (2) **GluePlex** (Research Square preprint; **posting date could not be established — UNKNOWN**) — restrained
+  ligand-free protein-protein docking followed by two passes of template-guided Boltz-2 cofolding. This is close
+  to the remedy our pipeline needs for the known cofolder-generalization failure: on 13 CRBN pairs held out of
+  training, plain Boltz-2 reportedly gave an acceptable pose in 12/39 runs (median DockQ 0.01) against GluePlex
+  23/39 (median DockQ 0.43). ⚠ The authors are reported to flag **model ranking and distal-ligand placement as
+  remaining limitations** — which is precisely our selectivity-ranking exposure, so this one cuts both ways.
+  https://www.researchsquare.com/article/rs-11580478/v1
+  (3) **"Predicting Ternary Complex Stability through Binding Free-Energy Calculations in the Geometric Route"**
+  (J. Chem. Theory Comput. 22(21):11662) — an alchemical/geometric-route path to ternary stability, i.e. a direct
+  methodological complement or competitor to our physics-ensemble ΔG_coop. **Date UNVERIFIED and not asserted.**
+  https://pubs.acs.org/jctcce/article-abstract/22/21/11662/5456501/Predicting-Ternary-Complex-Stability-through
+  (4) **VAV1 molecular-glue discovery paper** (Nature Communications 2026, exact date UNVERIFIED) — the single
+  most useful potential calibration datapoint found this week: the snippet reports **FEP+ ternary calculations
+  correlating with logDC50 at Pearson r = 0.836, with OpenFE and AQFEP also significantly correlated**. That is a
+  published benchmark for exactly the claim our ΔG_coop ranking makes, and it names our own engine. **Highest
+  priority of the four to retrieve via the CI escape hatch.** https://www.nature.com/articles/s41467-026-77657-z
+- **2026-11-20 — the "closed but API-accessible" question is answered NO for the two leading closed cofolders.**
+  **Chai-3** is partner-only (reported Pfizer and Novartis licences in 2026 and a Roche collaboration ~2026-11-06)
+  and **Isomorphic's IsoDDE** likewise — neither is API-accessible to us, so neither is actionable, and neither
+  should be re-raised as a recommendation until an access path exists. UNVERIFIED (trade press).
+  https://www.thepharmaletter.com/ones-to-watch/chai-discovery
+- **2026-11-20 — paralogue-selective degrader precedent (not a method):** Olema presented preclinical
+  **KAT6A-over-KAT6B selective degraders** at ENA 2026 (press release 2026-11-18), and PAQ presented first
+  Phase 1 clinical data for the selective KRAS-G12D degrader PT0253 (~2026-11-20). Relevant only as precedent
+  that a paralogue-selectivity argument is a publishable/clinical-grade claim; no methodology disclosed.
+  UNVERIFIED (press releases). https://globenewswire.com/news-release/2026/11/18/3405393/0/en/olema-oncology-presents-preclinical-data-on-selective-kat6a-degraders-in-er-her2-breast-cancer-models-at-eortc-nci-aacr-symposium.html
+- **2026-11-20 — frontier-model access: three new models in eight days, none of them a reason to move.**
+  **GPT-6.2 Astra/Sol** (OpenAI, 2026-11-17) and **Gemini 4 Neon** (Google, 2026-11-18) both land BELOW Claude
+  Fable 5.2 on the independent Artificial Analysis Intelligence Index (Astra 62, Neon 61, Opus 5.5 59, Fable 5.2
+  65), and **both vendors gate real biology behind a trusted-access programme of their own** (OpenAI's Deployment
+  Safety Hub reports Astra/Sol at the High biological threshold with a separate trusted-access route; Gemini 4
+  Neon's safety report is "coming soon" and it carries forward Argon's "cannot rule out" CBRN determination, so
+  its biology posture is UNKNOWN, not permissive). Anthropic shipped no new model 13–20 Nov. **Top available tier
+  is therefore unchanged — Fable 5.2, with research-biology work either falling back to Opus 5 or going through
+  LSVP.** ⚠ One verified and newly specific fact: the **Life Sciences Verification Program** form now lists its
+  models as "Mythos (including Fable), Opus, and Sonnet" and states eligibility as **Claude Enterprise and Team
+  plans plus the Claude Platform (API) — Free, Pro, Max and Ultra are not eligible**. So the route to running this
+  program's biology on the top-measuring model is an **API/org application, not a seat upgrade**. Whether to apply
+  remains trimcrae's decision; captured as an option, not a recommendation. The form page is undated, so whether
+  the Fable inclusion changed this week is UNKNOWN. https://claude.com/form/life-sciences-verification-program
+- **2026-11-20 — operating environment: four Claude Code releases in the window, and one of them can break our
+  remote path.** 2.1.326 (16 Nov) streams replies from `claude remote-control`/Desktop/VS Code sessions to the
+  phone as they are written, and makes **Stop on the phone end background subagents with the turn** — directly
+  relevant to our `run_in_background` pattern. 2.1.327 (17 Nov) fixes Remote Control in **worktree mode deleting
+  a running session's git-ignored files such as `.env`** — we run an isolated worktree per writer, so this one
+  matters. 2.1.328/329 (19 Nov) fix lost permission prompts across restarts and add a `/tasks` view for scheduled
+  tasks and `/loop` wakeups. ⚠ **2.1.326 also moved Remote Control's proxy path to a CONNECT tunnel, and a proxy
+  that refuses CONNECT stops Remote Control with an error** — this sandbox's egress proxy already refuses CONNECT
+  to most publisher and provider domains, so the phone path should be tested before it is relied on.
+  https://code.claude.com/docs/en/changelog

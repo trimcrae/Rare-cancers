@@ -846,3 +846,221 @@ https://getdeploying.com/gpu-price-trends
 are flagged inline — notably the nCVT/MOF-ASO delivery papers, MGBench and AIMS-Fold (biorxiv.org,
 onlinelibrary.wiley.com and nature.com all fail to resolve from this session's egress), and the openmmtools
 minimization detail.*
+
+## 2026-11-20 — weekly field-scan (quiet on NR4A/EMC; busy everywhere else)
+
+**Takeaway:** No new NR4A3 or EMC science for the third week running — but three of the four other lanes moved.
+The week's most consequential item is **not** in the degrader programme: **REM-422, an oral small-molecule MYB
+mRNA degrader, reported Phase 1/2 responses with biopsy-confirmed transcript knockdown in a fusion-driven cancer
+(ENA 2026, 19 Nov)** — the same objective as our fusion-junction ASO route with no delivery gate, which is
+exactly what blocks us. On the method side, four ternary-layer papers are new to this watch, one of which
+(**the VAV1 glue paper, reporting FEP+ ternary ΔG correlating with logDC50 at r = 0.836 with OpenFE also
+correlated**) is a published calibration benchmark for the precise claim our ΔG_coop ranking makes. Baseline for
+this delta is the 2026-11-13 entry.
+
+### 1) Method-watch triggers
+- **Four ternary-layer methods NEW TO THIS WATCH, every one UNVERIFIED beyond a search snippet** — biorxiv.org,
+  nature.com, pubs.acs.org and researchsquare.com are all egress-blocked from these sessions, so **no one has
+  opened any of them** and no number below has been checked:
+  - **DiffTernary** (bioRxiv, posted 2026-11-09): diffusion model for molecular-glue ternary docking, evaluated
+    on MGBench, shipping a claimed **76,702-structure Ternary-PDB** — far larger than anything we hold, and a
+    candidate retrospective-control resource alongside NR-V04. One snippet figure (90.9% best-of-25 for a model
+    named "ESMFold2") looks anomalous; treat as suspect until read.
+    [bioRxiv link WITHHELD from the repo: the DOI is unanchored and no one has opened the preprint; the full link is in this week's emailed newsletter, flagged unverified]
+  - **GluePlex** (Research Square; **posting date could not be established — UNKNOWN**): restrained ligand-free
+    PPI docking then two passes of template-guided Boltz-2. Close to the remedy our generation layer needs for
+    the known cofolder-generalization failure — on 13 held-out CRBN pairs, plain Boltz-2 reportedly managed an
+    acceptable pose in 12/39 runs (median DockQ 0.01) against GluePlex 23/39 (median DockQ 0.43). ⚠ It cuts both
+    ways: the authors are reported to flag **model ranking and distal-ligand placement as remaining limitations**,
+    which is our selectivity-ranking exposure. https://www.researchsquare.com/article/rs-11580478/v1
+  - **"Predicting Ternary Complex Stability through Binding Free-Energy Calculations in the Geometric Route"**
+    (JCTC 22(21):11662): an alchemical/geometric-route path to ternary stability — a direct complement or
+    competitor to our physics-ensemble ΔG_coop. **Date UNVERIFIED and not asserted.**
+    https://pubs.acs.org/jctcce/article-abstract/22/21/11662/5456501/Predicting-Ternary-Complex-Stability-through
+  - **★ VAV1 molecular-glue paper** (Nature Communications 2026, date UNVERIFIED): the snippet reports **FEP+
+    ternary calculations correlating with logDC50 at Pearson r = 0.836, with OpenFE and AQFEP also significantly
+    correlated.** If that holds it is a published benchmark for the claim our ranking layer rests on, and it names
+    our own engine. **Highest-priority retrieval of the four.** https://www.nature.com/articles/s41467-026-77657-z
+- **The "closed but API-accessible" question is answered NO for the two leading closed cofolders.** **Chai-3**
+  (reported Pfizer and Novartis licences, Roche collaboration ~6 Nov) and **Isomorphic's IsoDDE** are both
+  partner-only. Neither is API-accessible to us, so neither is actionable — this is a closed question, not a
+  recommendation deferred. UNVERIFIED (trade press). https://www.thepharmaletter.com/ones-to-watch/chai-discovery
+- **Two items seen only on ResearchGate / an aggregator, deliberately NOT captured to the repo because their
+  existence could not be confirmed on any primary server:** a FKBP12-MAPRE1 enhanced-sampling glue-cooperativity
+  paper (claimed Kendall τ = 0.79 over 8 ternary complexes — would be a cheap ΔG_coop pre-screen if real), and
+  **TriGlue**, a generative model for glue-induced ternary complexes. Venue, date and existence all **UNKNOWN**.
+- **No new or updated cofolder, FEP engine or ML potential released in the window.** Note one honest gap: a
+  subagent's GitHub-API check of boltz/chai-lab/openfe/DeepTernary/alphafold3 was refused for its session
+  ("repository not enabled"), so that half of the check ran on web search; the library row below was verified
+  separately and directly.
+
+### 2) NR4A / EMC
+- **Nothing new, third consecutive week.** No new NR4A1/2/3 ligand, structure, degrader or paralogue-selectivity
+  result; no new EWSR1::NR4A3 mechanism paper; no new EMC clinical or translational report. Everything returned
+  predates the window.
+- **ENA 2026 (38th EORTC-NCI-AACR, Barcelona, 18–20 Nov — squarely in-window) surfaced no sarcoma, EMC or NR4A
+  abstract.** The abstract portal itself was not reachable, so this is an absence in search, not a read of the
+  programme. https://event.eortc.org/ena2026/
+- **The PPR1319933 gapmer preprint action item remains open** — still the highest-priority unread item in the
+  programme, still egress-blocked, still needs the CI escape hatch. Carried since 2026-09.
+
+### 3) Degrader methodology
+- **Quiet on methodology.** The in-window degrader news is all industry: **Olema** presented preclinical
+  **KAT6A-over-KAT6B selective degraders** at ENA 2026 (18 Nov) and **PAQ** presented first Phase 1 data for the
+  selective KRAS-G12D degrader **PT0253** (~20 Nov). Both matter only as precedent that a paralogue-selectivity
+  claim is publishable and clinical-grade; no methodology was disclosed. Also in-window and not scientifically
+  relevant: a Biogen/TRIMTECH degrader deal and a second Evotec/BMS molecular-glue IND acceptance. UNVERIFIED
+  (press releases). https://globenewswire.com/news-release/2026/11/18/3405393/0/en/olema-oncology-presents-preclinical-data-on-selective-kat6a-degraders-in-er-her2-breast-cancer-models-at-eortc-nci-aacr-symposium.html
+
+### 4) Non-degrader routes
+- **★ A route class we did not have on the board, with clinical data. REM-422** (Remix), an oral small-molecule
+  **MYB mRNA degrader**, reported updated ARIA Phase 1/2 data at ENA 2026 on **19 Nov**: 69 enrolled as of
+  24 Aug; at the 24 mg RP2D an ORR of 57% (4/7 evaluable biomarker-positive); across doses 10 PRs in 32
+  biomarker-positive against 0 in biomarker-negative; MYB mRNA and protein reduction in on-treatment biopsies.
+  **Why it is the week's headline for us:** adenoid cystic carcinoma is fusion-driven (MYB::NFIB), and this is an
+  *orally dosed small molecule* lowering a fusion-driven TF's **transcript** with biopsy-level target engagement
+  — our ASO route's exact objective, minus the delivery problem that `BLK-DELIVERY` blocks us on.
+  **Applicability to EMC / EWSR1::NR4A3 is UNKNOWN**: the mechanism is splice/RNA-processing modulation of MYB
+  specifically and nothing shows it generalizes to NR4A3. ⚠ **May warrant re-ranking the ASO route against a
+  splice-modulator route — flagged for human review; this scan does not re-rank.** UNVERIFIED (company press
+  release, small n, short follow-up, not peer-reviewed).
+  https://www.globenewswire.com/news-release/2026/11/19/3406452/0/en/remix-therapeutics-announces-updated-positive-rem-422-phase-1-data-in-adenoid-cystic-carcinoma-at-2026-eortc-nci-aacr-symposium.html
+- **ASO delivery — the gate did not move.** No in-window report of in vivo measured knockdown in a non-hepatic
+  solid tumour, across five separate query formulations. Two just-outside items inform conjugate chemistry but
+  clear nothing, because neither is tumour-targeted: cell-resolved in vivo PD profiling of ASO conjugates
+  (bioRxiv, posted 2 Nov; palmitate reported to give the broadest extrahepatic activity, Malat1 readout),
+  [bioRxiv link WITHHELD from the repo: the DOI is unanchored and no one has opened the preprint; the full link is in this week's emailed newsletter, flagged unverified] ; and a *J Control Release* review dated 10 Nov
+  naming intrathecal C16-siRNA and TfR1-directed antibody-oligo conjugates as the most advanced extrahepatic
+  routes, https://www.sciencedirect.com/science/article/pii/S0168365926008357 . Both UNVERIFIED.
+- **Immunotherapy — one in-window item, and it is about presentation rather than antigen.** A bioRxiv preprint
+  posted **13 Nov** reports small-molecule **molecular glues that increase MHC class-I presentation of poorly
+  displayed neoantigens**. Our EWSR1::NR4A3 junction-peptide routes are presentation-limited, so this is a
+  pharmacological lever on that bottleneck — a combination idea we had not tracked. Not sarcoma, not
+  fusion-specific; **applicability to EMC UNKNOWN**. UNVERIFIED.
+  [bioRxiv link WITHHELD from the repo: the DOI is unanchored and no one has opened the preprint; the full link is in this week's emailed newsletter, flagged unverified]
+- **Nothing else new named EWSR1, NR4A3, EMC, Ewing, synovial, DSRCT or myxoid liposarcoma in the window.** Two
+  items new to the tracker though not new publications: **dCas9-KRAB silencing of EWSR1-FLI1 delivered as RNP in
+  non-viral polymeric nanoparticles** (Molecular Therapy, online 31 Aug) — a fusion-silencing route that carries
+  its own vehicle, directly analogous to our ASO lane, https://www.sciencedirect.com/science/article/pii/S1525001626007665
+  — and **NCT07695311, "EWSR1 Immunotherapy in Ewing Sarcoma and DSRCT"** (± pembrolizumab, NOT_YET_RECRUITING),
+  the closest registered precedent for an EWSR1-fusion-directed immunotherapy and **not EMC**,
+  https://clinicaltrials.gov/study/NCT07695311 . Both UNVERIFIED — clinicaltrials.gov is usually reachable from
+  these sessions and this week was not.
+- **One fusion-agnostic route with fresh sarcoma data: ADCE-D01** (Adcendo), a uPARAP-targeted ADC, late-breaking
+  Phase 1 ADCElerate1 data at ENA 2026 on 19 Nov — Q2W arm ORR 30% (8/27 evaluable, 5 confirmed), DCR 85%, median
+  follow-up 3.4 months, 12 STS subtypes enrolled, FDA Fast Track and Orphan Drug in STS. An ADC active across STS
+  histologies ignores the fusion entirely. **Applicability to EMC UNKNOWN** — no per-histology breakdown was
+  obtainable and uPARAP expression in EMC is unknown to us; that expression question is the cheap first check.
+  UNVERIFIED. https://www.prnewswire.com/news-releases/adcendo-aps-announces-phase-1-clinical-data-showing-compelling-safety--antitumor-activity-with-adce-d01-in-advanced-soft-tissue-sarcoma-in-late-breaking-oral-presentation-at-2026-eortc-nci-aacr-symposium-on-molecular-targets-and--302942395.html
+- **Possible data source, flagged not claimed:** Caris reported a pan-cancer fusion landscape at AMP 2026
+  (coverage 17 Nov) — >700,000 whole-tumour transcriptomes, fusion transcripts in 503,460 tumours (72.1%), >91%
+  of actionable fusion pairs absent from ClinVar/CIViC. If a sarcoma/NR4A3 breakdown is obtainable it could
+  supply frequency and co-alteration context for the **TAF15::NR4A3 vs EWSR1::NR4A3** split that tracks TKI
+  response. No such breakdown was in the coverage — **possible but unconfirmed**. UNVERIFIED.
+  https://www.insideprecisionmedicine.com/topics/molecular-dx/amp-2026-700000-whole-tumor-transcriptomes-reveal-gene-fusion-targets/
+- **No new RNA-editing, CRISPR-fusion-targeting, condensate, bispecific or radioligand item landed in the window.**
+
+### 5) Tooling & operating-environment
+**(a) Library releases — one bump, and last week's UNKNOWN is resolved.**
+- **openmmtools v0.27.0 → v0.27.1 (13 Nov).** And the v0.27.0 minimization change that last week's entry logged
+  as UNKNOWN now reads: **"Replacing Fire Minimization with `LocalEnergyMinimizer` when using the
+  `MultiStateSampler`"** — replica minimization moved to upstream OpenMM's local minimizer instead of FIRE.
+  v0.27.1 is a bugfix on top: minimizing replicas "was unintendedly not sharing the same context, hence the
+  process was having a much larger memory footprint than desired." **Why it matters:** `MultiStateSampler` is the
+  sampler under our HREX/alchemy legs, so the minimizer swap changes every replica's starting structure (a
+  pre-campaign read item, do not cross mid-campaign) and the memory fix is **cost-relevant** — footprint is what
+  decides whether a leg fits on a 4090-class card. Closes carried action item #2.
+  https://github.com/choderalab/openmmtools/releases/tag/0.27.1
+- **Everything else unchanged, each checked directly on its GitHub releases page this week:** OpenFE v1.13.0
+  (08 Oct), OpenMM 8.6.1 (11 Sep), gufe v1.13.1 (05 Oct), openff-toolkit 0.19.0 (12 Aug), openff-nagl v0.6.1
+  (10 Sep), Kartograf v2.0.0 (03 Jun), LOMAP v3.3.0 (15 Jun), RDKit Release_2026_09_2 (05 Nov), Boltz v2.2.1
+  (08 Sep). No OpenFE v1.14; no Boltz 3 on the release page.
+
+**(b) Frontier-model access — three new models in eight days, none of them a reason to move.**
+- **GPT-6.2 Astra / Sol** (OpenAI, 17 Nov) and **Gemini 4 Neon** (Google, 18 Nov) both land **below** Claude
+  Fable 5.2 on the independent Artificial Analysis Intelligence Index (Astra 62, Neon 61, Opus 5.5 59, Fable 5.2
+  65), and **both vendors gate real biology behind a trusted-access programme of their own**: OpenAI's Deployment
+  Safety Hub reports Astra/Sol meeting the **High** biological threshold with increased dual-use restrictions and
+  a separate trusted-access route, while Gemini 4 Neon's safety report is "coming soon" and it carries forward
+  Argon's "cannot be ruled out" CBRN determination — so Neon's biology posture is **UNKNOWN, not permissive**.
+  Neither primary page was fetchable from this session (**UNVERIFIED**); Anthropic's own news index **was**
+  fetched and shows no new model between Fable/Mythos 5.2 (9 Nov) and today.
+  https://artificialanalysis.ai/articles/openai-has-the-2-model-in-the-intelligence-index-with-the-release-of-gpt-6-2-astra-and-gpt-6-2-sol
+- **Current top available tier: unchanged — Claude Fable 5.2, with research-biology work falling back to Opus 5
+  or going through LSVP. We are not on it.** One verified and newly specific fact: the **Life Sciences
+  Verification Program** form now lists its models as **"Mythos (including Fable), Opus, and Sonnet"** and states
+  eligibility as **Claude Enterprise and Team plans plus the Claude Platform (API) — Free, Pro, Max and Ultra are
+  not eligible at this time.** So the route to running this programme's biology on the top-measuring model is an
+  **API/org application, not a seat upgrade**. The page is undated, so whether the Fable inclusion changed this
+  week is **UNKNOWN**. ⚠ Whether to apply is trimcrae's decision; captured as an option, not a recommendation.
+  https://claude.com/form/life-sciences-verification-program
+- **Measurement note on ourselves:** this session reports running on **Opus 5**, not the Opus 5.5 the last two
+  entries assumed these sessions run. Worth a `/status` check on an interactive session before any claim about
+  what tier the programme's reasoning actually happens on.
+
+**(c) Phone-drivable coding agents — material change, all of it on the Claude side.**
+- Four Claude Code releases landed in the window. **2.1.326 (16 Nov)** streams replies from
+  `claude remote-control`/Desktop/VS Code sessions to the phone **as they are written** rather than on
+  completion, and makes **Stop on the phone end background subagents together with the turn** — directly relevant
+  to this programme's `run_in_background` pattern. **2.1.327 (17 Nov)** fixes Remote Control in **worktree mode
+  deleting a running session's git-ignored files such as `.env`** — we run an isolated worktree per writer, so
+  this one matters. **2.1.328/329 (19 Nov)** fix lost permission prompts across restarts and add a `/tasks` view
+  for scheduled tasks and `/loop` wakeups. ⚠ **2.1.326 also moved Remote Control's proxy path to a CONNECT
+  tunnel, and a proxy that refuses CONNECT stops Remote Control with an error** — this sandbox's proxy already
+  refuses CONNECT to most publisher and provider domains, so test the phone path before relying on it.
+  https://code.claude.com/docs/en/changelog
+- **Codex: no verified mobile change this week.** A Codex 0.171.0 entry adding GPT-6.2 Sol/Astra and "remote
+  session controls" is aggregator-sourced and not mobile-specific; the ChatGPT iOS build found is dated 10 Nov,
+  outside the window. The open question stays what it was — **no comparison has been run for OUR workload either
+  way**, and that is an unanswered question, not a blocker. UNVERIFIED.
+
+**(d) Compute cost / GPU market — no verified move in our `$/ns`, and this lane could not be primary-verified.**
+- **Every GPU-provider domain is egress-blocked from these sessions** (vast.ai, runpod.io, lambda.ai, modal.com,
+  salad.com, together.ai, crusoe.ai, coreweave.com, aws.amazon.com), so **zero provider-page prices were read
+  this week** and everything below is aggregator-sourced. On the board we buy from (4090-class Vast spot), four
+  trackers gave four different medians — **UNRESOLVED** — while the floor that feeds our gate was reported
+  unchanged week-over-week. **Our cost-per-nanosecond basis is unmoved and is not restated here; it lives in
+  `research/compute/pricing.md` §A.**
+- **The only dated directional signal points up, and it is not our lane:** Crusoe is reported to raise on-demand
+  H100/H200/B300 rates on **1 Dec**. We do not buy datacentre-class on-demand. No price **cut** was found at
+  RunPod, Lambda, Modal, Salad, Together, CoreWeave, AWS or GCP; a Lambda table reported effective 16 Nov did not
+  match a logged-in price two days earlier (**UNRESOLVED**), and aggregator A100 spot figures span a 4× range —
+  do not plan against any of them. UNVERIFIED. https://markaicode.com/pricing/crusoe-pricing/
+- **Nothing new is priceable.** **RTX 5090 stays UNPRICEABLE** — its hourly rate sits near 4090 levels but **no
+  OpenMM or GROMACS ns/day figure for the card exists in any source found**, and an hourly rate without a
+  throughput measurement is not a `$/ns`. **B300** is now in cloud price tables and is **UNPRICEABLE on the same
+  grounds**. NVIDIA announced **Rubin HPC** at SC26, pitched at scientific simulation, but it **arrives 2028**.
+  The fix is unchanged and cheap: one short timed OpenMM run on a single rented 5090 host.
+- **⚠ For human review, and the biggest lever in this lane:** no new credit programme launched this week, but of
+  the existing ones **Modal's research credit (reported ~$10k) and Lambda's Research Grant (reported up to $5k)
+  are the only two that plausibly do not require faculty affiliation** — NVIDIA's Academic Grant and NSF ACCESS
+  both do, so they are out for a self-funded programme. Neither was verified against its own terms page;
+  eligibility is **UNKNOWN**. A $5–10k grant would move our cost per nanosecond more than any spot fluctuation
+  found this week, but any such credit is a **SEPARATE LEDGER, not a cost basis**. UNVERIFIED.
+  https://github.com/eric-prog/GPU-Grants
+
+### Action items carried
+1. **Read and grade PPR1319933** (NR4A3 fusion-junction gapmer preprint on this programme's own topic) — still
+   the highest-priority unread item; still egress-blocked. Carried since 2026-09.
+2. **★ New and high value: retrieve the VAV1 glue paper via the CI escape hatch** and check the reported
+   FEP+/logDC50 r = 0.836 and the OpenFE correlation. It is a published benchmark for our ranking layer's claim.
+3. **★ New: retrieve DiffTernary and GluePlex.** GluePlex's reported "ranking and distal-ligand placement remain
+   limitations" is the finding most likely to change how we justify ΔG_coop; DiffTernary's Ternary-PDB would be
+   the largest control set available to us if it is real.
+4. **Decide the openmmtools upgrade boundary** — the FIRE → `LocalEnergyMinimizer` swap changes replica starting
+   structures; do not cross it mid-campaign. (Resolves last week's item #2, replaces it with a decision.)
+5. **Decide the RDKit upgrade boundary** — unchanged; do not cross mid-campaign; re-generate ligand prep if we do.
+6. **Grade the 2026-11-06 trigger leads**, starting with the ChemMedChem ternary-assembly cofolding paper.
+7. **Run the RTX 5090 OpenMM/OpenFE smoke test** — unchanged; the only thing that makes the card priceable.
+8. ⚠ **Life Sciences Verification Program** — trimcrae's decision, now with specifics: it covers Fable, and it
+   needs an Enterprise/Team/API org, not a Pro or Max seat.
+9. ⚠ **Egress policy** — provider and publisher domains being blocked is now the binding constraint on two whole
+   lanes of this scan. Allowing `vast.ai` would make the compute lane real; the publisher side already has the
+   CI escape hatch and should start using it.
+
+*Sources are real search hits plus direct fetches of ten GitHub releases pages, Anthropic's news index and the
+LSVP form. No fabricated papers, trials, releases or prices. Every item not opened is flagged UNVERIFIED inline —
+which this week is most of the science, because biorxiv.org, nature.com, pubs.acs.org, researchsquare.com,
+sciencedirect.com, clinicaltrials.gov and every GPU-provider domain refused this session's egress. Two items seen
+only on ResearchGate or an aggregator (the FKBP12-MAPRE1 cooperativity paper and TriGlue) were deliberately NOT
+written into the repository because their existence could not be confirmed on any primary server.*
