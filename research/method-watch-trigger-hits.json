@@ -420,6 +420,21 @@
    ],
    "signals_recorded": 31,
    "abstracts_fetched": 14
+  },
+  {
+   "date": "2026-11-20",
+   "mode": "scan",
+   "triggers": 32,
+   "queries": 135,
+   "new_hits": 28,
+   "appended": 22,
+   "errors": [
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=protac&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "chemrxiv: DROPPED FOR THIS RUN after 3 consecutive failures (last: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden). Every ChemRxiv query below was SKIPPED -- this run's preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result is not a reading of absence."
+   ],
+   "signals_recorded": 28,
+   "abstracts_fetched": 12
   }
  ],
  "hits": {
@@ -558,6 +573,28 @@
     "url": "https://europepmc.org/article/MED/43018143",
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 1
+   },
+   "PPR/PPR1371941": {
+    "id": "PPR/PPR1371941",
+    "title": "Arginine as a \u2018Molecular Glue\u2019 for Robust Hierarchical Supramolecular Assembly",
+    "date": "2026-11-19",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1371941",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 1,
+    "abstract": "Abstract    Hierarchical supramolecular assembly\u2014materials ordered across multiple length scales via weak non-covalent interactions\u2014is nature\u2019s primary strategy for constructing complex functional materials; however, its implementation in synthetic systems is fundamentally limited by intrinsic structural fragility. While biological systems achieve robustness through embedding their assemblies within dynamic protein scaffolds, synthetic supramolecular architectures often degrade under real-world conditions. Here, we demonstrate that arginine acts as a \u2018molecular glue\u2019 to mediate the hierarchical assembly of a cyanine-based model system, resulting in unprecedented structural robustness. Through a combination of optical spectroscopy, cryogenic-electron and near-field scanning optical microscopy, and density functional theory, we show that these arginine-mediated assemblies remain robust even upon dilution in challenging biological environments (cell culture media), or after complete dehydration on solid substrates. Our bioinspired approach overcomes the longstanding stability limitations of non-covalent materials, providing a versatile, robust framework for next-generation organic device applications in nanomedicine, renewable energy, or information technology."
+   },
+   "PMC13761387": {
+    "id": "PMC13761387",
+    "title": "Beyond AlphaFold 3: a standardised benchmark of open-source co-folding models for antibody-antigen complexes, from docking accuracy to interaction specificity",
+    "date": "2026-11-12",
+    "venue": "MAbs",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13761387",
+    "first_seen": "2026-11-20",
+    "duplicate_of_title": true
    }
   },
   "TRG-TERNARY-GEN-NO-SITES": {
@@ -1279,6 +1316,18 @@
     "url": "https://europepmc.org/article/PMC/PMC13693665",
     "first_seen": "2026-10-30",
     "age_days_at_first_seen": 7
+   },
+   "PPR/PPR1296398": {
+    "id": "PPR/PPR1296398",
+    "title": "BRD9 inhibition induces selective radiosensitivity in glioblastoma through MYC pathway modulation",
+    "date": "2026-08-11",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1296398",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 101,
+    "abstract": "ABSTRACT   Radiotherapy (RT) is a cornerstone of glioblastoma (GBM) treatment, yet therapeutic resistance remains nearly universal due to the rapid activation of stress-adaptive survival programs. Identifying molecular regulators that sustain these adaptive responses may reveal context-dependent vulnerabilities that can be therapeutically exploited. Here, we performed an epigenetic drug screen under low-dose irradiation to identify modifiers of radiotherapy response in glioblastoma. We identify BRD9 inhibition as a priming strategy that selectively enhances irradiation-induced lethality without inducing substantial cytotoxicity under baseline conditions. Mechanistically, BRD9 perturbation delays the resolution of irradiation-induced DNA damage, leading to increased apoptosis following irradiation. This effect is selective for malignant glioblastoma cell lines and patient-derived primary cells, while sparing non-malignant human astrocytes. Transcriptomic profiling reveals that BRD9 inhibition or genetic depletion produces a coordinated, MYC-centered suppression of translational programs, including ribosome biogenesis, rRNA processing, tRNA aminoacylation, and translational initiation. Ectopic MYC expression attenuates BRD9-dependent radiosensitization, functionally linking MYC suppression to the enhanced radiation response. Importantly, analysis of independent glioblastoma patient cohorts reveals a consistent positive association between BRD9 and MYC expression, alongside elevated BRD9 expression in recurrent compared with primary tumors. Together, these findings identify BRD9 as a regulator of MYC-associated translational programs and support its therapeutic targeting as a strategy to enhance radiotherapy efficacy in glioblastoma."
    }
   },
   "TRG-OBSERVED-CRL-E2UB-GEOMETRY": {},
@@ -1651,6 +1700,38 @@
     "url": "https://europepmc.org/article/PMC/PMC13661599",
     "first_seen": "2026-10-30",
     "duplicate_of_title": true
+   },
+   "MED/43057211": {
+    "id": "MED/43057211",
+    "title": "Beneath the surface: Hidden degrons and untapped ligases for molecular glue degrader discovery",
+    "date": "2026-11-01",
+    "venue": "Mol Cell",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43057211",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 19
+   },
+   "MED/43050728": {
+    "id": "MED/43050728",
+    "title": "Discovery of DNMT1-targeting molecular glue degraders with potent antifibrotic efficacy against liver fibrosis",
+    "date": "2026-11-14",
+    "venue": "Eur J Med Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43050728",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 6
+   },
+   "PPR/PPR1369959": {
+    "id": "PPR/PPR1369959",
+    "title": "Rational Design of Molecular Glue Degraders Utilizing Endogenous Transient Protein-Protein Interactions",
+    "date": "2026-11-17",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1369959",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 3,
+    "abstract": "Molecular glues are small molecules that modulate protein activity by inducing or stabilizing protein-protein interactions (PPIs). However, identifying and harnessing endogenous protein pairs amenable to small-molecule-mediated stabilization remains a major challenge in molecular glue development. Here we introduce transient interface pocket-guided molecular glue rational design (TrIP-MGRD), a strategy that shifts compound discovery from empirical screening toward rational, interaction-guided design by exploiting druggable pockets at transient PPI interfaces. Using CDK12 as a model target, we identified DDB1 as an endogenous transient interaction partner and determined the DDB1-CDK12-CCNK complex structure by cryo-electron microscopy (cryo-EM). Structure-guided virtual screening and medicinal chemistry optimization yielded a molecular glue C432 that stabilized this interaction. Comparison of the ligand-free and C432-bound complexes revealed pre-existing contacts at the transient CDK12-DDB1 interface provides a structural basis for compound-mediated stabilization. Collectively, by integrating endogenous partner identification with interface-guided screening, TrIP-MGRD provides a new framework for target-directed molecular glue discovery."
    }
   },
   "TRG-VIRTUAL-CELL-NO-LINE": {
@@ -2537,6 +2618,42 @@
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 5,
     "abstract": "Predicting single-cell transcriptional responses to genetic and chemical interventions supports gene-function discovery and regulatory analysis. Existing studies often focus only on highly variable genes, restricting the expression changes available for downstream analysis. Cells exposed to the same intervention can also show heterogeneous expression responses, with coordinated gene programs active to different degrees. We propose scBIG++, a full-gene perturbation prediction framework that models this heterogeneity by connecting expression-adaptive gene modules with population-conditioned generation. To preserve shared gene structure while accommodating cellular variation, Gene-Relation Clustering organizes genes into common windows, within which Dynamic SoftSub learns expression-dependent submodule memberships. This shared organization enables Set-GCAE to exchange information about corresponding gene groups across control cells, placing individual representations in their source-population context. The cell representations initialize a latent flow, while their pooled summary and the perturbation representation condition response generation. Generated states are decoded into expression profiles covering all assayed protein-coding genes retained after preprocessing, supporting comprehensive analysis of perturbation-induced expression changes. Experiments across six genetic and chemical settings spanning 6,539--19,451 genes demonstrate competitive perturbation-effect recovery and full-gene expression reconstruction under unseen targets and combinations, cross-cell-line transfer, and held-out compounds. Our implementation is available at https://github.com/ttruan2426-dot/scBIG."
+   },
+   "PPR/PPR1370847": {
+    "id": "PPR/PPR1370847",
+    "title": "Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction",
+    "date": "2026-11-18",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1370847",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 2,
+    "abstract": "Abstract      Prediction of transcriptional responses to genetic perturbations is difficult when the target perturbation is absent from model training. A further challenge is that different predictors can behave differently on different unseen perturbations. This study therefore examines out-ofdistribution (OOD) perturbation prediction as a model-selection problem rather than assuming that one predictor is uniformly optimal. Using an Adamson Perturb-seq dataset containing 65,899 cells, 5,060 genes, and 82 perturbation conditions, we analyze 21 perturbations held out from training. Four candidate predictor configurations are evaluated: GO-only MLP, GenePT-only MLP, GenePT\u2009+\u2009GO concatenation MLP, and Gated Attention Fusion. For each perturbation, the observed candidate-model performance is used to quantify the opportunity for perturbationspecific selection. The best fixed strategy has mean   R    2   =0.399650, while the oracle upper bound is 0.466234, giving an available selection gap of 0.066584. Importantly, the perturbation-level retrospective adaptive values reported in the study average to   R    2   =0.421228, corresponding to a 0.021578 absolute and 5.40% observed relative improvement over the fixed strategy. Embedding Coverage is also examined as a compact representation-availability descriptor. In this exploratory analysis, it shows negative Spearman associations with OOD difficulty (   \u03c1   =\u22120.5472,   p   \u2009=\u20090.0103) and with the observed adaptive improvement (   \u03c1   = \u22120.4741,   p   \u2009=\u20090.0299), with both p-values treated as nominal exploratory results, whereas the paired Wilcoxon comparison between adaptive and fixed outcomes is not significant (   p   \u2009=\u20090.0638). These results provide exploratory evidence that representation coverage can be useful for characterizing OOD behavior, but they do not establish universal superiority of adaptive selection. The study is deliberately positioned as a focused single-dataset analysis and identifies the validation required for broader claims."
+   },
+   "PPR/PPR1328070": {
+    "id": "PPR/PPR1328070",
+    "title": "PerturbBridge: Conditional Latent Schr&#246dinger Bridge for Single-Cell Perturbation Prediction",
+    "date": "2026-09-25",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1328070",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 56,
+    "abstract": "\\textbf{Motivation:}Single-cell perturbation prediction seeks to recover transcriptional responses to unseen interventions from unpaired control and perturbed populations. The Schr\\\"odinger Bridge provides a principled framework for modeling these transitions as stochastic transport, but learning bridge dynamics directly from high-dimensional, sparse gene-expression profiles remains challenging. \\textbf{Results:} We present PerturbBridge, a conditional latent Schr\\\"odinger Bridge framework for single-cell perturbation response prediction. A response-anchored autoencoder constructs a compact cellular representation that preserves dominant transcriptional response directions identified from training perturbations while encoding complementary cellular variation. In this latent space, PerturbBridge models conditional stochastic transport through a tractable approximation to the Schr\\\"odinger Bridge. We introduce the Perturbation-Induced Bridge Transformer, which uses perturbation and time-dependent slots to guide interactions among latent coordinates during drift estimation. Evaluations on Norman, Sci-Plex3, and Replogle RPE1 demonstrate leading performance in differential-expression direction recovery and perturbation-effect correlation, alongside competitive gene-expression prediction accuracy. \\textbf{Availability:} The source code is available at \\url{https://github.com/echQoQ/PerturbBridge}, with an archived version at \\url{https://doi.org/10.5281/zenodo.24272128}."
+   },
+   "arXiv/2611.23999v1": {
+    "id": "arXiv/2611.23999v1",
+    "title": "ReliFlow: Reliability-Calibrated Residual Transport for Combinatorial Single-Cell Perturbation Prediction",
+    "date": "2026-11-18",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.23999v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 2,
+    "abstract": "Predicting the transcriptional response to combined perturbations requires distinguishing interactions between interventions from errors in their individual effect estimates. The latter become more pronounced when single-perturbation evidence is sparse or withheld. We introduce a conditional flow-matching model that estimates the reliability of single-gene effects from training-only cross-fitting and uses those estimates to calibrate the additive source distribution. The velocity is decomposed into a known correction of the additive reference and a learned residual transport field. On Norman genetic perturbations, reduces mean absolute error (MAE) from 0.142 to 0.131 for unseen combinations of observed singles and from 0.198 to 0.178 when constituent singles are withheld. On held-out ComboSciPlex drug combinations, MAE decreases from 0.191 to 0.176. Non-additive residual correlation improves from 0.574 to 0.638, and component ablations identify the contribution of reliability weighting. The results indicate that accounting for uncertain constituent effects improves generalization to unseen genetic and chemical combinations, with a moderate increase in training cost."
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -3257,6 +3374,16 @@
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 9,
     "abstract": "Abstract    Glioblastoma (GBM) treatment is limited by the blood-brain-barrier(BBB) and lack of non-invasive methods to track drug delivery and therapeutic response simultaneously. We developed a theranostic strategy utilizing multiparametric chemical exchange saturation transfer(CEST) MRI to guide the nose-to-brain delivery of mucus-penetrating liposomes encapsulating gemcitabine and iohexol(1:1; Gem/Ioh-Lipo). These multiple CEST contrast indicated drug-specific signals (gemcitabine 2.4 ppm, iohexol 4.3 ppm and liposome\u2009\u2212\u20093.5 ppm), demonstrating that >\u200970% intranasal dose reached the frontal cortex from the olfactory bulb.Importantly, CEST at 4.3 ppm strongly correlated with tumor response(R\u00b2 > 0.9), indicating the prognostic value of image-guidance. Another CEST contrast (APTw at 3.5 ppm) indicated the tumor response, intranasal Gem/Ioh-Lipo produced an 8.6-fold tumor volume reduction versus drug-free liposomes (P"
+   },
+   "MED/43026442": {
+    "id": "MED/43026442",
+    "title": "Physiologically Based Pharmacokinetic (PBPK) Modeling to Predict Pharmacokinetic Endpoints of a Sunscreen Lotion Containing Oxybenzone",
+    "date": "2026-11-13",
+    "venue": "AAPS PharmSciTech",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43026442",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 7
    }
   },
   "TRG-VECTOR-DELIVERY-SOLID-TUMOUR": {},
@@ -4196,6 +4323,16 @@
     "url": "https://europepmc.org/article/MED/43017903",
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 1
+   },
+   "MED/43048939": {
+    "id": "MED/43048939",
+    "title": "Enhanced delivery and antitumor efficacy of CXCR2-targeting siRNA nanoparticles by regulating cancer-associated fibroblasts in hepatocellular carcinoma",
+    "date": "2026-11-18",
+    "venue": "J Mater Chem B",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43048939",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 2
    }
   },
   "TRG-EMC-FUNCTIONAL-MODEL": {
@@ -4220,6 +4357,16 @@
     "first_seen": "2026-08-08",
     "age_days_at_first_seen": 15,
     "abstract": "Abstract    The disialoganglioside GD2 is a cell surface marker of neuroblastoma and an attractive target for chimeric antigen receptor (CAR) T-cell therapy. GD2 is also expressed in Ewing sarcoma (EwS), but more heterogeneously and often below the threshold required for CAR-mediated T-cell activation. We previously showed that pharmacological inhibition of the epigenetic regulator Enhancer of Zeste Homolog 2 (EZH2), for example with the approved drug tazemetostat, selectively upregulates GD2 expression in EwS cells in vitro. Here, we evaluated prerequisites for combining EZH2 inhibition with GD2-directed CAR T-cell therapy. Oral tazemetostat induced GD2 expression in EwS xenografts in vivo, but the effect was model-dependent and not consistently reproducible. In vitro analyses revealed a pronounced impact of EZH2 inhibition on CAR T cell biology. Tazemetostat markedly impaired T cell proliferation and expansion, while enhancing antigen-specific cytolytic activity on a per-cell basis. In contrast, tazemetostat did not measurably affect macrophage polarization under conditions promoting M2-like phenotypes characteristic of the EwS tumor microenvironment. Together, these findings argue against concomitant administration of tazemetostat with GD2-specific CAR T cells. The variable target induction capacity of tazemetostat in vivo and its recent withdrawal from the market limit the translational potential of the strategy. Systematic in vivo screening of epigenetically active compounds may identify more suitable candidates for robust, clinically relevant modulation of GD2 expression in EwS and other GD2-positive cancers."
+   },
+   "PMC13755567": {
+    "id": "PMC13755567",
+    "title": "ICAM-1 as a biomarker of efficacy for oncolytic coxsackievirus A21 in patient-derived Ewing sarcoma models",
+    "date": "2026-10-14",
+    "venue": "Mol Ther Oncol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13755567",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 37
    }
   },
   "TRG-CLOUD-WET-LAB": {
@@ -4332,6 +4479,18 @@
     "url": "https://europepmc.org/article/PMC/PMC13712942",
     "first_seen": "2026-10-30",
     "age_days_at_first_seen": 42
+   },
+   "arXiv/2611.18496v1": {
+    "id": "arXiv/2611.18496v1",
+    "title": "Toward Resilient Self-Driving Laboratories through Telerobotic Interventions",
+    "date": "2026-11-13",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.18496v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 7,
+    "abstract": "Self-driving laboratories (SDLs) accelerate scientific research by integrating robotics, automated experimentation, and machine learning to execute experiments autonomously. Biology and chemistry have adopted these systems. However, increasing SDL complexity heightens susceptibility to unexpected faults in automated workflows, highlighting the need for efficient recovery mechanisms. In this study, we investigate telerobotic interventions to enhance SDL resilience against unexpected failures. We developed a teleoperation interface enabling human operators to resolve disruptions during automated tasks. The interface enables precise control of a six-degree-of-freedom (DOF) robotic arm (UR3e) using a 3D mouse (3Dconnexion SpaceMouse Pro). Two velocity-based controller strategies were evaluated: (i) a coupled mode mapping all six DOFs to the 3D mouse's central knob and (ii) a decoupled mode separating translational and rotational motions. To evaluate the framework, teleoperators intervened across three SDL fault scenarios. In the first study, comparative trials showed that the decoupled controller was associated with shorter completion times and reduced rotational motion. In a second study, teleoperators performed an aiming task with and without reference-path guidance. Users were more target-driven and risk-tolerant without guidance but showed behavioral differences under different guidance strategies. These findings suggest that controller configuration and reference-path design influence operator performance during SDL fault recovery, informing teleoperation interface optimization. This work demonstrates the potential feasibility of teleoperation as a human-in-the-loop recovery mechanism for SDL workflows, combining robotic precision with human adaptability and problem-solving. These findings also provide a foundation for future studies in shared autonomy and semi-autonomous intervention."
    }
   },
   "TRG-JUNCTION-PHLA": {
@@ -4952,6 +5111,16 @@
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 4,
     "abstract": "High-throughput screening of HLA class I epitopes underpins neoantigen vaccine design, T cell therapies, and pathogen immune monitoring, yet proteome-scale prioritization remains challenging under severe class imbalance. We present TriStageHLA, a compact three-stage framework that decomposes epitope discovery into peptide-only screening (PRE), allele-specific binding/presentation prediction (BIND), and immunogenicity prediction (IM). PRE performs early pruning via a LoRA-adapted ESM-2 classifier; BIND integrates quantitative binding affinity and eluted ligand data with a dual-branch architecture combining global cross-attention and local motif extraction; IM is fine-tuned on curated human T-cell assay data with a decoupled LoRA head. Trained on IEDB-derived datasets with per-allele balancing and allele-discordant supervision, TriStageHLA-BIND achieves AUROC of 96.2% and AUPRC of 95.2% on combined BA/EL evaluation, while TriStageHLA-IM reaches AUROC of 81.4\\% and AUPRC of 73.8\\% on held-out immunogenicity data, improving over the strongest immunogenicity baselines ImmuneApp (70.7% / 63.6%) and BigMHC-IM (60.1% / 51.5%). With substantially fewer trainable parameters than prior models, TriStageHLA enables efficient, calibrated epitope prioritization across binding, presentation, and immunogenicity. Code and pretrained weights are available at https://github.com/SkywalkerLuke/TriStageHLA."
+   },
+   "PMC13769066": {
+    "id": "PMC13769066",
+    "title": "LKMHCpan: Transformer-optimized HLA-I pseudo-sequences enhance neoantigen prediction for immunotherapy",
+    "date": "2026-11-05",
+    "venue": "iScience",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13769066",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 15
    }
   },
   "TRG-NR4A3-DIRECT-MATTER": {
@@ -5445,6 +5614,16 @@
     "url": "https://europepmc.org/article/MED/43016761",
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 16
+   },
+   "PMC13751515": {
+    "id": "PMC13751515",
+    "title": "Clinical outcomes and toxicity after proton- versus photon-based spatially fractionated radiotherapy for soft-tissue sarcoma: a retrospective cohort",
+    "date": "2026-10-28",
+    "venue": "Front Oncol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13751515",
+    "first_seen": "2026-11-20",
+    "duplicate_of_title": true
    }
   },
   "TRG-FEM1B-LINKER-BEARING-STRUCTURE": {
@@ -6796,6 +6975,42 @@
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 7,
     "abstract": "Closed-loop autonomous experimentation can accelerate scientific discovery, but implementation effort limits accessibility. Agentic systems may lower this barrier, although sustained operation on physical instruments remains largely unexplored. Here, using coding-agent infrastructure grounded in validated scientific methods, we demonstrate autonomous synchrotron X-ray experiments on nanoparticle superlattices under evolving, human-defined objectives. Complete human-agent and agent-agent transcripts enable an audit that reconstructs decision provenance and characterizes the division of cognitive labor. Across three experiments, 61-67% of messages involved interpretation or judgment, while the share of methodological and scientific contributions increased from 46% in the setup-focused first experiment to 56-61% in later experiments. Provenance showed that 59-68% of error corrections involved multiple participants and that about half of all decisions incorporated the input of another participant. These results may guide design principles for multi-agent scientific systems and inform future agent harnesses, model training, and accessible autonomous experimentation."
+   },
+   "arXiv/2611.22661v1": {
+    "id": "arXiv/2611.22661v1",
+    "title": "The Between-Round Decision in Autonomous Research: An LLM Controller That Reads the Whole Trajectory",
+    "date": "2026-11-17",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.22661v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 3,
+    "abstract": "Executing an idea often changes how promising it looks, so the next step in autonomous research should rest on results, not on proposals. After each round of experiments, the system must decide whether to refine the best solution or start a new direction, which solution to build from, and what goal to set. We call this the between-round decision. Existing systems wrap it in machinery such as rules, scores, search trees, and schedules; where an LLM makes it, what the LLM needs to read is left open. We ask whether an LLM can make this decision from accumulated evidence, without a search structure around it, and how much of that evidence it needs to read. We present BRED (Between-Round Evidence-based Decision), an LLM-based controller that maintains the best verified solution so far (the Champion) and a log of past rounds, and makes one decision per round. On three widely used research-agent benchmark tasks, BRED improves on the task baselines by 4.80% in MAE on ETTh1 (to 0.4172) and by 3.44 and 3.43 points of accuracy on SST-2 (to 95.07%) and CIFAR-100 (to 84.63%), ahead of the published results. When the controller does not read the accumulated evidence, the same loop gains less: with no history it reaches 0.4299 on ETTh1 and 83.71% on CIFAR-100, whereas the full controller's MAE is 2.95% lower and its accuracy 0.92 points higher. On a new task, speech-based depression detection under a leakage-free protocol, it reaches a macro-F1 of 0.6164 on seeds held out from selection, 5.5 points above its baseline and 4.0 above the strongest published system. Code is available at https://github.com/learninginvision/BRED."
+   },
+   "arXiv/2611.21847v1": {
+    "id": "arXiv/2611.21847v1",
+    "title": "Inventa: Decentralized Self-Improving Agents for Autonomous Scientific Discovery",
+    "date": "2026-11-16",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.21847v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 4,
+    "abstract": "Large language model (LLM) agents can generate research ideas and improve scientific discovery through iterative experimentation. However, increasing the number of agents or iterations does not automatically translate to producing more diverse or feasible ideas. Agents may converge on similar candidates, propagate unsupported claims through shared memory components and repeatedly apply search strategies that no longer yield any improvements. We introduce Inventa, a framework for automated scientific discovery that employs autonomous research units and verified shared knowledge. Each unit creates a lineage of candidate ideas using a mutator agent. A local orchestrator agent periodically adapts the mutator's harness. When progress stalls, the orchestrator agent replaces its model or restarts the idea evolution process. Verifiers evaluate each candidate idea and record verified improvements, useful components and constraint violations in a shared knowledge, the only channel between units. We evaluate Inventa on five benchmarks spanning the research cycle, covering retrieval (ScholarCatalyst), ideation (IdeaBench), proposal writing (IdeaScientist), and scientific law discovery (EurekaBench, SciLaws-Bench). It leads all five, achieving 73.6% on EurekaBench versus 56.2% for CORAL. On IdeaBench, it discovers 26.0 novel ideas per paper, compared with 18.6 for ResearchAgent, with 82% fewer model calls."
+   },
+   "arXiv/2611.18235v1": {
+    "id": "arXiv/2611.18235v1",
+    "title": "NeoResearch: Literature- and Experience-Guided Autonomous Time Series Model Discovery",
+    "date": "2026-11-13",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.18235v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 7,
+    "abstract": "Developing effective forecasting models for diverse time-series domains requires substantial expert knowledge, evidence from scientific literature on the web, and iterative experimentation. However, translating this knowledge and research experience into model designs requires preserving source context and testing applicability under task-specific assumptions. In this paper, we propose NeoResearch, a literature- and experience-guided autonomous research framework that leverages large language models (LLMs) as researchers to discover lightweight, domain-specific forecasting models. Specifically, NeoResearch establishes an expert-inspired dual-loop research workflow, coupling hypothesis-driven architecture exploration with iterative training and hyperparameter optimization through experimental feedback. To enable knowledge-grounded discovery, the agent autonomously mines scientific literature from the Web, extracting modeling mechanisms, empirical evidence, and applicability conditions to formulate task-grounded, testable architecture hypotheses. Furthermore, a hierarchical experience memory links literature findings to experimental outcomes and consolidates conditional lessons, guiding architecture discovery and training optimization while supporting reuse across forecasting tasks. Experiments on ten datasets show competitive performance and support dual loops, literature extraction, and memory reuse. Our code is available."
    }
   },
   "TRG-POSE-ORIENTATION-CONVERGENCE": {
@@ -7758,6 +7973,56 @@
     "url": "https://europepmc.org/article/MED/42977243",
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 9
+   },
+   "PMC13761387": {
+    "id": "PMC13761387",
+    "title": "Beyond AlphaFold 3: a standardised benchmark of open-source co-folding models for antibody-antigen complexes, from docking accuracy to interaction specificity",
+    "date": "2026-11-12",
+    "venue": "MAbs",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13761387",
+    "first_seen": "2026-11-20",
+    "duplicate_of_title": true
+   },
+   "MED/43056942": {
+    "id": "MED/43056942",
+    "title": "H-Trp-Glu-OH and H-Glu-Trp-OH dipeptides as potential anticancer agents against glioblastoma multiforme: Multi-target molecular docking, DFT analysis, molecular dynamics simulation, ADMET profiling, and cell viability validation",
+    "date": "2026-11-11",
+    "venue": "Comput Biol Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43056942",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 9
+   },
+   "MED/43050849": {
+    "id": "MED/43050849",
+    "title": "Protein flexibility-based modeling of phenylpiperazine derivatives as mushroom tyrosinase inhibitors via molecular dynamics and cross-docking",
+    "date": "2026-11-11",
+    "venue": "J Mol Graph Model",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43050849",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 9
+   },
+   "PMC13769029": {
+    "id": "PMC13769029",
+    "title": "Metabolite Profiling and Molecular Docking-Based Validation of Anti-Ulcer Polyphenols From Ajwa Date (Phoenix dactylifera L.)",
+    "date": "2026-11-01",
+    "venue": "Chem Biodivers",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13769029",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 19
+   },
+   "PMC13762515": {
+    "id": "PMC13762515",
+    "title": "A Decision-Centric Benchmark of Enrichment and Potency Ranking in CNN-Rescored Molecular Docking",
+    "date": "2026-10-28",
+    "venue": "Int J Mol Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13762515",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 23
    }
   },
   "TRG-COVALENT-EXPOSURE-CRITERION": {
@@ -8184,6 +8449,36 @@
     "url": "https://europepmc.org/article/MED/42995257",
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 7
+   },
+   "MED/43054468": {
+    "id": "MED/43054468",
+    "title": "Computational modeling and experimental validation of nitrile-thiol reactivity in Janus kinase inhibitors",
+    "date": "2026-11-09",
+    "venue": "RSC Med Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43054468",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 11
+   },
+   "PMC13754587": {
+    "id": "PMC13754587",
+    "title": "Altered protein cysteine reactivity in senescent cells is a vulnerability for senolysis to ameliorate aging",
+    "date": "2026-11-06",
+    "venue": "Nat Aging",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13754587",
+    "first_seen": "2026-11-20",
+    "duplicate_of_title": true
+   },
+   "PMC13756064": {
+    "id": "PMC13756064",
+    "title": "A substituted cysteine accessibility protocol to probe orthosteric and non-canonical ligand binding to ion channels",
+    "date": "2026-11-02",
+    "venue": "STAR Protoc",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13756064",
+    "first_seen": "2026-11-20",
+    "duplicate_of_title": true
    }
   },
   "TRG-ANTITARGET-PANEL-PROTOCOL": {
@@ -8476,6 +8771,28 @@
     "first_seen": "2026-10-23",
     "age_days_at_first_seen": 2,
     "abstract": "Abstract    Molecular docking is often combined with ligand-based models to provide receptor-specific interaction information. In this study, we investigated whether such interactions improve the prediction of binding selectivity among aminergic G protein-coupled receptor (GPCR) anti-targets using a stepwise approach. Native redocking successfully reproduced the crystallographic binding poses of the 5-HT2B, histamine H1, and muscarinic M2 receptors, but not those of the dopamine D2 and \u03b11A-adrenergic receptors. In virtual screening against property-matched decoys, H1 and M2 showed moderate discrimination between active and decoy compounds, with ROC-AUC values of 0.717 and 0.704, respectively. In contrast, 5-HT2B performed near chance (ROC-AUC = 0.525), despite highly accurate pose reconstruction (RMSD = 0.14 \u00c5). Structural comparison revealed only four identical ligand-contacting residues across the three receptors: Asp3x32, Ser3x36, Trp6x48, and Tyr7x42. We then examined 35 compounds with experimentally measured binding affinities at H1 and M2, comprising 19 promiscuous and 16 H1-selective compounds. The conserved Asp3x32 salt bridge was observed in 15/16 H1-selective and 12/19 promiscuous compounds docked to H1, compared with 3/16 and 5/19, respectively, at M2. Despite these differences in receptor\u2013ligand interactions, incorporating docking-derived features into Morgan fingerprint-based classifiers did not consistently improve predictive performance under scaffold-grouped cross-validation. Compared with the ligand-only baseline (AUROC = 0.661), adding anchor interactions yielded a modest improvement (\u0394AUROC = +0.020; 95% bootstrap interval: \u22120.029 to 0.088), whereas shell and extended-pocket contacts reduced performance (\u0394AUROC = \u22120.062; 95% bootstrap interval: \u22120.154 to \u22120.010). The complete interaction fingerprint also provided no clear improvement (\u0394AUROC = \u22120.029; 95% bootstrap interval: \u22120.118 to 0.036). Overall, these findings highlight that accurate pose reconstruction and structurally interpretable receptor\u2013ligand interactions do not necessarily translate into improved ligand-based predictions of binding selectivity. Validation using larger datasets and independent receptor systems will be needed to determine whether docking-derived interactions provide predictive benefits beyond ligand-based descriptors."
+   },
+   "MED/43049831": {
+    "id": "MED/43049831",
+    "title": "Multistage Insecticidal Activity of Juniperus phoenicea Essential Oil Against Culex pipiens, a Major West Nile Virus Vector: Biochemical and Histopathological Effects, Molecular Docking, and Non-target Selectivity",
+    "date": "2026-11-18",
+    "venue": "Acta Parasitol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43049831",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 2
+   },
+   "PPR/PPR1367430": {
+    "id": "PPR/PPR1367430",
+    "title": "DeepRNAi: Predicting on- and off-target siRNA activity and establishing a benchmark",
+    "date": "2026-11-13",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1367430",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 7,
+    "abstract": "Small interfering RNAs (siRNAs) silence target genes through RISC-mediated hybridization and cleavage, but can silence unintended transcripts and cause toxicity or complicate regulatory approval. In drug development, empirical assessment by qPCR and RNA-seq is slow, forces early candidate prioritization, and is limited by available species- and genome-appropriate cell models. While extensive empirical screening remains standard practice, there is a significant opportunity for modern AI methods to change this paradigm. We introduce DeepRNAi, a deep learning model that accurately predicts on- and off-target knockdown from siRNA and mRNA sequence. Trained on 16 million siRNA-transcript pairs from 2,031 siRNAs designed to interrogate known siRNA failure modes, and incorporating transcript context from biological foundation models, DeepRNAi is the first  in silico method that approaches experimental accuracy. It generalizes across cell models, transcripts, genomes and species, and in a small study distinguishes approved therapeutics from hepatotoxic candidates. The value of DeepRNAi for prioritizing better candidates up front is supported by a genome-wide survey of 24.4 million siRNAs targeting 7,946 genes, which indicates that 90.1% of the 100 most potent siRNAs have at least some off-target concerns. To support the community, we are publishing a training and benchmark dataset containing 1.84 million siRNA-transcript pairs from 240 siRNAs."
    }
   },
   "TRG-CONDENSATE-PARTNER-RESOLUTION": {
@@ -9130,6 +9447,28 @@
     "url": "https://europepmc.org/article/MED/42986105",
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 12
+   },
+   "PPR/PPR1369583": {
+    "id": "PPR/PPR1369583",
+    "title": "Molecular simulation of ion-mediated phase separation and structural organization in RNA condensates",
+    "date": "2026-11-17",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1369583",
+    "is_preprint": true,
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 3,
+    "abstract": "Phase separation of RNA is strongly influenced by ions, yet the molecular mechanisms by which ion-RNA interactions affect RNA condensation and internal organization remain poorly understood. Here, we use coarse-grained molecular simulations to investigate how temperature, ions and RNA sequence collectively regulate condensate formation and organization. We find that RNA condensates selectively enrich Mg2+ through dynamic multidentate phosphate coordination, producing ion concentrations several orders of magnitude higher than in surrounding solution. Rather than creating a uniform dense phase, this ion enrichment establishes spatial gradients in ion-RNA interactions that generate distinct microenvironments in the condensate. RNAs in the condensate core accumulate more Mg2+, exhibit enhanced base stacking and transient helicity. These heterogeneous ionic environments emerge spontaneously even in condensates composed of a single RNA species and are further modulated by RNA sequence through differences in Mg2+ binding and packing in condensate. Together, our simulations provide a molecular-level framework for understanding the origins of heterogeneous organization in ion-mediated RNA condensates."
+   },
+   "PMC13770894": {
+    "id": "PMC13770894",
+    "title": "Exhaled Breath Condensate-Derived Extracellular Vesicles Isolated via Nanobody-SpyTag3 Fusion Proteins Enable Lung Cancer Diagnosis",
+    "date": "2026-11-01",
+    "venue": "J Extracell Vesicles",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13770894",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 19
    }
   },
   "TRG-FUSION-JUNCTION-CLINICAL": {
@@ -9942,6 +10281,36 @@
     "url": "https://europepmc.org/article/PMC/PMC13740796",
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 46
+   },
+   "MED/43052517": {
+    "id": "MED/43052517",
+    "title": "A phase 1 study of VAC85135, a neoantigen vaccine regimen targeting calreticulin and JAK2 mutations, in combination with ipilimumab in patients with myeloproliferative neoplasms",
+    "date": "2026-08-24",
+    "venue": "Cancer Immunol Immunother",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43052517",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 88
+   },
+   "MED/43045451": {
+    "id": "MED/43045451",
+    "title": "Contemporary Immunotherapy Approaches for Soft Tissue Sarcoma",
+    "date": "2026-06-08",
+    "venue": "Surg Oncol Clin N Am",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43045451",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 165
+   },
+   "PMC13771463": {
+    "id": "PMC13771463",
+    "title": "PSMA-targeted nanoparticles delivering ATR and Src/Bcr-Abl inhibitors to stimulate STING and reprogram senescence-associated secretory phenotype for enhancing immunotherapy in prostate cancer",
+    "date": "2026-11-11",
+    "venue": "Bioact Mater",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13771463",
+    "first_seen": "2026-11-20",
+    "age_days_at_first_seen": 9
    }
   }
  }

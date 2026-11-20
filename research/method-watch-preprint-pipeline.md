@@ -8,12 +8,12 @@ canonical_for: []
 purpose: "Unrefereed preprints matching a named reopening trigger, grouped by the blocker they would reopen — a leading indicator for the forecast bands in the blocker register."
 scope: "Preprints only (Europe PMC SRC:PPR, arXiv, ChemRxiv). The published corpus is on the trigger-scan board."
 audience: [maintainers, autonomous research agents]
-date: 2026-11-13
+date: 2026-11-20
 last_verified: unverified
 ---
 # Preprint pipeline — what is coming, by blocker
 
-**Last run: 2026-11-13** (UTC date stamp from the runner).
+**Last run: 2026-11-20** (UTC date stamp from the runner).
 
 ⛔ **EVERYTHING HERE IS UNREFEREED, TITLE-MATCHED AND UNREAD.** A preprint is the weakest lead this repository records. It cannot move a forecast band, it is not evidence, and nothing here may be cited. Its value is WARNING — it is the earliest point at which a capability becomes visible, often months before the journal version.
 
@@ -27,6 +27,11 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-17 | [The Between-Round Decision in Autonomous Research: An LLM Controller That Reads the Whole Trajectory](http://arxiv.org/abs/2611.22661v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-11-17 | [Molecular simulation of ion-mediated phase separation and structural organization in RNA condensates](https://europepmc.org/article/PPR/PPR1369583) | PPR | `TRG-CONDENSATE-PARTNER-RESOLUTION` ⚠ |
+| 2026-11-16 | [Inventa: Decentralized Self-Improving Agents for Autonomous Scientific Discovery](http://arxiv.org/abs/2611.21847v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-11-13 | [NeoResearch: Literature- and Experience-Guided Autonomous Time Series Model Discovery](http://arxiv.org/abs/2611.18235v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-11-13 | [DeepRNAi: Predicting on- and off-target siRNA activity and establishing a benchmark](https://europepmc.org/article/PPR/PPR1367430) | PPR | `TRG-ANTITARGET-PANEL-PROTOCOL` ⚠ |
 | 2026-11-12 | [Designing Institutions for Autonomous AI](http://arxiv.org/abs/2611.17114v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-11-11 | [A dominant antigen is necessary but not sufficient for effective neoantigen vaccination in murine mesothelioma](https://europepmc.org/article/PPR/PPR1364379) | PPR | `TRG-FUSION-JUNCTION-CLINICAL` ⚠ |
 | 2026-11-09 | [Unveiling immune targets via TriStageHLA: high-throughput screening of peptide presentation, peptide–HLA bindi](https://europepmc.org/article/PPR/PPR1362463) | PPR | `TRG-JUNCTION-PHLA` ⚠ |
@@ -196,6 +201,26 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-02-17 | [RNAiSpline: A Deep learning model for siRNA efficacy prediction](https://europepmc.org/article/PPR/PPR1223467) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**The Between-Round Decision in Autonomous Research: An LLM Controller That Reads the Whole Trajectory** — arXiv, 2026-11-17
+
+> Executing an idea often changes how promising it looks, so the next step in autonomous research should rest on results, not on proposals. After each round of experiments, the system must decide whether to refine the best solution or start a new direction, which solution to build from, and what goal to set. We call this the between-round decision. Existing systems wrap it in machinery such as rules, scores, search trees, and schedules; where an LLM makes it, what the LLM needs to read is left open. We ask whether an LLM can make this decision from accumulated evidence, without a search structure around it, and how much of that evidence it needs to read. We present BRED (Between-Round Evidence-based Decision), an LLM-based controller that maintains the best verified solution so far (the Champion) and a log of past rounds, and makes one decision per round. On three widely used research-agent benchmark tasks, BRED improves on the task baselines by 4.80% in MAE on ETTh1 (to 0.4172) and by 3.44 and 3.43 points of accuracy on SST-2 (to 95.07%) and CIFAR-100 (to 84.63%), ahead of the published results. When the controller does not read the accumulated evidence, the same loop gains less: with no history it reaches 0.4299 on ETTh1 and 83.71% on CIFAR-100, whereas the full controller's MAE is 2.95% lower and its accuracy 0.92 points higher. On a new task, speech-based depression detection
+
+**Molecular simulation of ion-mediated phase separation and structural organization in RNA condensates** — PPR, 2026-11-17
+
+> Phase separation of RNA is strongly influenced by ions, yet the molecular mechanisms by which ion-RNA interactions affect RNA condensation and internal organization remain poorly understood. Here, we use coarse-grained molecular simulations to investigate how temperature, ions and RNA sequence collectively regulate condensate formation and organization. We find that RNA condensates selectively enrich Mg2+ through dynamic multidentate phosphate coordination, producing ion concentrations several orders of magnitude higher than in surrounding solution. Rather than creating a uniform dense phase, this ion enrichment establishes spatial gradients in ion-RNA interactions that generate distinct microenvironments in the condensate. RNAs in the condensate core accumulate more Mg2+, exhibit enhanced base stacking and transient helicity. These heterogeneous ionic environments emerge spontaneously even in condensates composed of a single RNA species and are further modulated by RNA sequence through differences in Mg2+ binding and packing in condensate. Together, our simulations provide a molecular-level framework for understanding the origins of heterogeneous organization in ion-mediated RNA condensates.
+
+**Inventa: Decentralized Self-Improving Agents for Autonomous Scientific Discovery** — arXiv, 2026-11-16
+
+> Large language model (LLM) agents can generate research ideas and improve scientific discovery through iterative experimentation. However, increasing the number of agents or iterations does not automatically translate to producing more diverse or feasible ideas. Agents may converge on similar candidates, propagate unsupported claims through shared memory components and repeatedly apply search strategies that no longer yield any improvements. We introduce Inventa, a framework for automated scientific discovery that employs autonomous research units and verified shared knowledge. Each unit creates a lineage of candidate ideas using a mutator agent. A local orchestrator agent periodically adapts the mutator's harness. When progress stalls, the orchestrator agent replaces its model or restarts the idea evolution process. Verifiers evaluate each candidate idea and record verified improvements, useful components and constraint violations in a shared knowledge, the only channel between units. We evaluate Inventa on five benchmarks spanning the research cycle, covering retrieval (ScholarCatalyst), ideation (IdeaBench), proposal writing (IdeaScientist), and scientific law discovery (EurekaBench, SciLaws-Bench). It leads all five, achieving 73.6% on EurekaBench versus 56.2% for CORAL. On IdeaBench, it discovers 26.0 novel ideas per paper, compared with 18.6 for ResearchAgent, with 82% fe
+
+**NeoResearch: Literature- and Experience-Guided Autonomous Time Series Model Discovery** — arXiv, 2026-11-13
+
+> Developing effective forecasting models for diverse time-series domains requires substantial expert knowledge, evidence from scientific literature on the web, and iterative experimentation. However, translating this knowledge and research experience into model designs requires preserving source context and testing applicability under task-specific assumptions. In this paper, we propose NeoResearch, a literature- and experience-guided autonomous research framework that leverages large language models (LLMs) as researchers to discover lightweight, domain-specific forecasting models. Specifically, NeoResearch establishes an expert-inspired dual-loop research workflow, coupling hypothesis-driven architecture exploration with iterative training and hyperparameter optimization through experimental feedback. To enable knowledge-grounded discovery, the agent autonomously mines scientific literature from the Web, extracting modeling mechanisms, empirical evidence, and applicability conditions to formulate task-grounded, testable architecture hypotheses. Furthermore, a hierarchical experience memory links literature findings to experimental outcomes and consolidates conditional lessons, guiding architecture discovery and training optimization while supporting reuse across forecasting tasks. Experiments on ten datasets show competitive performance and support dual loops, literature extrac
+
+**DeepRNAi: Predicting on- and off-target siRNA activity and establishing a benchmark** — PPR, 2026-11-13
+
+> Small interfering RNAs (siRNAs) silence target genes through RISC-mediated hybridization and cleavage, but can silence unintended transcripts and cause toxicity or complicate regulatory approval. In drug development, empirical assessment by qPCR and RNA-seq is slow, forces early candidate prioritization, and is limited by available species- and genome-appropriate cell models. While extensive empirical screening remains standard practice, there is a significant opportunity for modern AI methods to change this paradigm. We introduce DeepRNAi, a deep learning model that accurately predicts on- and off-target knockdown from siRNA and mRNA sequence. Trained on 16 million siRNA-transcript pairs from 2,031 siRNAs designed to interrogate known siRNA failure modes, and incorporating transcript context from biological foundation models, DeepRNAi is the first  in silico method that approaches experimental accuracy. It generalizes across cell models, transcripts, genomes and species, and in a small study distinguishes approved therapeutics from hepatotoxic candidates. The value of DeepRNAi for prioritizing better candidates up front is supported by a genome-wide survey of 24.4 million siRNAs targeting 7,946 genes, which indicates that 90.1% of the 100 most potent siRNAs have at least some off-target concerns. To support the community, we are publishing a training and benchmark dataset cont
 
 **Designing Institutions for Autonomous AI** — arXiv, 2026-11-12
 
@@ -871,6 +896,8 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-18 | [Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction](https://europepmc.org/article/PPR/PPR1370847) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
+| 2026-11-18 | [ReliFlow: Reliability-Calibrated Residual Transport for Combinatorial Single-Cell Perturbation Prediction](http://arxiv.org/abs/2611.23999v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-09 | [A Survey of AI Virtual Cells: Representation Learning, Perturbation Prediction, and Intervention Design](https://europepmc.org/article/PPR/PPR1361473) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-08 | [scBIG++: Learning Across Genes and Cells to Predict Single-Cell Perturbation Responses](http://arxiv.org/abs/2611.11217v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-03 | [RELAY: Relational In-Context Learning for Cellular Perturbation Prediction](https://europepmc.org/article/PPR/PPR1357659) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -887,6 +914,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-09-29 | [OmniVCBench: Benchmarking Evidence-Grounded Multimodal Reasoning Towards AI Virtual Cells](http://arxiv.org/abs/2609.37773v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-28 | [DRIFT: Disentangled Responsive-Invariant Flow Transport for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2609.35106v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-26 | [AmbiModBench: Benchmarking Gene Perturbation Prediction Beyond Shared Responses](http://arxiv.org/abs/2609.32527v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
+| 2026-09-25 | [PerturbBridge: Conditional Latent Schr&#246dinger Bridge for Single-Cell Perturbation Prediction](https://europepmc.org/article/PPR/PPR1328070) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-23 | [Reference-cell design shapes model evaluation in single-cell perturbation prediction](https://europepmc.org/article/PPR/PPR1325850) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-17 | [CellRFT: Reinforcement Fine-Tuning for Single-Cell Perturbation Modeling](http://arxiv.org/abs/2609.19970v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-10 | [MRFlow: Mechanism-Structured Residual Flow Matching for Virtual Cell Perturbation Prediction](http://arxiv.org/abs/2610.13966v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -938,6 +966,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction** — PPR, 2026-11-18
+
+> Abstract      Prediction of transcriptional responses to genetic perturbations is difficult when the target perturbation is absent from model training. A further challenge is that different predictors can behave differently on different unseen perturbations. This study therefore examines out-ofdistribution (OOD) perturbation prediction as a model-selection problem rather than assuming that one predictor is uniformly optimal. Using an Adamson Perturb-seq dataset containing 65,899 cells, 5,060 genes, and 82 perturbation conditions, we analyze 21 perturbations held out from training. Four candidate predictor configurations are evaluated: GO-only MLP, GenePT-only MLP, GenePT + GO concatenation MLP, and Gated Attention Fusion. For each perturbation, the observed candidate-model performance is used to quantify the opportunity for perturbationspecific selection. The best fixed strategy has mean   R    2   =0.399650, while the oracle upper bound is 0.466234, giving an available selection gap of 0.066584. Importantly, the perturbation-level retrospective adaptive values reported in the study average to   R    2   =0.421228, corresponding to a 0.021578 absolute and 5.40% observed relative improvement over the fixed strategy. Embedding Coverage is also examined as a compact representation-availability descriptor. In this exploratory analysis, it shows negative Spearman associations with O
+
+**ReliFlow: Reliability-Calibrated Residual Transport for Combinatorial Single-Cell Perturbation Prediction** — arXiv, 2026-11-18
+
+> Predicting the transcriptional response to combined perturbations requires distinguishing interactions between interventions from errors in their individual effect estimates. The latter become more pronounced when single-perturbation evidence is sparse or withheld. We introduce a conditional flow-matching model that estimates the reliability of single-gene effects from training-only cross-fitting and uses those estimates to calibrate the additive source distribution. The velocity is decomposed into a known correction of the additive reference and a learned residual transport field. On Norman genetic perturbations, reduces mean absolute error (MAE) from 0.142 to 0.131 for unseen combinations of observed singles and from 0.198 to 0.178 when constituent singles are withheld. On held-out ComboSciPlex drug combinations, MAE decreases from 0.191 to 0.176. Non-additive residual correlation improves from 0.574 to 0.638, and component ablations identify the contribution of reliability weighting. The results indicate that accounting for uncertain constituent effects improves generalization to unseen genetic and chemical combinations, with a moderate increase in training cost.
 
 **A Survey of AI Virtual Cells: Representation Learning, Perturbation Prediction, and Intervention Design** — PPR, 2026-11-09
 
@@ -1002,6 +1038,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 **AmbiModBench: Benchmarking Gene Perturbation Prediction Beyond Shared Responses** — arXiv, 2026-09-26
 
 > Predicting cellular responses to genetic perturbations helps prioritize experiments in single-cell genomics, where exhaustive measurement is infeasible. While computational models increasingly predict these responses, three evaluation deficiencies obscure what their scores demonstrate. First, absolute metrics cannot separate target-specific predictions from a shared background response. Second, common metrics remain high under gene shuffling, so gene-level accuracy is never verified. Third, a score at one training size says nothing about coverage, which depends on representation-space proximity and response-constraining power. We propose AmbiModBench, a specificity-aware, gene-resolved and coverage-aware benchmark. It pairs every score with a training-mean reference fitted on the same split, screens each readout by gene-coordinate permutation, and links embedding distance to response variation. Across K562, RPE1 and Norman, strong absolute scores largely reflect shared background rather than target-specific learning. Widely used readouts track response magnitude distributions rather than the affected genes. Detectable gain follows representation-space coverage rather than training-set size. Nonetheless, on RPE1 the protocol yields a reproducible target-specific gain across five additional splits and three gene selections, which absolute scores alone cannot distinguish from shar
+
+**PerturbBridge: Conditional Latent Schr&#246dinger Bridge for Single-Cell Perturbation Prediction** — PPR, 2026-09-25
+
+> \textbf{Motivation:}Single-cell perturbation prediction seeks to recover transcriptional responses to unseen interventions from unpaired control and perturbed populations. The Schr\"odinger Bridge provides a principled framework for modeling these transitions as stochastic transport, but learning bridge dynamics directly from high-dimensional, sparse gene-expression profiles remains challenging. \textbf{Results:} We present PerturbBridge, a conditional latent Schr\"odinger Bridge framework for single-cell perturbation response prediction. A response-anchored autoencoder constructs a compact cellular representation that preserves dominant transcriptional response directions identified from training perturbations while encoding complementary cellular variation. In this latent space, PerturbBridge models conditional stochastic transport through a tractable approximation to the Schr\"odinger Bridge. We introduce the Perturbation-Induced Bridge Transformer, which uses perturbation and time-dependent slots to guide interactions among latent coordinates during drift estimation. Evaluations on Norman, Sci-Plex3, and Replogle RPE1 demonstrate leading performance in differential-expression direction recovery and perturbation-effect correlation, alongside competitive gene-expression prediction accuracy. \textbf{Availability:} The source code is available at \url{https://github.com/echQoQ/
 
 **Reference-cell design shapes model evaluation in single-cell perturbation prediction** — PPR, 2026-09-23
 
@@ -1256,9 +1296,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-11 | [BRD9 inhibition induces selective radiosensitivity in glioblastoma through MYC pathway modulation](https://europepmc.org/article/PPR/PPR1296398) | PPR | `TRG-PARALOGUE-POSITIVE-CONTROL` ⚠ |
 | 2026-05-27 | [Kinetic Signatures of RAS–BRAF Engagement Reveal Isoform Selectivity, Oncogenic Amplification, and Mutation-De](https://europepmc.org/article/PPR/PPR1241216) | PPR | `TRG-PARALOGUE-POSITIVE-CONTROL` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**BRD9 inhibition induces selective radiosensitivity in glioblastoma through MYC pathway modulation** — PPR, 2026-08-11
+
+> ABSTRACT   Radiotherapy (RT) is a cornerstone of glioblastoma (GBM) treatment, yet therapeutic resistance remains nearly universal due to the rapid activation of stress-adaptive survival programs. Identifying molecular regulators that sustain these adaptive responses may reveal context-dependent vulnerabilities that can be therapeutically exploited. Here, we performed an epigenetic drug screen under low-dose irradiation to identify modifiers of radiotherapy response in glioblastoma. We identify BRD9 inhibition as a priming strategy that selectively enhances irradiation-induced lethality without inducing substantial cytotoxicity under baseline conditions. Mechanistically, BRD9 perturbation delays the resolution of irradiation-induced DNA damage, leading to increased apoptosis following irradiation. This effect is selective for malignant glioblastoma cell lines and patient-derived primary cells, while sparing non-malignant human astrocytes. Transcriptomic profiling reveals that BRD9 inhibition or genetic depletion produces a coordinated, MYC-centered suppression of translational programs, including ribosome biogenesis, rRNA processing, tRNA aminoacylation, and translational initiation. Ectopic MYC expression attenuates BRD9-dependent radiosensitization, functionally linking MYC suppression to the enhanced radiation response. Importantly, analysis of independent glioblastoma patie
 
 **Kinetic Signatures of RAS–BRAF Engagement Reveal Isoform Selectivity, Oncogenic Amplification, and Mutation-Dependent Inhibitor Resistance** — PPR, 2026-05-27
 
@@ -1272,6 +1317,8 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-18 | [Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction](https://europepmc.org/article/PPR/PPR1370847) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
+| 2026-11-18 | [ReliFlow: Reliability-Calibrated Residual Transport for Combinatorial Single-Cell Perturbation Prediction](http://arxiv.org/abs/2611.23999v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-11-09 | [A Survey of AI Virtual Cells: Representation Learning, Perturbation Prediction, and Intervention Design](https://europepmc.org/article/PPR/PPR1361473) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-11-08 | [scBIG++: Learning Across Genes and Cells to Predict Single-Cell Perturbation Responses](http://arxiv.org/abs/2611.11217v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-11-03 | [RELAY: Relational In-Context Learning for Cellular Perturbation Prediction](https://europepmc.org/article/PPR/PPR1357659) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
@@ -1288,6 +1335,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-09-29 | [OmniVCBench: Benchmarking Evidence-Grounded Multimodal Reasoning Towards AI Virtual Cells](http://arxiv.org/abs/2609.37773v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-09-28 | [DRIFT: Disentangled Responsive-Invariant Flow Transport for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2609.35106v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-09-26 | [AmbiModBench: Benchmarking Gene Perturbation Prediction Beyond Shared Responses](http://arxiv.org/abs/2609.32527v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
+| 2026-09-25 | [PerturbBridge: Conditional Latent Schr&#246dinger Bridge for Single-Cell Perturbation Prediction](https://europepmc.org/article/PPR/PPR1328070) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-09-23 | [Reference-cell design shapes model evaluation in single-cell perturbation prediction](https://europepmc.org/article/PPR/PPR1325850) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-09-17 | [CellRFT: Reinforcement Fine-Tuning for Single-Cell Perturbation Modeling](http://arxiv.org/abs/2609.19970v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-09-10 | [MRFlow: Mechanism-Structured Residual Flow Matching for Virtual Cell Perturbation Prediction](http://arxiv.org/abs/2610.13966v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
@@ -1336,6 +1384,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-04-21 | [AblateCell: A Reproduce-then-Ablate Agent for Virtual Cell Repositories](http://arxiv.org/abs/2604.19606v2) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction** — PPR, 2026-11-18
+
+> Abstract      Prediction of transcriptional responses to genetic perturbations is difficult when the target perturbation is absent from model training. A further challenge is that different predictors can behave differently on different unseen perturbations. This study therefore examines out-ofdistribution (OOD) perturbation prediction as a model-selection problem rather than assuming that one predictor is uniformly optimal. Using an Adamson Perturb-seq dataset containing 65,899 cells, 5,060 genes, and 82 perturbation conditions, we analyze 21 perturbations held out from training. Four candidate predictor configurations are evaluated: GO-only MLP, GenePT-only MLP, GenePT + GO concatenation MLP, and Gated Attention Fusion. For each perturbation, the observed candidate-model performance is used to quantify the opportunity for perturbationspecific selection. The best fixed strategy has mean   R    2   =0.399650, while the oracle upper bound is 0.466234, giving an available selection gap of 0.066584. Importantly, the perturbation-level retrospective adaptive values reported in the study average to   R    2   =0.421228, corresponding to a 0.021578 absolute and 5.40% observed relative improvement over the fixed strategy. Embedding Coverage is also examined as a compact representation-availability descriptor. In this exploratory analysis, it shows negative Spearman associations with O
+
+**ReliFlow: Reliability-Calibrated Residual Transport for Combinatorial Single-Cell Perturbation Prediction** — arXiv, 2026-11-18
+
+> Predicting the transcriptional response to combined perturbations requires distinguishing interactions between interventions from errors in their individual effect estimates. The latter become more pronounced when single-perturbation evidence is sparse or withheld. We introduce a conditional flow-matching model that estimates the reliability of single-gene effects from training-only cross-fitting and uses those estimates to calibrate the additive source distribution. The velocity is decomposed into a known correction of the additive reference and a learned residual transport field. On Norman genetic perturbations, reduces mean absolute error (MAE) from 0.142 to 0.131 for unseen combinations of observed singles and from 0.198 to 0.178 when constituent singles are withheld. On held-out ComboSciPlex drug combinations, MAE decreases from 0.191 to 0.176. Non-additive residual correlation improves from 0.574 to 0.638, and component ablations identify the contribution of reliability weighting. The results indicate that accounting for uncertain constituent effects improves generalization to unseen genetic and chemical combinations, with a moderate increase in training cost.
 
 **A Survey of AI Virtual Cells: Representation Learning, Perturbation Prediction, and Intervention Design** — PPR, 2026-11-09
 
@@ -1400,6 +1456,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 **AmbiModBench: Benchmarking Gene Perturbation Prediction Beyond Shared Responses** — arXiv, 2026-09-26
 
 > Predicting cellular responses to genetic perturbations helps prioritize experiments in single-cell genomics, where exhaustive measurement is infeasible. While computational models increasingly predict these responses, three evaluation deficiencies obscure what their scores demonstrate. First, absolute metrics cannot separate target-specific predictions from a shared background response. Second, common metrics remain high under gene shuffling, so gene-level accuracy is never verified. Third, a score at one training size says nothing about coverage, which depends on representation-space proximity and response-constraining power. We propose AmbiModBench, a specificity-aware, gene-resolved and coverage-aware benchmark. It pairs every score with a training-mean reference fitted on the same split, screens each readout by gene-coordinate permutation, and links embedding distance to response variation. Across K562, RPE1 and Norman, strong absolute scores largely reflect shared background rather than target-specific learning. Widely used readouts track response magnitude distributions rather than the affected genes. Detectable gain follows representation-space coverage rather than training-set size. Nonetheless, on RPE1 the protocol yields a reproducible target-specific gain across five additional splits and three gene selections, which absolute scores alone cannot distinguish from shar
+
+**PerturbBridge: Conditional Latent Schr&#246dinger Bridge for Single-Cell Perturbation Prediction** — PPR, 2026-09-25
+
+> \textbf{Motivation:}Single-cell perturbation prediction seeks to recover transcriptional responses to unseen interventions from unpaired control and perturbed populations. The Schr\"odinger Bridge provides a principled framework for modeling these transitions as stochastic transport, but learning bridge dynamics directly from high-dimensional, sparse gene-expression profiles remains challenging. \textbf{Results:} We present PerturbBridge, a conditional latent Schr\"odinger Bridge framework for single-cell perturbation response prediction. A response-anchored autoencoder constructs a compact cellular representation that preserves dominant transcriptional response directions identified from training perturbations while encoding complementary cellular variation. In this latent space, PerturbBridge models conditional stochastic transport through a tractable approximation to the Schr\"odinger Bridge. We introduce the Perturbation-Induced Bridge Transformer, which uses perturbation and time-dependent slots to guide interactions among latent coordinates during drift estimation. Evaluations on Norman, Sci-Plex3, and Replogle RPE1 demonstrate leading performance in differential-expression direction recovery and perturbation-effect correlation, alongside competitive gene-expression prediction accuracy. \textbf{Availability:} The source code is available at \url{https://github.com/echQoQ/
 
 **Reference-cell design shapes model evaluation in single-cell perturbation prediction** — PPR, 2026-09-23
 
@@ -1591,6 +1651,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-17 | [Rational Design of Molecular Glue Degraders Utilizing Endogenous Transient Protein-Protein Interactions](https://europepmc.org/article/PPR/PPR1369959) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-11-11 | [DiffTernary: a Diffusion Model for Molecular Glue Ternary Complex Docking](https://europepmc.org/article/PPR/PPR1364737) | PPR | `TRG-TERNARY-GEN-NO-SITES` |
 | 2026-10-18 | [DNA-Encoded Library-Guided Discovery of a First-in-Class Molecular Glue of the NOS1AP-SCRIB Complex in Alzheim](https://europepmc.org/article/PPR/PPR1344515) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-09-11 | [Discovery of a molecular glue inhibitor that stabilises a non-productive Kalirin-Rac1 complex](https://europepmc.org/article/PPR/PPR1317725) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
@@ -1606,6 +1667,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Leveraging High-Throughput Proteomics and AI-Based Protein Folding to Accelerate VAV1 Molecular Glue Discovery](https://europepmc.org/article/PPR/PPR1164287) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Rational Design of Molecular Glue Degraders Utilizing Endogenous Transient Protein-Protein Interactions** — PPR, 2026-11-17
+
+> Molecular glues are small molecules that modulate protein activity by inducing or stabilizing protein-protein interactions (PPIs). However, identifying and harnessing endogenous protein pairs amenable to small-molecule-mediated stabilization remains a major challenge in molecular glue development. Here we introduce transient interface pocket-guided molecular glue rational design (TrIP-MGRD), a strategy that shifts compound discovery from empirical screening toward rational, interaction-guided design by exploiting druggable pockets at transient PPI interfaces. Using CDK12 as a model target, we identified DDB1 as an endogenous transient interaction partner and determined the DDB1-CDK12-CCNK complex structure by cryo-electron microscopy (cryo-EM). Structure-guided virtual screening and medicinal chemistry optimization yielded a molecular glue C432 that stabilized this interaction. Comparison of the ligand-free and C432-bound complexes revealed pre-existing contacts at the transient CDK12-DDB1 interface provides a structural basis for compound-mediated stabilization. Collectively, by integrating endogenous partner identification with interface-guided screening, TrIP-MGRD provides a new framework for target-directed molecular glue discovery.
 
 **DiffTernary: a Diffusion Model for Molecular Glue Ternary Complex Docking** — PPR, 2026-11-11
 
@@ -1665,6 +1730,8 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-18 | [Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction](https://europepmc.org/article/PPR/PPR1370847) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
+| 2026-11-18 | [ReliFlow: Reliability-Calibrated Residual Transport for Combinatorial Single-Cell Perturbation Prediction](http://arxiv.org/abs/2611.23999v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-09 | [A Survey of AI Virtual Cells: Representation Learning, Perturbation Prediction, and Intervention Design](https://europepmc.org/article/PPR/PPR1361473) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-08 | [scBIG++: Learning Across Genes and Cells to Predict Single-Cell Perturbation Responses](http://arxiv.org/abs/2611.11217v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-03 | [RELAY: Relational In-Context Learning for Cellular Perturbation Prediction](https://europepmc.org/article/PPR/PPR1357659) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -1681,6 +1748,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-09-29 | [OmniVCBench: Benchmarking Evidence-Grounded Multimodal Reasoning Towards AI Virtual Cells](http://arxiv.org/abs/2609.37773v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-28 | [DRIFT: Disentangled Responsive-Invariant Flow Transport for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2609.35106v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-26 | [AmbiModBench: Benchmarking Gene Perturbation Prediction Beyond Shared Responses](http://arxiv.org/abs/2609.32527v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
+| 2026-09-25 | [PerturbBridge: Conditional Latent Schr&#246dinger Bridge for Single-Cell Perturbation Prediction](https://europepmc.org/article/PPR/PPR1328070) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-23 | [Reference-cell design shapes model evaluation in single-cell perturbation prediction](https://europepmc.org/article/PPR/PPR1325850) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-17 | [CellRFT: Reinforcement Fine-Tuning for Single-Cell Perturbation Modeling](http://arxiv.org/abs/2609.19970v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-09-10 | [MRFlow: Mechanism-Structured Residual Flow Matching for Virtual Cell Perturbation Prediction](http://arxiv.org/abs/2610.13966v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -1733,6 +1801,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction** — PPR, 2026-11-18
+
+> Abstract      Prediction of transcriptional responses to genetic perturbations is difficult when the target perturbation is absent from model training. A further challenge is that different predictors can behave differently on different unseen perturbations. This study therefore examines out-ofdistribution (OOD) perturbation prediction as a model-selection problem rather than assuming that one predictor is uniformly optimal. Using an Adamson Perturb-seq dataset containing 65,899 cells, 5,060 genes, and 82 perturbation conditions, we analyze 21 perturbations held out from training. Four candidate predictor configurations are evaluated: GO-only MLP, GenePT-only MLP, GenePT + GO concatenation MLP, and Gated Attention Fusion. For each perturbation, the observed candidate-model performance is used to quantify the opportunity for perturbationspecific selection. The best fixed strategy has mean   R    2   =0.399650, while the oracle upper bound is 0.466234, giving an available selection gap of 0.066584. Importantly, the perturbation-level retrospective adaptive values reported in the study average to   R    2   =0.421228, corresponding to a 0.021578 absolute and 5.40% observed relative improvement over the fixed strategy. Embedding Coverage is also examined as a compact representation-availability descriptor. In this exploratory analysis, it shows negative Spearman associations with O
+
+**ReliFlow: Reliability-Calibrated Residual Transport for Combinatorial Single-Cell Perturbation Prediction** — arXiv, 2026-11-18
+
+> Predicting the transcriptional response to combined perturbations requires distinguishing interactions between interventions from errors in their individual effect estimates. The latter become more pronounced when single-perturbation evidence is sparse or withheld. We introduce a conditional flow-matching model that estimates the reliability of single-gene effects from training-only cross-fitting and uses those estimates to calibrate the additive source distribution. The velocity is decomposed into a known correction of the additive reference and a learned residual transport field. On Norman genetic perturbations, reduces mean absolute error (MAE) from 0.142 to 0.131 for unseen combinations of observed singles and from 0.198 to 0.178 when constituent singles are withheld. On held-out ComboSciPlex drug combinations, MAE decreases from 0.191 to 0.176. Non-additive residual correlation improves from 0.574 to 0.638, and component ablations identify the contribution of reliability weighting. The results indicate that accounting for uncertain constituent effects improves generalization to unseen genetic and chemical combinations, with a moderate increase in training cost.
 
 **A Survey of AI Virtual Cells: Representation Learning, Perturbation Prediction, and Intervention Design** — PPR, 2026-11-09
 
@@ -1797,6 +1873,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 **AmbiModBench: Benchmarking Gene Perturbation Prediction Beyond Shared Responses** — arXiv, 2026-09-26
 
 > Predicting cellular responses to genetic perturbations helps prioritize experiments in single-cell genomics, where exhaustive measurement is infeasible. While computational models increasingly predict these responses, three evaluation deficiencies obscure what their scores demonstrate. First, absolute metrics cannot separate target-specific predictions from a shared background response. Second, common metrics remain high under gene shuffling, so gene-level accuracy is never verified. Third, a score at one training size says nothing about coverage, which depends on representation-space proximity and response-constraining power. We propose AmbiModBench, a specificity-aware, gene-resolved and coverage-aware benchmark. It pairs every score with a training-mean reference fitted on the same split, screens each readout by gene-coordinate permutation, and links embedding distance to response variation. Across K562, RPE1 and Norman, strong absolute scores largely reflect shared background rather than target-specific learning. Widely used readouts track response magnitude distributions rather than the affected genes. Detectable gain follows representation-space coverage rather than training-set size. Nonetheless, on RPE1 the protocol yields a reproducible target-specific gain across five additional splits and three gene selections, which absolute scores alone cannot distinguish from shar
+
+**PerturbBridge: Conditional Latent Schr&#246dinger Bridge for Single-Cell Perturbation Prediction** — PPR, 2026-09-25
+
+> \textbf{Motivation:}Single-cell perturbation prediction seeks to recover transcriptional responses to unseen interventions from unpaired control and perturbed populations. The Schr\"odinger Bridge provides a principled framework for modeling these transitions as stochastic transport, but learning bridge dynamics directly from high-dimensional, sparse gene-expression profiles remains challenging. \textbf{Results:} We present PerturbBridge, a conditional latent Schr\"odinger Bridge framework for single-cell perturbation response prediction. A response-anchored autoencoder constructs a compact cellular representation that preserves dominant transcriptional response directions identified from training perturbations while encoding complementary cellular variation. In this latent space, PerturbBridge models conditional stochastic transport through a tractable approximation to the Schr\"odinger Bridge. We introduce the Perturbation-Induced Bridge Transformer, which uses perturbation and time-dependent slots to guide interactions among latent coordinates during drift estimation. Evaluations on Norman, Sci-Plex3, and Replogle RPE1 demonstrate leading performance in differential-expression direction recovery and perturbation-effect correlation, alongside competitive gene-expression prediction accuracy. \textbf{Availability:} The source code is available at \url{https://github.com/echQoQ/
 
 **Reference-cell design shapes model evaluation in single-cell perturbation prediction** — PPR, 2026-09-23
 
@@ -2004,9 +2084,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-13 | [Toward Resilient Self-Driving Laboratories through Telerobotic Interventions](http://arxiv.org/abs/2611.18496v1) | arXiv | `TRG-CLOUD-WET-LAB` |
 | 2026-07-24 | [Model-dependent GD2 upregulation in Ewing sarcoma with the EZH2 inhibitor tazemetostat: Prerequisites for comb](https://europepmc.org/article/PPR/PPR1284994) | PPR | `TRG-EMC-FUNCTIONAL-MODEL` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Toward Resilient Self-Driving Laboratories through Telerobotic Interventions** — arXiv, 2026-11-13
+
+> Self-driving laboratories (SDLs) accelerate scientific research by integrating robotics, automated experimentation, and machine learning to execute experiments autonomously. Biology and chemistry have adopted these systems. However, increasing SDL complexity heightens susceptibility to unexpected faults in automated workflows, highlighting the need for efficient recovery mechanisms. In this study, we investigate telerobotic interventions to enhance SDL resilience against unexpected failures. We developed a teleoperation interface enabling human operators to resolve disruptions during automated tasks. The interface enables precise control of a six-degree-of-freedom (DOF) robotic arm (UR3e) using a 3D mouse (3Dconnexion SpaceMouse Pro). Two velocity-based controller strategies were evaluated: (i) a coupled mode mapping all six DOFs to the 3D mouse's central knob and (ii) a decoupled mode separating translational and rotational motions. To evaluate the framework, teleoperators intervened across three SDL fault scenarios. In the first study, comparative trials showed that the decoupled controller was associated with shorter completion times and reduced rotational motion. In a second study, teleoperators performed an aiming task with and without reference-path guidance. Users were more target-driven and risk-tolerant without guidance but showed behavioral differences under different
 
 **Model-dependent GD2 upregulation in Ewing sarcoma with the EZH2 inhibitor tazemetostat: Prerequisites for combination with GD2-specific CAR T cells** — PPR, 2026-07-24
 
@@ -2018,9 +2103,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-11 | [BRD9 inhibition induces selective radiosensitivity in glioblastoma through MYC pathway modulation](https://europepmc.org/article/PPR/PPR1296398) | PPR | `TRG-PARALOGUE-POSITIVE-CONTROL` |
 | 2026-05-27 | [Kinetic Signatures of RAS–BRAF Engagement Reveal Isoform Selectivity, Oncogenic Amplification, and Mutation-De](https://europepmc.org/article/PPR/PPR1241216) | PPR | `TRG-PARALOGUE-POSITIVE-CONTROL` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**BRD9 inhibition induces selective radiosensitivity in glioblastoma through MYC pathway modulation** — PPR, 2026-08-11
+
+> ABSTRACT   Radiotherapy (RT) is a cornerstone of glioblastoma (GBM) treatment, yet therapeutic resistance remains nearly universal due to the rapid activation of stress-adaptive survival programs. Identifying molecular regulators that sustain these adaptive responses may reveal context-dependent vulnerabilities that can be therapeutically exploited. Here, we performed an epigenetic drug screen under low-dose irradiation to identify modifiers of radiotherapy response in glioblastoma. We identify BRD9 inhibition as a priming strategy that selectively enhances irradiation-induced lethality without inducing substantial cytotoxicity under baseline conditions. Mechanistically, BRD9 perturbation delays the resolution of irradiation-induced DNA damage, leading to increased apoptosis following irradiation. This effect is selective for malignant glioblastoma cell lines and patient-derived primary cells, while sparing non-malignant human astrocytes. Transcriptomic profiling reveals that BRD9 inhibition or genetic depletion produces a coordinated, MYC-centered suppression of translational programs, including ribosome biogenesis, rRNA processing, tRNA aminoacylation, and translational initiation. Ectopic MYC expression attenuates BRD9-dependent radiosensitization, functionally linking MYC suppression to the enhanced radiation response. Importantly, analysis of independent glioblastoma patie
 
 **Kinetic Signatures of RAS–BRAF Engagement Reveal Isoform Selectivity, Oncogenic Amplification, and Mutation-Dependent Inhibitor Resistance** — PPR, 2026-05-27
 
@@ -2034,6 +2124,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-17 | [Rational Design of Molecular Glue Degraders Utilizing Endogenous Transient Protein-Protein Interactions](https://europepmc.org/article/PPR/PPR1369959) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-10-18 | [DNA-Encoded Library-Guided Discovery of a First-in-Class Molecular Glue of the NOS1AP-SCRIB Complex in Alzheim](https://europepmc.org/article/PPR/PPR1344515) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-09-11 | [Discovery of a molecular glue inhibitor that stabilises a non-productive Kalirin-Rac1 complex](https://europepmc.org/article/PPR/PPR1317725) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-09-08 | [Direct-to-Biology Strategy Accelerates CRBN-Targeting Molecular Glue Degrader Discovery](https://europepmc.org/article/PPR/PPR1314942) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
@@ -2046,6 +2137,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Leveraging High-Throughput Proteomics and AI-Based Protein Folding to Accelerate VAV1 Molecular Glue Discovery](https://europepmc.org/article/PPR/PPR1164287) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Rational Design of Molecular Glue Degraders Utilizing Endogenous Transient Protein-Protein Interactions** — PPR, 2026-11-17
+
+> Molecular glues are small molecules that modulate protein activity by inducing or stabilizing protein-protein interactions (PPIs). However, identifying and harnessing endogenous protein pairs amenable to small-molecule-mediated stabilization remains a major challenge in molecular glue development. Here we introduce transient interface pocket-guided molecular glue rational design (TrIP-MGRD), a strategy that shifts compound discovery from empirical screening toward rational, interaction-guided design by exploiting druggable pockets at transient PPI interfaces. Using CDK12 as a model target, we identified DDB1 as an endogenous transient interaction partner and determined the DDB1-CDK12-CCNK complex structure by cryo-electron microscopy (cryo-EM). Structure-guided virtual screening and medicinal chemistry optimization yielded a molecular glue C432 that stabilized this interaction. Comparison of the ligand-free and C432-bound complexes revealed pre-existing contacts at the transient CDK12-DDB1 interface provides a structural basis for compound-mediated stabilization. Collectively, by integrating endogenous partner identification with interface-guided screening, TrIP-MGRD provides a new framework for target-directed molecular glue discovery.
 
 **DNA-Encoded Library-Guided Discovery of a First-in-Class Molecular Glue of the NOS1AP-SCRIB Complex in Alzheimer’s Disease Patient-Derived Neurons** — PPR, 2026-10-18
 
@@ -2234,6 +2329,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-19 | [Arginine as a ‘Molecular Glue’ for Robust Hierarchical Supramolecular Assembly](https://europepmc.org/article/PPR/PPR1371941) | PPR | `TRG-COFOLD-TERNARY-ASSEMBLY` |
 | 2026-11-11 | [GluePlex: harnessing a co-folding model to predict molecular-glueinduced CRBN-neosubstrate ternary complex str](https://europepmc.org/article/PPR/PPR1364588) | PPR | `TRG-COFOLD-TERNARY-ASSEMBLY` |
 | 2026-11-11 | [DiffTernary: a Diffusion Model for Molecular Glue Ternary Complex Docking](https://europepmc.org/article/PPR/PPR1364737) | PPR | `TRG-TERNARY-GEN-NO-SITES` |
 | 2026-08-13 | [MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction](https://europepmc.org/article/PPR/PPR1298863) | PPR | `TRG-COFOLD-TERNARY-ASSEMBLY` |
@@ -2243,6 +2339,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-06-17 | [DesignMaster: A Multi-Conditional Diffusion Framework for Rational PROTAC Design](https://europepmc.org/article/PPR/PPR1255325) | PPR | `TRG-TERNARY-GEN-NO-SITES` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Arginine as a ‘Molecular Glue’ for Robust Hierarchical Supramolecular Assembly** — PPR, 2026-11-19
+
+> Abstract    Hierarchical supramolecular assembly—materials ordered across multiple length scales via weak non-covalent interactions—is nature’s primary strategy for constructing complex functional materials; however, its implementation in synthetic systems is fundamentally limited by intrinsic structural fragility. While biological systems achieve robustness through embedding their assemblies within dynamic protein scaffolds, synthetic supramolecular architectures often degrade under real-world conditions. Here, we demonstrate that arginine acts as a ‘molecular glue’ to mediate the hierarchical assembly of a cyanine-based model system, resulting in unprecedented structural robustness. Through a combination of optical spectroscopy, cryogenic-electron and near-field scanning optical microscopy, and density functional theory, we show that these arginine-mediated assemblies remain robust even upon dilution in challenging biological environments (cell culture media), or after complete dehydration on solid substrates. Our bioinspired approach overcomes the longstanding stability limitations of non-covalent materials, providing a versatile, robust framework for next-generation organic device applications in nanomedicine, renewable energy, or information technology.
 
 **GluePlex: harnessing a co-folding model to predict molecular-glueinduced CRBN-neosubstrate ternary complex structures** — PPR, 2026-11-11
 
