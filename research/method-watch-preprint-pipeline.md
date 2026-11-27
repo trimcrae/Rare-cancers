@@ -8,12 +8,12 @@ canonical_for: []
 purpose: "Unrefereed preprints matching a named reopening trigger, grouped by the blocker they would reopen — a leading indicator for the forecast bands in the blocker register."
 scope: "Preprints only (Europe PMC SRC:PPR, arXiv, ChemRxiv). The published corpus is on the trigger-scan board."
 audience: [maintainers, autonomous research agents]
-date: 2026-11-20
+date: 2026-11-27
 last_verified: unverified
 ---
 # Preprint pipeline — what is coming, by blocker
 
-**Last run: 2026-11-20** (UTC date stamp from the runner).
+**Last run: 2026-11-27** (UTC date stamp from the runner).
 
 ⛔ **EVERYTHING HERE IS UNREFEREED, TITLE-MATCHED AND UNREAD.** A preprint is the weakest lead this repository records. It cannot move a forecast band, it is not evidence, and nothing here may be cited. Its value is WARNING — it is the earliest point at which a capability becomes visible, often months before the journal version.
 
@@ -27,6 +27,9 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-26 | [Network Pharmacology, Molecular Docking, and In Vitro Validation Suggest that Xiaoluo Wan Attenuates Central P](https://europepmc.org/article/PPR/PPR1378574) | PPR | `TRG-POSE-ORIENTATION-CONVERGENCE` ⚠ |
+| 2026-11-25 | [OncoVarAgent: An Autonomous Research Agent for Discovering Potential Therapeutic Strategies for Somatic Cancer](https://europepmc.org/article/PPR/PPR1378019) | PPR | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-11-23 | [siGMA: Modeling Label Noise and Heterogeneity in siRNA Efficacy Prediction](https://europepmc.org/article/PPR/PPR1375506) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
 | 2026-11-17 | [The Between-Round Decision in Autonomous Research: An LLM Controller That Reads the Whole Trajectory](http://arxiv.org/abs/2611.22661v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-11-17 | [Molecular simulation of ion-mediated phase separation and structural organization in RNA condensates](https://europepmc.org/article/PPR/PPR1369583) | PPR | `TRG-CONDENSATE-PARTNER-RESOLUTION` ⚠ |
 | 2026-11-16 | [Inventa: Decentralized Self-Improving Agents for Autonomous Scientific Discovery](http://arxiv.org/abs/2611.21847v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
@@ -201,6 +204,18 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-02-17 | [RNAiSpline: A Deep learning model for siRNA efficacy prediction](https://europepmc.org/article/PPR/PPR1223467) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Network Pharmacology, Molecular Docking, and In Vitro Validation Suggest that Xiaoluo Wan Attenuates Central Precocious Puberty via the Bile Acid–TGR5–PI3K/Akt Axis** — PPR, 2026-11-26
+
+> Abstract    Background  Central precocious puberty (CPP), defined as the premature reactivation of the hypothalamic–pituitary–gonadal axis, is increasingly prevalent in children, particularly in the context of childhood obesity. Emerging evidence implicates bile acid signalling—especially the muricholic acid (MCA)–TGR5–PI3K/Akt pathway—as a metabolic link between obesity and early pubertal onset. Xiaoluo Wan (XLW), a classical traditional Chinese medicine (TCM) formula composed of Scrophulariae Radix (Xuanshen), Fritillariae Thunbergii Bulbus (Zhebeimu), and Ostreae Concha (Muli), has long been used clinically for TCM syndromes associated with precocious puberty; however, its underlying pharmacological mechanisms remain unclear. This study aimed to systematically predict the bioactive compounds, potential targets, and signalling pathways of XLW against CPP using network pharmacology and molecular docking, and to validate the core predictions in a GnRH neuronal cell model. Methods  Candidate compounds of XLW were retrieved from the TCMSP and BATMAN-TCM databases and screened by oral bioavailability, drug-likeness, molecular weight, and SwissADME pharmacokinetic criteria. Compound-related targets were predicted with SwissTargetPrediction. CPP-related genes were collected from GeneCards, OMIM, DrugBank, and DisGeNET. Intersection targets were subjected to protein–protein interacti
+
+**OncoVarAgent: An Autonomous Research Agent for Discovering Potential Therapeutic Strategies for Somatic Cancer Variants Lacking Established Guidance** — PPR, 2026-11-25
+
+> Background:   Variant interpretation remains a major challenge in precision oncology, particularly for somatic cancer variants that lack established standard-of-care therapeutic guidance. However, relevant evidence is often dispersed across biomedical literature and clinical trial databases, making manual identification and synthesis labor-intensive and difficult to scale. This study aims to develop an efficient LLM-based agent to automatically identify and synthesize evidence to support somatic cancer variant interpretation in precision oncology. Methods We developed OncoVarAgent, powered by GPT-5.4, an autonomous artificial intelligence agent designed to discover potential therapeutic strategies for somatic cancer variants without standard-of-care drugs. OncoVarAgent uses the ReAct reasoning-and-acting framework to dynamically query PubMed and ClinicalTrials.gov, analyze heterogeneous evidence, and generate structured reports. We evaluated OncoVarAgent using a benchmark cohort of 30 AMP Tier II-III somatic cancer variants across nine tumor types. Generated reports were independently reviewed by domain experts across predefined dimensions, including scientific accuracy, evidence relevance, therapeutic hypothesis plausibility, clinical utility, and completeness. Results Among the 30 evaluated variants, OncoVarAgent identified candidate therapeutic evidence for 19 variants. Acro
+
+**siGMA: Modeling Label Noise and Heterogeneity in siRNA Efficacy Prediction** — PPR, 2026-11-23
+
+> Small interfering RNAs (siRNAs) have emerged as a powerful class of therapeutics, yet identifying viable candidates remains costly and labor-intensive given the vast combination space that must be screened. This challenge is compounded by the need for chemical modifications, which are essential to mitigate off-target effects and enhance serum stability but frequently come at the expense of baseline knockdown efficacy. As a result, siRNA design requires careful, iterative optimization, further expanding the experimental burden and rendering exhaustive screening impractical. Computational prediction offers a compelling alternative, enabling rapid, low-cost identification of promising candidates prior to wet-lab validation. In this work we present siGMA, a heteroscedastic multimodal predictive model that integrates sequence, chemical, structural, and experimental information to predict the silencing efficacy of chemically modified siRNAs. Modelling in this domain is constrained by two principal obstacles: the scarcity of experimental data and the substantial noise arising from protocol heterogeneity across publicly available datasets. We therefore propose a model that quantifies predictive uncertainty rather than issuing confident mispredictions. We calibrated the model against such noise using a combined aleatoric and epistemic uncertainty prediction. The resulting model yielded 
 
 **The Between-Round Decision in Autonomous Research: An LLM Controller That Reads the Whole Trajectory** — arXiv, 2026-11-17
 
@@ -896,6 +911,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-23 | [How Far Can Linear Go? BiPert, a Unified Framework for Single-Cell Perturbation Modelling](http://arxiv.org/abs/2611.31227v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-18 | [Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction](https://europepmc.org/article/PPR/PPR1370847) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-18 | [ReliFlow: Reliability-Calibrated Residual Transport for Combinatorial Single-Cell Perturbation Prediction](http://arxiv.org/abs/2611.23999v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-09 | [A Survey of AI Virtual Cells: Representation Learning, Perturbation Prediction, and Intervention Design](https://europepmc.org/article/PPR/PPR1361473) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -966,6 +982,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**How Far Can Linear Go? BiPert, a Unified Framework for Single-Cell Perturbation Modelling** — arXiv, 2026-11-23
+
+> Understanding how genetic perturbations affect cellular behaviour is essential for studying gene function and regulatory mechanisms. Large-scale CRISPR screens measure these effects across thousands of genes, but cover relatively few cellular contexts. Predicting perturbation responses in unseen cell types and identifying perturbed genes from their transcriptional effects therefore remain challenging. Here, we show that both tasks can be addressed through a common linear decomposition of transcriptional responses into shared and perturbation-specific components. Building on this principle, we introduce BiPert, a simple linear framework for both forward perturbation prediction and inverse identification. For forward prediction, BiPert outperforms existing methods that use no external biological knowledge when predicting gene expression changes in unseen cell lines. Its few-shot extension, BiPert-FS, adapts to new cell lines using as few as ten measured perturbations. For inverse identification, BiPert-ID identifies perturbed genes from single-cell expression profiles, outperforming deep-learning methods in unseen cell lines and donors. We further show that perturbations whose effects transfer more consistently across cellular contexts are also easier to identify, even after controlling for perturbation effect size. Together, these results establish a connection between perturbat
 
 **Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction** — PPR, 2026-11-18
 
@@ -1317,6 +1337,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-23 | [How Far Can Linear Go? BiPert, a Unified Framework for Single-Cell Perturbation Modelling](http://arxiv.org/abs/2611.31227v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-11-18 | [Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction](https://europepmc.org/article/PPR/PPR1370847) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-11-18 | [ReliFlow: Reliability-Calibrated Residual Transport for Combinatorial Single-Cell Perturbation Prediction](http://arxiv.org/abs/2611.23999v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-11-09 | [A Survey of AI Virtual Cells: Representation Learning, Perturbation Prediction, and Intervention Design](https://europepmc.org/article/PPR/PPR1361473) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
@@ -1384,6 +1405,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-04-21 | [AblateCell: A Reproduce-then-Ablate Agent for Virtual Cell Repositories](http://arxiv.org/abs/2604.19606v2) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**How Far Can Linear Go? BiPert, a Unified Framework for Single-Cell Perturbation Modelling** — arXiv, 2026-11-23
+
+> Understanding how genetic perturbations affect cellular behaviour is essential for studying gene function and regulatory mechanisms. Large-scale CRISPR screens measure these effects across thousands of genes, but cover relatively few cellular contexts. Predicting perturbation responses in unseen cell types and identifying perturbed genes from their transcriptional effects therefore remain challenging. Here, we show that both tasks can be addressed through a common linear decomposition of transcriptional responses into shared and perturbation-specific components. Building on this principle, we introduce BiPert, a simple linear framework for both forward perturbation prediction and inverse identification. For forward prediction, BiPert outperforms existing methods that use no external biological knowledge when predicting gene expression changes in unseen cell lines. Its few-shot extension, BiPert-FS, adapts to new cell lines using as few as ten measured perturbations. For inverse identification, BiPert-ID identifies perturbed genes from single-cell expression profiles, outperforming deep-learning methods in unseen cell lines and donors. We further show that perturbations whose effects transfer more consistently across cellular contexts are also easier to identify, even after controlling for perturbation effect size. Together, these results establish a connection between perturbat
 
 **Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction** — PPR, 2026-11-18
 
@@ -1730,6 +1755,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-11-23 | [How Far Can Linear Go? BiPert, a Unified Framework for Single-Cell Perturbation Modelling](http://arxiv.org/abs/2611.31227v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-18 | [Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction](https://europepmc.org/article/PPR/PPR1370847) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-18 | [ReliFlow: Reliability-Calibrated Residual Transport for Combinatorial Single-Cell Perturbation Prediction](http://arxiv.org/abs/2611.23999v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-11-09 | [A Survey of AI Virtual Cells: Representation Learning, Perturbation Prediction, and Intervention Design](https://europepmc.org/article/PPR/PPR1361473) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -1801,6 +1827,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**How Far Can Linear Go? BiPert, a Unified Framework for Single-Cell Perturbation Modelling** — arXiv, 2026-11-23
+
+> Understanding how genetic perturbations affect cellular behaviour is essential for studying gene function and regulatory mechanisms. Large-scale CRISPR screens measure these effects across thousands of genes, but cover relatively few cellular contexts. Predicting perturbation responses in unseen cell types and identifying perturbed genes from their transcriptional effects therefore remain challenging. Here, we show that both tasks can be addressed through a common linear decomposition of transcriptional responses into shared and perturbation-specific components. Building on this principle, we introduce BiPert, a simple linear framework for both forward perturbation prediction and inverse identification. For forward prediction, BiPert outperforms existing methods that use no external biological knowledge when predicting gene expression changes in unseen cell lines. Its few-shot extension, BiPert-FS, adapts to new cell lines using as few as ten measured perturbations. For inverse identification, BiPert-ID identifies perturbed genes from single-cell expression profiles, outperforming deep-learning methods in unseen cell lines and donors. We further show that perturbations whose effects transfer more consistently across cellular contexts are also easier to identify, even after controlling for perturbation effect size. Together, these results establish a connection between perturbat
 
 **Exploring Representation-Aware Model Selection for Out-of-Distribution Gene Perturbation Prediction** — PPR, 2026-11-18
 

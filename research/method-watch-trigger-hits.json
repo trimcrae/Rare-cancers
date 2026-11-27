@@ -435,6 +435,21 @@
    ],
    "signals_recorded": 28,
    "abstracts_fetched": 12
+  },
+  {
+   "date": "2026-11-27",
+   "mode": "scan",
+   "triggers": 32,
+   "queries": 135,
+   "new_hits": 20,
+   "appended": 11,
+   "errors": [
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=protac&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "chemrxiv: DROPPED FOR THIS RUN after 3 consecutive failures (last: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden). Every ChemRxiv query below was SKIPPED -- this run's preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result is not a reading of absence."
+   ],
+   "signals_recorded": 20,
+   "abstracts_fetched": 4
   }
  ],
  "hits": {
@@ -595,6 +610,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13761387",
     "first_seen": "2026-11-20",
     "duplicate_of_title": true
+   },
+   "PMC13808460": {
+    "id": "PMC13808460",
+    "title": "Benchmarking Structural Models of \u03b1-Conotoxin-Nicotinic Acetylcholine Receptor Complexes: Apo-Conformer Selection, Interface Information, and Deep-Learning Co-Folding",
+    "date": "2026-11-16",
+    "venue": "Toxins (Basel)",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13808460",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 11
    }
   },
   "TRG-TERNARY-GEN-NO-SITES": {
@@ -742,6 +767,16 @@
     "first_seen": "2026-11-13",
     "age_days_at_first_seen": 2,
     "abstract": "Molecular glues (MGs) modulate protein function by inducing or stabilizing protein interactions. However, accurately modeling MG ternary complexes remains challenging. Here, we present DiffTernary, a diffusion-based docking method for the joint prediction of relative protein arrangement and MG binding pose. We introduce Ternary-PDB, a dataset of 76,702 experimentally determined ternary complexes curated from the Protein Data Bank using structural filters and a release cutoff aligned with AlphaFold 3 (AF3). When trained on this dataset, DiffTernary achieved acceptable protein-protein interaction (PPI) predictions (DockQ > 0.23) for 50.0% of MGBench complexes with a single prediction, compared with 51.1% for AF3. In comparisons with AF3, OpenFold3, ESMFold2, Protenix-v1 and Protenix-v2, DiffTernary ranked second with a best-of-25 PPI prediction success rate of 78.4%, behind ESMFold2 (90.9%) and ahead of AF3 (72.7%). A separate DiffTernary model trained on TernaryDB achieved a mean DockQ of 0.306 on the 94 complexes in the TernaryDB MGD test set with a single prediction, compared with 0.228 for DeepTernary. Confidence-based selection among 40 samples yielded acceptable PPI predictions for 41.5% of complexes, compared with 30.9% for DeepTernary. An E2Former variant increased training and sampling throughput 6.90-fold and 4.37-fold, respectively, under the evaluated configurations. Together, DiffTernary and Ternary-PDB provide an efficient docking approach for MG complex prediction and a valuable structural resource for MG discovery and design."
+   },
+   "PMC13789425": {
+    "id": "PMC13789425",
+    "title": "General Strategy for Controlling Functional Lysine Acetylation via Induced Proximity",
+    "date": "2026-09-01",
+    "venue": "ACS Chem Biol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13789425",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 87
    }
   },
   "TRG-FEP-CRYPTIC-POCKET": {
@@ -1328,6 +1363,16 @@
     "first_seen": "2026-11-20",
     "age_days_at_first_seen": 101,
     "abstract": "ABSTRACT   Radiotherapy (RT) is a cornerstone of glioblastoma (GBM) treatment, yet therapeutic resistance remains nearly universal due to the rapid activation of stress-adaptive survival programs. Identifying molecular regulators that sustain these adaptive responses may reveal context-dependent vulnerabilities that can be therapeutically exploited. Here, we performed an epigenetic drug screen under low-dose irradiation to identify modifiers of radiotherapy response in glioblastoma. We identify BRD9 inhibition as a priming strategy that selectively enhances irradiation-induced lethality without inducing substantial cytotoxicity under baseline conditions. Mechanistically, BRD9 perturbation delays the resolution of irradiation-induced DNA damage, leading to increased apoptosis following irradiation. This effect is selective for malignant glioblastoma cell lines and patient-derived primary cells, while sparing non-malignant human astrocytes. Transcriptomic profiling reveals that BRD9 inhibition or genetic depletion produces a coordinated, MYC-centered suppression of translational programs, including ribosome biogenesis, rRNA processing, tRNA aminoacylation, and translational initiation. Ectopic MYC expression attenuates BRD9-dependent radiosensitization, functionally linking MYC suppression to the enhanced radiation response. Importantly, analysis of independent glioblastoma patient cohorts reveals a consistent positive association between BRD9 and MYC expression, alongside elevated BRD9 expression in recurrent compared with primary tumors. Together, these findings identify BRD9 as a regulator of MYC-associated translational programs and support its therapeutic targeting as a strategy to enhance radiotherapy efficacy in glioblastoma."
+   },
+   "PMC13787130": {
+    "id": "PMC13787130",
+    "title": "Kinetic signatures of RAS-BRAF engagement reveal isoform selectivity, oncogenic amplification, and mutation-dependent inhibitor resistance",
+    "date": "2026-10-27",
+    "venue": "FEBS J",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13787130",
+    "first_seen": "2026-11-27",
+    "duplicate_of_title": true
    }
   },
   "TRG-OBSERVED-CRL-E2UB-GEOMETRY": {},
@@ -1732,6 +1777,26 @@
     "first_seen": "2026-11-20",
     "age_days_at_first_seen": 3,
     "abstract": "Molecular glues are small molecules that modulate protein activity by inducing or stabilizing protein-protein interactions (PPIs). However, identifying and harnessing endogenous protein pairs amenable to small-molecule-mediated stabilization remains a major challenge in molecular glue development. Here we introduce transient interface pocket-guided molecular glue rational design (TrIP-MGRD), a strategy that shifts compound discovery from empirical screening toward rational, interaction-guided design by exploiting druggable pockets at transient PPI interfaces. Using CDK12 as a model target, we identified DDB1 as an endogenous transient interaction partner and determined the DDB1-CDK12-CCNK complex structure by cryo-electron microscopy (cryo-EM). Structure-guided virtual screening and medicinal chemistry optimization yielded a molecular glue C432 that stabilized this interaction. Comparison of the ligand-free and C432-bound complexes revealed pre-existing contacts at the transient CDK12-DDB1 interface provides a structural basis for compound-mediated stabilization. Collectively, by integrating endogenous partner identification with interface-guided screening, TrIP-MGRD provides a new framework for target-directed molecular glue discovery."
+   },
+   "MED/43096000": {
+    "id": "MED/43096000",
+    "title": "Discovery and Preclinical Characterization of Benzofuran Derivatives as Potent, Selective, and Orally Bioavailable GSPT1 Molecular Glue Degraders for the Treatment of MYC-Driven Cancers",
+    "date": "2026-11-01",
+    "venue": "J Med Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43096000",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 26
+   },
+   "PMC13789734": {
+    "id": "PMC13789734",
+    "title": "AI-Driven Discovery of Nodakenin as a Novel Molecular Glue Targeting the TRIM28-NR4A1-LCN2 Axis to Induce Ferroptosis in Melanoma",
+    "date": "2026-11-22",
+    "venue": "Adv Sci (Weinh)",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13789734",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 5
    }
   },
   "TRG-VIRTUAL-CELL-NO-LINE": {
@@ -2654,6 +2719,28 @@
     "first_seen": "2026-11-20",
     "age_days_at_first_seen": 2,
     "abstract": "Predicting the transcriptional response to combined perturbations requires distinguishing interactions between interventions from errors in their individual effect estimates. The latter become more pronounced when single-perturbation evidence is sparse or withheld. We introduce a conditional flow-matching model that estimates the reliability of single-gene effects from training-only cross-fitting and uses those estimates to calibrate the additive source distribution. The velocity is decomposed into a known correction of the additive reference and a learned residual transport field. On Norman genetic perturbations, reduces mean absolute error (MAE) from 0.142 to 0.131 for unseen combinations of observed singles and from 0.198 to 0.178 when constituent singles are withheld. On held-out ComboSciPlex drug combinations, MAE decreases from 0.191 to 0.176. Non-additive residual correlation improves from 0.574 to 0.638, and component ablations identify the contribution of reliability weighting. The results indicate that accounting for uncertain constituent effects improves generalization to unseen genetic and chemical combinations, with a moderate increase in training cost."
+   },
+   "PMC13796815": {
+    "id": "PMC13796815",
+    "title": "SparseKG-Flow: A Virtual Cell Generative Architecture Unifying Structural Causal Models and Knowledge Graph Priors for Single-Cell Drug Perturbation Prediction",
+    "date": "2026-11-24",
+    "venue": "Adv Sci (Weinh)",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13796815",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 3
+   },
+   "arXiv/2611.31227v1": {
+    "id": "arXiv/2611.31227v1",
+    "title": "How Far Can Linear Go? BiPert, a Unified Framework for Single-Cell Perturbation Modelling",
+    "date": "2026-11-23",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2611.31227v1",
+    "is_preprint": true,
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 4,
+    "abstract": "Understanding how genetic perturbations affect cellular behaviour is essential for studying gene function and regulatory mechanisms. Large-scale CRISPR screens measure these effects across thousands of genes, but cover relatively few cellular contexts. Predicting perturbation responses in unseen cell types and identifying perturbed genes from their transcriptional effects therefore remain challenging. Here, we show that both tasks can be addressed through a common linear decomposition of transcriptional responses into shared and perturbation-specific components. Building on this principle, we introduce BiPert, a simple linear framework for both forward perturbation prediction and inverse identification. For forward prediction, BiPert outperforms existing methods that use no external biological knowledge when predicting gene expression changes in unseen cell lines. Its few-shot extension, BiPert-FS, adapts to new cell lines using as few as ten measured perturbations. For inverse identification, BiPert-ID identifies perturbed genes from single-cell expression profiles, outperforming deep-learning methods in unseen cell lines and donors. We further show that perturbations whose effects transfer more consistently across cellular contexts are also easier to identify, even after controlling for perturbation effect size. Together, these results establish a connection between perturbation transfer and identification, and demonstrate that simple linear models provide strong, interpretable baselines for both tasks."
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -3384,6 +3471,26 @@
     "url": "https://europepmc.org/article/MED/43026442",
     "first_seen": "2026-11-20",
     "age_days_at_first_seen": 7
+   },
+   "MED/43072179": {
+    "id": "MED/43072179",
+    "title": "PBPK-based prediction of human health risks from cadmium-contaminated shellfish under ocean warming and acidification",
+    "date": "2026-11-23",
+    "venue": "Ecotoxicol Environ Saf",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43072179",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 4
+   },
+   "MED/43064331": {
+    "id": "MED/43064331",
+    "title": "Preclinical evaluation of the biodistribution, safety, and hemocompatibility of PEG-coated iron oxide magnetic nanoparticles in a viral oncogenesis mouse model",
+    "date": "2026-11-20",
+    "venue": "Nanomedicine",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43064331",
+    "first_seen": "2026-11-27",
+    "duplicate_of_title": true
    }
   },
   "TRG-VECTOR-DELIVERY-SOLID-TUMOUR": {},
@@ -4333,6 +4440,28 @@
     "url": "https://europepmc.org/article/MED/43048939",
     "first_seen": "2026-11-20",
     "age_days_at_first_seen": 2
+   },
+   "PMC13800743": {
+    "id": "PMC13800743",
+    "title": "Advancing Precision siRNA Therapeutics for Osteoporosis Through Rational Design of Bone-Targeted Delivery Systems",
+    "date": "2026-11-13",
+    "venue": "Biomolecules",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13800743",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 14
+   },
+   "PPR/PPR1375506": {
+    "id": "PPR/PPR1375506",
+    "title": "siGMA: Modeling Label Noise and Heterogeneity in siRNA Efficacy Prediction",
+    "date": "2026-11-23",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1375506",
+    "is_preprint": true,
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 4,
+    "abstract": "Small interfering RNAs (siRNAs) have emerged as a powerful class of therapeutics, yet identifying viable candidates remains costly and labor-intensive given the vast combination space that must be screened. This challenge is compounded by the need for chemical modifications, which are essential to mitigate off-target effects and enhance serum stability but frequently come at the expense of baseline knockdown efficacy. As a result, siRNA design requires careful, iterative optimization, further expanding the experimental burden and rendering exhaustive screening impractical. Computational prediction offers a compelling alternative, enabling rapid, low-cost identification of promising candidates prior to wet-lab validation. In this work we present siGMA, a heteroscedastic multimodal predictive model that integrates sequence, chemical, structural, and experimental information to predict the silencing efficacy of chemically modified siRNAs. Modelling in this domain is constrained by two principal obstacles: the scarcity of experimental data and the substantial noise arising from protocol heterogeneity across publicly available datasets. We therefore propose a model that quantifies predictive uncertainty rather than issuing confident mispredictions. We calibrated the model against such noise using a combined aleatoric and epistemic uncertainty prediction. The resulting model yielded well-calibrated estimates of predictive variability on held-out folds across datasets and outperformed current state-of-the-art approaches across noisy cross-dataset conditions, including previously unseen chemical modifications and target sequences. This demonstrates our model\u2019s ability to rank better than the baselines while rendering the noise ceiling measurable. This provides a scalable framework that could accelerate the therapeutic siRNA development pipeline while reducing the need for exhaustive empirical screening."
    }
   },
   "TRG-EMC-FUNCTIONAL-MODEL": {
@@ -4491,6 +4620,16 @@
     "first_seen": "2026-11-20",
     "age_days_at_first_seen": 7,
     "abstract": "Self-driving laboratories (SDLs) accelerate scientific research by integrating robotics, automated experimentation, and machine learning to execute experiments autonomously. Biology and chemistry have adopted these systems. However, increasing SDL complexity heightens susceptibility to unexpected faults in automated workflows, highlighting the need for efficient recovery mechanisms. In this study, we investigate telerobotic interventions to enhance SDL resilience against unexpected failures. We developed a teleoperation interface enabling human operators to resolve disruptions during automated tasks. The interface enables precise control of a six-degree-of-freedom (DOF) robotic arm (UR3e) using a 3D mouse (3Dconnexion SpaceMouse Pro). Two velocity-based controller strategies were evaluated: (i) a coupled mode mapping all six DOFs to the 3D mouse's central knob and (ii) a decoupled mode separating translational and rotational motions. To evaluate the framework, teleoperators intervened across three SDL fault scenarios. In the first study, comparative trials showed that the decoupled controller was associated with shorter completion times and reduced rotational motion. In a second study, teleoperators performed an aiming task with and without reference-path guidance. Users were more target-driven and risk-tolerant without guidance but showed behavioral differences under different guidance strategies. These findings suggest that controller configuration and reference-path design influence operator performance during SDL fault recovery, informing teleoperation interface optimization. This work demonstrates the potential feasibility of teleoperation as a human-in-the-loop recovery mechanism for SDL workflows, combining robotic precision with human adaptability and problem-solving. These findings also provide a foundation for future studies in shared autonomy and semi-autonomous intervention."
+   },
+   "PMC13784943": {
+    "id": "PMC13784943",
+    "title": "Impact of total laboratory automation and analyzer integration on D-dimer turnaround time: a real-world experience from a university hospital",
+    "date": "2026-10-13",
+    "venue": "Res Pract Thromb Haemost",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13784943",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 45
    }
   },
   "TRG-JUNCTION-PHLA": {
@@ -5121,6 +5260,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13769066",
     "first_seen": "2026-11-20",
     "age_days_at_first_seen": 15
+   },
+   "PMC13658221": {
+    "id": "PMC13658221",
+    "title": "Computational design and translational development of TCR-mimic scFv antibodies for peptide-HLA neoantigen targeting",
+    "date": "2026-10-12",
+    "venue": "NPJ Drug Discov",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13658221",
+    "first_seen": "2026-11-27",
+    "duplicate_of_title": true
    }
   },
   "TRG-NR4A3-DIRECT-MATTER": {
@@ -7011,6 +7160,28 @@
     "first_seen": "2026-11-20",
     "age_days_at_first_seen": 7,
     "abstract": "Developing effective forecasting models for diverse time-series domains requires substantial expert knowledge, evidence from scientific literature on the web, and iterative experimentation. However, translating this knowledge and research experience into model designs requires preserving source context and testing applicability under task-specific assumptions. In this paper, we propose NeoResearch, a literature- and experience-guided autonomous research framework that leverages large language models (LLMs) as researchers to discover lightweight, domain-specific forecasting models. Specifically, NeoResearch establishes an expert-inspired dual-loop research workflow, coupling hypothesis-driven architecture exploration with iterative training and hyperparameter optimization through experimental feedback. To enable knowledge-grounded discovery, the agent autonomously mines scientific literature from the Web, extracting modeling mechanisms, empirical evidence, and applicability conditions to formulate task-grounded, testable architecture hypotheses. Furthermore, a hierarchical experience memory links literature findings to experimental outcomes and consolidates conditional lessons, guiding architecture discovery and training optimization while supporting reuse across forecasting tasks. Experiments on ten datasets show competitive performance and support dual loops, literature extraction, and memory reuse. Our code is available."
+   },
+   "MED/43080045": {
+    "id": "MED/43080045",
+    "title": "[Progress in research of dietary pattern of residents in Xizang Autonomous Region]",
+    "date": "2026-11-01",
+    "venue": "Zhonghua Liu Xing Bing Xue Za Zhi",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43080045",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 26
+   },
+   "PPR/PPR1378019": {
+    "id": "PPR/PPR1378019",
+    "title": "OncoVarAgent: An Autonomous Research Agent for Discovering Potential Therapeutic Strategies for Somatic Cancer Variants Lacking Established Guidance",
+    "date": "2026-11-25",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1378019",
+    "is_preprint": true,
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 2,
+    "abstract": "Background:   Variant interpretation remains a major challenge in precision oncology, particularly for somatic cancer variants that lack established standard-of-care therapeutic guidance. However, relevant evidence is often dispersed across biomedical literature and clinical trial databases, making manual identification and synthesis labor-intensive and difficult to scale. This study aims to develop an efficient LLM-based agent to automatically identify and synthesize evidence to support somatic cancer variant interpretation in precision oncology. Methods We developed OncoVarAgent, powered by GPT-5.4, an autonomous artificial intelligence agent designed to discover potential therapeutic strategies for somatic cancer variants without standard-of-care drugs. OncoVarAgent uses the ReAct reasoning-and-acting framework to dynamically query PubMed and ClinicalTrials.gov, analyze heterogeneous evidence, and generate structured reports. We evaluated OncoVarAgent using a benchmark cohort of 30 AMP Tier II-III somatic cancer variants across nine tumor types. Generated reports were independently reviewed by domain experts across predefined dimensions, including scientific accuracy, evidence relevance, therapeutic hypothesis plausibility, clinical utility, and completeness. Results Among the 30 evaluated variants, OncoVarAgent identified candidate therapeutic evidence for 19 variants. Across these 19 variants, it reported a median of 9 drugs per variant, supported by a median of 7 publications and 4 clinical trials. The median runtime was 2.46 minutes and the median total cost was $0.72 per variant. Independent expert review showed generally favorable evaluations across five predefined dimensions, with mean scores ranging from 3.68 to 4.11 on a five-point scale and statistically significant positive inter-expert concordance across all dimensions. Conclusions OncoVarAgent demonstrates the feasibility of using an autonomous AI agent for structured therapeutic evidence retrieval and synthesis to assist somatic variant interpretation in precision oncology."
    }
   },
   "TRG-POSE-ORIENTATION-CONVERGENCE": {
@@ -8023,6 +8194,48 @@
     "url": "https://europepmc.org/article/PMC/PMC13762515",
     "first_seen": "2026-11-20",
     "age_days_at_first_seen": 23
+   },
+   "PMC13804748": {
+    "id": "PMC13804748",
+    "title": "Multi-Target Anti-Inflammatory Mechanisms of &lt;i&gt;Stachyurus praecox&lt;/i&gt; Leaf Extract Revealed by Metabolomics, Network Pharmacology, Molecular Docking, and Experimental Validation",
+    "date": "2026-11-19",
+    "venue": "Int J Mol Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13804748",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 8
+   },
+   "MED/43073590": {
+    "id": "MED/43073590",
+    "title": "Buyuan decoction attenuates COPD-associated skeletal muscle atrophy: insights from network pharmacology, molecular docking, and in vivo validation",
+    "date": "2026-11-24",
+    "venue": "J Mol Histol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43073590",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 3
+   },
+   "PMC13807007": {
+    "id": "PMC13807007",
+    "title": "Investigation of the Anti-Melanoma Activity of Flavonoid-Enriched Extract from &lt;i&gt;Taraxacum antungense&lt;/i&gt; Kitag.: A Study Based on Phytochemical Characterization, Network Pharmacology, Molecular Docking, and In Vitro Validation",
+    "date": "2026-10-30",
+    "venue": "Pharmaceuticals (Basel)",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13807007",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 28
+   },
+   "PPR/PPR1378574": {
+    "id": "PPR/PPR1378574",
+    "title": "Network Pharmacology, Molecular Docking, and In Vitro Validation Suggest that Xiaoluo Wan Attenuates Central Precocious Puberty via the Bile Acid\u2013TGR5\u2013PI3K/Akt Axis",
+    "date": "2026-11-26",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1378574",
+    "is_preprint": true,
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 1,
+    "abstract": "Abstract    Background  Central precocious puberty (CPP), defined as the premature reactivation of the hypothalamic\u2013pituitary\u2013gonadal axis, is increasingly prevalent in children, particularly in the context of childhood obesity. Emerging evidence implicates bile acid signalling\u2014especially the muricholic acid (MCA)\u2013TGR5\u2013PI3K/Akt pathway\u2014as a metabolic link between obesity and early pubertal onset. Xiaoluo Wan (XLW), a classical traditional Chinese medicine (TCM) formula composed of Scrophulariae Radix (Xuanshen), Fritillariae Thunbergii Bulbus (Zhebeimu), and Ostreae Concha (Muli), has long been used clinically for TCM syndromes associated with precocious puberty; however, its underlying pharmacological mechanisms remain unclear. This study aimed to systematically predict the bioactive compounds, potential targets, and signalling pathways of XLW against CPP using network pharmacology and molecular docking, and to validate the core predictions in a GnRH neuronal cell model. Methods  Candidate compounds of XLW were retrieved from the TCMSP and BATMAN-TCM databases and screened by oral bioavailability, drug-likeness, molecular weight, and SwissADME pharmacokinetic criteria. Compound-related targets were predicted with SwissTargetPrediction. CPP-related genes were collected from GeneCards, OMIM, DrugBank, and DisGeNET. Intersection targets were subjected to protein\u2013protein interaction (PPI) network analysis (STRING) with multi-round topological screening (CytoNCA) in Cytoscape, GO and KEGG enrichment analysis (DAVID), and construction of a \"herb\u2013compound\u2013target\u2013disease\" network. Molecular docking between representative compounds and core targets was performed using AutoDock Vina. For in vitro validation, mouse hypothalamic GT1-7 GnRH neuronal cells were stimulated with MCA (100 nM) in the presence or absence of XLW; GnRH secretion was measured by ELISA, and TGR5\u2013PI3K/Akt pathway proteins were examined by Western blotting, with the TGR5 antagonist SBI-115 used for mechanistic interrogation. Results  Sixteen candidate active compounds and 555 compound-related targets were obtained, among which 260 overlapped with 3,046 CPP-related genes. Topological screening of the PPI network identified 15 core targets, including SRC, ESR1, AKT1, STAT3, and EGFR. GO analysis yielded 3,283 enriched terms, and KEGG analysis yielded 190 pathways, prominently featuring the GnRH secretion and signalling pathways, oestrogen signalling, steroid hormone biosynthesis, neuroactive ligand\u2013receptor interaction, insulin signalling, and adipocytokine signalling. Beta-sitosterol, sugiol, sitosterol, and harpagoside emerged as the most highly connected compounds, and molecular docking showed strong predicted affinities with core targets (e.g., beta-sitosterol\u2013AKT1, \u2212\u200910.980 kcal/mol; sugiol\u2013AKT1, \u2212\u20099.975 kcal/mol). In GT1-7 cells, XLW showed no cytotoxicity up to 10,000 \u00b5g/mL. MCA markedly increased GnRH secretion (from 6.143\u2009\u00b1\u20090.201 to 21.470\u2009\u00b1\u20091.219 pg/mL, p"
    }
   },
   "TRG-COVALENT-EXPOSURE-CRITERION": {
@@ -8478,6 +8691,36 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PMC/PMC13756064",
     "first_seen": "2026-11-20",
+    "duplicate_of_title": true
+   },
+   "MED/43066229": {
+    "id": "MED/43066229",
+    "title": "Molecular Engineering of Sarcosine Oxidase and Horseradish Peroxidase: Impact of Lysine Accessibility on Covalent Bioconjugation and Bioelectrocatalysis",
+    "date": "2026-11-04",
+    "venue": "ACS Omega",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43066229",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 23
+   },
+   "MED/43059018": {
+    "id": "MED/43059018",
+    "title": "Thiol reactivity and ferroptosis sensitization as toxic mechanisms of the phthalimide pesticides folpet and captan",
+    "date": "2026-11-01",
+    "venue": "Toxicol Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/43059018",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 26
+   },
+   "PMC13779333": {
+    "id": "PMC13779333",
+    "title": "Computational modeling and experimental validation of nitrile-thiol reactivity in Janus kinase inhibitors",
+    "date": "2026-11-09",
+    "venue": "RSC Med Chem",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13779333",
+    "first_seen": "2026-11-27",
     "duplicate_of_title": true
    }
   },
@@ -9469,6 +9712,16 @@
     "url": "https://europepmc.org/article/PMC/PMC13770894",
     "first_seen": "2026-11-20",
     "age_days_at_first_seen": 19
+   },
+   "PMC13811391": {
+    "id": "PMC13811391",
+    "title": "A Two-Bead-Per-Amino Acid Coarse-Grained MD Model with Hydrogen Bonding (2BPA-HB) to Probe DNAJB6b-Mediated Suppression of Polyglutamine Aggregation in Huntington's Disease",
+    "date": "2026-11-01",
+    "venue": "J Chem Theory Comput",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13811391",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 26
    }
   },
   "TRG-FUSION-JUNCTION-CLINICAL": {
@@ -10311,6 +10564,36 @@
     "url": "https://europepmc.org/article/PMC/PMC13771463",
     "first_seen": "2026-11-20",
     "age_days_at_first_seen": 9
+   },
+   "PMC13656167": {
+    "id": "PMC13656167",
+    "title": "XIAP inhibition augments personalized neoantigen vaccine-driven antitumor immunity in orthotopic hepatocellular carcinoma",
+    "date": "2026-10-09",
+    "venue": "J Immunother Cancer",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13656167",
+    "first_seen": "2026-11-27",
+    "duplicate_of_title": true
+   },
+   "PMC13796607": {
+    "id": "PMC13796607",
+    "title": "Two complementary arms of mRNA cancer vaccination: non-personalized danger-response constructs and defined shared-neoantigen cassettes for cold tumors",
+    "date": "2026-09-01",
+    "venue": "Clin Exp Med",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13796607",
+    "first_seen": "2026-11-27",
+    "age_days_at_first_seen": 87
+   },
+   "PMC13782046": {
+    "id": "PMC13782046",
+    "title": "A phase 1 study of VAC85135, a neoantigen vaccine regimen targeting calreticulin and JAK2 mutations, in combination with ipilimumab in patients with myeloproliferative neoplasms",
+    "date": "2026-08-24",
+    "venue": "Cancer Immunol Immunother",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PMC/PMC13782046",
+    "first_seen": "2026-11-27",
+    "duplicate_of_title": true
    }
   }
  }
